@@ -44,6 +44,8 @@ describe("async `hideCollectingDataModal` ", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await store.dispatch(hideCollectingDataModal() as unknown as AnyAction)
 
     expect(store.getActions()).toEqual([

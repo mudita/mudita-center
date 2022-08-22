@@ -187,6 +187,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           const { height, upperDropdown } = dropdownsPosition.length
             ? dropdownsPosition[i]
             : { height: 0, upperDropdown: false }
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line react-hooks/rules-of-hooks
           const [selectedItem, setSelectedItem] = useState<Contact | undefined>(
             item[speedDial]
           )

@@ -42,6 +42,8 @@ describe("when `deleteMessage` returns success", () => {
     const mockStore = createMockStore([thunk])()
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       deleteMessage(messageId) as unknown as AnyAction
     )
@@ -67,6 +69,8 @@ describe("when `deleteMessage` returns error", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       deleteMessage(messageId) as unknown as AnyAction
     )

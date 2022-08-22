@@ -12,6 +12,7 @@ import { getFilesRequest } from "App/files-manager/requests/get-files.request"
 import { initialState } from "App/files-manager/reducers"
 import { File } from "App/files-manager/dto"
 import { getFiles } from "App/files-manager/actions"
+import { DeviceDirectory } from "App/files-manager/constants"
 
 jest.mock("App/files-manager/requests/get-files.request")
 
@@ -46,11 +47,19 @@ describe("when `getFiles` request return success result", () => {
     })
     const {
       meta: { requestId },
-    } = await mockStore.dispatch(getFiles() as unknown as AnyAction)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      getFiles(DeviceDirectory.Music) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      getFiles.pending(requestId),
-      getFiles.fulfilled(successObjectResult.data, requestId),
+      getFiles.pending(requestId, DeviceDirectory.Music),
+      getFiles.fulfilled(
+        successObjectResult.data,
+        requestId,
+        DeviceDirectory.Music
+      ),
     ])
 
     expect(getFilesRequest).toHaveBeenCalled()
@@ -65,14 +74,20 @@ describe("when `getFiles` request return error", () => {
     })
     const {
       meta: { requestId },
-    } = await mockStore.dispatch(getFiles() as unknown as AnyAction)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      getFiles(DeviceDirectory.Music) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      getFiles.pending(requestId),
+      getFiles.pending(requestId, DeviceDirectory.Music),
       getFiles.rejected(
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         successObjectResult.error!,
         requestId,
-        undefined,
+        DeviceDirectory.Music,
         errorMock
       ),
     ])

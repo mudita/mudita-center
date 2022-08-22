@@ -16,12 +16,22 @@ export type AppResolver = () => {
 }
 
 export const resolve: AppResolver = () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const isRenderer = require("is-electron-renderer")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const app = isRenderer
-    ? require("electron").remote.app
-    : require("electron").app
+    ? // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      require("electron").remote.app
+    : // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      require("electron").app
   const type = isRenderer ? AppType.Renderer : AppType.Main
   return {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     app,
     type,
   }

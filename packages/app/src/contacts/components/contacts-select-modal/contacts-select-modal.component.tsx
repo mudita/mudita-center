@@ -8,7 +8,10 @@ import { ContactSimpleList } from "App/contacts/components/contact-simple-list"
 import { ContactsSelectModalProps } from "App/contacts/components/contacts-select-modal/contacts-select-modal.interface"
 import { Contact } from "App/contacts/dto"
 import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
-import { contactHashSelector } from "App/contacts/selectors"
+import {
+  contactHashSelector,
+  favouriteContactHashSelector,
+} from "App/contacts/selectors"
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -28,6 +31,9 @@ export const ContactSelectModal: FunctionComponent<
   testId,
 }) => {
   const contacts = useSelector(contactHashSelector(withPhoneNumberOnly))
+  const favouriteContacts = useSelector(
+    favouriteContactHashSelector(withPhoneNumberOnly)
+  )
   const [results, setResults] = useState<Contact[]>([])
   const [searchQuery, setSearchQuery] = useState<string>("")
 
@@ -35,6 +41,8 @@ export const ContactSelectModal: FunctionComponent<
     setResults(
       contacts.flat().filter((item) => contactsFilter(item, searchQuery || ""))
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery])
 
   return (
@@ -56,6 +64,7 @@ export const ContactSelectModal: FunctionComponent<
       />
       <ContactSimpleList
         contacts={contacts}
+        favouriteContacts={favouriteContacts}
         onContactSelect={onPhoneNumberSelect ? undefined : onContactSelect}
         onPhoneNumberSelect={onPhoneNumberSelect}
       />

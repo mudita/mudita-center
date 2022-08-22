@@ -9,6 +9,8 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const successResponseMock: RequestResponse<any> = {
   status: RequestResponseStatus.Ok,
 }

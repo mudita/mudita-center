@@ -42,33 +42,40 @@ const messages = defineMessages({
 
 export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   templates,
-  getRowStatus,
-  noneRowsSelected,
   toggleRow,
+  selectedItems,
   deleteTemplates,
   updateTemplate,
   onDragEnd,
   templateFormOpen,
   active,
 }) => {
+  const noneRowsSelected = selectedItems.length === 0
+
   return (
     <>
       {flags.get(Feature.OrderTemplate) ? (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable" type="COLUMN">
+            {/* AUTO DISABLED - fix me if you like :) */}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {(provided: any) => (
               <Table
                 role="list"
                 hideColumns={templateFormOpen}
                 hideableColumnsIndexes={[3]}
                 mouseLock={templateFormOpen}
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 {...provided.droppableProps}
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                 ref={provided.innerRef}
               >
                 {templates.length > 0 ? (
                   templates.map((template, index) => {
-                    const { selected, indeterminate } = getRowStatus(template)
-                    const handleCheckboxChange = () => toggleRow(template)
+                    const selected = selectedItems.includes(template.id)
+                    const handleCheckboxChange = () => toggleRow(template.id)
 
                     return (
                       <Draggable
@@ -91,7 +98,6 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                                 checked={selected}
                                 onChange={handleCheckboxChange}
                                 size={Size.Large}
-                                indeterminate={indeterminate}
                                 visible={!noneRowsSelected}
                                 data-testid="template-checkbox"
                               />
@@ -132,6 +138,8 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                     description={messages.emptyStateDescription}
                   />
                 )}
+                {/* AUTO DISABLED - fix me if you like :) */}
+                {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                 {provided.placeholder}
               </Table>
             )}
@@ -146,8 +154,8 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         >
           {templates.length > 0 ? (
             templates.map((template) => {
-              const { selected, indeterminate } = getRowStatus(template)
-              const handleCheckboxChange = () => toggleRow(template)
+              const selected = selectedItems.includes(template.id)
+              const handleCheckboxChange = () => toggleRow(template.id)
 
               return (
                 <Row
@@ -161,7 +169,6 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                       checked={selected}
                       onChange={handleCheckboxChange}
                       size={Size.Large}
-                      indeterminate={indeterminate}
                       visible={!noneRowsSelected}
                       data-testid="template-checkbox"
                     />

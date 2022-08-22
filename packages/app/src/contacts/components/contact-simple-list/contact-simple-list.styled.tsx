@@ -16,6 +16,7 @@ import Icon from "App/__deprecated__/renderer/components/core/icon/icon.componen
 
 export const GroupLabel = styled(Labels)`
   background-color: ${backgroundColor("row")};
+  text-transform: capitalize;
 `
 export const BlockedIcon = styled(Icon).attrs(() => ({
   type: IconType.Blocked,

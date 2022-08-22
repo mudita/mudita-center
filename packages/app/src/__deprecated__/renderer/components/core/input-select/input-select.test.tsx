@@ -79,12 +79,18 @@ test("Item marked as disabled in `disabledOptions` list should have a `disabled`
   const { listItems } = renderInputSelect({
     disabledItems: [basicItems[0]],
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(listItems()[0]).toHaveStyleRule("cursor", "not-allowed")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(listItems()[1]).not.toHaveStyleRule("cursor", "not-allowed")
 })
 
 test("labels color is transparent with initiallTransparentBorder prop", () => {
   const { label } = renderInputSelect({ initialTransparentBorder: true })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(label()).toHaveStyleRule("border-color", "transparent")
 })
 

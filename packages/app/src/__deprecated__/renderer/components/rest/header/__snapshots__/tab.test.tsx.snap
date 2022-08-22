@@ -62,7 +62,7 @@ exports[`matches snapshot 1`] = `
   overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  width: 17.6rem;
+  width: "auto";
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -71,7 +71,6 @@ exports[`matches snapshot 1`] = `
   padding: 0.8rem 0;
   border: none;
   position: relative;
-  width: 100%;
 }
 
 .c0:after {
@@ -128,7 +127,7 @@ exports[`matches snapshot 1`] = `
   class="c0 active"
   displaystyle="8"
   href="/phone"
-  size="1"
+  size="3"
 >
   <span
     class="c1 c2"

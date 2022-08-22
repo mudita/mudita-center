@@ -3,50 +3,34 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
-import React, { ComponentProps, useEffect, useState } from "react"
-import logger from "App/__deprecated__/main/utils/logger"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import {
-  Release,
-  getLatestReleaseRequest,
-  downloadOsUpdateRequest,
-} from "App/__deprecated__/update"
-import { ModalDialog } from "App/ui/components/modal-dialog"
 import {
   TooLowBatteryModal,
+  UpdatingFailureWithHelpModal,
   UpdatingForceModal,
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
-  UpdatingFailureWithHelpModal,
 } from "App/overview/components/overview.modal-dialogs"
-import isVersionGreater from "App/overview/helpers/is-version-greater"
-import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import {
   ApplicationUpdateError,
   ApplicationUpdateErrorCodeMap,
 } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
 import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
+import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
+import isVersionGreater from "App/overview/helpers/is-version-greater"
+import logger from "App/__deprecated__/main/utils/logger"
+import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import {
+  downloadOsUpdateRequest,
+  getLatestReleaseRequest,
+  Release,
+} from "App/__deprecated__/update"
+import React, { useEffect, useState } from "react"
 
-export enum UpdatingForceModalFlowState {
-  Info = "Info",
-  TooLowBattery = "too-low-battery",
-  Updating = "updating",
-  Success = "success",
-  Fail = "fail",
-}
-
-interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
-  state: UpdatingForceModalFlowState | undefined
-  osVersion: string | undefined
-  onContact: () => void
-  onHelp: () => void
-  updateOs: (fileName: string) => void
-  deviceType: DeviceType
-  batteryLevel: number
-}
-
-const UpdatingForceModalFlow: FunctionComponent<Props> = ({
+const UpdatingForceModalFlow: FunctionComponent<
+  UpdatingForceModalFlowProps
+> = ({
   state,
   osVersion,
   onContact,
@@ -106,11 +90,15 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
       return
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await updateOs(latestRelease.file.name)
   }
 
   const handleUpdateOsFailed = (code?: number): void => {
     setUpdatingForceOpenState(UpdatingForceModalFlowState.Fail)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     logger.error(`Overview: force updating pure fails. Code: ${code}`)
   }
 

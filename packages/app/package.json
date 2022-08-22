@@ -1,6 +1,6 @@
 {
   "name": "@mudita/mudita-center-app",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
@@ -19,7 +19,7 @@
     "LINT COMMANDS": "=========================================================",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint '{src,test,mocks}/**/*.{ts,tsx}'",
-    "lint:js": "eslint '{src,test,mocks}/**/*.{ts,tsx}'",
+    "lint:js": "eslint '{src,test,mocks}/**/*.{ts,tsx}' --max-warnings=0",
     "lint:typecheck": "tsc --noEmit",
     "lint:fix": "npm run lint:js -- --fix",
     "DIST COMMANDS": "=========================================================",

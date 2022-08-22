@@ -74,9 +74,13 @@ describe("Auth redux tests", () => {
     })
 
     expect(AuthProviders.Google in store.getState().auth).toBeTruthy()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(store.getState().auth[AuthProviders.Google].token_type).toBe(
       testTokenType
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(store.getState().auth[AuthProviders.Google].access_token).toBe(
       testToken
     )

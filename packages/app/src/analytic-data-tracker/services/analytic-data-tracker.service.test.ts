@@ -78,6 +78,8 @@ describe("`AnalyticDataTrackerService`", () => {
       const response = await subject.trackUnique({})
 
       expect(response?.status).toEqual(200)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(trackerCacheService.saveEvent).toHaveBeenCalled()
     })
 

@@ -22,6 +22,8 @@ const defaultProps: CallsProps = {
   getContact: jest.fn(),
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const props: CallsProps = {
     ...defaultProps,
@@ -52,6 +54,8 @@ test("caller name is displayed correctly", () => {
   })
   const exampleRow = getAllByTestId(CallsTableTestIds.CallerName)[examplesIndex]
   expect(exampleRow).toHaveTextContent(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     `${caller.firstName} ${caller.lastName} (${mockData[examplesIndex].timesMissed})`
   )
 })

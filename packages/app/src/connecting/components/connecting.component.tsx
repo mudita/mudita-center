@@ -7,7 +7,11 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { DeviceType, timeoutMs } from "@mudita/pure"
-import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "App/__deprecated__/renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_ONBOARDING,
+  URL_OVERVIEW,
+} from "App/__deprecated__/renderer/constants/urls"
 import ConnectingContent from "App/connecting/components/connecting-content.component"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -53,6 +57,8 @@ const Connecting: FunctionComponent<{
     if (simulatePhoneConnectionEnabled) {
       togglePureSimulation()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [simulatePhoneConnectionEnabled])
 
   const [passcodeOpenModal, setPasscodeOpenModal] = useState(false)
@@ -81,6 +87,8 @@ const Connecting: FunctionComponent<{
       setPasscodeOpenModal(false)
     }
     return () => clearTimeout(timeout)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, unlocked, syncInitialized, noModalsVisible])
 
   useEffect(() => {

@@ -15,24 +15,40 @@ import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
 import { IpcEvent } from "App/data-sync/constants"
 
 const dataUpdated = (): void => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(readAllIndexes())
 }
 
 const dataLoaded = (): void => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(readAllIndexes())
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(setLoadedState())
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(setDataSyncInitialized())
 }
 
 const dataSkipped = (): void => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(setDataSyncInitialized())
 }
 
 const dataLoading = (): void => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(setLoadingState())
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const dataError = (error: any): void => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(setErrorState(error))
 }
 

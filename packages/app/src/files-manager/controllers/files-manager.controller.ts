@@ -8,6 +8,7 @@ import { ResultObject } from "App/core/builder"
 import {
   ControllerPrefix,
   IpcFilesManagerEvent,
+  DeviceDirectory,
 } from "App/files-manager/constants"
 import { File } from "App/files-manager/dto"
 import { FileManagerService } from "App/files-manager/services"
@@ -17,7 +18,9 @@ export class FilesManagerController {
   constructor(private fileManagerService: FileManagerService) {}
 
   @IpcEvent(IpcFilesManagerEvent.GetFiles)
-  public async getFiles(): Promise<ResultObject<File[] | undefined>> {
-    return this.fileManagerService.getDeviceFiles()
+  public async getFiles(
+    directory: DeviceDirectory
+  ): Promise<ResultObject<File[] | undefined>> {
+    return this.fileManagerService.getDeviceFiles(directory)
   }
 }

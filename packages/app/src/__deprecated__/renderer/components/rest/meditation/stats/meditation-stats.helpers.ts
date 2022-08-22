@@ -36,6 +36,8 @@ const getYAxisGradation = (maxTime: number) => {
  * @returns {number} - Maximum seconds presented on chart
  *
  */
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getMaxChartValue = (maxTime: number) => {
   const gradation = getYAxisGradation(maxTime)
   const max = (maxTime - (maxTime % gradation)) / gradation
@@ -50,6 +52,8 @@ export const getMaxChartValue = (maxTime: number) => {
  * @returns {string} - Formatted date
  *
  */
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const formatDate = (date: string, chartType: ChartType) => {
   return moment(date).format(chartType === ChartType.Yearly ? "MMM" : "ddd")
 }

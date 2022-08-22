@@ -12,18 +12,28 @@ export class ContactsHashTable extends HashTable<Contact> {
   }
 
   public hash(value: Contact): string {
-    return value.lastName ? value.lastName[0].toLocaleLowerCase() : ""
+    if (value.lastName) {
+      return value.lastName[0].toLocaleLowerCase()
+    }
+
+    if (value.firstName) {
+      return value.firstName[0].toLocaleLowerCase()
+    }
+
+    return ""
   }
 
   get length(): number {
     return Object.keys(this.table).length
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public map(callback: (key: string, value: Contact[]) => any): any {
     const results = []
     const keys = Object.keys(this.table).sort((first, second) => {
-      if (first === "" || second === "") {
-        return -1
+      if (first === "") {
+        return 1
       }
       if (first < second) {
         return -1
@@ -38,6 +48,8 @@ export class ContactsHashTable extends HashTable<Contact> {
       results.push(callback(key, this.table[key]))
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return results
   }
 

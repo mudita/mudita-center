@@ -13,6 +13,8 @@ import externalProvidersStore from "App/__deprecated__/renderer/store/external-p
 import { Scope } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
 import { OutLookScope } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const authorize = createAsyncThunk<any, ExternalProvider>(
   ContactsEvent.Authorize,
   (payload) => {

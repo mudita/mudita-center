@@ -14,7 +14,7 @@ export class FileObjectPresenter {
       name,
       type,
       id: item.path,
-      size: 1234,
+      size: item.fileSize,
     }
   }
 }

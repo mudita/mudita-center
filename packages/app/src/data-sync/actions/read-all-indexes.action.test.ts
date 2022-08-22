@@ -15,6 +15,8 @@ import thunk from "redux-thunk"
 
 jest.mock("App/data-sync/requests/get-index.request.ts")
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getIndexResponse: SerialisedIndexData<any> = {
   fields: [],
   index: {},
@@ -33,6 +35,8 @@ describe("async `readAllIndexes` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(readAllIndexes() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -60,6 +64,8 @@ describe("async `readAllIndexes` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(readAllIndexes() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([

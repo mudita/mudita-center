@@ -129,7 +129,7 @@ describe("When contacts state have records", () => {
           note: "",
         },
       ],
-      "": [
+      e: [
         {
           id: "3",
           firstName: "Edmund",
@@ -144,6 +144,8 @@ describe("When contacts state have records", () => {
           firstAddressLine: "016 McClure Curve",
           secondAddressLine: "",
         },
+      ],
+      "": [
         {
           id: "4",
           firstName: "",

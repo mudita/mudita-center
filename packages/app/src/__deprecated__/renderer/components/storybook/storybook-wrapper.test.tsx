@@ -15,6 +15,8 @@ const renderStorybookWrapper = () => {
   const children = (
     <StoryContainer key={1} title="I'm a story container">
       <Story title="I'm a story">
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         <div data-testid="component">I'm a component</div>
       </Story>
     </StoryContainer>

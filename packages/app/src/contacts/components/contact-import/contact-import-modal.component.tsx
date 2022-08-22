@@ -112,12 +112,16 @@ const ContactImportModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     toggleAll()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const selectedContactsLength = selectedRows.length
 
   const SingleRow = ({
     data,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     index,
     ...rest
   }: {
@@ -161,6 +165,8 @@ const ContactImportModal: FunctionComponent<Props> = ({
   const sortedContacts = contacts.sort((a, b) => {
     const lastNameA = a.lastName || a.firstName || ""
     const lastNameB = b.lastName || b.firstName || ""
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     return lastNameA.localeCompare(lastNameB)
   })
   return (

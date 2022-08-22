@@ -62,6 +62,8 @@ storiesOf("Components|Core/Text input", module)
         </Story>
         <Story title="With clear button">
           <InputComponent
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             label="Name"
             defaultValue={"John"}
@@ -144,6 +146,8 @@ storiesOf("Components|Core/Text input", module)
         </Story>
         <Story title="With clear button">
           <InputComponent
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             label="Name"
             defaultValue={"John"}
@@ -401,6 +405,8 @@ storiesOf("Components|Core/Text input/Text area", module)
     const [value, setValue] = useState("Lorem\nipsum\ndolor\nsit\namet\nsit")
     const [maxRows, setMaxRows] = useState(5)
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
     const updateValue = (event: any) => setValue(event.target.value)
 
     const setPredefinedValue = () => setValue("Lorem\nipsum\ndolor\nsit")

@@ -21,7 +21,6 @@ import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/components/contacts/contacts.styled"
-import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
@@ -39,24 +38,18 @@ import {
 import mapVCFsToContacts from "App/contacts/helpers/map-vcfs-to-contacts/map-vcfs-to-contacts"
 import logger from "App/__deprecated__/main/utils/logger"
 import {
+  ContactsProps,
+  FormError,
   ExternalService,
   FileService,
-} from "App/contacts/components/contacts/contacts.interface"
-import {
   NewContactResponse,
-  PhoneProps,
-  FormError,
-} from "App/contacts/components/contacts/contacts.type"
+} from "App/contacts/components/contacts/contacts.interface"
 import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
 import ImportContactsFlow, {
   ImportContactsFlowState,
 } from "App/contacts/components/import-contacts-flow/import-contacts-flow.component"
-import {
-  Contact,
-  ContactCategory,
-  NewContact,
-} from "App/contacts/reducers/contacts.interface"
+import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
 import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
 
@@ -69,25 +62,30 @@ export const messages = defineMessages({
   downloadingText: { id: "module.contacts.downloadingText" },
 })
 
-const Contacts: FunctionComponent<PhoneProps> = (props) => {
-  const {
-    resultState,
-    getContact,
-    contactList = [],
-    flatList,
-    speedDialChosenList,
-    isThreadOpened,
-    loadContacts,
-    addNewContact,
-    importContact,
-    editContact,
-    deleteContacts,
-    authorize,
-    onCall,
-    onMessage,
-    exportContacts,
-    addNewContactsToState,
-  } = props
+const Contacts: FunctionComponent<ContactsProps> = ({
+  resultState,
+  getContact,
+  contactList = [],
+  flatList,
+  speedDialChosenList,
+  isThreadOpened,
+  loadContacts,
+  addNewContact,
+  importContact,
+  editContact,
+  deleteContacts,
+  authorize,
+  onCall,
+  onMessage,
+  exportContacts,
+  addNewContactsToState,
+
+  resetAllItems,
+  selectAllItems,
+  toggleItem,
+  selectedItems,
+  allItemsSelected,
+}) => {
   const history = useHistory()
   const searchParams = useURLSearchParams()
   const phoneNumber = searchParams.get("phoneNumber") || ""
@@ -103,11 +101,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     initNewContact
   )
   const [editedContact, setEditedContact] = useState<Contact>()
-
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
-
-  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
-    useTableSelect<Contact, ContactCategory>(contactList, "contacts")
   const [formErrors, setFormErrors] = useState<FormError[]>([])
 
   const detailsEnabled = activeRow && !newContact && !editedContact
@@ -119,8 +113,12 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       )
 
       if (newData) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setEditedContact((curr: any) => {
           if ("speedDial" in newData) {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return {
               ...curr,
               speedDial: newData.speedDial,
@@ -128,13 +126,19 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           }
 
           if (curr && "speedDial" in curr) {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             delete curr.speedDial
           }
 
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return curr
         })
       }
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flatList])
 
   const closeModal = () => modalService.closeModal()
@@ -157,6 +161,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const saveNewContact = async (contact: NewContact) => {
     const add = async (retried?: boolean) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.addingText} />,
         true
@@ -177,11 +183,15 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       }
 
       if (payload && !retried) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(
           <ErrorWithRetryDataModal onRetry={() => add(true)} />,
           true
         )
       } else if (payload) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
@@ -194,7 +204,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const handleEditingContact = (contact: Contact) => {
     setEditedContact(contact)
-    resetRows()
+    resetAllItems()
   }
 
   const cancelEditingContact = (contact?: Contact) => {
@@ -205,6 +215,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const editContactWithRetry = async (contact: Contact) => {
     return new Promise((resolve, reject) => {
       const edit = async (retried?: boolean) => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(
           <LoadingStateDataModal textMessage={messages.editingText} />,
           true
@@ -213,11 +225,15 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         const { payload } = await delayResponse(editContact(contact))
 
         if (payload && !retried) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           modalService.openModal(
             <ErrorWithRetryDataModal onRetry={() => edit(true)} />,
             true
           )
         } else if (payload) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           modalService.openModal(<ErrorDataModal />, true)
           reject()
         } else {
@@ -226,6 +242,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         }
       }
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       edit()
     })
   }
@@ -245,18 +263,23 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
 
-  const openDeleteModal = (contact: Contact) => {
+  const openDeleteModal = (id: string) => {
+    const contact = flatList.find((contact) => contact.id === id)
     const handleDelete = async () => {
-      resetRows()
+      resetAllItems()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
 
       // await can be restored if we will process the result directly in here, not globally
-      const { payload } = await delayResponse(deleteContacts([contact.id]))
+      const { payload } = await delayResponse(deleteContacts([id]))
 
       if (payload) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
@@ -264,6 +287,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       }
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(
       <DeleteModal
         onDelete={handleDelete}
@@ -324,12 +349,16 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       }
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(
       <BlockContactModal contact={contact} onBlock={handleBlock} />
     )
   }
 
   const openSpeedDialModal = () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
@@ -342,6 +371,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         `${syncShouldFail ? "Disable" : "Enable"} saving failure`,
       click: () => setSyncFailure((prevState) => !prevState),
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return () => unregisterItem()
   }, [syncShouldFail])
 
@@ -354,6 +385,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         `${parseShouldFail ? "Disable" : "Enable"} parsing failure`,
       click: () => setParseFailure((prevState) => !prevState),
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return () => unregisterItem()
   }, [parseShouldFail])
 
@@ -394,9 +427,13 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   }
 
   // Synchronization, step 2a: file select
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   const importFromFile = async (inputElement: HTMLInputElement) => {
     const onFileSelect = () => {
       if (inputElement.files) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         getContacts({ type: "files", data: Array.from(inputElement.files) })
         inputElement.removeEventListener("change", onFileSelect)
       }
@@ -415,6 +452,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       await authorize(provider)
       await getContacts({ type: provider })
     } catch {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await showAuthorizaionFailedModal()
     }
   }
@@ -429,6 +468,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     }
 
     try {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await showDownloadingLoader()
 
       if (parseShouldFail) {
@@ -450,6 +491,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   // Synchronization, step 5: sending contacts to phone
   const sendContactsToPhone = async (contacts: NewContact[]) => {
     setImportedContacts(contacts)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await showContactsImportingModal()
 
     const newContactResponses = await contacts.reduce(
@@ -519,11 +562,12 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     contactsFilter(item, searchValue || "")
   )
 
-  const handleExport = async (contacts: Contact[]): Promise<void> => {
+  const handleExport = async (ids: string[]): Promise<void> => {
+    const contacts = flatList.filter((contact) => ids.includes(contact.id))
     const exported = await exportContacts(contacts)
 
     if (exported) {
-      resetRows()
+      resetAllItems()
     }
   }
 
@@ -544,14 +588,15 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       )}
       <ContactSection>
         <ContactPanel
+          contactsList={flatList}
           onContactSelect={handleContactSelect}
           onManageButtonClick={handleImportContacts}
           onNewButtonClick={handleAddingContact}
-          selectedContacts={selectedRows}
-          allItemsSelected={allRowsSelected}
-          toggleAll={toggleAll}
+          selectedContacts={selectedItems}
+          allItemsSelected={allItemsSelected}
+          toggleAll={selectAllItems}
           deleteContacts={deleteContacts}
-          resetRows={resetRows}
+          resetRows={resetAllItems}
           editMode={Boolean(editedContact || newContact)}
           onSearchEnterClick={openSearchResults}
           searchValue={searchValue}
@@ -571,7 +616,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             onDelete={openDeleteModal}
             resultsState={resultState}
             selectedContact={selectedContact}
-            {...rest}
+            selectedItems={selectedItems}
           />
         ) : (
           <TableWithSidebarWrapper>
@@ -588,7 +633,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               editMode={Boolean(editedContact || newContact)}
               resultsState={resultState}
               selectedContact={selectedContact}
-              {...rest}
+              toggleRow={toggleItem}
+              selectedItems={selectedItems}
             />
             {newContact && (
               <ContactEdit
@@ -614,7 +660,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               <ContactDetails
                 contact={contactFreshData(activeRow)}
                 onClose={closeSidebar}
-                onExport={exportContacts}
+                onExport={handleExport}
                 onForward={noop}
                 onUnblock={handleUnblock}
                 onBlock={openBlockModal}

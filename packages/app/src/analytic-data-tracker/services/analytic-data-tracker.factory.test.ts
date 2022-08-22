@@ -40,6 +40,8 @@ describe("`AnalyticDataTrackerFactory`", () => {
         apiUrl: "http://",
       })
       expect(logger.info).toBeCalled()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(axios.create).not.toHaveBeenCalled()
     })
 
@@ -50,6 +52,8 @@ describe("`AnalyticDataTrackerFactory`", () => {
         apiUrl: noValidApiUrl,
       })
       expect(logger.info).toBeCalled()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(axios.create).not.toHaveBeenCalled()
     })
 
@@ -60,6 +64,8 @@ describe("`AnalyticDataTrackerFactory`", () => {
         apiUrl: "http://",
       })
       expect(logger.info).not.toBeCalled()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(axios.create).toHaveBeenCalled()
     })
   })

@@ -35,10 +35,14 @@ describe("Method: initialize", () => {
 
     expect(fakeIndex.size).toEqual(1)
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (fakeIndex.get(DataIndex.Message) as Index<any> & { _fields: string[] })
         ._fields
     ).toEqual(["text"])
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (fakeIndex.get(DataIndex.Message) as Index<any> & { _ref: string })._ref
     ).toEqual("id")
   })

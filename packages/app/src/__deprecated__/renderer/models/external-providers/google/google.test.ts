@@ -48,10 +48,14 @@ jest.mock(
       },
       answerMain: (
         channel: GoogleAuthActions,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         callback: (data: any) => PromiseLike<any>
       ) => {
         switch (channel) {
           case GoogleAuthActions.GotCredentials:
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             callback(JSON.stringify(authData))
             return true
           default:
@@ -91,6 +95,8 @@ test("store returns initial state", () => {
 
 test("auth data is set properly", () => {
   store.dispatch.google.setAuthData({ data: authData, scope: Scope.Calendar })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().google.calendar).toMatchInlineSnapshot(`
     Object {
       "access_token": "some-token",
@@ -103,7 +109,11 @@ test("auth data is set properly", () => {
 })
 
 test("handles authorization properly", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await store.dispatch.google.authorize("calendar")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().google.calendar).toMatchInlineSnapshot(`
     Object {
       "access_token": "some-token",
@@ -124,6 +134,8 @@ test("calendars from google are received properly", async () => {
       items: mockedGoogleCalendars,
     })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   expect(await store.dispatch.google.getCalendars()).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -154,6 +166,8 @@ test("calendars api error from google is caught properly", async () => {
     .reply(404)
 
   try {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await store.dispatch.google.getCalendars()
   } catch (error) {
     expect(error).toBeInstanceOf(Error)
@@ -169,6 +183,8 @@ test("empty calendars list from api is caught properly", async () => {
     .reply(200)
 
   try {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await store.dispatch.google.getCalendars()
   } catch (error) {
     expect(error).toBeInstanceOf(Error)
@@ -192,6 +208,8 @@ test("events from google are received properly", async () => {
       items: mockedGoogleEvents,
     })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   expect(await store.dispatch.google.getEvents("calendar-id-123"))
     .toMatchInlineSnapshot(`
     Array [
@@ -266,6 +284,8 @@ test("events from google are not received if no calendar is chosen", async () =>
     })
 
   try {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await store.dispatch.google.getEvents()
   } catch (error) {
     expect(error).toBeInstanceOf(Error)
@@ -290,6 +310,8 @@ test("events api error from google is caught properly", async () => {
     .reply(404)
 
   try {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await store.dispatch.google.getEvents("calendar-id-123")
   } catch (error) {
     expect(error).toBeInstanceOf(Error)
@@ -310,16 +332,16 @@ test("requestWrapper handles 401 error properly", async () => {
     .onPost()
     .reply(200, authData)
 
-  expect(
-    (
-      (await store.dispatch.google.requestWrapper({
-        scope: Scope.Calendar,
-        axiosProps: {
-          url: `${googleEndpoints.calendars}/users/me/calendarList`,
-        },
-      })) as unknown as AxiosResponse<GoogleCalendarsSuccess>
-    ).data.items
-  ).toHaveLength(mockedGoogleCalendars.length)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  const result = (await store.dispatch.google.requestWrapper({
+    scope: Scope.Calendar,
+    axiosProps: {
+      url: `${googleEndpoints.calendars}/users/me/calendarList`,
+    },
+  })) as unknown as AxiosResponse<GoogleCalendarsSuccess>
+
+  expect(result.data.items).toHaveLength(mockedGoogleCalendars.length)
 })
 
 test("requestWrapper handles other errors properly", async () => {
@@ -331,16 +353,16 @@ test("requestWrapper handles other errors properly", async () => {
       items: mockedGoogleCalendars,
     })
 
-  expect(
-    (
-      (await store.dispatch.google.requestWrapper({
-        scope: Scope.Calendar,
-        axiosProps: {
-          url: `${googleEndpoints.calendars}/users/me/calendarList`,
-        },
-      })) as unknown as AxiosResponse<GoogleCalendarsSuccess>
-    ).data.items
-  ).toHaveLength(mockedGoogleCalendars.length)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  const result = (await store.dispatch.google.requestWrapper({
+    scope: Scope.Calendar,
+    axiosProps: {
+      url: `${googleEndpoints.calendars}/users/me/calendarList`,
+    },
+  })) as unknown as AxiosResponse<GoogleCalendarsSuccess>
+
+  expect(result.data.items).toHaveLength(mockedGoogleCalendars.length)
 })
 
 test("requestWrapper handles no access token error properly", async () => {
@@ -355,13 +377,19 @@ test("requestWrapper handles no access token error properly", async () => {
   let requestError: Error = new Error()
 
   try {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await store.dispatch.google.requestWrapper({
       scope: Scope.Calendar,
       axiosProps: {
         url: `${googleEndpoints.calendars}/users/me/calendarList`,
       },
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     requestError = error
   }
 
@@ -458,6 +486,8 @@ test("contacts are received properly", async () => {
     })
     .reply(200, mockedGoogleContacts)
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   expect(await store.dispatch.google.getContacts()).toMatchInlineSnapshot(`
     Array [
       Object {
@@ -502,6 +532,8 @@ test("empty list is returned when no contacts", async () => {
     })
     .reply(200, { totalItems: 0 })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   expect(await store.dispatch.google.getContacts()).toMatchInlineSnapshot(
     `Array []`
   )

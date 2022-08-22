@@ -8,6 +8,8 @@ import { ipcRenderer } from "electron-better-ipc"
 import { getAllValues } from "./get-all-values.request"
 import { IpcMetadata, MetadataKey } from "App/metadata/constants"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const keyStoreMock: Map<MetadataKey, string | null | undefined> = new Map()
 
 beforeAll(() => {
@@ -16,6 +18,8 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcMetadata.GetAllValues]: Promise.resolve(keyStoreMock),
   }

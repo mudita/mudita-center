@@ -55,7 +55,11 @@ describe("checkbox matches sizes", () => {
           size={size}
         />
       )
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(getByTestId(dataTestId)).toHaveStyleRule("height", result)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(getByTestId(dataTestId)).toHaveStyleRule("width", result)
     })
   })

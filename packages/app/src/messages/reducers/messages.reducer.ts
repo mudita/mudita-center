@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+// TODO: CP-1494, CP-1495
+
 import { createReducer } from "@reduxjs/toolkit"
 import {
   fulfilledAction,
@@ -33,9 +35,11 @@ import {
   ResultState,
   VisibilityFilter,
 } from "App/messages/constants"
+import { selectAllItems, resetItems, toggleItem } from "App/messages/actions"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
+import { changeLocation } from "App/core/actions"
 import assert from "assert"
 
 export const initialState: MessagesState = {
@@ -50,6 +54,7 @@ export const initialState: MessagesState = {
   loaded: false,
   loading: false,
   currentlyDeletingMessageId: null,
+  selectedItems: { rows: [] },
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -352,5 +357,24 @@ export const messagesReducer = createReducer<MessagesState>(
           }
         }
       )
+
+      .addCase(selectAllItems.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: { rows: action.payload },
+        }
+      })
+      .addCase(resetItems, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
+      })
+      .addCase(toggleItem.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: { rows: action.payload },
+        }
+      })
+      .addCase(changeLocation, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
+      })
   }
 )

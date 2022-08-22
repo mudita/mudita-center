@@ -16,12 +16,14 @@ import { FilesManagerError } from "App/files-manager/constants"
 export class FileManagerService {
   constructor(private deviceService: DeviceService) {}
 
-  public async getDeviceFiles(): Promise<ResultObject<File[] | undefined>> {
+  public async getDeviceFiles(
+    directory: DeviceDirectory
+  ): Promise<ResultObject<File[] | undefined>> {
     const { data, status, error } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {
-        listDir: DeviceDirectory.Music,
+        listDir: directory,
       },
     })
 
@@ -29,13 +31,15 @@ export class FileManagerService {
       return Result.failed(
         new AppError(
           FilesManagerError.GetFiles,
-          error ? error.message : "Something wen't wrong"
+          error ? error.message : "Something went wrong"
         )
       )
     }
 
     return Result.success(
-      data[DeviceDirectory.Music].map(FileObjectPresenter.toFile)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      data[directory].map(FileObjectPresenter.toFile)
     )
   }
 }

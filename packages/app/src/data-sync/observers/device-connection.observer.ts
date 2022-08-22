@@ -36,6 +36,8 @@ export class DeviceConnectionObserver implements Observer {
   private registerListener(): void {
     this.deviceService.on(
       DeviceServiceEventName.DeviceUnlocked,
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async (device: MuditaDevice) => {
         if (this.invoked) {
           return
@@ -43,15 +45,21 @@ export class DeviceConnectionObserver implements Observer {
         this.invoked = true
 
         if (device.deviceType === DeviceType.MuditaHarmony) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/await-thenable
           await this.ipc.sendToRenderers(IpcEvent.DataSkipped)
           return
         }
 
         try {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/await-thenable
           await this.ipc.sendToRenderers(IpcEvent.DataLoading)
 
           const { data } = await getDeviceInfoRequest(this.deviceService)
           if (data === undefined) {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             await this.ipc.sendToRenderers(IpcEvent.DataError)
             return
           }
@@ -65,12 +73,20 @@ export class DeviceConnectionObserver implements Observer {
           const indexed = await this.dataSyncService.indexAll()
 
           if (indexed) {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             await this.eventEmitter.emit(ModelEvent.Loaded)
           } else {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             await this.ipc.sendToRenderers(IpcEvent.DataError)
           }
         } catch (error) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/await-thenable
           await this.ipc.sendToRenderers(IpcEvent.DataError, error)
         }
       }
@@ -78,6 +94,8 @@ export class DeviceConnectionObserver implements Observer {
 
     this.deviceService.on(
       DeviceServiceEventName.DeviceDisconnected,
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       async () => {
         this.invoked = false
       }

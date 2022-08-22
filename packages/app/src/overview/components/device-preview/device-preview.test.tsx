@@ -25,7 +25,11 @@ const renderDevice = ({
   const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
-      <DevicePreview deviceType={deviceType} onDisconnect={onDisconnect} caseColour={caseColour} />
+      <DevicePreview
+        deviceType={deviceType}
+        onDisconnect={onDisconnect}
+        caseColour={caseColour}
+      />
     </Router>
   )
   return {
@@ -34,6 +38,8 @@ const renderDevice = ({
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("disconnect button works properly", async () => {
   const onDisconnect = jest.fn()
 

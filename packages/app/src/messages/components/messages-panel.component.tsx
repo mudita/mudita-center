@@ -39,7 +39,7 @@ interface Props {
   onSearchValueChange: (event: ChangeEvent<HTMLInputElement>) => void
   onNewMessageClick: () => void
   buttonDisabled: boolean
-  selectedThreads: Thread[]
+  selectedIds: string[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Thread>["toggleAll"]
   onDeleteClick: () => void
@@ -50,12 +50,12 @@ const MessagesPanel: FunctionComponent<Props> = ({
   onSearchValueChange,
   onNewMessageClick,
   buttonDisabled,
-  selectedThreads,
+  selectedIds,
   allItemsSelected,
   toggleAll,
   onDeleteClick,
 }) => {
-  const selectedItemsCount = selectedThreads.length
+  const selectedItemsCount = selectedIds.length
   const selectionMode = selectedItemsCount > 0
 
   return (

@@ -12,6 +12,8 @@ interface Options {
   limitValue?: number
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const useDynamicProgressValue = (
   progressValue: number,
   options: Options = {}
@@ -51,6 +53,8 @@ const useDynamicProgressValue = (
       }
     }, 100 * frequencyFactor)
     return () => clearTimeout(timeout)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progressValue, value])
 
   return value

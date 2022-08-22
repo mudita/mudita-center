@@ -61,22 +61,30 @@ export class ModalService {
   private eventListeners: EventListeners[] = []
   private modalsQueue: ReactElement[] = []
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public bindStore(value: Store) {
     if (!this.store) {
       this.store = value
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public setDefaultLocale(value: string) {
     if (!this.defaultLocale) {
       this.defaultLocale = value
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public isModalOpen() {
     return this.modalOpened && this.backdropOpened
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public async closeModal(force = false) {
     if (!this.isModalOpen()) {
       logError(ModalError.NoModalToClose)
@@ -88,6 +96,8 @@ export class ModalService {
     }
 
     if (this.modalsQueue.length) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.openModal(this.modalsQueue.shift() as ReactElement, true)
       return
     }
@@ -129,6 +139,8 @@ export class ModalService {
     this.backdropClosingAllowed = true
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public async openModal(modal: ReactElement, force = false) {
     if (this.isModalOpen()) {
       if (force) {
@@ -147,16 +159,22 @@ export class ModalService {
     this.renderModal(modal)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public rerenderModal(modal: ReactElement) {
     if (this.isModalOpen()) {
       this.renderModal(modal)
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public allowClosingModal() {
     this.modalClosingAllowed = true
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public preventClosingModal() {
     this.modalClosingAllowed = false
   }
@@ -193,6 +211,8 @@ export class ModalService {
 
   private unMountModal = () => {
     this.modalOpened = false
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.modalElement!.remove()
   }
 
@@ -259,6 +279,8 @@ export const ModalProvider: FunctionComponent<Props> = ({
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useModalServiceContext = () => useContext(ModalContext)
 
 export default modalService

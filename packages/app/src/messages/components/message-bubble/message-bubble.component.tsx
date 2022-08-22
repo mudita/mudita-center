@@ -47,12 +47,17 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   isMessageBeingDeleted,
 }) => {
   const isMessageFailed = messageType === MessageType.FAILED
-  const isMessageOutbox = messageType === MessageType.OUTBOX
   const [clicked, setClicked] = useState<string>("")
   const open = () => setClicked(id)
   const close = () => setClicked("")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const forward = () => forwardMessage(id)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const remove = () => removeMessage(id)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const resend = () => resendMessage(id)
   const isDropdownShouldVisible = (): boolean => {
     if (isMessageBeingDeleted) {
@@ -89,24 +94,23 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
               onOpen={open}
               onClose={close}
               dropdownPosition={
-                interlocutor ? DropdownPosition.Left : DropdownPosition.Right
+                interlocutor ? DropdownPosition.Right : DropdownPosition.Left
               }
               interlocutor={interlocutor}
               display={(clicked === id).toString()}
               data-testid={MessageBubbleTestIds.Dropdown}
             >
-              {flags.get(Feature.MessagesResendEnabled) &&
-                (isMessageFailed || isMessageOutbox) && (
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "module.messages.messageDropdownResend",
-                    }}
-                    Icon={IconType.Send}
-                    onClick={resend}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid={MessageBubbleTestIds.ResendMessageButton}
-                  />
-                )}
+              {flags.get(Feature.MessagesResendEnabled) && isMessageFailed && (
+                <ButtonComponent
+                  labelMessage={{
+                    id: "module.messages.messageDropdownResend",
+                  }}
+                  Icon={IconType.Send}
+                  onClick={resend}
+                  displayStyle={DisplayStyle.Dropdown}
+                  data-testid={MessageBubbleTestIds.ResendMessageButton}
+                />
+              )}
               {flags.get(Feature.MessagesForwardEnabled) && (
                 <ButtonComponent
                   labelMessage={{

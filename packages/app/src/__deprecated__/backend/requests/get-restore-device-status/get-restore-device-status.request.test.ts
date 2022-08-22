@@ -10,9 +10,13 @@ import registerGetRestoreDeviceStatusRequest from "App/__deprecated__/backend/re
 
 test("`GetRestoreDeviceStatus` returns properly value", async () => {
   registerGetRestoreDeviceStatusRequest(getFakeAdapters())
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
   const [pendingResponse] = (ipcMain as any)._flush(
     IpcRequest.GetRestoreDeviceStatus
   )
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`
     Object {

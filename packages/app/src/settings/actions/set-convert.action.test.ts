@@ -28,6 +28,8 @@ test.each([Convert.AlwaysAsk, Convert.ConvertAutomatically])(
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(setConvert(key) as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

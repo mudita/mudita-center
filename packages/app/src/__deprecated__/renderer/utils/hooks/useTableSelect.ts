@@ -39,6 +39,8 @@ const useTableSelect = <T, K = T>(
   const selectableRows = rows.reduce((acc: T[], row: K) => {
     return [
       ...acc,
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ...((row as Record<string, any>)[childrenKey]
         ? (getRowChildren<K>(row, childrenKey) as unknown as T[])
         : [row as unknown as T]),

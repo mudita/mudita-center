@@ -39,7 +39,7 @@ const defaultProps: Props = {
   onSearchValueChange: jest.fn(),
   onNewMessageClick: jest.fn(),
   buttonDisabled: false,
-  selectedThreads: [],
+  selectedIds: [],
   allItemsSelected: false,
   onDeleteClick: jest.fn(),
 }
@@ -69,7 +69,7 @@ describe("MessagesPanel component", () => {
 
   test("selection manager is displayed when there is at least one thread selected", () => {
     const { getByTestId } = renderer({
-      selectedThreads: [threads[0]],
+      selectedIds: [threads[0].id],
     })
     expect(
       getByTestId(MessagePanelTestIds.SelectionManager)

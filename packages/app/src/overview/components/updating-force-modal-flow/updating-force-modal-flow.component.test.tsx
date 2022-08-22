@@ -8,9 +8,7 @@ import { Product } from "App/__deprecated__/main/constants"
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import UpdatingForceModalFlow, {
-  UpdatingForceModalFlowState,
-} from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
@@ -18,6 +16,7 @@ import { Release, IpcUpdate } from "App/__deprecated__/update"
 import { waitFor } from "@testing-library/dom"
 import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 
 type Props = ComponentProps<typeof UpdatingForceModalFlow>
 
@@ -132,6 +131,8 @@ test("Force modal is visible even fail modal was read ", () => {
 })
 
 test("failure modal is display if no is latestRelease", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcUpdate.GetLatestRelease]: undefined,
   }
@@ -161,6 +162,8 @@ test("failure modal is display if no is latestRelease", async () => {
 })
 
 test("failure modal is display if latestRelease isn't higher than os", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcUpdate.GetLatestRelease]: release,
   }
@@ -192,6 +195,8 @@ test("failure modal is display if latestRelease isn't higher than os", async () 
 })
 
 test("failure modal is display if failure download os", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcUpdate.GetLatestRelease]: undefined,
     [PureOsDownloadChannels.start]: {

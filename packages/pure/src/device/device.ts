@@ -37,6 +37,8 @@ export class Device implements MuditaDevice {
     return this.strategy.disconnect()
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async request(config: RequestConfig<any>): Promise<Response<any>> {
     return this.strategy.request(config)
   }

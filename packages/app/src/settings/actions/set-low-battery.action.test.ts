@@ -24,6 +24,8 @@ test("calls `setLowBattery` and `updateSettings` request with boolean", async ()
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(setLowBattery(true) as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([

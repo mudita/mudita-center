@@ -113,6 +113,8 @@ const contacts = [
   },
 ]
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   return renderWithThemeAndIntl(
     <ContactImportModal
@@ -173,6 +175,8 @@ test("Failed rows have a proper icon attached", () => {
     modalType: ModalType.Fail,
     successfulItemsCount: 3,
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getAllByTestId(ContactImportModalTestIds.ContactRow).forEach((row, index) => {
     expect(
       row.querySelector('[data-testid="icon-FailRed"]')

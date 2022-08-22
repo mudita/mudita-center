@@ -17,9 +17,7 @@ import BackupDeviceFlow, {
   BackupDeviceFlowState,
 } from "App/overview/components/backup-device-flow/backup-device-flow.component"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import UpdatingForceModalFlow, {
-  UpdatingForceModalFlowState,
-} from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { Backup } from "App/backup/reducers"
 import RestoreDeviceFlow, {
@@ -31,6 +29,7 @@ import { StartRestoreOption } from "App/restore-device/actions"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
+import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 
 interface PureOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -41,7 +40,7 @@ interface PureOverviewProps {
   readonly networkName: string
   readonly networkLevel: number
   readonly pureOsBackupLocation: string
-  readonly updatingState: UpdatingState
+  readonly updatingState: UpdatingState | null
   readonly caseColour: CaseColour
   readonly lastBackupDate: Date
   readonly backupDeviceState: BackupDeviceDataState
@@ -138,8 +137,12 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   useEffect(() => {
     if (osVersion) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       initialCheck()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [osVersion])
 
   useEffect(() => {
@@ -168,6 +171,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     }
   }, [openModal, progress])
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   const closeUpdatingForceModalFlow = async () => {
     setUpdateState(UpdatingState.Standby)
   }
@@ -192,6 +197,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       return UpdatingForceModalFlowState.Success
     } else if (updatingState === UpdatingState.Fail) {
       return UpdatingForceModalFlowState.Fail
+    } else if (updatingState === UpdatingState.Updating) {
+      return UpdatingForceModalFlowState.Updating
     } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info
     } else {
@@ -248,6 +255,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }, [restoreDeviceState])
 
   const onRetry = () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     updateAllIndexes()
   }
 

@@ -19,6 +19,8 @@ const defaultProps: ComponentProps<typeof FilesSummaryItem> = {
   size: 1073741824,
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const render = (extraProps?: {}) => {
   return renderWithThemeAndIntl(
     <FilesSummaryItem {...defaultProps} {...extraProps} />

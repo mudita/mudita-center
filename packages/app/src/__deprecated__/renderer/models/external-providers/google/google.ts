@@ -71,6 +71,8 @@ const google = createModel<ExternalProvidersModels>({
       rootState: ExternalProvidersState
     ): Promise<AxiosResponse<ReturnType>> => {
       const { scope, axiosProps, tries = 0 } = payload
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { url, method = "GET", headers, params = {}, ...rest } = axiosProps
 
       let currentToken = rootState.google[scope].access_token
@@ -83,11 +85,17 @@ const google = createModel<ExternalProvidersModels>({
       const request = (token?: string) => {
         return axios(url as string, {
           ...rest,
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           params,
           method,
           headers: {
             ...headers,
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             Authorization: `${rootState.google[scope].token_type} ${
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
               token || currentToken
             }`,
           },
@@ -96,14 +104,26 @@ const google = createModel<ExternalProvidersModels>({
 
       try {
         return await request()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (error.response.status === 401 && tries < 2) {
           const refreshToken = rootState.google[scope].refresh_token
 
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-refresh-token`
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const { data } = await axios.post(
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `${url}?refreshToken=${refreshToken}`
           )
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
           await dispatch.google.setAuthData({ scope, data })
           return requestWrapper(
             { scope, axiosProps, tries: tries + 1 },
@@ -118,6 +138,8 @@ const google = createModel<ExternalProvidersModels>({
 
           try {
             logger.info("Reauthorizing Google account")
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
             await dispatch.google.authorize(scope)
             return await request()
           } catch (authorizeError) {
@@ -145,19 +167,29 @@ const google = createModel<ExternalProvidersModels>({
 
         let unregisterMainListener = noop
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         ipcRenderer.callMain(GoogleAuthActions.OpenWindow, scope)
 
         const processResponse = (response: string) => {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const responseData = JSON.parse(response)
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (responseData.error) {
             reject((responseData as GoogleAuthFailedResponse).error)
           } else {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
             dispatch.google.setAuthData({
               scope,
               data: responseData as GoogleAuthSuccessResponse,
             })
             resolve()
           }
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
           unregisterMainListener()
         }
@@ -192,9 +224,13 @@ const google = createModel<ExternalProvidersModels>({
       return mapCalendars(data.items)
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getContacts = async (_: undefined, rootState: any) => {
       logger.info("Getting Google contacts")
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
       return new Promise(async (resolve) => {
         let contacts: GoogleContactResourceItem[] = []
         let totalItems = null

@@ -5,7 +5,6 @@
 
 import React, { useState, useEffect } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import {
   TemplatesProps,
   TemplateServiceState,
@@ -33,6 +32,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   deleteTemplates,
   updateTemplate,
   updateTemplateOrder,
+
+  resetAllItems,
+  selectAllItems,
+  toggleItem,
+  selectedItems,
+  allItemsSelected,
 }) => {
   const { states, updateFieldState, resetState } =
     useLoadingState<TemplateServiceState>({
@@ -54,13 +59,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const panelButtonDisabled =
     templateFormOpen || states.creating || states.updating
 
-  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
-    useTableSelect<Template>(templates)
-
   useEffect(() => {
     if (!loading) {
       setTemplatesList(templates)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templates])
 
   useEffect(() => {
@@ -98,13 +102,15 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       clearTimeout(firstTimeout)
       clearTimeout(secondTimeout)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, error])
 
   // Deleting functionality
   const handleCloseDeleteModal = () => {
     updateFieldState("deletingConfirmation", false)
     setDeletedTemplates([])
-    resetRows()
+    resetAllItems()
   }
 
   const handleOpenDeleteModal = (ids: string[]) => {
@@ -115,19 +121,18 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleDeleteButton = async () => {
     updateFieldState("deleting", true)
     updateFieldState("deletingConfirmation", false)
-    resetRows()
+    resetAllItems()
     await deleteTemplates(deletedTemplates)
   }
 
   const handleDeleteSelected = () => {
-    const ids = selectedRows.map((thread) => thread.id)
-    handleOpenDeleteModal(ids)
+    handleOpenDeleteModal(selectedItems)
   }
 
   const handleCloseDeletingErrorModal = () => {
     updateFieldState("deleting", false)
     setDeletedTemplates([])
-    resetRows()
+    resetAllItems()
   }
 
   // Updating functionality
@@ -135,7 +140,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     const template = templates.find((template) => template.id === id)
     setEditedTemplate(template)
     setTemplateFormOpenState(true)
-    resetRows()
+    resetAllItems()
   }
 
   const handleUpdateTemplate = async (template: NewTemplate) => {
@@ -153,6 +158,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       order: editedTemplate.order,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (data.payload.type !== TemplateError.UpdateTemplate) {
       setEditedTemplate(undefined)
     }
@@ -198,6 +205,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       result.source.index,
       result.destination.index
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     updateTemplateOrder(updatedTemplates)
   }
   return (
@@ -205,9 +214,10 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       <TemplatesPanel
         disabled={panelButtonDisabled}
         onAddNewTemplate={handleOpenNewTemplateForm}
-        selectedTemplates={selectedRows}
-        allItemsSelected={allRowsSelected}
-        toggleAll={toggleAll}
+        selectedTemplates={selectedItems}
+        allItemsSelected={allItemsSelected}
+        toggleAll={selectAllItems}
+        resetRows={resetAllItems}
         onDeleteClick={handleDeleteSelected}
       />
       <TemplatesSection>
@@ -218,7 +228,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
           onDragEnd={onDragEnd}
           templateFormOpen={templateFormOpen}
           active={editedTemplate}
-          {...rest}
+          toggleRow={toggleItem}
+          selectedItems={selectedItems}
         />
         {templateFormOpen && (
           <TemplateForm

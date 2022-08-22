@@ -33,7 +33,6 @@ import {
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import createRouterPath from "App/__deprecated__/renderer/utils/create-router-path"
 import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
-import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 import { ContactSelectModal } from "App/contacts"
@@ -102,20 +101,23 @@ const Messages: FunctionComponent<MessagesProps> = ({
   templates,
   error,
   loaded,
+  selectedItems,
+  toggleItem,
+  selectAllItems,
+  resetItems,
 }) => {
-  const { states, updateFieldState, resetState } =
-    useLoadingState<MessagesServiceState>({
-      messageDeleting: false,
-      messageDeletingConfirmation: false,
-      messageDeletingInfo: false,
-      threadDeleting: false,
-      threadDeletingConfirmation: false,
-      threadDeletingInfo: false,
-      attachContact: false,
-      attachTemplate: false,
-      browseContact: false,
-      draftDeleting: false,
-    })
+  const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
+    messageDeleting: false,
+    messageDeletingConfirmation: false,
+    messageDeletingInfo: false,
+    threadDeleting: false,
+    threadDeletingConfirmation: false,
+    threadDeletingInfo: false,
+    attachContact: false,
+    attachTemplate: false,
+    browseContact: false,
+    draftDeleting: false,
+  })
 
   // TODO [CP-1401] move component logic to custom hook
 
@@ -124,15 +126,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
-  const [phoneNumber, setPhoneNumber] = useState<string>("")
   const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
   const [draftMessage, setDraftMessage] = useState<Message>()
   const [content, setContent] = useState("")
   const debouncedContent = useDebounce(content, 1000)
-  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
-    useTableSelect<Thread>(threads)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+  const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
     messageLayoutNotifications
@@ -142,6 +142,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
       .forEach((item) => {
         removeLayoutNotification(item.id)
       })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageLayoutNotifications])
 
   useEffect(() => {
@@ -149,7 +151,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    const firstTimeout = setTimeout(() => {
+    const handleDeletingStateTimeout = setTimeout(() => {
       if (states.messageDeleting) {
         updateFieldState("messageDeleting", false)
         updateFieldState("messageDeletingConfirmation", false)
@@ -158,31 +160,29 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
       if (states.threadDeleting) {
         updateFieldState("threadDeleting", false)
+        updateFieldState("threadDeletingConfirmation", false)
         updateFieldState("threadDeletingInfo", true)
       }
     }, 1000)
 
-    const secondTimeout = setTimeout(() => {
-      resetState()
+    const hideInfoPopupsTimeout = setTimeout(() => {
+      updateFieldState("messageDeletingInfo", false)
+      updateFieldState("threadDeletingInfo", false)
     }, 5000)
 
     return () => {
-      clearTimeout(firstTimeout)
-      clearTimeout(secondTimeout)
+      clearTimeout(handleDeletingStateTimeout)
+      clearTimeout(hideInfoPopupsTimeout)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, error])
 
   useEffect(() => {
     handlePotentialThreadDeletion()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threads])
-
-  useEffect(() => {
-    if (!activeThread) {
-      return
-    }
-
-    setPhoneNumber(activeThread.phoneNumber)
-  }, [activeThread])
 
   useEffect(() => {
     if (!activeThread) {
@@ -191,13 +191,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
     const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
 
-    if (activeThread.id === thread?.id) {
-      setActiveThread(thread)
-    } else if (thread) {
-      openThreadDetails(thread)
-    } else if (tmpActiveThread === undefined && thread === undefined) {
+    if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeThread, threads])
 
   useEffect(() => {
@@ -207,10 +205,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
     if (draftMessage) {
       if (content && content !== draftMessage.content) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         updateMessage({ ...draftMessage, content })
       }
 
       if (!content.length) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         deleteMessage(draftMessage.id)
         updateFieldState("draftDeleting", true)
         setDraftMessage(undefined)
@@ -218,13 +220,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
       }
     } else {
       if (
+        activeThread &&
         debouncedContent &&
-        activeThread?.phoneNumber !== mockThread?.phoneNumber
+        activeThread.phoneNumber !== mockThread.phoneNumber
       ) {
-        handleAddNewMessage(MessageType.DRAFT)
+        void handleAddNewMessage(activeThread.phoneNumber, MessageType.DRAFT)
         updateFieldState("draftDeleting", false)
       }
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedContent])
 
   useEffect(() => {
@@ -243,6 +248,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
     } else {
       setDraftMessage(undefined)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeThread, threads])
 
   const handlePotentialThreadDeletion = () => {
@@ -332,7 +339,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setActiveThread(thread)
     setTmpActiveThread(undefined)
     setMessagesState(MessagesState.ThreadDetails)
-    resetRows()
+    resetItems()
   }
 
   const closeSidebars = (): void => {
@@ -383,7 +390,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
 
     toggleReadStatus([activeThread])
-    resetRows()
+    resetItems()
     closeSidebars()
   }
 
@@ -405,10 +412,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const handleToggleReadStatus = (threads: Thread[]) => {
     toggleReadStatus(threads)
-    resetRows()
+    resetItems()
   }
 
   const handleAddNewMessage = async (
+    phoneNumber: string,
     messageType = MessageType.OUTBOX
   ): Promise<void> => {
     if (draftMessage) {
@@ -420,15 +428,24 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (tmpActiveThread !== undefined) {
       handleReceiverSelect({ phoneNumber })
     }
-    await addNewMessage({ content, phoneNumber, threadId, messageType })
-
+    const response = await addNewMessage({
+      content,
+      phoneNumber,
+      threadId,
+      messageType,
+    })
+    const thread = response.payload.messageParts[0].thread
+    if (thread) {
+      openThreadDetails(thread)
+    }
     if (messageType === MessageType.OUTBOX) {
       setContent("")
     }
   }
 
-  const handleNewMessageSendClick = async () => {
-    await handleAddNewMessage()
+  // event with the dynamically receiver when `phoneNumber` can't be set before
+  const handleNewMessageSendClick = async (phoneNumber: string) => {
+    await handleAddNewMessage(phoneNumber)
   }
 
   const handleSendClick = async () => {
@@ -436,17 +453,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    await handleAddNewMessage()
+    await handleAddNewMessage(activeThread.phoneNumber)
   }
 
   const handleReceiverSelect = (receiver: Pick<Receiver, "phoneNumber">) => {
     if (!receiver) {
       return
     }
+    const phoneNumber = receiver.phoneNumber
 
-    setPhoneNumber(receiver.phoneNumber)
-
-    const thread = threads.find(isThreadNumberEqual(receiver.phoneNumber))
+    const thread = threads.find(isThreadNumberEqual(phoneNumber))
 
     if (thread) {
       setActiveThread(thread)
@@ -455,7 +471,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     } else {
       const tmpThread: Thread = {
         ...mockThread,
-        phoneNumber: receiver.phoneNumber,
+        phoneNumber,
       }
       setTmpActiveThread(tmpThread)
       setActiveThread(tmpThread)
@@ -468,7 +484,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    handleReceiverSelect({ phoneNumber: phoneNumber })
+    handleReceiverSelect({ phoneNumber })
   }
 
   const getViewReceiver = (activeThread: Thread): Receiver => {
@@ -511,6 +527,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   // Delete messages functionality
   const handleDeleteMessage = () => {
     assert(messageToDelete)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     deleteMessage(messageToDelete)
     setMessageToDelete(undefined)
 
@@ -520,7 +538,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const hideDeleteMessageConfirmationModal = () => {
     setMessageToDelete(undefined)
-    updateFieldState("messageDeleting", false)
+    updateFieldState("messageDeletingConfirmation", false)
   }
 
   const hideDeleteMessageErrorModal = () => {
@@ -546,28 +564,29 @@ const Messages: FunctionComponent<MessagesProps> = ({
     updateFieldState("threadDeleting", true)
 
     await deleteThreads(deletedThreads)
-
-    resetRows()
+    resetItems()
     setActiveThread(undefined)
+    if (messagesState === MessagesState.NewMessage) {
+      setActiveThread(mockThread)
+    }
   }
 
   const handleDeleteThreads = (): void => {
-    const ids = selectedRows.map((thread) => thread.id)
-    setDeletedThreads(ids)
+    setDeletedThreads(selectedItems.rows)
     updateFieldState("threadDeletingConfirmation", true)
   }
 
   const handleDeleteThread = (id: string): void => {
+    resetItems()
     setDeletedThreads([id])
     updateFieldState("threadDeletingConfirmation", true)
   }
 
-  const handleDeleteTmpThreadClick = async (): Promise<void> => {
+  const handleDeleteTmpThreadClick = (): void => {
     if (tmpActiveThread !== undefined) {
       closeSidebars()
     } else if (activeThread) {
-      await deleteThreads([activeThread.id])
-      resetRows()
+      handleDeleteThread(activeThread.id)
       setActiveThread(undefined)
     }
   }
@@ -575,6 +594,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleSelectTemplate = (template: Template) => {
     setContent(template.text)
     closeAttachTemplateModal()
+  }
+
+  const handleToggleAllCheckboxes = () => {
+    allItemsSelected ? resetItems() : selectAllItems()
   }
   return (
     <>
@@ -610,9 +633,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onSearchValueChange={changeSearchValue}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
-        selectedThreads={selectedRows}
-        allItemsSelected={allRowsSelected}
-        toggleAll={toggleAll}
+        selectedIds={selectedItems.rows}
+        allItemsSelected={allItemsSelected}
+        toggleAll={handleToggleAllCheckboxes}
         onDeleteClick={handleDeleteThreads}
       />
       <TableWithSidebarWrapper>
@@ -624,6 +647,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
           />
         ) : (
           <ThreadList
+            selectedItems={selectedItems}
+            toggleItem={toggleItem}
             data-testid={MessagesTestIds.ThreadList}
             language={language}
             activeThread={activeThread}
@@ -635,7 +660,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onContactClick={contactClick}
             loadMoreRows={loadMoreRows}
             newConversation={mockThread.phoneNumber}
-            {...rest}
           />
         )}
         {messagesState === MessagesState.ThreadDetails && activeThread && (

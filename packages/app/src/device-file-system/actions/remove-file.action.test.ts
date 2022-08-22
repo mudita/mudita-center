@@ -31,6 +31,8 @@ describe("Remove File request returns `success` status", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       removeFile(filePathMock) as unknown as AnyAction
     )
@@ -52,6 +54,8 @@ describe("Remove File request returns `error` status", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       removeFile(filePathMock) as unknown as AnyAction
     )

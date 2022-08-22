@@ -48,6 +48,20 @@ const contacts: Contact[] = [
     firstAddressLine: "016 McClure Curve",
     secondAddressLine: "",
   },
+  {
+    id: "3",
+    firstName: "",
+    lastName: "",
+    primaryPhoneNumber: "+33 333 060 911",
+    secondaryPhoneNumber: "",
+    email: "",
+    note: "",
+    ice: true,
+    favourite: false,
+    blocked: false,
+    firstAddressLine: "016 McClure Curve",
+    secondAddressLine: "",
+  },
 ]
 
 test("returns empty hash", () => {
@@ -55,43 +69,47 @@ test("returns empty hash", () => {
 })
 
 describe("Method: push", () => {
+  afterEach(() => {
+    subject = new ContactsHashTable()
+  })
+
   beforeEach(() => {
     contacts.forEach((contact) => {
       subject.push(contact)
     })
   })
 
-  afterEach(() => {
-    subject = new ContactsHashTable()
-  })
-
-  test("returns alphabetically sorted hash with contacts", () => {
+  test("returns category contacts hash", () => {
     expect(subject.table["b"]).toEqual([contacts[1]])
     expect(subject.table["d"]).toEqual([contacts[0]])
-    expect(subject.table[""]).toEqual([contacts[2]])
+    expect(subject.table["e"]).toEqual([contacts[2]])
+    expect(subject.table[""]).toEqual([contacts[3]])
   })
 })
 
 describe("Method: map", () => {
+  afterEach(() => {
+    subject = new ContactsHashTable()
+  })
+
   beforeEach(() => {
     contacts.forEach((contact) => {
       subject.push(contact)
     })
   })
 
-  afterEach(() => {
-    subject = new ContactsHashTable()
-  })
-
-  test("returns filled hash with contacts", () => {
+  test("returns alphabetically sorted hash filled with contacts", () => {
     expect(
       subject.map((key, value) => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         return `key: ${key} name: ${value[0].firstName} phone: ${value[0].primaryPhoneNumber}`
       })
     ).toEqual([
-      "key:  name: Edmund phone: +46 333 060 911",
       "key: b name: Sławomir phone: +71 195 069 214",
       "key: d name: John phone: 123 456 789",
+      "key: e name: Edmund phone: +46 333 060 911",
+      "key:  name:  phone: +33 333 060 911",
     ])
   })
 })
@@ -124,6 +142,6 @@ describe("Method: length", () => {
   })
 
   test("returns length of hash", () => {
-    expect(subject.length).toEqual(3)
+    expect(subject.length).toEqual(4)
   })
 })

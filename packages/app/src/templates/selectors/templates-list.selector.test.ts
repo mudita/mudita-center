@@ -25,6 +25,8 @@ const secondTemplate: Template = {
 describe("`templatesListSelector` selector", () => {
   test("when initial state is set selector returns an empty array", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       templates: templateReducer(undefined, {} as any),
     } as unknown as ReduxRootState
     expect(templatesListSelector(state)).toEqual([])
@@ -34,6 +36,8 @@ describe("`templatesListSelector` selector", () => {
     const state = {
       templates: templateReducer(
         { ...initialState, data: [secondTemplate, template] },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState

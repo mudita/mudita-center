@@ -26,7 +26,7 @@ import {
 import { MessageRepository } from "App/messages/repositories"
 import { ThreadService } from "App/messages/services/thread.service"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import { splitMessageByBytesSize } from "../helpers"
+import { mapToRawNumber, splitMessageByBytesSize } from "../helpers"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
@@ -96,7 +96,11 @@ export class MessageService {
         status: RequestResponseStatus.Ok,
         data: {
           data: response.data.entries
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             .filter(MessageService.isAcceptablePureMessageType)
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             .map(MessagePresenter.mapToMessage),
           nextPage: response.data.nextPage,
         },
@@ -123,6 +127,7 @@ export class MessageService {
     for (const message of messages) {
       const result = await this.createSingleMessage({
         ...newMessage,
+        phoneNumber: mapToRawNumber(newMessage.phoneNumber),
         content: message,
       })
 

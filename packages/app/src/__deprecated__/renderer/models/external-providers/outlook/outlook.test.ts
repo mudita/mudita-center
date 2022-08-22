@@ -42,10 +42,14 @@ jest.mock(
       },
       answerMain: (
         channel: OutlookAuthActions,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         callback: (data: any) => PromiseLike<any>
       ) => {
         switch (channel) {
           case OutlookAuthActions.GotCredentials:
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             callback(rejectedError)
             return true
           default:
@@ -80,6 +84,8 @@ test("auth data is set properly", () => {
     data: authData,
     scope: OutLookScope.Contacts,
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().outlook.contacts).toMatchInlineSnapshot(`
     Object {
       "access_token": "token-123",

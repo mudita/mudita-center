@@ -13,8 +13,14 @@ import {
 import { IpcEvent } from "App/data-sync/constants"
 
 const dataRestored = (): void => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(setCacheState())
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(readAllIndexes())
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   store.dispatch(setDataSyncInitialized())
 }
 

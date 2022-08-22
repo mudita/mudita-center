@@ -14,6 +14,8 @@ export const getSortedEvents = (events: CalendarEvent[]): CalendarEvent[] => {
   })
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const mapEvents = (events: CalendarEvent[]) => {
   const recurringEvents = events.filter((event) => "recurrence" in event)
   const result = difference(events, recurringEvents)
@@ -31,6 +33,8 @@ export const mapEvents = (events: CalendarEvent[]) => {
         moment(event.startDate).add(5, "years").toDate()
       )
       .map((mappedEvent: Date) => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { recurrence, ...rest } = event
         return {
           ...rest,

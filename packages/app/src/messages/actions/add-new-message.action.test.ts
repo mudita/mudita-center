@@ -61,6 +61,8 @@ describe("async `addNewMessage` ", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         addNewMessage(mockAddedNewMessageData) as unknown as AnyAction
       )
@@ -88,6 +90,8 @@ describe("async `addNewMessage` ", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         addNewMessage(mockAddedNewMessageData) as unknown as AnyAction
       )

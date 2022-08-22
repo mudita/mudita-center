@@ -3,29 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "@mudita/pure"
 import React, { useEffect } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
 import {
   DiskSpaceCategory,
-  MemorySpace,
+  FilesManagerProps,
 } from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
-import { filesSummaryElements } from "App/files-manager/constants"
-import { DiskSpaceCategoryType } from "App/files-manager/constants"
+import {
+  DiskSpaceCategoryType,
+  DeviceDirectory,
+  filesSummaryElements,
+} from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
-import { ResultState } from "App/files-manager/reducers/files-manager.interface"
-import { File } from "App/files-manager/dto"
 
-interface Props {
-  memorySpace?: MemorySpace
-  resultState: ResultState
-  files: File[]
-  getFiles: () => void
-}
-
-const FilesManager: FunctionComponent<Props> = ({
+const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
     free: 0,
     full: 0,
@@ -34,16 +29,27 @@ const FilesManager: FunctionComponent<Props> = ({
   resultState,
   files,
   getFiles,
+  deviceType,
 }) => {
   const { free, total } = memorySpace
   const systemMemory = total - free
 
-  const downloadFiles = async () => {
-    await getFiles()
+  const downloadFiles = () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    if (deviceType === DeviceType.MuditaPure) {
+      getFiles(DeviceDirectory.Music)
+    } else {
+      getFiles(DeviceDirectory.Relaxation)
+    }
   }
   useEffect(() => {
-    void downloadFiles()
-  }, [])
+    if (deviceType) {
+      void downloadFiles()
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deviceType])
 
   const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
     (element) => {

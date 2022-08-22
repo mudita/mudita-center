@@ -63,6 +63,8 @@ test("adds address correctly with multiple addresses as input", () => {
   contactBuilder.addAddress(addresses)
   expect(contactBuilder.build().firstAddressLine).toEqual(addresses[0].street)
   expect(contactBuilder.build().secondAddressLine).toEqual(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     `${addresses[0].postalCode} ${addresses[0].city} ${addresses[0].countryOrRegion}`
   )
 })
@@ -92,6 +94,8 @@ test("adds address lines correctly with some fields missing", () => {
   contactBuilder.addAddress(addresses)
   expect(contactBuilder.build().firstAddressLine).toEqual(addresses[0].street)
   expect(contactBuilder.build().secondAddressLine).toEqual(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     `${addresses[0].city} ${addresses[0].countryOrRegion}`
   )
 })

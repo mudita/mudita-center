@@ -47,6 +47,8 @@ class BaseDevice implements MuditaDevice {
       this.#port.on("data", (event) => {
         void (async () => {
           try {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const data = await parseData(event)
             this.emitDataReceivedEvent(data)
           } catch (error) {
@@ -81,11 +83,17 @@ class BaseDevice implements MuditaDevice {
   }
 
   public request(config: RequestConfig): Promise<Response<{ version: number }>>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public request(config: RequestConfig): Promise<Response<any>>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async request(config: RequestConfig): Promise<Response<any>> {
     if (this.#port === undefined) {
       return { status: ResponseStatus.ConnectionError }
     } else {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return this.writeRequest(this.#port, config)
     }
   }
@@ -101,11 +109,17 @@ class BaseDevice implements MuditaDevice {
   private writeRequest(
     port: SerialPort,
     config: RequestConfig
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<Response<any>> {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<Response<any>>((resolve) => {
       const uuid = getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.#requestsQueue.add(async () => {
         if (isApiRequestPayload(payload)) {
           resolve(await this.apiRequest(payload))
@@ -116,7 +130,11 @@ class BaseDevice implements MuditaDevice {
     })
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   private async apiRequest(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     config: ApiRequestPayload
   ): Promise<Response<{ version: number }>> {
     // mocked response until the backend implements versioning API
@@ -131,16 +149,26 @@ class BaseDevice implements MuditaDevice {
   private deviceRequest(
     port: SerialPort,
     payload: RequestPayload
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<Response<any>> {
     return new Promise((resolve) => {
       const [promise, cancel] = timeout(timeoutMs)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       promise.then(() => {
         resolve(this.returnTimeoutResponse(payload))
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const listener = (response: any) => {
         if (
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           response.uuid === payload.uuid ||
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           response.status === ResponseStatus.ParserError
         ) {
           this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
@@ -155,11 +183,15 @@ class BaseDevice implements MuditaDevice {
     })
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private portWrite(port: SerialPort, payload: RequestPayload<any>): void {
     port.write(this.mapPayloadToRequest(payload))
   }
 
   @log("==== serial port: create valid request ====", LogConfig.Args)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private mapPayloadToRequest(payload: RequestPayload<any>): string {
     return createValidRequest(payload)
   }

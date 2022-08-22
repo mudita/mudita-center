@@ -58,8 +58,12 @@ export class MessageModel extends BaseModel<Message> {
     }
 
     const threadsIndex = this.index.get(DataIndex.Thread)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const thread = threadsIndex?.documentStore.getDoc(data.threadId)
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     threadsIndex?.removeDocByRef(thread.id)
   }
 

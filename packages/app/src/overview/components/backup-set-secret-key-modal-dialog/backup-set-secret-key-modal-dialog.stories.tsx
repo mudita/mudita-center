@@ -9,6 +9,8 @@ import Story from "App/__deprecated__/renderer/components/storybook/story.compon
 import { action } from "@storybook/addon-actions"
 import { BackupSetSecretKeyModal } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog.component"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const BackupSetSecretKeyModalStory = () => {
   return (
     <Story transparentMode>

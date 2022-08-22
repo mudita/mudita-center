@@ -25,6 +25,7 @@ const transparentBlack3 = "rgba(0, 0, 0, 0.3)"
 
 const red = "#e96a6a"
 const green = "#dfefde"
+const orange = "#FD9900"
 
 const white = "#ffffff"
 
@@ -42,6 +43,7 @@ const theme = {
       iconUser: blue3,
       tabHover: grey1,
       actionHover: blue1,
+      warning: orange,
     },
     background: {
       activity: blue2,

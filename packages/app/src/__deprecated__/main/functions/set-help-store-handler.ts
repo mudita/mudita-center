@@ -12,5 +12,7 @@ export const registerSetHelpStoreHandler = (): (() => void) =>
     return helpStore.set("data", response)
   })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const removeSetHelpStoreHandler = () =>
   ipcMain.removeHandler(HelpActions.SetStoreValue)

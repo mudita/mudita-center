@@ -45,28 +45,49 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     ...state.devMode,
     syncState: state.dataSync.state,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
+    updatingState: state.device.updatingState,
   }
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   disconnectDevice: () => dispatch(disconnectDevice()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
   startBackupDevice: (secretKey: string) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(
       startBackupDevice({
         secretKey,
       })
     ),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   readBackupDeviceDataState: () => dispatch(readBackupDeviceDataState()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
   startRestoreDevice: (option: StartRestoreOption) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(startRestoreDevice(option)),
   openContactSupportFlow: () =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(showModal(ModalStateKey.ContactSupportFlow)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     dispatch.phoneUpdate.update(updateInfo),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   updateAllIndexes: () => dispatch(updateAllIndexes()),
 })
 

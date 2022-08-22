@@ -12,6 +12,8 @@ import disconnectDeviceRequest from "App/__deprecated__/renderer/requests/discon
 
 export const disconnectDevice = createAsyncThunk(
   DeviceEvent.Disconnected,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (_, { getState, dispatch, rejectWithValue }) => {
     const response = await disconnectDeviceRequest()
 
@@ -25,6 +27,8 @@ export const disconnectDevice = createAsyncThunk(
       )
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(setConnectionStatus(false))
 
     return

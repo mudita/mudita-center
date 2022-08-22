@@ -21,6 +21,8 @@ test("result has correct prodId", () => {
 test("converted event has expected keys and properties", () => {
   const singleEvent = eventsData[0]
   const convertedEvents = convertEventsToICal([singleEvent])
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { id, start, end, summary } = convertedEvents.print().events[0]
   expect(id).toEqual(singleEvent.id)
   expect(start).toEqual(singleEvent.startDate)

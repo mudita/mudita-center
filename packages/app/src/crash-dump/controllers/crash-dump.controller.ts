@@ -31,6 +31,8 @@ export class CrashDumpController {
     return this.crashDumpService.getDeviceCrashDumpFiles()
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent(IpcCrashDumpEvent.Ignore)
   public async ignoreFile(url: string): Promise<void> {
     const ignoredCrashDumps =

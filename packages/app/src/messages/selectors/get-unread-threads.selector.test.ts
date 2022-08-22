@@ -13,6 +13,8 @@ import { getUnreadThreads } from "App/messages/selectors/get-unread-threads.sele
 describe("`getUnreadThreads` selector", () => {
   test("when initial state is set selector returns value properly", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       messages: messagesReducer(initialState, {} as any),
       contacts: contactsInitialState,
     } as RootState & ReduxRootState
@@ -49,6 +51,8 @@ describe("`getUnreadThreads` selector", () => {
             [threadTwo.id]: threadTwo,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
       contacts: contactsInitialState,
@@ -87,6 +91,8 @@ describe("`getUnreadThreads` selector", () => {
             [threadTwo.id]: threadTwo,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
       contacts: contactsInitialState,

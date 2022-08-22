@@ -15,7 +15,10 @@ import {
   transitionTimingFunction,
   zIndex,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import { getTextStyles, TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
+import {
+  getTextStyles,
+  TextDisplayStyle,
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import SearchableText from "App/__deprecated__/renderer/components/core/searchable-text/searchable-text.component"
 
 export const ListItem = styled.li<{
@@ -110,6 +113,8 @@ interface RenderListItemProps<Item, Props> {
   searchString: string
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RenderListItem<Item, Props = any> = ({
   item,
   props,

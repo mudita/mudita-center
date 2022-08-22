@@ -24,93 +24,102 @@ import {
   fulfilledAction,
 } from "App/__deprecated__/renderer/store/helpers"
 import { Feature, flags } from "App/feature-flags"
+import {
+  selectAllItems,
+  resetAllItems,
+  toggleItem,
+} from "App/templates/actions"
+import { changeLocation } from "App/core/actions"
 
 export const initialState: TemplateState = {
   data: [],
   loaded: false,
   loading: false,
   error: null,
+  selectedItems: {
+    rows: [],
+  },
 }
 
 export const templateReducer = createReducer<TemplateState>(
   initialState,
   (builder) => {
-    builder.addCase(pendingAction(TemplatesEvent.CreateTemplate), (state) => {
-      return {
-        ...state,
-        loaded: false,
-        loading: true,
-      }
-    })
-
-    builder.addCase(
-      fulfilledAction(TemplatesEvent.CreateTemplate),
-      (state, action: CreateTemplateFulfilledAction) => {
-        return {
-          ...state,
-          data: [...state.data, action.payload],
-          error: null,
-          loaded: true,
-          loading: false,
-        }
-      }
-    )
-
-    builder.addCase(
-      rejectedAction(TemplatesEvent.CreateTemplate),
-      (state, action: CreateTemplateRejectedAction) => {
-        return {
-          ...state,
-          error: action.payload.message,
-          loaded: false,
-          loading: false,
-        }
-      }
-    )
-
-    builder.addCase(pendingAction(TemplatesEvent.UpdateTemplate), (state) => {
-      return {
-        ...state,
-        error: null,
-        loaded: false,
-        loading: true,
-      }
-    })
-
-    builder.addCase(
-      fulfilledAction(TemplatesEvent.UpdateTemplate),
-      (state, action: UpdateTemplateFulfilledAction) => {
-        const updatedList = state.data.map((item) => {
-          if (item.id === action.payload.id) {
-            return action.payload
-          }
-
-          return item
-        })
-
-        return {
-          ...state,
-          error: null,
-          data: updatedList,
-          loaded: true,
-          loading: false,
-        }
-      }
-    )
-
-    builder.addCase(
-      rejectedAction(TemplatesEvent.UpdateTemplate),
-      (state, action: UpdateTemplateRejectedAction) => {
-        return {
-          ...state,
-          error: action.payload.message,
-          loaded: false,
-          loading: false,
-        }
-      }
-    )
-
     builder
+      .addCase(pendingAction(TemplatesEvent.CreateTemplate), (state) => {
+        return {
+          ...state,
+          loaded: false,
+          loading: true,
+        }
+      })
+
+      .addCase(
+        fulfilledAction(TemplatesEvent.CreateTemplate),
+        (state, action: CreateTemplateFulfilledAction) => {
+          return {
+            ...state,
+            data: [...state.data, action.payload],
+            error: null,
+            loaded: true,
+            loading: false,
+          }
+        }
+      )
+
+      .addCase(
+        rejectedAction(TemplatesEvent.CreateTemplate),
+        (state, action: CreateTemplateRejectedAction) => {
+          return {
+            ...state,
+            error: action.payload.message,
+            loaded: false,
+            loading: false,
+          }
+        }
+      )
+
+      .addCase(pendingAction(TemplatesEvent.UpdateTemplate), (state) => {
+        return {
+          ...state,
+          error: null,
+          loaded: false,
+          loading: true,
+        }
+      })
+
+      .addCase(
+        fulfilledAction(TemplatesEvent.UpdateTemplate),
+        (state, action: UpdateTemplateFulfilledAction) => {
+          const updatedList = state.data.map((item) => {
+            if (item.id === action.payload.id) {
+              return action.payload
+            }
+
+            return item
+          })
+
+          return {
+            ...state,
+            error: null,
+            data: updatedList,
+            loaded: true,
+            loading: false,
+          }
+        }
+      )
+
+      .addCase(
+        rejectedAction(TemplatesEvent.UpdateTemplate),
+        (state, action: UpdateTemplateRejectedAction) => {
+          return {
+            ...state,
+            error: action.payload.message,
+            loaded: false,
+            loading: false,
+          }
+        }
+      )
+
       .addCase(
         fulfilledAction(DataSyncEvent.ReadAllIndexes),
         (state, action: ReadAllIndexesAction) => {
@@ -161,51 +170,79 @@ export const templateReducer = createReducer<TemplateState>(
         }
       )
 
-    builder.addCase(
-      pendingAction(TemplatesEvent.UpdateTemplateOrder),
-      (state) => {
+      .addCase(pendingAction(TemplatesEvent.UpdateTemplateOrder), (state) => {
         return {
           ...state,
           error: null,
           loaded: false,
           loading: true,
         }
-      }
-    )
+      })
 
-    builder.addCase(
-      fulfilledAction(TemplatesEvent.UpdateTemplateOrder),
-      (state, action: UpdateTemplateOrderFulfilledAction) => {
-        const updatedList = state.data.map((item) => {
-          const updatedTemplate = action.payload.find(
-            (template) => item.id === template.id
-          )
-          return updatedTemplate ? updatedTemplate : item
-        })
-        const orderedList = updatedList.sort(function (a, b) {
-          return a.order && b.order ? a.order - b.order : -1
-        })
+      .addCase(
+        fulfilledAction(TemplatesEvent.UpdateTemplateOrder),
+        (state, action: UpdateTemplateOrderFulfilledAction) => {
+          const updatedList = state.data.map((item) => {
+            const updatedTemplate = action.payload.find(
+              (template) => item.id === template.id
+            )
+            return updatedTemplate ? updatedTemplate : item
+          })
+          const orderedList = updatedList.sort(function (a, b) {
+            return a.order && b.order ? a.order - b.order : -1
+          })
 
+          return {
+            ...state,
+            error: null,
+            data: flags.get(Feature.OrderTemplate) ? orderedList : updatedList,
+            loaded: true,
+            loading: false,
+          }
+        }
+      )
+
+      .addCase(
+        rejectedAction(TemplatesEvent.UpdateTemplateOrder),
+        (state, action: UpdateTemplateOrderRejectedAction) => {
+          return {
+            ...state,
+            error: action.payload.message,
+            loaded: false,
+            loading: false,
+          }
+        }
+      )
+
+      .addCase(selectAllItems.fulfilled, (state, action) => {
         return {
           ...state,
-          error: null,
-          data: flags.get(Feature.OrderTemplate) ? orderedList : updatedList,
-          loaded: true,
-          loading: false,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: action.payload,
+          },
         }
-      }
-    )
-
-    builder.addCase(
-      rejectedAction(TemplatesEvent.UpdateTemplateOrder),
-      (state, action: UpdateTemplateOrderRejectedAction) => {
+      })
+      .addCase(toggleItem.fulfilled, (state, action) => {
         return {
           ...state,
-          error: action.payload.message,
-          loaded: false,
-          loading: false,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: action.payload,
+          },
         }
-      }
-    )
+      })
+      .addCase(resetAllItems, (state) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: [],
+          },
+        }
+      })
+      .addCase(changeLocation, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
+      })
   }
 )

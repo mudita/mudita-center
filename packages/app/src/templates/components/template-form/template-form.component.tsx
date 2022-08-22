@@ -47,9 +47,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     setError,
-    watch,
   } = useForm({
     defaultValues: template
       ? template
@@ -59,8 +58,6 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
     mode: "onChange",
   })
 
-  const dataChanged = watch("text") !== template?.text
-
   useEffect(() => {
     if (error) {
       setError("text", {
@@ -68,6 +65,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
         message: error?.toString(),
       })
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const HeaderLeft = (
@@ -97,6 +96,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
             defaultHeight="100%"
             errorMessage={errors.text?.message}
             label={intl.formatMessage(messages.text)}
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           />
         </Content>
@@ -111,7 +112,7 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
           <ButtonComponent
             type={Type.Submit}
             data-testid={TemplateFormTestIds.SaveButton}
-            disabled={Object.keys(errors).length > 0 || saving || !dataChanged}
+            disabled={!isDirty || !isValid || saving}
             label={
               saving ? (
                 <Loader

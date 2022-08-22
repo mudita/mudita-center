@@ -21,13 +21,15 @@ describe("When device return list of files with `Ok` status code", () => {
   test("returns result with serialized files", async () => {
     deviceService.request = jest.fn().mockResolvedValueOnce({
       data: {
-        [DeviceDirectory.Music]: [{ path: "/test/file-1.mp3" }],
+        [DeviceDirectory.Music]: [
+          { path: "/test/file-1.mp3", fileSize: 654321 },
+        ],
       },
       status: RequestResponseStatus.Ok,
       error: undefined,
     })
 
-    const result = await subject.getDeviceFiles()
+    const result = await subject.getDeviceFiles(DeviceDirectory.Music)
 
     expect(result).toEqual(
       new SuccessResult([
@@ -35,7 +37,7 @@ describe("When device return list of files with `Ok` status code", () => {
           name: "file-1.mp3",
           type: "mp3",
           id: "/test/file-1.mp3",
-          size: 1234,
+          size: 654321,
         },
       ])
     )
@@ -52,11 +54,11 @@ describe("When device return list of files with filed status code", () => {
       error: undefined,
     })
 
-    const result = await subject.getDeviceFiles()
+    const result = await subject.getDeviceFiles(DeviceDirectory.Music)
 
     expect(result).toEqual(
       new FailedResult({
-        ...new AppError(FilesManagerError.GetFiles, "Something wen't wrong"),
+        ...new AppError(FilesManagerError.GetFiles, "Something went wrong"),
       })
     )
   })
@@ -72,7 +74,7 @@ describe("When device return error response", () => {
       },
     })
 
-    const result = await subject.getDeviceFiles()
+    const result = await subject.getDeviceFiles(DeviceDirectory.Music)
 
     expect(result).toEqual(
       new FailedResult({

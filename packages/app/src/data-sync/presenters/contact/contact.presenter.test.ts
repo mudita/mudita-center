@@ -33,6 +33,8 @@ const contactEntities: (
   },
 ]
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("`findRecords` method return records by `contactId`", async () => {
   const presenter = new ContactPresenter()
   const records = presenter.findRecords(contactEntities, "1")
@@ -40,6 +42,8 @@ test("`findRecords` method return records by `contactId`", async () => {
   expect(records).toEqual([contactEntities[0]])
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("`serializeRecord` serialize record properly", async () => {
   const contactNameEntity: ContactNameEntity = {
     _id: "4",
@@ -64,6 +68,8 @@ test("`serializeRecord` serialize record properly", async () => {
 })
 
 describe("When contact isn't belongs to any group", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
     const contactInput: ContactInput = {
       contacts: {
@@ -126,6 +132,8 @@ describe("When contact isn't belongs to any group", () => {
 })
 
 describe("When contact isn't belongs to `Favourites` group", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
     const contactInput: ContactInput = {
       contacts: {
@@ -173,6 +181,59 @@ describe("When contact isn't belongs to `Favourites` group", () => {
         Object {
           "email": "",
           "favourite": true,
+          "firstAddressLine": "",
+          "firstName": "Theron",
+          "id": "4",
+          "lastName": "Paucek",
+          "note": "",
+          "primaryPhoneNumber": "+91898402777",
+          "secondAddressLine": "Kochmouth",
+          "secondaryPhoneNumber": "",
+        },
+      ]
+    `)
+  })
+})
+
+describe("When `contacts` table doesn't support `contact_groups` & `contact_match_groups`", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
+  test("`serializeToObject` serialize record properly", async () => {
+    const contactInput: ContactInput = {
+      contacts: {
+        columns: [
+          "_id",
+          "name_id",
+          "numbers_id",
+          "ring_id",
+          "address_id",
+          "speeddial",
+        ],
+        values: [["4", "4", "5", "4", "4", ""]],
+      },
+      contact_name: {
+        columns: ["_id", "contact_id", "name_primary", "name_alternative"],
+        values: [["4", "4", "Theron", "Paucek"]],
+      },
+      contact_number: {
+        columns: ["_id", "contact_id", "number_user", "number_e164", "type"],
+        values: [["5", "4", "+91898402777", "", "0"]],
+      },
+      contact_address: {
+        columns: ["_id", "contact_id", "address", "note", "mail"],
+        values: [["4", "4", "Kochmouth", "", ""]],
+      },
+      contact_groups: undefined,
+      contact_match_groups: undefined,
+    }
+
+    const presenter = new ContactPresenter()
+    const contactObjects = presenter.serializeToObject(contactInput)
+    expect(contactObjects).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "email": "",
+          "favourite": false,
           "firstAddressLine": "",
           "firstName": "Theron",
           "id": "4",

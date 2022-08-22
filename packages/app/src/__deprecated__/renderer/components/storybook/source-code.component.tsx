@@ -121,6 +121,8 @@ const SourceCode: FunctionComponent<SourceCodeProps> = ({
 
   return (
     <Code currentLine={currentLine} linesCount={linesCount} ref={codeRef}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
       <SyntaxHighlighter language="jsx" style={prism} wrapLines>
         {code}
       </SyntaxHighlighter>

@@ -18,6 +18,8 @@ const messages = defineMessages({
   defaultFilename: { id: "module.calendar.exportDefaultFileName" },
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const registerEventsExportListener = () => {
   ipcMain.answerRenderer(
     IpcRequest.ExportEvents,

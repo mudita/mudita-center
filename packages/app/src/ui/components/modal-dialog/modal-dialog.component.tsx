@@ -79,6 +79,8 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
     close = (
       <Close
         displayStyle={DisplayStyle.IconOnly}
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         onClick={closeModal}
         Icon={IconType.Close}
         data-testid={ModalTestIds.CloseButton}
@@ -95,19 +97,29 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
   }) => {
     const closeModalByButtonClick = () => {
       if (closeModal) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         closeModal()
       }
       if (onCloseButton) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         onCloseButton()
       }
     }
 
     return (
       <Modal
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         isOpen={open}
         style={{
           overlay: {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             backgroundColor: backgroundColor("modalBackdrop")({ theme }),
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             zIndex: zIndex ? zIndex : getZIndex("modalBackdrop")({ theme }),
           },
           content: {
@@ -127,16 +139,22 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
           },
         }}
         shouldCloseOnOverlayClick={false}
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         onAfterClose={onClose}
         {...props}
       >
         <Header
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           titleOrder={titleOrder}
           subtitleGap={Boolean(subtitle)}
           data-testid={ModalTestIds.Header}
         >
           <ModalTitle
             displayStyle={getTitleStyle(size)}
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             subTitle={subtitle}
             element={"h2"}
             data-testid={ModalTestIds.Title}
@@ -154,13 +172,19 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
         </Header>
         {children}
         {actionButtonLabel || closeButton ? (
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <ButtonContainer buttonsPosition={size}>
             <ButtonWrapper>
               {closeButton && (
                 <CloseButton
                   actionButton={Boolean(actionButtonLabel)}
                   displayStyle={DisplayStyle.Secondary}
+                  // AUTO DISABLED - fix me if you like :)
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   size={actionButtonSize}
+                  // AUTO DISABLED - fix me if you like :)
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   label={closeButtonLabel}
                   onClick={closeModalByButtonClick}
                   data-testid={ModalTestIds.CloseBottomButton}
@@ -169,11 +193,21 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
               {actionButtonLabel && onActionButtonClick && (
                 <Button
                   displayStyle={DisplayStyle.Primary}
+                  // AUTO DISABLED - fix me if you like :)
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   size={actionButtonSize}
+                  // AUTO DISABLED - fix me if you like :)
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   label={actionButtonLabel}
+                  // AUTO DISABLED - fix me if you like :)
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   onClick={onActionButtonClick}
                   data-testid={ModalTestIds.ModalActionButton}
+                  // AUTO DISABLED - fix me if you like :)
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   Icon={actionButtonIcon}
+                  // AUTO DISABLED - fix me if you like :)
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                   disabled={actionButtonDisabled}
                 />
               )}

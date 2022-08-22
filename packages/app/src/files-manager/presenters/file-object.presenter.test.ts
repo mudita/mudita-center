@@ -8,6 +8,7 @@ import { FileObjectPresenter } from "App/files-manager/presenters/file-object.pr
 
 const fileInput: FileInput = {
   path: "/music/test-1.mp3",
+  fileSize: 6145498,
 }
 
 describe("Method: toFile", () => {
@@ -16,7 +17,7 @@ describe("Method: toFile", () => {
       id: "/music/test-1.mp3",
       name: "test-1.mp3",
       type: "mp3",
-      size: 1234,
+      size: 6145498,
     })
   })
 })

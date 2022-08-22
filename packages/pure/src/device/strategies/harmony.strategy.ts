@@ -44,7 +44,11 @@ export class HarmonyStrategy extends BaseDevice {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<Response<DeviceInfo>>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public request(config: RequestConfig<any>): Promise<Response<any>>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async request(config: RequestConfig<any>): Promise<Response<any>> {
     const response = await super.request(config)
     return this.#formatter.formatResponse(config.method, response)

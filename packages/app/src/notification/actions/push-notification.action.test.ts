@@ -38,6 +38,8 @@ const notificationPayload: Notification = {
 const mockStore = createMockStore([thunk])()
 
 test("fire `pushNotification` action dispatch NotificationEvent.PushEvent event", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await mockStore.dispatch(
     pushNotification(notificationPayload) as unknown as AnyAction
   )

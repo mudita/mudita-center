@@ -20,30 +20,40 @@ import {
 } from "App/core/types/request-response.interface"
 
 export class PurePhoneFakeAdapter extends PurePhoneAdapter {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async disconnectDevice(): Promise<RequestResponse> {
     return {
       status: RequestResponseStatus.Ok,
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async connectDevice(): Promise<RequestResponse<MuditaDevice>> {
     return {
       status: RequestResponseStatus.Ok,
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async unlockDevice(): Promise<RequestResponse> {
     return {
       status: RequestResponseStatus.Ok,
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getUnlockDeviceStatus(): Promise<RequestResponse> {
     return {
       status: RequestResponseStatus.Ok,
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getDeviceLockTime(): Promise<
     RequestResponse<GetPhoneLockTimeResponseBody>
   > {
@@ -53,6 +63,8 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getDeviceLogFiles(): Promise<RequestResponse<DeviceFile[]>> {
     return {
       status: RequestResponseStatus.Ok,
@@ -60,6 +72,8 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getDeviceCrashDumpFiles(): Promise<RequestResponse<string[]>> {
     return {
       status: RequestResponseStatus.Ok,
@@ -67,6 +81,8 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async downloadDeviceCrashDumpFiles(): Promise<
     RequestResponse<string[]>
   > {
@@ -76,12 +92,16 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async updateOs(): Promise<RequestResponse> {
     return {
       status: RequestResponseStatus.Ok,
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async startBackupDevice(): Promise<
     RequestResponse<StartBackupResponseBody>
   > {
@@ -93,6 +113,8 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getBackupDeviceStatus(): Promise<
     RequestResponse<GetBackupDeviceStatusResponseBody>
   > {
@@ -105,12 +127,16 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async startRestoreDevice(): Promise<RequestResponse> {
     return {
       status: RequestResponseStatus.Ok,
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getRestoreDeviceStatus(): Promise<
     RequestResponse<GetRestoreDeviceStatusResponseBody>
   > {

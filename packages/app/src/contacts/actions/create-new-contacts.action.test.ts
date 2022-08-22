@@ -65,6 +65,8 @@ describe("async `createNewContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         createNewContact(newContact) as unknown as AnyAction
       )
@@ -94,6 +96,8 @@ describe("async `createNewContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         createNewContact(newContact) as unknown as AnyAction
       )

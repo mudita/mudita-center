@@ -11,6 +11,8 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const isThreadOpened = () => true
 const isContactCreated = () => true
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getContact = (contactId: string) => ({} as Contact)
 
 storiesOf("Views/Calls", module).add("Calls", () => (

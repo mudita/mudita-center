@@ -43,11 +43,13 @@ const contacts: Contact[] = [
 ]
 
 const defaultProps: Props = {
+  contactsList: contacts,
   editMode: false,
   searchValue: "",
   results: contacts,
   onManageButtonClick: jest.fn(),
   onNewButtonClick: jest.fn(),
+  toggleAll: jest.fn(),
   resetRows: jest.fn(),
   selectedContacts: [],
   deleteContacts: jest.fn(),
@@ -68,7 +70,7 @@ const render = (extraProps?: Partial<Props>) => {
 describe("`ContactPanel` component", () => {
   test("selection manager is displayed when there is at least one contact selected", () => {
     const { getByTestId } = render({
-      selectedContacts: [contacts[0]],
+      selectedContacts: [contacts[0].id],
     })
     expect(
       getByTestId(ContactPanelTestIdsEnum.SelectionManager)

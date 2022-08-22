@@ -37,6 +37,10 @@ const BackLink = styled(Button)`
   width: max-content;
 `
 
+const AnswerContent = styled.div`
+  max-width: 48rem;
+`
+
 interface Props extends RouteComponentProps<{ questionId: string }> {
   list: QuestionAndAnswer
 }
@@ -57,7 +61,7 @@ const Answer: FunctionComponent<Props> = ({ match, list }) => {
           data-testid={AnswerUiTestIds.BackLink}
         />
       </AnswerHeader>
-      <div data-testid={AnswerUiTestIds.Content}>
+      <AnswerContent data-testid={AnswerUiTestIds.Content}>
         {items[match.params.questionId]?.answer ? (
           documentToReactComponents(
             items[match.params.questionId].answer,
@@ -69,7 +73,7 @@ const Answer: FunctionComponent<Props> = ({ match, list }) => {
             message={{ id: "module.help.answerError" }}
           />
         )}
-      </div>
+      </AnswerContent>
     </AnswerContainer>
   )
 }

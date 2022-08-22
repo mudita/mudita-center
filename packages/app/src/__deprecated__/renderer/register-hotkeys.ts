@@ -21,6 +21,8 @@ const devModeOnlyHotkeys: Partial<HotkeysList> = {
   [AppHotkeys.HarmonySimulation]: toggleHarmonySimulation,
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const registerHotkeys = () => {
   // Dev mode only hotkeys
   hotkeys.register(AppHotkeys.DevMode, () => {
