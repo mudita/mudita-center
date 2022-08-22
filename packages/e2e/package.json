@@ -45,8 +45,8 @@
     "wdio-wait-for": "^2.2.1"
   },
   "engines": {
-    "node": "16.13.0",
-    "npm": "8.1.0"
+    "node": "16.15.0",
+    "npm": "8.5.5"
   },
   "dependencies": {
     "axios": "^0.27.2"
