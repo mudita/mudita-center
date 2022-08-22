@@ -31,6 +31,7 @@ jest.mock("@electron/remote", () => ({
   app: {
     getPath: () => "",
   },
+  getCurrentWindow: () => jest.fn()
 }))
 
 jest.mock("electron", () => ({

@@ -13,12 +13,10 @@ import { AppForcedUpdateFlowTestIds } from "App/settings/components/app-forced-u
 import { AppUpdateFlowTestIds } from "App/settings/components/app-update-flow/app-update-flow-test-ids.enum"
 
 jest.mock(
-  "electron",
+  "@electron/remote",
   jest.fn().mockImplementation(() => ({
-    remote: {
-      dialog: {
-        showOpenDialog: jest.fn(),
-      },
+    dialog: {
+      showOpenDialog: jest.fn(),
     },
   }))
 )
