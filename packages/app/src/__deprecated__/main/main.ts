@@ -4,7 +4,6 @@
  */
 
 import MuditaDeviceManager from "@mudita/pure"
-import { check as checkPort } from "tcp-port-used"
 import {
   app,
   BrowserWindow,
@@ -44,11 +43,6 @@ import {
   removeGetHelpStoreHandler,
 } from "App/__deprecated__/main/functions/get-help-store-handler"
 import { GoogleAuthActions } from "App/__deprecated__/common/enums/google-auth-actions.enum"
-import {
-  authServerPort,
-  createAuthServer,
-  killAuthServer,
-} from "App/__deprecated__/main/auth-server"
 import logger from "App/__deprecated__/main/utils/logger"
 import { Scope } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
 import { OutlookAuthActions } from "App/__deprecated__/common/enums/outlook-auth-actions.enum"
@@ -108,7 +102,7 @@ const licenseWindow: BrowserWindow | null = null
 const termsWindow: BrowserWindow | null = null
 const policyWindow: BrowserWindow | null = null
 const metadataStore: MetadataStore = createMetadataStore()
-
+export const authServerPort = 3456
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 
@@ -408,33 +402,9 @@ createOpenWindowListener(
   policyWindow
 )
 
-const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
-  return await googleAuthWindow.loadURL(
-    !productionEnvironment
-      ? `http://localhost:2003/?mode=${Mode.ServerError}#${URL_MAIN.error}`
-      : url.format({
-          pathname: path.join(__dirname, "index.html"),
-          protocol: "file:",
-          slashes: true,
-          hash: URL_MAIN.error,
-          search: `?mode=${Mode.ServerError}`,
-        })
-  )
-}
-
-ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
+ipcMain.answerRenderer(GoogleAuthActions.OpenWindow,(scope: Scope) => {
   const title = "Mudita Center - Google Auth"
   if (process.env.MUDITA_CENTER_SERVER_URL) {
-    const cb = (data: string) => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      ipcMain.callRenderer(
-        win as BrowserWindow,
-        GoogleAuthActions.GotCredentials,
-        data
-      )
-    }
-
     if (googleAuthWindow === null) {
       googleAuthWindow = new BrowserWindow(
         getWindowOptions({
@@ -446,17 +416,28 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         })
       )
 
-      googleAuthWindow.on("close", () => {
+       .on("close", () => {
         googleAuthWindow = null
-        killAuthServer()
       })
 
-      if (await checkPort(authServerPort)) {
-        await createErrorWindow(googleAuthWindow)
-        return
-      }
+    const filter = {
+        urls: [`http://localhost:${authServerPort}/*`]
+      };
+      const {
+        session: { webRequest },
+      } = googleAuthWindow.webContents
 
-      createAuthServer(cb)
+      webRequest.onBeforeRequest(filter, (details, callback) => {
+        const data = details.uploadData[0].bytes.toString()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        ipcMain.callRenderer(
+          win as BrowserWindow,
+          GoogleAuthActions.GotCredentials,
+          data
+        )
+        callback({})
+      });
 
       let scopeUrl: string
 
@@ -481,7 +462,6 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
 })
 
 ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
-  killAuthServer()
   googleAuthWindow?.close()
 })
 
