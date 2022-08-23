@@ -15,9 +15,14 @@ import FilesStorageList from "App/files-manager/components/files-storage-list/fi
 import { Feature, flags } from "App/feature-flags"
 import { FilesManagerPanel } from "App/files-manager/components/files-manager-panel"
 import { FilesStorageProps } from "App/files-manager/components/files-storage/files-storage.interface"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 const TitleWrapper = styled.div`
-  margin: 1.6rem 3.2rem 1rem;
+  padding: 1.6rem 3.2rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: ${backgroundColor("main")};
 `
 
 const messages = defineMessages({
