@@ -7,16 +7,14 @@ import { Index, SearchResults } from "elasticlunr"
 import { IndexStorage } from "App/index-storage/types"
 
 export abstract class BaseSearcher {
-  constructor(public index: IndexStorage) {}
+  constructor(protected index: IndexStorage) {}
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  abstract search(query: string): any[] | undefined
+  abstract search<Model>(query: string): Model[] | undefined
 
-  protected hydrate<Type>(
-    index: Index<Type>,
+  protected hydrate<Model>(
+    index: Index<Model>,
     searchResults: SearchResults[]
-  ): Type[] {
+  ): Model[] {
     return searchResults.map(({ ref }) => index.documentStore.getDoc(ref))
   }
 }

@@ -4,5 +4,5 @@
  */
 
 export enum SearchEvent {
-  Search = "SEARCH",
+  SearchData = "SEARCH_DATA",
 }

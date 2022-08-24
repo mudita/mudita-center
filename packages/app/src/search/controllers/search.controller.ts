@@ -13,12 +13,10 @@ import { SearchService } from "App/search/services"
 export class SearchController {
   constructor(private searchService: SearchService) {}
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent(IpcSearchEvent.SearchData)
-  public async searchData(
+  public searchData(
     data: SearchParams
-  ): Promise<ResultObject<SearchResult>> {
+  ): ResultObject<SearchResult | undefined> {
     return this.searchService.search(data)
   }
 }

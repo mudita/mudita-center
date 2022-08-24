@@ -9,11 +9,9 @@ import { SearchParams, SearchResult } from "App/search/dto"
 import { searchRequest } from "App/search/requests"
 
 export const search = createAsyncThunk<SearchResult | undefined, SearchParams>(
-  SearchEvent.Search,
+  SearchEvent.SearchData,
   async (payload) => {
     const result = await searchRequest(payload)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return result.data
   }
 )

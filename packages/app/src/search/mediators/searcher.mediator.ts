@@ -3,8 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppError } from "App/core/errors"
 import { DataIndex } from "App/index-storage/constants"
 import { BaseSearcher } from "App/search/searchers"
+import { SearcherError } from "App/search/constants"
 
 export class SearcherMediator {
   // AUTO DISABLED - fix me if you like :)
@@ -15,9 +17,19 @@ export class SearcherMediator {
     this.searchersMap.set(DataIndex.Message, this.messageSearcher)
   }
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public searchByScope(scope: DataIndex, query: string): any[] | undefined {
-    return this.searchersMap.get(scope)?.search(query)
+  public searchByScope<Model>(
+    scope: DataIndex,
+    query: string
+  ): Model[] | undefined {
+    const searchers = this.searchersMap.get(scope)
+
+    if (!searchers) {
+      throw new AppError(
+        SearcherError.SearcherDoesntExists,
+        `Searcher: ${scope} can't be found`
+      )
+    }
+
+    return this.searchersMap.get(scope)?.search<Model>(query)
   }
 }

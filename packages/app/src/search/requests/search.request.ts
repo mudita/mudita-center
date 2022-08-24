@@ -10,6 +10,6 @@ import { IpcSearchRequest } from "App/search/constants"
 
 export const searchRequest = async (
   data: SearchParams
-): Promise<ResultObject<SearchResult>> => {
+): Promise<ResultObject<SearchResult | undefined>> => {
   return ipcRenderer.callMain(IpcSearchRequest.SearchData, data)
 }

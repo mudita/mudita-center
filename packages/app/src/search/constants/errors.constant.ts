@@ -4,5 +4,6 @@
  */
 
 export enum SearcherError {
-  IndexDoesntExists = "INDEX_DOESNT_EXISTS",
+  IndexDoesntExists = "SEARCHER_INDEX_DOESNT_EXISTS",
+  SearcherDoesntExists = "SEARCHER_DOESNT_EXISTS",
 }
