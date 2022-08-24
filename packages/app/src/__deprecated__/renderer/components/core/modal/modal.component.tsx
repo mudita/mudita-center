@@ -104,9 +104,7 @@ const Modal: FunctionComponent<ModalProps> = ({
 
   const closeModalByButtonClick = () => {
     onCloseButton()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    closeModal()
+    void closeModal()
   }
 
   return (

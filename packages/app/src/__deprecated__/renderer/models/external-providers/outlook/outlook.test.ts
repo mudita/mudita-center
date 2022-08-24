@@ -48,9 +48,7 @@ jest.mock(
       ) => {
         switch (channel) {
           case OutlookAuthActions.GotCredentials:
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            callback(rejectedError)
+            void callback(rejectedError)
             return true
           default:
             return false

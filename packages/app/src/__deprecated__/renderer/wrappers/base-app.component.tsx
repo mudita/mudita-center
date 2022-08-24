@@ -76,9 +76,7 @@ const BaseApp: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!deviceConnected && !deviceUpdating) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      modalService.closeModal(true)
+      void modalService.closeModal(true)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps

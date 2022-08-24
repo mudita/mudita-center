@@ -29,9 +29,7 @@ export const downloadCrashDump = createAsyncThunk<
 
     if (status === RequestResponseStatus.Ok && data) {
       dispatch(setDownloadedCrashDump(data))
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      dispatch(sendCrashDumpData({ email, description }))
+      void dispatch(sendCrashDumpData({ email, description }))
     } else {
       return rejectWithValue(
         new AppError(

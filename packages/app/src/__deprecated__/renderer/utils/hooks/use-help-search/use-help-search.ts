@@ -57,13 +57,9 @@ export const useHelpSearch = (
 
   useEffect(() => {
     if (networkStatus) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      fetchDataAndSaveToStore()
+      void fetchDataAndSaveToStore()
     } else {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      setDefaultHelpItemsAndSaveToStore()
+      void setDefaultHelpItemsAndSaveToStore()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
