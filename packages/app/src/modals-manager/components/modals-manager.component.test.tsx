@@ -20,12 +20,10 @@ jest.mock("electron-better-ipc", () => ({
 }))
 
 jest.mock(
-  "electron",
+  "@electron/remote",
   jest.fn().mockImplementation(() => ({
-    remote: {
-      dialog: {
-        showOpenDialog: jest.fn(),
-      },
+    dialog: {
+      showOpenDialog: jest.fn(),
     },
   }))
 )

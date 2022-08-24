@@ -208,7 +208,7 @@
     "devtron": "^1.4.0",
     "dotenv": "^16.0.1",
     "elasticlunr": "^0.9.5",
-    "electron": "^8.5.5",
+    "electron": "^20.0.3",
     "electron-better-ipc": "^2.0.1",
     "electron-builder": "^22.14.13",
     "electron-debug": "^3.2.0",
@@ -312,7 +312,7 @@
     "usb": "1.9.2"
   },
   "engines": {
-    "node": "14.17.3",
-    "npm": "6.14.13"
+    "node": "16.15.0",
+    "npm": "8.5.5"
   }
 }
