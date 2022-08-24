@@ -13,7 +13,7 @@ export abstract class BaseSearcher {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract search(query: string): any[] | undefined
 
-  public hydrate<Type>(
+  protected hydrate<Type>(
     index: Index<Type>,
     searchResults: SearchResults[]
   ): Type[] {
