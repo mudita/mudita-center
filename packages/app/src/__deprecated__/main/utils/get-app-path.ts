@@ -19,12 +19,14 @@ export const resolve: AppResolver = () => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const isRenderer = require("is-electron-renderer")
+  // FIXME: Using remote module in renderer process isn't a good pattern.
+  //  You can read more in https://github.com/electron/remote#migrating-from-remote
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const app = isRenderer
     ? // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      require("electron").remote.app
+      require("@electron/remote").app
     : // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       require("electron").app
