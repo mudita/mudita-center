@@ -15,11 +15,7 @@ export const hideCollectingDataModal = createAsyncThunk<void, undefined>(
   // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { dispatch }) => {
     dispatch(hideModals())
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(checkAppUpdateFlowToShow())
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(checkAppForcedUpdateFlowToShow())
+    void dispatch(checkAppUpdateFlowToShow())
+    void dispatch(checkAppForcedUpdateFlowToShow())
   }
 )

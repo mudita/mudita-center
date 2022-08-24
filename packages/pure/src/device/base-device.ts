@@ -119,9 +119,7 @@ class BaseDevice implements MuditaDevice {
       const uuid = SerialPortParser.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
 
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.#requestsQueue.add(async () => {
+      void this.#requestsQueue.add(async () => {
         if (isApiRequestPayload(payload)) {
           resolve(await this.apiRequest(payload))
         } else {
@@ -155,9 +153,7 @@ class BaseDevice implements MuditaDevice {
   ): Promise<Response<any>> {
     return new Promise((resolve) => {
       const [promise, cancel] = timeout(timeoutMs)
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      promise.then(() => {
+      void promise.then(() => {
         resolve(this.returnTimeoutResponse(payload))
       })
 

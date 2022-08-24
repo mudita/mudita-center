@@ -108,9 +108,7 @@ const StorybookWrapper: FunctionComponent = ({ className, children }) => {
 
   useEffect(() => {
     if (fileName) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      ;(async () => {
+      void (async () => {
         const path = fileName.split("/src/")[1].replace(".stories.tsx", ".json")
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

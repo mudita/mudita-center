@@ -96,9 +96,7 @@ export class ModalService {
     }
 
     if (this.modalsQueue.length) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.openModal(this.modalsQueue.shift() as ReactElement, true)
+      void this.openModal(this.modalsQueue.shift() as ReactElement, true)
       return
     }
 

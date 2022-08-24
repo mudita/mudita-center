@@ -38,30 +38,20 @@ export const toggleDevMode = () => {
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const togglePureSimulation = () => {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  ipcRenderer.callMain(backendAdaptersChannel)
+  void ipcRenderer.callMain(backendAdaptersChannel)
 
   if (store.getState().devMode.harmonySimulation) {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    ipcRenderer.callMain(backendAdaptersChannel)
+    void ipcRenderer.callMain(backendAdaptersChannel)
     store.dispatch.devMode.disableHarmonySimulation()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(disconnectDevice())
+    void store.dispatch(disconnectDevice())
   }
 
   if (store.getState().devMode.pureSimulation) {
     store.dispatch.devMode.disablePureSimulation()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(disconnectDevice())
+    void store.dispatch(disconnectDevice())
   } else {
     store.dispatch.devMode.enablePureSimulation()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(connectDevice(DeviceType.MuditaPure))
+    void store.dispatch(connectDevice(DeviceType.MuditaPure))
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     setTimeout(() => store.dispatch(unlockedDevice()))
@@ -71,30 +61,20 @@ export const togglePureSimulation = () => {
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const toggleHarmonySimulation = () => {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  ipcRenderer.callMain(backendAdaptersChannel)
+  void ipcRenderer.callMain(backendAdaptersChannel)
 
   if (store.getState().devMode.pureSimulation) {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    ipcRenderer.callMain(backendAdaptersChannel)
+    void ipcRenderer.callMain(backendAdaptersChannel)
     store.dispatch.devMode.disablePureSimulation()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(disconnectDevice())
+    void store.dispatch(disconnectDevice())
   }
 
   if (store.getState().devMode.harmonySimulation) {
     store.dispatch.devMode.disableHarmonySimulation()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(disconnectDevice())
+    void store.dispatch(disconnectDevice())
   } else {
     store.dispatch.devMode.enableHarmonySimulation()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(connectDevice(DeviceType.MuditaHarmony))
+    void store.dispatch(connectDevice(DeviceType.MuditaHarmony))
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     setTimeout(() => store.dispatch(unlockedDevice()))

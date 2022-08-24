@@ -99,9 +99,7 @@ const outlook = createModel<ExternalProvidersModels>({
 
         let unregisterMainListener = noop
 
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        ipcRenderer.callMain(OutlookAuthActions.OpenWindow, {
+        void ipcRenderer.callMain(OutlookAuthActions.OpenWindow, {
           authorizationUrl: getAuthorizationUrl(),
           scope: getOutlookEndpoint(scope),
         })
@@ -120,9 +118,7 @@ const outlook = createModel<ExternalProvidersModels>({
             })
             resolve()
           }
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          ipcRenderer.callMain(OutlookAuthActions.CloseWindow)
+          void ipcRenderer.callMain(OutlookAuthActions.CloseWindow)
           unregisterMainListener()
         }
 
