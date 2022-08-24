@@ -30,6 +30,6 @@ export class SearcherMediator {
       )
     }
 
-    return this.searchersMap.get(scope)?.search<Model>(query)
+    return searchers.search(query) as Model[]
   }
 }
