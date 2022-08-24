@@ -38,6 +38,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     networkName: (state.device.data as PureDeviceData)?.networkName,
     networkLevel: Number((state.device.data as PureDeviceData)?.networkLevel),
     caseColour: (state.device.data as PureDeviceData)?.caseColour,
+    pureOsBackupLocation: state.settings.osBackupLocation,
     backupDeviceState: state.backupDevice.state,
     restoreDeviceState: state.restoreDevice.state,
     backups: state.backup.backups,
