@@ -9,7 +9,6 @@ import { FilesStorageListTestIds } from "App/files-manager/components/files-stor
 import {
   Col,
   EmptyState,
-  Labels,
   LoadingState,
   RowSize,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
@@ -35,9 +34,14 @@ import {
   Checkbox,
   FilesListRow,
   FileIconHarmony,
+  FilesListLabels,
+  LastEmptyCol,
 } from "App/files-manager/components/files-storage-list/files-storage-list.styled"
 import { DeviceType } from "@mudita/pure"
 import { VisibleOnDevice } from "App/ui/components"
+import { Feature, flags } from "App/feature-flags"
+import { useSelector } from "react-redux"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 const messages = defineMessages({
   title: {
@@ -99,12 +103,18 @@ const FilesStorageList: FunctionComponent<Props> = ({
   const noFoundFilesState = loadedOrInitialState && noFoundFiles
   const noFilesState =
     loadedOrInitialState && files.length === 0 && !noFoundFiles
-
+  const deviceType = useSelector(
+    (state: ReduxRootState) => state.device.deviceType
+  )
+  const filesManagerActionsEnable =
+    flags.get(Feature.FilesManagerActionsEnabled) &&
+    deviceType === DeviceType.MuditaPure
   return (
     <FilesStorageContainer {...rest}>
       {state === State.Loaded && files.length > 0 && (
         <FilesTable scrollable={false}>
-          <Labels
+          <FilesListLabels
+            filesManagerActionsEnabled={filesManagerActionsEnable}
             size={RowSize.Tiny}
             data-testid={FilesStorageListTestIds.Loaded}
           >
@@ -112,11 +122,10 @@ const FilesStorageList: FunctionComponent<Props> = ({
             <Col />
             <Col>{intl.formatMessage(messages.type)}</Col>
             <Col>{intl.formatMessage(messages.size)}</Col>
-            <Col />
             <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
-              <Col />
+              <LastEmptyCol />
             </VisibleOnDevice>
-          </Labels>
+          </FilesListLabels>
           {files.map((file, i) => {
             const selected = selectedItems.includes(file.id)
             const handleCheckboxChange = () => toggleRow(file.id)
@@ -142,7 +151,6 @@ const FilesStorageList: FunctionComponent<Props> = ({
                 <Col>{file.name}</Col>
                 <FilesStorageListTypeCol file={file} />
                 <Col>{convertBytes(file.size)}</Col>
-                <Col />
                 <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
                   <Col>
                     <Actions>
