@@ -20,8 +20,7 @@ beforeEach(() => {
   vol.reset()
 })
 
-// TODO: https://appnroll.atlassian.net/browse/CP-1549
-describe.skip("`BaseIndexer`", () => {
+describe("`BaseIndexer`", () => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
   test("`getData` execution works properly", async () => {

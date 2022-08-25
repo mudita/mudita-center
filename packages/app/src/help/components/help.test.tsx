@@ -15,10 +15,12 @@ import history from "App/__deprecated__/renderer/routes/history"
 import { data } from "App/__deprecated__/seeds/help"
 
 jest.mock(
-  "@electron/remote",
+  "electron",
   jest.fn().mockImplementation(() => ({
-    dialog: {
-      showOpenDialog: jest.fn(),
+    remote: {
+      dialog: {
+        showOpenDialog: jest.fn(),
+      },
     },
   }))
 )

@@ -18,12 +18,14 @@ import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
 
 type Props = ComponentProps<typeof Contacts>
 
-jest.mock("@electron/remote", () => ({
-  Menu: () => ({
-    popup: jest.fn(),
-    append: jest.fn(),
-  }),
-  MenuItem: () => jest.fn(),
+jest.mock("electron", () => ({
+  remote: {
+    Menu: () => ({
+      popup: jest.fn(),
+      append: jest.fn(),
+    }),
+    MenuItem: () => jest.fn(),
+  },
 }))
 
 jest.mock("react-router", () => ({

@@ -25,12 +25,14 @@ import { RequestResponseStatus } from "App/core/types/request-response.interface
 
 type Props = ComponentProps<typeof Overview>
 
-jest.mock("@electron/remote", () => ({
-  Menu: () => ({
-    popup: jest.fn(),
-    append: jest.fn(),
-  }),
-  MenuItem: () => jest.fn(),
+jest.mock("electron", () => ({
+  remote: {
+    Menu: () => ({
+      popup: jest.fn(),
+      append: jest.fn(),
+    }),
+    MenuItem: () => jest.fn(),
+  },
 }))
 
 jest.mock("App/__deprecated__/renderer/requests/get-device-info.request", () =>
