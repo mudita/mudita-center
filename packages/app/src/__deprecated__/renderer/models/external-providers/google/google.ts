@@ -167,9 +167,7 @@ const google = createModel<ExternalProvidersModels>({
 
         let unregisterMainListener = noop
 
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        ipcRenderer.callMain(GoogleAuthActions.OpenWindow, scope)
+        void ipcRenderer.callMain(GoogleAuthActions.OpenWindow, scope)
 
         const processResponse = (response: string) => {
           // AUTO DISABLED - fix me if you like :)
@@ -188,9 +186,7 @@ const google = createModel<ExternalProvidersModels>({
             })
             resolve()
           }
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
+          void ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
           unregisterMainListener()
         }
 

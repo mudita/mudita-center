@@ -79,9 +79,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
     history.push(URL_OVERVIEW.root)
   }
   const openSarInfo = () => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    ipcRenderer.callMain(PureSystemActions.SarOpenWindow)
+    void ipcRenderer.callMain(PureSystemActions.SarOpenWindow)
   }
   return (
     <div>

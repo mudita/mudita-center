@@ -4,7 +4,6 @@
  */
 
 import MuditaDeviceManager from "@mudita/pure"
-import { check as checkPort } from "tcp-port-used"
 import {
   app,
   BrowserWindow,
@@ -44,11 +43,6 @@ import {
   removeGetHelpStoreHandler,
 } from "App/__deprecated__/main/functions/get-help-store-handler"
 import { GoogleAuthActions } from "App/__deprecated__/common/enums/google-auth-actions.enum"
-import {
-  authServerPort,
-  createAuthServer,
-  killAuthServer,
-} from "App/__deprecated__/main/auth-server"
 import logger from "App/__deprecated__/main/utils/logger"
 import { Scope } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
 import { OutlookAuthActions } from "App/__deprecated__/common/enums/outlook-auth-actions.enum"
@@ -91,6 +85,13 @@ import { createSettingsService } from "App/settings/containers/settings.containe
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 require("dotenv").config()
 
+// FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+//  There is almost always a better way to accomplish your task than using this module.
+//  You can read more in https://github.com/electron/remote#migrating-from-remote
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+require("@electron/remote/main").initialize()
+
 logger.info("Starting the app")
 
 let win: BrowserWindow | null
@@ -101,7 +102,7 @@ const licenseWindow: BrowserWindow | null = null
 const termsWindow: BrowserWindow | null = null
 const policyWindow: BrowserWindow | null = null
 const metadataStore: MetadataStore = createMetadataStore()
-
+export const authServerPort = 3456
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 
@@ -116,7 +117,9 @@ const installExtensions = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const installer = require("electron-devtools-installer")
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
+  // FIXME: electron v9 throw error, you can read more in https://github.com/zalmoxisus/redux-devtools-extension/issues/767
+  // const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
+  const extensions: string[] = []
 
   return Promise.all(
     // AUTO DISABLED - fix me if you like :)
@@ -133,6 +136,9 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
+    //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
+    contextIsolation: false,
     devTools: !productionEnvironment,
   },
 }
@@ -169,7 +175,12 @@ const createWindow = async () => {
   win.on("closed", () => {
     win = null
   })
-
+  // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+  //  There is almost always a better way to accomplish your task than using this module.
+  //  You can read more in https://github.com/electron/remote#migrating-from-remote
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+  require("@electron/remote/main").enable(win.webContents)
   new MetadataInitializer(metadataStore).init()
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
@@ -207,9 +218,7 @@ const createWindow = async () => {
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    win.loadURL(
+    void win.loadURL(
       url.format({
         pathname: path.join(__dirname, "index.html"),
         protocol: "file:",
@@ -219,25 +228,23 @@ const createWindow = async () => {
     autoupdate(win)
   } else {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    win.loadURL(`http://localhost:2003`)
+    void win.loadURL(`http://localhost:2003`)
     mockAutoupdate(win)
   }
 
+  // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
+  //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
   win.webContents.on("new-window", (event, href) => {
     event.preventDefault()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    shell.openExternal(href)
+    void shell.openExternal(href)
   })
 
   if (!productionEnvironment) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      win!.webContents.openDevTools()
+      if (win) {
+        win.webContents.openDevTools()
+      }
     })
   }
 
@@ -276,9 +283,13 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
       helpWindow = null
     })
 
+    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+    //  There is almost always a better way to accomplish your task than using this module.
+    //  You can read more in https://github.com/electron/remote#migrating-from-remote
     // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    helpWindow.loadURL(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+    require("@electron/remote/main").enable(helpWindow.webContents)
+    void helpWindow.loadURL(
       !productionEnvironment
         ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
         : url.format({
@@ -320,6 +331,12 @@ const createOpenWindowListener = (
         newWindow = null
       })
 
+      // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+      //  There is almost always a better way to accomplish your task than using this module.
+      //  You can read more in https://github.com/electron/remote#migrating-from-remote
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      require("@electron/remote/main").enable(newWindow.webContents)
       await newWindow.loadURL(
         !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
@@ -331,11 +348,11 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
+      // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
+      //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
       newWindow.webContents.on("new-window", (event, href) => {
         event.preventDefault()
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        shell.openExternal(href)
+        void shell.openExternal(href)
       })
     } else {
       newWindow.show()
@@ -375,33 +392,9 @@ createOpenWindowListener(
   policyWindow
 )
 
-const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
-  return await googleAuthWindow.loadURL(
-    !productionEnvironment
-      ? `http://localhost:2003/?mode=${Mode.ServerError}#${URL_MAIN.error}`
-      : url.format({
-          pathname: path.join(__dirname, "index.html"),
-          protocol: "file:",
-          slashes: true,
-          hash: URL_MAIN.error,
-          search: `?mode=${Mode.ServerError}`,
-        })
-  )
-}
-
-ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
+ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, (scope: Scope) => {
   const title = "Mudita Center - Google Auth"
   if (process.env.MUDITA_CENTER_SERVER_URL) {
-    const cb = (data: string) => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      ipcMain.callRenderer(
-        win as BrowserWindow,
-        GoogleAuthActions.GotCredentials,
-        data
-      )
-    }
-
     if (googleAuthWindow === null) {
       googleAuthWindow = new BrowserWindow(
         getWindowOptions({
@@ -411,19 +404,26 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
             process.env.NODE_ENV === "development" ? "default" : "hidden",
           title,
         })
-      )
-
-      googleAuthWindow.on("close", () => {
+      ).on("close", () => {
         googleAuthWindow = null
-        killAuthServer()
       })
 
-      if (await checkPort(authServerPort)) {
-        await createErrorWindow(googleAuthWindow)
-        return
+      const filter = {
+        urls: [`http://localhost:${authServerPort}/*`],
       }
+      const {
+        session: { webRequest },
+      } = googleAuthWindow.webContents
 
-      createAuthServer(cb)
+      webRequest.onBeforeRequest(filter, (details, callback) => {
+        const data = details.uploadData[0].bytes.toString()
+        void ipcMain.callRenderer(
+          win as BrowserWindow,
+          GoogleAuthActions.GotCredentials,
+          data
+        )
+        callback({})
+      })
 
       let scopeUrl: string
 
@@ -436,9 +436,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           break
       }
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`)
+      void googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`)
     } else {
       googleAuthWindow.show()
     }
@@ -448,15 +446,12 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
 })
 
 ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
-  killAuthServer()
   googleAuthWindow?.close()
 })
 
 ipcMain.answerRenderer(
   OutlookAuthActions.OpenWindow,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async (data: { authorizationUrl: string; scope: string }) => {
+  (data: { authorizationUrl: string; scope: string }) => {
     const title = "Mudita Center - Outlook Auth"
     const { authorizationUrl, scope } = data
     if (clientId) {
@@ -471,9 +466,7 @@ ipcMain.answerRenderer(
           })
         )
 
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        outlookAuthWindow.loadURL(authorizationUrl)
+        void outlookAuthWindow.loadURL(authorizationUrl)
 
         const {
           session: { webRequest },
@@ -489,17 +482,13 @@ ipcMain.answerRenderer(
             try {
               const tokenRequester = new TokenRequester()
               const tokens = await tokenRequester.requestTokens(code, scope)
-              // AUTO DISABLED - fix me if you like :)
-              // eslint-disable-next-line @typescript-eslint/no-floating-promises
-              ipcMain.callRenderer(
+              void ipcMain.callRenderer(
                 win as BrowserWindow,
                 OutlookAuthActions.GotCredentials,
                 tokens
               )
             } catch (error) {
-              // AUTO DISABLED - fix me if you like :)
-              // eslint-disable-next-line @typescript-eslint/no-floating-promises
-              ipcMain.callRenderer(
+              void ipcMain.callRenderer(
                 win as BrowserWindow,
                 OutlookAuthActions.GotCredentials,
                 { error }

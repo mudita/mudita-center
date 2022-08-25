@@ -137,9 +137,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   useEffect(() => {
     if (osVersion) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      initialCheck()
+      void initialCheck()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -255,9 +253,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }, [restoreDeviceState])
 
   const onRetry = () => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    updateAllIndexes()
+    void updateAllIndexes()
   }
 
   const shouldErrorSyncModalVisible = (): boolean => {

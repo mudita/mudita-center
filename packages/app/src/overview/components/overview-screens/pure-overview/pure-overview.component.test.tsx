@@ -23,14 +23,12 @@ import * as UpdatingForceModalFlowModule from "App/overview/components/updating-
 import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 
-jest.mock("electron", () => ({
-  remote: {
-    Menu: () => ({
-      popup: jest.fn(),
-      append: jest.fn(),
-    }),
-    MenuItem: () => jest.fn(),
-  },
+jest.mock("@electron/remote", () => ({
+  Menu: () => ({
+    popup: jest.fn(),
+    append: jest.fn(),
+  }),
+  MenuItem: () => jest.fn(),
 }))
 
 type Props = ComponentProps<typeof PureOverview>

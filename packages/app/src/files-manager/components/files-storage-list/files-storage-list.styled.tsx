@@ -13,18 +13,22 @@ import Avatar from "App/__deprecated__/renderer/components/core/avatar/avatar.co
 import Table, {
   Col,
   Row,
+  Labels,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 export const FilesTable = styled(Table)`
   flex: 1;
-  overflow: auto;
   min-height: 30rem;
+  overflow: initial !important;
   --columnsTemplate: 8.8rem 1fr 15.2rem 15.2rem auto;
   --columnsGap: 0;
 `
 export const FirstCol = styled(Col)`
   margin-left: 3.2rem;
+`
+export const LastEmptyCol = styled(Col)`
+  margin-left: 5.4rem;
 `
 export const FileIcon = styled(Avatar)`
   margin-left: 3.2rem;
@@ -35,6 +39,7 @@ export const FileIconHarmony = styled(Avatar)`
 `
 export const FilesStorageContainer = styled.div`
   height: 100%;
+  z-index: 0;
 `
 
 export const Actions = styled.div`
@@ -65,4 +70,13 @@ export const FilesListRow = styled(Row)`
       display: none;
     }
   }
+`
+
+export const FilesListLabels = styled(Labels)<{
+  filesManagerActionsEnabled: boolean
+}>`
+  grid-template-columns: var(--columnsTemplate);
+  top: ${({ filesManagerActionsEnabled }) =>
+    filesManagerActionsEnabled ? "14.5rem" : "5.7rem"};
+  z-index: 3 !important;
 `

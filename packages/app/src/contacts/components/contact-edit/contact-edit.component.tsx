@@ -162,9 +162,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       fields.primaryPhoneNumber?.length > 0 &&
       fields.secondaryPhoneNumber?.length > 0
     ) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      trigger()
+      void trigger()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps

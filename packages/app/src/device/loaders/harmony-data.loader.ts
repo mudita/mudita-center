@@ -17,9 +17,7 @@ type HarmonyData = Partial<HarmonyDeviceData>
 
 export class HarmonyDataLoader extends BaseLoader {
   async load(): Promise<HarmonyData> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(setDataSyncInitialized())
+    void store.dispatch(setDataSyncInitialized())
 
     const responses = await Promise.all([
       getDeviceInfo(),

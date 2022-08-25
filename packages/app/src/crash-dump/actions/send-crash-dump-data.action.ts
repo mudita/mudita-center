@@ -90,9 +90,7 @@ export const sendCrashDumpData = createAsyncThunk<
 
     await Promise.all([
       ...state.crashDump.data.files.map((path) => {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        dispatch(removeFile(path))
+        void dispatch(removeFile(path))
       }),
     ])
 

@@ -205,9 +205,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       result.source.index,
       result.destination.index
     )
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    updateTemplateOrder(updatedTemplates)
+    void updateTemplateOrder(updatedTemplates)
   }
   return (
     <>

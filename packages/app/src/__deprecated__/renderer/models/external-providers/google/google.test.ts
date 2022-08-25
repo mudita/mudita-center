@@ -54,9 +54,7 @@ jest.mock(
       ) => {
         switch (channel) {
           case GoogleAuthActions.GotCredentials:
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            callback(JSON.stringify(authData))
+            void callback(JSON.stringify(authData))
             return true
           default:
             return false

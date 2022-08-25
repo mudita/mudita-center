@@ -53,18 +53,10 @@ export const loadSettings = createAsyncThunk<void, void>(
         },
       })
     )
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(loadBackupData())
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(checkAppUpdateFlowToShow())
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(checkAppForcedUpdateFlowToShow())
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(checkCollectingDataModalToShow())
+    void dispatch(loadBackupData())
+    void dispatch(checkAppUpdateFlowToShow())
+    void dispatch(checkAppForcedUpdateFlowToShow())
+    void dispatch(checkCollectingDataModalToShow())
 
     return
   }
