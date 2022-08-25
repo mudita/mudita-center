@@ -284,6 +284,7 @@ describe("Select contact functionality", () => {
       selectedItems: {
         ...initialState.selectedItems,
         rows: ["1", "2"],
+        allItemsSelected: true,
       },
     })
   })
@@ -303,7 +304,30 @@ describe("Select contact functionality", () => {
     })
   })
 
-  test("Event: ContactsEvent.ResetAllItems removes all selected items", () => {
+  test("Event: ContactsEvent.ToggleItem set provided ids to `selectedItems.rows` and set `allItemsSelected` to `true` if rows length equal to `collection` length", () => {
+    expect(
+      contactsReducer(
+        {
+          ...initialState,
+          collection: ["1", "2"],
+        },
+        {
+          type: fulfilledAction(ContactsEvent.ToggleItem),
+          payload: ["1", "2"],
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      collection: ["1", "2"],
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: ["1", "2"],
+        allItemsSelected: true,
+      },
+    })
+  })
+
+  test("Event: ContactsEvent.ResetAllItems removes all selected items and `allItemsSelected` flag", () => {
     expect(
       contactsReducer(
         {
@@ -311,6 +335,7 @@ describe("Select contact functionality", () => {
           selectedItems: {
             ...initialState.selectedItems,
             rows: ["1", "2"],
+            allItemsSelected: true,
           },
         },
         {
@@ -323,11 +348,12 @@ describe("Select contact functionality", () => {
       selectedItems: {
         ...initialState.selectedItems,
         rows: [],
+        allItemsSelected: false,
       },
     })
   })
 
-  test("Event: CoreEvent.ChangeLocation removes all selected items", () => {
+  test("Event: CoreEvent.ChangeLocation removes all selected items and `allItemsSelected` flag", () => {
     expect(
       contactsReducer(
         {
@@ -335,6 +361,7 @@ describe("Select contact functionality", () => {
           selectedItems: {
             ...initialState.selectedItems,
             rows: ["1", "2"],
+            allItemsSelected: true,
           },
         },
         {
@@ -347,6 +374,7 @@ describe("Select contact functionality", () => {
       selectedItems: {
         ...initialState.selectedItems,
         rows: [],
+        allItemsSelected: false,
       },
     })
   })

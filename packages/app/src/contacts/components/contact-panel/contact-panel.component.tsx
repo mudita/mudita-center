@@ -61,7 +61,7 @@ interface ContactPanelProps {
   onManageButtonClick: () => void
   onNewButtonClick: () => void
   selectedContacts: string[]
-  allItemsSelected?: boolean
+  allItemsSelected: boolean
   toggleAll: () => void
   deleteContacts: (
     ids: ContactID[]
