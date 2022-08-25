@@ -26,9 +26,7 @@ export const unlockedDevice = createAsyncThunk(
       )
     }
 
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(loadDeviceData(state.device.deviceType))
+    void dispatch(loadDeviceData(state.device.deviceType))
 
     return
   }

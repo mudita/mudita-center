@@ -26,9 +26,7 @@ const resourceTypeMap: Record<OutboxEntryType, NotificationResourceType> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const newNotifications = (_: any, data: EntryChangesEvent[]): void => {
   data.forEach((item) => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(
+    void store.dispatch(
       pushNotification({
         id: uuid(),
         method: NotificationMethod.Layout,

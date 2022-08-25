@@ -57,17 +57,13 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
           error
         )}`
       )
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      openAuthorizationFailedModal()
+      void openAuthorizationFailedModal()
     }
   }
 
   const openAuthorizationFailedModal = async () => {
     await modalService.closeModal()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(
+    void modalService.openModal(
       <AuthorizationFailedModal
         provider={provider as ExternalProvider}
         onActionButtonClick={authorizeAndLoadCalendars}
@@ -77,25 +73,19 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
 
   const openSynchronizingLoaderModal = async () => {
     await modalService.closeModal()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(<SynchronizingEventsModal />)
+    void modalService.openModal(<SynchronizingEventsModal />)
   }
 
   const openSynchronizationFailedModal = async () => {
     await modalService.closeModal()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(<EventsSynchronizationFailedModal />)
+    void modalService.openModal(<EventsSynchronizationFailedModal />)
   }
 
   const openSynchronizationFinishedModal = async (
     importedEventsCount: number
   ) => {
     await closeModal()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(
+    void modalService.openModal(
       <EventsSynchronizationFinishedModal
         importedEventsCount={importedEventsCount}
         onActionButtonClick={closeModal}
@@ -107,9 +97,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
   const addImportedEvents = async (files: File[]) => {
     const calendarEvents = await parseIcs(files.map(({ path }) => path))
     await modalService.closeModal()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(
+    void modalService.openModal(
       <ImportEventsModal
         events={calendarEvents}
         onActionButtonClick={closeModal}
@@ -138,9 +126,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
     resetProvider()
 
     try {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      modalService.openModal(
+      void modalService.openModal(
         <SelectVendorModal
           onGoogleButtonClick={setGoogleProvider}
           onManualImportClick={manualImport}
@@ -148,9 +134,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
         />
       )
     } catch (error) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      openSynchronizationFailedModal()
+      void openSynchronizationFailedModal()
       logger.error(
         `Calendar: selection vendor throw error. Data: ${JSON.stringify(error)}`
       )
@@ -160,9 +144,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
 
   const openSelectCalendarsModal = async () => {
     await modalService.closeModal()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(
+    void modalService.openModal(
       <SelectCalendarsModal
         calendars={calendars}
         onSynchronize={synchronizeEvents}
@@ -172,17 +154,11 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
 
   const synchronizeEvents = async (calendar: Calendar) => {
     try {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      openSynchronizingLoaderModal()
+      void openSynchronizingLoaderModal()
       const newEvents = await delayResponse(loadEvents(calendar))
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      openSynchronizationFinishedModal(newEvents.length)
+      void openSynchronizationFinishedModal(newEvents.length)
     } catch (error) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      openSynchronizationFailedModal()
+      void openSynchronizationFailedModal()
       logger.error(
         `Calendar: synchronize throw error. Data: ${JSON.stringify(error)}`
       )
@@ -192,9 +168,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
 
   useEffect(() => {
     if (calendars.length && provider) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      openSelectCalendarsModal()
+      void openSelectCalendarsModal()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -202,9 +176,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
 
   useEffect(() => {
     if (provider) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      authorizeAndLoadCalendars()
+      void authorizeAndLoadCalendars()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
