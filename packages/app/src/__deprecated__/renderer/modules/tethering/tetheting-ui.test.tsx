@@ -15,10 +15,12 @@ import { Provider } from "react-redux"
 import store from "App/__deprecated__/renderer/store"
 
 jest.mock(
-  "@electron/remote",
+  "electron",
   jest.fn().mockImplementation(() => ({
-    dialog: {
-      showOpenDialog: jest.fn(),
+    remote: {
+      dialog: {
+        showOpenDialog: jest.fn(),
+      },
     },
   }))
 )
