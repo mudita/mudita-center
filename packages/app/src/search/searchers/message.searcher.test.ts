@@ -4,7 +4,9 @@
  */
 
 import elasticlunr from "elasticlunr"
+import { AppError } from "App/core/errors"
 import { Message } from "App/messages/dto"
+import { SearcherError } from "App/search/constants"
 import { MessageType } from "App/messages/constants"
 import { IndexFactory } from "App/index-storage/factories"
 import { DataIndex } from "App/index-storage/constants"
@@ -21,28 +23,42 @@ const messageMock: Message = {
   messageType: MessageType.INBOX,
 }
 
-const index = new IndexFactory().create()
-const subject = new MessageSearcher(index)
+describe("When index exists", () => {
+  const index = new IndexFactory().create()
+  const subject = new MessageSearcher(index)
 
-beforeAll(() => {
-  index.set(DataIndex.Message, indexMessageMock)
+  beforeAll(() => {
+    index.set(DataIndex.Message, indexMessageMock)
 
-  indexMessageMock.setRef("id")
-  indexMessageMock.addField("content")
-  indexMessageMock.addField("date")
-  indexMessageMock.addField("messageType")
-  indexMessageMock.addField("phoneNumber")
-  indexMessageMock.addField("threadId")
+    indexMessageMock.setRef("id")
+    indexMessageMock.addField("content")
+    indexMessageMock.addField("date")
+    indexMessageMock.addField("messageType")
+    indexMessageMock.addField("phoneNumber")
+    indexMessageMock.addField("threadId")
 
-  indexMessageMock.addDoc(messageMock)
-})
+    indexMessageMock.addDoc(messageMock)
+  })
 
-describe("Method: search", () => {
   test("returns hydrated `message` list if query match to string in fields", () => {
     expect(subject.search("Adipisicing")).toEqual([messageMock])
   })
 
   test("returns empty array if query doesn't match to string in fields", () => {
     expect(subject.search("Hello")).toEqual([])
+  })
+})
+
+describe("When index doesn't exists", () => {
+  const index = new IndexFactory().create()
+  const subject = new MessageSearcher(index)
+
+  test("throw an error with `SearcherError.SearcherDoesntExists` type", () => {
+    expect(() => subject.search("laborum")).toThrow(
+      new AppError(
+        SearcherError.SearcherDoesntExists,
+        `Index: ${DataIndex.Message} can't be found`
+      )
+    )
   })
 })

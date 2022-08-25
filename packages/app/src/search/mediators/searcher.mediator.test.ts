@@ -11,7 +11,24 @@ const messageSearcher = {
   search: jest.fn(),
 } as unknown as BaseSearcher
 
-const subject = new SearcherMediator(messageSearcher)
+const threadSearcher = {
+  search: jest.fn(),
+} as unknown as BaseSearcher
+
+const contactSearcher = {
+  search: jest.fn(),
+} as unknown as BaseSearcher
+
+const templateSearcher = {
+  search: jest.fn(),
+} as unknown as BaseSearcher
+
+const subject = new SearcherMediator(
+  messageSearcher,
+  threadSearcher,
+  contactSearcher,
+  templateSearcher
+)
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -24,6 +41,33 @@ describe("Method: searchByScope", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(messageSearcher.search).toHaveBeenCalledWith("Hello")
+    })
+  })
+
+  describe("Mediate to ThreadSearcher", () => {
+    test("class ThreadSearcher.search method with provided query", () => {
+      subject.searchByScope(DataIndex.Thread, "Hello")
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(threadSearcher.search).toHaveBeenCalledWith("Hello")
+    })
+  })
+
+  describe("Mediate to ContactSearcher", () => {
+    test("class ContactSearcher.search method with provided query", () => {
+      subject.searchByScope(DataIndex.Contact, "Hello")
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(contactSearcher.search).toHaveBeenCalledWith("Hello")
+    })
+  })
+
+  describe("Mediate to TemplateSearcher", () => {
+    test("class TemplateSearcher.search method with provided query", () => {
+      subject.searchByScope(DataIndex.Template, "Hello")
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(templateSearcher.search).toHaveBeenCalledWith("Hello")
     })
   })
 })

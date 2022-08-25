@@ -11,7 +11,12 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
-import { MessageSearcher } from "App/search/searchers"
+import {
+  MessageSearcher,
+  ThreadSearcher,
+  ContactSearcher,
+  TemplateSearcher,
+} from "App/search/searchers"
 import { SearcherMediator } from "App/search/mediators"
 import { SearchService } from "App/search/services/search.service"
 import { SearchController } from "App/search/controllers/search.controller"
@@ -37,7 +42,15 @@ export class SearchModule extends BaseModule {
     )
 
     const messageSearcher = new MessageSearcher(this.index)
-    const searcherMediator = new SearcherMediator(messageSearcher)
+    const threadSearcher = new ThreadSearcher(this.index)
+    const contactSearcher = new ContactSearcher(this.index)
+    const templateSearcher = new TemplateSearcher(this.index)
+    const searcherMediator = new SearcherMediator(
+      messageSearcher,
+      threadSearcher,
+      contactSearcher,
+      templateSearcher
+    )
     const searchService = new SearchService(searcherMediator)
     const searchController = new SearchController(searchService)
 
