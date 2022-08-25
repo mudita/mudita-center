@@ -3,16 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { createRef, Ref } from "react"
-import { InView } from "react-intersection-observer"
+import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-import Table, {
+import {
   Col,
   EmptyState,
   LoadingState,
-  Row,
-  TextPlaceholder,
   Actions,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { basicAvatarStyles } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
@@ -28,7 +25,6 @@ import Text from "App/__deprecated__/renderer/components/core/text/text.componen
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import {
-  ThreadRowContainer,
   InitialsAvatar,
   ThreadCol,
   ThreadDataWrapper,
@@ -55,6 +51,8 @@ import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/s
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { MessageType } from "App/messages/constants"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { Threads } from "App/messages/components/thread-list.component"
+import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 
 export const lightAvatarStyles = css`
   background-color: ${backgroundColor("row")};
@@ -65,26 +63,18 @@ export const AvatarPlaceholder = styled.div`
   margin-right: 1.2rem;
 `
 
-const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
-  min-width: 32rem;
-  flex: 1;
-  overflow: auto;
-  --columnsTemplate: auto 11.5rem 11.5rem 7.1rem;
-  --columnsGap: 0;
-  pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
-  ${Row} {
-    :hover {
-      ${InitialsAvatar} {
-        ${lightAvatarStyles};
-      }
-    }
-  }
-`
-
 export const SearchTitle = styled(Text)`
   padding: 0 3.2rem 1.7rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
 `
+export const SearchResultContainer = styled(ThreadBaseRow)`
+  :hover {
+    ${InitialsAvatar} {
+      background-color: ${backgroundColor("row")};
+    }
+  }
+`
+
 const messages = defineMessages({
   searchResultsTitle: {
     id: "module.messages.searchResultsTitle",
@@ -117,7 +107,6 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
   getContactByPhoneNumber,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
-  const tableRef = createRef<HTMLDivElement>()
 
   const emptyList = () => (
     <EmptyState
@@ -137,12 +126,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
         })}
       </SearchTitle>
 
-      <SelectableContacts
-        hideableColumnsIndexes={[2, 3, 4]}
-        scrollable={scrollable}
-        data-testid={MessagesSearchResultsTestIdsEnum.Table}
-        ref={tableRef}
-      >
+      <Threads scrollable={scrollable}>
         {resultsState === ResultState.Loaded &&
           (results.length
             ? results.map((thread) => {
@@ -160,12 +144,11 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
 
                 console.log("thread", thread)
 
-                const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-                  <ThreadRowContainer
+                return (
+                  <SearchResultContainer
+                    key={thread.id}
                     selected={false}
                     active={false}
-                    notNewConversation
-                    ref={ref}
                   >
                     <Col>
                       <InitialsAvatar
@@ -307,34 +290,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
                       </Actions>
                     </Col>
                     <ScrollAnchorContainer key={thread.id} active={false} />
-                  </ThreadRowContainer>
-                )
-
-                const placeholderRow = (ref: Ref<HTMLDivElement>) => {
-                  return (
-                    <Row ref={ref}>
-                      <Col />
-                      <Col>
-                        <AvatarPlaceholder />
-                        {phoneNumber && (
-                          <TextPlaceholder charsCount={phoneNumber.length} />
-                        )}
-                      </Col>
-                      <Col>
-                        {phoneNumber && (
-                          <TextPlaceholder charsCount={phoneNumber.length} />
-                        )}
-                      </Col>
-                    </Row>
-                  )
-                }
-                return (
-                  <InView key={thread.id}>
-                    {({ inView, ref }) => {
-                      console.log("inView", inView)
-                      return inView ? interactiveRow(ref) : placeholderRow(ref)
-                    }}
-                  </InView>
+                  </SearchResultContainer>
                 )
               })
             : emptyList())}
@@ -344,7 +300,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
             data-testid={MessagesSearchResultsTestIdsEnum.Loading}
           />
         )}
-      </SelectableContacts>
+      </Threads>
     </>
   )
 }
