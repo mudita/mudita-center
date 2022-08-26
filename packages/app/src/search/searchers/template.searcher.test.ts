@@ -38,6 +38,10 @@ describe("When index exists", () => {
     expect(subject.search("Test")).toEqual([templateMock])
   })
 
+  test("returns empty array if query contains only a part of the word", () => {
+    expect(subject.search("Te")).toEqual([])
+  })
+
   test("returns empty array if query doesn't match to string in fields", () => {
     expect(subject.search("Hello")).toEqual([])
   })
