@@ -36,7 +36,7 @@ export default function log(
         logger.info(message)
 
         if (logConfig === LogConfig.ReturnValue) {
-          logger.info(JSON.stringify(value, null, 2))
+          logger.info(JSON.stringify([value], null, 2))
         } else {
           logger.info(JSON.stringify(args, null, 2))
         }

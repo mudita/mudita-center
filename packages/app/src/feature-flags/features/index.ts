@@ -75,7 +75,7 @@ export const features: EnvironmentConfig = {
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadAttachContactEnabled]: {
     [Environment.Development]: true,

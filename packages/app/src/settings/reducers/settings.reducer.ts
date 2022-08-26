@@ -18,7 +18,6 @@ import {
   toggleTethering,
   toggleUpdateAvailable,
   toggleCollectionData,
-  checkUpdateAvailable,
   setConversionFormat,
   setConvert,
   setNonStandardAudioFilesConversion,
@@ -97,22 +96,12 @@ export const settingsReducer = createReducer<SettingsState>(
         state.tethering = action.payload
       })
 
-      .addCase(toggleUpdateAvailable.pending, (state) => {
-        state.loaded = false
-        state.loading = true
-      })
-      .addCase(toggleUpdateAvailable.fulfilled, (state, action) => {
-        state.loaded = true
-        state.loading = false
-        state.updateAvailable = action.payload
+      .addCase(toggleUpdateAvailable.pending, (state, action) => {
+        state.updateAvailable = action.meta.arg
       })
 
       .addCase(toggleCollectionData.fulfilled, (state, action) => {
         state.collectingData = action.payload
-      })
-
-      .addCase(checkUpdateAvailable.fulfilled, (state) => {
-        state.updateAvailable = undefined
       })
 
       .addCase(setDiagnosticTimestamp.fulfilled, (state, action) => {
