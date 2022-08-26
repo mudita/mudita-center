@@ -10,6 +10,7 @@ import {
   transitionTimingFunction,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import InputSearch from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
+import SelectionManager from "App/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
 
 const showToggleableElement = keyframes`
   from {
@@ -38,4 +39,10 @@ export const MessageFiltersWrapper = styled(FiltersWrapper)<{
   grid-auto-flow: column;
   grid-template-columns: 1fr;
   ${({ showSearchResults }) => showSearchResults && "border-bottom: none;"}
+`
+
+export const MessagesSelectionManager = styled(SelectionManager)`
+  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
+    ${transitionTimingFunction("easeInOut")};
+  grid-template-columns: 2.8rem 1fr;
 `

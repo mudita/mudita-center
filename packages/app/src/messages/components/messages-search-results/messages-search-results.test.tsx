@@ -64,7 +64,7 @@ describe("`MessagesSearchResults` component", () => {
     ).toBeInTheDocument()
   })
 
-  test("No results is rendered if resultState is Loaded and contactList is empty", () => {
+  test("No results is rendered if resultState is Loaded and results list is empty", () => {
     const { queryByTestId } = render({ resultsState: ResultState.Loaded })
     expect(
       queryByTestId(MessagesSearchResultsTestIdsEnum.Empty)

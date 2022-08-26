@@ -11,11 +11,11 @@ import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button
 import {
   ButtonWrapper,
   MessageFiltersWrapper,
+  MessagesSelectionManager,
 } from "App/messages/components/messages-panel.styled"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
-import { ContactSelectionManager } from "App/contacts/components/contact-panel/contact-panel.styled"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
@@ -71,7 +71,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   return (
     <MessageFiltersWrapper showSearchResults={showSearchResults}>
       {selectionMode ? (
-        <ContactSelectionManager
+        <MessagesSelectionManager
           selectedItemsNumber={selectedItemsCount}
           allItemsSelected={Boolean(allItemsSelected)}
           message={{ id: "module.messages.selectionNumber" }}
