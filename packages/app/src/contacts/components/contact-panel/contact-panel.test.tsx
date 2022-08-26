@@ -47,6 +47,7 @@ const defaultProps: Props = {
   editMode: false,
   searchValue: "",
   results: contacts,
+  allItemsSelected: false,
   onManageButtonClick: jest.fn(),
   onNewButtonClick: jest.fn(),
   toggleAll: jest.fn(),
