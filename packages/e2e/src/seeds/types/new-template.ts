@@ -3,5 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./contact.presenter"
-export * from "./tempates.presenter"
+export interface NewTemplate {
+  text: string
+  order?: number
+}

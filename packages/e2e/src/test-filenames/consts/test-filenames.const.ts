@@ -18,6 +18,7 @@ export enum TestFilesPaths {
   sarWindowCheckTest = "src/specs/overview/sar-window-check.e2e.ts",
   tosPrivacyLicenceWindowsCheckTest = "src/specs/settings/tos-privacy-licence-windows-check.e2e.ts",
   messageSendTest = "src/specs/messages/messages-send.e2e.ts",
+  contactsListTest = "src/specs/contacts/contacts-list.e2e.ts",
 }
 
 export const toRelativePath = (path: string) => `./${path}`
