@@ -40,6 +40,7 @@ export const initialState: ContactsState = {
   error: null,
   selectedItems: {
     rows: [],
+    allItemsSelected: false,
   },
 }
 
@@ -119,6 +120,7 @@ export const contactsReducer = createReducer<ContactsState>(
           selectedItems: {
             ...state.selectedItems,
             rows: action.payload,
+            allItemsSelected: true,
           },
         }
       })
@@ -128,6 +130,7 @@ export const contactsReducer = createReducer<ContactsState>(
           selectedItems: {
             ...state.selectedItems,
             rows: action.payload,
+            allItemsSelected: action.payload.length === state.collection.length,
           },
         }
       })
@@ -137,11 +140,18 @@ export const contactsReducer = createReducer<ContactsState>(
           selectedItems: {
             ...state.selectedItems,
             rows: [],
+            allItemsSelected: false,
           },
         }
       })
       .addCase(changeLocation, (state) => {
-        return { ...state, selectedItems: { rows: [] } }
+        return {
+          ...state,
+          selectedItems: {
+            rows: [],
+            allItemsSelected: false,
+          },
+        }
       })
   }
 )

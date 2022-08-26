@@ -6,7 +6,6 @@
 import { connect } from "react-redux"
 import { About } from "App/settings/components/about/about.component"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { getDeviceLatestVersion } from "App/settings/selectors"
 import {
   toggleUpdateAvailable,
   checkUpdateAvailable,
@@ -14,7 +13,7 @@ import {
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    latestVersion: getDeviceLatestVersion(state),
+    latestVersion: state.settings.latestVersion,
     currentVersion: state.settings.currentVersion,
     updateAvailable: state.settings.updateAvailable,
   }
