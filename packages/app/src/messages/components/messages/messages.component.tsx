@@ -592,7 +592,26 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
   }
   const results: { messages: Message[]; threads: Thread[] } = {
-    messages: [],
+    messages: [
+      {
+        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+        date: new Date("2019-10-18T11:27:15.256Z"),
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        threadId: "1",
+        phoneNumber: "123",
+        messageType: MessageType.INBOX,
+      },
+      {
+        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+        date: new Date("2019-10-18T11:45:35.112Z"),
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        threadId: "2",
+        phoneNumber: "4566",
+        messageType: MessageType.OUTBOX,
+      },
+    ],
     threads: [threads[0], threads[1]],
   }
   const handleSelectTemplate = (template: Template) => {
@@ -611,6 +630,20 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const openSearchResults = () => {
     setMessagesState(MessagesState.SearchResult)
+  }
+
+  const handleResultClick = (message: Message): void => {
+    const thread = threads.find((thread) => thread.id === message.threadId)
+    if (thread && activeThread?.id !== message.threadId) {
+      setMessagesState(MessagesState.List)
+      openThreadDetails(thread)
+
+      if (!thread.unread) {
+        return
+      }
+
+      markThreadsReadStatus([thread])
+    }
   }
   return (
     <>
@@ -657,15 +690,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
       {messagesState === MessagesState.SearchResult ? (
         <MessagesSearchResults
-          results={results.threads}
+          results={results.messages}
           resultsState={threadsState}
           searchValue={searchValue}
-          onDeleteClick={handleDeleteThread}
-          onContactClick={contactClick}
           getContactByPhoneNumber={getContactByPhoneNumber}
-          onToggleReadClick={handleToggleReadStatus}
-          onRowClick={handleThreadClick}
+          onRowClick={handleResultClick}
           language={language}
+          removeMessage={openDeleteMessageModal}
+          resendMessage={resendMessage}
         />
       ) : (
         <TableWithSidebarWrapper>

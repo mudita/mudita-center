@@ -20,7 +20,7 @@ import {
 import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { MessagesSearchResultsTestIdsEnum } from "App/messages/components/messages-search-results/messages-search-results-test-ids.enum"
 import { ResultState } from "App/contacts/reducers/contacts.interface"
-import { Thread } from "App/messages/dto"
+import { Message } from "App/messages/dto"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
@@ -41,7 +41,6 @@ import { Feature, flags } from "App/feature-flags"
 import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { AvatarSize } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
@@ -86,12 +85,11 @@ const messages = defineMessages({
 
 interface MessagesSearchResultProps extends Pick<Settings, "language"> {
   resultsState: ResultState
-  results: Thread[]
+  results: Message[]
   searchValue: string
-  onDeleteClick: (id: string) => void
-  onRowClick: (thread: Thread) => void
-  onToggleReadClick: (threads: Thread[]) => void
-  onContactClick: (phoneNumber: Thread["phoneNumber"]) => void
+  onRowClick: (message: Message) => void
+  removeMessage: (messageId: string) => void
+  resendMessage?: (messageId: string) => void
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
 }
 
@@ -101,9 +99,8 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
   searchValue,
   language,
   onRowClick,
-  onDeleteClick,
-  onToggleReadClick,
-  onContactClick,
+  removeMessage = noop,
+  resendMessage = noop,
   getContactByPhoneNumber,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
@@ -117,7 +114,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
       data-testid={MessagesSearchResultsTestIdsEnum.Empty}
     />
   )
-  console.log("resultsState", resultsState)
+
   return (
     <>
       <SearchTitle displayStyle={TextDisplayStyle.Headline4}>
@@ -126,27 +123,29 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
         })}
       </SearchTitle>
 
-      <Threads scrollable={scrollable}>
+      <Threads
+        scrollable={scrollable}
+        data-testid={MessagesSearchResultsTestIdsEnum.Table}
+      >
         {resultsState === ResultState.Loaded &&
           (results.length
-            ? results.map((thread) => {
-                const phoneNumber = thread.phoneNumber
-                const contact = getContactByPhoneNumber(thread.phoneNumber)
-                const contactCreated = contact !== undefined
+            ? results.map((message) => {
+                const phoneNumber = message.phoneNumber
+                const { id, date, content } = message
+                const contact = getContactByPhoneNumber(message.phoneNumber)
                 const isMessageFailed =
-                  thread.messageType === MessageType.FAILED
-                const handleRowClick = () => onRowClick(thread)
-                const handleDeleteClick = () => onDeleteClick(thread.id)
-                const handleToggleClick = () => {
-                  onToggleReadClick([thread])
-                }
-                const handleContactClick = () => onContactClick(phoneNumber)
-
-                console.log("thread", thread)
+                  message.messageType === MessageType.FAILED
+                const handleRowClick = () => onRowClick(message)
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                const remove = () => removeMessage(id)
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                const resend = () => resendMessage(id)
 
                 return (
                   <SearchResultContainer
-                    key={thread.id}
+                    key={id}
                     selected={false}
                     active={false}
                   >
@@ -170,33 +169,20 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
                           displayStyle={TextDisplayStyle.Label}
                           color="secondary"
                         >
-                          {isToday(thread.lastUpdatedAt)
-                            ? moment(thread.lastUpdatedAt).format("h:mm A")
-                            : moment(thread.lastUpdatedAt)
+                          {isToday(date)
+                            ? moment(date).format("h:mm A")
+                            : moment(date)
                                 .locale(language ?? "en")
                                 .format("ll")}
                         </Time>
-                        {flags.get(Feature.ReadAndUnreadMessages) ? (
-                          <LastMessageText
-                            unread={thread.unread}
-                            color="secondary"
-                            displayStyle={
-                              thread.unread
-                                ? TextDisplayStyle.Paragraph3
-                                : TextDisplayStyle.Paragraph4
-                            }
-                          >
-                            {thread?.messageSnippet}
-                          </LastMessageText>
-                        ) : (
-                          <LastMessageText
-                            unread={false}
-                            color="secondary"
-                            displayStyle={TextDisplayStyle.Paragraph4}
-                          >
-                            {thread?.messageSnippet}
-                          </LastMessageText>
-                        )}
+
+                        <LastMessageText
+                          unread={false}
+                          color="secondary"
+                          displayStyle={TextDisplayStyle.Paragraph4}
+                        >
+                          {content}
+                        </LastMessageText>
                       </ThreadDataWrapper>
                       {isMessageFailed && (
                         <WarningIconWrapper>
@@ -222,74 +208,31 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
                             />
                           }
                         >
-                          <HiddenButton
-                            labelMessage={{
-                              id: "component.dropdownCall",
-                              values: {
-                                name: contact?.firstName || phoneNumber,
-                              },
-                            }}
-                            Icon={IconType.Calls}
-                            onClick={noop}
-                            displayStyle={DisplayStyle.Dropdown}
-                            data-testid="dropdown-call"
-                            hide={
-                              !flags.get(Feature.MessagesCallFromThreadEnabled)
-                            }
-                          />
-                          {contactCreated ? (
+                          {flags.get(Feature.MessagesResendEnabled) &&
+                            isMessageFailed && (
+                              <ButtonComponent
+                                labelMessage={{
+                                  id: "module.messages.messageDropdownResend",
+                                }}
+                                Icon={IconType.Send}
+                                onClick={resend}
+                                displayStyle={DisplayStyle.Dropdown}
+                              />
+                            )}
+                          {flags.get(Feature.MessagesDeleteEnabled) && (
                             <ButtonComponent
                               labelMessage={{
-                                id: "module.messages.dropdownContactDetails",
-                              }}
-                              Icon={IconType.Contact}
-                              onClick={handleContactClick}
-                              displayStyle={DisplayStyle.Dropdown}
-                              data-testid="dropdown-contact-details"
-                            />
-                          ) : (
-                            <ButtonComponent
-                              labelMessage={{
-                                id: "module.messages.dropdownAddToContacts",
-                              }}
-                              Icon={IconType.NewContact}
-                              onClick={handleContactClick}
-                              displayStyle={DisplayStyle.Dropdown}
-                              data-testid="dropdown-add-to-contacts"
-                            />
-                          )}
-                          {flags.get(Feature.MessagesThreadDeleteEnabled) && (
-                            <ButtonComponent
-                              labelMessage={{
-                                id: "module.messages.dropdownDelete",
+                                id: "module.messages.messageDropdownDelete",
                               }}
                               Icon={IconType.Delete}
-                              onClick={handleDeleteClick}
+                              onClick={remove}
                               displayStyle={DisplayStyle.Dropdown}
-                              data-testid="dropdown-delete"
-                            />
-                          )}
-                          {flags.get(Feature.ReadAndUnreadMessages) && (
-                            <ButtonComponent
-                              labelMessage={{
-                                id: thread.unread
-                                  ? "module.messages.markAsRead"
-                                  : "module.messages.markAsUnread",
-                              }}
-                              Icon={
-                                thread.unread
-                                  ? IconType.MarkAsRead
-                                  : IconType.MarkAsUnread
-                              }
-                              onClick={handleToggleClick}
-                              displayStyle={DisplayStyle.Dropdown}
-                              data-testid="dropdown-mark-as-read"
                             />
                           )}
                         </Dropdown>
                       </Actions>
                     </Col>
-                    <ScrollAnchorContainer key={thread.id} active={false} />
+                    <ScrollAnchorContainer key={id} active={false} />
                   </SearchResultContainer>
                 )
               })
