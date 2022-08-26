@@ -19,7 +19,10 @@ export type NewContact = Omit<Contact, "id">
 export type ContactsState = PhoneContacts &
   Pick<StoreData, "resultState"> & {
     error: Error | string | null
-    selectedItems: { rows: string[] }
+    selectedItems: {
+      rows: string[]
+      allItemsSelected: boolean
+    }
   }
 export type Store = StoreData & StoreSelectors
 

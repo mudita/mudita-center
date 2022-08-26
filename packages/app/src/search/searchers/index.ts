@@ -4,4 +4,7 @@
  */
 
 export * from "./base.searcher"
+export * from "./contact.searcher"
 export * from "./message.searcher"
+export * from "./template.searcher"
+export * from "./thread.searcher"
