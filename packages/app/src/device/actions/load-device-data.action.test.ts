@@ -51,8 +51,9 @@ describe("Device type: MuditaPure", () => {
           networkName: "Network",
           batteryLevel: 50,
           memorySpace: {
-            full: 1024,
-            free: 1000,
+            usedUserSpace: 1024,
+            reservedSpace: 1000,
+            total: 2024,
           },
           osVersion: "7.7.7",
           serialNumber: "123",
@@ -89,8 +90,9 @@ describe("Device type: MuditaPure", () => {
             networkName: "Network",
             batteryLevel: 50,
             memorySpace: {
-              full: 1024,
-              free: 1000,
+              usedUserSpace: 1024,
+              reservedSpace: 1000,
+              total: 2024,
             },
             osVersion: "7.7.7",
             serialNumber: "123",
@@ -151,8 +153,9 @@ describe("Device type: MuditaHarmony", () => {
         .mockResolvedValueOnce({
           batteryLevel: 50,
           memorySpace: {
-            full: 1024,
-            free: 1000,
+            usedUserSpace: 1024,
+            reservedSpace: 1000,
+            total: 2024,
           },
           osVersion: "7.7.7",
           serialNumber: "123",
@@ -178,8 +181,9 @@ describe("Device type: MuditaHarmony", () => {
           payload: {
             batteryLevel: 50,
             memorySpace: {
-              full: 1024,
-              free: 1000,
+              usedUserSpace: 1024,
+              reservedSpace: 1000,
+              total: 2024,
             },
             osVersion: "7.7.7",
             serialNumber: "123",

@@ -20,6 +20,7 @@ import {
 import { FilesManagerPanelTestIds } from "App/files-manager/components/files-manager-panel/files-manager-panel-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import FilesManagerSearchInput from "App/files-manager/components/files-manager-search-input/files-manager-search-input"
 
 const messages = defineMessages({
   uploadButton: { id: "module.filesManager.uploadButton" },
@@ -34,6 +35,8 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   onDeleteClick,
   toggleAll,
   resetRows,
+  searchValue,
+  onSearchValueChange,
 }) => {
   const selectedItemsCount = selectedFiles.length
   const selectionMode = selectedItemsCount > 0
@@ -47,7 +50,7 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
               data-testid={FilesManagerPanelTestIds.SelectionManager}
               selectedItemsNumber={selectedItemsCount}
               allItemsSelected={Boolean(allItemsSelected)}
-              message={{ id: "module.templates.selectionNumber" }}
+              message={{ id: "module.filesManager.selectionNumber" }}
               checkboxSize={Size.Medium}
               onToggle={allItemsSelected ? resetRows : toggleAll}
               buttons={[
@@ -61,15 +64,22 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
               ]}
             />
           ) : (
-            <ButtonWrapper>
-              <Button
-                data-testid={FilesManagerPanelTestIds.Button}
-                displayStyle={DisplayStyle.Primary}
-                labelMessage={messages.uploadButton}
-                onClick={onUploadFile}
-                disabled={disabled}
+            <>
+              <FilesManagerSearchInput
+                data-testid={FilesManagerPanelTestIds.SearchInput}
+                searchValue={searchValue}
+                onSearchValueChange={onSearchValueChange}
               />
-            </ButtonWrapper>
+              <ButtonWrapper>
+                <Button
+                  data-testid={FilesManagerPanelTestIds.Button}
+                  displayStyle={DisplayStyle.Primary}
+                  labelMessage={messages.uploadButton}
+                  onClick={onUploadFile}
+                  disabled={disabled}
+                />
+              </ButtonWrapper>
+            </>
           )}
         </Panel>
       </PanelWrapper>

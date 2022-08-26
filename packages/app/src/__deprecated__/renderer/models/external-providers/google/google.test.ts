@@ -54,9 +54,7 @@ jest.mock(
       ) => {
         switch (channel) {
           case GoogleAuthActions.GotCredentials:
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            callback(JSON.stringify(authData))
+            void callback(JSON.stringify(authData))
             return true
           default:
             return false
@@ -165,16 +163,11 @@ test("calendars api error from google is caught properly", async () => {
     .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
     .reply(404)
 
-  try {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/await-thenable
-    await store.dispatch.google.getCalendars()
-  } catch (error) {
-    expect(error).toBeInstanceOf(Error)
-    expect(error).toStrictEqual(
-      new Error("Request failed with status code 404")
-    )
-  }
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  await expect(store.dispatch.google.getCalendars()).rejects.toThrowError(
+    new Error("Request failed with status code 404")
+  )
 })
 
 test("empty calendars list from api is caught properly", async () => {
@@ -182,14 +175,11 @@ test("empty calendars list from api is caught properly", async () => {
     .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
     .reply(200)
 
-  try {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/await-thenable
-    await store.dispatch.google.getCalendars()
-  } catch (error) {
-    expect(error).toBeInstanceOf(Error)
-    expect(error).toStrictEqual(new Error("No calendars found"))
-  }
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  await expect(store.dispatch.google.getCalendars()).rejects.toThrowError(
+    new Error("No calendars found")
+  )
 })
 
 test("events from google are received properly", async () => {
@@ -283,14 +273,9 @@ test("events from google are not received if no calendar is chosen", async () =>
       items: mockedGoogleEvents,
     })
 
-  try {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/await-thenable
-    await store.dispatch.google.getEvents()
-  } catch (error) {
-    expect(error).toBeInstanceOf(Error)
-    expect(error).toStrictEqual(new Error("No calendar is selected"))
-  }
+  await expect(store.dispatch.google.getEvents()).rejects.toThrowError(
+    new Error("No calendar is selected")
+  )
 })
 
 test("events api error from google is caught properly", async () => {
@@ -309,16 +294,9 @@ test("events api error from google is caught properly", async () => {
     )
     .reply(404)
 
-  try {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/await-thenable
-    await store.dispatch.google.getEvents("calendar-id-123")
-  } catch (error) {
-    expect(error).toBeInstanceOf(Error)
-    expect(error).toStrictEqual(
-      new Error("Request failed with status code 404")
-    )
-  }
+  await expect(
+    store.dispatch.google.getEvents("calendar-id-123")
+  ).rejects.toThrowError(new Error("Request failed with status code 404"))
 })
 
 test("requestWrapper handles 401 error properly", async () => {

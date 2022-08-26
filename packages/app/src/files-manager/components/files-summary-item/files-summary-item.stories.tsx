@@ -11,10 +11,10 @@ import { DiskSpaceCategory } from "App/files-manager/components/files-manager/fi
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const fakeData: DiskSpaceCategory = {
-  type: DiskSpaceCategoryType.UsedSpace,
+  type: DiskSpaceCategoryType.System,
   color: "#DFEFDE",
   icon: IconType.MuditaLogo,
-  label: "Used space",
+  label: "System",
   size: 62914560,
 }
 

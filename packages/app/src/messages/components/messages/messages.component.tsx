@@ -205,15 +205,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
     if (draftMessage) {
       if (content && content !== draftMessage.content) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        updateMessage({ ...draftMessage, content })
+        void updateMessage({ ...draftMessage, content })
       }
 
       if (!content.length) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        deleteMessage(draftMessage.id)
+        void deleteMessage(draftMessage.id)
         updateFieldState("draftDeleting", true)
         setDraftMessage(undefined)
         setContent("")
@@ -527,9 +523,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   // Delete messages functionality
   const handleDeleteMessage = () => {
     assert(messageToDelete)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    deleteMessage(messageToDelete)
+    void deleteMessage(messageToDelete)
     setMessageToDelete(undefined)
 
     updateFieldState("messageDeletingConfirmation", false)

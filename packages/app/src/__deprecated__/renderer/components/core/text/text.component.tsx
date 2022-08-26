@@ -173,7 +173,7 @@ const Text: FunctionComponent<TextProps> = ({
     className={className}
     as={element || mapping[displayStyle]}
     displayStyle={displayStyle}
-    data-testId={testId}
+    data-testid={testId}
     {...rest}
     color={color}
   >

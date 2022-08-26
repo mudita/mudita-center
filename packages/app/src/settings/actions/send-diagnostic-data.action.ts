@@ -44,9 +44,7 @@ export const sendDiagnosticData = createAsyncThunk<void, void>(
 
     const nowTimestamp = Date.now()
 
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(setDiagnosticTimestamp(nowTimestamp))
+    void dispatch(setDiagnosticTimestamp(nowTimestamp))
 
     return
   }

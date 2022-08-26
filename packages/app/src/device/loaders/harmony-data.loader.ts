@@ -17,9 +17,7 @@ type HarmonyData = Partial<HarmonyDeviceData>
 
 export class HarmonyDataLoader extends BaseLoader {
   async load(): Promise<HarmonyData> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    store.dispatch(setDataSyncInitialized())
+    void store.dispatch(setDataSyncInitialized())
 
     const responses = await Promise.all([
       getDeviceInfo(),
@@ -52,10 +50,10 @@ export class HarmonyDataLoader extends BaseLoader {
       memorySpace: {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        full: storageInfo.data!.capacity,
+        usedUserSpace: storageInfo.data!.usedUserSpace,
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        free: storageInfo.data!.available,
+        reservedSpace: storageInfo.data!.reservedSpace,
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         total: storageInfo.data!.totalSpace,

@@ -59,8 +59,8 @@ const dataMock = {
     osVersion: "7.7.7",
     level: 50,
     serialNumber: "123",
-    capacity: 1024,
-    available: 1000,
+    usedUserSpace: 1024,
+    reservedSpace: 1000,
     totalSpace: 16000000000,
   },
 }
@@ -93,7 +93,11 @@ describe("PureDataLoader", () => {
       osVersion: "7.7.7",
       batteryLevel: 50,
       serialNumber: "123",
-      memorySpace: { full: 1024, free: 1000, total: 16000000000 },
+      memorySpace: {
+        usedUserSpace: 1024,
+        reservedSpace: 1000,
+        total: 16000000000,
+      },
       networkLevel: "1",
       networkName: "Network",
       simCards: [
@@ -116,9 +120,9 @@ describe("PureDataLoader", () => {
   test("throw error if one of the request returns failed status", () => {
     requestStatusFactory(RequestResponseStatus.Error)
 
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    expect(async () => await subject.load()).rejects.toThrowError(errorMock)
+    void expect(async () => await subject.load()).rejects.toThrowError(
+      errorMock
+    )
 
     expect(getDeviceInfo).toHaveBeenCalled()
     expect(getNetworkInfo).toHaveBeenCalled()

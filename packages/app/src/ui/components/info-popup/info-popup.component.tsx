@@ -21,7 +21,7 @@ const InfoPopupWrapper = styled.div`
   padding: 2.4rem;
   box-shadow: 0 0.2rem 3rem rgba(0, 0, 0, 0.0793816);
   border-radius: 0.4rem;
-  z-index: 1;
+  z-index: 2;
 `
 
 interface Props {

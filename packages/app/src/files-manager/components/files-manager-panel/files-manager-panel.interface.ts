@@ -4,6 +4,8 @@
  */
 
 export interface FilesManagerPanelProps {
+  searchValue: string
+  onSearchValueChange: (value: string) => void
   onUploadFile: () => void
   disabled: boolean
   toggleAll: () => void

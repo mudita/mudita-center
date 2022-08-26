@@ -17,9 +17,9 @@ const mockDeviceInfo: DeviceInfo = {
   batteryLevel: "35",
   batteryState: "1",
   currentRTCTime: "3000",
-  fsFree: "13727",
-  fsFreePercent: "99",
-  fsTotal: "13913",
+  systemReservedSpace: "13727",
+  usedUserSpace: "99",
+  deviceSpaceTotal: "13913",
   gitBranch: "EGD-4318_enable_service_desktop",
   gitRevision: "4973bab",
   gitTag: "release-0.46.1-33-g4973babd",
@@ -58,10 +58,10 @@ test("returns required storage info", async () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(result.data).toMatchInlineSnapshot(`
     Object {
-      "available": 14393802752,
-      "capacity": 14588837888,
       "categories": Array [],
-      "totalSpace": 16000000000,
+      "reservedSpace": 14393802752,
+      "totalSpace": 14588837888,
+      "usedUserSpace": 103809024,
     }
   `)
 })

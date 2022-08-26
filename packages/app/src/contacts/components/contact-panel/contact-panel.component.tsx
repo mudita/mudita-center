@@ -61,7 +61,7 @@ interface ContactPanelProps {
   onManageButtonClick: () => void
   onNewButtonClick: () => void
   selectedContacts: string[]
-  allItemsSelected?: boolean
+  allItemsSelected: boolean
   toggleAll: () => void
   deleteContacts: (
     ids: ContactID[]
@@ -108,21 +108,15 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContact)
     const onDelete = async () => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      modalService.openModal(
+      void modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
       const { payload } = await delayResponse(deleteContacts(selectedContacts))
       if (payload) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        modalService.openModal(<ErrorDataModal />, true)
+        void modalService.openModal(<ErrorDataModal />, true)
       } else {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        modalService.closeModal()
+        void modalService.closeModal()
       }
       resetRows()
     }
@@ -140,9 +134,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       onDelete,
       onClose: resetRows,
     }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(<DeleteModal {...modalConfig} />)
+    void modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   return (
     <PanelWrapper showSearchResults={showSearchResults}>
