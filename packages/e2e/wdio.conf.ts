@@ -1,9 +1,17 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
-import { spawnSync } from "child_process"
+import { afterDataSeed, seedData } from "./src/seeds"
+import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
+import { CleanUpFactory } from "./src/cleanup"
 
 dotenv.config()
 
-export const config: WebdriverIO.Config = {
+export const config: Options.Testrunner = {
   //
   // ====================
   // Runner Configuration
@@ -54,25 +62,25 @@ export const config: WebdriverIO.Config = {
   // will be called from there.
   //
   specs: [
-    "./src/specs/overview/display-initial-os-version.e2e.ts",
-    "./src/specs/overview/check-for-update.e2e.ts",
-    "./src/specs/overview/device-update.e2e.ts",
-    "./src/specs/settings/mc-version-check.e2e.ts",
-    "./src/specs/contacts/contacts-in-app-navigation.e2e.ts",
-    "./src/specs/messages/messages-in-app-navigation.e2e.ts",
-    "./src/specs/news/news-in-app-navigation.e2e.ts",
-    "./src/specs/overview/overview-in-app-navigation.e2e.ts",
-    "./src/specs/settings/settings-in-app-navigation.e2e.ts",
-    "./src/specs/help/help-window-check.e2e.ts",
-    "./src/specs/overview/sar-window-check.e2e.ts",
-    "./src/specs/settings/tos-privacy-licence-windows-check.e2e",
-    "./src/specs/messages/messages-send.e2e.ts",
+    toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+    toRelativePath(TestFilesPaths.checkForUpdateTest),
+    toRelativePath(TestFilesPaths.deviceUpdateTest),
+    toRelativePath(TestFilesPaths.mcVersionCheckTest),
+    toRelativePath(TestFilesPaths.contactsInAppNavigationTest),
+    toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
+    toRelativePath(TestFilesPaths.newsInAppNavigationTest),
+    toRelativePath(TestFilesPaths.overviewInAppNavigationTest),
+    toRelativePath(TestFilesPaths.settingsInAppNavigationTest),
+    toRelativePath(TestFilesPaths.helpWindowCheckTest),
+    toRelativePath(TestFilesPaths.sarWindowCheckTest),
+    toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
+    toRelativePath(TestFilesPaths.messageSendTest),
   ],
   suites: {
     update: [
-      "./src/specs/overview/display-initial-os-version.e2e.ts",
-      "./src/specs/overview/check-for-update.e2e.ts",
-      "./src/specs/overview/device-update.e2e.ts",
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+      toRelativePath(TestFilesPaths.checkForUpdateTest),
+      toRelativePath(TestFilesPaths.deviceUpdateTest),
     ],
   },
   // Patterns to exclude.
@@ -224,10 +232,7 @@ export const config: WebdriverIO.Config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    */
   onPrepare: async function (_config, _capabilities) {
-    await spawnSync("node", ["dist/src/bin/cli.js"], {
-      cwd: process.cwd(),
-      stdio: "inherit",
-    })
+    await new CleanUpFactory().create().cleanUpDevice()
   },
   /**
    * Gets executed before a worker process is spawned and can be used to initialise specific service
@@ -238,8 +243,7 @@ export const config: WebdriverIO.Config = {
    * @param  {[type]} args     object that will be merged with the main configuration once worker is initialised
    * @param  {[type]} execArgv list of string arguments passed to the worker process
    */
-  // onWorkerStart: function (cid, caps, specs, args, execArgv) {
-  // },
+  // onWorkerStart: function (cid, caps, specs, args, execArgv) {},
   /**
    * Gets executed just before initialising the webdriver session and test framework. It allows you
    * to manipulate configurations depending on the capability or spec.
@@ -248,8 +252,9 @@ export const config: WebdriverIO.Config = {
    * @param {Array.<String>} specs List of spec file paths that are to be run
    * @param {String} cid worker id (e.g. 0-0)
    */
-  // beforeSession: function (config, capabilities, specs, cid) {
-  // },
+  beforeSession: async function (_config, _capabilities, specs, _cid) {
+    await seedData(specs[0])
+  },
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
@@ -332,8 +337,9 @@ export const config: WebdriverIO.Config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
    */
-  // afterSession: function (config, capabilities, specs) {
-  // },
+  afterSession: async function (_config, _capabilities, _specs) {
+    await afterDataSeed()
+  },
   /**
    * Gets executed after all workers got shut down and the process is about to exit. An error
    * thrown in the onComplete hook will result in the test run failing.
