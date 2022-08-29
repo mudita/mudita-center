@@ -3,20 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { lightAvatarStyles } from "App/contacts/components/contact-list/contact-list.component"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { Feature } from "App/feature-flags/constants/feature.enum"
 import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
-import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import ThreadRowName from "App/messages/components/thread-row-name"
 import { MessageType } from "App/messages/constants"
 import { Thread } from "App/messages/dto"
 import { Settings } from "App/settings/dto"
-import Avatar, {
-  AvatarSize,
-} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
+import { AvatarSize } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
@@ -30,19 +26,9 @@ import {
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
-import {
-  animatedOpacityActiveStyles,
-  animatedOpacityStyles,
-} from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
-import {
-  DataWrapper,
-  Message,
-  Time,
-} from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
+import { Time } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
-import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
 import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   RowStatus,
@@ -54,99 +40,22 @@ import moment from "moment"
 import React from "react"
 import { defineMessages } from "react-intl"
 import { ListRowProps } from "react-virtualized"
-import styled, { css } from "styled-components"
+import {
+  ThreadRowContainer,
+  Checkbox,
+  InitialsAvatar,
+  ThreadCol,
+  NewThreadWrapper,
+  ThreadDataWrapper,
+  LastMessageText,
+  WarningIconWrapper,
+} from "App/messages/components/thread-row.styled"
 
 const messages = defineMessages({
   dropdownTogglerTooltipDescription: {
     id: "component.dropdownTogglerTooltipDescription",
   },
 })
-
-const checkboxShowedStyles = css`
-  margin-left: 4.4rem;
-  margin-right: 2.8rem;
-  display: block;
-`
-
-export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
-  ${({ visible }) => (visible ? checkboxShowedStyles : "display: none;")};
-`
-
-const dotStyles = css`
-  &:after {
-    display: block;
-    content: "";
-    position: absolute;
-    top: 0.8rem;
-    margin-left: -1.4rem;
-    height: 0.6rem;
-    width: 0.6rem;
-    border-radius: 50%;
-    background-color: ${backgroundColor("activity")};
-  }
-`
-
-const ThreadCol = styled(Col)`
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
-
-export const InitialsAvatar = styled(Avatar)`
-  margin-right: 1.6rem;
-  margin-left: 3.2rem;
-`
-
-const LastMessageText = styled(Message)<{ unread?: boolean }>`
-  padding-left: ${({ unread }) => (unread ? "1.4rem" : "0")};
-  position: relative;
-  ${({ unread }) => unread && dotStyles};
-`
-
-const activeRowStyles = css`
-  ${InitialsAvatar} {
-    ${lightAvatarStyles};
-  }
-`
-const hoverRowStyles = css`
-  :hover {
-    background-color: ${backgroundColor("minor")};
-    ${Checkbox} {
-      ${animatedOpacityActiveStyles};
-      ${checkboxShowedStyles};
-    }
-
-    ${InitialsAvatar} {
-      ${flags.get(Feature.MessagesThreadDeleteEnabled)
-        ? css`
-            display: none;
-            ${animatedOpacityStyles}
-          `
-        : lightAvatarStyles}
-    }
-  }
-`
-
-const ThreadRowContainer = styled(ThreadBaseRow)<{
-  notNewConversation: boolean
-}>`
-  ${({ active }) => active && activeRowStyles};
-  ${({ notNewConversation }) => notNewConversation && hoverRowStyles};
-`
-
-const ThreadDataWrapper = styled(DataWrapper)<{
-  sidebarOpened: boolean
-  isMessageFailed: boolean
-}>`
-  margin-right: ${({ sidebarOpened, isMessageFailed }) =>
-    sidebarOpened && !isMessageFailed ? "4rem" : "0"};
-`
-const WarningIconWrapper = styled.div`
-  margin-right: 1.7rem;
-`
-
-const NewThreadWrapper = styled.div``
 
 type SelectHook = Pick<UseTableSelect<Thread>, "noneRowsSelected">
 

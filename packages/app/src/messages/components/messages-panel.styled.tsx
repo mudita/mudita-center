@@ -4,12 +4,13 @@
  */
 
 import styled, { keyframes } from "styled-components"
-import InputText from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { FiltersWrapper } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import {
   transitionTime,
   transitionTimingFunction,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import InputSearch from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
+import SelectionManager from "App/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
 
 const showToggleableElement = keyframes`
   from {
@@ -25,14 +26,23 @@ export const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `
 
-export const SearchInput = styled(InputText)`
+export const MessagesInputSearch = styled(InputSearch)`
   animation: ${showToggleableElement} ${transitionTime("veryQuick")} forwards
     ${transitionTimingFunction("standard")};
   width: 28rem;
 `
 
-export const MessageFiltersWrapper = styled(FiltersWrapper)`
+export const MessageFiltersWrapper = styled(FiltersWrapper)<{
+  showSearchResults: boolean
+}>`
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: 1fr;
+  ${({ showSearchResults }) => showSearchResults && "border-bottom: none;"}
+`
+
+export const MessagesSelectionManager = styled(SelectionManager)`
+  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
+    ${transitionTimingFunction("easeInOut")};
+  grid-template-columns: 2.8rem 1fr;
 `
