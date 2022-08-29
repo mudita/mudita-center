@@ -42,6 +42,7 @@ import { Contact } from "App/contacts/dto"
 import { ContactAttachmentPresenter } from "App/contacts/presenters"
 import { useLoadingState } from "App/ui"
 import { Feature, flags } from "App/feature-flags"
+import MessagesSearchResults from "App/messages/components/messages-search-results/messages-search-results.component"
 
 const messages = defineMessages({
   emptyListTitle: {
@@ -74,13 +75,12 @@ enum MessagesState {
   List,
   ThreadDetails,
   NewMessage,
+  SearchResult,
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
   threadsState,
   receivers,
-  searchValue,
-  changeSearchValue = noop,
   deleteThreads = noop,
   threads,
   getActiveMessagesByThreadIdSelector,
@@ -132,7 +132,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const debouncedContent = useDebounce(content, 1000)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+  const [searchValue, setSearchValue] = useState<string>("")
   const allItemsSelected = threads.length === selectedItems.rows.length
+
+  useEffect(() => {
+    if (searchValue === "") {
+      setMessagesState(MessagesState.List)
+    }
+  }, [searchValue])
 
   useEffect(() => {
     messageLayoutNotifications
@@ -584,7 +591,29 @@ const Messages: FunctionComponent<MessagesProps> = ({
       setActiveThread(undefined)
     }
   }
-
+  const results: { messages: Message[]; threads: Thread[] } = {
+    messages: [
+      {
+        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+        date: new Date("2019-10-18T11:27:15.256Z"),
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        threadId: "1",
+        phoneNumber: "123",
+        messageType: MessageType.INBOX,
+      },
+      {
+        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+        date: new Date("2019-10-18T11:45:35.112Z"),
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        threadId: "2",
+        phoneNumber: "4566",
+        messageType: MessageType.OUTBOX,
+      },
+    ],
+    threads: [threads[0], threads[1]],
+  }
   const handleSelectTemplate = (template: Template) => {
     setContent(template.text)
     closeAttachTemplateModal()
@@ -592,6 +621,29 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const handleToggleAllCheckboxes = () => {
     allItemsSelected ? resetItems() : selectAllItems()
+  }
+
+  const handleSearchSelect = (thread: Thread) => {
+    setActiveThread(thread)
+    setMessagesState(MessagesState.ThreadDetails)
+  }
+
+  const openSearchResults = () => {
+    setMessagesState(MessagesState.SearchResult)
+  }
+
+  const handleResultClick = (message: Message): void => {
+    const thread = threads.find((thread) => thread.id === message.threadId)
+    if (thread && activeThread?.id !== message.threadId) {
+      setMessagesState(MessagesState.List)
+      openThreadDetails(thread)
+
+      if (!thread.unread) {
+        return
+      }
+
+      markThreadsReadStatus([thread])
+    }
   }
   return (
     <>
@@ -624,79 +676,96 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
       <MessagesPanel
         searchValue={searchValue}
-        onSearchValueChange={changeSearchValue}
+        onSearchValueChange={setSearchValue}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
         selectedIds={selectedItems.rows}
         allItemsSelected={allItemsSelected}
         toggleAll={handleToggleAllCheckboxes}
         onDeleteClick={handleDeleteThreads}
+        results={results}
+        onSelect={handleSearchSelect}
+        onSearchEnterClick={openSearchResults}
+        showSearchResults={messagesState === MessagesState.SearchResult}
       />
-      <TableWithSidebarWrapper>
-        {threads.length === 0 && messagesState === MessagesState.List ? (
-          <EmptyState
-            data-testid={MessagesTestIds.EmptyThreadListState}
-            title={messages.emptyListTitle}
-            description={messages.emptyListDescription}
-          />
-        ) : (
-          <ThreadList
-            selectedItems={selectedItems}
-            toggleItem={toggleItem}
-            data-testid={MessagesTestIds.ThreadList}
-            language={language}
-            activeThread={activeThread}
-            threads={getThreads()}
-            onThreadClick={handleThreadClick}
-            getContactByPhoneNumber={getContactByPhoneNumber}
-            onDeleteClick={handleDeleteThread}
-            onToggleReadStatus={handleToggleReadStatus}
-            onContactClick={contactClick}
-            loadMoreRows={loadMoreRows}
-            newConversation={mockThread.phoneNumber}
-          />
-        )}
-        {messagesState === MessagesState.ThreadDetails && activeThread && (
-          <ThreadDetails
-            data-testid={MessagesTestIds.ThreadDetails}
-            content={content}
-            receiver={getViewReceiver(activeThread)}
-            messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
-            currentlyDeletingMessageId={currentlyDeletingMessageId}
-            contactCreated={isContactCreatedByPhoneNumber(
-              activeThread.phoneNumber
-            )}
-            onAttachContactClick={openAttachContactModal}
-            onContactClick={handleContactClick}
-            onDeleteClick={handleDeleteTmpThreadClick}
-            onMarkAsUnreadClick={markAsUnread}
-            onClose={closeSidebars}
-            onSendClick={handleSendClick}
-            onContentChange={handleContentChange}
-            messageLayoutNotifications={messageLayoutNotifications}
-            removeLayoutNotification={removeLayoutNotification}
-            onMessageRead={markAsRead}
-            onMessageDelete={openDeleteMessageModal}
-            resendMessage={resendMessage}
-            onAttachTemplateClick={openAttachTemplateModal}
-          />
-        )}
-        {messagesState === MessagesState.NewMessage && (
-          <NewMessageForm
-            data-testid={MessagesTestIds.NewMessageForm}
-            content={content}
-            receivers={receivers}
-            onContentChange={handleContentChange}
-            onSendClick={handleNewMessageSendClick}
-            onPhoneNumberSelect={handlePhoneNumberSelect}
-            onReceiverSelect={handleReceiverSelect}
-            onClose={closeSidebars}
-            onAttachContactClick={openAttachContactModal}
-            onBrowseContactsClick={openBrowseContactModal}
-            onAttachTemplateClick={openAttachTemplateModal}
-          />
-        )}
-      </TableWithSidebarWrapper>
+      {messagesState === MessagesState.SearchResult ? (
+        <MessagesSearchResults
+          results={results.messages}
+          resultsState={threadsState}
+          searchValue={searchValue}
+          getContactByPhoneNumber={getContactByPhoneNumber}
+          onRowClick={handleResultClick}
+          language={language}
+          removeMessage={openDeleteMessageModal}
+          resendMessage={resendMessage}
+        />
+      ) : (
+        <TableWithSidebarWrapper>
+          {threads.length === 0 && messagesState === MessagesState.List ? (
+            <EmptyState
+              data-testid={MessagesTestIds.EmptyThreadListState}
+              title={messages.emptyListTitle}
+              description={messages.emptyListDescription}
+            />
+          ) : (
+            <ThreadList
+              selectedItems={selectedItems}
+              toggleItem={toggleItem}
+              data-testid={MessagesTestIds.ThreadList}
+              language={language}
+              activeThread={activeThread}
+              threads={getThreads()}
+              onThreadClick={handleThreadClick}
+              getContactByPhoneNumber={getContactByPhoneNumber}
+              onDeleteClick={handleDeleteThread}
+              onToggleReadStatus={handleToggleReadStatus}
+              onContactClick={contactClick}
+              loadMoreRows={loadMoreRows}
+              newConversation={mockThread.phoneNumber}
+            />
+          )}
+          {messagesState === MessagesState.ThreadDetails && activeThread && (
+            <ThreadDetails
+              data-testid={MessagesTestIds.ThreadDetails}
+              content={content}
+              receiver={getViewReceiver(activeThread)}
+              messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
+              currentlyDeletingMessageId={currentlyDeletingMessageId}
+              contactCreated={isContactCreatedByPhoneNumber(
+                activeThread.phoneNumber
+              )}
+              onAttachContactClick={openAttachContactModal}
+              onContactClick={handleContactClick}
+              onDeleteClick={handleDeleteTmpThreadClick}
+              onMarkAsUnreadClick={markAsUnread}
+              onClose={closeSidebars}
+              onSendClick={handleSendClick}
+              onContentChange={handleContentChange}
+              messageLayoutNotifications={messageLayoutNotifications}
+              removeLayoutNotification={removeLayoutNotification}
+              onMessageRead={markAsRead}
+              onMessageDelete={openDeleteMessageModal}
+              resendMessage={resendMessage}
+              onAttachTemplateClick={openAttachTemplateModal}
+            />
+          )}
+          {messagesState === MessagesState.NewMessage && (
+            <NewMessageForm
+              data-testid={MessagesTestIds.NewMessageForm}
+              content={content}
+              receivers={receivers}
+              onContentChange={handleContentChange}
+              onSendClick={handleNewMessageSendClick}
+              onPhoneNumberSelect={handlePhoneNumberSelect}
+              onReceiverSelect={handleReceiverSelect}
+              onClose={closeSidebars}
+              onAttachContactClick={openAttachContactModal}
+              onBrowseContactsClick={openBrowseContactModal}
+              onAttachTemplateClick={openAttachTemplateModal}
+            />
+          )}
+        </TableWithSidebarWrapper>
+      )}
 
       <DeleteThreadModals
         deletedThreads={deletedThreads}

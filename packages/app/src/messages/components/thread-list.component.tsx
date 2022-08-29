@@ -15,7 +15,7 @@ import { AutoSizer, IndexRange, List, ListRowProps } from "react-virtualized"
 import ThreadRow from "App/messages/components/thread-row.component"
 import ThreadPlaceholderRow from "App/messages/components/thread-placeholder-row.component"
 
-const Threads = styled(Table)`
+export const Threads = styled(Table)`
   min-width: 32rem;
   --columnsTemplate: 10.4rem 1fr 6rem;
   --columnsTemplateWithOpenedSidebar: 10.4rem 1fr;
