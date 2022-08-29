@@ -43,6 +43,7 @@ import { ContactAttachmentPresenter } from "App/contacts/presenters"
 import { useLoadingState } from "App/ui"
 import { Feature, flags } from "App/feature-flags"
 import MessagesSearchResults from "App/messages/components/messages-search-results/messages-search-results.component"
+import { DataIndex } from "App/index-storage/constants"
 
 const messages = defineMessages({
   emptyListTitle: {
@@ -105,6 +106,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   toggleItem,
   selectAllItems,
   resetItems,
+  searchMessages,
+  searchResult,
 }) => {
   const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
     messageDeleting: false,
@@ -591,29 +594,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       setActiveThread(undefined)
     }
   }
-  const results: { messages: Message[]; threads: Thread[] } = {
-    messages: [
-      {
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-        date: new Date("2019-10-18T11:27:15.256Z"),
-        content:
-          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-        threadId: "1",
-        phoneNumber: "123",
-        messageType: MessageType.INBOX,
-      },
-      {
-        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
-        date: new Date("2019-10-18T11:45:35.112Z"),
-        content:
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        threadId: "2",
-        phoneNumber: "4566",
-        messageType: MessageType.OUTBOX,
-      },
-    ],
-    threads: [threads[0], threads[1]],
-  }
+
   const handleSelectTemplate = (template: Template) => {
     setContent(template.text)
     closeAttachTemplateModal()
@@ -630,6 +611,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const openSearchResults = () => {
     setMessagesState(MessagesState.SearchResult)
+    searchMessages({ scope: [DataIndex.Message], query: searchValue })
   }
 
   const handleResultClick = (message: Message): void => {
@@ -683,14 +665,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
         allItemsSelected={allItemsSelected}
         toggleAll={handleToggleAllCheckboxes}
         onDeleteClick={handleDeleteThreads}
-        results={results}
+        results={searchResult}
         onSelect={handleSearchSelect}
         onSearchEnterClick={openSearchResults}
         showSearchResults={messagesState === MessagesState.SearchResult}
       />
       {messagesState === MessagesState.SearchResult ? (
         <MessagesSearchResults
-          results={results.messages}
+          results={searchResult.message ? searchResult.message : []}
           resultsState={threadsState}
           searchValue={searchValue}
           getContactByPhoneNumber={getContactByPhoneNumber}

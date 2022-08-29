@@ -20,8 +20,9 @@ import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox
 import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { Message, Thread } from "App/messages/dto"
+import { Thread } from "App/messages/dto"
 import { MessagesInputSearch } from "App/messages/components/messages-input-search/messages-input-search.component"
+import { SearchResult } from "App/search/dto"
 
 const messages = defineMessages({
   search: { id: "module.messages.search" },
@@ -48,7 +49,7 @@ interface Props {
   onSearchEnterClick?: () => void
   onSelect: (thread: Thread) => void
   showSearchResults?: boolean
-  results: { messages: Message[]; threads: Thread[] }
+  results: SearchResult
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({

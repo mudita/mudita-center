@@ -169,6 +169,8 @@ const defaultProps: Props = {
   toggleItem: jest.fn().mockReturnValue({ selectedItems: { rows: ["1"] } }),
   selectAllItems: jest.fn(),
   resetItems: jest.fn(),
+  searchMessages: jest.fn(),
+  searchResult: {},
 }
 
 const propsWithSingleThread: Partial<Props> = {
