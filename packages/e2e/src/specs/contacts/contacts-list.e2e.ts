@@ -7,13 +7,12 @@ import NavigationTabs from "../../page-objects/tabs.page"
 
 describe("Contacts screen check", () => {
   before(async () => {
-    // Waiting for device connected through USB
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
   })
 
-  it("Should display two contact list full names", async () => {
+  it("Should display full names on contact list", async () => {
     const contactsTab = await NavigationTabs.contactsTab
 
     await contactsTab.click()

@@ -254,7 +254,7 @@ export const config: Options.Testrunner = {
    * @param {String} cid worker id (e.g. 0-0)
    */
   beforeSession: async function (_config, _capabilities, specs, _cid) {
-    // in the current config, the specs array only contains one file path
+    // in the current config, the "specs" array only contains one file path
     await seedData(specs[0])
   },
   /**
