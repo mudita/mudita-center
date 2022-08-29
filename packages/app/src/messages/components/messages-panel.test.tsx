@@ -42,6 +42,11 @@ const defaultProps: Props = {
   selectedIds: [],
   allItemsSelected: false,
   onDeleteClick: jest.fn(),
+  toggleAll: jest.fn(),
+  onSearchEnterClick: jest.fn(),
+  onSelect: jest.fn(),
+  showSearchResults: false,
+  results: { messages: [], threads: [] },
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

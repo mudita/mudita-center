@@ -297,7 +297,7 @@ export const EmptyState: FunctionComponent<EmptyStateProps> = ({
   ...rest
 }) => (
   <EmptyStateWrapper {...rest}>
-    <Text displayStyle={TextDisplayStyle.Headline3} message={title} />
+    <Text displayStyle={TextDisplayStyle.Paragraph1} message={title} />
     {description && (
       <Text
         displayStyle={TextDisplayStyle.Paragraph3}
