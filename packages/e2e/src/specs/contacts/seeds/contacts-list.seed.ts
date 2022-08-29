@@ -20,8 +20,4 @@ export const contactsListSeed: SeedParams = {
       secondaryPhoneNumber: "444555666",
     },
   ],
-  templates: [
-    { text: "123" },
-    { text: "asdsad asd asdas dasd asd s dasd asa sads" },
-  ],
 }
