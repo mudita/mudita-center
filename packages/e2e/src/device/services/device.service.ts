@@ -4,7 +4,7 @@
  */
 
 import { DeviceAdapterClass, SerialPortAdapterClass } from "../adapters"
-import { sleep } from "../helpers"
+import { sleep } from "../../helpers"
 import { DeviceServiceClass } from "./device-service.class"
 
 export class DeviceService implements DeviceServiceClass {
