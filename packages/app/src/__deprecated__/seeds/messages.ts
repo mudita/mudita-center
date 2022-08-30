@@ -15,6 +15,8 @@ export const threadsData: Thread[] = [
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+85102096521",
@@ -24,6 +26,8 @@ export const threadsData: Thread[] = [
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+98007298780",
@@ -33,6 +37,8 @@ export const threadsData: Thread[] = [
       "Rerum quae fugit enim officia quia optio itaque fuga sapiente. Est enim eaque.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+03026752736",
@@ -42,6 +48,8 @@ export const threadsData: Thread[] = [
       "Sunt autem sed ut aut aspernatur totam modi qui. Atque tenetur est ex totam repudiandae voluptatibus tempora sed.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+48799230788",
@@ -50,6 +58,8 @@ export const threadsData: Thread[] = [
     messageSnippet: "Quo omnis est enim. Dolorem tempora recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+36724240162",
@@ -58,6 +68,8 @@ export const threadsData: Thread[] = [
     messageSnippet: "Ipsam expedita sunt est sit. Ea autem laborum et.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+53137792360",
@@ -67,6 +79,8 @@ export const threadsData: Thread[] = [
       "Autem impedit dicta officia praesentium magni harum aut repellendus recusandae. Qui et molestiae quam consequuntur.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+46333060911",
@@ -76,6 +90,8 @@ export const threadsData: Thread[] = [
       "Odit tempore eaque non ratione occaecati magnam voluptatum. Atque unde mollitia natus laborum voluptates cum.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+32964648391",
@@ -85,6 +101,8 @@ export const threadsData: Thread[] = [
       "Consequuntur vel sunt voluptas numquam incidunt delectus ut possimus. Id quia accusamus minima dolor.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+35160648062",
@@ -94,6 +112,8 @@ export const threadsData: Thread[] = [
       "Totam repudiandae modi nihil odit et. Porro consequatur tenetur in quis qui.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+31137043005",
@@ -103,6 +123,8 @@ export const threadsData: Thread[] = [
       "Accusantium voluptates qui sint enim accusantium voluptatem. Beatae recusandae velit deserunt.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+83563598841",
@@ -112,6 +134,8 @@ export const threadsData: Thread[] = [
       "Minima porro voluptatem occaecati. Praesentium eligendi sequi suscipit porro.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+00287614353",
@@ -121,6 +145,8 @@ export const threadsData: Thread[] = [
       "Architecto accusantium quae harum ipsum quod velit quibusdam corporis quis. Qui molestiae ab sed quas nobis.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+87859344351",
@@ -130,6 +156,8 @@ export const threadsData: Thread[] = [
       "Exercitationem expedita eos pariatur enim nostrum corrupti. Facilis aperiam minus nihil.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+90669222797",
@@ -139,6 +167,8 @@ export const threadsData: Thread[] = [
       "Dolorum hic facilis perferendis deserunt et autem recusandae amet corporis. Id vero iste magni aspernatur.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+50051893223",
@@ -148,6 +178,8 @@ export const threadsData: Thread[] = [
       "Commodi et commodi voluptatem et ullam consectetur libero. Est id eligendi.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+13066262752",
@@ -157,6 +189,8 @@ export const threadsData: Thread[] = [
       "Accusamus tenetur at a alias aut dicta dolorem enim ut. Iusto ullam totam totam voluptatem et expedita quo quia quas.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+72383361402",
@@ -166,6 +200,8 @@ export const threadsData: Thread[] = [
       "Rerum quae eum placeat non mollitia ipsum corrupti repudiandae atque. Id molestias aut voluptatem.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+33999999999",
@@ -175,6 +211,8 @@ export const threadsData: Thread[] = [
       "Et molestias occaecati dignissimos fugit enim dolore. Sed aut maiores.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "+47999999999",
@@ -184,6 +222,8 @@ export const threadsData: Thread[] = [
       "Quis ut consequuntur delectus in deleniti distinctio quisquam enim ut. Aut quo ex possimus blanditiis voluptatem consequatur ut saepe est.",
     unread: false,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
 ]
 

@@ -66,6 +66,8 @@ const mockThread: Thread = {
   messageSnippet: "",
   unread: false,
   messageType: MessageType.OUTBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const isMockedThreadUsedForNewMessageForm = (thread: Thread) => {

@@ -21,7 +21,7 @@ export class ContactSearcher extends BaseSearcher {
       )
     }
 
-    const result = index.search(query)
+    const result = index.search(query, { expand: true })
 
     return this.hydrate(index, result)
   }

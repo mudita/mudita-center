@@ -97,6 +97,8 @@ const firstThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const secondThread: Thread = {
@@ -109,6 +111,8 @@ const secondThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const incomingThread: Thread = {
@@ -119,6 +123,8 @@ const incomingThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const receiver: Receiver = {

@@ -22,6 +22,7 @@ export class MessageSearcher extends BaseSearcher {
     }
 
     const result = index.search(query, {
+      expand: true,
       fields: {
         content: {
           boost: 2,

@@ -15,6 +15,12 @@ export class ThreadModel extends BaseModel<Thread> {
   public id: string | undefined
 
   @Field()
+  public contactId: string | undefined
+
+  @Field()
+  public contactName: string | undefined
+
+  @Field()
   public phoneNumber: string | undefined
 
   @Field()
