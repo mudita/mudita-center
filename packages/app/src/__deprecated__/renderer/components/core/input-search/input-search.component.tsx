@@ -95,6 +95,18 @@ interface KeysType {
   [key: string]: (event: KeyboardEvent) => void
 }
 
+export enum ItemType {
+  Data,
+  Label,
+}
+
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface Item<Type = any> {
+  type: ItemType
+  data: Type
+}
+
 interface InputSearchListProps {
   expanded: boolean
   // AUTO DISABLED - fix me if you like :)
@@ -109,7 +121,7 @@ interface InputSearchListProps {
   searchString: string
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  items: any[]
+  items: Item[]
   emptyItemValue?: ItemValue
   onEmptyItemValueClick: (event: MouseEvent) => void
   // AUTO DISABLED - fix me if you like :)
@@ -149,9 +161,9 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
       {items.length > 0 ? (
         items.map((item, index) => {
           const key = `search-key-${index}`
-          const onClick = () => onItemClick(item)
+          const onClick = () => onItemClick(item.data)
           const selected = item === selectedItem
-          const disabled = disabledItems.includes(item)
+          const disabled = disabledItems.includes(item.data)
           const onMouseDown = (event: MouseEvent) => {
             if (disabled) {
               event.stopPropagation()
@@ -321,15 +333,32 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
 
       const maxListLength =
         items.length <= searchResultRows ? items.length : searchResultRows
+
       if (activeItemIndex + 1 < maxListLength) {
-        setActiveItemIndex((prevState) => prevState + 1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (items[activeItemIndex + 1].type === ItemType.Label) {
+          if (activeItemIndex + 2 < maxListLength) {
+            setActiveItemIndex((prevState) => prevState + 2)
+          }
+        } else {
+          setActiveItemIndex((prevState) => prevState + 1)
+        }
       }
     }
     const handleArrowUp = (event: KeyboardEvent) => {
       event.preventDefault()
 
       if (activeItemIndex >= 0) {
-        setActiveItemIndex((prevState) => prevState - 1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (items[activeItemIndex - 1].type === ItemType.Label) {
+          if (activeItemIndex - 1 >= 0) {
+            setActiveItemIndex((prevState) => prevState - 2)
+          }
+        } else {
+          setActiveItemIndex((prevState) => prevState - 1)
+        }
       }
     }
     const handleEnter = (event: KeyboardEvent) => {
@@ -342,7 +371,9 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
 
       searchValue !== "" &&
         (activeItemIndex >= 0
-          ? handleSelect(items[activeItemIndex])
+          ? // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            handleSelect(items[activeItemIndex].data)
           : searchResults())
     }
     const keys: KeysType = {
@@ -354,7 +385,11 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }
 
   const handleMouseEnter = (itemIndex: number) => {
-    setActiveItemIndex(itemIndex)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (items[itemIndex].type === ItemType.Data) {
+      setActiveItemIndex(itemIndex)
+    }
   }
 
   const toggleIcon = (

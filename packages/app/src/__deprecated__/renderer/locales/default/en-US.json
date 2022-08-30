@@ -471,6 +471,8 @@
   "module.messages.newMessagesBadge": "{number} new messages",
   "module.messages.search": "Search",
   "module.messages.searchResultsTitle": "Search results for “{value}”",
+  "module.messages.threadGroup": "Threads",
+  "module.messages.conversationGroup": "Conversations",
   "module.messages.selectionNumber": "{num, plural, =-1 {All Conversations} one {# Conversation} other {# Conversations}} selected",
   "module.messages.sendButtonTooltipDescription": "Send message",
   "module.messages.textAreaPlaceholder": "Type your message",
