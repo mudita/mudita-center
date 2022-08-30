@@ -14,6 +14,8 @@ import {
 } from "App/messages/constants"
 import { Message, Thread } from "App/messages/dto"
 import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
+import { SearchEvent } from "App/search/constants"
+import { SearchResult } from "App/search/dto"
 
 export type Author = Pick<Caller, "id">
 
@@ -36,6 +38,7 @@ export type MessagesState = Readonly<{
   loading: boolean
   currentlyDeletingMessageId: MessageId | null
   selectedItems: { rows: string[] }
+  searchResult: SearchResult
 }>
 
 export enum ReceiverIdentification {
@@ -132,12 +135,12 @@ export type DeleteThreadsRejectedAction = PayloadAction<
   Error | null | string
 >
 
-export type ChangeVisibilityFilterAction = PayloadAction<
-  MessagesState["visibilityFilter"],
-  MessagesEvent.ChangeVisibilityFilter
->
-
 export type ChangeSearchValueAction = PayloadAction<
   string,
   MessagesEvent.ChangeSearchValue
+>
+
+export type SearchMessagesAction = PayloadAction<
+  SearchResult,
+  SearchEvent.SearchData
 >

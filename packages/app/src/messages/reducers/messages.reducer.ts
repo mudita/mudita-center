@@ -16,7 +16,6 @@ import {
   ResendMessageRejectedAction,
   AddNewMessageAction,
   ChangeSearchValueAction,
-  ChangeVisibilityFilterAction,
   DeleteThreadsAction,
   MessageIdsInThreadMap,
   MessageMap,
@@ -29,6 +28,7 @@ import {
   DeleteMessagePendingAction,
   DeleteMessageRejectedAction,
   DeleteThreadsRejectedAction,
+  SearchMessagesAction,
 } from "App/messages/reducers/messages.interface"
 import {
   MessagesEvent,
@@ -41,6 +41,7 @@ import { ReadAllIndexesAction } from "App/data-sync/reducers"
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
 import { changeLocation } from "App/core/actions"
 import assert from "assert"
+import { SearchEvent } from "App/search/constants"
 
 export const initialState: MessagesState = {
   threadMap: {},
@@ -55,6 +56,7 @@ export const initialState: MessagesState = {
   loading: false,
   currentlyDeletingMessageId: null,
   selectedItems: { rows: [] },
+  searchResult: {},
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -308,14 +310,6 @@ export const messagesReducer = createReducer<MessagesState>(
       )
 
       .addCase(
-        MessagesEvent.ChangeVisibilityFilter,
-        (state, action: ChangeVisibilityFilterAction) => {
-          const visibilityFilter = action.payload
-          return { ...state, visibilityFilter }
-        }
-      )
-
-      .addCase(
         MessagesEvent.ChangeSearchValue,
         (state, action: ChangeSearchValueAction) => {
           const searchValue = action.payload
@@ -376,5 +370,11 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(changeLocation, (state) => {
         return { ...state, selectedItems: { rows: [] } }
       })
+      .addCase(
+        fulfilledAction(SearchEvent.SearchData),
+        (state, action: SearchMessagesAction) => {
+          return { ...state, searchResult: action.payload }
+        }
+      )
   }
 )

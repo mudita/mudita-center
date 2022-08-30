@@ -15,6 +15,7 @@ import { Settings } from "App/settings/dto"
 import { Receiver } from "App/messages/reducers"
 import { Template } from "App/templates/dto"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { SearchParams, SearchResult } from "App/search/dto"
 
 export interface Content {
   id: string
@@ -69,4 +70,6 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   toggleItem: (threadId: string) => void
   selectAllItems: () => void
   resetItems: () => void
+  searchMessages: (searchParams: SearchParams) => void
+  searchResult: SearchResult
 }

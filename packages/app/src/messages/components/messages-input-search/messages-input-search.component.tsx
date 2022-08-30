@@ -39,7 +39,7 @@ export const MessagesInputSearch: FunctionComponent<
     <MessagesInputSelect
       {...props}
       onSelect={onSelect}
-      items={results.messages}
+      items={results.message ? results.message : []}
       leadingIcons={[searchIcon]}
       label={intl.formatMessage(messages.searchPlaceholder)}
       renderItemValue={createFullName}

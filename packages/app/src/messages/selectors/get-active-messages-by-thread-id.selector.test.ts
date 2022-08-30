@@ -71,6 +71,7 @@ const messagesState: MessagesState = {
   loading: false,
   currentlyDeletingMessageId: null,
   selectedItems: { rows: [] },
+  searchResult: {},
 }
 
 describe("When thread hasn't any message", () => {
