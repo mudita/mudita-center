@@ -25,7 +25,7 @@ const getData = (specFileName: string): SeedParams | undefined => {
   return
 }
 
-export const afterDataSeed = async () => {
+export const removeSeededData = async () => {
   console.log("Removing seed data result", seedResult)
 
   if (seedResult) {

@@ -5,7 +5,7 @@
 
 import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
-import { afterDataSeed, seedData } from "./src/seeds"
+import { removeSeededData, seedData } from "./src/seeds"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 import { CleanUpFactory } from "./src/cleanup"
 
@@ -338,7 +338,7 @@ export const config: Options.Testrunner = {
    * @param {Array.<String>} specs List of spec file paths that ran
    */
   afterSession: async function (_config, _capabilities, _specs) {
-    await afterDataSeed()
+    await removeSeededData()
   },
   /**
    * Gets executed after all workers got shut down and the process is about to exit. An error
