@@ -23,6 +23,8 @@ import {
 } from "App/__deprecated__/renderer/store/helpers"
 import { DeleteMessageAction } from "App/messages/reducers/messages.interface"
 import { CoreEvent } from "App/core/constants"
+import { SearchResult } from "App/search/dto"
+import { SearchEvent } from "App/search/constants"
 
 test("empty event returns initial state", () => {
   // AUTO DISABLED - fix me if you like :)
@@ -689,6 +691,44 @@ describe("Checkboxes manage", () => {
     ).toEqual({
       ...initialState,
       selectedItems: { rows: [] },
+    })
+  })
+})
+describe("Searching messages", () => {
+  const thread: Thread = {
+    id: "1",
+    phoneNumber: "+48 755 853 216",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet:
+      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+    unread: true,
+    messageType: MessageType.INBOX,
+  }
+
+  const message: Message = {
+    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+    date: new Date("2019-10-18T11:27:15.256Z"),
+    content:
+      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+    threadId: "1",
+    phoneNumber: "+48 755 853 216",
+    messageType: MessageType.INBOX,
+  }
+  test("Searching by message content returns proper value", () => {
+    const searchMessagesAction: PayloadAction<SearchResult> = {
+      type: fulfilledAction(SearchEvent.SearchData),
+      payload: { message: [message], thread: [thread] },
+    }
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+        },
+        searchMessagesAction
+      )
+    ).toEqual({
+      ...initialState,
+      searchResult: { message: [message], thread: [thread] },
     })
   })
 })

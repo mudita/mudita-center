@@ -46,7 +46,7 @@ const defaultProps: Props = {
   onSearchEnterClick: jest.fn(),
   onSelect: jest.fn(),
   showSearchResults: false,
-  results: { messages: [], threads: [] },
+  results: {},
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
