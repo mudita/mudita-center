@@ -169,6 +169,8 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         toggleItem={jest.fn()}
         selectAllItems={jest.fn()}
         resetItems={jest.fn()}
+        searchMessages={jest.fn()}
+        searchResult={{}}
       />
     </div>
   </Router>
