@@ -5,9 +5,8 @@
 
 import { ThreadRowNameTestIds } from "App/messages/components/thread-row-name/thread-row-name-test-ids"
 import { ThreadRowNameProps } from "App/messages/components/thread-row-name/thread-row-name.interface"
-import Text, {
-  TextDisplayStyle,
-} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { PhoneNumberDesignator } from "App/messages/components/thread-row-name/thread-row-name.styled"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   Name,
   NameWrapper,
@@ -29,7 +28,7 @@ const ThreadRowName: FunctionComponent<ThreadRowNameProps> = ({
         {getPrettyCaller(contact, phoneNumber)}
       </Name>
       {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-        <Text
+        <PhoneNumberDesignator
           displayStyle={TextDisplayStyle.Paragraph2}
           testId={ThreadRowNameTestIds.PhoneNumberDesignatorField}
         >
@@ -38,7 +37,7 @@ const ThreadRowName: FunctionComponent<ThreadRowNameProps> = ({
           contact?.secondaryPhoneNumber?.split(" ").join("")
             ? "#2"
             : "#1"}
-        </Text>
+        </PhoneNumberDesignator>
       )}
     </NameWrapper>
   )

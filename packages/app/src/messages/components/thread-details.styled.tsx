@@ -46,6 +46,7 @@ export const MessagesSidebar = styled(Sidebar)`
 
 export const NameWrapper = styled.div`
   display: flex;
+  align-items: center;
 `
 
 export const IconButton = styled(ButtonComponent).attrs(() => ({

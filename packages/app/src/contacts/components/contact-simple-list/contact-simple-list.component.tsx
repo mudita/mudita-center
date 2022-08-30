@@ -48,6 +48,7 @@ export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
               {({ inView, ref }) =>
                 inView ? (
                   <Row
+                    useMinRowHeight
                     ref={ref}
                     disableHoverState={onPhoneNumberSelect !== undefined}
                   >
@@ -88,6 +89,7 @@ export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
                 {({ inView, ref }) =>
                   inView ? (
                     <Row
+                      useMinRowHeight
                       ref={ref}
                       disableHoverState={onPhoneNumberSelect !== undefined}
                     >

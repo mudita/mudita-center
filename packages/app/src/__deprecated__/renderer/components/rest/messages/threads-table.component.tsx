@@ -35,13 +35,16 @@ export const NameWrapper = styled.div`
   display: flex;
   grid-area: Name;
   align-self: end;
+  align-items: center;
 `
 
 export const Time = styled(Text)`
   grid-area: Time;
   align-self: end;
   margin-left: 0.8rem;
-  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
 `
 
 export const Message = styled(Text)`

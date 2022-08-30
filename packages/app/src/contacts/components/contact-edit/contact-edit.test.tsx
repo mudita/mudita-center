@@ -4,6 +4,7 @@
  */
 
 import { fireEvent, waitFor } from "@testing-library/dom"
+import userEvent from "@testing-library/user-event"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import ContactEdit from "App/contacts/components/contact-edit/contact-edit.component"
@@ -173,4 +174,22 @@ describe("Not display error for phone number regexp match", () => {
       })
     }
   )
+})
+
+test("does not allow to type first name or second name longer than 32 characters", async () => {
+  const { getByTestId } = renderer()
+  const firstName: HTMLInputElement = getByTestId(
+    ContactEditTestIdsEnum.FirstName
+  ) as HTMLInputElement
+  const secondName: HTMLInputElement = getByTestId(
+    ContactEditTestIdsEnum.FirstName
+  ) as HTMLInputElement
+
+  const longText = new Array(50).fill("1").join("")
+
+  await userEvent.type(firstName, longText)
+  await userEvent.type(secondName, longText)
+
+  expect(firstName.value).toHaveLength(32)
+  expect(secondName.value).toHaveLength(32)
 })
