@@ -77,6 +77,7 @@ enum MessagesState {
   ThreadDetails,
   NewMessage,
   SearchResult,
+  SearchResultDropdown,
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -617,12 +618,20 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setSearchValue(query)
 
     if (query) {
-      setMessagesState(MessagesState.SearchResult)
+      setMessagesState(MessagesState.SearchResultDropdown)
       searchMessages({
         scope: [DataIndex.Message, DataIndex.Thread],
         query: query,
       })
+    } else {
+      if (!activeThread) {
+        setMessagesState(MessagesState.List)
+      }
     }
+  }
+
+  const handleSearchEnter = () => {
+    setMessagesState(MessagesState.SearchResult)
   }
 
   const handleResultClick = (message: Message): void => {
@@ -678,8 +687,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onDeleteClick={handleDeleteThreads}
         results={searchResult}
         onSelect={handleSearchSelect}
-        onSearchEnterClick={noop}
-        showSearchResults={messagesState === MessagesState.SearchResult}
+        onSearchEnterClick={handleSearchEnter}
+        showSearchResults={messagesState === MessagesState.SearchResultDropdown}
       />
       {messagesState === MessagesState.SearchResult ? (
         <MessagesSearchResults

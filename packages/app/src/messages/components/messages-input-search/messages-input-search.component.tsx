@@ -36,6 +36,7 @@ const messages = defineMessages({
   threadGroup: { id: "module.messages.threadGroup" },
   conversationGroup: { id: "module.messages.conversationGroup" },
   searchPlaceholder: { id: "module.messages.search" },
+  seeAll: { id: "module.messages.seeAll" },
 })
 
 const renderListItem: RenderListItem<Item<Message & Thread>> = ({
@@ -106,7 +107,7 @@ export const MessagesInputSearch: FunctionComponent<
                 type: ItemType.Label,
                 data: intl.formatMessage(messages.threadGroup),
               },
-              ...results.thread.map((thread) => ({
+              ...results.thread.slice(0, 2).map((thread) => ({
                 type: ItemType.Data,
                 data: thread,
               })),
@@ -118,7 +119,7 @@ export const MessagesInputSearch: FunctionComponent<
                 type: ItemType.Label,
                 data: intl.formatMessage(messages.conversationGroup),
               },
-              ...results.message.map((message) => ({
+              ...results.message.slice(0, 3).map((message) => ({
                 type: ItemType.Data,
                 data: message,
               })),
@@ -140,6 +141,8 @@ export const MessagesInputSearch: FunctionComponent<
       itemListDisabled={!showSearchResults}
       searchValue={searchValue}
       onSearchValueChange={onSearchValueChange}
+      actionButton={intl.formatMessage(messages.seeAll)}
+      onActionButtonClick={onSearchEnterClick}
     />
   )
 }

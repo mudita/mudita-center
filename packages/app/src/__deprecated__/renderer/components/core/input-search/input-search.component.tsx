@@ -77,6 +77,18 @@ const NoResultsItem = styled(ListItem)`
   color: ${textColor("secondary")};
 `
 
+const ActionButton = styled.button`
+  width: 100%;
+  padding: 1.2rem 0;
+  margin: 0 0 1.2rem 0;
+  border: 0;
+  cursor: pointer;
+  color: ${textColor("actionHover")};
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2;
+`
+
 export type ListItemProps = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -132,6 +144,8 @@ interface InputSearchListProps {
   renderListItem?: RenderInputSelectListItem<any>
   activeItemIndex?: number
   handleMouseEnter?: (itemIndex: number) => void
+  actionButton?: string
+  onActionButtonClick?: () => void
 }
 
 const InputSearchList: FunctionComponent<InputSearchListProps> = ({
@@ -145,6 +159,8 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
   handleMouseEnter = noop,
   renderListItem = renderListItemSearchable,
   activeItemIndex,
+  actionButton,
+  onActionButtonClick = noop,
   ...props
 }) => {
   return (
@@ -197,6 +213,11 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
       ) : (
         <NoResultsItem>{intl.formatMessage(messages.noResults)}</NoResultsItem>
       )}
+      {actionButton && (
+        <ActionButton onClick={onActionButtonClick}>
+          {actionButton}
+        </ActionButton>
+      )}
     </List>
   )
 }
@@ -231,6 +252,8 @@ export interface InputSearchProps extends Partial<InputProps> {
   itemListDisabled?: boolean
   searchValue: string
   onSearchValueChange: (value: string) => void
+  actionButton?: string
+  onActionButtonClick?: () => void
 }
 
 const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
@@ -260,6 +283,8 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   itemListDisabled = false,
   searchValue,
   onSearchValueChange,
+  actionButton,
+  onActionButtonClick,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
@@ -435,6 +460,8 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
             onTransitionEnd={clearOnBlur ? resetSearchValue : noop}
             onEmptyItemValueClick={resetSelection}
             onItemClick={handleSelect}
+            actionButton={actionButton}
+            onActionButtonClick={onActionButtonClick}
           />
         )}
     </SelectInputWrapper>
