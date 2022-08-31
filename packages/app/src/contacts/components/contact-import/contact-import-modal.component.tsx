@@ -3,35 +3,40 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, ComponentProps } from "react"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
+import {
+  Checkbox,
+  Failed,
+  Image,
+  SubtitleText,
+  SyncTable,
+  TableContent,
+  Name,
+} from "App/contacts/components/contact-import/contact-import-modal.styled"
+import {
+  ModalText,
+  SelectedText,
+} from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
+import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
+import { NewContact } from "App/contacts/reducers/contacts.interface"
+import { ModalDialog } from "App/ui/components/modal-dialog"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
-import Table, {
+import {
   Col,
   Labels,
   Row,
   RowSize,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
-import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
-import InputCheckbox from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
-import styled from "styled-components"
-import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import {
-  ModalText,
-  SelectedText,
-} from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import { defineMessages } from "react-intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
-import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
-import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
-import { textColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import { ModalIcon } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
-import { ModalDialog } from "App/ui/components/modal-dialog"
-import { NewContact } from "App/contacts/reducers/contacts.interface"
-import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import React, { ComponentProps, useEffect } from "react"
+import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },
@@ -52,33 +57,6 @@ const messages = defineMessages({
   importingListTitle: { id: "module.contacts.importingListTitle" },
   importingListSelected: { id: "module.contacts.importingListSelected" },
 })
-
-const Checkbox = styled(InputCheckbox)`
-  margin-right: 2rem;
-`
-
-const TableContent = styled.div`
-  overflow-y: scroll;
-  height: 19.2rem;
-`
-
-const SyncTable = styled(Table)`
-  --columnsTemplate: 1fr 1fr auto;
-  margin-top: 4.8rem;
-`
-
-const Image = styled(ModalIcon)`
-  margin: 1.6rem auto 3.2rem;
-`
-
-const Failed = styled(Col)`
-  color: ${textColor("error")};
-`
-
-const SubtitleText = styled(Text)`
-  margin-bottom: 0.8rem;
-  text-align: center;
-`
 
 export enum ModalType {
   Success,
@@ -133,7 +111,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
     }
     const { selected, indeterminate } = getRowStatus(data)
     return (
-      <Row size={RowSize.Small} {...rest}>
+      <Row size={RowSize.Small} useMinRowHeight {...rest}>
         <Col>
           {[ModalType.Select, ModalType.Fail].includes(modalType) && (
             <Checkbox
@@ -143,7 +121,9 @@ const ContactImportModal: FunctionComponent<Props> = ({
               data-testid={ContactImportModalTestIds.RowCheckbox}
             />
           )}
-          <p>{createFullNameStartingFromLastName(data)}</p>
+          <Name displayStyle={TextDisplayStyle.Paragraph1}>
+            {createFullNameStartingFromLastName(data)}
+          </Name>
         </Col>
         <Col>
           {data.primaryPhoneNumber || data.secondaryPhoneNumber}

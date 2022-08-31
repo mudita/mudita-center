@@ -66,12 +66,27 @@ export interface TableRowProps {
   active?: boolean
   selected?: boolean
   disableHoverState?: boolean
+  useMinRowHeight?: boolean
 }
 
 export const RowBackgroundTransitionStyles = css`
   transition: background-color ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
 `
+
+const resolveHeight = (size: RowSize | undefined) => {
+  switch (size) {
+    case RowSize.Big:
+      return 8
+    case RowSize.Small:
+      return 4.8
+    case RowSize.Tiny:
+      return 4
+    case RowSize.Medium:
+    default:
+      return 6.4
+  }
+}
 
 export const Row = styled.div<TableRowProps>`
   display: grid;
@@ -86,19 +101,14 @@ export const Row = styled.div<TableRowProps>`
 
   ${RowBackgroundTransitionStyles}
 
-  height: ${({ size }) => {
-    switch (size) {
-      case RowSize.Big:
-        return 8
-      case RowSize.Small:
-        return 4.8
-      case RowSize.Tiny:
-        return 4
-      case RowSize.Medium:
-      default:
-        return 6.4
-    }
-  }}rem;
+  ${({ size, useMinRowHeight }) =>
+    !useMinRowHeight
+      ? css`
+          height: ${resolveHeight(size)}rem;
+        `
+      : css`
+          min-height: ${resolveHeight(size)}rem;
+        `}
 
   ${({ disableHoverState }) =>
     !disableHoverState &&
@@ -217,7 +227,7 @@ const SidebarHeader = styled.div<{
   withBottomBorder: boolean
 }>`
   display: grid;
-  height: var(--header-height);
+  min-height: var(--header-height);
   grid-template-columns: 1fr auto 3.2rem;
   grid-template-areas: "Left Right Close";
   align-items: center;

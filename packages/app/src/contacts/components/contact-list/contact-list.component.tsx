@@ -311,6 +311,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
 
                 const interactiveRow = (ref: Ref<HTMLDivElement>) => (
                   <ContactListRow
+                    useMinRowHeight
                     selected={selected}
                     active={rowActive}
                     ref={ref}

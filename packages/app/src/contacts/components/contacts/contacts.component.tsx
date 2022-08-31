@@ -52,6 +52,7 @@ import ImportContactsFlow, {
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
 import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
+import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -453,10 +454,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         handleError()
         return
       }
-      setImportedContacts(
+      const importedContacts =
         service.type === "files"
           ? await mapVCFsToContacts(service.data)
           : await loadContacts(service.type)
+
+      setImportedContacts(
+        applyValidationRulesToImportedContacts(importedContacts)
       )
 
       showContactsSelectingModal()
@@ -467,12 +471,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   // Synchronization, step 5: sending contacts to phone
   const sendContactsToPhone = async (contacts: NewContact[]) => {
-    setImportedContacts(contacts)
+    const importedContacts = applyValidationRulesToImportedContacts(contacts)
+    setImportedContacts(importedContacts)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await showContactsImportingModal()
 
-    const newContactResponses = await contacts.reduce(
+    const newContactResponses = await importedContacts.reduce(
       async (lastPromise, contact, index) => {
         const value = await lastPromise
         const { payload } = await importContact(contact)
