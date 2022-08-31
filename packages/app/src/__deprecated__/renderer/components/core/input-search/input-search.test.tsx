@@ -8,6 +8,7 @@ import React from "react"
 import InputSearch, {
   InputSearchProps,
   InputSearchTestIds,
+  ItemType,
 } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
@@ -19,7 +20,10 @@ const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
       searchValue={"x"}
       onSearchValueChange={jest.fn}
       onSearchEnterClick={jest.fn}
-      items={basicItems}
+      items={basicItems.map((data) => ({
+        type: ItemType.Data,
+        data,
+      }))}
       {...props}
     />
   )
@@ -162,7 +166,10 @@ test("Open search results should close search dropdown list", () => {
 
 test("select last list item by enter returns last selected list item", () => {
   const onSelect = jest.fn()
-  const mockItems = ["1", "2"]
+  const mockItems = [
+    { type: ItemType.Data, data: "1" },
+    { type: ItemType.Data, data: "2" },
+  ]
   const { input } = renderInputSearch({ onSelect, items: mockItems })
 
   fireEvent.keyDown(input(), {
@@ -184,7 +191,7 @@ test("select last list item by enter returns last selected list item", () => {
     keyCode: 13,
     charCode: 13,
   })
-  expect(onSelect).toBeCalledWith(mockItems[1])
+  expect(onSelect).toBeCalledWith(mockItems[1].data)
 })
 
 test("select list item by enter when hovering on the list", () => {

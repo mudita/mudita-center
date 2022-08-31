@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./contacts-select-modal"
-export * from "./contact-name"
+export interface ContactNameProps {
+  phoneNumber: string
+}

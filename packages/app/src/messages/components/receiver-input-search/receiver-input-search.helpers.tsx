@@ -16,17 +16,21 @@ import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
+import { Item } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 
 const messages = defineMessages({
   noNameProvided: { id: "module.contacts.panelSearchListNoName" },
 })
 
-export const renderListItem: RenderListItem<Receiver> = ({ item, props }) => (
+export const renderListItem: RenderListItem<Item<Receiver>> = ({
+  item,
+  props,
+}) => (
   <ContactListItem {...props}>
     <span>
-      {createFullName(item) ? (
+      {createFullName(item.data) ? (
         <ContactListItemName displayStyle={TextDisplayStyle.Paragraph3}>
-          {createFullName(item)}
+          {createFullName(item.data)}
         </ContactListItemName>
       ) : (
         <ContactListItemName
@@ -36,7 +40,9 @@ export const renderListItem: RenderListItem<Receiver> = ({ item, props }) => (
           {intl.formatMessage(messages.noNameProvided)}
         </ContactListItemName>
       )}
-      <Text displayStyle={TextDisplayStyle.Paragraph4}>{item.phoneNumber}</Text>
+      <Text displayStyle={TextDisplayStyle.Paragraph4}>
+        {item.data.phoneNumber}
+      </Text>
     </span>
   </ContactListItem>
 )

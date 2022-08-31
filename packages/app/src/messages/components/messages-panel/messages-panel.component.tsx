@@ -12,17 +12,14 @@ import {
   ButtonWrapper,
   MessageFiltersWrapper,
   MessagesSelectionManager,
-} from "App/messages/components/messages-panel.styled"
-import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
+} from "App/messages/components/messages-panel/messages-panel.styled"
+import { MessagePanelTestIds } from "App/messages/components/messages-panel/messages-panel-test-ids.enum"
+import { MessagesPanelProps } from "App/messages/components/messages-panel/messages-panel.interface"
 import { flags, Feature } from "App/feature-flags"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
-import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { Thread } from "App/messages/dto"
 import { MessagesInputSearch } from "App/messages/components/messages-input-search/messages-input-search.component"
-import { SearchResult } from "App/search/dto"
 
 const messages = defineMessages({
   search: { id: "module.messages.search" },
@@ -37,22 +34,7 @@ const messages = defineMessages({
   },
 })
 
-interface Props {
-  searchValue: string
-  onSearchValueChange: (value: string) => void
-  onNewMessageClick: () => void
-  buttonDisabled: boolean
-  selectedIds: string[]
-  allItemsSelected?: boolean
-  toggleAll?: UseTableSelect<Thread>["toggleAll"]
-  onDeleteClick: () => void
-  onSearchEnterClick?: () => void
-  onSelect: (thread: Thread) => void
-  showSearchResults?: boolean
-  results: SearchResult
-}
-
-const MessagesPanel: FunctionComponent<Props> = ({
+export const MessagesPanel: FunctionComponent<MessagesPanelProps> = ({
   searchValue,
   onSearchValueChange,
   onNewMessageClick,
@@ -61,7 +43,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   allItemsSelected,
   toggleAll,
   onDeleteClick,
-  onSearchEnterClick = noop,
+  onSearchEnterClick,
   onSelect,
   showSearchResults = false,
   results,
@@ -97,7 +79,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
               onSearchEnterClick={onSearchEnterClick}
               searchValue={searchValue}
               onSearchValueChange={onSearchValueChange}
-              showSearchResults={showSearchResults}
+              showSearchResults
               results={results}
             />
           )}
@@ -115,5 +97,3 @@ const MessagesPanel: FunctionComponent<Props> = ({
     </MessageFiltersWrapper>
   )
 }
-
-export default MessagesPanel
