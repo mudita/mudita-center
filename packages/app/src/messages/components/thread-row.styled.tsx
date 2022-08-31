@@ -15,7 +15,7 @@ import {
   Message,
 } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
-import { lightAvatarStyles } from "App/contacts/components/contact-list/contact-list.component"
+import { lightAvatarStyles } from "App/contacts/components/contact-list/contact-list.styled"
 import Avatar from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import { Col } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { flags, Feature } from "App/feature-flags"

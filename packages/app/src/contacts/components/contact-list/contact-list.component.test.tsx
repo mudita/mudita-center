@@ -4,7 +4,10 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import {
+  constructWrapper,
+  renderWithThemeAndIntl,
+} from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
@@ -61,10 +64,31 @@ const kareemContact: Contact = {
   firstAddressLine: "",
 }
 
+const harryContact: Contact = {
+  id: "8fa0b2b48377-13b7-4f42-962d-274970a2",
+  firstName: "Harry",
+  lastName: "Brown",
+  primaryPhoneNumber: "666 888 999",
+  email: "example@mudita.com",
+  note: "",
+  firstAddressLine: "",
+}
+
 const contactList: ContactCategory[] = [
   {
     category: johnContact.lastName?.charAt(0) ?? "#",
     contacts: [kareemContact, johnContact],
+  },
+]
+
+const contactListWithHarry: ContactCategory[] = [
+  {
+    category: johnContact.lastName?.charAt(0) ?? "#",
+    contacts: [kareemContact, johnContact],
+  },
+  {
+    category: harryContact.lastName?.charAt(0) ?? "#",
+    contacts: [harryContact],
   },
 ]
 
@@ -73,7 +97,20 @@ const render = (extraProps?: Partial<Props>) => {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<ContactList {...props} />)
+
+  const outcome = renderWithThemeAndIntl(<ContactList {...props} />)
+
+  return {
+    ...outcome,
+
+    rerender: (newExtraProps: Partial<Props>) => {
+      const newProps = {
+        ...defaultProps,
+        ...newExtraProps,
+      }
+      outcome.rerender(constructWrapper(<ContactList {...newProps} />))
+    },
+  }
 }
 
 beforeAll(() => {
@@ -194,5 +231,31 @@ describe("`ContactList` component", () => {
         expect(item).toHaveAttribute("disabled")
       })
     })
+  })
+
+  test("passing new contacts to the component renders them correctly", () => {
+    const { queryAllByTestId, queryByText, rerender } = render({
+      resultsState: ResultState.Loaded,
+      contactList,
+    })
+
+    mockAllIsIntersecting(0.1)
+
+    expect(queryAllByTestId(ContactListTestIdsEnum.ContactRow)).toHaveLength(2)
+    expect(queryByText("John Doe")).toBeInTheDocument()
+    expect(queryByText("Kareem Doe")).toBeInTheDocument()
+    expect(queryByText("Harry Brown")).not.toBeInTheDocument()
+
+    rerender({
+      resultsState: ResultState.Loaded,
+      contactList: contactListWithHarry,
+    })
+
+    mockAllIsIntersecting(0.1)
+
+    expect(queryAllByTestId(ContactListTestIdsEnum.ContactRow)).toHaveLength(3)
+    expect(queryByText("John Doe")).toBeInTheDocument()
+    expect(queryByText("Kareem Doe")).toBeInTheDocument()
+    expect(queryByText("Harry Brown")).toBeInTheDocument()
   })
 })
