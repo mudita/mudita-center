@@ -4,7 +4,9 @@
  */
 
 import { Device } from "usb"
+import { Response } from "../../pure/types"
 
 export interface SerialPortAdapterClass {
-  request(device: Device, payload: any): Promise<string>
+  request<Body>(device: Device, payload: any): Promise<Response<Body>>
+  requests<Body>(device: Device, payload: any[]): Promise<Response<Body>[]>
 }
