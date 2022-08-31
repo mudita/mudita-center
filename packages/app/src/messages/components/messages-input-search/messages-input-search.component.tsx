@@ -14,14 +14,18 @@ import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/te
 import { RenderListItem } from "App/__deprecated__/renderer/components/core/list/list.component"
 import { Time } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import { searchIcon } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import {
   MessagesInputSelect,
   MessageListItem,
   MessageListItemContent,
-  MessageListItemTopWrapper,
+  MessageListItemInfoWrapper,
   MessageListItemGroupName,
+  MessageListItemWrapper,
   MessageListItemGroupWrapper,
+  MessageConversationIconWrapper,
 } from "App/messages/components/messages-input-search/messages-input-search.styled"
 import { ContactName } from "App/contacts/components"
 import { MessagesInputSearchProps } from "App/messages/components/messages-input-search/messages-input-search.interface"
@@ -44,31 +48,45 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
   searchString,
   props,
 }) => {
+  const messageContent = Boolean(item.data.content)
+
   if (item.type === ItemType.Data) {
     return (
       <MessageListItem {...props}>
-        <MessageListItemTopWrapper>
-          <ContactName phoneNumber={item.data.phoneNumber} />
-          <Time displayStyle={TextDisplayStyle.Label} color="secondary">
-            {isToday(item.data.date)
-              ? moment(item.data.date).format("h:mm A")
-              : moment(item.data.date).locale("en").format("ll")}
-          </Time>
-        </MessageListItemTopWrapper>
-
-        {item.data.content ? (
-          <MessageListItemContent>
-            <span
-              dangerouslySetInnerHTML={{
-                __html: searchResultFormatter(item.data.content, searchString),
-              }}
-            />
-          </MessageListItemContent>
-        ) : (
-          <MessageListItemContent>
-            {item.data.phoneNumber}
-          </MessageListItemContent>
+        {!messageContent && (
+          <MessageConversationIconWrapper>
+            <Icon type={IconType.Conversation} width={3.2} />
+          </MessageConversationIconWrapper>
         )}
+        <MessageListItemWrapper>
+          <MessageListItemInfoWrapper>
+            <ContactName phoneNumber={item.data.phoneNumber} />
+            {messageContent && (
+              <Time displayStyle={TextDisplayStyle.Label} color="secondary">
+                {isToday(item.data.date)
+                  ? moment(item.data.date).format("h:mm A")
+                  : moment(item.data.date).locale("en").format("ll")}
+              </Time>
+            )}
+          </MessageListItemInfoWrapper>
+
+          {messageContent ? (
+            <MessageListItemContent>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: searchResultFormatter(
+                    item.data.content,
+                    searchString
+                  ),
+                }}
+              />
+            </MessageListItemContent>
+          ) : (
+            <MessageListItemContent>
+              {item.data.phoneNumber}
+            </MessageListItemContent>
+          )}
+        </MessageListItemWrapper>
       </MessageListItem>
     )
   }
@@ -103,10 +121,6 @@ export const MessagesInputSearch: FunctionComponent<
       items={[
         ...(results.thread?.length
           ? [
-              {
-                type: ItemType.Label,
-                data: intl.formatMessage(messages.threadGroup),
-              },
               ...results.thread.slice(0, 2).map((thread) => ({
                 type: ItemType.Data,
                 data: thread,

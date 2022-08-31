@@ -599,18 +599,20 @@ const Messages: FunctionComponent<MessagesProps> = ({
     allItemsSelected ? resetItems() : selectAllItems()
   }
 
-  const handleSearchSelect = (record: Thread & Message) => {
+  const handleSearchSelect = (record: Thread | Message) => {
     if (!record) {
       return
     }
 
-    if (record.threadId) {
-      const thread = threads.find((thread) => thread.id === record.threadId)
+    if ((record as Message).threadId) {
+      const thread = threads.find(
+        (thread) => thread.id === (record as Message).threadId
+      )
       if (thread) {
         openThreadDetails(thread)
       }
     } else {
-      openThreadDetails(record)
+      openThreadDetails(record as Thread)
     }
   }
 

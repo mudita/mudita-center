@@ -14,13 +14,15 @@ import Text from "App/__deprecated__/renderer/components/core/text/text.componen
 import InputSearch from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 
 export const MessageListItemGroupWrapper = styled.div`
+  width: 100%;
   border-top: solid 0.1rem ${borderColor("list")};
   padding-top: 1.2rem;
 `
 
 export const MessageListItem = styled(ListItem)<{ active: boolean }>`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  /* justify-content: space-between; */
   padding: 0.8rem 1.6rem;
   :not(:last-of-type) {
     border-bottom: none;
@@ -43,9 +45,15 @@ export const MessageListItem = styled(ListItem)<{ active: boolean }>`
     `}
 `
 
-export const MessageListItemTopWrapper = styled.div`
+export const MessageListItemInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+`
+
+export const MessageListItemWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `
 
 export const MessageListItemGroupName = styled(Text)`
@@ -64,4 +72,10 @@ export const MessageListItemContent = styled(Text)`
 
 export const MessagesInputSelect = styled(InputSearch)`
   width: 28rem;
+`
+
+export const MessageConversationIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
 `
