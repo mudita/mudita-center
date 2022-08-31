@@ -3,9 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import * as dotenv from "dotenv"
-import { CleanUpFactory } from "../cleanup"
-
-dotenv.config()
-
-new CleanUpFactory().create().cleanUpDevice()
+export * from "./device.types"
+export * from "./contact.type"

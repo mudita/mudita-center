@@ -21,6 +21,7 @@ const hoverStyle = css`
 `
 
 export const AvatarCol = styled(ItemCol)<{ hovered: boolean }>`
+  flex-shrink: 0;
   padding-left: 2rem !important;
   ${({ hovered }) => (hovered ? hoverStyle : "")};
 `

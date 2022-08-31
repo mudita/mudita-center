@@ -7,11 +7,13 @@ import Avatar from "App/__deprecated__/renderer/components/core/avatar/avatar.co
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import styled from "styled-components"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
 export const InitialsAvatar = styled(Avatar)`
   width: 4rem;
   height: 4rem;
   margin-right: 1.2rem;
+  flex-shrink: 0;
 `
 
 export const BlockedIcon = styled(Icon).attrs(() => ({
@@ -19,3 +21,4 @@ export const BlockedIcon = styled(Icon).attrs(() => ({
 }))`
   margin-left: 1.6rem;
 `
+export const NameSpan = styled(Text)``

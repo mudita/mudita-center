@@ -13,7 +13,7 @@ import { useDebounce } from "usehooks-ts"
 import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
 import { DeleteThreadModals } from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
-import MessagesPanel from "App/messages/components/messages-panel.component"
+import { MessagesPanel } from "App/messages/components/messages-panel/messages-panel.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import ThreadDetails from "App/messages/components/thread-details.component"
@@ -77,6 +77,7 @@ enum MessagesState {
   ThreadDetails,
   NewMessage,
   SearchResult,
+  SearchResultDropdown,
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -608,12 +609,42 @@ const Messages: FunctionComponent<MessagesProps> = ({
     allItemsSelected ? resetItems() : selectAllItems()
   }
 
-  const handleSearchSelect = (thread: Thread) => {
-    setActiveThread(thread)
-    setMessagesState(MessagesState.ThreadDetails)
+  const isMessage = (record: Thread | Message): record is Message => {
+    return Boolean((record as Message).threadId)
   }
 
-  const openSearchResults = () => {
+  const handleSearchSelect = (record: Thread | Message) => {
+    if (!record) {
+      return
+    }
+
+    if (isMessage(record)) {
+      const thread = threads.find((thread) => thread.id === record.threadId)
+      if (thread) {
+        openThreadDetails(thread)
+      }
+    } else {
+      openThreadDetails(record)
+    }
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchValue(query)
+
+    if (query) {
+      setMessagesState(MessagesState.SearchResultDropdown)
+      searchMessages({
+        scope: [DataIndex.Message, DataIndex.Thread],
+        query: query,
+      })
+    } else {
+      if (!activeThread) {
+        setMessagesState(MessagesState.List)
+      }
+    }
+  }
+
+  const handleSearchEnter = () => {
     setMessagesState(MessagesState.SearchResult)
     handleSearchMessage()
   }
@@ -667,7 +698,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
       <MessagesPanel
         searchValue={searchValue}
-        onSearchValueChange={setSearchValue}
+        onSearchValueChange={handleSearch}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
         selectedIds={selectedItems.rows}
@@ -676,8 +707,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onDeleteClick={handleDeleteThreads}
         results={searchResult}
         onSelect={handleSearchSelect}
-        onSearchEnterClick={openSearchResults}
-        showSearchResults={messagesState === MessagesState.SearchResult}
+        onSearchEnterClick={handleSearchEnter}
+        showSearchResults={messagesState === MessagesState.SearchResultDropdown}
       />
       {messagesState === MessagesState.SearchResult ? (
         <MessagesSearchResults

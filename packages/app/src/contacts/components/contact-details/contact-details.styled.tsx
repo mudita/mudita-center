@@ -31,9 +31,10 @@ export const Name = styled(Text).attrs(() => ({
   grid-area: Name;
   text-align: center;
   line-height: 1.2;
-  height: 5.6rem;
+  min-height: 5.6rem;
   width: 100%;
   margin-bottom: 1.4rem;
+  word-break: break-all;
 `
 export const InfoItem = styled.div`
   display: grid;
