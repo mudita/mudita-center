@@ -25,9 +25,7 @@ export const ContactName: FunctionComponent<ContactNameProps> = ({
 
   return (
     <ContactNameText>
-      {phoneNumber && !contact
-        ? phoneNumber
-        : isNameAvailable(contact)
+      {isNameAvailable(contact)
         ? createFullName(contact)
         : intl.formatMessage(messages.unnamedContact)}
     </ContactNameText>
