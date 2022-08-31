@@ -29,12 +29,13 @@ import {
 } from "App/messages/components/messages-input-search/messages-input-search.styled"
 import { ContactName } from "App/contacts/components"
 import { MessagesInputSearchProps } from "App/messages/components/messages-input-search/messages-input-search.interface"
-import { searchResultFormatter } from "App/messages/components/messages-input-search/messages-input-search.helper"
+// import { searchResultFormatter } from "App/messages/components/messages-input-search/messages-input-search.helper"
 import { Message, Thread } from "App/messages/dto"
 import {
   ItemType,
   Item,
 } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
+import { SearchResultAccent } from "App/search/components"
 
 const messages = defineMessages({
   threadGroup: { id: "module.messages.threadGroup" },
@@ -71,16 +72,7 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
           </MessageListItemInfoWrapper>
 
           {messageContent ? (
-            <MessageListItemContent>
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: searchResultFormatter(
-                    item.data.content,
-                    searchString
-                  ),
-                }}
-              />
-            </MessageListItemContent>
+            <SearchResultAccent query={searchString} text={item.data.content} />
           ) : (
             <MessageListItemContent>
               {item.data.phoneNumber}

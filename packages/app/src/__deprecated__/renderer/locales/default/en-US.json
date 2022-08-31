@@ -471,7 +471,6 @@
   "module.messages.newMessagesBadge": "{number} new messages",
   "module.messages.search": "Search",
   "module.messages.searchResultsTitle": "Search results for “{value}”",
-  "module.messages.threadGroup": "Threads",
   "module.messages.conversationGroup": "Conversations",
   "module.messages.seeAll": "See all",
   "module.messages.selectionNumber": "{num, plural, =-1 {All Conversations} one {# Conversation} other {# Conversations}} selected",
