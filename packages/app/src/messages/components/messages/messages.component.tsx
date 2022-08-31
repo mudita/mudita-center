@@ -136,13 +136,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState<string>("")
+  const [searchedMessage, setSearchedMessage] = useState<Message | null>(null)
   const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
-    if (searchValue === "") {
+    if (searchValue === "" && messagesState === MessagesState.SearchResult) {
       setMessagesState(MessagesState.List)
+
+      setSearchedMessage(null)
     }
-  }, [searchValue])
+  }, [searchValue, messagesState])
 
   useEffect(() => {
     messageLayoutNotifications
@@ -166,6 +169,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         updateFieldState("messageDeleting", false)
         updateFieldState("messageDeletingConfirmation", false)
         updateFieldState("messageDeletingInfo", true)
+        messagesState === MessagesState.SearchResult && handleSearchMessage()
       }
 
       if (states.threadDeleting) {
@@ -611,7 +615,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const openSearchResults = () => {
     setMessagesState(MessagesState.SearchResult)
-    searchMessages({ scope: [DataIndex.Message], query: searchValue })
+    handleSearchMessage()
   }
 
   const handleResultClick = (message: Message): void => {
@@ -619,7 +623,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (thread && activeThread?.id !== message.threadId) {
       setMessagesState(MessagesState.List)
       openThreadDetails(thread)
-
+      setSearchedMessage(message)
       if (!thread.unread) {
         return
       }
@@ -627,6 +631,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
       markThreadsReadStatus([thread])
     }
   }
+
+  const handleSearchMessage = () => {
+    searchMessages({ scope: [DataIndex.Message], query: searchValue })
+  }
+
   return (
     <>
       <ContactSelectModal
@@ -729,6 +738,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
               onMessageDelete={openDeleteMessageModal}
               resendMessage={resendMessage}
               onAttachTemplateClick={openAttachTemplateModal}
+              selectedMessage={searchedMessage}
             />
           )}
           {messagesState === MessagesState.NewMessage && (
