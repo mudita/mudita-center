@@ -17,7 +17,7 @@ export interface MessagesPanelProps {
   toggleAll: (event: React.ChangeEvent<Element> | undefined) => void
   onDeleteClick: () => void
   onSearchEnterClick: () => void
-  onSelect: (record: Thread & Message) => void
+  onSelect: (record: Thread | Message) => void
   showSearchResults?: boolean
   results: SearchResult
 }

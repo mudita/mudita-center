@@ -7,7 +7,7 @@ import { Thread, Message } from "App/messages/dto"
 import { SearchResult } from "App/search/dto"
 
 export interface MessagesInputSearchProps {
-  onSelect: (record: Thread & Message) => void
+  onSelect: (record: Thread | Message) => void
   onSearchEnterClick: () => void
   showSearchResults?: boolean
   searchValue: string

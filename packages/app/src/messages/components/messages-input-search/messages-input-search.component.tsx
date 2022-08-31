@@ -29,7 +29,6 @@ import {
 } from "App/messages/components/messages-input-search/messages-input-search.styled"
 import { ContactName } from "App/contacts/components"
 import { MessagesInputSearchProps } from "App/messages/components/messages-input-search/messages-input-search.interface"
-// import { searchResultFormatter } from "App/messages/components/messages-input-search/messages-input-search.helper"
 import { Message, Thread } from "App/messages/dto"
 import {
   ItemType,

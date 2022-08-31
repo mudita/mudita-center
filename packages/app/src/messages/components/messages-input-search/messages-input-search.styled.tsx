@@ -22,7 +22,6 @@ export const MessageListItemGroupWrapper = styled.div`
 export const MessageListItem = styled(ListItem)<{ active: boolean }>`
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
   padding: 0.8rem 1.6rem;
   :not(:last-of-type) {
     border-bottom: none;
