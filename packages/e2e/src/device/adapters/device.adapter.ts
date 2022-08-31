@@ -5,9 +5,9 @@
 
 import { getDeviceList, Device } from "usb"
 import { PortInfo } from "serialport"
-import * as SerialPort from "serialport"
-import { DeviceIdentity } from "../types"
+import SerialPort from "serialport"
 import { DeviceAdapterClass } from "./device-adapter.class"
+import { DeviceIdentity } from "../types"
 
 export class DeviceAdapter implements DeviceAdapterClass {
   public async getDeviceByDescription(props: DeviceIdentity): Promise<Device> {

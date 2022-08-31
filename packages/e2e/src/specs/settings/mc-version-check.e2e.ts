@@ -1,6 +1,11 @@
-import NavigationTabs from "../../page-objects/tabs.page"
-import SettingsPage from "../../page-objects/settings.page"
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { version } from "../../../../app/package.json"
+import SettingsPage from "../../page-objects/settings.page"
+import NavigationTabs from "../../page-objects/tabs.page"
 
 describe("Checking Mudita Center version", () => {
   before(async () => {

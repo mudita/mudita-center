@@ -6,6 +6,7 @@
 import { DeviceAdapterClass, SerialPortAdapterClass } from "../adapters"
 import { sleep } from "../../helpers"
 import { DeviceServiceClass } from "./device-service.class"
+import { Device } from "usb"
 
 export class DeviceService implements DeviceServiceClass {
   constructor(
@@ -13,13 +14,17 @@ export class DeviceService implements DeviceServiceClass {
     private serialPortAdapter: SerialPortAdapterClass
   ) {}
 
-  public async startInMSC(): Promise<void> {
-    await sleep(2000)
-
-    const muditaDevice = await this.deviceAdapter.getDeviceByDescription({
+  public async getDevice(): Promise<Device> {
+    return this.deviceAdapter.getDeviceByDescription({
       vendorId: "3310",
       productId: "0100",
     })
+  }
+
+  public async startInMSC(): Promise<void> {
+    await sleep(2000)
+
+    const muditaDevice = await this.getDevice()
 
     await sleep()
 
