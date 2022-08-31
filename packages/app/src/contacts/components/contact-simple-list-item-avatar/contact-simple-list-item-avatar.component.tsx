@@ -7,6 +7,7 @@ import { ContactSimpleListItemAvatarProps } from "App/contacts/components/contac
 import {
   BlockedIcon,
   InitialsAvatar,
+  NameSpan,
 } from "App/contacts/components/contact-simple-list-item-avatar/contact-simple-list-item-avatar.styled"
 import { ContactSimpleListItemAvatarTestIds } from "App/contacts/components/contact-simple-list-item-avatar/contact-simple-list-item-avatar-test-ids.enum"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
@@ -28,7 +29,9 @@ export const ContactSimpleListItemAvatar: FunctionComponent<
   return (
     <>
       <InitialsAvatar user={contact} size={AvatarSize.Small} />
-      {fullName || intl.formatMessage(messages.unnamedContact)}
+      <NameSpan>
+        {fullName || intl.formatMessage(messages.unnamedContact)}
+      </NameSpan>
       {contact.blocked && (
         <BlockedIcon
           width={2}

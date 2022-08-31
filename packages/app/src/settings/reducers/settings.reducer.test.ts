@@ -121,40 +121,24 @@ describe("Functionality: toggle tethering", () => {
 })
 
 describe("Functionality: toggle update available", () => {
-  test("Event: ToggleUpdateAvailable/pending set loading state", () => {
+  test("Event: ToggleUpdateAvailable/pending set updateAvailable value", () => {
     expect(
       settingsReducer(undefined, {
         type: pendingAction(SettingsEvent.ToggleUpdateAvailable),
-      })
-    ).toEqual({
-      ...initialState,
-      loading: true,
-      loaded: false,
-    })
-  })
-
-  test("Event: ToggleUpdateAvailable/fulfilled set updateAvailable value and changing loading state", () => {
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleUpdateAvailable),
-        payload: true,
+        meta: { arg: true },
       })
     ).toEqual({
       ...initialState,
       updateAvailable: true,
-      loading: false,
-      loaded: true,
     })
     expect(
       settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleUpdateAvailable),
-        payload: false,
+        type: pendingAction(SettingsEvent.ToggleUpdateAvailable),
+        meta: { arg: false },
       })
     ).toEqual({
       ...initialState,
       updateAvailable: false,
-      loading: false,
-      loaded: true,
     })
   })
 })
@@ -178,26 +162,6 @@ describe("Functionality: toggle data collection", () => {
     ).toEqual({
       ...initialState,
       collectingData: false,
-    })
-  })
-})
-
-describe("Functionality: check for update", () => {
-  test("Event: CheckUpdateAvailable/fulfilled set `updateAvailable` value", () => {
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          updateAvailable: true,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.CheckUpdateAvailable),
-          payload: true,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      updateAvailable: undefined,
     })
   })
 })

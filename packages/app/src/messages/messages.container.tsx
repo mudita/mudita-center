@@ -47,6 +47,8 @@ import {
 } from "./actions"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { search } from "App/search/actions"
+import { SearchParams } from "App/search/dto"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   error: state.messages.error,
@@ -71,6 +73,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   )(state),
   templates: state.templates.data,
   selectedItems: state.messages.selectedItems,
+  searchResult: state.messages.searchResult,
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
@@ -129,6 +132,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   resetItems: () => dispatch(resetItems()),
+  searchMessages: (searchParams: SearchParams) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(search(searchParams)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

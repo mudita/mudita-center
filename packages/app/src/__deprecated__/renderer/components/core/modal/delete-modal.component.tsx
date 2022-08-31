@@ -8,29 +8,17 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import Modal from "App/__deprecated__/renderer/components/core/modal/modal.component"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import styled from "styled-components"
-import Text, {
-  TextDisplayStyle,
-} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { Message } from "App/__deprecated__/renderer/interfaces/message.interface"
 import { DeleteModalTestIds } from "App/__deprecated__/renderer/components/core/modal/delete-modal.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-
-export const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p {
-    white-space: pre-wrap;
-    text-align: center;
-    line-height: 2.2rem;
-    margin-top: 3.2rem;
-  }
-`
+import {
+  ModalContent,
+  TextMessage,
+} from "App/__deprecated__/renderer/components/core/modal/delete-modal.styled"
 
 const messages = defineMessages({
   cancelButton: { id: "module.contacts.deleteCancelButton" },
@@ -65,7 +53,10 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
     >
       <ModalContent data-testid={DeleteModalTestIds.Content}>
         <Icon type={IconType.DeleteBig} width={12} height={12} />
-        <Text displayStyle={TextDisplayStyle.Paragraph2} message={message} />
+        <TextMessage
+          displayStyle={TextDisplayStyle.Paragraph2}
+          message={message}
+        />
       </ModalContent>
     </Modal>
   )

@@ -6,3 +6,4 @@
 export * from "./controller.constant"
 export * from "./errors.enum"
 export * from "./event.enum"
+export * from "./contact.constant"

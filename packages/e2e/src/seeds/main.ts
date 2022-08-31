@@ -21,7 +21,7 @@ export const seedData = async (specFileName: string) => {
   }
 }
 
-export const afterDataSeed = async () => {
+export const removeSeededData = async () => {
   if (seedResult) {
     console.log("Removing seed data result", seedResult)
     await seedService.removeSeededData(seedResult)
