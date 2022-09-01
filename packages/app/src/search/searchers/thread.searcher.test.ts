@@ -21,6 +21,8 @@ const threadMock: Thread = {
   unread: true,
   phoneNumber: "123123123",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 describe("When index exists", () => {
@@ -44,8 +46,8 @@ describe("When index exists", () => {
     expect(subject.search("laborum")).toEqual([threadMock])
   })
 
-  test("returns empty array if query contains only a part of the word", () => {
-    expect(subject.search("labo")).toEqual([])
+  test("returns hydrated `threads` list if query contains only a part of the word", () => {
+    expect(subject.search("labo")).toEqual([threadMock])
   })
 
   test("returns empty array if query doesn't match to string in fields", () => {

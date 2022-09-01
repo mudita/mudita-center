@@ -31,6 +31,7 @@ interface Properties {
   onMessageRead?: () => void
   onMessageRemove?: (messageId: string) => void
   resendMessage?: (messageId: string) => void
+  selectedMessage: Message | null
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
@@ -42,12 +43,16 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   onMessageRead = noop,
   onMessageRemove = noop,
   resendMessage,
+  selectedMessage,
 }) => {
   const wrapperBottomRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [onBottom, setOnBottom] = useState<boolean>(false)
   const prevMessages = useRef({ messages }).current
+  const messageIndex =
+    selectedMessage &&
+    messages.findIndex((message) => message.id === selectedMessage.id)
 
   useEffect(() => {
     if (
@@ -171,7 +176,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
         items={messages}
         itemMinSize={32}
         margin={28}
-        initialIndex={messages.length - 1}
+        initialIndex={messageIndex ? messageIndex : messages.length - 1}
         overscan={5}
       >
         {(item, index) => {

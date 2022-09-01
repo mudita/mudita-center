@@ -30,6 +30,8 @@ describe("`getReceiverSelector` selector", () => {
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
       messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const state = {

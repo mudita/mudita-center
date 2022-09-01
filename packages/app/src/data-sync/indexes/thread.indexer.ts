@@ -36,6 +36,8 @@ export class ThreadIndexer extends BaseIndexer {
     const index = elasticlunr<ThreadObject>()
 
     index.setRef("id")
+    index.addField("contactId")
+    index.addField("contactName")
     index.addField("phoneNumber")
     index.addField("lastUpdatedAt")
     index.addField("messageSnippet")
@@ -57,6 +59,9 @@ export class ThreadIndexer extends BaseIndexer {
       [ThreadTable.Numbers]: contactDb.exec(
         `SELECT * FROM ${ThreadTable.Numbers};`
       )[0] as unknown as ThreadInput["contact_number"],
+      [ThreadTable.Names]: contactDb.exec(
+        `SELECT * FROM ${ThreadTable.Names};`
+      )[0] as unknown as ThreadInput["contact_name"],
       [ThreadTable.Sms]: smsDb.exec(
         `SELECT * FROM ${ThreadTable.Sms};`
       )[0] as unknown as ThreadInput["sms"],

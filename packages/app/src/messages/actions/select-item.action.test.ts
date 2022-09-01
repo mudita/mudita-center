@@ -29,7 +29,10 @@ describe("Select items actions", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
+
   const secondThread: Thread = {
     id: "2",
     phoneNumber: "+48 755 853 216",
@@ -38,7 +41,10 @@ describe("Select items actions", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
+
   test("Action: `ResetItems` - fire action without payload and `ResetItems` type", () => {
     mockStore.dispatch(resetItems())
     expect(mockStore.getActions()).toEqual([
