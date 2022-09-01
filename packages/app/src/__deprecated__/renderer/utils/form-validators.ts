@@ -6,7 +6,8 @@
 import { RegisterOptions } from "react-hook-form/dist/types"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 
-export const phoneNumberRegexp = /^[ \\.+\-#()\d]*$/im
+export const phoneNumberRegexp =
+  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/
 
 export const passwordRegexp =
   /^(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
