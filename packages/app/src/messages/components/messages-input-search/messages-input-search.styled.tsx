@@ -78,3 +78,12 @@ export const MessageConversationIconWrapper = styled.div`
   align-items: center;
   margin-right: 1rem;
 `
+
+export const MessageSearchResultAccent = styled(Text)`
+  margin-bottom: 0.4rem;
+  color: ${textColor("secondary")};
+
+  strong {
+    color: ${textColor("primary")};
+  }
+`

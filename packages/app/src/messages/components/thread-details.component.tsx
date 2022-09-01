@@ -35,6 +35,7 @@ interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
   resendMessage: (messageId: string) => void
   onAttachTemplateClick: () => void
   selectedMessage: Message | null
+  searchQuery: string
 }
 
 const ThreadDetails: FunctionComponent<Props> = ({
@@ -52,6 +53,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
   resendMessage,
   onAttachTemplateClick,
   selectedMessage,
+  searchQuery,
   ...props
 }) => {
   const handleTextAreaChange = (
@@ -77,6 +79,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
           onMessageRemove={onMessageDelete}
           resendMessage={resendMessage}
           selectedMessage={selectedMessage}
+          searchQuery={searchQuery}
         />
       </MessagesWrapper>
       <ThreadDetailsTextArea

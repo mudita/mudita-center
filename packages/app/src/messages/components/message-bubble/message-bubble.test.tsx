@@ -24,6 +24,8 @@ const defaultProps: Props = {
   isMessageBeingDeleted: false,
   removeMessage: noop,
   messageType: MessageType.INBOX,
+  selected: false,
+  searchQuery: "",
 }
 
 // AUTO DISABLED - fix me if you like :)
@@ -103,6 +105,14 @@ describe("Message Bubble Container", () => {
 test("should show not send status if sending message failed", () => {
   const { getByTestId } = renderer({ messageType: MessageType.FAILED })
   expect(getByTestId(MessageBubbleTestIds.NotSendIcon)).toBeInTheDocument()
+})
+
+test("should mark text if message is `selected` and `searchQuery` provided", () => {
+  const { container } = renderer({
+    selected: true,
+    searchQuery: "ipsum",
+  })
+  expect(container.querySelector("strong")).toHaveTextContent("ipsum")
 })
 
 describe("dropdown", () => {

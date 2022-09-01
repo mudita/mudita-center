@@ -32,6 +32,7 @@ interface Properties {
   onMessageRemove?: (messageId: string) => void
   resendMessage?: (messageId: string) => void
   selectedMessage: Message | null
+  searchQuery: string
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
@@ -44,6 +45,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   onMessageRemove = noop,
   resendMessage,
   selectedMessage,
+  searchQuery,
 }) => {
   const wrapperBottomRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
@@ -203,6 +205,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
             removeMessage: onMessageRemove,
             isMessageBeingDeleted,
             resendMessage,
+            searchQuery,
+            selected: selectedMessage?.id === id,
           }
 
           return <MessageDayBubble key={id} {...messageDayBubble} />

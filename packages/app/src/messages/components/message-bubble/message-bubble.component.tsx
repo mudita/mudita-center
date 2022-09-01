@@ -31,6 +31,7 @@ import { MessageBubbleTestIds } from "App/messages/components/message-bubble/mes
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { MessageType } from "App/messages/constants"
 import { flags, Feature } from "App/feature-flags"
+import { SearchResultAccent } from "App/search/components"
 
 const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   className,
@@ -45,6 +46,8 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   resendMessage = noop,
   messageType,
   isMessageBeingDeleted,
+  selected,
+  searchQuery,
 }) => {
   const isMessageFailed = messageType === MessageType.FAILED
   const [clicked, setClicked] = useState<string>("")
@@ -150,7 +153,16 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
             data-testid={MessageBubbleTestIds.MessageContent}
           >
             <MessageBubbleText displayStyle={TextDisplayStyle.Paragraph4}>
-              {message}
+              {selected ? (
+                <SearchResultAccent
+                  fullText
+                  text={message}
+                  query={searchQuery}
+                  maxSymbols={message.length}
+                />
+              ) : (
+                message
+              )}
             </MessageBubbleText>
             <MessageDate>
               <Text displayStyle={TextDisplayStyle.Label}>

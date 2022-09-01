@@ -106,6 +106,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
           messages={[]}
           currentlyDeletingMessageId={null}
           selectedMessage={null}
+          searchQuery={""}
         />
       </MessagesWrapper>
       <ThreadDetailsTextArea

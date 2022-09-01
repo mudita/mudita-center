@@ -26,6 +26,8 @@ const defaultProps: Properties = {
   messageType: MessageType.OUTBOX,
   isMessageBeingDeleted: false,
   removeMessage: jest.fn(),
+  selected: false,
+  searchQuery: "",
 }
 
 // AUTO DISABLED - fix me if you like :)

@@ -6,5 +6,6 @@
 export interface SearchResultAccentProps {
   text: string
   query: string
+  fullText?: boolean
   maxSymbols?: number
 }

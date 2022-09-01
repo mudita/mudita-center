@@ -139,6 +139,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState<string>("")
+  const [lastSearchQuery, setLastSearchQuery] = useState<string>("")
   const [searchedMessage, setSearchedMessage] = useState<Message | null>(null)
   const allItemsSelected = threads.length === selectedItems.rows.length
 
@@ -376,6 +377,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
       openThreadDetails(thread)
+      setLastSearchQuery("")
 
       if (!thread.unread) {
         return
@@ -623,9 +625,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (isMessage(record)) {
       const thread = threads.find((thread) => thread.id === record.threadId)
       if (thread) {
+        setSearchedMessage(record)
         openThreadDetails(thread)
       }
     } else {
+      const message = getActiveMessagesByThreadIdSelector(record.id)[0]
+
+      setSearchedMessage(message)
       openThreadDetails(record)
     }
   }
@@ -634,6 +640,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setSearchValue(query)
 
     if (query) {
+      setLastSearchQuery(query)
       setMessagesState(MessagesState.SearchResultDropdown)
       searchMessages({
         scope: [DataIndex.Message, DataIndex.Thread],
@@ -772,6 +779,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
               resendMessage={resendMessage}
               onAttachTemplateClick={openAttachTemplateModal}
               selectedMessage={searchedMessage}
+              searchQuery={lastSearchQuery}
             />
           )}
           {messagesState === MessagesState.NewMessage && (

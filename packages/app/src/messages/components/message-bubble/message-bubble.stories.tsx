@@ -37,6 +37,8 @@ storiesOf("Components/Message Bubble", module)
           messageType={MessageType.OUTBOX}
           isMessageBeingDeleted={false}
           removeMessage={noop}
+          searchQuery={""}
+          selected={false}
         />
       </Wrapper>
     )
@@ -54,6 +56,8 @@ storiesOf("Components/Message Bubble", module)
           messageType={MessageType.OUTBOX}
           isMessageBeingDeleted={false}
           removeMessage={noop}
+          searchQuery={""}
+          selected={false}
         />
       </Wrapper>
     )
@@ -71,6 +75,8 @@ storiesOf("Components/Message Bubble", module)
           messageType={MessageType.OUTBOX}
           isMessageBeingDeleted={false}
           removeMessage={noop}
+          searchQuery={""}
+          selected={false}
         />
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
@@ -81,6 +87,8 @@ storiesOf("Components/Message Bubble", module)
           messageType={MessageType.OUTBOX}
           isMessageBeingDeleted={false}
           removeMessage={noop}
+          searchQuery={""}
+          selected={false}
         />
       </ColumnWrapper>
     )
@@ -97,6 +105,8 @@ storiesOf("Components/Message Bubble", module)
           messageType={MessageType.OUTBOX}
           isMessageBeingDeleted={false}
           removeMessage={noop}
+          searchQuery={""}
+          selected={false}
         />
         <MessageBubble
           user={{ firstName: "Kuser", lastName: "Luserowski" }}
@@ -106,6 +116,8 @@ storiesOf("Components/Message Bubble", module)
           messageType={MessageType.OUTBOX}
           isMessageBeingDeleted={false}
           removeMessage={noop}
+          searchQuery={""}
+          selected={false}
         />
       </ColumnWrapper>
     )
@@ -121,6 +133,8 @@ storiesOf("Components/Message Bubble", module)
           messageType={MessageType.OUTBOX}
           isMessageBeingDeleted
           removeMessage={noop}
+          searchQuery={""}
+          selected={false}
         />
       </ColumnWrapper>
     )
