@@ -4,14 +4,15 @@
  */
 
 import { SeedServiceFactory } from "./factories"
-import { SeedDataResult, SeedParams } from "./types"
+import { resolveSeedData } from "./resolve-seed-data"
+import { SeedDataResult } from "./types"
 
 const seedService = new SeedServiceFactory().create()
 
 let seedResult: SeedDataResult
 
 export const seedData = async (specFileName: string) => {
-  const data = getData(specFileName)
+  const data = resolveSeedData(specFileName)
 
   if (data) {
     console.log(`Adding seed data to ${specFileName}`, data)
@@ -20,15 +21,9 @@ export const seedData = async (specFileName: string) => {
   }
 }
 
-// TODO [mw] implement it - scope of the next PR
-const getData = (specFileName: string): SeedParams | undefined => {
-  return
-}
-
 export const removeSeededData = async () => {
-  console.log("Removing seed data result", seedResult)
-
   if (seedResult) {
+    console.log("Removing seed data result", seedResult)
     await seedService.removeSeededData(seedResult)
   }
 

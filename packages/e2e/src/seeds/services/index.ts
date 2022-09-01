@@ -5,3 +5,5 @@
 
 export * from "./contact-service.class"
 export * from "./contact.service"
+export * from "./templates.service"
+export * from "./templates.service.class"
