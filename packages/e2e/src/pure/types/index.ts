@@ -5,3 +5,4 @@
 
 export * from "./device.types"
 export * from "./contact.type"
+export * from "./messages.types"

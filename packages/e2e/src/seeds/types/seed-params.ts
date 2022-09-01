@@ -4,7 +4,9 @@
  */
 
 import { NewContact } from "./new-contact"
+import { NewTemplate } from "./new-template"
 
 export interface SeedParams {
   contacts?: NewContact[]
+  templates?: NewTemplate[]
 }
