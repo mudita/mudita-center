@@ -99,6 +99,7 @@ const defaultProps: Props = {
   currentlyDeletingMessageId: null,
   onMessageRemove: noop,
   selectedMessage: null,
+  searchQuery: "",
 }
 
 // AUTO DISABLED - fix me if you like :)

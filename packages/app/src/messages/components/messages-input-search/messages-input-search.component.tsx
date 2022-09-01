@@ -26,6 +26,7 @@ import {
   MessageListItemWrapper,
   MessageListItemGroupWrapper,
   MessageConversationIconWrapper,
+  MessageSearchResultAccent,
 } from "App/messages/components/messages-input-search/messages-input-search.styled"
 import { ContactName } from "App/contacts/components"
 import { MessagesInputSearchProps } from "App/messages/components/messages-input-search/messages-input-search.interface"
@@ -71,7 +72,12 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
           </MessageListItemInfoWrapper>
 
           {messageContent ? (
-            <SearchResultAccent query={searchString} text={item.data.content} />
+            <MessageSearchResultAccent>
+              <SearchResultAccent
+                query={searchString}
+                text={item.data.content}
+              />
+            </MessageSearchResultAccent>
           ) : (
             <MessageListItemContent>
               {item.data.phoneNumber}
