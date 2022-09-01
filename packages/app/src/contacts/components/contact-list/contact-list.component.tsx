@@ -3,57 +3,53 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { createRef, Ref, useEffect, useState } from "react"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import styled, { css } from "styled-components"
-import Table, {
-  Col,
-  EmptyState,
-  Group,
-  Labels,
-  LoadingState,
-  Row,
-  TextPlaceholder,
-} from "App/__deprecated__/renderer/components/core/table/table.component"
-import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
-import {
-  animatedOpacityActiveStyles,
-  animatedOpacityStyles,
-} from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
-import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
-import Avatar, {
-  AvatarSize,
-  basicAvatarStyles,
-} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
-import {
-  backgroundColor,
-  textColor,
-} from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import Icon, {
-  IconSize,
-} from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
-import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import { intl } from "App/__deprecated__/renderer/utils/intl"
-import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
-import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
-import { InView } from "react-intersection-observer"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
-import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
-import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
-import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
-import { flags, Feature } from "App/feature-flags"
+import { ContactListProps } from "App/contacts/components/contact-list/contact-list.component.interface"
 import {
-  Contact,
+  HiddenButton,
+  Checkbox,
+  InitialsAvatar,
+  AvatarPlaceholder,
+  Actions,
+  BlockedIcon,
+  NameSpan,
+  ClickableCol,
+  SelectableContacts,
+  ContactListRow,
+  CategoryLabels,
+} from "App/contacts/components/contact-list/contact-list.styled"
+import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
+import {
   ContactCategory,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
+import { Feature, flags } from "App/feature-flags"
+import { AvatarSize } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import {
+  Col,
+  EmptyState,
+  Group,
+  LoadingState,
+  TextPlaceholder,
+} from "App/__deprecated__/renderer/components/core/table/table.component"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
+import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { isEqual } from "lodash"
+import React, { createRef, Ref, useEffect, useState } from "react"
+import { InView } from "react-intersection-observer"
 import { defineMessages } from "react-intl"
-import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   forwardNamecard: {
@@ -88,107 +84,6 @@ const messages = defineMessages({
   },
 })
 
-const checkboxShowedStyles = css`
-  margin-left: 4.4rem;
-  margin-right: 2.8rem;
-  display: block;
-`
-
-export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
-  ${({ visible }) => (visible ? checkboxShowedStyles : "display: none;")};
-`
-
-export const lightAvatarStyles = css`
-  background-color: ${backgroundColor("row")};
-`
-
-const InitialsAvatar = styled(Avatar)<{ disabled?: boolean }>`
-  margin-right: 1.6rem;
-  margin-left: 3.2rem;
-`
-
-export const AvatarPlaceholder = styled.div`
-  ${basicAvatarStyles};
-  margin-right: 1.6rem;
-  margin-left: 3.2rem;
-`
-
-const Actions = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  flex: 1;
-  padding-right: 3rem;
-  box-sizing: border-box;
-`
-
-const BlockedIcon = styled(Icon).attrs(() => ({
-  type: IconType.Blocked,
-}))`
-  margin-left: 1.6rem;
-`
-
-const NameSpan = styled(Text)``
-
-const ClickableCol = styled(Col)<{ disabled?: boolean }>`
-  height: 100%;
-
-  ${NameSpan} {
-    color: ${({ disabled }) => (disabled ? textColor("disabled") : "inherit")};
-  }
-
-  ${InitialsAvatar} {
-    color: ${({ disabled }) => (disabled ? textColor("accent") : "inherit")};
-  }
-`
-
-const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
-  min-width: 32rem;
-  flex: 1;
-  overflow: auto;
-  --columnsTemplate: 8.8rem 1fr 11.5rem 11.5rem auto;
-  --columnsTemplateWithOpenedSidebar: 8.8rem 1fr;
-  --columnsGap: 0;
-  pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
-`
-
-const activeRowStyles = css`
-  ${InitialsAvatar} {
-    ${lightAvatarStyles};
-  }
-`
-
-const ContactListRow = styled(Row)`
-  ${({ active }) => active && activeRowStyles};
-  :hover {
-    ${Checkbox} {
-      ${animatedOpacityActiveStyles};
-      ${checkboxShowedStyles};
-    }
-    ${InitialsAvatar} {
-      ${animatedOpacityStyles};
-      display: none;
-    }
-  }
-`
-
-interface ContactListProps {
-  activeRow?: Contact
-  selectedContact: Contact | null
-  onSelect: (contact: Contact) => void
-  editMode?: boolean
-  resultsState: ResultState
-  toggleRow: (id: string) => void
-  selectedItems: string[]
-  onExport: (ids: string[]) => void
-  onForward: (contact: Contact) => void
-  onBlock: (contact: Contact) => void
-  onUnblock: (contact: Contact) => void
-  onDelete: (id: string) => void
-  onEdit: (contact: Contact) => void
-  contactList: ContactCategory[]
-}
-
 const ContactList: FunctionComponent<ContactListProps> = ({
   activeRow,
   selectedContact,
@@ -205,29 +100,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   toggleRow,
   contactList,
 }) => {
-  const [contactsList, setContactsList] =
+  const [componentContactList, setComponentContactList] =
     useState<ContactCategory[]>(contactList)
-  const componentContactList = editMode ? contactsList : contactList
 
   useEffect(() => {
-    if (!editMode) {
-      setContactsList(contactsList)
+    // prevents contacts list to flash when edit mode is enabled
+    if (!isEqual(componentContactList, contactList)) {
+      setComponentContactList(contactList)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contactList, editMode])
+  }, [contactList])
 
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
-  const CategoryLabels = styled(Labels)`
-    align-items: end;
-    background-color: var(--rowBackground) !important;
-    grid-template-columns: 1fr;
-    > div:first-child {
-      margin-bottom: 1.5rem;
-      margin-left: 3.2rem;
-    }
-  `
 
   useEffect(() => {
     const table = tableRef.current
