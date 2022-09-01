@@ -144,11 +144,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
-    if (searchValue === "" && messagesState === MessagesState.SearchResult) {
-      setMessagesState(MessagesState.List)
-
-      setSearchedMessage(null)
+    if (searchValue !== "") {
+      return
     }
+    if (messagesState === MessagesState.SearchResult) {
+      setMessagesState(MessagesState.List)
+    }
+    setSearchedMessage(null)
   }, [searchValue, messagesState])
 
   useEffect(() => {
@@ -623,15 +625,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
 
     if (isMessage(record)) {
-      const thread = threads.find((thread) => thread.id === record.threadId)
-      if (thread) {
-        setSearchedMessage(record)
-        openThreadDetails(thread)
-      }
+      handleResultClick(record)
     } else {
-      const message = getActiveMessagesByThreadIdSelector(record.id)[0]
-
-      setSearchedMessage(message)
       openThreadDetails(record)
     }
   }
@@ -639,7 +634,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleSearch = (query: string) => {
     setSearchValue(query)
 
-    if (query) {
+    if (query.length > 0) {
       setLastSearchQuery(query)
       setMessagesState(MessagesState.SearchResultDropdown)
       searchMessages({
@@ -655,15 +650,15 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const handleSearchEnter = () => {
     setMessagesState(MessagesState.SearchResult)
+    setActiveThread(undefined)
     handleSearchMessage()
   }
 
   const handleResultClick = (message: Message): void => {
     const thread = threads.find((thread) => thread.id === message.threadId)
     if (thread && activeThread?.id !== message.threadId) {
-      setMessagesState(MessagesState.List)
-      openThreadDetails(thread)
       setSearchedMessage(message)
+      openThreadDetails(thread)
       if (!thread.unread) {
         return
       }
@@ -718,6 +713,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onSelect={handleSearchSelect}
         onSearchEnterClick={handleSearchEnter}
         showSearchResults={messagesState === MessagesState.SearchResultDropdown}
+        showSearchResultsList={messagesState === MessagesState.SearchResult}
       />
       {messagesState === MessagesState.SearchResult ? (
         <MessagesSearchResults

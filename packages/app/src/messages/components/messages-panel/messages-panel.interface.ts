@@ -19,5 +19,6 @@ export interface MessagesPanelProps {
   onSearchEnterClick: () => void
   onSelect: (record: Thread | Message) => void
   showSearchResults?: boolean
+  showSearchResultsList?: boolean
   results: SearchResult
 }
