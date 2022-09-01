@@ -13,7 +13,7 @@ import { useDebounce } from "usehooks-ts"
 import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
 import { DeleteThreadModals } from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
-import MessagesPanel from "App/messages/components/messages-panel.component"
+import { MessagesPanel } from "App/messages/components/messages-panel/messages-panel.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import ThreadDetails from "App/messages/components/thread-details.component"
@@ -66,6 +66,8 @@ const mockThread: Thread = {
   messageSnippet: "",
   unread: false,
   messageType: MessageType.OUTBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const isMockedThreadUsedForNewMessageForm = (thread: Thread) => {
@@ -77,6 +79,7 @@ enum MessagesState {
   ThreadDetails,
   NewMessage,
   SearchResult,
+  SearchResultDropdown,
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -136,13 +139,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState<string>("")
+  const [searchedMessage, setSearchedMessage] = useState<Message | null>(null)
   const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
-    if (searchValue === "") {
+    if (searchValue === "" && messagesState === MessagesState.SearchResult) {
       setMessagesState(MessagesState.List)
+
+      setSearchedMessage(null)
     }
-  }, [searchValue])
+  }, [searchValue, messagesState])
 
   useEffect(() => {
     messageLayoutNotifications
@@ -166,6 +172,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         updateFieldState("messageDeleting", false)
         updateFieldState("messageDeletingConfirmation", false)
         updateFieldState("messageDeletingInfo", true)
+        messagesState === MessagesState.SearchResult && handleSearchMessage()
       }
 
       if (states.threadDeleting) {
@@ -604,14 +611,44 @@ const Messages: FunctionComponent<MessagesProps> = ({
     allItemsSelected ? resetItems() : selectAllItems()
   }
 
-  const handleSearchSelect = (thread: Thread) => {
-    setActiveThread(thread)
-    setMessagesState(MessagesState.ThreadDetails)
+  const isMessage = (record: Thread | Message): record is Message => {
+    return Boolean((record as Message).threadId)
   }
 
-  const openSearchResults = () => {
+  const handleSearchSelect = (record: Thread | Message) => {
+    if (!record) {
+      return
+    }
+
+    if (isMessage(record)) {
+      const thread = threads.find((thread) => thread.id === record.threadId)
+      if (thread) {
+        openThreadDetails(thread)
+      }
+    } else {
+      openThreadDetails(record)
+    }
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchValue(query)
+
+    if (query) {
+      setMessagesState(MessagesState.SearchResultDropdown)
+      searchMessages({
+        scope: [DataIndex.Message, DataIndex.Thread],
+        query: query,
+      })
+    } else {
+      if (!activeThread) {
+        setMessagesState(MessagesState.List)
+      }
+    }
+  }
+
+  const handleSearchEnter = () => {
     setMessagesState(MessagesState.SearchResult)
-    searchMessages({ scope: [DataIndex.Message], query: searchValue })
+    handleSearchMessage()
   }
 
   const handleResultClick = (message: Message): void => {
@@ -619,7 +656,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (thread && activeThread?.id !== message.threadId) {
       setMessagesState(MessagesState.List)
       openThreadDetails(thread)
-
+      setSearchedMessage(message)
       if (!thread.unread) {
         return
       }
@@ -627,6 +664,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
       markThreadsReadStatus([thread])
     }
   }
+
+  const handleSearchMessage = () => {
+    searchMessages({ scope: [DataIndex.Message], query: searchValue })
+  }
+
   return (
     <>
       <ContactSelectModal
@@ -658,7 +700,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
       <MessagesPanel
         searchValue={searchValue}
-        onSearchValueChange={setSearchValue}
+        onSearchValueChange={handleSearch}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
         selectedIds={selectedItems.rows}
@@ -667,8 +709,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onDeleteClick={handleDeleteThreads}
         results={searchResult}
         onSelect={handleSearchSelect}
-        onSearchEnterClick={openSearchResults}
-        showSearchResults={messagesState === MessagesState.SearchResult}
+        onSearchEnterClick={handleSearchEnter}
+        showSearchResults={messagesState === MessagesState.SearchResultDropdown}
       />
       {messagesState === MessagesState.SearchResult ? (
         <MessagesSearchResults
@@ -729,6 +771,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
               onMessageDelete={openDeleteMessageModal}
               resendMessage={resendMessage}
               onAttachTemplateClick={openAttachTemplateModal}
+              selectedMessage={searchedMessage}
             />
           )}
           {messagesState === MessagesState.NewMessage && (

@@ -27,6 +27,8 @@ export class ThreadPresenter {
       phoneNumber: String(number),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
       messageType: ThreadPresenter.getMessageType(Number(messageType)),
+      contactId: undefined,
+      contactName: undefined,
     }
   }
 

@@ -22,6 +22,7 @@ export class TemplateSearcher extends BaseSearcher {
     }
 
     const result = index.search(query, {
+      expand: true,
       fields: {
         text: {
           boost: 2,

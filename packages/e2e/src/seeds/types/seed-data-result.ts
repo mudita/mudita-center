@@ -8,4 +8,5 @@ import { AddEntityResult } from "./add-entity-result"
 
 export interface SeedDataResult {
   contactsResult?: Response<AddEntityResult>[]
+  templatesResult?: Response<AddEntityResult>[]
 }

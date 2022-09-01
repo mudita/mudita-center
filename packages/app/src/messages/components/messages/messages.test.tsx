@@ -28,7 +28,7 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
-import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
+import { MessagePanelTestIds } from "App/messages/components/messages-panel/messages-panel-test-ids.enum"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
 import { MessageType, ResultState } from "App/messages/constants"
@@ -97,6 +97,8 @@ const firstThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const secondThread: Thread = {
@@ -109,6 +111,8 @@ const secondThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const incomingThread: Thread = {
@@ -119,6 +123,8 @@ const incomingThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const receiver: Receiver = {

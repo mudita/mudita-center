@@ -24,22 +24,27 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-select-test-ids.enum"
 import { ContactInputSearchProps } from "App/contacts/components/contact-input-search/contact-input-search.interface"
 
+import {
+  ItemType,
+  Item,
+} from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
+
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
   noNameProvided: { id: "module.contacts.panelSearchListNoName" },
   noDataProvided: { id: "module.contacts.panelSearchListNoData" },
 })
 
-const renderListItem: RenderListItem<Contact> = ({
+const renderListItem: RenderListItem<Item<Contact>> = ({
   item,
   searchString,
   props,
 }) => (
   <ContactListItem {...props}>
     <span>
-      {createFullName(item) ? (
+      {createFullName(item.data) ? (
         <ContactListItemName displayStyle={TextDisplayStyle.Paragraph3}>
-          {createFullName(item)}
+          {createFullName(item.data)}
         </ContactListItemName>
       ) : (
         <ContactListItemName
@@ -50,7 +55,7 @@ const renderListItem: RenderListItem<Contact> = ({
         </ContactListItemName>
       )}
       <Text color="secondary" displayStyle={TextDisplayStyle.Paragraph4}>
-        {secondParam(item, searchString)}
+        {secondParam(item.data, searchString)}
       </Text>
     </span>
   </ContactListItem>
@@ -107,7 +112,12 @@ export const ContactInputSearch: FunctionComponent<ContactInputSearchProps> = ({
     <ContactInputSelect
       {...props}
       onSelect={onContactSelect}
-      items={results}
+      items={[
+        ...results.map((contact) => ({
+          type: ItemType.Data,
+          data: contact,
+        })),
+      ]}
       leadingIcons={[searchIcon]}
       label={intl.formatMessage(messages.searchPlaceholder)}
       renderItemValue={createFullName}

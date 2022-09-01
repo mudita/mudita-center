@@ -7,6 +7,8 @@ import { MessageType } from "App/messages/constants"
 
 export interface Thread {
   id: string
+  contactId: string | undefined
+  contactName: string | undefined
   phoneNumber: string
   lastUpdatedAt: Date
   messageSnippet: string

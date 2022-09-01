@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Thread } from "App/messages/dto"
+import { Thread, Message } from "App/messages/dto"
 import { SearchResult } from "App/search/dto"
 
 export interface MessagesInputSearchProps {
-  onSelect: (thread: Thread) => void
+  onSelect: (record: Thread | Message) => void
   onSearchEnterClick: () => void
   showSearchResults?: boolean
   searchValue: string

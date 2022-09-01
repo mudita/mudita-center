@@ -125,7 +125,7 @@ describe("Functionality: toggle update available", () => {
     expect(
       settingsReducer(undefined, {
         type: pendingAction(SettingsEvent.ToggleUpdateAvailable),
-        meta: { arg: true }
+        meta: { arg: true },
       })
     ).toEqual({
       ...initialState,
@@ -134,7 +134,7 @@ describe("Functionality: toggle update available", () => {
     expect(
       settingsReducer(undefined, {
         type: pendingAction(SettingsEvent.ToggleUpdateAvailable),
-        meta: { arg: false }
+        meta: { arg: false },
       })
     ).toEqual({
       ...initialState,

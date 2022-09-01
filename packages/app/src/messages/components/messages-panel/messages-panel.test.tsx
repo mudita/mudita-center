@@ -6,9 +6,9 @@
 import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import MessagesPanel from "App/messages/components/messages-panel.component"
+import { MessagesPanel } from "App/messages/components/messages-panel/messages-panel.component"
 import { Thread } from "App/messages/dto"
-import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
+import { MessagePanelTestIds } from "App/messages/components/messages-panel/messages-panel-test-ids.enum"
 import { MessageType } from "App/messages/constants"
 
 type Props = ComponentProps<typeof MessagesPanel>
@@ -22,6 +22,8 @@ const threads: Thread[] = [
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "2",
@@ -31,6 +33,8 @@ const threads: Thread[] = [
       "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
 ]
 

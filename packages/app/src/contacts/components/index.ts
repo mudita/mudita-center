@@ -4,3 +4,4 @@
  */
 
 export * from "./contacts-select-modal"
+export * from "./contact-name"

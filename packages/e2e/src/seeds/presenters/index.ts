@@ -4,3 +4,4 @@
  */
 
 export * from "./contact.presenter"
+export * from "./tempates.presenter"
