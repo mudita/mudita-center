@@ -7,6 +7,7 @@ import { Index } from "elasticlunr"
 import { Model, Field } from "App/core/decorators"
 import { BaseModel } from "App/core/models"
 import { Thread, Message } from "App/messages/dto"
+import { Contact } from "App/contacts/dto"
 import { DataIndex } from "App/index-storage/constants"
 
 @Model(DataIndex.Thread)
@@ -48,5 +49,31 @@ export class ThreadModel extends BaseModel<Thread> {
         messageIndex.removeDocByRef(messageRef.ref)
       })
     }
+  }
+
+  public beforeCreate(data: Thread): Thread {
+    return this.assignContactData(data)
+  }
+
+  public beforeUpdate(data: Thread): Thread {
+    return this.assignContactData(data)
+  }
+
+  private assignContactData(data: Thread): Thread {
+    const contactIndex = this.index.get(DataIndex.Contact) as Index<Contact>
+    const contactRef = contactIndex.search(data.phoneNumber, {
+      fields: {
+        primaryPhoneNumber: { boost: 1 },
+      },
+    })
+
+    if (contactRef.length > 0) {
+      const contact = contactIndex.documentStore.getDoc(contactRef[0].ref)
+
+      data.contactId = contact.id
+      data.contactName = [contact.firstName, contact.lastName].join(" ")
+    }
+
+    return data
   }
 }
