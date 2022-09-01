@@ -20,7 +20,7 @@ export const features: EnvironmentConfig = {
   [Feature.MessagesSearchEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesDeleteEnabled]: {
     [Environment.Development]: true,

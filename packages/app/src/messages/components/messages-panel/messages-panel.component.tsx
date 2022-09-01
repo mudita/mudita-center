@@ -46,13 +46,14 @@ export const MessagesPanel: FunctionComponent<MessagesPanelProps> = ({
   onSearchEnterClick,
   onSelect,
   showSearchResults = false,
+  showSearchResultsList = false,
   results,
 }) => {
   const selectedItemsCount = selectedIds.length
   const selectionMode = selectedItemsCount > 0
 
   return (
-    <MessageFiltersWrapper showSearchResults={showSearchResults}>
+    <MessageFiltersWrapper showSearchResults={showSearchResultsList}>
       {selectionMode ? (
         <MessagesSelectionManager
           selectedItemsNumber={selectedItemsCount}
@@ -79,7 +80,7 @@ export const MessagesPanel: FunctionComponent<MessagesPanelProps> = ({
               onSearchEnterClick={onSearchEnterClick}
               searchValue={searchValue}
               onSearchValueChange={onSearchValueChange}
-              showSearchResults
+              showSearchResults={showSearchResults}
               results={results}
             />
           )}

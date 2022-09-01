@@ -303,7 +303,6 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
 
   const handleSelect = (item: typeof items[number]) => {
     onSelect(item)
-    resetSearchValue()
     setActiveItemIndex(-1)
   }
 
