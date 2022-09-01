@@ -68,6 +68,8 @@ const thread: Thread = {
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 beforeEach(() => {
@@ -115,6 +117,8 @@ describe("`ThreadService`", () => {
         Object {
           "data": Array [
             Object {
+              "contactId": undefined,
+              "contactName": undefined,
               "id": "1",
               "lastUpdatedAt": 2021-03-30T07:32:38.000Z,
               "messageSnippet": "Draft: Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
@@ -205,6 +209,8 @@ describe("`ThreadService`", () => {
           "error": Object {
             "data": Array [
               Object {
+                "contactId": undefined,
+                "contactName": undefined,
                 "id": "1",
                 "lastUpdatedAt": 2020-06-01T13:53:27.087Z,
                 "messageSnippet": "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",

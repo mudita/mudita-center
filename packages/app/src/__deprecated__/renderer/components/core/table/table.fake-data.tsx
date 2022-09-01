@@ -85,6 +85,8 @@ const createThread = (): Thread => {
     messageType: faker.datatype.boolean()
       ? MessageType.OUTBOX
       : MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 }
 

@@ -22,8 +22,12 @@ export class ThreadSearcher extends BaseSearcher {
     }
 
     const result = index.search(query, {
+      expand: true,
       fields: {
         phoneNumber: {
+          boost: 3,
+        },
+        contactName: {
           boost: 2,
         },
         messageSnippet: {

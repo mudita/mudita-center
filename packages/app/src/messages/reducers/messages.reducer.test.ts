@@ -41,6 +41,8 @@ describe("Toggle Thread Read Status data functionality", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 
   test("Event: ToggleThreadsReadStatus update properly threadMap field", () => {
@@ -84,6 +86,8 @@ describe("Mark Thread Read Status data functionality", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 
   test("Event: MarkThreadsReadStatus/pending update properly threadMap field", () => {
@@ -158,6 +162,8 @@ describe("Delete Threads data functionality", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 
   const message: Message = {
@@ -233,6 +239,8 @@ describe("Delete Threads data functionality", () => {
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
       messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const toDeleteMessage: Message = {
@@ -322,6 +330,8 @@ describe("Clear All Threads data functionality", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 
   const message: Message = {
@@ -369,6 +379,8 @@ describe("Add New Message functionality", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 
   const messagePartOne: Message = {
@@ -440,6 +452,8 @@ describe("Delete message functionality", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 
   const messageOne: Message = {
@@ -606,7 +620,10 @@ describe("Checkboxes manage", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
+
   const secondThread: Thread = {
     id: "2",
     phoneNumber: "+48 444 853 216",
@@ -614,6 +631,8 @@ describe("Checkboxes manage", () => {
     messageSnippet: "Exercitationem vel quasi doloremque.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 
   test("Event: SelectAll set selectedItems rows to array with all thread ids", () => {
@@ -703,6 +722,8 @@ describe("Searching messages", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
 
   const message: Message = {

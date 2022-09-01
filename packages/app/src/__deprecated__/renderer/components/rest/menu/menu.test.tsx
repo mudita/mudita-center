@@ -44,6 +44,8 @@ const threadMock: Thread = {
   unread: true,
   phoneNumber: "123123123",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const defaultProps: Props = {

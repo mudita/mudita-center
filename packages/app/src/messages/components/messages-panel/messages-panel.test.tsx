@@ -22,6 +22,8 @@ const threads: Thread[] = [
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: "2",
@@ -31,6 +33,8 @@ const threads: Thread[] = [
       "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
 ]
 

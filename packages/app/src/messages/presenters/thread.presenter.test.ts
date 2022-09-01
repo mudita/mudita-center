@@ -28,6 +28,8 @@ const thread: Thread = {
     "Draft: Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   unread: true,
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 describe("`ThreadPresenter`", () => {
