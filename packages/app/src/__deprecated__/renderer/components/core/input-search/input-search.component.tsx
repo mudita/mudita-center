@@ -291,10 +291,6 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  const resetSelection = () => onSelect(null)
-
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
     setFocus(false)
@@ -458,7 +454,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
             activeItemIndex={activeItemIndex}
             handleMouseEnter={handleMouseEnter}
             onTransitionEnd={clearOnBlur ? resetSearchValue : noop}
-            onEmptyItemValueClick={resetSelection}
+            onEmptyItemValueClick={noop}
             onItemClick={handleSelect}
             actionButton={actionButton}
             onActionButtonClick={onActionButtonClick}

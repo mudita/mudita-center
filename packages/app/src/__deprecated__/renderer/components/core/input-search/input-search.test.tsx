@@ -93,17 +93,6 @@ test("select input returns selected list item", () => {
   expect(onSelect).toBeCalledWith(basicItems[2])
 })
 
-test("select input resets after selecting empty option", () => {
-  const onSelect = jest.fn()
-  const { listItems } = renderInputSearch({
-    onSelect,
-    emptyItemValue: "empty",
-  })
-  expect(listItems()[0]).toHaveTextContent("empty")
-  fireEvent.click(listItems()[0])
-  expect(onSelect).toBeCalledWith(null)
-})
-
 test("Item marked as disabled in `disabledOptions` list should have a `disabled` attribute", () => {
   const { listItems } = renderInputSearch({
     disabledItems: [basicItems[0]],
