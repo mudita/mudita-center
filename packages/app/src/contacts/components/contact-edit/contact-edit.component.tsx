@@ -23,6 +23,8 @@ import { useForm } from "react-hook-form"
 import {
   primaryPhoneNumberValidator,
   secondaryPhoneNumberValidator,
+  nameValidator,
+  addressValidator,
 } from "App/__deprecated__/renderer/utils/form-validators"
 import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
@@ -211,7 +213,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstName)}
-              {...register("firstName")}
+              {...register("firstName", nameValidator)}
               errorMessage={errors.firstName?.message}
               maxLength={MaxNameLength}
               onBlur={handleUsernameBlur}
@@ -220,7 +222,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondName)}
-              {...register("lastName")}
+              {...register("lastName", nameValidator)}
               errorMessage={errors.lastName?.message}
               maxLength={MaxNameLength}
               onBlur={handleUsernameBlur}
@@ -262,7 +264,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstAddressLine)}
-              {...register("firstAddressLine")}
+              {...register("firstAddressLine", addressValidator)}
               errorMessage={errors.firstAddressLine?.message}
               maxLength={AddressNameLength}
               onBlur={trimInputValue}
@@ -271,7 +273,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondAddressLine)}
-              {...register("secondAddressLine")}
+              {...register("secondAddressLine", addressValidator)}
               errorMessage={errors.secondAddressLine?.message}
               maxLength={AddressNameLength}
               onBlur={trimInputValue}

@@ -5,6 +5,7 @@
 
 import { RegisterOptions } from "react-hook-form/dist/types"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { AddressNameLength, MaxNameLength } from "App/contacts/constants"
 
 export const phoneNumberRegexp = /^[ \\.+\-#()\d]*$/im
 
@@ -117,5 +118,29 @@ export const backupSecretKeyValidator = {
     message: intl.formatMessage({
       id: "module.overview.backupSecretKeyValidation",
     }),
+  },
+}
+
+export const nameValidator: RegisterOptions = {
+  maxLength: {
+    value: MaxNameLength,
+    message: intl.formatMessage(
+      {
+        id: "component.formErrorTooLong",
+      },
+      { maxLength: MaxNameLength }
+    ),
+  },
+}
+
+export const addressValidator: RegisterOptions = {
+  maxLength: {
+    value: AddressNameLength,
+    message: intl.formatMessage(
+      {
+        id: "component.formErrorTooLong",
+      },
+      { maxLength: AddressNameLength }
+    ),
   },
 }
