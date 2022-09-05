@@ -21,4 +21,14 @@ export const BlockedIcon = styled(Icon).attrs(() => ({
 }))`
   margin-left: 1.6rem;
 `
-export const NameSpan = styled(Text)``
+
+/* stylelint-disable property-no-vendor-prefix */
+/* stylelint-disable value-no-vendor-prefix */
+export const NameSpan = styled(Text)`
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  overflow: hidden;
+`
