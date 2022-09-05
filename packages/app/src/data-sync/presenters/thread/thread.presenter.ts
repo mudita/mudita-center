@@ -47,7 +47,7 @@ export class ThreadPresenter {
   }
 
   public serializeToObject(data: ThreadInput): ThreadObject[] {
-    if (!data.threads || !data.contact_number) {
+    if (!data.threads || !data.contact_number || !data.contact_name) {
       return []
     }
 
