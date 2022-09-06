@@ -213,7 +213,7 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
       ) : (
         <NoResultsItem>{intl.formatMessage(messages.noResults)}</NoResultsItem>
       )}
-      {actionButton && (
+      {items.length > 0 && actionButton && (
         <ActionButton onClick={onActionButtonClick}>
           {actionButton}
         </ActionButton>
