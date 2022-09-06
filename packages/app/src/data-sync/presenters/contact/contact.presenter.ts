@@ -14,6 +14,8 @@ import {
   ContactMatchGroupEntity,
 } from "App/data-sync/types"
 
+const forbiddenRestrictedPureId = "0"
+
 export class ContactPresenter {
   public findRecords<Type extends { contact_id: string }>(
     data: { contact_id: string }[],
@@ -90,10 +92,9 @@ export class ContactPresenter {
     return contacts
       .map((contact) => {
         if (
-          contact.name_id === "0" ||
+          contact.name_id === forbiddenRestrictedPureId ||
           !contact.name_id ||
-          contact.numbers_id === "0" ||
-          !contact.numbers_id
+          contact.numbers_id === forbiddenRestrictedPureId
         ) {
           return
         }
@@ -115,7 +116,7 @@ export class ContactPresenter {
           contact._id
         )[0]
 
-        if (!contactName || !contactNumber.length) {
+        if (!contactName) {
           return
         }
 
