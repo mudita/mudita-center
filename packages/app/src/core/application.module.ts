@@ -60,10 +60,14 @@ export class ApplicationModule {
     // TODO move to private instance method after all modules will be implemented
     private deviceService: DeviceService
   ) {
-    const loggerEnabled = flags.get(Feature.LoggerEnabled)
+    const enabled =
+      process.env.NODE_ENV === "development" &&
+      process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
+        ? false
+        : flags.get(Feature.LoggerEnabled)
 
     MuditaDeviceManager.registerLogger(new PureLogger())
-    MuditaDeviceManager.toggleLogs(loggerEnabled)
+    MuditaDeviceManager.toggleLogs(enabled)
 
     const dataStorageInitializer = new DataIndexInitializer(this.index)
     const observerInitializer = new ObserverInitializer()
