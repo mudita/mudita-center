@@ -174,7 +174,18 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  const enabled = flags.get(Feature.LoggerEnabled)
+  console.log(
+    "mw_",
+    "process.env.DISABLE_DEV_DEVICE_LOGGER",
+    process.env.DISABLE_DEV_DEVICE_LOGGER
+  )
+  console.log("mw_", "process.env.NODE_ENV", process.env.NODE_ENV)
+
+  const enabled =
+    process.env.NODE_ENV === "development" &&
+    process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
+      ? false
+      : flags.get(Feature.LoggerEnabled)
 
   MuditaDeviceManager.registerLogger(new PureLogger())
   MuditaDeviceManager.toggleLogs(enabled)
