@@ -27,7 +27,7 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
 
     const response = await sendTicketRequest({
       email,
-      description,
+      description: (description || "").replace(/\r\n|\r|\n/g, "<br/>"),
       serialNumber,
       subject: `Error`,
     })

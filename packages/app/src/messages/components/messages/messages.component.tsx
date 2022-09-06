@@ -214,6 +214,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
     }
+
+    if (thread) {
+      setActiveThread(thread)
+    }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeThread, threads])
