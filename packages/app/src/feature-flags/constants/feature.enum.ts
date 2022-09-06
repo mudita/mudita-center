@@ -43,4 +43,5 @@ export enum Feature {
   ReadAndUnreadMessages = "read-and-unread-messages",
   OrderTemplate = "order-template",
   AlphaRelaseWarning = "alpha-release-warning",
+  ForceUpdate = "force-update",
 }

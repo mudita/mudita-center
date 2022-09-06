@@ -17,6 +17,7 @@ import logger from "App/__deprecated__/main/utils/logger"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { flags, Feature } from "App/feature-flags"
 
 export interface HarmonyOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -129,16 +130,18 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
 
   return (
     <>
-      <UpdatingForceModalFlow
-        deviceType={DeviceType.MuditaHarmony}
-        state={getUpdatingForceModalFlowState()}
-        updateOs={startUpdateOs}
-        osVersion={osVersion}
-        closeModal={closeUpdatingForceModalFlow}
-        onContact={openContactSupportFlow}
-        onHelp={goToHelp}
-        batteryLevel={batteryLevel}
-      />
+      {flags.get(Feature.ForceUpdate) && (
+        <UpdatingForceModalFlow
+          deviceType={DeviceType.MuditaHarmony}
+          state={getUpdatingForceModalFlowState()}
+          updateOs={startUpdateOs}
+          osVersion={osVersion}
+          closeModal={closeUpdatingForceModalFlow}
+          onContact={openContactSupportFlow}
+          onHelp={goToHelp}
+          batteryLevel={batteryLevel}
+        />
+      )}
       <OverviewContent
         deviceType={DeviceType.MuditaHarmony}
         batteryLevel={batteryLevel}
