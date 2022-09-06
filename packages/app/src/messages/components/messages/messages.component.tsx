@@ -213,7 +213,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
     if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
-    } else {
+    }
+
+    if (thread) {
       setActiveThread(thread)
     }
     // AUTO DISABLED - fix me if you like :)
