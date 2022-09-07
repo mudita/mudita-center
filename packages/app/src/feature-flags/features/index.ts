@@ -202,4 +202,9 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
+  [Feature.ForceUpdate]: {
+    [Environment.Development]: false,
+    [Environment.Production]: true,
+    [Environment.AlphaProduction]: false,
+  },
 }
