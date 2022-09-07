@@ -30,6 +30,7 @@ import { SynchronizationState } from "App/data-sync/reducers"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { flags, Feature } from "App/feature-flags"
 
 interface PureOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -268,16 +269,18 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   return (
     <>
-      <UpdatingForceModalFlow
-        deviceType={DeviceType.MuditaPure}
-        state={getUpdatingForceModalFlowState()}
-        updateOs={startUpdateOs}
-        osVersion={osVersion}
-        closeModal={closeUpdatingForceModalFlow}
-        onContact={openContactSupportFlow}
-        onHelp={goToHelp}
-        batteryLevel={batteryLevel}
-      />
+      {flags.get(Feature.ForceUpdate) && (
+        <UpdatingForceModalFlow
+          deviceType={DeviceType.MuditaPure}
+          state={getUpdatingForceModalFlowState()}
+          updateOs={startUpdateOs}
+          osVersion={osVersion}
+          closeModal={closeUpdatingForceModalFlow}
+          onContact={openContactSupportFlow}
+          onHelp={goToHelp}
+          batteryLevel={batteryLevel}
+        />
+      )}
       {backupDeviceFlowState && (
         <BackupDeviceFlow
           openState={backupDeviceFlowState}

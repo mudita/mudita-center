@@ -15,6 +15,9 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import * as UpdatingForceModalFlowModule from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 jest.mock("electron", () => ({
   remote: {
@@ -65,6 +68,8 @@ test("Renders Mudita harmony data", () => {
 })
 
 describe("update state", () => {
+  jest.spyOn(flags, "get").mockReturnValue(true)
+
   type TestCase = [
     updatingStateKeyValue: keyof typeof UpdatingState | undefined, // passing as key to improve test title readability
     isOsSupported: boolean,
