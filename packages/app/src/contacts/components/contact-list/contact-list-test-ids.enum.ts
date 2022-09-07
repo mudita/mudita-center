@@ -9,4 +9,5 @@ export enum ContactListTestIdsEnum {
   ContactListNoResult = "contact-list-no-result",
   ContactListLoading = "contact-list-loading",
   ContactListGroup = "contact-list-group",
+  ContactExportButton = "contact-export-button",
 }
