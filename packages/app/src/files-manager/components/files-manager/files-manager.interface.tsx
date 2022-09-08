@@ -28,6 +28,7 @@ export interface FilesManagerProps {
   resetDeletingState: () => void
   resetUploadingState: () => void
   uploadFile: () => void
+  uploadBlocked: boolean
 }
 
 export interface DiskSpaceCategory {

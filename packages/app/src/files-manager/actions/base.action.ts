@@ -22,3 +22,7 @@ export const resetUploadingState = createAction(
 export const setUploadingFileLength = createAction<number>(
   FilesManagerEvent.SetUploadingFileLength
 )
+
+export const setUploadBlocked = createAction<boolean>(
+  FilesManagerEvent.SetUploadBlocked
+)
