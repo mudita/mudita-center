@@ -283,6 +283,9 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             onClick={handleExport}
                             iconSize={IconSize.Medium}
                             displayStyle={DisplayStyle.Dropdown}
+                            data-testid={
+                              ContactListTestIdsEnum.ContactExportButton
+                            }
                           />
                           <ButtonComponent
                             labelMessage={messages.deleteBulkAction}

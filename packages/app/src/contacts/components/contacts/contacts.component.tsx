@@ -52,6 +52,7 @@ import ImportContactsFlow, {
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
 import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
+import { ExportContactFailedModal } from "../export-contact-failed-modal/export-contact-failed-modal.component"
 import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
 
 export const messages = defineMessages({
@@ -103,6 +104,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const [editedContact, setEditedContact] = useState<Contact>()
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
   const [formErrors, setFormErrors] = useState<FormError[]>([])
+  const [exportFailed, setExportFailed] = useState<boolean>(false)
 
   const detailsEnabled = activeRow && !newContact && !editedContact
 
@@ -551,11 +553,19 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
     if (exported) {
       resetAllItems()
+    } else {
+      setExportFailed(true)
     }
   }
 
   return (
     <>
+      {exportFailed && (
+        <ExportContactFailedModal
+          open={exportFailed}
+          onClose={() => setExportFailed(false)}
+        />
+      )}
       {importContactsFlowState && (
         <ImportContactsFlow
           state={importContactsFlowState}

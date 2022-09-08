@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum ContactsError {
-  Export = "EXPORT_CONTACT_ERROR",
+export enum ExportContactFailedModalTestIds {
+  Description = "export-contact-failed-modal-description",
 }
