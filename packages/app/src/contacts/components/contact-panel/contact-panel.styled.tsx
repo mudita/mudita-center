@@ -21,12 +21,6 @@ export const Panel = styled.div<{
   align-items: end;
   padding: 2.4rem 3.2rem 0 3.2rem;
   background-color: ${backgroundColor("main")};
-  ${({ selectionMode }) =>
-    selectionMode &&
-    css`
-      grid-template-columns: 62.4rem auto;
-      padding-left: 0.6rem;
-    `};
   label {
     width: auto;
   }
