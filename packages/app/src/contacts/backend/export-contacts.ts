@@ -21,6 +21,14 @@ const messages = defineMessages({
   button: { id: "module.contacts.exportButton" },
 })
 
+// workaround for https://github.com/electron/electron/issues/21935
+const getFileName = (contacts: Contact[]) => {
+  return `${intl.formatMessage(messages.defaultFilename, {
+    name: createFullName(contacts[0]),
+    contactsLeft: contacts.length - 1,
+  })}.vcf`
+}
+
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const registerContactsExportListener = () => {
@@ -31,13 +39,7 @@ const registerContactsExportListener = () => {
         title: intl.formatMessage(messages.dialogTitle, {
           count: contacts.length,
         }),
-        defaultPath: path.join(
-          app.getPath("documents"),
-          intl.formatMessage(messages.defaultFilename, {
-            name: createFullName(contacts[0]),
-            contactsLeft: contacts.length - 1,
-          })
-        ),
+        defaultPath: path.join(app.getPath("documents"), getFileName(contacts)),
         properties: ["createDirectory", "showOverwriteConfirmation"],
         filters: [{ name: "vcf", extensions: ["vcf"] }],
       })
