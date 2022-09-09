@@ -172,7 +172,7 @@ const renderer = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<Contacts {...defaultProps} {...props} />)
 }
 
-test("changing contact details preview, when the user switching between contacts", async () => {
+xtest("changing contact details preview, when the user switching between contacts", async () => {
   const { getAllByTestId, getByTestId } = renderer({})
 
   mockAllIsIntersecting(0.1)

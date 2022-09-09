@@ -35,12 +35,17 @@ export const HighlightContactList: FunctionComponent<Props> = ({
       })
 
       if (categoryIndex >= 0) {
-        listRef.current?.children[categoryIndex].children[
-          contactIndex
-        ].scrollIntoView({
-          behavior: "smooth",
+        listRef.current?.children[categoryIndex]?.scrollIntoView({
           block: "center",
         })
+
+        listRef.current?.children[categoryIndex]
+          .querySelector(".contacts-list")
+          ?.scroll({
+            top: contactIndex * 64 - 200,
+            left: 0,
+            behavior: "smooth",
+          })
 
         highlightActiveEventTimeout.current = setTimeout(() => {
           clearSelectedContact(null)
