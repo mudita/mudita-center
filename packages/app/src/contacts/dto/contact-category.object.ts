@@ -3,5 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./contact-category.object"
-export * from "./contact.object"
+import { Contact } from "App/contacts/dto/contact.object"
+
+export interface ContactCategory {
+  category: string
+  contacts: Contact[]
+}

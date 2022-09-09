@@ -5,6 +5,7 @@
 
 import { PayloadAction } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
+import { ContactCategory } from "App/contacts/dto"
 
 export type ContactID = string
 export type Contact =
@@ -65,16 +66,6 @@ export interface ContactWithLastName extends ContactWithID {
 export interface PhoneContacts {
   collection: ContactID[]
   db: Record<ContactID, Contact>
-}
-
-export interface ContactCategory {
-  category: string
-  contacts: Contact[]
-}
-
-export interface ContactCategory {
-  category: string
-  contacts: Contact[]
 }
 
 export interface Contacts {

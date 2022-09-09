@@ -7,10 +7,8 @@ import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"
-import {
-  Contact,
-  ContactCategory,
-} from "App/contacts/reducers/contacts.interface"
+import { Contact } from "App/contacts/reducers/contacts.interface"
+import { ContactCategory } from "App/contacts/dto"
 import Messages from "App/messages/components/messages/messages.component"
 import { ResultState } from "App/messages/constants"
 import {

@@ -16,10 +16,8 @@ import {
   NewContact,
 } from "App/contacts/reducers/contacts.interface"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import {
-  ResultState,
-  ContactCategory,
-} from "App/contacts/reducers/contacts.interface"
+import { ResultState } from "App/contacts/reducers/contacts.interface"
+import { ContactCategory } from "App/contacts/dto"
 
 export interface ExternalService {
   type: Provider

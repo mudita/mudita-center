@@ -10,13 +10,13 @@ import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/mes
 import {
   BaseContactModel,
   Contact,
-  ContactCategory,
   ContactFactorySignature,
   ContactID,
   ContactsState,
   PhoneContacts,
 } from "App/contacts/reducers/contacts.interface"
 import { mapToRawNumber } from "App/messages/helpers"
+import { ContactCategory } from "App/contacts/dto"
 
 const lengthy = (input = "") => input.length > 0
 // AUTO DISABLED - fix me if you like :)

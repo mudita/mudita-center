@@ -11,11 +11,8 @@ import {
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
-import {
-  Contact,
-  ContactCategory,
-  ResultState,
-} from "App/contacts/reducers/contacts.interface"
+import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
+import { ContactCategory } from "App/contacts/dto"
 
 const intersectionObserverMock = () => ({
   observe: () => null,

@@ -3,11 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Contact,
-  ContactCategory,
-  ResultState,
-} from "App/contacts/reducers/contacts.interface"
+import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
+import { ContactCategory } from "App/contacts/dto"
 
 export interface ContactListProps {
   activeRow?: Contact

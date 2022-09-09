@@ -7,10 +7,8 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React, { useEffect, useRef } from "react"
 import { HighLightContactListWrapper } from "App/contacts/components/highlight-contact-list/highlight-contact-list.styled"
-import {
-  Contact,
-  ContactCategory,
-} from "App/contacts/reducers/contacts.interface"
+import { Contact } from "App/contacts/reducers/contacts.interface"
+import { ContactCategory } from "App/contacts/dto"
 
 interface Props {
   contactList: ContactCategory[]
