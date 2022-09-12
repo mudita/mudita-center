@@ -50,9 +50,12 @@ describe("`getUnreadThreads` selector", () => {
       messages: messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [threadOne.id]: threadOne,
-            [threadTwo.id]: threadTwo,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [threadOne.id]: threadOne,
+              [threadTwo.id]: threadTwo,
+            },
           },
         },
         // AUTO DISABLED - fix me if you like :)
@@ -94,9 +97,12 @@ describe("`getUnreadThreads` selector", () => {
       messages: messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [threadOne.id]: threadOne,
-            [threadTwo.id]: threadTwo,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [threadOne.id]: threadOne,
+              [threadTwo.id]: threadTwo,
+            },
           },
         },
         // AUTO DISABLED - fix me if you like :)

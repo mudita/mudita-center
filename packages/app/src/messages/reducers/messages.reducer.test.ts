@@ -62,16 +62,22 @@ describe("Toggle Thread Read Status data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         toggleThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: { ...thread, unread: false },
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: { ...thread, unread: false },
+        },
       },
     })
   })
@@ -107,16 +113,22 @@ describe("Mark Thread Read Status data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         markThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: { ...thread, unread: false },
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: { ...thread, unread: false },
+        },
       },
     })
   })
@@ -138,16 +150,22 @@ describe("Mark Thread Read Status data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         markThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: { ...thread, unread: false },
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: { ...thread, unread: false },
+        },
       },
     })
   })
@@ -186,8 +204,11 @@ describe("Delete Threads data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         deleteThreadsAction
@@ -195,7 +216,10 @@ describe("Delete Threads data functionality", () => {
     ).toEqual({
       ...initialState,
       state: State.Loaded,
-      threadMap: {},
+      data: {
+        ...initialState.data,
+        threadMap: {},
+      },
     })
   })
 
@@ -209,14 +233,17 @@ describe("Delete Threads data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-          },
-          messageMap: {
-            [message.id]: message,
-          },
-          messageIdsInThreadMap: {
-            [message.threadId]: [message.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [message.id]: message,
+            },
+            messageIdsInThreadMap: {
+              [message.threadId]: [message.id],
+            },
           },
         },
         deleteThreadsAction
@@ -224,9 +251,12 @@ describe("Delete Threads data functionality", () => {
     ).toEqual({
       ...initialState,
       state: State.Loaded,
-      threadMap: {},
-      messageMap: {},
-      messageIdsInThreadMap: {},
+      data: {
+        ...initialState.data,
+        threadMap: {},
+        messageMap: {},
+        messageIdsInThreadMap: {},
+      },
     })
   })
 
@@ -262,31 +292,37 @@ describe("Delete Threads data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-            [toDeleteThread.id]: toDeleteThread,
-          },
-          messageMap: {
-            [message.id]: message,
-            [toDeleteMessage.id]: toDeleteMessage,
-          },
-          messageIdsInThreadMap: {
-            [message.threadId]: [message.id],
-            [toDeleteMessage.threadId]: [toDeleteMessage.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+              [toDeleteThread.id]: toDeleteThread,
+            },
+            messageMap: {
+              [message.id]: message,
+              [toDeleteMessage.id]: toDeleteMessage,
+            },
+            messageIdsInThreadMap: {
+              [message.threadId]: [message.id],
+              [toDeleteMessage.threadId]: [toDeleteMessage.id],
+            },
           },
         },
         setThreadsAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [message.id]: message,
-      },
-      messageIdsInThreadMap: {
-        [message.threadId]: [message.id],
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [message.id]: message,
+        },
+        messageIdsInThreadMap: {
+          [message.threadId]: [message.id],
+        },
       },
       state: State.Loaded,
     })
@@ -349,23 +385,29 @@ describe("Clear All Threads data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-          },
-          messageMap: {
-            [message.id]: message,
-          },
-          messageIdsInThreadMap: {
-            [message.threadId]: [message.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [message.id]: message,
+            },
+            messageIdsInThreadMap: {
+              [message.threadId]: [message.id],
+            },
           },
         },
         { type: MessagesEvent.ClearAllThreads }
       )
     ).toEqual({
       ...initialState,
-      threadMap: {},
-      messageMap: {},
-      messageIdsInThreadMap: {},
+      data: {
+        ...initialState.data,
+        threadMap: {},
+        messageMap: {},
+        messageIdsInThreadMap: {},
+      },
     })
   })
 })
@@ -429,15 +471,18 @@ describe("Add New Message functionality", () => {
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [messagePartOne.id]: messagePartOne,
-        [messagePartTwo.id]: messagePartTwo,
-      },
-      messageIdsInThreadMap: {
-        [messagePartOne.threadId]: [messagePartOne.id, messagePartTwo.id],
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [messagePartOne.id]: messagePartOne,
+          [messagePartTwo.id]: messagePartTwo,
+        },
+        messageIdsInThreadMap: {
+          [messagePartOne.threadId]: [messagePartOne.id, messagePartTwo.id],
+        },
       },
     })
   })
@@ -485,15 +530,18 @@ describe("Delete message functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-          },
-          messageMap: {
-            [messageOne.id]: messageOne,
-            [messageTwo.id]: messageTwo,
-          },
-          messageIdsInThreadMap: {
-            [thread.id]: [messageOne.id, messageTwo.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [messageOne.id]: messageOne,
+              [messageTwo.id]: messageTwo,
+            },
+            messageIdsInThreadMap: {
+              [thread.id]: [messageOne.id, messageTwo.id],
+            },
           },
         },
         deleteMessageAction
@@ -501,14 +549,17 @@ describe("Delete message functionality", () => {
     ).toEqual({
       ...initialState,
       state: State.Loaded,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [messageTwo.id]: messageTwo,
-      },
-      messageIdsInThreadMap: {
-        [thread.id]: [messageTwo.id],
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [messageTwo.id]: messageTwo,
+        },
+        messageIdsInThreadMap: {
+          [thread.id]: [messageTwo.id],
+        },
       },
     })
   })
@@ -522,14 +573,17 @@ describe("Delete message functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-          },
-          messageMap: {
-            [messageOne.id]: messageOne,
-          },
-          messageIdsInThreadMap: {
-            [thread.id]: [messageOne.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [messageOne.id]: messageOne,
+            },
+            messageIdsInThreadMap: {
+              [thread.id]: [messageOne.id],
+            },
           },
         },
         deleteMessageAction
@@ -537,9 +591,12 @@ describe("Delete message functionality", () => {
     ).toEqual({
       ...initialState,
       state: State.Loaded,
-      threadMap: {},
-      messageMap: {},
-      messageIdsInThreadMap: {},
+      data: {
+        ...initialState.data,
+        threadMap: {},
+        messageMap: {},
+        messageIdsInThreadMap: {},
+      },
     })
   })
 
@@ -568,15 +625,18 @@ describe("Delete message functionality", () => {
 
     const testcaseInitialState = {
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [messageOne.id]: messageOne,
-        [messageTwo.id]: messageTwo,
-      },
-      messageIdsInThreadMap: {
-        [thread.id]: [messageOne.id, messageTwo.id],
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [messageOne.id]: messageOne,
+          [messageTwo.id]: messageTwo,
+        },
+        messageIdsInThreadMap: {
+          [thread.id]: [messageOne.id, messageTwo.id],
+        },
       },
     }
 
@@ -639,18 +699,24 @@ describe("Checkboxes manage", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-            [secondThread.id]: secondThread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+              [secondThread.id]: secondThread,
+            },
           },
         },
         setThreadsAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-        [secondThread.id]: secondThread,
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+          [secondThread.id]: secondThread,
+        },
       },
       selectedItems: { rows: [thread.id, secondThread.id] },
     })

@@ -58,10 +58,13 @@ describe("Select items actions", () => {
   test("Action: `ToggleItem` - fire action with thread id and `ToggleItem` type", async () => {
     const mockStore = createMockStore([thunk])({
       messages: {
-        threadMap: {
-          [thread.id]: thread,
-          [secondThread.id]: secondThread,
+        data: {
+          threadMap: {
+            [thread.id]: thread,
+            [secondThread.id]: secondThread,
+          },
         },
+
         selectedItems: { rows: [] },
       },
     })
@@ -80,9 +83,11 @@ describe("Select items actions", () => {
   test("Action `selectAllItems` returns list of thread ids", async () => {
     const mockStore = createMockStore([thunk])({
       messages: {
-        threadMap: {
-          [thread.id]: thread,
-          [secondThread.id]: secondThread,
+        data: {
+          threadMap: {
+            [thread.id]: thread,
+            [secondThread.id]: secondThread,
+          },
         },
       },
     })

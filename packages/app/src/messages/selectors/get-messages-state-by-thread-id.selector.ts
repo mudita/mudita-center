@@ -18,7 +18,7 @@ export const getMessagesStateByThreadIdSelector = (
 > => {
   return createSelector<ReduxRootState, MessagesState, ResultState>(
     messagesStateSelector,
-    ({ messagesStateMap }) => {
+    ({ data: { messagesStateMap } }) => {
       return messagesStateMap[threadId] ?? ResultState.Empty
     }
   )

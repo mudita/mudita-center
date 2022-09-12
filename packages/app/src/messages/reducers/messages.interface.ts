@@ -27,13 +27,15 @@ export type ThreadMap = { [id: string]: Thread }
 export type MessageIdsInThreadMap = { [id: string]: Message["id"][] }
 
 export type MessagesState = Readonly<{
-  threadMap: ThreadMap
-  messageMap: MessageMap
-  messageIdsInThreadMap: MessageIdsInThreadMap
+  data: {
+    threadMap: ThreadMap
+    messageMap: MessageMap
+    messageIdsInThreadMap: MessageIdsInThreadMap
+    messagesStateMap: { [id: string]: ResultState }
+  }
   searchValue: string
   visibilityFilter: VisibilityFilter
   threadsState: ResultState
-  messagesStateMap: { [id: string]: ResultState }
   error: AppError | null
   currentlyDeletingMessageId: MessageId | null
   selectedItems: { rows: string[] }

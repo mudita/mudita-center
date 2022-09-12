@@ -39,8 +39,11 @@ describe("`filteredThreadsSelector` selector", () => {
         {
           ...initialState,
           visibilityFilter: VisibilityFilter.Unread,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         // AUTO DISABLED - fix me if you like :)
@@ -70,8 +73,11 @@ describe("`filteredThreadsSelector` selector", () => {
         {
           ...initialState,
           searchValue: "755",
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         // AUTO DISABLED - fix me if you like :)

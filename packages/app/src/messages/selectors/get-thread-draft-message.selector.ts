@@ -14,7 +14,7 @@ import { Feature, flags } from "App/feature-flags"
 export const getThreadDraftMessageSelector = (threadId: string) =>
   createSelector(
     messagesStateSelector,
-    ({ messageIdsInThreadMap, messageMap }) => {
+    ({ data: { messageIdsInThreadMap, messageMap } }) => {
       if (!flags.get(Feature.MessagesDraftStatus)) {
         return
       }
