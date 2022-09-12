@@ -12,6 +12,7 @@ import {
   ResultState,
   VisibilityFilter,
 } from "App/messages/constants"
+import { State } from "App/core/constants"
 
 const thread: Thread = {
   id: "1",
@@ -72,11 +73,10 @@ const messagesState: MessagesState = {
   threadsState: ResultState.Empty,
   messagesStateMap: {},
   error: null,
-  loaded: false,
-  loading: false,
   currentlyDeletingMessageId: null,
   selectedItems: { rows: [] },
   searchResult: {},
+  state: State.Initial,
 }
 
 describe("When thread hasn't any message", () => {

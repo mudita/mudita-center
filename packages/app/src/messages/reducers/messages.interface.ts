@@ -16,6 +16,7 @@ import { Message, Thread } from "App/messages/dto"
 import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 import { SearchEvent } from "App/search/constants"
 import { SearchResult } from "App/search/dto"
+import { State } from "App/core/constants"
 
 export type Author = Pick<Caller, "id">
 
@@ -33,12 +34,11 @@ export type MessagesState = Readonly<{
   visibilityFilter: VisibilityFilter
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
-  error: Error | string | null
-  loaded: boolean
-  loading: boolean
+  error: AppError | null
   currentlyDeletingMessageId: MessageId | null
   selectedItems: { rows: string[] }
   searchResult: SearchResult
+  state: State
 }>
 
 export enum ReceiverIdentification {

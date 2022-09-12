@@ -16,6 +16,7 @@ import { Receiver } from "App/messages/reducers"
 import { Template } from "App/templates/dto"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { SearchParams, SearchResult } from "App/search/dto"
+import { State } from "App/core/constants"
 
 export interface Content {
   id: string
@@ -65,11 +66,11 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   markThreadsReadStatus?: (threads: Thread[]) => void
   templates: Template[]
   error: Error | string | null
-  loaded: boolean
   selectedItems: { rows: string[] }
   toggleItem: (threadId: string) => void
   selectAllItems: () => void
   resetItems: () => void
   searchMessages: (searchParams: SearchParams) => void
   searchResult: SearchResult
+  state: State
 }

@@ -52,7 +52,6 @@ import { SearchParams } from "App/search/dto"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   error: state.messages.error,
-  loaded: state.messages.loaded,
   threadsState: state.messages.threadsState,
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
@@ -74,6 +73,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   templates: state.templates.data,
   selectedItems: state.messages.selectedItems,
   searchResult: state.messages.searchResult,
+  state: state.messages.state,
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({

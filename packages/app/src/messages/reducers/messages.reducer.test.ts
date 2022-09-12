@@ -22,7 +22,7 @@ import {
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
 import { DeleteMessageAction } from "App/messages/reducers/messages.interface"
-import { CoreEvent } from "App/core/constants"
+import { CoreEvent, State } from "App/core/constants"
 import { SearchResult } from "App/search/dto"
 import { SearchEvent } from "App/search/constants"
 
@@ -194,7 +194,7 @@ describe("Delete Threads data functionality", () => {
       )
     ).toEqual({
       ...initialState,
-      loaded: true,
+      state: State.Loaded,
       threadMap: {},
     })
   })
@@ -223,10 +223,10 @@ describe("Delete Threads data functionality", () => {
       )
     ).toEqual({
       ...initialState,
+      state: State.Loaded,
       threadMap: {},
       messageMap: {},
       messageIdsInThreadMap: {},
-      loaded: true,
     })
   })
 
@@ -288,7 +288,7 @@ describe("Delete Threads data functionality", () => {
       messageIdsInThreadMap: {
         [message.threadId]: [message.id],
       },
-      loaded: true,
+      state: State.Loaded,
     })
   })
 })
@@ -500,7 +500,7 @@ describe("Delete message functionality", () => {
       )
     ).toEqual({
       ...initialState,
-      loaded: true,
+      state: State.Loaded,
       threadMap: {
         [thread.id]: thread,
       },
@@ -536,7 +536,7 @@ describe("Delete message functionality", () => {
       )
     ).toEqual({
       ...initialState,
-      loaded: true,
+      state: State.Loaded,
       threadMap: {},
       messageMap: {},
       messageIdsInThreadMap: {},
@@ -595,18 +595,12 @@ describe("Delete message functionality", () => {
 
     expect(stateAfterPendingAction).toMatchObject({
       currentlyDeletingMessageId: messageOne.id,
-      loading: true,
-      loaded: false,
     })
     expect(stateAfterFulfilledAction).toMatchObject({
       currentlyDeletingMessageId: null,
-      loading: false,
-      loaded: true,
     })
     expect(stateAfterRejectedAction).toMatchObject({
       currentlyDeletingMessageId: null,
-      loading: false,
-      loaded: false,
     })
   })
 })

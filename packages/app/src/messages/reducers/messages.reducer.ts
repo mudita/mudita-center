@@ -27,7 +27,6 @@ import {
   DeleteMessageAction,
   DeleteMessagePendingAction,
   DeleteMessageRejectedAction,
-  DeleteThreadsRejectedAction,
   SearchMessagesAction,
 } from "App/messages/reducers/messages.interface"
 import {
@@ -35,13 +34,20 @@ import {
   ResultState,
   VisibilityFilter,
 } from "App/messages/constants"
-import { selectAllItems, resetItems, toggleItem } from "App/messages/actions"
+import {
+  selectAllItems,
+  resetItems,
+  toggleItem,
+  deleteThreads,
+} from "App/messages/actions"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
 import { changeLocation } from "App/core/actions"
 import assert from "assert"
 import { SearchEvent } from "App/search/constants"
+import { State } from "App/core/constants"
+import { AppError } from "App/core/errors"
 
 export const initialState: MessagesState = {
   threadMap: {},
@@ -52,11 +58,10 @@ export const initialState: MessagesState = {
   visibilityFilter: VisibilityFilter.All,
   messagesStateMap: {},
   error: null,
-  loaded: false,
-  loading: false,
   currentlyDeletingMessageId: null,
   selectedItems: { rows: [] },
   searchResult: {},
+  state: State.Initial,
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -102,9 +107,8 @@ export const messagesReducer = createReducer<MessagesState>(
           const deletedMessageId = action.meta.arg
           return {
             ...state,
-            loaded: false,
-            loading: true,
             currentlyDeletingMessageId: deletedMessageId,
+            state: State.Loading,
           }
         }
       )
@@ -147,10 +151,9 @@ export const messagesReducer = createReducer<MessagesState>(
             ...state,
             messageMap: newMessagesMap,
             threadMap: newThreadMap,
-            loaded: true,
-            loading: false,
             messageIdsInThreadMap: newMessageIdsInThreadMap,
             currentlyDeletingMessageId: null,
+            state: State.Loaded,
           }
         }
       )
@@ -160,10 +163,9 @@ export const messagesReducer = createReducer<MessagesState>(
         (state, action: DeleteMessageRejectedAction) => {
           return {
             ...state,
-            loaded: false,
-            loading: false,
-            error: action.payload,
+            error: action.payload as AppError,
             currentlyDeletingMessageId: null,
+            state: State.Failed,
           }
         }
       )
@@ -206,7 +208,8 @@ export const messagesReducer = createReducer<MessagesState>(
         (state, action: ResendMessageRejectedAction) => {
           return {
             ...state,
-            error: action.payload,
+            error: action.payload as AppError,
+            state: State.Failed,
           }
         }
       )
@@ -280,11 +283,10 @@ export const messagesReducer = createReducer<MessagesState>(
 
           return {
             ...state,
-            loaded: true,
-            loading: false,
             messageMap,
             threadMap,
             messageIdsInThreadMap,
+            state: State.Loaded,
           }
         }
       )
@@ -292,22 +294,17 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(pendingAction(MessagesEvent.DeleteThreads), (state) => {
         return {
           ...state,
-          loaded: false,
-          loading: true,
+          state: State.Loading,
         }
       })
 
-      .addCase(
-        rejectedAction(MessagesEvent.DeleteThreads),
-        (state, action: DeleteThreadsRejectedAction) => {
-          return {
-            ...state,
-            loaded: false,
-            loading: false,
-            error: action.payload,
-          }
+      .addCase(deleteThreads.rejected, (state, action) => {
+        return {
+          ...state,
+          error: action.payload as AppError,
+          state: State.Failed,
         }
-      )
+      })
 
       .addCase(
         MessagesEvent.ChangeSearchValue,
