@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
+import { HiddenButton } from "App/contacts/components/contact-item/contact-item.styled"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { Feature } from "App/feature-flags/constants/feature.enum"
 import { flags } from "App/feature-flags/helpers/feature-flag.helpers"

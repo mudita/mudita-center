@@ -609,7 +609,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
             onDelete={openDeleteModal}
             resultsState={resultState}
             selectedContact={selectedContact}
-            selectedItems={selectedItems}
+            selectedItems={[]}
           />
         ) : (
           <TableWithSidebarWrapper>

@@ -10,7 +10,7 @@ import {
   TextPlaceholder,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
-import { AvatarPlaceholder } from "App/contacts/components/contact-list/contact-list.styled"
+import { AvatarPlaceholder } from "App/contacts/components/contact-item/contact-item.styled"
 import styled from "styled-components"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ListRowProps } from "react-virtualized"

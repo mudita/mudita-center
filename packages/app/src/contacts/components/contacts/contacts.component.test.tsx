@@ -10,7 +10,7 @@ import { waitFor, fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import Contacts from "App/contacts/components/contacts/contacts.component"
-import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
+import { ContactItemTestIdsEnum } from "App/contacts/components/contact-item/contact-item-test-ids.enum"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-select-test-ids.enum"
@@ -177,7 +177,7 @@ xtest("changing contact details preview, when the user switching between contact
 
   mockAllIsIntersecting(0.1)
 
-  fireEvent.click(getAllByTestId(ContactListTestIdsEnum.ContactRow)[0])
+  fireEvent.click(getAllByTestId(ContactItemTestIdsEnum.ContactRow)[0])
 
   await waitFor(() => {
     expect(getByTestId(ContactDetailsTestIds.PrimaryPhoneInput)).toHaveValue(
@@ -191,7 +191,7 @@ xtest("changing contact details preview, when the user switching between contact
     )
   })
 
-  fireEvent.click(getAllByTestId(ContactListTestIdsEnum.ContactRow)[1])
+  fireEvent.click(getAllByTestId(ContactItemTestIdsEnum.ContactRow)[1])
 
   await waitFor(() => {
     expect(getByTestId(ContactDetailsTestIds.PrimaryPhoneInput)).toHaveValue(
@@ -224,7 +224,7 @@ test("Export failed modal is visible if export failed", async () => {
 
   const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
   const exportButton = queryAllByTestId(
-    ContactListTestIdsEnum.ContactExportButton
+    ContactItemTestIdsEnum.ContactExportButton
   )[0] as HTMLInputElement
 
   await waitFor(() => {

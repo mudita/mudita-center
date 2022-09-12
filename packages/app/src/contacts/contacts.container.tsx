@@ -42,23 +42,18 @@ import { authorize } from "App/contacts/actions/authorize.action"
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { resetAllItems, selectAllItems, toggleItem } from "App/contacts/actions"
 
-const mapStateToProps = (state: RootModel & ReduxRootState) => {
-  const { contacts, auth } = state
-  const contactsList = contactListSelector(state)
-
-  return {
-    ...auth,
-    selectedItems: state.contacts.selectedItems.rows,
-    allItemsSelected: state.contacts.selectedItems.allItemsSelected,
-    resultState: contacts.resultState,
-    contactList: contactsList,
-    flatList: flatListSelector(state),
-    speedDialChosenList: speedDialChosenListSelector(state),
-    getContact: (id: string) => getContactSelector(id)(state),
-    isThreadOpened: (phoneNumber: string) =>
-      isThreadOpenedSelector(phoneNumber)(state),
-  }
-}
+const mapStateToProps = (state: RootModel & ReduxRootState) => ({
+  ...state.auth,
+  selectedItems: state.contacts.selectedItems.rows,
+  allItemsSelected: state.contacts.selectedItems.allItemsSelected,
+  resultState: state.contacts.resultState,
+  contactList: contactListSelector(state),
+  flatList: flatListSelector(state),
+  speedDialChosenList: speedDialChosenListSelector(state),
+  getContact: (id: string) => getContactSelector(id)(state),
+  isThreadOpened: (phoneNumber: string) =>
+    isThreadOpenedSelector(phoneNumber)(state),
+})
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => {
   // AUTO DISABLED - fix me if you like :)

@@ -10,6 +10,8 @@ import {
 } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
+import { ContactItemTestIdsEnum } from "App/contacts/components/contact-item/contact-item-test-ids.enum"
+import { ContactGroupTestIdsEnum } from "App/contacts/components/contact-group/contact-group-test-ids.enum"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
 import { ContactCategory } from "App/contacts/dto"
@@ -176,7 +178,7 @@ describe("`ContactList` component", () => {
       contactList,
     })
     expect(
-      queryAllByTestId(ContactListTestIdsEnum.ContactListGroup)[0]
+      queryAllByTestId(ContactGroupTestIdsEnum.ContactListGroup)[0]
     ).toBeInTheDocument()
     expect(
       queryByTestId(ContactListTestIdsEnum.ContactListLoading)
@@ -201,7 +203,7 @@ describe("`ContactList` component", () => {
 
       mockAllIsIntersecting(0.1)
 
-      queryAllByTestId(ContactListTestIdsEnum.ContactRow).forEach((item) => {
+      queryAllByTestId(ContactItemTestIdsEnum.ContactRow).forEach((item) => {
         expect(item).toHaveAttribute("disabled")
       })
     })
@@ -220,7 +222,7 @@ describe("`ContactList` component", () => {
 
       mockAllIsIntersecting(0.1)
 
-      const rows = queryAllByTestId(ContactListTestIdsEnum.ContactRow)
+      const rows = queryAllByTestId(ContactItemTestIdsEnum.ContactRow)
       const [firstRow, ...restRows] = rows
 
       expect(firstRow).toBeEnabled()
@@ -238,7 +240,7 @@ describe("`ContactList` component", () => {
 
     mockAllIsIntersecting(0.1)
 
-    expect(queryAllByTestId(ContactListTestIdsEnum.ContactRow)).toHaveLength(2)
+    expect(queryAllByTestId(ContactItemTestIdsEnum.ContactRow)).toHaveLength(2)
     expect(queryByText("John Doe")).toBeInTheDocument()
     expect(queryByText("Kareem Doe")).toBeInTheDocument()
     expect(queryByText("Harry Brown")).not.toBeInTheDocument()
@@ -250,7 +252,7 @@ describe("`ContactList` component", () => {
 
     mockAllIsIntersecting(0.1)
 
-    expect(queryAllByTestId(ContactListTestIdsEnum.ContactRow)).toHaveLength(3)
+    expect(queryAllByTestId(ContactItemTestIdsEnum.ContactRow)).toHaveLength(3)
     expect(queryByText("John Doe")).toBeInTheDocument()
     expect(queryByText("Kareem Doe")).toBeInTheDocument()
     expect(queryByText("Harry Brown")).toBeInTheDocument()

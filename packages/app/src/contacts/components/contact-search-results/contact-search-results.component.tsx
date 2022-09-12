@@ -27,7 +27,7 @@ import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
-import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
+import { HiddenButton } from "App/contacts/components/contact-item/contact-item.styled"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
