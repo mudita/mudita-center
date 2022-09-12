@@ -331,19 +331,22 @@ describe("Delete Threads data functionality", () => {
 
 describe("Change Visibility Filter data functionality", () => {
   test("Event: ChangeVisibilityFilter set properly visibilityFilter field", () => {
-    const setThreadsAction: PayloadAction<MessagesState["visibilityFilter"]> = {
+    const setThreadsAction: PayloadAction<
+      MessagesState["data"]["visibilityFilter"]
+    > = {
       type: MessagesEvent.ChangeVisibilityFilter,
       payload: VisibilityFilter.All,
     }
 
     expect(messagesReducer(undefined, setThreadsAction)).toEqual({
       ...initialState,
-      visibilityFilter: VisibilityFilter.All,
+      data: {
+        ...initialState.data,
+        visibilityFilter: VisibilityFilter.All,
+      },
     })
   })
-})
 
-describe("Change Visibility Filter data functionality", () => {
   test("Event: ChangeSearchValue set properly searchValue field", () => {
     const setThreadsAction: PayloadAction<string> = {
       type: MessagesEvent.ChangeSearchValue,
@@ -352,7 +355,10 @@ describe("Change Visibility Filter data functionality", () => {
 
     expect(messagesReducer(undefined, setThreadsAction)).toEqual({
       ...initialState,
-      searchValue: "search value",
+      data: {
+        ...initialState.data,
+        searchValue: "search value",
+      },
     })
   })
 })
@@ -654,13 +660,19 @@ describe("Delete message functionality", () => {
     )
 
     expect(stateAfterPendingAction).toMatchObject({
-      currentlyDeletingMessageId: messageOne.id,
+      data: {
+        currentlyDeletingMessageId: messageOne.id,
+      },
     })
     expect(stateAfterFulfilledAction).toMatchObject({
-      currentlyDeletingMessageId: null,
+      data: {
+        currentlyDeletingMessageId: null,
+      },
     })
     expect(stateAfterRejectedAction).toMatchObject({
-      currentlyDeletingMessageId: null,
+      data: {
+        currentlyDeletingMessageId: null,
+      },
     })
   })
 })
@@ -717,8 +729,8 @@ describe("Checkboxes manage", () => {
           [thread.id]: thread,
           [secondThread.id]: secondThread,
         },
+        selectedItems: { rows: [thread.id, secondThread.id] },
       },
-      selectedItems: { rows: [thread.id, secondThread.id] },
     })
   })
 
@@ -736,7 +748,10 @@ describe("Checkboxes manage", () => {
       )
     ).toEqual({
       ...initialState,
-      selectedItems: { rows: [thread.id] },
+      data: {
+        ...initialState.data,
+        selectedItems: { rows: [thread.id] },
+      },
     })
   })
 
@@ -745,13 +760,19 @@ describe("Checkboxes manage", () => {
       messagesReducer(
         {
           ...initialState,
-          selectedItems: { rows: [thread.id, secondThread.id] },
+          data: {
+            ...initialState.data,
+            selectedItems: { rows: [thread.id, secondThread.id] },
+          },
         },
         { type: MessagesEvent.ResetItems }
       )
     ).toEqual({
       ...initialState,
-      selectedItems: { rows: [] },
+      data: {
+        ...initialState.data,
+        selectedItems: { rows: [] },
+      },
     })
   })
 
@@ -760,7 +781,10 @@ describe("Checkboxes manage", () => {
       messagesReducer(
         {
           ...initialState,
-          selectedItems: { rows: [thread.id, secondThread.id] },
+          data: {
+            ...initialState.data,
+            selectedItems: { rows: [thread.id, secondThread.id] },
+          },
         },
         {
           type: CoreEvent.ChangeLocation,
@@ -769,7 +793,10 @@ describe("Checkboxes manage", () => {
       )
     ).toEqual({
       ...initialState,
-      selectedItems: { rows: [] },
+      data: {
+        ...initialState.data,
+        selectedItems: { rows: [] },
+      },
     })
   })
 })
@@ -809,7 +836,10 @@ describe("Searching messages", () => {
       )
     ).toEqual({
       ...initialState,
-      searchResult: { message: [message], thread: [thread] },
+      data: {
+        ...initialState.data,
+        searchResult: { message: [message], thread: [thread] },
+      },
     })
   })
 })

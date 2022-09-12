@@ -38,12 +38,12 @@ describe("`filteredThreadsSelector` selector", () => {
       messages: messagesReducer(
         {
           ...initialState,
-          visibilityFilter: VisibilityFilter.Unread,
           data: {
             ...initialState.data,
             threadMap: {
               [thread.id]: thread,
             },
+            visibilityFilter: VisibilityFilter.Unread,
           },
         },
         // AUTO DISABLED - fix me if you like :)
@@ -72,12 +72,12 @@ describe("`filteredThreadsSelector` selector", () => {
       messages: messagesReducer(
         {
           ...initialState,
-          searchValue: "755",
           data: {
             ...initialState.data,
             threadMap: {
               [thread.id]: thread,
             },
+            searchValue: "755",
           },
         },
         // AUTO DISABLED - fix me if you like :)

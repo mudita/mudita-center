@@ -52,10 +52,10 @@ import { SearchParams } from "App/search/dto"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   error: state.messages.error,
-  threadsState: state.messages.threadsState,
+  threadsState: state.messages.data.threadsState,
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
-  currentlyDeletingMessageId: state.messages.currentlyDeletingMessageId,
+  currentlyDeletingMessageId: state.messages.data.currentlyDeletingMessageId,
   getContactByPhoneNumber: (phoneNumber: string) =>
     getContactByPhoneNumberSelector(phoneNumber)(state),
   isContactCreatedByPhoneNumber: (phoneNumber: string) =>
@@ -71,8 +71,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     NotificationMethod.Layout
   )(state),
   templates: state.templates.data,
-  selectedItems: state.messages.selectedItems,
-  searchResult: state.messages.searchResult,
+  selectedItems: state.messages.data.selectedItems,
+  searchResult: state.messages.data.searchResult,
   state: state.messages.state,
 })
 

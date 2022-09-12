@@ -55,14 +55,14 @@ export const initialState: MessagesState = {
     messageMap: {},
     messageIdsInThreadMap: {},
     messagesStateMap: {},
+    currentlyDeletingMessageId: null,
+    selectedItems: { rows: [] },
+    searchResult: {},
+    searchValue: "",
+    threadsState: ResultState.Empty,
+    visibilityFilter: VisibilityFilter.All,
   },
-  searchValue: "",
-  threadsState: ResultState.Empty,
-  visibilityFilter: VisibilityFilter.All,
   error: null,
-  currentlyDeletingMessageId: null,
-  selectedItems: { rows: [] },
-  searchResult: {},
   state: State.Initial,
 }
 
@@ -114,7 +114,10 @@ export const messagesReducer = createReducer<MessagesState>(
           const deletedMessageId = action.meta.arg
           return {
             ...state,
-            currentlyDeletingMessageId: deletedMessageId,
+            data: {
+              ...state.data,
+              currentlyDeletingMessageId: deletedMessageId,
+            },
             state: State.Loading,
           }
         }
@@ -133,7 +136,6 @@ export const messagesReducer = createReducer<MessagesState>(
           }
           const threadId = Object.keys(state.data.messageIdsInThreadMap).find(
             (thread) => {
-              console.log("thread", thread)
               return state.data.messageIdsInThreadMap[thread].find(
                 (messageId) => {
                   return messageId === deletedMessageId
@@ -141,7 +143,6 @@ export const messagesReducer = createReducer<MessagesState>(
               )
             }
           )
-          console.log("threadId", threadId)
           assert(threadId)
 
           const filteredAffectedThreadMessages =
@@ -165,8 +166,8 @@ export const messagesReducer = createReducer<MessagesState>(
               messageMap: newMessagesMap,
               threadMap: newThreadMap,
               messageIdsInThreadMap: newMessageIdsInThreadMap,
+              currentlyDeletingMessageId: null,
             },
-            currentlyDeletingMessageId: null,
             state: State.Loaded,
           }
         }
@@ -178,7 +179,10 @@ export const messagesReducer = createReducer<MessagesState>(
           return {
             ...state,
             error: action.payload as AppError,
-            currentlyDeletingMessageId: null,
+            data: {
+              ...state.data,
+              currentlyDeletingMessageId: null,
+            },
             state: State.Failed,
           }
         }
@@ -350,7 +354,13 @@ export const messagesReducer = createReducer<MessagesState>(
         MessagesEvent.ChangeSearchValue,
         (state, action: ChangeSearchValueAction) => {
           const searchValue = action.payload
-          return { ...state, searchValue }
+          return {
+            ...state,
+            data: {
+              ...state.data,
+              searchValue,
+            },
+          }
         }
       )
 
@@ -389,8 +399,8 @@ export const messagesReducer = createReducer<MessagesState>(
 
                   return prev
                 }, {}),
+              threadsState: ResultState.Loaded,
             },
-            threadsState: ResultState.Loaded,
           }
         }
       )
@@ -398,25 +408,49 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(selectAllItems.fulfilled, (state, action) => {
         return {
           ...state,
-          selectedItems: { rows: action.payload },
+          data: {
+            ...state.data,
+            selectedItems: { rows: action.payload },
+          },
         }
       })
       .addCase(resetItems, (state) => {
-        return { ...state, selectedItems: { rows: [] } }
+        return {
+          ...state,
+          data: {
+            ...state.data,
+            selectedItems: { rows: [] },
+          },
+        }
       })
       .addCase(toggleItem.fulfilled, (state, action) => {
         return {
           ...state,
-          selectedItems: { rows: action.payload },
+          data: {
+            ...state.data,
+            selectedItems: { rows: action.payload },
+          },
         }
       })
       .addCase(changeLocation, (state) => {
-        return { ...state, selectedItems: { rows: [] } }
+        return {
+          ...state,
+          data: {
+            ...state.data,
+            selectedItems: { rows: [] },
+          },
+        }
       })
       .addCase(
         fulfilledAction(SearchEvent.SearchData),
         (state, action: SearchMessagesAction) => {
-          return { ...state, searchResult: action.payload }
+          return {
+            ...state,
+            data: {
+              ...state.data,
+              searchResult: action.payload,
+            },
+          }
         }
       )
   }

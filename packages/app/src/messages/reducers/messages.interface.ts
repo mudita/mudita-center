@@ -32,14 +32,14 @@ export type MessagesState = Readonly<{
     messageMap: MessageMap
     messageIdsInThreadMap: MessageIdsInThreadMap
     messagesStateMap: { [id: string]: ResultState }
+    searchValue: string
+    visibilityFilter: VisibilityFilter
+    threadsState: ResultState
+    currentlyDeletingMessageId: MessageId | null
+    selectedItems: { rows: string[] }
+    searchResult: SearchResult
   }
-  searchValue: string
-  visibilityFilter: VisibilityFilter
-  threadsState: ResultState
   error: AppError | null
-  currentlyDeletingMessageId: MessageId | null
-  selectedItems: { rows: string[] }
-  searchResult: SearchResult
   state: State
 }>
 

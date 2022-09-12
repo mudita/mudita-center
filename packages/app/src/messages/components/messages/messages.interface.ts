@@ -37,8 +37,8 @@ export interface MessagesServiceState {
 }
 
 export interface MessagesProps extends Pick<Settings, "language"> {
-  searchValue: MessagesState["searchValue"]
-  threadsState: MessagesState["threadsState"]
+  searchValue: MessagesState["data"]["searchValue"]
+  threadsState: MessagesState["data"]["threadsState"]
   receivers: Receiver[]
   messageLayoutNotifications: Notification[]
   loadThreads: (
