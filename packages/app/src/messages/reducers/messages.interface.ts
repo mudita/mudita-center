@@ -36,9 +36,9 @@ export type MessagesState = Readonly<{
     visibilityFilter: VisibilityFilter
     threadsState: ResultState
     currentlyDeletingMessageId: MessageId | null
-    selectedItems: { rows: string[] }
     searchResult: SearchResult
   }
+  selectedItems: { rows: string[] }
   error: AppError | null
   state: State
 }>

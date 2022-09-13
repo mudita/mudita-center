@@ -63,8 +63,8 @@ describe("Select items actions", () => {
             [thread.id]: thread,
             [secondThread.id]: secondThread,
           },
-          selectedItems: { rows: [] },
         },
+        selectedItems: { rows: [] },
       },
     })
     const {

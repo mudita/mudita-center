@@ -71,7 +71,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     NotificationMethod.Layout
   )(state),
   templates: state.templates.data,
-  selectedItems: state.messages.data.selectedItems,
+  selectedItems: state.messages.selectedItems,
   searchResult: state.messages.data.searchResult,
   state: state.messages.state,
 })

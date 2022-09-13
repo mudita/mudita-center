@@ -729,8 +729,8 @@ describe("Checkboxes manage", () => {
           [thread.id]: thread,
           [secondThread.id]: secondThread,
         },
-        selectedItems: { rows: [thread.id, secondThread.id] },
       },
+      selectedItems: { rows: [thread.id, secondThread.id] },
     })
   })
 
@@ -748,10 +748,7 @@ describe("Checkboxes manage", () => {
       )
     ).toEqual({
       ...initialState,
-      data: {
-        ...initialState.data,
-        selectedItems: { rows: [thread.id] },
-      },
+      selectedItems: { rows: [thread.id] },
     })
   })
 
@@ -760,19 +757,13 @@ describe("Checkboxes manage", () => {
       messagesReducer(
         {
           ...initialState,
-          data: {
-            ...initialState.data,
-            selectedItems: { rows: [thread.id, secondThread.id] },
-          },
+          selectedItems: { rows: [thread.id, secondThread.id] },
         },
         { type: MessagesEvent.ResetItems }
       )
     ).toEqual({
       ...initialState,
-      data: {
-        ...initialState.data,
-        selectedItems: { rows: [] },
-      },
+      selectedItems: { rows: [] },
     })
   })
 
@@ -781,10 +772,7 @@ describe("Checkboxes manage", () => {
       messagesReducer(
         {
           ...initialState,
-          data: {
-            ...initialState.data,
-            selectedItems: { rows: [thread.id, secondThread.id] },
-          },
+          selectedItems: { rows: [thread.id, secondThread.id] },
         },
         {
           type: CoreEvent.ChangeLocation,
@@ -793,10 +781,7 @@ describe("Checkboxes manage", () => {
       )
     ).toEqual({
       ...initialState,
-      data: {
-        ...initialState.data,
-        selectedItems: { rows: [] },
-      },
+      selectedItems: { rows: [] },
     })
   })
 })

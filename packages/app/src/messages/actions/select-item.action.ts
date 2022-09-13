@@ -42,7 +42,7 @@ export const toggleItem = createAsyncThunk<string[], string>(
   async (id, { getState }) => {
     const state = getState() as RootState & ReduxRootState
 
-    const threadIds = toggleItemSelect(state.messages.data.selectedItems, id)
+    const threadIds = toggleItemSelect(state.messages.selectedItems, id)
 
     return threadIds
   }

@@ -56,12 +56,12 @@ export const initialState: MessagesState = {
     messageIdsInThreadMap: {},
     messagesStateMap: {},
     currentlyDeletingMessageId: null,
-    selectedItems: { rows: [] },
     searchResult: {},
     searchValue: "",
     threadsState: ResultState.Empty,
     visibilityFilter: VisibilityFilter.All,
   },
+  selectedItems: { rows: [] },
   error: null,
   state: State.Initial,
 }
@@ -408,37 +408,25 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(selectAllItems.fulfilled, (state, action) => {
         return {
           ...state,
-          data: {
-            ...state.data,
-            selectedItems: { rows: action.payload },
-          },
+          selectedItems: { rows: action.payload },
         }
       })
       .addCase(resetItems, (state) => {
         return {
           ...state,
-          data: {
-            ...state.data,
-            selectedItems: { rows: [] },
-          },
+          selectedItems: { rows: [] },
         }
       })
       .addCase(toggleItem.fulfilled, (state, action) => {
         return {
           ...state,
-          data: {
-            ...state.data,
-            selectedItems: { rows: action.payload },
-          },
+          selectedItems: { rows: action.payload },
         }
       })
       .addCase(changeLocation, (state) => {
         return {
           ...state,
-          data: {
-            ...state.data,
-            selectedItems: { rows: [] },
-          },
+          selectedItems: { rows: [] },
         }
       })
       .addCase(

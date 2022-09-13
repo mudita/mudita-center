@@ -74,9 +74,9 @@ const messagesState: MessagesState = {
     visibilityFilter: VisibilityFilter.All,
     threadsState: ResultState.Empty,
     currentlyDeletingMessageId: null,
-    selectedItems: { rows: [] },
     searchResult: {},
   },
+  selectedItems: { rows: [] },
   error: null,
   state: State.Initial,
 }
