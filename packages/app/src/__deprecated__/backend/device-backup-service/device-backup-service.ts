@@ -9,6 +9,7 @@ import {
   GetBackupDeviceStatusResponseBody,
   Method,
   StartBackupResponseBody,
+  BackupCategory,
 } from "@mudita/pure"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { RequestResponse } from "App/core/types/request-response.interface"
@@ -16,12 +17,15 @@ import { RequestResponse } from "App/core/types/request-response.interface"
 export class DeviceBackupService {
   constructor(private deviceService: DeviceService) {}
 
-  public async startBackupDevice(): Promise<
-    RequestResponse<StartBackupResponseBody>
-  > {
+  public async startBackupDevice(
+    category = BackupCategory.Backup
+  ): Promise<RequestResponse<StartBackupResponseBody>> {
     return await this.deviceService.request({
       endpoint: Endpoint.Backup,
       method: Method.Post,
+      body: {
+        category,
+      },
     })
   }
 

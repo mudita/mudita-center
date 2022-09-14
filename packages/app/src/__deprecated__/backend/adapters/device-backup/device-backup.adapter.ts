@@ -4,6 +4,7 @@
  */
 
 import {
+  BackupCategory,
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
 } from "@mudita/pure"
@@ -30,7 +31,8 @@ export class DeviceBackup implements DeviceBackupAdapter {
   ) {}
 
   async downloadDeviceBackup(
-    options: DownloadDeviceFileLocallyOptions
+    options: DownloadDeviceFileLocallyOptions,
+    category = BackupCategory.Backup
   ): Promise<RequestResponse<string[]>> {
     if (this.backuping) {
       return {
@@ -42,7 +44,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
     }
 
     this.backuping = true
-    const runDeviceBackupResponse = await this.runDeviceBackup()
+    const runDeviceBackupResponse = await this.runDeviceBackup(category)
 
     if (!isResponsesSuccessWithData([runDeviceBackupResponse])) {
       this.backuping = false
@@ -85,7 +87,9 @@ export class DeviceBackup implements DeviceBackupAdapter {
     return downloadDeviceFileResponse
   }
 
-  private async runDeviceBackup(): Promise<RequestResponse<string>> {
+  private async runDeviceBackup(
+    category: BackupCategory
+  ): Promise<RequestResponse<string>> {
     this.backuping = true
     const getBackupLocationResponse = await this.deviceBaseInfo.getDeviceInfo()
 
@@ -98,7 +102,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
       }
     }
     const startBackupDeviceResponse =
-      await this.deviceBackupService.startBackupDevice()
+      await this.deviceBackupService.startBackupDevice(category)
 
     if (!isResponsesSuccessWithData([startBackupDeviceResponse])) {
       return {
@@ -126,9 +130,11 @@ export class DeviceBackup implements DeviceBackupAdapter {
     }
 
     const filePath = `${
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      getBackupLocationResponse.data!.backupLocation
+      category === BackupCategory.Backup
+        ? // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          getBackupLocationResponse.data!.backupLocation
+        : "/sys/user/sync"
     }/${backupId}`
 
     return {
