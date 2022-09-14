@@ -165,31 +165,33 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             data-testid={ContactPanelTestIdsEnum.SelectionManager}
           />
         ) : (
-          <ContactInputSearch
-            onContactSelect={onContactSelect}
-            onSearchEnterClick={onSearchEnterClick}
-            searchValue={searchValue}
-            onSearchValueChange={onSearchValueChange}
-            showSearchResults
-            results={results}
-          />
+          <>
+            <ContactInputSearch
+              onContactSelect={onContactSelect}
+              onSearchEnterClick={onSearchEnterClick}
+              searchValue={searchValue}
+              onSearchValueChange={onSearchValueChange}
+              showSearchResults
+              results={results}
+            />
+            <Buttons>
+              <ButtonComponent
+                displayStyle={DisplayStyle.Secondary}
+                labelMessage={{ id: "module.contacts.importButton" }}
+                onClick={onManageButtonClick}
+                data-testid={ContactPanelTestIdsEnum.ImportButton}
+              />
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.contacts.panelNewContactButton",
+                }}
+                onClick={onNewButtonClick}
+                disabled={editMode}
+                data-testid={ContactPanelTestIdsEnum.NewButton}
+              />
+            </Buttons>
+          </>
         )}
-        <Buttons>
-          <ButtonComponent
-            displayStyle={DisplayStyle.Secondary}
-            labelMessage={{ id: "module.contacts.importButton" }}
-            onClick={onManageButtonClick}
-            data-testid={ContactPanelTestIdsEnum.ImportButton}
-          />
-          <ButtonComponent
-            labelMessage={{
-              id: "module.contacts.panelNewContactButton",
-            }}
-            onClick={onNewButtonClick}
-            disabled={editMode}
-            data-testid={ContactPanelTestIdsEnum.NewButton}
-          />
-        </Buttons>
       </Panel>
       {showSearchResults && (
         <SearchTitle

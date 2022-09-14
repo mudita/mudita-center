@@ -15,6 +15,7 @@ import { ContactDetailsTestIds } from "App/contacts/components/contact-details/c
 import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-select-test-ids.enum"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
+import { ExportContactFailedModalTestIds } from "App/contacts/components/export-contact-failed-modal/export-contact-failed-modal-test-ids.component"
 
 type Props = ComponentProps<typeof Contacts>
 
@@ -171,10 +172,6 @@ const renderer = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<Contacts {...defaultProps} {...props} />)
 }
 
-beforeAll(() => {
-  mockAllIsIntersecting(true)
-})
-
 test("changing contact details preview, when the user switching between contacts", async () => {
   const { getAllByTestId, getByTestId } = renderer({})
 
@@ -216,4 +213,27 @@ test("first name and second name in search shows correct result", () => {
   ) as HTMLInputElement
   fireEvent.change(input, { target: { value: "Oswald Bednar" } })
   expect(getByTestId(InputSearchTestIds.List).childNodes).toHaveLength(4)
+})
+
+test("Export failed modal is visible if export failed", async () => {
+  const mockedExportContacts = jest.fn().mockReturnValue(false)
+  const { queryAllByTestId, getByTestId } = renderer({
+    exportContacts: mockedExportContacts,
+  })
+  mockAllIsIntersecting(true)
+
+  const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
+  const exportButton = queryAllByTestId(
+    ContactListTestIdsEnum.ContactExportButton
+  )[0] as HTMLInputElement
+
+  await waitFor(() => {
+    fireEvent.click(more)
+    fireEvent.click(exportButton)
+  })
+
+  expect(mockedExportContacts).toHaveBeenCalled()
+  expect(
+    getByTestId(ExportContactFailedModalTestIds.Description)
+  ).toBeInTheDocument()
 })
