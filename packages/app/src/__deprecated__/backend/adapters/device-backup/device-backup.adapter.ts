@@ -20,6 +20,7 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { Feature, flags } from "App/feature-flags"
 
 export class DeviceBackup implements DeviceBackupAdapter {
   public backuping = false
@@ -129,13 +130,23 @@ export class DeviceBackup implements DeviceBackupAdapter {
       }
     }
 
-    const filePath = `${
-      category === BackupCategory.Backup
-        ? // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          getBackupLocationResponse.data!.backupLocation
-        : "/sys/user/sync"
-    }/${backupId}`
+    let filePath
+
+    if (flags.get(Feature.BackupCategoriesEnabled)) {
+      filePath = `${
+        category === BackupCategory.Backup
+          ? // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            getBackupLocationResponse.data!.backupLocation
+          : "/sys/user/sync"
+      }/${backupId}`
+    } else {
+      filePath = `${
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        getBackupLocationResponse.data!.backupLocation
+      }/${backupId}`
+    }
 
     return {
       status: RequestResponseStatus.Ok,

@@ -13,6 +13,7 @@ import {
 } from "@mudita/pure"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { RequestResponse } from "App/core/types/request-response.interface"
+import { Feature, flags } from "App/feature-flags"
 
 export class DeviceBackupService {
   constructor(private deviceService: DeviceService) {}
@@ -23,9 +24,13 @@ export class DeviceBackupService {
     return await this.deviceService.request({
       endpoint: Endpoint.Backup,
       method: Method.Post,
-      body: {
-        category,
-      },
+      ...(flags.get(Feature.BackupCategoriesEnabled)
+        ? {
+            body: {
+              category,
+            },
+          }
+        : {}),
     })
   }
 
