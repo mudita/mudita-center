@@ -23,13 +23,14 @@ const defaultProps: Props = {
   state: State.Initial,
   files: [],
   selectedItems: [],
+  disableUpload: false,
   resetAllItems: jest.fn(),
   selectAllItems: jest.fn(),
   toggleItem: jest.fn(),
   onDeleteClick: jest.fn(),
   onManagerDeleteClick: jest.fn(),
   uploadFiles: jest.fn(),
-  onSearchValueChange: jest.fn()
+  onSearchValueChange: jest.fn(),
 }
 
 const defaultState = {

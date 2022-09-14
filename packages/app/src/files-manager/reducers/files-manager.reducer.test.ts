@@ -192,6 +192,24 @@ describe("Uploading files functionality", () => {
       uploading: State.Loading,
     })
   })
+
+  test("Event: `setUploadBlocked` change `uploadBlocked` to payload", () => {
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+          uploadBlocked: false,
+        },
+        {
+          type: FilesManagerEvent.SetUploadBlocked,
+          payload: true,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      uploadBlocked: true,
+    })
+  })
 })
 
 describe("delete files functionality", () => {

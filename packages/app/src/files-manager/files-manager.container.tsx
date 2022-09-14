@@ -30,6 +30,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   allItemsSelected:
     state.filesManager.selectedItems.rows.length ===
     state.filesManager.files.length,
+  uploadBlocked: state.filesManager.uploadBlocked,
 })
 
 const mapDispatchToProps = {

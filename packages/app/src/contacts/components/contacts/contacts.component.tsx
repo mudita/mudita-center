@@ -154,7 +154,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     setNewContact(defaultContact)
     setShowSearchResults(false)
     setSearchValue("")
-    resetAllItems()
   }
 
   const cancelOrCloseContactHandler = () => {
@@ -418,7 +417,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         inputElement.removeEventListener("change", onFileSelect)
       }
     }
-    resetAllItems()
     inputElement.click()
     inputElement.addEventListener("change", onFileSelect)
   }
@@ -428,7 +426,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const authorizeAtOutLook = () => authorizeAtProvider(Provider.Outlook)
 
   const authorizeAtProvider = async (provider: ExternalProvider) => {
-    resetAllItems()
     try {
       await authorize(provider)
       await getContacts({ type: provider })

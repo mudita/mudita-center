@@ -38,6 +38,7 @@ const defaultProps: Props = {
   deleteFiles: jest.fn(),
   resetDeletingState: jest.fn(),
   resetUploadingState: jest.fn(),
+  uploadBlocked: false,
 }
 
 const defaultState = {
