@@ -20,6 +20,7 @@ import {
   ResultState,
   ContactCategory,
 } from "App/contacts/reducers/contacts.interface"
+import { ExportContactsResult } from "App/contacts/constants"
 
 export interface ExternalService {
   type: Provider
@@ -64,7 +65,7 @@ export interface ContactsProps {
   ) => Promise<PayloadAction<Error | undefined>>
   loadContacts: (provider: Provider) => Promise<Contact[]>
   addNewContactsToState: (contacts: Contact[]) => Promise<void>
-  exportContacts: (contacts: Contact[]) => Promise<boolean>
+  exportContacts: (contacts: Contact[]) => Promise<ExportContactsResult>
   onCall: (phoneNumber: string) => void
   onEdit: (contacts: Contact) => void
   onForward: (contact: Contact) => void

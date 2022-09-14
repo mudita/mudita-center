@@ -14,6 +14,7 @@ import path from "path"
 import { defineMessages } from "react-intl"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import logger from "App/__deprecated__/main/utils/logger"
+import { ExportContactsResult } from "App/contacts/constants"
 
 const messages = defineMessages({
   dialogTitle: { id: "module.contacts.exportSaveDialogTitle" },
@@ -29,10 +30,8 @@ const getFileName = (contacts: Contact[]) => {
   })}.vcf`
 }
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const registerContactsExportListener = () => {
-  ipcMain.answerRenderer<Contact[], Promise<boolean>>(
+const registerContactsExportListener = (): void => {
+  ipcMain.answerRenderer<Contact[], Promise<ExportContactsResult>>(
     IpcRequest.ExportContacts,
     async (contacts) => {
       const { canceled, filePath } = await dialog.showSaveDialog({
@@ -43,6 +42,10 @@ const registerContactsExportListener = () => {
         properties: ["createDirectory", "showOverwriteConfirmation"],
         filters: [{ name: "vcf", extensions: ["vcf"] }],
       })
+
+      if (canceled) {
+        return ExportContactsResult.Cancelled
+      }
       try {
         if (!canceled && filePath) {
           await fs.writeFile(
@@ -51,12 +54,12 @@ const registerContactsExportListener = () => {
             "utf-8"
           )
           shell.showItemInFolder(filePath)
-          return true
+          return ExportContactsResult.Ok
         }
       } catch (error) {
         logger.error(`Export contacts error. Data: ${JSON.stringify(error)}`)
       }
-      return false
+      return ExportContactsResult.Failed
     }
   )
 }

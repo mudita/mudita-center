@@ -54,6 +54,7 @@ import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
 import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
 import { ExportContactFailedModal } from "../export-contact-failed-modal/export-contact-failed-modal.component"
 import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
+import { ExportContactsResult } from "App/contacts/constants"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -546,12 +547,21 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const handleExport = async (ids: string[]): Promise<void> => {
     const contacts = flatList.filter((contact) => ids.includes(contact.id))
-    const exported = await exportContacts(contacts)
+    const exportResult = await exportContacts(contacts)
 
-    if (exported) {
-      resetAllItems()
-    } else {
-      setExportFailed(true)
+    switch (exportResult) {
+      case ExportContactsResult.Ok:
+        resetAllItems()
+        break
+
+      case ExportContactsResult.Cancelled:
+        // do nothing when cancelled
+        break
+
+      default:
+      case ExportContactsResult.Failed:
+        setExportFailed(true)
+        break
     }
   }
 
