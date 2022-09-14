@@ -136,7 +136,7 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
           if (!React.isValidElement(child)) {
             return child
           } else {
-            return React.cloneElement(child, {
+            return React.cloneElement(child as ReactElement, {
               onClick: () => {
                 // AUTO DISABLED - fix me if you like :)
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
