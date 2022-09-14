@@ -48,6 +48,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   resetDeletingState,
   resetUploadingState,
   uploadingFileLength,
+  uploadBlocked,
 }) => {
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files })
@@ -251,6 +252,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         searchValue={searchValue}
         onSearchValueChange={handleSearchValueChange}
         noFoundFiles={noFoundFiles}
+        disableUpload={uploadBlocked}
       />
     </FilesManagerContainer>
   )

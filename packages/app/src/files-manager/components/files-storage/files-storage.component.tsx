@@ -45,6 +45,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   searchValue,
   onSearchValueChange,
   noFoundFiles,
+  disableUpload,
 }) => {
   return (
     <>
@@ -58,7 +59,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
       {flags.get(Feature.FilesManagerActionsEnabled) && (
         <FilesManagerPanel
           onUploadFile={uploadFiles}
-          disabled={false}
+          disabled={disableUpload}
           toggleAll={selectAllItems}
           resetRows={resetAllItems}
           onDeleteClick={onManagerDeleteClick}

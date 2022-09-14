@@ -16,6 +16,7 @@ import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
+  setUploadBlocked,
   setUploadingFileLength,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
@@ -29,7 +30,7 @@ export const uploadFile = createAsyncThunk(
     if (state.device.deviceType === null) {
       return rejectWithValue("device Type isn't set")
     }
-
+    dispatch(setUploadBlocked(true))
     const filesToUpload = await getPathsRequest({
       filters: [
         {
@@ -47,11 +48,13 @@ export const uploadFile = createAsyncThunk(
     const filePaths = filesToUpload.data
 
     if (filePaths?.length === 0) {
+      dispatch(setUploadBlocked(false))
       return
     }
 
     dispatch(setUploadingFileLength(filePaths.length))
     dispatch(setUploadingState(State.Loading))
+    dispatch(setUploadBlocked(false))
 
     const directory =
       state.device.deviceType === DeviceType.MuditaHarmony

@@ -15,4 +15,5 @@ export interface FilesManagerState {
   uploadingFileLength: number
   selectedItems: { rows: string[] }
   error: AppError | null
+  uploadBlocked: boolean
 }

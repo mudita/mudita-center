@@ -20,4 +20,5 @@ export interface FilesStorageProps {
   allItemsSelected: boolean
   onDeleteClick: (ids: string[]) => void
   onManagerDeleteClick: () => void
+  disableUpload: boolean
 }
