@@ -14,6 +14,6 @@ describe("`searchValueSelector` selector", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       messages: messagesReducer(initialState, {} as any),
     } as ReduxRootState
-    expect(searchValueSelector(state)).toEqual(initialState.searchValue)
+    expect(searchValueSelector(state)).toEqual(initialState.data.searchValue)
   })
 })

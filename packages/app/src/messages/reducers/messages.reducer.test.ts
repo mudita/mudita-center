@@ -22,7 +22,7 @@ import {
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
 import { DeleteMessageAction } from "App/messages/reducers/messages.interface"
-import { CoreEvent } from "App/core/constants"
+import { CoreEvent, State } from "App/core/constants"
 import { SearchResult } from "App/search/dto"
 import { SearchEvent } from "App/search/constants"
 
@@ -62,16 +62,22 @@ describe("Toggle Thread Read Status data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         toggleThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: { ...thread, unread: false },
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: { ...thread, unread: false },
+        },
       },
     })
   })
@@ -107,16 +113,22 @@ describe("Mark Thread Read Status data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         markThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: { ...thread, unread: false },
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: { ...thread, unread: false },
+        },
       },
     })
   })
@@ -138,16 +150,22 @@ describe("Mark Thread Read Status data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         markThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: { ...thread, unread: false },
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: { ...thread, unread: false },
+        },
       },
     })
   })
@@ -186,16 +204,22 @@ describe("Delete Threads data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         deleteThreadsAction
       )
     ).toEqual({
       ...initialState,
-      loaded: true,
-      threadMap: {},
+      state: State.Loaded,
+      data: {
+        ...initialState.data,
+        threadMap: {},
+      },
     })
   })
 
@@ -209,24 +233,30 @@ describe("Delete Threads data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-          },
-          messageMap: {
-            [message.id]: message,
-          },
-          messageIdsInThreadMap: {
-            [message.threadId]: [message.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [message.id]: message,
+            },
+            messageIdsInThreadMap: {
+              [message.threadId]: [message.id],
+            },
           },
         },
         deleteThreadsAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {},
-      messageMap: {},
-      messageIdsInThreadMap: {},
-      loaded: true,
+      state: State.Loaded,
+      data: {
+        ...initialState.data,
+        threadMap: {},
+        messageMap: {},
+        messageIdsInThreadMap: {},
+      },
     })
   })
 
@@ -262,52 +292,61 @@ describe("Delete Threads data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-            [toDeleteThread.id]: toDeleteThread,
-          },
-          messageMap: {
-            [message.id]: message,
-            [toDeleteMessage.id]: toDeleteMessage,
-          },
-          messageIdsInThreadMap: {
-            [message.threadId]: [message.id],
-            [toDeleteMessage.threadId]: [toDeleteMessage.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+              [toDeleteThread.id]: toDeleteThread,
+            },
+            messageMap: {
+              [message.id]: message,
+              [toDeleteMessage.id]: toDeleteMessage,
+            },
+            messageIdsInThreadMap: {
+              [message.threadId]: [message.id],
+              [toDeleteMessage.threadId]: [toDeleteMessage.id],
+            },
           },
         },
         setThreadsAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [message.id]: message,
+        },
+        messageIdsInThreadMap: {
+          [message.threadId]: [message.id],
+        },
       },
-      messageMap: {
-        [message.id]: message,
-      },
-      messageIdsInThreadMap: {
-        [message.threadId]: [message.id],
-      },
-      loaded: true,
+      state: State.Loaded,
     })
   })
 })
 
 describe("Change Visibility Filter data functionality", () => {
   test("Event: ChangeVisibilityFilter set properly visibilityFilter field", () => {
-    const setThreadsAction: PayloadAction<MessagesState["visibilityFilter"]> = {
+    const setThreadsAction: PayloadAction<
+      MessagesState["data"]["visibilityFilter"]
+    > = {
       type: MessagesEvent.ChangeVisibilityFilter,
       payload: VisibilityFilter.All,
     }
 
     expect(messagesReducer(undefined, setThreadsAction)).toEqual({
       ...initialState,
-      visibilityFilter: VisibilityFilter.All,
+      data: {
+        ...initialState.data,
+        visibilityFilter: VisibilityFilter.All,
+      },
     })
   })
-})
 
-describe("Change Visibility Filter data functionality", () => {
   test("Event: ChangeSearchValue set properly searchValue field", () => {
     const setThreadsAction: PayloadAction<string> = {
       type: MessagesEvent.ChangeSearchValue,
@@ -316,7 +355,10 @@ describe("Change Visibility Filter data functionality", () => {
 
     expect(messagesReducer(undefined, setThreadsAction)).toEqual({
       ...initialState,
-      searchValue: "search value",
+      data: {
+        ...initialState.data,
+        searchValue: "search value",
+      },
     })
   })
 })
@@ -349,23 +391,29 @@ describe("Clear All Threads data functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-          },
-          messageMap: {
-            [message.id]: message,
-          },
-          messageIdsInThreadMap: {
-            [message.threadId]: [message.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [message.id]: message,
+            },
+            messageIdsInThreadMap: {
+              [message.threadId]: [message.id],
+            },
           },
         },
         { type: MessagesEvent.ClearAllThreads }
       )
     ).toEqual({
       ...initialState,
-      threadMap: {},
-      messageMap: {},
-      messageIdsInThreadMap: {},
+      data: {
+        ...initialState.data,
+        threadMap: {},
+        messageMap: {},
+        messageIdsInThreadMap: {},
+      },
     })
   })
 })
@@ -429,15 +477,18 @@ describe("Add New Message functionality", () => {
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [messagePartOne.id]: messagePartOne,
-        [messagePartTwo.id]: messagePartTwo,
-      },
-      messageIdsInThreadMap: {
-        [messagePartOne.threadId]: [messagePartOne.id, messagePartTwo.id],
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [messagePartOne.id]: messagePartOne,
+          [messagePartTwo.id]: messagePartTwo,
+        },
+        messageIdsInThreadMap: {
+          [messagePartOne.threadId]: [messagePartOne.id, messagePartTwo.id],
+        },
       },
     })
   })
@@ -485,30 +536,36 @@ describe("Delete message functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-          },
-          messageMap: {
-            [messageOne.id]: messageOne,
-            [messageTwo.id]: messageTwo,
-          },
-          messageIdsInThreadMap: {
-            [thread.id]: [messageOne.id, messageTwo.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [messageOne.id]: messageOne,
+              [messageTwo.id]: messageTwo,
+            },
+            messageIdsInThreadMap: {
+              [thread.id]: [messageOne.id, messageTwo.id],
+            },
           },
         },
         deleteMessageAction
       )
     ).toEqual({
       ...initialState,
-      loaded: true,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [messageTwo.id]: messageTwo,
-      },
-      messageIdsInThreadMap: {
-        [thread.id]: [messageTwo.id],
+      state: State.Loaded,
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [messageTwo.id]: messageTwo,
+        },
+        messageIdsInThreadMap: {
+          [thread.id]: [messageTwo.id],
+        },
       },
     })
   })
@@ -522,24 +579,30 @@ describe("Delete message functionality", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-          },
-          messageMap: {
-            [messageOne.id]: messageOne,
-          },
-          messageIdsInThreadMap: {
-            [thread.id]: [messageOne.id],
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [messageOne.id]: messageOne,
+            },
+            messageIdsInThreadMap: {
+              [thread.id]: [messageOne.id],
+            },
           },
         },
         deleteMessageAction
       )
     ).toEqual({
       ...initialState,
-      loaded: true,
-      threadMap: {},
-      messageMap: {},
-      messageIdsInThreadMap: {},
+      state: State.Loaded,
+      data: {
+        ...initialState.data,
+        threadMap: {},
+        messageMap: {},
+        messageIdsInThreadMap: {},
+      },
     })
   })
 
@@ -568,15 +631,18 @@ describe("Delete message functionality", () => {
 
     const testcaseInitialState = {
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [messageOne.id]: messageOne,
-        [messageTwo.id]: messageTwo,
-      },
-      messageIdsInThreadMap: {
-        [thread.id]: [messageOne.id, messageTwo.id],
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [messageOne.id]: messageOne,
+          [messageTwo.id]: messageTwo,
+        },
+        messageIdsInThreadMap: {
+          [thread.id]: [messageOne.id, messageTwo.id],
+        },
       },
     }
 
@@ -594,19 +660,19 @@ describe("Delete message functionality", () => {
     )
 
     expect(stateAfterPendingAction).toMatchObject({
-      currentlyDeletingMessageId: messageOne.id,
-      loading: true,
-      loaded: false,
+      data: {
+        currentlyDeletingMessageId: messageOne.id,
+      },
     })
     expect(stateAfterFulfilledAction).toMatchObject({
-      currentlyDeletingMessageId: null,
-      loading: false,
-      loaded: true,
+      data: {
+        currentlyDeletingMessageId: null,
+      },
     })
     expect(stateAfterRejectedAction).toMatchObject({
-      currentlyDeletingMessageId: null,
-      loading: false,
-      loaded: false,
+      data: {
+        currentlyDeletingMessageId: null,
+      },
     })
   })
 })
@@ -645,18 +711,24 @@ describe("Checkboxes manage", () => {
       messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
-            [secondThread.id]: secondThread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+              [secondThread.id]: secondThread,
+            },
           },
         },
         setThreadsAction
       )
     ).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-        [secondThread.id]: secondThread,
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+          [secondThread.id]: secondThread,
+        },
       },
       selectedItems: { rows: [thread.id, secondThread.id] },
     })
@@ -749,7 +821,10 @@ describe("Searching messages", () => {
       )
     ).toEqual({
       ...initialState,
-      searchResult: { message: [message], thread: [thread] },
+      data: {
+        ...initialState.data,
+        searchResult: { message: [message], thread: [thread] },
+      },
     })
   })
 })

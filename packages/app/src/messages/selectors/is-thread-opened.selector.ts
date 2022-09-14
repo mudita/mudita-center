@@ -13,7 +13,7 @@ export const isThreadOpenedSelector = (
 ): OutputSelector<ReduxRootState, boolean, (res: MessagesState) => boolean> => {
   return createSelector<ReduxRootState, MessagesState, boolean>(
     messagesStateSelector,
-    ({ threadMap }) => {
+    ({ data: { threadMap } }) => {
       const numbers: string[] = Object.keys(threadMap).map(
         (key) => threadMap[key].phoneNumber
       )

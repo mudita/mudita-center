@@ -32,7 +32,7 @@ const defaultState = {
     deviceType: DeviceType.MuditaPure,
   } as unknown as DeviceState,
   messages: {
-    threadMap: {},
+    data: { threadMap: {} },
   },
 } as unknown as ReduxRootState
 
@@ -116,8 +116,11 @@ describe("Device: Mudita pure", () => {
       {
         ...defaultState,
         messages: {
-          threadMap: {
-            "1": threadMock,
+          data: {
+            ...defaultState.messages.data,
+            threadMap: {
+              "1": threadMock,
+            },
           },
         } as unknown as MessagesState,
       },

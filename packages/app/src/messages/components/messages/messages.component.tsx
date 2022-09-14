@@ -44,6 +44,7 @@ import { useLoadingState } from "App/ui"
 import { Feature, flags } from "App/feature-flags"
 import MessagesSearchResults from "App/messages/components/messages-search-results/messages-search-results.component"
 import { DataIndex } from "App/index-storage/constants"
+import { State } from "App/core/constants"
 
 const messages = defineMessages({
   emptyListTitle: {
@@ -104,13 +105,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   updateMessage,
   templates,
   error,
-  loaded,
   selectedItems,
   toggleItem,
   selectAllItems,
   resetItems,
   searchMessages,
   searchResult,
+  state,
 }) => {
   const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
     messageDeleting: false,
@@ -166,7 +167,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [messageLayoutNotifications])
 
   useEffect(() => {
-    if (!loaded || error) {
+    if (state !== State.Loaded) {
       return
     }
 
@@ -196,7 +197,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded, error])
+  }, [state, error])
 
   useEffect(() => {
     handlePotentialThreadDeletion()

@@ -39,8 +39,11 @@ describe("`getReceiversSelector` selector", () => {
       messages: messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         // AUTO DISABLED - fix me if you like :)
@@ -91,8 +94,11 @@ describe("`getReceiversSelector` selector", () => {
       messages: messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
           },
         },
         // AUTO DISABLED - fix me if you like :)

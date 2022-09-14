@@ -12,6 +12,7 @@ import {
   ResultState,
   VisibilityFilter,
 } from "App/messages/constants"
+import { State } from "App/core/constants"
 
 const thread: Thread = {
   id: "1",
@@ -53,27 +54,28 @@ const secondMessage: Message = {
 }
 
 const messagesState: MessagesState = {
-  threadMap: {
-    [thread.id]: thread,
+  data: {
+    threadMap: {
+      [thread.id]: thread,
+    },
+    messageMap: {
+      [draftMessage.id]: draftMessage,
+      [firstMessage.id]: firstMessage,
+      [secondMessage.id]: secondMessage,
+    },
+    messageIdsInThreadMap: {
+      [thread.id]: [draftMessage.id, firstMessage.id, secondMessage.id],
+    },
+    messagesStateMap: {},
+    searchValue: "",
+    visibilityFilter: VisibilityFilter.All,
+    threadsState: ResultState.Empty,
+    currentlyDeletingMessageId: null,
+    searchResult: {},
   },
-  messageMap: {
-    [draftMessage.id]: draftMessage,
-    [firstMessage.id]: firstMessage,
-    [secondMessage.id]: secondMessage,
-  },
-  messageIdsInThreadMap: {
-    [thread.id]: [draftMessage.id, firstMessage.id, secondMessage.id],
-  },
-  searchValue: "",
-  visibilityFilter: VisibilityFilter.All,
-  threadsState: ResultState.Empty,
-  messagesStateMap: {},
-  error: null,
-  loaded: false,
-  loading: false,
-  currentlyDeletingMessageId: null,
   selectedItems: { rows: [] },
-  searchResult: {},
+  error: null,
+  state: State.Initial,
 }
 
 describe("When thread hasn't any message", () => {
@@ -81,10 +83,12 @@ describe("When thread hasn't any message", () => {
     const state = {
       messages: {
         ...messagesState,
-        messageMap: {},
-        messageIdsInThreadMap: {
-          ...messagesState.messageIdsInThreadMap,
-          [thread.id]: [],
+        data: {
+          messageMap: {},
+          messageIdsInThreadMap: {
+            ...messagesState.data.messageIdsInThreadMap,
+            [thread.id]: [],
+          },
         },
       },
     } as ReduxRootState
@@ -97,14 +101,16 @@ describe("When thread have messages", () => {
     const state = {
       messages: {
         ...messagesState,
-        messageMap: {
-          [draftMessage.id]: draftMessage,
-          [firstMessage.id]: firstMessage,
-          [secondMessage.id]: secondMessage,
-        },
-        messageIdsInThreadMap: {
-          ...messagesState.messageIdsInThreadMap,
-          [thread.id]: [draftMessage.id, firstMessage.id, secondMessage.id],
+        data: {
+          messageMap: {
+            [draftMessage.id]: draftMessage,
+            [firstMessage.id]: firstMessage,
+            [secondMessage.id]: secondMessage,
+          },
+          messageIdsInThreadMap: {
+            ...messagesState.data.messageIdsInThreadMap,
+            [thread.id]: [draftMessage.id, firstMessage.id, secondMessage.id],
+          },
         },
       },
     } as ReduxRootState
