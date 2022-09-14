@@ -18,7 +18,7 @@ import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-ma
 export const searchThreads = (
   threads: Thread[] = [],
   contactMap: Record<ContactID, Contact>,
-  searchValue: MessagesProps["searchValue"]
+  searchValue: MessagesProps["data"]["searchValue"]
 ) => {
   if (searchValue.length) {
     return threads?.filter(({ phoneNumber }) => {
@@ -44,7 +44,7 @@ export const searchThreads = (
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const filterThreads = (
   threads: Thread[],
-  visibilityFilter: MessagesProps["visibilityFilter"]
+  visibilityFilter: MessagesProps["data"]["visibilityFilter"]
 ) =>
   threads?.filter(({ unread }) =>
     visibilityFilter === VisibilityFilter.Unread ? unread : true

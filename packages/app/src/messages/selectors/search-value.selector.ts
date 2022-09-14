@@ -12,4 +12,4 @@ export const searchValueSelector = createSelector<
   ReduxRootState,
   MessagesState,
   string
->(messagesStateSelector, ({ searchValue }) => searchValue)
+>(messagesStateSelector, ({ data: { searchValue } }) => searchValue)

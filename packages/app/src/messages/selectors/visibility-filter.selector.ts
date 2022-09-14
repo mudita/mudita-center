@@ -13,4 +13,4 @@ export const visibilityFilterSelector = createSelector<
   ReduxRootState,
   MessagesState,
   VisibilityFilter
->(messagesStateSelector, ({ visibilityFilter }) => visibilityFilter)
+>(messagesStateSelector, ({ data: { visibilityFilter } }) => visibilityFilter)

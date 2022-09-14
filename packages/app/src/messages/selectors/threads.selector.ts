@@ -13,6 +13,6 @@ export const threadsSelector = createSelector<
   ReduxRootState,
   MessagesState,
   Thread[]
->(messagesStateSelector, ({ threadMap }) => {
+>(messagesStateSelector, ({ data: { threadMap } }) => {
   return Object.keys(threadMap).map((key) => threadMap[key])
 })

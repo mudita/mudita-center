@@ -12,6 +12,7 @@ import {
   ResultState,
   VisibilityFilter,
 } from "App/messages/constants"
+import { State } from "App/core/constants"
 
 const thread: Thread = {
   id: "1",
@@ -53,30 +54,31 @@ const outboxMessage: Message = {
 }
 
 const messagesState: MessagesState = {
-  threadMap: {
-    [thread.id]: thread,
+  data: {
+    threadMap: {
+      [thread.id]: thread,
+    },
+    messageMap: {
+      [firstDraftMessage.id]: firstDraftMessage,
+      [outboxMessage.id]: outboxMessage,
+    },
+    messageIdsInThreadMap: {
+      [thread.id]: [
+        firstDraftMessage.id,
+        secondDraftMessage.id,
+        outboxMessage.id,
+      ],
+    },
+    messagesStateMap: {},
+    searchValue: "",
+    visibilityFilter: VisibilityFilter.All,
+    threadsState: ResultState.Empty,
+    currentlyDeletingMessageId: null,
+    searchResult: {},
   },
-  messageMap: {
-    [firstDraftMessage.id]: firstDraftMessage,
-    [outboxMessage.id]: outboxMessage,
-  },
-  messageIdsInThreadMap: {
-    [thread.id]: [
-      firstDraftMessage.id,
-      secondDraftMessage.id,
-      outboxMessage.id,
-    ],
-  },
-  searchValue: "",
-  visibilityFilter: VisibilityFilter.All,
-  threadsState: ResultState.Empty,
-  messagesStateMap: {},
-  error: null,
-  loaded: false,
-  loading: false,
-  currentlyDeletingMessageId: null,
   selectedItems: { rows: [] },
-  searchResult: {},
+  error: null,
+  state: State.Initial,
 }
 
 describe("When thread hasn't any message", () => {
@@ -84,10 +86,12 @@ describe("When thread hasn't any message", () => {
     const state = {
       messages: {
         ...messagesState,
-        messageMap: {},
-        messageIdsInThreadMap: {
-          ...messagesState.messageIdsInThreadMap,
-          [thread.id]: [],
+        data: {
+          messageMap: {},
+          messageIdsInThreadMap: {
+            ...messagesState.data.messageIdsInThreadMap,
+            [thread.id]: [],
+          },
         },
       },
     } as ReduxRootState
@@ -100,12 +104,14 @@ describe("When thread have only `OUTBOX` messages", () => {
     const state = {
       messages: {
         ...messagesState,
-        messageMap: {
-          [outboxMessage.id]: outboxMessage,
-        },
-        messageIdsInThreadMap: {
-          ...messagesState.messageIdsInThreadMap,
-          [thread.id]: [outboxMessage.id],
+        data: {
+          messageMap: {
+            [outboxMessage.id]: outboxMessage,
+          },
+          messageIdsInThreadMap: {
+            ...messagesState.data.messageIdsInThreadMap,
+            [thread.id]: [outboxMessage.id],
+          },
         },
       },
     } as ReduxRootState
@@ -118,13 +124,15 @@ describe("When thread have `DRAFT` messages", () => {
     const state = {
       messages: {
         ...messagesState,
-        messageMap: {
-          [firstDraftMessage.id]: firstDraftMessage,
-          [outboxMessage.id]: outboxMessage,
-        },
-        messageIdsInThreadMap: {
-          ...messagesState.messageIdsInThreadMap,
-          [thread.id]: [outboxMessage.id, firstDraftMessage.id],
+        data: {
+          messageMap: {
+            [firstDraftMessage.id]: firstDraftMessage,
+            [outboxMessage.id]: outboxMessage,
+          },
+          messageIdsInThreadMap: {
+            ...messagesState.data.messageIdsInThreadMap,
+            [thread.id]: [outboxMessage.id, firstDraftMessage.id],
+          },
         },
       },
     } as ReduxRootState
@@ -137,18 +145,20 @@ describe("When thread have `DRAFT` messages", () => {
     const state = {
       messages: {
         ...messagesState,
-        messageMap: {
-          [firstDraftMessage.id]: firstDraftMessage,
-          [secondDraftMessage.id]: secondDraftMessage,
-          [outboxMessage.id]: outboxMessage,
-        },
-        messageIdsInThreadMap: {
-          ...messagesState.messageIdsInThreadMap,
-          [thread.id]: [
-            outboxMessage.id,
-            firstDraftMessage.id,
-            secondDraftMessage.id,
-          ],
+        data: {
+          messageMap: {
+            [firstDraftMessage.id]: firstDraftMessage,
+            [secondDraftMessage.id]: secondDraftMessage,
+            [outboxMessage.id]: outboxMessage,
+          },
+          messageIdsInThreadMap: {
+            ...messagesState.data.messageIdsInThreadMap,
+            [thread.id]: [
+              outboxMessage.id,
+              firstDraftMessage.id,
+              secondDraftMessage.id,
+            ],
+          },
         },
       },
     } as ReduxRootState

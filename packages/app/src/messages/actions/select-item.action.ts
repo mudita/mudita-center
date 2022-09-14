@@ -27,7 +27,7 @@ export const selectAllItems = createAsyncThunk<string[]>(
   async (_, { getState }) => {
     const state = getState() as RootState & ReduxRootState
 
-    const threadIds = Object.keys(state.messages.threadMap)
+    const threadIds = Object.keys(state.messages.data.threadMap)
 
     return threadIds
   }

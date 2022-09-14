@@ -20,7 +20,7 @@ export const getActiveMessagesByThreadIdSelector = (
 > => {
   return createSelector<ReduxRootState, MessagesState, Message[]>(
     messagesStateSelector,
-    ({ messageIdsInThreadMap, messageMap }) => {
+    ({ data: { messageIdsInThreadMap, messageMap } }) => {
       const messageIds = messageIdsInThreadMap[threadId] ?? []
       const messages = messageIds
         .map((messageId) => messageMap[messageId])

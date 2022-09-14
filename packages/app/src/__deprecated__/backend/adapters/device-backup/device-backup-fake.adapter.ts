@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { BackupCategory } from "@mudita/pure"
 import { DownloadDeviceFileLocallyOptions } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceBackupAdapter from "App/__deprecated__/backend/adapters/device-backup/device-backup-adapter.class"
 import {
@@ -18,7 +19,10 @@ export class DeviceBackupFakeAdapter implements DeviceBackupAdapter {
   async downloadDeviceBackup(
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    options: DownloadDeviceFileLocallyOptions
+    options: DownloadDeviceFileLocallyOptions,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    category = BackupCategory.Backup
   ): Promise<RequestResponse<string[]>> {
     return {
       status: RequestResponseStatus.Ok,

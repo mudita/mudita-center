@@ -4,6 +4,7 @@
  */
 
 import path from "path"
+import { BackupCategory } from "@mudita/pure"
 import { DeviceBackup } from "App/__deprecated__/backend/adapters/device-backup/device-backup.adapter"
 import { DeviceBackupService } from "App/__deprecated__/backend/device-backup-service/device-backup-service"
 import { DeviceBaseInfo } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
@@ -92,11 +93,14 @@ export class DataSyncService {
 
     const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
     const { status, data } =
-      await this.deviceBackupService.downloadDeviceBackup({
-        token,
-        extract: true,
-        cwd: syncFileDir,
-      })
+      await this.deviceBackupService.downloadDeviceBackup(
+        {
+          token,
+          extract: true,
+          cwd: syncFileDir,
+        },
+        BackupCategory.Sync
+      )
 
     if (status !== RequestResponseStatus.Ok || data === undefined) {
       return false

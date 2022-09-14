@@ -39,6 +39,7 @@ import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/
 import * as ContactSelectModalModule from "App/contacts/components/contacts-select-modal/contacts-select-modal.component"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { State } from "App/core/constants"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {
@@ -170,13 +171,13 @@ const defaultProps: Props = {
   getThreadDraftMessageSelector: jest.fn(),
   updateMessage: jest.fn(),
   error: null,
-  loaded: false,
   selectedItems: { rows: [] },
   toggleItem: jest.fn().mockReturnValue({ selectedItems: { rows: ["1"] } }),
   selectAllItems: jest.fn(),
   resetItems: jest.fn(),
   searchMessages: jest.fn(),
   searchResult: {},
+  state: State.Initial,
 }
 
 const propsWithSingleThread: Partial<Props> = {
