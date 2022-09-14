@@ -27,7 +27,7 @@ const createCall = (): Call => {
       id: faker.datatype.uuid(),
       firstName: Math.random() < 0.6 ? faker.name.firstName() : "",
       lastName: Math.random() < 0.6 ? faker.name.lastName() : "",
-      phoneNumber: faker.phone.phoneNumber("+## ### ### ###"),
+      phoneNumber: faker.phone.number("+## ### ### ###"),
     },
     duration: status === CallStatus.Missed ? 0 : faker.datatype.number(500),
     date: Math.random() < 0.6 ? faker.date.past() : faker.date.recent(),
@@ -102,7 +102,7 @@ export const basicRows = Array.from({
   return {
     firstName,
     lastName: faker.name.lastName(),
-    phoneNumber: faker.phone.phoneNumber(),
+    phoneNumber: faker.phone.number(),
     address: {
       zip: faker.address.zipCode(),
       city: faker.address.city(),
