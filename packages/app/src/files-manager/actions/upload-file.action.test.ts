@@ -19,6 +19,7 @@ import { DeviceDirectory } from "App/files-manager/constants/device-directory.co
 import { GetPathsInput } from "App/file-system/dto"
 import { uploadFile } from "App/files-manager/actions/upload-file.action"
 import {
+  setUploadBlocked,
   setUploadingFileLength,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
@@ -87,8 +88,10 @@ describe("when `getPathRequest` request return Result.success with files list", 
 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
+        setUploadBlocked(true),
         setUploadingFileLength(2),
         setUploadingState(State.Loading),
+        setUploadBlocked(false),
         {
           type: pendingAction("FILES_MANAGER_GET_FILES"),
           payload: undefined,
@@ -97,6 +100,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
           type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
           payload: undefined,
         },
+
         setUploadingState(State.Loaded),
         uploadFile.fulfilled(undefined, requestId),
       ])
@@ -135,6 +139,8 @@ describe("when `getPathRequest` request return Result.success with files list", 
 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
+        setUploadBlocked(true),
+        setUploadBlocked(false),
         uploadFile.fulfilled(undefined, requestId),
       ])
 
@@ -170,8 +176,10 @@ describe("when `getPathRequest` request return Result.success with files list", 
 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
+        setUploadBlocked(true),
         setUploadingFileLength(2),
         setUploadingState(State.Loading),
+        setUploadBlocked(false),
         uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),
       ])
 
@@ -210,6 +218,7 @@ describe("when `getPathRequest` request return Result.failed", () => {
 
     expect(mockStore.getActions()).toEqual([
       uploadFile.pending(requestId),
+      setUploadBlocked(true),
       uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),
     ])
 
