@@ -6,7 +6,10 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
 import { Contact } from "App/contacts/reducers/contacts.interface"
+import { ExportContactsResult } from "App/contacts/constants"
 
-export const exportContacts = (contacts: Contact[]): Promise<boolean> => {
+export const exportContacts = (
+  contacts: Contact[]
+): Promise<ExportContactsResult> => {
   return ipcRenderer.callMain(IpcRequest.ExportContacts, contacts)
 }

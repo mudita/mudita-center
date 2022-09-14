@@ -16,6 +16,7 @@ import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/
 import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-select-test-ids.enum"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
 import { ExportContactFailedModalTestIds } from "App/contacts/components/export-contact-failed-modal/export-contact-failed-modal-test-ids.component"
+import { ExportContactsResult } from "App/contacts/constants"
 
 type Props = ComponentProps<typeof Contacts>
 
@@ -215,25 +216,82 @@ test("first name and second name in search shows correct result", () => {
   expect(getByTestId(InputSearchTestIds.List).childNodes).toHaveLength(4)
 })
 
-test("Export failed modal is visible if export failed", async () => {
-  const mockedExportContacts = jest.fn().mockReturnValue(false)
-  const { queryAllByTestId, getByTestId } = renderer({
-    exportContacts: mockedExportContacts,
+describe("contact export", () => {
+  test("Export failed modal is visible if export failed", async () => {
+    const mockedExportContacts = jest
+      .fn()
+      .mockReturnValue(ExportContactsResult.Failed)
+    const { queryAllByTestId, queryByTestId } = renderer({
+      exportContacts: mockedExportContacts,
+    })
+    mockAllIsIntersecting(true)
+
+    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
+    const exportButton = queryAllByTestId(
+      ContactListTestIdsEnum.ContactExportButton
+    )[0] as HTMLInputElement
+
+    await waitFor(() => {
+      fireEvent.click(more)
+      fireEvent.click(exportButton)
+    })
+
+    expect(mockedExportContacts).toHaveBeenCalledTimes(1)
+    expect(
+      queryByTestId(ExportContactFailedModalTestIds.Description)
+    ).toBeInTheDocument()
   })
-  mockAllIsIntersecting(true)
 
-  const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
-  const exportButton = queryAllByTestId(
-    ContactListTestIdsEnum.ContactExportButton
-  )[0] as HTMLInputElement
+  test("successful export resets all items", async () => {
+    const mockedExportContacts = jest
+      .fn()
+      .mockReturnValue(ExportContactsResult.Ok)
+    const mockedResetAllItems = jest.fn()
+    const { queryAllByTestId, queryByTestId } = renderer({
+      exportContacts: mockedExportContacts,
+      resetAllItems: mockedResetAllItems,
+    })
+    mockAllIsIntersecting(true)
 
-  await waitFor(() => {
-    fireEvent.click(more)
-    fireEvent.click(exportButton)
+    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
+    const exportButton = queryAllByTestId(
+      ContactListTestIdsEnum.ContactExportButton
+    )[0] as HTMLInputElement
+
+    await waitFor(() => {
+      fireEvent.click(more)
+      fireEvent.click(exportButton)
+    })
+
+    expect(mockedExportContacts).toHaveBeenCalledTimes(1)
+    expect(mockedResetAllItems).toHaveBeenCalledTimes(1)
+    expect(
+      queryByTestId(ExportContactFailedModalTestIds.Description)
+    ).not.toBeInTheDocument()
   })
 
-  expect(mockedExportContacts).toHaveBeenCalled()
-  expect(
-    getByTestId(ExportContactFailedModalTestIds.Description)
-  ).toBeInTheDocument()
+  test("Export failed modal is not shown if export is cancelled", async () => {
+    const mockedExportContacts = jest
+      .fn()
+      .mockReturnValue(ExportContactsResult.Cancelled)
+    const { queryAllByTestId, queryByTestId } = renderer({
+      exportContacts: mockedExportContacts,
+    })
+    mockAllIsIntersecting(true)
+
+    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
+    const exportButton = queryAllByTestId(
+      ContactListTestIdsEnum.ContactExportButton
+    )[0] as HTMLInputElement
+
+    await waitFor(() => {
+      fireEvent.click(more)
+      fireEvent.click(exportButton)
+    })
+
+    expect(mockedExportContacts).toHaveBeenCalledTimes(1)
+    expect(
+      queryByTestId(ExportContactFailedModalTestIds.Description)
+    ).not.toBeInTheDocument()
+  })
 })
