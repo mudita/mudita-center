@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import {
   backgroundColor,
   transitionTime,
@@ -21,12 +21,6 @@ export const Panel = styled.div<{
   align-items: end;
   padding: 2.4rem 3.2rem 0 3.2rem;
   background-color: ${backgroundColor("main")};
-  ${({ selectionMode }) =>
-    selectionMode &&
-    css`
-      grid-template-columns: 62.4rem auto;
-      padding-left: 0.6rem;
-    `};
   label {
     width: auto;
   }
