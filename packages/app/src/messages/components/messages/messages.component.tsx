@@ -80,7 +80,6 @@ enum MessagesState {
   ThreadDetails,
   NewMessage,
   SearchResult,
-  SearchResultDropdown,
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -142,6 +141,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [searchValue, setSearchValue] = useState<string>("")
   const [lastSearchQuery, setLastSearchQuery] = useState<string>("")
   const [searchedMessage, setSearchedMessage] = useState<Message | null>(null)
+  const [activeSearchDropdown, setActiveSearchDropdown] =
+    useState<boolean>(false)
   const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
@@ -151,6 +152,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (messagesState === MessagesState.SearchResult) {
       setMessagesState(MessagesState.List)
     }
+    setActiveSearchDropdown(false)
     setSearchedMessage(null)
   }, [searchValue, messagesState])
 
@@ -641,7 +643,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
     if (query.length > 0) {
       setLastSearchQuery(query)
-      setMessagesState(MessagesState.SearchResultDropdown)
+      setActiveSearchDropdown(true)
       searchMessages({
         scope: [DataIndex.Message, DataIndex.Thread],
         query: query,
@@ -717,7 +719,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         results={searchResult}
         onSelect={handleSearchSelect}
         onSearchEnterClick={handleSearchEnter}
-        showSearchResults={messagesState === MessagesState.SearchResultDropdown}
+        showSearchResults={activeSearchDropdown}
         showSearchResultsList={messagesState === MessagesState.SearchResult}
       />
       {messagesState === MessagesState.SearchResult ? (
