@@ -264,7 +264,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-test-renderer": "^17.0.2",
     "react-tooltip": "^4.2.21",
-    "react-viewport-list": "^5.2.2",
+    "react-viewport-list": "^6.0.1",
     "react-virtualized": "^9.22.3",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
