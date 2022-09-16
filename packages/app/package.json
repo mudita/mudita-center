@@ -210,7 +210,7 @@
     "elasticlunr": "^0.9.5",
     "electron": "^8.5.5",
     "electron-better-ipc": "^2.0.1",
-    "electron-builder": "^22.14.13",
+    "electron-builder": "^23.3.3",
     "electron-debug": "^3.2.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-localshortcut": "^3.2.1",
