@@ -194,6 +194,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 //  for buggy overridePosition lib feature
                 place={ElementWithTooltipPlace.Bottom}
                 offset={{ left: 15, bottom: 5 }}
+                testId={"thread-row-toggler"}
               />
             }
           >
