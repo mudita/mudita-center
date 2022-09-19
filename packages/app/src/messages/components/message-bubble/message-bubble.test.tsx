@@ -153,4 +153,8 @@ describe("dropdown", () => {
       queryByTestId(MessageBubbleTestIds.DropdownActionButton)
     ).toBeInTheDocument()
   })
+  test("should show sending status if message is still sending", () => {
+    const { getByTestId } = renderer({ messageType: MessageType.QUEUED })
+    expect(getByTestId(MessageBubbleTestIds.Loader)).toBeInTheDocument()
+  })
 })

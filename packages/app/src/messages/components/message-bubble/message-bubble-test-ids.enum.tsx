@@ -12,4 +12,5 @@ export enum MessageBubbleTestIds {
   ForwardMessageButton = "message-bubble-forward-message-button",
   DeleteMessageButton = "message-bubble-delete-message-button",
   NotSendIcon = "message-bubble-not-send-icon",
+  Loader = "message-bubble-loader",
 }
