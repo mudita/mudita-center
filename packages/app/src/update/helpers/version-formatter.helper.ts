@@ -16,11 +16,12 @@ export const versionFormatter = (version: string): string => {
     return version
   }
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line prefer-const
-  let [name, year, month, day] = releaseSuffixArray
-  month = month?.replace(/0/g, "")
-  day = day?.replace(/0/g, "")
+  const [name, year, month, day] = releaseSuffixArray
+  const formattedMonth = month.replace(/0/g, "")
+  const formattedDay = day?.replace(/0/g, "")
 
-  return [releaseVersion, [name, year, month, day].join(".")].join("-")
+  return [
+    releaseVersion,
+    [name, year, formattedMonth, formattedDay].join("."),
+  ].join("-")
 }
