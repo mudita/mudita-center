@@ -41,7 +41,6 @@ import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/con
 import { FormError } from "App/contacts/components/contacts/contacts.interface"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import { MaxNameLength, AddressNameLength } from "App/contacts/constants"
 
 const messages = defineMessages({
   editTitle: { id: "module.contacts.editTitle" },
@@ -215,7 +214,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               label={intl.formatMessage(messages.firstName)}
               {...register("firstName", nameValidator)}
               errorMessage={errors.firstName?.message}
-              maxLength={MaxNameLength}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.FirstName}
             />
@@ -224,7 +222,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               label={intl.formatMessage(messages.secondName)}
               {...register("lastName", nameValidator)}
               errorMessage={errors.lastName?.message}
-              maxLength={MaxNameLength}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.SecondName}
             />
@@ -266,7 +263,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               label={intl.formatMessage(messages.firstAddressLine)}
               {...register("firstAddressLine", addressValidator)}
               errorMessage={errors.firstAddressLine?.message}
-              maxLength={AddressNameLength}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.FirstAddressLine}
             />
@@ -275,7 +271,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               label={intl.formatMessage(messages.secondAddressLine)}
               {...register("secondAddressLine", addressValidator)}
               errorMessage={errors.secondAddressLine?.message}
-              maxLength={AddressNameLength}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.SecondAddressLine}
             />
