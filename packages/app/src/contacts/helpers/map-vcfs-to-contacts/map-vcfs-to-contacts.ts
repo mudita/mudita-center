@@ -72,8 +72,11 @@ const mapToContact = (vContact: vCardContact): NewContact => {
   }
 
   if (decodedValues.email) {
-    assertValueIsStringNotArray(decodedValues.email, "email")
-    contact["email"] = decodedValues.email
+    if (Array.isArray(decodedValues.email)) {
+      contact["email"] = decodedValues.email.join(", ")
+    } else {
+      contact["email"] = decodedValues.email
+    }
   }
 
   contact["firstName"] = !firstName && !lastName ? fullName : firstName
