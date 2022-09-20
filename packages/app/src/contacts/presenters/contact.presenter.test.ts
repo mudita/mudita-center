@@ -15,6 +15,7 @@ const pureContact: PureContact = {
   favourite: true,
   numbers: ["500400300"],
   priName: "Alek",
+  email: "",
 }
 
 const contact: Contact = {
@@ -41,5 +42,16 @@ describe("`ContactPresenter`", () => {
   test("`serialize` record properly", () => {
     const result = ContactPresenter.mapToPureContact(contact)
     expect(result).toEqual(pureContact)
+  })
+
+  test("`serialize` record with email address", () => {
+    const result = ContactPresenter.mapToPureContact({
+      ...contact,
+      email: "user@example.com",
+    })
+    expect(result).toEqual({
+      ...pureContact,
+      email: "user@example.com",
+    })
   })
 })

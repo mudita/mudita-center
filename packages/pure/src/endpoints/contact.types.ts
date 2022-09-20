@@ -11,6 +11,7 @@ export interface Contact {
   id: number
   numbers: string[]
   priName: string
+  email: string
 }
 
 export type NewContact = Omit<Contact, "id">

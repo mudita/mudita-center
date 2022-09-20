@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Łukasz 1 Jark
+N:Jark;Łukasz 1;;;
+EMAIL;TYPE=INTERNET;TYPE=WORK:lukasz.jarkowski@mudita.com
+EMAIL;TYPE=INTERNET:mudita.ex@hotmail.com
+item1.TEL:664 364 535
+item1.X-ABLabel:
+item2.ORG:Mudita
+item2.X-ABLabel:
+item3.TITLE:QA
+item3.X-ABLabel:
+BDAY:19820308
+NOTE:Some note
+CATEGORIES:myContacts
+END:VCARD
