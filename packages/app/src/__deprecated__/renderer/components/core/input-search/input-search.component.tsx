@@ -12,6 +12,8 @@ import React, {
   MouseEvent,
   useRef,
   useState,
+  useEffect,
+  RefObject,
 } from "react"
 import styled, { FlattenSimpleInterpolation } from "styled-components"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
@@ -146,6 +148,7 @@ interface InputSearchListProps {
   handleMouseEnter?: (itemIndex: number) => void
   actionButton?: string
   onActionButtonClick?: () => void
+  elementRef: RefObject<HTMLUListElement>
 }
 
 const InputSearchList: FunctionComponent<InputSearchListProps> = ({
@@ -161,10 +164,11 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
   activeItemIndex,
   actionButton,
   onActionButtonClick = noop,
+  elementRef,
   ...props
 }) => {
   return (
-    <List {...props} data-testid={InputSearchTestIds.List}>
+    <List {...props} ref={elementRef} data-testid={InputSearchTestIds.List}>
       {emptyItemValue && (
         <ListItem
           onClick={onEmptyItemValueClick}
@@ -287,6 +291,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   onActionButtonClick,
   ...rest
 }) => {
+  const listRef = useRef<HTMLUListElement>(null)
   const [focus, setFocus] = useState(false)
   const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
@@ -369,7 +374,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
     const handleArrowUp = (event: KeyboardEvent) => {
       event.preventDefault()
 
-      if (activeItemIndex >= 0) {
+      if (activeItemIndex > 0) {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (items[activeItemIndex - 1].type === ItemType.Label) {
@@ -423,6 +428,15 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
     </ToggleIcon>
   )
 
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.children[activeItemIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      })
+    }
+  }, [activeItemIndex])
+
   return (
     <SelectInputWrapper className={className} listStyles={listStyles}>
       <InputText
@@ -444,6 +458,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             selectedItem={selectedItem}
+            elementRef={listRef}
             disabledItems={disabledItems}
             emptyItemValue={emptyItemValue}
             items={items}

@@ -37,6 +37,10 @@ const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
   }
 }
 
+beforeAll(() => {
+  Element.prototype.scrollIntoView = jest.fn()
+})
+
 describe("Search input focus/blur", () => {
   test("should toggle the list", () => {
     const { list, input } = renderInputSearch()
