@@ -10,8 +10,9 @@ export abstract class BaseSearcher {
   constructor(protected index: IndexStorage) {}
 
   abstract search(query: string): unknown[] | undefined
-
-  protected hydrate<Model>(
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  protected hydrate<Model extends {}>(
     index: Index<Model>,
     searchResults: SearchResults[]
   ): Model[] {
