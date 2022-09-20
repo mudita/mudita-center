@@ -36,9 +36,7 @@ import logger from "App/__deprecated__/main/utils/logger"
 import {
   cancelOsDownload,
   downloadOsUpdateRequest,
-  getLatestReleaseRequest,
   osUpdateAlreadyDownloadedCheck,
-  Release,
 } from "App/__deprecated__/update"
 import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
@@ -52,7 +50,13 @@ import {
   TrackOsUpdateState,
 } from "App/analytic-data-tracker/helpers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { getAllReleasesRequest } from "App/__deprecated__/update/requests/get-all-releases.request"
+import {
+  getAllReleasesRequest,
+  getLatestReleaseRequest,
+} from "App/update/requests"
+import { Release } from "App/update/dto"
+import { Product, ReleaseType } from "App/update/constants"
+import { versionFormatter } from "App/update/helpers"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -69,7 +73,7 @@ const useSystemUpdateFlow = (
   onContact: () => void,
   onHelp: () => void
 ) => {
-  const { osVersion } = options
+  const osVersion = versionFormatter(options.osVersion || "")
   const currentDeviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   ) as DeviceType
@@ -117,9 +121,9 @@ const useSystemUpdateFlow = (
       label: "Select Pure OS version to update",
       submenu: devReleases.length
         ? devReleases.map((release) => {
-            const { prerelease, version } = release
+            const { type, version } = release
             return {
-              label: `${prerelease ? "Beta" : "Stable"}: ${version}`,
+              label: `${type}: ${version}`,
               click: () => setReleaseToInstall({ ...release, devMode: true }),
             }
           })
@@ -145,7 +149,7 @@ const useSystemUpdateFlow = (
   }, [releaseToInstall])
 
   const openDevModal = async (install = false) => {
-    const { date, version, prerelease } = releaseToInstall as Release
+    const { date, version, type } = releaseToInstall as Release
     const action = async () => {
       await modalService.closeModal()
       install
@@ -157,7 +161,9 @@ const useSystemUpdateFlow = (
       <DevUpdate
         install={install}
         date={date}
-        prerelease={prerelease}
+        prerelease={
+          type === ReleaseType.Candidate || type === ReleaseType.Daily
+        }
         version={version}
         action={action}
       />,
@@ -221,7 +227,11 @@ const useSystemUpdateFlow = (
 
     if (osVersion) {
       try {
-        const latestRelease = await getLatestReleaseRequest(currentDeviceType)
+        const latestRelease = await getLatestReleaseRequest(
+          currentDeviceType === DeviceType.MuditaPure
+            ? Product.PurePhone
+            : Product.BellHybrid
+        )
 
         if (!silent && latestRelease === undefined) {
           // AUTO DISABLED - fix me if you like :)
@@ -230,31 +240,39 @@ const useSystemUpdateFlow = (
           return
         }
 
-        const allReleases = await getAllReleasesRequest()
-        setDevReleases(allReleases)
+        const allReleases = await getAllReleasesRequest(
+          currentDeviceType === DeviceType.MuditaPure
+            ? Product.PurePhone
+            : Product.BellHybrid
+        )
+
+        if (allReleases.ok) {
+          setDevReleases(allReleases.data as unknown as Release[])
+        }
 
         if (latestRelease) {
-          setReleaseToInstall(latestRelease)
+          setReleaseToInstall(latestRelease.data)
         }
 
         if (
-          latestRelease &&
-          !isVersionGreater(osVersion, latestRelease.version)
+          latestRelease.data &&
+          latestRelease.ok &&
+          !isVersionGreater(osVersion, latestRelease.data.version)
         ) {
           onUpdate({
-            lastAvailableOsVersion: latestRelease.version,
-            pureOsFileUrl: latestRelease.file.url,
+            lastAvailableOsVersion: latestRelease.data.version,
+            pureOsFileUrl: latestRelease.data.file.url,
           })
 
-          if (await osUpdateAlreadyDownloadedCheck(latestRelease.file)) {
+          if (await osUpdateAlreadyDownloadedCheck(latestRelease.data.file)) {
             onUpdate({ pureOsDownloaded: true })
           }
 
           if (!silent) {
-            void openAvailableUpdateModal(latestRelease)
+            void openAvailableUpdateModal(latestRelease.data)
           }
         } else {
-          onUpdate({ lastAvailableOsVersion: latestRelease?.version })
+          onUpdate({ lastAvailableOsVersion: latestRelease.data?.version })
 
           if (!silent) {
             void openNotAvailableUpdateModal()
@@ -422,7 +440,7 @@ const useSystemUpdateFlow = (
     ) {
       dispatch(
         setOsVersionData({
-          osVersion: version,
+          osVersion: versionFormatter(version),
         })
       )
     }

@@ -32,6 +32,7 @@ import { CrashDumpModule } from "App/crash-dump/crash-dump.module"
 import { TemplateModule } from "App/templates/template.module"
 import { FilesManagerModule } from "App/files-manager/files-manager.module"
 import { SearchModule } from "App/search/search.module"
+import { UpdateModule } from "App/update/update.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -47,6 +48,7 @@ export class ApplicationModule {
     CrashDumpModule,
     TemplateModule,
     SearchModule,
+    UpdateModule,
   ]
 
   private ipc = ipcMain
