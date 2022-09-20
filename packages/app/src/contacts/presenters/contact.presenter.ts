@@ -49,6 +49,7 @@ export class ContactPresenter {
       secondaryPhoneNumber,
       firstAddressLine,
       secondAddressLine,
+      email,
       id,
     } = contact
     const numbers = []
@@ -63,6 +64,7 @@ export class ContactPresenter {
       id: Number(id),
       blocked,
       favourite,
+      email: email || "",
       numbers: numbers,
       priName: firstName,
       altName: lastName,
