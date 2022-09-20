@@ -132,7 +132,6 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
         },
       },
       onDelete,
-      onClose: resetRows,
     }
     void modalService.openModal(<DeleteModal {...modalConfig} />)
   }
