@@ -27,6 +27,9 @@ describe("map VCF's to Contacts helper", () => {
   const withPolishCharsContactFile = createFile(
     path.join(__dirname, "./utf-8-polish-characters.vcf")
   )
+  const contactWithEmailListFile = createFile(
+    path.join(__dirname, "./contact-with-email-list.vcf")
+  )
   const noVcfFile = createFile(path.join(__dirname, "./no-vcf.png"))
 
   test("should return list with one contact when is just single record", async () => {
@@ -107,6 +110,19 @@ describe("map VCF's to Contacts helper", () => {
         },
       ]
     `)
+  })
+
+  test("should return contact with email separated by coma if `vcf` with email list has been provided", async () => {
+    const contacts = await mapVCFsToContacts([contactWithEmailListFile])
+    expect(contacts).toStrictEqual([
+      {
+        primaryPhoneNumber: "664364535",
+        note: "Some note",
+        email: "lukasz.jarkowski@mudita.com, mudita.ex@hotmail.com",
+        firstName: "Łukasz 1",
+        lastName: "Jark",
+      },
+    ])
   })
 
   test("should return empty list when the file format isn't vcf", async () => {
