@@ -82,9 +82,7 @@ import {
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
 } from "App/metadata"
-import { registerGetAllReleasesListener } from "App/__deprecated__/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
-import { registerGetLatestReleaseListener } from "App/__deprecated__/update/listeners/get-latest-release.listener"
 import { createSettingsService } from "App/settings/containers/settings.container"
 
 // AUTO DISABLED - fix me if you like :)
@@ -187,8 +185,6 @@ const createWindow = async () => {
   settingsService.init()
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
-  registerGetAllReleasesListener()
-  registerGetLatestReleaseListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
