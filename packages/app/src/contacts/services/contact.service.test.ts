@@ -54,6 +54,7 @@ const pureContact: PureContact = {
   favourite: true,
   numbers: ["500400300"],
   priName: "Alek",
+  email: "",
 }
 
 const contact: Contact = {
