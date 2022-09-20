@@ -94,4 +94,19 @@ describe("Method: mapToMessages", () => {
       threadId: "1",
     })
   })
+  test("returns queue message type if pure message is queued", () => {
+    const result = MessagePresenter.mapToMessage({
+      ...pureMessage,
+      messageType: PureMessageType.QUEUED,
+    })
+    expect(result).toEqual({
+      content:
+        "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+      date: new Date(1547465101 * 1000),
+      id: "6",
+      messageType: "QUEUED",
+      phoneNumber: "+48500600700",
+      threadId: "1",
+    })
+  })
 })
