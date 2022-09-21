@@ -63,15 +63,14 @@ export class MessagePresenter {
   private static getMessageType(
     messageType: AcceptablePureMessageType
   ): MessageType {
-    if (
-      messageType === PureMessageType.QUEUED ||
-      messageType === PureMessageType.OUTBOX
-    ) {
+    if (messageType === PureMessageType.OUTBOX) {
       return MessageType.OUTBOX
     } else if (messageType === PureMessageType.FAILED) {
       return MessageType.FAILED
     } else if (messageType === PureMessageType.DRAFT) {
       return MessageType.DRAFT
+    } else if (messageType === PureMessageType.QUEUED) {
+      return MessageType.QUEUED
     } else {
       return MessageType.INBOX
     }
@@ -85,6 +84,7 @@ export class MessagePresenter {
       [MessageType.FAILED]: PureMessageType.FAILED,
       [MessageType.INBOX]: PureMessageType.INBOX,
       [MessageType.OUTBOX]: PureMessageType.OUTBOX,
+      [MessageType.QUEUED]: PureMessageType.QUEUED,
     }[messageType]
   }
 }

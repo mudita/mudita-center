@@ -130,3 +130,7 @@ export const MessageBubbleText = styled(Text)`
 export const WarningIconWrapper = styled.div`
   margin-right: 1rem;
 `
+
+export const LoaderWrapper = styled.div`
+  margin-right: 1rem;
+`

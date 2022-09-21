@@ -72,15 +72,14 @@ export class MessagePresenter {
   }
 
   private static getMessageType(messageType: PureMessageType): MessageType {
-    if (
-      messageType === PureMessageType.QUEUED ||
-      messageType === PureMessageType.OUTBOX
-    ) {
+    if (messageType === PureMessageType.OUTBOX) {
       return MessageType.OUTBOX
     } else if (messageType === PureMessageType.FAILED) {
       return MessageType.FAILED
     } else if (messageType === PureMessageType.DRAFT) {
       return MessageType.DRAFT
+    } else if (messageType === PureMessageType.QUEUED) {
+      return MessageType.QUEUED
     } else {
       return MessageType.INBOX
     }
