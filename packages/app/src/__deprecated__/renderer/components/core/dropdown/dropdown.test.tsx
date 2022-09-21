@@ -48,7 +48,7 @@ test("renders dropdown", () => {
   expect(container).toMatchSnapshot()
 })
 
-test("renders children", () => {
+test("renders children when dropdown is clicked", () => {
   const buttonText = "Example"
   const childText = "childText"
   const { getByText } = renderWithThemeAndIntl(
@@ -66,4 +66,22 @@ test("renders children", () => {
   fireEvent.click(getByText(buttonText))
 
   expect(getByText(childText)).toBeVisible()
+})
+
+test("does not render children by default", () => {
+  const buttonText = "Example"
+  const childText = "childText"
+  const { queryByText } = renderWithThemeAndIntl(
+    <Dropdown toggler={<ButtonComponent label={buttonText} />}>
+      <Button
+        displayStyle={DisplayStyle.Link}
+        label={childText}
+        href="http://www.google.pl"
+        target="_blank"
+        Icon={IconType.Upload}
+      />
+    </Dropdown>
+  )
+
+  expect(queryByText(childText)).not.toBeInTheDocument()
 })

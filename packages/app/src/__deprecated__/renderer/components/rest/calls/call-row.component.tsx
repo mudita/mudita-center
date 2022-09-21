@@ -99,7 +99,11 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
       </Col>
       <Col>
         <Actions>
-          <Dropdown onOpen={noop} onClose={noop}>
+          <Dropdown
+            onOpen={noop}
+            onClose={noop}
+            togglerTestId={"call-row-toggler"}
+          >
             <ButtonComponent
               labelMessage={{
                 id: "component.dropdownCall",

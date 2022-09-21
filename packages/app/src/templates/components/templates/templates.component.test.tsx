@@ -342,9 +342,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
@@ -388,9 +386,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
@@ -431,9 +427,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
@@ -492,9 +486,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
@@ -555,9 +547,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
@@ -585,9 +575,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
@@ -618,9 +606,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
@@ -653,9 +639,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
@@ -704,9 +688,7 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      const dropdownButton = getByTestId(
-        TemplateOptionsTestIds.OptionsDropDown
-      ).querySelector("button")
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
       const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
