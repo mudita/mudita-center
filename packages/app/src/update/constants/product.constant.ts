@@ -3,5 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-all-releases.listener"
-export * from "./get-latest-release.listener"
+export enum Product {
+  PurePhone = "PurePhone",
+  BellHybrid = "BellHybrid",
+}
