@@ -27,7 +27,7 @@ export const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   min-width: 32rem;
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 8.8rem 1fr 11.5rem 11.5rem auto;
+  --columnsTemplate: 8.8rem 1fr 23rem auto;
   --columnsTemplateWithOpenedSidebar: 8.8rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
