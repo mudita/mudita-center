@@ -4,7 +4,7 @@
  */
 
 export enum TemplateOptionsTestIds {
-  OptionsDropDown = "template-option-dropdown",
   EditButton = "template-option-edit-button",
   DeleteButton = "template-option-delete-button",
+  DropdownToggler = "template-option-dropdown-toggler",
 }
