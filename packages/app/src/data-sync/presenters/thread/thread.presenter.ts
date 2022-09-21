@@ -47,7 +47,7 @@ export class ThreadPresenter {
   }
 
   public serializeToObject(data: ThreadInput): ThreadObject[] {
-    if (!data.threads || !data.contact_number || !data.contact_name) {
+    if (!data.threads || !data.contact_number) {
       return []
     }
 
@@ -61,10 +61,12 @@ export class ThreadPresenter {
       data.contact_number.columns
     )
 
-    const contactNames = this.serializeRecord<ContactNameEntity>(
-      data.contact_name.values,
-      data.contact_name.columns
-    )
+    const contactNames = data.contact_name
+      ? this.serializeRecord<ContactNameEntity>(
+          data.contact_name.values,
+          data.contact_name.columns
+        )
+      : []
 
     const smsMessages = this.serializeRecord<SmsEntity>(
       data.sms.values,
@@ -86,9 +88,9 @@ export class ThreadPresenter {
         return {
           id: thread._id,
           contactId: contact?.contact_id,
-          contactName: [contact?.name_primary, contact?.name_alternative].join(
-            " "
-          ),
+          contactName: contact
+            ? [contact?.name_primary, contact?.name_alternative].join(" ")
+            : "",
           phoneNumber: contactNumber?.number_user,
           lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: sms ? this.buildMessageSnippet(sms) : "",
