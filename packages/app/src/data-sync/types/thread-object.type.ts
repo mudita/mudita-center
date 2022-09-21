@@ -28,5 +28,5 @@ export interface ThreadInput {
   [ThreadTable.Threads]: DBQueryResult<keyof ThreadEntity, string[]>
   [ThreadTable.Sms]: DBQueryResult<keyof SmsEntity, string[]>
   [ThreadTable.Numbers]: DBQueryResult<keyof ContactNumberEntity, string[]>
-  [ThreadTable.Names]: DBQueryResult<keyof ContactNameEntity, string[]>
+  [ThreadTable.Names]?: DBQueryResult<keyof ContactNameEntity, string[]>
 }

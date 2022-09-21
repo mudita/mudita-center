@@ -179,3 +179,27 @@ describe("Thread without messages", () => {
     `)
   })
 })
+
+describe("when there are some threads and any contact is found", () => {
+  test("presenter returns threads without contact details", () => {
+    const presenter = new ThreadPresenter()
+    const threadObjects = presenter.serializeToObject({
+      ...threadInput,
+      contact_name: undefined,
+    })
+    expect(threadObjects).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "contactId": undefined,
+          "contactName": "",
+          "id": "1",
+          "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
+          "messageSnippet": "Draft: Test Message",
+          "messageType": "INBOX",
+          "phoneNumber": "+91898402777",
+          "unread": true,
+        },
+      ]
+    `)
+  })
+})
