@@ -100,9 +100,7 @@ test("renders primary and secondary phone number if defined", () => {
     },
   })
 
-  expect(queryByText("666")).toBeInTheDocument()
-
-  expect(queryByText("777")).toBeInTheDocument()
+  expect(queryByText("666 777")).toBeInTheDocument()
 })
 
 describe("dropdown", () => {
