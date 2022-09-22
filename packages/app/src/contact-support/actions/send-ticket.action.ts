@@ -4,8 +4,10 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { BackupDeviceError } from "App/backup-device/constants"
-import { ContactSupportEvent } from "App/contact-support/constants"
+import {
+  ContactSupportEvent,
+  ContactSupportError,
+} from "App/contact-support/constants"
 import sendTicketRequest, {
   CreateBugTicketResponseStatus,
 } from "App/contact-support/requests/send-ticket.request"
@@ -39,10 +41,7 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       logger.error(`Send Ticket: ${response.error?.message}`)
       return rejectWithValue(
-        new AppError(
-          BackupDeviceError.StartBackupDevice,
-          "Send ticket throw error"
-        )
+        new AppError(ContactSupportError.SendTicket, "Send ticket throw error")
       )
     }
   }

@@ -11,7 +11,7 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { fireEvent } from "@testing-library/react"
 import Backup from "App/overview/components/backup/backup.component"
 
-jest.mock("App/__deprecated__/renderer/requests/get-file-data")
+jest.mock("App/backup/requests/load-backups.request")
 
 const lastBackupDate = new Date("2020-01-15T07:35:01.562Z")
 
