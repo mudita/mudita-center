@@ -380,6 +380,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const closeImportContactsModalFlow = () => {
     setImportContactsFlowState(undefined)
+    setAddedContactsCount(0)
   }
   const showAuthorizaionFailedModal = () => {
     setImportContactsFlowState(ImportContactsFlowState.AuthorizationError)
