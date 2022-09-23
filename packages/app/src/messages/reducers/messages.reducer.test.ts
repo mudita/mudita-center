@@ -9,6 +9,7 @@ import {
   AddNewMessageAction,
   DeleteMessagePendingAction,
   MessagesState,
+  ResendMessageFulfilledAction,
 } from "App/messages/reducers/messages.interface"
 import {
   initialState,
@@ -25,6 +26,38 @@ import { DeleteMessageAction } from "App/messages/reducers/messages.interface"
 import { CoreEvent, State } from "App/core/constants"
 import { SearchResult } from "App/search/dto"
 import { SearchEvent } from "App/search/constants"
+import { AppError } from "App/core/errors"
+
+const thread: Thread = {
+  id: "1",
+  phoneNumber: "+48 755 853 216",
+  lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+  messageSnippet:
+    "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+  unread: true,
+  messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
+}
+
+const messageOne: Message = {
+  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  date: new Date("2019-10-18T11:27:15.256Z"),
+  content:
+    "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+  threadId: "1",
+  phoneNumber: "+48 755 853 216",
+  messageType: MessageType.INBOX,
+}
+
+const messageTwo: Message = {
+  id: "aaf96416-e0c1-11ec-9d64-0242ac120002",
+  date: new Date("2019-10-18T11:27:15.256Z"),
+  content: "Lorem ipsum viverra.",
+  threadId: "1",
+  phoneNumber: "+48 755 853 216",
+  messageType: MessageType.INBOX,
+}
 
 test("empty event returns initial state", () => {
   // AUTO DISABLED - fix me if you like :)
@@ -33,18 +66,6 @@ test("empty event returns initial state", () => {
 })
 
 describe("Toggle Thread Read Status data functionality", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-    messageType: MessageType.INBOX,
-    contactId: undefined,
-    contactName: undefined,
-  }
-
   test("Event: ToggleThreadsReadStatus update properly threadMap field", () => {
     const toggleThreadsReadStatusAction: PayloadAction<
       undefined,
@@ -84,18 +105,6 @@ describe("Toggle Thread Read Status data functionality", () => {
 })
 
 describe("Mark Thread Read Status data functionality", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-    messageType: MessageType.INBOX,
-    contactId: undefined,
-    contactName: undefined,
-  }
-
   test("Event: MarkThreadsReadStatus/pending update properly threadMap field", () => {
     const markThreadsReadStatusAction: PayloadAction<
       undefined,
@@ -172,27 +181,24 @@ describe("Mark Thread Read Status data functionality", () => {
 })
 
 describe("Delete Threads data functionality", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-    messageType: MessageType.INBOX,
-    contactId: undefined,
-    contactName: undefined,
-  }
-
-  const message: Message = {
-    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    date: new Date("2019-10-18T11:27:15.256Z"),
-    content:
-      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: "1",
-    phoneNumber: "+48 755 853 216",
-    messageType: MessageType.INBOX,
-  }
+  test("Event DeleteThreads/pending sets loading state and clears error state", () => {
+    const deleteThreadPendingAction: Action = {
+      type: pendingAction(MessagesEvent.DeleteThreads),
+    }
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          error: new AppError("some_error", "Oups!"),
+        },
+        deleteThreadPendingAction
+      )
+    ).toEqual({
+      ...initialState,
+      state: State.Loading,
+      error: null,
+    })
+  })
 
   test("Event: DeleteThreads update properly threadMap field", () => {
     const deleteThreadsAction: PayloadAction<string[]> = {
@@ -239,10 +245,10 @@ describe("Delete Threads data functionality", () => {
               [thread.id]: thread,
             },
             messageMap: {
-              [message.id]: message,
+              [messageOne.id]: messageOne,
             },
             messageIdsInThreadMap: {
-              [message.threadId]: [message.id],
+              [messageOne.threadId]: [messageOne.id],
             },
           },
         },
@@ -299,11 +305,11 @@ describe("Delete Threads data functionality", () => {
               [toDeleteThread.id]: toDeleteThread,
             },
             messageMap: {
-              [message.id]: message,
+              [messageOne.id]: messageOne,
               [toDeleteMessage.id]: toDeleteMessage,
             },
             messageIdsInThreadMap: {
-              [message.threadId]: [message.id],
+              [messageOne.threadId]: [messageOne.id],
               [toDeleteMessage.threadId]: [toDeleteMessage.id],
             },
           },
@@ -318,13 +324,35 @@ describe("Delete Threads data functionality", () => {
           [thread.id]: thread,
         },
         messageMap: {
-          [message.id]: message,
+          [messageOne.id]: messageOne,
         },
         messageIdsInThreadMap: {
-          [message.threadId]: [message.id],
+          [messageOne.threadId]: [messageOne.id],
         },
       },
       state: State.Loaded,
+    })
+  })
+
+  test("DeleteThreads/rejected sets error and error state", () => {
+    const error = new AppError("some_type", "Oups!!!")
+    const deleteThreadRejectedAction: PayloadAction<AppError> = {
+      type: rejectedAction(MessagesEvent.DeleteThreads),
+      payload: error,
+    }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          error: null,
+        },
+        deleteThreadRejectedAction
+      )
+    ).toEqual({
+      ...initialState,
+      error,
+      state: State.Failed,
     })
   })
 })
@@ -364,28 +392,6 @@ describe("Change Visibility Filter data functionality", () => {
 })
 
 describe("Clear All Threads data functionality", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-    messageType: MessageType.INBOX,
-    contactId: undefined,
-    contactName: undefined,
-  }
-
-  const message: Message = {
-    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    date: new Date("2019-10-18T11:27:15.256Z"),
-    content:
-      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: "1",
-    phoneNumber: "+48 755 853 216",
-    messageType: MessageType.INBOX,
-  }
-
   test("Event: ClearAllThreads clear properly threadMap, messageMap and messageIdsInThreadMap fields", () => {
     expect(
       messagesReducer(
@@ -397,10 +403,10 @@ describe("Clear All Threads data functionality", () => {
               [thread.id]: thread,
             },
             messageMap: {
-              [message.id]: message,
+              [messageOne.id]: messageOne,
             },
             messageIdsInThreadMap: {
-              [message.threadId]: [message.id],
+              [messageOne.threadId]: [messageOne.id],
             },
           },
         },
@@ -419,37 +425,6 @@ describe("Clear All Threads data functionality", () => {
 })
 
 describe("Add New Message functionality", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-    messageType: MessageType.INBOX,
-    contactId: undefined,
-    contactName: undefined,
-  }
-
-  const messagePartOne: Message = {
-    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    date: new Date("2019-10-18T11:27:15.256Z"),
-    content:
-      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: "1",
-    phoneNumber: "+48 755 853 216",
-    messageType: MessageType.INBOX,
-  }
-
-  const messagePartTwo: Message = {
-    id: "aaf96416-e0c1-11ec-9d64-0242ac120002",
-    date: new Date("2019-10-18T11:27:15.256Z"),
-    content: "Lorem ipsum viverra.",
-    threadId: "1",
-    phoneNumber: "+48 755 853 216",
-    messageType: MessageType.INBOX,
-  }
-
   test("Event: AddNewMessage saves all messages parts to the store", () => {
     const addNewMessagesAction: PayloadAction<AddNewMessageAction["payload"]> =
       {
@@ -457,11 +432,11 @@ describe("Add New Message functionality", () => {
         payload: {
           messageParts: [
             {
-              message: messagePartOne,
+              message: messageOne,
               thread,
             },
             {
-              message: messagePartTwo,
+              message: messageTwo,
               thread,
             },
           ],
@@ -483,11 +458,11 @@ describe("Add New Message functionality", () => {
           [thread.id]: thread,
         },
         messageMap: {
-          [messagePartOne.id]: messagePartOne,
-          [messagePartTwo.id]: messagePartTwo,
+          [messageOne.id]: messageOne,
+          [messageTwo.id]: messageTwo,
         },
         messageIdsInThreadMap: {
-          [messagePartOne.threadId]: [messagePartOne.id, messagePartTwo.id],
+          [messageOne.threadId]: [messageOne.id, messageTwo.id],
         },
       },
     })
@@ -495,36 +470,36 @@ describe("Add New Message functionality", () => {
 })
 
 describe("Delete message functionality", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-    messageType: MessageType.INBOX,
-    contactId: undefined,
-    contactName: undefined,
-  }
-
-  const messageOne: Message = {
-    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    date: new Date("2019-10-18T11:27:15.256Z"),
-    content:
-      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: "1",
-    phoneNumber: "+48 755 853 216",
-    messageType: MessageType.INBOX,
-  }
-
-  const messageTwo: Message = {
-    id: "aaf96416-e0c1-11ec-9d64-0242ac120002",
-    date: new Date("2019-10-18T11:27:15.256Z"),
-    content: "Lorem ipsum viverra.",
-    threadId: "1",
-    phoneNumber: "+48 755 853 216",
-    messageType: MessageType.INBOX,
-  }
+  test("Event DeleteMessage/pending sets loading state, sets delete id and clears error state", () => {
+    const deleteMessagePendingAction: PayloadAction<
+      DeleteMessagePendingAction["payload"],
+      string,
+      DeleteMessagePendingAction["meta"]
+    > = {
+      type: pendingAction(MessagesEvent.DeleteMessage),
+      payload: undefined,
+      meta: {
+        arg: messageOne.id,
+      },
+    }
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          error: new AppError("some_error", "Oups!"),
+        },
+        deleteMessagePendingAction
+      )
+    ).toEqual({
+      ...initialState,
+      state: State.Loading,
+      data: {
+        ...initialState.data,
+        currentlyDeletingMessageId: messageOne.id,
+      },
+      error: null,
+    })
+  })
 
   test("Event: DeleteMessage removes the message from the store", () => {
     const deleteMessageAction: PayloadAction<DeleteMessageAction["payload"]> = {
@@ -675,21 +650,31 @@ describe("Delete message functionality", () => {
       },
     })
   })
+
+  test("DeleteMessage/Rejected sets error and failed state", () => {
+    const error = new AppError("some_type", "Oups!!!")
+    const deleteMessageRejectedAction: PayloadAction<AppError> = {
+      type: rejectedAction(MessagesEvent.DeleteMessage),
+      payload: error,
+    }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          error: null,
+        },
+        deleteMessageRejectedAction
+      )
+    ).toEqual({
+      ...initialState,
+      error,
+      state: State.Failed,
+    })
+  })
 })
 
 describe("Checkboxes manage", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-    messageType: MessageType.INBOX,
-    contactId: undefined,
-    contactName: undefined,
-  }
-
   const secondThread: Thread = {
     id: "2",
     phoneNumber: "+48 444 853 216",
@@ -786,31 +771,10 @@ describe("Checkboxes manage", () => {
   })
 })
 describe("Searching messages", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-    messageType: MessageType.INBOX,
-    contactId: undefined,
-    contactName: undefined,
-  }
-
-  const message: Message = {
-    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    date: new Date("2019-10-18T11:27:15.256Z"),
-    content:
-      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: "1",
-    phoneNumber: "+48 755 853 216",
-    messageType: MessageType.INBOX,
-  }
   test("Searching by message content returns proper value", () => {
     const searchMessagesAction: PayloadAction<SearchResult> = {
       type: fulfilledAction(SearchEvent.SearchData),
-      payload: { message: [message], thread: [thread] },
+      payload: { message: [messageOne], thread: [thread] },
     }
     expect(
       messagesReducer(
@@ -823,8 +787,116 @@ describe("Searching messages", () => {
       ...initialState,
       data: {
         ...initialState.data,
-        searchResult: { message: [message], thread: [thread] },
+        searchResult: { message: [messageOne], thread: [thread] },
       },
+    })
+  })
+})
+
+describe("ResendMessage", () => {
+  test("ResendMessage/pending clears error state", () => {
+    const deleteThreadPendingAction: Action = {
+      type: pendingAction(MessagesEvent.ResendMessage),
+    }
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          error: new AppError("some_error", "Oups!"),
+        },
+        deleteThreadPendingAction
+      )
+    ).toEqual({
+      ...initialState,
+      error: null,
+    })
+  })
+
+  test("ResendMessage/fulfilled adds parts of the resent message to the store", () => {
+    const otherMessage: Message = {
+      ...messageOne,
+      id: "some-mocked-id",
+      content: "Hello world!",
+    }
+    const addNewMessagesAction: PayloadAction<
+      ResendMessageFulfilledAction["payload"]
+    > = {
+      type: fulfilledAction(MessagesEvent.ResendMessage),
+      payload: {
+        messageParts: [
+          {
+            message: messageOne,
+            thread,
+          },
+          {
+            message: messageTwo,
+            thread,
+          },
+        ],
+      },
+    }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            messageMap: {
+              [otherMessage.id]: otherMessage,
+            },
+            messageIdsInThreadMap: {
+              [otherMessage.threadId]: [otherMessage.id],
+            },
+          },
+        },
+        addNewMessagesAction
+      )
+    ).toEqual({
+      ...initialState,
+      data: {
+        ...initialState.data,
+        threadMap: {
+          [thread.id]: thread,
+        },
+        messageMap: {
+          [messageOne.id]: messageOne,
+          [messageTwo.id]: messageTwo,
+          [otherMessage.id]: otherMessage,
+        },
+        messageIdsInThreadMap: {
+          [messageOne.threadId]: [
+            otherMessage.id,
+            messageOne.id,
+            messageTwo.id,
+          ],
+        },
+      },
+    })
+  })
+
+  test("ResendMessage/rejected sets error and error state", () => {
+    const error = new AppError("some_type", "Oups!!!")
+    const resendMessageRejectedAction: PayloadAction<AppError> = {
+      type: rejectedAction(MessagesEvent.ResendMessage),
+      payload: error,
+    }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          error: null,
+        },
+        resendMessageRejectedAction
+      )
+    ).toEqual({
+      ...initialState,
+      error,
+      state: State.Failed,
     })
   })
 })

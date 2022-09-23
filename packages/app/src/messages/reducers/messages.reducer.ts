@@ -28,18 +28,14 @@ import {
   DeleteMessagePendingAction,
   DeleteMessageRejectedAction,
   SearchMessagesAction,
+  DeleteThreadsRejectedAction,
 } from "App/messages/reducers/messages.interface"
 import {
   MessagesEvent,
   ResultState,
   VisibilityFilter,
 } from "App/messages/constants"
-import {
-  selectAllItems,
-  resetItems,
-  toggleItem,
-  deleteThreads,
-} from "App/messages/actions"
+import { selectAllItems, resetItems, toggleItem } from "App/messages/actions"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
@@ -114,6 +110,7 @@ export const messagesReducer = createReducer<MessagesState>(
           const deletedMessageId = action.meta.arg
           return {
             ...state,
+            error: null,
             data: {
               ...state.data,
               currentlyDeletingMessageId: deletedMessageId,
@@ -188,6 +185,12 @@ export const messagesReducer = createReducer<MessagesState>(
         }
       )
 
+      .addCase(pendingAction(MessagesEvent.ResendMessage), (state) => {
+        return {
+          ...state,
+          error: null,
+        }
+      })
       .addCase(
         fulfilledAction(MessagesEvent.ResendMessage),
         (state, action: ResendMessageFulfilledAction) => {
@@ -225,7 +228,6 @@ export const messagesReducer = createReducer<MessagesState>(
           }
         }
       )
-
       .addCase(
         rejectedAction(MessagesEvent.ResendMessage),
         (state, action: ResendMessageRejectedAction) => {
@@ -297,6 +299,13 @@ export const messagesReducer = createReducer<MessagesState>(
         }
       )
 
+      .addCase(pendingAction(MessagesEvent.DeleteThreads), (state) => {
+        return {
+          ...state,
+          error: null,
+          state: State.Loading,
+        }
+      })
       .addCase(
         fulfilledAction(MessagesEvent.DeleteThreads),
         (state, action: DeleteThreadsAction) => {
@@ -334,21 +343,16 @@ export const messagesReducer = createReducer<MessagesState>(
           }
         }
       )
-
-      .addCase(pendingAction(MessagesEvent.DeleteThreads), (state) => {
-        return {
-          ...state,
-          state: State.Loading,
+      .addCase(
+        rejectedAction(MessagesEvent.DeleteThreads),
+        (state, action: DeleteThreadsRejectedAction) => {
+          return {
+            ...state,
+            error: action.payload as AppError,
+            state: State.Failed,
+          }
         }
-      })
-
-      .addCase(deleteThreads.rejected, (state, action) => {
-        return {
-          ...state,
-          error: action.payload as AppError,
-          state: State.Failed,
-        }
-      })
+      )
 
       .addCase(
         MessagesEvent.ChangeSearchValue,
