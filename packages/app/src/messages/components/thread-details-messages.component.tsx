@@ -59,7 +59,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   useEffect(() => {
     if (
       prevMessages.messages.length < messages.length &&
-      messages[messages.length - 1]?.messageType === MessageType.OUTBOX
+      messages[messages.length - 1]?.messageType === MessageType.QUEUED
     ) {
       wrapperBottomRef.current &&
         wrapperBottomRef.current.scrollIntoView({
