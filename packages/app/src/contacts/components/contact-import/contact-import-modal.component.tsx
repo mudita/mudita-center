@@ -3,21 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ContactImportRow } from "App/contacts/components/contact-import-row/contact-import-row.component"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
+import { ModalType } from "App/contacts/components/contact-import/contact-import-modal.enum"
+import { ContactImportModalProps } from "App/contacts/components/contact-import/contact-import-modal.interface"
 import {
   Checkbox,
-  Failed,
   Image,
   SubtitleText,
   SyncTable,
   TableContent,
-  Name,
 } from "App/contacts/components/contact-import/contact-import-modal.styled"
 import {
   ModalText,
   SelectedText,
 } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
@@ -26,8 +26,6 @@ import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/mod
 import {
   Col,
   Labels,
-  Row,
-  RowSize,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import Text, {
   TextDisplayStyle,
@@ -35,8 +33,9 @@ import Text, {
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
-import React, { ComponentProps, useEffect } from "react"
+import React, { useEffect } from "react"
 import { defineMessages } from "react-intl"
+import { Virtuoso } from "react-virtuoso"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },
@@ -58,21 +57,7 @@ const messages = defineMessages({
   importingListSelected: { id: "module.contacts.importingListSelected" },
 })
 
-export enum ModalType {
-  Success,
-  Fail,
-  Select,
-}
-
-interface Props
-  extends Omit<ComponentProps<typeof ModalDialog>, "onActionButtonClick"> {
-  onActionButtonClick: (contacts: NewContact[]) => void
-  contacts: NewContact[]
-  modalType: ModalType
-  successfulItemsCount?: number
-}
-
-const ContactImportModal: FunctionComponent<Props> = ({
+export const ContactImportModal: FunctionComponent<ContactImportModalProps> = ({
   onActionButtonClick,
   contacts = [],
   modalType,
@@ -95,50 +80,6 @@ const ContactImportModal: FunctionComponent<Props> = ({
   }, [])
 
   const selectedContactsLength = selectedRows.length
-
-  const SingleRow = ({
-    data,
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    index,
-    ...rest
-  }: {
-    data: NewContact
-    index: number
-  }) => {
-    const onChange = () => {
-      toggleRow(data)
-    }
-    const { selected, indeterminate } = getRowStatus(data)
-    return (
-      <Row size={RowSize.Small} useMinRowHeight {...rest}>
-        <Col>
-          {[ModalType.Select, ModalType.Fail].includes(modalType) && (
-            <Checkbox
-              checked={selected}
-              indeterminate={indeterminate}
-              onChange={onChange}
-              data-testid={ContactImportModalTestIds.RowCheckbox}
-            />
-          )}
-          <Name displayStyle={TextDisplayStyle.Paragraph1}>
-            {createFullNameStartingFromLastName(data)}
-          </Name>
-        </Col>
-        <Col>
-          {data.primaryPhoneNumber || data.secondaryPhoneNumber}
-          {data.primaryPhoneNumber && data.secondaryPhoneNumber
-            ? ", " + data.secondaryPhoneNumber
-            : ""}
-        </Col>
-        <Failed data-testid={ContactImportModalTestIds.FailedIcon}>
-          {modalType === ModalType.Fail && (
-            <Icon type={IconType.FailRed} size={2} />
-          )}
-        </Failed>
-      </Row>
-    )
-  }
 
   const handleButtonClick = () => onActionButtonClick(selectedRows)
 
@@ -249,19 +190,22 @@ const ContactImportModal: FunctionComponent<Props> = ({
           <Col />
         </Labels>
         <TableContent>
-          {sortedContacts.map((row, index) => (
-            <React.Fragment key={index}>
-              <SingleRow
-                data={row}
-                data-testid={ContactImportModalTestIds.ContactRow}
-                index={index}
-              />
-            </React.Fragment>
-          ))}
+          <Virtuoso
+            data={sortedContacts}
+            itemContent={(_index, data) => {
+              return (
+                <ContactImportRow
+                  testId={ContactImportModalTestIds.ContactRow}
+                  data={data}
+                  modalType={modalType}
+                  getRowStatus={getRowStatus}
+                  toggleRow={toggleRow}
+                />
+              )
+            }}
+          />
         </TableContent>
       </SyncTable>
     </ModalDialog>
   )
 }
-
-export default ContactImportModal

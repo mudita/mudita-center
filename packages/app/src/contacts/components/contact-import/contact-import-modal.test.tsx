@@ -5,12 +5,14 @@
 
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import ContactImportModal, {
-  ModalType,
-} from "App/contacts/components/contact-import/contact-import-modal.component"
+import { ContactImportModal } from "App/contacts/components/contact-import/contact-import-modal.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
+import { ModalType } from "App/contacts/components/contact-import/contact-import-modal.enum"
+import { VirtuosoMockContext } from "react-virtuoso"
+import { ContactImportRowTestIds } from "App/contacts/components/contact-import-row/contact-import-row-test-ids.enum"
+import { ContactImportModalProps } from "App/contacts/components/contact-import/contact-import-modal.interface"
 
 const contacts = [
   {
@@ -113,9 +115,7 @@ const contacts = [
   },
 ]
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/ban-types
-const renderer = (extraProps?: {}) => {
+const renderer = (extraProps?: Partial<ContactImportModalProps>) => {
   return renderWithThemeAndIntl(
     <ContactImportModal
       contacts={contacts}
@@ -123,7 +123,16 @@ const renderer = (extraProps?: {}) => {
       modalType={ModalType.Select}
       open
       {...extraProps}
-    />
+    />,
+    {
+      wrapper: ({ children }) => (
+        <VirtuosoMockContext.Provider
+          value={{ viewportHeight: 1000, itemHeight: 100 }}
+        >
+          {children}
+        </VirtuosoMockContext.Provider>
+      ),
+    }
   )
 }
 
@@ -170,20 +179,6 @@ test("Toggle all checkbox can uncheck remaining checkboxes", () => {
   checkboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked())
 })
 
-test("Failed rows have a proper icon attached", () => {
-  const { getAllByTestId } = renderer({
-    modalType: ModalType.Fail,
-    successfulItemsCount: 3,
-  })
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getAllByTestId(ContactImportModalTestIds.ContactRow).forEach((row, index) => {
-    expect(
-      row.querySelector('[data-testid="icon-FailRed"]')
-    ).toBeInTheDocument()
-  })
-})
-
 describe("Select text on contact list", () => {
   test("should display all selected number", () => {
     const { getByTestId } = renderer()
@@ -203,7 +198,7 @@ describe("Select text on contact list", () => {
   })
   test("should display selected number", () => {
     const { getByTestId, getAllByTestId } = renderer()
-    const allCheckboxes = getAllByTestId(ContactImportModalTestIds.RowCheckbox)
+    const allCheckboxes = getAllByTestId(ContactImportRowTestIds.RowCheckbox)
     allCheckboxes[0].click()
     expect(
       getByTestId(ContactImportModalTestIds.SelectedText)
