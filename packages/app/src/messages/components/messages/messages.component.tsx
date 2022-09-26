@@ -45,6 +45,8 @@ import { Feature, flags } from "App/feature-flags"
 import MessagesSearchResults from "App/messages/components/messages-search-results/messages-search-results.component"
 import { DataIndex } from "App/index-storage/constants"
 import { State } from "App/core/constants"
+import { NotificationMethod } from "App/notification/constants"
+import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 
 const messages = defineMessages({
   emptyListTitle: {
@@ -53,6 +55,7 @@ const messages = defineMessages({
   emptyListDescription: {
     id: "module.messages.emptyListDescription",
   },
+  deletedMessageInfo: { id: "module.messages.deletedMessageInfo" },
 })
 
 const contactsModalMessages = defineMessages({
@@ -98,7 +101,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   addNewMessage,
   deleteMessage,
   messageLayoutNotifications,
-  removeLayoutNotification,
+  removeNotification,
   currentlyDeletingMessageId,
   resendMessage,
   updateMessage,
@@ -111,11 +114,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
   searchMessages,
   searchResult,
   state,
+  messagePopupNotifications,
 }) => {
   const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
     messageDeleting: false,
     messageDeletingConfirmation: false,
-    messageDeletingInfo: false,
     threadDeleting: false,
     threadDeletingConfirmation: false,
     threadDeletingInfo: false,
@@ -162,11 +165,26 @@ const Messages: FunctionComponent<MessagesProps> = ({
         (item) => (item.content as Message)?.messageType === MessageType.OUTBOX
       )
       .forEach((item) => {
-        removeLayoutNotification(item.id)
+        removeNotification(item.id)
       })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageLayoutNotifications])
+
+  useEffect(() => {
+    const hideInfoPopupsTimeout = setTimeout(() => {
+      messagePopupNotifications
+        .filter((item) => item.method === NotificationMethod.Popup)
+        .forEach((item) => {
+          removeNotification(item.id)
+        })
+    }, 5000)
+    return () => {
+      clearTimeout(hideInfoPopupsTimeout)
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messagePopupNotifications])
 
   useEffect(() => {
     if (state !== State.Loaded) {
@@ -177,7 +195,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
       if (states.messageDeleting) {
         updateFieldState("messageDeleting", false)
         updateFieldState("messageDeletingConfirmation", false)
-        updateFieldState("messageDeletingInfo", true)
         messagesState === MessagesState.SearchResult && handleSearchMessage()
       }
 
@@ -189,7 +206,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }, 1000)
 
     const hideInfoPopupsTimeout = setTimeout(() => {
-      updateFieldState("messageDeletingInfo", false)
       updateFieldState("threadDeletingInfo", false)
     }, 5000)
 
@@ -677,7 +693,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleSearchMessage = () => {
     searchMessages({ scope: [DataIndex.Message], query: searchValue })
   }
-
   return (
     <>
       <ContactSelectModal
@@ -776,7 +791,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
               onSendClick={handleSendClick}
               onContentChange={handleContentChange}
               messageLayoutNotifications={messageLayoutNotifications}
-              removeLayoutNotification={removeLayoutNotification}
+              removeLayoutNotification={removeNotification}
               onMessageRead={markAsRead}
               onMessageDelete={openDeleteMessageModal}
               resendMessage={resendMessage}
@@ -813,16 +828,20 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onCloseDeletingErrorModal={hideDeleteThreadErrorModal}
         onDelete={handleConfirmThreadDelete}
       />
-
       <DeleteMessageModals
         deletingConfirmation={states.messageDeletingConfirmation}
         deleting={states.messageDeleting}
-        deletingInfo={states.messageDeletingInfo}
         error={error}
         onCloseDeletingModal={hideDeleteMessageConfirmationModal}
         onCloseDeletingErrorModal={hideDeleteMessageErrorModal}
         onDelete={handleDeleteMessage}
       />
+      {messagePopupNotifications.length > 0 && (
+        <InfoPopup
+          message={messages.deletedMessageInfo}
+          testId={MessagesTestIds.InfoPopup}
+        />
+      )}
     </>
   )
 }
