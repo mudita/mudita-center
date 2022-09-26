@@ -130,7 +130,7 @@ describe("Start backup functionality", () => {
     })
   })
 
-  test("Event: CreateBackup/rejected set `backingUpState` to loaded", () => {
+  test("Event: CreateBackup/rejected set `backingUpState` to failed", () => {
     const errorMock = new AppError(
       BackupError.BackupLocationIsUndefined,
       "Pure OS Backup Desktop Location is undefined"
@@ -199,7 +199,7 @@ describe("Restore backup functionality", () => {
     })
   })
 
-  test("Event: RestoreBackup/rejected set `restoringState` to loaded", () => {
+  test("Event: RestoreBackup/rejected set `restoringState` to failed", () => {
     const errorMock = new AppError(
       BackupError.BackupLocationIsUndefined,
       "Pure OS Backup Desktop Location is undefined"

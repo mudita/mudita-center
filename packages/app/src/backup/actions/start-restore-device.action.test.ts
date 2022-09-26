@@ -66,7 +66,7 @@ describe("When backup location path doesn't exists", () => {
 })
 
 describe("when `restoreBackupRequest` request returns `Result.success`", () => {
-  test("returns backup files list", async () => {
+  test("return empty result", async () => {
     ;(restoreBackupRequest as jest.Mock).mockReturnValue(Result.success([]))
 
     const mockStore = createMockStore([thunk])({

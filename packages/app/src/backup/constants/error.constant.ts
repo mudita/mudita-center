@@ -15,4 +15,5 @@ export enum BackupError {
   CannotUploadBackupToDevice = "CANNOT_UPLOAD_BACKUP_TO_DEVICE_ERROR",
   CannotRestoreBackup = "CANNOT_RESTORE_BACKUP_ERROR",
   RestoreBackupFailed = "RESTORE_BACKUP_FAILED_ERROR",
+  CannotReachBackupLocation = "CANNOT_REACH_BACKUP_LOCATION_ERROR",
 }

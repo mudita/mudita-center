@@ -6,13 +6,12 @@
 import { Endpoint, Method, GetBackupDeviceStatusDataState } from "@mudita/pure"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { isResponseSuccessWithData, isResponseSuccess } from "App/core/helpers"
+import { isResponseSuccessWithData } from "App/core/helpers"
 import { BackupError } from "App/backup/constants"
 import { MetadataStore, MetadataKey } from "App/metadata"
 import { CreateDeviceBackup } from "App/backup/types"
 
 // DEPRECATED
-import logger from "App/__deprecated__/main/utils/logger"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import DeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 
@@ -36,9 +35,16 @@ export class BackupCreateService {
 
     const runDeviceBackupResponse = await this.runDeviceBackup()
 
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const filePath = runDeviceBackupResponse.data!
+    if (!runDeviceBackupResponse.data) {
+      return Result.failed(
+        new AppError(
+          BackupError.CannotReachBackupLocation,
+          "Cannot find backup on device"
+        )
+      )
+    }
+
+    const filePath = runDeviceBackupResponse.data
 
     const backupFile = await this.deviceFileSystem.downloadDeviceFilesLocally(
       [filePath],
@@ -52,11 +58,9 @@ export class BackupCreateService {
     }
 
     // TODO: Moved removing backup logic to OS
-    const removeFile = await this.deviceFileSystem.removeDeviceFile(filePath)
+    await this.deviceFileSystem.removeDeviceFile(filePath)
 
-    if (isResponseSuccess(removeFile)) {
-      logger.info("Removing device file during backup locally fails")
-    }
+    this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
     return Result.success(backupFile.data)
   }
