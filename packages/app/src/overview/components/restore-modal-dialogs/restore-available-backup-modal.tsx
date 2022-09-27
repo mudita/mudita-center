@@ -17,7 +17,7 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { ModalDialog } from "App/ui/components/modal-dialog"
-import { Backup } from "App/backup/reducers"
+import { Backup } from "App/backup/dto"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Row } from "App/__deprecated__/renderer/components/core/table/table.component"

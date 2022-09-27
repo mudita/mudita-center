@@ -14,7 +14,7 @@ import {
 } from "App/overview/components/restore-modal-dialogs/restore-modal-dialogs"
 import { action } from "@storybook/addon-actions"
 import RestoreAvailableBackupModal from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal"
-import { Backup } from "App/backup/reducers"
+import { Backup } from "App/backup/dto"
 
 const backups: Backup[] = [
   {

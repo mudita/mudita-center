@@ -10,7 +10,7 @@ import RestoreDeviceFlow, {
   RestoreDeviceFlowState,
 } from "App/overview/components/restore-device-flow/restore-device-flow.component"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
-import { Backup } from "App/backup/reducers"
+import { Backup } from "App/backup/dto"
 import { RestoreAvailableBackupModalTestIds } from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal-test-ids.component"
 import { fireEvent } from "@testing-library/dom"
 

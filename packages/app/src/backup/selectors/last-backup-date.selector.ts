@@ -7,7 +7,7 @@ import { createSelector } from "reselect"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { sortBackups } from "App/backup/helpers/sort-backups"
 
-const backupsSelector = ({ backup }: ReduxRootState) => backup.backups
+const backupsSelector = ({ backup }: ReduxRootState) => backup.data.backups
 
 export const lastBackupDateSelector = createSelector(
   backupsSelector,
