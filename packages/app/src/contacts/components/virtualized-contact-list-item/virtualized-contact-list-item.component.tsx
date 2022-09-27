@@ -106,8 +106,6 @@ export const VirtualizedContactListItem: FunctionComponent<
     )
   }
 
-  const phoneNumber = contact.primaryPhoneNumber || contact.secondaryPhoneNumber
-
   return (
     <>
       <ContactListRow
@@ -147,13 +145,10 @@ export const VirtualizedContactListItem: FunctionComponent<
           )}
         </ClickableCol>
         <Col>
-          <Text displayStyle={TextDisplayStyle.Paragraph1}>{phoneNumber}</Text>
-        </Col>
-        <Col>
           <Text displayStyle={TextDisplayStyle.Paragraph1}>
-            {contact.primaryPhoneNumber &&
-              contact.secondaryPhoneNumber &&
-              contact.secondaryPhoneNumber}
+            {[contact.primaryPhoneNumber, contact.secondaryPhoneNumber].join(
+              "  "
+            )}
           </Text>
         </Col>
         <Col>
