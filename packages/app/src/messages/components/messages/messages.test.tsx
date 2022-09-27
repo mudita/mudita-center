@@ -40,6 +40,11 @@ import * as ContactSelectModalModule from "App/contacts/components/contacts-sele
 import { PayloadAction } from "@reduxjs/toolkit"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { State } from "App/core/constants"
+import {
+  NotificationType,
+  NotificationMethod,
+  NotificationResourceType,
+} from "App/notification/constants"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {
@@ -164,7 +169,8 @@ const defaultProps: Props = {
   isContactCreatedByPhoneNumber: jest.fn(),
   getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([contact]),
   messageLayoutNotifications: [],
-  removeLayoutNotification: jest.fn(),
+  messagePopupNotifications: [],
+  removeNotification: jest.fn(),
   currentlyDeletingMessageId: null,
   deleteMessage: jest.fn(),
   resendMessage: jest.fn(),
@@ -323,6 +329,11 @@ describe("Messages component", () => {
         queryByTestId(MessagesTestIds.EmptyThreadListState)
       ).toBeInTheDocument()
       expect(queryByTestId(MessagesTestIds.ThreadList)).not.toBeInTheDocument()
+    })
+    test("InfoPopup notification should not be visible", () => {
+      const { queryByTestId } = renderer()
+
+      expect(queryByTestId(MessagesTestIds.InfoPopup)).not.toBeInTheDocument()
     })
   })
 
@@ -1051,5 +1062,23 @@ describe("Messages component", () => {
         expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
       })
     })
+  })
+})
+
+describe("Info popup notification", () => {
+  test("should be visible if message was successfully deleted", () => {
+    const { getByTestId } = renderer({
+      messagePopupNotifications: [
+        {
+          id: "1",
+          type: NotificationType.Info,
+          method: NotificationMethod.Popup,
+          resourceType: NotificationResourceType.Message,
+          content: "test",
+        },
+      ],
+    })
+
+    expect(getByTestId(MessagesTestIds.InfoPopup)).toBeInTheDocument()
   })
 })

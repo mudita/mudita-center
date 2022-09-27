@@ -13,7 +13,6 @@ type Props = ComponentProps<typeof DeleteMessageModals>
 const props: Props = {
   error: null,
   deleting: false,
-  deletingInfo: false,
   deletingConfirmation: false,
   onCloseDeletingErrorModal: jest.fn(),
   onDelete: jest.fn(),
@@ -51,22 +50,6 @@ describe("when delete message confirmation is supposed to be opened", () => {
     expect(
       queryByTestId(DeleteMessageModalsTestIds.DeleteMessageConfirmation)
     ).toBeInTheDocument()
-  })
-})
-
-describe("when deleting state equals to success", () => {
-  test("only the success info popup is shown", () => {
-    const { queryByTestId } = renderer({
-      deletingConfirmation: false,
-      deletingInfo: true,
-    })
-
-    expect(
-      queryByTestId(DeleteMessageModalsTestIds.SuccessMessageDelete)
-    ).toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)
-    ).not.toBeInTheDocument()
   })
 })
 
