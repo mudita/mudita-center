@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Backup } from "App/backup/reducers"
+import { Backup } from "App/backup/dto"
 
 export const sortBackups = (backups: Backup[]): Backup[] => {
   return [...backups].sort((a, b) => {

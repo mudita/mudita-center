@@ -9,7 +9,7 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { DeviceEvent, UpdatingState } from "App/device/constants"
 import { setConnectionStatus } from "App/device/actions"
 import { setValue } from "App/metadata"
-import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { State } from "App/core/constants"
 import { DataSyncEvent } from "App/data-sync/constants"
 
 jest.mock("App/metadata")
@@ -17,8 +17,8 @@ const state = {
   device: {
     updatingState: null,
   },
-  restoreDevice: {
-    state: RestoreDeviceDataState.Empty,
+  backup: {
+    restoringState: State.Initial,
   },
 }
 
@@ -122,12 +122,12 @@ describe("async `setConnectionStatus` ", () => {
     })
   })
 
-  describe("`state` in `restoreDevice` is set to `Running`", () => {
+  describe("`state` in `restoreDevice` is set to `Loading`", () => {
     test("do not call `setInitState`", async () => {
       const store = createMockStore([thunk])({
         ...state,
-        restoreDevice: {
-          state: RestoreDeviceDataState.Running,
+        backup: {
+          restoringState: State.Loading,
         },
       })
 
@@ -152,8 +152,8 @@ describe("async `setConnectionStatus` ", () => {
     test("do not call `setValue`", async () => {
       const store = createMockStore([thunk])({
         ...state,
-        restoreDevice: {
-          state: RestoreDeviceDataState.Running,
+        backup: {
+          restoringState: State.Loading,
         },
       })
 

@@ -16,13 +16,13 @@ import {
   startUpdateOs,
 } from "App/device"
 import { lastBackupDateSelector } from "App/backup/selectors"
-import { startBackupDevice } from "App/backup-device/actions"
-import { readBackupDeviceDataState } from "App/backup-device/actions/base.action"
 import {
-  readRestoreDeviceDataState,
+  startBackupDevice,
   startRestoreDevice,
-  StartRestoreOption,
-} from "App/restore-device/actions"
+  readBackupDeviceDataState,
+  readRestoreDeviceDataState,
+} from "App/backup/actions"
+import { RestoreBackup } from "App/backup/dto"
 import { ModalStateKey, showModal } from "App/modals-manager"
 import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 import { getDeviceLatestVersion } from "App/settings/selectors"
@@ -39,9 +39,9 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     networkLevel: Number((state.device.data as PureDeviceData)?.networkLevel),
     caseColour: (state.device.data as PureDeviceData)?.caseColour,
     pureOsBackupLocation: state.settings.osBackupLocation,
-    backupDeviceState: state.backupDevice.state,
-    restoreDeviceState: state.restoreDevice.state,
-    backups: state.backup.backups,
+    backupDeviceState: state.backup.backingUpState,
+    restoreDeviceState: state.backup.restoringState,
+    backups: state.backup.data.backups,
     ...state.phoneUpdate,
     ...state.devMode,
     syncState: state.dataSync.state,
@@ -60,12 +60,12 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
-  startBackupDevice: (secretKey: string) =>
+  startBackupDevice: (key: string) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(
       startBackupDevice({
-        secretKey,
+        key,
       })
     ),
   // AUTO DISABLED - fix me if you like :)
@@ -74,7 +74,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
-  startRestoreDevice: (option: StartRestoreOption) =>
+  startRestoreDevice: (option: RestoreBackup) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(startRestoreDevice(option)),

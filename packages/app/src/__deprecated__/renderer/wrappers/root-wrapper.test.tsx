@@ -14,7 +14,7 @@ import RootWrapper from "App/__deprecated__/renderer/wrappers/root-wrapper"
 import networkStatus from "App/__deprecated__/renderer/models/network-status/network-status"
 import history from "App/__deprecated__/renderer/routes/history"
 import { Store, ReduxRootState } from "App/__deprecated__/renderer/store"
-import { restoreDeviceReducer } from "App/restore-device/reducers/restore-device.reducer"
+import { backupReducer } from "App/backup/reducers/backup.reducer"
 import { modalsManagerReducer } from "App/modals-manager/reducers"
 import { settingsReducer } from "App/settings/reducers"
 import { checkUpdateAvailable } from "App/settings/actions/check-update-available.action"
@@ -104,7 +104,7 @@ const store = init({
     middlewares: [thunk],
     reducers: {
       device: deviceReducer,
-      restoreDevice: restoreDeviceReducer,
+      backup: backupReducer,
       crashDump: crashDumpReducer,
       modalsManager: modalsManagerReducer,
       settings: settingsReducer,

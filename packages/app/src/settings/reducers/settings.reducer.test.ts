@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// import { AppError } from "App/core/errors"
 import { SettingsEvent } from "App/settings/constants"
 import {
   settingsReducer,
