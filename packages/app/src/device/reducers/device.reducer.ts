@@ -33,6 +33,7 @@ import {
   LoadStorageInfoAction,
   LoadStorageInfoRejectedAction,
 } from "App/device/reducers/device.interface"
+import { setAgreementStatus } from "App/device/actions/base.action"
 
 export const initialState: DeviceState = {
   deviceType: null,
@@ -41,6 +42,7 @@ export const initialState: DeviceState = {
     connected: false,
     unlocked: null,
     loaded: false,
+    agreementAccepted: true,
   },
   state: ConnectionState.Empty,
   updatingState: null,
@@ -112,6 +114,7 @@ export const deviceReducer = createReducer<DeviceState>(
             status: {
               ...state.status,
               connected: false,
+              // agreementAccepted: true,
             },
             state: ConnectionState.Error,
             error: action.payload,
@@ -126,6 +129,7 @@ export const deviceReducer = createReducer<DeviceState>(
               ...state,
               status: {
                 ...state.status,
+                // agreementAccepted: true,
                 connected: action.payload ? action.payload : false,
               },
               updatingState: UpdatingState.Updating,
@@ -333,5 +337,9 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
+
+      .addCase(setAgreementStatus, (state, action) => {
+        state.status.agreementAccepted = action.payload
+      })
   }
 )

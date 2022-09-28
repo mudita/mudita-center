@@ -71,12 +71,14 @@ export enum DeviceServiceEventName {
   DeviceDisconnected = "deviceDisconnected",
   DeviceUnlocked = "deviceUnlocked",
   DeviceLocked = "deviceLocked",
+  DeviceAgreementNotAccepted = "deviceAgreementNotAccepted",
 }
 
 export class DeviceService {
   public devices: Record<string, MuditaDevice> = {}
   public currentDevice: MuditaDevice | undefined
   public currentDeviceUnlocked = false
+  public eulaAccepted = true
   private lockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
@@ -464,6 +466,7 @@ export class DeviceService {
   private clearSubscriptions(): void {
     this.currentDevice = undefined
     this.currentDeviceUnlocked = false
+    this.eulaAccepted = true
     this.lockedInterval && clearInterval(this.lockedInterval)
     this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
     this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
@@ -473,6 +476,7 @@ export class DeviceService {
     response: Response<unknown>
   ): RequestResponse<unknown> {
     const { status, body: data, error } = response
+
     if (
       status === ResponseStatus.Ok ||
       status === ResponseStatus.Accepted ||
@@ -507,6 +511,11 @@ export class DeviceService {
         error,
         status: RequestResponseStatus.UnprocessableEntity,
       }
+    } else if (status === ResponseStatus.NotAccepted) {
+      return {
+        error,
+        status: RequestResponseStatus.NotAcceptable,
+      }
     } else {
       return {
         error,
@@ -533,10 +542,26 @@ export class DeviceService {
       response.status !== RequestResponseStatus.PhoneLocked
 
     this.emitDeviceUnlockedEvent(response)
+    this.emitEulaStatusEvent(response)
+
+    if (
+      config.endpoint === Endpoint.Security &&
+      (config.body as GetPhoneLockStatusBody)?.category ===
+        PhoneLockCategory.Status
+    ) {
+      this.eulaAccepted =
+        response.status !== RequestResponseStatus.NotAcceptable
+    }
   }
 
   private emitDeviceUnlockedEvent({ status }: RequestResponse<unknown>): void {
-    if (status !== RequestResponseStatus.PhoneLocked) {
+    if (status === RequestResponseStatus.PhoneLocked) {
+      this.eventEmitter.emit(
+        DeviceServiceEventName.DeviceLocked,
+        this.currentDevice
+      )
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked, this.currentDevice)
+    } else if (status === RequestResponseStatus.Ok) {
       this.eventEmitter.emit(
         DeviceServiceEventName.DeviceUnlocked,
         this.currentDevice
@@ -545,12 +570,20 @@ export class DeviceService {
         IpcEmitter.DeviceUnlocked,
         this.currentDevice
       )
+    }
+  }
+
+  private emitEulaStatusEvent({ status }: RequestResponse<unknown>): void {
+    if (this.eulaAccepted) {
+      return
+    }
+
+    if (status === RequestResponseStatus.PhoneLocked) {
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceAgreementStatus, true)
+    } else if (status === RequestResponseStatus.NotAcceptable) {
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceAgreementStatus, false)
     } else {
-      this.eventEmitter.emit(
-        DeviceServiceEventName.DeviceLocked,
-        this.currentDevice
-      )
-      this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked, this.currentDevice)
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceAgreementStatus, true)
     }
   }
 
