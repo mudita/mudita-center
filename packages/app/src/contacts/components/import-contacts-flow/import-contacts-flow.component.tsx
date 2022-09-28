@@ -12,12 +12,11 @@ import { DownloadContactsModal } from "App/contacts/components/contacts/download
 import InfoModal from "App/contacts/components/info-modal/info-modal.component"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import ContactImportModal, {
-  ModalType,
-} from "App/contacts/components/contact-import/contact-import-modal.component"
+import { ContactImportModal } from "App/contacts/components/contact-import/contact-import-modal.component"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
+import { ModalType } from "App/contacts/components/contact-import/contact-import-modal.enum"
 
 export const messages = defineMessages({
   downloadingErrorTitle: {
