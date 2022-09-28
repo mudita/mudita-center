@@ -156,6 +156,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         threadsState={ResultState.Loaded}
         messageLayoutNotifications={[]}
         messagePopupNotifications={[]}
+        threadPopupNotifications={[]}
         removeNotification={noop}
         currentlyDeletingMessageId={null}
         deleteMessage={noop}

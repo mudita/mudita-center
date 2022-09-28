@@ -36,7 +36,7 @@ describe("when deleting state is empty and delete  message confirmation is not s
       queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)
     ).not.toBeInTheDocument()
     expect(
-      queryByTestId(DeleteMessageModalsTestIds.SuccessMessageDelete)
+      queryByTestId(DeleteMessageModalsTestIds.LoadingModal)
     ).not.toBeInTheDocument()
   })
 })
@@ -53,8 +53,21 @@ describe("when delete message confirmation is supposed to be opened", () => {
   })
 })
 
-describe("when deleting state equals to fail", () => {
-  test("only the fail modal is shown", () => {
+describe("when deleting state equals to true", () => {
+  test("only the loading modal is shown", () => {
+    const { queryByTestId } = renderer({
+      deletingConfirmation: false,
+      deleting: true,
+    })
+
+    expect(
+      queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteMessageModalsTestIds.LoadingModal)
+    ).toBeInTheDocument()
+  })
+  test("only the fail modal is shown while error", () => {
     const { queryByTestId } = renderer({
       deletingConfirmation: false,
       deleting: true,
@@ -62,7 +75,7 @@ describe("when deleting state equals to fail", () => {
     })
 
     expect(
-      queryByTestId(DeleteMessageModalsTestIds.SuccessMessageDelete)
+      queryByTestId(DeleteMessageModalsTestIds.LoadingModal)
     ).not.toBeInTheDocument()
     expect(
       queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)

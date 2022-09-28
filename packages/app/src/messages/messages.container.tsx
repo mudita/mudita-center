@@ -78,6 +78,10 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     NotificationResourceType.Message,
     NotificationMethod.Popup
   )(state),
+  threadPopupNotifications: getNotificationByResourceAndMethod(
+    NotificationResourceType.Thread,
+    NotificationMethod.Popup
+  )(state),
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
