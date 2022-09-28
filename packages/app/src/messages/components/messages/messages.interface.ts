@@ -71,6 +71,6 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   searchMessages: (searchParams: SearchParams) => void
   searchResult: SearchResult
   state: State
-  messagePopupNotifications: Notification[]
-  threadPopupNotifications: Notification[]
+  messageDeleteNotifications: Notification[]
+  threadDeleteNotifications: Notification[]
 }

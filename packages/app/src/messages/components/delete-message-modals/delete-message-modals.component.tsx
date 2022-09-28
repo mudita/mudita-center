@@ -11,7 +11,6 @@ import { DeleteConfirmationModal } from "App/ui/components/delete-confirmation-m
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteMessageModalTitle" },
@@ -46,14 +45,6 @@ const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
           onCloseButton={onCloseDeletingModal}
           cancelButtonLabel={intl.formatMessage(messages.deleteModalCancel)}
           actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
-        />
-      )}
-      {deleting && !error && (
-        <LoaderModal
-          testId={DeleteMessageModalsTestIds.LoadingModal}
-          open={deleting}
-          title={intl.formatMessage(messages.deletingModalTitle)}
-          subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
         />
       )}
       {deleting && error !== null && (

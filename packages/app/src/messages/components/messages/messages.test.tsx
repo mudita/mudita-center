@@ -169,8 +169,8 @@ const defaultProps: Props = {
   isContactCreatedByPhoneNumber: jest.fn(),
   getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([contact]),
   messageLayoutNotifications: [],
-  messagePopupNotifications: [],
-  threadPopupNotifications: [],
+  messageDeleteNotifications: [],
+  threadDeleteNotifications: [],
   removeNotification: jest.fn(),
   currentlyDeletingMessageId: null,
   deleteMessage: jest.fn(),
@@ -1072,7 +1072,7 @@ describe("Messages component", () => {
 })
 
 describe("Info popup notification", () => {
-  const threadPopupNotification = {
+  const threadDeleteNotification = {
     id: "1",
     type: NotificationType.Info,
     method: NotificationMethod.Popup,
@@ -1081,7 +1081,7 @@ describe("Info popup notification", () => {
   }
   test("should be visible if message was successfully deleted", () => {
     const { getByTestId } = renderer({
-      messagePopupNotifications: [
+      messageDeleteNotifications: [
         {
           id: "1",
           type: NotificationType.Info,
@@ -1099,7 +1099,7 @@ describe("Info popup notification", () => {
   })
   test("should be visible if thread was successfully deleted", () => {
     const { getByTestId } = renderer({
-      threadPopupNotifications: [threadPopupNotification],
+      threadDeleteNotifications: [threadDeleteNotification],
     })
 
     expect(getByTestId(MessagesTestIds.ThreadInfoPopup)).toBeInTheDocument()
@@ -1110,9 +1110,9 @@ describe("Info popup notification", () => {
 
   test("should be visible if more than one thread were successfully deleted", () => {
     const { getByTestId } = renderer({
-      threadPopupNotifications: [
-        threadPopupNotification,
-        { ...threadPopupNotification, id: "2" },
+      threadDeleteNotifications: [
+        threadDeleteNotification,
+        { ...threadDeleteNotification, id: "2" },
       ],
     })
 
