@@ -30,7 +30,6 @@ export interface MessagesServiceState {
   attachTemplate: boolean
   threadDeleting: boolean
   threadDeletingConfirmation: boolean
-  threadDeletingInfo: boolean
   browseContact: boolean
   draftDeleting: boolean
 }
@@ -72,5 +71,6 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   searchMessages: (searchParams: SearchParams) => void
   searchResult: SearchResult
   state: State
-  messagePopupNotifications: Notification[]
+  messageDeleteNotifications: Notification[]
+  threadDeleteNotifications: Notification[]
 }

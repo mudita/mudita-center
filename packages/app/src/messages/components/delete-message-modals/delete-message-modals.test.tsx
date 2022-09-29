@@ -35,9 +35,6 @@ describe("when deleting state is empty and delete  message confirmation is not s
     expect(
       queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)
     ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteMessageModalsTestIds.SuccessMessageDelete)
-    ).not.toBeInTheDocument()
   })
 })
 
@@ -61,9 +58,6 @@ describe("when deleting state equals to fail", () => {
       error: "Luke, I'm your error",
     })
 
-    expect(
-      queryByTestId(DeleteMessageModalsTestIds.SuccessMessageDelete)
-    ).not.toBeInTheDocument()
     expect(
       queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)
     ).toBeInTheDocument()

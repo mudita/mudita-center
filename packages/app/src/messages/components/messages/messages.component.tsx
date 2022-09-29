@@ -47,6 +47,8 @@ import { DataIndex } from "App/index-storage/constants"
 import { State } from "App/core/constants"
 import { NotificationMethod } from "App/notification/constants"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
+import { getDeletedThreadText } from "App/messages/helpers/index"
+import { Notification } from "App/notification/types"
 
 const messages = defineMessages({
   emptyListTitle: {
@@ -114,14 +116,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
   searchMessages,
   searchResult,
   state,
-  messagePopupNotifications,
+  messageDeleteNotifications,
+  threadDeleteNotifications,
 }) => {
   const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
     messageDeleting: false,
     messageDeletingConfirmation: false,
     threadDeleting: false,
     threadDeletingConfirmation: false,
-    threadDeletingInfo: false,
     attachContact: false,
     attachTemplate: false,
     browseContact: false,
@@ -147,6 +149,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [activeSearchDropdown, setActiveSearchDropdown] =
     useState<boolean>(false)
   const allItemsSelected = threads.length === selectedItems.rows.length
+  const showThreadDeletedPopup = threadDeleteNotifications.length > 0
+  const showMessageDeletedPopup = messageDeleteNotifications.length > 0
+
+  const removePopupNotification = (notifications: Notification[]) => {
+    notifications
+      .filter((item) => item.method === NotificationMethod.Popup)
+      .forEach((item) => {
+        removeNotification(item.id)
+      })
+  }
 
   useEffect(() => {
     if (searchValue !== "") {
@@ -172,50 +184,53 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [messageLayoutNotifications])
 
   useEffect(() => {
-    const hideInfoPopupsTimeout = setTimeout(() => {
-      messagePopupNotifications
-        .filter((item) => item.method === NotificationMethod.Popup)
-        .forEach((item) => {
-          removeNotification(item.id)
-        })
-    }, 5000)
-    return () => {
-      clearTimeout(hideInfoPopupsTimeout)
-    }
-    // AUTO DISABLED - fix me if you like :)
+    messageDeleteNotifications.length > 0 &&
+      removePopupNotification(messageDeleteNotifications)
+    threadDeleteNotifications.length > 0 &&
+      removePopupNotification(threadDeleteNotifications)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messagePopupNotifications])
+  }, [])
 
   useEffect(() => {
-    if (state !== State.Loaded) {
-      return
+    if (
+      state === State.Loaded &&
+      messageDeleteNotifications.length > 0 &&
+      states.messageDeleting
+    ) {
+      updateFieldState("messageDeleting", false)
+      updateFieldState("messageDeletingConfirmation", false)
+      messagesState === MessagesState.SearchResult && handleSearchMessage()
     }
 
-    const handleDeletingStateTimeout = setTimeout(() => {
-      if (states.messageDeleting) {
-        updateFieldState("messageDeleting", false)
-        updateFieldState("messageDeletingConfirmation", false)
-        messagesState === MessagesState.SearchResult && handleSearchMessage()
-      }
-
-      if (states.threadDeleting) {
-        updateFieldState("threadDeleting", false)
-        updateFieldState("threadDeletingConfirmation", false)
-        updateFieldState("threadDeletingInfo", true)
-      }
-    }, 1000)
-
-    const hideInfoPopupsTimeout = setTimeout(() => {
-      updateFieldState("threadDeletingInfo", false)
+    const hideMessageInfoPopupTimeout = setTimeout(() => {
+      removePopupNotification(messageDeleteNotifications)
     }, 5000)
-
     return () => {
-      clearTimeout(handleDeletingStateTimeout)
-      clearTimeout(hideInfoPopupsTimeout)
+      clearTimeout(hideMessageInfoPopupTimeout)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, error])
+  }, [messageDeleteNotifications])
+
+  useEffect(() => {
+    if (
+      state === State.Loaded &&
+      threadDeleteNotifications.length > 0 &&
+      states.threadDeleting
+    ) {
+      updateFieldState("threadDeleting", false)
+      updateFieldState("threadDeletingConfirmation", false)
+    }
+
+    const hideThreadInfoPopupTimeout = setTimeout(() => {
+      removePopupNotification(threadDeleteNotifications)
+    }, 5000)
+    return () => {
+      clearTimeout(hideThreadInfoPopupTimeout)
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [threadDeleteNotifications])
 
   useEffect(() => {
     handlePotentialThreadDeletion()
@@ -566,12 +581,12 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   // Delete messages functionality
   const handleDeleteMessage = () => {
+    updateFieldState("messageDeletingConfirmation", false)
+    updateFieldState("messageDeleting", true)
+
     assert(messageToDelete)
     void deleteMessage(messageToDelete)
     setMessageToDelete(undefined)
-
-    updateFieldState("messageDeletingConfirmation", false)
-    updateFieldState("messageDeleting", true)
   }
 
   const hideDeleteMessageConfirmationModal = () => {
@@ -822,7 +837,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
         deletedThreads={deletedThreads}
         deletingConfirmation={states.threadDeletingConfirmation}
         deleting={states.threadDeleting}
-        deletingInfo={states.threadDeletingInfo}
         error={error}
         onCloseDeletingModal={hideDeleteThreadConfirmationModal}
         onCloseDeletingErrorModal={hideDeleteThreadErrorModal}
@@ -836,10 +850,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onCloseDeletingErrorModal={hideDeleteMessageErrorModal}
         onDelete={handleDeleteMessage}
       />
-      {messagePopupNotifications.length > 0 && (
+      {showMessageDeletedPopup && (
         <InfoPopup
           message={messages.deletedMessageInfo}
-          testId={MessagesTestIds.InfoPopup}
+          testId={MessagesTestIds.MessageInfoPopup}
+        />
+      )}
+      {showThreadDeletedPopup && (
+        <InfoPopup
+          message={getDeletedThreadText(deletedThreads.length)}
+          testId={MessagesTestIds.ThreadInfoPopup}
         />
       )}
     </>

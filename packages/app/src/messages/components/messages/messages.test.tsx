@@ -169,7 +169,8 @@ const defaultProps: Props = {
   isContactCreatedByPhoneNumber: jest.fn(),
   getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([contact]),
   messageLayoutNotifications: [],
-  messagePopupNotifications: [],
+  messageDeleteNotifications: [],
+  threadDeleteNotifications: [],
   removeNotification: jest.fn(),
   currentlyDeletingMessageId: null,
   deleteMessage: jest.fn(),
@@ -330,10 +331,15 @@ describe("Messages component", () => {
       ).toBeInTheDocument()
       expect(queryByTestId(MessagesTestIds.ThreadList)).not.toBeInTheDocument()
     })
-    test("InfoPopup notification should not be visible", () => {
+    test("InfoPopups notifications should not be visible", () => {
       const { queryByTestId } = renderer()
 
-      expect(queryByTestId(MessagesTestIds.InfoPopup)).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.ThreadInfoPopup)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.MessageInfoPopup)
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -1066,9 +1072,16 @@ describe("Messages component", () => {
 })
 
 describe("Info popup notification", () => {
+  const threadDeleteNotification = {
+    id: "1",
+    type: NotificationType.Info,
+    method: NotificationMethod.Popup,
+    resourceType: NotificationResourceType.Thread,
+    content: "test",
+  }
   test("should be visible if message was successfully deleted", () => {
     const { getByTestId } = renderer({
-      messagePopupNotifications: [
+      messageDeleteNotifications: [
         {
           id: "1",
           type: NotificationType.Info,
@@ -1079,6 +1092,33 @@ describe("Info popup notification", () => {
       ],
     })
 
-    expect(getByTestId(MessagesTestIds.InfoPopup)).toBeInTheDocument()
+    expect(getByTestId(MessagesTestIds.MessageInfoPopup)).toBeInTheDocument()
+    expect(getByTestId(MessagesTestIds.MessageInfoPopup)).toHaveTextContent(
+      "[value] module.messages.deletedMessageInfo"
+    )
+  })
+  test("should be visible if thread was successfully deleted", () => {
+    const { getByTestId } = renderer({
+      threadDeleteNotifications: [threadDeleteNotification],
+    })
+
+    expect(getByTestId(MessagesTestIds.ThreadInfoPopup)).toBeInTheDocument()
+    expect(getByTestId(MessagesTestIds.ThreadInfoPopup)).toHaveTextContent(
+      "[value] module.messages.deletedThread"
+    )
+  })
+
+  test("should be visible if more than one thread were successfully deleted", () => {
+    const { getByTestId } = renderer({
+      threadDeleteNotifications: [
+        threadDeleteNotification,
+        { ...threadDeleteNotification, id: "2" },
+      ],
+    })
+
+    expect(getByTestId(MessagesTestIds.ThreadInfoPopup)).toBeInTheDocument()
+    expect(getByTestId(MessagesTestIds.ThreadInfoPopup)).toHaveTextContent(
+      "[value] module.messages.deletedThreads"
+    )
   })
 })

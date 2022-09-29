@@ -10,5 +10,6 @@ export enum MessagesTestIds {
   NewMessageForm = "messages-new-message-form",
   BrowseContactsModal = "messages-browse-contacts-modal",
   AttachContactModal = "messages-attach-contact-modal",
-  InfoPopup = "messages-info-popup",
+  MessageInfoPopup = "messages-message-info-popup",
+  ThreadInfoPopup = "messages-thread-info-popup",
 }

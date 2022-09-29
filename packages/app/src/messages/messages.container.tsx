@@ -74,8 +74,12 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   selectedItems: state.messages.selectedItems,
   searchResult: state.messages.data.searchResult,
   state: state.messages.state,
-  messagePopupNotifications: getNotificationByResourceAndMethod(
+  messageDeleteNotifications: getNotificationByResourceAndMethod(
     NotificationResourceType.Message,
+    NotificationMethod.Popup
+  )(state),
+  threadDeleteNotifications: getNotificationByResourceAndMethod(
+    NotificationResourceType.Thread,
     NotificationMethod.Popup
   )(state),
 })
