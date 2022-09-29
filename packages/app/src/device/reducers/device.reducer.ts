@@ -114,7 +114,6 @@ export const deviceReducer = createReducer<DeviceState>(
             status: {
               ...state.status,
               connected: false,
-              // agreementAccepted: true,
             },
             state: ConnectionState.Error,
             error: action.payload,
@@ -129,7 +128,6 @@ export const deviceReducer = createReducer<DeviceState>(
               ...state,
               status: {
                 ...state.status,
-                // agreementAccepted: true,
                 connected: action.payload ? action.payload : false,
               },
               updatingState: UpdatingState.Updating,
