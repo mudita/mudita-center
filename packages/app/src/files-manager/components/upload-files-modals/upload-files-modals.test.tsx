@@ -5,6 +5,8 @@
 
 import React from "react"
 import { fireEvent } from "@testing-library/dom"
+import { AppError } from "App/core/errors"
+import { FilesManagerError } from "App/files-manager/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { UploadFilesModals } from "App/files-manager/components/upload-files-modals/upload-files-modals.component"
@@ -16,6 +18,7 @@ const defaultProps: UploadFilesModalProps = {
   uploading: false,
   uploadingInfo: false,
   uploadingFailed: false,
+  error: null,
   onCloseUploadingErrorModal: jest.fn(),
 }
 
@@ -52,7 +55,9 @@ describe("Component: `UploadFilesModals`", () => {
     const popUp = queryByTestId(UploadFilesModalsTestIds.UploadedPopUp)
 
     expect(popUp).toBeInTheDocument()
-    expect(popUp).toHaveTextContent("[value] module.filesManager.uploadingModalInfo")
+    expect(popUp).toHaveTextContent(
+      "[value] module.filesManager.uploadingModalInfo"
+    )
 
     expect(
       queryByTestId(UploadFilesModalsTestIds.LoadingModal)
@@ -72,7 +77,9 @@ describe("Component: `UploadFilesModals`", () => {
     const popUp = queryByTestId(UploadFilesModalsTestIds.UploadedPopUp)
 
     expect(popUp).toBeInTheDocument()
-    expect(popUp).toHaveTextContent("[value] module.filesManager.uploadingModalInfo")
+    expect(popUp).toHaveTextContent(
+      "[value] module.filesManager.uploadingModalInfo"
+    )
 
     expect(
       queryByTestId(UploadFilesModalsTestIds.LoadingModal)
@@ -90,6 +97,36 @@ describe("Component: `UploadFilesModals`", () => {
 
     expect(
       queryByTestId(UploadFilesModalsTestIds.ErrorModal)
+    ).toBeInTheDocument()
+
+    expect(
+      queryByTestId(UploadFilesModalsTestIds.LoadingModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(UploadFilesModalsTestIds.UploadedPopUp)
+    ).not.toBeInTheDocument()
+  })
+
+  test("displays error modal with `NoSpaceLeft` error if `uploadingFailed` is equal to `true` and error type is equal to `FilesManagerError.NotEnoughSpace`", () => {
+    const { queryByTestId, queryByText } = render({
+      ...defaultProps,
+      uploadingFailed: true,
+      error: new AppError(
+        FilesManagerError.NotEnoughSpace,
+        "Not enough space on your device"
+      ),
+    })
+
+    expect(
+      queryByTestId(UploadFilesModalsTestIds.ErrorModal)
+    ).toBeInTheDocument()
+    expect(
+      queryByText("[value] module.filesManager.uploadingModalNoSpaceErrorTitle")
+    ).toBeInTheDocument()
+    expect(
+      queryByText(
+        "[value] module.filesManager.uploadingModalNoSpaceErrorSubtitle"
+      )
     ).toBeInTheDocument()
 
     expect(

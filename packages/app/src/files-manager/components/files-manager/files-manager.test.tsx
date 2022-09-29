@@ -17,6 +17,7 @@ import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-fi
 
 type Props = ComponentProps<typeof FilesManager>
 const defaultProps: Props = {
+  error: null,
   uploadingFileLength: 0,
   memorySpace: {
     reservedSpace: 62914560,

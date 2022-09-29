@@ -10,7 +10,7 @@ import { FileUploadCommand } from "App/device-file-system/commands/file-upload.c
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppError } from "App/core/errors"
-import { FailedResult, SuccessResult } from "App/core/builder"
+import { Result, FailedResult, SuccessResult } from "App/core/builder"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -48,6 +48,12 @@ const failedResponse: RequestResponse<undefined> = {
   error: {
     message: "Something went wrong",
   },
+  data: undefined,
+}
+
+const failedResponseWithInsufficientStorage: RequestResponse<undefined> = {
+  status: RequestResponseStatus.InsufficientStorage,
+  error: undefined,
   data: undefined,
 }
 
@@ -185,6 +191,41 @@ describe("When requested file is valid", () => {
             "Uploading file: Something went wrong in sent chunk file"
           ),
         })
+      )
+    })
+  })
+
+  describe("when `DeviceService.request` returns failed response with `RequestResponseStatus.InsufficientStorage` status", () => {
+    beforeEach(() => {
+      deviceService.request = jest
+        .fn()
+        .mockResolvedValue(failedResponseWithInsufficientStorage)
+    })
+
+    test("returns `ResultObject.failed` with `DeviceFileSystemError.NoSpaceLeft` error type", async () => {
+      const result = await subject.exec(
+        "/test/directory",
+        "/usr/local/file-1.txt"
+      )
+
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(deviceService.request).toHaveBeenCalledWith({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Put,
+        body: {
+          fileSize: 13,
+          fileCrc32: "7d14dddd",
+          fileName: "/test/directory/file-1.txt",
+        },
+      })
+      expect(result).toEqual(
+        Result.failed(
+          new AppError(
+            DeviceFileSystemError.NoSpaceLeft,
+            "Not enough space on device"
+          )
+        )
       )
     })
   })

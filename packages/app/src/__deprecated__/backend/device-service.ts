@@ -516,6 +516,11 @@ export class DeviceService {
         error,
         status: RequestResponseStatus.NotAcceptable,
       }
+    } else if (status === ResponseStatus.InsufficientStorage) {
+      return {
+        error,
+        status: RequestResponseStatus.InsufficientStorage,
+      }
     } else {
       return {
         error,
