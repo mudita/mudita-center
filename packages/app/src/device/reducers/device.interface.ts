@@ -52,6 +52,7 @@ export interface DeviceState {
     connected: boolean
     unlocked: boolean | null
     loaded: boolean
+    agreementAccepted: boolean
   }
   updatingState: UpdatingState | null
   error: Error | string | null
@@ -109,8 +110,8 @@ export type SetConnectionStateAction = PayloadAction<
 export type LoadStorageInfoAction = PayloadAction<
   StorageInfo,
   DeviceEvent.LoadStorageInfo
-  >
+>
 export type LoadStorageInfoRejectedAction = PayloadAction<
   AppError<DeviceError.LoadStorageInfo>,
   DeviceEvent.LoadStorageInfo
-  >
+>
