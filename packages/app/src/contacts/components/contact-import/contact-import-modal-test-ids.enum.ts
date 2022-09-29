@@ -4,9 +4,8 @@
  */
 
 export enum ContactImportModalTestIds {
-  ToggleAllCheckbox = "toggle-all-checkbox",
-  ContactRow = "contact-row",
-  FailedIcon = "failed-icon",
-  RowCheckbox = "row-checkbox",
-  SelectedText = "selected-text",
+  ToggleAllCheckbox = "contact-import-modal-toggle-all-checkbox",
+  ContactRow = "contact-import-modal-contact-row",
+  RowCheckbox = "contact-import-modal-row-checkbox",
+  SelectedText = "contact-import-modal-selected-text",
 }
