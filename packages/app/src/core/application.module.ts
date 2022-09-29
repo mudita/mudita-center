@@ -33,6 +33,7 @@ import { TemplateModule } from "App/templates/template.module"
 import { FilesManagerModule } from "App/files-manager/files-manager.module"
 import { SearchModule } from "App/search/search.module"
 import { UpdateModule } from "App/update/update.module"
+import { BackupModule } from "App/backup/backup.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -49,6 +50,7 @@ export class ApplicationModule {
     TemplateModule,
     SearchModule,
     UpdateModule,
+    BackupModule,
   ]
 
   private ipc = ipcMain

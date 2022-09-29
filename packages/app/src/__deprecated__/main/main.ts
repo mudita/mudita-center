@@ -25,7 +25,6 @@ import registerWriteGzipListener from "App/__deprecated__/main/functions/registe
 import registerRmdirListener from "App/__deprecated__/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/__deprecated__/main/functions/register-archive-files-listener"
 import registerReadFileListener from "App/file-system/listeners/read-file.listener"
-import registerGetFileDataListener from "App/__deprecated__/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/__deprecated__/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/__deprecated__/main/functions/create-download-listener-registrar"
 import registerEncryptFileListener from "App/file-system/listeners/encrypt-file.listener"
@@ -195,7 +194,6 @@ const createWindow = async () => {
   registerRmdirListener()
   registerWriteGzipListener()
   registerArchiveFilesListener()
-  registerGetFileDataListener()
   registerEncryptFileListener()
   registerReadFileListener()
   registerUnlinkFileListener()

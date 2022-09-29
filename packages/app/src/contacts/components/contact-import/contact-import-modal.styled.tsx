@@ -5,11 +5,8 @@
 
 import InputCheckbox from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import { ModalIcon } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
-import Table, {
-  Col,
-} from "App/__deprecated__/renderer/components/core/table/table.component"
+import Table from "App/__deprecated__/renderer/components/core/table/table.component"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
-import { textColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import styled from "styled-components"
 
 export const Checkbox = styled(InputCheckbox)`
@@ -31,13 +28,7 @@ export const Image = styled(ModalIcon)`
   margin: 1.6rem auto 3.2rem;
 `
 
-export const Failed = styled(Col)`
-  color: ${textColor("error")};
-`
-
 export const SubtitleText = styled(Text)`
   margin-bottom: 0.8rem;
   text-align: center;
 `
-
-export const Name = styled(Text)``
