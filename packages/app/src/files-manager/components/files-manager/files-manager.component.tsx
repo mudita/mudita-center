@@ -49,6 +49,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   resetUploadingState,
   uploadingFileLength,
   uploadBlocked,
+  error,
 }) => {
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files })
@@ -217,6 +218,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
       <UploadFilesModals
+        error={error}
         filesLength={uploadingFileLength}
         uploading={states.uploading}
         uploadingInfo={states.uploadingInfo}

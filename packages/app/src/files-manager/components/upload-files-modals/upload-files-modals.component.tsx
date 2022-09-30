@@ -7,6 +7,7 @@ import React from "react"
 import { defineMessages } from "react-intl"
 import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-files-modals/upload-files-modals-test-ids.enum"
 import { UploadFilesModalProps } from "App/files-manager/components/upload-files-modals/upload-files-modals.interface"
+import { FilesManagerError } from "App/files-manager/constants"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
@@ -14,12 +15,18 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
-    uploadingModalInfo: { id: "module.filesManager.uploadingModalInfo" },
+  uploadingModalInfo: { id: "module.filesManager.uploadingModalInfo" },
   uploadingModalErrorTitle: {
     id: "module.filesManager.uploadingModalErrorTitle",
   },
   uploadingModalErrorSubtitle: {
     id: "module.filesManager.uploadingModalErrorSubtitle",
+  },
+  uploadingModalNoSpaceErrorTitle: {
+    id: "module.filesManager.uploadingModalNoSpaceErrorTitle",
+  },
+  uploadingModalErrorNoSpaceSubtitle: {
+    id: "module.filesManager.uploadingModalNoSpaceErrorSubtitle",
   },
   uploadingModalTitle: { id: "module.filesManager.uploadingModalTitle" },
   uploadingModalSubtitle: { id: "module.filesManager.uploadingModalSubtitle" },
@@ -27,12 +34,22 @@ const messages = defineMessages({
 })
 
 export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
+  error,
   filesLength,
   uploading,
   uploadingInfo,
   uploadingFailed,
   onCloseUploadingErrorModal,
 }) => {
+  const errorTitle =
+    error?.type === FilesManagerError.NotEnoughSpace
+      ? messages.uploadingModalNoSpaceErrorTitle
+      : messages.uploadingModalErrorTitle
+  const errorSubtitle =
+    error?.type === FilesManagerError.NotEnoughSpace
+      ? messages.uploadingModalErrorNoSpaceSubtitle
+      : messages.uploadingModalErrorSubtitle
+
   return (
     <>
       {uploading && (
@@ -57,8 +74,8 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
         <ErrorModal
           testId={UploadFilesModalsTestIds.ErrorModal}
           open={uploadingFailed}
-          title={intl.formatMessage(messages.uploadingModalErrorTitle)}
-          subtitle={intl.formatMessage(messages.uploadingModalErrorSubtitle)}
+          title={intl.formatMessage(errorTitle)}
+          subtitle={intl.formatMessage(errorSubtitle)}
           closeModal={onCloseUploadingErrorModal}
         />
       )}

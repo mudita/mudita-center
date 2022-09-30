@@ -5,6 +5,7 @@
 
 import { DeviceType } from "@mudita/pure"
 import { State } from "App/core/constants"
+import { AppError } from "App/core/errors"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { File } from "App/files-manager/dto"
@@ -29,6 +30,7 @@ export interface FilesManagerProps {
   resetUploadingState: () => void
   uploadFile: () => void
   uploadBlocked: boolean
+  error: AppError | null
 }
 
 export interface DiskSpaceCategory {
