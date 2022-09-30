@@ -55,6 +55,7 @@ import {
   getConnectedDevice,
   loadDeviceData,
   setConnectionStatus,
+  setAgreementStatus,
 } from "App/device"
 import { getCrashDump } from "App/crash-dump"
 import {
@@ -70,6 +71,9 @@ import {
 import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers"
 import { registerOutboxNotificationListener } from "App/notification/listeners"
 import { registerCrashDumpExistListener } from "App/crash-dump/listeners"
+
+import { EULAAgreement } from "App/eula-agreement/components"
+import { useApplicationListener } from "App/application/hooks"
 
 interface Props {
   history: History
@@ -87,6 +91,7 @@ interface Props {
   loadDeviceData: (value: DeviceType) => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
+  setAgreementStatus: (value: boolean) => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -107,7 +112,12 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadDeviceData,
   connectedAndUnlocked,
   deviceType,
+  setAgreementStatus,
 }) => {
+  useApplicationListener({
+    onAgreementStatusChangeListener: setAgreementStatus,
+  })
+
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
@@ -281,11 +291,11 @@ const RootWrapper: FunctionComponent<Props> = ({
         messages={localeEn}
       >
         <ModalProvider service={modalService}>
-          <>
+          <EULAAgreement>
             <Normalize />
             <GlobalStyle />
             <RenderRoutes />
-          </>
+          </EULAAgreement>
         </ModalProvider>
       </IntlProvider>
     </ThemeProvider>
@@ -334,6 +344,9 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   loadSettings: () => dispatch(loadSettings()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  setAgreementStatus: (value: boolean) => dispatch(setAgreementStatus(value)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)

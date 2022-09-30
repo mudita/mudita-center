@@ -279,7 +279,6 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   onBlur = noop,
   onFocus = noop,
   type = "text",
-  searchResultRows = 8,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   active,
@@ -356,14 +355,11 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
     const handleArrowDown = (event: KeyboardEvent) => {
       event.preventDefault()
 
-      const maxListLength =
-        items.length <= searchResultRows ? items.length : searchResultRows
-
-      if (activeItemIndex + 1 < maxListLength) {
+      if (activeItemIndex + 1 < items.length) {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (items[activeItemIndex + 1].type === ItemType.Label) {
-          if (activeItemIndex + 2 < maxListLength) {
+          if (activeItemIndex + 2 < items.length) {
             setActiveItemIndex((prevState) => prevState + 2)
           }
         } else {
@@ -432,7 +428,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
     if (listRef.current) {
       listRef.current.children[activeItemIndex]?.scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "nearest",
       })
     }
   }, [activeItemIndex])

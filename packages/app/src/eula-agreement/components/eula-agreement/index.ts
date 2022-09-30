@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./elasticlunr.factory"
-export * from "./index.factory"
+export * from "./eula-agreement.component"
+export * from "./eula-agreement.interface"

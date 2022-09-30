@@ -62,9 +62,15 @@ export const AvatarPlaceholder = styled.div`
   margin-right: 1.2rem;
 `
 
-export const SearchTitle = styled(Text)`
+export const SearchResultQueryWrapper = styled.div`
   padding: 0 3.2rem 1.7rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
+`
+
+export const SearchTitle = styled(Text)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `
 export const SearchResultContainer = styled(ThreadBaseRow)`
   :hover {
@@ -117,11 +123,13 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
 
   return (
     <>
-      <SearchTitle displayStyle={TextDisplayStyle.Headline4}>
-        {intl.formatMessage(messages.searchResultsTitle, {
-          value: searchValue,
-        })}
-      </SearchTitle>
+      <SearchResultQueryWrapper>
+        <SearchTitle displayStyle={TextDisplayStyle.Headline4}>
+          {intl.formatMessage(messages.searchResultsTitle, {
+            value: searchValue,
+          })}
+        </SearchTitle>
+      </SearchResultQueryWrapper>
 
       <Threads
         scrollable={scrollable}

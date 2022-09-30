@@ -17,6 +17,7 @@ import {
   setOsVersionData,
   setUpdateState,
   setInitState,
+  setAgreementStatus,
 } from "./base.action"
 import { DeviceEvent, UpdatingState } from "App/device/constants"
 import { CaseColour } from "@mudita/pure"
@@ -174,6 +175,28 @@ describe("Action: setInitState", () => {
       {
         type: DeviceEvent.SetInitState,
         payload: undefined,
+      },
+    ])
+  })
+})
+
+describe("Action: setAgreementStatus", () => {
+  test("fire action with `AgreementStatus` type with provided payload", () => {
+    mockStore.dispatch(setAgreementStatus(true))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: DeviceEvent.AgreementStatus,
+        payload: true,
+      },
+    ])
+
+    mockStore.clearActions()
+
+    mockStore.dispatch(setAgreementStatus(false))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: DeviceEvent.AgreementStatus,
+        payload: false,
       },
     ])
   })

@@ -538,6 +538,7 @@ describe("`LoadStorageInfo` functionality", () => {
         "error": null,
         "state": 2,
         "status": Object {
+          "agreementAccepted": true,
           "connected": false,
           "loaded": false,
           "unlocked": null,
@@ -559,6 +560,32 @@ describe("`LoadStorageInfo` functionality", () => {
       ...initialState,
       state: ConnectionState.Error,
       error: errorMock,
+    })
+  })
+})
+
+describe("Agreement status functionality", () => {
+  test("Event: AgreementStatus changing `statue.agreementAccepted` state with provided payload", () => {
+    expect(
+      deviceReducer(
+        {
+          ...initialState,
+          status: {
+            ...initialState.status,
+            agreementAccepted: true,
+          },
+        },
+        {
+          type: DeviceEvent.AgreementStatus,
+          payload: false,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      status: {
+        ...initialState.status,
+        agreementAccepted: false,
+      },
     })
   })
 })

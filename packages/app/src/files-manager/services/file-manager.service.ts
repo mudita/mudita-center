@@ -12,6 +12,7 @@ import {
   RetrieveFilesCommand,
   FileUploadCommand,
 } from "App/device-file-system/commands"
+import { DeviceFileSystemError } from "App/device-file-system/constants"
 import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
 
 export class FileManagerService {
@@ -60,6 +61,18 @@ export class FileManagerService {
     }
 
     const success = results.every((result) => result.ok)
+    const noSpaceLeft = results.some(
+      (result) => result.error?.type === DeviceFileSystemError.NoSpaceLeft
+    )
+
+    if (noSpaceLeft) {
+      return Result.failed(
+        new AppError(
+          FilesManagerError.NotEnoughSpace,
+          "Not enough space on your device"
+        )
+      )
+    }
 
     if (!success) {
       return Result.failed(

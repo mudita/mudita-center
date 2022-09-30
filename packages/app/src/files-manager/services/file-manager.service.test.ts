@@ -179,6 +179,35 @@ describe("Method: uploadFiles", () => {
       )
     })
   })
+
+  describe("when `FileUploadCommand` returns `Result.failed` with `DeviceFileSystemError.NoSpaceLeft` error type", () => {
+    test("returns failed result with `FilesManagerError.NotEnoughSpace` error type", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      fileUploadCommand.exec = jest.fn().mockResolvedValueOnce(
+        new FailedResult({
+          ...new AppError(
+            DeviceFileSystemError.NoSpaceLeft,
+            "Uploading file: no space left on device"
+          ),
+        })
+      )
+
+      const result = await subject.uploadFiles({
+        directory: DeviceDirectory.Music,
+        filePaths: ["/usr/audio/file-1.mp3"],
+      })
+
+      expect(result).toEqual(
+        new FailedResult({
+          ...new AppError(
+            FilesManagerError.NotEnoughSpace,
+            "Not enough space on your device"
+          ),
+        })
+      )
+    })
+  })
 })
 
 describe("Method: deleteFiles", () => {

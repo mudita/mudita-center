@@ -29,4 +29,5 @@ export enum DeviceEvent {
   StartOsUpdateProcess = "DEVICE_START_OS_UPDATE_PROCESS",
 
   LoadStorageInfo = "DEVICE_LOAD_STORAGE_INFO",
+  AgreementStatus = "DEVICE_AGREEMENT_STATUS",
 }
