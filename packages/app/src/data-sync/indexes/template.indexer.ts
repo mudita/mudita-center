@@ -5,7 +5,8 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import { Index } from "elasticlunr"
+import { ElasticlunrFactory } from "App/index-storage/factories"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { TemplateTable } from "App/data-sync/constants"
 import {
@@ -32,7 +33,7 @@ export class TemplateIndexer extends BaseIndexer {
   }
 
   private createIndex(data: TemplateObject[]): Index<TemplateObject> {
-    const index = elasticlunr<TemplateObject>()
+    const index = ElasticlunrFactory.create<TemplateObject>()
 
     index.setRef("id")
     index.addField("text")
