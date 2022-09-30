@@ -56,6 +56,15 @@ export class FileUploadCommand extends BaseCommand {
       response.status !== RequestResponseStatus.Ok ||
       response.data === undefined
     ) {
+      if (response.status === RequestResponseStatus.InsufficientStorage) {
+        return Result.failed(
+          new AppError(
+            DeviceFileSystemError.NoSpaceLeft,
+            "Not enough space on device"
+          )
+        )
+      }
+
       return Result.failed(
         new AppError(
           DeviceFileSystemError.FileUploadRequest,

@@ -37,6 +37,7 @@ export enum ResponseStatus {
   InternalServerError = 500,
   UnprocessableEntity = 422,
   NotAccepted = 423,
+  InsufficientStorage = 507,
 
   // lib status
   ConnectionError = 503,
