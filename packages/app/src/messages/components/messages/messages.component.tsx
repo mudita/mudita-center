@@ -184,6 +184,22 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [messageLayoutNotifications])
 
   useEffect(() => {
+    if (state !== State.Loaded) {
+      return
+    }
+    if (states.messageDeleting) {
+      updateFieldState("messageDeleting", false)
+      updateFieldState("messageDeletingConfirmation", false)
+      messagesState === MessagesState.SearchResult && handleSearchMessage()
+    }
+    if (states.threadDeleting) {
+      updateFieldState("threadDeleting", false)
+      updateFieldState("threadDeletingConfirmation", false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, error])
+
+  useEffect(() => {
     messageDeleteNotifications.length > 0 &&
       removePopupNotification(messageDeleteNotifications)
     threadDeleteNotifications.length > 0 &&
@@ -192,16 +208,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [])
 
   useEffect(() => {
-    if (
-      state === State.Loaded &&
-      messageDeleteNotifications.length > 0 &&
-      states.messageDeleting
-    ) {
-      updateFieldState("messageDeleting", false)
-      updateFieldState("messageDeletingConfirmation", false)
-      messagesState === MessagesState.SearchResult && handleSearchMessage()
-    }
-
     const hideMessageInfoPopupTimeout = setTimeout(() => {
       removePopupNotification(messageDeleteNotifications)
     }, 5000)
@@ -213,15 +219,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [messageDeleteNotifications])
 
   useEffect(() => {
-    if (
-      state === State.Loaded &&
-      threadDeleteNotifications.length > 0 &&
-      states.threadDeleting
-    ) {
-      updateFieldState("threadDeleting", false)
-      updateFieldState("threadDeletingConfirmation", false)
-    }
-
     const hideThreadInfoPopupTimeout = setTimeout(() => {
       removePopupNotification(threadDeleteNotifications)
     }, 5000)
