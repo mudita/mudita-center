@@ -5,7 +5,8 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import { Index } from "elasticlunr"
+import { ElasticlunrFactory } from "App/index-storage/factories"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { ContactTable } from "App/data-sync/constants"
 import {
@@ -30,7 +31,7 @@ export class ContactIndexer extends BaseIndexer {
   }
 
   private createIndex(data: ContactObject[]): Index<ContactObject> {
-    const index = elasticlunr<ContactObject>()
+    const index = ElasticlunrFactory.create<ContactObject>()
 
     index.setRef("id")
     index.addField("firstName")

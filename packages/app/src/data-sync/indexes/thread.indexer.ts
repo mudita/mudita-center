@@ -5,7 +5,8 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import { Index } from "elasticlunr"
+import { ElasticlunrFactory } from "App/index-storage/factories"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { ThreadTable } from "App/data-sync/constants"
 import {
@@ -33,7 +34,7 @@ export class ThreadIndexer extends BaseIndexer {
   }
 
   private createIndex(data: ThreadObject[]): Index<ThreadObject> {
-    const index = elasticlunr<ThreadObject>()
+    const index = ElasticlunrFactory.create<ThreadObject>()
 
     index.setRef("id")
     index.addField("contactId")
