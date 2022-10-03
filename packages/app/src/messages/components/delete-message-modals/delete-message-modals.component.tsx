@@ -9,12 +9,10 @@ import { DeleteMessageModalsTestIds } from "App/messages/components/delete-messa
 import { DeleteMessageModalProps } from "App/messages/components/delete-message-modals/delete-message-modals.interface"
 import { DeleteConfirmationModal } from "App/ui/components/delete-confirmation-modal"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
-import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
-  deletedMessageInfo: { id: "module.messages.deletedMessageInfo" },
   deleteModalTitle: { id: "module.messages.deleteMessageModalTitle" },
   deleteModalBody: { id: "module.messages.deleteMessageModalBody" },
   deleteModalCancel: { id: "module.messages.deleteMessageModalCancel" },
@@ -30,7 +28,6 @@ const messages = defineMessages({
 const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
   error,
   deleting,
-  deletingInfo,
   deletingConfirmation,
   onDelete,
   onCloseDeletingModal,
@@ -48,13 +45,6 @@ const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
           onCloseButton={onCloseDeletingModal}
           cancelButtonLabel={intl.formatMessage(messages.deleteModalCancel)}
           actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
-        />
-      )}
-
-      {deletingInfo && (
-        <InfoPopup
-          message={messages.deletedMessageInfo}
-          testId={DeleteMessageModalsTestIds.SuccessMessageDelete}
         />
       )}
       {deleting && error !== null && (

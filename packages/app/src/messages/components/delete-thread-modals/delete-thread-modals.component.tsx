@@ -9,9 +9,7 @@ import { DeleteThreadModalsTestIds } from "App/messages/components/delete-thread
 import { DeleteThreadModalProps } from "App/messages/components/delete-thread-modals/delete-thread-modals.interface"
 import { DeleteConfirmationModal } from "App/ui/components/delete-confirmation-modal"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
-import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
-import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 
@@ -34,29 +32,11 @@ export const DeleteThreadModals: FunctionComponent<DeleteThreadModalProps> = ({
   error,
   deletingConfirmation,
   deleting,
-  deletingInfo,
   deletedThreads,
   onCloseDeletingErrorModal,
   onDelete,
   onCloseDeletingModal,
 }) => {
-  const getDeletedThreadText = (
-    deletedThreadsLength: number
-  ): TranslationMessage => {
-    if (deletedThreadsLength === 1) {
-      return {
-        ...messages.deletedThread,
-      }
-    } else {
-      return {
-        ...messages.deletedThreads,
-        values: {
-          number: deletedThreadsLength,
-        },
-      }
-    }
-  }
-
   return (
     <>
       {deletingConfirmation && (
@@ -72,13 +52,6 @@ export const DeleteThreadModals: FunctionComponent<DeleteThreadModalProps> = ({
           onCloseButton={onCloseDeletingModal}
           cancelButtonLabel={intl.formatMessage(messages.deleteModalCancel)}
           actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
-        />
-      )}
-
-      {deletingInfo && (
-        <InfoPopup
-          message={getDeletedThreadText(deletedThreads.length)}
-          testId={DeleteThreadModalsTestIds.DeletedPopUp}
         />
       )}
       {deleting && !error && (

@@ -6,7 +6,6 @@
 export interface DeleteThreadModalProps {
   error: Error | string | null
   deleting: boolean
-  deletingInfo: boolean
   deletingConfirmation: boolean
   deletedThreads: string[]
   onCloseDeletingErrorModal: () => void
