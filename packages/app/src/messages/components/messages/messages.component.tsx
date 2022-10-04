@@ -637,6 +637,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       closeSidebars()
     } else if (activeThread) {
       handleDeleteThread(activeThread.id)
+      setMessagesState(MessagesState.List)
       setActiveThread(undefined)
     }
   }
