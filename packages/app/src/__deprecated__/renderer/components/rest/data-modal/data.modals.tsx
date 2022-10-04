@@ -113,7 +113,7 @@ export const LoadingStateDataModal = ({
   title?: string
   textMessage?: Message
 }) => (
-  <ErrorModal closeButton={false} title={title}>
+  <ErrorModal closeButton={false} title={title} closeable={false}>
     <RoundIconWrapper>
       <Loader type={LoaderType.Spinner} />
     </RoundIconWrapper>
