@@ -162,4 +162,8 @@ describe("dropdown", () => {
     const { getByTestId } = renderer({ messageType: MessageType.QUEUED })
     expect(getByTestId(MessageBubbleTestIds.Loader)).toBeInTheDocument()
   })
+  test("should not be visible if message is still sending", () => {
+    const { queryByTestId } = renderer({ messageType: MessageType.QUEUED })
+    expect(queryByTestId(MessageBubbleTestIds.Dropdown)).not.toBeInTheDocument()
+  })
 })
