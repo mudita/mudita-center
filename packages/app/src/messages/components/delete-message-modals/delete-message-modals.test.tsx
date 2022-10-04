@@ -13,7 +13,6 @@ type Props = ComponentProps<typeof DeleteMessageModals>
 const props: Props = {
   error: null,
   deleting: false,
-  deletingInfo: false,
   deletingConfirmation: false,
   onCloseDeletingErrorModal: jest.fn(),
   onDelete: jest.fn(),
@@ -36,9 +35,6 @@ describe("when deleting state is empty and delete  message confirmation is not s
     expect(
       queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)
     ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteMessageModalsTestIds.SuccessMessageDelete)
-    ).not.toBeInTheDocument()
   })
 })
 
@@ -54,22 +50,6 @@ describe("when delete message confirmation is supposed to be opened", () => {
   })
 })
 
-describe("when deleting state equals to success", () => {
-  test("only the success info popup is shown", () => {
-    const { queryByTestId } = renderer({
-      deletingConfirmation: false,
-      deletingInfo: true,
-    })
-
-    expect(
-      queryByTestId(DeleteMessageModalsTestIds.SuccessMessageDelete)
-    ).toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)
-    ).not.toBeInTheDocument()
-  })
-})
-
 describe("when deleting state equals to fail", () => {
   test("only the fail modal is shown", () => {
     const { queryByTestId } = renderer({
@@ -78,9 +58,6 @@ describe("when deleting state equals to fail", () => {
       error: "Luke, I'm your error",
     })
 
-    expect(
-      queryByTestId(DeleteMessageModalsTestIds.SuccessMessageDelete)
-    ).not.toBeInTheDocument()
     expect(
       queryByTestId(DeleteMessageModalsTestIds.FailMessageDelete)
     ).toBeInTheDocument()
