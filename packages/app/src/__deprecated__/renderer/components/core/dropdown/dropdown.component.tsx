@@ -33,6 +33,7 @@ export interface DropdownProps {
   dropdownPosition?: DropdownPosition
   onOpen?: () => void
   onClose?: () => void
+  togglerTestId?: string
 }
 
 const DropdownWrapper = styled.div<{ visible: boolean }>`
@@ -88,6 +89,7 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
   dropdownPosition = DropdownPosition.Right,
   onOpen,
   onClose,
+  togglerTestId,
   ...props
 }) => {
   const [visible, setVisible] = useState(false)
@@ -124,29 +126,32 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
               onOpen()
             }
           },
+          ...(togglerTestId ? { "data-testid": togglerTestId } : {}),
         })}
-      <DropdownList
-        reversedPosition={reversedPosition}
-        dropdownPosition={dropdownPosition}
-        ref={ref}
-        visible={visible}
-        data-testid="dropdown"
-      >
-        {React.Children.map(children, (child) => {
-          if (!React.isValidElement(child)) {
-            return child
-          } else {
-            return React.cloneElement(child, {
-              onClick: () => {
-                // AUTO DISABLED - fix me if you like :)
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                child.props.onClick()
-                closeDropdown()
-              },
-            })
-          }
-        })}
-      </DropdownList>
+      {visible && (
+        <DropdownList
+          reversedPosition={reversedPosition}
+          dropdownPosition={dropdownPosition}
+          ref={ref}
+          visible={visible}
+          data-testid="dropdown"
+        >
+          {React.Children.map(children, (child) => {
+            if (!React.isValidElement(child)) {
+              return child
+            } else {
+              return React.cloneElement(child as ReactElement, {
+                onClick: () => {
+                  // AUTO DISABLED - fix me if you like :)
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                  child.props.onClick()
+                  closeDropdown()
+                },
+              })
+            }
+          })}
+        </DropdownList>
+      )}
     </DropdownWrapper>
   )
 }

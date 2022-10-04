@@ -18,18 +18,17 @@ import BackupDeviceFlow, {
 } from "App/overview/components/backup-device-flow/backup-device-flow.component"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-import { BackupDeviceDataState } from "App/backup-device/reducers"
-import { Backup } from "App/backup/reducers"
+import { State } from "App/core/constants"
+import { Backup, RestoreBackup } from "App/backup/dto"
 import RestoreDeviceFlow, {
   RestoreDeviceFlowState,
 } from "App/overview/components/restore-device-flow/restore-device-flow.component"
-import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { DeviceType, CaseColour } from "@mudita/pure"
-import { StartRestoreOption } from "App/restore-device/actions"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { flags, Feature } from "App/feature-flags"
 
 interface PureOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -43,8 +42,8 @@ interface PureOverviewProps {
   readonly updatingState: UpdatingState | null
   readonly caseColour: CaseColour
   readonly lastBackupDate: Date
-  readonly backupDeviceState: BackupDeviceDataState
-  readonly restoreDeviceState: RestoreDeviceDataState
+  readonly backupDeviceState: State
+  readonly restoreDeviceState: State
   readonly backups: Backup[]
   readonly pureOsDownloaded: boolean | undefined
   readonly syncState: SynchronizationState
@@ -52,7 +51,7 @@ interface PureOverviewProps {
   readonly updateAllIndexes: () => Promise<void>
   readonly openContactSupportFlow: () => void
   readonly readRestoreDeviceDataState: () => void
-  readonly startRestoreDevice: (option: StartRestoreOption) => void
+  readonly startRestoreDevice: (option: RestoreBackup) => void
   readonly readBackupDeviceDataState: () => void
   readonly startBackupDevice: (secretKey: string) => void
   readonly setUpdateState: (data: UpdatingState) => void
@@ -68,8 +67,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   lastAvailableOsVersion,
   updatePhoneOsInfo = noop,
   memorySpace = {
-    free: 0,
-    full: 16000000000,
+    reservedSpace: 0,
+    usedUserSpace: 16000000000,
     total: 16000000000,
   },
   networkName,
@@ -137,9 +136,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   useEffect(() => {
     if (osVersion) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      initialCheck()
+      void initialCheck()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -219,11 +216,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   useEffect(() => {
-    if (backupDeviceState === BackupDeviceDataState.Running) {
+    if (backupDeviceState === State.Loading) {
       setBackupDeviceFlowState(BackupDeviceFlowState.Running)
-    } else if (backupDeviceState === BackupDeviceDataState.Finished) {
+    } else if (backupDeviceState === State.Loaded) {
       setBackupDeviceFlowState(BackupDeviceFlowState.Finished)
-    } else if (backupDeviceState === BackupDeviceDataState.Error) {
+    } else if (backupDeviceState === State.Failed) {
       setBackupDeviceFlowState(BackupDeviceFlowState.Error)
     } else {
       setBackupDeviceFlowState(undefined)
@@ -243,11 +240,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   useEffect(() => {
-    if (restoreDeviceState === RestoreDeviceDataState.Running) {
+    if (restoreDeviceState === State.Loading) {
       setRestoreDeviceFlowState(RestoreDeviceFlowState.Running)
-    } else if (restoreDeviceState === RestoreDeviceDataState.Finished) {
+    } else if (restoreDeviceState === State.Loaded) {
       setRestoreDeviceFlowState(RestoreDeviceFlowState.Finished)
-    } else if (restoreDeviceState === RestoreDeviceDataState.Error) {
+    } else if (restoreDeviceState === State.Failed) {
       setRestoreDeviceFlowState(RestoreDeviceFlowState.Error)
     } else {
       setRestoreDeviceFlowState(undefined)
@@ -255,9 +252,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }, [restoreDeviceState])
 
   const onRetry = () => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    updateAllIndexes()
+    void updateAllIndexes()
   }
 
   const shouldErrorSyncModalVisible = (): boolean => {
@@ -265,23 +260,24 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       return false
     }
     return (
-      restoreDeviceState === undefined ||
-      restoreDeviceState === RestoreDeviceDataState.Empty
+      restoreDeviceState === undefined || restoreDeviceState === State.Initial
     )
   }
 
   return (
     <>
-      <UpdatingForceModalFlow
-        deviceType={DeviceType.MuditaPure}
-        state={getUpdatingForceModalFlowState()}
-        updateOs={startUpdateOs}
-        osVersion={osVersion}
-        closeModal={closeUpdatingForceModalFlow}
-        onContact={openContactSupportFlow}
-        onHelp={goToHelp}
-        batteryLevel={batteryLevel}
-      />
+      {flags.get(Feature.ForceUpdate) && (
+        <UpdatingForceModalFlow
+          deviceType={DeviceType.MuditaPure}
+          state={getUpdatingForceModalFlowState()}
+          updateOs={startUpdateOs}
+          osVersion={osVersion}
+          closeModal={closeUpdatingForceModalFlow}
+          onContact={openContactSupportFlow}
+          onHelp={goToHelp}
+          batteryLevel={batteryLevel}
+        />
+      )}
       {backupDeviceFlowState && (
         <BackupDeviceFlow
           openState={backupDeviceFlowState}

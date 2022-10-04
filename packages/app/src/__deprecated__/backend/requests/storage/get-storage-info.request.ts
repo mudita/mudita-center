@@ -16,8 +16,9 @@ const handleDeviceStorageRequest = async ({
   pureStorage,
 }: Adapters): Promise<RequestResponse<StorageInfo>> => {
   const responses = await Promise.all([
-    pureStorage.getAvailableSpace(),
-    pureStorage.getCapacity(),
+    pureStorage.getSystemReservedSpace(),
+    pureStorage.getTotalSpace(),
+    pureStorage.getUsedUserSpace(),
   ])
 
   if (
@@ -26,16 +27,17 @@ const handleDeviceStorageRequest = async ({
         status === RequestResponseStatus.Ok && data !== undefined
     )
   ) {
-    const getAvailableSpaceResponse = responses[0].data as number
-    const getCapacityResponse = responses[1].data as number
+    const getSystemReservedSpaceResponse = responses[0].data as number
+    const getTotalSpaceResponse = responses[1].data as number
+    const getUsedUserSpaceResponse = responses[2].data as number
 
     return {
       status: RequestResponseStatus.Ok,
       data: {
-        available: getAvailableSpaceResponse,
-        capacity: getCapacityResponse,
+        reservedSpace: getSystemReservedSpaceResponse,
         categories: pureStorage.getStorageCategories(),
-        totalSpace: pureStorage.getTotalSpace(),
+        totalSpace: getTotalSpaceResponse,
+        usedUserSpace: getUsedUserSpaceResponse,
       },
     }
   } else {

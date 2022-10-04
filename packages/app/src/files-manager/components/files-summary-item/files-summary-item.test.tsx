@@ -12,10 +12,10 @@ import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const defaultProps: ComponentProps<typeof FilesSummaryItem> = {
-  type: DiskSpaceCategoryType.UsedSpace,
+  type: DiskSpaceCategoryType.System,
   color: "#DFEFDE",
   icon: IconType.MuditaLogo,
-  label: "Used space",
+  label: "System",
   size: 1073741824,
 }
 
@@ -31,7 +31,7 @@ describe("FilesSummaryItem", () => {
     const { queryByTestId } = render()
     expect(queryByTestId(FilesSummaryItemTestIds.Wrapper)).toBeInTheDocument()
     expect(queryByTestId(FilesSummaryItemTestIds.Title)).toHaveTextContent(
-      "Used space"
+      "System"
     )
     expect(
       queryByTestId(FilesSummaryItemTestIds.Description)

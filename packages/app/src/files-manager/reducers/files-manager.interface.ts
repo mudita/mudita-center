@@ -4,17 +4,16 @@
  */
 
 import { AppError } from "App/core/errors"
+import { State } from "App/core/constants"
 import { File } from "App/files-manager/dto"
 
-export enum ResultState {
-  Loading,
-  Loaded,
-  Empty,
-  Error,
-}
-
 export interface FilesManagerState {
-  resultState: ResultState
   files: File[]
+  loading: State
+  deleting: State
+  uploading: State
+  uploadingFileLength: number
+  selectedItems: { rows: string[] }
   error: AppError | null
+  uploadBlocked: boolean
 }

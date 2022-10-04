@@ -30,15 +30,20 @@ describe("`filteredThreadsSelector` selector", () => {
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
       messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const state = {
       messages: messagesReducer(
         {
           ...initialState,
-          visibilityFilter: VisibilityFilter.Unread,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            visibilityFilter: VisibilityFilter.Unread,
           },
         },
         // AUTO DISABLED - fix me if you like :)
@@ -59,15 +64,20 @@ describe("`filteredThreadsSelector` selector", () => {
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
       messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const state = {
       messages: messagesReducer(
         {
           ...initialState,
-          searchValue: "755",
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            searchValue: "755",
           },
         },
         // AUTO DISABLED - fix me if you like :)

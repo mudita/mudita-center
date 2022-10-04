@@ -53,9 +53,7 @@ test("returns help response properly", async () => {
 
 test("returns 404 when no query is provided", () => {
   const client = new Client()
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  expect(async () => {
+  void expect(async () => {
     await client.getHelp({})
   }).rejects.toThrowError(`Error: Request failed with status code 404`)
 })

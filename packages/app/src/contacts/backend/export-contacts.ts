@@ -13,6 +13,8 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import path from "path"
 import { defineMessages } from "react-intl"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
+import logger from "App/__deprecated__/main/utils/logger"
+import { ExportContactsResult } from "App/contacts/constants"
 
 const messages = defineMessages({
   dialogTitle: { id: "module.contacts.exportSaveDialogTitle" },
@@ -20,38 +22,44 @@ const messages = defineMessages({
   button: { id: "module.contacts.exportButton" },
 })
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const registerContactsExportListener = () => {
-  ipcMain.answerRenderer<Contact[], boolean>(
+// workaround for https://github.com/electron/electron/issues/21935
+const getFileName = (contacts: Contact[]) => {
+  return `${intl.formatMessage(messages.defaultFilename, {
+    name: createFullName(contacts[0]),
+    contactsLeft: contacts.length - 1,
+  })}.vcf`
+}
+
+const registerContactsExportListener = (): void => {
+  ipcMain.answerRenderer<Contact[], Promise<ExportContactsResult>>(
     IpcRequest.ExportContacts,
     async (contacts) => {
       const { canceled, filePath } = await dialog.showSaveDialog({
         title: intl.formatMessage(messages.dialogTitle, {
           count: contacts.length,
         }),
-        defaultPath: path.join(
-          app.getPath("documents"),
-          intl.formatMessage(messages.defaultFilename, {
-            name: createFullName(contacts[0]),
-            contactsLeft: contacts.length - 1,
-          })
-        ),
+        defaultPath: path.join(app.getPath("documents"), getFileName(contacts)),
         properties: ["createDirectory", "showOverwriteConfirmation"],
         filters: [{ name: "vcf", extensions: ["vcf"] }],
       })
 
-      if (!canceled && filePath) {
-        await fs.writeFile(
-          filePath,
-          mapContactsToVCardStrings(contacts),
-          "utf-8"
-        )
-        shell.showItemInFolder(filePath)
-        return true
+      if (canceled) {
+        return ExportContactsResult.Cancelled
       }
-
-      return false
+      try {
+        if (!canceled && filePath) {
+          await fs.writeFile(
+            filePath,
+            mapContactsToVCardStrings(contacts),
+            "utf-8"
+          )
+          shell.showItemInFolder(filePath)
+          return ExportContactsResult.Ok
+        }
+      } catch (error) {
+        logger.error(`Export contacts error. Data: ${JSON.stringify(error)}`)
+      }
+      return ExportContactsResult.Failed
     }
   )
 }

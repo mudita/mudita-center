@@ -23,6 +23,8 @@ import { useForm } from "react-hook-form"
 import {
   primaryPhoneNumberValidator,
   secondaryPhoneNumberValidator,
+  nameValidator,
+  addressValidator,
 } from "App/__deprecated__/renderer/utils/form-validators"
 import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
@@ -162,9 +164,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       fields.primaryPhoneNumber?.length > 0 &&
       fields.secondaryPhoneNumber?.length > 0
     ) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      trigger()
+      void trigger()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -212,7 +212,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstName)}
-              {...register("firstName")}
+              {...register("firstName", nameValidator)}
               errorMessage={errors.firstName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.FirstName}
@@ -220,7 +220,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondName)}
-              {...register("lastName")}
+              {...register("lastName", nameValidator)}
               errorMessage={errors.lastName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.SecondName}
@@ -261,18 +261,16 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstAddressLine)}
-              {...register("firstAddressLine")}
+              {...register("firstAddressLine", addressValidator)}
               errorMessage={errors.firstAddressLine?.message}
-              maxLength={30}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.FirstAddressLine}
             />
             <Input
               type="text"
               label={intl.formatMessage(messages.secondAddressLine)}
-              {...register("secondAddressLine")}
+              {...register("secondAddressLine", addressValidator)}
               errorMessage={errors.secondAddressLine?.message}
-              maxLength={30}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.SecondAddressLine}
             />

@@ -21,6 +21,8 @@ const mockThread: Thread = {
   unread: true,
   phoneNumber: caller.phoneNumber,
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 const mockThreads: Thread[] = [mockThread]
 

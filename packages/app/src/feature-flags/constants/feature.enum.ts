@@ -10,6 +10,7 @@ export enum Feature {
   LogsScrubbingEnabled = "logs-scrubbing-enabled",
   DeveloperModeEnabled = "developer-mode-enabled",
   FilesManagerEnabled = "files-manager-enabled",
+  FilesManagerActionsEnabled = "files-manager-actions-enabled",
   MessagesSearchEnabled = "messages-search-enabled",
   MessagesDeleteEnabled = "messages-delete-enabled",
   MessagesForwardEnabled = "messages-forward-enabled",
@@ -42,4 +43,6 @@ export enum Feature {
   ReadAndUnreadMessages = "read-and-unread-messages",
   OrderTemplate = "order-template",
   AlphaRelaseWarning = "alpha-release-warning",
+  ForceUpdate = "force-update",
+  BackupCategoriesEnabled = "backup-categories-enabled",
 }

@@ -13,7 +13,10 @@ import React, {
 import moment from "moment"
 import ViewportList from "react-viewport-list"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { MessageBubblesWrapper } from "App/messages/components/thread-details.styled"
+import {
+  MessageBubblesWrapper,
+  BottomWrapper,
+} from "App/messages/components/thread-details.styled"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
 import { Receiver } from "App/messages/reducers/messages.interface"
 import { Message } from "App/messages/dto"
@@ -31,6 +34,8 @@ interface Properties {
   onMessageRead?: () => void
   onMessageRemove?: (messageId: string) => void
   resendMessage?: (messageId: string) => void
+  selectedMessage: Message | null
+  searchQuery: string
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
@@ -42,23 +47,31 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   onMessageRead = noop,
   onMessageRemove = noop,
   resendMessage,
+  selectedMessage,
+  searchQuery,
 }) => {
   const wrapperBottomRef = useRef<HTMLDivElement>(null)
-  const ref = useRef<HTMLDivElement>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [onBottom, setOnBottom] = useState<boolean>(false)
   const prevMessages = useRef({ messages }).current
+  const messageIndex =
+    selectedMessage &&
+    messages.findIndex((message) => message.id === selectedMessage.id)
+
+  const scrollToBottom = () => {
+    wrapperRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    })
+  }
 
   useEffect(() => {
     if (
       prevMessages.messages.length < messages.length &&
-      messages[messages.length - 1]?.messageType === MessageType.OUTBOX
+      messages[messages.length - 1]?.messageType === MessageType.QUEUED
     ) {
-      wrapperBottomRef.current &&
-        wrapperBottomRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-        })
+      scrollToBottom()
     }
 
     return () => {
@@ -96,11 +109,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   }, [messageLayoutNotifications])
 
   const handleNotificationButtonClick = () => {
-    wrapperBottomRef.current &&
-      wrapperBottomRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      })
+    scrollToBottom()
     closeNewMessageBadge()
   }
 
@@ -158,7 +167,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   }, [wrapperBottomRef, messageLayoutNotifications])
 
   return (
-    <MessageBubblesWrapper ref={ref}>
+    <MessageBubblesWrapper ref={wrapperRef}>
       {notifications.length > 0 && !onBottom && (
         <NewMessageBadge
           onClose={closeNewMessageBadge}
@@ -167,11 +176,11 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
         />
       )}
       <ViewportList
-        viewportRef={ref}
+        viewportRef={wrapperRef}
         items={messages}
         itemMinSize={32}
         margin={28}
-        initialIndex={messages.length - 1}
+        initialIndex={messageIndex ? messageIndex : messages.length - 1}
         overscan={5}
       >
         {(item, index) => {
@@ -198,12 +207,14 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
             removeMessage: onMessageRemove,
             isMessageBeingDeleted,
             resendMessage,
+            searchQuery,
+            selected: selectedMessage?.id === id,
           }
 
           return <MessageDayBubble key={id} {...messageDayBubble} />
         }}
       </ViewportList>
-      <div ref={wrapperBottomRef} />
+      <BottomWrapper ref={wrapperBottomRef} />
     </MessageBubblesWrapper>
   )
 }

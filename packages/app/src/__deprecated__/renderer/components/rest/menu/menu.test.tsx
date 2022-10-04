@@ -32,7 +32,7 @@ const defaultState = {
     deviceType: DeviceType.MuditaPure,
   } as unknown as DeviceState,
   messages: {
-    threadMap: {},
+    data: { threadMap: {} },
   },
 } as unknown as ReduxRootState
 
@@ -44,6 +44,8 @@ const threadMock: Thread = {
   unread: true,
   phoneNumber: "123123123",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const defaultProps: Props = {
@@ -114,8 +116,11 @@ describe("Device: Mudita pure", () => {
       {
         ...defaultState,
         messages: {
-          threadMap: {
-            "1": threadMock,
+          data: {
+            ...defaultState.messages.data,
+            threadMap: {
+              "1": threadMock,
+            },
           },
         } as unknown as MessagesState,
       },

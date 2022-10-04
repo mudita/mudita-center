@@ -86,6 +86,8 @@ const defaultProps: Props = {
   onMessageDelete: jest.fn(),
   resendMessage: jest.fn(),
   onAttachTemplateClick: jest.fn(),
+  selectedMessage: null,
+  searchQuery: "",
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

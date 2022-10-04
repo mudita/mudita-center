@@ -18,4 +18,6 @@ export interface MessageBubbleProps {
   resendMessage?: (messageId: string) => void
   messageType: MessageType
   isMessageBeingDeleted: boolean
+  searchQuery: string
+  selected: boolean
 }

@@ -5,7 +5,15 @@
 
 import { Endpoint, Method, RequestConfig } from "../device"
 
-export interface StartBackupRequestConfig extends RequestConfig {
+export enum BackupCategory {
+  Sync = "sync",
+  Backup = "backup",
+}
+
+export interface StartBackupRequestConfig
+  extends RequestConfig<{
+    category: BackupCategory
+  }> {
   endpoint: Endpoint.Backup
   method: Method.Post
 }

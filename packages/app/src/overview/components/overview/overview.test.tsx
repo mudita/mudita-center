@@ -14,9 +14,8 @@ import store from "App/__deprecated__/renderer/store"
 import history from "App/__deprecated__/renderer/routes/history"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { BackupDeviceDataState } from "App/backup-device/reducers"
+import { State } from "App/core/constants"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
-import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { flags } from "App/feature-flags"
@@ -101,11 +100,11 @@ const defaultProps: Props = {
   openContactSupportFlow: jest.fn(),
   backups: [],
   readRestoreDeviceDataState: jest.fn(),
-  restoreDeviceState: RestoreDeviceDataState.Empty,
+  restoreDeviceState: State.Initial,
   startBackupDevice: jest.fn(),
   startRestoreDevice: jest.fn(),
   readBackupDeviceDataState: jest.fn(),
-  backupDeviceState: BackupDeviceDataState.Empty,
+  backupDeviceState: State.Initial,
   networkLevel: 0,
   deviceType: DeviceType.MuditaPure,
   lowestSupportedOsVersion: undefined,
@@ -123,8 +122,8 @@ const defaultProps: Props = {
   updatePhoneOsInfo: jest.fn(),
   updatingState: UpdatingState.Standby,
   memorySpace: {
-    free: 100,
-    full: 200,
+    reservedSpace: 100,
+    usedUserSpace: 200,
     total: 200,
   },
   caseColour: CaseColour.Gray,
@@ -199,7 +198,7 @@ describe("`Overview` component for `MuditaPure` type,", () => {
 
   describe("when `backupDeviceState` property is set to `Running`", () => {
     const extraProps: Partial<Props> = {
-      backupDeviceState: BackupDeviceDataState.Running,
+      backupDeviceState: State.Loading,
     }
     test("should be displayed `BackupModal`", () => {
       const { queryByTestId } = render(extraProps)
@@ -221,7 +220,7 @@ describe("`Overview` component for `MuditaPure` type,", () => {
 
   describe("when `backupDeviceState` property is set to `Finished`", () => {
     const extraProps: Partial<Props> = {
-      backupDeviceState: BackupDeviceDataState.Finished,
+      backupDeviceState: State.Loaded,
     }
     test("should be displayed `BackupSuccessModal`", () => {
       const { queryByTestId } = render(extraProps)
@@ -243,7 +242,7 @@ describe("`Overview` component for `MuditaPure` type,", () => {
 
   describe("when `backupDeviceState` property is set to `Error`", () => {
     const extraProps: Partial<Props> = {
-      backupDeviceState: BackupDeviceDataState.Error,
+      backupDeviceState: State.Failed,
     }
     test("should be displayed `BackupFailureModal`", () => {
       const { queryByTestId } = render(extraProps)
@@ -263,9 +262,9 @@ describe("`Overview` component for `MuditaPure` type,", () => {
     })
   })
 
-  describe("when `restoreDeviceState` property is set to `Running`", () => {
+  describe("when `restoreDeviceState` property is set to `Loading`", () => {
     const extraProps: Partial<Props> = {
-      restoreDeviceState: RestoreDeviceDataState.Running,
+      restoreDeviceState: State.Loading,
     }
     test("should be displayed `RestoreRunningModal`", () => {
       const { queryByTestId } = render(extraProps)
@@ -288,9 +287,9 @@ describe("`Overview` component for `MuditaPure` type,", () => {
     })
   })
 
-  describe("when `restoreDeviceState` property is set to `Finished`", () => {
+  describe("when `restoreDeviceState` property is set to `Loaded`", () => {
     const extraProps: Partial<Props> = {
-      restoreDeviceState: RestoreDeviceDataState.Finished,
+      restoreDeviceState: State.Loaded,
     }
     test("should be displayed `RestoreSuccessModal`", () => {
       const { queryByTestId } = render(extraProps)
@@ -313,9 +312,9 @@ describe("`Overview` component for `MuditaPure` type,", () => {
     })
   })
 
-  describe("when `restoreDeviceState` property is set to `Error`", () => {
+  describe("when `restoreDeviceState` property is set to `Failed`", () => {
     const extraProps: Partial<Props> = {
-      restoreDeviceState: RestoreDeviceDataState.Error,
+      restoreDeviceState: State.Failed,
     }
     test("should be displayed `RestoreFailureModal`", () => {
       const { queryByTestId } = render(extraProps)

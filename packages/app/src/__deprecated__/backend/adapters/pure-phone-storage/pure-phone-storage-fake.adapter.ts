@@ -13,24 +13,27 @@ import {
 class PurePhoneStorageFakeAdapter extends PurePhoneStorageAdapter {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async getAvailableSpace(): Promise<RequestResponse<number>> {
+  public async getSystemReservedSpace(): Promise<RequestResponse<number>> {
     return {
       status: RequestResponseStatus.Ok,
       data: 1717986918,
     }
   }
-
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async getCapacity(): Promise<RequestResponse<number>> {
+  public async getUsedUserSpace(): Promise<RequestResponse<number>> {
+    return {
+      status: RequestResponseStatus.Ok,
+      data: 1717986918,
+    }
+  }
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async getTotalSpace(): Promise<RequestResponse<number>> {
     return {
       status: RequestResponseStatus.Ok,
       data: 17179869184,
     }
-  }
-
-  public getTotalSpace(): number {
-    return 16000000000
   }
 
   public getStorageCategories(): StorageCategoryInfo[] {

@@ -25,6 +25,7 @@ import history from "App/__deprecated__/renderer/routes/history"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React from "react"
 import { Router } from "react-router"
+import { State } from "App/core/constants"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -162,13 +163,15 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         updateMessage={jest.fn()}
         templates={[]}
         error={null}
-        loaded
         selectedItems={{
           rows: [],
         }}
         toggleItem={jest.fn()}
         selectAllItems={jest.fn()}
         resetItems={jest.fn()}
+        searchMessages={jest.fn()}
+        searchResult={{}}
+        state={State.Initial}
       />
     </div>
   </Router>

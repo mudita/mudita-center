@@ -8,6 +8,7 @@ import {
   ThreadObject,
   ThreadEntity,
   ContactNumberEntity,
+  ContactNameEntity,
   SmsEntity,
 } from "App/data-sync/types"
 import { MessageType as PureMessageType } from "@mudita/pure"
@@ -27,6 +28,13 @@ export class ThreadPresenter {
     recordId: string
   ): SmsEntity | undefined {
     return data.filter((item) => item.thread_id === recordId).reverse()[0]
+  }
+
+  private getContactName(
+    data: ContactNameEntity[],
+    recordId: string
+  ): ContactNameEntity | undefined {
+    return data.filter((item) => item.contact_id === recordId).reverse()[0]
   }
 
   private serializeRecord<Type>(values: string[][], columns: string[]): Type[] {
@@ -53,6 +61,13 @@ export class ThreadPresenter {
       data.contact_number.columns
     )
 
+    const contactNames = data.contact_name
+      ? this.serializeRecord<ContactNameEntity>(
+          data.contact_name.values,
+          data.contact_name.columns
+        )
+      : []
+
     const smsMessages = this.serializeRecord<SmsEntity>(
       data.sms.values,
       data.sms.columns
@@ -65,9 +80,17 @@ export class ThreadPresenter {
           String(thread.number_id)
         )
         const sms = this.getLastSmsInThread(smsMessages, String(thread._id))
+        const contact = this.getContactName(
+          contactNames,
+          String(contactNumber?.contact_id)
+        )
 
         return {
           id: thread._id,
+          contactId: contact?.contact_id,
+          contactName: contact
+            ? [contact?.name_primary, contact?.name_alternative].join(" ")
+            : "",
           phoneNumber: contactNumber?.number_user,
           lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: sms ? this.buildMessageSnippet(sms) : "",

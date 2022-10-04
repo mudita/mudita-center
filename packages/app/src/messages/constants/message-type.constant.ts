@@ -8,4 +8,5 @@ export enum MessageType {
   OUTBOX = "OUTBOX",
   FAILED = "FAILED",
   DRAFT = "DRAFT",
+  QUEUED = "QUEUED",
 }

@@ -26,3 +26,6 @@ export const setUpdateState = createAction<UpdatingState>(
   DeviceEvent.SetUpdateState
 )
 export const setInitState = createAction(DeviceEvent.SetInitState)
+export const setAgreementStatus = createAction<boolean>(
+  DeviceEvent.AgreementStatus
+)

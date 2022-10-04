@@ -7,8 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { setBackupData } from "App/backup/actions/base.action"
 import { BackupError, BackupEvent } from "App/backup/constants"
 import { AppError } from "App/core/errors"
-import { isResponsesSuccessWithData } from "App/core/helpers"
-import getFileData from "App/__deprecated__/renderer/requests/get-file-data"
+import { loadBackupsRequest } from "App/backup/requests/load-backups.request"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 export const loadBackupData = createAsyncThunk(
@@ -30,11 +29,9 @@ export const loadBackupData = createAsyncThunk(
       )
     }
 
-    const response = await getFileData({
-      filePath: pureOsBackupDesktopLocation,
-    })
+    const response = await loadBackupsRequest(pureOsBackupDesktopLocation)
 
-    if (!isResponsesSuccessWithData([response])) {
+    if (!response.ok) {
       return rejectWithValue(
         new AppError(BackupError.Load, "Get Backups Data request failed")
       )

@@ -9,4 +9,6 @@ export enum DeviceFileSystemError {
   FileUploadChunk = "DEVICE_FILE_UPLOADING_CHUNK_ERROR",
   FileUploadUnreadable = "DEVICE_FILE_UPLOADING_UNREADABLE_ERROR",
   FilesRetrieve = "DEVICE_FILES_RETRIEVE_ERROR",
+  FileDeleteCommand = "DEVICE_FILE_DELETE_ERROR",
+  NoSpaceLeft = "NO_SPACE_LEFT_ON_DEVICE_ERROR",
 }

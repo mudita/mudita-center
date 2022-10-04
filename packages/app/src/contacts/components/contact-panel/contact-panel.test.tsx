@@ -47,6 +47,7 @@ const defaultProps: Props = {
   editMode: false,
   searchValue: "",
   results: contacts,
+  allItemsSelected: false,
   onManageButtonClick: jest.fn(),
   onNewButtonClick: jest.fn(),
   toggleAll: jest.fn(),
@@ -92,5 +93,16 @@ describe("`ContactPanel` component", () => {
     expect(getByTestId(ContactPanelTestIdsEnum.SearchTitle)).toHaveTextContent(
       "[value] module.contacts.searchResultsTitle"
     )
+  })
+  test("import and new contact buttons are hidden when there is at least one contact selected", () => {
+    const { queryByTestId } = render({
+      selectedContacts: [contacts[0].id],
+    })
+    expect(
+      queryByTestId(ContactPanelTestIdsEnum.ImportButton)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(ContactPanelTestIdsEnum.NewButton)
+    ).not.toBeInTheDocument()
   })
 })

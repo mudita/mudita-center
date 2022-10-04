@@ -5,3 +5,5 @@
 
 export * from "./base.action"
 export * from "./load-backup-data.action"
+export * from "./start-backup-device.action"
+export * from "./start-restore-device.action"

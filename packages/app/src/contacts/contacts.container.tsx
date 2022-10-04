@@ -49,8 +49,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
     ...auth,
     selectedItems: state.contacts.selectedItems.rows,
-    allItemsSelected:
-      state.contacts.selectedItems.rows.length === contactsList.length,
+    allItemsSelected: state.contacts.selectedItems.allItemsSelected,
     resultState: contacts.resultState,
     contactList: contactsList,
     flatList: flatListSelector(state),

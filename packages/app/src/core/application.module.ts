@@ -20,7 +20,7 @@ import {
 } from "App/core/initializers"
 import { Module } from "App/core/types"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
-
+import { FileSystemModule } from "App/file-system/file-system.module"
 import { IndexStorageModule } from "App/index-storage/index-storage.module"
 import { DataSyncModule } from "App/data-sync/data-sync.module"
 import { ContactModule } from "App/contacts/contact.module"
@@ -31,9 +31,13 @@ import { SettingsModule } from "App/settings/settings.module"
 import { CrashDumpModule } from "App/crash-dump/crash-dump.module"
 import { TemplateModule } from "App/templates/template.module"
 import { FilesManagerModule } from "App/files-manager/files-manager.module"
+import { SearchModule } from "App/search/search.module"
+import { UpdateModule } from "App/update/update.module"
+import { BackupModule } from "App/backup/backup.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
+    FileSystemModule,
     IndexStorageModule,
     DataSyncModule,
     OutboxModule,
@@ -44,6 +48,9 @@ export class ApplicationModule {
     FilesManagerModule,
     CrashDumpModule,
     TemplateModule,
+    SearchModule,
+    UpdateModule,
+    BackupModule,
   ]
 
   private ipc = ipcMain
@@ -57,10 +64,14 @@ export class ApplicationModule {
     // TODO move to private instance method after all modules will be implemented
     private deviceService: DeviceService
   ) {
-    const loggerEnabled = flags.get(Feature.LoggerEnabled)
+    const enabled =
+      process.env.NODE_ENV === "development" &&
+      process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
+        ? false
+        : flags.get(Feature.LoggerEnabled)
 
     MuditaDeviceManager.registerLogger(new PureLogger())
-    MuditaDeviceManager.toggleLogs(loggerEnabled)
+    MuditaDeviceManager.toggleLogs(enabled)
 
     const dataStorageInitializer = new DataIndexInitializer(this.index)
     const observerInitializer = new ObserverInitializer()

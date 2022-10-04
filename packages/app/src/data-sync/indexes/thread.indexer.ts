@@ -5,7 +5,8 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import { Index } from "elasticlunr"
+import { ElasticlunrFactory } from "App/index-storage/factories"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { ThreadTable } from "App/data-sync/constants"
 import {
@@ -33,9 +34,11 @@ export class ThreadIndexer extends BaseIndexer {
   }
 
   private createIndex(data: ThreadObject[]): Index<ThreadObject> {
-    const index = elasticlunr<ThreadObject>()
+    const index = ElasticlunrFactory.create<ThreadObject>()
 
     index.setRef("id")
+    index.addField("contactId")
+    index.addField("contactName")
     index.addField("phoneNumber")
     index.addField("lastUpdatedAt")
     index.addField("messageSnippet")
@@ -57,6 +60,9 @@ export class ThreadIndexer extends BaseIndexer {
       [ThreadTable.Numbers]: contactDb.exec(
         `SELECT * FROM ${ThreadTable.Numbers};`
       )[0] as unknown as ThreadInput["contact_number"],
+      [ThreadTable.Names]: contactDb.exec(
+        `SELECT * FROM ${ThreadTable.Names};`
+      )[0] as unknown as ThreadInput["contact_name"],
       [ThreadTable.Sms]: smsDb.exec(
         `SELECT * FROM ${ThreadTable.Sms};`
       )[0] as unknown as ThreadInput["sms"],

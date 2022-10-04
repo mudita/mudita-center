@@ -9,12 +9,16 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
 import { lockedDevice } from "./locked-device.action"
 import getDeviceLockTime from "App/__deprecated__/renderer/requests/get-device-lock-time.request"
+import getUnlockDeviceStatus from "App/__deprecated__/renderer/requests/get-unlock-device-status.request"
 import { flags } from "App/feature-flags"
 import { DeviceEvent } from "App/device"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/feature-flags")
 jest.mock("App/__deprecated__/renderer/requests/get-device-lock-time.request")
+jest.mock(
+  "App/__deprecated__/renderer/requests/get-unlock-device-status.request"
+)
 
 describe("Device: MuditaHarmony", () => {
   describe("Get Device Lock Time request returns `success` status", () => {
@@ -50,6 +54,9 @@ describe("Device: MuditaPure", () => {
           phoneLockTime: 123456789,
         },
       })
+      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValueOnce({
+        status: RequestResponseStatus.Ok,
+      })
       const mockStore = createMockStore([thunk])({
         device: {
           deviceType: DeviceType.MuditaPure,
@@ -80,6 +87,9 @@ describe("Device: MuditaPure", () => {
       ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
         status: RequestResponseStatus.UnprocessableEntity,
       })
+      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValueOnce({
+        status: RequestResponseStatus.Ok,
+      })
       const mockStore = createMockStore([thunk])({
         device: {
           deviceType: DeviceType.MuditaPure,
@@ -101,6 +111,44 @@ describe("Device: MuditaPure", () => {
       ])
 
       expect(getDeviceLockTime).toHaveBeenCalled()
+    })
+  })
+
+  describe("Get Device Lock Status request returns `agreement-is-not-accepted` status", () => {
+    test("fire async `lockedDevice` calls `setAgreementStatus` action", async () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
+      ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
+        status: RequestResponseStatus.UnprocessableEntity,
+      })
+      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValueOnce({
+        status: RequestResponseStatus.NotAcceptable,
+      })
+      const mockStore = createMockStore([thunk])({
+        device: {
+          deviceType: DeviceType.MuditaPure,
+        },
+      })
+      const {
+        meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
+      } = await mockStore.dispatch(lockedDevice() as unknown as AnyAction)
+
+      expect(mockStore.getActions()).toEqual([
+        lockedDevice.pending(requestId),
+        {
+          type: DeviceEvent.AgreementStatus,
+          payload: false,
+        },
+        {
+          type: DeviceEvent.SetLockTime,
+          payload: undefined,
+        },
+        lockedDevice.fulfilled(undefined, requestId, undefined),
+      ])
+
+      expect(getDeviceLockTime).toHaveBeenCalled()
+      expect(getUnlockDeviceStatus).toHaveBeenCalled()
     })
   })
 })

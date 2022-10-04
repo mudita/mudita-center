@@ -126,4 +126,5 @@ export enum IconType {
   ThinFail,
   Warning,
   MarkAsUnread,
+  Conversation,
 }

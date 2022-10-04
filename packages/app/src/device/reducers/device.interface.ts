@@ -13,6 +13,7 @@ import { DeviceError, DeviceEvent } from "App/device/constants"
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { UpdatingState, ConnectionState } from "App/device/constants"
 import { AppError } from "App/core/errors"
+import StorageInfo from "App/__deprecated__/common/interfaces/storage-info.interface"
 
 export interface PureDeviceData {
   networkName: string
@@ -24,8 +25,8 @@ export interface PureDeviceData {
   phoneLockTime?: number
   timeLeftToNextAttempt?: number
   memorySpace: {
-    free: number
-    full: number
+    reservedSpace: number
+    usedUserSpace: number
     total: number
   }
   caseColour: CaseColour
@@ -37,8 +38,8 @@ export interface HarmonyDeviceData {
   batteryLevel: number
   serialNumber: string
   memorySpace: {
-    free: number
-    full: number
+    reservedSpace: number
+    usedUserSpace: number
     total: number
   }
 }
@@ -51,6 +52,7 @@ export interface DeviceState {
     connected: boolean
     unlocked: boolean | null
     loaded: boolean
+    agreementAccepted: boolean
   }
   updatingState: UpdatingState | null
   error: Error | string | null
@@ -104,4 +106,12 @@ export type OsUpdateRejectedAction = PayloadAction<
 export type SetConnectionStateAction = PayloadAction<
   boolean,
   DeviceEvent.SetConnectionState
+>
+export type LoadStorageInfoAction = PayloadAction<
+  StorageInfo,
+  DeviceEvent.LoadStorageInfo
+>
+export type LoadStorageInfoRejectedAction = PayloadAction<
+  AppError<DeviceError.LoadStorageInfo>,
+  DeviceEvent.LoadStorageInfo
 >

@@ -12,7 +12,11 @@ import {
 import SelectionManager from "App/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
 import { showToggleableElement } from "App/__deprecated__/renderer/modules/tools/tabs/notes.styled"
 
-export const PanelWrapper = styled.div``
+export const PanelWrapper = styled.div`
+  position: sticky;
+  top: 5.7rem;
+  z-index: 1;
+`
 
 export const Panel = styled.div<{
   selectionMode?: boolean
@@ -29,9 +33,6 @@ export const Panel = styled.div<{
       grid-template-columns: 62.4rem auto;
       padding-left: 0.6rem;
     `};
-  label {
-    width: auto;
-  }
   button {
     padding: 0 0.8rem;
   }

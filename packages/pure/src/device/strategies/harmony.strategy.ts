@@ -16,12 +16,13 @@ import { DeviceType } from "../constants"
 import { DeviceInfo } from "../../endpoints"
 import { Formatter } from "../../formatter/formatter"
 import { FormatterFactory } from "../../formatter/formatter-factory"
+import { SerialPortParser } from "../serial-port-parser/serial-port-parser"
 
 export class HarmonyStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
-  constructor(path: string, public deviceType: DeviceType) {
-    super(path, deviceType)
+  constructor(public path: string, public deviceType: DeviceType, parser: SerialPortParser) {
+    super(path, deviceType, parser)
   }
 
   public async connect(): Promise<Response> {
@@ -57,5 +58,6 @@ export class HarmonyStrategy extends BaseDevice {
 
 export const createHarmonyStrategy: CreateDeviceStrategy = (
   path: string,
-  deviceType: DeviceType
-) => new HarmonyStrategy(path, deviceType)
+  deviceType: DeviceType,
+  parser: SerialPortParser
+) => new HarmonyStrategy(path, deviceType, parser)

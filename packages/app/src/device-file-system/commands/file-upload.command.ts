@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import { Endpoint, Method } from "@mudita/pure"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
@@ -22,24 +23,24 @@ export class FileUploadCommand extends BaseCommand {
 
   public async exec(
     directory: string,
-    path: string
+    filePath: string
   ): Promise<ResultObject<undefined>> {
     let data: Buffer | Uint8Array
 
     try {
-      data = await this.fileSystemService.readFile(path)
+      data = await this.fileSystemService.readFile(filePath)
     } catch (error) {
       return Result.failed(
         new AppError(
           DeviceFileSystemError.FileUploadUnreadable,
-          `Uploading file: file ${path} can't be opened`
+          `Uploading file: file ${filePath} can't be opened`
         )
       )
     }
 
     const fileSize = Buffer.byteLength(data)
     const fileCrc32 = this.countCRC32(data)
-    const fileName = path.split("/").reverse()[0]
+    const fileName = path.basename(filePath)
 
     const response = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
@@ -55,6 +56,15 @@ export class FileUploadCommand extends BaseCommand {
       response.status !== RequestResponseStatus.Ok ||
       response.data === undefined
     ) {
+      if (response.status === RequestResponseStatus.InsufficientStorage) {
+        return Result.failed(
+          new AppError(
+            DeviceFileSystemError.NoSpaceLeft,
+            "Not enough space on device"
+          )
+        )
+      }
+
       return Result.failed(
         new AppError(
           DeviceFileSystemError.FileUploadRequest,

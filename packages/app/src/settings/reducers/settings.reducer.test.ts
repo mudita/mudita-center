@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// import { AppError } from "App/core/errors"
 import { SettingsEvent } from "App/settings/constants"
 import {
   settingsReducer,
@@ -125,7 +124,7 @@ describe("Functionality: toggle update available", () => {
     expect(
       settingsReducer(undefined, {
         type: pendingAction(SettingsEvent.ToggleUpdateAvailable),
-        meta: { arg: true }
+        meta: { arg: true },
       })
     ).toEqual({
       ...initialState,
@@ -134,7 +133,7 @@ describe("Functionality: toggle update available", () => {
     expect(
       settingsReducer(undefined, {
         type: pendingAction(SettingsEvent.ToggleUpdateAvailable),
-        meta: { arg: false }
+        meta: { arg: false },
       })
     ).toEqual({
       ...initialState,

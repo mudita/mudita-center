@@ -15,7 +15,7 @@ describe("`visibilityFilterSelector` selector", () => {
       messages: messagesReducer(initialState, {} as any),
     } as ReduxRootState
     expect(visibilityFilterSelector(state)).toEqual(
-      initialState.visibilityFilter
+      initialState.data.visibilityFilter
     )
   })
 })

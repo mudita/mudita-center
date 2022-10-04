@@ -61,7 +61,7 @@ interface ContactPanelProps {
   onManageButtonClick: () => void
   onNewButtonClick: () => void
   selectedContacts: string[]
-  allItemsSelected?: boolean
+  allItemsSelected: boolean
   toggleAll: () => void
   deleteContacts: (
     ids: ContactID[]
@@ -108,21 +108,15 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContact)
     const onDelete = async () => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      modalService.openModal(
+      void modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
       const { payload } = await delayResponse(deleteContacts(selectedContacts))
       if (payload) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        modalService.openModal(<ErrorDataModal />, true)
+        void modalService.openModal(<ErrorDataModal />, true)
       } else {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        modalService.closeModal()
+        void modalService.closeModal()
       }
       resetRows()
     }
@@ -138,11 +132,8 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
         },
       },
       onDelete,
-      onClose: resetRows,
     }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(<DeleteModal {...modalConfig} />)
+    void modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   return (
     <PanelWrapper showSearchResults={showSearchResults}>
@@ -173,31 +164,33 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             data-testid={ContactPanelTestIdsEnum.SelectionManager}
           />
         ) : (
-          <ContactInputSearch
-            onContactSelect={onContactSelect}
-            onSearchEnterClick={onSearchEnterClick}
-            searchValue={searchValue}
-            onSearchValueChange={onSearchValueChange}
-            showSearchResults
-            results={results}
-          />
+          <>
+            <ContactInputSearch
+              onContactSelect={onContactSelect}
+              onSearchEnterClick={onSearchEnterClick}
+              searchValue={searchValue}
+              onSearchValueChange={onSearchValueChange}
+              showSearchResults
+              results={results}
+            />
+            <Buttons>
+              <ButtonComponent
+                displayStyle={DisplayStyle.Secondary}
+                labelMessage={{ id: "module.contacts.importButton" }}
+                onClick={onManageButtonClick}
+                data-testid={ContactPanelTestIdsEnum.ImportButton}
+              />
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.contacts.panelNewContactButton",
+                }}
+                onClick={onNewButtonClick}
+                disabled={editMode}
+                data-testid={ContactPanelTestIdsEnum.NewButton}
+              />
+            </Buttons>
+          </>
         )}
-        <Buttons>
-          <ButtonComponent
-            displayStyle={DisplayStyle.Secondary}
-            labelMessage={{ id: "module.contacts.importButton" }}
-            onClick={onManageButtonClick}
-            data-testid={ContactPanelTestIdsEnum.ImportButton}
-          />
-          <ButtonComponent
-            labelMessage={{
-              id: "module.contacts.panelNewContactButton",
-            }}
-            onClick={onNewButtonClick}
-            disabled={editMode}
-            data-testid={ContactPanelTestIdsEnum.NewButton}
-          />
-        </Buttons>
       </Panel>
       {showSearchResults && (
         <SearchTitle

@@ -24,6 +24,10 @@ const threadInput: ThreadInput = {
     columns: ["_id", "contact_id", "number_user", "number_e164", "type"],
     values: [["5", "4", "+91898402777", "", "0"]],
   },
+  contact_name: {
+    columns: ["_id", "contact_id", "name_alternative", "name_primary"],
+    values: [["1", "4", "Luke", "Skywalker"]],
+  },
   sms: {
     columns: [
       "_id",
@@ -50,6 +54,8 @@ describe("Draft messages", () => {
     expect(threadObjects).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contactId": "4",
+          "contactName": "Skywalker Luke",
           "id": "1",
           "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
           "messageSnippet": "Draft: Test Message",
@@ -81,6 +87,8 @@ describe("Other types of messages", () => {
     expect(threadObjects).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contactId": "4",
+          "contactName": "Skywalker Luke",
           "id": "1",
           "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
           "messageSnippet": "Test Message",
@@ -113,6 +121,10 @@ describe("Other types of messages", () => {
         columns: ["_id", "contact_id", "number_user", "number_e164", "type"],
         values: [["5", "4", "+91898402777", "", "0"]],
       },
+      contact_name: {
+        columns: ["_id", "contact_id", "name_alternative", "name_primary"],
+        values: [["1", "4", "Luke", "Skywalker"]],
+      },
       sms: {
         columns: [],
         values: [],
@@ -124,6 +136,8 @@ describe("Other types of messages", () => {
     expect(threadObjects).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contactId": "4",
+          "contactName": "Skywalker Luke",
           "id": "1",
           "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
           "messageSnippet": "",
@@ -152,10 +166,36 @@ describe("Thread without messages", () => {
     expect(threadObjects).toMatchInlineSnapshot(`
       Array [
         Object {
+          "contactId": "4",
+          "contactName": "Skywalker Luke",
           "id": "1",
           "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
           "messageSnippet": "",
           "messageType": "OUTBOX",
+          "phoneNumber": "+91898402777",
+          "unread": true,
+        },
+      ]
+    `)
+  })
+})
+
+describe("when there are some threads and any contact is found", () => {
+  test("presenter returns threads without contact details", () => {
+    const presenter = new ThreadPresenter()
+    const threadObjects = presenter.serializeToObject({
+      ...threadInput,
+      contact_name: undefined,
+    })
+    expect(threadObjects).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "contactId": undefined,
+          "contactName": "",
+          "id": "1",
+          "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
+          "messageSnippet": "Draft: Test Message",
+          "messageType": "INBOX",
           "phoneNumber": "+91898402777",
           "unread": true,
         },

@@ -15,6 +15,8 @@ import { Settings } from "App/settings/dto"
 import { Receiver } from "App/messages/reducers"
 import { Template } from "App/templates/dto"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { SearchParams, SearchResult } from "App/search/dto"
+import { State } from "App/core/constants"
 
 export interface Content {
   id: string
@@ -35,8 +37,8 @@ export interface MessagesServiceState {
 }
 
 export interface MessagesProps extends Pick<Settings, "language"> {
-  searchValue: MessagesState["searchValue"]
-  threadsState: MessagesState["threadsState"]
+  searchValue: MessagesState["data"]["searchValue"]
+  threadsState: MessagesState["data"]["threadsState"]
   receivers: Receiver[]
   messageLayoutNotifications: Notification[]
   loadThreads: (
@@ -64,9 +66,11 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   markThreadsReadStatus?: (threads: Thread[]) => void
   templates: Template[]
   error: Error | string | null
-  loaded: boolean
   selectedItems: { rows: string[] }
   toggleItem: (threadId: string) => void
   selectAllItems: () => void
   resetItems: () => void
+  searchMessages: (searchParams: SearchParams) => void
+  searchResult: SearchResult
+  state: State
 }

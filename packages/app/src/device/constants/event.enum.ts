@@ -27,4 +27,7 @@ export enum DeviceEvent {
   SetOsVersionData = "DEVICE_SET_OS_VERSION_DATA",
   SetUpdateState = "DEVICE_SET_UPDATE_STATE",
   StartOsUpdateProcess = "DEVICE_START_OS_UPDATE_PROCESS",
+
+  LoadStorageInfo = "DEVICE_LOAD_STORAGE_INFO",
+  AgreementStatus = "DEVICE_AGREEMENT_STATUS",
 }

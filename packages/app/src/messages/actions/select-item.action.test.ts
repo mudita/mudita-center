@@ -29,7 +29,10 @@ describe("Select items actions", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
+
   const secondThread: Thread = {
     id: "2",
     phoneNumber: "+48 755 853 216",
@@ -38,7 +41,10 @@ describe("Select items actions", () => {
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
     messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   }
+
   test("Action: `ResetItems` - fire action without payload and `ResetItems` type", () => {
     mockStore.dispatch(resetItems())
     expect(mockStore.getActions()).toEqual([
@@ -52,9 +58,11 @@ describe("Select items actions", () => {
   test("Action: `ToggleItem` - fire action with thread id and `ToggleItem` type", async () => {
     const mockStore = createMockStore([thunk])({
       messages: {
-        threadMap: {
-          [thread.id]: thread,
-          [secondThread.id]: secondThread,
+        data: {
+          threadMap: {
+            [thread.id]: thread,
+            [secondThread.id]: secondThread,
+          },
         },
         selectedItems: { rows: [] },
       },
@@ -74,9 +82,11 @@ describe("Select items actions", () => {
   test("Action `selectAllItems` returns list of thread ids", async () => {
     const mockStore = createMockStore([thunk])({
       messages: {
-        threadMap: {
-          [thread.id]: thread,
-          [secondThread.id]: secondThread,
+        data: {
+          threadMap: {
+            [thread.id]: thread,
+            [secondThread.id]: secondThread,
+          },
         },
       },
     })

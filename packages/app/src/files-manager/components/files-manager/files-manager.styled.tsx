@@ -12,6 +12,7 @@ export const FilesManagerContainer = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${backgroundColor("main")};
+  overflow: scroll;
 `
 
 export const FilesSummaryContainer = styled.div`

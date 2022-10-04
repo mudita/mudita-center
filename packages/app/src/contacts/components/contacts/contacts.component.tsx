@@ -52,6 +52,9 @@ import ImportContactsFlow, {
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
 import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
+import { ExportContactFailedModal } from "../export-contact-failed-modal/export-contact-failed-modal.component"
+import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
+import { ExportContactsResult } from "App/contacts/constants"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -79,7 +82,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   onMessage,
   exportContacts,
   addNewContactsToState,
-
   resetAllItems,
   selectAllItems,
   toggleItem,
@@ -103,6 +105,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const [editedContact, setEditedContact] = useState<Contact>()
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
   const [formErrors, setFormErrors] = useState<FormError[]>([])
+  const [exportFailed, setExportFailed] = useState<boolean>(false)
 
   const detailsEnabled = activeRow && !newContact && !editedContact
 
@@ -161,9 +164,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const saveNewContact = async (contact: NewContact) => {
     const add = async (retried?: boolean) => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      modalService.openModal(
+      void modalService.openModal(
         <LoadingStateDataModal textMessage={messages.addingText} />,
         true
       )
@@ -183,16 +184,12 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       }
 
       if (payload && !retried) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        modalService.openModal(
+        void modalService.openModal(
           <ErrorWithRetryDataModal onRetry={() => add(true)} />,
           true
         )
       } else if (payload) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        modalService.openModal(<ErrorDataModal />, true)
+        void modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
         await closeModal()
@@ -215,9 +212,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const editContactWithRetry = async (contact: Contact) => {
     return new Promise((resolve, reject) => {
       const edit = async (retried?: boolean) => {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        modalService.openModal(
+        void modalService.openModal(
           <LoadingStateDataModal textMessage={messages.editingText} />,
           true
         )
@@ -225,16 +220,12 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         const { payload } = await delayResponse(editContact(contact))
 
         if (payload && !retried) {
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          modalService.openModal(
+          void modalService.openModal(
             <ErrorWithRetryDataModal onRetry={() => edit(true)} />,
             true
           )
         } else if (payload) {
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          modalService.openModal(<ErrorDataModal />, true)
+          void modalService.openModal(<ErrorDataModal />, true)
           reject()
         } else {
           await modalService.closeModal()
@@ -242,9 +233,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         }
       }
 
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      edit()
+      void edit()
     })
   }
 
@@ -267,9 +256,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     const contact = flatList.find((contact) => contact.id === id)
     const handleDelete = async () => {
       resetAllItems()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      modalService.openModal(
+      void modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
@@ -278,18 +265,14 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       const { payload } = await delayResponse(deleteContacts([id]))
 
       if (payload) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        modalService.openModal(<ErrorDataModal />, true)
+        void modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
         await modalService.closeModal()
       }
     }
 
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(
+    void modalService.openModal(
       <DeleteModal
         onDelete={handleDelete}
         title={intl.formatMessage({
@@ -349,17 +332,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       }
     }
 
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(
+    void modalService.openModal(
       <BlockContactModal contact={contact} onBlock={handleBlock} />
     )
   }
 
   const openSpeedDialModal = () => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    modalService.openModal(<SpeedDialModal onSave={closeModal} />)
+    void modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
   // Synchronization, dev mode: toggle contacts saving failure
@@ -401,6 +380,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const closeImportContactsModalFlow = () => {
     setImportContactsFlowState(undefined)
+    setAddedContactsCount(0)
   }
   const showAuthorizaionFailedModal = () => {
     setImportContactsFlowState(ImportContactsFlowState.AuthorizationError)
@@ -432,13 +412,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const importFromFile = async (inputElement: HTMLInputElement) => {
     const onFileSelect = () => {
       if (inputElement.files) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        getContacts({ type: "files", data: Array.from(inputElement.files) })
+        void getContacts({
+          type: "files",
+          data: Array.from(inputElement.files),
+        })
         inputElement.removeEventListener("change", onFileSelect)
       }
     }
-
     inputElement.click()
     inputElement.addEventListener("change", onFileSelect)
   }
@@ -476,10 +456,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         handleError()
         return
       }
-      setImportedContacts(
+      const importedContacts =
         service.type === "files"
           ? await mapVCFsToContacts(service.data)
           : await loadContacts(service.type)
+
+      setImportedContacts(
+        applyValidationRulesToImportedContacts(importedContacts)
       )
 
       showContactsSelectingModal()
@@ -490,12 +473,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   // Synchronization, step 5: sending contacts to phone
   const sendContactsToPhone = async (contacts: NewContact[]) => {
-    setImportedContacts(contacts)
+    const importedContacts = applyValidationRulesToImportedContacts(contacts)
+    setImportedContacts(importedContacts)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await showContactsImportingModal()
 
-    const newContactResponses = await contacts.reduce(
+    const newContactResponses = await importedContacts.reduce(
       async (lastPromise, contact, index) => {
         const value = await lastPromise
         const { payload } = await importContact(contact)
@@ -564,15 +548,32 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const handleExport = async (ids: string[]): Promise<void> => {
     const contacts = flatList.filter((contact) => ids.includes(contact.id))
-    const exported = await exportContacts(contacts)
+    const exportResult = await exportContacts(contacts)
 
-    if (exported) {
-      resetAllItems()
+    switch (exportResult) {
+      case ExportContactsResult.Ok:
+        resetAllItems()
+        break
+
+      case ExportContactsResult.Cancelled:
+        // do nothing when cancelled
+        break
+
+      default:
+      case ExportContactsResult.Failed:
+        setExportFailed(true)
+        break
     }
   }
 
   return (
     <>
+      {exportFailed && (
+        <ExportContactFailedModal
+          open={exportFailed}
+          onClose={() => setExportFailed(false)}
+        />
+      )}
       {importContactsFlowState && (
         <ImportContactsFlow
           state={importContactsFlowState}

@@ -35,11 +35,9 @@ import registerGetDeviceCrashDumpFiles from "App/__deprecated__/backend/requests
 import registerDownloadDeviceFilesRequest from "App/device-file-system/listeners/download-device-file.listener"
 import registerUploadDeviceFileRequest from "App/device-file-system/listeners/upload-device-file.listener"
 import registerUploadDeviceFileLocallyRequest from "App/device-file-system/listeners/upload-device-file-locally.listener"
-import registerStartRestoreDeviceRequest from "App/__deprecated__/backend/requests/start-restore-device/start-restore-device.request"
 import registerGetRestoreDeviceStatusRequest from "App/__deprecated__/backend/requests/get-restore-device-status/get-restore-device-status.request"
 import registerDownloadDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
 import { registerFileSystemRemoveRequest } from "App/device-file-system"
-import { registerDownloadDeviceBackupRequest } from "App/backup-device"
 import createDeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 
 import { ApplicationModule } from "App/core/application.module"
@@ -96,11 +94,9 @@ const bootstrap = (
     registerDownloadDeviceFilesRequest,
     registerUploadDeviceFileLocallyRequest,
     registerUploadDeviceFileRequest,
-    registerStartRestoreDeviceRequest,
     registerGetRestoreDeviceStatusRequest,
     registerDownloadDeviceCrashDumpFiles,
     registerFileSystemRemoveRequest,
-    registerDownloadDeviceBackupRequest,
   ]
 
   new ApplicationModule(deviceService)

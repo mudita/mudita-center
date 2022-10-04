@@ -13,7 +13,7 @@ import { useDebounce } from "usehooks-ts"
 import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
 import { DeleteThreadModals } from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
-import MessagesPanel from "App/messages/components/messages-panel.component"
+import { MessagesPanel } from "App/messages/components/messages-panel/messages-panel.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import ThreadDetails from "App/messages/components/thread-details.component"
@@ -42,6 +42,9 @@ import { Contact } from "App/contacts/dto"
 import { ContactAttachmentPresenter } from "App/contacts/presenters"
 import { useLoadingState } from "App/ui"
 import { Feature, flags } from "App/feature-flags"
+import MessagesSearchResults from "App/messages/components/messages-search-results/messages-search-results.component"
+import { DataIndex } from "App/index-storage/constants"
+import { State } from "App/core/constants"
 
 const messages = defineMessages({
   emptyListTitle: {
@@ -64,6 +67,8 @@ const mockThread: Thread = {
   messageSnippet: "",
   unread: false,
   messageType: MessageType.OUTBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const isMockedThreadUsedForNewMessageForm = (thread: Thread) => {
@@ -74,13 +79,12 @@ enum MessagesState {
   List,
   ThreadDetails,
   NewMessage,
+  SearchResult,
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
   threadsState,
   receivers,
-  searchValue,
-  changeSearchValue = noop,
   deleteThreads = noop,
   threads,
   getActiveMessagesByThreadIdSelector,
@@ -100,11 +104,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   updateMessage,
   templates,
   error,
-  loaded,
   selectedItems,
   toggleItem,
   selectAllItems,
   resetItems,
+  searchMessages,
+  searchResult,
+  state,
 }) => {
   const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
     messageDeleting: false,
@@ -132,7 +138,23 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const debouncedContent = useDebounce(content, 1000)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+  const [searchValue, setSearchValue] = useState<string>("")
+  const [lastSearchQuery, setLastSearchQuery] = useState<string>("")
+  const [searchedMessage, setSearchedMessage] = useState<Message | null>(null)
+  const [activeSearchDropdown, setActiveSearchDropdown] =
+    useState<boolean>(false)
   const allItemsSelected = threads.length === selectedItems.rows.length
+
+  useEffect(() => {
+    if (searchValue !== "") {
+      return
+    }
+    if (messagesState === MessagesState.SearchResult) {
+      setMessagesState(MessagesState.List)
+    }
+    setActiveSearchDropdown(false)
+    setSearchedMessage(null)
+  }, [searchValue, messagesState])
 
   useEffect(() => {
     messageLayoutNotifications
@@ -147,7 +169,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [messageLayoutNotifications])
 
   useEffect(() => {
-    if (!loaded || error) {
+    if (state !== State.Loaded) {
       return
     }
 
@@ -156,6 +178,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         updateFieldState("messageDeleting", false)
         updateFieldState("messageDeletingConfirmation", false)
         updateFieldState("messageDeletingInfo", true)
+        messagesState === MessagesState.SearchResult && handleSearchMessage()
       }
 
       if (states.threadDeleting) {
@@ -176,7 +199,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded, error])
+  }, [state, error])
 
   useEffect(() => {
     handlePotentialThreadDeletion()
@@ -194,6 +217,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
     }
+
+    if (thread) {
+      setActiveThread(thread)
+    }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeThread, threads])
@@ -205,15 +232,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
     if (draftMessage) {
       if (content && content !== draftMessage.content) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        updateMessage({ ...draftMessage, content })
+        void updateMessage({ ...draftMessage, content })
       }
 
       if (!content.length) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        deleteMessage(draftMessage.id)
+        void deleteMessage(draftMessage.id)
         updateFieldState("draftDeleting", true)
         setDraftMessage(undefined)
         setContent("")
@@ -363,6 +386,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
       openThreadDetails(thread)
+      setLastSearchQuery("")
 
       if (!thread.unread) {
         return
@@ -527,9 +551,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   // Delete messages functionality
   const handleDeleteMessage = () => {
     assert(messageToDelete)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    deleteMessage(messageToDelete)
+    void deleteMessage(messageToDelete)
     setMessageToDelete(undefined)
 
     updateFieldState("messageDeletingConfirmation", false)
@@ -599,6 +621,63 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleToggleAllCheckboxes = () => {
     allItemsSelected ? resetItems() : selectAllItems()
   }
+
+  const isMessage = (record: Thread | Message): record is Message => {
+    return Boolean((record as Message).threadId)
+  }
+
+  const handleSearchSelect = (record: Thread | Message) => {
+    if (!record) {
+      return
+    }
+
+    if (isMessage(record)) {
+      handleResultClick(record)
+    } else {
+      openThreadDetails(record)
+    }
+  }
+
+  const handleSearch = (query: string) => {
+    setSearchValue(query)
+
+    if (query.length > 0) {
+      setLastSearchQuery(query)
+      setActiveSearchDropdown(true)
+      searchMessages({
+        scope: [DataIndex.Message, DataIndex.Thread],
+        query: query,
+      })
+    } else {
+      if (!activeThread) {
+        setMessagesState(MessagesState.List)
+      }
+    }
+  }
+
+  const handleSearchEnter = () => {
+    setMessagesState(MessagesState.SearchResult)
+    setActiveThread(undefined)
+    handleSearchMessage()
+  }
+
+  const handleResultClick = (message: Message): void => {
+    const thread = threads.find((thread) => thread.id === message.threadId)
+    if (thread && activeThread?.id !== message.threadId) {
+      setSearchedMessage(message)
+      openThreadDetails(thread)
+      if (!thread.unread) {
+        return
+      }
+
+      markThreadsReadStatus([thread])
+    }
+  }
+
+  const handleSearchMessage = () => {
+    searchMessages({ scope: [DataIndex.Message], query: searchValue })
+  }
+
   return (
     <>
       <ContactSelectModal
@@ -630,79 +709,99 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
       <MessagesPanel
         searchValue={searchValue}
-        onSearchValueChange={changeSearchValue}
+        onSearchValueChange={handleSearch}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
         selectedIds={selectedItems.rows}
         allItemsSelected={allItemsSelected}
         toggleAll={handleToggleAllCheckboxes}
         onDeleteClick={handleDeleteThreads}
+        results={searchResult}
+        onSelect={handleSearchSelect}
+        onSearchEnterClick={handleSearchEnter}
+        showSearchResults={activeSearchDropdown}
+        showSearchResultsList={messagesState === MessagesState.SearchResult}
       />
-      <TableWithSidebarWrapper>
-        {threads.length === 0 && messagesState === MessagesState.List ? (
-          <EmptyState
-            data-testid={MessagesTestIds.EmptyThreadListState}
-            title={messages.emptyListTitle}
-            description={messages.emptyListDescription}
-          />
-        ) : (
-          <ThreadList
-            selectedItems={selectedItems}
-            toggleItem={toggleItem}
-            data-testid={MessagesTestIds.ThreadList}
-            language={language}
-            activeThread={activeThread}
-            threads={getThreads()}
-            onThreadClick={handleThreadClick}
-            getContactByPhoneNumber={getContactByPhoneNumber}
-            onDeleteClick={handleDeleteThread}
-            onToggleReadStatus={handleToggleReadStatus}
-            onContactClick={contactClick}
-            loadMoreRows={loadMoreRows}
-            newConversation={mockThread.phoneNumber}
-          />
-        )}
-        {messagesState === MessagesState.ThreadDetails && activeThread && (
-          <ThreadDetails
-            data-testid={MessagesTestIds.ThreadDetails}
-            content={content}
-            receiver={getViewReceiver(activeThread)}
-            messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
-            currentlyDeletingMessageId={currentlyDeletingMessageId}
-            contactCreated={isContactCreatedByPhoneNumber(
-              activeThread.phoneNumber
-            )}
-            onAttachContactClick={openAttachContactModal}
-            onContactClick={handleContactClick}
-            onDeleteClick={handleDeleteTmpThreadClick}
-            onMarkAsUnreadClick={markAsUnread}
-            onClose={closeSidebars}
-            onSendClick={handleSendClick}
-            onContentChange={handleContentChange}
-            messageLayoutNotifications={messageLayoutNotifications}
-            removeLayoutNotification={removeLayoutNotification}
-            onMessageRead={markAsRead}
-            onMessageDelete={openDeleteMessageModal}
-            resendMessage={resendMessage}
-            onAttachTemplateClick={openAttachTemplateModal}
-          />
-        )}
-        {messagesState === MessagesState.NewMessage && (
-          <NewMessageForm
-            data-testid={MessagesTestIds.NewMessageForm}
-            content={content}
-            receivers={receivers}
-            onContentChange={handleContentChange}
-            onSendClick={handleNewMessageSendClick}
-            onPhoneNumberSelect={handlePhoneNumberSelect}
-            onReceiverSelect={handleReceiverSelect}
-            onClose={closeSidebars}
-            onAttachContactClick={openAttachContactModal}
-            onBrowseContactsClick={openBrowseContactModal}
-            onAttachTemplateClick={openAttachTemplateModal}
-          />
-        )}
-      </TableWithSidebarWrapper>
+      {messagesState === MessagesState.SearchResult ? (
+        <MessagesSearchResults
+          results={searchResult.message ? searchResult.message : []}
+          resultsState={threadsState}
+          searchValue={searchValue}
+          getContactByPhoneNumber={getContactByPhoneNumber}
+          onRowClick={handleResultClick}
+          language={language}
+          removeMessage={openDeleteMessageModal}
+          resendMessage={resendMessage}
+        />
+      ) : (
+        <TableWithSidebarWrapper>
+          {threads.length === 0 && messagesState === MessagesState.List ? (
+            <EmptyState
+              data-testid={MessagesTestIds.EmptyThreadListState}
+              title={messages.emptyListTitle}
+              description={messages.emptyListDescription}
+            />
+          ) : (
+            <ThreadList
+              selectedItems={selectedItems}
+              toggleItem={toggleItem}
+              data-testid={MessagesTestIds.ThreadList}
+              language={language}
+              activeThread={activeThread}
+              threads={getThreads()}
+              onThreadClick={handleThreadClick}
+              getContactByPhoneNumber={getContactByPhoneNumber}
+              onDeleteClick={handleDeleteThread}
+              onToggleReadStatus={handleToggleReadStatus}
+              onContactClick={contactClick}
+              loadMoreRows={loadMoreRows}
+              newConversation={mockThread.phoneNumber}
+            />
+          )}
+          {messagesState === MessagesState.ThreadDetails && activeThread && (
+            <ThreadDetails
+              data-testid={MessagesTestIds.ThreadDetails}
+              content={content}
+              receiver={getViewReceiver(activeThread)}
+              messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
+              currentlyDeletingMessageId={currentlyDeletingMessageId}
+              contactCreated={isContactCreatedByPhoneNumber(
+                activeThread.phoneNumber
+              )}
+              onAttachContactClick={openAttachContactModal}
+              onContactClick={handleContactClick}
+              onDeleteClick={handleDeleteTmpThreadClick}
+              onMarkAsUnreadClick={markAsUnread}
+              onClose={closeSidebars}
+              onSendClick={handleSendClick}
+              onContentChange={handleContentChange}
+              messageLayoutNotifications={messageLayoutNotifications}
+              removeLayoutNotification={removeLayoutNotification}
+              onMessageRead={markAsRead}
+              onMessageDelete={openDeleteMessageModal}
+              resendMessage={resendMessage}
+              onAttachTemplateClick={openAttachTemplateModal}
+              selectedMessage={searchedMessage}
+              searchQuery={lastSearchQuery}
+            />
+          )}
+          {messagesState === MessagesState.NewMessage && (
+            <NewMessageForm
+              data-testid={MessagesTestIds.NewMessageForm}
+              content={content}
+              receivers={receivers}
+              onContentChange={handleContentChange}
+              onSendClick={handleNewMessageSendClick}
+              onPhoneNumberSelect={handlePhoneNumberSelect}
+              onReceiverSelect={handleReceiverSelect}
+              onClose={closeSidebars}
+              onAttachContactClick={openAttachContactModal}
+              onBrowseContactsClick={openBrowseContactModal}
+              onAttachTemplateClick={openAttachTemplateModal}
+            />
+          )}
+        </TableWithSidebarWrapper>
+      )}
 
       <DeleteThreadModals
         deletedThreads={deletedThreads}

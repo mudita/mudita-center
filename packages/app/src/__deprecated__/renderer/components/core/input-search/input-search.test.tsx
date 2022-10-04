@@ -8,6 +8,7 @@ import React from "react"
 import InputSearch, {
   InputSearchProps,
   InputSearchTestIds,
+  ItemType,
 } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
@@ -19,7 +20,10 @@ const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
       searchValue={"x"}
       onSearchValueChange={jest.fn}
       onSearchEnterClick={jest.fn}
-      items={basicItems}
+      items={basicItems.map((data) => ({
+        type: ItemType.Data,
+        data,
+      }))}
       {...props}
     />
   )
@@ -32,6 +36,10 @@ const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
     label: () => outcome.container.querySelector("label"),
   }
 }
+
+beforeAll(() => {
+  Element.prototype.scrollIntoView = jest.fn()
+})
 
 describe("Search input focus/blur", () => {
   test("should toggle the list", () => {
@@ -87,17 +95,6 @@ test("select input returns selected list item", () => {
   const { listItems } = renderInputSearch({ onSelect })
   fireEvent.click(listItems()[2])
   expect(onSelect).toBeCalledWith(basicItems[2])
-})
-
-test("select input resets after selecting empty option", () => {
-  const onSelect = jest.fn()
-  const { listItems } = renderInputSearch({
-    onSelect,
-    emptyItemValue: "empty",
-  })
-  expect(listItems()[0]).toHaveTextContent("empty")
-  fireEvent.click(listItems()[0])
-  expect(onSelect).toBeCalledWith(null)
 })
 
 test("Item marked as disabled in `disabledOptions` list should have a `disabled` attribute", () => {
@@ -162,7 +159,10 @@ test("Open search results should close search dropdown list", () => {
 
 test("select last list item by enter returns last selected list item", () => {
   const onSelect = jest.fn()
-  const mockItems = ["1", "2"]
+  const mockItems = [
+    { type: ItemType.Data, data: "1" },
+    { type: ItemType.Data, data: "2" },
+  ]
   const { input } = renderInputSearch({ onSelect, items: mockItems })
 
   fireEvent.keyDown(input(), {
@@ -184,7 +184,7 @@ test("select last list item by enter returns last selected list item", () => {
     keyCode: 13,
     charCode: 13,
   })
-  expect(onSelect).toBeCalledWith(mockItems[1])
+  expect(onSelect).toBeCalledWith(mockItems[1].data)
 })
 
 test("select list item by enter when hovering on the list", () => {

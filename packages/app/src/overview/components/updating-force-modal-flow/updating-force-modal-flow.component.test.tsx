@@ -4,6 +4,8 @@
  */
 
 import { DeviceType } from "@mudita/pure"
+import { Result } from "App/core/builder"
+import { AppError } from "App/core/errors"
 import { Product } from "App/__deprecated__/main/constants"
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
@@ -12,7 +14,12 @@ import UpdatingForceModalFlow from "App/overview/components/updating-force-modal
 import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import { Release, IpcUpdate } from "App/__deprecated__/update"
+import {
+  IpcReleaseRequest,
+  ReleaseType,
+  ReleaseError,
+} from "App/update/constants"
+import { Release } from "App/update/dto"
 import { waitFor } from "@testing-library/dom"
 import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
@@ -34,7 +41,7 @@ const release: Release = {
   version: "0.73.1",
   date: "2021-07-09T13:57:39Z",
   product: Product.PurePhone,
-  prerelease: false,
+  type: ReleaseType.Production,
   file: {
     url: "www.mudita.com/assets/39998772",
     name: "release-0.73.1",
@@ -134,7 +141,12 @@ test("failure modal is display if no is latestRelease", async () => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetLatestRelease]: undefined,
+    [IpcReleaseRequest.GetLatestRelease]: Result.failed(
+      new AppError(
+        ReleaseError.GetAllRelease,
+        "Fail during retrieving of the release"
+      )
+    ),
   }
   const { getByTestId, queryByTestId } = render()
 
@@ -165,7 +177,7 @@ test("failure modal is display if latestRelease isn't higher than os", async () 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetLatestRelease]: release,
+    [IpcReleaseRequest.GetLatestRelease]: Result.success(release),
   }
   const { getByTestId, queryByTestId } = render({
     osVersion: release.version,
@@ -198,7 +210,12 @@ test("failure modal is display if failure download os", async () => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetLatestRelease]: undefined,
+    [IpcReleaseRequest.GetLatestRelease]: Result.failed(
+      new AppError(
+        ReleaseError.GetAllRelease,
+        "Fail during retrieving of the release"
+      )
+    ),
     [PureOsDownloadChannels.start]: {
       status: DownloadStatus.Cancelled,
     },

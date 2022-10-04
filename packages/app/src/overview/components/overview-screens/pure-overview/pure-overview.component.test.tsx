@@ -15,13 +15,15 @@ import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/bas
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import { BackupDeviceDataState } from "App/backup-device/reducers"
-import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { State } from "App/core/constants"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import * as UpdatingForceModalFlowModule from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 jest.mock("electron", () => ({
   remote: {
@@ -37,13 +39,13 @@ type Props = ComponentProps<typeof PureOverview>
 
 const defaultProps: Props = {
   openContactSupportFlow: jest.fn(),
-  backupDeviceState: BackupDeviceDataState.Empty,
+  backupDeviceState: State.Initial,
   backups: [],
   caseColour: CaseColour.Black,
   networkLevel: 0,
   readBackupDeviceDataState: jest.fn(),
   readRestoreDeviceDataState: jest.fn(),
-  restoreDeviceState: RestoreDeviceDataState.Empty,
+  restoreDeviceState: State.Initial,
   startBackupDevice: jest.fn(),
   startRestoreDevice: jest.fn(),
   setUpdateState: jest.fn(),
@@ -61,8 +63,8 @@ const defaultProps: Props = {
   updatePhoneOsInfo: jest.fn(),
   updatingState: UpdatingState.Standby,
   memorySpace: {
-    free: 100,
-    full: 200,
+    reservedSpace: 100,
+    usedUserSpace: 200,
     total: 200,
   },
   syncState: SynchronizationState.Loaded,
@@ -107,32 +109,32 @@ describe("`ErrorSyncModal` logic", () => {
   })
   test("when sync error occurred and `restoreDeviceState` has empty state modal is visible", () => {
     const { queryByTestId } = render({
-      restoreDeviceState: RestoreDeviceDataState.Empty,
+      restoreDeviceState: State.Initial,
       syncState: SynchronizationState.Error,
     })
     expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
   })
-  test("when sync error occurred and `restoreDeviceState` has error state modal isn't visible", () => {
+  test("when sync error occurred and `restoreDeviceState` has failed state modal isn't visible", () => {
     const { queryByTestId } = render({
-      restoreDeviceState: RestoreDeviceDataState.Error,
+      restoreDeviceState: State.Failed,
       syncState: SynchronizationState.Error,
     })
     expect(
       queryByTestId(ErrorSyncModalTestIds.Container)
     ).not.toBeInTheDocument()
   })
-  test("when sync error occurred and `restoreDeviceState` has running state modal isn't visible", () => {
+  test("when sync error occurred and `restoreDeviceState` has loading state modal isn't visible", () => {
     const { queryByTestId } = render({
-      restoreDeviceState: RestoreDeviceDataState.Running,
+      restoreDeviceState: State.Loading,
       syncState: SynchronizationState.Error,
     })
     expect(
       queryByTestId(ErrorSyncModalTestIds.Container)
     ).not.toBeInTheDocument()
   })
-  test("when sync error occurred and `restoreDeviceState` has finished state modal isn't visible", () => {
+  test("when sync error occurred and `restoreDeviceState` has loaded state modal isn't visible", () => {
     const { queryByTestId } = render({
-      restoreDeviceState: RestoreDeviceDataState.Finished,
+      restoreDeviceState: State.Loaded,
       syncState: SynchronizationState.Error,
     })
     expect(
@@ -142,6 +144,8 @@ describe("`ErrorSyncModal` logic", () => {
 })
 
 describe("update state", () => {
+  jest.spyOn(flags, "get").mockReturnValue(true)
+
   type TestCase = [
     updatingStateKeyValue: keyof typeof UpdatingState | undefined, // passing as key to improve test title readability
     isOsSupported: boolean,

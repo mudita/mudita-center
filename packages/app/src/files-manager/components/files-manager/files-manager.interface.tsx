@@ -4,18 +4,33 @@
  */
 
 import { DeviceType } from "@mudita/pure"
+import { State } from "App/core/constants"
+import { AppError } from "App/core/errors"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { File } from "App/files-manager/dto"
-import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { DeviceDirectory } from "App/files-manager/constants"
 
 export interface FilesManagerProps {
   deviceType: DeviceType | null
   memorySpace?: MemorySpace
-  resultState: ResultState
+  loading: State
+  uploading: State
+  uploadingFileLength: number
+  deleting: State
   files: File[]
   getFiles: (directory: DeviceDirectory) => void
+  resetAllItems: () => void
+  selectAllItems: () => void
+  toggleItem: (id: string) => void
+  selectedItems: string[]
+  allItemsSelected: boolean
+  deleteFiles: (ids: string[]) => void
+  resetDeletingState: () => void
+  resetUploadingState: () => void
+  uploadFile: () => void
+  uploadBlocked: boolean
+  error: AppError | null
 }
 
 export interface DiskSpaceCategory {
@@ -28,7 +43,17 @@ export interface DiskSpaceCategory {
 }
 
 export interface MemorySpace {
-  free: number
-  full: number
+  reservedSpace: number
+  usedUserSpace: number
   total: number
+}
+
+export interface FileServiceState {
+  deleting: boolean
+  deletingConfirmation: boolean
+  deletingInfo: boolean
+  deletingFailed: boolean
+  uploading: boolean
+  uploadingInfo: boolean
+  uploadingFailed: boolean
 }

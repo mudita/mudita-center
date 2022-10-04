@@ -26,36 +26,27 @@ beforeEach(() => {
 
 describe("Component: `TemplateOptions`", () => {
   test("opens dropdown on click", () => {
-    const { getByTestId } = render(propsMock)
-    const dropdownButton = getByTestId(
-      TemplateOptionsTestIds.OptionsDropDown
-    ).querySelector("button")
+    const { getByTestId, queryByTestId } = render(propsMock)
 
     expect(
-      getByTestId(TemplateOptionsTestIds.DeleteButton).parentNode
-    ).not.toBeVisible()
+      queryByTestId(TemplateOptionsTestIds.DeleteButton)
+    ).not.toBeInTheDocument()
     expect(
-      getByTestId(TemplateOptionsTestIds.EditButton).parentNode
-    ).not.toBeVisible()
+      queryByTestId(TemplateOptionsTestIds.EditButton)
+    ).not.toBeInTheDocument()
 
-    dropdownButton?.click()
+    fireEvent.click(getByTestId(TemplateOptionsTestIds.DropdownToggler))
 
-    expect(
-      getByTestId(TemplateOptionsTestIds.DeleteButton).parentNode
-    ).toBeVisible()
-    expect(
-      getByTestId(TemplateOptionsTestIds.EditButton).parentNode
-    ).toBeVisible()
+    expect(getByTestId(TemplateOptionsTestIds.DeleteButton)).toBeInTheDocument()
+    expect(getByTestId(TemplateOptionsTestIds.EditButton)).toBeInTheDocument()
   })
 
   test("triggered `onDelete` action when clicks on delete button", () => {
     const { getByTestId } = render(propsMock)
-    const dropdownButton = getByTestId(
-      TemplateOptionsTestIds.OptionsDropDown
-    ).querySelector("button")
-    const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
 
-    dropdownButton?.click()
+    fireEvent.click(getByTestId(TemplateOptionsTestIds.DropdownToggler))
+
+    const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
 
     expect(propsMock.onDelete).not.toBeCalled()
 
@@ -66,12 +57,10 @@ describe("Component: `TemplateOptions`", () => {
 
   test("triggered `onUpdate` action when clicks on edit button", () => {
     const { getByTestId } = render(propsMock)
-    const dropdownButton = getByTestId(
-      TemplateOptionsTestIds.OptionsDropDown
-    ).querySelector("button")
-    const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
 
-    dropdownButton?.click()
+    fireEvent.click(getByTestId(TemplateOptionsTestIds.DropdownToggler))
+
+    const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
 
     expect(propsMock.onUpdate).not.toBeCalled()
 

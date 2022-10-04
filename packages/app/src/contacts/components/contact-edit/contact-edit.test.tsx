@@ -174,3 +174,59 @@ describe("Not display error for phone number regexp match", () => {
     }
   )
 })
+
+describe("Too long text validation", () => {
+  const longNameText = new Array(33).fill("1").join("")
+  const longAddressText = new Array(31).fill("1").join("")
+  const invalidFormatMessageError = "[value] component.formErrorTooLong"
+
+  test("by default displays no errors", () => {
+    const { queryByText } = renderer()
+
+    expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
+  })
+
+  test("displays error when firstName is longer than 32 characters", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const primaryNumber = getByTestId(ContactEditTestIdsEnum.FirstName)
+
+    fireEvent.input(primaryNumber, { target: { value: longNameText } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("displays error when secondName is longer than 32 characters", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const primaryNumber = getByTestId(ContactEditTestIdsEnum.SecondName)
+
+    fireEvent.input(primaryNumber, { target: { value: longNameText } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("displays error when first address line is longer than 30 characters", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const firstAddressLine = getByTestId(
+      ContactEditTestIdsEnum.FirstAddressLine
+    )
+
+    fireEvent.input(firstAddressLine, { target: { value: longAddressText } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("displays error when second address line is longer than 30 characters", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const secondAddressLine = getByTestId(
+      ContactEditTestIdsEnum.SecondAddressLine
+    )
+
+    fireEvent.input(secondAddressLine, { target: { value: longAddressText } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+})

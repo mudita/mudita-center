@@ -117,8 +117,20 @@ export const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
 
 export const MessageBubbleText = styled(Text)`
   white-space: pre-line;
+
+  strong {
+    background-color: ${backgroundColor("primaryHover")};
+    color: ${textColor("iconBody")};
+    padding: 0.1rem 0.2rem;
+    margin: 0 0.2rem;
+    border-radius: ${borderRadius("small")};
+  }
 `
 
 export const WarningIconWrapper = styled.div`
+  margin-right: 1rem;
+`
+
+export const LoaderWrapper = styled.div`
   margin-right: 1rem;
 `

@@ -41,11 +41,52 @@ const state: Partial<RootState & ReduxRootState> = {
   } as unknown as DeviceState,
 }
 
+const formattedDescription = `Hello
+
+World
+...
+Bye`
+
 afterEach(() => {
   jest.resetAllMocks()
 })
 
 describe("async `sendTicket` ", () => {
+  describe("description formatting", () => {
+    test("description properly formatted with `<br/>` tag", async () => {
+      ;(sendTicketRequest as jest.Mock).mockReturnValue(successResponse)
+      const store = createMockStore([thunk])(state)
+      const {
+        meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
+      } = await store.dispatch(
+        sendTicket({
+          ...payload,
+          description: "Hello\n\nWorld\n...\nBye",
+        }) as unknown as AnyAction
+      )
+
+      expect(store.getActions()).toEqual([
+        sendTicket.pending(requestId, {
+          ...payload,
+          description: formattedDescription,
+        }),
+        sendTicket.fulfilled(undefined, requestId, {
+          ...payload,
+          description: formattedDescription,
+        }),
+      ])
+
+      expect(sendTicketRequest).toHaveBeenCalledWith({
+        email: "",
+        subject: "Error",
+        serialNumber: undefined,
+        description: "Hello<br/><br/>World<br/>...<br/>Bye",
+      })
+    })
+  })
+
   describe("when request return success", () => {
     test("fire async `sendTicket`", async () => {
       ;(sendTicketRequest as jest.Mock).mockReturnValue(successResponse)

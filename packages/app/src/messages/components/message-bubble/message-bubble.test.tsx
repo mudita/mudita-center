@@ -24,6 +24,8 @@ const defaultProps: Props = {
   isMessageBeingDeleted: false,
   removeMessage: noop,
   messageType: MessageType.INBOX,
+  selected: false,
+  searchQuery: "",
 }
 
 // AUTO DISABLED - fix me if you like :)
@@ -55,6 +57,8 @@ test("after clicking button, dropdown is displayed", () => {
 test("forwards message", () => {
   const forwardMessage = jest.fn()
   const { getByTestId } = renderer({ forwardMessage })
+
+  fireEvent.click(getByTestId(MessageBubbleTestIds.DropdownActionButton))
   fireEvent.click(getByTestId(MessageBubbleTestIds.ForwardMessageButton))
   expect(forwardMessage).toHaveBeenCalled()
   expect(forwardMessage).toHaveBeenCalledWith(defaultProps.id)
@@ -63,6 +67,7 @@ test("forwards message", () => {
 test("removes message", () => {
   const removeMessage = jest.fn()
   const { getByTestId } = renderer({ removeMessage })
+  fireEvent.click(getByTestId(MessageBubbleTestIds.DropdownActionButton))
   fireEvent.click(getByTestId(MessageBubbleTestIds.DeleteMessageButton))
   expect(removeMessage).toHaveBeenCalledWith(defaultProps.id)
 })
@@ -105,10 +110,20 @@ test("should show not send status if sending message failed", () => {
   expect(getByTestId(MessageBubbleTestIds.NotSendIcon)).toBeInTheDocument()
 })
 
+test("should mark text if message is `selected` and `searchQuery` provided", () => {
+  const { container } = renderer({
+    selected: true,
+    searchQuery: "ipsum",
+  })
+  expect(container.querySelector("strong")).toHaveTextContent("ipsum")
+})
+
 describe("dropdown", () => {
   describe("Failed message", () => {
     test("renders resend button", () => {
       const { getByTestId } = renderer({ messageType: MessageType.FAILED })
+
+      fireEvent.click(getByTestId(MessageBubbleTestIds.DropdownActionButton))
       expect(
         getByTestId(MessageBubbleTestIds.ResendMessageButton)
       ).toBeInTheDocument()
@@ -142,5 +157,9 @@ describe("dropdown", () => {
     expect(
       queryByTestId(MessageBubbleTestIds.DropdownActionButton)
     ).toBeInTheDocument()
+  })
+  test("should show sending status if message is still sending", () => {
+    const { getByTestId } = renderer({ messageType: MessageType.QUEUED })
+    expect(getByTestId(MessageBubbleTestIds.Loader)).toBeInTheDocument()
   })
 })

@@ -21,7 +21,7 @@ import ModalsManager from "App/modals-manager/containers/modals-manager.containe
 import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device/actions"
 import { sendDiagnosticData } from "App/settings/actions"
-import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { State } from "App/core/constants"
 import { CrashDump } from "App/crash-dump"
 
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
@@ -76,9 +76,7 @@ const BaseApp: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!deviceConnected && !deviceUpdating) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      modalService.closeModal(true)
+      void modalService.closeModal(true)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,8 +100,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||
       state.device.updatingState === UpdatingState.Updating ||
-      state.restoreDevice.state === RestoreDeviceDataState.Running ||
-      state.restoreDevice.state === RestoreDeviceDataState.Error,
+      state.backup.restoringState === State.Loading ||
+      state.backup.restoringState === State.Failed,
     deviceConnecting:
       state.device.status.connected && !state.device.status.unlocked,
     deviceParred:

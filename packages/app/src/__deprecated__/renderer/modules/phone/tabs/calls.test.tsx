@@ -14,6 +14,7 @@ import Calls, {
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 import { mapToRawNumber } from "App/messages/helpers"
+import { fireEvent } from "@testing-library/react"
 
 const defaultProps: CallsProps = {
   calls: mockData,
@@ -87,6 +88,8 @@ test("past date is displayed correctly", () => {
 
 test("dropdown call button has correct content", () => {
   const { getAllByTestId } = renderer()
+
+  fireEvent.click(getAllByTestId("call-row-toggler")[0])
   expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
     intl.formatMessage(
       {
@@ -99,6 +102,8 @@ test("dropdown call button has correct content", () => {
 
 test("send message button has correct content", () => {
   const { getAllByTestId } = renderer()
+
+  fireEvent.click(getAllByTestId("call-row-toggler")[0])
   expect(getAllByTestId("send-message")[0]).toHaveTextContent(
     intl.formatMessage({
       id: "module.phone.callsSendMessage",
@@ -108,6 +113,8 @@ test("send message button has correct content", () => {
 
 test("call details button has correct content", () => {
   const { getAllByTestId } = renderer()
+
+  fireEvent.click(getAllByTestId("call-row-toggler")[0])
   expect(getAllByTestId("call-details")[0]).toHaveTextContent(
     intl.formatMessage({
       id: "module.phone.callsDetails",
@@ -117,6 +124,9 @@ test("call details button has correct content", () => {
 
 test("delete call button has correct content", () => {
   const { getAllByTestId } = renderer()
+
+  fireEvent.click(getAllByTestId("call-row-toggler")[0])
+
   expect(getAllByTestId("delete-call")[0]).toHaveTextContent(
     intl.formatMessage({
       id: "module.phone.callsDeleteCall",

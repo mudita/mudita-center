@@ -19,8 +19,8 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesSearchEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.Production]: true,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesDeleteEnabled]: {
     [Environment.Development]: true,
@@ -58,6 +58,11 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: true,
   },
   [Feature.FilesManagerEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: true,
+  },
+  [Feature.FilesManagerActionsEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
@@ -196,5 +201,15 @@ export const features: EnvironmentConfig = {
     [Environment.Development]: false,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
+  },
+  [Feature.ForceUpdate]: {
+    [Environment.Development]: false,
+    [Environment.Production]: true,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.BackupCategoriesEnabled]: {
+    [Environment.Development]: false,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
   },
 }

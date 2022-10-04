@@ -27,9 +27,7 @@ export const disconnectDevice = createAsyncThunk(
       )
     }
 
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(setConnectionStatus(false))
+    void dispatch(setConnectionStatus(false))
 
     return
   }

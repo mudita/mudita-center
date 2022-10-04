@@ -25,7 +25,6 @@ import registerWriteGzipListener from "App/__deprecated__/main/functions/registe
 import registerRmdirListener from "App/__deprecated__/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/__deprecated__/main/functions/register-archive-files-listener"
 import registerReadFileListener from "App/file-system/listeners/read-file.listener"
-import registerGetFileDataListener from "App/__deprecated__/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/__deprecated__/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/__deprecated__/main/functions/create-download-listener-registrar"
 import registerEncryptFileListener from "App/file-system/listeners/encrypt-file.listener"
@@ -82,9 +81,7 @@ import {
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
 } from "App/metadata"
-import { registerGetAllReleasesListener } from "App/__deprecated__/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
-import { registerGetLatestReleaseListener } from "App/__deprecated__/update/listeners/get-latest-release.listener"
 import { createSettingsService } from "App/settings/containers/settings.container"
 
 // AUTO DISABLED - fix me if you like :)
@@ -174,7 +171,11 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  const enabled = flags.get(Feature.LoggerEnabled)
+  const enabled =
+    process.env.NODE_ENV === "development" &&
+    process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
+      ? false
+      : flags.get(Feature.LoggerEnabled)
 
   MuditaDeviceManager.registerLogger(new PureLogger())
   MuditaDeviceManager.toggleLogs(enabled)
@@ -183,8 +184,6 @@ const createWindow = async () => {
   settingsService.init()
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
-  registerGetAllReleasesListener()
-  registerGetLatestReleaseListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
@@ -195,7 +194,6 @@ const createWindow = async () => {
   registerRmdirListener()
   registerWriteGzipListener()
   registerArchiveFilesListener()
-  registerGetFileDataListener()
   registerEncryptFileListener()
   registerReadFileListener()
   registerUnlinkFileListener()

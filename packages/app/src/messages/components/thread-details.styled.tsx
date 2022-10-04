@@ -27,7 +27,18 @@ export const MessagesWrapper = styled.div`
   overflow-x: hidden;
 `
 
-export const MessageBubblesWrapper = styled.div``
+/**
+ * Having equal and divided padding for MessageBubblesWrapper and BottomWrapper
+ * works fine for scrolling experience and detecting when new message notification
+ * should be shown
+ */
+export const MessageBubblesWrapper = styled.div`
+  padding-bottom: 3rem;
+`
+
+export const BottomWrapper = styled.div`
+  padding-top: 3rem;
+`
 
 export const TextareaWrapper = styled.div`
   position: sticky;
@@ -46,6 +57,7 @@ export const MessagesSidebar = styled(Sidebar)`
 
 export const NameWrapper = styled.div`
   display: flex;
+  align-items: center;
 `
 
 export const IconButton = styled(ButtonComponent).attrs(() => ({

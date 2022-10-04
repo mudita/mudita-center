@@ -38,9 +38,7 @@ jest.mock(
       ) => {
         switch (channel) {
           case AppUpdateEvent.Downloaded:
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            callback(jest.fn)
+            void callback(jest.fn)
             return () => jest.fn()
           default:
             return () => jest.fn()

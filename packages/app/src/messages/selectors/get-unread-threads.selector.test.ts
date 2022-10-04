@@ -30,6 +30,8 @@ describe("`getUnreadThreads` selector", () => {
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
       messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const threadTwo: Thread = {
@@ -40,15 +42,20 @@ describe("`getUnreadThreads` selector", () => {
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
       messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const state = {
       messages: messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [threadOne.id]: threadOne,
-            [threadTwo.id]: threadTwo,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [threadOne.id]: threadOne,
+              [threadTwo.id]: threadTwo,
+            },
           },
         },
         // AUTO DISABLED - fix me if you like :)
@@ -70,6 +77,8 @@ describe("`getUnreadThreads` selector", () => {
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
       messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const threadTwo: Thread = {
@@ -80,15 +89,20 @@ describe("`getUnreadThreads` selector", () => {
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
       messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const state = {
       messages: messagesReducer(
         {
           ...initialState,
-          threadMap: {
-            [threadOne.id]: threadOne,
-            [threadTwo.id]: threadTwo,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [threadOne.id]: threadOne,
+              [threadTwo.id]: threadTwo,
+            },
           },
         },
         // AUTO DISABLED - fix me if you like :)

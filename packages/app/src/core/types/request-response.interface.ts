@@ -10,6 +10,8 @@ export enum RequestResponseStatus {
   Error = "error",
   Duplicated = "phone-number-duplicated",
   UnprocessableEntity = "unprocessable-entity",
+  NotAcceptable = "agreement-is-not-accepted",
+  InsufficientStorage = "not-enough-space-on-device",
 }
 
 // AUTO DISABLED - fix me if you like :)

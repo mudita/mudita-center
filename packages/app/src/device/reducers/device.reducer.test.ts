@@ -21,6 +21,7 @@ import {
   pendingAction,
 } from "App/__deprecated__/renderer/store/helpers"
 import { AppError } from "App/core/errors"
+import StorageInfo from "App/__deprecated__/common/interfaces/storage-info.interface"
 
 const pureDeviceMock: PureDeviceData = {
   networkName: "Network",
@@ -39,8 +40,8 @@ const pureDeviceMock: PureDeviceData = {
   serialNumber: "303",
   phoneLockTime: 1630703219,
   memorySpace: {
-    free: 124,
-    full: 1021,
+    reservedSpace: 124,
+    usedUserSpace: 1021,
     total: 16000000000,
   },
   caseColour: CaseColour.Gray,
@@ -52,10 +53,17 @@ const harmonyDeviceMock: HarmonyDeviceData = {
   batteryLevel: 0.99,
   serialNumber: "303",
   memorySpace: {
-    free: 124,
-    full: 1021,
+    reservedSpace: 124,
+    usedUserSpace: 1021,
     total: 1021,
   },
+}
+
+const storageInfo: StorageInfo = {
+  categories: [],
+  reservedSpace: 0,
+  totalSpace: 0,
+  usedUserSpace: 0,
 }
 
 test("empty event returns initial state", () => {
@@ -332,8 +340,8 @@ describe("Set device data functionality", () => {
         serialNumber: "303",
         phoneLockTime: 1630703219,
         memorySpace: {
-          free: 124,
-          full: 1021,
+          reservedSpace: 124,
+          usedUserSpace: 1021,
           total: 16000000000,
         },
         caseColour: CaseColour.Gray,
@@ -355,8 +363,8 @@ describe("Set device data functionality", () => {
         batteryLevel: 0.99,
         serialNumber: "303",
         memorySpace: {
-          free: 124,
-          full: 1021,
+          reservedSpace: 124,
+          usedUserSpace: 1021,
           total: 1021,
         },
       },
@@ -505,6 +513,78 @@ describe("Update functionality", () => {
       data: {
         ...initialState.data,
         osVersion: "7.7.7",
+      },
+    })
+  })
+})
+
+describe("`LoadStorageInfo` functionality", () => {
+  test("Event: LoadStorageInfo/fulfilled change `state` to Loaded", () => {
+    expect(
+      deviceReducer(initialState, {
+        type: fulfilledAction(DeviceEvent.LoadStorageInfo),
+        payload: storageInfo,
+      })
+    ).toMatchInlineSnapshot(`
+      Object {
+        "data": Object {
+          "memorySpace": Object {
+            "reservedSpace": 0,
+            "total": 0,
+            "usedUserSpace": 0,
+          },
+        },
+        "deviceType": null,
+        "error": null,
+        "state": 2,
+        "status": Object {
+          "agreementAccepted": true,
+          "connected": false,
+          "loaded": false,
+          "unlocked": null,
+        },
+        "updatingState": null,
+      }
+    `)
+  })
+
+  test("Event: LoadStorageInfo/rejected change `state` to Loaded", () => {
+    const errorMock = new AppError(DeviceError.LoadStorageInfo, "I'm error")
+
+    expect(
+      deviceReducer(initialState, {
+        type: rejectedAction(DeviceEvent.LoadStorageInfo),
+        payload: errorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      state: ConnectionState.Error,
+      error: errorMock,
+    })
+  })
+})
+
+describe("Agreement status functionality", () => {
+  test("Event: AgreementStatus changing `statue.agreementAccepted` state with provided payload", () => {
+    expect(
+      deviceReducer(
+        {
+          ...initialState,
+          status: {
+            ...initialState.status,
+            agreementAccepted: true,
+          },
+        },
+        {
+          type: DeviceEvent.AgreementStatus,
+          payload: false,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      status: {
+        ...initialState.status,
+        agreementAccepted: false,
       },
     })
   })

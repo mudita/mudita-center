@@ -4,6 +4,7 @@
  */
 
 import { DeviceType } from "./constants"
+import { SerialPortParser } from "./serial-port-parser/serial-port-parser"
 
 export interface MuditaDevice {
   path: string
@@ -19,7 +20,8 @@ export interface MuditaDevice {
 
 export type CreateDeviceStrategy = (
   path: string,
-  deviceType: DeviceType
+  deviceType: DeviceType,
+  parser: SerialPortParser
 ) => MuditaDevice
 
 export enum ResponseStatus {
@@ -34,6 +36,8 @@ export enum ResponseStatus {
   Conflict = 409,
   InternalServerError = 500,
   UnprocessableEntity = 422,
+  NotAccepted = 423,
+  InsufficientStorage = 507,
 
   // lib status
   ConnectionError = 503,

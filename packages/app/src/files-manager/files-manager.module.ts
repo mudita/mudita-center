@@ -13,6 +13,11 @@ import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { FilesManagerController } from "App/files-manager/controllers"
 import { FileManagerService } from "App/files-manager/services"
+import {
+  RetrieveFilesCommand,
+  FileUploadCommand,
+} from "App/device-file-system/commands"
+import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
 
 export class FilesManagerModule extends BaseModule {
   private readonly filesManagerController: FilesManagerController
@@ -36,7 +41,17 @@ export class FilesManagerModule extends BaseModule {
       fileSystem
     )
 
-    const fileManagerService = new FileManagerService(this.deviceService)
+    const fileManagerService = new FileManagerService(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new FileDeleteCommand(this.deviceService),
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new RetrieveFilesCommand(this.deviceService),
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new FileUploadCommand(this.deviceService, this.fileSystem)
+    )
 
     this.filesManagerController = new FilesManagerController(fileManagerService)
 

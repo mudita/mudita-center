@@ -4,7 +4,10 @@
  */
 
 import { useState } from "react"
-import { getRowChildren } from "App/__deprecated__/renderer/components/core/table/table.helpers"
+import {
+  getRowChildren,
+  Row,
+} from "App/__deprecated__/renderer/components/core/table/table.helpers"
 
 export interface RowStatus {
   selected: boolean
@@ -23,7 +26,7 @@ export interface UseTableSelect<T> {
   selectRows: (rows: T[]) => void
 }
 
-const useTableSelect = <T, K = T>(
+const useTableSelect = <T extends Row, K extends Row = T>(
   rows: K[],
   childrenKey = "_children"
 ): UseTableSelect<T> => {

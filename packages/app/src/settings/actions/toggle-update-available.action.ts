@@ -12,9 +12,7 @@ export const toggleUpdateAvailable = createAsyncThunk<boolean, boolean>(
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
   async (payload, { dispatch }) => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    dispatch(checkAppUpdateFlowToShow())
+    void dispatch(checkAppUpdateFlowToShow())
 
     return payload
   }

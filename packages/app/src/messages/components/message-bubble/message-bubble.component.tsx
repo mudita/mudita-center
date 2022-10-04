@@ -16,6 +16,7 @@ import {
   MessageBubbleText,
   MessageDate,
   InitialsAvatar,
+  LoaderWrapper,
 } from "App/messages/components/message-bubble/message-bubble.styled"
 import { MessageBubbleProps } from "App/messages/components/message-bubble/message-bubble.interface"
 import { DropdownPosition } from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
@@ -31,6 +32,9 @@ import { MessageBubbleTestIds } from "App/messages/components/message-bubble/mes
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { MessageType } from "App/messages/constants"
 import { flags, Feature } from "App/feature-flags"
+import { SearchResultAccent } from "App/search/components"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 
 const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   className,
@@ -45,8 +49,11 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   resendMessage = noop,
   messageType,
   isMessageBeingDeleted,
+  selected,
+  searchQuery,
 }) => {
   const isMessageFailed = messageType === MessageType.FAILED
+  const messageSending = messageType === MessageType.QUEUED
   const [clicked, setClicked] = useState<string>("")
   const open = () => setClicked(id)
   const close = () => setClicked("")
@@ -144,13 +151,31 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
               />
             </WarningIconWrapper>
           )}
+          {messageSending && (
+            <LoaderWrapper>
+              <Loader
+                type={LoaderType.Spinner}
+                size={1.4}
+                data-testid={MessageBubbleTestIds.Loader}
+              />
+            </LoaderWrapper>
+          )}
           <Bubble
             interlocutor={interlocutor}
             isMessageBeingDeleted={isMessageBeingDeleted}
             data-testid={MessageBubbleTestIds.MessageContent}
           >
             <MessageBubbleText displayStyle={TextDisplayStyle.Paragraph4}>
-              {message}
+              {selected ? (
+                <SearchResultAccent
+                  fullText
+                  text={message}
+                  query={searchQuery}
+                  maxSymbols={message.length}
+                />
+              ) : (
+                message
+              )}
             </MessageBubbleText>
             <MessageDate>
               <Text displayStyle={TextDisplayStyle.Label}>

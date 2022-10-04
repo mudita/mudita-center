@@ -28,7 +28,7 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
-import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
+import { MessagePanelTestIds } from "App/messages/components/messages-panel/messages-panel-test-ids.enum"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
 import { MessageType, ResultState } from "App/messages/constants"
@@ -39,6 +39,7 @@ import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/
 import * as ContactSelectModalModule from "App/contacts/components/contacts-select-modal/contacts-select-modal.component"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { State } from "App/core/constants"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {
@@ -97,6 +98,8 @@ const firstThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const secondThread: Thread = {
@@ -109,6 +112,8 @@ const secondThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const incomingThread: Thread = {
@@ -119,6 +124,8 @@ const incomingThread: Thread = {
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const receiver: Receiver = {
@@ -164,11 +171,13 @@ const defaultProps: Props = {
   getThreadDraftMessageSelector: jest.fn(),
   updateMessage: jest.fn(),
   error: null,
-  loaded: false,
   selectedItems: { rows: [] },
   toggleItem: jest.fn().mockReturnValue({ selectedItems: { rows: ["1"] } }),
   selectAllItems: jest.fn(),
   resetItems: jest.fn(),
+  searchMessages: jest.fn(),
+  searchResult: {},
+  state: State.Initial,
 }
 
 const propsWithSingleThread: Partial<Props> = {
@@ -741,6 +750,8 @@ describe("Messages component", () => {
 
   test("dropdown call button has correct content", () => {
     const { getAllByTestId } = renderer(propsWithSingleThread)
+
+    fireEvent.click(getAllByTestId("thread-row-toggler")[0])
     expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
       intl.formatMessage(
         {
@@ -753,6 +764,8 @@ describe("Messages component", () => {
 
   test("displays correct amount of dropdown call buttons", () => {
     const { getByTestId } = renderer(propsWithSingleThread)
+
+    fireEvent.click(getByTestId("thread-row-toggler"))
     expect(getByTestId("dropdown-call")).toBeInTheDocument()
   })
 
@@ -762,6 +775,8 @@ describe("Messages component", () => {
       ...propsWithSingleThread,
       getContactByPhoneNumber,
     })
+
+    fireEvent.click(getAllByTestId("thread-row-toggler")[0])
 
     expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -777,6 +792,8 @@ describe("Messages component", () => {
       getContactByPhoneNumber,
       getActiveMessagesByThreadIdSelector: jest.fn(),
     })
+
+    fireEvent.click(getByTestId("thread-row-toggler"))
     expect(getByTestId("dropdown-contact-details")).toBeInTheDocument()
   })
 
@@ -791,12 +808,17 @@ describe("Messages component", () => {
       isContactCreatedByPhoneNumber: jest.fn().mockReturnValue(false),
       ...propsWithSingleThread,
     })
+
+    fireEvent.click(queryAllByTestId("thread-row-toggler")[0])
     expect(queryAllByTestId("dropdown-add-to-contacts")[0]).toBeInTheDocument()
   })
 
   test("dropdown mark as read button has correct content ", () => {
     jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
+
+    fireEvent.click(getAllByTestId("thread-row-toggler")[0])
+
     expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
       intl.formatMessage({
         id: "module.messages.markAsRead",
@@ -807,12 +829,17 @@ describe("Messages component", () => {
   test("displays correct amount of dropdown mark as read buttons", () => {
     jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
+
+    fireEvent.click(getByTestId("thread-row-toggler"))
     expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
     jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
+
+    fireEvent.click(getAllByTestId("thread-row-toggler")[0])
+
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({
         id: "module.messages.dropdownDelete",
@@ -823,6 +850,9 @@ describe("Messages component", () => {
   test("displays correct amount of dropdown delete buttons", () => {
     jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
+
+    fireEvent.click(getByTestId("thread-row-toggler"))
+
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
   })
 

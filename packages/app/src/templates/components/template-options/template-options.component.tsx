@@ -35,7 +35,6 @@ export const TemplateOptions: FunctionComponent<TemplateOptionsProps> =
     return (
       <Actions>
         <Dropdown
-          data-testid={TemplateOptionsTestIds.OptionsDropDown}
           toggler={
             <IconButtonWithSecondaryTooltip
               iconType={IconType.More}
@@ -44,6 +43,7 @@ export const TemplateOptions: FunctionComponent<TemplateOptionsProps> =
               //  for buggy overridePosition lib feature
               place={ElementWithTooltipPlace.Bottom}
               offset={{ left: 15, bottom: 5 }}
+              testId={TemplateOptionsTestIds.DropdownToggler}
             />
           }
         >

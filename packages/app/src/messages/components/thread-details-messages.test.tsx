@@ -98,6 +98,8 @@ const defaultProps: Props = {
   messageLayoutNotifications: [],
   currentlyDeletingMessageId: null,
   onMessageRemove: noop,
+  selectedMessage: null,
+  searchQuery: "",
 }
 
 // AUTO DISABLED - fix me if you like :)

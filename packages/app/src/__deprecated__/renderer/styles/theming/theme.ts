@@ -152,6 +152,7 @@ const theme = {
     modalBackdrop: 5,
     modal: 6,
     passCodeModal: 10,
+    agreementModal: 20,
   },
 }
 

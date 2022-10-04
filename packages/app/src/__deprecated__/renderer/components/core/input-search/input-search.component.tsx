@@ -12,6 +12,8 @@ import React, {
   MouseEvent,
   useRef,
   useState,
+  useEffect,
+  RefObject,
 } from "react"
 import styled, { FlattenSimpleInterpolation } from "styled-components"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
@@ -77,6 +79,18 @@ const NoResultsItem = styled(ListItem)`
   color: ${textColor("secondary")};
 `
 
+const ActionButton = styled.button`
+  width: 100%;
+  padding: 1.2rem 0;
+  margin: 0 0 1.2rem 0;
+  border: 0;
+  cursor: pointer;
+  color: ${textColor("actionHover")};
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2;
+`
+
 export type ListItemProps = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -95,6 +109,18 @@ interface KeysType {
   [key: string]: (event: KeyboardEvent) => void
 }
 
+export enum ItemType {
+  Data,
+  Label,
+}
+
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface Item<Type = any> {
+  type: ItemType
+  data: Type
+}
+
 interface InputSearchListProps {
   expanded: boolean
   // AUTO DISABLED - fix me if you like :)
@@ -109,7 +135,7 @@ interface InputSearchListProps {
   searchString: string
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  items: any[]
+  items: Item[]
   emptyItemValue?: ItemValue
   onEmptyItemValueClick: (event: MouseEvent) => void
   // AUTO DISABLED - fix me if you like :)
@@ -120,6 +146,9 @@ interface InputSearchListProps {
   renderListItem?: RenderInputSelectListItem<any>
   activeItemIndex?: number
   handleMouseEnter?: (itemIndex: number) => void
+  actionButton?: string
+  onActionButtonClick?: () => void
+  elementRef: RefObject<HTMLUListElement>
 }
 
 const InputSearchList: FunctionComponent<InputSearchListProps> = ({
@@ -133,10 +162,13 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
   handleMouseEnter = noop,
   renderListItem = renderListItemSearchable,
   activeItemIndex,
+  actionButton,
+  onActionButtonClick = noop,
+  elementRef,
   ...props
 }) => {
   return (
-    <List {...props} data-testid={InputSearchTestIds.List}>
+    <List {...props} ref={elementRef} data-testid={InputSearchTestIds.List}>
       {emptyItemValue && (
         <ListItem
           onClick={onEmptyItemValueClick}
@@ -149,9 +181,9 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
       {items.length > 0 ? (
         items.map((item, index) => {
           const key = `search-key-${index}`
-          const onClick = () => onItemClick(item)
+          const onClick = () => onItemClick(item.data)
           const selected = item === selectedItem
-          const disabled = disabledItems.includes(item)
+          const disabled = disabledItems.includes(item.data)
           const onMouseDown = (event: MouseEvent) => {
             if (disabled) {
               event.stopPropagation()
@@ -184,6 +216,11 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
         })
       ) : (
         <NoResultsItem>{intl.formatMessage(messages.noResults)}</NoResultsItem>
+      )}
+      {items.length > 0 && actionButton && (
+        <ActionButton onClick={onActionButtonClick}>
+          {actionButton}
+        </ActionButton>
       )}
     </List>
   )
@@ -219,6 +256,8 @@ export interface InputSearchProps extends Partial<InputProps> {
   itemListDisabled?: boolean
   searchValue: string
   onSearchValueChange: (value: string) => void
+  actionButton?: string
+  onActionButtonClick?: () => void
 }
 
 const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
@@ -240,7 +279,6 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   onBlur = noop,
   onFocus = noop,
   type = "text",
-  searchResultRows = 8,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   active,
@@ -248,15 +286,14 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   itemListDisabled = false,
   searchValue,
   onSearchValueChange,
+  actionButton,
+  onActionButtonClick,
   ...rest
 }) => {
+  const listRef = useRef<HTMLUListElement>(null)
   const [focus, setFocus] = useState(false)
   const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  const resetSelection = () => onSelect(null)
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
@@ -270,7 +307,6 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
 
   const handleSelect = (item: typeof items[number]) => {
     onSelect(item)
-    resetSearchValue()
     setActiveItemIndex(-1)
   }
 
@@ -319,17 +355,31 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
     const handleArrowDown = (event: KeyboardEvent) => {
       event.preventDefault()
 
-      const maxListLength =
-        items.length <= searchResultRows ? items.length : searchResultRows
-      if (activeItemIndex + 1 < maxListLength) {
-        setActiveItemIndex((prevState) => prevState + 1)
+      if (activeItemIndex + 1 < items.length) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (items[activeItemIndex + 1].type === ItemType.Label) {
+          if (activeItemIndex + 2 < items.length) {
+            setActiveItemIndex((prevState) => prevState + 2)
+          }
+        } else {
+          setActiveItemIndex((prevState) => prevState + 1)
+        }
       }
     }
     const handleArrowUp = (event: KeyboardEvent) => {
       event.preventDefault()
 
-      if (activeItemIndex >= 0) {
-        setActiveItemIndex((prevState) => prevState - 1)
+      if (activeItemIndex > 0) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (items[activeItemIndex - 1].type === ItemType.Label) {
+          if (activeItemIndex - 1 >= 0) {
+            setActiveItemIndex((prevState) => prevState - 2)
+          }
+        } else {
+          setActiveItemIndex((prevState) => prevState - 1)
+        }
       }
     }
     const handleEnter = (event: KeyboardEvent) => {
@@ -342,7 +392,9 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
 
       searchValue !== "" &&
         (activeItemIndex >= 0
-          ? handleSelect(items[activeItemIndex])
+          ? // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            handleSelect(items[activeItemIndex].data)
           : searchResults())
     }
     const keys: KeysType = {
@@ -354,7 +406,11 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }
 
   const handleMouseEnter = (itemIndex: number) => {
-    setActiveItemIndex(itemIndex)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (items[itemIndex].type === ItemType.Data) {
+      setActiveItemIndex(itemIndex)
+    }
   }
 
   const toggleIcon = (
@@ -367,6 +423,15 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
       <Icon width={1} type={IconType.ArrowDown} />
     </ToggleIcon>
   )
+
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.children[activeItemIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      })
+    }
+  }, [activeItemIndex])
 
   return (
     <SelectInputWrapper className={className} listStyles={listStyles}>
@@ -389,6 +454,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             selectedItem={selectedItem}
+            elementRef={listRef}
             disabledItems={disabledItems}
             emptyItemValue={emptyItemValue}
             items={items}
@@ -398,8 +464,10 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
             activeItemIndex={activeItemIndex}
             handleMouseEnter={handleMouseEnter}
             onTransitionEnd={clearOnBlur ? resetSearchValue : noop}
-            onEmptyItemValueClick={resetSelection}
+            onEmptyItemValueClick={noop}
             onItemClick={handleSelect}
+            actionButton={actionButton}
+            onActionButtonClick={onActionButtonClick}
           />
         )}
     </SelectInputWrapper>

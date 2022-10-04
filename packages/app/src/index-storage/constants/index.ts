@@ -4,3 +4,4 @@
  */
 
 export * from "./data-index.constant"
+export * from "./stop-word.constant"

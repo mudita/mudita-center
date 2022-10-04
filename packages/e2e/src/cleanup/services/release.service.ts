@@ -10,7 +10,7 @@ import { DecompressTarCommandClass } from "../commands"
 import { TestConfigurationProviderClass } from "../providers"
 import { Manifest, Asset } from "../types"
 import { ReleaseServiceClass } from "./release-service.class"
-import { sleep } from "../helpers"
+import { sleep } from "../../helpers"
 
 export class ReleaseService implements ReleaseServiceClass {
   constructor(
