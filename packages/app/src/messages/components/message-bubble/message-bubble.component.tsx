@@ -70,6 +70,9 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
     if (isMessageBeingDeleted) {
       return false
     }
+    if (messageSending) {
+      return false
+    }
 
     return (
       flags.get(Feature.MessagesDeleteEnabled) ||
@@ -89,7 +92,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
           data-testid={MessageBubbleTestIds.Container}
           interlocutor={interlocutor}
         >
-          {isDropdownVisible() && !messageSending && (
+          {isDropdownVisible() && (
             <MessageBubbleDropdown
               toggler={
                 <ActionsButton
