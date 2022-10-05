@@ -16,6 +16,7 @@ import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
 import { Message } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
+import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
@@ -145,4 +146,12 @@ test("Show info about contact with multiple numbers", () => {
   })
   expect(getByTestId("multiple-number")).toBeInTheDocument()
   expect(getByText("#2")).toBeInTheDocument()
+})
+
+test("If thread is empty, all buttons on the right side should be disabled", () => {
+  const { getByTestId } = renderer({ messages: [] })
+  expect(getByTestId(ThreadDetailsTestIds.CallButton)).toBeDisabled()
+  expect(getByTestId(ThreadDetailsTestIds.ContactButton)).toBeDisabled()
+  expect(getByTestId(ThreadDetailsTestIds.MarkAsUnreadButton)).toBeDisabled()
+  expect(getByTestId(ThreadDetailsTestIds.DeleteButton)).toBeDisabled()
 })
