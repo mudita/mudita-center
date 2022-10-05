@@ -22,7 +22,10 @@ export interface StartBackupResponseBody {
   id: string
 }
 
-export type GetBackupDeviceStatusRequestConfigBody = StartBackupResponseBody
+export interface GetBackupDeviceStatusRequestConfigBody {
+  id: string
+  category?: BackupCategory
+}
 
 export interface GetBackupDeviceStatusRequestConfig
   extends RequestConfig<GetBackupDeviceStatusRequestConfigBody> {
