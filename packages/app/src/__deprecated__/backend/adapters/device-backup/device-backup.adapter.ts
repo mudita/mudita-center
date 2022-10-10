@@ -119,7 +119,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
     const backupId = startBackupDeviceResponse.data!.id
 
     const getBackupDeviceStatusResponse =
-      await this.waitUntilBackupDeviceFinished(backupId)
+      await this.waitUntilBackupDeviceFinished(backupId, category)
 
     if (!isResponsesSuccessWithData([getBackupDeviceStatusResponse])) {
       return {
@@ -155,11 +155,15 @@ export class DeviceBackup implements DeviceBackupAdapter {
   }
 
   private async waitUntilBackupDeviceFinished(
-    id: string
+    id: string,
+    category: BackupCategory
   ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>> {
-    const response = await this.deviceBackupService.getBackupDeviceStatus({
-      id,
-    })
+    const response = await this.deviceBackupService.getBackupDeviceStatus(
+      {
+        id,
+      },
+      category
+    )
 
     if (
       !isResponsesSuccessWithData([response]) ||
@@ -173,7 +177,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
     } else {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(this.waitUntilBackupDeviceFinished(id))
+          resolve(this.waitUntilBackupDeviceFinished(id, category))
         }, 1000)
       })
     }
