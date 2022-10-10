@@ -47,7 +47,8 @@ export class BackupModule extends BaseModule {
     )
     const backupRestoreService = new BackupRestoreService(
       this.deviceService,
-      deviceFileSystem
+      deviceFileSystem,
+      fileSystem
     )
     const loadBackupService = new LoadBackupService()
     const backupController = new BackupController(

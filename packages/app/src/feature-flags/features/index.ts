@@ -208,7 +208,7 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: false,
   },
   [Feature.BackupCategoriesEnabled]: {
-    [Environment.Development]: false,
+    [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },

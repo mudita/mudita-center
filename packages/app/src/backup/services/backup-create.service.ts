@@ -3,29 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  GetBackupDeviceStatusDataState,
-  BackupCategory,
-} from "@mudita/pure"
+import { Endpoint, Method, BackupCategory } from "@mudita/pure"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { isResponseSuccessWithData } from "App/core/helpers"
-import { BackupError } from "App/backup/constants"
+import { isResponseSuccessWithData, isResponseSuccess } from "App/core/helpers"
+import { BackupError, Operation } from "App/backup/constants"
 import { MetadataStore, MetadataKey } from "App/metadata"
 import { CreateDeviceBackup } from "App/backup/types"
+import { BaseBackupService } from "App/backup/services/base-backup.service"
 
 // DEPRECATED
 import DeviceService from "App/__deprecated__/backend/device-service"
 import DeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 
-export class BackupCreateService {
+export class BackupCreateService extends BaseBackupService {
   constructor(
-    private deviceService: DeviceService,
-    private deviceFileSystem: DeviceFileSystemAdapter,
+    public deviceService: DeviceService,
+    public deviceFileSystem: DeviceFileSystemAdapter,
     private keyStorage: MetadataStore
-  ) {}
+  ) {
+    super(deviceService, deviceFileSystem)
+  }
 
   public async createBackup(
     options: CreateDeviceBackup
@@ -47,6 +45,19 @@ export class BackupCreateService {
         new AppError(
           BackupError.CannotReachBackupLocation,
           "Cannot find backup on device"
+        )
+      )
+    }
+
+    const operationStatus = await this.checkStatus(Operation.Backup)
+
+    if (!operationStatus.ok) {
+      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+
+      return Result.failed(
+        new AppError(
+          BackupError.BackupProcessFailed,
+          "Device backup operation failed"
         )
       )
     }
@@ -97,7 +108,7 @@ export class BackupCreateService {
       },
     })
 
-    if (!isResponseSuccessWithData(backupResponse) || !backupResponse.data) {
+    if (!isResponseSuccess(backupResponse)) {
       return Result.failed(
         new AppError(
           BackupError.CannotBackupDevice,
@@ -106,9 +117,7 @@ export class BackupCreateService {
       )
     }
 
-    const backupId = backupResponse.data.id
-
-    const backupFinished = await this.waitUntilBackupDeviceFinished(backupId)
+    const backupFinished = await this.waitUntilProcessFinished()
 
     if (!backupFinished.ok && backupFinished.error) {
       return Result.failed(
@@ -116,42 +125,8 @@ export class BackupCreateService {
       )
     }
 
-    const filePath = `${deviceResponse.data.backupLocation}/${backupId}`
+    const filePath = `${deviceResponse.data.backupLocation}/backup_db.tar`
 
     return Result.success(filePath)
-  }
-
-  private async waitUntilBackupDeviceFinished(
-    id: string
-  ): Promise<ResultObject<boolean | undefined>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Backup,
-      method: Method.Get,
-      body: {
-        id,
-      },
-    })
-
-    if (
-      !isResponseSuccessWithData(response) ||
-      response.data?.state === GetBackupDeviceStatusDataState.Error
-    ) {
-      return Result.failed(
-        new AppError(
-          BackupError.BackupProcessFailed,
-          "Something went wrong during backup process"
-        )
-      )
-    } else if (
-      response.data?.state === GetBackupDeviceStatusDataState.Finished
-    ) {
-      return Result.success(true)
-    } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(this.waitUntilBackupDeviceFinished(id))
-        }, 1000)
-      })
-    }
   }
 }

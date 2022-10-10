@@ -16,4 +16,9 @@ export enum BackupError {
   CannotRestoreBackup = "CANNOT_RESTORE_BACKUP_ERROR",
   RestoreBackupFailed = "RESTORE_BACKUP_FAILED_ERROR",
   CannotReachBackupLocation = "CANNOT_REACH_BACKUP_LOCATION_ERROR",
+  CannotGetProcessStatus = "CANNOT_GET_PROCESS_STATUS_ERROR",
+  OperationDoesNotMatch = "OPERATION_DOES_NOT_MATCH_ERROR",
+  OperationFailed = "OPERATION_FAILED_ERROR",
+  OperationTimeout = "OPERATION_TIMEOUT_ERROR",
+  DeviceLocked = "DEVICE_LOCKED",
 }

@@ -28,6 +28,10 @@ export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
       return payload
     }
 
+    if (state.backup.backingUpState === State.Loading) {
+      return payload
+    }
+
     if (!payload) {
       dispatch(setInitState())
       void setValue({ key: MetadataKey.DeviceOsVersion, value: null })
