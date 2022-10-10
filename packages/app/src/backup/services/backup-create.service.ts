@@ -3,7 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method, GetBackupDeviceStatusDataState } from "@mudita/pure"
+import {
+  Endpoint,
+  Method,
+  GetBackupDeviceStatusDataState,
+  BackupCategory,
+} from "@mudita/pure"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { isResponseSuccessWithData } from "App/core/helpers"
@@ -36,6 +41,8 @@ export class BackupCreateService {
     const runDeviceBackupResponse = await this.runDeviceBackup()
 
     if (!runDeviceBackupResponse.data) {
+      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+
       return Result.failed(
         new AppError(
           BackupError.CannotReachBackupLocation,
@@ -52,6 +59,8 @@ export class BackupCreateService {
     )
 
     if (!isResponseSuccessWithData(backupFile)) {
+      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+
       return Result.failed(
         new AppError(BackupError.BackupDownloadFailed, "Download backup fails")
       )
@@ -83,6 +92,9 @@ export class BackupCreateService {
     const backupResponse = await this.deviceService.request({
       endpoint: Endpoint.Backup,
       method: Method.Post,
+      body: {
+        category: BackupCategory.Backup,
+      },
     })
 
     if (!isResponseSuccessWithData(backupResponse) || !backupResponse.data) {

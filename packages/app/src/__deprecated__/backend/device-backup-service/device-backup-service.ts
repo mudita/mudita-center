@@ -35,12 +35,20 @@ export class DeviceBackupService {
   }
 
   public async getBackupDeviceStatus(
-    config: GetBackupDeviceStatusRequestConfigBody
+    config: GetBackupDeviceStatusRequestConfigBody,
+    category = BackupCategory.Backup
   ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>> {
     return await this.deviceService.request({
       endpoint: Endpoint.Backup,
       method: Method.Get,
-      body: config,
+      body: {
+        ...config,
+        ...(flags.get(Feature.BackupCategoriesEnabled)
+          ? {
+              category,
+            }
+          : {}),
+      },
     })
   }
 }
