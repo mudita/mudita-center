@@ -26,8 +26,9 @@ import { ContactSimpleItemListPhoneSelection } from "App/contacts/components/con
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },
-  emptyListTitle: { id: "module.contacts.emptyListTitle" },
-  emptySearchDescription: { id: "module.contacts.emptySearchDescription" },
+  emptyListTitle: { id: "module.contacts.noContactsListTitle" },
+  emptySearchDescription: { id: "module.contacts.noContactsListDescription" },
+  emptyPhonebook: { id: "module.contacts.emptyPhonebook" },
 })
 
 export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
@@ -119,7 +120,7 @@ export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
       ) : (
         <EmptyState
           title={messages.emptyListTitle}
-          description={messages.emptySearchDescription}
+          description={messages.emptyPhonebook}
           data-testid={ContactSimpleListTestIdsEnum.EmptyContent}
         />
       )}
