@@ -535,6 +535,19 @@ export class DeviceService {
     config: RequestConfig<any>,
     response: RequestResponse<unknown>
   ): void {
+    if (
+      config.endpoint === Endpoint.Security &&
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      (config.body.category === PhoneLockCategory.Status ||
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        config.body.category === PhoneLockCategory.Time) &&
+      response.status !== RequestResponseStatus.Ok
+    ) {
+      return
+    }
+
     if (!DeviceService.isEndpointSecure(config)) {
       return
     }
