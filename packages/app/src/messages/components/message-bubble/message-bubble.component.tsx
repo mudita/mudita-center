@@ -66,8 +66,11 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const resend = () => resendMessage(id)
-  const isDropdownShouldVisible = (): boolean => {
+  const isDropdownVisible = (): boolean => {
     if (isMessageBeingDeleted) {
+      return false
+    }
+    if (messageSending) {
       return false
     }
 
@@ -89,7 +92,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
           data-testid={MessageBubbleTestIds.Container}
           interlocutor={interlocutor}
         >
-          {isDropdownShouldVisible() && (
+          {isDropdownVisible() && (
             <MessageBubbleDropdown
               toggler={
                 <ActionsButton
