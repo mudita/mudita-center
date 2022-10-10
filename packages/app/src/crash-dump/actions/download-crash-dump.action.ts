@@ -29,7 +29,12 @@ export const downloadCrashDump = createAsyncThunk<
 
     if (status === RequestResponseStatus.Ok && data) {
       dispatch(setDownloadedCrashDump(data))
-      void dispatch(sendCrashDumpData({ email, description }))
+      void dispatch(
+        sendCrashDumpData({
+          email,
+          description: (description || "").replace(/\r\n|\r|\n/g, "<br/>"),
+        })
+      )
     } else {
       return rejectWithValue(
         new AppError(
