@@ -26,6 +26,12 @@ const payload: SendCrashDumpPayload = {
   email: "",
 }
 
+const formattedDescription = `Hello
+
+World
+...
+Bye`
+
 describe("Download Device Crash Dump Files request returns `success` status", () => {
   describe("Crash dumps doesnt exist on device", () => {
     test("fire async `downloadDeviceCrashDumpFiles` returns `undefined`", async () => {
@@ -131,4 +137,46 @@ describe("Download Device Crash Dump Files request returns `error` status", () =
       downloadCrashDump.rejected(testError, requestId, payload, errorMock),
     ])
   })
+})
+test("description is properly formatted with `<br/>` tag", async () => {
+  ;(downloadCrashDumpRequest as jest.Mock).mockReturnValue({
+    status: RequestResponseStatus.Ok,
+    data: downloadedCrashDumpsMock,
+  })
+
+  const mockStore = createMockStore([thunk])({
+    crashDump: {
+      data: {
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+    },
+  })
+
+  const {
+    meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+  } = await mockStore.dispatch(
+    downloadCrashDump({
+      ...payload,
+      description: "Hello\n\nWorld\n...\nBye",
+    }) as unknown as AnyAction
+  )
+
+  expect(mockStore.getActions()).toEqual([
+    downloadCrashDump.pending(requestId, {
+      ...payload,
+      description: formattedDescription,
+    }),
+    {
+      type: Event.SetDownloadCrashDumpPath,
+      payload: downloadedCrashDumpsMock,
+    },
+    downloadCrashDump.fulfilled(RequestResponseStatus.Ok, requestId, {
+      ...payload,
+      description: formattedDescription,
+    }),
+  ])
+
+  expect(downloadCrashDumpRequest).toHaveBeenCalled()
 })
