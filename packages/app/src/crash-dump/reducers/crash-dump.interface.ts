@@ -3,42 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PayloadAction } from "@reduxjs/toolkit"
-import { AppError } from "App/core/errors"
-import { CrashDumpError, Event } from "App/crash-dump/constants"
-import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+import { State } from "App/core/constants"
 
 export interface CrashDumpState {
   data: {
     files: string[]
     downloadedFiles: string[]
   }
-  status: {
-    loading: boolean
-    loaded: boolean
-    downloading: boolean
-    downloaded: boolean
-    sending: boolean
-    sent: boolean
-  }
+  loadingState: State
+  downloadingState: State
+  sendingState: State
   error: Error | string | null
 }
-
-export type SetCrashDumpAction = PayloadAction<string[], Event.SetCrashDump>
-export type SetDownloadedCrashDumpAction = PayloadAction<
-  string[],
-  Event.SetDownloadCrashDumpPath
->
-export type GetCrashDumpRejectedAction = PayloadAction<
-  AppError<CrashDumpError.Getting>,
-  Event.GetCrashDump
->
-export type DownloadCrashDumpRejectedAction = PayloadAction<
-  AppError<CrashDumpError.Downloading>,
-  Event.DownloadCrashDump
->
-
-export type SendCrashDumpPayload = Pick<
-  FreshdeskTicketData,
-  "email" | "description"
->

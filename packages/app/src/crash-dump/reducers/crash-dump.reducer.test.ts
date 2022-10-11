@@ -4,6 +4,7 @@
  */
 
 import { AppError } from "App/core/errors"
+import { State } from "App/core/constants"
 import { CrashDumpError, Event } from "App/crash-dump/constants"
 import {
   crashDumpReducer,
@@ -29,11 +30,7 @@ describe("Getting crush dumps functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        loading: true,
-        loaded: false,
-      },
+      loadingState: State.Loading,
     })
   })
 
@@ -44,11 +41,7 @@ describe("Getting crush dumps functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        loading: false,
-        loaded: true,
-      },
+      loadingState: State.Loaded,
     })
   })
 
@@ -62,11 +55,7 @@ describe("Getting crush dumps functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        loading: false,
-        loaded: false,
-      },
+      loadingState: State.Failed,
       error: errorMock,
     })
   })
@@ -95,11 +84,7 @@ describe("Downloading crush dumps functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        downloading: true,
-        downloaded: false,
-      },
+      downloadingState: State.Loading,
     })
   })
 
@@ -110,11 +95,7 @@ describe("Downloading crush dumps functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        downloading: false,
-        downloaded: true,
-      },
+      downloadingState: State.Loaded,
     })
   })
 
@@ -128,11 +109,7 @@ describe("Downloading crush dumps functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        downloading: false,
-        downloaded: false,
-      },
+      downloadingState: State.Failed,
       error: errorMock,
     })
   })
@@ -159,11 +136,7 @@ describe("Downloading crush dumps functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        sending: true,
-        sent: false,
-      },
+      sendingState: State.Loading,
     })
   })
 
@@ -174,26 +147,22 @@ describe("Downloading crush dumps functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        sending: false,
-        sent: true,
-      },
+      sendingState: State.Loaded,
     })
   })
 
   test("Event: SendCrashDump/rejected set crash dump `sent` and `sending` state to `false`", () => {
+    const errorMock = new AppError(CrashDumpError.Sending, "I'm error")
+
     expect(
       crashDumpReducer(undefined, {
         type: rejectedAction(Event.SendCrashDump),
+        payload: errorMock,
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        sending: false,
-        sent: false,
-      },
+      sendingState: State.Failed,
+      error: errorMock,
     })
   })
 

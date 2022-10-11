@@ -12,7 +12,7 @@ import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
+import { CrashDump } from "App/crash-dump/dto"
 
 jest.mock("App/crash-dump/actions/send-crash-dump-data.action", () => ({
   sendCrashDumpData: () => jest.fn(),
@@ -21,7 +21,7 @@ jest.mock("App/crash-dump/requests/download-crash-dump.request")
 
 const downloadedCrashDumpsMock: string[] = ["C:/MuditaOs/crash-dumps"]
 
-const payload: SendCrashDumpPayload = {
+const payload: CrashDump = {
   description: "",
   email: "",
 }
