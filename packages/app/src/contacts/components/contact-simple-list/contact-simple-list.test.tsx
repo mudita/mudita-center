@@ -170,10 +170,10 @@ describe("Contact list is empty", () => {
       getByTestId(ContactSimpleListTestIdsEnum.EmptyContent)
     ).toBeInTheDocument()
     expect(
-      getByText("[value] module.contacts.emptyListTitle")
+      getByText("[value] module.contacts.noContactsListTitle")
     ).toBeInTheDocument()
     expect(
-      getByText("[value] module.contacts.emptySearchDescription")
+      getByText("[value] module.contacts.emptyPhonebook")
     ).toBeInTheDocument()
   })
 })

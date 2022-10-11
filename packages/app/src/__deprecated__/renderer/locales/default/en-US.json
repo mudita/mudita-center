@@ -339,6 +339,8 @@
   "module.contacts.newContactCallLabel": "Add contact",
   "module.contacts.newTitle": "New contact",
   "module.contacts.noAddress": "No address",
+  "module.contacts.noContactsListTitle": "You don't have any contacts yet",
+  "module.contacts.noContactsListDescription": "Press New Contact to add one.",
   "module.contacts.noEmail": "No email address",
   "module.contacts.noNotes": "No notes",
   "module.contacts.noPhoneNumber": "No phone number",
