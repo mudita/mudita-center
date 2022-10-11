@@ -31,6 +31,12 @@ const messages = defineMessages({
   emptyPhonebook: {
     id: "module.contacts.emptyPhonebook",
   },
+  noContactsListTitle: {
+    id: "module.contacts.noContactsListTitle",
+  },
+  noContactsListDescription: {
+    id: "module.contacts.noContactsListDescription",
+  },
 })
 
 const ContactList: FunctionComponent<ContactListProps> = ({
@@ -110,8 +116,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
         componentContactList.length === 0 && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListNoResult}
-            title={messages.emptyListTitle}
-            description={messages.emptySearchDescription}
+            title={messages.noContactsListTitle}
+            description={messages.noContactsListDescription}
           />
         )}
       {(resultsState === ResultState.Empty ||
