@@ -164,7 +164,7 @@ export const BackupFailureModal: FunctionComponent<
       {...props}
     >
       <RoundIconWrapper>
-        <Icon type={IconType.Fail} width={4} />
+        <Icon type={IconType.ThinFail} width={3.2} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}

@@ -229,7 +229,7 @@ export const UpdateAvailable = ({
     closeButton={false}
   >
     <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={4} />
+      <Icon type={IconType.Pure} width={3.2} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
@@ -258,7 +258,7 @@ export const UpdateAvailable = ({
 export const UpdateNotAvailable = ({ version = "" }) => (
   <OSUpdateModal>
     <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={4} />
+      <Icon type={IconType.Pure} width={3.2} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
@@ -319,7 +319,7 @@ export const DownloadingUpdateModal = ({
       onActionButtonClick={onCancel}
     >
       <RoundIconWrapper>
-        <Icon type={IconType.Download} width={4} />
+        <Icon type={IconType.Download} width={3.2} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}
@@ -349,7 +349,7 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     data-testid={OverviewModalsTestIds.DownloadingUpdateFinishedModal}
   >
     <RoundIconWrapper>
-      <Icon type={IconType.Download} width={4} />
+      <Icon type={IconType.Download} width={3.2} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
@@ -388,7 +388,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
       <RoundIconWrapper>
-        <Loader type={LoaderType.Spinner} size={6} />
+        <Loader type={LoaderType.Spinner} size={3.2} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}
@@ -409,7 +409,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal data-testid={OverviewModalsTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={4} />
+      <Icon type={IconType.Pure} width={3.2} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
@@ -498,7 +498,7 @@ export const DevUpdate = ({
       closeButton={false}
     >
       <RoundIconWrapper>
-        <Icon type={IconType.Pure} width={4} />
+        <Icon type={IconType.Pure} width={3.2} />
       </RoundIconWrapper>
       <ModalMainText displayStyle={TextDisplayStyle.Headline4}>
         {install ? "Installing" : "Downloading"}. Are you sure?
@@ -545,7 +545,7 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={IconType.NoBattery} width={5} />
+          <Icon type={IconType.NoBattery} width={3.2} />
         </RoundIconWrapper>
         {deviceType === DeviceType.MuditaPure ? (
           <>

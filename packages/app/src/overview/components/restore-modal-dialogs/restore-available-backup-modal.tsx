@@ -103,7 +103,7 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={IconType.BackupFolder} width={4} />
+          <Icon type={IconType.BackupFolder} width={3.2} />
         </RoundIconWrapper>
         <ModalText
           displayStyle={TextDisplayStyle.Headline4}
