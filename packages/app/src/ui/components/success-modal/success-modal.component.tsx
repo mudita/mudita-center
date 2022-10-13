@@ -46,7 +46,7 @@ export const SuccessModal: FunctionComponent<Props> = ({
   <ModalDialog title={title} size={ModalSize.Small} {...rest}>
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={IconType.ThinCheck} width={5} />
+        <Icon type={IconType.ThinCheck} width={3.2} />
       </RoundIconWrapper>
       {subtitle && (
         <ModalText displayStyle={TextDisplayStyle.Headline4}>
