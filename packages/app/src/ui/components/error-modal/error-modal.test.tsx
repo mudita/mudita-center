@@ -26,7 +26,7 @@ test("title is passed to modal properly", () => {
 
 test("proper icon is rendered", () => {
   const { getByTestId } = renderModal()
-  expect(getByTestId("icon-Fail")).toBeInTheDocument()
+  expect(getByTestId("icon-ThinFail")).toBeInTheDocument()
 })
 
 test("subtitle is passed to modal properly", () => {

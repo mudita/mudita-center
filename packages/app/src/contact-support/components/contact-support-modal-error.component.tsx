@@ -29,7 +29,7 @@ const ContactSupportModalError: FunctionComponent<
   <ModalDialog size={ModalSize.Small} {...props}>
     <SimpleModal>
       <RoundIconWrapper>
-        <Icon type={IconType.MuditaLogo} width={4} />
+        <Icon type={IconType.MuditaLogo} width={3.2} />
       </RoundIconWrapper>
       <Text
         message={messages.title}
