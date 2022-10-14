@@ -4,33 +4,25 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
+import { State } from "App/core/constants"
+import { CrashDumpState } from "App/crash-dump/reducers/crash-dump.interface"
 import {
-  rejectedAction,
-  pendingAction,
-  fulfilledAction,
-} from "App/__deprecated__/renderer/store/helpers"
-import { Event } from "App/crash-dump/constants"
-import {
-  CrashDumpState,
-  SetCrashDumpAction,
-  GetCrashDumpRejectedAction,
-  DownloadCrashDumpRejectedAction,
-  SetDownloadedCrashDumpAction,
-} from "App/crash-dump/reducers/crash-dump.interface"
+  setCrashDump,
+  getCrashDump,
+  downloadCrashDump,
+  sendCrashDumpData,
+  setDownloadedCrashDump,
+  resetCrashDump,
+} from "App/crash-dump/actions"
 
 export const initialState: CrashDumpState = {
   data: {
     files: [],
     downloadedFiles: [],
   },
-  status: {
-    loading: false,
-    loaded: false,
-    downloading: false,
-    downloaded: false,
-    sending: false,
-    sent: false,
-  },
+  loadingState: State.Initial,
+  downloadingState: State.Initial,
+  sendingState: State.Initial,
   error: null,
 }
 
@@ -38,137 +30,54 @@ export const crashDumpReducer = createReducer<CrashDumpState>(
   initialState,
   (builder) => {
     builder
-      .addCase(Event.SetCrashDump, (state, action: SetCrashDumpAction) => {
-        return {
-          ...state,
-          data: {
-            ...state.data,
-            files: action.payload,
-          },
-        }
+      .addCase(setCrashDump, (state, action) => {
+        state.data.files = action.payload
       })
 
-      .addCase(pendingAction(Event.GetCrashDump), (state) => {
-        return {
-          ...state,
-          status: {
-            ...state.status,
-            loaded: false,
-            loading: true,
-          },
-        }
+      .addCase(getCrashDump.pending, (state) => {
+        state.loadingState = State.Loading
       })
-      .addCase(fulfilledAction(Event.GetCrashDump), (state) => {
-        return {
-          ...state,
-          status: {
-            ...state.status,
-            loaded: true,
-            loading: false,
-          },
-        }
+      .addCase(getCrashDump.fulfilled, (state) => {
+        state.loadingState = State.Loaded
       })
-      .addCase(
-        rejectedAction(Event.GetCrashDump),
-        (state, action: GetCrashDumpRejectedAction) => {
-          return {
-            ...state,
-            status: {
-              ...state.status,
-              loaded: false,
-              loading: false,
-            },
-            error: action.payload,
-          }
-        }
-      )
-
-      .addCase(pendingAction(Event.DownloadCrashDump), (state) => {
-        return {
-          ...state,
-          status: {
-            ...state.status,
-            downloaded: false,
-            downloading: true,
-          },
-        }
-      })
-      .addCase(fulfilledAction(Event.DownloadCrashDump), (state) => {
-        return {
-          ...state,
-          status: {
-            ...state.status,
-            downloaded: true,
-            downloading: false,
-          },
-        }
-      })
-      .addCase(
-        rejectedAction(Event.DownloadCrashDump),
-        (state, action: DownloadCrashDumpRejectedAction) => {
-          return {
-            ...state,
-            status: {
-              ...state.status,
-              downloaded: false,
-              downloading: false,
-            },
-            error: action.payload,
-          }
-        }
-      )
-
-      .addCase(
-        Event.SetDownloadCrashDumpPath,
-        (state, action: SetDownloadedCrashDumpAction) => {
-          return {
-            ...state,
-            data: {
-              ...state.data,
-              downloadedFiles: action.payload,
-            },
-          }
-        }
-      )
-
-      .addCase(pendingAction(Event.SendCrashDump), (state) => {
-        return {
-          ...state,
-          status: {
-            ...state.status,
-            sending: true,
-            sent: false,
-          },
-        }
+      .addCase(getCrashDump.rejected, (state, action) => {
+        state.loadingState = State.Failed
+        state.error = action.payload as Error
       })
 
-      .addCase(fulfilledAction(Event.SendCrashDump), (state) => {
-        return {
-          ...state,
-          status: {
-            ...state.status,
-            sending: false,
-            sent: true,
-          },
-        }
+      .addCase(downloadCrashDump.pending, (state) => {
+        state.downloadingState = State.Loading
+      })
+      .addCase(downloadCrashDump.fulfilled, (state) => {
+        state.downloadingState = State.Loaded
+      })
+      .addCase(downloadCrashDump.rejected, (state, action) => {
+        state.downloadingState = State.Failed
+        state.error = action.payload as Error
       })
 
-      .addCase(rejectedAction(Event.SendCrashDump), (state) => {
-        return {
-          ...state,
-          status: {
-            ...state.status,
-            sending: false,
-            sent: false,
-          },
-        }
+      .addCase(setDownloadedCrashDump, (state, action) => {
+        state.data.downloadedFiles = action.payload
       })
 
-      .addCase(Event.ResetCrashDump, (state) => {
-        return {
-          ...state,
-          ...initialState,
-        }
+      .addCase(sendCrashDumpData.pending, (state) => {
+        state.sendingState = State.Loading
+      })
+      .addCase(sendCrashDumpData.fulfilled, (state) => {
+        state.sendingState = State.Loaded
+      })
+      .addCase(sendCrashDumpData.rejected, (state, action) => {
+        state.sendingState = State.Failed
+        state.error = action.payload as Error
+      })
+
+      .addCase(resetCrashDump, (state) => {
+        state.data.downloadedFiles = []
+        state.data.files = []
+        state.loadingState = State.Initial
+        state.downloadingState = State.Initial
+        state.sendingState = State.Initial
+        state.error = null
       })
   }
 )

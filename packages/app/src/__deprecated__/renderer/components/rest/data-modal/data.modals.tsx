@@ -33,8 +33,8 @@ const ModalContent = styled.div`
   }
 `
 export const RoundIconWrapper = styled.div`
-  width: 12rem;
-  height: 12rem;
+  width: 8rem;
+  height: 8rem;
   border-radius: 50%;
   background-color: ${backgroundColor("icon")};
   display: flex;
@@ -76,7 +76,7 @@ export const ErrorDataModal = ({
 } & Partial<ModalProps>) => (
   <ErrorModal title={title} onClose={onClose} {...props}>
     <RoundIconWrapper>
-      <Icon type={IconType.Fail} width={4} />
+      <Icon type={IconType.ThinFail} width={3.2} />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.Headline4} message={textMessage} />
     {descriptionMessage && (
@@ -113,7 +113,7 @@ export const LoadingStateDataModal = ({
   title?: string
   textMessage?: Message
 }) => (
-  <ErrorModal closeButton={false} title={title}>
+  <ErrorModal closeButton={false} title={title} closeable={false}>
     <RoundIconWrapper>
       <Loader type={LoaderType.Spinner} />
     </RoundIconWrapper>

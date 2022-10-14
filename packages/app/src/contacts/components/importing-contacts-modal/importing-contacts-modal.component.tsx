@@ -67,7 +67,7 @@ const ImportingContactsModal: FunctionComponent<
   >
     <Content>
       <RoundIconWrapper>
-        <Icon type={IconType.Download} width={4} />
+        <Icon type={IconType.Download} width={3.2} />
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.Headline4}

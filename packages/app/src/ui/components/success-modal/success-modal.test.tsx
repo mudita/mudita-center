@@ -4,11 +4,11 @@
  */
 
 import React, { ComponentProps } from "react"
-import ErrorModal from "App/ui/components/error-modal/error-modal.component"
+import { SuccessModal } from "App/ui/components/success-modal/success-modal.component"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
-type Props = ComponentProps<typeof ErrorModal>
+type Props = ComponentProps<typeof SuccessModal>
 
 const renderModal = (extraProps?: Partial<Props>) => {
   const props = {
@@ -16,7 +16,7 @@ const renderModal = (extraProps?: Partial<Props>) => {
     open: true,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<ErrorModal {...props} />)
+  return renderWithThemeAndIntl(<SuccessModal {...props} />)
 }
 
 test("title is passed to modal properly", () => {
@@ -26,7 +26,7 @@ test("title is passed to modal properly", () => {
 
 test("proper icon is rendered", () => {
   const { getByTestId } = renderModal()
-  expect(getByTestId("icon-ThinFail")).toBeInTheDocument()
+  expect(getByTestId("icon-ThinCheck")).toBeInTheDocument()
 })
 
 test("subtitle is passed to modal properly", () => {

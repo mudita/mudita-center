@@ -39,6 +39,7 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
   onContactClick,
   onDeleteClick,
   onMarkAsUnreadClick,
+  emptyThread,
   children,
   ...props
 }) => {
@@ -66,6 +67,7 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
           onContactClick={onContactClick}
           onDeleteClick={onDeleteClick}
           onMarkAsUnreadClick={onMarkAsUnreadClick}
+          emptyThread={emptyThread}
         />
       }
       {...props}

@@ -48,7 +48,7 @@ const messages = defineMessages({
     id: "module.overview.backupFailureModalTitle",
   },
   backupFailureModalDescription: {
-    id: "module.overview.backupSpinnerModalDescription",
+    id: "module.overview.backupFailureModalDescription",
   },
   backupFailureModalSecondaryButton: {
     id: "module.overview.backupFailureModalSecondaryButton",
@@ -164,7 +164,7 @@ export const BackupFailureModal: FunctionComponent<
       {...props}
     >
       <RoundIconWrapper>
-        <Icon type={IconType.Fail} width={4} />
+        <Icon type={IconType.ThinFail} width={3.2} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}

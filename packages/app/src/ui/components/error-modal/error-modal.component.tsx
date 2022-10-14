@@ -46,7 +46,7 @@ const ErrorModal: FunctionComponent<Props> = ({
   <ModalDialog title={title} size={ModalSize.Small} {...rest}>
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={IconType.Fail} width={5} />
+        <Icon type={IconType.ThinFail} width={3.2} />
       </RoundIconWrapper>
       {subtitle && (
         <ModalText displayStyle={TextDisplayStyle.Headline4}>

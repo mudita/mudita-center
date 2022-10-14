@@ -7,8 +7,8 @@ import styled from "styled-components"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 export const ModalIcon = styled.div`
-  width: 12rem;
-  height: 12rem;
+  width: 8rem;
+  height: 8rem;
   border-radius: 100%;
   margin: auto auto 2rem auto;
   background: ${backgroundColor("icon")};

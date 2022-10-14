@@ -167,6 +167,10 @@ const buttonStyles = css<{
             height: initial;
             width: initial;
           }
+          ${disabled &&
+          css`
+            opacity: 0.3;
+          `};
         `
       case DisplayStyle.IconOnlyWithBackground:
         return css`

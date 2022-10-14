@@ -56,7 +56,12 @@
   "component.crashDumpModal.pureLabel": "Mudita Pure crashed",
   "component.crashDumpModal.text": "Please wait while error logs are being uploaded for further inspection.",
   "component.crashDumpModal.title": "Error",
-  "component.crashDumpSendingModal.label": "Sending logs to the support",
+  "component.crashDump.crashDumpModalErrorTitle": "Error",
+  "component.crashDump.crashDumpModalErrorSubtitle": "Something went wrong during sending crash dump",
+  "component.crashDump.crashDumpModalSendingTitle": "Sending logs",
+  "component.crashDump.crashDumpModalSendingSubtitle": "Sending logs to the support",
+  "component.crashDump.crashDumpModalSuccessTitle": "Logs are sended",
+  "component.crashDump.crashDumpModalSuccessSubtitle": "Logs are successfully sended",
   "component.dataModal.errorDescription": "Please check that your phone is attached to the computer",
   "component.dataModal.errorText": "Data transfer failed",
   "component.dataModal.errorTitle": "Error",
@@ -625,7 +630,7 @@
   "module.overview.restoreFailureModalTitle": "Restore failed",
   "module.overview.restoreModalButtonCancel": "Cancel",
   "module.overview.restoreModalButtonCreateRestore": "Restore",
-  "module.overview.restoreModalDescription": "All previously unsaved data will be lost. \nThe phone will be restarted.",
+  "module.overview.restoreModalDescription": "All previously unsaved data will be lost.",
   "module.overview.restoreModalHeaderTitle": "Restore backup",
   "module.overview.restoreModalTitle": "Would you like to restore this backup? ",
   "module.overview.restoreSpinnerModalDescription": "Please wait, this might take a few minutes",
@@ -817,5 +822,7 @@
   "module.tools.notesSelectionsNumber": "{num, plural, =-1 {All Notes} one {# Note} other {# Notes}} selected",
   "module.tools.notesTemporaryText": "New Note",
   "module.tools.notesUnsavedNote": "unsaved",
-  "module.tools.voiceRecorder": "Voice Recorder"
+  "module.tools.voiceRecorder": "Voice Recorder",
+  "module.eula.modalTitle": "Agreement is not accepted",
+  "module.eula.modalDescription": "To continue please accept the MuditaOS license agreement on your device."
 }

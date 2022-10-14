@@ -16,14 +16,14 @@ import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.req
 import { AppError } from "App/core/errors"
 import { CrashDumpError } from "App/crash-dump/constants"
 import { DeviceError } from "App/device/constants"
-import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
+import { CrashDump } from "App/crash-dump/dto"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
 const muditaOSLogs = new File([""], "MuditaOS.log", { type: "text/html" })
 const logsFiles: File[] = [muditaOSLogs]
 
-const payload: SendCrashDumpPayload = {
+const payload: CrashDump = {
   description: "",
   email: "",
 }
@@ -147,10 +147,6 @@ describe("when Crash dumps downloaded", () => {
         payload: undefined,
         type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
       },
-      {
-        payload: undefined,
-        type: "RESET_CRASH_DUMP",
-      },
       sendCrashDumpData.fulfilled(undefined, requestId, payload),
     ])
 
@@ -162,7 +158,7 @@ describe("when Crash dumps downloaded", () => {
 describe("when `createFreshdeskTicket` returns `error` status", () => {
   test("fire async `sendCrashDumpData` action and execute `rejected` event", async () => {
     ;(createFile as jest.Mock).mockReturnValue(
-      new File([new Buffer("hello world")], "hello.world")
+      new File([Buffer.from("hello world")], "hello.world")
     )
     ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from(""))
     ;(createFreshdeskTicket as jest.Mock).mockReturnValue(Promise.reject())

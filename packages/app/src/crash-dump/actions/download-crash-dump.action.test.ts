@@ -12,7 +12,7 @@ import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
+import { CrashDump } from "App/crash-dump/dto"
 
 jest.mock("App/crash-dump/actions/send-crash-dump-data.action", () => ({
   sendCrashDumpData: () => jest.fn(),
@@ -21,10 +21,16 @@ jest.mock("App/crash-dump/requests/download-crash-dump.request")
 
 const downloadedCrashDumpsMock: string[] = ["C:/MuditaOs/crash-dumps"]
 
-const payload: SendCrashDumpPayload = {
+const payload: CrashDump = {
   description: "",
   email: "",
 }
+
+const formattedDescription = `Hello
+
+World
+...
+Bye`
 
 describe("Download Device Crash Dump Files request returns `success` status", () => {
   describe("Crash dumps doesnt exist on device", () => {
@@ -131,4 +137,46 @@ describe("Download Device Crash Dump Files request returns `error` status", () =
       downloadCrashDump.rejected(testError, requestId, payload, errorMock),
     ])
   })
+})
+test("description is properly formatted with `<br/>` tag", async () => {
+  ;(downloadCrashDumpRequest as jest.Mock).mockReturnValue({
+    status: RequestResponseStatus.Ok,
+    data: downloadedCrashDumpsMock,
+  })
+
+  const mockStore = createMockStore([thunk])({
+    crashDump: {
+      data: {
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+    },
+  })
+
+  const {
+    meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+  } = await mockStore.dispatch(
+    downloadCrashDump({
+      ...payload,
+      description: "Hello\n\nWorld\n...\nBye",
+    }) as unknown as AnyAction
+  )
+
+  expect(mockStore.getActions()).toEqual([
+    downloadCrashDump.pending(requestId, {
+      ...payload,
+      description: formattedDescription,
+    }),
+    {
+      type: Event.SetDownloadCrashDumpPath,
+      payload: downloadedCrashDumpsMock,
+    },
+    downloadCrashDump.fulfilled(RequestResponseStatus.Ok, requestId, {
+      ...payload,
+      description: formattedDescription,
+    }),
+  ])
+
+  expect(downloadCrashDumpRequest).toHaveBeenCalled()
 })
