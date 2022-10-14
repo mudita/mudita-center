@@ -107,7 +107,7 @@ export const ContactImportModal: FunctionComponent<ContactImportModalProps> = ({
       {...props}
     >
       <Image>
-        <Icon type={IconType.Download} width={5} />
+        <Icon type={IconType.Download} width={2.8} />
       </Image>
       {modalType === ModalType.Fail && (
         <>

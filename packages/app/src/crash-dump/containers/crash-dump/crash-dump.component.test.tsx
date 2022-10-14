@@ -10,11 +10,12 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { screen, fireEvent } from "@testing-library/dom"
 import { DeviceType } from "@mudita/pure"
+import { State } from "App/core/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { CrashDump } from "App/crash-dump/containers/crash-dump/crash-dump.component"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { CrashDumpModalTestingIds } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal-testing-ids.enum"
-import { CrashDumpSendingModalTestingIds } from "App/crash-dump/components/crash-dump-sending-modal/crash-dump-sending-testing-ids.enum"
+import { CrashDumpTestingIds } from "App/crash-dump/containers/crash-dump/crash-dump-testing-ids.enum"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
 const initialStateMock = {
@@ -23,14 +24,9 @@ const initialStateMock = {
       files: [],
       downloadedFiles: [],
     },
-    status: {
-      loading: false,
-      loaded: false,
-      downloading: false,
-      downloaded: false,
-      sending: false,
-      sent: false,
-    },
+    loadingState: State.Initial,
+    downloadingState: State.Initial,
+    sendingState: State.Initial,
     error: null,
   },
   device: {
@@ -40,11 +36,17 @@ const initialStateMock = {
 
 const downloadCrashDumpMock = jest.fn()
 const ignoreCrashDumpMock = jest.fn()
+const resetCrashDump = jest.fn()
 
 jest.mock("App/crash-dump/actions", () => ({
   downloadCrashDump: () => downloadCrashDumpMock,
   ignoreCrashDump: () => ignoreCrashDumpMock,
+  resetCrashDump: () => resetCrashDump,
 }))
+
+beforeEach(() => {
+  jest.resetAllMocks()
+})
 
 const render = (initialState?: ReduxRootState) => {
   const storeMock = createMockStore([thunk])({
@@ -66,7 +68,13 @@ test("don't rendering the modals if `crushDump` state is equal to initial", () =
     screen.queryByTestId(CrashDumpModalTestingIds.Content)
   ).not.toBeInTheDocument()
   expect(
-    screen.queryByTestId(CrashDumpSendingModalTestingIds.Content)
+    screen.queryByTestId(CrashDumpTestingIds.Failed)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Success)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Loading)
   ).not.toBeInTheDocument()
 })
 
@@ -83,7 +91,13 @@ test("don't rendering the modals if `deviceType` equal to `null`", () => {
     screen.queryByTestId(CrashDumpModalTestingIds.Content)
   ).not.toBeInTheDocument()
   expect(
-    screen.queryByTestId(CrashDumpSendingModalTestingIds.Content)
+    screen.queryByTestId(CrashDumpTestingIds.Failed)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Success)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Loading)
   ).not.toBeInTheDocument()
 })
 
@@ -102,12 +116,9 @@ test("display `CrashDumpModal` modal if data.files list isn't empty", () => {
   expect(
     screen.queryByTestId(CrashDumpModalTestingIds.Content)
   ).toBeInTheDocument()
-  expect(
-    screen.queryByTestId(CrashDumpSendingModalTestingIds.Content)
-  ).not.toBeInTheDocument()
 })
 
-test("display `CrashDumpSendingModal` modal if data.files list isn't empty and `downloading` flag is equal to `true`", () => {
+test("display `LoadingModal` modal if data.files list isn't empty and `downloadingState` flag is equal to `State.Loading`", () => {
   render({
     ...initialStateMock,
     crashDump: {
@@ -116,10 +127,7 @@ test("display `CrashDumpSendingModal` modal if data.files list isn't empty and `
         ...initialStateMock.crashDump.data,
         files: ["/pure/logs/crash-dumps/file.hex"],
       },
-      status: {
-        ...initialStateMock.crashDump.status,
-        downloading: true,
-      },
+      downloadingState: State.Loading,
     },
   })
 
@@ -127,11 +135,15 @@ test("display `CrashDumpSendingModal` modal if data.files list isn't empty and `
     screen.queryByTestId(CrashDumpModalTestingIds.Content)
   ).not.toBeInTheDocument()
   expect(
-    screen.queryByTestId(CrashDumpSendingModalTestingIds.Content)
-  ).toBeInTheDocument()
+    screen.queryByTestId(CrashDumpTestingIds.Failed)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Success)
+  ).not.toBeInTheDocument()
+  expect(screen.queryByTestId(CrashDumpTestingIds.Loading)).toBeInTheDocument()
 })
 
-test("display `CrashDumpSendingModal` modal if data.files list isn't empty and `sending` flag is equal to `true`", () => {
+test("display `Loading` modal if data.files list isn't empty and `sendingState` flag is equal to `State.Loading`", () => {
   render({
     ...initialStateMock,
     crashDump: {
@@ -140,10 +152,7 @@ test("display `CrashDumpSendingModal` modal if data.files list isn't empty and `
         ...initialStateMock.crashDump.data,
         files: ["/pure/logs/crash-dumps/file.hex"],
       },
-      status: {
-        ...initialStateMock.crashDump.status,
-        sending: true,
-      },
+      sendingState: State.Loading,
     },
   })
 
@@ -151,8 +160,183 @@ test("display `CrashDumpSendingModal` modal if data.files list isn't empty and `
     screen.queryByTestId(CrashDumpModalTestingIds.Content)
   ).not.toBeInTheDocument()
   expect(
-    screen.queryByTestId(CrashDumpSendingModalTestingIds.Content)
-  ).toBeInTheDocument()
+    screen.queryByTestId(CrashDumpTestingIds.Failed)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Success)
+  ).not.toBeInTheDocument()
+  expect(screen.queryByTestId(CrashDumpTestingIds.Loading)).toBeInTheDocument()
+})
+
+test("display `Loading` modal if data.files list isn't empty and `loadingState` flag is equal to `State.Loading`", () => {
+  render({
+    ...initialStateMock,
+    crashDump: {
+      ...initialStateMock.crashDump,
+      data: {
+        ...initialStateMock.crashDump.data,
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+      loadingState: State.Loading,
+    },
+  })
+
+  expect(
+    screen.queryByTestId(CrashDumpModalTestingIds.Content)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Failed)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Success)
+  ).not.toBeInTheDocument()
+  expect(screen.queryByTestId(CrashDumpTestingIds.Loading)).toBeInTheDocument()
+})
+
+test("display `Error` modal if data.files list isn't empty and `loadingState` flag is equal to `State.Failed`", () => {
+  render({
+    ...initialStateMock,
+    crashDump: {
+      ...initialStateMock.crashDump,
+      data: {
+        ...initialStateMock.crashDump.data,
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+      loadingState: State.Failed,
+    },
+  })
+
+  expect(
+    screen.queryByTestId(CrashDumpModalTestingIds.Content)
+  ).not.toBeInTheDocument()
+  expect(screen.queryByTestId(CrashDumpTestingIds.Failed)).toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Success)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Loading)
+  ).not.toBeInTheDocument()
+})
+
+test("display `Error` modal if data.files list isn't empty and `downloadingState` flag is equal to `State.Failed`", () => {
+  render({
+    ...initialStateMock,
+    crashDump: {
+      ...initialStateMock.crashDump,
+      data: {
+        ...initialStateMock.crashDump.data,
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+      downloadingState: State.Failed,
+    },
+  })
+
+  expect(
+    screen.queryByTestId(CrashDumpModalTestingIds.Content)
+  ).not.toBeInTheDocument()
+  expect(screen.queryByTestId(CrashDumpTestingIds.Failed)).toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Success)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Loading)
+  ).not.toBeInTheDocument()
+})
+
+test("display `Error` modal if data.files list isn't empty and `sendingState` flag is equal to `State.Failed`", () => {
+  render({
+    ...initialStateMock,
+    crashDump: {
+      ...initialStateMock.crashDump,
+      data: {
+        ...initialStateMock.crashDump.data,
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+      sendingState: State.Failed,
+    },
+  })
+
+  expect(
+    screen.queryByTestId(CrashDumpModalTestingIds.Content)
+  ).not.toBeInTheDocument()
+  expect(screen.queryByTestId(CrashDumpTestingIds.Failed)).toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Success)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Loading)
+  ).not.toBeInTheDocument()
+})
+
+test("display `Success` modal if data.files list isn't empty and `downloadingState` and `sendingState` flag is equal to `State.Loaded`", () => {
+  render({
+    ...initialStateMock,
+    crashDump: {
+      ...initialStateMock.crashDump,
+      data: {
+        ...initialStateMock.crashDump.data,
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+      downloadingState: State.Loaded,
+      sendingState: State.Loaded,
+    },
+  })
+
+  expect(
+    screen.queryByTestId(CrashDumpModalTestingIds.Content)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Failed)
+  ).not.toBeInTheDocument()
+  expect(screen.queryByTestId(CrashDumpTestingIds.Success)).toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Loading)
+  ).not.toBeInTheDocument()
+})
+
+test("calls `resetCrashDump` action if user click on `close` button on `Failed` modal", () => {
+  render({
+    ...initialStateMock,
+    crashDump: {
+      ...initialStateMock.crashDump,
+      data: {
+        ...initialStateMock.crashDump.data,
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+      sendingState: State.Failed,
+    },
+  })
+
+  const closeButton = screen.getByTestId(ModalTestIds.CloseButton)
+
+  expect(resetCrashDump).toBeCalledTimes(0)
+
+  fireEvent.click(closeButton)
+
+  expect(resetCrashDump).toBeCalledTimes(1)
+})
+
+test("calls `resetCrashDump` action if user click on `close` button on `Success` modal", () => {
+  render({
+    ...initialStateMock,
+    crashDump: {
+      ...initialStateMock.crashDump,
+      data: {
+        ...initialStateMock.crashDump.data,
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+      downloadingState: State.Loaded,
+      sendingState: State.Loaded,
+    },
+  })
+
+  const closeButton = screen.getByTestId(ModalTestIds.CloseButton)
+
+  expect(resetCrashDump).toBeCalledTimes(0)
+
+  fireEvent.click(closeButton)
+
+  expect(resetCrashDump).toBeCalledTimes(1)
 })
 
 test("close `CrashDumpModal` modal if user clicked on `close` button and calls `ignoreCrashDumpMock` action", () => {

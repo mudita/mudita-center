@@ -31,14 +31,13 @@ const ModalContent = styled.div`
     margin-top: 1.2rem;
   }
 `
-
 interface Props extends ComponentProps<typeof ModalDialog> {
   title: string
   subtitle?: string
   body?: string
 }
 
-const InfoModal: FunctionComponent<Props> = ({
+export const SuccessModal: FunctionComponent<Props> = ({
   title,
   subtitle,
   body,
@@ -47,7 +46,7 @@ const InfoModal: FunctionComponent<Props> = ({
   <ModalDialog title={title} size={ModalSize.Small} {...rest}>
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={IconType.Info} width={3.2} />
+        <Icon type={IconType.ThinCheck} width={3.2} />
       </RoundIconWrapper>
       {subtitle && (
         <ModalText displayStyle={TextDisplayStyle.Headline4}>
@@ -55,10 +54,10 @@ const InfoModal: FunctionComponent<Props> = ({
         </ModalText>
       )}
       {body && (
-        <ModalText displayStyle={TextDisplayStyle.Paragraph4}>{body}</ModalText>
+        <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+          {body}
+        </ModalText>
       )}
     </ModalContent>
   </ModalDialog>
 )
-
-export default InfoModal

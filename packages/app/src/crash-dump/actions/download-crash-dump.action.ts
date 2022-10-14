@@ -11,11 +11,11 @@ import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.a
 import { CrashDumpError, Event } from "App/crash-dump/constants"
 import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash-dump.request"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
+import { CrashDump } from "App/crash-dump/dto"
 
 export const downloadCrashDump = createAsyncThunk<
   RequestResponseStatus | undefined,
-  SendCrashDumpPayload
+  CrashDump
 >(
   Event.DownloadCrashDump,
   async ({ email, description }, { dispatch, rejectWithValue, getState }) => {

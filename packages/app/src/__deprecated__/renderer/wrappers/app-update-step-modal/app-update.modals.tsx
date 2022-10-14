@@ -100,7 +100,7 @@ const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   >
     <ModalContent data-testid={testId}>
       <RoundIconWrapper>
-        <Icon type={IconType.Pure} width={4} />
+        <Icon type={IconType.Pure} width={3.2} />
       </RoundIconWrapper>
       {children}
     </ModalContent>
@@ -150,7 +150,7 @@ export const AppUpdateForced: FunctionComponent<
   >
     <ModalContentWithoutMargin>
       <RoundIconWrapper>
-        <Icon type={IconType.Pure} width={4} />
+        <Icon type={IconType.Pure} width={3.2} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}

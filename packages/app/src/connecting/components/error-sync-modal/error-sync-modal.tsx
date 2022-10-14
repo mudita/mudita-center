@@ -61,7 +61,7 @@ const ErrorSyncModal: FunctionComponent<Props> = ({ onRetry, ...props }) => {
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={IconType.Fail} width={4} />
+          <Icon type={IconType.ThinFail} width={3.2} />
         </RoundIconWrapper>
         <ModalText
           displayStyle={TextDisplayStyle.Headline4}
