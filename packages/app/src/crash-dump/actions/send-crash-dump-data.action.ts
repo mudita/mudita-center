@@ -35,7 +35,7 @@ export const sendCrashDumpData = createAsyncThunk<undefined, CrashDump>(
       return
     }
 
-    if (!state.device.data?.serialNumber) {
+    if (!state.device.data?.batteryLevel) {
       return rejectWithValue(
         new AppError(DeviceError.Connection, "Device isn't connected")
       )
@@ -66,7 +66,8 @@ export const sendCrashDumpData = createAsyncThunk<undefined, CrashDump>(
     const data: FreshdeskTicketData = {
       type: FreshdeskTicketDataType.Problem,
       subject: "Error - Crash dump",
-      serialNumber: state.device.data.serialNumber,
+      // serialNumber is not returned by Harmony - fix for that in [CP-1666]
+      serialNumber: state.device.data.serialNumber ?? "Unknown serial number",
       attachments,
       email,
       description,
