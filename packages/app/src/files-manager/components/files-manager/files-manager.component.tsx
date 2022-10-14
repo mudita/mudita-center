@@ -25,6 +25,7 @@ import { DeleteFilesModals } from "App/files-manager/components/delete-files-mod
 import { useLoadingState } from "App/ui"
 import { UploadFilesModals } from "App/files-manager/components/upload-files-modals/upload-files-modals.component"
 import { useFilesFilter } from "App/files-manager/helpers/use-files-filter.hook"
+import { getSpaces } from "App/files-manager/components/files-manager/get-spaces.helper"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -63,11 +64,16 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     uploadingFailed: false,
   })
   const [toDeleteFileIds, setToDeleteFileIds] = useState<string[]>([])
-  const { reservedSpace, usedUserSpace, total } = memorySpace
-  const free = total - reservedSpace - usedUserSpace
-  const usedMemory = reservedSpace + usedUserSpace
-  const musicSpace = files.reduce((a, b) => a + b.size, 0)
-  const otherSpace = usedUserSpace - musicSpace
+  const {
+    reservedSpace,
+    freeSpace,
+    totalMemorySpace,
+    usedMemorySpace,
+    otherSpace,
+    musicSpace,
+  } = getSpaces(files, memorySpace)
+
+  const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
 
   const downloadFiles = () => {
     // AUTO DISABLED - fix me if you like :)
@@ -162,7 +168,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     const elements = {
       [DiskSpaceCategoryType.Free]: {
         ...element,
-        size: free,
+        size: freeSpace,
       },
       [DiskSpaceCategoryType.System]: {
         ...element,
@@ -237,8 +243,8 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       />
       <FilesSummary
         diskSpaceCategories={diskSpaceCategories}
-        totalMemorySpace={total}
-        usedMemory={usedMemory}
+        totalMemorySpace={totalMemorySpace}
+        usedMemory={usedMemorySpace}
       />
       <FilesStorage
         state={loading}
@@ -254,7 +260,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         searchValue={searchValue}
         onSearchValueChange={handleSearchValueChange}
         noFoundFiles={noFoundFiles}
-        disableUpload={uploadBlocked}
+        disableUpload={disableUpload}
       />
     </FilesManagerContainer>
   )

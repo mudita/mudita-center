@@ -59,12 +59,12 @@ export const features: EnvironmentConfig = {
   },
   [Feature.FilesManagerEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.FilesManagerActionsEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesTemplatesTabEnabled]: {
