@@ -109,7 +109,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesDraftStatus]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.ContactForwardEnabled]: {
