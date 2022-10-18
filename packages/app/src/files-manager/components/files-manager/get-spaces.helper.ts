@@ -16,9 +16,9 @@ export interface Spaces {
 }
 
 /***
-* logic with the `isSizeCorrupt` property should be simplified after fix a issue in os side
-* OS issue url https://appnroll.atlassian.net/browse/MOS-744
-***/
+ * logic with the `isSizeCorrupt` property should be simplified after fix a issue in os side
+ * OS issue url https://appnroll.atlassian.net/browse/MOS-744
+ ***/
 
 export const getSpaces = (files: File[], memorySpace: MemorySpace): Spaces => {
   const { reservedSpace, usedUserSpace, total } = memorySpace
@@ -39,6 +39,6 @@ export const getSpaces = (files: File[], memorySpace: MemorySpace): Spaces => {
     usedMemorySpace,
     otherSpace,
     musicSpace,
-    totalMemorySpace: total
+    totalMemorySpace: total,
   }
 }

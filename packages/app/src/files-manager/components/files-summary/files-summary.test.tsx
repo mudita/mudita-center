@@ -56,4 +56,18 @@ describe("FilesSummary", () => {
     const { queryAllByTestId } = render()
     expect(queryAllByTestId(FilesSummaryItemTestIds.Wrapper)).toHaveLength(3)
   })
+
+  test("used memory percentage is displayed", () => {
+    const { queryByTestId } = render()
+    expect(queryByTestId(FilesSummaryTestIds.UsedMemory)).toHaveTextContent(
+      "60.0 MB (60%)"
+    )
+  })
+
+  test("total memory is displayed", () => {
+    const { queryByTestId } = render()
+    expect(queryByTestId(FilesSummaryTestIds.TotalMemory)).toHaveTextContent(
+      "100.0 MB"
+    )
+  })
 })
