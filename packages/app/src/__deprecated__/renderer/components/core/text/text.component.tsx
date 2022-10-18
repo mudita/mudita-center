@@ -119,6 +119,7 @@ export interface TextProps {
   readonly color?: keyof Theme["color"]["text"]
   readonly onClick?: () => void
   readonly testId?: string
+  readonly textRef?: React.Ref<HTMLElement>
 }
 
 export enum TextDisplayStyle {
@@ -167,6 +168,7 @@ const Text: FunctionComponent<TextProps> = ({
   className = "",
   color = "primary",
   testId,
+  textRef,
   ...rest
 }) => (
   <TextWrapper
@@ -176,9 +178,12 @@ const Text: FunctionComponent<TextProps> = ({
     data-testid={testId}
     {...rest}
     color={color}
+    ref={textRef}
   >
     {message ? <FormattedMessage {...message} /> : children}
   </TextWrapper>
 )
 
-export default Text
+export default React.forwardRef<HTMLElement, React.ComponentProps<typeof Text>>(
+  (props, ref) => <Text {...props} textRef={ref} />
+)

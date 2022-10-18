@@ -24,7 +24,7 @@ exports[`matches snapshot 1`] = `
   color: #000000;
 }
 
-.c15 {
+.c14 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.67;
@@ -37,19 +37,7 @@ exports[`matches snapshot 1`] = `
   color: #000000;
 }
 
-.c7 {
-  grid-area: Name;
-  -webkit-align-self: end;
-  -ms-flex-item-align: end;
-  align-self: end;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.c9 {
+.c8 {
   grid-area: Actions;
   display: -webkit-box;
   display: -webkit-flex;
@@ -66,7 +54,7 @@ exports[`matches snapshot 1`] = `
   width: 9rem;
 }
 
-.c12 {
+.c11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -97,19 +85,19 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c12:hover {
+.c11:hover {
   background: #000000;
 }
 
-.c12 p {
+.c11 p {
   color: #ffffff;
 }
 
-.c12 g path {
+.c11 g path {
   fill: #ffffff;
 }
 
-.c17 {
+.c16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -139,19 +127,19 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #000000;
 }
 
-.c17 g path {
+.c16 g path {
   fill: #000000;
 }
 
-.c17:hover {
+.c16:hover {
   background: #f4f5f6;
 }
 
-.c16 {
+.c15 {
   white-space: nowrap;
 }
 
-.c10 {
+.c9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -162,7 +150,7 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c13 {
+.c12 {
   --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -172,34 +160,34 @@ exports[`matches snapshot 1`] = `
   z-index: 3;
 }
 
-.c13,
-.c13 * {
+.c12,
+.c12 * {
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
-.c13:disabled {
+.c12:disabled {
   pointer-events: none;
 }
 
-.c13:hover {
+.c12:hover {
   z-index: 2;
 }
 
-.c13:not(:first-of-type) {
+.c12:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c13:first-of-type:not(:last-of-type) {
+.c12:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c13:last-of-type:not(:first-of-type) {
+.c12:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c18 {
+.c17 {
   --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -208,50 +196,50 @@ exports[`matches snapshot 1`] = `
   pointer-events: all;
 }
 
-.c18,
-.c18 * {
+.c17,
+.c17 * {
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
-.c18:disabled {
+.c17:disabled {
   pointer-events: none;
 }
 
-.c18:hover {
+.c17:hover {
   z-index: 2;
 }
 
-.c18:not(:hover) {
+.c17:not(:hover) {
   border: 0.1rem solid #d2d6db;
 }
 
-.c18:not(:hover) p {
+.c17:not(:hover) p {
   color: #a5a5a5;
 }
 
-.c18:not(:hover) g path {
+.c17:not(:hover) g path {
   fill: #a5a5a5;
 }
 
-.c18:not(:first-of-type) {
+.c17:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c18:first-of-type:not(:last-of-type) {
+.c17:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c18:last-of-type:not(:first-of-type) {
+.c17:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c11 {
+.c10 {
   margin-right: 3.2rem;
 }
 
-.c14 {
+.c13 {
   width: 8.8rem;
 }
 
@@ -279,12 +267,13 @@ exports[`matches snapshot 1`] = `
   flex-direction: row;
 }
 
-.c8 {
+.c7 {
   margin-left: 3.2rem;
   margin-bottom: 0;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+  grid-area: Label;
 }
 
 .c1 {
@@ -321,39 +310,39 @@ exports[`matches snapshot 1`] = `
         class="c5"
       >
         <p
-          class="c6 c7 c8"
+          class="c6 c7"
           color="primary"
         >
           [value] module.settings.notificationsIncomingCallsNotificationsLabel
         </p>
       </div>
       <div
-        class="c9"
+        class="c8"
       >
         <section
-          class="c10 c11"
+          class="c9 c10"
         >
           <button
-            class="c12 c13 c14"
+            class="c11 c12 c13"
             data-testid="toggler-active"
             size="1"
             type="button"
           >
             <p
-              class="c15 c16"
+              class="c14 c15"
               color="primary"
             >
               [value] module.settings.offLabel
             </p>
           </button>
           <button
-            class="c17 c18 c14"
+            class="c16 c17 c13"
             data-testid="toggler-inactive"
             size="1"
             type="button"
           >
             <p
-              class="c15 c16"
+              class="c14 c15"
               color="primary"
             >
               [value] module.settings.onLabel
@@ -369,39 +358,39 @@ exports[`matches snapshot 1`] = `
         class="c5"
       >
         <p
-          class="c6 c7 c8"
+          class="c6 c7"
           color="primary"
         >
           [value] module.settings.notificationsIncomingMessagesNotifications
         </p>
       </div>
       <div
-        class="c9"
+        class="c8"
       >
         <section
-          class="c10 c11"
+          class="c9 c10"
         >
           <button
-            class="c12 c13 c14"
+            class="c11 c12 c13"
             data-testid="toggler-active"
             size="1"
             type="button"
           >
             <p
-              class="c15 c16"
+              class="c14 c15"
               color="primary"
             >
               [value] module.settings.offLabel
             </p>
           </button>
           <button
-            class="c17 c18 c14"
+            class="c16 c17 c13"
             data-testid="toggler-inactive"
             size="1"
             type="button"
           >
             <p
-              class="c15 c16"
+              class="c14 c15"
               color="primary"
             >
               [value] module.settings.onLabel
@@ -417,39 +406,39 @@ exports[`matches snapshot 1`] = `
         class="c5"
       >
         <p
-          class="c6 c7 c8"
+          class="c6 c7"
           color="primary"
         >
           [value] module.settings.notificationsLowBatteryNotifications
         </p>
       </div>
       <div
-        class="c9"
+        class="c8"
       >
         <section
-          class="c10 c11"
+          class="c9 c10"
         >
           <button
-            class="c12 c13 c14"
+            class="c11 c12 c13"
             data-testid="toggler-active"
             size="1"
             type="button"
           >
             <p
-              class="c15 c16"
+              class="c14 c15"
               color="primary"
             >
               [value] module.settings.offLabel
             </p>
           </button>
           <button
-            class="c17 c18 c14"
+            class="c16 c17 c13"
             data-testid="toggler-inactive"
             size="1"
             type="button"
           >
             <p
-              class="c15 c16"
+              class="c14 c15"
               color="primary"
             >
               [value] module.settings.onLabel
@@ -465,39 +454,39 @@ exports[`matches snapshot 1`] = `
         class="c5"
       >
         <p
-          class="c6 c7 c8"
+          class="c6 c7"
           color="primary"
         >
           [value] module.settings.notificationsPureOsUpdatesNotifications
         </p>
       </div>
       <div
-        class="c9"
+        class="c8"
       >
         <section
-          class="c10 c11"
+          class="c9 c10"
         >
           <button
-            class="c12 c13 c14"
+            class="c11 c12 c13"
             data-testid="toggler-active"
             size="1"
             type="button"
           >
             <p
-              class="c15 c16"
+              class="c14 c15"
               color="primary"
             >
               [value] module.settings.offLabel
             </p>
           </button>
           <button
-            class="c17 c18 c14"
+            class="c16 c17 c13"
             data-testid="toggler-inactive"
             size="1"
             type="button"
           >
             <p
-              class="c15 c16"
+              class="c14 c15"
               color="primary"
             >
               [value] module.settings.onLabel
