@@ -22,7 +22,7 @@ import StackedBarChart, {
   ChartItem,
 } from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
-import { convertFromBytesToDecimal } from "App/__deprecated__/renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -78,11 +78,19 @@ const FilesSummary: FunctionComponent<Props> = ({
         chartData={memoryToStackedBarChartData(diskSpaceCategories)}
       />
       <StatsContainer>
-        <Text displayStyle={TextDisplayStyle.Paragraph3} color="secondary">
-          {`${convertFromBytesToDecimal(usedMemory)} (${usedMemoryPercent}%)`}
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph3}
+          color="secondary"
+          testId={FilesSummaryTestIds.UsedMemory}
+        >
+          {`${convertBytes(usedMemory)} (${usedMemoryPercent}%)`}
         </Text>
-        <Text displayStyle={TextDisplayStyle.Paragraph3} color="secondary">
-          {convertFromBytesToDecimal(totalMemorySpace)}
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph3}
+          color="secondary"
+          testId={FilesSummaryTestIds.TotalMemory}
+        >
+          {convertBytes(totalMemorySpace)}
         </Text>
       </StatsContainer>
     </FilesSummaryContainer>

@@ -35,7 +35,7 @@ describe("FilesSummaryItem", () => {
     )
     expect(
       queryByTestId(FilesSummaryItemTestIds.Description)
-    ).toHaveTextContent("(1.1 GB)")
+    ).toHaveTextContent("(1.0 GB)")
   })
 
   test("FilesSummaryItem should render with filesAmount", () => {

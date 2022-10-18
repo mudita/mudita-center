@@ -6,4 +6,6 @@
 export enum FilesSummaryTestIds {
   Wrapper = "files-summary-wrapper",
   Title = "files-summary-title",
+  UsedMemory = "files-summary-used-memory",
+  TotalMemory = "files-summary-total-memory",
 }
