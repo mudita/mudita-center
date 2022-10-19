@@ -107,14 +107,12 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
 
   useLayoutEffect(() => {
     const trigger = () => {
-      if (showIfTextEllipsis) {
-        const text = ref.current as HTMLDivElement
-        const isEllipsisActive = text && text.offsetWidth < text.scrollWidth
-        setIsEllipsis(isEllipsisActive ? isEllipsisActive : false)
-      }
+      const text = ref.current as HTMLDivElement
+      const isEllipsisActive = text && text.offsetWidth < text.scrollWidth
+      setIsEllipsis(isEllipsisActive)
     }
 
-    if (ref.current) {
+    if (showIfTextEllipsis && ref.current) {
       if ("ResizeObserver" in window) {
         new ResizeObserver(trigger).observe(ref.current)
       }
@@ -123,8 +121,7 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
     }
   }, [ref, showIfTextEllipsis])
 
-  const showTooltip =
-    (showIfTextEllipsis && isEllipsis) || (!showIfTextEllipsis && !isEllipsis)
+  const showTooltip = (showIfTextEllipsis && isEllipsis) || !showIfTextEllipsis
   return (
     <>
       {React.cloneElement(Element, {

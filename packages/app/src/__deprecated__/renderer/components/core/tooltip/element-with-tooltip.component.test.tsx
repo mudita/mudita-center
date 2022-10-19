@@ -24,6 +24,10 @@ const renderer = (extraProps?: Partial<Props>) => {
 }
 
 describe("ElementWithTooltip component", () => {
+  test("doesn't shows tooltip when text is not hover", () => {
+    const { queryByText } = renderer()
+    expect(queryByText("Tooltip text")).not.toBeVisible()
+  })
   test("shows tooltip on hover when no need to ellipsis text", () => {
     const { getByTestId, getByText } = renderer()
     fireEvent.mouseOver(getByTestId("element-div"))

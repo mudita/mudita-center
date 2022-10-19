@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum LongTextTooltipTestIds {
-  Text = "long-text-tooltip-text",
+export enum TextTooltipTestIds {
+  Text = "text-tooltip-text",
 }

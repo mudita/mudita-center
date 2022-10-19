@@ -14,7 +14,7 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { Message as MessageInterface } from "App/__deprecated__/renderer/interfaces/message.interface"
-import { LongTextTooltipTestIds } from "App/ui/components/long-text-tooltip/long-text-tooltip-test-ids"
+import { TextTooltipTestIds } from "App/ui/components/text-tooltip/text-tooltip-test-ids"
 
 interface Props {
   className?: string
@@ -27,9 +27,10 @@ const Content = styled.div`
   background-color: ${backgroundColor("disabled")};
   padding: 0.4rem 0.8rem;
   border-radius: ${borderRadius("medium")};
+  word-break: break-word;
 `
 
-export const LongTextTooltip: FunctionComponent<Props> = ({
+export const TextTooltip: FunctionComponent<Props> = ({
   description,
   message,
   ...props
@@ -41,7 +42,7 @@ export const LongTextTooltip: FunctionComponent<Props> = ({
         color="primary"
         element={"p"}
         message={message ? message : undefined}
-        data-testid={LongTextTooltipTestIds.Text}
+        data-testid={TextTooltipTestIds.Text}
       >
         {!message && description}
       </Text>

@@ -21,7 +21,7 @@ import {
 import ElementWithTooltip, {
   ElementWithTooltipPlace,
 } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
-import { LongTextTooltip } from "App/ui/components/long-text-tooltip/long-text-tooltip.component"
+import { TextTooltip } from "App/ui/components/text-tooltip/text-tooltip.component"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
 const BackupTableRow = styled(SettingsTableRow)`
@@ -83,7 +83,7 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
           }
           place={ElementWithTooltipPlace.BottomRight}
         >
-          <LongTextTooltip description={backupLocation} />
+          <TextTooltip description={backupLocation} />
         </ElementWithTooltip>
       </BackupData>
       <BackupActionsWrapper>

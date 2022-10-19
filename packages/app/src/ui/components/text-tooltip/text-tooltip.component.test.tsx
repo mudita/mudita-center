@@ -5,10 +5,10 @@
 
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import { LongTextTooltip } from "App/ui/components/long-text-tooltip/long-text-tooltip.component"
-import { LongTextTooltipTestIds } from "App/ui/components/long-text-tooltip/long-text-tooltip-test-ids"
+import { TextTooltip } from "App/ui/components/text-tooltip/text-tooltip.component"
+import { TextTooltipTestIds } from "App/ui/components/text-tooltip/text-tooltip-test-ids"
 
-type Props = ComponentProps<typeof LongTextTooltip>
+type Props = ComponentProps<typeof TextTooltip>
 
 const defaultProps: Props = {
   description: "Test text",
@@ -19,22 +19,20 @@ const renderer = (extraProps?: Partial<Props>) => {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<LongTextTooltip {...props} />)
+  return renderWithThemeAndIntl(<TextTooltip {...props} />)
 }
 
 describe("LongTextTooltip component", () => {
   test("shows description properly", () => {
     const { getByTestId } = renderer()
-    expect(getByTestId(LongTextTooltipTestIds.Text)).toHaveTextContent(
-      "Test text"
-    )
+    expect(getByTestId(TextTooltipTestIds.Text)).toHaveTextContent("Test text")
   })
   test("shows message properly", () => {
     const { getByTestId } = renderer({
       message: { id: "module.settings.backupLabel" },
       description: undefined,
     })
-    expect(getByTestId(LongTextTooltipTestIds.Text)).toHaveTextContent(
+    expect(getByTestId(TextTooltipTestIds.Text)).toHaveTextContent(
       "[value] module.settings.backupLabel"
     )
   })
@@ -42,7 +40,7 @@ describe("LongTextTooltip component", () => {
     const { getByTestId } = renderer({
       message: { id: "module.settings.backupLabel" },
     })
-    expect(getByTestId(LongTextTooltipTestIds.Text)).toHaveTextContent(
+    expect(getByTestId(TextTooltipTestIds.Text)).toHaveTextContent(
       "[value] module.settings.backupLabel"
     )
   })
