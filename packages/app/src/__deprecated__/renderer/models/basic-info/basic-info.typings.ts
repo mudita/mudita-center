@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType, CaseColour } from "@mudita/pure"
+import { DeviceType, CaseColor } from "App/device/constants"
 
 export interface SimCard {
   readonly network?: string
@@ -46,7 +46,7 @@ export interface StoreValues {
   readonly initialDataLoaded: boolean
   readonly serialNumber: string | undefined
   readonly phoneLockTime?: number
-  readonly caseColour: CaseColour | undefined
+  readonly caseColour: CaseColor | undefined
 }
 
 export interface StoreEffects {

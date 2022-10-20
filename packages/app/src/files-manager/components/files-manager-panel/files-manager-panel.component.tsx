@@ -5,7 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"

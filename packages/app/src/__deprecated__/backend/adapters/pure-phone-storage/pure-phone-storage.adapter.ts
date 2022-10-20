@@ -6,7 +6,7 @@
 import PurePhoneStorageAdapter from "App/__deprecated__/backend/adapters/pure-phone-storage/pure-phone-storage-adapter.class"
 import StorageCategoryInfo from "App/__deprecated__/common/interfaces/storage-category-info.interface"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import { Endpoint, Method } from "@mudita/pure"
+import { Endpoint, Method } from "App/device/constants"
 import {
   RequestResponse,
   RequestResponseStatus,

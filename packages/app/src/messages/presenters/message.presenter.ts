@@ -5,11 +5,13 @@
 
 import {
   Message as PureMessage,
+  CreateMessageRequestConfig,
+  UpdateMessageRequestConfig,
+} from "App/device/types/mudita-os"
+import {
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
-  PostMessagesBody,
-  PutMessageBody,
-} from "@mudita/pure"
+} from "App/device/constants"
 import { Message, NewMessage } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
 
@@ -21,7 +23,9 @@ export type AcceptablePureMessageType =
   | PureMessageType.DRAFT
 
 export class MessagePresenter {
-  static mapToCreatePureMessageBody(newMessage: NewMessage): PostMessagesBody {
+  static mapToCreatePureMessageBody(
+    newMessage: NewMessage
+  ): CreateMessageRequestConfig["body"] {
     return {
       number: newMessage.phoneNumber,
       messageBody: newMessage.content,
@@ -36,7 +40,9 @@ export class MessagePresenter {
     }
   }
 
-  static mapToUpdatePureMessagesBody(message: Message): PutMessageBody {
+  static mapToUpdatePureMessagesBody(
+    message: Message
+  ): UpdateMessageRequestConfig["body"] {
     return {
       category: PureMessagesCategory.message,
       messageBody: message.content,

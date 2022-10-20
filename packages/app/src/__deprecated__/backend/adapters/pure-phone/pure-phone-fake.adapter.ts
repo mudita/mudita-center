@@ -5,14 +5,13 @@
 
 import PurePhoneAdapter from "App/__deprecated__/backend/adapters/pure-phone/pure-phone-adapter.class"
 import {
-  GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
   GetPhoneLockTimeResponseBody,
-  GetRestoreDeviceStatusDataState,
   GetRestoreDeviceStatusResponseBody,
-  MuditaDevice,
   StartBackupResponseBody,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
+import { RestoreState, BackupState } from "App/device/constants"
+import { SerialPortDevice } from "App/device/types/serial-port-device.type"
 import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import {
   RequestResponse,
@@ -30,7 +29,7 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async connectDevice(): Promise<RequestResponse<MuditaDevice>> {
+  public async connectDevice(): Promise<RequestResponse<SerialPortDevice>> {
     return {
       status: RequestResponseStatus.Ok,
     }
@@ -122,7 +121,7 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
       status: RequestResponseStatus.Ok,
       data: {
         id: `<YYYY-MM-DD>T<HHMMSS>Z`,
-        state: GetBackupDeviceStatusDataState.Finished,
+        state: BackupState.Finished,
       },
     }
   }
@@ -144,7 +143,7 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
       status: RequestResponseStatus.Ok,
       data: {
         id: `<YYYY-MM-DD>T<HHMMSS>Z`,
-        state: GetRestoreDeviceStatusDataState.Finished,
+        state: RestoreState.Finished,
       },
     }
   }

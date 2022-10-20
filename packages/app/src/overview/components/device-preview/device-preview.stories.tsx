@@ -5,7 +5,7 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { DevicePreview } from "App/overview/components/device-preview/device-preview.component"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"

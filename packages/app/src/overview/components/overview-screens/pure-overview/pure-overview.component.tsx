@@ -23,7 +23,7 @@ import { Backup, RestoreBackup } from "App/backup/dto"
 import RestoreDeviceFlow, {
   RestoreDeviceFlowState,
 } from "App/overview/components/restore-device-flow/restore-device-flow.component"
-import { DeviceType, CaseColour } from "@mudita/pure"
+import { DeviceType, CaseColor } from "App/device/constants"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
@@ -40,7 +40,7 @@ interface PureOverviewProps {
   readonly networkLevel: number
   readonly pureOsBackupLocation: string
   readonly updatingState: UpdatingState | null
-  readonly caseColour: CaseColour
+  readonly caseColour: CaseColor
   readonly lastBackupDate: Date
   readonly backupDeviceState: State
   readonly restoreDeviceState: State

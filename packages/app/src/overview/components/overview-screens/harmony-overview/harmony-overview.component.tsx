@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"

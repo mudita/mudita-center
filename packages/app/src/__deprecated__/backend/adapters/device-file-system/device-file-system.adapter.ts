@@ -6,7 +6,7 @@
 import * as fs from "fs"
 import stream from "stream"
 import path from "path"
-import { Endpoint, Method } from "@mudita/pure"
+import { Endpoint, Method } from "App/device/constants"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import logger from "App/__deprecated__/main/utils/logger"
 import countCRC32 from "App/__deprecated__/backend/helpers/count-crc32"

@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import { Endpoint, Method } from "@mudita/pure"
+import { Endpoint, Method } from "App/device/constants"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppError } from "App/core/errors"
