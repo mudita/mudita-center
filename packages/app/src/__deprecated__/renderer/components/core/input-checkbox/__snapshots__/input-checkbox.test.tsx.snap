@@ -10,6 +10,7 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c3 {

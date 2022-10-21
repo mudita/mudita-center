@@ -78,6 +78,7 @@ exports[`renders dropdown 1`] = `
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c6 {
