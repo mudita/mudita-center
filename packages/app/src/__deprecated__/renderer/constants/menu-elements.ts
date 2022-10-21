@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { defineMessages } from "react-intl"
 import { View, views } from "App/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "App/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"

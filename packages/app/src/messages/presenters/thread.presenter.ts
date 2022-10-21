@@ -3,10 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Thread as PureThread,
-  MessageType as PureMessageType,
-} from "@mudita/pure"
+import { Thread as PureThread } from "App/device/types/mudita-os"
+import { MessageType as PureMessageType } from "App/device/constants"
 import { Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
 import { Feature, flags } from "App/feature-flags"

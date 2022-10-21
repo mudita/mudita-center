@@ -4,7 +4,7 @@
  */
 
 import { ChangeEvent } from "react"
-import { PaginationBody } from "@mudita/pure"
+import { PaginationBody } from "App/device/types/mudita-os"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { ResultState } from "App/messages/constants"

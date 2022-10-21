@@ -6,7 +6,8 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { DeviceType, timeoutMs } from "@mudita/pure"
+import { timeoutMs } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import {
   URL_MAIN,
   URL_ONBOARDING,

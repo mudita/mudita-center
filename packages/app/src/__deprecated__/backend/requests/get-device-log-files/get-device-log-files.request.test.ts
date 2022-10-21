@@ -8,10 +8,11 @@ import Adapters from "App/__deprecated__/backend/adapters/adapters.interface"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
 import registerGetDeviceLogFiles from "App/__deprecated__/backend/requests/get-device-log-files/get-device-log-files.request"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import MuditaDeviceManager, {
+import MuditaDeviceManager from "@mudita/pure"
+import {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
 import createPurePhoneAdapter from "App/__deprecated__/backend/adapters/pure-phone/pure-phone.adapter"
 import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"

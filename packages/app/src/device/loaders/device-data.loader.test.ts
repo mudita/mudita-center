@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
 import getDeviceInfo from "App/__deprecated__/renderer/requests/get-device-info.request"
 import getNetworkInfo from "App/__deprecated__/renderer/requests/get-network-info.request"

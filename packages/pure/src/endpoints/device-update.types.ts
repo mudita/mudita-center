@@ -29,7 +29,7 @@ export enum DeviceUpdateError {
   NoBootloaderFile = "NoBootloaderFile",
   CantOpenBootloaderFile = "CantOpenBootloaderFile",
   CantAllocateBuffer = "CantAllocateBuffer",
-  CantLoadBootloaderFile = "CantLoadBootloaderFile ",
+  CantLoadBootloaderFile = "CantLoadBootloaderFile",
 }
 
 // Object Map starts from 1000 temporary until it will be documented in Pure API

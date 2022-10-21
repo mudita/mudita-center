@@ -5,7 +5,7 @@
 
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { getConnectedDevice } from "./get-connected-device.action"

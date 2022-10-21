@@ -19,7 +19,7 @@ import Loader from "App/__deprecated__/renderer/components/core/loader/loader.co
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({

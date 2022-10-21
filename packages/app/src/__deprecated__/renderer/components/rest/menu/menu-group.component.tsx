@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import Text, {

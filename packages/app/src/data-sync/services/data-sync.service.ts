@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import { BackupCategory } from "@mudita/pure"
+import { BackupCategory } from "App/device/constants"
 import { DeviceBackup } from "App/__deprecated__/backend/adapters/device-backup/device-backup.adapter"
 import { DeviceBackupService } from "App/__deprecated__/backend/device-backup-service/device-backup-service"
 import { DeviceBaseInfo } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"

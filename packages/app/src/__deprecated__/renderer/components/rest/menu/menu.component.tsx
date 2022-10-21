@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { connect } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import MenuGroup from "App/__deprecated__/renderer/components/rest/menu/menu-group.component"

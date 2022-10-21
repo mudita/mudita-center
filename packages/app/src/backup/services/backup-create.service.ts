@@ -6,9 +6,9 @@
 import {
   Endpoint,
   Method,
-  GetBackupDeviceStatusDataState,
   BackupCategory,
-} from "@mudita/pure"
+  BackupState,
+} from "App/device/constants"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { isResponseSuccessWithData } from "App/core/helpers"
@@ -134,7 +134,7 @@ export class BackupCreateService {
 
     if (
       !isResponseSuccessWithData(response) ||
-      response.data?.state === GetBackupDeviceStatusDataState.Error
+      response.data?.state === BackupState.Error
     ) {
       return Result.failed(
         new AppError(
@@ -142,9 +142,7 @@ export class BackupCreateService {
           "Something went wrong during backup process"
         )
       )
-    } else if (
-      response.data?.state === GetBackupDeviceStatusDataState.Finished
-    ) {
+    } else if (response.data?.state === BackupState.Finished) {
       return Result.success(true)
     } else {
       return new Promise((resolve) => {

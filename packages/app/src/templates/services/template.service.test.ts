@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MessagesCategory, Method, Endpoint } from "@mudita/pure"
+import { MessagesCategory, Method, Endpoint } from "App/device/constants"
 import { TemplateService } from "App/templates/services/template.service"
 import { TemplateRepository } from "App/templates/repositories"
 import DeviceService from "App/__deprecated__/backend/device-service"

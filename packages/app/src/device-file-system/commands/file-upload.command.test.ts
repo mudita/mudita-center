@@ -5,7 +5,7 @@
 
 import fs from "fs"
 import path from "path"
-import { Endpoint, Method } from "@mudita/pure"
+import { Endpoint, Method } from "App/device/constants"
 import { FileUploadCommand } from "App/device-file-system/commands/file-upload.command"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"

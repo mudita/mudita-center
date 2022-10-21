@@ -5,12 +5,13 @@
 
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import MuditaDeviceManager, {
+import MuditaDeviceManager from "@mudita/pure"
+import {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
   PutFileSystemRequestConfig,
   SendFileSystemRequestConfig,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
 import {
   firstsPartDecodeLog,
   firstsPartEncodeLog,

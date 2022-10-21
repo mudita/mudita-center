@@ -3,10 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Template as PureTemplate,
-  MessagesCategory as PureMessagesCategory,
-} from "@mudita/pure"
+import { Template as PureTemplate } from "App/device/types/mudita-os"
+import { MessagesCategory as PureMessagesCategory } from "App/device/constants"
 import { NewTemplate, Template } from "App/templates/dto"
 import { TemplatePresenter } from "App/templates/presenters/template.presenter"
 

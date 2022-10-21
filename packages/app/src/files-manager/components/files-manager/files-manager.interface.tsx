@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"

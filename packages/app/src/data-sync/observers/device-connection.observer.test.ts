@@ -6,7 +6,8 @@
 import { DeviceConnectionObserver } from "./device-connection.observer"
 import { EventEmitter } from "events"
 import { ipcMain } from "electron-better-ipc"
-import { DeviceType, MuditaDevice } from "@mudita/pure"
+import { SerialPortDevice } from "App/device/types/serial-port-device.type"
+import { DeviceType } from "App/device/constants"
 import DeviceService, {
   DeviceServiceEventName,
 } from "App/__deprecated__/backend/device-service"
@@ -65,7 +66,7 @@ describe("Method: observe", () => {
 
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked, {
         deviceType: DeviceType.MuditaPure,
-      } as MuditaDevice)
+      } as SerialPortDevice)
       await flushPromises()
 
       // AUTO DISABLED - fix me if you like :)
@@ -95,7 +96,7 @@ describe("Method: observe", () => {
 
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked, {
         deviceType: DeviceType.MuditaHarmony,
-      } as MuditaDevice)
+      } as SerialPortDevice)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any

@@ -5,7 +5,7 @@
 
 import React from "react"
 import { waitFor } from "@testing-library/dom"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { screen, fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import {
