@@ -112,12 +112,19 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
       setIsEllipsis(isEllipsisActive)
     }
 
+    let resizeObserver: ResizeObserver | undefined
+
     if (showIfTextEllipsis && ref.current) {
       if ("ResizeObserver" in window) {
-        new ResizeObserver(trigger).observe(ref.current)
+        resizeObserver = new ResizeObserver(trigger)
+        resizeObserver.observe(ref.current)
       }
 
       trigger()
+    }
+
+    return () => {
+      resizeObserver && resizeObserver.disconnect()
     }
   }, [ref, showIfTextEllipsis])
 

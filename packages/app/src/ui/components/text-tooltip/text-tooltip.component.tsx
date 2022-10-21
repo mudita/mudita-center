@@ -41,7 +41,7 @@ export const TextTooltip: FunctionComponent<Props> = ({
         displayStyle={TextDisplayStyle.Label}
         color="primary"
         element={"p"}
-        message={message ? message : undefined}
+        message={message}
         data-testid={TextTooltipTestIds.Text}
       >
         {!message && description}
