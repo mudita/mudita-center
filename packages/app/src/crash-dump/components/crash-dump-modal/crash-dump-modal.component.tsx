@@ -5,7 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ModalDialog } from "App/ui/components/modal-dialog"

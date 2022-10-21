@@ -11,7 +11,7 @@ import { ErrorConnectingModalTestIds } from "App/connecting/components/error-con
 import { PasscodeModalTestIds } from "App/__deprecated__/passcode-modal/passcode-modal-test-ids.enum"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { SynchronizationState } from "App/data-sync/reducers"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")

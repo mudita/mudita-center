@@ -5,17 +5,19 @@
 
 import path from "path"
 import {
-  DeviceType,
-  DiagnosticsFileList,
-  Endpoint,
-  GetBackupDeviceStatusRequestConfigBody,
+  GetRestoreDeviceStatusRequestConfig,
   GetPhoneLockTimeResponseBody,
   GetRestoreDeviceStatusResponseBody,
+  StartRestoreRequestConfig,
+} from "App/device/types/mudita-os"
+import { SerialPortDevice } from "App/device/types/serial-port-device.type"
+import {
+  Endpoint,
   Method,
-  MuditaDevice,
+  DeviceType,
+  DiagnosticsFileList,
   PhoneLockCategory,
-  StartRestoreRequestConfigBody,
-} from "@mudita/pure"
+} from "App/device/constants"
 import PurePhoneAdapter, {
   DeviceFilesOption,
 } from "App/__deprecated__/backend/adapters/pure-phone/pure-phone-adapter.class"
@@ -46,7 +48,7 @@ class PurePhone extends PurePhoneAdapter {
     return this.deviceService.disconnect()
   }
 
-  public connectDevice(): Promise<RequestResponse<MuditaDevice>> {
+  public connectDevice(): Promise<RequestResponse<SerialPortDevice>> {
     return this.deviceService.connect()
   }
 
@@ -114,7 +116,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async startRestoreDevice(
-    config: StartRestoreRequestConfigBody
+    config: StartRestoreRequestConfig["body"]
   ): Promise<RequestResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Restore,
@@ -124,7 +126,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async getRestoreDeviceStatus(
-    config: GetBackupDeviceStatusRequestConfigBody
+    config: GetRestoreDeviceStatusRequestConfig["body"]
   ): Promise<RequestResponse<GetRestoreDeviceStatusResponseBody>> {
     return await this.deviceService.request({
       endpoint: Endpoint.Restore,

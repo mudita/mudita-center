@@ -10,6 +10,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c11 {
@@ -23,6 +24,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c2 {
@@ -413,6 +415,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c11 {
@@ -426,6 +429,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c2 {

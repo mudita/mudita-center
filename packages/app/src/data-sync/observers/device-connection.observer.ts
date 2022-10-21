@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType, MuditaDevice } from "@mudita/pure"
+import { SerialPortDevice } from "App/device/types/serial-port-device.type"
+import { DeviceType } from "App/device/constants"
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { Observer } from "App/core/types"
@@ -38,7 +39,7 @@ export class DeviceConnectionObserver implements Observer {
       DeviceServiceEventName.DeviceUnlocked,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      async (device: MuditaDevice) => {
+      async (device: SerialPortDevice) => {
         if (this.invoked) {
           return
         }

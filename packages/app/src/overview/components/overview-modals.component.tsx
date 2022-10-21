@@ -40,7 +40,7 @@ import {
   ModalMainText,
 } from "App/ui/components/modal-dialog"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`

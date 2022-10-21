@@ -110,6 +110,7 @@ const TextWrapper = styled.div<{
   margin: 0;
   ${({ displayStyle }) => getTextStyles(displayStyle)};
   color: ${({ color }) => textColor(color)};
+  white-space: pre-wrap;
 `
 
 export interface TextProps {

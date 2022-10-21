@@ -29,7 +29,7 @@ import {
 } from "App/overview/components/overview-modals.component"
 import { UpdatingForceModal } from "App/overview/components/overview.modal-dialogs"
 import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
-import { CaseColour } from "@mudita/pure"
+import { CaseColor } from "App/device/constants"
 
 type Props = ComponentProps<typeof OverviewContent>
 
@@ -40,7 +40,7 @@ const defaultProps: Props = {
   pureOsAvailable: false,
   networkLevel: 0,
   batteryLevel: 0,
-  caseColour: CaseColour.Gray,
+  caseColour: CaseColor.Gray,
   disconnectDevice: noop,
   memorySpace: {
     reservedSpace: 0,

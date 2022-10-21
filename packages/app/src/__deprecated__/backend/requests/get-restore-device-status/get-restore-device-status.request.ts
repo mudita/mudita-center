@@ -4,9 +4,9 @@
  */
 
 import {
-  GetRestoreDeviceStatusRequestConfigBody,
+  GetRestoreDeviceStatusRequestConfig,
   GetRestoreDeviceStatusResponseBody,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
 import Adapters from "App/__deprecated__/backend/adapters/adapters.interface"
 import createEndpoint from "App/__deprecated__/backend/endpoints/create-endpoint"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
@@ -14,7 +14,7 @@ import { RequestResponse } from "App/core/types/request-response.interface"
 
 const handleGetRestoreDeviceStatus = async (
   { purePhone }: Adapters,
-  config: GetRestoreDeviceStatusRequestConfigBody
+  config: GetRestoreDeviceStatusRequestConfig["body"]
 ): Promise<RequestResponse<GetRestoreDeviceStatusResponseBody>> => {
   return purePhone.getRestoreDeviceStatus(config)
 }

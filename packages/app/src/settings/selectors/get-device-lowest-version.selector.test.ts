@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { initialState } from "App/settings/reducers"
 import { getDeviceLatestVersion } from "App/settings/selectors/get-device-lowest-version.selector"

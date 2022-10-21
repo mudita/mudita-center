@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager, { DeviceInfo } from "@mudita/pure"
+import MuditaDeviceManager from "@mudita/pure"
+import { DeviceInfo } from "App/device/types/mudita-os"
 import registerPurePhoneStorageRequest from "App/__deprecated__/backend/requests/storage/get-storage-info.request"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"

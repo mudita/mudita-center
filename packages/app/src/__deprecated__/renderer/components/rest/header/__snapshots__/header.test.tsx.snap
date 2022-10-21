@@ -11,6 +11,7 @@ exports[`matches snapshot with tabs 1`] = `
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c8 {
@@ -24,6 +25,7 @@ exports[`matches snapshot with tabs 1`] = `
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -231,6 +233,7 @@ exports[`matches snapshot without tabs 1`] = `
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {

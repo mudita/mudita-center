@@ -6,7 +6,7 @@
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
-import { DeviceType, CaseColour } from "@mudita/pure"
+import { DeviceType, CaseColor } from "App/device/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "App/overview/components/overview/overview.component"
 import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
@@ -126,7 +126,7 @@ const defaultProps: Props = {
     usedUserSpace: 200,
     total: 200,
   },
-  caseColour: CaseColour.Gray,
+  caseColour: CaseColor.Gray,
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),
 }

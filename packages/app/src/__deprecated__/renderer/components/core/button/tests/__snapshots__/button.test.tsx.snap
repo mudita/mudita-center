@@ -65,6 +65,7 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -145,6 +146,7 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -264,6 +266,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -344,6 +347,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -463,6 +467,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -552,6 +557,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -678,6 +684,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -785,6 +792,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -933,6 +941,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1041,6 +1050,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -1188,6 +1198,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1262,6 +1273,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1348,6 +1360,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1423,6 +1436,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1510,6 +1524,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1585,6 +1600,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1672,6 +1688,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1741,6 +1758,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1821,6 +1839,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1891,6 +1910,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -1972,6 +1992,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -2042,6 +2063,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -2123,6 +2145,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -2235,6 +2258,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -2359,6 +2383,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -2472,6 +2497,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -2597,6 +2623,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -2710,6 +2737,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -2835,6 +2863,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -2942,6 +2971,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -3060,6 +3090,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -3168,6 +3199,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -3287,6 +3319,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -3395,6 +3428,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c1 {
@@ -3514,6 +3548,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {
@@ -3589,6 +3624,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c0 {

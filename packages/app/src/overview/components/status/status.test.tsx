@@ -5,7 +5,7 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { StatusProps } from "App/overview/components/status/status.interface"
 import Status from "App/overview/components/status/status.component"

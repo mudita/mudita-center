@@ -3,11 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  CaseColour,
-  DeviceType,
-  GetPhoneLockTimeResponseBody,
-} from "@mudita/pure"
+import { GetPhoneLockTimeResponseBody } from "App/device/types/mudita-os"
+import { CaseColor, DeviceType } from "App/device/constants"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { DeviceError, DeviceEvent } from "App/device/constants"
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
@@ -29,7 +26,7 @@ export interface PureDeviceData {
     usedUserSpace: number
     total: number
   }
-  caseColour: CaseColour
+  caseColour: CaseColor
   backupLocation: string
 }
 

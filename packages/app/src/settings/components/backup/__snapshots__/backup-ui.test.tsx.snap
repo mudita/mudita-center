@@ -10,6 +10,7 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c7 {
@@ -21,6 +22,7 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
   color: #6a6a6a;
+  white-space: pre-wrap;
 }
 
 .c13 {
@@ -34,6 +36,7 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
 .c9 {

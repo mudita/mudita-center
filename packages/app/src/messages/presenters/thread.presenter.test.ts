@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Thread as PureThread } from "@mudita/pure"
+import { Thread as PureThread } from "App/device/types/mudita-os"
 import { Thread } from "App/messages/dto"
 import { ThreadPresenter } from "App/messages/presenters/thread.presenter"
 import { MessageType } from "App/messages/constants"

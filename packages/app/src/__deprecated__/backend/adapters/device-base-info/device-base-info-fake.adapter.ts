@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour } from "@mudita/pure"
+import { CaseColor } from "App/device/constants"
 import DeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceInfo from "App/__deprecated__/common/interfaces/device-info.interface"
 import {
@@ -25,7 +25,7 @@ class DeviceBaseInfo extends DeviceBaseInfoAdapter {
         deviceToken: "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
         osVersion: "1.0.0",
         serialNumber: "1UB13213MN14K1",
-        caseColour: CaseColour.Gray,
+        caseColour: CaseColor.Gray,
         backupLocation: "path/to/directory",
       },
     }

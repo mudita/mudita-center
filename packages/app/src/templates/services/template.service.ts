@@ -9,7 +9,7 @@ import {
   Endpoint,
   Method,
   MessagesCategory as PureMessagesCategory,
-} from "@mudita/pure"
+} from "App/device/constants"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -42,6 +42,7 @@ export class TemplateService {
         ...response.data,
         templateBody: template.text,
         order: template.order,
+        lastUsedAt: 0,
       })
 
       this.templateRepository.create(templateData)
