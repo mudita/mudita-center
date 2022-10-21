@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MuditaDevice, DeviceType } from "@mudita/pure"
+import { SerialPortDevice } from "App/device/types/serial-port-device.type"
+import { DeviceType } from "App/device/constants"
 import { connect } from "react-redux"
 import { History } from "history"
 import React, { useEffect } from "react"
@@ -218,7 +219,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const listener = (_: any, props: MuditaDevice) => {
+    const listener = (_: any, props: SerialPortDevice) => {
       connectDevice(props.deviceType)
     }
     registerDeviceConnectedListener(listener)

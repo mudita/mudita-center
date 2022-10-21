@@ -12,7 +12,7 @@ import {
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { ContactPresenter } from "App/contacts/presenters"
-import { Contact as PureContact } from "@mudita/pure"
+import { Contact as PureContact } from "App/device/types/mudita-os"
 import { Contact } from "App/contacts/reducers"
 
 jest.mock("App/contacts/presenters")

@@ -19,8 +19,7 @@ import {
   setInitState,
   setAgreementStatus,
 } from "./base.action"
-import { DeviceEvent, UpdatingState } from "App/device/constants"
-import { CaseColour } from "@mudita/pure"
+import { DeviceEvent, UpdatingState, CaseColor } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -45,7 +44,7 @@ const pureDeviceMock: PureDeviceData = {
     usedUserSpace: 1021,
     total: 16000000000,
   },
-  caseColour: CaseColour.Gray,
+  caseColour: CaseColor.Gray,
   backupLocation: "path/to/directory",
 }
 

@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef, useState } from "react"
-import { DeviceType, DiagnosticsFilePath } from "@mudita/pure"
+import { DeviceType, DiagnosticsFilePath } from "App/device/constants"
 import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
 import delayResponse from "@appnroll/delay-response"

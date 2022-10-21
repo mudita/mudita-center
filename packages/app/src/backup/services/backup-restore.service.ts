@@ -4,7 +4,7 @@
  */
 
 import fs from "fs"
-import { Endpoint, Method, GetRestoreDeviceStatusDataState } from "@mudita/pure"
+import { Endpoint, Method, RestoreState } from "App/device/constants"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import {
@@ -109,7 +109,7 @@ export class BackupRestoreService {
       },
     })
 
-    if (response.data?.state === GetRestoreDeviceStatusDataState.Finished) {
+    if (response.data?.state === RestoreState.Finished) {
       return {
         status: RequestResponseStatus.Ok,
       }
@@ -125,7 +125,7 @@ export class BackupRestoreService {
       }
     }
 
-    if (response.data?.state === GetRestoreDeviceStatusDataState.Error) {
+    if (response.data?.state === RestoreState.Error) {
       return {
         status: RequestResponseStatus.Error,
       }

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "@mudita/pure"
+import { Endpoint, Method } from "App/device/constants"
 import { RetrieveFilesCommand } from "App/device-file-system/commands/retrieve-files.command"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { AppError } from "App/core/errors"

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour, Endpoint, Method } from "@mudita/pure"
+import { CaseColor, Endpoint, Method } from "App/device/constants"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import DeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceInfo from "App/__deprecated__/common/interfaces/device-info.interface"
@@ -50,7 +50,7 @@ export const getDeviceInfoRequest = async (
         deviceToken,
         osVersion: data.version,
         serialNumber: data.serialNumber,
-        caseColour: data.caseColour ? data.caseColour : CaseColour.Gray,
+        caseColour: data.caseColour ? data.caseColour : CaseColor.Gray,
         backupLocation: data.backupLocation ? data.backupLocation : "",
       },
     }

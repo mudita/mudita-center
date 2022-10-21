@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { OutboxEntry, OutboxEntryChange, OutboxEntryType } from "@mudita/pure"
+import { OutboxEntry } from "App/device/types/mudita-os"
+import { OutboxEntryChange, OutboxEntryType } from "App/device/constants"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,

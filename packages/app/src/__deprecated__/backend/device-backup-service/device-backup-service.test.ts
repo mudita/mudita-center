@@ -3,9 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager, {
-  GetBackupDeviceStatusDataState,
-} from "@mudita/pure"
+import MuditaDeviceManager from "@mudita/pure"
+import { BackupState } from "App/device/constants"
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import createDeviceBackupService from "App/__deprecated__/backend/device-backup-service/device-backup-service"
@@ -51,7 +50,7 @@ describe("DeviceBackupService serivce", () => {
             status: RequestResponseStatus.Ok,
             data: {
               id: backupId,
-              state: GetBackupDeviceStatusDataState.Finished,
+              state: BackupState.Finished,
             },
           }
         },

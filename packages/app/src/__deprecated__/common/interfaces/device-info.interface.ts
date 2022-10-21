@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour } from "@mudita/pure"
+import { CaseColor } from "App/device/constants"
 
 export default interface DeviceInfo {
   readonly serialNumber: string
   readonly osVersion: string
-  readonly caseColour: CaseColour
+  readonly caseColour: CaseColor
   readonly backupLocation: string
   readonly deviceToken: string
 }

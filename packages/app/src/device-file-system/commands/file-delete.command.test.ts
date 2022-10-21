@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "@mudita/pure"
+import { Endpoint, Method } from "App/device/constants"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { SuccessResult } from "App/core/builder"
 import {

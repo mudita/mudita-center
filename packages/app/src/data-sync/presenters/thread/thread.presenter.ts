@@ -11,7 +11,7 @@ import {
   ContactNameEntity,
   SmsEntity,
 } from "App/data-sync/types"
-import { MessageType as PureMessageType } from "@mudita/pure"
+import { MessageType as PureMessageType } from "App/device/constants"
 import { MessageType } from "App/messages/constants"
 import { Feature, flags } from "App/feature-flags"
 

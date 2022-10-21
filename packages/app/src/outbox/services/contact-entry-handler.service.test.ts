@@ -5,7 +5,8 @@
 
 import { ContactService } from "App/contacts/services"
 import { ContactRepository } from "App/contacts/repositories"
-import { OutboxEntry, OutboxEntryChange, OutboxEntryType } from "@mudita/pure"
+import { OutboxEntryChange, OutboxEntryType } from "App/device/constants"
+import { OutboxEntry } from "App/device/types/mudita-os"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,

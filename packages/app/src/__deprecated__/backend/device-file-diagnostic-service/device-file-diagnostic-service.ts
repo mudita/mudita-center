@@ -3,12 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  DiagnosticsFileList,
-  Endpoint,
-  GetFileListResponseBody,
-  Method,
-} from "@mudita/pure"
+import { DiagnosticsFileList, Endpoint, Method } from "App/device/constants"
+import { GetDeviceFilesResponseBody } from "App/device/types/mudita-os"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
@@ -17,7 +13,7 @@ class DeviceFileDiagnosticService {
 
   public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
-  ): Promise<RequestResponse<GetFileListResponseBody>> {
+  ): Promise<RequestResponse<GetDeviceFilesResponseBody>> {
     return this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
