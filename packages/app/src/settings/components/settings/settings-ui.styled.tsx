@@ -5,7 +5,6 @@
 
 import styled from "styled-components"
 import { borderColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import { Name } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import { IconButtonWithPrimaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-primary-tooltip.component"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
@@ -26,10 +25,11 @@ export const Data = styled.div`
   flex-direction: row;
 `
 
-export const SettingsLabel = styled(Name)`
+export const SettingsLabel = styled(Text)`
   margin-left: 3.2rem;
   margin-bottom: 0;
   align-self: center;
+  grid-area: Label;
 `
 
 export const SettingsDescriptionWrapper = styled.div`
