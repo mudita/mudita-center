@@ -32,6 +32,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   deleteTemplates,
   updateTemplate,
   updateTemplateOrder,
+
   resetAllItems,
   selectAllItems,
   toggleItem,
