@@ -3,13 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour, DeviceType } from "@mudita/pure"
 import { deviceReducer, initialState } from "App/device/reducers/device.reducer"
 import {
   PureDeviceData,
   HarmonyDeviceData,
 } from "App/device/reducers/device.interface"
 import {
+  CaseColor,
+  DeviceType,
   DeviceEvent,
   ConnectionState,
   UpdatingState,
@@ -44,7 +45,7 @@ const pureDeviceMock: PureDeviceData = {
     usedUserSpace: 1021,
     total: 16000000000,
   },
-  caseColour: CaseColour.Gray,
+  caseColour: CaseColor.Gray,
   backupLocation: "path/to/directory",
 }
 
@@ -344,7 +345,7 @@ describe("Set device data functionality", () => {
           usedUserSpace: 1021,
           total: 16000000000,
         },
-        caseColour: CaseColour.Gray,
+        caseColour: CaseColor.Gray,
         backupLocation: "path/to/directory",
       },
     })

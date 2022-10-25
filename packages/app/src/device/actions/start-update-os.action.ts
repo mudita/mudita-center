@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DiagnosticsFilePath } from "@mudita/pure"
+import { DiagnosticsFilePath } from "App/device/constants"
 import { DeviceError, DeviceEvent } from "App/device/constants"
 import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
 import { removeFile } from "App/device-file-system"

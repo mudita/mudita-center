@@ -6,7 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { getConfiguration } from "App/settings/requests"
 import { getSettings } from "App/settings/requests"
 import { SettingsEvent } from "App/settings/constants"

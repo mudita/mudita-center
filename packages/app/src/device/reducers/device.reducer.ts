@@ -4,7 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import {
   rejectedAction,
   pendingAction,

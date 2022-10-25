@@ -5,7 +5,7 @@
 
 import { createSelector } from "reselect"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { deviceTypeSelector } from "App/device/selectors/device-type.selector"
 import { SettingsState } from "App/settings/reducers/settings.interface"
 import { settingsStateSelector } from "App/settings/selectors/get-settings-state.selector"

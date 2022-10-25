@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import React, { ComponentProps } from "react"
 import { State } from "App/core/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"

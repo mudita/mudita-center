@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { OutboxEntry, OutboxEntryChange } from "@mudita/pure"
+import { OutboxEntry } from "App/device/types/mudita-os"
+import { OutboxEntryChange } from "App/device/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { ContactService } from "App/contacts/services"
 import { ContactRepository } from "App/contacts/repositories"

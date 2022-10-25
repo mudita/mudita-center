@@ -5,7 +5,7 @@
 
 import store from "App/__deprecated__/renderer/store"
 import { ipcRenderer } from "electron-better-ipc"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { backendAdaptersChannel } from "App/__deprecated__/backend/backend.types"
 import { connectDevice, disconnectDevice, unlockedDevice } from "App/device"
 

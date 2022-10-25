@@ -4,7 +4,7 @@
  */
 
 import { Selector } from "@reduxjs/toolkit"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const deviceTypeSelector: Selector<ReduxRootState, DeviceType | null> = (

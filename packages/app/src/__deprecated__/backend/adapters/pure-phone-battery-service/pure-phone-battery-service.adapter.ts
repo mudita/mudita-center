@@ -5,7 +5,7 @@
 
 import PurePhoneBatteryServiceAdapter from "App/__deprecated__/backend/adapters/pure-phone-battery-service/pure-phone-battery-service-adapter.class"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import { Endpoint, Method } from "@mudita/pure"
+import { Endpoint, Method } from "App/device/constants"
 import {
   RequestResponse,
   RequestResponseStatus,

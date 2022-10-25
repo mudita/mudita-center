@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { BackupCategory } from "@mudita/pure"
+import { BackupCategory } from "App/device/constants"
 import { DownloadDeviceFileLocallyOptions } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import { RequestResponse } from "App/core/types/request-response.interface"
 

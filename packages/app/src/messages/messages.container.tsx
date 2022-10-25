@@ -74,14 +74,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   selectedItems: state.messages.selectedItems,
   searchResult: state.messages.data.searchResult,
   state: state.messages.state,
-  messageDeleteNotifications: getNotificationByResourceAndMethod(
-    NotificationResourceType.Message,
-    NotificationMethod.Popup
-  )(state),
-  threadDeleteNotifications: getNotificationByResourceAndMethod(
-    NotificationResourceType.Thread,
-    NotificationMethod.Popup
-  )(state),
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
@@ -121,7 +113,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(deleteMessage(messageId)),
-  removeNotification: (notificationId: string) =>
+  removeLayoutNotification: (notificationId: string) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(removeNotification(notificationId)),

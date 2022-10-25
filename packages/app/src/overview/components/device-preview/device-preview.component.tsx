@@ -5,7 +5,7 @@
 
 import React from "react"
 import styled from "styled-components"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
 import {
@@ -22,7 +22,10 @@ import {
   PureSystemButtonContainer,
   SerialNumberWrapper,
 } from "App/overview/components/device-preview/device-preview.styled"
-import { URL_MAIN, URL_OVERVIEW } from "App/__deprecated__/renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_OVERVIEW,
+} from "App/__deprecated__/renderer/constants/urls"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { DeviceImage } from "App/overview/components/device-preview/device-image.component"

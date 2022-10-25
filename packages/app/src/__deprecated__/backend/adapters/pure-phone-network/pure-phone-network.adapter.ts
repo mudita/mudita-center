@@ -5,7 +5,7 @@
 
 import PurePhoneNetworkAdapter from "App/__deprecated__/backend/adapters/pure-phone-network/pure-phone-network-adapter.class"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import { Endpoint, Method, SIM } from "@mudita/pure"
+import { Endpoint, Method, SIM } from "App/device/constants"
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import {
   RequestResponse,

@@ -4,9 +4,9 @@
  */
 
 import React, { ComponentProps } from "react"
-import { CaseColour } from "@mudita/pure"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
+import { CaseColor } from "App/device/constants"
 import store from "App/__deprecated__/renderer/store"
 import history from "App/__deprecated__/renderer/routes/history"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
@@ -41,7 +41,7 @@ const defaultProps: Props = {
   openContactSupportFlow: jest.fn(),
   backupDeviceState: State.Initial,
   backups: [],
-  caseColour: CaseColour.Black,
+  caseColour: CaseColor.Black,
   networkLevel: 0,
   readBackupDeviceDataState: jest.fn(),
   readRestoreDeviceDataState: jest.fn(),

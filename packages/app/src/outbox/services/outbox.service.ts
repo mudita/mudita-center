@@ -3,14 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { GetEntriesResponseBody, OutboxEntry } from "App/device/types/mudita-os"
 import {
-  Endpoint,
-  GetEntriesResponseBody,
-  Method,
-  OutboxEntry,
-  OutboxCategory,
   OutboxEntryType,
-} from "@mudita/pure"
+  OutboxCategory,
+  Method,
+  Endpoint,
+} from "App/device/constants"
 import { asyncNoop } from "App/__deprecated__/renderer/utils/noop"
 import { DeviceService } from "App/__deprecated__/backend/device-service"
 import {

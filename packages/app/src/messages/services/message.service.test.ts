@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Message as PureMessage } from "App/device/types/mudita-os"
 import {
   Endpoint,
-  Message as PureMessage,
+  Method,
   MessagesCategory as PureMessagesCategory,
   MessageType,
   MessageType as PureMessageType,
-  Method,
-} from "@mudita/pure"
+} from "App/device/constants"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,

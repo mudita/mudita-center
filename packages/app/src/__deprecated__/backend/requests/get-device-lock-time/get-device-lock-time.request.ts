@@ -6,7 +6,7 @@
 import Adapters from "App/__deprecated__/backend/adapters/adapters.interface"
 import createEndpoint from "App/__deprecated__/backend/endpoints/create-endpoint"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
-import { GetPhoneLockTimeResponseBody } from "@mudita/pure"
+import { GetPhoneLockTimeResponseBody } from "App/device/types/mudita-os"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
 const handleGetDeviceLockTime = ({

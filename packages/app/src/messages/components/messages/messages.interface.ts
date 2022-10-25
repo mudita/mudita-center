@@ -4,7 +4,7 @@
  */
 
 import { ChangeEvent } from "react"
-import { PaginationBody } from "@mudita/pure"
+import { PaginationBody } from "App/device/types/mudita-os"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { ResultState } from "App/messages/constants"
@@ -26,10 +26,12 @@ export interface Content {
 export interface MessagesServiceState {
   messageDeleting: boolean
   messageDeletingConfirmation: boolean
+  messageDeletingInfo: boolean
   attachContact: boolean
   attachTemplate: boolean
   threadDeleting: boolean
   threadDeletingConfirmation: boolean
+  threadDeletingInfo: boolean
   browseContact: boolean
   draftDeleting: boolean
 }
@@ -54,7 +56,7 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   ) => Promise<PayloadAction<CreateMessageDataResponse>>
   deleteMessage: (messageId: string) => Promise<string>
   updateMessage: (message: Message) => Promise<void>
-  removeNotification: (notificationId: string) => void
+  removeLayoutNotification: (notificationId: string) => void
   currentlyDeletingMessageId: string | null
   resendMessage: (messageId: string) => void
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
@@ -71,6 +73,4 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   searchMessages: (searchParams: SearchParams) => void
   searchResult: SearchResult
   state: State
-  messageDeleteNotifications: Notification[]
-  threadDeleteNotifications: Notification[]
 }

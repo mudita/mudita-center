@@ -8,7 +8,7 @@ import {
   TrackOsUpdateState,
   TrackOsUpdateOptions,
 } from "App/analytic-data-tracker/helpers/track-os-update"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { trackRequest } from "App/analytic-data-tracker/requests"
 import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
