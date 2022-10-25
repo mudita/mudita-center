@@ -3,12 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager from "@mudita/pure"
+import { DeviceManager } from "App/device/services/device-manager.service"
 import { DiagnosticsFileList } from "App/device/constants"
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { createDeviceFileDiagnosticService } from "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+
+const deviceManager = {} as DeviceManager
 
 jest.mock("App/__deprecated__/backend/device-service")
 
@@ -26,7 +28,7 @@ describe("DeviceFileDiagnosticService serivce", () => {
         },
       }
     })
-    const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+    const deviceService = new DeviceService(deviceManager, ipcMain)
 
     const deviceFileDiagnosticService =
       createDeviceFileDiagnosticService(deviceService)

@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MuditaDeviceManager } from "@mudita/pure"
 import { MainProcessIpc } from "electron-better-ipc"
 import Backend from "App/__deprecated__/backend/backend"
 import getFakeAdapters from "App/__deprecated__/tests/get-fake-adapters"
@@ -40,12 +39,19 @@ import registerDownloadDeviceCrashDumpFiles from "App/__deprecated__/backend/req
 import { registerFileSystemRemoveRequest } from "App/device-file-system"
 import createDeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 
+import {
+  DeviceManager,
+  UsbDetector,
+  DeviceResolverService,
+} from "App/device/services"
 import { ApplicationModule } from "App/core/application.module"
 
-const bootstrap = (
-  deviceManager: MuditaDeviceManager,
-  ipcMain: MainProcessIpc
-): void => {
+const bootstrap = (ipcMain: MainProcessIpc): void => {
+  const deviceManager = new DeviceManager(
+    new UsbDetector(),
+    new DeviceResolverService()
+  )
+
   const deviceService = createDeviceService(deviceManager, ipcMain)
   const deviceBaseInfo = createDeviceBaseInfoAdapter(deviceService)
   const deviceFileDiagnosticService =

@@ -18,11 +18,10 @@ export class SuccessResult<Data> {
   constructor(public data: Data) {}
 }
 
-export class FailedResult {
-  public data = undefined
+export class FailedResult<Data = undefined> {
   public ok = false
 
-  constructor(public error: AppError) {}
+  constructor(public error: AppError, public data: Data) {}
 }
 
 export class Result {
@@ -30,7 +29,10 @@ export class Result {
     return new SuccessResult<Data>(data)
   }
 
-  static failed(error: AppError): ResultObject<undefined> {
-    return new FailedResult({ ...error })
+  static failed<Data = undefined>(
+    error: AppError,
+    data?: Data
+  ): ResultObject<Data> {
+    return new FailedResult({ ...error }, data)
   }
 }

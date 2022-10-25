@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager from "@mudita/pure"
+import { DeviceManager } from "App/device/services/device-manager.service"
 import { DeviceInfo } from "App/device/types/mudita-os"
 import registerBatteryInfoRequest from "App/__deprecated__/backend/requests/battery/get-battery-info.request"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
@@ -30,6 +30,8 @@ const mockDeviceInfo: DeviceInfo = {
   trayState: "1",
 } as unknown as DeviceInfo
 
+const deviceManager = {} as DeviceManager
+
 jest.mock("App/__deprecated__/backend/device-service")
 
 test("returns required battery info", async () => {
@@ -43,7 +45,7 @@ test("returns required battery info", async () => {
   })
   registerBatteryInfoRequest({
     pureBatteryService: createPurePhoneBatteryAdapter(
-      new DeviceService(MuditaDeviceManager, ipcMain)
+      new DeviceService(deviceManager, ipcMain)
     ),
   } as unknown as Adapters)
   // AUTO DISABLED - fix me if you like :)
