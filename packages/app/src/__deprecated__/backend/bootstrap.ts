@@ -5,6 +5,7 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import Backend from "App/__deprecated__/backend/backend"
+import { flags, Feature } from "App/feature-flags"
 import getFakeAdapters from "App/__deprecated__/tests/get-fake-adapters"
 import { createDeviceService } from "App/__deprecated__/backend/device-service"
 import createDeviceBackupService from "./device-backup-service/device-backup-service"
@@ -38,7 +39,7 @@ import registerGetRestoreDeviceStatusRequest from "App/__deprecated__/backend/re
 import registerDownloadDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
 import { registerFileSystemRemoveRequest } from "App/device-file-system"
 import createDeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
-
+import PureLogger from "App/__deprecated__/main/utils/pure-logger"
 import {
   DeviceManager,
   UsbDetector,
@@ -51,6 +52,15 @@ const bootstrap = (ipcMain: MainProcessIpc): void => {
     new UsbDetector(),
     new DeviceResolverService()
   )
+
+  const enabled =
+    process.env.NODE_ENV === "development" &&
+    process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
+      ? false
+      : flags.get(Feature.LoggerEnabled)
+
+  deviceManager.registerLogger(new PureLogger())
+  deviceManager.toggleLogs(enabled)
 
   const deviceService = createDeviceService(deviceManager, ipcMain)
   const deviceBaseInfo = createDeviceBaseInfoAdapter(deviceService)

@@ -4,7 +4,10 @@
  */
 
 import { EventEmitter } from "events"
-import SerialPort from "serialport"
+import SerialPort, { PortInfo } from "serialport"
+import { LoggerFactory } from "App/core/factories"
+import { DeviceLogger, ConsoleLogger } from "App/core/types"
+import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { UsbDetector } from "App/device/services/usb-detector.service"
 import { PortInfoValidator } from "App/device/validators"
 import { DeviceResolverService } from "App/device/services/device-resolver.service"
@@ -22,6 +25,7 @@ export interface DeviceManagerClass {
 
 export class DeviceManager implements DeviceManagerClass {
   private eventEmitter = new EventEmitter()
+  private logger: DeviceLogger = LoggerFactory.getInstance()
 
   constructor(
     private usbDetector: UsbDetector,
@@ -30,8 +34,16 @@ export class DeviceManager implements DeviceManagerClass {
     this.registerAttachDeviceEmitter()
   }
 
+  public registerLogger(logger: ConsoleLogger): void {
+    this.logger.registerLogger(logger)
+  }
+
+  public toggleLogs(enabled: boolean): void {
+    this.logger.toggleLogs(enabled)
+  }
+
   public async getDevices(): Promise<Device[]> {
-    const portList = await SerialPort.list()
+    const portList = await this.getSerialPortList()
 
     return (
       portList
@@ -67,7 +79,7 @@ export class DeviceManager implements DeviceManagerClass {
       if (PortInfoValidator.isVendorIdValid(portInfo)) {
         const retryLimit = 20
         for (let i = 0; i < retryLimit; i++) {
-          const portList = await SerialPort.list()
+          const portList = await this.getSerialPortList()
 
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -90,7 +102,13 @@ export class DeviceManager implements DeviceManagerClass {
     })
   }
 
+  @log("==== serial port: attached device ====", LogConfig.Args)
   private emitAttachedDeviceEvent(device: Device) {
     this.eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
+  }
+
+  @log("==== serial port: list ====")
+  private getSerialPortList(): Promise<PortInfo[]> {
+    return SerialPort.list()
   }
 }
