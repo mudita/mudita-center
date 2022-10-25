@@ -4,7 +4,7 @@
  */
 
 import { v4 as uuid } from "uuid"
-import { OutboxEntryType, OutboxEntryChange } from "App/device/constants"
+import { OutboxEntryType } from "App/device/constants"
 import { ipcRenderer } from "electron-better-ipc"
 import store from "App/__deprecated__/renderer/store"
 import { pushNotification } from "App/notification/actions"
@@ -26,13 +26,10 @@ const resourceTypeMap: Record<OutboxEntryType, NotificationResourceType> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const newNotifications = (_: any, data: EntryChangesEvent[]): void => {
   data.forEach((item) => {
-    const deleteNotification = item.entry.change === OutboxEntryChange.Deleted
     void store.dispatch(
       pushNotification({
         id: uuid(),
-        method: deleteNotification
-          ? NotificationMethod.Popup
-          : NotificationMethod.Layout,
+        method: NotificationMethod.Layout,
         type: NotificationType.Info,
         resourceType: resourceTypeMap[item.entry.type],
         content: item.payload,

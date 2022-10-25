@@ -15,6 +15,7 @@ const defaultPropsMock: DeleteThreadModalProps = {
   deletedThreads: [],
   error: null,
   deleting: false,
+  deletingInfo: false,
   deletingConfirmation: false,
   onCloseDeletingErrorModal: jest.fn(),
   onDelete: jest.fn(),
@@ -100,6 +101,52 @@ describe("Component: `DeletingTemplateModals`", () => {
     fireEvent.click(cancelButton)
 
     expect(defaultPropsMock.onCloseDeletingModal).toBeCalled()
+  })
+
+  test("displays info pop up if `creatingInfo` is equal to `true` and `error` is empty", () => {
+    const { queryByTestId } = render({
+      ...defaultPropsMock,
+      deletingInfo: true,
+      deletedThreads: ["1"],
+    })
+
+    const popUp = queryByTestId(DeleteThreadModalsTestIds.DeletedPopUp)
+
+    expect(popUp).toBeInTheDocument()
+    expect(popUp).toHaveTextContent("[value] module.messages.deletedThread")
+
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ConfirmationModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.LoadingModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ErrorModal)
+    ).not.toBeInTheDocument()
+  })
+
+  test("displays info pop up with deleted entity count if `creatingInfo` is equal to `true`, `error` is empty and `deletedTemplatesLength` is more then `1`", () => {
+    const { queryByTestId } = render({
+      ...defaultPropsMock,
+      deletingInfo: true,
+      deletedThreads: ["1", "2"],
+    })
+
+    const popUp = queryByTestId(DeleteThreadModalsTestIds.DeletedPopUp)
+
+    expect(popUp).toBeInTheDocument()
+    expect(popUp).toHaveTextContent("[value] module.messages.deletedThreads")
+
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ConfirmationModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.LoadingModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ErrorModal)
+    ).not.toBeInTheDocument()
   })
 
   test("displays loading modal if `deleting` is equal to `true` and `error` is empty", () => {

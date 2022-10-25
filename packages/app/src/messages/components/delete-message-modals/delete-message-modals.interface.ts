@@ -6,6 +6,7 @@
 export interface DeleteMessageModalProps {
   error: Error | string | null
   deleting: boolean
+  deletingInfo: boolean
   deletingConfirmation: boolean
   onCloseDeletingErrorModal: () => void
   onDelete: () => void
