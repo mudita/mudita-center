@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager from "@mudita/pure"
+import { DeviceManager } from "App/device/services/device-manager.service"
 import { BackupState } from "App/device/constants"
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "App/__deprecated__/backend/device-service"
@@ -12,6 +12,8 @@ import { RequestResponseStatus } from "App/core/types/request-response.interface
 
 jest.mock("App/__deprecated__/backend/device-service")
 const backupId = `<YYYY-MM-DD>T<HHMMSS>Z`
+
+const deviceManager = {} as DeviceManager
 
 describe("DeviceBackupService serivce", () => {
   describe("when requests return success for startBackupDevice method", () => {
@@ -27,7 +29,7 @@ describe("DeviceBackupService serivce", () => {
         },
       }
     })
-    const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+    const deviceService = new DeviceService(deviceManager, ipcMain)
 
     const deviceBackupService = createDeviceBackupService(deviceService)
 
@@ -56,7 +58,7 @@ describe("DeviceBackupService serivce", () => {
         },
       }
     })
-    const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+    const deviceService = new DeviceService(deviceManager, ipcMain)
 
     const deviceBackupService = createDeviceBackupService(deviceService)
 

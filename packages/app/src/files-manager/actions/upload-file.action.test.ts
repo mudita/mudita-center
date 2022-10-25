@@ -8,7 +8,7 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
-import { SuccessResult, FailedResult } from "App/core/builder"
+import { Result, SuccessResult } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { testError } from "App/__deprecated__/renderer/store/constants"
@@ -44,13 +44,9 @@ jest.mock("App/device/actions/load-storage-info.action", () => ({
 const pathsMock = ["/path/file-1.mp3", "/path/file-2.wav"]
 const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
 const successGetPathResponse = new SuccessResult<string[]>(pathsMock)
-const failedGetPathResponse = new FailedResult({
-  ...errorMock,
-})
+const failedGetPathResponse = Result.failed(errorMock)
 const successUploadResponse = new SuccessResult<string[]>(pathsMock)
-const failedUploadResponse = new FailedResult({
-  ...errorMock,
-})
+const failedUploadResponse = Result.failed(errorMock)
 
 const getFilesPathsResponseMock: GetPathsInput = {
   filters: [
@@ -117,7 +113,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
 
   describe("when `uploadFileRequest` request return Result.success with empty files list", () => {
     beforeAll(() => {
-      ;(getPathsRequest as jest.Mock).mockResolvedValue(new SuccessResult([]))
+      ;(getPathsRequest as jest.Mock).mockResolvedValue(Result.success([]))
     })
 
     afterEach(() => {

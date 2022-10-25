@@ -5,7 +5,7 @@
 
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import MuditaDeviceManager from "@mudita/pure"
+import { DeviceManager } from "App/device/services/device-manager.service"
 import {
   GetBackupDeviceStatusResponseBody,
   StartBackupResponseBody,
@@ -86,6 +86,8 @@ const options: DownloadDeviceFileLocallyOptions = {
   cwd: "path/to/directory",
 }
 
+const deviceManager = {} as DeviceManager
+
 describe("`downloadDeviceBackup` method ", () => {
   describe("when each request is success", () => {
     test("fire `downloadDeviceBackup` return Backup", async () => {
@@ -111,7 +113,7 @@ describe("`downloadDeviceBackup` method ", () => {
         }
       })
 
-      const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+      const deviceService = new DeviceService(deviceManager, ipcMain)
       const deviceBackupAdapter = createDeviceBackupAdapter(
         createFakeDeviceBaseInfoAdapter(),
         new DeviceBackupService(deviceService),
@@ -135,7 +137,7 @@ describe("`downloadDeviceBackup` method ", () => {
         }
       })
 
-      const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+      const deviceService = new DeviceService(deviceManager, ipcMain)
       const deviceBackupAdapter = createDeviceBackupAdapter(
         createFakeDeviceBaseInfoAdapter(),
         new DeviceBackupService(deviceService),
@@ -161,7 +163,7 @@ describe("`downloadDeviceBackup` method ", () => {
         }
       })
 
-      const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+      const deviceService = new DeviceService(deviceManager, ipcMain)
       const deviceBackupAdapter = createDeviceBackupAdapter(
         createFakeDeviceBaseInfoAdapter(),
         new DeviceBackupService(deviceService),
@@ -188,7 +190,7 @@ describe("`downloadDeviceBackup` method ", () => {
         }
       })
 
-      const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+      const deviceService = new DeviceService(deviceManager, ipcMain)
       const deviceBackupAdapter = createDeviceBackupAdapter(
         createFakeDeviceBaseInfoAdapter(),
         new DeviceBackupService(deviceService),
@@ -223,7 +225,7 @@ describe("`downloadDeviceBackup` method ", () => {
         }
       })
 
-      const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+      const deviceService = new DeviceService(deviceManager, ipcMain)
       const deviceBackupAdapter = createDeviceBackupAdapter(
         createFakeDeviceBaseInfoAdapter(),
         new DeviceBackupService(deviceService),

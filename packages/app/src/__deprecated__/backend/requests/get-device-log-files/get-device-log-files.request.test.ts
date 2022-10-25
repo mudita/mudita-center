@@ -8,7 +8,7 @@ import Adapters from "App/__deprecated__/backend/adapters/adapters.interface"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
 import registerGetDeviceLogFiles from "App/__deprecated__/backend/requests/get-device-log-files/get-device-log-files.request"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import MuditaDeviceManager from "@mudita/pure"
+import { DeviceManager } from "App/device/services/device-manager.service"
 import {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
@@ -22,6 +22,8 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+
+const deviceManager = {} as DeviceManager
 
 jest.mock("App/__deprecated__/backend/device-service")
 jest.mock(
@@ -77,7 +79,7 @@ test("GetDeviceLogs request works properly", (done) => {
       }
     }
   )
-  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+  const deviceService = new DeviceService(deviceManager, ipcMain)
   const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
   const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(

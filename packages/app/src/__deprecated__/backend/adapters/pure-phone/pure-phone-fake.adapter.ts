@@ -11,7 +11,7 @@ import {
   StartBackupResponseBody,
 } from "App/device/types/mudita-os"
 import { RestoreState, BackupState } from "App/device/constants"
-import { SerialPortDevice } from "App/device/types/serial-port-device.type"
+import { Device } from "App/device/modules/device"
 import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import {
   RequestResponse,
@@ -29,7 +29,7 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async connectDevice(): Promise<RequestResponse<SerialPortDevice>> {
+  public async connectDevice(): Promise<RequestResponse<Device>> {
     return {
       status: RequestResponseStatus.Ok,
     }

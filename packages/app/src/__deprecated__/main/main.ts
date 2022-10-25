@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager from "@mudita/pure"
+// import MuditaDeviceManager from "@mudita/pure"
 import { check as checkPort } from "tcp-port-used"
 import {
   app,
@@ -69,8 +69,6 @@ import {
 import { Mode } from "App/__deprecated__/common/enums/mode.enum"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { AboutActions } from "App/__deprecated__/common/enums/about-actions.enum"
-import PureLogger from "App/__deprecated__/main/utils/pure-logger"
-import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/__deprecated__/common/enums/pure-system-actions.enum"
 import {
   createMetadataStore,
@@ -170,18 +168,18 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  const enabled =
-    process.env.NODE_ENV === "development" &&
-    process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
-      ? false
-      : flags.get(Feature.LoggerEnabled)
+  // const enabled =
+  //   process.env.NODE_ENV === "development" &&
+  //   process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
+  //     ? false
+  //     : flags.get(Feature.LoggerEnabled)
 
-  MuditaDeviceManager.registerLogger(new PureLogger())
-  MuditaDeviceManager.toggleLogs(enabled)
+  // MuditaDeviceManager.registerLogger(new PureLogger())
+  // MuditaDeviceManager.toggleLogs(enabled)
 
   const settingsService = createSettingsService()
   settingsService.init()
-  startBackend(MuditaDeviceManager, ipcMain)
+  startBackend(ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()

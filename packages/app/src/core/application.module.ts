@@ -4,14 +4,12 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import MuditaDeviceManager from "@mudita/pure"
+// import MuditaDeviceManager from "@mudita/pure"
 import { EventEmitter } from "events"
 import { DeviceService } from "App/__deprecated__/backend/device-service"
 // TODO change module name to `KeyStorage`
 import { MetadataStore } from "App/metadata/services"
 import logger from "App/__deprecated__/main/utils/logger"
-import { flags, Feature } from "App/feature-flags"
-import PureLogger from "App/__deprecated__/main/utils/pure-logger"
 import { IndexFactory } from "App/index-storage/factories"
 import {
   DataIndexInitializer,
@@ -64,14 +62,14 @@ export class ApplicationModule {
     // TODO move to private instance method after all modules will be implemented
     private deviceService: DeviceService
   ) {
-    const enabled =
-      process.env.NODE_ENV === "development" &&
-      process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
-        ? false
-        : flags.get(Feature.LoggerEnabled)
+    // const enabled =
+    //   process.env.NODE_ENV === "development" &&
+    //   process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
+    //     ? false
+    //     : flags.get(Feature.LoggerEnabled)
 
-    MuditaDeviceManager.registerLogger(new PureLogger())
-    MuditaDeviceManager.toggleLogs(enabled)
+    // MuditaDeviceManager.registerLogger(new PureLogger())
+    // MuditaDeviceManager.toggleLogs(enabled)
 
     const dataStorageInitializer = new DataIndexInitializer(this.index)
     const observerInitializer = new ObserverInitializer()
