@@ -10,7 +10,7 @@ import {
   GetRestoreDeviceStatusResponseBody,
   StartRestoreRequestConfig,
 } from "App/device/types/mudita-os"
-import { SerialPortDevice } from "App/device/types/serial-port-device.type"
+import { Device } from "App/device/modules/device"
 import {
   Endpoint,
   Method,
@@ -48,7 +48,7 @@ class PurePhone extends PurePhoneAdapter {
     return this.deviceService.disconnect()
   }
 
-  public connectDevice(): Promise<RequestResponse<SerialPortDevice>> {
+  public connectDevice(): Promise<RequestResponse<Device>> {
     return this.deviceService.connect()
   }
 

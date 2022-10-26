@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager from "@mudita/pure"
+import { DeviceManager } from "App/device/services/device-manager.service"
 import { DeviceInfo } from "App/device/types/mudita-os"
 import registerPurePhoneStorageRequest from "App/__deprecated__/backend/requests/storage/get-storage-info.request"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
@@ -32,6 +32,8 @@ const mockDeviceInfo: DeviceInfo = {
 
 jest.mock("App/__deprecated__/backend/device-service")
 
+const deviceManager = {} as DeviceManager
+
 test("returns required storage info", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
@@ -44,7 +46,7 @@ test("returns required storage info", async () => {
 
   registerPurePhoneStorageRequest({
     pureStorage: createPurePhoneStorageAdapter(
-      new DeviceService(MuditaDeviceManager, ipcMain)
+      new DeviceService(deviceManager, ipcMain)
     ),
   } as unknown as Adapters)
 

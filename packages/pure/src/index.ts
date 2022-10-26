@@ -7,8 +7,4 @@ export * from "./device"
 export * from "./logger"
 export * from "./endpoints"
 export * from "./formatter"
-export * from "./device-manager"
 export * from "./timeout"
-
-import PureNode from "./device-manager"
-export default PureNode

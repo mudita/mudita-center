@@ -10,7 +10,7 @@ import { FileUploadCommand } from "App/device-file-system/commands/file-upload.c
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppError } from "App/core/errors"
-import { Result, FailedResult, SuccessResult } from "App/core/builder"
+import { Result } from "App/core/builder"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -78,12 +78,12 @@ describe("When requested file is unreadable", () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceService.request).not.toHaveBeenCalled()
     expect(result).toEqual(
-      new FailedResult({
-        ...new AppError(
+      Result.failed(
+        new AppError(
           DeviceFileSystemError.FileUploadUnreadable,
           "Uploading file: file /usr/local/file-1.txt can't be opened"
-        ),
-      })
+        )
+      )
     )
   })
 })
@@ -115,7 +115,7 @@ describe("When requested file is valid", () => {
           fileName: "/test/directory/file-1.txt",
         },
       })
-      expect(result).toEqual(new SuccessResult(undefined))
+      expect(result).toEqual(Result.success(undefined))
     })
   })
 
@@ -142,12 +142,12 @@ describe("When requested file is valid", () => {
         },
       })
       expect(result).toEqual(
-        new FailedResult({
-          ...new AppError(
+        Result.failed(
+          new AppError(
             DeviceFileSystemError.FileUploadRequest,
             "Uploading file: Something went wrong in init sending request"
-          ),
-        })
+          )
+        )
       )
     })
   })
@@ -185,12 +185,12 @@ describe("When requested file is valid", () => {
         },
       })
       expect(result).toEqual(
-        new FailedResult({
-          ...new AppError(
+        Result.failed(
+          new AppError(
             DeviceFileSystemError.FileUploadChunk,
             "Uploading file: Something went wrong in sent chunk file"
-          ),
-        })
+          )
+        )
       )
     })
   })

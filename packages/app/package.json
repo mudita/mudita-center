@@ -180,6 +180,7 @@
     "@types/styled-components": "^5.1.26",
     "@types/tar-stream": "^2.2.2",
     "@types/tcp-port-used": "^1.0.1",
+    "@types/usb": "^1.5.3",
     "@types/utf8": "^3.0.1",
     "@types/uuid": "^8.3.4",
     "@types/vcf": "^2.0.3",
@@ -245,6 +246,7 @@
     "moxios": "^0.4.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "nodemon": "^2.0.19",
+    "p-queue": "^7.3.0",
     "quoted-printable": "^1.0.1",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.1",
@@ -310,7 +312,7 @@
   "dependencies": {
     "react-virtuoso": "^2.18.0",
     "serialport": "^10.1.0",
-    "usb": "1.9.2"
+    "usb": "^1.9.2"
   },
   "engines": {
     "node": "14.17.3",

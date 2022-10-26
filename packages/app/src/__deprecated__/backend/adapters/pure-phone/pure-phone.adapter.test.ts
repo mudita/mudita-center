@@ -6,7 +6,7 @@
 import * as fs from "fs"
 import path from "path"
 import { ipcMain } from "electron-better-ipc"
-import MuditaDeviceManager from "@mudita/pure"
+import { DeviceManager } from "App/device/services/device-manager.service"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import createPurePhoneAdapter from "App/__deprecated__/backend/adapters/pure-phone/pure-phone.adapter"
 import MockDate from "mockdate"
@@ -19,11 +19,17 @@ import {
 } from "App/core/types/request-response.interface"
 
 jest.mock("App/__deprecated__/backend/device-service")
-jest.mock("App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter")
-jest.mock("App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter")
+jest.mock(
+  "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
+)
+jest.mock(
+  "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+)
 jest.mock(
   "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"
 )
+
+const deviceManager = {} as DeviceManager
 
 test("Unlock device returns properly value", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
@@ -35,7 +41,7 @@ test("Unlock device returns properly value", async () => {
       },
     }
   })
-  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+  const deviceService = new DeviceService(deviceManager, ipcMain)
   const deviceFileSystem = new DeviceFileSystem(deviceService)
   const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
@@ -62,7 +68,7 @@ test("Get unlock device status returns properly value", async () => {
       },
     }
   })
-  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+  const deviceService = new DeviceService(deviceManager, ipcMain)
   const deviceFileSystem = new DeviceFileSystem(deviceService)
   const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
@@ -81,7 +87,7 @@ test("Get unlock device status returns properly value", async () => {
 
 describe("getDeviceLogFiles method", () => {
   MockDate.set("2000-2-1")
-  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+  const deviceService = new DeviceService(deviceManager, ipcMain)
   const text1kb = fs
     .readFileSync(require.resolve(path.join(__dirname, "./1kb.txt")))
     .toString()

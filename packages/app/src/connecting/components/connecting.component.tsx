@@ -6,8 +6,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { timeoutMs } from "@mudita/pure"
-import { DeviceType } from "App/device/constants"
+import { DeviceType, CONNECTION_TIME_OUT_MS } from "App/device/constants"
 import {
   URL_MAIN,
   URL_ONBOARDING,
@@ -103,7 +102,7 @@ const Connecting: FunctionComponent<{
         setError(ConnectingError.Connecting)
       }
       // the value is a little higher than API timeoutMs
-    }, timeoutMs + 5000)
+    }, CONNECTION_TIME_OUT_MS + 5000)
 
     return () => {
       mounted = false

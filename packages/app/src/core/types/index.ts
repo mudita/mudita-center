@@ -6,6 +6,7 @@
 export * from "./controller.type"
 export * from "./event-definition.type"
 export * from "./field-definition.type"
+export * from "./logger.type"
 export * from "./model.type"
 export * from "./module.type"
 export * from "./observer.type"

@@ -6,17 +6,18 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { SuccessResult, FailedResult } from "App/core/builder"
+import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { getFilesRequest } from "App/files-manager/requests/get-files.request"
 import { initialState } from "App/files-manager/reducers"
 import { File } from "App/files-manager/dto"
 import { getFiles } from "App/files-manager/actions"
 import { DeviceDirectory } from "App/files-manager/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 
 jest.mock("App/files-manager/requests/get-files.request")
 
-const successObjectResult: SuccessResult<File[]> = new SuccessResult([
+const successObjectResult: ResultObject<File[]> = Result.success([
   {
     id: "user/music/example_file_name.mp3",
     size: 1234,
@@ -33,7 +34,7 @@ const successObjectResult: SuccessResult<File[]> = new SuccessResult([
 
 const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
 
-const failedObjectResult: FailedResult = new FailedResult(errorMock)
+const failedObjectResult: ResultObject<AppError> = Result.failed(errorMock)
 
 afterEach(() => {
   jest.resetAllMocks()
@@ -56,7 +57,7 @@ describe("when `getFiles` request return success result", () => {
     expect(mockStore.getActions()).toEqual([
       getFiles.pending(requestId, DeviceDirectory.Music),
       getFiles.fulfilled(
-        successObjectResult.data,
+        successObjectResult.data as File[],
         requestId,
         DeviceDirectory.Music
       ),
@@ -85,10 +86,10 @@ describe("when `getFiles` request return error", () => {
       getFiles.rejected(
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        successObjectResult.error!,
+        testError,
         requestId,
         DeviceDirectory.Music,
-        errorMock
+        failedObjectResult.error
       ),
     ])
 

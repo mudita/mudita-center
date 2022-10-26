@@ -3,16 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager, {
+import {
   AccessTechnology,
   BatteryState,
-  CaseColour,
-  DeviceInfo,
+  CaseColor,
   NetworkStatus,
   SignalStrength,
   SIM,
   Tray,
-} from "@mudita/pure"
+} from "App/device/constants"
+import { DeviceInfo } from "App/device/types/mudita-os"
+import { DeviceManager } from "App/device/services/device-manager.service"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerDeviceInfoRequest from "./get-device-info.request"
@@ -39,9 +40,11 @@ const mockDeviceInfo: DeviceInfo = {
   signalStrength: SignalStrength.One,
   trayState: Tray.In,
   serialNumber: "1UB13213MN14K1",
-  caseColour: CaseColour.Gray,
+  caseColour: CaseColor.Gray,
   deviceToken: "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
 }
+
+const deviceManager = {} as DeviceManager
 
 jest.mock("App/__deprecated__/backend/device-service")
 
@@ -54,7 +57,7 @@ test("returns required device info", async () => {
       }),
     }
   })
-  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+  const deviceService = new DeviceService(deviceManager, ipcMain)
   registerDeviceInfoRequest({
     deviceBaseInfo: createDeviceBaseInfoAdapter(deviceService),
   } as unknown as Adapters)

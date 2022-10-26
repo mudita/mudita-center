@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ConsoleLogger } from "@mudita/pure"
+import { ConsoleLogger } from "App/core/types"
 import logger from "App/__deprecated__/main/utils/logger"
 import { flags, Feature } from "App/feature-flags"
 
