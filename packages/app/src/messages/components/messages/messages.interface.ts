@@ -23,19 +23,6 @@ export interface Content {
   text: string
 }
 
-export interface MessagesServiceState {
-  messageDeleting: boolean
-  messageDeletingConfirmation: boolean
-  messageDeletingInfo: boolean
-  attachContact: boolean
-  attachTemplate: boolean
-  threadDeleting: boolean
-  threadDeletingConfirmation: boolean
-  threadDeletingInfo: boolean
-  browseContact: boolean
-  draftDeleting: boolean
-}
-
 export interface MessagesProps extends Pick<Settings, "language"> {
   searchValue: MessagesState["data"]["searchValue"]
   threadsState: MessagesState["data"]["threadsState"]
@@ -59,11 +46,11 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   removeLayoutNotification: (notificationId: string) => void
   currentlyDeletingMessageId: string | null
   resendMessage: (messageId: string) => void
-  changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
-  deleteThreads?: (ids: string[]) => void
+  changeSearchValue: (event: ChangeEvent<HTMLInputElement>) => void
+  deleteThreads: (ids: string[]) => Promise<string[] | undefined>
   threads: Thread[]
-  toggleReadStatus?: (threads: Thread[]) => void
-  markThreadsReadStatus?: (threads: Thread[]) => void
+  toggleReadStatus: (threads: Thread[]) => void
+  markThreadsReadStatus: (threads: Thread[]) => void
   templates: Template[]
   error: Error | string | null
   selectedItems: { rows: string[] }

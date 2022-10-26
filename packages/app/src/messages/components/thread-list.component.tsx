@@ -3,17 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import styled from "styled-components"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import Table from "App/__deprecated__/renderer/components/core/table/table.component"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { Settings } from "App/settings/dto"
-import { Thread } from "App/messages/dto"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { AutoSizer, IndexRange, List, ListRowProps } from "react-virtualized"
-import ThreadRow from "App/messages/components/thread-row.component"
 import ThreadPlaceholderRow from "App/messages/components/thread-placeholder-row.component"
+import ThreadRow from "App/messages/components/thread-row.component"
+import { Thread } from "App/messages/dto"
+import { Settings } from "App/settings/dto"
+import Table from "App/__deprecated__/renderer/components/core/table/table.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import React from "react"
+import { AutoSizer, List, ListRowProps } from "react-virtualized"
+import styled from "styled-components"
 
 export const Threads = styled(Table)`
   min-width: 32rem;
@@ -36,7 +36,6 @@ interface Props extends Pick<Settings, "language"> {
   onToggleReadStatus: (threads: Thread[]) => void
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   onContactClick: (phoneNumber: string) => void
-  loadMoreRows: (props: IndexRange) => Promise<void>
   newConversation: string
   selectedItems: { rows: string[] }
   toggleItem: (id: string) => void
@@ -53,7 +52,6 @@ const ThreadList: FunctionComponent<Props> = ({
   onContactClick,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadMoreRows,
   newConversation,
   selectedItems,
   toggleItem,
