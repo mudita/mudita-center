@@ -9,6 +9,7 @@ import PQueue from "p-queue"
 import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
+import { CONNECTION_TIME_OUT_MS } from "App/device/constants"
 import { DeviceCommunicationEvent, ResponseStatus } from "App/device/constants"
 import { DeviceError } from "App/device/modules/mudita-os/constants"
 import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
@@ -19,8 +20,6 @@ import {
 } from "App/device/types/mudita-os"
 import { timeout } from "App/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "App/device/modules/base.adapter"
-
-export const timeoutMs = 30000
 
 export class SerialPortDeviceAdapter extends BaseAdapter {
   private serialPort: SerialPort
@@ -38,7 +37,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
         )
       }
 
-      this.emitConnectionEvent(Result.success(true))
+      this.emitConnectionEvent(Result.success(`Device ${path} connected`))
     })
 
     this.serialPort.on("data", (event) => {
@@ -59,7 +58,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     })
 
     this.serialPort.on("close", () => {
-      this.emitCloseEvent(Result.success(true))
+      this.emitCloseEvent(Result.success(`Device ${path} disconnected`))
     })
   }
 
@@ -142,7 +141,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<ResultObject<Response<any>>> {
     return new Promise((resolve) => {
-      const [promise, cancel] = timeout(timeoutMs)
+      const [promise, cancel] = timeout(CONNECTION_TIME_OUT_MS)
       void promise.then(() => {
         resolve(
           Result.failed(
@@ -171,7 +170,21 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
         ) {
           this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
           cancel()
-          resolve(response)
+
+          if (
+            [
+              ResponseStatus.Ok,
+              ResponseStatus.Accepted,
+              ResponseStatus.Redirect,
+              ResponseStatus.NoContent,
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            ].includes(response.status)
+          ) {
+            resolve(Result.success(response))
+          } else {
+            resolve(Result.failed(response))
+          }
         }
       }
 
@@ -192,7 +205,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
   }
 
   @log("==== serial port: connect event ====", LogConfig.Args)
-  private emitConnectionEvent(data: ResultObject<boolean>): void {
+  private emitConnectionEvent(data: ResultObject<string>): void {
     this.eventEmitter.emit(DeviceCommunicationEvent.Connected, data)
   }
 
@@ -207,7 +220,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
   }
 
   @log("==== serial port: connection closed ====", LogConfig.Args)
-  private emitCloseEvent(data: ResultObject<unknown>): void {
+  private emitCloseEvent(data: ResultObject<string>): void {
     this.eventEmitter.emit(DeviceCommunicationEvent.Disconnected, data)
   }
 
