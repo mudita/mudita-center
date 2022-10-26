@@ -7,7 +7,7 @@ import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import { LoggerFactory } from "App/core/factories"
 import { DeviceLogger, ConsoleLogger } from "App/core/types"
-import { log, LogConfig } from "App/core/decorators/log.decorator"
+import { log } from "App/core/decorators/log.decorator"
 import { UsbDetector } from "App/device/services/usb-detector.service"
 import { PortInfoValidator } from "App/device/validators"
 import { DeviceResolverService } from "App/device/services/device-resolver.service"
@@ -102,7 +102,6 @@ export class DeviceManager implements DeviceManagerClass {
     })
   }
 
-  @log("==== serial port: attached device ====", LogConfig.Args)
   private emitAttachedDeviceEvent(device: Device) {
     this.eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
   }

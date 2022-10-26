@@ -170,21 +170,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
         ) {
           this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
           cancel()
-
-          if (
-            [
-              ResponseStatus.Ok,
-              ResponseStatus.Accepted,
-              ResponseStatus.Redirect,
-              ResponseStatus.NoContent,
-              // AUTO DISABLED - fix me if you like :)
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            ].includes(response.status)
-          ) {
-            resolve(Result.success(response))
-          } else {
-            resolve(Result.failed(response))
-          }
+          resolve(Result.success(response))
         }
       }
 
