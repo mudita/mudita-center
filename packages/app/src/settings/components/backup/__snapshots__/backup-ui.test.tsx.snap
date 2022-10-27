@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c3 {
+.c5 {
   margin: 0;
   font-size: 1.6rem;
   line-height: 1.5;
@@ -10,9 +10,10 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
   color: #000000;
+  white-space: pre-wrap;
 }
 
-.c6 {
+.c7 {
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.57;
@@ -21,9 +22,10 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
   color: #6a6a6a;
+  white-space: pre-wrap;
 }
 
-.c12 {
+.c13 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.67;
@@ -34,31 +36,10 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: #000000;
+  white-space: pre-wrap;
 }
 
-.c4 {
-  grid-area: Name;
-  -webkit-align-self: end;
-  -ms-flex-item-align: end;
-  align-self: end;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.c7 {
-  grid-area: Message;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: start;
-  align-self: flex-start;
-}
-
-.c8 {
+.c9 {
   grid-area: Actions;
   display: -webkit-box;
   display: -webkit-flex;
@@ -75,7 +56,7 @@ exports[`matches snapshot 1`] = `
   width: 9rem;
 }
 
-.c10 {
+.c11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -106,23 +87,23 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c10:hover {
+.c11:hover {
   background: #000000;
 }
 
-.c10 p {
+.c11 p {
   color: #ffffff;
 }
 
-.c10 g path {
+.c11 g path {
   fill: #ffffff;
 }
 
-.c13 {
+.c14 {
   white-space: nowrap;
 }
 
-.c0 {
+.c1 {
   display: grid;
   box-sizing: border-box;
   grid-template-areas: "Checkbox Actions";
@@ -132,7 +113,7 @@ exports[`matches snapshot 1`] = `
   max-height: 7.2rem;
 }
 
-.c2 {
+.c3 {
   grid-area: Checkbox;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
@@ -146,64 +127,93 @@ exports[`matches snapshot 1`] = `
   flex-direction: row;
 }
 
-.c5 {
+.c6 {
   margin-left: 3.2rem;
   margin-bottom: 0;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+  grid-area: Label;
 }
 
-.c1 {
+.c2 {
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 20rem;
   border-bottom: solid 0.1rem #d2d6db;
+  width: 100%;
 }
 
-.c9 {
+.c0 {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c10 {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
 
-.c11 {
+.c12 {
   padding: 0;
+}
+
+.c8 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 3.2rem;
+  grid-area: Message;
+}
+
+.c4 {
+  display: grid;
+  grid-template-columns: minmax(0,1fr);
+  grid-template-areas: "Label" "Message";
 }
 
 <div>
   <section
-    class=""
+    class="c0"
   >
     <div
-      class="c0 c1"
+      class="c1 c2"
     >
       <div
-        class="c2"
+        class="c3 c4"
       >
         <p
-          class="c3 c4 c5"
+          class="c5 c6"
           color="primary"
         >
           [value] module.settings.backupLabel
-          <p
-            class="c6 c7"
-            color="secondary"
-            data-testid="backup-location"
-          >
-            C:/MuditaOs
-          </p>
+        </p>
+        <p
+          class="c7 c8"
+          color="secondary"
+          data-for="prefix-1"
+          data-testid="backup-location"
+          data-tip="true"
+        >
+          C:/MuditaOs
         </p>
       </div>
       <div
-        class="c8 c9"
+        class="c9 c10"
       >
         <button
-          class="c10 c11"
+          class="c11 c12"
           size="1"
           type="button"
         >
           <p
-            class="c12 c13"
+            class="c13 c14"
             color="primary"
           >
             [value] module.settings.backupButtonLabel

@@ -5,11 +5,12 @@
 
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import MuditaDeviceManager, {
-  GetBackupDeviceStatusDataState,
+import MuditaDeviceManager from "@mudita/pure"
+import {
   GetBackupDeviceStatusResponseBody,
   StartBackupResponseBody,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
+import { BackupState } from "App/device/constants"
 import createDeviceBackupAdapter from "App/__deprecated__/backend/adapters/device-backup/device-backup.adapter"
 import { DeviceBackupService } from "App/__deprecated__/backend/device-backup-service/device-backup-service"
 import createFakeDeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info-fake.adapter"
@@ -25,9 +26,15 @@ import {
 } from "App/core/types/request-response.interface"
 
 jest.mock("App/__deprecated__/backend/device-service")
-jest.mock("App/__deprecated__/backend/device-backup-service/device-backup-service")
-jest.mock("App/__deprecated__/backend/adapters/device-base-info/device-base-info-fake.adapter")
-jest.mock("App/__deprecated__/backend/adapters/device-file-system/device-file-system-fake.adapter")
+jest.mock(
+  "App/__deprecated__/backend/device-backup-service/device-backup-service"
+)
+jest.mock(
+  "App/__deprecated__/backend/adapters/device-base-info/device-base-info-fake.adapter"
+)
+jest.mock(
+  "App/__deprecated__/backend/adapters/device-file-system/device-file-system-fake.adapter"
+)
 const backupId = `<YYYY-MM-DD>T<HHMMSS>Z`
 
 const errorResponse: RequestResponse = {
@@ -62,7 +69,7 @@ const finishedGetBackupDeviceStatusResponse: RequestResponse<GetBackupDeviceStat
     status: RequestResponseStatus.Ok,
     data: {
       id: backupId,
-      state: GetBackupDeviceStatusDataState.Finished,
+      state: BackupState.Finished,
     },
   }
 
@@ -71,7 +78,7 @@ const errorGetBackupDeviceStatusResponse: RequestResponse<GetBackupDeviceStatusR
     status: RequestResponseStatus.Ok,
     data: {
       id: backupId,
-      state: GetBackupDeviceStatusDataState.Error,
+      state: BackupState.Error,
     },
   }
 

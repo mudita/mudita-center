@@ -6,7 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { lockedDevice } from "./locked-device.action"
 import getDeviceLockTime from "App/__deprecated__/renderer/requests/get-device-lock-time.request"
 import getUnlockDeviceStatus from "App/__deprecated__/renderer/requests/get-unlock-device-status.request"

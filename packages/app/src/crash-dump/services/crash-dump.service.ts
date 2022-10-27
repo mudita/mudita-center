@@ -3,12 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  DiagnosticsFileList,
-  Endpoint,
-  GetFileListResponseBody,
-  Method,
-} from "@mudita/pure"
+import { DiagnosticsFileList, Endpoint, Method } from "App/device/constants"
+import { GetDeviceFilesResponseBody } from "App/device/types/mudita-os"
 import path from "path"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
@@ -92,7 +88,7 @@ export class CrashDumpService {
 
   public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
-  ): Promise<RequestResponse<GetFileListResponseBody>> {
+  ): Promise<RequestResponse<GetDeviceFilesResponseBody>> {
     return this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,

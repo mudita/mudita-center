@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PaginationBody } from "@mudita/pure"
+import { PaginationBody } from "App/device/types/mudita-os"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"

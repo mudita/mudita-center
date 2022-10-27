@@ -4,7 +4,8 @@
  */
 
 import { MessageRepository, ThreadRepository } from "App/messages/repositories"
-import { OutboxEntry, OutboxEntryChange, OutboxEntryType } from "@mudita/pure"
+import { OutboxEntry } from "App/device/types/mudita-os"
+import { OutboxEntryChange, OutboxEntryType } from "App/device/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 import { MessageService } from "App/messages/services"

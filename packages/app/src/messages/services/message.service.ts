@@ -5,13 +5,15 @@
 
 import {
   Endpoint,
-  GetMessagesBody as PureGetMessagesBody,
-  Message as PureMessage,
+  Method,
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
-  Method,
+} from "App/device/constants"
+import {
+  GetMessagesRequestConfig as PureGetMessagesBody,
+  Message as PureMessage,
   PaginationBody,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
 import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import {
   RequestResponse,
@@ -80,7 +82,7 @@ export class MessageService {
   public async getMessages(
     pagination: PaginationBody
   ): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
-    const body: PureGetMessagesBody = {
+    const body: PureGetMessagesBody["body"] = {
       category: PureMessagesCategory.message,
       ...pagination,
     }

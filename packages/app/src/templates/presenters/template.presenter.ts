@@ -5,15 +5,17 @@
 
 import {
   Template as PureTemplate,
-  PutTemplateBody,
-  MessagesCategory as PureMessagesCategory,
-  PostTemplateBody,
-  UpdateTemplateOrder,
-} from "@mudita/pure"
+  UpdateTemplateRequestConfig,
+  CreateTemplateRequestConfig,
+  UpdateTemplateOrderRequestConfig,
+} from "App/device/types/mudita-os"
+import { MessagesCategory as PureMessagesCategory } from "App/device/constants"
 import { NewTemplate, Template } from "App/templates/dto"
 import { Feature, flags } from "App/feature-flags"
 export class TemplatePresenter {
-  static mapToPureNewTemplateBody(template: NewTemplate): PostTemplateBody {
+  static mapToPureNewTemplateBody(
+    template: NewTemplate
+  ): CreateTemplateRequestConfig["body"] {
     return flags.get(Feature.OrderTemplate)
       ? {
           templateBody: template.text,
@@ -26,7 +28,9 @@ export class TemplatePresenter {
         }
   }
 
-  static mapToPureTemplateBody(template: Template): PutTemplateBody {
+  static mapToPureTemplateBody(
+    template: Template
+  ): UpdateTemplateRequestConfig["body"] {
     return {
       templateID: Number(template.id),
       templateBody: template.text,
@@ -64,7 +68,9 @@ export class TemplatePresenter {
         }
   }
 
-  static mapToPureTemplateOrder(template: Template): UpdateTemplateOrder {
+  static mapToPureTemplateOrder(
+    template: Template
+  ): UpdateTemplateOrderRequestConfig["body"] {
     return {
       templateID: Number(template.id),
       category: PureMessagesCategory.template,

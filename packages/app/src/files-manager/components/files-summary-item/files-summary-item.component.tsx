@@ -18,8 +18,8 @@ import Icon, {
   IconSize,
 } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
-import { convertFromBytesToDecimal } from "App/__deprecated__/renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
 import { defineMessages } from "react-intl"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 
 const FilesSummaryItemContainer = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
               ...messages.summaryItemDescription,
               values: {
                 filesAmount: filesAmount,
-                size: convertFromBytesToDecimal(size),
+                size: convertBytes(size),
               },
             }}
           />
@@ -84,7 +84,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
             element={"p"}
             data-testid={FilesSummaryItemTestIds.Description}
           >
-            {`(${convertFromBytesToDecimal(size)})`}
+            {`(${convertBytes(size)})`}
           </Text>
         )}
       </TextWrapper>

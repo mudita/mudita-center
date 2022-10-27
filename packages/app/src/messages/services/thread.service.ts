@@ -6,12 +6,14 @@
 import { Thread } from "App/messages/dto"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import {
-  Endpoint,
-  GetThreadsBody,
-  MessagesCategory as PureMessagesCategory,
-  Method,
+  GetThreadsRequestConfig,
   PaginationBody,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
+import {
+  Endpoint,
+  Method,
+  MessagesCategory as PureMessagesCategory,
+} from "App/device/constants"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -48,7 +50,7 @@ export class ThreadService {
   public async getThreads(
     pagination: PaginationBody
   ): Promise<RequestResponse<GetThreadsResponse>> {
-    const body: GetThreadsBody = {
+    const body: GetThreadsRequestConfig["body"] = {
       category: PureMessagesCategory.thread,
       ...pagination,
     }

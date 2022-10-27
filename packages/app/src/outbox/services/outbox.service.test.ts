@@ -11,13 +11,13 @@ import {
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { IpcEvent } from "App/data-sync/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { OutboxEntry } from "App/device/types/mudita-os"
 import {
-  Endpoint,
-  Method,
-  OutboxEntry,
   OutboxEntryChange,
   OutboxEntryType,
-} from "@mudita/pure"
+  Endpoint,
+  Method,
+} from "App/device/constants"
 
 jest.mock("App/__deprecated__/backend/device-service")
 

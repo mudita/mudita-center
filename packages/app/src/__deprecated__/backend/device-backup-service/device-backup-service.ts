@@ -3,14 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint, Method, BackupCategory } from "App/device/constants"
 import {
-  Endpoint,
   GetBackupDeviceStatusRequestConfigBody,
   GetBackupDeviceStatusResponseBody,
-  Method,
   StartBackupResponseBody,
-  BackupCategory,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { RequestResponse } from "App/core/types/request-response.interface"
 import { Feature, flags } from "App/feature-flags"
@@ -35,12 +33,20 @@ export class DeviceBackupService {
   }
 
   public async getBackupDeviceStatus(
-    config: GetBackupDeviceStatusRequestConfigBody
+    config: GetBackupDeviceStatusRequestConfigBody,
+    category = BackupCategory.Backup
   ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>> {
     return await this.deviceService.request({
       endpoint: Endpoint.Backup,
       method: Method.Get,
-      body: config,
+      body: {
+        ...config,
+        ...(flags.get(Feature.BackupCategoriesEnabled)
+          ? {
+              category,
+            }
+          : {}),
+      },
     })
   }
 }

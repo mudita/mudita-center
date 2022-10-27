@@ -5,7 +5,7 @@
 
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import { GetPhoneLockTimeResponseBody } from "@mudita/pure"
+import { GetPhoneLockTimeResponseBody } from "App/device/types/mudita-os"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
 const getDeviceLockTime = (): Promise<

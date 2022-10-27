@@ -10,6 +10,7 @@ import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { State } from "App/core/constants"
 import { setInitState } from "App/device/actions/base.action"
 import { setDataSyncInitState } from "App/data-sync/actions"
+import { readRestoreDeviceDataState } from "App/backup/actions"
 
 export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
   DeviceEvent.SetConnectionState,
@@ -28,8 +29,9 @@ export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
       return payload
     }
 
-    if (!payload) {
+    if (!payload || state.backup.restoringState === State.Failed) {
       dispatch(setInitState())
+      dispatch(readRestoreDeviceDataState())
       void setValue({ key: MetadataKey.DeviceOsVersion, value: null })
       void setValue({ key: MetadataKey.DeviceType, value: null })
     }

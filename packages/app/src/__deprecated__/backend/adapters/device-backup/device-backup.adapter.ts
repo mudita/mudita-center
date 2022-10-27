@@ -3,11 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  BackupCategory,
-  GetBackupDeviceStatusDataState,
-  GetBackupDeviceStatusResponseBody,
-} from "@mudita/pure"
+import { GetBackupDeviceStatusResponseBody } from "App/device/types/mudita-os"
+import { BackupCategory, BackupState } from "App/device/constants"
 import { isResponsesSuccessWithData } from "App/core/helpers"
 import DeviceBackupAdapter from "App/__deprecated__/backend/adapters/device-backup/device-backup-adapter.class"
 import DeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info-adapter.class"
@@ -119,7 +116,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
     const backupId = startBackupDeviceResponse.data!.id
 
     const getBackupDeviceStatusResponse =
-      await this.waitUntilBackupDeviceFinished(backupId)
+      await this.waitUntilBackupDeviceFinished(backupId, category)
 
     if (!isResponsesSuccessWithData([getBackupDeviceStatusResponse])) {
       return {
@@ -155,25 +152,27 @@ export class DeviceBackup implements DeviceBackupAdapter {
   }
 
   private async waitUntilBackupDeviceFinished(
-    id: string
+    id: string,
+    category: BackupCategory
   ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>> {
-    const response = await this.deviceBackupService.getBackupDeviceStatus({
-      id,
-    })
+    const response = await this.deviceBackupService.getBackupDeviceStatus(
+      {
+        id,
+      },
+      category
+    )
 
     if (
       !isResponsesSuccessWithData([response]) ||
-      response.data?.state === GetBackupDeviceStatusDataState.Error
+      response.data?.state === BackupState.Error
     ) {
       return { status: RequestResponseStatus.Error }
-    } else if (
-      response.data?.state === GetBackupDeviceStatusDataState.Finished
-    ) {
+    } else if (response.data?.state === BackupState.Finished) {
       return response
     } else {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(this.waitUntilBackupDeviceFinished(id))
+          resolve(this.waitUntilBackupDeviceFinished(id, category))
         }, 1000)
       })
     }

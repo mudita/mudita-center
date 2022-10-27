@@ -20,7 +20,9 @@ type ThreadDetailsRightHeaderProps = ComponentProps<
   typeof ThreadDetailsSidebarRightHeader
 >
 
-interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
+interface Props
+  extends SidebarProps,
+    Omit<ThreadDetailsRightHeaderProps, "emptyThread"> {
   content: string
   receiver: Receiver
   messages: Message[]
@@ -66,6 +68,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
     <ThreadDetailsSidebar
       receiver={receiver}
       key={receiver.phoneNumber}
+      emptyThread={messages.length <= 0}
       {...props}
     >
       <MessagesWrapper>

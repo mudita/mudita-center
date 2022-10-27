@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { Product } from "App/__deprecated__/main/constants"

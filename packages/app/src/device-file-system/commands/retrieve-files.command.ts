@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "@mudita/pure"
+import { Endpoint, Method } from "App/device/constants"
 import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"

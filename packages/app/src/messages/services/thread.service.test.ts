@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Thread as PureThread } from "@mudita/pure"
+import { Thread as PureThread } from "App/device/types/mudita-os"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,

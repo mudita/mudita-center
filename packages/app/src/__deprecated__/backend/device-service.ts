@@ -3,61 +3,84 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceEventName } from "@mudita/pure"
 import {
-  Contact,
-  DeviceEventName,
-  DeviceInfo,
-  Endpoint,
-  DeviceType,
-  GetFileSystemDirectoryRequestConfig,
-  DownloadFileSystemRequestConfig,
-  GetFileSystemRequestConfig,
-  PutFileSystemRequestConfig,
-  SendFileSystemRequestConfig,
-  GetMessageResponseBody,
-  GetMessagesBody,
-  GetPhoneLockStatusBody,
-  GetPhoneLockTimeBody,
   GetPhoneLockTimeResponseBody,
-  GetThreadResponseBody,
-  GetThreadsBody,
-  Method,
-  MuditaDevice,
-  MuditaDeviceManager,
-  PhoneLockCategory,
   RequestConfig,
   Response,
-  ResponseStatus,
-  PostMessagesBody,
-  PostMessagesResponseBody,
-  GetFileListBody,
-  GetFileListResponseBody,
+  StartRestoreRequestConfig,
+  RemoveFileSystemRequestConfig,
+  GetSecurityRequestConfig,
+  GetPhoneLockStatusRequestConfig,
+  GetPhoneLockTimeRequestConfig,
+  UnlockDeviceRequestConfig,
+  GetDeviceInfoRequestConfig,
+  GetDeviceInfoResponseBody,
+  GetDeviceFilesRequestConfig,
+  GetDeviceFilesResponseBody,
+  GetMessagesRequestConfig,
+  GetMessagesResponseBody,
+  GetMessageRequestConfig,
+  GetMessageResponseBody,
+  GetThreadsRequestConfig,
+  GetThreadsResponseBody,
+  GetThreadRequestConfig,
+  GetThreadResponseBody,
+  CreateMessageRequestConfig,
+  CreateMessageResponseBody,
+  UpdateMessageRequestConfig,
+  DeleteMessageRequestConfig,
+  DeleteThreadRequestConfig,
+  UpdateThreadReadUnreadStateRequestConfig,
+  GetTemplateRequestConfig,
+  GetTemplateResponseBody,
+  GetTemplatesRequestConfig,
+  GetTemplatesResponseBody,
+  CreateTemplateRequestConfig,
+  CreateTemplateResponseBody,
+  UpdateTemplateRequestConfig,
+  UpdateTemplateOrderRequestConfig,
+  DeleteTemplateRequestConfig,
+  GetContactsRequestConfig,
+  GetContactsResponseBody,
+  GetContactRequestConfig,
+  GetContactResponseBody,
+  CreateContactRequestConfig,
+  CreateContactResponseBody,
+  UpdateContactRequestConfig,
+  UpdateContactResponseBody,
+  DeleteContactRequestConfig,
+  DeleteContactResponseBody,
+  StartDeviceUpdateRequestBody,
+  GetFileSystemDirectoryRequestConfig,
+  GetFileSystemDirectoryResponseBody,
+  GetFileSystemRequestConfig,
+  GetFileSystemResponseBody,
+  DownloadFileSystemRequestConfig,
+  DownloadFileSystemResponseBody,
+  SendFileSystemRequestConfig,
+  SendFileSystemResponseBody,
+  PutFileSystemRequestConfig,
+  PutFileSystemResponseBody,
   StartBackupRequestConfig,
   StartBackupResponseBody,
-  GetBackupDeviceStatusResponseBody,
   GetBackupDeviceStatusRequestConfig,
-  StartRestoreRequestConfig,
+  GetBackupDeviceStatusResponseBody,
   GetRestoreDeviceStatusRequestConfig,
   GetRestoreDeviceStatusResponseBody,
-  RemoveFileSystemRequestConfig,
-  RemoveFileSystemResponse,
+  GetEntriesRequestConfig,
   GetEntriesResponseBody,
   DeleteEntriesRequestConfig,
-  GetEntriesRequestConfig,
-  GetMessageBody,
-  Message,
-  GetThreadBody,
-  PutMessageBody,
-  Thread,
-  UpdateThreadReadStatus,
-  GetTemplateBody,
-  PostTemplateBody,
-  PutTemplateBody,
-  DeleteTemplateBody,
-  GetTemplateResponseBody,
-  PostTemplateResponseBody,
-  UpdateTemplateOrder,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
+import { SerialPortDevice } from "App/device/types/serial-port-device.type"
+import { DeviceManager } from "App/device/types/device-manager.type"
+import {
+  Endpoint,
+  DeviceType,
+  Method,
+  PhoneLockCategory,
+  ResponseStatus,
+} from "App/device/constants"
 import { EventEmitter } from "events"
 import { IpcEmitter } from "App/__deprecated__/common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
@@ -75,15 +98,15 @@ export enum DeviceServiceEventName {
 }
 
 export class DeviceService {
-  public devices: Record<string, MuditaDevice> = {}
-  public currentDevice: MuditaDevice | undefined
+  public devices: Record<string, SerialPortDevice> = {}
+  public currentDevice: SerialPortDevice | undefined
   public currentDeviceUnlocked = false
   public eulaAccepted = true
   private lockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
   constructor(
-    private deviceManager: MuditaDeviceManager,
+    private deviceManager: DeviceManager,
     private ipcMain: MainProcessIpc
   ) {
     EventEmitter.defaultMaxListeners = 15
@@ -95,184 +118,123 @@ export class DeviceService {
   }
 
   //for production environment
-  async request(config: {
-    endpoint: Endpoint.Security
-    method: Method.Get
-  }): Promise<RequestResponse>
-  async request(config: {
-    endpoint: Endpoint.Security
-    method: Method.Get
-    body: GetPhoneLockStatusBody
-  }): Promise<RequestResponse>
-  async request(config: {
-    endpoint: Endpoint.Security
-    method: Method.Get
-    body: GetPhoneLockTimeBody
-  }): Promise<RequestResponse<GetPhoneLockTimeResponseBody>>
-  async request(config: {
-    endpoint: Endpoint.Security
-    method: Method.Put
-    body: { phoneLockCode: string }
-  }): Promise<RequestResponse>
-  async request(config: {
-    endpoint: Endpoint.DeviceInfo
-    method: Method.Get
-  }): Promise<RequestResponse<DeviceInfo>>
-  async request(config: {
-    endpoint: Endpoint.DeviceInfo
-    method: Method.Get
-    body: GetFileListBody
-  }): Promise<RequestResponse<GetFileListResponseBody>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Get
-    body: GetMessagesBody
-  }): Promise<RequestResponse<GetMessageResponseBody>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Get
-    body: GetMessageBody
-  }): Promise<RequestResponse<Message>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Get
-    body: GetThreadBody
-  }): Promise<RequestResponse<Thread>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Get
-    body: GetThreadsBody
-  }): Promise<RequestResponse<GetThreadResponseBody>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Post
-    body: PostMessagesBody
-  }): Promise<RequestResponse<PostMessagesResponseBody>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Put
-    body: PutMessageBody
-  }): Promise<RequestResponse>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Delete
-    body: GetThreadBody
-  }): Promise<RequestResponse>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Delete
-    body: GetMessageBody
-  }): Promise<RequestResponse<undefined>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Put
-    body: UpdateThreadReadStatus
-  }): Promise<RequestResponse>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Get
-    body: GetTemplateBody
-  }): Promise<RequestResponse<GetTemplateResponseBody>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Post
-    body: PostTemplateBody
-  }): Promise<RequestResponse<PostTemplateResponseBody>>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Put
-    body: PutTemplateBody
-  }): Promise<RequestResponse>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Put
-    body: UpdateTemplateOrder
-  }): Promise<RequestResponse>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Delete
-    body: DeleteTemplateBody
-  }): Promise<RequestResponse>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-  }): Promise<RequestResponse<{ entries: Contact[]; totalCount: number }>>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: { id: number }
-  }): Promise<RequestResponse<Contact>>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Post
-    body: Contact
-  }): Promise<RequestResponse<Contact>>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Put
-    body: Contact
-  }): Promise<RequestResponse<Contact>>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Delete
-    body: {
-      id: Contact["id"]
-    }
-  }): Promise<RequestResponse<string>>
-  async request(config: {
-    endpoint: Endpoint.Update
-    method: Method.Post
-    body: {
-      update: boolean
-      reboot: boolean
-    }
-  }): Promise<RequestResponse>
-  public request(
+  public async request(
+    config: GetSecurityRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: GetPhoneLockStatusRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: GetPhoneLockTimeRequestConfig
+  ): Promise<RequestResponse<GetPhoneLockTimeResponseBody>>
+  public async request(
+    config: UnlockDeviceRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: GetDeviceInfoRequestConfig
+  ): Promise<RequestResponse<GetDeviceInfoResponseBody>>
+  public async request(
+    config: GetDeviceFilesRequestConfig
+  ): Promise<RequestResponse<GetDeviceFilesResponseBody>>
+
+  public async request(
+    config: GetMessagesRequestConfig
+  ): Promise<RequestResponse<GetMessagesResponseBody>>
+  public async request(
+    config: GetMessageRequestConfig
+  ): Promise<RequestResponse<GetMessageResponseBody>>
+  public async request(
+    config: GetThreadsRequestConfig
+  ): Promise<RequestResponse<GetThreadsResponseBody>>
+  public async request(
+    config: GetThreadRequestConfig
+  ): Promise<RequestResponse<GetThreadResponseBody>>
+  public async request(
+    config: CreateMessageRequestConfig
+  ): Promise<RequestResponse<CreateMessageResponseBody>>
+  public async request(
+    config: UpdateMessageRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: DeleteThreadRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: DeleteMessageRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: UpdateThreadReadUnreadStateRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: GetTemplatesRequestConfig
+  ): Promise<RequestResponse<GetTemplatesResponseBody>>
+  public async request(
+    config: GetTemplateRequestConfig
+  ): Promise<RequestResponse<GetTemplateResponseBody>>
+  public async request(
+    config: CreateTemplateRequestConfig
+  ): Promise<RequestResponse<CreateTemplateResponseBody>>
+  public async request(
+    config: UpdateTemplateRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: UpdateTemplateOrderRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
+    config: DeleteTemplateRequestConfig
+  ): Promise<RequestResponse>
+
+  public async request(
+    config: GetContactsRequestConfig
+  ): Promise<RequestResponse<GetContactsResponseBody>>
+  public async request(
+    config: GetContactRequestConfig
+  ): Promise<RequestResponse<GetContactResponseBody>>
+  public async request(
+    config: CreateContactRequestConfig
+  ): Promise<RequestResponse<CreateContactResponseBody>>
+  public async request(
+    config: UpdateContactRequestConfig
+  ): Promise<RequestResponse<UpdateContactResponseBody>>
+  public async request(
+    config: DeleteContactRequestConfig
+  ): Promise<RequestResponse<DeleteContactResponseBody>>
+
+  public async request(
+    config: StartDeviceUpdateRequestBody
+  ): Promise<RequestResponse>
+
+  public async request(
     config: GetFileSystemDirectoryRequestConfig
-  ): Promise<
-    RequestResponse<Record<string, { path: string; fileSize: number }[]>>
-  >
-  public request(config: GetFileSystemRequestConfig): Promise<
-    RequestResponse<{
-      rxID: string
-      fileSize: number
-      chunkSize: number
-    }>
-  >
-  public request(config: DownloadFileSystemRequestConfig): Promise<
-    RequestResponse<{
-      rxID: string
-      chunkNo: number
-      data: string
-      fileCrc32?: string
-    }>
-  >
-  public request(config: SendFileSystemRequestConfig): Promise<
-    RequestResponse<{
-      txID: string
-      chunkNo: number
-    }>
-  >
-  public request(config: PutFileSystemRequestConfig): Promise<
-    RequestResponse<{
-      txID: string
-      chunkSize: number
-    }>
-  >
-  public request(
+  ): Promise<RequestResponse<GetFileSystemDirectoryResponseBody>>
+  public async request(
+    config: GetFileSystemRequestConfig
+  ): Promise<RequestResponse<GetFileSystemResponseBody>>
+  public async request(
+    config: DownloadFileSystemRequestConfig
+  ): Promise<RequestResponse<DownloadFileSystemResponseBody>>
+  public async request(
+    config: SendFileSystemRequestConfig
+  ): Promise<RequestResponse<SendFileSystemResponseBody>>
+  public async request(
+    config: PutFileSystemRequestConfig
+  ): Promise<RequestResponse<PutFileSystemResponseBody>>
+
+  public async request(
     config: StartBackupRequestConfig
   ): Promise<RequestResponse<StartBackupResponseBody>>
-  public request(
+  public async request(
     config: GetBackupDeviceStatusRequestConfig
   ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>>
-  public request(config: StartRestoreRequestConfig): Promise<RequestResponse>
-  public request(
+  public async request(
+    config: StartRestoreRequestConfig
+  ): Promise<RequestResponse>
+  public async request(
     config: GetRestoreDeviceStatusRequestConfig
   ): Promise<RequestResponse<GetRestoreDeviceStatusResponseBody>>
-  public request(
+  public async request(
     config: RemoveFileSystemRequestConfig
-  ): Promise<RequestResponse<RemoveFileSystemResponse>>
-  public request(
+  ): Promise<RequestResponse>
+  public async request(
     config: GetEntriesRequestConfig
   ): Promise<RequestResponse<GetEntriesResponseBody>>
   public request(config: DeleteEntriesRequestConfig): Promise<RequestResponse>
@@ -328,7 +290,7 @@ export class DeviceService {
     })
   }
 
-  public async connect(): Promise<RequestResponse<MuditaDevice>> {
+  public async connect(): Promise<RequestResponse<SerialPortDevice>> {
     if (this.currentDevice) {
       return {
         data: this.currentDevice,
@@ -423,8 +385,8 @@ export class DeviceService {
   }
 
   private async deviceConnect(
-    device: MuditaDevice
-  ): Promise<RequestResponse<MuditaDevice>> {
+    device: SerialPortDevice
+  ): Promise<RequestResponse<SerialPortDevice>> {
     const { status } = await device.connect()
 
     if (status === ResponseStatus.Ok) {
@@ -564,7 +526,7 @@ export class DeviceService {
 
     if (
       config.endpoint === Endpoint.Security &&
-      (config.body as GetPhoneLockStatusBody)?.category ===
+      (config.body as GetPhoneLockStatusRequestConfig["body"])?.category ===
         PhoneLockCategory.Status
     ) {
       this.eulaAccepted =
@@ -624,7 +586,7 @@ export class DeviceService {
 }
 
 export const createDeviceService = (
-  deviceManager: MuditaDeviceManager,
+  deviceManager: DeviceManager,
   ipcMain: MainProcessIpc
 ): DeviceService => {
   return new DeviceService(deviceManager, ipcMain).init()

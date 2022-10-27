@@ -9,6 +9,7 @@ import React, {
   ReactElement,
   useRef,
   useState,
+  useLayoutEffect,
 } from "react"
 import _uniqueId from "lodash/uniqueId"
 import { TooltipProps } from "react-tooltip"
@@ -27,6 +28,7 @@ interface Props {
   place?: ElementWithTooltipPlace
   offset?: TooltipProps["offset"]
   onClick?: MouseEventHandler
+  showIfTextEllipsis?: boolean
 }
 
 const overridePosition =
@@ -78,10 +80,12 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
   Element,
   offset,
   onClick,
+  showIfTextEllipsis = false,
   ...props
 }) => {
   const [id] = useState(_uniqueId("prefix-"))
-  const ref = useRef<Element>(null)
+  const ref = useRef<Element | HTMLDivElement>(null)
+  const [isEllipsis, setIsEllipsis] = useState(false)
 
   // FIXME: a sticky option workaround for `ThreadRow` component
   const tooltipProps: Partial<ComponentProps<typeof Tooltip>> = offset
@@ -101,6 +105,30 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
     }
   }
 
+  useLayoutEffect(() => {
+    const trigger = () => {
+      const text = ref.current as HTMLDivElement
+      const isEllipsisActive = text && text.offsetWidth < text.scrollWidth
+      setIsEllipsis(isEllipsisActive)
+    }
+
+    let resizeObserver: ResizeObserver | undefined
+
+    if (showIfTextEllipsis && ref.current) {
+      if ("ResizeObserver" in window) {
+        resizeObserver = new ResizeObserver(trigger)
+        resizeObserver.observe(ref.current)
+      }
+
+      trigger()
+    }
+
+    return () => {
+      resizeObserver && resizeObserver.disconnect()
+    }
+  }, [ref, showIfTextEllipsis])
+
+  const showTooltip = (showIfTextEllipsis && isEllipsis) || !showIfTextEllipsis
   return (
     <>
       {React.cloneElement(Element, {
@@ -110,16 +138,18 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
         ref: ref,
         ...props,
       })}
-      <Tooltip
-        id={id}
-        effect="solid"
-        data-border={false}
-        arrowColor="transparent"
-        backgroundColor={"transparent"}
-        {...tooltipProps}
-      >
-        {children}
-      </Tooltip>
+      {showTooltip && (
+        <Tooltip
+          id={id}
+          effect="solid"
+          data-border={false}
+          arrowColor="transparent"
+          backgroundColor={"transparent"}
+          {...tooltipProps}
+        >
+          {children}
+        </Tooltip>
+      )}
     </>
   )
 }

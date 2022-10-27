@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { HarmonyDataLoader } from "App/device/loaders/harmony-data.loader"
 import { PureDataLoader } from "App/device/loaders/pure-data.loader"
 

@@ -10,6 +10,7 @@ import { SidebarHeaderButton } from "App/__deprecated__/renderer/components/core
 import { Feature, flags } from "App/feature-flags"
 import { defineMessages } from "react-intl"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 
 const messages = defineMessages({
   callsTooltipDescription: { id: "module.messages.callsTooltipDescription" },
@@ -30,6 +31,7 @@ interface Props {
   onContactClick: () => void
   onDeleteClick: () => void
   onMarkAsUnreadClick: () => void
+  emptyThread: boolean
 }
 
 const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
@@ -37,6 +39,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
   onContactClick,
   onDeleteClick,
   onMarkAsUnreadClick,
+  emptyThread,
 }) => {
   return (
     <>
@@ -45,6 +48,8 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           description={messages.callsTooltipDescription}
           iconType={IconType.Calls}
           onClick={noop}
+          disabled={emptyThread}
+          data-testid={ThreadDetailsTestIds.CallButton}
         />
       )}
       {contactCreated ? (
@@ -52,12 +57,15 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           description={messages.contactTooltipDescription}
           iconType={IconType.Contact}
           onClick={onContactClick}
+          disabled={emptyThread}
         />
       ) : (
         <SidebarHeaderButton
           description={messages.newContactTooltipDescription}
           iconType={IconType.NewContact}
           onClick={onContactClick}
+          disabled={emptyThread}
+          data-testid={ThreadDetailsTestIds.ContactButton}
         />
       )}
       {flags.get(Feature.MessagesThreadDetailsMarkAsReadEnabled) && (
@@ -65,6 +73,8 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           description={messages.marksAsUnreadTooltipDescription}
           iconType={IconType.MarkAsUnread}
           onClick={onMarkAsUnreadClick}
+          disabled={emptyThread}
+          data-testid={ThreadDetailsTestIds.MarkAsUnreadButton}
         />
       )}
       {flags.get(Feature.MessagesThreadDeleteEnabled) && (
@@ -72,6 +82,8 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           description={messages.deleteTooltipDescription}
           iconType={IconType.Delete}
           onClick={onDeleteClick}
+          disabled={emptyThread}
+          data-testid={ThreadDetailsTestIds.DeleteButton}
         />
       )}
     </>

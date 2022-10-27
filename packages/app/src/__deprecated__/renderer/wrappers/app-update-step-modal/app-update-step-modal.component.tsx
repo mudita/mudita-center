@@ -85,7 +85,6 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
       {forced ? (
         <AppUpdateForced
           open={appUpdateStep === AppUpdateStep.Available}
-          closeModal={closeModal}
           onActionButtonClick={handleProcessDownload}
           appLatestVersion={appLatestVersion}
           appCurrentVersion={appCurrentVersion}

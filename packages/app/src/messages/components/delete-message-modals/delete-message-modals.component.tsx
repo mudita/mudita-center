@@ -50,7 +50,6 @@ const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
           actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
         />
       )}
-
       {deletingInfo && (
         <InfoPopup
           message={messages.deletedMessageInfo}

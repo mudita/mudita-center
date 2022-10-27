@@ -74,7 +74,6 @@ export const DeleteThreadModals: FunctionComponent<DeleteThreadModalProps> = ({
           actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
         />
       )}
-
       {deletingInfo && (
         <InfoPopup
           message={getDeletedThreadText(deletedThreads.length)}

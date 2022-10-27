@@ -3,4 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./crash-dump-sending-modal.component"
+export enum BatteryState {
+  Discharging,
+  Charging,
+}

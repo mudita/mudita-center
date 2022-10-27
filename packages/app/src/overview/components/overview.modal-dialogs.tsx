@@ -19,7 +19,7 @@ import Loader from "App/__deprecated__/renderer/components/core/loader/loader.co
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
@@ -114,7 +114,7 @@ export const UpdatingForceModal: FunctionComponent<
       {...props}
     >
       <RoundIconWrapper>
-        <Icon type={IconType.Pure} width={4} />
+        <Icon type={IconType.Pure} width={3.2} />
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.Headline4}
@@ -135,7 +135,7 @@ export const UpdatingSpinnerModal: FunctionComponent<
   return (
     <OSUpdateModal closeButton={false} closeable={false} {...props}>
       <RoundIconWrapper>
-        <Loader type={LoaderType.Spinner} size={6} />
+        <Loader type={LoaderType.Spinner} size={3.2} />
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.Headline4}
@@ -185,7 +185,7 @@ export const UpdatingFailureWithHelpModal = ({
       {...props}
     >
       <RoundIconWrapper>
-        <Icon type={IconType.Fail} width={4} />
+        <Icon type={IconType.ThinFail} width={3.2} />
       </RoundIconWrapper>
       <Text
         displayStyle={TextDisplayStyle.Headline4}
@@ -206,7 +206,7 @@ export const UpdatingSuccessModal: FunctionComponent<
   return (
     <OSUpdateModal {...props}>
       <RoundIconWrapper>
-        <Icon type={IconType.Pure} width={4} />
+        <Icon type={IconType.Pure} width={3.2} />
       </RoundIconWrapper>
       <Text
         displayStyle={TextDisplayStyle.Headline4}
@@ -242,7 +242,7 @@ export const TooLowBatteryModal: FunctionComponent<
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={IconType.NoBattery} width={5} />
+          <Icon type={IconType.NoBattery} width={3.2} />
         </RoundIconWrapper>
         {deviceType === DeviceType.MuditaPure ? (
           <>

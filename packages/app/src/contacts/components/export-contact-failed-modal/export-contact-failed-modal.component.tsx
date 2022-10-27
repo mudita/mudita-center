@@ -57,7 +57,7 @@ export const ExportContactFailedModal: FunctionComponent<
   >
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={IconType.Fail} width={4} />
+        <Icon type={IconType.ThinFail} width={3.2} />
       </RoundIconWrapper>
       <Text
         displayStyle={TextDisplayStyle.Headline4}

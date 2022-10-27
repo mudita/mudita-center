@@ -609,6 +609,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       closeSidebars()
     } else if (activeThread) {
       handleDeleteThread(activeThread.id)
+      setMessagesState(MessagesState.List)
       setActiveThread(undefined)
     }
   }
@@ -677,7 +678,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleSearchMessage = () => {
     searchMessages({ scope: [DataIndex.Message], query: searchValue })
   }
-
   return (
     <>
       <ContactSelectModal
@@ -813,7 +813,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onCloseDeletingErrorModal={hideDeleteThreadErrorModal}
         onDelete={handleConfirmThreadDelete}
       />
-
       <DeleteMessageModals
         deletingConfirmation={states.messageDeletingConfirmation}
         deleting={states.messageDeleting}

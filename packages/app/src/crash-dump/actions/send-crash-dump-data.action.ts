@@ -9,7 +9,6 @@ import {
   downloadingLogs,
 } from "App/contact-support/helpers/downloading-logs"
 import { AppError } from "App/core/errors"
-import { resetCrashDump } from "App/crash-dump/actions/base.action"
 import { CrashDumpError, Event } from "App/crash-dump/constants"
 import { removeFile } from "App/device-file-system"
 import { DeviceError } from "App/device/constants"
@@ -21,16 +20,13 @@ import {
   FreshdeskTicketData,
   FreshdeskTicketDataType,
 } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
-import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
+import { CrashDump } from "App/crash-dump/dto"
 
 const mapToAttachments = (paths: string[]): File[] => {
   return paths.map((path) => createFile(path))
 }
 
-export const sendCrashDumpData = createAsyncThunk<
-  undefined,
-  SendCrashDumpPayload
->(
+export const sendCrashDumpData = createAsyncThunk<undefined, CrashDump>(
   Event.SendCrashDump,
   async ({ email, description }, { dispatch, rejectWithValue, getState }) => {
     const state = getState() as ReduxRootState
@@ -39,7 +35,7 @@ export const sendCrashDumpData = createAsyncThunk<
       return
     }
 
-    if (!state.device.data?.serialNumber) {
+    if (!state.device.data?.batteryLevel) {
       return rejectWithValue(
         new AppError(DeviceError.Connection, "Device isn't connected")
       )
@@ -70,7 +66,8 @@ export const sendCrashDumpData = createAsyncThunk<
     const data: FreshdeskTicketData = {
       type: FreshdeskTicketDataType.Problem,
       subject: "Error - Crash dump",
-      serialNumber: state.device.data.serialNumber,
+      // serialNumber is not returned by Harmony - fix for that in [CP-1666]
+      serialNumber: state.device.data.serialNumber ?? "Unknown serial number",
       attachments,
       email,
       description,
@@ -93,8 +90,6 @@ export const sendCrashDumpData = createAsyncThunk<
         void dispatch(removeFile(path))
       }),
     ])
-
-    dispatch(resetCrashDump())
 
     return
   }

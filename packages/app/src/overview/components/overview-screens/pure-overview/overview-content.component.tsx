@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { DeviceType, CaseColour } from "@mudita/pure"
+import { DeviceType, CaseColor } from "App/device/constants"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   DeviceInfo,
@@ -25,7 +25,7 @@ interface OverviewContentProps {
   readonly pureOsAvailable: boolean
   readonly pureOsDownloaded: boolean | undefined
   readonly osVersion: string
-  readonly caseColour: CaseColour | undefined
+  readonly caseColour: CaseColor | undefined
   readonly lastBackupDate: Date
   readonly serialNumber: string | undefined
   readonly disconnectDevice: () => void
