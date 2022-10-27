@@ -21,7 +21,6 @@ export const AppUpdateFlow: FunctionComponent<Props> = ({
 }) => {
   return (
     <AppUpdateStepModal
-      forced
       appCurrentVersion={appCurrentVersion}
       appLatestVersion={appLatestVersion}
       closeModal={closeModal}
