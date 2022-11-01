@@ -5,6 +5,8 @@
     "module": "node16",
     "moduleResolution": "node16",
     "lib": ["es2020"],
+    "types": ["@types/jest"],
+    "typeRoots": ["./node_modules/@types"],
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
@@ -15,7 +17,7 @@
     "rootDir": "src",
     "outDir": "./dist"
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"],
   "include": ["src"],
   "ts-node": {
     "esm": true,

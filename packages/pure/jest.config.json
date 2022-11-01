@@ -1,0 +1,7 @@
+{
+  "transform": {
+    ".(ts|tsx)": "ts-jest"
+  },
+  "rootDir": "./",
+  "roots": ["<rootDir>/src"]
+}
