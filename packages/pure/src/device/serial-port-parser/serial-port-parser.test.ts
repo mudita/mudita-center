@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { describe, expect, test } from '@jest/globals';
 import { SerialPortParser } from "./serial-port-parser.js"
 import { RequestPayload } from "../device.types.js"
 

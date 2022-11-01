@@ -1,7 +1,16 @@
 {
   "transform": {
-    ".(ts|tsx)": "ts-jest"
+    "^.+\\.ts$": [
+      "ts-jest", { "useESM": true }
+    ]
   },
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1"
+  },
+  "moduleDirectories": ["node_modules"],
+  "transformIgnorePatterns": [
+    "node_modules/(?!(p-queue|eventemitter3))"
+  ],
   "rootDir": "./",
   "roots": ["<rootDir>/src"]
 }

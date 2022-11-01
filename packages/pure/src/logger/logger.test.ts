@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { beforeEach, afterEach, expect, test } from '@jest/globals';
 import Logger, { PureLogger, ConsoleLogger } from "./logger.js"
 
 let logger: PureLogger

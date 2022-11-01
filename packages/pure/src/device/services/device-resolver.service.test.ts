@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { expect, test } from '@jest/globals';
 import { DeviceResolverService } from "./device-resolver.service.js"
 import { ProductID, DeviceType } from "../constants/index.js"
 

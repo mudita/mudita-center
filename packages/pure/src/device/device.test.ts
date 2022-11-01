@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { jest, expect, test } from '@jest/globals';
 import mockSerialPort from "../mock-serial-port.js"
 import PureNode from "../device-manager.js"
 import { MuditaDevice, RequestConfig } from "./index.js"

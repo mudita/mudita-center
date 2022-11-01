@@ -17,6 +17,12 @@ import {
 import { DeviceType } from "./constants/index.js"
 import { SerialPortParser } from "./serial-port-parser/serial-port-parser.js"
 import { isApiRequestPayload } from "./device-helper.js"
+// NOTE: this fixes missing "main": "dist/index.js" in p-queue/package.json
+// import { PQueue } from "../../node_modules/p-queue/dist/index.js"
+// Why does ts-jest/jest not now about "exports"?
+// This also introduces SyntaxError: Cannot use import statement outside a module
+// even though p-queue/package.json has "type": "module", and I added
+// "transformIgnorePatterns": [ "node_modules/(?!p-queue)" ], to jest.config.json
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator.js"
 import { timeout } from "../timeout.js"
