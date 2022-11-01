@@ -1,5 +1,6 @@
-import MuditaDeviceManager, { MuditaDevice } from "../src"
-import { ResponseStatus } from "../dist"
+import MuditaDeviceManager from "../src/device-manager.js"
+import { MuditaDevice } from "../src/device/device.js"
+import { ResponseStatus } from "../src/device/device.types.js"
 
 export const establishConnection = async (
   command: (device: MuditaDevice) => void

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import BaseDevice from "../base-device"
+import BaseDevice from "../base-device.js"
 import {
   CreateDeviceStrategy,
   Endpoint,
@@ -11,8 +11,8 @@ import {
   RequestConfig,
   Response,
   ResponseStatus,
-} from "../device.types"
-import { DeviceType } from "../constants"
+} from "../device.types.js"
+import { DeviceType } from "../constants/index.js"
 import {
   Contact,
   DeviceInfo,
@@ -53,9 +53,9 @@ import {
   GetEntriesResponseBody,
   GetEntriesRequestConfig,
   GetThreadsBody,
-} from "../../endpoints"
-import { Formatter, FormatterFactory } from "../../formatter"
-import { SerialPortParser } from "../serial-port-parser/serial-port-parser"
+} from "../../endpoints/index.js"
+import { Formatter, FormatterFactory } from "../../formatter/index.js"
+import { SerialPortParser } from "../serial-port-parser/serial-port-parser.js"
 
 export class PureStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()

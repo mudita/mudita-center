@@ -4,7 +4,7 @@
  */
 
 import SerialPort = require("serialport")
-import { ProductID, VendorID, Manufacture } from "./device"
+import { ProductID, VendorID, Manufacture } from "./device/constants/index.js"
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const MockBinding = require("@serialport/binding-mock")

@@ -8,9 +8,9 @@ import {
   Response,
   MuditaDevice,
   DeviceEventName,
-} from "./device.types"
-import { DeviceType } from "./constants"
-import { HarmonyStrategy, PureStrategy } from "./strategies"
+} from "./device.types.js"
+import { DeviceType } from "./constants/index.js"
+import { HarmonyStrategy, PureStrategy } from "./strategies/index.js"
 
 export class Device implements MuditaDevice {
   public path: string

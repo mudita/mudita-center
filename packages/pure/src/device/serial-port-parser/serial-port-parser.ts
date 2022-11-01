@@ -9,7 +9,7 @@
  */
 
 import { TextEncoder } from "util"
-import { RequestPayload, Response } from "../device.types"
+import { RequestPayload, Response } from "../device.types.js"
 
 enum PacketType {
   Invalid = '"',

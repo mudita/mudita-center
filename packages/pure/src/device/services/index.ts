@@ -3,4 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./device-resolver.service"
+export * from "./device-resolver.service.js"

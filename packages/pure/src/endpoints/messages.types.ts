@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PaginationBody } from "../device"
+import { PaginationBody } from "../device/index.js"
 
 export enum MessagesCategory {
   thread = "thread",

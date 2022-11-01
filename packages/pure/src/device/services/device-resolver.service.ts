@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors"
-import { Device } from "../device"
-import { MuditaDevice } from "../device.types"
+import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors/index.js"
+import { Device } from "../device.js"
+import { MuditaDevice } from "../device.types.js"
 import { PortInfo } from "serialport"
-import { SerialPortParser } from "../serial-port-parser/serial-port-parser"
+import { SerialPortParser } from "../serial-port-parser/serial-port-parser.js"
 
 export class DeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]

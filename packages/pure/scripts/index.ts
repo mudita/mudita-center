@@ -1,9 +1,10 @@
 import { Argv } from "yargs"
-import request from "./request"
-import requests from "./requests"
+import yargs from "yargs"
+import request from "./request.js"
+import requests from "./requests.js"
 
-require("yargs")
-  .command(
+// require("yargs")
+yargs(process.argv.slice(2)).command(
     "request <request-config-string>",
     "This command allows you to send a single request to the Pure phone",
     (yargs: Argv) => {

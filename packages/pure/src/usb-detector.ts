@@ -6,7 +6,7 @@
 import usb from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
-import log, { LogConfig } from "./logger/log-decorator"
+import log, { LogConfig } from "./logger/log-decorator.js"
 
 type UsbDetectorPortInfo = Omit<PortInfo, "path">
 

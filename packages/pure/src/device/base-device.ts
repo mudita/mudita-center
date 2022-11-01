@@ -13,13 +13,13 @@ import {
   RequestPayload,
   Response,
   ResponseStatus,
-} from "./device.types"
-import { DeviceType } from "./constants"
-import { SerialPortParser } from "./serial-port-parser/serial-port-parser"
-import { isApiRequestPayload } from "./device-helper"
+} from "./device.types.js"
+import { DeviceType } from "./constants/index.js"
+import { SerialPortParser } from "./serial-port-parser/serial-port-parser.js"
+import { isApiRequestPayload } from "./device-helper.js"
 import PQueue from "p-queue"
-import log, { LogConfig } from "../logger/log-decorator"
-import { timeout } from "../timeout"
+import log, { LogConfig } from "../logger/log-decorator.js"
+import { timeout } from "../timeout.js"
 export const timeoutMs = 30000
 
 class BaseDevice implements MuditaDevice {

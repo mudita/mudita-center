@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "./constants"
-import { SerialPortParser } from "./serial-port-parser/serial-port-parser"
+import { DeviceType } from "./constants/index.js"
+import { SerialPortParser } from "./serial-port-parser/serial-port-parser.js"
 
 export interface MuditaDevice {
   path: string

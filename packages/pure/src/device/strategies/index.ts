@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./harmony.strategy"
-export * from "./pure.strategy"
+export * from "./harmony.strategy.js"
+export * from "./pure.strategy.js"

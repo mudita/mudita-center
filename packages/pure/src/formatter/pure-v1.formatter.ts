@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method, Response } from "../device/device.types"
-import { Formatter } from "./formatter"
-import { DeviceUpdateError, deviceUpdateErrorCodeMap } from "../endpoints"
+import { Endpoint, Method, Response } from "../device/device.types.js"
+import { Formatter } from "./formatter.js"
+import { DeviceUpdateError, deviceUpdateErrorCodeMap } from "../endpoints/index.js"
 
 export class PureV1Formatter extends Formatter {
   // AUTO DISABLED - fix me if you like :)

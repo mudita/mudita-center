@@ -3,14 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import mockSerialPort from "../mock-serial-port"
-import PureNode, { MuditaDevice, RequestConfig } from "../index"
+import mockSerialPort from "../mock-serial-port.js"
+import PureNode from "../device-manager.js"
+import { MuditaDevice, RequestConfig } from "./index.js"
 import {
   DeviceEventName,
   Endpoint,
   Method,
   ResponseStatus,
-} from "./device.types"
+} from "./device.types.js"
 
 let device: MuditaDevice
 

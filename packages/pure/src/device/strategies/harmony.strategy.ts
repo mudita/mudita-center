@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import BaseDevice from "../base-device"
+import BaseDevice from "../base-device.js"
 import {
   CreateDeviceStrategy,
   Endpoint,
@@ -11,12 +11,12 @@ import {
   RequestConfig,
   Response,
   ResponseStatus,
-} from "../device.types"
-import { DeviceType } from "../constants"
-import { DeviceInfo } from "../../endpoints"
-import { Formatter } from "../../formatter/formatter"
-import { FormatterFactory } from "../../formatter/formatter-factory"
-import { SerialPortParser } from "../serial-port-parser/serial-port-parser"
+} from "../device.types.js"
+import { DeviceType } from "../constants/index.js"
+import { DeviceInfo } from "../../endpoints/index.js"
+import { Formatter } from "../../formatter/formatter.js"
+import { FormatterFactory } from "../../formatter/formatter-factory.js"
+import { SerialPortParser } from "../serial-port-parser/serial-port-parser.js"
 
 export class HarmonyStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()

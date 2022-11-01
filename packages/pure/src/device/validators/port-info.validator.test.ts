@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PortInfoValidator } from "./port-info.validator"
+import { PortInfoValidator } from "./port-info.validator.js"
 
 test("isVendorId function works properly", () => {
   expect(PortInfoValidator.isVendorIdValid({ vendorId: "3310" })).toBeTruthy()

@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceResolverService } from "./device-resolver.service"
-import { ProductID, DeviceType } from "../constants"
+import { DeviceResolverService } from "./device-resolver.service.js"
+import { ProductID, DeviceType } from "../constants/index.js"
 
 const subject = new DeviceResolverService()
 

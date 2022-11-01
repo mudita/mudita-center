@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./log-decorator"
-export * from "./logger"
-export * from "./logger-factory"
+export * from "./log-decorator.js"
+export * from "./logger.js"
+export * from "./logger-factory.js"

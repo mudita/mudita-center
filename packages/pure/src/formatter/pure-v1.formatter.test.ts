@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PureV1Formatter } from "./pure-v1.formatter"
-import { Endpoint, Method, ResponseStatus } from "../device"
+import { PureV1Formatter } from "./pure-v1.formatter.js"
+import { Endpoint, Method, ResponseStatus } from "../device/index.js"
 
 const updateErrorResponse = {
   status: ResponseStatus.BadRequest,

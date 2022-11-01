@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SerialPortParser } from "./serial-port-parser"
-import { RequestPayload } from "../device.types"
+import { SerialPortParser } from "./serial-port-parser.js"
+import { RequestPayload } from "../device.types.js"
 
 describe("`Parser.createValidRequest`", () => {
   test("`payload` created properly ", () => {

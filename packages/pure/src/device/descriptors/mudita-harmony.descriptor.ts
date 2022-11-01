@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Manufacture, VendorID, ProductID, DeviceType } from "../constants"
-import { HarmonyStrategy } from "../strategies"
+import { Manufacture, VendorID, ProductID, DeviceType } from "../constants/index.js"
+import { HarmonyStrategy } from "../strategies/index.js"
 
 export class MuditaHarmonyDescriptor {
   static manufacturer = Manufacture.Mudita

@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Manufacture, VendorID, ProductID, DeviceType } from "../constants"
-import { PureStrategy } from "../strategies"
+import { Manufacture, VendorID, ProductID, DeviceType } from "../constants/index.js"
+import { PureStrategy } from "../strategies/index.js"
 
 export class MuditaPureDescriptor {
   static manufacturer = Manufacture.Mudita

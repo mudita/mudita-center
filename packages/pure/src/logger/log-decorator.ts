@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { LoggerFactory } from "./logger-factory"
+import { LoggerFactory } from "./logger-factory.js"
 
 export enum LogConfig {
   Args,

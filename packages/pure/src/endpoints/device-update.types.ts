@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Response, ResponseStatus } from "../device/device.types"
+import { Response, ResponseStatus } from "../device/device.types.js"
 
 export enum DeviceUpdateError {
   NoError = "NoError",

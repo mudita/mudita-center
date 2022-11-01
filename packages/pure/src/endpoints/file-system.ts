@@ -9,7 +9,7 @@ import {
   RequestConfig,
   Response,
   ResponseStatus,
-} from "../device"
+} from "../device/index.js"
 
 export interface PutFileSystemRequestConfig
   extends RequestConfig<{

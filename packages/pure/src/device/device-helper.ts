@@ -8,7 +8,7 @@ import {
   Endpoint,
   Method,
   RequestPayload,
-} from "./device.types"
+} from "./device.types.js"
 
 export const isApiRequestPayload = (
   config: RequestPayload

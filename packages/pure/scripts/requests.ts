@@ -1,6 +1,6 @@
-import { establishConnection } from "./establish-connection"
-import singleRequest from "./single-request"
-import parseRequestConfigs from "./parse-request-configs"
+import { establishConnection } from "./establish-connection.js"
+import singleRequest from "./single-request.js"
+import parseRequestConfigs from "./parse-request-configs.js"
 
 interface Arguments {
   requestConfigsString: string

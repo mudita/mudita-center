@@ -5,15 +5,13 @@
 
 import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
-import UsbDetector from "./usb-detector"
-import {
-  MuditaDevice,
-  PortInfoValidator,
-  DeviceResolverService,
-} from "./device"
-import log, { LogConfig } from "./logger/log-decorator"
-import { LoggerFactory } from "./logger/logger-factory"
-import { ConsoleLogger, PureLogger } from "./logger/logger"
+import UsbDetector from "./usb-detector.js"
+import { MuditaDevice } from "./device/index.js"
+import { PortInfoValidator } from "./device/validators/port-info.validator.js"
+import { DeviceResolverService } from "./device/services/device-resolver.service.js"
+import log, { LogConfig } from "./logger/log-decorator.js"
+import { LoggerFactory } from "./logger/logger-factory.js"
+import { ConsoleLogger, PureLogger } from "./logger/logger.js"
 
 const logger: PureLogger = LoggerFactory.getInstance()
 

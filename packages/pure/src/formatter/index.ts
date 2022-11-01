@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./pure-v1.formatter"
-export * from "./formatter"
-export * from "./formatter-factory"
+export * from "./pure-v1.formatter.js"
+export * from "./formatter.js"
+export * from "./formatter-factory.js"
