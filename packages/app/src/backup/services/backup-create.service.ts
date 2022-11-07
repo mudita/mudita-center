@@ -28,7 +28,8 @@ export class BackupCreateService {
   ) {}
 
   public async createBackup(
-    options: CreateDeviceBackup
+    options: CreateDeviceBackup,
+    category = BackupCategory.Backup
   ): Promise<ResultObject<string[] | undefined>> {
     if (this.keyStorage.getValue(MetadataKey.BackupInProgress)) {
       return Result.failed(
@@ -38,7 +39,7 @@ export class BackupCreateService {
 
     this.keyStorage.setValue(MetadataKey.BackupInProgress, true)
 
-    const runDeviceBackupResponse = await this.runDeviceBackup()
+    const runDeviceBackupResponse = await this.runDeviceBackup(category)
 
     if (!runDeviceBackupResponse.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
@@ -74,7 +75,9 @@ export class BackupCreateService {
     return Result.success(backupFile.data)
   }
 
-  private async runDeviceBackup(): Promise<ResultObject<string | undefined>> {
+  private async runDeviceBackup(
+    category: BackupCategory
+  ): Promise<ResultObject<string | undefined>> {
     const deviceResponse = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
@@ -93,7 +96,7 @@ export class BackupCreateService {
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {
-        category: BackupCategory.Backup,
+        category,
       },
     })
 

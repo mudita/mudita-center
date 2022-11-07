@@ -8,15 +8,12 @@ import Backend from "App/__deprecated__/backend/backend"
 import { flags, Feature } from "App/feature-flags"
 import getFakeAdapters from "App/__deprecated__/tests/get-fake-adapters"
 import { createDeviceService } from "App/__deprecated__/backend/device-service"
-import createDeviceBackupService from "./device-backup-service/device-backup-service"
 import createElectronAppAdapter from "App/__deprecated__/backend/adapters/electron-app/electron-app.adapter"
 import createPurePhoneAdapter from "App/__deprecated__/backend/adapters/pure-phone/pure-phone.adapter"
 import createPurePhoneBatteryAdapter from "App/__deprecated__/backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 import createPurePhoneNetwork from "App/__deprecated__/backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import createPurePhoneStorageAdapter from "App/__deprecated__/backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
-import createCalendarAdapter from "App/__deprecated__/backend/adapters/calendar/calendar.adapter"
 import createDeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
-import createDeviceBackupAdapter from "App/__deprecated__/backend/adapters/device-backup/device-backup.adapter"
 import { createDeviceFileDiagnosticService } from "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import registerBatteryInfoRequest from "App/__deprecated__/backend/requests/battery/get-battery-info.request"
 import registerChangeSimCardRequest from "App/__deprecated__/backend/requests/change-sim/change-sim.request"
@@ -29,7 +26,6 @@ import registerGetDeviceLockTime from "App/__deprecated__/backend/requests/get-d
 import registerNetworkInfoRequest from "App/__deprecated__/backend/requests/network/get-network-info.request"
 import registerPurePhoneStorageRequest from "App/__deprecated__/backend/requests/storage/get-storage-info.request"
 import registerUpdateOsRequest from "App/__deprecated__/backend/requests/update-os/update-os.request"
-import registerGetEventsRequest from "App/__deprecated__/backend/requests/calendar/get-events.request"
 import registerGetDeviceLogFiles from "App/__deprecated__/backend/requests/get-device-log-files/get-device-log-files.request"
 import registerGetDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/get-device-crash-dump-files/get-device-log-files.request"
 import registerDownloadDeviceFilesRequest from "App/device-file-system/listeners/download-device-file.listener"
@@ -73,22 +69,14 @@ const bootstrap = (ipcMain: MainProcessIpc): void => {
     deviceFileSystem,
     deviceFileDiagnosticService
   )
-  const deviceBackupService = createDeviceBackupService(deviceService)
-  const deviceBackup = createDeviceBackupAdapter(
-    deviceBaseInfo,
-    deviceBackupService,
-    deviceFileSystem
-  )
 
   const adapters = {
-    deviceBackup,
     deviceFileSystem,
     purePhone,
     deviceBaseInfo,
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
     pureStorage: createPurePhoneStorageAdapter(deviceService),
-    calendar: createCalendarAdapter(),
     app: createElectronAppAdapter(),
   }
 
@@ -104,7 +92,6 @@ const bootstrap = (ipcMain: MainProcessIpc): void => {
     registerGetDeviceLockTime,
     registerChangeSimCardRequest,
     registerUpdateOsRequest,
-    registerGetEventsRequest,
     registerGetDeviceLogFiles,
     registerGetDeviceCrashDumpFiles,
     registerDownloadDeviceFilesRequest,
