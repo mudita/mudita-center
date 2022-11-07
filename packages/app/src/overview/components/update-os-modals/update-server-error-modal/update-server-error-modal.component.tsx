@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { UpdateServerErrorModalProps } from "App/overview/components/modals/update-server-error-modal/update-server-error-modal.interface"
+import { UpdateServerErrorModalProps } from "App/overview/components/update-os-modals/update-server-error-modal/update-server-error-modal.interface"
 import { ErrorWithRetryModal } from "App/ui/components/error-with-retry/error-with-retry.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"

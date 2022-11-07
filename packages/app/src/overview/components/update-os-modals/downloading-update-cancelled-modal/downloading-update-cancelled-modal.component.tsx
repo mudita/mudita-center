@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DownloadingUpdateCancelledModalProps } from "App/overview/components/modals/downloading-update-cancelled-modal/downloading-update-cancelled-modal.interface"
+import { DownloadingUpdateCancelledModalProps } from "App/overview/components/update-os-modals/downloading-update-cancelled-modal/downloading-update-cancelled-modal.interface"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"

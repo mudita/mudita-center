@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { OSUpdateModal } from "App/overview/components/modals/os-update-modal"
-import { UpdateNotAvailableModalProps } from "App/overview/components/modals/update-not-available-modal/update-not-available-modal.interface"
+import { OSUpdateModal } from "App/overview/components/update-os-modals/os-update-modal"
+import { UpdateNotAvailableModalProps } from "App/overview/components/update-os-modals/update-not-available-modal/update-not-available-modal.interface"
 import { ModalMainText, RoundIconWrapper } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"

@@ -5,8 +5,8 @@
 
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { DeviceType } from "App/device/constants"
-import { OSUpdateModal } from "App/overview/components/modals/os-update-modal"
-import { TooLowBatteryModalProps } from "App/overview/components/modals/too-low-battery-modal/too-low-battery-modal.interface"
+import { OSUpdateModal } from "App/overview/components/update-os-modals/os-update-modal"
+import { TooLowBatteryModalProps } from "App/overview/components/update-os-modals/too-low-battery-modal/too-low-battery-modal.interface"
 import { RoundIconWrapper } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"

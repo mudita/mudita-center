@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DownloadingUpdateFinishedModalProps } from "App/overview/components/modals/downloading-update-finished-modal/downloading-update-finished-modal.interface"
-import { OSUpdateModal } from "App/overview/components/modals/os-update-modal"
+import { DownloadingUpdateFinishedModalProps } from "App/overview/components/update-os-modals/downloading-update-finished-modal/downloading-update-finished-modal.interface"
+import { OSUpdateModal } from "App/overview/components/update-os-modals/os-update-modal"
 import { OverviewModalsTestIds } from "App/overview/components/overview-modals-test-ids.enum"
 import { ModalMainText, RoundIconWrapper } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"

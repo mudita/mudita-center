@@ -4,8 +4,8 @@
  */
 
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import { OSUpdateModal } from "App/overview/components/modals/os-update-modal"
-import { UpdatingSuccessModalProps } from "App/overview/components/modals/updating-success-modal/updating-success-modal.interface"
+import { OSUpdateModal } from "App/overview/components/update-os-modals/os-update-modal"
+import { UpdatingSuccessModalProps } from "App/overview/components/update-os-modals/updating-success-modal/updating-success-modal.interface"
 import { ModalMainText, RoundIconWrapper } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"

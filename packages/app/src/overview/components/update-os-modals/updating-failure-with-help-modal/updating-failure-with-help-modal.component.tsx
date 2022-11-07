@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { UpdatingFailureWithHelpModalProps } from "App/overview/components/modals/updating-failure-with-help-modal/updating-failure-with-help-modal.interface"
+import { UpdatingFailureWithHelpModalProps } from "App/overview/components/update-os-modals/updating-failure-with-help-modal/updating-failure-with-help-modal.interface"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { intl } from "App/__deprecated__/renderer/utils/intl"

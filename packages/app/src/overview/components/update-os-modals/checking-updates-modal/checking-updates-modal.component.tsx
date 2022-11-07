@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CheckingUpdatesModalProps } from "App/overview/components/modals/checking-updates-modal/checking-updates-modal.interface"
+import { CheckingUpdatesModalProps } from "App/overview/components/update-os-modals/checking-updates-modal/checking-updates-modal.interface"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import React, { FunctionComponent } from "react"

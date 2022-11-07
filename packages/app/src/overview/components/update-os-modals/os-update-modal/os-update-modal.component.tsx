@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { OSUpdateModalProps } from "App/overview/components/modals/os-update-modal/os-update-modal.interface"
+import { OSUpdateModalProps } from "App/overview/components/update-os-modals/os-update-modal/os-update-modal.interface"
 import { ModalContent, ModalDialog } from "App/ui/components/modal-dialog"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"

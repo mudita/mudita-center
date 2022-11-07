@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DownloadingUpdateInterruptedModalProps } from "App/overview/components/modals/downloading-update-interrupted-modal/downloading-update-interrupted-modal.interface"
+import { DownloadingUpdateInterruptedModalProps } from "App/overview/components/update-os-modals/downloading-update-interrupted-modal/downloading-update-interrupted-modal.interface"
 import { ErrorWithRetryModal } from "App/ui/components/error-with-retry/error-with-retry.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
