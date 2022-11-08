@@ -89,7 +89,7 @@ interface Props {
   toggleAppUpdateAvailable: (value: boolean) => void
   setLatestVersion: (value: string) => void
   loadSettings: () => void
-  loadDeviceData: (value: DeviceType) => void
+  loadDeviceData: () => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
   setAgreementStatus: (value: boolean) => void
@@ -112,6 +112,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadSettings,
   loadDeviceData,
   connectedAndUnlocked,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   deviceType,
   setAgreementStatus,
 }) => {
@@ -194,8 +196,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     let interval: NodeJS.Timeout
 
-    if (deviceType && connectedAndUnlocked) {
-      interval = setInterval(() => loadDeviceData(deviceType), 60000)
+    if (connectedAndUnlocked) {
+      interval = setInterval(() => loadDeviceData(), 60000)
     }
 
     return () => {
@@ -203,7 +205,7 @@ const RootWrapper: FunctionComponent<Props> = ({
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceType, connectedAndUnlocked])
+  }, [connectedAndUnlocked])
 
   useEffect(() => {
     const listener = () => {
@@ -312,7 +314,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
+  loadDeviceData: () => dispatch(loadDeviceData()),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   connect: () => dispatch(getConnectedDevice()),

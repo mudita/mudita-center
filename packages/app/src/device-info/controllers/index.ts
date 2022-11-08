@@ -3,6 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface LoaderClass {
-  load<Type>(): Promise<Type>
-}
+export * from "./device-info.controller"

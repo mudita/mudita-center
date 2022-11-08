@@ -24,7 +24,7 @@ export const connectDevice = createAsyncThunk<DeviceType, DeviceType>(
     }
 
     void dispatch(setConnectionStatus(true))
-    void dispatch(loadDeviceData(payload))
+    void dispatch(loadDeviceData())
 
     return payload
   }
