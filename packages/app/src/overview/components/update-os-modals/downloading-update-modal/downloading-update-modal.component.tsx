@@ -26,13 +26,13 @@ const messages = defineMessages({
   downloadingUpdateMessage: {
     id: "module.overview.downloadingUpdateMessage",
   },
-  downloadingUpdateDescriptionStarting: {
+  downloadingUpdateStarting: {
     id: "module.overview.downloadingUpdateStarting",
   },
-  downloadingUpdateDescriptionDownloading: {
+  downloadingUpdateDownloading: {
     id: "module.overview.downloadingUpdateDownloading",
   },
-  downloadingUpdateDescriptionFinishing: {
+  downloadingUpdateFinishing: {
     id: "module.overview.downloadingUpdateFinishing",
   },
   downloadingUpdateButton: {
@@ -43,12 +43,10 @@ const messages = defineMessages({
 export const DownloadingUpdateModal: FunctionComponent<
   DownloadingUpdateModalProps
 > = ({ percent, speed, timeLeft, open, onCancel }) => {
-  const starting = (
-    <FormattedMessage {...messages.downloadingUpdateDescriptionStarting} />
-  )
+  const starting = <FormattedMessage {...messages.downloadingUpdateStarting} />
   const downloading = (
     <FormattedMessage
-      {...messages.downloadingUpdateDescriptionDownloading}
+      {...messages.downloadingUpdateDownloading}
       values={{
         speed: convertBytes(speed) + "/s",
         timeLeft: formatDuration(timeLeft || 0),
@@ -56,7 +54,7 @@ export const DownloadingUpdateModal: FunctionComponent<
     />
   )
   const finishing = (
-    <FormattedMessage {...messages.downloadingUpdateDescriptionFinishing} />
+    <FormattedMessage {...messages.downloadingUpdateFinishing} />
   )
   return (
     <OSUpdateModal
