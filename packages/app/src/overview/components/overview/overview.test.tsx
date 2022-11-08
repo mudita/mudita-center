@@ -9,7 +9,6 @@ import { Router } from "react-router"
 import { DeviceType, CaseColor } from "App/device/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "App/overview/components/overview/overview.component"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import store from "App/__deprecated__/renderer/store"
 import history from "App/__deprecated__/renderer/routes/history"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
@@ -120,7 +119,7 @@ const defaultProps: Props = {
   pureOsBackupLocation: "path/location/backup",
   serialNumber: undefined,
   updatePhoneOsInfo: jest.fn(),
-  updatingState: UpdatingState.Standby,
+  updatingState: State.Initial,
   memorySpace: {
     reservedSpace: 100,
     usedUserSpace: 200,

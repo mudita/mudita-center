@@ -7,7 +7,6 @@ import { ipcRenderer } from "electron-better-ipc"
 import { DeviceType } from "App/device/constants"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import React, { useEffect, useState } from "react"
 import OverviewContent from "App/overview/components/overview-screens/harmony-overview/overview-content.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
@@ -18,6 +17,7 @@ import isVersionGreater from "App/overview/helpers/is-version-greater"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import { flags, Feature } from "App/feature-flags"
+import { State } from "App/core/constants"
 
 export interface HarmonyOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -25,10 +25,10 @@ export interface HarmonyOverviewProps {
   readonly batteryLevel: number | undefined
   readonly osVersion: string | undefined
   readonly pureOsDownloaded: boolean
-  readonly updatingState: UpdatingState | null
+  readonly updatingState: State | null
   readonly serialNumber: string | undefined
   readonly startUpdateOs: (data: string) => void
-  readonly setUpdateState: (data: UpdatingState) => void
+  readonly setUpdateState: (data: State) => void
   readonly updatePhoneOsInfo: (data: PhoneUpdate) => void
   readonly disconnectDevice: () => void
   readonly openContactSupportFlow: () => void
@@ -60,9 +60,9 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   // FIXME: tmp solution until useSystemUpdateFlow exist
   const toggleDeviceUpdating = (option: boolean) => {
     if (option) {
-      setUpdateState(UpdatingState.Updating)
+      setUpdateState(State.Loading)
     } else {
-      setUpdateState(UpdatingState.Standby)
+      setUpdateState(State.Initial)
     }
   }
 
@@ -96,7 +96,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
   const closeUpdatingForceModalFlow = async () => {
-    setUpdateState(UpdatingState.Standby)
+    setUpdateState(State.Initial)
   }
 
   const isPureOsAvailable = (): boolean => {
@@ -115,11 +115,11 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   const getUpdatingForceModalFlowState = ():
     | UpdatingForceModalFlowState
     | undefined => {
-    if (updatingState === UpdatingState.Success) {
+    if (updatingState === State.Loaded) {
       return UpdatingForceModalFlowState.Success
-    } else if (updatingState === UpdatingState.Fail) {
+    } else if (updatingState === State.Failed) {
       return UpdatingForceModalFlowState.Fail
-    } else if (updatingState === UpdatingState.Updating) {
+    } else if (updatingState === State.Loading) {
       return UpdatingForceModalFlowState.Updating
     } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info

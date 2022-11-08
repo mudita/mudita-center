@@ -6,7 +6,6 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import React, { useEffect, useState } from "react"
 import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
@@ -39,7 +38,7 @@ interface PureOverviewProps {
   readonly networkName: string
   readonly networkLevel: number
   readonly pureOsBackupLocation: string
-  readonly updatingState: UpdatingState | null
+  readonly updatingState: State | null
   readonly caseColour: CaseColor
   readonly lastBackupDate: Date
   readonly backupDeviceState: State
@@ -54,7 +53,7 @@ interface PureOverviewProps {
   readonly startRestoreDevice: (option: RestoreBackup) => void
   readonly readBackupDeviceDataState: () => void
   readonly startBackupDevice: (secretKey: string) => void
-  readonly setUpdateState: (data: UpdatingState) => void
+  readonly setUpdateState: (data: State) => void
   readonly startUpdateOs: (data: string) => void
   readonly updatePhoneOsInfo: (data: PhoneUpdate) => void
   readonly disconnectDevice: () => void
@@ -109,9 +108,9 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   // FIXME: tmp solution until useSystemUpdateFlow exist
   const toggleDeviceUpdating = (option: boolean) => {
     if (option) {
-      setUpdateState(UpdatingState.Updating)
+      setUpdateState(State.Loading)
     } else {
-      setUpdateState(UpdatingState.Standby)
+      setUpdateState(State.Initial)
     }
   }
 
@@ -171,7 +170,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
   const closeUpdatingForceModalFlow = async () => {
-    setUpdateState(UpdatingState.Standby)
+    setUpdateState(State.Initial)
   }
 
   const isPureOsAvailable = (): boolean => {
@@ -190,11 +189,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const getUpdatingForceModalFlowState = ():
     | UpdatingForceModalFlowState
     | undefined => {
-    if (updatingState === UpdatingState.Success) {
+    if (updatingState === State.Loaded) {
       return UpdatingForceModalFlowState.Success
-    } else if (updatingState === UpdatingState.Fail) {
+    } else if (updatingState === State.Failed) {
       return UpdatingForceModalFlowState.Fail
-    } else if (updatingState === UpdatingState.Updating) {
+    } else if (updatingState === State.Loading) {
       return UpdatingForceModalFlowState.Updating
     } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info

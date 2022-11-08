@@ -4,15 +4,15 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DiagnosticsFilePath } from "App/device/constants"
-import { DeviceError, DeviceEvent } from "App/device/constants"
-import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
-import { removeFile } from "App/device-file-system"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { AppError } from "App/core/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { removeFile } from "App/device-file-system"
+import { DiagnosticsFilePath } from "App/device/constants"
+import { UpdateError, UpdateOsEvent } from "App/update/constants"
+import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
 
 export const startUpdateOs = createAsyncThunk<string, string>(
-  DeviceEvent.StartOsUpdateProcess,
+  UpdateOsEvent.StartOsUpdateProcess,
   async (file, { dispatch, rejectWithValue }) => {
     await dispatch(removeFile(DiagnosticsFilePath.UPDATER_LOG))
     const data = await updateOs(file)
@@ -20,7 +20,7 @@ export const startUpdateOs = createAsyncThunk<string, string>(
     if (data.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
         new AppError(
-          DeviceError.UpdateProcess,
+          UpdateError.UpdateOsProcess,
           "Device updating process failed",
           data
         )
