@@ -8,7 +8,6 @@ import Backend from "App/__deprecated__/backend/backend"
 import { flags, Feature } from "App/feature-flags"
 import getFakeAdapters from "App/__deprecated__/tests/get-fake-adapters"
 import { createDeviceService } from "App/__deprecated__/backend/device-service"
-import createElectronAppAdapter from "App/__deprecated__/backend/adapters/electron-app/electron-app.adapter"
 import createPurePhoneAdapter from "App/__deprecated__/backend/adapters/pure-phone/pure-phone.adapter"
 import createDeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
 import { createDeviceFileDiagnosticService } from "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"
@@ -65,7 +64,6 @@ const bootstrap = (ipcMain: MainProcessIpc): void => {
   const adapters = {
     deviceFileSystem,
     purePhone,
-    app: createElectronAppAdapter(),
   }
 
   const requests = [
