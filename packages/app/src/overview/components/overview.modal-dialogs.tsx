@@ -22,6 +22,8 @@ import { Size } from "App/__deprecated__/renderer/components/core/button/button.
 import { DeviceType } from "App/device/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
+// TODO [mw] (probably) remove content of this file, looks like a lot of repetition with "overview-modals.component.tsx" - scope of the upcomming PRs
+
 const messages = defineMessages({
   muditaOsUpdateTitle: {
     id: "module.overview.muditaOsUpdateTitle",

@@ -43,6 +43,8 @@ import { Size } from "App/__deprecated__/renderer/components/core/button/button.
 import { DeviceType } from "App/device/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
+// TODO [mw] remove content of this file - scope of the upcomming PRs
+
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -103,13 +105,13 @@ const messages = defineMessages({
   downloadingUpdateMessage: {
     id: "module.overview.downloadingUpdateMessage",
   },
-  downloadingUpdateDescriptionStarting: {
+  downloadingUpdateStarting: {
     id: "module.overview.downloadingUpdateStarting",
   },
-  downloadingUpdateDescriptionDownloading: {
+  downloadingUpdateDownloading: {
     id: "module.overview.downloadingUpdateDownloading",
   },
-  downloadingUpdateDescriptionFinishing: {
+  downloadingUpdateFinishing: {
     id: "module.overview.downloadingUpdateFinishing",
   },
   downloadingUpdateButton: {
@@ -296,12 +298,10 @@ export const DownloadingUpdateModal = ({
   timeLeft,
   onCancel = noop,
 }: Partial<DownloadProgress & { onCancel: () => void }>) => {
-  const starting = (
-    <FormattedMessage {...messages.downloadingUpdateDescriptionStarting} />
-  )
+  const starting = <FormattedMessage {...messages.downloadingUpdateStarting} />
   const downloading = (
     <FormattedMessage
-      {...messages.downloadingUpdateDescriptionDownloading}
+      {...messages.downloadingUpdateDownloading}
       values={{
         speed: convertBytes(speed) + "/s",
         timeLeft: formatDuration(timeLeft || 0),
@@ -309,7 +309,7 @@ export const DownloadingUpdateModal = ({
     />
   )
   const finishing = (
-    <FormattedMessage {...messages.downloadingUpdateDescriptionFinishing} />
+    <FormattedMessage {...messages.downloadingUpdateFinishing} />
   )
   return (
     <OSUpdateModal

@@ -31,13 +31,13 @@ const ModalContent = styled.div`
     margin-top: 1.2rem;
   }
 `
-interface Props extends ComponentProps<typeof ModalDialog> {
+export interface ErrorModalProps extends ComponentProps<typeof ModalDialog> {
   title: string
   subtitle?: string
   body?: string
 }
 
-const ErrorModal: FunctionComponent<Props> = ({
+const ErrorModal: FunctionComponent<ErrorModalProps> = ({
   title,
   subtitle,
   body,
