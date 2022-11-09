@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export type DirectoryFile = {
+export interface DirectoryFile {
   path: string
   fileSize: number
 }

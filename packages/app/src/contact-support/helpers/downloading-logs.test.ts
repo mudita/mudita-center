@@ -5,7 +5,7 @@
 
 import getAppLogs from "App/__deprecated__/renderer/requests/get-app-logs.request"
 import getDeviceLogFiles from "App/__deprecated__/renderer/requests/get-device-log-files.request"
-import downloadDeviceFile from "App/device-file-system/requests/download-device-file.request"
+import { downloadDeviceFiles } from "App/device-file-system/requests/download-device-file.request"
 import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import { downloadingLogs } from "."
 import {
@@ -33,7 +33,7 @@ describe("DownloadingLogs", () => {
     ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
       successGetDeviceLogsResponse
     )
-    ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+    ;(downloadDeviceFiles as jest.Mock).mockReturnValue(
       successGetDeviceUpdaterLogResponse
     )
     const files = await downloadingLogs()

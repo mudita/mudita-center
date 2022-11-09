@@ -3,5 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./actions"
-export * from "./constants"
+export interface DownloadDeviceFileLocallyOptions {
+  key?: string
+  cwd: string
+  token?: string
+  extract?: boolean
+}

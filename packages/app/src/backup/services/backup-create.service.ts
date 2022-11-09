@@ -15,15 +15,15 @@ import { isResponseSuccessWithData } from "App/core/helpers"
 import { BackupError } from "App/backup/constants"
 import { MetadataStore, MetadataKey } from "App/metadata"
 import { CreateDeviceBackup } from "App/backup/types"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 
 // DEPRECATED
 import DeviceService from "App/__deprecated__/backend/device-service"
-import DeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export class BackupCreateService {
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystem: DeviceFileSystemAdapter,
+    private deviceFileSystem: DeviceFileSystemService,
     private keyStorage: MetadataStore
   ) {}
 
@@ -54,12 +54,13 @@ export class BackupCreateService {
 
     const filePath = runDeviceBackupResponse.data
 
-    const backupFile = await this.deviceFileSystem.downloadDeviceFilesLocally(
-      [filePath],
-      options
-    )
+    const backupFileResult =
+      await this.deviceFileSystem.downloadDeviceFilesLocally(
+        [filePath],
+        options
+      )
 
-    if (!isResponseSuccessWithData(backupFile)) {
+    if (!backupFileResult.ok || !backupFileResult.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
       return Result.failed(
@@ -72,7 +73,7 @@ export class BackupCreateService {
 
     this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
-    return Result.success(backupFile.data)
+    return Result.success(backupFileResult.data)
   }
 
   private async runDeviceBackup(

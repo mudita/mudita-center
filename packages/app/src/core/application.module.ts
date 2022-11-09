@@ -32,6 +32,7 @@ import { SearchModule } from "App/search/search.module"
 import { UpdateModule } from "App/update/update.module"
 import { BackupModule } from "App/backup/backup.module"
 import { DeviceInfoModule } from "App/device-info/device-info.module"
+import { DeviceFileSystemModule } from "App/device-file-system/device-file-system.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -50,6 +51,7 @@ export class ApplicationModule {
     SearchModule,
     UpdateModule,
     BackupModule,
+    DeviceFileSystemModule,
   ]
 
   private ipc = ipcMain

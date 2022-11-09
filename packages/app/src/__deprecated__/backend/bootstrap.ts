@@ -19,12 +19,7 @@ import registerGetDeviceLockTime from "App/__deprecated__/backend/requests/get-d
 import registerUpdateOsRequest from "App/__deprecated__/backend/requests/update-os/update-os.request"
 import registerGetDeviceLogFiles from "App/__deprecated__/backend/requests/get-device-log-files/get-device-log-files.request"
 import registerGetDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/get-device-crash-dump-files/get-device-log-files.request"
-import registerDownloadDeviceFilesRequest from "App/device-file-system/listeners/download-device-file.listener"
-import registerUploadDeviceFileRequest from "App/device-file-system/listeners/upload-device-file.listener"
-import registerUploadDeviceFileLocallyRequest from "App/device-file-system/listeners/upload-device-file-locally.listener"
-import registerGetRestoreDeviceStatusRequest from "App/__deprecated__/backend/requests/get-restore-device-status/get-restore-device-status.request"
 import registerDownloadDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
-import { registerFileSystemRemoveRequest } from "App/device-file-system"
 import createDeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 import PureLogger from "App/__deprecated__/main/utils/pure-logger"
 import {
@@ -75,12 +70,7 @@ const bootstrap = (ipcMain: MainProcessIpc): void => {
     registerUpdateOsRequest,
     registerGetDeviceLogFiles,
     registerGetDeviceCrashDumpFiles,
-    registerDownloadDeviceFilesRequest,
-    registerUploadDeviceFileLocallyRequest,
-    registerUploadDeviceFileRequest,
-    registerGetRestoreDeviceStatusRequest,
     registerDownloadDeviceCrashDumpFiles,
-    registerFileSystemRemoveRequest,
   ]
 
   new ApplicationModule(deviceService)

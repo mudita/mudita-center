@@ -3,4 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./remove-file.listener"
+export interface DeviceFile {
+  name: string
+  data: Buffer
+}

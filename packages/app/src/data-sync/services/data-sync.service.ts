@@ -5,7 +5,7 @@
 
 import path from "path"
 import { BackupCategory } from "App/device/constants"
-import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { IndexStorage } from "App/index-storage/types"
 import { DataIndex } from "App/index-storage/constants"
@@ -42,7 +42,7 @@ export class DataSyncService {
   ) {
     this.deviceBackupService = new BackupCreateService(
       this.deviceService,
-      new DeviceFileSystem(this.deviceService),
+      new DeviceFileSystemService(this.deviceService),
       this.keyStorage
     )
 

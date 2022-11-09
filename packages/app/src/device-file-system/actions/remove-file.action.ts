@@ -9,7 +9,6 @@ import {
   DeviceFileSystemEvent,
 } from "App/device-file-system/constants"
 import { removeFileRequest } from "App/device-file-system/requests"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { AppError } from "App/core/errors"
 
 export const removeFile = createAsyncThunk<void, string>(
@@ -17,7 +16,7 @@ export const removeFile = createAsyncThunk<void, string>(
   async (payload, { rejectWithValue }) => {
     const response = await removeFileRequest(payload)
 
-    if (response.status !== RequestResponseStatus.Ok) {
+    if (!response.ok || !response.data) {
       return rejectWithValue(
         new AppError(
           DeviceFileSystemError.Removing,

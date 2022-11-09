@@ -9,7 +9,7 @@ import sendTicketRequest, {
 import getAppLogs from "App/__deprecated__/renderer/requests/get-app-logs.request"
 import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.request"
 import getDeviceLogFiles from "App/__deprecated__/renderer/requests/get-device-log-files.request"
-import downloadDeviceFiles from "App/device-file-system/requests/download-device-file.request"
+import { downloadDeviceFiles } from "App/device-file-system/requests/download-device-file.request"
 import createFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import mockCreateFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
 import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
@@ -35,7 +35,9 @@ jest.mock("App/__deprecated__/renderer/requests/get-app-logs.request")
 jest.mock("App/__deprecated__/renderer/requests/archive-files.request")
 jest.mock("App/__deprecated__/renderer/requests/get-device-log-files.request")
 jest.mock("App/device-file-system/requests/download-device-file.request")
-jest.mock("App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket")
+jest.mock(
+  "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+)
 
 const data: Omit<FreshdeskTicketData, "type" | "attachments"> = {
   description: "",
