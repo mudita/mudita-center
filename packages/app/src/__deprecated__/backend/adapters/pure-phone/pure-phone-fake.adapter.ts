@@ -73,26 +73,6 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async getDeviceCrashDumpFiles(): Promise<RequestResponse<string[]>> {
-    return {
-      status: RequestResponseStatus.Ok,
-      data: [],
-    }
-  }
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  public async downloadDeviceCrashDumpFiles(): Promise<
-    RequestResponse<string[]>
-  > {
-    return {
-      status: RequestResponseStatus.Ok,
-      data: [],
-    }
-  }
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async startBackupDevice(): Promise<
     RequestResponse<StartBackupResponseBody>
   > {

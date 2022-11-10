@@ -17,8 +17,6 @@ import registerUnlockDeviceRequest from "App/__deprecated__/backend/requests/unl
 import registerGetUnlockDeviceStatus from "App/__deprecated__/backend/requests/get-unlock-device-status/get-unlock-device-status.request"
 import registerGetDeviceLockTime from "App/__deprecated__/backend/requests/get-device-lock-time/get-device-lock-time.request"
 import registerGetDeviceLogFiles from "App/__deprecated__/backend/requests/get-device-log-files/get-device-log-files.request"
-import registerGetDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/get-device-crash-dump-files/get-device-log-files.request"
-import registerDownloadDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
 import PureLogger from "App/__deprecated__/main/utils/pure-logger"
 import {
   DeviceManager,
@@ -64,8 +62,6 @@ const bootstrap = (ipcMain: MainProcessIpc): void => {
     registerGetUnlockDeviceStatus,
     registerGetDeviceLockTime,
     registerGetDeviceLogFiles,
-    registerGetDeviceCrashDumpFiles,
-    registerDownloadDeviceCrashDumpFiles,
   ]
 
   new ApplicationModule(deviceService)

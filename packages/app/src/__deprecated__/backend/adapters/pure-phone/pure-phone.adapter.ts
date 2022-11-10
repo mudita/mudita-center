@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import path from "path"
 import {
   GetRestoreDeviceStatusRequestConfig,
   GetPhoneLockTimeResponseBody,
@@ -26,7 +25,6 @@ import DeviceFileSystemAdapter, {
 } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "App/__deprecated__/backend/adapters/pure-phone/pure-phone.helpers"
-import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -102,16 +100,6 @@ class PurePhone extends PurePhoneAdapter {
     return this.downloadDeviceFiles(DiagnosticsFileList.LOGS, option)
   }
 
-  public async getDeviceCrashDumpFiles(): Promise<RequestResponse<string[]>> {
-    return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS)
-  }
-
-  public async downloadDeviceCrashDumpFiles(): Promise<
-    RequestResponse<string[]>
-  > {
-    return this.downloadDeviceFilesLocally(DiagnosticsFileList.CRASH_DUMPS)
-  }
-
   public async startRestoreDevice(
     config: StartRestoreRequestConfig["body"]
   ): Promise<RequestResponse> {
@@ -160,38 +148,6 @@ class PurePhone extends PurePhoneAdapter {
       data: option
         ? transformDeviceFilesByOption(deviceFiles, option)
         : deviceFiles,
-      status: RequestResponseStatus.Ok,
-    }
-  }
-
-  private async downloadDeviceFilesLocally(
-    fileList: DiagnosticsFileList
-  ): Promise<RequestResponse<string[]>> {
-    const files = await this.getDeviceFiles(fileList)
-
-    if (files.status !== RequestResponseStatus.Ok || !files.data) {
-      return {
-        status: RequestResponseStatus.Error,
-      }
-    }
-
-    const downloadDeviceFilesResponse =
-      await this.deviceFileSystem.downloadDeviceFilesLocally(files.data, {
-        cwd: path.join(getAppPath(), "crash-dumps"),
-      })
-    const deviceFiles = downloadDeviceFilesResponse.data
-
-    if (
-      downloadDeviceFilesResponse.status !== RequestResponseStatus.Ok ||
-      deviceFiles === undefined
-    ) {
-      return {
-        status: RequestResponseStatus.Error,
-      }
-    }
-
-    return {
-      data: deviceFiles,
       status: RequestResponseStatus.Ok,
     }
   }
