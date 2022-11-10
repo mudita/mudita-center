@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-all-releases.request"
-export * from "./get-latest-release.request"
-export * from "./start-os-update.request"
+export interface UpdateOS {
+  fileName: string
+}

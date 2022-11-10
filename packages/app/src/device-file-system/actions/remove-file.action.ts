@@ -8,7 +8,7 @@ import {
   DeviceFileSystemError,
   DeviceFileSystemEvent,
 } from "App/device-file-system/constants"
-import { removeFileRequest } from "App/device-file-system/requests"
+import { removeFileRequest } from "App/device-file-system/requests/remove-file.request"
 import { AppError } from "App/core/errors"
 
 export const removeFile = createAsyncThunk<void, string>(
