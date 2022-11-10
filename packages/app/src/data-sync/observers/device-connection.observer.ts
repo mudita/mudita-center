@@ -4,7 +4,7 @@
  */
 
 import { SerialPortDevice } from "App/device/types/serial-port-device.type"
-import { DeviceType } from "App/device/constants"
+import { DeviceType, Endpoint, Method } from "App/device/constants"
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { Observer } from "App/core/types"
@@ -17,7 +17,6 @@ import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
 import { IpcEvent } from "App/data-sync/constants/ipc-event.constant"
-import { getDeviceInfoRequest } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 
 export class DeviceConnectionObserver implements Observer {
   private invoked = false
@@ -57,7 +56,11 @@ export class DeviceConnectionObserver implements Observer {
           // eslint-disable-next-line @typescript-eslint/await-thenable
           await this.ipc.sendToRenderers(IpcEvent.DataLoading)
 
-          const { data } = await getDeviceInfoRequest(this.deviceService)
+          const { data } = await this.deviceService.request({
+            endpoint: Endpoint.DeviceInfo,
+            method: Method.Get,
+          })
+
           if (data === undefined) {
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/await-thenable

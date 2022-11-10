@@ -11,16 +11,12 @@ import DeviceService, {
 } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { IndexStorageService } from "App/index-storage/services/index-storage.service"
-import { getDeviceInfoRequest } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 import { flushPromises } from "App/core/helpers/flush-promises"
-
-jest.mock(
-  "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
-)
 
 let subject: IndexStorageLoadingObserver
 const eventEmitterMock = new EventEmitter()
 const deviceService = {
+  request: jest.fn(),
   on: (eventName: DeviceServiceEventName, listener: () => void) => {
     eventEmitterMock.on(eventName, listener)
   },
@@ -42,7 +38,7 @@ describe("Method: observe", () => {
   })
 
   test("calls the `DeviceService.request` and `IndexStorageService.loadIndex` methods when `DeviceServiceEventName.DeviceUnlocked` has been emitted", async () => {
-    ;(getDeviceInfoRequest as unknown as jest.Mock).mockReturnValue({
+    deviceService.request = jest.fn().mockResolvedValueOnce({
       data: {
         deviceToken: "1234567890",
         serialNumber: "0000000000",
@@ -51,7 +47,9 @@ describe("Method: observe", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(indexStorageService.loadIndex).toHaveBeenCalledTimes(0)
-    expect(getDeviceInfoRequest).toHaveBeenCalledTimes(0)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(deviceService.request).toHaveBeenCalledTimes(0)
 
     subject.observe()
 
@@ -60,6 +58,8 @@ describe("Method: observe", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(indexStorageService.loadIndex).toHaveBeenCalledTimes(1)
-    expect(getDeviceInfoRequest).toHaveBeenCalledTimes(1)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(deviceService.request).toHaveBeenCalledTimes(1)
   })
 })

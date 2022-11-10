@@ -14,7 +14,6 @@ import { Device } from "App/device/modules/device"
 import {
   Endpoint,
   Method,
-  DeviceType,
   DiagnosticsFileList,
   PhoneLockCategory,
 } from "App/device/constants"
@@ -27,7 +26,6 @@ import DeviceFileSystemAdapter, {
 } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "App/__deprecated__/backend/adapters/pure-phone/pure-phone.helpers"
-import DeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info-adapter.class"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import {
   RequestResponse,
@@ -37,7 +35,6 @@ import {
 class PurePhone extends PurePhoneAdapter {
   constructor(
     private deviceService: DeviceService,
-    private deviceBaseInfo: DeviceBaseInfoAdapter,
     private deviceFileSystem: DeviceFileSystemAdapter,
     private deviceFileDiagnosticService: DeviceFileDiagnosticService
   ) {
@@ -221,88 +218,13 @@ class PurePhone extends PurePhoneAdapter {
       status: RequestResponseStatus.Ok,
     }
   }
-
-  private async waitUntilDeviceRestart(
-    index = 0,
-    deviceType = this.deviceService.currentDevice?.deviceType,
-    timeout = 10000,
-    callsMax = 60
-  ): Promise<RequestResponse> {
-    if (index === callsMax) {
-      return {
-        status: RequestResponseStatus.Error,
-        error: {
-          message: "updateOs: device no restart successful in 10 minutes",
-        },
-      }
-    }
-
-    let response
-
-    if (deviceType === DeviceType.MuditaHarmony) {
-      response = await this.deviceBaseInfo.getDeviceInfo()
-    } else {
-      response = await this.getUnlockDeviceStatus()
-    }
-
-    if (
-      index !== 0 &&
-      (response.status === RequestResponseStatus.Ok ||
-        response.status === RequestResponseStatus.PhoneLocked)
-    ) {
-      return {
-        status: RequestResponseStatus.Ok,
-      }
-    } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(this.waitUntilDeviceRestart(++index, deviceType))
-        }, timeout)
-      })
-    }
-  }
-
-  private async waitUntilDeviceUnlocked(
-    index = 0,
-    timeout = 5000,
-    callsMax = 120
-  ): Promise<RequestResponse> {
-    if (index === callsMax) {
-      return {
-        status: RequestResponseStatus.Error,
-        error: {
-          message: "updateOs: device isn't unlocked by user in 10 minutes",
-        },
-      }
-    }
-
-    const response = await this.getUnlockDeviceStatus()
-
-    if (index !== 0 && response.status === RequestResponseStatus.Ok) {
-      return {
-        status: RequestResponseStatus.Ok,
-      }
-    } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(this.waitUntilDeviceUnlocked(++index))
-        }, timeout)
-      })
-    }
-  }
 }
 
 const createPurePhoneAdapter = (
   deviceService: DeviceService,
-  deviceBaseInfo: DeviceBaseInfoAdapter,
   deviceFileSystem: DeviceFileSystemAdapter,
   deviceFileDiagnosticService: DeviceFileDiagnosticService
 ): PurePhoneAdapter =>
-  new PurePhone(
-    deviceService,
-    deviceBaseInfo,
-    deviceFileSystem,
-    deviceFileDiagnosticService
-  )
+  new PurePhone(deviceService, deviceFileSystem, deviceFileDiagnosticService)
 
 export default createPurePhoneAdapter

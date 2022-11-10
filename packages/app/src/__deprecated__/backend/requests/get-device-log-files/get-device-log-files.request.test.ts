@@ -17,7 +17,6 @@ import createPurePhoneAdapter from "App/__deprecated__/backend/adapters/pure-pho
 import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import createDeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
-import { DeviceBaseInfo } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -81,13 +80,11 @@ test("GetDeviceLogs request works properly", (done) => {
   )
   const deviceService = new DeviceService(deviceManager, ipcMain)
   const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
-  const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
     deviceService
   )
   const purePhone = createPurePhoneAdapter(
     deviceService,
-    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )

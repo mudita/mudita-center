@@ -217,9 +217,9 @@ describe("Method: updateOs", () => {
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
     jest
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
       .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceRestart")
       .mockResolvedValueOnce(
         Result.failed(
@@ -285,14 +285,14 @@ describe("Method: updateOs", () => {
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
     jest
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
       .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceRestart")
       .mockResolvedValueOnce(Result.success(true))
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
     jest
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
       .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceUnlocked")
       .mockResolvedValueOnce(Result.success(true))
 
@@ -364,14 +364,14 @@ describe("Method: updateOs", () => {
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
     jest
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
       .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceRestart")
       .mockResolvedValueOnce(Result.success(true))
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
     jest
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
       .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceUnlocked")
       .mockResolvedValueOnce(Result.success(true))
 

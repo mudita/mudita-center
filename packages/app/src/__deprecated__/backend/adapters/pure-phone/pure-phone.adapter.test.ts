@@ -12,16 +12,12 @@ import createPurePhoneAdapter from "App/__deprecated__/backend/adapters/pure-pho
 import MockDate from "mockdate"
 import DeviceFileDiagnosticService from "App/__deprecated__/backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
-import { DeviceBaseInfo } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 
 jest.mock("App/__deprecated__/backend/device-service")
-jest.mock(
-  "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
-)
 jest.mock(
   "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
 )
@@ -43,14 +39,12 @@ test("Unlock device returns properly value", async () => {
   })
   const deviceService = new DeviceService(deviceManager, ipcMain)
   const deviceFileSystem = new DeviceFileSystem(deviceService)
-  const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
     deviceService
   )
 
   const purePhoneAdapter = createPurePhoneAdapter(
     deviceService,
-    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )
@@ -70,14 +64,12 @@ test("Get unlock device status returns properly value", async () => {
   })
   const deviceService = new DeviceService(deviceManager, ipcMain)
   const deviceFileSystem = new DeviceFileSystem(deviceService)
-  const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
     deviceService
   )
 
   const purePhoneAdapter = createPurePhoneAdapter(
     deviceService,
-    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )
@@ -134,14 +126,12 @@ describe("getDeviceLogFiles method", () => {
       }
     })
     const deviceFileSystem = new DeviceFileSystem(deviceService)
-    const deviceBaseInfo = new DeviceBaseInfo(deviceService)
     const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
       deviceService
     )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
-      deviceBaseInfo,
       deviceFileSystem,
       deviceFileDiagnosticService
     )
@@ -208,14 +198,12 @@ describe("getDeviceLogFiles method", () => {
       }
     })
     const deviceFileSystem = new DeviceFileSystem(deviceService)
-    const deviceBaseInfo = new DeviceBaseInfo(deviceService)
     const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
       deviceService
     )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
-      deviceBaseInfo,
       deviceFileSystem,
       deviceFileDiagnosticService
     )
@@ -244,14 +232,12 @@ describe("getDeviceLogFiles method", () => {
       }
     )
     const deviceFileSystem = new DeviceFileSystem(deviceService)
-    const deviceBaseInfo = new DeviceBaseInfo(deviceService)
     const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
       deviceService
     )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
-      deviceBaseInfo,
       deviceFileSystem,
       deviceFileDiagnosticService
     )
@@ -282,14 +268,12 @@ describe("getDeviceLogFiles method", () => {
       }
     })
     const deviceFileSystem = new DeviceFileSystem(deviceService)
-    const deviceBaseInfo = new DeviceBaseInfo(deviceService)
     const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
       deviceService
     )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
-      deviceBaseInfo,
       deviceFileSystem,
       deviceFileDiagnosticService
     )

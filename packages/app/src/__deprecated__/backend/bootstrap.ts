@@ -19,7 +19,6 @@ import registerGetDeviceLockTime from "App/__deprecated__/backend/requests/get-d
 import registerGetDeviceLogFiles from "App/__deprecated__/backend/requests/get-device-log-files/get-device-log-files.request"
 import registerGetDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/get-device-crash-dump-files/get-device-log-files.request"
 import registerDownloadDeviceCrashDumpFiles from "App/__deprecated__/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
-import createDeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 import PureLogger from "App/__deprecated__/main/utils/pure-logger"
 import {
   DeviceManager,
@@ -44,13 +43,11 @@ const bootstrap = (ipcMain: MainProcessIpc): void => {
   deviceManager.toggleLogs(enabled)
 
   const deviceService = createDeviceService(deviceManager, ipcMain)
-  const deviceBaseInfo = createDeviceBaseInfoAdapter(deviceService)
   const deviceFileDiagnosticService =
     createDeviceFileDiagnosticService(deviceService)
   const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
   const purePhone = createPurePhoneAdapter(
     deviceService,
-    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )
