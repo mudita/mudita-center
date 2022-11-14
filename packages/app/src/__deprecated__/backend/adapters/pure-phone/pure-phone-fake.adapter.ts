@@ -12,7 +12,6 @@ import {
 } from "App/device/types/mudita-os"
 import { RestoreState, BackupState } from "App/device/constants"
 import { Device } from "App/device/modules/device"
-import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -59,15 +58,6 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
     return {
       status: RequestResponseStatus.Ok,
       data: { phoneLockTime: 1630703219 },
-    }
-  }
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  public async getDeviceLogFiles(): Promise<RequestResponse<DeviceFile[]>> {
-    return {
-      status: RequestResponseStatus.Ok,
-      data: [],
     }
   }
 

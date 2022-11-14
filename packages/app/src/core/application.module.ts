@@ -33,6 +33,7 @@ import { UpdateModule } from "App/update/update.module"
 import { BackupModule } from "App/backup/backup.module"
 import { DeviceInfoModule } from "App/device-info/device-info.module"
 import { DeviceFileSystemModule } from "App/device-file-system/device-file-system.module"
+import { DeviceLogModule } from "App/device-log/device-log.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -52,6 +53,7 @@ export class ApplicationModule {
     UpdateModule,
     BackupModule,
     DeviceFileSystemModule,
+    DeviceLogModule,
   ]
 
   private ipc = ipcMain

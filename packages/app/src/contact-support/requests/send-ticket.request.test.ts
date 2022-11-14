@@ -8,12 +8,12 @@ import sendTicketRequest, {
 } from "App/contact-support/requests/send-ticket.request"
 import getAppLogs from "App/__deprecated__/renderer/requests/get-app-logs.request"
 import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.request"
-import getDeviceLogFiles from "App/__deprecated__/renderer/requests/get-device-log-files.request"
+import { getDeviceLogFiles } from "App/device-log/requests/get-device-log-files.request"
 import { downloadDeviceFiles } from "App/device-file-system/requests/download-device-file.request"
 import createFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import mockCreateFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
 import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
-import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DeviceFile } from "App/device-file-system/dto"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -33,7 +33,7 @@ const errorResponse: RequestResponse<DeviceFile[]> = {
 
 jest.mock("App/__deprecated__/renderer/requests/get-app-logs.request")
 jest.mock("App/__deprecated__/renderer/requests/archive-files.request")
-jest.mock("App/__deprecated__/renderer/requests/get-device-log-files.request")
+jest.mock("App/device-log/requests/get-device-log-files.request")
 jest.mock("App/device-file-system/requests/download-device-file.request")
 jest.mock(
   "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"

@@ -10,12 +10,7 @@ import {
   StartRestoreRequestConfig,
 } from "App/device/types/mudita-os"
 import { Device } from "App/device/modules/device"
-import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import { RequestResponse } from "App/core/types/request-response.interface"
-
-export interface DeviceFilesOption {
-  datePrefix?: boolean
-}
 
 export default abstract class PurePhoneAdapter {
   public abstract disconnectDevice(): Promise<RequestResponse>
@@ -25,9 +20,7 @@ export default abstract class PurePhoneAdapter {
   public abstract getDeviceLockTime(): Promise<
     RequestResponse<GetPhoneLockTimeResponseBody>
   >
-  public abstract getDeviceLogFiles(
-    option?: DeviceFilesOption
-  ): Promise<RequestResponse<DeviceFile[]>>
+
   public abstract startRestoreDevice(
     config: StartRestoreRequestConfig["body"]
   ): Promise<RequestResponse>

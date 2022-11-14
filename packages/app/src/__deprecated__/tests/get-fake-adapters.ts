@@ -5,10 +5,8 @@
 
 import Adapters from "App/__deprecated__/backend/adapters/adapters.interface"
 import createFakePurePhoneAdapter from "App/__deprecated__/backend/adapters/pure-phone/pure-phone-fake.adapter"
-import createFakeDeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-fake.adapter"
 
 const getFakeAdapters = (): Adapters => ({
-  deviceFileSystem: createFakeDeviceFileSystemAdapter(),
   purePhone: createFakePurePhoneAdapter(),
 })
 
