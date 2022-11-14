@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcDeviceRequest } from "App/device-info/constants"
+import { IpcDeviceInfoRequest } from "App/device-info/constants"
 import { DeviceInfo } from "App/device-info/dto"
 
 export const getDeviceInfoRequest = async (): Promise<
   ResultObject<DeviceInfo>
 > => {
-  return ipcRenderer.callMain(IpcDeviceRequest.GetDeviceInfo)
+  return ipcRenderer.callMain(IpcDeviceInfoRequest.GetDeviceInfo)
 }

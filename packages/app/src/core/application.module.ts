@@ -34,6 +34,7 @@ import { BackupModule } from "App/backup/backup.module"
 import { DeviceInfoModule } from "App/device-info/device-info.module"
 import { DeviceFileSystemModule } from "App/device-file-system/device-file-system.module"
 import { DeviceLogModule } from "App/device-log/device-log.module"
+import { DeviceModule } from "App/device/device.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -54,6 +55,7 @@ export class ApplicationModule {
     BackupModule,
     DeviceFileSystemModule,
     DeviceLogModule,
+    DeviceModule,
   ]
 
   private ipc = ipcMain

@@ -17,7 +17,7 @@ import {
   firstsPartEncodeLog,
   secondsPartDecodeLog,
   secondsPartEncodeLog,
-} from "App/__deprecated__/backend/adapters/pure-phone/mock-data-logs"
+} from "App/testing-support/mocks/diagnostic-data.mock"
 
 import path from "path"
 import { DeviceFileSystemService } from "App/device-file-system/services/device-file-system.service"

@@ -6,23 +6,23 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { Result } from "App/core/builder"
+import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
 import { lockedDevice } from "./locked-device.action"
-import getDeviceLockTime from "App/__deprecated__/renderer/requests/get-device-lock-time.request"
-import getUnlockDeviceStatus from "App/__deprecated__/renderer/requests/get-unlock-device-status.request"
+import { unlockDeviceStatusRequest } from "App/device/requests/unlock-device-status.request"
+import { deviceLockTimeRequest } from "App/device/requests/device-lock-time.request"
 import { flags } from "App/feature-flags"
 import { DeviceEvent } from "App/device"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/feature-flags")
-jest.mock("App/__deprecated__/renderer/requests/get-device-lock-time.request")
-jest.mock(
-  "App/__deprecated__/renderer/requests/get-unlock-device-status.request"
-)
+jest.mock("App/device/requests/device-lock-time.request")
+jest.mock("App/device/requests/unlock-device-status.request")
 
 describe("Device: MuditaHarmony", () => {
   describe("Get Device Lock Time request returns `success` status", () => {
-    test("fire async `lockedDevice` do not call `getDeviceLockTime`", async () => {
+    test("fire async `lockedDevice` do not call `deviceLockTimeRequest`", async () => {
       const mockStore = createMockStore([thunk])({
         device: {
           deviceType: DeviceType.MuditaHarmony,
@@ -39,7 +39,7 @@ describe("Device: MuditaHarmony", () => {
         lockedDevice.fulfilled(undefined, requestId, undefined),
       ])
 
-      expect(getDeviceLockTime).not.toHaveBeenCalled()
+      expect(deviceLockTimeRequest).not.toHaveBeenCalled()
     })
   })
 })
@@ -48,15 +48,15 @@ describe("Device: MuditaPure", () => {
   describe("Get Device Lock Time request returns `success` status", () => {
     test("fire async `lockedDevice` set device lock time", async () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
-      ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
-        status: RequestResponseStatus.Ok,
-        data: {
+      ;(deviceLockTimeRequest as jest.Mock).mockReturnValueOnce(
+        Result.success({
           phoneLockTime: 123456789,
-        },
-      })
-      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValueOnce({
-        status: RequestResponseStatus.Ok,
-      })
+        })
+      )
+      ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
+        Result.success(RequestResponseStatus.Ok)
+      )
+
       const mockStore = createMockStore([thunk])({
         device: {
           deviceType: DeviceType.MuditaPure,
@@ -77,19 +77,19 @@ describe("Device: MuditaPure", () => {
         lockedDevice.fulfilled(undefined, requestId, undefined),
       ])
 
-      expect(getDeviceLockTime).toHaveBeenCalled()
+      expect(deviceLockTimeRequest).toHaveBeenCalled()
     })
   })
 
   describe("Get Device Lock Time request returns `unprocessable-entity` status", () => {
     test("fire async `lockedDevice` removes device lock time", async () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
-      ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
-        status: RequestResponseStatus.UnprocessableEntity,
-      })
-      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValueOnce({
-        status: RequestResponseStatus.Ok,
-      })
+      ;(deviceLockTimeRequest as jest.Mock).mockReturnValueOnce(
+        Result.failed(new AppError("", ""))
+      )
+      ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
+        Result.success(RequestResponseStatus.Ok)
+      )
       const mockStore = createMockStore([thunk])({
         device: {
           deviceType: DeviceType.MuditaPure,
@@ -110,19 +110,19 @@ describe("Device: MuditaPure", () => {
         lockedDevice.fulfilled(undefined, requestId, undefined),
       ])
 
-      expect(getDeviceLockTime).toHaveBeenCalled()
+      expect(deviceLockTimeRequest).toHaveBeenCalled()
     })
   })
 
   describe("Get Device Lock Status request returns `agreement-is-not-accepted` status", () => {
     test("fire async `lockedDevice` calls `setAgreementStatus` action", async () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
-      ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
-        status: RequestResponseStatus.UnprocessableEntity,
-      })
-      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValueOnce({
-        status: RequestResponseStatus.NotAcceptable,
-      })
+      ;(deviceLockTimeRequest as jest.Mock).mockReturnValueOnce(
+        Result.failed(new AppError("", ""))
+      )
+      ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
+        Result.success(RequestResponseStatus.NotAcceptable)
+      )
       const mockStore = createMockStore([thunk])({
         device: {
           deviceType: DeviceType.MuditaPure,
@@ -147,8 +147,8 @@ describe("Device: MuditaPure", () => {
         lockedDevice.fulfilled(undefined, requestId, undefined),
       ])
 
-      expect(getDeviceLockTime).toHaveBeenCalled()
-      expect(getUnlockDeviceStatus).toHaveBeenCalled()
+      expect(deviceLockTimeRequest).toHaveBeenCalled()
+      expect(unlockDeviceStatusRequest).toHaveBeenCalled()
     })
   })
 })

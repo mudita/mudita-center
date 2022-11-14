@@ -9,6 +9,6 @@ export enum IpcDeviceInfoEvent {
   GetDeviceInfo = "get-device-info",
 }
 
-export enum IpcDeviceRequest {
+export enum IpcDeviceInfoRequest {
   GetDeviceInfo = "device-info-get-device-info",
 }

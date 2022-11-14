@@ -31,9 +31,7 @@ const Connecting: FunctionComponent<{
   unlocked: boolean | null
   syncInitialized: boolean
   syncState: SynchronizationState
-  unlockDevice: (
-    code: number[]
-  ) => Promise<PayloadAction<RequestResponseStatus>>
+  unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
   getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
   leftTime: number | undefined
   noModalsVisible: boolean
