@@ -11,7 +11,7 @@ import { ResultObject, Result } from "App/core/builder"
 import { Endpoint, Method } from "App/device/constants"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import logger from "App/__deprecated__/main/utils/logger"
-import countCRC32 from "App/__deprecated__/backend/helpers/count-crc32"
+import countCRC32 from "App/device-file-system/helpers/count-crc32"
 import { FileSystemService } from "App/file-system/services/file-system.service"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import {

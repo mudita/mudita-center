@@ -31,7 +31,6 @@ import registerDeviceConnectedListener, {
 import registerDeviceDisconnectedListener, {
   removeDeviceDisconnectedListener,
 } from "App/__deprecated__/renderer/listeners/register-device-disconnected.listener"
-import registerHotkeys from "App/__deprecated__/renderer/register-hotkeys"
 import registerAppContextMenu from "App/__deprecated__/renderer/register-app-context-menu"
 import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import registerDeviceLockedListener, {
@@ -273,11 +272,8 @@ const RootWrapper: FunctionComponent<Props> = ({
     handleAppUpdateAvailableCheck()
 
     const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
-    //Remove this condition to get devMode on production
+    // Remove this condition to get devMode on production
     if (devModeEnabled) {
-      // Register hotkeys
-      registerHotkeys()
-
       // Register context menu
       registerAppContextMenu(appContextMenu)
       appContextMenu.init()

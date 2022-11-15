@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import "reflect-metadata"
 import { check as checkPort } from "tcp-port-used"
 import {
   app,
@@ -60,7 +61,6 @@ import {
   DEFAULT_WINDOWS_SIZE,
 } from "./config"
 import autoupdate, { mockAutoupdate } from "./autoupdate"
-import startBackend from "App/__deprecated__/backend/bootstrap"
 import {
   URL_MAIN,
   URL_OVERVIEW,
@@ -79,6 +79,7 @@ import {
 } from "App/metadata"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
 import { createSettingsService } from "App/settings/containers/settings.container"
+import { ApplicationModule } from "App/core/application.module"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -169,7 +170,9 @@ const createWindow = async () => {
 
   const settingsService = createSettingsService()
   settingsService.init()
-  startBackend(ipcMain)
+
+  new ApplicationModule(ipcMain)
+
   registerPureOsDownloadListener(registerDownloadListener)
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()

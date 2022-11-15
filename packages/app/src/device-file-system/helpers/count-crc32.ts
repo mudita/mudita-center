@@ -6,7 +6,7 @@
 import * as CRC32 from "crc-32"
 
 const countCRC32 = (buffer: Buffer): string => {
-  const crc = CRC32.buf(buffer);
+  const crc = CRC32.buf(buffer)
   return (crc >>> 0).toString(16).padStart(8, "0").toLowerCase()
 }
 
