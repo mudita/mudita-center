@@ -14,6 +14,7 @@ export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
   grid-template-columns: 1fr;
   height: 100%;
+  min-height: 60rem;
   padding: 8rem 0 0;
   justify-items: center;
   ${CardAction} {
@@ -38,7 +39,6 @@ export const PhoneInfo = styled(CardContent)`
 `
 
 export const HarmonyInfo = styled(PhoneInfo)`
-  margin-bottom: 12rem;
 `
 
 export const PureSystemButtonContainer = styled.div`

@@ -72,18 +72,18 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
           <DeviceImage caseColour={caseColour} deviceType={deviceType} />
         </HarmonyInfo>
       )}
-      {deviceType === DeviceType.MuditaPure && (
-        <SerialNumberWrapper>
-          <Text
-            displayStyle={TextDisplayStyle.Paragraph4}
-            color="secondary"
-            message={{
-              id: "module.overview.serialNumber",
-            }}
-          />
-          <Text displayStyle={TextDisplayStyle.Paragraph1}>{serialNumber}</Text>
-        </SerialNumberWrapper>
-      )}
+
+      <SerialNumberWrapper>
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
+          message={{
+            id: "module.overview.serialNumber",
+          }}
+        />
+        <Text displayStyle={TextDisplayStyle.Paragraph1}>{serialNumber}</Text>
+      </SerialNumberWrapper>
+
       <CardAction>
         <CardActionButton
           active
