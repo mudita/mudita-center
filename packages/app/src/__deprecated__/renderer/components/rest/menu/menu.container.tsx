@@ -7,12 +7,11 @@ import { connect } from "react-redux"
 import { State } from "App/core/constants"
 import Menu from "App/__deprecated__/renderer/components/rest/menu/menu.component"
 import { RootState, ReduxRootState } from "App/__deprecated__/renderer/store"
-import { UpdatingState } from "App/device/constants"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   deviceFeaturesVisible:
     (state.device.status.connected && state.device.status.unlocked) ||
-    state.device.updatingState === UpdatingState.Updating ||
+    state.update.updatingState === State.Loading ||
     state.backup.restoringState === State.Loading ||
     state.backup.restoringState === State.Failed,
   devModeEnabled: state.devMode.enabled,

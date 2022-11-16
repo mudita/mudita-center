@@ -10,11 +10,7 @@ import {
   pendingAction,
   fulfilledAction,
 } from "App/__deprecated__/renderer/store/helpers"
-import {
-  DeviceEvent,
-  ConnectionState,
-  UpdatingState,
-} from "App/device/constants"
+import { DeviceEvent, ConnectionState } from "App/device/constants"
 import {
   DeviceState,
   PureDeviceData,
@@ -27,8 +23,6 @@ import {
   UnlockDeviceRejectedAction,
   SetSimDataAction,
   SetOsVersionDataAction,
-  SetUpdateStateAction,
-  OsUpdateRejectedAction,
   SetConnectionStateAction,
   LoadStorageInfoAction,
   LoadStorageInfoRejectedAction,
@@ -45,7 +39,6 @@ export const initialState: DeviceState = {
     agreementAccepted: true,
   },
   state: ConnectionState.Empty,
-  updatingState: null,
   error: null,
 }
 
@@ -123,25 +116,13 @@ export const deviceReducer = createReducer<DeviceState>(
       .addCase(
         fulfilledAction(DeviceEvent.SetConnectionState),
         (state, action: SetConnectionStateAction) => {
-          if (state.updatingState === UpdatingState.Updating) {
-            return {
-              ...state,
-              status: {
-                ...state.status,
-                connected: action.payload ? action.payload : false,
-              },
-              updatingState: UpdatingState.Updating,
-              error: null,
-            }
-          } else {
-            return {
-              ...state,
-              status: {
-                ...state.status,
-                connected: action.payload ? action.payload : false,
-              },
-              error: null,
-            }
+          return {
+            ...state,
+            status: {
+              ...state.status,
+              connected: action.payload ? action.payload : false,
+            },
+            error: null,
           }
         }
       )
@@ -244,37 +225,6 @@ export const deviceReducer = createReducer<DeviceState>(
               ...(state.data ?? {}),
               ...action.payload,
             },
-          }
-        }
-      )
-      .addCase(
-        DeviceEvent.SetUpdateState,
-        (state, action: SetUpdateStateAction) => {
-          return {
-            ...state,
-            updatingState: action.payload,
-          }
-        }
-      )
-      .addCase(pendingAction(DeviceEvent.StartOsUpdateProcess), (state) => {
-        return {
-          ...state,
-          updatingState: UpdatingState.Updating,
-        }
-      })
-      .addCase(fulfilledAction(DeviceEvent.StartOsUpdateProcess), (state) => {
-        return {
-          ...state,
-          updatingState: UpdatingState.Success,
-        }
-      })
-      .addCase(
-        rejectedAction(DeviceEvent.StartOsUpdateProcess),
-        (state, action: OsUpdateRejectedAction) => {
-          return {
-            ...state,
-            updatingState: UpdatingState.Fail,
-            error: action.payload,
           }
         }
       )

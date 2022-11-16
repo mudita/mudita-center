@@ -13,7 +13,6 @@ import {
   DeviceType,
   DeviceEvent,
   ConnectionState,
-  UpdatingState,
   DeviceError,
 } from "App/device/constants"
 import {
@@ -170,24 +169,6 @@ describe("Connecting/Disconnecting functionality", () => {
       })
     ).toEqual({
       ...initialState,
-    })
-  })
-
-  test("Event: SetConnectionState/fulfilled set device state to initial and `updatingState` to `Updating` if `false` payload is provided and current updating state is equal `UpdatingState.Updating`", () => {
-    expect(
-      deviceReducer(
-        {
-          ...initialState,
-          updatingState: UpdatingState.Updating,
-        },
-        {
-          type: fulfilledAction(DeviceEvent.SetConnectionState),
-          payload: false,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      updatingState: UpdatingState.Updating,
     })
   })
 })
@@ -544,7 +525,6 @@ describe("`LoadStorageInfo` functionality", () => {
           "loaded": false,
           "unlocked": null,
         },
-        "updatingState": null,
       }
     `)
   })

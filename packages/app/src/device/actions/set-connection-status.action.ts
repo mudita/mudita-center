@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceEvent, UpdatingState } from "App/device/constants"
+import { DeviceEvent } from "App/device/constants"
 import { MetadataKey, setValue } from "App/metadata"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { State } from "App/core/constants"
@@ -21,7 +21,7 @@ export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
       dispatch(setDataSyncInitState())
     }
 
-    if (state.device.updatingState === UpdatingState.Updating) {
+    if (state.update.updatingState === State.Loading) {
       return payload
     }
 

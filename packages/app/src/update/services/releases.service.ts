@@ -7,7 +7,7 @@ import { createClient } from "App/__deprecated__/api/mudita-center-server"
 import { AppError } from "App/core/errors"
 import { ResultObject, Result } from "App/core/builder"
 import { Release, ReleaseManifest } from "App/update/dto"
-import { Product, ReleaseSpace, ReleaseError } from "App/update/constants"
+import { Product, ReleaseSpace, UpdateError } from "App/update/constants"
 import { GithubReleasePresenter } from "App/update/presenters"
 
 export class ReleaseService {
@@ -29,7 +29,7 @@ export class ReleaseService {
     } catch (error) {
       return Result.failed(
         new AppError(
-          ReleaseError.GetAllRelease,
+          UpdateError.GetAllRelease,
           "Fail during retrieving of the release"
         )
       )
@@ -49,7 +49,7 @@ export class ReleaseService {
     } catch (error) {
       return Result.failed(
         new AppError(
-          ReleaseError.GetAllRelease,
+          UpdateError.GetAllRelease,
           "Fail during retrieving of the release"
         )
       )

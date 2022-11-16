@@ -17,7 +17,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import {
   IpcReleaseRequest,
   ReleaseType,
-  ReleaseError,
+  UpdateError,
 } from "App/update/constants"
 import { Release } from "App/update/dto"
 import { waitFor } from "@testing-library/dom"
@@ -143,7 +143,7 @@ test("failure modal is display if no is latestRelease", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcReleaseRequest.GetLatestRelease]: Result.failed(
       new AppError(
-        ReleaseError.GetAllRelease,
+        UpdateError.GetAllRelease,
         "Fail during retrieving of the release"
       )
     ),
@@ -212,7 +212,7 @@ test("failure modal is display if failure download os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcReleaseRequest.GetLatestRelease]: Result.failed(
       new AppError(
-        ReleaseError.GetAllRelease,
+        UpdateError.GetAllRelease,
         "Fail during retrieving of the release"
       )
     ),

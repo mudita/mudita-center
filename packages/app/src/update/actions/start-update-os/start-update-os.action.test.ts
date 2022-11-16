@@ -3,16 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import createMockStore from "redux-mock-store"
-import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
-import { startUpdateOs } from "./start-update-os.action"
+import { AppError } from "App/core/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { UpdateError } from "App/update/constants"
 import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { AppError } from "App/core/errors"
-import { DeviceError } from "App/device/constants"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { startUpdateOs } from "./start-update-os.action"
 
 const mockStore = createMockStore([thunk])()
 
@@ -65,7 +65,7 @@ describe("Update Os request returns `error` status", () => {
     })
     const filePathMock = "far/far/far/in/some/catalog/update.img"
     const errorMock = new AppError(
-      DeviceError.UpdateProcess,
+      UpdateError.UpdateOsProcess,
       "Device updating process failed"
     )
     const {

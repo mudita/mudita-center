@@ -8,13 +8,7 @@ import Overview from "App/overview/components/overview/overview.component"
 import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
 import { RootModel } from "App/__deprecated__/renderer/models/models"
 import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
-import {
-  UpdatingState,
-  PureDeviceData,
-  disconnectDevice,
-  setUpdateState,
-  startUpdateOs,
-} from "App/device"
+import { PureDeviceData, disconnectDevice } from "App/device"
 import { lastBackupDateSelector } from "App/backup/selectors"
 import {
   startBackupDevice,
@@ -26,6 +20,8 @@ import { RestoreBackup } from "App/backup/dto"
 import { ModalStateKey, showModal } from "App/modals-manager"
 import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 import { getDeviceLatestVersion } from "App/settings/selectors"
+import { setUpdateState, startUpdateOs } from "App/update/actions"
+import { State } from "App/core/constants"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -46,7 +42,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     ...state.devMode,
     syncState: state.dataSync.state,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
-    updatingState: state.device.updatingState,
+    updatingState: state.update.updatingState,
   }
 }
 
@@ -56,7 +52,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
+  setUpdateState: (state: State) => dispatch(setUpdateState(state)),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),

@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum UpdatingState {
-  Standby,
-  Updating,
-  Success,
-  Fail,
+export enum UpdateOsEvent {
+  StartOsUpdateProcess = "START_OS_UPDATE_PROCESS",
+  SetUpdateState = "DEVICE_SET_UPDATE_STATE",
 }
