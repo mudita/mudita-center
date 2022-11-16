@@ -65,7 +65,6 @@ export class ApplicationModule {
     DeviceModule,
   ]
 
-  // private ipc = ipcMain
   private index = new IndexFactory().create()
   private keyStorage = new MetadataStore()
   private logger = logger

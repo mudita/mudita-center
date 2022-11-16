@@ -15,7 +15,7 @@ export class DeviceLogController {
   constructor(private deviceInfoService: DeviceLogService) {}
 
   @IpcEvent(IpcDeviceLogEvent.GetLog)
-  public async getDeviceInfo(
+  public async getLog(
     options?: DeviceFilesOption
   ): Promise<ResultObject<DeviceFile[]>> {
     return this.deviceInfoService.downloadDeviceLogs(options)
