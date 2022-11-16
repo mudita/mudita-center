@@ -15,9 +15,7 @@ interface Props {
   openModal: boolean
   close: () => void
   leftTime?: number
-  unlockDevice: (
-    code: number[]
-  ) => Promise<PayloadAction<RequestResponseStatus>>
+  unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
   getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
 }
 
@@ -71,9 +69,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
     const unlockDeviceRequest = async (code: number[]): Promise<void> => {
       const unlockDeviceStatus = await unlockDevice(code)
 
-      if (
-        unlockDeviceStatus.payload === RequestResponseStatus.InternalServerError
-      ) {
+      if (!unlockDeviceStatus.payload) {
         setErrorState(ErrorState.InternalServerError)
       } else {
         // AUTO DISABLED - fix me if you like :)

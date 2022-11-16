@@ -26,7 +26,7 @@ export const unlockedDevice = createAsyncThunk(
       )
     }
 
-    void dispatch(loadDeviceData(state.device.deviceType))
+    void dispatch(loadDeviceData())
 
     return
   }

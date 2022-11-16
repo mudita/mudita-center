@@ -99,9 +99,7 @@ test("Show typing error message", async () => {
 
 test("Message is displayed properly when request about phone lock return internal server error", async () => {
   const { inputsList, errorMessage } = renderer({
-    unlockDevice: jest.fn().mockReturnValue({
-      payload: RequestResponseStatus.InternalServerError,
-    }),
+    unlockDevice: jest.fn().mockReturnValue(false),
   })
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
 
@@ -118,9 +116,9 @@ test("Message is displayed properly when request about phone lock return interna
 
 test("Message is displayed properly when request about phone lock status return phone locked", async () => {
   const { inputsList, errorMessage } = renderer({
-    getUnlockStatus: jest.fn().mockReturnValue({
-      status: RequestResponseStatus.PhoneLocked,
-    }),
+    getUnlockStatus: jest
+      .fn()
+      .mockReturnValue(RequestResponseStatus.PhoneLocked),
   })
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
   fireEvent.keyDown(inputsList()[1] as Element, digitKeyEvent)

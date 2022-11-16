@@ -13,17 +13,13 @@ import DeviceService, {
 } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
-import { getDeviceInfoRequest } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 import { IpcEvent } from "App/data-sync/constants"
 import { flushPromises } from "App/core/helpers/flush-promises"
-
-jest.mock(
-  "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
-)
 
 let subject: DeviceConnectionObserver
 const eventEmitterMock = new EventEmitter()
 const deviceService = {
+  request: jest.fn(),
   on: (eventName: DeviceServiceEventName, listener: () => void) => {
     eventEmitterMock.on(eventName, listener)
   },
@@ -48,16 +44,19 @@ describe("Method: observe", () => {
 
   describe("when the `DeviceUnlocked` event is emit with `MuditaPure` device type", () => {
     test("calls the `DeviceService.request` and `DataSyncService.indexAll` methods when `DeviceServiceEventName.DeviceUnlocked` has been emitted", async () => {
-      ;(getDeviceInfoRequest as unknown as jest.Mock).mockReturnValue({
+      deviceService.request = jest.fn().mockResolvedValueOnce({
         data: {
           deviceToken: "1234567890",
           serialNumber: "0000000000",
         },
       })
+
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(0)
-      expect(getDeviceInfoRequest).toHaveBeenCalledTimes(0)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(deviceService.request).toHaveBeenCalledTimes(0)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(0)
@@ -77,7 +76,9 @@ describe("Method: observe", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(1)
-      expect(getDeviceInfoRequest).toHaveBeenCalledTimes(1)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(deviceService.request).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -88,7 +89,9 @@ describe("Method: observe", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(0)
-      expect(getDeviceInfoRequest).toHaveBeenCalledTimes(0)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(deviceService.request).toHaveBeenCalledTimes(0)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(0)
@@ -106,7 +109,9 @@ describe("Method: observe", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(indexStorageService.indexAll).not.toHaveBeenCalledTimes(1)
-      expect(getDeviceInfoRequest).not.toHaveBeenCalledTimes(1)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(deviceService.request).not.toHaveBeenCalledTimes(1)
     })
   })
 })

@@ -8,7 +8,6 @@ import { DeviceType, DiagnosticsFilePath } from "App/device/constants"
 import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
 import delayResponse from "@appnroll/delay-response"
-import { isEqual } from "lodash"
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
 import {
   CheckingUpdatesModal,
@@ -31,7 +30,7 @@ import {
   DownloadStatus,
 } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
-import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
+import { startOsUpdate } from "App/update/requests"
 import logger from "App/__deprecated__/main/utils/logger"
 import {
   cancelOsDownload,
@@ -49,7 +48,6 @@ import {
   trackOsUpdate,
   TrackOsUpdateState,
 } from "App/analytic-data-tracker/helpers"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import {
   getAllReleasesRequest,
   getLatestReleaseRequest,
@@ -411,14 +409,14 @@ const useSystemUpdateFlow = (
     toggleDeviceUpdating(true)
 
     await removeFileRequest(DiagnosticsFilePath.UPDATER_LOG)
-    const response = await updateOs(file.name)
+    const response = await startOsUpdate({ fileName: file.name })
 
-    if (response.status !== RequestResponseStatus.Ok) {
+    if (!response.ok) {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       logger.info(`updateOs: ${response.error?.message}`)
     }
-    if (response.status === RequestResponseStatus.Ok) {
+    if (response.data) {
       modalService.rerenderModal(<UpdatingSpinnerModal />)
     }
 
@@ -434,10 +432,7 @@ const useSystemUpdateFlow = (
       })
     }
 
-    if (
-      !releaseToInstall?.devMode &&
-      isEqual(response, { status: RequestResponseStatus.Ok })
-    ) {
+    if (!releaseToInstall?.devMode && response.ok && response.data) {
       dispatch(
         setOsVersionData({
           osVersion: versionFormatter(version),
@@ -445,7 +440,7 @@ const useSystemUpdateFlow = (
       )
     }
 
-    if (isEqual(response, { status: RequestResponseStatus.Ok })) {
+    if (response.ok && response.data) {
       void trackOsVersion({ ...options, osVersion: version })
       void trackOsUpdate({
         ...options,

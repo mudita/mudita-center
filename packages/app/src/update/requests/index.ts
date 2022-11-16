@@ -5,3 +5,4 @@
 
 export * from "./get-all-releases.request"
 export * from "./get-latest-release.request"
+export * from "./start-os-update.request"

@@ -3,9 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Result } from "App/core/builder"
 import { CrashDumpService } from "App/crash-dump/services/crash-dump.service"
 import DeviceService from "App/__deprecated__/backend/device-service"
-import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const deviceServiceMock = {
@@ -14,7 +15,7 @@ const deviceServiceMock = {
 
 const deviceFileSystemMock = {
   downloadDeviceFilesLocally: jest.fn(),
-} as unknown as DeviceFileSystem
+} as unknown as DeviceFileSystemService
 
 const subject = new CrashDumpService(deviceServiceMock, deviceFileSystemMock)
 
@@ -88,10 +89,9 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
     })
     ;(
       deviceFileSystemMock.downloadDeviceFilesLocally as jest.Mock
-    ).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-      data: ["C:/MuditaOs/crash-dumps/crashdump.hex"],
-    })
+    ).mockReturnValueOnce(
+      Result.success(["C:/MuditaOs/crash-dumps/crashdump.hex"])
+    )
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method

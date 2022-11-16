@@ -5,4 +5,5 @@
 
 export * from "./device-manager.service"
 export * from "./device-resolver.service"
+export * from "./device.service"
 export * from "./usb-detector.service"
