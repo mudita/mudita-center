@@ -7,7 +7,7 @@ import { Endpoint, Method } from "App/device/constants"
 import { RetrieveFilesCommand } from "App/device-file-system/commands/retrieve-files.command"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { AppError } from "App/core/errors"
-import { SuccessResult, FailedResult } from "App/core/builder"
+import { Result } from "App/core/builder"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -63,7 +63,7 @@ describe("When `DeviceService.request` returns success response", () => {
         listDir: "/test/directory",
       },
     })
-    expect(result).toEqual(new SuccessResult(responseData))
+    expect(result).toEqual(Result.success(responseData))
   })
 })
 
@@ -85,12 +85,12 @@ describe("When `DeviceService.request` returns failed response", () => {
       },
     })
     expect(result).toEqual(
-      new FailedResult({
-        ...new AppError(
+      Result.failed(
+        new AppError(
           DeviceFileSystemError.FilesRetrieve,
           "Something went wrong"
-        ),
-      })
+        )
+      )
     )
   })
 })

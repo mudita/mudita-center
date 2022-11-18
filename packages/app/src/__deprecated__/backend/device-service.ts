@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceEventName } from "@mudita/pure"
+import { ResultObject } from "App/core/builder"
+import { DeviceCommunicationEvent } from "App/device/constants"
 import {
   GetPhoneLockTimeResponseBody,
   RequestConfig,
@@ -72,8 +73,8 @@ import {
   GetEntriesResponseBody,
   DeleteEntriesRequestConfig,
 } from "App/device/types/mudita-os"
-import { SerialPortDevice } from "App/device/types/serial-port-device.type"
-import { DeviceManager } from "App/device/types/device-manager.type"
+import { DeviceManager } from "App/device/services"
+import { Device } from "App/device/modules/device"
 import {
   Endpoint,
   DeviceType,
@@ -98,8 +99,8 @@ export enum DeviceServiceEventName {
 }
 
 export class DeviceService {
-  public devices: Record<string, SerialPortDevice> = {}
-  public currentDevice: SerialPortDevice | undefined
+  public devices: Record<string, Device> = {}
+  public currentDevice: Device | undefined
   public currentDeviceUnlocked = false
   public eulaAccepted = true
   private lockedInterval: NodeJS.Timeout | undefined
@@ -290,7 +291,7 @@ export class DeviceService {
     })
   }
 
-  public async connect(): Promise<RequestResponse<SerialPortDevice>> {
+  public async connect(): Promise<RequestResponse<Device>> {
     if (this.currentDevice) {
       return {
         data: this.currentDevice,
@@ -319,8 +320,9 @@ export class DeviceService {
     const [device] = await this.deviceManager.getDevices()
 
     if (device) {
-      const { status } = await device.disconnect()
-      if (status === ResponseStatus.Ok) {
+      const disconnectStatus = await device.disconnect()
+
+      if (disconnectStatus.ok) {
         this.clearSubscriptions()
         return {
           status: RequestResponseStatus.Ok,
@@ -385,11 +387,11 @@ export class DeviceService {
   }
 
   private async deviceConnect(
-    device: SerialPortDevice
-  ): Promise<RequestResponse<SerialPortDevice>> {
-    const { status } = await device.connect()
+    device: Device
+  ): Promise<RequestResponse<Device>> {
+    const connectionState = await device.connect()
 
-    if (status === ResponseStatus.Ok) {
+    if (connectionState.ok) {
       this.currentDevice = device
 
       this.registerDeviceDisconnectedListener()
@@ -419,7 +421,7 @@ export class DeviceService {
 
   private registerDeviceDisconnectedListener(): void {
     if (this.currentDevice) {
-      this.currentDevice.on(DeviceEventName.Disconnected, () => {
+      this.currentDevice.on(DeviceCommunicationEvent.Disconnected, () => {
         this.clearSubscriptions()
       })
     }
@@ -435,9 +437,9 @@ export class DeviceService {
   }
 
   private static mapToDeviceResponse(
-    response: Response<unknown>
+    response: ResultObject<Response<unknown>>
   ): RequestResponse<unknown> {
-    const { status, body: data, error } = response
+    const { status, body: data, error } = response.data as Response<unknown>
 
     if (
       status === ResponseStatus.Ok ||

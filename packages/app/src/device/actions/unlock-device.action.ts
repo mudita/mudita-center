@@ -5,16 +5,15 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceError, DeviceEvent } from "App/device/constants"
-import unlockDeviceRequest from "App/__deprecated__/renderer/requests/unlock-device.request"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { unlockDeviceRequest } from "App/device/requests"
 import { AppError } from "App/core/errors"
 
-export const unlockDevice = createAsyncThunk<RequestResponseStatus, number[]>(
+export const unlockDevice = createAsyncThunk<boolean, number[]>(
   DeviceEvent.Unlock,
   async (code, { rejectWithValue }) => {
     const data = await unlockDeviceRequest(code)
 
-    if (data.status !== RequestResponseStatus.Ok) {
+    if (!data.ok) {
       return rejectWithValue(
         new AppError(
           DeviceError.Unlocking,
@@ -24,6 +23,6 @@ export const unlockDevice = createAsyncThunk<RequestResponseStatus, number[]>(
       )
     }
 
-    return data.status
+    return Boolean(data.data)
   }
 )

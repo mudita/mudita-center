@@ -9,7 +9,7 @@ import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
-import createDeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import {
@@ -39,7 +39,7 @@ export class BackupModule extends BaseModule {
       fileSystem
     )
 
-    const deviceFileSystem = createDeviceFileSystemAdapter(this.deviceService)
+    const deviceFileSystem = new DeviceFileSystemService(this.deviceService)
     const backupCreateService = new BackupCreateService(
       this.deviceService,
       deviceFileSystem,

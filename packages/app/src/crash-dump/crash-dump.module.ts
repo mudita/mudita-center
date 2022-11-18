@@ -9,7 +9,7 @@ import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { getSettingsService } from "App/settings/containers/settings.container"
-import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
@@ -49,7 +49,7 @@ export class CrashDumpModule extends BaseModule {
 
     this.crashDumpService = new CrashDumpService(
       this.deviceService,
-      new DeviceFileSystem(this.deviceService)
+      new DeviceFileSystemService(this.deviceService)
     )
     this.crashDumpController = new CrashDumpController(
       this.crashDumpService,
