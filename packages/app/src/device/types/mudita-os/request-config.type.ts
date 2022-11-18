@@ -11,3 +11,7 @@ export interface RequestConfig<Body = undefined> {
   body?: Body
   filePath?: string
 }
+
+export interface RequestPayload<T = undefined> extends RequestConfig<T> {
+  uuid: number
+}

@@ -4,20 +4,15 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import {
-  DeviceFile,
-  UploadFileLocallyPayload,
-} from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
-import { IpcDeviceFileSystem } from "App/device-file-system"
-import { RequestResponse } from "App/core/types/request-response.interface"
+import { ResultObject } from "App/core/builder"
+import { IpcDeviceFileSystemRequest } from "App/device-file-system/constants"
+import { UploadFileLocally, DeviceFile } from "App/device-file-system/dto"
 
-const uploadDeviceFileLocally = async (
-  payload: UploadFileLocallyPayload
-): Promise<RequestResponse<DeviceFile>> => {
-  return await ipcRenderer.callMain(
-    IpcDeviceFileSystem.UploadDeviceFileLocally,
+export const uploadDeviceFileLocally = async (
+  payload: UploadFileLocally
+): Promise<ResultObject<DeviceFile>> => {
+  return ipcRenderer.callMain(
+    IpcDeviceFileSystemRequest.UploadFileLocally,
     payload
   )
 }
-
-export default uploadDeviceFileLocally

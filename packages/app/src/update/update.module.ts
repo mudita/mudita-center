@@ -5,15 +5,20 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
+import { getSettingsService } from "App/settings/containers/settings.container"
 import { createClient } from "App/__deprecated__/api/mudita-center-server"
 import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
-import { ReleaseService } from "App/update/services"
-import { ReleasesController } from "App/update/controllers"
+import { ReleaseService, DeviceUpdateService } from "App/update/services"
+import {
+  ReleasesController,
+  DeviceUpdateController,
+} from "App/update/controllers"
 
 export class UpdateModule extends BaseModule {
   constructor(
@@ -35,9 +40,23 @@ export class UpdateModule extends BaseModule {
       fileSystem
     )
 
+    const settingsService = getSettingsService()
+
+    if (settingsService === undefined) {
+      throw new Error("Initialize `SettingsService` before get it")
+    }
+
+    const deviceUpdateService = new DeviceUpdateService(
+      settingsService,
+      this.deviceService,
+      new DeviceFileSystemService(this.deviceService)
+    )
     const releaseService = new ReleaseService(createClient())
     const releasesController = new ReleasesController(releaseService)
+    const deviceUpdateController = new DeviceUpdateController(
+      deviceUpdateService
+    )
 
-    this.controllers = [releasesController]
+    this.controllers = [releasesController, deviceUpdateController]
   }
 }

@@ -14,10 +14,10 @@ import {
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 import { RestoreDeviceBackup } from "App/backup/types"
 import { BackupError } from "App/backup/constants"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 
 // DEPRECATED
 import DeviceService from "App/__deprecated__/backend/device-service"
-import DeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 
 const timeout = 5000
 const callsMax = 24
@@ -25,7 +25,7 @@ const callsMax = 24
 export class BackupRestoreService {
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystem: DeviceFileSystemAdapter
+    private deviceFileSystem: DeviceFileSystemService
   ) {}
 
   public async restoreBackup({
@@ -50,7 +50,7 @@ export class BackupRestoreService {
       targetPath: `${backupLocation}/${backupId}`,
     })
 
-    if (uploadResult.status !== RequestResponseStatus.Ok) {
+    if (!uploadResult.ok || !uploadResult.data) {
       return Result.failed(
         new AppError(
           BackupError.CannotUploadBackupToDevice,

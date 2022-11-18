@@ -9,7 +9,7 @@ import thunk from "redux-thunk"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { deleteFilesRequest } from "App/files-manager/requests/delete-files.request"
 import { initialState } from "App/files-manager/reducers"
-import { FailedResult, SuccessResult } from "App/core/builder"
+import { Result, ResultObject } from "App/core/builder"
 import { deleteFiles } from "App/files-manager/actions/delete-files.action"
 import { AppError } from "App/core/errors"
 import { testError } from "App/__deprecated__/renderer/store/constants"
@@ -27,14 +27,10 @@ const filePaths = [
   "user/music/second_example_file_name.wav",
 ]
 
-const successObjectResult: SuccessResult<string[]> = new SuccessResult(
-  filePaths
-)
+const successObjectResult: ResultObject<string[]> = Result.success(filePaths)
 
 const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
-const failedObjectResult = new FailedResult({
-  ...errorMock,
-})
+const failedObjectResult = Result.failed(errorMock)
 
 describe("when `deleteFiles` request return success result", () => {
   test("returns string list", async () => {
@@ -54,7 +50,11 @@ describe("when `deleteFiles` request return success result", () => {
         type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
         payload: undefined,
       },
-      deleteFiles.fulfilled(successObjectResult.data, requestId, filePaths),
+      deleteFiles.fulfilled(
+        successObjectResult.data as string[],
+        requestId,
+        filePaths
+      ),
     ])
 
     expect(deleteFilesRequest).toHaveBeenCalled()

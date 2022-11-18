@@ -33,12 +33,6 @@
     "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve",
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build",
     "app:electron:rebuild-serialport": "lerna run --scope @mudita/mudita-center-app electron:rebuild-serialport --",
-    "PURE COMMANDS": "========================================================",
-    "pure:build": "lerna run --scope @mudita/pure build",
-    "pure:lint": "lerna run --scope @mudita/pure lint",
-    "pure:lint:typecheck": "lerna run --scope @mudita/pure lint:typecheck",
-    "pure:test:coverage": "lerna run --scope @mudita/pure test:coverage",
-    "pure:command": "lerna run --scope @mudita/pure command --",
     "E2E TEST COMMANDS": "========================================================",
     "test:e2e": "lerna run --scope @mudita/mudita-center-e2e test --"
   },

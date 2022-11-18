@@ -21,7 +21,6 @@ import { checkUpdateAvailable } from "App/settings/actions/check-update-availabl
 import { updateOsReducer } from "App/update/reducers"
 
 jest.mock("App/settings/actions/check-update-available.action")
-jest.mock("App/__deprecated__/renderer/register-hotkeys")
 
 jest.mock("electron", () => ({
   remote: {
