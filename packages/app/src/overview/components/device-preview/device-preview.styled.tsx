@@ -27,7 +27,7 @@ export const PhoneCard = styled(Card)`
   }
 `
 
-export const PhoneInfo = styled(CardContent)`
+export const DeviceInfo = styled(CardContent)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,9 +36,6 @@ export const PhoneInfo = styled(CardContent)`
   img {
     height: 29.7rem;
   }
-`
-
-export const HarmonyInfo = styled(PhoneInfo)`
 `
 
 export const PureSystemButtonContainer = styled.div`
