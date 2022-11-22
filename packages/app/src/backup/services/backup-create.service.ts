@@ -15,20 +15,21 @@ import { isResponseSuccessWithData } from "App/core/helpers"
 import { BackupError } from "App/backup/constants"
 import { MetadataStore, MetadataKey } from "App/metadata"
 import { CreateDeviceBackup } from "App/backup/types"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 
 // DEPRECATED
 import DeviceService from "App/__deprecated__/backend/device-service"
-import DeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export class BackupCreateService {
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystem: DeviceFileSystemAdapter,
+    private deviceFileSystem: DeviceFileSystemService,
     private keyStorage: MetadataStore
   ) {}
 
   public async createBackup(
-    options: CreateDeviceBackup
+    options: CreateDeviceBackup,
+    category = BackupCategory.Backup
   ): Promise<ResultObject<string[] | undefined>> {
     if (this.keyStorage.getValue(MetadataKey.BackupInProgress)) {
       return Result.failed(
@@ -38,7 +39,7 @@ export class BackupCreateService {
 
     this.keyStorage.setValue(MetadataKey.BackupInProgress, true)
 
-    const runDeviceBackupResponse = await this.runDeviceBackup()
+    const runDeviceBackupResponse = await this.runDeviceBackup(category)
 
     if (!runDeviceBackupResponse.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
@@ -53,12 +54,13 @@ export class BackupCreateService {
 
     const filePath = runDeviceBackupResponse.data
 
-    const backupFile = await this.deviceFileSystem.downloadDeviceFilesLocally(
-      [filePath],
-      options
-    )
+    const backupFileResult =
+      await this.deviceFileSystem.downloadDeviceFilesLocally(
+        [filePath],
+        options
+      )
 
-    if (!isResponseSuccessWithData(backupFile)) {
+    if (!backupFileResult.ok || !backupFileResult.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
       return Result.failed(
@@ -71,10 +73,12 @@ export class BackupCreateService {
 
     this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
-    return Result.success(backupFile.data)
+    return Result.success(backupFileResult.data)
   }
 
-  private async runDeviceBackup(): Promise<ResultObject<string | undefined>> {
+  private async runDeviceBackup(
+    category: BackupCategory
+  ): Promise<ResultObject<string | undefined>> {
     const deviceResponse = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
@@ -93,7 +97,7 @@ export class BackupCreateService {
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {
-        category: BackupCategory.Backup,
+        category,
       },
     })
 

@@ -10,10 +10,11 @@ import { DeviceType } from "App/device/constants"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { connectDevice } from "./connect-device.action"
 import { ConnectionState, DeviceError } from "App/device/constants"
-import connectDeviceRequest from "App/__deprecated__/renderer/requests/connect-device.request"
+import { connectDeviceRequest } from "App/device/requests/connect-device.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { AppError } from "App/core/errors"
+import { Result } from "App/core/builder"
 
 const mockStore = createMockStore([thunk])({
   device: {
@@ -53,7 +54,7 @@ jest.mock("App/device/actions/set-connection-status.action", () => ({
     payload: true,
   }),
 }))
-jest.mock("App/__deprecated__/renderer/requests/connect-device.request")
+jest.mock("App/device/requests/connect-device.request")
 
 afterEach(() => {
   mockStore.clearActions()
@@ -61,9 +62,9 @@ afterEach(() => {
 
 describe("Connect Device request returns `success` status", () => {
   test("fire async `connectDevice` action and execute `SetSimData` event", async () => {
-    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-    })
+    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.success(true)
+    )
 
     const {
       meta: { requestId },
@@ -96,9 +97,9 @@ describe("Connect Device request returns `success` status", () => {
 
 describe("Connect Device request returns `error` status", () => {
   test("fire async `connectDevice` action and execute `rejected` event", async () => {
-    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Error,
-    })
+    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.failed(new AppError("", ""))
+    )
 
     const errorMock = new AppError(
       DeviceError.Connection,

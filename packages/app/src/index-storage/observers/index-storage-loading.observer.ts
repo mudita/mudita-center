@@ -11,11 +11,11 @@ import {
   DeviceService,
   DeviceServiceEventName,
 } from "App/__deprecated__/backend/device-service"
+import { Endpoint, Method } from "App/device/constants"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import { IndexStorageService } from "App/index-storage/services"
 import { IpcEvent } from "App/data-sync/constants"
-import { getDeviceInfoRequest } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 
 export class IndexStorageLoadingObserver implements Observer {
   private invoked = false
@@ -38,7 +38,12 @@ export class IndexStorageLoadingObserver implements Observer {
       }
       this.invoked = true
 
-      const { data } = await getDeviceInfoRequest(this.deviceService)
+      const { data } = await this.deviceService.request({
+        endpoint: Endpoint.DeviceInfo,
+        method: Method.Get,
+      })
+
+      // const { data } = await getDeviceInfoRequest(this.deviceService)
       if (data === undefined) {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable

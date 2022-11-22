@@ -31,7 +31,6 @@ import registerDeviceConnectedListener, {
 import registerDeviceDisconnectedListener, {
   removeDeviceDisconnectedListener,
 } from "App/__deprecated__/renderer/listeners/register-device-disconnected.listener"
-import registerHotkeys from "App/__deprecated__/renderer/register-hotkeys"
 import registerAppContextMenu from "App/__deprecated__/renderer/register-app-context-menu"
 import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import registerDeviceLockedListener, {
@@ -89,7 +88,7 @@ interface Props {
   toggleAppUpdateAvailable: (value: boolean) => void
   setLatestVersion: (value: string) => void
   loadSettings: () => void
-  loadDeviceData: (value: DeviceType) => void
+  loadDeviceData: () => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
   setAgreementStatus: (value: boolean) => void
@@ -112,6 +111,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadSettings,
   loadDeviceData,
   connectedAndUnlocked,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   deviceType,
   setAgreementStatus,
 }) => {
@@ -194,8 +195,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     let interval: NodeJS.Timeout
 
-    if (deviceType && connectedAndUnlocked) {
-      interval = setInterval(() => loadDeviceData(deviceType), 60000)
+    if (connectedAndUnlocked) {
+      interval = setInterval(() => loadDeviceData(), 60000)
     }
 
     return () => {
@@ -203,7 +204,7 @@ const RootWrapper: FunctionComponent<Props> = ({
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceType, connectedAndUnlocked])
+  }, [connectedAndUnlocked])
 
   useEffect(() => {
     const listener = () => {
@@ -271,11 +272,8 @@ const RootWrapper: FunctionComponent<Props> = ({
     handleAppUpdateAvailableCheck()
 
     const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
-    //Remove this condition to get devMode on production
+    // Remove this condition to get devMode on production
     if (devModeEnabled) {
-      // Register hotkeys
-      registerHotkeys()
-
       // Register context menu
       registerAppContextMenu(appContextMenu)
       appContextMenu.init()
@@ -312,7 +310,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
+  loadDeviceData: () => dispatch(loadDeviceData()),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   connect: () => dispatch(getConnectedDevice()),

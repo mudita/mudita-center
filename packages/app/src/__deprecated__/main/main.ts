@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager from "@mudita/pure"
+import "reflect-metadata"
 import { check as checkPort } from "tcp-port-used"
 import {
   app,
@@ -61,7 +61,6 @@ import {
   DEFAULT_WINDOWS_SIZE,
 } from "./config"
 import autoupdate, { mockAutoupdate } from "./autoupdate"
-import startBackend from "App/__deprecated__/backend/bootstrap"
 import {
   URL_MAIN,
   URL_OVERVIEW,
@@ -69,8 +68,6 @@ import {
 import { Mode } from "App/__deprecated__/common/enums/mode.enum"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { AboutActions } from "App/__deprecated__/common/enums/about-actions.enum"
-import PureLogger from "App/__deprecated__/main/utils/pure-logger"
-import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/__deprecated__/common/enums/pure-system-actions.enum"
 import {
   createMetadataStore,
@@ -82,6 +79,7 @@ import {
 } from "App/metadata"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
 import { createSettingsService } from "App/settings/containers/settings.container"
+import { ApplicationModule } from "App/core/application.module"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -170,18 +168,11 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  const enabled =
-    process.env.NODE_ENV === "development" &&
-    process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
-      ? false
-      : flags.get(Feature.LoggerEnabled)
-
-  MuditaDeviceManager.registerLogger(new PureLogger())
-  MuditaDeviceManager.toggleLogs(enabled)
-
   const settingsService = createSettingsService()
   settingsService.init()
-  startBackend(MuditaDeviceManager, ipcMain)
+
+  new ApplicationModule(ipcMain)
+
   registerPureOsDownloadListener(registerDownloadListener)
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()

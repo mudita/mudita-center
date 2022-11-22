@@ -6,17 +6,17 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { Result } from "App/core/builder"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { startUpdateOs } from "./start-update-os.action"
-import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
+import { startOsUpdate } from "App/update/requests/start-os-update.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { AppError } from "App/core/errors"
 import { DeviceError } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
-jest.mock("App/__deprecated__/renderer/requests/update-os.request")
+jest.mock("App/update/requests/start-os-update.request")
 jest.mock("App/device-file-system", () => ({
   removeFile: jest.fn().mockReturnValue({
     type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
@@ -29,9 +29,8 @@ afterEach(() => {
 
 describe("Update Os request returns `success` status", () => {
   test("fire async `startUpdateOs`", async () => {
-    ;(updateOs as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-    })
+    ;(startOsUpdate as jest.Mock).mockReturnValueOnce(Result.success(true))
+
     const filePathMock = "far/far/far/in/some/catalog/update.img"
     const {
       meta: { requestId },
@@ -47,27 +46,23 @@ describe("Update Os request returns `success` status", () => {
         payload: undefined,
         type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
       },
-      startUpdateOs.fulfilled(
-        RequestResponseStatus.Ok,
-        requestId,
-        filePathMock
-      ),
+      startUpdateOs.fulfilled(true, requestId, filePathMock),
     ])
 
-    expect(updateOs).toHaveBeenLastCalledWith(filePathMock)
+    expect(startOsUpdate).toHaveBeenLastCalledWith({ fileName: filePathMock })
   })
 })
 
 describe("Update Os request returns `error` status", () => {
   test("fire async `startUpdateOs` action and execute `rejected` event", async () => {
-    ;(updateOs as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Error,
-    })
-    const filePathMock = "far/far/far/in/some/catalog/update.img"
     const errorMock = new AppError(
       DeviceError.UpdateProcess,
       "Device updating process failed"
     )
+
+    ;(startOsUpdate as jest.Mock).mockReturnValueOnce(Result.failed(errorMock))
+    const filePathMock = "far/far/far/in/some/catalog/update.img"
+
     const {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)

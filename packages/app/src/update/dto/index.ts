@@ -5,3 +5,4 @@
 
 export * from "./release-manifest.object"
 export * from "./release.object"
+export * from "./update-os.object"
