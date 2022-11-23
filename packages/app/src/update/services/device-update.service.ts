@@ -16,16 +16,15 @@ import {
   DeviceType,
   PhoneLockCategory,
 } from "App/device/constants"
+import { GetDeviceInfoResponseBody } from "App/device/types/mudita-os"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import { DeviceInfo } from "App/device/types/mudita-os/serialport-request.type"
-
-// DEPRECATED
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 
 export class DeviceUpdateService {
   constructor(
     private settingsService: SettingsService,
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private deviceFileSystem: DeviceFileSystemService
   ) {}
 
@@ -60,7 +59,7 @@ export class DeviceUpdateService {
       )
     }
 
-    const pureUpdateResponse = await this.deviceService.request({
+    const pureUpdateResponse = await this.deviceManager.device.request({
       endpoint: Endpoint.Update,
       method: Method.Post,
       body: {
@@ -69,7 +68,7 @@ export class DeviceUpdateService {
       },
     })
 
-    if (pureUpdateResponse.status !== RequestResponseStatus.Ok) {
+    if (!pureUpdateResponse.ok) {
       return Result.failed(
         new AppError(UpdateError.UpdateCommand, "Cannot restart device")
       )
@@ -81,9 +80,7 @@ export class DeviceUpdateService {
       return deviceRestartResponse
     }
 
-    if (
-      this.deviceService.currentDevice?.deviceType === DeviceType.MuditaPure
-    ) {
+    if (this.deviceManager.device.deviceType === DeviceType.MuditaPure) {
       const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
 
       if (!deviceUnlockedResponse.ok) {
@@ -118,12 +115,13 @@ export class DeviceUpdateService {
   }
 
   private async getDeviceInfo(): Promise<ResultObject<DeviceInfo>> {
-    const { status, data, error } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
+    const { ok, data, error } =
+      await this.deviceManager.device.request<GetDeviceInfoResponseBody>({
+        endpoint: Endpoint.DeviceInfo,
+        method: Method.Get,
+      })
 
-    if (status !== RequestResponseStatus.Ok || data === undefined) {
+    if (!ok || data === undefined) {
       return Result.failed(
         new AppError(
           UpdateError.CannotGetDeviceInfo,
@@ -138,18 +136,20 @@ export class DeviceUpdateService {
   private async getUnlockDeviceStatus(): Promise<
     ResultObject<RequestResponseStatus>
   > {
-    const { status } = await this.deviceService.request({
+    const { ok, error } = await this.deviceManager.device.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
     })
 
-    return Result.success(status)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return Result.success(ok ? RequestResponseStatus.Ok : error?.payload.status)
   }
 
   private async waitUntilDeviceRestart(
     index = 0,
-    deviceType = this.deviceService.currentDevice?.deviceType,
+    deviceType = this.deviceManager.device.deviceType,
     timeout = 10000,
     callsMax = 60
   ): Promise<ResultObject<boolean>> {

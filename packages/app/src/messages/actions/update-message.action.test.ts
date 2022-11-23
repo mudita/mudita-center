@@ -6,16 +6,13 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { Result, ResultObject } from "App/core/builder"
+import { DeviceCommunicationError } from "App/device/constants"
 import { updateMessage } from "App/messages/actions/update-message.action"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
-import { CreateMessageDataResponse } from "App/messages/services"
 import { updateMessageRequest } from "App/messages/requests"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { Message } from "App/messages/dto"
-import { MessageType, MessagesError } from "App/messages/constants"
+import { MessageType } from "App/messages/constants"
 import { AppError } from "App/core/errors"
 
 jest.mock("App/messages/requests/update-message.request")
@@ -30,21 +27,12 @@ const message: Message = {
   messageType: MessageType.INBOX,
 }
 
-const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {
-  status: RequestResponseStatus.Ok,
-}
-
-const errorDeviceResponse: RequestResponse = {
-  status: RequestResponseStatus.Error,
-  error: {
-    message: "Luke, I'm your error",
-  },
-}
-
 const errorMock = new AppError(
-  MessagesError.UpdateMessageError,
-  "Luke, I'm your error"
+  DeviceCommunicationError.RequestFailed,
+  "Something went wrong"
 )
+const successDeviceResponse: ResultObject<unknown> = Result.success(false)
+const errorDeviceResponse: ResultObject<unknown> = Result.failed(errorMock)
 
 afterEach(() => {
   jest.resetAllMocks()

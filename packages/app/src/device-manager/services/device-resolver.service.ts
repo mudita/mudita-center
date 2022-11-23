@@ -4,6 +4,8 @@
  */
 
 import { PortInfo } from "serialport"
+import { MainProcessIpc } from "electron-better-ipc"
+import { EventEmitter } from "events"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
@@ -13,6 +15,11 @@ import { DeviceFactory } from "App/device/factories"
 
 export class DeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
+
+  constructor(
+    private ipc: MainProcessIpc,
+    private eventEmitter: EventEmitter
+  ) {}
 
   public resolve(
     portInfo: Pick<PortInfo, "productId">,
@@ -31,7 +38,9 @@ export class DeviceResolverService {
       path,
       descriptor.deviceType,
       descriptor.adapter,
-      descriptor.strategy
+      descriptor.strategy,
+      this.ipc,
+      this.eventEmitter
     )
   }
 }

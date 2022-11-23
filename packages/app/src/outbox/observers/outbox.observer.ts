@@ -3,13 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Observer } from "App/core/types"
-import {
-  DeviceService,
-  DeviceServiceEventName,
-} from "App/__deprecated__/backend/device-service"
-import { OutboxService } from "App/outbox/services/outbox.service"
+import { EventEmitter } from "events"
 import { MainProcessIpc } from "electron-better-ipc"
+import { Observer } from "App/core/types"
+import { DeviceServiceEvent } from "App/device/constants"
+import { OutboxService } from "App/outbox/services/outbox.service"
 import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"
 import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
 
@@ -21,7 +19,7 @@ export class OutboxObserver implements Observer {
 
   constructor(
     private ipc: MainProcessIpc,
-    private deviceService: DeviceService,
+    private eventEmitter: EventEmitter,
     private outboxService: OutboxService
   ) {}
 
@@ -32,7 +30,7 @@ export class OutboxObserver implements Observer {
   private registerListener(): void {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
+    this.eventEmitter.on(DeviceServiceEvent.DeviceUnlocked, async () => {
       this.disconnected = false
 
       if (this.invoked) {
@@ -44,8 +42,8 @@ export class OutboxObserver implements Observer {
       await this.watchOutboxEntries()
     })
 
-    this.deviceService.on(
-      DeviceServiceEventName.DeviceDisconnected,
+    this.eventEmitter.on(
+      DeviceServiceEvent.DeviceDisconnected,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       async () => {

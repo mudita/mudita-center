@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
+import { Result } from "App/core/builder"
+import { DeviceManager } from "App/device-manager/services"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { DeviceInfo, RequestConfig } from "App/device/types/mudita-os"
 import {
@@ -18,6 +19,7 @@ import {
   Endpoint,
   Method,
   DeviceType,
+  DeviceCommunicationError,
 } from "App/device/constants"
 import { DeviceUpdateService } from "App/update/services/device-update.service"
 import { SettingsService } from "App/settings/services/settings.service"
@@ -25,19 +27,16 @@ import { DeviceFileSystemService } from "App/device-file-system/services"
 import { UpdateOS } from "App/update/dto"
 import { UpdateError } from "App/update/constants"
 
-// DEPRECATED
-import DeviceService from "App/__deprecated__/backend/device-service"
-
 const settingsService = {
   getByKey: jest.fn().mockReturnValue("/some/path/"),
 } as unknown as SettingsService
 
-const deviceService = {
-  currentDevice: {
+const deviceManager = {
+  device: {
     deviceType: DeviceType.MuditaPure,
   },
   request: jest.fn(),
-} as unknown as DeviceService
+} as unknown as DeviceManager
 
 const deviceFileSystem = {
   uploadFileLocally: jest.fn(),
@@ -45,7 +44,7 @@ const deviceFileSystem = {
 
 const subject = new DeviceUpdateService(
   settingsService,
-  deviceService,
+  deviceManager,
   deviceFileSystem
 )
 
@@ -77,7 +76,7 @@ const deviceInfoResponseMock: DeviceInfo = {
 
 describe("Method: updateOs", () => {
   test("Device info endpoint returns `Result.failed`", async () => {
-    deviceService.request = jest.fn().mockResolvedValueOnce({
+    deviceManager.device.request = jest.fn().mockResolvedValueOnce({
       data: undefined,
       status: RequestResponseStatus.Error,
     })
@@ -101,10 +100,9 @@ describe("Method: updateOs", () => {
   })
 
   test("Upload File Locally method returns `Result.failed`", async () => {
-    deviceService.request = jest.fn().mockResolvedValueOnce({
-      data: deviceInfoResponseMock,
-      status: RequestResponseStatus.Ok,
-    })
+    deviceManager.device.request = jest
+      .fn()
+      .mockResolvedValueOnce(Result.success(deviceInfoResponseMock))
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.failed(new AppError("", "")))
@@ -133,33 +131,34 @@ describe("Method: updateOs", () => {
   })
 
   test("Device update endpoint returns `Result.failed`", async () => {
-    deviceService.request = jest
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: RequestConfig) => {
         if (
           config.endpoint === Endpoint.DeviceInfo &&
           config.method === Method.Get
         ) {
-          return {
-            data: deviceInfoResponseMock,
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(deviceInfoResponseMock)
         }
 
         if (
           config.endpoint === Endpoint.Update &&
           config.method === Method.Post
         ) {
-          return {
-            data: undefined,
-            status: RequestResponseStatus.Error,
-          }
+          return Result.failed(
+            new AppError(
+              DeviceCommunicationError.RequestFailed,
+              "Something went wrong"
+            )
+          )
         }
 
-        return {
-          data: undefined,
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(
+          new AppError(
+            DeviceCommunicationError.RequestFailed,
+            "Something went wrong"
+          )
+        )
       })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
@@ -186,33 +185,29 @@ describe("Method: updateOs", () => {
   })
 
   test("Returns `Result.failed` if device wakes up too long", async () => {
-    deviceService.request = jest
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: RequestConfig) => {
         if (
           config.endpoint === Endpoint.DeviceInfo &&
           config.method === Method.Get
         ) {
-          return {
-            data: deviceInfoResponseMock,
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(deviceInfoResponseMock)
         }
 
         if (
           config.endpoint === Endpoint.Update &&
           config.method === Method.Post
         ) {
-          return {
-            data: undefined,
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(undefined)
         }
 
-        return {
-          data: undefined,
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(
+          new AppError(
+            DeviceCommunicationError.RequestFailed,
+            "Something went wrong"
+          )
+        )
       })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
@@ -254,33 +249,29 @@ describe("Method: updateOs", () => {
   })
 
   test("Returns `Result.failed` if version from device endpoint after update is equal to version before update", async () => {
-    deviceService.request = jest
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: RequestConfig) => {
         if (
           config.endpoint === Endpoint.DeviceInfo &&
           config.method === Method.Get
         ) {
-          return {
-            data: deviceInfoResponseMock,
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(deviceInfoResponseMock)
         }
 
         if (
           config.endpoint === Endpoint.Update &&
           config.method === Method.Post
         ) {
-          return {
-            data: undefined,
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(undefined)
         }
 
-        return {
-          data: undefined,
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(
+          new AppError(
+            DeviceCommunicationError.RequestFailed,
+            "Something went wrong"
+          )
+        )
       })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
@@ -322,7 +313,7 @@ describe("Method: updateOs", () => {
   test("Returns `Result.success` if version from device endpoint after update changed", async () => {
     let isFirstRequest = true
 
-    deviceService.request = jest
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: RequestConfig) => {
         if (
@@ -331,18 +322,12 @@ describe("Method: updateOs", () => {
         ) {
           if (isFirstRequest) {
             isFirstRequest = false
-            return {
-              data: deviceInfoResponseMock,
-              status: RequestResponseStatus.Ok,
-            }
+            return Result.success(deviceInfoResponseMock)
           } else {
-            return {
-              data: {
-                ...deviceInfoResponseMock,
-                version: "1.5.0",
-              },
-              status: RequestResponseStatus.Ok,
-            }
+            return Result.success({
+              ...deviceInfoResponseMock,
+              version: "1.5.0",
+            })
           }
         }
 
@@ -350,16 +335,15 @@ describe("Method: updateOs", () => {
           config.endpoint === Endpoint.Update &&
           config.method === Method.Post
         ) {
-          return {
-            data: undefined,
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(undefined)
         }
 
-        return {
-          data: undefined,
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(
+          new AppError(
+            DeviceCommunicationError.RequestFailed,
+            "Something went wrong"
+          )
+        )
       })
     deviceFileSystem.uploadFileLocally = jest
       .fn()

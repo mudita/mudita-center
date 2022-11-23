@@ -3,25 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Result, ResultObject } from "App/core/builder"
+import { AppError } from "App/core/errors"
+import { DeviceCommunicationError } from "App/device/constants"
 import { ContactService } from "App/contacts/services/contact.service"
 import { ContactRepository } from "App/contacts/repositories"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import {
-  ErrorRequestResponse,
-  RequestResponseStatus,
-  SuccessRequestResponse,
-} from "App/core/types/request-response.interface"
-import { ContactPresenter } from "App/contacts/presenters"
+import { DeviceManager } from "App/device-manager/services/device-manager.service"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { Contact as PureContact } from "App/device/types/mudita-os"
 import { Contact } from "App/contacts/reducers"
-
-jest.mock("App/contacts/presenters")
-;(ContactPresenter as unknown as jest.Mock).mockImplementation(() => {
-  return {
-    mapToContact: jest.fn(),
-    mapToPureContact: jest.fn(),
-  }
-})
 
 const contactRepository = {
   create: jest.fn(),
@@ -29,22 +19,13 @@ const contactRepository = {
   delete: jest.fn(),
 } as unknown as ContactRepository
 
-const deviceService = {
-  request: jest.fn(),
-} as unknown as DeviceService
+const deviceManager = {
+  device: {
+    request: jest.fn(),
+  },
+} as unknown as DeviceManager
 
-const subject = new ContactService(contactRepository, deviceService)
-
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const successResponse: SuccessRequestResponse<any> = {
-  status: RequestResponseStatus.Ok,
-  data: {},
-}
-
-const errorResponse: ErrorRequestResponse = {
-  status: RequestResponseStatus.Error,
-}
+const subject = new ContactService(contactRepository, deviceManager)
 
 const pureContact: PureContact = {
   id: 19,
@@ -72,88 +53,84 @@ const contact: Contact = {
   secondaryPhoneNumber: "",
 }
 
+const successResponse: ResultObject<unknown> = Result.success(pureContact)
+const errorResponse: ResultObject<unknown> = Result.failed(
+  new AppError(DeviceCommunicationError.RequestFailed, "Something went wrong")
+)
+
 beforeEach(() => {
   jest.resetAllMocks()
 })
 
 describe("`ContactService`", () => {
   describe("`getContact` method", () => {
-    test("map data and returns success when `deviceService.request` returns success", async () => {
-      deviceService.request = jest.fn().mockReturnValue(successResponse)
+    test("map data and returns success when `device.request` returns success", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockReturnValue(Result.success(pureContact))
       const response = await subject.getContact("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(ContactPresenter.mapToContact).toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
+      expect(response.data).toEqual(contact)
     })
 
-    test("returns error  when `deviceService.request` returns error", async () => {
-      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error  when `device.request` returns error", async () => {
+      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getContact("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(ContactPresenter.mapToContact).not.toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 
   describe("`getContacts` method", () => {
-    test("map data and returns success when `deviceService.request` returns success", async () => {
-      deviceService.request = jest.fn().mockReturnValue({
-        ...successResponse,
-        data: { entries: [pureContact] },
-      })
+    test("map data and returns success when `device.request` returns success", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockReturnValue(Result.success({ entries: [pureContact] }))
       const response = await subject.getContacts()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(ContactPresenter.mapToContact).toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
+      expect(response.data).toEqual([contact])
     })
 
-    test("returns error when `deviceService.request` returns error", async () => {
-      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error when `device.request` returns error", async () => {
+      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getContacts()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(ContactPresenter.mapToContact).not.toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 
   describe("`createContact` method", () => {
-    test("returns success and `repository.create` is called when `deviceService.request` returns success", async () => {
-      deviceService.request = jest.fn().mockReturnValue({
-        ...successResponse,
-        data: { id: pureContact.id },
-      })
+    test("returns success and `repository.create` is called when `device.request` returns success", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockReturnValue(Result.success({ id: pureContact.id }))
       const response = await subject.createContact(contact)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.create).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
+      expect(response.data).toEqual(contact)
     })
 
-    test("returns error when `deviceService.request` returns error`", async () => {
-      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error when `device.request` returns error`", async () => {
+      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.createContact(contact)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.create).not.toHaveBeenCalled()
@@ -162,21 +139,15 @@ describe("`ContactService`", () => {
   })
 
   describe("`editContact` method", () => {
-    test("returns success and `repository.update` is called when `deviceService.request` and `isContactValid` returns success", async () => {
-      jest
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .spyOn(subject as unknown as { isContactValid: any }, "isContactValid")
-        .mockImplementation(() => successResponse)
-      deviceService.request = jest.fn().mockReturnValue(successResponse)
+    test("returns success and `repository.update` is called when `device.request` and `isContactValid` returns success", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockReturnValue(Result.success(pureContact))
 
       const response = await subject.editContact(contact)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.update).toHaveBeenCalled()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(ContactPresenter.mapToPureContact).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
@@ -185,61 +156,57 @@ describe("`ContactService`", () => {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .spyOn(subject as unknown as { isContactValid: any }, "isContactValid")
-        .mockImplementation(() => errorResponse)
+        .mockImplementation(() => ({
+          status: RequestResponseStatus.Error,
+        }))
 
       const response = await subject.editContact(contact)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.update).not.toHaveBeenCalled()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(ContactPresenter.mapToContact).not.toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
 
-    test("returns error when `deviceService.request` returns error", async () => {
+    test("returns error when `device.request` returns error", async () => {
       jest
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .spyOn(subject as unknown as { isContactValid: any }, "isContactValid")
         .mockImplementation(() => successResponse)
-      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
 
       const response = await subject.editContact(contact)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.update).not.toHaveBeenCalled()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(ContactPresenter.mapToContact).not.toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 
   describe("`deleteContacts` method", () => {
-    test("returns success and `repository.delete` is called when `deviceService.request` returns success", async () => {
-      deviceService.request = jest.fn().mockReturnValue(successResponse)
+    test("returns success and `repository.delete` is called when `device.request` returns success", async () => {
+      deviceManager.device.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.deleteContacts(["1"])
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.delete).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
-    test("returns error with ids when `deviceService.request` returns error", async () => {
-      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error with ids when `device.request` returns error", async () => {
+      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.deleteContacts(["1"])
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalled()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.delete).not.toHaveBeenCalled()

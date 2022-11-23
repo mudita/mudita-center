@@ -34,7 +34,7 @@ const dataLoading = (): void => {
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const dataError = (error: any): void => {
+const dataError = (_: any, error: any): void => {
   void store.dispatch(setErrorState(error))
 }
 

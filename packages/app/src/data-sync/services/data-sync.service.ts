@@ -9,7 +9,7 @@ import { DeviceFileSystemService } from "App/device-file-system/services"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { IndexStorage } from "App/index-storage/types"
 import { DataIndex } from "App/index-storage/constants"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import {
@@ -36,13 +36,13 @@ export class DataSyncService {
 
   constructor(
     private index: IndexStorage,
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private keyStorage: MetadataStore,
     private fileSystemStorage: FileSystemService
   ) {
     this.deviceBackupService = new BackupCreateService(
-      this.deviceService,
-      new DeviceFileSystemService(this.deviceService),
+      this.deviceManager,
+      new DeviceFileSystemService(this.deviceManager),
       this.keyStorage
     )
 
@@ -70,7 +70,7 @@ export class DataSyncService {
     )
     const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
 
-    if (!this.deviceService.currentDeviceUnlocked) {
+    if (this.deviceManager.device.locked) {
       return true
     }
 

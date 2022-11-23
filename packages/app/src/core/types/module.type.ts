@@ -6,7 +6,6 @@
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { IndexStorage } from "App/index-storage/types"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
@@ -14,12 +13,14 @@ import { Controller } from "./controller.type"
 import { Model } from "./model.type"
 import { Repository } from "./repository.type"
 import { Observer } from "./observer.type"
+import { Initializer } from "./initializer.type"
+import { DeviceManager } from "App/device-manager/services"
 
 export interface Module {
   // eslint-disable-next-line @typescript-eslint/no-misused-new
   new (
     index: IndexStorage,
-    deviceService: DeviceService,
+    deviceManager: DeviceManager,
     keyStorage: MetadataStore,
     logger: AppLogger,
     ipc: MainProcessIpc,
@@ -30,5 +31,6 @@ export interface Module {
     models: Model[]
     repositories: Repository[]
     observers: Observer[]
+    initializers: Initializer[]
   }
 }

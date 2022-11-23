@@ -46,6 +46,7 @@ export interface DeviceState {
   data: Partial<PureDeviceData | HarmonyDeviceData> | null
   state: ConnectionState
   status: {
+    connecting: boolean
     connected: boolean
     unlocked: boolean | null
     loaded: boolean
@@ -82,10 +83,6 @@ export type LoadDataRejectAction = PayloadAction<
 export type SetPhoneLockTimeAction = PayloadAction<
   GetPhoneLockTimeResponseBody,
   DeviceEvent.SetLockTime
->
-export type UnlockDeviceRejectedAction = PayloadAction<
-  AppError<DeviceError.Connection> | AppError<DeviceError.InvalidPhoneLockTime>,
-  DeviceEvent.Unlocked
 >
 export type SetSimDataAction = PayloadAction<number, DeviceEvent.SetSimData>
 export type SetOsVersionDataAction = PayloadAction<

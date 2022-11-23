@@ -5,7 +5,6 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
@@ -15,11 +14,12 @@ import { TemplateModel } from "App/templates/models"
 import { TemplateRepository } from "App/templates/repositories"
 import { TemplateService } from "App/templates/services"
 import { TemplateController } from "App/templates/controllers"
+import { DeviceManager } from "App/device-manager/services"
 
 export class TemplateModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceService: DeviceService,
+    public deviceManager: DeviceManager,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -28,7 +28,7 @@ export class TemplateModule extends BaseModule {
   ) {
     super(
       index,
-      deviceService,
+      deviceManager,
       keyStorage,
       logger,
       ipc,
@@ -38,7 +38,7 @@ export class TemplateModule extends BaseModule {
     const templateModel = new TemplateModel(this.index, this.eventEmitter)
     const templateRepository = new TemplateRepository(templateModel)
     const templateService = new TemplateService(
-      this.deviceService,
+      this.deviceManager,
       templateRepository
     )
     const templateController = new TemplateController(templateService)

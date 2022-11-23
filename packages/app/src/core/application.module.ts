@@ -3,18 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ipcMain, MainProcessIpc } from "electron-better-ipc"
+import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 // TODO change module name to `KeyStorage`
 import { MetadataStore } from "App/metadata/services"
 import logger from "App/__deprecated__/main/utils/logger"
+import { LoggerFactory } from "App/core/factories"
+import { DeviceLogger } from "App/core/types"
 import { flags, Feature } from "App/feature-flags"
-import { createDeviceService } from "App/__deprecated__/backend/device-service"
 import PureLogger from "App/__deprecated__/main/utils/pure-logger"
 import { IndexFactory } from "App/index-storage/factories"
 import {
   DataIndexInitializer,
   ControllerInitializer,
+  InitializeInitializer,
   ObserverInitializer,
 } from "App/core/initializers"
 import { Module } from "App/core/types"
@@ -37,11 +39,11 @@ import { DeviceInfoModule } from "App/device-info/device-info.module"
 import { DeviceFileSystemModule } from "App/device-file-system/device-file-system.module"
 import { DeviceLogModule } from "App/device-log/device-log.module"
 import { DeviceModule } from "App/device/device.module"
+import { DeviceManagerModule } from "App/device-manager/device-manager.module"
 import {
   DeviceManager,
-  UsbDetector,
   DeviceResolverService,
-} from "App/device/services"
+} from "App/device-manager/services"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -63,8 +65,10 @@ export class ApplicationModule {
     DeviceFileSystemModule,
     DeviceLogModule,
     DeviceModule,
+    DeviceManagerModule,
   ]
 
+  private deviceLogger: DeviceLogger = LoggerFactory.getInstance()
   private index = new IndexFactory().create()
   private keyStorage = new MetadataStore()
   private logger = logger
@@ -72,11 +76,9 @@ export class ApplicationModule {
   private fileSystem = new FileSystemService()
 
   private deviceManager = new DeviceManager(
-    new UsbDetector(),
-    new DeviceResolverService()
+    new DeviceResolverService(this.ipc, this.eventEmitter),
+    this.ipc
   )
-
-  private deviceService = createDeviceService(this.deviceManager, ipcMain)
 
   constructor(private ipc: MainProcessIpc) {
     const enabled =
@@ -85,17 +87,18 @@ export class ApplicationModule {
         ? false
         : flags.get(Feature.LoggerEnabled)
 
-    this.deviceManager.registerLogger(new PureLogger())
-    this.deviceManager.toggleLogs(enabled)
+    this.deviceLogger.registerLogger(new PureLogger())
+    this.deviceLogger.toggleLogs(enabled)
 
     const dataStorageInitializer = new DataIndexInitializer(this.index)
     const observerInitializer = new ObserverInitializer()
     const controllerInitializer = new ControllerInitializer()
+    const initializeInitializer = new InitializeInitializer()
 
     this.modules.forEach((module) => {
       const instance = new module(
         this.index,
-        this.deviceService,
+        this.deviceManager,
         this.keyStorage,
         this.logger,
         this.ipc,
@@ -104,6 +107,7 @@ export class ApplicationModule {
       )
 
       dataStorageInitializer.initialize(instance.models)
+      initializeInitializer.initialize(instance.initializers)
       observerInitializer.initialize(instance.observers)
       controllerInitializer.initialize(instance.controllers)
     })

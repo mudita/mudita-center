@@ -11,18 +11,20 @@ import {
 } from "App/device/constants"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { isResponseSuccessWithData } from "App/core/helpers"
 import { BackupError } from "App/backup/constants"
 import { MetadataStore, MetadataKey } from "App/metadata"
 import { CreateDeviceBackup } from "App/backup/types"
 import { DeviceFileSystemService } from "App/device-file-system/services"
-
-// DEPRECATED
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
+import {
+  StartBackupResponseBody,
+  GetDeviceInfoResponseBody,
+  GetBackupDeviceStatusResponseBody,
+} from "App/device/types/mudita-os"
 
 export class BackupCreateService {
   constructor(
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private deviceFileSystem: DeviceFileSystemService,
     private keyStorage: MetadataStore
   ) {}
@@ -79,12 +81,13 @@ export class BackupCreateService {
   private async runDeviceBackup(
     category: BackupCategory
   ): Promise<ResultObject<string | undefined>> {
-    const deviceResponse = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
+    const deviceResponse =
+      await this.deviceManager.device.request<GetDeviceInfoResponseBody>({
+        endpoint: Endpoint.DeviceInfo,
+        method: Method.Get,
+      })
 
-    if (!isResponseSuccessWithData(deviceResponse)) {
+    if (!deviceResponse.ok || !deviceResponse.data) {
       return Result.failed(
         new AppError(
           BackupError.CannotGetDeviceInfo,
@@ -93,15 +96,16 @@ export class BackupCreateService {
       )
     }
 
-    const backupResponse = await this.deviceService.request({
-      endpoint: Endpoint.Backup,
-      method: Method.Post,
-      body: {
-        category,
-      },
-    })
+    const backupResponse =
+      await this.deviceManager.device.request<StartBackupResponseBody>({
+        endpoint: Endpoint.Backup,
+        method: Method.Post,
+        body: {
+          category,
+        },
+      })
 
-    if (!isResponseSuccessWithData(backupResponse) || !backupResponse.data) {
+    if (!backupResponse.ok || !backupResponse.data) {
       return Result.failed(
         new AppError(
           BackupError.CannotBackupDevice,
@@ -128,25 +132,25 @@ export class BackupCreateService {
   private async waitUntilBackupDeviceFinished(
     id: string
   ): Promise<ResultObject<boolean | undefined>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Backup,
-      method: Method.Get,
-      body: {
-        id,
-      },
-    })
+    const response =
+      await this.deviceManager.device.request<GetBackupDeviceStatusResponseBody>(
+        {
+          endpoint: Endpoint.Backup,
+          method: Method.Get,
+          body: {
+            id,
+          },
+        }
+      )
 
-    if (
-      !isResponseSuccessWithData(response) ||
-      response.data?.state === BackupState.Error
-    ) {
+    if (!response.ok || !response.data) {
       return Result.failed(
         new AppError(
           BackupError.BackupProcessFailed,
           "Something went wrong during backup process"
         )
       )
-    } else if (response.data?.state === BackupState.Finished) {
+    } else if (response.data.state === BackupState.Finished) {
       return Result.success(true)
     } else {
       return new Promise((resolve) => {

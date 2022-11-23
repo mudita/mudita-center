@@ -4,7 +4,12 @@
  */
 
 import { Endpoint, Method } from "App/device/constants"
-import DeviceService from "App/__deprecated__/backend/device-service"
+import {
+  GetContactResponseBody,
+  GetContactsResponseBody,
+  CreateContactResponseBody,
+} from "App/device/types/mudita-os"
+import { DeviceManager } from "App/device-manager/services"
 import { Contact, ContactID } from "App/contacts/reducers"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactPresenter } from "App/contacts/presenters"
@@ -12,26 +17,26 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { isResponseSuccessWithData } from "App/core/helpers"
 
 export class ContactService {
   constructor(
     private contactRepository: ContactRepository,
-    private deviceService: DeviceService
+    private deviceManager: DeviceManager
   ) {}
 
   public async getContact(id: string): Promise<RequestResponse<Contact>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Get,
-      body: {
-        id: Number(id),
-      },
-    })
+    const response =
+      await this.deviceManager.device.request<GetContactResponseBody>({
+        endpoint: Endpoint.Contacts,
+        method: Method.Get,
+        body: {
+          id: Number(id),
+        },
+      })
 
-    if (isResponseSuccessWithData(response)) {
+    if (response.ok && response.data) {
       return {
-        status: response.status,
+        status: RequestResponseStatus.Ok,
         data: ContactPresenter.mapToContact(response.data),
       }
     } else {
@@ -43,14 +48,15 @@ export class ContactService {
   }
 
   public async getContacts(): Promise<RequestResponse<Contact[]>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Get,
-    })
+    const response =
+      await this.deviceManager.device.request<GetContactsResponseBody>({
+        endpoint: Endpoint.Contacts,
+        method: Method.Get,
+      })
 
-    if (isResponseSuccessWithData(response)) {
+    if (response.ok && response.data) {
       return {
-        status: response.status,
+        status: RequestResponseStatus.Ok,
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
         data: response.data.entries.map(ContactPresenter.mapToContact),
@@ -66,13 +72,14 @@ export class ContactService {
   public async createContact(
     newContact: Contact
   ): Promise<RequestResponse<Contact>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Post,
-      body: ContactPresenter.mapToPureContact(newContact),
-    })
+    const response =
+      await this.deviceManager.device.request<CreateContactResponseBody>({
+        endpoint: Endpoint.Contacts,
+        method: Method.Post,
+        body: ContactPresenter.mapToPureContact(newContact),
+      })
 
-    if (isResponseSuccessWithData(response)) {
+    if (response.ok && response.data) {
       const contact = {
         ...newContact,
         id: String(response.data.id),
@@ -82,12 +89,12 @@ export class ContactService {
       this.contactRepository.create(contact, true)
 
       return {
-        status: response.status,
+        status: RequestResponseStatus.Ok,
         data: contact,
       }
     } else {
       return {
-        status: response.status,
+        status: RequestResponseStatus.Error,
         error: { message: "Create contact: Something went wrong" },
       }
     }
@@ -103,19 +110,19 @@ export class ContactService {
       return isContactValidResponse
     }
 
-    const { status, data } = await this.deviceService.request({
+    const { ok, data } = await this.deviceManager.device.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
       body: ContactPresenter.mapToPureContact(contact),
     })
 
-    if (status === RequestResponseStatus.Ok) {
+    if (ok) {
       this.contactRepository.update(contact, true)
 
-      return { status, data: contact }
+      return { status: RequestResponseStatus.Ok, data: contact }
     } else {
       return {
-        status,
+        status: RequestResponseStatus.Error,
         error: { message: "Edit contact: Something went wrong", data },
       }
     }
@@ -125,13 +132,13 @@ export class ContactService {
     contactIds: ContactID[]
   ): Promise<RequestResponse<ContactID[]>> {
     const results = contactIds.map(async (id) => {
-      const { status } = await this.deviceService.request({
+      const { ok } = await this.deviceManager.device.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
         body: { id: Number(id) },
       })
       return {
-        status,
+        status: ok ? RequestResponseStatus.Ok : RequestResponseStatus.Error,
         id,
       }
     })

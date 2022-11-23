@@ -5,4 +5,5 @@
 
 export * from "./controller.initializer"
 export * from "./data-index.initializer"
+export * from "./initialize.initializer"
 export * from "./observer.initializer"

@@ -102,8 +102,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       state.device.updatingState === UpdatingState.Updating ||
       state.backup.restoringState === State.Loading ||
       state.backup.restoringState === State.Failed,
-    deviceConnecting:
-      state.device.status.connected && !state.device.status.unlocked,
+    deviceConnecting: state.device.status.connecting,
     deviceParred:
       state.device.status.loaded && Boolean(state.device.status.unlocked),
     settingsLoaded: state.settings.loaded,

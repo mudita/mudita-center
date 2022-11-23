@@ -4,14 +4,12 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, {
-  DeviceServiceEventName,
-} from "App/__deprecated__/backend/device-service"
 import { CrashDumpObserver } from "App/crash-dump/observers/crash-dump.observer"
 import { CrashDumpService } from "App/crash-dump/services"
 import { SettingsService } from "App/settings/services"
 import { ipcMain } from "electron-better-ipc"
 import { IpcCrashDumpRenderedEvent } from "App/crash-dump/constants"
+import { DeviceServiceEvent } from "App/device/constants"
 
 describe("Crash Dump Observer: observe", () => {
   beforeEach(() => {
@@ -31,11 +29,11 @@ describe("Crash Dump Observer: observe", () => {
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
-        const deviceService = {
-          on: (eventName: DeviceServiceEventName, listener: () => void) => {
-            eventEmitterMock.on(eventName, listener)
-          },
-        } as unknown as DeviceService
+        // const deviceService = {
+        //   on: (eventName: DeviceServiceEventName, listener: () => void) => {
+        //     eventEmitterMock.on(eventName, listener)
+        //   },
+        // } as unknown as DeviceService
         crashDumpService = {
           getDeviceCrashDumpFiles: jest.fn().mockReturnValue({ data: [] }),
         } as unknown as CrashDumpService
@@ -46,7 +44,7 @@ describe("Crash Dump Observer: observe", () => {
         } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
-          deviceService,
+          eventEmitterMock,
           crashDumpService,
           settingsService
         )
@@ -63,7 +61,7 @@ describe("Crash Dump Observer: observe", () => {
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
-        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
@@ -90,11 +88,6 @@ describe("Crash Dump Observer: observe", () => {
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
-        const deviceService = {
-          on: (eventName: DeviceServiceEventName, listener: () => void) => {
-            eventEmitterMock.on(eventName, listener)
-          },
-        } as unknown as DeviceService
         crashDumpService = {
           getDeviceCrashDumpFiles: jest
             .fn()
@@ -107,7 +100,7 @@ describe("Crash Dump Observer: observe", () => {
         } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
-          deviceService,
+          eventEmitterMock,
           crashDumpService,
           settingsService
         )
@@ -124,7 +117,7 @@ describe("Crash Dump Observer: observe", () => {
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
-        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
@@ -152,11 +145,6 @@ describe("Crash Dump Observer: observe", () => {
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
-        const deviceService = {
-          on: (eventName: DeviceServiceEventName, listener: () => void) => {
-            eventEmitterMock.on(eventName, listener)
-          },
-        } as unknown as DeviceService
         crashDumpService = {
           getDeviceCrashDumpFiles: jest
             .fn()
@@ -169,7 +157,7 @@ describe("Crash Dump Observer: observe", () => {
         } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
-          deviceService,
+          eventEmitterMock,
           crashDumpService,
           settingsService
         )
@@ -186,7 +174,7 @@ describe("Crash Dump Observer: observe", () => {
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
-        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
@@ -214,11 +202,6 @@ describe("Crash Dump Observer: observe", () => {
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
-        const deviceService = {
-          on: (eventName: DeviceServiceEventName, listener: () => void) => {
-            eventEmitterMock.on(eventName, listener)
-          },
-        } as unknown as DeviceService
         crashDumpService = {
           getDeviceCrashDumpFiles: jest
             .fn()
@@ -231,7 +214,7 @@ describe("Crash Dump Observer: observe", () => {
         } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
-          deviceService,
+          eventEmitterMock,
           crashDumpService,
           settingsService
         )
@@ -250,7 +233,7 @@ describe("Crash Dump Observer: observe", () => {
         subject.observe()
         subject.observe()
         subject.observe()
-        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 

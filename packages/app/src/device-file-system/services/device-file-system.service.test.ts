@@ -3,9 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ipcMain } from "electron-better-ipc"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import { DeviceManager } from "App/device/services/device-manager.service"
+import path from "path"
+import { Result } from "App/core/builder"
+import { AppError } from "App/core/errors"
+import { DeviceCommunicationError } from "App/device/constants"
+import { DeviceManager } from "App/device-manager/services"
 import {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
@@ -18,65 +20,61 @@ import {
   secondsPartDecodeLog,
   secondsPartEncodeLog,
 } from "App/testing-support/mocks/diagnostic-data.mock"
-
-import path from "path"
 import { DeviceFileSystemService } from "App/device-file-system/services/device-file-system.service"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
-jest.mock("App/__deprecated__/backend/device-service")
+const deviceManager = {
+  device: {
+    request: jest.fn(),
+  },
+} as unknown as DeviceManager
 
-const deviceManager = {} as DeviceManager
+const deviceFileSystem = new DeviceFileSystemService(deviceManager)
+
+beforeEach(() => {
+  jest.clearAllMocks()
+})
 
 test("downloading file handle properly chunks data", async () => {
-  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-    return {
-      request: (
+  deviceManager.device.request = jest
+    .fn()
+    .mockImplementation(
+      (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
           (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              rxID: "1",
-              fileSize: 2,
-              chunkSize: 1,
-            },
-          }
+          return Result.success({
+            rxID: "1",
+            fileSize: 2,
+            chunkSize: 1,
+          })
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              data: firstsPartEncodeLog,
-            },
-          }
+          return Result.success({ data: firstsPartEncodeLog })
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 2
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              data: secondsPartEncodeLog,
-              fileCrc32: "30898fa4",
-            },
-          }
+          return Result.success({
+            data: secondsPartEncodeLog,
+            fileCrc32: "30898fa4",
+          })
         } else {
-          return {
-            status: RequestResponseStatus.Error,
-          }
+          return Result.failed(
+            new AppError(
+              DeviceCommunicationError.RequestFailed,
+              "Something went wrong"
+            )
+          )
         }
-      },
-    }
-  })
-  const deviceFileSystem = new DeviceFileSystemService(
-    new DeviceService(deviceManager, ipcMain)
-  )
+      }
+    )
+
   const { ok, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
+
   expect(ok).toBeTruthy()
   expect(data?.toString()).toEqual(
     `${firstsPartDecodeLog}${secondsPartDecodeLog}`
@@ -84,43 +82,38 @@ test("downloading file handle properly chunks data", async () => {
 })
 
 test("downloading file handle properly chunks data if fileSize is less than chunkSize", async () => {
-  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-    return {
-      request: (
+  deviceManager.device.request = jest
+    .fn()
+    .mockImplementation(
+      (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
           (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              rxID: "1",
-              fileSize: 0.5,
-              chunkSize: 1,
-            },
-          }
+          return Result.success({
+            rxID: "1",
+            fileSize: 0.5,
+            chunkSize: 1,
+          })
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              data: firstsPartEncodeLog,
-              fileCrc32: "91c634cd",
-            },
-          }
+          return Result.success({
+            data: firstsPartEncodeLog,
+            fileCrc32: "91c634cd",
+          })
         } else {
-          return {
-            status: RequestResponseStatus.Error,
-          }
+          return Result.failed(
+            new AppError(
+              DeviceCommunicationError.RequestFailed,
+              "Something went wrong"
+            )
+          )
         }
-      },
-    }
-  })
-  const deviceFileSystem = new DeviceFileSystemService(
-    new DeviceService(deviceManager, ipcMain)
-  )
+      }
+    )
+
   const { ok, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
@@ -129,45 +122,41 @@ test("downloading file handle properly chunks data if fileSize is less than chun
 })
 
 test("downloading file return error when part of the chunks data is broken", async () => {
-  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-    return {
-      request: (
+  deviceManager.device.request = jest
+    .fn()
+    .mockImplementation(
+      (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
           (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: { rxID: "1", fileSize: 2, chunkSize: 1 },
-          }
+          return Result.success({
+            rxID: "1",
+            fileSize: 2,
+            chunkSize: 1,
+          })
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              data: firstsPartEncodeLog,
-            },
-          }
+          return Result.success({
+            data: firstsPartEncodeLog,
+          })
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 2
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: undefined,
-          }
+          return Result.success(undefined)
         } else {
-          return {
-            status: RequestResponseStatus.Error,
-          }
+          return Result.failed(
+            new AppError(
+              DeviceCommunicationError.RequestFailed,
+              "Something went wrong"
+            )
+          )
         }
-      },
-    }
-  })
-  const deviceFileSystem = new DeviceFileSystemService(
-    new DeviceService(deviceManager, ipcMain)
-  )
+      }
+    )
+
   const { ok, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
@@ -176,18 +165,15 @@ test("downloading file return error when part of the chunks data is broken", asy
 })
 
 test("downloading file returns error properly", async () => {
-  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-    return {
-      request: () => {
-        return {
-          status: RequestResponseStatus.Error,
-        }
-      },
-    }
+  deviceManager.device.request = jest.fn().mockImplementation(() => {
+    return Result.failed(
+      new AppError(
+        DeviceCommunicationError.RequestFailed,
+        "Something went wrong"
+      )
+    )
   })
-  const deviceFileSystem = new DeviceFileSystemService(
-    new DeviceService(deviceManager, ipcMain)
-  )
+
   const { ok } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
@@ -195,43 +181,42 @@ test("downloading file returns error properly", async () => {
 })
 
 test("upload file file handle properly chunks data", async () => {
-  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-    return {
-      request: (
-        config: PutFileSystemRequestConfig | SendFileSystemRequestConfig
-      ) => {
+  deviceManager.device.request = jest
+    .fn()
+    .mockImplementation(
+      (config: PutFileSystemRequestConfig | SendFileSystemRequestConfig) => {
         if (
           (config as PutFileSystemRequestConfig).body?.fileName !== undefined
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: { txID: "1", chunkSize: 7 },
-          }
+          return Result.success({
+            txID: "1",
+            chunkSize: 7,
+          })
         } else if (
           (config as SendFileSystemRequestConfig).body?.chunkNo === 1
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: { txID: "1", chunkNo: 1 },
-          }
+          return Result.success({
+            txID: "1",
+            chunkNo: 1,
+          })
         } else if (
           (config as SendFileSystemRequestConfig).body?.chunkNo === 2
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: { txID: "1", chunkNo: 2 },
-          }
+          return Result.success({
+            txID: "1",
+            chunkNo: 2,
+          })
         } else {
-          return {
-            status: RequestResponseStatus.Error,
-          }
+          return Result.failed(
+            new AppError(
+              DeviceCommunicationError.RequestFailed,
+              "Something went wrong"
+            )
+          )
         }
-      },
-    }
-  })
-  const deviceFileSystem = new DeviceFileSystemService(
-    new DeviceService(deviceManager, ipcMain)
-  )
+      }
+    )
+
   const filePath = path.join(__dirname, "./mock-file.txt")
   const { ok } = await deviceFileSystem.uploadFileLocally({
     filePath,

@@ -29,3 +29,4 @@ export const setInitState = createAction(DeviceEvent.SetInitState)
 export const setAgreementStatus = createAction<boolean>(
   DeviceEvent.AgreementStatus
 )
+export const unlockedDevice = createAction(DeviceEvent.Unlocked)

@@ -5,7 +5,7 @@
 
 import { EventEmitter } from "events"
 import { OutboxEntryType } from "App/device/constants"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 import { IndexStorage } from "App/index-storage/types"
 import {
   EntryHandlersMapType,
@@ -25,11 +25,11 @@ export class OutboxFactory {
   static create(
     index: IndexStorage,
     eventEmitter: EventEmitter,
-    deviceService: DeviceService
+    deviceManager: DeviceManager
   ): OutboxService {
     const contactModel = new ContactModel(index, eventEmitter)
     const contactRepository = new ContactRepository(contactModel)
-    const contactService = new ContactService(contactRepository, deviceService)
+    const contactService = new ContactService(contactRepository, deviceManager)
     const contactEntryHandlerService = new ContactEntryHandlerService(
       contactService,
       contactRepository
@@ -40,9 +40,9 @@ export class OutboxFactory {
 
     const messageModel = new MessageModel(index, eventEmitter)
     const messageRepository = new MessageRepository(messageModel)
-    const threadService = new ThreadService(deviceService, threadRepository)
+    const threadService = new ThreadService(deviceManager, threadRepository)
     const messageService = new MessageService(
-      deviceService,
+      deviceManager,
       threadService,
       messageRepository
     )
@@ -65,6 +65,6 @@ export class OutboxFactory {
       [OutboxEntryType.Thread]: threadEntryHandlerService,
     }
 
-    return new OutboxService(deviceService, entryHandlersMap)
+    return new OutboxService(deviceManager, entryHandlersMap)
   }
 }

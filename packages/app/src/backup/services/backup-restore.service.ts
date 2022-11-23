@@ -4,7 +4,13 @@
  */
 
 import fs from "fs"
-import { Endpoint, Method, RestoreState } from "App/device/constants"
+import {
+  Endpoint,
+  Method,
+  RestoreState,
+  DeviceCommunicationError,
+} from "App/device/constants"
+import { GetRestoreDeviceStatusResponseBody } from "App/device/types/mudita-os"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import {
@@ -15,16 +21,14 @@ import CryptoFileService from "App/file-system/services/crypto-file-service/cryp
 import { RestoreDeviceBackup } from "App/backup/types"
 import { BackupError } from "App/backup/constants"
 import { DeviceFileSystemService } from "App/device-file-system/services"
-
-// DEPRECATED
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 
 const timeout = 5000
 const callsMax = 24
 
 export class BackupRestoreService {
   constructor(
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private deviceFileSystem: DeviceFileSystemService
   ) {}
 
@@ -59,7 +63,7 @@ export class BackupRestoreService {
       )
     }
 
-    const restoreResult = await this.deviceService.request({
+    const restoreResult = await this.deviceManager.device.request({
       endpoint: Endpoint.Restore,
       method: Method.Post,
       body: {
@@ -67,7 +71,7 @@ export class BackupRestoreService {
       },
     })
 
-    if (restoreResult.status !== RequestResponseStatus.Ok) {
+    if (!restoreResult.ok) {
       return Result.failed(
         new AppError(
           BackupError.CannotRestoreBackup,
@@ -101,13 +105,16 @@ export class BackupRestoreService {
       }
     }
 
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Restore,
-      method: Method.Get,
-      body: {
-        id,
-      },
-    })
+    const response =
+      await this.deviceManager.device.request<GetRestoreDeviceStatusResponseBody>(
+        {
+          endpoint: Endpoint.Restore,
+          method: Method.Get,
+          body: {
+            id,
+          },
+        }
+      )
 
     if (response.data?.state === RestoreState.Finished) {
       return {
@@ -115,17 +122,22 @@ export class BackupRestoreService {
       }
     }
 
-    if (!firstRequest && response.status === RequestResponseStatus.Error) {
+    if (!firstRequest && !response.ok) {
       return { status: RequestResponseStatus.Ok }
     }
 
-    if (response.status === RequestResponseStatus.Error) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (response.error?.payload?.status === RequestResponseStatus.Error) {
       return {
         status: RequestResponseStatus.Error,
       }
     }
 
-    if (response.data?.state === RestoreState.Error) {
+    if (
+      (response.data as GetRestoreDeviceStatusResponseBody)?.state ===
+      RestoreState.Error
+    ) {
       return {
         status: RequestResponseStatus.Error,
       }
@@ -149,14 +161,14 @@ export class BackupRestoreService {
       }
     }
 
-    const response = await this.deviceService.request({
+    const response = await this.deviceManager.device.request({
       endpoint: Endpoint.Restore,
       method: Method.Get,
     })
 
     if (
-      response.status === RequestResponseStatus.Ok ||
-      response.status === RequestResponseStatus.PhoneLocked
+      response.ok ||
+      response.error?.type === DeviceCommunicationError.DeviceLocked
     ) {
       return {
         status: RequestResponseStatus.Ok,

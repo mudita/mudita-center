@@ -5,7 +5,6 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
@@ -18,13 +17,14 @@ import {
   FileUploadCommand,
 } from "App/device-file-system/commands"
 import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
+import { DeviceManager } from "App/device-manager/services"
 
 export class FilesManagerModule extends BaseModule {
   private readonly filesManagerController: FilesManagerController
 
   constructor(
     public index: IndexStorage,
-    public deviceService: DeviceService,
+    public deviceManager: DeviceManager,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -33,7 +33,7 @@ export class FilesManagerModule extends BaseModule {
   ) {
     super(
       index,
-      deviceService,
+      deviceManager,
       keyStorage,
       logger,
       ipc,
@@ -44,13 +44,13 @@ export class FilesManagerModule extends BaseModule {
     const fileManagerService = new FileManagerService(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileDeleteCommand(this.deviceService),
+      new FileDeleteCommand(this.deviceManager),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new RetrieveFilesCommand(this.deviceService),
+      new RetrieveFilesCommand(this.deviceManager),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileUploadCommand(this.deviceService, this.fileSystem)
+      new FileUploadCommand(this.deviceManager, this.fileSystem)
     )
 
     this.filesManagerController = new FilesManagerController(fileManagerService)
