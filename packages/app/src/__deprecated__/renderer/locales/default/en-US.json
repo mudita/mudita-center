@@ -613,6 +613,7 @@
   "module.overview.phoneDescription": "Mudita Pure",
   "module.overview.phoneDisconnectAction": "Disconnect",
   "module.overview.phoneNoConnection": "No connection",
+  "module.overview.noSerialNumberMessage": "-",
   "module.overview.pureSystem": "About your Pure",
   "module.overview.pureSystemAbout": "About your Pure",
   "module.overview.pureSystemBack": "Back to Overview",
