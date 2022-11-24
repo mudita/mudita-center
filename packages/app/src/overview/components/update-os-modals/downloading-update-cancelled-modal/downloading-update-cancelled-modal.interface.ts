@@ -6,4 +6,5 @@
 export interface DownloadingUpdateCancelledModalProps {
   open: boolean
   onClose: () => void
+  testId?: string
 }

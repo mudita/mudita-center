@@ -7,4 +7,5 @@ export interface DownloadingUpdateFinishedModalProps {
   onOsUpdate: () => void
   open: boolean
   onClose: () => void
+  testId?: string
 }

@@ -11,4 +11,5 @@ export interface DevUpdateModalProps {
   prerelease: boolean
   open: boolean
   onClose: () => void
+  testId?: string
 }

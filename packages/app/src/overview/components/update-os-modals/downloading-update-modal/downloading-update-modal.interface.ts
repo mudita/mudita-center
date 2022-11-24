@@ -7,6 +7,7 @@ export interface DownloadingUpdateModalProps {
   open: boolean
   percent: number
   speed: number
-  timeLeft: number
+  timeLeft: number | undefined
   onCancel: () => void
+  testId?: string
 }
