@@ -3,12 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ipcRenderer } from "electron-better-ipc"
+import { Result, ResultObject } from "App/core/builder"
+import { AppError } from "App/core/errors"
 import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import {
   DownloadFinished,
   DownloadStatus,
 } from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import { ipcRenderer } from "electron-better-ipc"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -19,14 +21,16 @@ export const cancelOsDownload = (interrupt = false) => {
 export const downloadOsUpdateRequest = async (props: {
   url: string
   fileName: string
-}): Promise<DownloadFinished> => {
+}): Promise<
+  | ResultObject<DownloadFinished>
+  | ResultObject<DownloadStatus.Cancelled | DownloadStatus.Interrupted>
+> => {
   const data: DownloadFinished = await ipcRenderer.callMain(
     PureOsDownloadChannels.start,
     props
   )
-  if (data.status === DownloadStatus.Completed) {
-    return data
-  } else {
-    throw new Error("There was a problem when downloading OS update")
-  }
+
+  return data.status === DownloadStatus.Completed
+    ? Result.success(data)
+    : Result.failed(new AppError("", ""), data.status)
 }

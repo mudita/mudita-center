@@ -15,12 +15,11 @@ import {
   ApplicationUpdateError,
   ApplicationUpdateErrorCodeMap,
 } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
-import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
+import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.enum"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import logger from "App/__deprecated__/main/utils/logger"
-import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { downloadOsUpdateRequest } from "App/__deprecated__/update"
 import { getLatestReleaseRequest } from "App/update/requests"
@@ -127,15 +126,12 @@ const UpdatingForceModalFlow: FunctionComponent<
   }
 
   const downloadOS = async (release: Release): Promise<boolean> => {
-    try {
-      const response = await downloadOsUpdateRequest({
-        url: release.file.url,
-        fileName: release.file.name,
-      })
-      return response.status === DownloadStatus.Completed
-    } catch {
-      return false
-    }
+    const response = await downloadOsUpdateRequest({
+      url: release.file.url,
+      fileName: release.file.name,
+    })
+
+    return response.ok
   }
 
   const backToInfoModal = (): void => {

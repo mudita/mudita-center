@@ -7,6 +7,7 @@ import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/pho
 import { createModel } from "@rematch/core"
 import { RootModel } from "App/__deprecated__/renderer/models/models"
 
+// TODO [mw] get rid of me (move it's logic to update-os reducer) - scope of the next PR
 const initialState: PhoneUpdate = {
   pureOsFileUrl: "",
   pureOsDownloaded: false,

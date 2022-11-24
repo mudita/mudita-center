@@ -6,24 +6,24 @@
 import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { DeviceInfo, RequestConfig } from "App/device/types/mudita-os"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import {
-  BatteryState,
-  SIM,
-  SignalStrength,
-  Tray,
   AccessTechnology,
-  NetworkStatus,
+  BatteryState,
   CaseColor,
+  DeviceType,
   Endpoint,
   Method,
-  DeviceType,
+  NetworkStatus,
+  SignalStrength,
+  SIM,
+  Tray,
 } from "App/device/constants"
-import { DeviceUpdateService } from "App/update/services/device-update.service"
+import { DeviceInfo, RequestConfig } from "App/device/types/mudita-os"
 import { SettingsService } from "App/settings/services/settings.service"
-import { DeviceFileSystemService } from "App/device-file-system/services"
+import { UpdateErrorServiceErrors } from "App/update/constants"
 import { UpdateOS } from "App/update/dto"
-import { UpdateError } from "App/update/constants"
+import { DeviceUpdateService } from "App/update/services/device-update.service"
 
 // DEPRECATED
 import DeviceService from "App/__deprecated__/backend/device-service"
@@ -87,7 +87,7 @@ describe("Method: updateOs", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.CannotGetOsVersion,
+          UpdateErrorServiceErrors.CannotGetOsVersion,
           "Current os version request failed"
         )
       )
@@ -114,7 +114,7 @@ describe("Method: updateOs", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.UpdateFileUpload,
+          UpdateErrorServiceErrors.UpdateFileUpload,
           "Cannot upload /some/path/update.tar to device"
         )
       )
@@ -169,7 +169,10 @@ describe("Method: updateOs", () => {
 
     expect(result).toEqual(
       Result.failed(
-        new AppError(UpdateError.UpdateCommand, "Cannot restart device")
+        new AppError(
+          UpdateErrorServiceErrors.UpdateCommand,
+          "Cannot restart device"
+        )
       )
     )
     // AUTO DISABLED - fix me if you like :)
@@ -224,7 +227,7 @@ describe("Method: updateOs", () => {
       .mockResolvedValueOnce(
         Result.failed(
           new AppError(
-            UpdateError.RequestLimitExceeded,
+            UpdateErrorServiceErrors.RequestLimitExceeded,
             "The device no restart successful in 10 minutes"
           )
         )
@@ -235,7 +238,7 @@ describe("Method: updateOs", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.RequestLimitExceeded,
+          UpdateErrorServiceErrors.RequestLimitExceeded,
           "The device no restart successful in 10 minutes"
         )
       )
@@ -301,7 +304,7 @@ describe("Method: updateOs", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.VersionDoesntChanged,
+          UpdateErrorServiceErrors.VersionDoesntChanged,
           "The version OS isn't changed"
         )
       )

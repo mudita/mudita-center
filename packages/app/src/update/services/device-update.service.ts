@@ -3,21 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { join } from "path"
-import { ResultObject, Result } from "App/core/builder"
+import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { SettingsService } from "App/settings/services"
-import { UpdateOS } from "App/update/dto"
-import { UpdateError } from "App/update/constants"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import {
+  DeviceType,
   Endpoint,
   Method,
-  DeviceType,
   PhoneLockCategory,
 } from "App/device/constants"
-import { DeviceFileSystemService } from "App/device-file-system/services"
 import { DeviceInfo } from "App/device/types/mudita-os/serialport-request.type"
+import { SettingsService } from "App/settings/services"
+import { UpdateErrorServiceErrors } from "App/update/constants"
+import { UpdateOS } from "App/update/dto"
+import { join } from "path"
 
 // DEPRECATED
 import DeviceService from "App/__deprecated__/backend/device-service"
@@ -35,7 +35,7 @@ export class DeviceUpdateService {
     if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
         new AppError(
-          UpdateError.CannotGetOsVersion,
+          UpdateErrorServiceErrors.CannotGetOsVersion,
           "Current os version request failed"
         )
       )
@@ -54,7 +54,7 @@ export class DeviceUpdateService {
     if (!fileResponse.ok || !fileResponse.data) {
       return Result.failed(
         new AppError(
-          UpdateError.UpdateFileUpload,
+          UpdateErrorServiceErrors.UpdateFileUpload,
           `Cannot upload ${filePath} to device`
         )
       )
@@ -71,7 +71,10 @@ export class DeviceUpdateService {
 
     if (pureUpdateResponse.status !== RequestResponseStatus.Ok) {
       return Result.failed(
-        new AppError(UpdateError.UpdateCommand, "Cannot restart device")
+        new AppError(
+          UpdateErrorServiceErrors.UpdateCommand,
+          "Cannot restart device"
+        )
       )
     }
 
@@ -96,7 +99,7 @@ export class DeviceUpdateService {
     if (!deviceInfoAfterUpdateResult.ok || !deviceInfoAfterUpdateResult.data) {
       return Result.failed(
         new AppError(
-          UpdateError.CannotGetOsVersion,
+          UpdateErrorServiceErrors.CannotGetOsVersion,
           "New os version request failed"
         )
       )
@@ -108,7 +111,7 @@ export class DeviceUpdateService {
     if (beforeUpdateOsVersion === afterUpdateOsVersion) {
       return Result.failed(
         new AppError(
-          UpdateError.VersionDoesntChanged,
+          UpdateErrorServiceErrors.VersionDoesntChanged,
           "The version OS isn't changed"
         )
       )
@@ -126,7 +129,7 @@ export class DeviceUpdateService {
     if (status !== RequestResponseStatus.Ok || data === undefined) {
       return Result.failed(
         new AppError(
-          UpdateError.CannotGetDeviceInfo,
+          UpdateErrorServiceErrors.CannotGetDeviceInfo,
           error?.message || "Device info request failed"
         )
       )
@@ -156,7 +159,7 @@ export class DeviceUpdateService {
     if (index === callsMax) {
       return Result.failed(
         new AppError(
-          UpdateError.RequestLimitExceeded,
+          UpdateErrorServiceErrors.RequestLimitExceeded,
           "The device no restart successful in 10 minutes"
         )
       )
@@ -193,7 +196,7 @@ export class DeviceUpdateService {
     if (index === callsMax) {
       return Result.failed(
         new AppError(
-          UpdateError.RequestLimitExceeded,
+          UpdateErrorServiceErrors.RequestLimitExceeded,
           "The device isn't unlocked by user in 10 minutes"
         )
       )
