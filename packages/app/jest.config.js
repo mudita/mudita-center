@@ -1,5 +1,3 @@
-const { coverageThreshold } = require("./jest.coverage.json")
-
 module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
@@ -41,10 +39,16 @@ module.exports = {
     "!src/**/*.styled.{js,ts,tsx}",
     "!src/**/*.interface.{js,ts,tsx}",
     "!src/**/*.type.{js,ts,tsx}",
+    "!src/**/*.enum.{js,ts,tsx}",
     "!src/**/*.index.{js,ts,tsx}",
     "!src/**/*.d.ts",
   ],
   coverageReporters: ["lcov", "text-summary", "json-summary"],
   coverageDirectory: "coverage",
-  coverageThreshold,
+  coverageThreshold: {
+    global: {
+      lines: 75,
+      statements: 75,
+    },
+  },
 }
