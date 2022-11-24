@@ -17,8 +17,7 @@ import { useHistory } from "react-router"
 import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 import {
   PhoneCard,
-  PhoneInfo,
-  HarmonyInfo,
+  DeviceInfo,
   PureSystemButtonContainer,
   SerialNumberWrapper,
 } from "App/overview/components/device-preview/device-preview.styled"
@@ -34,6 +33,14 @@ import Text, {
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  serialNumber: { id: "module.overview.serialNumber" },
+  phoneDisconnectAction: { id: "module.overview.phoneDisconnectAction" },
+  pureSystem: { id: "module.overview.pureSystem" },
+  noSerialNumberMessage: { id: "module.overview.noSerialNumberMessage" },
+})
 
 const DeviceSystemButton = styled(Button)`
   width: auto;
@@ -63,33 +70,27 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
 
   return (
     <PhoneCard className={className} onClick={onClick}>
-      {deviceType === DeviceType.MuditaPure ? (
-        <PhoneInfo>
-          <DeviceImage caseColour={caseColour} deviceType={deviceType} />
-        </PhoneInfo>
-      ) : (
-        <HarmonyInfo>
-          <DeviceImage caseColour={caseColour} deviceType={deviceType} />
-        </HarmonyInfo>
-      )}
-      {deviceType === DeviceType.MuditaPure && (
-        <SerialNumberWrapper>
-          <Text
-            displayStyle={TextDisplayStyle.Paragraph4}
-            color="secondary"
-            message={{
-              id: "module.overview.serialNumber",
-            }}
-          />
-          <Text displayStyle={TextDisplayStyle.Paragraph1}>{serialNumber}</Text>
-        </SerialNumberWrapper>
-      )}
+      <DeviceInfo>
+        <DeviceImage caseColour={caseColour} deviceType={deviceType} />
+      </DeviceInfo>
+
+      <SerialNumberWrapper>
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
+          message={messages.serialNumber}
+        />
+        <Text displayStyle={TextDisplayStyle.Paragraph1}>
+          {serialNumber
+            ? serialNumber
+            : intl.formatMessage(messages.noSerialNumberMessage)}
+        </Text>
+      </SerialNumberWrapper>
+
       <CardAction>
         <CardActionButton
           active
-          label={intl.formatMessage({
-            id: "module.overview.phoneDisconnectAction",
-          })}
+          label={intl.formatMessage(messages.phoneDisconnectAction)}
           onClick={handleDisconnect}
           data-testid={DeviceTestIds.DisconnectButton}
         />
@@ -97,9 +98,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
       {deviceType === DeviceType.MuditaPure && (
         <PureSystemButtonContainer>
           <DeviceSystemButton
-            label={intl.formatMessage({
-              id: "module.overview.pureSystem",
-            })}
+            label={intl.formatMessage(messages.pureSystem)}
             onClick={openPureSystem}
             data-testid={DeviceTestIds.PureSystemButton}
             displayStyle={DisplayStyle.LinkWithParagraph}

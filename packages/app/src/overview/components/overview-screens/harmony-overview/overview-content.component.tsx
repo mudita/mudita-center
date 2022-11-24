@@ -24,6 +24,7 @@ interface OverviewProps {
   readonly pureOsAvailable: boolean
   readonly pureOsDownloaded: boolean | undefined
   readonly deviceType: DeviceType
+  readonly serialNumber: string | undefined
 }
 
 const OverviewContent: FunctionComponent<OverviewProps> = ({
@@ -37,12 +38,14 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   toggleDevMode,
   osVersion,
   deviceType,
+  serialNumber,
 }) => (
   <OverviewWrapper>
     <DeviceInfo
       deviceType={deviceType}
       onClick={toggleDevMode}
       onDisconnect={disconnectDevice}
+      serialNumber={serialNumber}
     />
     <StatusInfo deviceType={deviceType} batteryLevel={batteryLevel} />
     <SystemInfo

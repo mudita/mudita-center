@@ -152,6 +152,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         onUpdateCheck={check}
         onUpdateInstall={install}
         onUpdateDownload={download}
+        serialNumber={serialNumber}
       />
     </>
   )
