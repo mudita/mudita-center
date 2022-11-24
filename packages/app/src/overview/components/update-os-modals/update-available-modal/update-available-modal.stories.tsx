@@ -9,13 +9,40 @@ import Story from "App/__deprecated__/renderer/components/storybook/story.compon
 import { action } from "@storybook/addon-actions"
 import { UpdateAvailableModal } from "App/overview/components/update-os-modals/update-available-modal/update-available-modal.component"
 
-export const UpdateAvailableModalStory: FunctionComponent = () => {
+export const UpdateAvailableMultipleUpdatesModalStory: FunctionComponent =
+  () => {
+    return (
+      <Story transparentMode>
+        <UpdateAvailableModal
+          open
+          releases={[
+            {
+              version: "1.0.0",
+              date: new Date("2020-01-01 11:00"),
+            },
+            {
+              version: "1.0.1",
+              date: new Date("2020-01-01 11:00"),
+            },
+          ]}
+          onDownload={action("Close Update Available Modal")}
+          onClose={action("Close Update Available Modal")}
+        />
+      </Story>
+    )
+  }
+
+export const UpdateAvailableSingleUpdatesModalStory: FunctionComponent = () => {
   return (
     <Story transparentMode>
       <UpdateAvailableModal
         open
-        version={"1.0.0"}
-        date={"10/10/2020"}
+        releases={[
+          {
+            version: "1.0.0",
+            date: new Date("2020-01-01 11:00"),
+          },
+        ]}
         onDownload={action("Close Update Available Modal")}
         onClose={action("Close Update Available Modal")}
       />
@@ -25,5 +52,5 @@ export const UpdateAvailableModalStory: FunctionComponent = () => {
 
 export default {
   title: "Views|Overview/Update OS - Update Available Modal",
-  component: UpdateAvailableModalStory,
+  component: UpdateAvailableMultipleUpdatesModalStory,
 } as Meta

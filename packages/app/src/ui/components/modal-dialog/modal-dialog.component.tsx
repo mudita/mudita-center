@@ -9,6 +9,7 @@ import Modal from "react-modal"
 import {
   ButtonContainer,
   ButtonWrapper,
+  ModalProps,
 } from "App/__deprecated__/renderer/components/core/modal/modal.component"
 import {
   ModalSize,
@@ -30,38 +31,9 @@ import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { withTheme } from "styled-components"
-import {
-  backgroundColor,
-  zIndex as getZIndex,
-} from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import muditaTheme from "App/__deprecated__/renderer/styles/theming/theme"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { ModalDialogProps } from "App/ui/components/modal-dialog"
-
-const getModalSize = (size: ModalSize) => {
-  switch (size) {
-    case ModalSize.VerySmall:
-      return {
-        width: "27.5rem",
-        padding: "2.4rem",
-      }
-    case ModalSize.Small:
-      return {
-        width: "38rem",
-        padding: "2.4rem 2.4rem 4rem 2.4rem",
-      }
-    case ModalSize.Medium:
-      return {
-        width: "59rem",
-      }
-    case ModalSize.Large:
-      return {
-        width: "101rem",
-      }
-    default:
-      return
-  }
-}
+import { getModalDialogStyle } from "App/ui/components/modal-dialog/get-modal-dialog-style.helper"
 
 export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
   ({
@@ -92,7 +64,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
     actionButtonIcon,
     actionButtonSize,
     actionButtonDisabled,
-    theme = muditaTheme,
+    theme,
     ...props
   }) => {
     const closeModalByButtonClick = () => {
@@ -113,31 +85,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         isOpen={open}
-        style={{
-          overlay: {
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            backgroundColor: backgroundColor("modalBackdrop")({ theme }),
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            zIndex: zIndex ? zIndex : getZIndex("modalBackdrop")({ theme }),
-          },
-          content: {
-            boxSizing: "border-box",
-            marginLeft: "auto",
-            marginRight: "auto",
-            transform: "translateY(-50%)",
-            top: "50%",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "fit-content",
-            border: "none",
-            padding: "4rem 3.2rem 4.8rem 3.2rem",
-            overflow: "hidden",
-            ...getModalSize(size),
-          },
-        }}
+        style={getModalDialogStyle({ zIndex, size, theme })}
         shouldCloseOnOverlayClick={false}
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

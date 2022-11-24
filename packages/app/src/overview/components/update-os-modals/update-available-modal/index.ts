@@ -4,3 +4,5 @@
  */
 
 export * from "./update-available-modal.component"
+export { CautionSection } from "App/overview/components/update-os-modals/update-available-modal/caution-section-container.component"
+export { AboutUpdatesSection } from "App/overview/components/update-os-modals/update-available-modal/about-updates-section.component"
