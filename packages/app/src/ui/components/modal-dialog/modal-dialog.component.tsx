@@ -9,7 +9,6 @@ import Modal from "react-modal"
 import {
   ButtonContainer,
   ButtonWrapper,
-  ModalProps,
 } from "App/__deprecated__/renderer/components/core/modal/modal.component"
 import {
   ModalSize,
@@ -85,6 +84,8 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         isOpen={open}
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         style={getModalDialogStyle({ zIndex, size, theme })}
         shouldCloseOnOverlayClick={false}
         // AUTO DISABLED - fix me if you like :)

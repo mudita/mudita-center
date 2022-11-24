@@ -70,7 +70,7 @@ export const AboutUpdatesSection: FunctionComponent<
         const isLatestRelease = releases.length - 1 === index
         const displaySubDescription = !isSingleRelease && isLatestRelease
         return (
-          <UpdatesOsVersionContainer>
+          <UpdatesOsVersionContainer key={index}>
             <Text
               displayStyle={TextDisplayStyle.Label}
               color="secondary"

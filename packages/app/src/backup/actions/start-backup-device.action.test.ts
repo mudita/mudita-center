@@ -10,7 +10,7 @@ import { pendingAction } from "App/__deprecated__/renderer/store/helpers/action.
 import { BackupEvent } from "App/backup/constants"
 import { startBackupDevice } from "App/backup/actions/start-backup-device.action"
 import { createBackupRequest } from "App/backup/requests/create-backup.request"
-import { CreateDeviceBackup } from "App/backup/types"
+import { CreateBackup } from "App/backup/dto"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { AppError } from "App/core/errors"
 import { Result } from "App/core/builder"
@@ -24,9 +24,8 @@ jest.mock("App/backup/actions/load-backup-data.action", () => ({
   }),
 }))
 
-const option: CreateDeviceBackup = {
+const option: CreateBackup = {
   key: "MySuperSecretKey",
-  cwd: "",
 }
 
 afterEach(() => {
