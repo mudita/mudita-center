@@ -5,11 +5,8 @@
 
 import { DeviceType } from "App/device/constants"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import { ModalDialog } from "App/ui/components/modal-dialog"
-import { ComponentProps } from "react"
 
-export interface UpdatingForceModalFlowProps
-  extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
+export interface UpdatingForceModalFlowProps {
   state: UpdatingForceModalFlowState | undefined
   osVersion: string | undefined
   onContact: () => void
@@ -17,4 +14,5 @@ export interface UpdatingForceModalFlowProps
   updateOs: (fileName: string) => void
   deviceType: DeviceType
   batteryLevel: number
+  closeModal: () => void
 }

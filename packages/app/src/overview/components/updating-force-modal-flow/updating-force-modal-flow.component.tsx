@@ -5,13 +5,6 @@
 
 import { DeviceType } from "App/device/constants"
 import {
-  TooLowBatteryModal,
-  UpdatingFailureWithHelpModal,
-  UpdatingForceModal,
-  UpdatingSpinnerModal,
-  UpdatingSuccessModal,
-} from "App/overview/components/overview.modal-dialogs"
-import {
   ApplicationUpdateError,
   ApplicationUpdateErrorCodeMap,
 } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
@@ -21,11 +14,18 @@ import { UpdatingForceModalFlowProps } from "App/overview/components/updating-fo
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import logger from "App/__deprecated__/main/utils/logger"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { downloadOsUpdateRequest } from "App/__deprecated__/update"
-import { getLatestReleaseRequest } from "App/update/requests"
+import {
+  downloadOsUpdateRequest,
+  getLatestReleaseRequest,
+} from "App/update/requests"
 import { Release } from "App/update/dto"
 import { Product } from "App/update/constants"
 import React, { useEffect, useState } from "react"
+import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/updating-spinner-modal"
+import { UpdatingFailureWithHelpModal } from "App/overview/components/update-os-modals/updating-failure-with-help-modal"
+import { UpdatingSuccessModal } from "App/overview/components/update-os-modals/updating-success-modal"
+import { TooLowBatteryModal } from "App/overview/components/update-os-modals/too-low-battery-modal"
+import { UpdatingForceModal } from "App/overview/components/update-os-modals/update-force-modal"
 
 const UpdatingForceModalFlow: FunctionComponent<
   UpdatingForceModalFlowProps
@@ -150,7 +150,7 @@ const UpdatingForceModalFlow: FunctionComponent<
         open={
           updatingForceOpenState === UpdatingForceModalFlowState.TooLowBattery
         }
-        onCancel={backToInfoModal}
+        onClose={backToInfoModal}
         deviceType={deviceType}
       />
       <UpdatingSpinnerModal
@@ -161,13 +161,13 @@ const UpdatingForceModalFlow: FunctionComponent<
         testId={UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal}
         onContact={onContact}
         onHelp={onHelp}
-        closeModal={backToInfoModal}
+        onClose={backToInfoModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Fail}
       />
       <UpdatingSuccessModal
         testId={UpdatingForceModalFlowTestIds.UpdatingSuccessModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Success}
-        closeModal={closeModal}
+        onClose={closeModal}
       />
     </>
   )

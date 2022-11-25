@@ -5,7 +5,6 @@
 
 import { DownloadingUpdateFinishedModalProps } from "App/overview/components/update-os-modals/downloading-update-finished-modal/downloading-update-finished-modal.interface"
 import { OSUpdateModal } from "App/overview/components/update-os-modals/os-update-modal"
-import { OverviewModalsTestIds } from "App/overview/components/overview-modals-test-ids.enum"
 import { ModalMainText, RoundIconWrapper } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
@@ -44,7 +43,6 @@ export const DownloadingUpdateFinishedModal: FunctionComponent<
     onActionButtonClick={onOsUpdate}
     actionButtonLabel={intl.formatMessage(messages.downloadCompletedButton)}
     closeButtonLabel={intl.formatMessage(messages.downloadCompletedCloseButton)}
-    data-testid={OverviewModalsTestIds.DownloadingUpdateFinishedModal}
   >
     <RoundIconWrapper>
       <Icon type={IconType.Download} width={3.2} />
