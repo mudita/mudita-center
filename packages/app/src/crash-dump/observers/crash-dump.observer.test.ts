@@ -29,11 +29,6 @@ describe("Crash Dump Observer: observe", () => {
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
-        // const deviceService = {
-        //   on: (eventName: DeviceServiceEventName, listener: () => void) => {
-        //     eventEmitterMock.on(eventName, listener)
-        //   },
-        // } as unknown as DeviceService
         crashDumpService = {
           getDeviceCrashDumpFiles: jest.fn().mockReturnValue({ data: [] }),
         } as unknown as CrashDumpService

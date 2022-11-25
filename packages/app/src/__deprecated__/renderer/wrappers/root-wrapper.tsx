@@ -38,7 +38,7 @@ import { loadDeviceData, setAgreementStatus } from "App/device"
 import {
   loadSettings,
   setLatestVersion,
-  toggleUpdateAvailable,
+  toggleApplicationUpdateAvailable,
   checkUpdateAvailable,
 } from "App/settings/actions"
 import {
@@ -62,7 +62,7 @@ interface Props {
   history: History
   // TODO remove legacy staff
   checkUpdateAvailable: () => void
-  toggleUpdateAvailable: (value: boolean) => void
+  toggleApplicationUpdateAvailable: (value: boolean) => void
   setLatestVersion: (value: string) => void
   loadSettings: () => void
   loadDeviceData: () => void
@@ -78,7 +78,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   getCurrentDevice,
   // TODO remove legacy staff
   checkUpdateAvailable,
-  toggleUpdateAvailable,
+  toggleApplicationUpdateAvailable,
   setLatestVersion,
   loadSettings,
   loadDeviceData,
@@ -130,7 +130,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   const handleAppUpdateAvailableCheck = (): void => {
     if (!window.navigator.onLine) {
-      toggleUpdateAvailable(false)
+      toggleApplicationUpdateAvailable(false)
     } else {
       checkUpdateAvailable()
     }
@@ -186,7 +186,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
-      toggleUpdateAvailable(true)
+      toggleApplicationUpdateAvailable(true)
       setLatestVersion(version as string)
     })
 
@@ -195,7 +195,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerNotAvailableAppUpdateListener(() => {
-      toggleUpdateAvailable(false)
+      toggleApplicationUpdateAvailable(false)
     })
 
     return () => unregister()
@@ -244,7 +244,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
 const mapDispatchToProps = {
   loadDeviceData,
   checkUpdateAvailable,
-  toggleUpdateAvailable,
+  toggleApplicationUpdateAvailable,
   setLatestVersion,
   loadSettings,
   setAgreementStatus,

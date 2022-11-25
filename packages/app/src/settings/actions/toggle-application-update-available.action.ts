@@ -7,7 +7,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { SettingsEvent } from "App/settings/constants"
 import { checkAppUpdateFlowToShow } from "App/modals-manager/actions"
 
-export const toggleUpdateAvailable = createAsyncThunk<boolean, boolean>(
+export const toggleApplicationUpdateAvailable = createAsyncThunk<
+  boolean,
+  boolean
+>(
   SettingsEvent.ToggleUpdateAvailable,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await

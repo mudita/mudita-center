@@ -16,9 +16,7 @@ import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  public devicesMap: Map<string, Device> = new Map()
+  public devicesMap = new Map<string, Device>()
 
   constructor(
     private deviceResolver: DeviceResolverService,
@@ -37,13 +35,7 @@ export class DeviceManager {
   }
 
   get devices(): Device[] {
-    const deviceList: Device[] = []
-
-    this.devicesMap.forEach((value) => {
-      deviceList.push(value)
-    })
-
-    return deviceList
+    return Array.from(this.devicesMap.values())
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
@@ -74,9 +66,7 @@ export class DeviceManager {
 
     if (this.currentDevice?.path === path) {
       if (this.devicesMap.size > 0) {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        this.currentDevice = this.devicesMap.values().next().value
+        this.currentDevice = this.devicesMap.values().next().value as Device
       } else {
         this.currentDevice = undefined
       }
