@@ -6,8 +6,8 @@
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
 import path from "path"
-import { Release } from "App/__deprecated__/update/types"
 import getAppSettingsMain from "App/__deprecated__/main/functions/get-app-settings"
+import { Release } from "App/update/dto"
 
 export const osUpdateAlreadyDownloadedChannel = "os-update-exists-check"
 

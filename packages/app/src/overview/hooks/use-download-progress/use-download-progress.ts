@@ -7,11 +7,11 @@ import {
   registerDownloadProgressListener,
   removeDownloadProgressListener,
 } from "App/overview/listeners/download-progress.listener"
+import { cancelOsDownload } from "App/update/requests"
 import {
   DownloadProgress,
   DownloadStatus,
 } from "App/__deprecated__/renderer/interfaces/file-download.interface"
-import { cancelOsDownload } from "App/__deprecated__/update"
 import { useEffect, useState } from "react"
 
 interface Result {

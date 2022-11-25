@@ -15,6 +15,4 @@ export interface Release {
     name: string
     size: number
   }
-  // TODO [mw] not needed. Scope of the next PR's - as soon as system-update.hook.tsx is removed
-  devMode?: boolean
 }

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { downloadOsUpdateRequest } from "App/__deprecated__/update/requests/download-os-update.request"
+import { downloadOsUpdateRequest } from "App/update/requests/download-os-update.request"
 import { ipcRenderer } from "electron-better-ipc"
 import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
