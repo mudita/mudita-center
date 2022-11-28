@@ -15,14 +15,11 @@ import { DataSyncEvent } from "App/data-sync/constants"
 
 jest.mock("App/metadata")
 const state = {
-  device: {
-    updatingState: null,
-  },
   backup: {
     restoringState: State.Initial,
   },
   update: {
-    updatingState: null,
+    updateOsState: null,
   },
 }
 
@@ -89,11 +86,12 @@ describe("async `setConnectionStatus` ", () => {
     })
   })
 
-  describe("when `updatingState` in `device` is set to `Loading`", () => {
+  describe("when `updateOsState` in `device` is set to `Loading`", () => {
     test("do not call `setInitState`", async () => {
       const store = createMockStore([thunk])({
+        ...state,
         update: {
-          updatingState: State.Loading,
+          updateOsState: State.Loading,
         },
       })
 
@@ -118,7 +116,7 @@ describe("async `setConnectionStatus` ", () => {
     test("do not call `setValue`", async () => {
       const store = createMockStore([thunk])({
         device: {
-          updatingState: State.Loading,
+          updateOsState: State.Loading,
         },
       })
 
