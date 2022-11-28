@@ -7,6 +7,8 @@ import { downloadOsUpdateRequest } from "App/__deprecated__/update/requests/down
 import { ipcRenderer } from "electron-better-ipc"
 import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import { Result } from "App/core/builder"
+import { AppError } from "App/core/errors"
 
 test("successful download returns data", async () => {
   const data = {
@@ -23,19 +25,16 @@ test("successful download returns data", async () => {
     url: "mudita.com/releases-example",
     fileName: "pure-os.tar",
   })
-  expect(result).toStrictEqual(data)
+  expect(result).toStrictEqual(Result.success(data))
 })
 
 test.each([
-  [
-    DownloadStatus.Interrupted,
-    "There was a problem when downloading OS update",
-  ],
-  [DownloadStatus.Cancelled, "There was a problem when downloading OS update"],
-  [DownloadStatus.Paused, "There was a problem when downloading OS update"],
+  DownloadStatus.Interrupted,
+  DownloadStatus.Cancelled,
+  DownloadStatus.Paused,
 ])(
-  "test cases for failing the download request with status: %s,  returns error: %s",
-  async (downloadStatus, errorMessage) => {
+  "test cases for failing the download request with status: %s,  returns error",
+  async (downloadStatus) => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     ;(ipcRenderer as any).__rendererCalls = {
@@ -43,11 +42,12 @@ test.each([
         status: downloadStatus,
       },
     }
-    await expect(
-      downloadOsUpdateRequest({
-        url: "mudita.com/releases-example",
-        fileName: "pure-os.tar",
-      })
-    ).rejects.toThrowError(errorMessage)
+
+    const result = await downloadOsUpdateRequest({
+      url: "mudita.com/releases-example",
+      fileName: "pure-os.tar",
+    })
+
+    expect(result).toEqual(Result.failed(new AppError("", ""), downloadStatus))
   }
 )

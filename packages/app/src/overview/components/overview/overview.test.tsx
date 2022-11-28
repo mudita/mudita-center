@@ -20,6 +20,7 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { flags } from "App/feature-flags"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { DownloadState } from "App/update/constants"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -128,6 +129,17 @@ const defaultProps: Props = {
   caseColour: CaseColor.Gray,
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),
+  abortDownload: jest.fn(),
+  allReleases: [],
+  checkForUpdate: jest.fn(),
+  checkingForUpdateState: State.Initial,
+  clearUpdateState: jest.fn(),
+  downloadingState: DownloadState.Initial,
+  downloadUpdate: jest.fn(),
+  releaseAvailableForUpdate: null,
+  silentCheckForUpdate: jest.fn(),
+  silentUpdateCheck: false,
+  updateOsError: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {

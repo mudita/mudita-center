@@ -8,7 +8,11 @@ import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { ReleaseService } from "App/update/services/releases.service"
 import { ReleaseManifest } from "App/update/dto"
-import { Product, ReleaseType, UpdateError } from "App/update/constants"
+import {
+  Product,
+  ReleaseType,
+  UpdateErrorServiceErrors,
+} from "App/update/constants"
 
 let executionCount = 0
 const clientMock = {
@@ -97,7 +101,7 @@ describe("Method: `getAllReleases`", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.GetAllRelease,
+          UpdateErrorServiceErrors.GetAllRelease,
           "Fail during retrieving of the release"
         )
       )
@@ -131,7 +135,7 @@ describe("Method: `getRelease`", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.GetAllRelease,
+          UpdateErrorServiceErrors.GetAllRelease,
           "Fail during retrieving of the release"
         )
       )

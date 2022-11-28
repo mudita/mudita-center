@@ -3,13 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createAction, PayloadAction } from "@reduxjs/toolkit"
+import { createAction } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
 import { UpdateOsEvent } from "App/update/constants"
 
 export const setUpdateState = createAction<State>(UpdateOsEvent.SetUpdateState)
-
-export type SetUpdateStateAction = PayloadAction<
-  State,
-  UpdateOsEvent.SetUpdateState
->
+export const clearState = createAction(UpdateOsEvent.ClearState)
+export const cancelDownload = createAction(UpdateOsEvent.CancelDownload)

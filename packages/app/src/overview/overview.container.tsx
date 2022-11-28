@@ -8,7 +8,7 @@ import Overview from "App/overview/components/overview/overview.component"
 import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
 import { RootModel } from "App/__deprecated__/renderer/models/models"
 import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
-import { PureDeviceData, disconnectDevice } from "App/device"
+import { PureDeviceData, disconnectDevice, DeviceType } from "App/device"
 import { lastBackupDateSelector } from "App/backup/selectors"
 import {
   startBackupDevice,
@@ -20,8 +20,16 @@ import { RestoreBackup } from "App/backup/dto"
 import { ModalStateKey, showModal } from "App/modals-manager"
 import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 import { getDeviceLatestVersion } from "App/settings/selectors"
-import { setUpdateState, startUpdateOs } from "App/update/actions"
+import {
+  checkForUpdate,
+  downloadUpdate,
+  setUpdateState,
+  startUpdateOs,
+  clearState,
+  cancelDownload,
+} from "App/update/actions"
 import { State } from "App/core/constants"
+import { Release } from "App/update/dto"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -42,7 +50,13 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     ...state.devMode,
     syncState: state.dataSync.state,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
-    updatingState: state.update.updatingState,
+    updatingState: state.update.updateOsState,
+    checkingForUpdateState: state.update.checkForUpdateState,
+    releaseAvailableForUpdate: state.update.data.releaseAvailableForUpdate,
+    downloadingState: state.update.downloadState,
+    allReleases: state.update.data.allReleases,
+    updateOsError: state.update.error,
+    silentUpdateCheck: state.update.silentUpdateCheck,
   }
 }
 
@@ -86,6 +100,23 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   updateAllIndexes: () => dispatch(updateAllIndexes()),
+  checkForUpdate: (deviceType: DeviceType) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(checkForUpdate({ deviceType, isSilentCheck: false })),
+  silentCheckForUpdate: (deviceType: DeviceType) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(checkForUpdate({ deviceType, isSilentCheck: true })),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  downloadUpdate: (release: Release) => dispatch(downloadUpdate({ release })),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  clearUpdateState: () => dispatch(clearState()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  abortDownload: () => dispatch(cancelDownload()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

@@ -21,7 +21,7 @@ export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
       dispatch(setDataSyncInitState())
     }
 
-    if (state.update.updatingState === State.Loading) {
+    if (state.update.updateOsState === State.Loading) {
       return payload
     }
 

@@ -4,4 +4,6 @@
  */
 
 export * from "./start-update-os/start-update-os.action"
+export * from "./check-for-update/check-for-update.action"
+export * from "./download-update/download-update.action"
 export * from "./base.action"

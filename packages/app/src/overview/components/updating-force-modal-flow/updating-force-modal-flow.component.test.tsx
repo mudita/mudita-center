@@ -11,13 +11,13 @@ import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
+import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.enum"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import {
   IpcReleaseRequest,
   ReleaseType,
-  UpdateError,
+  UpdateErrorServiceErrors,
 } from "App/update/constants"
 import { Release } from "App/update/dto"
 import { waitFor } from "@testing-library/dom"
@@ -143,7 +143,7 @@ test("failure modal is display if no is latestRelease", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcReleaseRequest.GetLatestRelease]: Result.failed(
       new AppError(
-        UpdateError.GetAllRelease,
+        UpdateErrorServiceErrors.GetAllRelease,
         "Fail during retrieving of the release"
       )
     ),
@@ -212,7 +212,7 @@ test("failure modal is display if failure download os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcReleaseRequest.GetLatestRelease]: Result.failed(
       new AppError(
-        UpdateError.GetAllRelease,
+        UpdateErrorServiceErrors.GetAllRelease,
         "Fail during retrieving of the release"
       )
     ),
