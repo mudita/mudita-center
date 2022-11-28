@@ -7,4 +7,5 @@ export interface UpdateNotAvailableModalProps {
   version: string
   open: boolean
   onClose: () => void
+  testId?: string
 }

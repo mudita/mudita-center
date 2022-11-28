@@ -9,4 +9,5 @@ export interface UpdateAvailableModalProps {
   version: string
   date: string
   open: boolean
+  testId?: string
 }

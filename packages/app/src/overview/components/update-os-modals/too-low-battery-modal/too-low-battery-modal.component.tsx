@@ -38,9 +38,11 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
   deviceType,
   onClose,
   open,
+  testId,
 }) => {
   return (
     <OSUpdateModal
+      testId={testId}
       open={open}
       closeButton
       closeable

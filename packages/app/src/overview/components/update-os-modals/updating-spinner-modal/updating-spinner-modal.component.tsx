@@ -24,9 +24,10 @@ const messages = defineMessages({
 
 export const UpdatingSpinnerModal: FunctionComponent<
   UpdatingSpinnerModalProps
-> = ({ open }) => {
+> = ({ open, testId }) => {
   return (
     <LoaderModal
+      testId={testId}
       open={open}
       title={intl.formatMessage(messages.muditaOsUpdateTitle)}
       subtitle={intl.formatMessage(messages.updatingProgressTitle)}

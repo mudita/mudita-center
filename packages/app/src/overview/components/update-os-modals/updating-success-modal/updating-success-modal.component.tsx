@@ -25,8 +25,9 @@ const messages = defineMessages({
 
 export const UpdatingSuccessModal: FunctionComponent<
   UpdatingSuccessModalProps
-> = ({ open, onClose }) => (
+> = ({ open, onClose, testId }) => (
   <OSUpdateModal
+    testId={testId}
     open={open}
     closeable
     closeButton

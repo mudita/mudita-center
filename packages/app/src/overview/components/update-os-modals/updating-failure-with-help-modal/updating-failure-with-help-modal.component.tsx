@@ -35,9 +35,11 @@ export const UpdatingFailureWithHelpModal: FunctionComponent<
   onHelp,
   onClose,
   open,
+  testId,
 }: UpdatingFailureWithHelpModalProps) => {
   return (
     <ErrorModal
+      testId={testId}
       open={open}
       closeButton
       closeable

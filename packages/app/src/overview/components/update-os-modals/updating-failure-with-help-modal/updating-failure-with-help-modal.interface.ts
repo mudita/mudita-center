@@ -8,4 +8,5 @@ export interface UpdatingFailureWithHelpModalProps {
   onClose: () => void
   onContact: () => void
   onHelp: () => void
+  testId?: string
 }

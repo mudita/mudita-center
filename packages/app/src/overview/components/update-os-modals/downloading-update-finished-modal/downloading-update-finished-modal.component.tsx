@@ -34,13 +34,13 @@ const messages = defineMessages({
 
 export const DownloadingUpdateFinishedModal: FunctionComponent<
   DownloadingUpdateFinishedModalProps
-> = ({ onOsUpdate, open, onClose }) => (
+> = ({ onOsUpdate, open, onClose, testId }) => (
   <OSUpdateModal
+    testId={testId}
     open={open}
     closeButton
     closeable
     closeModal={onClose}
-    onClose={onClose}
     onActionButtonClick={onOsUpdate}
     actionButtonLabel={intl.formatMessage(messages.downloadCompletedButton)}
     closeButtonLabel={intl.formatMessage(messages.downloadCompletedCloseButton)}

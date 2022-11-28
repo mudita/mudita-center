@@ -30,9 +30,10 @@ const messages = defineMessages({
 
 export const UpdateNotAvailableModal: FunctionComponent<
   UpdateNotAvailableModalProps
-> = ({ version, open, onClose }) => (
+> = ({ version, open, onClose, testId }) => (
   <OSUpdateModal
     open={open}
+    testId={testId}
     closeable
     closeButton
     closeModal={onClose}

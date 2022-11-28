@@ -42,7 +42,7 @@ const messages = defineMessages({
 
 export const DownloadingUpdateModal: FunctionComponent<
   DownloadingUpdateModalProps
-> = ({ percent, speed, timeLeft, open, onCancel }) => {
+> = ({ percent, speed, timeLeft, open, onCancel, testId }) => {
   const starting = <FormattedMessage {...messages.downloadingUpdateStarting} />
   const downloading = (
     <FormattedMessage
@@ -58,6 +58,7 @@ export const DownloadingUpdateModal: FunctionComponent<
   )
   return (
     <OSUpdateModal
+      testId={testId}
       open={open}
       closeable={false}
       closeButton={false}
