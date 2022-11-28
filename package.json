@@ -4,6 +4,7 @@
   "productName": "Mudita Center",
   "private": true,
   "scripts": {
+    "pre-commit": "lint-staged",
     "setup": "npm install && npm run bootstrap:local",
     "bootstrap:local": "lerna bootstrap",
     "bootstrap:ci": "lerna bootstrap --no-ci",
