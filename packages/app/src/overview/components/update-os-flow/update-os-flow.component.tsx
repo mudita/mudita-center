@@ -21,7 +21,7 @@ import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/u
 import { UpdatingSuccessModal } from "App/overview/components/update-os-modals/updating-success-modal"
 import { useDevUpdate, useDownloadProgress } from "App/overview/hooks"
 import { DownloadState, ReleaseType, UpdateError } from "App/update/constants"
-import { cancelOsDownload } from "App/__deprecated__/update"
+import { cancelOsDownload } from "App/update/requests"
 import React, { FunctionComponent } from "react"
 
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({

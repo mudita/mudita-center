@@ -4,8 +4,8 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { osUpdateAlreadyDownloadedChannel } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
-import { Release } from "App/__deprecated__/update/types"
+import { osUpdateAlreadyDownloadedChannel } from "App/update/requests/register-os-update-already-downloaded-checker.request"
+import { Release } from "App/update/dto"
 
 export const osUpdateAlreadyDownloadedCheck = (
   file: Release["file"]

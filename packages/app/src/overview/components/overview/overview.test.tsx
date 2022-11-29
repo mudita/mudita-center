@@ -108,9 +108,7 @@ const defaultProps: Props = {
   networkLevel: 0,
   deviceType: DeviceType.MuditaPure,
   lowestSupportedOsVersion: undefined,
-  lastAvailableOsVersion: "",
   lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
-  pureOsDownloaded: false,
   setUpdateState: jest.fn(),
   startUpdateOs: jest.fn(),
   batteryLevel: 0,
@@ -119,7 +117,6 @@ const defaultProps: Props = {
   osVersion: "1.0.0",
   pureOsBackupLocation: "path/location/backup",
   serialNumber: undefined,
-  updatePhoneOsInfo: jest.fn(),
   updatingState: State.Initial,
   memorySpace: {
     reservedSpace: 100,

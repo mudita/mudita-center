@@ -35,6 +35,7 @@ const defaultProps: Props = {
   onHelp: jest.fn(),
   updateOs: jest.fn(),
   batteryLevel: 0.6,
+  closeModal: jest.fn(),
 }
 
 const release: Release = {

@@ -12,8 +12,8 @@ import {
 } from "App/__deprecated__/api/mudita-center-server/client.interface"
 import { MuditaCenterServerRoutes } from "App/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
 import { NewsEntry } from "App/news/dto"
-import { Release } from "App/__deprecated__/update"
 import { Product, ReleaseSpace } from "App/__deprecated__/main/constants"
+import { Release } from "App/update/dto"
 
 export interface getLatestProductionReleaseParams {
   product: Product

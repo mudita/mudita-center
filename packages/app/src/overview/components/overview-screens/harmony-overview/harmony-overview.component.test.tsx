@@ -16,6 +16,7 @@ import { UpdatingForceModalFlowProps } from "App/overview/components/updating-fo
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import { flags } from "App/feature-flags"
 import { State } from "App/core/constants"
+import { DownloadState } from "App/update/constants"
 
 jest.mock("App/feature-flags")
 
@@ -33,17 +34,25 @@ type Props = ComponentProps<typeof HarmonyOverview>
 
 const defaultProps: Props = {
   lowestSupportedOsVersion: "",
-  lastAvailableOsVersion: "",
   batteryLevel: undefined,
   osVersion: "1.0.0",
-  pureOsDownloaded: false,
   updatingState: State.Initial,
   serialNumber: undefined,
   startUpdateOs: jest.fn(),
   setUpdateState: jest.fn(),
-  updatePhoneOsInfo: jest.fn(),
   disconnectDevice: jest.fn(),
   openContactSupportFlow: jest.fn(),
+  abortDownload: jest.fn(),
+  allReleases: [],
+  checkForUpdate: jest.fn(),
+  checkingForUpdateState: State.Initial,
+  clearUpdateState: jest.fn(),
+  downloadingState: DownloadState.Initial,
+  downloadUpdate: jest.fn(),
+  releaseAvailableForUpdate: null,
+  silentCheckForUpdate: jest.fn(),
+  silentUpdateCheck: false,
+  updateOsError: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {

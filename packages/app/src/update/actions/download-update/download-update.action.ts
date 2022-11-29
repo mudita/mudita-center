@@ -8,12 +8,12 @@ import { AppError } from "App/core/errors"
 import { UpdateError, UpdateOsEvent } from "App/update/constants"
 import { Release } from "App/update/dto"
 import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
-import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import {
   downloadOsUpdateRequest,
   osUpdateAlreadyDownloadedCheck,
-} from "App/__deprecated__/update"
+} from "App/update/requests"
+import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 interface Params {
   release: Release

@@ -3,4 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./map-to-release.helper"
+export interface UpdatingForceModalProps {
+  open: boolean
+  testId?: string
+  onActionButtonClick: () => void
+}
