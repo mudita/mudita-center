@@ -3,20 +3,45 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { OSUpdateModal } from "App/overview/components/update-os-modals/os-update-modal"
+import React from "react"
+import { defineMessages } from "react-intl"
+import styled from "styled-components"
+import Modal from "react-modal"
 import { UpdateAvailableModalProps } from "App/overview/components/update-os-modals/update-available-modal/update-available-modal.interface"
-import { ModalMainText, RoundIconWrapper } from "App/ui/components/modal-dialog"
+import {
+  getModalDialogStyle,
+  ModalMainText,
+  RoundIconWrapper,
+} from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import {
+  ModalSize,
+  TitleOrder,
+} from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import {
+  Close,
+  Header,
+  ModalTitle,
+} from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
+import {
+  DisplayStyle,
+  Size,
+} from "App/__deprecated__/renderer/components/core/button/button.config"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
+import { getTitleStyle } from "App/__deprecated__/renderer/components/core/modal/modal.helpers"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { intl } from "App/__deprecated__/renderer/utils/intl"
-import React from "react"
-import { defineMessages } from "react-intl"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
+import { CautionSection } from "App/overview/components/update-os-modals/update-available-modal/caution-section.component"
+import { AboutUpdatesSection } from "App/overview/components/update-os-modals/update-available-modal/about-updates-section.component"
 
 const messages = defineMessages({
+  muditaOsUpdateTitle: {
+    id: "module.overview.muditaOsUpdateTitle",
+  },
   updateAvailableMessage: {
     id: "module.overview.updateAvailableMessage",
   },
@@ -28,39 +53,78 @@ const messages = defineMessages({
   },
 })
 
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > p {
+    text-align: center;
+    line-height: 1.4;
+    white-space: pre-wrap;
+  }
+`
+
 export const UpdateAvailableModal: FunctionComponent<
   UpdateAvailableModalProps
-> = ({ onDownload, version, date, open, onClose, testId }) => (
-  <OSUpdateModal
-    testId={testId}
-    open={open}
-    closeButton={false}
-    closeable
-    actionButtonLabel={intl.formatMessage(messages.updateAvailableButton)}
-    onActionButtonClick={onDownload}
-    closeModal={onClose}
-  >
-    <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={3.2} />
-    </RoundIconWrapper>
-    <ModalMainText
-      displayStyle={TextDisplayStyle.Headline4}
-      message={messages.updateAvailableMessage}
-    />
-    <Text
-      displayStyle={TextDisplayStyle.Paragraph4}
-      color="secondary"
-      message={{
-        ...messages.updateAvailableDescription,
-        values: {
-          version,
-          date: new Date(date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          }),
-        },
-      }}
-    />
-  </OSUpdateModal>
-)
+> = ({ open = false, releases, onClose, onDownload, testId }) => {
+  return (
+    <Modal
+      testId={testId}
+      isOpen={open}
+      style={getModalDialogStyle({ size: ModalSize.Medium })}
+      shouldCloseOnOverlayClick={false}
+      onAfterClose={onClose}
+    >
+      <Header
+        titleOrder={TitleOrder.TitleFirst}
+        subtitleGap={false}
+        data-testid={ModalTestIds.Header}
+      >
+        <ModalTitle
+          displayStyle={getTitleStyle(ModalSize.Small)}
+          element={"h2"}
+          data-testid={ModalTestIds.Title}
+          message={messages.muditaOsUpdateTitle}
+        />
+        <Close
+          displayStyle={DisplayStyle.IconOnly}
+          Icon={IconType.Close}
+          data-testid={ModalTestIds.CloseButton}
+        />
+      </Header>
+      <ModalContent>
+        <RoundIconWrapper>
+          <Icon type={IconType.Pure} width={3.2} />
+        </RoundIconWrapper>
+        <ModalMainText
+          displayStyle={TextDisplayStyle.Headline4}
+          message={{
+            ...messages.updateAvailableMessage,
+            values: { num: releases.length },
+          }}
+        />
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
+          message={{
+            ...messages.updateAvailableDescription,
+            values: { num: releases.length },
+          }}
+        />
+        <AboutUpdatesSection releases={releases} />
+        <Button
+          displayStyle={DisplayStyle.Primary}
+          size={Size.FixedSmall}
+          labelMessage={{
+            ...messages.updateAvailableButton,
+            values: { num: releases.length },
+          }}
+          onClick={onDownload}
+          data-testid={ModalTestIds.ModalActionButton}
+        />
+        <CautionSection isSingleRelease={releases.length === 1} />
+      </ModalContent>
+    </Modal>
+  )
+}
