@@ -48,23 +48,15 @@ export const CautionSection: FunctionComponent<CautionSectionProps> = ({
         color="primary"
         message={messages.updateAvailableCautionSectionTitle}
       />
-      {isSingleRelease ? (
-        <Text
-          displayStyle={TextDisplayStyle.Label}
-          color="primary"
-          message={
-            messages.updateAvailableSingleUpdateDescription
-          }
-        />
-      ) : (
-        <Text
-          displayStyle={TextDisplayStyle.Label}
-          color="primary"
-          message={
-            messages.updateAvailableSequenceUpdateDescription
-          }
-        />
-      )}
+      <Text
+        displayStyle={TextDisplayStyle.Label}
+        color="primary"
+        message={
+          isSingleRelease
+            ? messages.updateAvailableSingleUpdateDescription
+            : messages.updateAvailableSequenceUpdateDescription
+        }
+      />
     </CautionSectionContainer>
   )
 }
