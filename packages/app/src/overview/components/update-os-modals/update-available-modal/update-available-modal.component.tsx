@@ -35,8 +35,9 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
-import { CautionSection } from "App/overview/components/update-os-modals/update-available-modal/caution-section-container.component"
+import { CautionSection } from "App/overview/components/update-os-modals/update-available-modal/caution-section.component"
 import { AboutUpdatesSection } from "App/overview/components/update-os-modals/update-available-modal/about-updates-section.component"
+import { textFormatters } from "App/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
@@ -98,18 +99,27 @@ export const UpdateAvailableModal: FunctionComponent<
         </RoundIconWrapper>
         <ModalMainText
           displayStyle={TextDisplayStyle.Headline4}
-          message={messages.updateAvailableMessage}
+          message={{
+            ...messages.updateAvailableMessage,
+            values: { num: releases.length },
+          }}
         />
         <Text
           displayStyle={TextDisplayStyle.Paragraph4}
           color="secondary"
-          message={messages.updateAvailableDescription}
+          message={{
+            ...messages.updateAvailableDescription,
+            values: { num: releases.length },
+          }}
         />
         <AboutUpdatesSection releases={releases} />
         <Button
           displayStyle={DisplayStyle.Primary}
           size={Size.FixedSmall}
-          labelMessage={messages.updateAvailableButton}
+          labelMessage={{
+            ...messages.updateAvailableButton,
+            values: { num: releases.length },
+          }}
           onClick={onDownload}
           data-testid={ModalTestIds.ModalActionButton}
         />

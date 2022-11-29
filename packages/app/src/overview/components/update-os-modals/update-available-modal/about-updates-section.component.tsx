@@ -16,11 +16,11 @@ const messages = defineMessages({
   updateAvailableAboutUpdatesTitle: {
     id: "module.overview.updateAvailableAboutUpdatesTitle",
   },
-  updateAvailableAboutUpdatesOsVersionDescription: {
-    id: "module.overview.updateAvailableAboutUpdatesOsVersionDescription",
+  updateAvailableOsVersionDescription: {
+    id: "module.overview.updateAvailableOsVersionDescription",
   },
-  updateAvailableAboutUpdatesTargetOsVersionSubDescription: {
-    id: "module.overview.updateAvailableAboutUpdatesTargetOsVersionSubDescription",
+  updateAvailableAboutOsVersionSubDescription: {
+    id: "module.overview.updateAvailableAboutOsVersionSubDescription",
   },
 })
 interface Release {
@@ -63,7 +63,10 @@ export const AboutUpdatesSection: FunctionComponent<
       <AboutUpdatesSectionTitle
         displayStyle={TextDisplayStyle.Label}
         color="primary"
-        message={messages.updateAvailableAboutUpdatesTitle}
+        message={{
+          ...messages.updateAvailableAboutUpdatesTitle,
+          values: { num: releases.length },
+        }}
       />
       {releases.map(({ version, date }, index) => {
         const isSingleRelease = releases.length === 1
@@ -75,7 +78,7 @@ export const AboutUpdatesSection: FunctionComponent<
               displayStyle={TextDisplayStyle.Label}
               color="secondary"
               message={{
-                ...messages.updateAvailableAboutUpdatesOsVersionDescription,
+                ...messages.updateAvailableOsVersionDescription,
                 values: {
                   version,
                   date: new Date(date).toLocaleDateString("en-US", {
@@ -90,9 +93,8 @@ export const AboutUpdatesSection: FunctionComponent<
               <Text
                 displayStyle={TextDisplayStyle.Label}
                 color="tabHover"
-                // color="primary"
                 message={
-                  messages.updateAvailableAboutUpdatesTargetOsVersionSubDescription
+                  messages.updateAvailableAboutOsVersionSubDescription
                 }
               />
             )}

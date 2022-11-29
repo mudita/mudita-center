@@ -15,11 +15,11 @@ const messages = defineMessages({
   updateAvailableCautionSectionTitle: {
     id: "module.overview.updateAvailableCautionSectionTitle",
   },
-  updateAvailableCautionSectionSequenceUpdateDescription: {
-    id: "module.overview.updateAvailableCautionSectionSequenceUpdateDescription",
+  updateAvailableSequenceUpdateDescription: {
+    id: "module.overview.updateAvailableSequenceUpdateDescription",
   },
-  updateAvailableCautionSectionSingleUpdateDescription: {
-    id: "module.overview.updateAvailableCautionSectionSingleUpdateDescription",
+  updateAvailableSingleUpdateDescription: {
+    id: "module.overview.updateAvailableSingleUpdateDescription",
   },
 })
 
@@ -53,7 +53,7 @@ export const CautionSection: FunctionComponent<CautionSectionProps> = ({
           displayStyle={TextDisplayStyle.Label}
           color="primary"
           message={
-            messages.updateAvailableCautionSectionSingleUpdateDescription
+            messages.updateAvailableSingleUpdateDescription
           }
         />
       ) : (
@@ -61,7 +61,7 @@ export const CautionSection: FunctionComponent<CautionSectionProps> = ({
           displayStyle={TextDisplayStyle.Label}
           color="primary"
           message={
-            messages.updateAvailableCautionSectionSequenceUpdateDescription
+            messages.updateAvailableSequenceUpdateDescription
           }
         />
       )}
