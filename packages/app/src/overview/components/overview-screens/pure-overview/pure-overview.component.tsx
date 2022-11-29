@@ -3,68 +3,36 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import React, { useEffect, useState } from "react"
-import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
-import useSystemUpdateFlow from "App/overview/helpers/system-update.hook"
-import logger from "App/__deprecated__/main/utils/logger"
+import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
+import { State } from "App/core/constants"
+import { SynchronizationState } from "App/data-sync/reducers"
+import { DeviceType } from "App/device/constants"
+import { Feature, flags } from "App/feature-flags"
 import BackupDeviceFlow, {
   BackupDeviceFlowState,
 } from "App/overview/components/backup-device-flow/backup-device-flow.component"
-import isVersionGreater from "App/overview/helpers/is-version-greater"
-import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-import { State } from "App/core/constants"
-import { Backup, RestoreBackup } from "App/backup/dto"
+import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
+import { PureOverviewProps } from "App/overview/components/overview-screens/pure-overview/pure-overview.interface"
 import RestoreDeviceFlow, {
   RestoreDeviceFlowState,
 } from "App/overview/components/restore-device-flow/restore-device-flow.component"
-import { DeviceType, CaseColor } from "App/device/constants"
-import { SynchronizationState } from "App/data-sync/reducers"
-import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
-import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
+import { UpdateOsFlow } from "App/overview/components/update-os-flow"
+import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import { flags, Feature } from "App/feature-flags"
-
-interface PureOverviewProps {
-  readonly lowestSupportedOsVersion: string | undefined
-  readonly lastAvailableOsVersion: string
-  readonly batteryLevel: number | undefined
-  readonly osVersion: string | undefined
-  readonly memorySpace: MemorySpace | undefined
-  readonly networkName: string
-  readonly networkLevel: number
-  readonly pureOsBackupLocation: string
-  readonly updatingState: State | null
-  readonly caseColour: CaseColor
-  readonly lastBackupDate: Date
-  readonly backupDeviceState: State
-  readonly restoreDeviceState: State
-  readonly backups: Backup[]
-  readonly pureOsDownloaded: boolean | undefined
-  readonly syncState: SynchronizationState
-  readonly serialNumber: string | undefined
-  readonly updateAllIndexes: () => Promise<void>
-  readonly openContactSupportFlow: () => void
-  readonly readRestoreDeviceDataState: () => void
-  readonly startRestoreDevice: (option: RestoreBackup) => void
-  readonly readBackupDeviceDataState: () => void
-  readonly startBackupDevice: (secretKey: string) => void
-  readonly setUpdateState: (data: State) => void
-  readonly startUpdateOs: (data: string) => void
-  readonly updatePhoneOsInfo: (data: PhoneUpdate) => void
-  readonly disconnectDevice: () => void
-}
+import isVersionGreater from "App/overview/helpers/is-version-greater"
+import { DownloadState } from "App/update/constants"
+import { Release } from "App/update/dto"
+import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
+import logger from "App/__deprecated__/main/utils/logger"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { ipcRenderer } from "electron-better-ipc"
+import React, { useEffect, useState } from "react"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
   disconnectDevice = noop,
   osVersion = "",
-  lastAvailableOsVersion,
-  updatePhoneOsInfo = noop,
   memorySpace = {
     reservedSpace: 0,
     usedUserSpace: 16000000000,
@@ -86,11 +54,21 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   restoreDeviceState,
   readRestoreDeviceDataState,
   backups,
-  pureOsDownloaded,
   openContactSupportFlow,
   syncState,
   updateAllIndexes,
   serialNumber,
+  checkForUpdate,
+  silentCheckForUpdate,
+  checkingForUpdateState,
+  releaseAvailableForUpdate,
+  downloadUpdate,
+  downloadingState,
+  clearUpdateState,
+  abortDownload,
+  allReleases,
+  updateOsError,
+  silentUpdateCheck,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -105,24 +83,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     void ipcRenderer.callMain(HelpActions.OpenWindow)
   }
 
-  // FIXME: tmp solution until useSystemUpdateFlow exist
-  const toggleDeviceUpdating = (option: boolean) => {
-    if (option) {
-      setUpdateState(State.Loading)
-    } else {
-      setUpdateState(State.Initial)
-    }
-  }
-
-  const { release, initialCheck, check, download, install } =
-    useSystemUpdateFlow(
-      { osVersion, serialNumber, deviceType: DeviceType.MuditaPure },
-      updatePhoneOsInfo,
-      toggleDeviceUpdating,
-      openContactSupportFlow,
-      goToHelp
-    )
-
   useEffect(() => {
     try {
       setOsVersionSupported(
@@ -135,7 +95,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   useEffect(() => {
     if (osVersion) {
-      void initialCheck()
+      silentCheckForUpdate(DeviceType.MuditaPure)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -167,23 +127,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     }
   }, [openModal, progress])
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  const closeUpdatingForceModalFlow = async () => {
+  const closeUpdatingForceModalFlow = () => {
     setUpdateState(State.Initial)
-  }
-
-  const isPureOsAvailable = (): boolean => {
-    try {
-      if (!osVersion || !lastAvailableOsVersion || !release) {
-        return false
-      } else {
-        return !isVersionGreater(osVersion, lastAvailableOsVersion)
-      }
-    } catch (error) {
-      logger.error(`Overview (isPureOsAvailable): ${(error as Error).message}`)
-      return false
-    }
   }
 
   const getUpdatingForceModalFlowState = ():
@@ -263,8 +208,39 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     )
   }
 
+  const updateRelease = (release?: Release) => {
+    const releaseToInstall = releaseAvailableForUpdate ?? release
+    releaseToInstall && startUpdateOs(releaseToInstall.file.name)
+  }
+
+  const downloadRelease = (release?: Release) => {
+    const releaseToDownload = releaseAvailableForUpdate ?? release
+    releaseToDownload && downloadUpdate(releaseToDownload)
+  }
+
+  const checkForPureUpdate = () => {
+    checkForUpdate(DeviceType.MuditaPure)
+  }
+
   return (
     <>
+      <UpdateOsFlow
+        currentOsVersion={osVersion}
+        checkForUpdateState={checkingForUpdateState}
+        releaseAvailableForUpdate={releaseAvailableForUpdate}
+        downloadState={downloadingState}
+        clearUpdateOsFlow={clearUpdateState}
+        downloadUpdate={downloadRelease}
+        abortDownloading={abortDownload}
+        updateState={updatingState}
+        updateOs={updateRelease}
+        openContactSupportFlow={openContactSupportFlow}
+        allReleases={allReleases}
+        openHelpView={goToHelp}
+        error={updateOsError}
+        silentUpdateCheck={silentUpdateCheck}
+      />
+
       {flags.get(Feature.ForceUpdate) && (
         <UpdatingForceModalFlow
           deviceType={DeviceType.MuditaPure}
@@ -305,11 +281,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         memorySpace={memorySpace}
         networkName={networkName}
         networkLevel={networkLevel}
-        pureOsAvailable={isPureOsAvailable()}
-        pureOsDownloaded={pureOsDownloaded}
-        onUpdateCheck={check}
-        onUpdateInstall={install}
-        onUpdateDownload={download}
+        pureOsAvailable={Boolean(releaseAvailableForUpdate)}
+        pureOsDownloaded={downloadingState === DownloadState.Loaded}
+        onUpdateCheck={checkForPureUpdate}
+        onUpdateInstall={updateRelease}
+        onUpdateDownload={downloadRelease}
         caseColour={caseColour}
         lastBackupDate={lastBackupDate}
         onBackupCreate={handleBackupCreate}

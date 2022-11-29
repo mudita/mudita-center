@@ -98,7 +98,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     deviceFeaturesVisible:
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||
-      state.update.updatingState === State.Loading ||
+      state.update.updateOsState === State.Loading ||
       state.backup.restoringState === State.Loading ||
       state.backup.restoringState === State.Failed,
     deviceConnecting:
@@ -107,7 +107,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       state.device.status.loaded && Boolean(state.device.status.unlocked),
     settingsLoaded: state.settings.loaded,
     deviceConnected: state.device.status.connected,
-    deviceUpdating: state.update.updatingState === State.Loading,
+    deviceUpdating: state.update.updateOsState === State.Loading,
   }
 }
 

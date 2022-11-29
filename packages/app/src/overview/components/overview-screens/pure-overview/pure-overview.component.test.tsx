@@ -21,6 +21,9 @@ import * as UpdatingForceModalFlowModule from "App/overview/components/updating-
 import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import { flags } from "App/feature-flags"
+import { DownloadState } from "App/update/constants"
+
+// TODO [mw] add integration tests for update process - scope of the next PR (after all the changes from CP-1681 are done)
 
 jest.mock("App/feature-flags")
 
@@ -53,13 +56,10 @@ const defaultProps: Props = {
   batteryLevel: 0,
   disconnectDevice: jest.fn(),
   lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
-  lastAvailableOsVersion: "",
   networkName: "network name",
   osVersion: "1.0.0",
-  pureOsDownloaded: false,
   pureOsBackupLocation: "path/location/backup",
   serialNumber: undefined,
-  updatePhoneOsInfo: jest.fn(),
   updatingState: State.Initial,
   memorySpace: {
     reservedSpace: 100,
@@ -68,6 +68,17 @@ const defaultProps: Props = {
   },
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),
+  abortDownload: jest.fn(),
+  allReleases: [],
+  checkForUpdate: jest.fn(),
+  checkingForUpdateState: State.Initial,
+  clearUpdateState: jest.fn(),
+  downloadingState: DownloadState.Initial,
+  downloadUpdate: jest.fn(),
+  releaseAvailableForUpdate: null,
+  silentCheckForUpdate: jest.fn(),
+  silentUpdateCheck: false,
+  updateOsError: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {

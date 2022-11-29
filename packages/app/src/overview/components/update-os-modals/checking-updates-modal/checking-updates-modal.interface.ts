@@ -5,4 +5,5 @@
 
 export interface CheckingUpdatesModalProps {
   open: boolean
+  testId?: string
 }

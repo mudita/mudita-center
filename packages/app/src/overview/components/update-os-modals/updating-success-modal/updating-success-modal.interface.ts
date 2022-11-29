@@ -6,4 +6,5 @@
 export interface UpdatingSuccessModalProps {
   open: boolean
   onClose: () => void
+  testId?: string
 }

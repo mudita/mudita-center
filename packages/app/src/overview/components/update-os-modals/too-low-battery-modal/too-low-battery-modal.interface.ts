@@ -9,4 +9,5 @@ export interface TooLowBatteryModalProps {
   deviceType: DeviceType
   open: boolean
   onClose: () => void
+  testId?: string
 }

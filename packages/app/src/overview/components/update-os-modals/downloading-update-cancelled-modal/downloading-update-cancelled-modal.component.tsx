@@ -21,9 +21,10 @@ const messages = defineMessages({
 
 export const DownloadingUpdateCancelledModal: FunctionComponent<
   DownloadingUpdateCancelledModalProps
-> = ({ open, onClose }) => {
+> = ({ open, onClose, testId }) => {
   return (
     <ErrorModal
+      testId={testId}
       open={open}
       onClose={onClose}
       closeModal={onClose}

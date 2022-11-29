@@ -24,7 +24,12 @@ const messages = defineMessages({
 
 export const DownloadingUpdateInterruptedModal: FunctionComponent<
   DownloadingUpdateInterruptedModalProps
-> = ({ onRetry, open, onClose }: DownloadingUpdateInterruptedModalProps) => {
+> = ({
+  onRetry,
+  open,
+  onClose,
+  testId,
+}: DownloadingUpdateInterruptedModalProps) => {
   return (
     <ErrorWithRetryModal
       closeable
@@ -32,6 +37,7 @@ export const DownloadingUpdateInterruptedModal: FunctionComponent<
       closeModal={onClose}
       onClose={onClose}
       onRetry={onRetry}
+      testId={testId}
       open={open}
       title={intl.formatMessage(messages.muditaOsUpdateTitle)}
       subtitle={intl.formatMessage(messages.downloadingFailedMessage)}

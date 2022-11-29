@@ -37,7 +37,6 @@ import Text, {
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { CautionSection } from "App/overview/components/update-os-modals/update-available-modal/caution-section.component"
 import { AboutUpdatesSection } from "App/overview/components/update-os-modals/update-available-modal/about-updates-section.component"
-import { textFormatters } from "App/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
@@ -68,9 +67,10 @@ const ModalContent = styled.div`
 
 export const UpdateAvailableModal: FunctionComponent<
   UpdateAvailableModalProps
-> = ({ open = false, releases, onClose, onDownload }) => {
+> = ({ open = false, releases, onClose, onDownload, testId }) => {
   return (
     <Modal
+      testId={testId}
       isOpen={open}
       style={getModalDialogStyle({ size: ModalSize.Medium })}
       shouldCloseOnOverlayClick={false}

@@ -5,4 +5,5 @@
 
 export interface UpdatingSpinnerModalProps {
   open: boolean
+  testId?: string
 }

@@ -23,6 +23,7 @@ const messages = defineMessages({
     id: "module.overview.updateAvailableAboutOsVersionSubDescription",
   },
 })
+
 interface Release {
   version: string
   date: Date

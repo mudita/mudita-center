@@ -7,4 +7,5 @@ export interface DownloadingUpdateInterruptedModalProps {
   onRetry: () => void
   onClose: () => void
   open: boolean
+  testId?: string
 }

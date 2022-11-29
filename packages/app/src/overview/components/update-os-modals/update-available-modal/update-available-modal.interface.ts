@@ -10,4 +10,5 @@ export interface UpdateAvailableModalProps {
   onClose: () => void
   open: boolean
   releases: AboutUpdatesSectionProps["releases"]
+  testId?: string
 }

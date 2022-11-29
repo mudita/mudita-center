@@ -6,38 +6,97 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
-import { SetUpdateStateAction, startUpdateOs } from "App/update/actions"
-import { UpdateOsEvent } from "App/update/constants"
+import {
+  cancelDownload,
+  checkForUpdate,
+  clearState,
+  downloadUpdate,
+  setUpdateState,
+  startUpdateOs,
+} from "App/update/actions"
+import { DownloadState, UpdateError } from "App/update/constants"
 import { UpdateOsState } from "App/update/reducers/update-os.interface"
 
 export const initialState: UpdateOsState = {
-  updatingState: null,
+  checkForUpdateState: State.Initial,
+  updateOsState: State.Initial,
+  downloadState: DownloadState.Initial,
+  silentUpdateCheck: false,
   error: null,
+  data: {
+    releaseAvailableForUpdate: null,
+    allReleases: null,
+  },
 }
 
 export const updateOsReducer = createReducer<UpdateOsState>(
   initialState,
   (builder) => {
-    builder.addCase(
-      UpdateOsEvent.SetUpdateState,
-      (state, action: SetUpdateStateAction) => {
-        return {
-          ...state,
-          updatingState: action.payload,
-        }
+    builder.addCase(setUpdateState, (state, action) => {
+      return {
+        ...state,
+        updateOsState: action.payload,
       }
-    )
+    })
+    builder.addCase(clearState, (state) => {
+      return {
+        ...state,
+        batteryState: null,
+        error: null,
+        checkForUpdateState: State.Initial,
+        updateOsState: State.Initial,
+        downloadState: DownloadState.Initial,
+      }
+    })
+
+    builder.addCase(checkForUpdate.pending, (state, payload) => {
+      state.error = null
+      state.silentUpdateCheck = payload.meta.arg.isSilentCheck
+      state.checkForUpdateState = State.Loading
+    })
+    builder.addCase(checkForUpdate.fulfilled, (state, action) => {
+      state.checkForUpdateState = State.Loaded
+      state.data.releaseAvailableForUpdate =
+        action.payload.releaseAvailableForUpdate
+      state.data.allReleases = action.payload.allReleases
+    })
+    builder.addCase(checkForUpdate.rejected, (state, action) => {
+      state.checkForUpdateState = State.Failed
+      state.error = action.payload as AppError<UpdateError>
+    })
+
+    builder.addCase(downloadUpdate.pending, (state) => {
+      state.error = null
+      state.checkForUpdateState = State.Initial
+      state.downloadState = DownloadState.Loading
+    })
+    builder.addCase(downloadUpdate.fulfilled, (state) => {
+      state.downloadState = DownloadState.Loaded
+    })
+    builder.addCase(downloadUpdate.rejected, (state, action) => {
+      if (action.payload?.type === UpdateError.DownloadCancelledByUser) {
+        state.downloadState = DownloadState.Cancelled
+      } else {
+        state.downloadState = DownloadState.Failed
+        state.error = action.payload as AppError<UpdateError>
+      }
+    })
+    builder.addCase(cancelDownload, (state) => {
+      state.downloadState = DownloadState.Cancelled
+    })
 
     builder.addCase(startUpdateOs.pending, (state) => {
-      state.updatingState = State.Loading
+      state.error = null
+      state.downloadState = DownloadState.Initial
+      state.updateOsState = State.Loading
     })
     builder.addCase(startUpdateOs.fulfilled, (state) => {
-      state.updatingState = State.Loaded
+      state.updateOsState = State.Loaded
       state.error = null
     })
     builder.addCase(startUpdateOs.rejected, (state, action) => {
-      state.updatingState = State.Failed
-      state.error = action.payload as AppError
+      state.updateOsState = State.Failed
+      state.error = action.payload as AppError<UpdateError>
     })
   }
 )

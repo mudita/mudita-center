@@ -21,6 +21,7 @@ export const DevUpdateModal: FunctionComponent<DevUpdateModalProps> = ({
   prerelease,
   open,
   onClose,
+  testId,
 }) => {
   const textDate = new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -29,13 +30,12 @@ export const DevUpdateModal: FunctionComponent<DevUpdateModalProps> = ({
   })
   return (
     <OSUpdateModal
+      testId={testId}
       open={open}
       closeable
-      closeButton
       actionButtonLabel={install ? "Install now" : "Download now"}
       onActionButtonClick={action}
       closeModal={onClose}
-      onClose={onClose}
     >
       <RoundIconWrapper>
         <Icon type={IconType.Pure} width={3.2} />
