@@ -34,10 +34,10 @@ export class BackupRestoreService extends BaseBackupService {
 
   public async restoreBackup({
     filePath,
-    backupLocation,
+    backupFilePath,
     token,
   }: RestoreDeviceBackup): Promise<ResultObject<boolean | undefined>> {
-    const backupId = filePath.split("/").pop() as string
+    const backupId = backupFilePath.split("/").pop() as string
     const fileData = await this.readFile(filePath, token)
 
     if (!fileData) {
@@ -51,7 +51,7 @@ export class BackupRestoreService extends BaseBackupService {
 
     const uploadResult = await this.deviceFileSystem.uploadFile({
       data: this.arrayBufferToBuffer(fileData),
-      targetPath: `${backupLocation}/${backupId}`,
+      targetPath: backupFilePath,
     })
 
     if (!uploadResult.ok || !uploadResult.data) {

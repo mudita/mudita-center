@@ -105,7 +105,7 @@ describe("Restore process happy path", () => {
           return {
             status: RequestResponseStatus.Ok,
             data: {
-              backupLocation: "/user/local/backup/",
+              backupFilePath: "/user/local/backup/backupFilePath",
             },
           }
         }
@@ -135,7 +135,7 @@ describe("Restore process happy path", () => {
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
-      backupLocation: "/usr/backup",
+      backupFilePath: "/usr/backup/fileBase.tar",
       token: "1234567890",
     })
 
@@ -156,14 +156,14 @@ describe("Restore process happy path", () => {
           key: "1234567890",
         })!
       ),
-      targetPath: "/usr/backup/backup.tar",
+      targetPath: "/usr/backup/fileBase.tar",
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceService.request).toHaveBeenNthCalledWith(1, {
       endpoint: Endpoint.Restore,
       method: Method.Post,
-      body: { restore: "backup.tar" },
+      body: { restore: "fileBase.tar" },
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -188,7 +188,7 @@ describe("Backup restoring failed path", () => {
       .mockRejectedValueOnce("Can not find file or directory")
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
-      backupLocation: "/usr/backup",
+      backupFilePath: "/usr/backup/fileBase.tar",
       token: "1234567890",
     })
 
@@ -212,7 +212,7 @@ describe("Backup restoring failed path", () => {
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
-      backupLocation: "/usr/backup",
+      backupFilePath: "/usr/backup/fileBase.tar",
       token: "1234567890",
     })
 
@@ -243,7 +243,7 @@ describe("Backup restoring failed path", () => {
           return {
             status: RequestResponseStatus.Ok,
             data: {
-              backupLocation: "/user/local/backup/",
+              backupFilePath: "/user/local/backup/backupFilePath",
             },
           }
         }
@@ -264,7 +264,7 @@ describe("Backup restoring failed path", () => {
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
-      backupLocation: "/usr/backup",
+      backupFilePath: "/usr/backup/fileBase.tar",
       token: "1234567890",
     })
 
@@ -323,7 +323,7 @@ describe("Backup restoring failed path", () => {
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
-      backupLocation: "/usr/backup",
+      backupFilePath: "/usr/backup/fileBase.tar",
       token: "1234567890",
     })
 
@@ -385,7 +385,7 @@ describe("Backup restoring failed path", () => {
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
-      backupLocation: "/usr/backup",
+      backupFilePath: "/usr/backup/fileBase.tar",
       token: "1234567890",
     })
 
@@ -450,7 +450,7 @@ describe("Backup restoring failed path", () => {
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
-      backupLocation: "/usr/backup",
+      backupFilePath: "/usr/backup/fileBase.tar",
       token: "1234567890",
     })
 
@@ -515,7 +515,7 @@ describe("Backup restoring failed path", () => {
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
-      backupLocation: "/usr/backup",
+      backupFilePath: "/usr/backup/fileBase.tar",
       token: "1234567890",
     })
 
