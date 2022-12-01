@@ -27,6 +27,8 @@ class DeviceBaseInfo extends DeviceBaseInfoAdapter {
         serialNumber: "1UB13213MN14K1",
         caseColour: CaseColour.Gray,
         backupFilePath: "path/to/directory/fileBase.tar",
+        updateFilePath: "path/to/update/fileBase.tar",
+        recoveryStatusFilePath: "path/to/recovery/fileBase.tar",
       },
     }
   }

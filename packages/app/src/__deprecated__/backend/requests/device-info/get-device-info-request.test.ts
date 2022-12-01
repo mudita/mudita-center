@@ -23,6 +23,7 @@ import { RequestResponseStatus } from "App/core/types/request-response.interface
 
 const mockDeviceInfo: DeviceInfo = {
   backupFilePath: "",
+  updateFilePath: "",
   recoveryStatusFilePath: "",
   networkOperatorName: "",
   accessTechnology: AccessTechnology.Gsm,
@@ -74,7 +75,9 @@ test("returns required device info", async () => {
       "caseColour": "gray",
       "deviceToken": "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
       "osVersion": "release-0.46.1-33-g4973babd",
+      "recoveryStatusFilePath": "",
       "serialNumber": "1UB13213MN14K1",
+      "updateFilePath": "",
     }
   `)
 })

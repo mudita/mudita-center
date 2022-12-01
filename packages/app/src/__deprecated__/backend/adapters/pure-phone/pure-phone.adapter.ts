@@ -150,7 +150,7 @@ class PurePhone extends PurePhoneAdapter {
 
     const fileResponse = await this.deviceFileSystem.uploadFileLocally({
       filePath,
-      targetPath: "/sys/user/update.tar",
+      targetPath: getDeviceInfoResponse.data.updateFilePath,
     })
 
     if (fileResponse.status !== RequestResponseStatus.Ok) {
