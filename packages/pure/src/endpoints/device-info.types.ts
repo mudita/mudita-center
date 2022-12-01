@@ -92,6 +92,7 @@ export interface DeviceInfo {
   caseColour: CaseColour
   backupFilePath: string
   updateFilePath: string
+  syncFilePath: string
   recoveryStatusFilePath: string
   deviceToken?: string
 }

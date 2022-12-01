@@ -25,6 +25,7 @@ const mockDeviceInfo: DeviceInfo = {
   backupFilePath: "",
   updateFilePath: "",
   recoveryStatusFilePath: "",
+  syncFilePath: "",
   networkOperatorName: "",
   accessTechnology: AccessTechnology.Gsm,
   batteryLevel: "35",
@@ -77,6 +78,7 @@ test("returns required device info", async () => {
       "osVersion": "release-0.46.1-33-g4973babd",
       "recoveryStatusFilePath": "",
       "serialNumber": "1UB13213MN14K1",
+      "syncFilePath": "",
       "updateFilePath": "",
     }
   `)

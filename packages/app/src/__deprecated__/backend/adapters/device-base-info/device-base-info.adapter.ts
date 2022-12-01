@@ -56,6 +56,7 @@ export const getDeviceInfoRequest = async (
         recoveryStatusFilePath: data.recoveryStatusFilePath
           ? data.recoveryStatusFilePath
           : "",
+        syncFilePath: data.syncFilePath ? data.syncFilePath : "",
       },
     }
   }

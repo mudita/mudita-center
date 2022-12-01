@@ -138,7 +138,9 @@ export class DeviceBackup implements DeviceBackupAdapter {
           ? // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             getDeviceInfoResponse.data!.backupFilePath
-          : `/sys/user/sync${backupId}`
+          : // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            getDeviceInfoResponse.data!.syncFilePath
     } else {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

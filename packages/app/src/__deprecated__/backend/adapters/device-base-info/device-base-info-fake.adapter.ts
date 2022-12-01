@@ -29,6 +29,7 @@ class DeviceBaseInfo extends DeviceBaseInfoAdapter {
         backupFilePath: "path/to/directory/fileBase.tar",
         updateFilePath: "path/to/update/fileBase.tar",
         recoveryStatusFilePath: "path/to/recovery/fileBase.tar",
+        syncFilePath: "path/to/sync/fileBase.tar",
       },
     }
   }
