@@ -119,7 +119,7 @@ describe("when latest release os version is not greater than current os version"
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
-          osVersion: "1.2.0",
+          osVersion: "1.1.0",
         },
       },
     })
@@ -189,7 +189,7 @@ describe("when latest release contains information about mandatory releases", ()
     const newerRelease = {
       ...mockedRelease,
       version: "1.9.0",
-      mandatoryVersions: ["1.1.0", ...allowedVersionsToFetch],
+      mandatoryVersions: ["1.1.0", "1.2.0", ...allowedVersionsToFetch],
     }
 
     jest

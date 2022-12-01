@@ -79,16 +79,18 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
             testId={UpdateOsFlowTestIds.CheckForUpdateModal}
             open={checkForUpdateState === State.Loading}
           />
-          {availableReleasesForUpdate && (
-            <UpdateAvailableModal
-              testId={UpdateOsFlowTestIds.UpdateAvailableModal}
-              open={checkForUpdateState === State.Loaded}
-              releases={availableReleasesForUpdate}
-              onDownload={downloadUpdate}
-              onClose={resetUpdateFlow}
-            />
-          )}
-          {!availableReleasesForUpdate && (
+          {availableReleasesForUpdate &&
+            availableReleasesForUpdate.length > 0 && (
+              <UpdateAvailableModal
+                testId={UpdateOsFlowTestIds.UpdateAvailableModal}
+                open={checkForUpdateState === State.Loaded}
+                releases={availableReleasesForUpdate}
+                onDownload={downloadUpdate}
+                onClose={resetUpdateFlow}
+              />
+            )}
+          {(!availableReleasesForUpdate ||
+            availableReleasesForUpdate.length === 0) && (
             <UpdateNotAvailableModal
               testId={UpdateOsFlowTestIds.UpdateNotAvailableModal}
               open={checkForUpdateState === State.Loaded}

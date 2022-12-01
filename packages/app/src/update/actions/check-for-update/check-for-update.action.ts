@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
-import isVersionGreater from "App/overview/helpers/is-version-greater"
+import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { Product, UpdateError, UpdateOsEvent } from "App/update/constants"
 import { Release } from "App/update/dto"
 import { versionFormatter } from "App/update/helpers"
@@ -59,7 +59,7 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
         ? allReleasesResult.data
         : []
 
-    if (isVersionGreater(osVersion, latestReleaseResult.data.version)) {
+    if (isVersionGreaterOrEqual(osVersion, latestReleaseResult.data.version)) {
       return {
         allReleases,
         availableReleasesForUpdate: [],
@@ -69,8 +69,8 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
     const availableReleasesForUpdate: Release[] = [latestReleaseResult.data]
 
     const mandatoryVersionsToInstall =
-      latestReleaseResult.data.mandatoryVersions.filter((version) =>
-        isVersionGreater(version, osVersion)
+      latestReleaseResult.data.mandatoryVersions.filter(
+        (version) => !isVersionGreaterOrEqual(osVersion, version)
       )
 
     if (mandatoryVersionsToInstall.length === 0) {

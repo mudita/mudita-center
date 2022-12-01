@@ -18,7 +18,7 @@ import { Environment } from "App/update/constants"
 
 export interface getLatestProductionReleaseParams {
   product: Product
-  version?: "latest" | string
+  version: "latest" | string
   environment: Environment
 }
 

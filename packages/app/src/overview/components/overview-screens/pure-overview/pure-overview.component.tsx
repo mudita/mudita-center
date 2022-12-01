@@ -19,7 +19,7 @@ import RestoreDeviceFlow, {
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import isVersionGreater from "App/overview/helpers/is-version-greater"
+import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { DownloadState } from "App/update/constants"
 import { Release } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
@@ -86,7 +86,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   useEffect(() => {
     try {
       setOsVersionSupported(
-        isVersionGreater(osVersion, lowestSupportedOsVersion)
+        isVersionGreaterOrEqual(osVersion, lowestSupportedOsVersion)
       )
     } catch (error) {
       logger.error(`Overview: ${(error as Error).message}`)
