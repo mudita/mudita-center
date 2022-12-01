@@ -14,7 +14,6 @@ import { isResponseSuccessWithData } from "App/core/helpers"
 import {
   Operation,
   OperationStatus,
-  UPDATER_STATUS_PATH,
   BackupError,
 } from "App/backup/constants"
 import { UpdaterStatus } from "App/backup/dto"
@@ -35,15 +34,29 @@ export class BaseBackupService {
   public async checkStatus(
     operation: Operation
   ): Promise<ResultObject<boolean | undefined>> {
+    const deviceResponse = await this.deviceService.request({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+    })
+
+    if (!isResponseSuccessWithData(deviceResponse)) {
+      return Result.failed(
+        new AppError(
+          BackupError.CannotGetDeviceInfo,
+          "Mudita OS recovery status is undefined"
+        )
+      )
+    }
+
     const response = await this.deviceFileSystem.downloadFile(
-      UPDATER_STATUS_PATH
+      deviceResponse.data.recoveryStatusFilePath
     )
 
     if (!isResponseSuccessWithData(response)) {
       return Result.failed(
         new AppError(
           BackupError.CannotGetProcessStatus,
-          `Can't get ${UPDATER_STATUS_PATH} from device`
+          `Can't get ${deviceResponse.data.recoveryStatusFilePath} from device`
         )
       )
     }

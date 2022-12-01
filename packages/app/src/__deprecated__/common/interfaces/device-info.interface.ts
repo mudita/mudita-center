@@ -10,5 +10,6 @@ export default interface DeviceInfo {
   readonly osVersion: string
   readonly caseColour: CaseColor
   readonly backupFilePath: string
+  readonly recoveryStatusFilePath: string
   readonly deviceToken: string
 }

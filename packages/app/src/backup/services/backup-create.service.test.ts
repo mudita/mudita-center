@@ -67,6 +67,8 @@ describe("Backup process happy path", () => {
             status: RequestResponseStatus.Ok,
             data: {
               backupFilePath: "/user/local/backup/fileBase.tar",
+              recoveryStatusFilePath:
+                "/user/local/recovery/updater_status.json",
             },
           }
         }
@@ -141,7 +143,7 @@ describe("Backup process happy path", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystemAdapter.downloadFile).toHaveBeenLastCalledWith(
-      "/user/updater_status.json"
+      "/user/local/recovery/updater_status.json"
     )
     expect(
       // AUTO DISABLED - fix me if you like :)

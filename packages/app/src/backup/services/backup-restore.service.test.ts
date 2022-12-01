@@ -355,7 +355,9 @@ describe("Backup restoring failed path", () => {
           return {
             status: RequestResponseStatus.Ok,
             data: {
-              backupLocation: "/user/local/backup/",
+              backupFilePath: "/user/local/backup/fileBase.tar",
+              recoveryStatusFilePath:
+                "/user/local/recovery/updater_status.json",
             },
           }
         }
@@ -393,7 +395,7 @@ describe("Backup restoring failed path", () => {
       Result.failed(
         new AppError(
           BackupError.CannotGetProcessStatus,
-          "Can't get /user/updater_status.json from device"
+          "Can't get /user/local/recovery/updater_status.json from device"
         )
       )
     )
