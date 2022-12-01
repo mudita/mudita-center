@@ -14,6 +14,10 @@ class NavigationTabs extends Page {
     return $('[data-testid="icon-MenuOverview"]')
   }
 
+  async overviewTabClick() {
+    await this.overviewTab.click()
+  }
+
   public get messagesTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
@@ -32,12 +36,9 @@ class NavigationTabs extends Page {
     return $('[data-testid="icon-MenuSettings"]')
   }
 
-  public get helpTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get helpTab(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
     return $('[data-testid="help-menu-button"]')
-  }  
-
+  }
 }
 
 export default new NavigationTabs()

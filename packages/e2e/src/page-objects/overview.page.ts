@@ -66,13 +66,126 @@ class OverviewPage extends Page {
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="sar-wrapper"]')
-  }  
+  }
+
+  public get backToOverviewButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("p*=Back to Overview")
+  }
+
+  public get createBackupButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("p*=Create backup")
+  }
+
+  public get restoreBackupButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("p*=Restore last backup")
+  }
 
   public get locationTextLabel(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="location"]')
-  }   
+  }
+
+  public get batteryLevel(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="battery-level"]')
+  }
+
+  public get fullBatteryIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-FullBattery"]')
+  }
+
+  public get veryHighBatteryIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-VeryHighBattery"]')
+  }
+
+  public get highBatteryIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-HighBattery"]')
+  }
+
+  public get mediumBatteryIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-MediumBattery"]')
+  }
+
+  public get lowBatteryIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-LowBattery"]')
+  }
+  public get veryLowBatteryIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-VeryLowBattery"]')
+  }
+
+  public get noRangeIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-NoRange"]')
+  }
+
+  public get LowRangeIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-LowRange"]')
+  }
+
+  public get MediumRangeIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-MediumRange"]')
+  }
+
+  public get HighRangeIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-HighRange"]')
+  }
+
+  public get VeryHighRangeIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-VeryHighRange"]')
+  }
+
+  public get disconnectButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="disconnect-button"]')
+  }
+
+  public get networkName(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="network-name"]')
+  }
+
+  public get pureGrayImage(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="pure-gray"]')
+  }
+
+  public get pureBlackImage(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="pure-black"]')
+  }
 }
 
 export default new OverviewPage()
