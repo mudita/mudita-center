@@ -30,7 +30,7 @@ export interface PureDeviceData {
     total: number
   }
   caseColour: CaseColour
-  backupLocation: string
+  backupFilePath: string
 }
 
 export interface HarmonyDeviceData {

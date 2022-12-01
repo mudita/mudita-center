@@ -22,7 +22,7 @@ import createDeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/dev
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockDeviceInfo: DeviceInfo = {
-  backupLocation: "",
+  backupFilePath: "",
   networkOperatorName: "",
   accessTechnology: AccessTechnology.Gsm,
   batteryLevel: "35",
@@ -69,7 +69,7 @@ test("returns required device info", async () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(result.data).toMatchInlineSnapshot(`
     Object {
-      "backupLocation": "",
+      "backupFilePath": "",
       "caseColour": "gray",
       "deviceToken": "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
       "osVersion": "release-0.46.1-33-g4973babd",

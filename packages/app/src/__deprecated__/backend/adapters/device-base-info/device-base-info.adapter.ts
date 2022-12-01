@@ -51,7 +51,7 @@ export const getDeviceInfoRequest = async (
         osVersion: data.version,
         serialNumber: data.serialNumber,
         caseColour: data.caseColour ? data.caseColour : CaseColour.Gray,
-        backupLocation: data.backupLocation ? data.backupLocation : "",
+        backupFilePath: data.backupFilePath ? data.backupFilePath : "",
       },
     }
   }

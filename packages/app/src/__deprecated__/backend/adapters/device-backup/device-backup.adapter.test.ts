@@ -25,9 +25,15 @@ import {
 } from "App/core/types/request-response.interface"
 
 jest.mock("App/__deprecated__/backend/device-service")
-jest.mock("App/__deprecated__/backend/device-backup-service/device-backup-service")
-jest.mock("App/__deprecated__/backend/adapters/device-base-info/device-base-info-fake.adapter")
-jest.mock("App/__deprecated__/backend/adapters/device-file-system/device-file-system-fake.adapter")
+jest.mock(
+  "App/__deprecated__/backend/device-backup-service/device-backup-service"
+)
+jest.mock(
+  "App/__deprecated__/backend/adapters/device-base-info/device-base-info-fake.adapter"
+)
+jest.mock(
+  "App/__deprecated__/backend/adapters/device-file-system/device-file-system-fake.adapter"
+)
 const backupId = `<YYYY-MM-DD>T<HHMMSS>Z`
 
 const errorResponse: RequestResponse = {
@@ -36,7 +42,7 @@ const errorResponse: RequestResponse = {
 const successDeviceInfoResponse: RequestResponse<DeviceInfo> = {
   status: RequestResponseStatus.Ok,
   data: {
-    backupLocation: "path/to/directory",
+    backupFilePath: "path/to/directory/fileBase.tar",
   } as DeviceInfo,
 }
 const successDownloadDeviceFilesResponse: RequestResponse<DeviceFile[]> = {

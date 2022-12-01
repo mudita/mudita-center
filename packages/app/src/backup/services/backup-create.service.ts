@@ -125,7 +125,7 @@ export class BackupCreateService extends BaseBackupService {
       )
     }
 
-    const filePath = `${deviceResponse.data.backupLocation}/backup_db.tar`
+    const filePath = deviceResponse.data.backupFilePath
 
     return Result.success(filePath)
   }

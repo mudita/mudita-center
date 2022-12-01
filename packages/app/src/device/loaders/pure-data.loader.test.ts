@@ -88,7 +88,7 @@ describe("PureDataLoader", () => {
     const result = await subject.load()
 
     expect(result).toEqual({
-      backupLocation: undefined,
+      backupFilePath: undefined,
       caseColour: undefined,
       osVersion: "7.7.7",
       batteryLevel: 50,

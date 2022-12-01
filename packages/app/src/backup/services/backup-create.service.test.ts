@@ -66,7 +66,7 @@ describe("Backup process happy path", () => {
           return {
             status: RequestResponseStatus.Ok,
             data: {
-              backupLocation: "/user/local/backup/",
+              backupFilePath: "/user/local/backup/fileBase.tar",
             },
           }
         }
@@ -147,7 +147,7 @@ describe("Backup process happy path", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemAdapter.downloadDeviceFilesLocally
-    ).toHaveBeenLastCalledWith(["/user/local/backup//backup_db.tar"], {
+    ).toHaveBeenLastCalledWith(["/user/local/backup/fileBase.tar"], {
       key: "1234",
       cwd: "/User/documents/backup",
     })
@@ -201,7 +201,7 @@ describe("Backup process failed path", () => {
           return {
             status: RequestResponseStatus.Ok,
             data: {
-              backupLocation: "/user/local/backup/",
+              backupFilePath: "/user/local/backup/fileBase.tar",
             },
           }
         }
@@ -246,7 +246,7 @@ describe("Backup process failed path", () => {
           return {
             status: RequestResponseStatus.Ok,
             data: {
-              backupLocation: "/user/local/backup/",
+              backupFilePath: "/user/local/backup/backupFilePath",
             },
           }
         }
@@ -304,7 +304,7 @@ describe("Backup process failed path", () => {
           return {
             status: RequestResponseStatus.Ok,
             data: {
-              backupLocation: "/user/local/backup/",
+              backupFilePath: "/user/local/backup/backupFilePath",
             },
           }
         }

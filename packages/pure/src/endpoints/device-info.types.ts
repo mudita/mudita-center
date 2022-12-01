@@ -90,7 +90,7 @@ export interface DeviceInfo {
   networkStatus: NetworkStatus
   serialNumber: string
   caseColour: CaseColour
-  backupLocation: string
+  backupFilePath: string
   deviceToken?: string
 }
 

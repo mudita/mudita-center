@@ -75,7 +75,7 @@ export class PureDataLoader extends BaseLoader {
       caseColour: info.data!.caseColour,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      backupLocation: info.data!.backupLocation,
+      backupFilePath: info.data!.backupFilePath,
     }
   }
 }

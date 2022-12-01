@@ -92,9 +92,9 @@ export class DeviceBackup implements DeviceBackupAdapter {
     category: BackupCategory
   ): Promise<RequestResponse<string>> {
     this.backuping = true
-    const getBackupLocationResponse = await this.deviceBaseInfo.getDeviceInfo()
+    const getDeviceInfoResponse = await this.deviceBaseInfo.getDeviceInfo()
 
-    if (!isResponsesSuccessWithData([getBackupLocationResponse])) {
+    if (!isResponsesSuccessWithData([getDeviceInfoResponse])) {
       return {
         status: RequestResponseStatus.Error,
         error: {
@@ -133,19 +133,16 @@ export class DeviceBackup implements DeviceBackupAdapter {
     let filePath
 
     if (flags.get(Feature.BackupCategoriesEnabled)) {
-      filePath = `${
+      filePath =
         category === BackupCategory.Backup
           ? // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            getBackupLocationResponse.data!.backupLocation
-          : "/sys/user/sync"
-      }/${backupId}`
+            getDeviceInfoResponse.data!.backupFilePath
+          : `/sys/user/sync${backupId}`
     } else {
-      filePath = `${
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        getBackupLocationResponse.data!.backupLocation
-      }/${backupId}`
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      filePath = getDeviceInfoResponse.data!.backupFilePath
     }
 
     return {

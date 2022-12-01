@@ -46,7 +46,7 @@ const pureDeviceMock: PureDeviceData = {
     total: 16000000000,
   },
   caseColour: CaseColour.Gray,
-  backupLocation: "path/to/directory",
+  backupFilePath: "path/to/directory/fileBase.tar",
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {
