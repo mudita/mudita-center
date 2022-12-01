@@ -29,7 +29,7 @@ export interface PureOverviewProps {
   readonly syncState: SynchronizationState
   readonly serialNumber: string | undefined
   readonly checkingForUpdateState: State
-  readonly releaseAvailableForUpdate: Release | null
+  readonly availableReleasesForUpdate: Release[] | null
   readonly downloadingState: DownloadState
   readonly allReleases: Release[] | null
   readonly updateOsError: AppError<UpdateError> | null

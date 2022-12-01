@@ -26,6 +26,7 @@ const mockedRelease: Release = {
   product: Product.PurePhone,
   type: ReleaseType.Daily,
   version: "123",
+  mandatoryVersions: [],
 }
 
 const params = { release: mockedRelease }

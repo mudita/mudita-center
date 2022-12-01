@@ -35,6 +35,7 @@ const mockedRelease: Release = {
   product: Product.PurePhone,
   type: ReleaseType.Daily,
   version: "123",
+  mandatoryVersions: [],
 }
 
 test("empty event returns initial state", () => {
@@ -45,7 +46,7 @@ test("empty event returns initial state", () => {
       "checkForUpdateState": 0,
       "data": Object {
         "allReleases": null,
-        "releaseAvailableForUpdate": null,
+        "availableReleasesForUpdate": null,
       },
       "downloadState": 0,
       "error": null,
@@ -159,7 +160,7 @@ describe("checkForUpdate", () => {
         {
           type: fulfilledAction(UpdateOsEvent.CheckForUpdate),
           payload: {
-            releaseAvailableForUpdate: mockedRelease,
+            availableReleasesForUpdate: [mockedRelease],
             allReleases: [mockedRelease],
           },
         }
@@ -168,7 +169,7 @@ describe("checkForUpdate", () => {
       ...initialState,
       checkForUpdateState: State.Loaded,
       data: {
-        releaseAvailableForUpdate: mockedRelease,
+        availableReleasesForUpdate: [mockedRelease],
         allReleases: [mockedRelease],
       },
     })

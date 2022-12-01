@@ -27,7 +27,7 @@ import React, { FunctionComponent } from "react"
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   checkForUpdateState,
   downloadState,
-  releaseAvailableForUpdate,
+  availableReleasesForUpdate,
   currentOsVersion,
   downloadUpdate,
   clearUpdateOsFlow,
@@ -79,16 +79,16 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
             testId={UpdateOsFlowTestIds.CheckForUpdateModal}
             open={checkForUpdateState === State.Loading}
           />
-          {releaseAvailableForUpdate && (
+          {availableReleasesForUpdate && (
             <UpdateAvailableModal
               testId={UpdateOsFlowTestIds.UpdateAvailableModal}
               open={checkForUpdateState === State.Loaded}
-              releases={[]}
+              releases={availableReleasesForUpdate}
               onDownload={downloadUpdate}
               onClose={resetUpdateFlow}
             />
           )}
-          {!releaseAvailableForUpdate && (
+          {!availableReleasesForUpdate && (
             <UpdateNotAvailableModal
               testId={UpdateOsFlowTestIds.UpdateNotAvailableModal}
               open={checkForUpdateState === State.Loaded}

@@ -25,6 +25,7 @@ export class GithubReleasePresenter {
         size: item.file.size,
         name: item.file.name,
       },
+      mandatoryVersions: item.mandatoryVersions,
     }
   }
 }

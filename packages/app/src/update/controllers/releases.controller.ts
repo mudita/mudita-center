@@ -11,7 +11,7 @@ import {
   IpcReleaseEvent,
   Product,
 } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { GetReleasesByVersionsInput, Release } from "App/update/dto"
 import { ReleaseService } from "App/update/services"
 
 @Controller(ReleaseControllerPrefix)
@@ -32,5 +32,12 @@ export class ReleasesController {
     product: Product
   ): Promise<ResultObject<Release | undefined>> {
     return this.releaseService.getLatestRelease(product)
+  }
+
+  @IpcEvent(IpcReleaseEvent.GetReleasesByVersions)
+  public async getReleasesByVersions(
+    params: GetReleasesByVersionsInput
+  ): Promise<ResultObject<Release[]>> {
+    return this.releaseService.getReleasesByVersions(params)
   }
 }

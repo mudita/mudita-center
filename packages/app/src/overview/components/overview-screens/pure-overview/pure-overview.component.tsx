@@ -61,14 +61,14 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   checkForUpdate,
   silentCheckForUpdate,
   checkingForUpdateState,
-  releaseAvailableForUpdate,
-  downloadUpdate,
+  availableReleasesForUpdate,
   downloadingState,
   clearUpdateState,
   abortDownload,
   allReleases,
   updateOsError,
   silentUpdateCheck,
+  downloadUpdate,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -208,13 +208,21 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     )
   }
 
+  // TODO [mw] handle sequential update - scope of CP-1686
   const updateRelease = (release?: Release) => {
-    const releaseToInstall = releaseAvailableForUpdate ?? release
+    const releaseToInstall = availableReleasesForUpdate
+      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+      : release
+
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
 
+  // TODO [mw] handle sequential download - scope of CP-1686
   const downloadRelease = (release?: Release) => {
-    const releaseToDownload = releaseAvailableForUpdate ?? release
+    const releaseToDownload = availableReleasesForUpdate
+      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+      : release
+
     releaseToDownload && downloadUpdate(releaseToDownload)
   }
 
@@ -227,7 +235,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       <UpdateOsFlow
         currentOsVersion={osVersion}
         checkForUpdateState={checkingForUpdateState}
-        releaseAvailableForUpdate={releaseAvailableForUpdate}
+        availableReleasesForUpdate={availableReleasesForUpdate}
         downloadState={downloadingState}
         clearUpdateOsFlow={clearUpdateState}
         downloadUpdate={downloadRelease}
@@ -281,7 +289,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         memorySpace={memorySpace}
         networkName={networkName}
         networkLevel={networkLevel}
-        pureOsAvailable={Boolean(releaseAvailableForUpdate)}
+        pureOsAvailable={Boolean(availableReleasesForUpdate)}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={updateRelease}

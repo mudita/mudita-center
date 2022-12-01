@@ -50,7 +50,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
     updatingState: state.update.updateOsState,
     checkingForUpdateState: state.update.checkForUpdateState,
-    releaseAvailableForUpdate: state.update.data.releaseAvailableForUpdate,
+    availableReleasesForUpdate: state.update.data.availableReleasesForUpdate,
     downloadingState: state.update.downloadState,
     allReleases: state.update.data.allReleases,
     updateOsError: state.update.error,

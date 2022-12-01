@@ -13,7 +13,7 @@ export interface UpdateOsFlowProps {
   checkForUpdateState: State
   downloadState: DownloadState
   updateState: State
-  releaseAvailableForUpdate: Release | null
+  availableReleasesForUpdate: Release[] | null
   silentUpdateCheck: boolean
   allReleases: Release[] | null
   error: AppError<UpdateError> | null

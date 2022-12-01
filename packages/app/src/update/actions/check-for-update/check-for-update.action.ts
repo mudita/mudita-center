@@ -13,6 +13,7 @@ import { versionFormatter } from "App/update/helpers"
 import {
   getAllReleasesRequest,
   getLatestReleaseRequest,
+  getReleasesByVersions,
 } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
@@ -23,7 +24,7 @@ interface Params {
 
 interface Result {
   allReleases: Release[]
-  releaseAvailableForUpdate: Release | null
+  availableReleasesForUpdate: Release[]
 }
 
 export const checkForUpdate = createAsyncThunk<Result, Params>(
@@ -33,7 +34,10 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
 
     const osVersion = versionFormatter(state.device.data?.osVersion || "")
 
-    let releaseAvailableForUpdate: Release | undefined
+    const product =
+      deviceType === DeviceType.MuditaPure
+        ? Product.PurePhone
+        : Product.BellHybrid
 
     if (!osVersion) {
       return rejectWithValue(
@@ -41,37 +45,57 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       )
     }
 
-    const latestRelease = await getLatestReleaseRequest(
-      deviceType === DeviceType.MuditaPure
-        ? Product.PurePhone
-        : Product.BellHybrid
-    )
+    const latestReleaseResult = await getLatestReleaseRequest(product)
+    const allReleasesResult = await getAllReleasesRequest(product)
 
-    const allReleases = await getAllReleasesRequest(
-      deviceType === DeviceType.MuditaPure
-        ? Product.PurePhone
-        : Product.BellHybrid
-    )
-
-    if (!latestRelease.ok || !latestRelease.data) {
+    if (!latestReleaseResult.ok || !latestReleaseResult.data) {
       return rejectWithValue(
         new AppError(UpdateError.CheckForUpdate, "Latest release not found")
       )
     }
 
-    if (!allReleases.ok || !allReleases.data) {
+    const allReleases =
+      allReleasesResult.ok && allReleasesResult.data
+        ? allReleasesResult.data
+        : []
+
+    if (isVersionGreater(osVersion, latestReleaseResult.data.version)) {
+      return {
+        allReleases,
+        availableReleasesForUpdate: [],
+      }
+    }
+
+    const availableReleasesForUpdate: Release[] = [latestReleaseResult.data]
+
+    const mandatoryVersionsToInstall =
+      latestReleaseResult.data.mandatoryVersions.filter((version) =>
+        isVersionGreater(version, osVersion)
+      )
+
+    if (mandatoryVersionsToInstall.length === 0) {
+      return {
+        allReleases,
+        availableReleasesForUpdate,
+      }
+    }
+
+    const mandatoryReleasesToInstall = await getReleasesByVersions({
+      product,
+      versions: mandatoryVersionsToInstall,
+    })
+
+    if (!mandatoryReleasesToInstall.ok || !mandatoryReleasesToInstall.data) {
       return rejectWithValue(
-        new AppError(UpdateError.CheckForUpdate, "All releases not found")
+        new AppError(UpdateError.CheckForUpdate, "Mandatory releases not found")
       )
     }
 
-    if (!isVersionGreater(osVersion, latestRelease.data.version)) {
-      releaseAvailableForUpdate = latestRelease.data
-    }
+    availableReleasesForUpdate.unshift(...mandatoryReleasesToInstall.data)
 
     return {
-      allReleases: allReleases.data,
-      releaseAvailableForUpdate: releaseAvailableForUpdate ?? null,
+      allReleases,
+      availableReleasesForUpdate,
     }
   }
 )

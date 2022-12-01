@@ -32,16 +32,16 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   openContactSupportFlow,
   serialNumber,
   checkingForUpdateState,
-  releaseAvailableForUpdate,
+  availableReleasesForUpdate,
   downloadingState,
   clearUpdateState,
   abortDownload,
   allReleases,
   updateOsError,
-  downloadUpdate,
   checkForUpdate,
   silentUpdateCheck,
   silentCheckForUpdate,
+  downloadUpdate,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
 
@@ -89,13 +89,21 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     }
   }
 
+  // TODO [mw] handle me - scope of CP-1686
   const updateRelease = (release?: Release) => {
-    const releaseToInstall = releaseAvailableForUpdate ?? release
+    const releaseToInstall = availableReleasesForUpdate
+      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+      : release
+
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
 
+  // TODO [mw] handle sequential download - scope of CP-1686
   const downloadRelease = (release?: Release) => {
-    const releaseToDownload = releaseAvailableForUpdate ?? release
+    const releaseToDownload = availableReleasesForUpdate
+      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+      : release
+
     releaseToDownload && downloadUpdate(releaseToDownload)
   }
 
@@ -108,7 +116,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       <UpdateOsFlow
         currentOsVersion={osVersion}
         checkForUpdateState={checkingForUpdateState}
-        releaseAvailableForUpdate={releaseAvailableForUpdate}
+        availableReleasesForUpdate={availableReleasesForUpdate}
         downloadState={downloadingState}
         clearUpdateOsFlow={clearUpdateState}
         downloadUpdate={downloadRelease}
@@ -139,7 +147,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         batteryLevel={batteryLevel}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
-        pureOsAvailable={Boolean(releaseAvailableForUpdate)}
+        pureOsAvailable={Boolean(availableReleasesForUpdate)}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={updateRelease}

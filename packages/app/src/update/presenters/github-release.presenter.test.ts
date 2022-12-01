@@ -16,6 +16,7 @@ const productionReleaseManifest: ReleaseManifest = {
     size: 156928000,
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
+  mandatoryVersions: ["1.2.2"],
 }
 
 const candidateReleaseManifest: ReleaseManifest = {
@@ -27,6 +28,7 @@ const candidateReleaseManifest: ReleaseManifest = {
     size: 156928000,
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
+  mandatoryVersions: [],
 }
 
 const dailyReleaseManifest: ReleaseManifest = {
@@ -38,6 +40,7 @@ const dailyReleaseManifest: ReleaseManifest = {
     size: 156928000,
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
+  mandatoryVersions: [],
 }
 
 test("returns production release type if production version has been provided", () => {
@@ -51,6 +54,7 @@ test("returns production release type if production version has been provided", 
       size: 156928000,
       name: "PurePhone-1.3.0-RT1051-Update.tar",
     },
+    mandatoryVersions: ["1.2.2"],
   })
 })
 
@@ -65,6 +69,7 @@ test("returns candidate release type if candidate version has been provided", ()
       size: 156928000,
       name: "PurePhone-1.3.0-RT1051-Update.tar",
     },
+    mandatoryVersions: [],
   })
 })
 
@@ -79,5 +84,6 @@ test("returns daily release type with formatted version if daily version has bee
       size: 156928000,
       name: "PurePhone-1.3.0-RT1051-Update.tar",
     },
+    mandatoryVersions: [],
   })
 })

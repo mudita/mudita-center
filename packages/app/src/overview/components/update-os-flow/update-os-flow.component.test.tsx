@@ -30,7 +30,7 @@ const defaultProps: UpdateOsFlowProps = {
   downloadState: DownloadState.Initial,
   updateState: State.Initial,
   allReleases: [],
-  releaseAvailableForUpdate: null,
+  availableReleasesForUpdate: null,
   currentOsVersion: "1.2.0",
   silentUpdateCheck: false,
   error: null,
@@ -52,6 +52,7 @@ const release: Release = {
     name: "release-0.73.1",
     size: 26214400,
   },
+  mandatoryVersions: [],
 }
 
 const tooLowBatteryError = new AppError(
@@ -117,7 +118,7 @@ describe("check for update modals", () => {
     test("update available modal should be displayed", () => {
       const { queryByTestId } = render({
         checkForUpdateState: State.Loaded,
-        releaseAvailableForUpdate: release,
+        availableReleasesForUpdate: [release],
       })
 
       checkModalsVisibility(queryByTestId, [
@@ -130,7 +131,7 @@ describe("check for update modals", () => {
     test("update not available modal should be displayed", () => {
       const { queryByTestId } = render({
         checkForUpdateState: State.Loaded,
-        releaseAvailableForUpdate: null,
+        availableReleasesForUpdate: null,
       })
 
       checkModalsVisibility(queryByTestId, [

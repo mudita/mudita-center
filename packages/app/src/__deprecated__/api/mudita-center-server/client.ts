@@ -12,12 +12,14 @@ import {
 } from "App/__deprecated__/api/mudita-center-server/client.interface"
 import { MuditaCenterServerRoutes } from "App/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
 import { NewsEntry } from "App/news/dto"
-import { Product, ReleaseSpace } from "App/__deprecated__/main/constants"
+import { Product } from "App/__deprecated__/main/constants"
 import { Release } from "App/update/dto"
+import { Environment } from "App/update/constants"
 
 export interface getLatestProductionReleaseParams {
   product: Product
-  releaseSpace: ReleaseSpace
+  version?: "latest" | string
+  environment: Environment
 }
 
 export class Client implements ClientInterface {
@@ -83,7 +85,7 @@ export class Client implements ClientInterface {
   async getLatestRelease(
     params: getLatestProductionReleaseParams
   ): Promise<AxiosResponse<Release>> {
-    return this.httpClient.get(MuditaCenterServerRoutes.GetRelease, {
+    return this.httpClient.get(MuditaCenterServerRoutes.GetReleaseV2, {
       params,
     })
   }

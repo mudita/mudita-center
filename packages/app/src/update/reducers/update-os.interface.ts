@@ -16,6 +16,6 @@ export interface UpdateOsState {
   error: AppError<UpdateError> | null
   data: {
     allReleases: Release[] | null
-    releaseAvailableForUpdate: Release | null
+    availableReleasesForUpdate: Release[] | null
   }
 }

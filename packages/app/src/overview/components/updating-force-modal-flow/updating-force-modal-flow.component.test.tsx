@@ -48,6 +48,7 @@ const release: Release = {
     name: "release-0.73.1",
     size: 26214400,
   },
+  mandatoryVersions: [],
 }
 
 const render = (extraProps?: Partial<Props>) => {

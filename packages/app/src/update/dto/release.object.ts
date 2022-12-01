@@ -15,4 +15,5 @@ export interface Release {
     name: string
     size: number
   }
+  mandatoryVersions: string[]
 }

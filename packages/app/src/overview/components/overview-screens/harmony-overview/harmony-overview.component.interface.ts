@@ -19,7 +19,7 @@ export interface HarmonyOverviewProps {
   readonly downloadingState: DownloadState
   readonly allReleases: Release[] | null
   readonly updateOsError: AppError<UpdateError> | null
-  readonly releaseAvailableForUpdate: Release | null
+  readonly availableReleasesForUpdate: Release[] | null
   readonly silentUpdateCheck: boolean
   readonly startUpdateOs: (data: string) => void
   readonly setUpdateState: (data: State) => void
