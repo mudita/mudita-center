@@ -8,11 +8,11 @@ import { AppError } from "App/core/errors"
 import {
   DownloadState,
   Product,
-  ReleaseType,
+  OsReleaseType,
   UpdateError,
   UpdateOsEvent,
 } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import { updateOsReducer, initialState } from "App/update/reducers"
 import {
   fulfilledAction,
@@ -25,7 +25,7 @@ const exampleError = new AppError(
   "Device updating process failed"
 )
 
-const mockedRelease: Release = {
+const mockedRelease: OsRelease = {
   date: "2021-02-02",
   file: {
     name: "test file",
@@ -33,7 +33,7 @@ const mockedRelease: Release = {
     url: "some-url",
   },
   product: Product.PurePhone,
-  type: ReleaseType.Daily,
+  type: OsReleaseType.Daily,
   version: "123",
   mandatoryVersions: [],
 }

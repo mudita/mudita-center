@@ -18,7 +18,7 @@ import {
   downloadOsUpdateRequest,
   getLatestReleaseRequest,
 } from "App/update/requests"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import { Product } from "App/update/constants"
 import React, { useEffect, useState } from "react"
 import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/updating-spinner-modal"
@@ -123,7 +123,7 @@ const UpdatingForceModalFlow: FunctionComponent<UpdatingForceModalFlowProps> =
       }
     }
 
-    const downloadOS = async (release: Release): Promise<boolean> => {
+    const downloadOS = async (release: OsRelease): Promise<boolean> => {
       const response = await downloadOsUpdateRequest({
         url: release.file.url,
         fileName: release.file.name,

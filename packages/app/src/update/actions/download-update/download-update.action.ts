@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "App/core/errors"
 import { UpdateError, UpdateOsEvent } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
 import {
   downloadOsUpdateRequest,
@@ -16,7 +16,7 @@ import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-down
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 interface Params {
-  release: Release
+  release: OsRelease
 }
 
 export const downloadUpdate = createAsyncThunk<

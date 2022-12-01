@@ -16,10 +16,10 @@ import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/
 import { ipcRenderer } from "electron-better-ipc"
 import {
   IpcReleaseRequest,
-  ReleaseType,
+  OsReleaseType,
   UpdateErrorServiceErrors,
 } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import { waitFor } from "@testing-library/dom"
 import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
@@ -38,11 +38,11 @@ const defaultProps: Props = {
   closeModal: jest.fn(),
 }
 
-const release: Release = {
+const release: OsRelease = {
   version: "0.73.1",
   date: "2021-07-09T13:57:39Z",
   product: Product.PurePhone,
-  type: ReleaseType.Production,
+  type: OsReleaseType.Production,
   file: {
     url: "www.mudita.com/assets/39998772",
     name: "release-0.73.1",

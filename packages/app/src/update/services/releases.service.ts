@@ -8,12 +8,12 @@ import { AppError } from "App/core/errors"
 import { ResultObject, Result } from "App/core/builder"
 import {
   GetReleasesByVersionsInput,
-  Release,
+  OsRelease,
   ReleaseManifest,
 } from "App/update/dto"
 import {
   Product,
-  Environment,
+  OsEnvironment,
   UpdateErrorServiceErrors,
 } from "App/update/constants"
 import { GithubReleasePresenter } from "App/update/presenters"
@@ -23,12 +23,12 @@ export class ReleaseService {
 
   public async getAllReleases(
     product: Product
-  ): Promise<ResultObject<Release[] | undefined>> {
+  ): Promise<ResultObject<OsRelease[] | undefined>> {
     try {
       const releases = await Promise.all([
-        this.getRelease(product, Environment.Production, "latest"),
-        this.getRelease(product, Environment.TestProduction, "latest"),
-        this.getRelease(product, Environment.Daily, "latest"),
+        this.getRelease(product, OsEnvironment.Production, "latest"),
+        this.getRelease(product, OsEnvironment.TestProduction, "latest"),
+        this.getRelease(product, OsEnvironment.Daily, "latest"),
       ])
 
       return Result.success(
@@ -47,11 +47,11 @@ export class ReleaseService {
   public async getReleasesByVersions({
     product,
     versions,
-  }: GetReleasesByVersionsInput): Promise<ResultObject<Release[]>> {
+  }: GetReleasesByVersionsInput): Promise<ResultObject<OsRelease[]>> {
     try {
       const releases = await Promise.all(
         versions.map((version) =>
-          this.getRelease(product, Environment.Production, version)
+          this.getRelease(product, OsEnvironment.Production, version)
         )
       )
 
@@ -70,11 +70,11 @@ export class ReleaseService {
 
   public async getLatestRelease(
     product: Product
-  ): Promise<ResultObject<Release | undefined>> {
+  ): Promise<ResultObject<OsRelease | undefined>> {
     try {
       const release = await this.getRelease(
         product,
-        Environment.Production,
+        OsEnvironment.Production,
         "latest"
       )
 
@@ -91,7 +91,7 @@ export class ReleaseService {
 
   private async getRelease(
     product: Product,
-    releaseSpace: Environment,
+    releaseSpace: OsEnvironment,
     version: "latest" | string
   ): Promise<ReleaseManifest> {
     const { data } = await this.client.getLatestRelease({

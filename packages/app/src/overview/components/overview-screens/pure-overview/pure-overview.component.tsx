@@ -21,7 +21,7 @@ import UpdatingForceModalFlow from "App/overview/components/updating-force-modal
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { DownloadState } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import logger from "App/__deprecated__/main/utils/logger"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -209,7 +209,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   // TODO [mw] handle sequential update - scope of CP-1686
-  const updateRelease = (release?: Release) => {
+  const updateRelease = (release?: OsRelease) => {
     const releaseToInstall = availableReleasesForUpdate
       ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
       : release
@@ -218,7 +218,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   // TODO [mw] handle sequential download - scope of CP-1686
-  const downloadRelease = (release?: Release) => {
+  const downloadRelease = (release?: OsRelease) => {
     const releaseToDownload = availableReleasesForUpdate
       ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
       : release

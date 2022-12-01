@@ -20,7 +20,7 @@ import { UpdatingFailureWithHelpModal } from "App/overview/components/update-os-
 import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/updating-spinner-modal"
 import { UpdatingSuccessModal } from "App/overview/components/update-os-modals/updating-success-modal"
 import { useDevUpdate, useDownloadProgress } from "App/overview/hooks"
-import { DownloadState, ReleaseType, UpdateError } from "App/update/constants"
+import { DownloadState, OsReleaseType, UpdateError } from "App/update/constants"
 import { cancelOsDownload } from "App/update/requests"
 import React, { FunctionComponent } from "react"
 
@@ -164,8 +164,8 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
           install={canShowInstallVersion}
           date={devRelease.date}
           prerelease={
-            devRelease.type === ReleaseType.Candidate ||
-            devRelease.type === ReleaseType.Daily
+            devRelease.type === OsReleaseType.Candidate ||
+            devRelease.type === OsReleaseType.Daily
           }
           version={devRelease.version}
           action={canShowDownloadVersion ? downloadDevUpdate : startDevUpdate}

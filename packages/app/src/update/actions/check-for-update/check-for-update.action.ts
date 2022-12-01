@@ -8,7 +8,7 @@ import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { Product, UpdateError, UpdateOsEvent } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import { versionFormatter } from "App/update/helpers"
 import {
   getAllReleasesRequest,
@@ -23,8 +23,8 @@ interface Params {
 }
 
 interface Result {
-  allReleases: Release[]
-  availableReleasesForUpdate: Release[]
+  allReleases: OsRelease[]
+  availableReleasesForUpdate: OsRelease[]
 }
 
 export const checkForUpdate = createAsyncThunk<Result, Params>(
@@ -66,7 +66,7 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       }
     }
 
-    const availableReleasesForUpdate: Release[] = [latestReleaseResult.data]
+    const availableReleasesForUpdate: OsRelease[] = [latestReleaseResult.data]
 
     const mandatoryVersionsToInstall =
       latestReleaseResult.data.mandatoryVersions.filter(

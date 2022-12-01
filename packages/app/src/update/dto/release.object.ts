@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Product, ReleaseType } from "App/update/constants"
+import { Product, OsReleaseType } from "App/update/constants"
 
-export interface Release {
+export interface OsRelease {
   version: string
   date: string
-  type: ReleaseType
+  type: OsReleaseType
   product: Product
   file: {
     url: string

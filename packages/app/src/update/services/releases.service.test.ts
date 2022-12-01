@@ -10,7 +10,7 @@ import { ReleaseService } from "App/update/services/releases.service"
 import { ReleaseManifest } from "App/update/dto"
 import {
   Product,
-  ReleaseType,
+  OsReleaseType,
   UpdateErrorServiceErrors,
 } from "App/update/constants"
 
@@ -79,16 +79,16 @@ describe("Method: `getAllReleases`", () => {
       Result.success([
         {
           ...productionReleaseManifest,
-          type: ReleaseType.Production,
+          type: OsReleaseType.Production,
         },
         {
           ...candidateReleaseManifest,
-          type: ReleaseType.Candidate,
+          type: OsReleaseType.Candidate,
         },
         {
           ...dailyReleaseManifest,
           version: "1.2.3-daily.2022.8.12",
-          type: ReleaseType.Daily,
+          type: OsReleaseType.Daily,
         },
       ])
     )
@@ -123,7 +123,7 @@ describe("Method: `getRelease`", () => {
     expect(result).toEqual(
       Result.success({
         ...productionReleaseManifest,
-        type: ReleaseType.Production,
+        type: OsReleaseType.Production,
       })
     )
   })
@@ -177,12 +177,12 @@ describe("Method: `getReleasesByVersions`", () => {
         {
           ...productionReleaseManifest,
           version: "1.1.0",
-          type: ReleaseType.Production,
+          type: OsReleaseType.Production,
         },
         {
           ...productionReleaseManifest,
           version: "1.2.0",
-          type: ReleaseType.Production,
+          type: OsReleaseType.Production,
         },
       ])
     )

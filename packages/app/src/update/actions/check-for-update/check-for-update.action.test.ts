@@ -8,8 +8,8 @@ import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
 import { checkForUpdate } from "App/update/actions"
-import { Product, ReleaseType, UpdateError } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { Product, OsReleaseType, UpdateError } from "App/update/constants"
+import { OsRelease } from "App/update/dto"
 import * as getAllReleasesRequestModule from "App/update/requests/get-all-releases.request"
 import * as getLatestReleaseRequestModule from "App/update/requests/get-latest-release.request"
 import * as getReleasesByVersionsModule from "App/update/requests/get-releases-by-versions.request"
@@ -17,7 +17,7 @@ import { testError } from "App/__deprecated__/renderer/store/constants"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 
-const mockedRelease: Release = {
+const mockedRelease: OsRelease = {
   date: "2021-02-02",
   file: {
     name: "test file",
@@ -25,7 +25,7 @@ const mockedRelease: Release = {
     url: "some-url",
   },
   product: Product.PurePhone,
-  type: ReleaseType.Daily,
+  type: OsReleaseType.Daily,
   version: "1.1.0",
   mandatoryVersions: [],
 }

@@ -5,7 +5,7 @@
 
 import { GithubReleasePresenter } from "App/update/presenters"
 import { ReleaseManifest } from "App/update/dto"
-import { Product, ReleaseType } from "App/update/constants"
+import { Product, OsReleaseType } from "App/update/constants"
 
 const productionReleaseManifest: ReleaseManifest = {
   version: "1.2.3",
@@ -47,7 +47,7 @@ test("returns production release type if production version has been provided", 
   expect(GithubReleasePresenter.toRelease(productionReleaseManifest)).toEqual({
     version: "1.2.3",
     date: "Thu, 04 Aug 2022 09:57:33 GMT",
-    type: ReleaseType.Production,
+    type: OsReleaseType.Production,
     product: Product.PurePhone,
     file: {
       url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",
@@ -62,7 +62,7 @@ test("returns candidate release type if candidate version has been provided", ()
   expect(GithubReleasePresenter.toRelease(candidateReleaseManifest)).toEqual({
     version: "1.2.3-rc.1",
     date: "Thu, 04 Aug 2022 09:57:33 GMT",
-    type: ReleaseType.Candidate,
+    type: OsReleaseType.Candidate,
     product: Product.PurePhone,
     file: {
       url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",
@@ -77,7 +77,7 @@ test("returns daily release type with formatted version if daily version has bee
   expect(GithubReleasePresenter.toRelease(dailyReleaseManifest)).toEqual({
     version: "1.2.3-daily.2022.8.12",
     date: "Thu, 04 Aug 2022 09:57:33 GMT",
-    type: ReleaseType.Daily,
+    type: OsReleaseType.Daily,
     product: Product.PurePhone,
     file: {
       url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",

@@ -6,7 +6,7 @@
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DownloadState, UpdateError } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 
 export interface UpdateOsState {
   updateOsState: State
@@ -15,7 +15,7 @@ export interface UpdateOsState {
   silentUpdateCheck: boolean
   error: AppError<UpdateError> | null
   data: {
-    allReleases: Release[] | null
-    availableReleasesForUpdate: Release[] | null
+    allReleases: OsRelease[] | null
+    availableReleasesForUpdate: OsRelease[] | null
   }
 }

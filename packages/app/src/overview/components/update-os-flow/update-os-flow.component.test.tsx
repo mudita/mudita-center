@@ -9,8 +9,8 @@ import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { UpdateOsFlowProps } from "App/overview/components/update-os-flow/update-os-flow.component.interface"
 import * as useDevUpdateModule from "App/overview/hooks/use-dev-os-update/use-dev-os-update"
-import { DownloadState, ReleaseType, UpdateError } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { DownloadState, OsReleaseType, UpdateError } from "App/update/constants"
+import { OsRelease } from "App/update/dto"
 import { Product } from "App/__deprecated__/main/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
@@ -42,11 +42,11 @@ const defaultProps: UpdateOsFlowProps = {
   updateOs: jest.fn(),
 }
 
-const release: Release = {
+const release: OsRelease = {
   version: "0.73.1",
   date: "2021-07-09T13:57:39Z",
   product: Product.PurePhone,
-  type: ReleaseType.Production,
+  type: OsReleaseType.Production,
   file: {
     url: "www.mudita.com/assets/39998772",
     name: "release-0.73.1",

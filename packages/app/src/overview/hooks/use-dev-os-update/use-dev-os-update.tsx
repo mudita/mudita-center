@@ -5,21 +5,21 @@
 
 import { State } from "App/core/constants"
 import { DownloadState } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import { useEffect, useState } from "react"
 
 interface Params {
-  allReleases: Release[] | null
-  updateOs: (release?: Release) => void
-  downloadUpdate: (release?: Release) => void
+  allReleases: OsRelease[] | null
+  updateOs: (release?: OsRelease) => void
+  downloadUpdate: (release?: OsRelease) => void
   clearUpdateOsFlow: () => void
   downloadState: DownloadState | null
   updateState: State | null
 }
 
 interface Result {
-  devRelease: Release | undefined
+  devRelease: OsRelease | undefined
   downloadDevUpdate: () => void
   startDevUpdate: () => void
   closeDevModal: () => void
@@ -35,7 +35,7 @@ export const useDevUpdate = ({
   downloadState,
   updateState,
 }: Params): Result => {
-  const [devRelease, setDevRelease] = useState<Release>()
+  const [devRelease, setDevRelease] = useState<OsRelease>()
 
   useEffect(() => {
     const unregisterItem = appContextMenu.registerItem("Overview", {

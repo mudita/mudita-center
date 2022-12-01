@@ -7,12 +7,12 @@ import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
 import path from "path"
 import getAppSettingsMain from "App/__deprecated__/main/functions/get-app-settings"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 
 export const osUpdateAlreadyDownloadedChannel = "os-update-exists-check"
 
 export const registerOsUpdateAlreadyDownloadedCheck = (): void => {
-  ipcMain.answerRenderer<Release["file"], boolean>(
+  ipcMain.answerRenderer<OsRelease["file"], boolean>(
     osUpdateAlreadyDownloadedChannel,
     async ({ url, size }) => {
       const fileName = url.split("/").pop() as string
