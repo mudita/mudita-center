@@ -91,6 +91,7 @@ export interface DeviceInfo {
   serialNumber: string
   caseColour: CaseColour
   backupFilePath: string
+  recoveryStatusFilePath: string
   deviceToken?: string
 }
 

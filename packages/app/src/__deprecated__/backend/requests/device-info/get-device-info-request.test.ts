@@ -23,6 +23,7 @@ import { RequestResponseStatus } from "App/core/types/request-response.interface
 
 const mockDeviceInfo: DeviceInfo = {
   backupFilePath: "",
+  recoveryStatusFilePath: "",
   networkOperatorName: "",
   accessTechnology: AccessTechnology.Gsm,
   batteryLevel: "35",
