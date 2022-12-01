@@ -26,7 +26,7 @@ const messages = defineMessages({
 
 interface Release {
   version: string
-  date: Date
+  date: string
 }
 
 export interface AboutUpdatesSectionProps {
@@ -56,52 +56,49 @@ const UpdatesOsVersionContainer = styled.div`
   justify-content: space-between;
 `
 
-export const AboutUpdatesSection: FunctionComponent<
-  AboutUpdatesSectionProps
-> = ({ releases }) => {
-  return (
-    <AboutUpdatesSectionContainer>
-      <AboutUpdatesSectionTitle
-        displayStyle={TextDisplayStyle.Label}
-        color="primary"
-        message={{
-          ...messages.updateAvailableAboutUpdatesTitle,
-          values: { num: releases.length },
-        }}
-      />
-      {releases.map(({ version, date }, index) => {
-        const isSingleRelease = releases.length === 1
-        const isLatestRelease = releases.length - 1 === index
-        const displaySubDescription = !isSingleRelease && isLatestRelease
-        return (
-          <UpdatesOsVersionContainer key={index}>
-            <Text
-              displayStyle={TextDisplayStyle.Label}
-              color="secondary"
-              message={{
-                ...messages.updateAvailableOsVersionDescription,
-                values: {
-                  version,
-                  date: new Date(date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  }),
-                },
-              }}
-            />
-            {displaySubDescription && (
+export const AboutUpdatesSection: FunctionComponent<AboutUpdatesSectionProps> =
+  ({ releases }) => {
+    return (
+      <AboutUpdatesSectionContainer>
+        <AboutUpdatesSectionTitle
+          displayStyle={TextDisplayStyle.Label}
+          color="primary"
+          message={{
+            ...messages.updateAvailableAboutUpdatesTitle,
+            values: { num: releases.length },
+          }}
+        />
+        {releases.map(({ version, date }, index) => {
+          const isSingleRelease = releases.length === 1
+          const isLatestRelease = releases.length - 1 === index
+          const displaySubDescription = !isSingleRelease && isLatestRelease
+          return (
+            <UpdatesOsVersionContainer key={index}>
               <Text
                 displayStyle={TextDisplayStyle.Label}
-                color="tabHover"
-                message={
-                  messages.updateAvailableAboutOsVersionSubDescription
-                }
+                color="secondary"
+                message={{
+                  ...messages.updateAvailableOsVersionDescription,
+                  values: {
+                    version,
+                    date: new Date(date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    }),
+                  },
+                }}
               />
-            )}
-          </UpdatesOsVersionContainer>
-        )
-      })}
-    </AboutUpdatesSectionContainer>
-  )
-}
+              {displaySubDescription && (
+                <Text
+                  displayStyle={TextDisplayStyle.Label}
+                  color="tabHover"
+                  message={messages.updateAvailableAboutOsVersionSubDescription}
+                />
+              )}
+            </UpdatesOsVersionContainer>
+          )
+        })}
+      </AboutUpdatesSectionContainer>
+    )
+  }

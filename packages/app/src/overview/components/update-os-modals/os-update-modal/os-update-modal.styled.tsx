@@ -9,8 +9,4 @@ export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  p + p {
-    margin-top: 1.2rem;
-  }
 `

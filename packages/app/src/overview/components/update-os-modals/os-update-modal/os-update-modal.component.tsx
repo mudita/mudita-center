@@ -4,19 +4,26 @@
  */
 
 import { OSUpdateModalProps } from "App/overview/components/update-os-modals/os-update-modal/os-update-modal.interface"
-import { ModalContent, ModalDialog } from "App/ui/components/modal-dialog"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import React from "react"
 import { defineMessages } from "react-intl"
+import styled from "styled-components"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
     id: "module.overview.muditaOsUpdateTitle",
   },
 })
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 export const OSUpdateModal: FunctionComponent<OSUpdateModalProps> = ({
   children,
