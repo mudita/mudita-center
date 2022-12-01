@@ -6,10 +6,10 @@
 import { createSelector } from "reselect"
 import { MessagesState } from "App/messages/reducers"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const searchValueSelector = createSelector<
   ReduxRootState,
   MessagesState,
   string
->(messagesStateSelector, ({ searchValue }) => searchValue)
+>(messagesStateSelector, ({ data: { searchValue } }) => searchValue)

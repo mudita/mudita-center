@@ -3,41 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcUpdate } from "App/update/constants"
-import { Product, ReleaseSpace } from "App/main/constants"
-import { Release } from "App/update/types"
-import { Feature, flags } from "App/feature-flags"
-import { getLatestProductionReleaseParams } from "App/api/mudita-center-server/client"
-
-const productsMapper = {
-  [DeviceType.MuditaPure]: Product.PurePhone,
-  [DeviceType.MuditaHarmony]: Product.BellHybrid,
-}
-
-const getReleaseSpace = (): ReleaseSpace => {
-  if (flags.get(Feature.ProductionReleaseOnly)) {
-    return ReleaseSpace.Production
-  } else if (flags.get(Feature.TestProductionReleaseOnly)) {
-    return ReleaseSpace.TestProduction
-  } else {
-    return ReleaseSpace.Daily
-  }
-}
+import { ResultObject } from "App/core/builder"
+import { IpcReleaseRequest, Product } from "App/update/constants"
+import { Release } from "App/update/dto"
 
 export const getLatestReleaseRequest = async (
-  deviceType: DeviceType
-): Promise<Release | undefined> => {
-  const product = productsMapper[deviceType]
-  const releaseSpace = getReleaseSpace()
-  const params: getLatestProductionReleaseParams = {
-    product,
-    releaseSpace,
-  }
-
-  return ipcRenderer.callMain<getLatestProductionReleaseParams, Release>(
-    IpcUpdate.GetLatestRelease,
-    params
-  )
+  product: Product
+): Promise<ResultObject<Release>> => {
+  return ipcRenderer.callMain(IpcReleaseRequest.GetLatestRelease, product)
 }

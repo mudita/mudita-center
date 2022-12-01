@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
@@ -53,10 +58,10 @@ class OverviewPage extends Page {
   public get aboutYourPureButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-MenuPhone"]')
+    return $("p*=About your Pure")
   }
 
-  public get checkSARInfoLink(): ChainablePromiseElement<
+  public get checkSARInformationButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $("p*=Check SAR information")

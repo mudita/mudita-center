@@ -7,16 +7,16 @@ import styled from "styled-components"
 import Text, {
   getTextStyles,
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   borderColor,
   fontWeight,
   textColor,
-} from "Renderer/styles/theming/theme-getters"
-import { Sidebar } from "Renderer/components/core/table/table.component"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
-import { generalInputStyles } from "Renderer/components/core/input-text/input-text.elements"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
+import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
+import { InputComponentProps } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
+import { generalInputStyles } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
 
 export const BasicInfo = styled.div`
   margin: 2.8rem auto 0 auto;
@@ -31,9 +31,10 @@ export const Name = styled(Text).attrs(() => ({
   grid-area: Name;
   text-align: center;
   line-height: 1.2;
-  height: 5.6rem;
+  min-height: 5.6rem;
   width: 100%;
   margin-bottom: 1.4rem;
+  word-break: break-all;
 `
 export const InfoItem = styled.div`
   display: grid;

@@ -5,9 +5,9 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
-import { createContactRequest, editContactRequest } from "App/contacts/requests"
 import { Contact, NewContact } from "App/contacts/reducers"
-import { ImportContactError } from "App/contacts/errors/import-contact.error"
+import { createContactRequest, editContactRequest } from "App/contacts/requests"
+import { AppError } from "App/core/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 export const importContact = createAsyncThunk<Error | Contact, NewContact>(
@@ -19,6 +19,8 @@ export const importContact = createAsyncThunk<Error | Contact, NewContact>(
     if (status === RequestResponseStatus.Duplicated) {
       const contact = {
         ...newContact,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-non-null-assertion
         id: String(error!.data.id),
       } as Contact
       const response = await editContactRequest(contact)
@@ -27,7 +29,10 @@ export const importContact = createAsyncThunk<Error | Contact, NewContact>(
 
     if (error || !data) {
       return rejectWithValue(
-        new ImportContactError("Import Contact request failed")
+        new AppError(
+          ContactsEvent.ImportContact,
+          "Import Contact request failed"
+        )
       )
     }
 

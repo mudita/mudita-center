@@ -4,13 +4,15 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import store from "Renderer/store"
+import store from "App/__deprecated__/renderer/store"
 import { IpcCrashDumpRenderedEvent } from "App/crash-dump/constants"
 import { setCrashDump } from "App/crash-dump/actions"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const setCrashDumpData = (_: any, data: string[]) => {
   if (data && data.length) {
-    store.dispatch(setCrashDump(data))
+    void store.dispatch(setCrashDump(data))
   }
 }
 

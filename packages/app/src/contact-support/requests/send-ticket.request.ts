@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import archiveFiles from "Renderer/requests/archive-files.request"
-import createFreshdeskTicket from "App/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.request"
+import createFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import {
   FreshdeskTicketData,
   FreshdeskTicketDataType,
-} from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+} from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 import {
   downloadingLogs,
   attachedFileName,
@@ -55,10 +55,18 @@ const sendTicketRequest = async (
     return {
       status: CreateBugTicketResponseStatus.Ok,
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (e?.response?.data) {
       const error = {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         message: e.response.data.description,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         data: e.response.data.errors,
       }
       return {

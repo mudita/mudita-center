@@ -3,17 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { useState } from "react"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { PasswordFieldTestIds } from "App/ui/components/password-field/password-field-test-ids.enum"
 import {
   FieldWrapper,
   FormInput,
   IconWrapper,
 } from "App/ui/components/password-field/password-field.styled"
-import { intl } from "Renderer/utils/intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 interface PasswordFieldProps {
   errorMessage?: string

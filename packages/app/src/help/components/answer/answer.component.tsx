@@ -4,23 +4,23 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { RouteComponentProps } from "react-router"
-import Button from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { intl } from "Renderer/utils/intl"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import { QuestionAndAnswer } from "App/help/components/help.component"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { richTextReactComponentOptions } from "Renderer/utils/rich-text/rich-text-renderer"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { richTextReactComponentOptions } from "App/__deprecated__/renderer/utils/rich-text/rich-text-renderer"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { AnswerUiTestIds } from "App/help/components/answer/answer-test-ids.enum"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const AnswerContainer = styled.div`
   padding: 0 10.5rem;
@@ -35,6 +35,10 @@ const AnswerHeader = styled.div`
 
 const BackLink = styled(Button)`
   width: max-content;
+`
+
+const AnswerContent = styled.div`
+  max-width: 48rem;
 `
 
 interface Props extends RouteComponentProps<{ questionId: string }> {
@@ -57,7 +61,7 @@ const Answer: FunctionComponent<Props> = ({ match, list }) => {
           data-testid={AnswerUiTestIds.BackLink}
         />
       </AnswerHeader>
-      <div data-testid={AnswerUiTestIds.Content}>
+      <AnswerContent data-testid={AnswerUiTestIds.Content}>
         {items[match.params.questionId]?.answer ? (
           documentToReactComponents(
             items[match.params.questionId].answer,
@@ -69,7 +73,7 @@ const Answer: FunctionComponent<Props> = ({ match, list }) => {
             message={{ id: "module.help.answerError" }}
           />
         )}
-      </div>
+      </AnswerContent>
     </AnswerContainer>
   )
 }

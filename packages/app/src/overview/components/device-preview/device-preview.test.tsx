@@ -5,10 +5,10 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
-import { DeviceType, CaseColour } from "@mudita/pure"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { DeviceType, CaseColor } from "App/device/constants"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { DevicePreview } from "App/overview/components/device-preview/device-preview.component"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
@@ -20,12 +20,16 @@ jest.mock("App/feature-flags")
 const renderDevice = ({
   onDisconnect = noop,
   deviceType = DeviceType.MuditaPure,
-  caseColour = CaseColour.Gray,
+  caseColour = CaseColor.Gray,
 }: Partial<ComponentProps<typeof DevicePreview>> = {}) => {
   const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
-      <DevicePreview deviceType={deviceType} onDisconnect={onDisconnect} caseColour={caseColour} />
+      <DevicePreview
+        deviceType={deviceType}
+        onDisconnect={onDisconnect}
+        caseColour={caseColour}
+      />
     </Router>
   )
   return {
@@ -34,6 +38,8 @@ const renderDevice = ({
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("disconnect button works properly", async () => {
   const onDisconnect = jest.fn()
 
@@ -46,7 +52,7 @@ test("disconnect button works properly", async () => {
 
 test("Phone Component should render proper phone color", () => {
   jest.spyOn(flags, "get").mockReturnValue(true)
-  const { getByTestId } = renderDevice({ caseColour: CaseColour.Black })
+  const { getByTestId } = renderDevice({ caseColour: CaseColor.Black })
 
   expect(getByTestId(DeviceTestIds.PureBlack)).toBeInTheDocument()
 })

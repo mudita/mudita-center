@@ -4,7 +4,7 @@
  */
 
 import React, { createRef, Ref } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
   Col,
@@ -12,28 +12,26 @@ import Table, {
   LoadingState,
   Row,
   TextPlaceholder,
-} from "Renderer/components/core/table/table.component"
-import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
+import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
 import Avatar, {
   AvatarSize,
   basicAvatarStyles,
-} from "Renderer/components/core/avatar/avatar.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
-import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
+} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import { intl } from "Renderer/utils/intl"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -88,19 +86,20 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   }
 `
 
-type SelectHook = Pick<
-  UseTableSelect<Contact>,
-  "getRowStatus" | "toggleRow" | "noneRowsSelected"
->
-
-interface Props extends Omit<ContactActions, "onEdit">, SelectHook {
+interface ContactSearchResultProps {
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
   resultsState: ResultState
   results: Contact[]
+  selectedItems: string[]
+  onExport: (ids: string[]) => void
+  onForward: (contact: Contact) => void
+  onBlock: (contact: Contact) => void
+  onUnblock: (contact: Contact) => void
+  onDelete: (id: string) => void
 }
 
-const ContactSearchResults: FunctionComponent<Props> = ({
+const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
   results,
   onSelect,
   onExport,
@@ -109,7 +108,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
   onUnblock,
   onDelete,
   resultsState,
-  getRowStatus,
+  selectedItems,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
@@ -134,12 +133,12 @@ const ContactSearchResults: FunctionComponent<Props> = ({
       {resultsState === ResultState.Loaded &&
         (results.length
           ? results.map((contact) => {
-              const { selected } = getRowStatus(contact)
-              const handleExport = () => onExport([contact])
+              const selected = selectedItems.includes(contact.id)
+              const handleExport = () => onExport([contact.id])
               const handleForward = () => onForward(contact)
               const handleBlock = () => onBlock(contact)
               const handleUnblock = () => onUnblock(contact)
-              const handleDelete = () => onDelete(contact)
+              const handleDelete = () => onDelete(contact.id)
               const handleSelect = () => onSelect(contact)
 
               const fullName = createFullName(contact)
@@ -196,7 +195,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           Icon={IconType.Upload}
                           onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
-                          hide={flags.get(Feature.ProductionAndAlpha)}
+                          hide={!flags.get(Feature.ContactExportEnabled)}
                         />
                         <HiddenButton
                           labelMessage={{
@@ -205,7 +204,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           Icon={IconType.Forward}
                           onClick={handleForward}
                           displayStyle={DisplayStyle.Dropdown}
-                          hide={flags.get(Feature.ProductionAndAlpha)}
+                          hide={!flags.get(Feature.ContactForwardEnabled)}
                         />
                         {contact.blocked ? (
                           <HiddenButton
@@ -215,7 +214,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                             Icon={IconType.Blocked}
                             onClick={handleUnblock}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={flags.get(Feature.ProductionAndAlpha)}
+                            hide={!flags.get(Feature.ContactBlockingEnabled)}
                           />
                         ) : (
                           <HiddenButton
@@ -225,7 +224,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                             Icon={IconType.Blocked}
                             onClick={handleBlock}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={flags.get(Feature.ProductionAndAlpha)}
+                            hide={!flags.get(Feature.ContactBlockingEnabled)}
                           />
                         )}
                         <ButtonComponent

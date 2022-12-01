@@ -4,14 +4,14 @@
  */
 
 import styled from "styled-components"
-import Text from "Renderer/components/core/text/text.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { Sidebar } from "Renderer/components/core/table/table.component"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import Button from "Renderer/components/core/button/button.component"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
+import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 
 export const PhoneNumberText = styled(Text)`
   margin-top: 0.8rem;
@@ -27,7 +27,18 @@ export const MessagesWrapper = styled.div`
   overflow-x: hidden;
 `
 
-export const MessageBubblesWrapper = styled.div``
+/**
+ * Having equal and divided padding for MessageBubblesWrapper and BottomWrapper
+ * works fine for scrolling experience and detecting when new message notification
+ * should be shown
+ */
+export const MessageBubblesWrapper = styled.div`
+  padding-bottom: 3rem;
+`
+
+export const BottomWrapper = styled.div`
+  padding-top: 3rem;
+`
 
 export const TextareaWrapper = styled.div`
   position: sticky;
@@ -46,6 +57,7 @@ export const MessagesSidebar = styled(Sidebar)`
 
 export const NameWrapper = styled.div`
   display: flex;
+  align-items: center;
 `
 
 export const IconButton = styled(ButtonComponent).attrs(() => ({

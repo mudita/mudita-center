@@ -5,7 +5,8 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import { Index } from "elasticlunr"
+import { ElasticlunrFactory } from "App/index-storage/factories"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { ContactTable } from "App/data-sync/constants"
 import {
@@ -30,7 +31,7 @@ export class ContactIndexer extends BaseIndexer {
   }
 
   private createIndex(data: ContactObject[]): Index<ContactObject> {
-    const index = elasticlunr<ContactObject>()
+    const index = ElasticlunrFactory.create<ContactObject>()
 
     index.setRef("id")
     index.addField("firstName")
@@ -63,6 +64,12 @@ export class ContactIndexer extends BaseIndexer {
       [ContactTable.Addresses]: db.exec(
         `SELECT * FROM ${ContactTable.Addresses};`
       )[0] as unknown as ContactInput["contact_address"],
+      [ContactTable.Group]: db.exec(
+        `SELECT * FROM ${ContactTable.Group};`
+      )[0] as unknown as ContactInput["contact_groups"],
+      [ContactTable.MatchGroup]: db.exec(
+        `SELECT * FROM ${ContactTable.MatchGroup};`
+      )[0] as unknown as ContactInput["contact_match_groups"],
     }
   }
 

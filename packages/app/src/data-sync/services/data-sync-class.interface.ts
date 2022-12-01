@@ -8,6 +8,8 @@ import { DataIndex } from "App/data-sync/constants"
 import { InitializeOptions } from "App/data-sync/types"
 
 export interface DataSyncClass {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   indexesMap: Map<DataIndex, SerialisedIndexData<any>>
   initialize(options: InitializeOptions): Promise<boolean>
   indexAll(): Promise<void>

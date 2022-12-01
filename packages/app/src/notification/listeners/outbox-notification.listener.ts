@@ -4,9 +4,9 @@
  */
 
 import { v4 as uuid } from "uuid"
-import { OutboxEntryType } from "@mudita/pure"
+import { OutboxEntryType } from "App/device/constants"
 import { ipcRenderer } from "electron-better-ipc"
-import store from "Renderer/store"
+import store from "App/__deprecated__/renderer/store"
 import { pushNotification } from "App/notification/actions"
 import {
   IpcEvent,
@@ -22,9 +22,11 @@ const resourceTypeMap: Record<OutboxEntryType, NotificationResourceType> = {
   [OutboxEntryType.Contact]: NotificationResourceType.Contact,
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const newNotifications = (_: any, data: EntryChangesEvent[]): void => {
   data.forEach((item) => {
-    store.dispatch(
+    void store.dispatch(
       pushNotification({
         id: uuid(),
         method: NotificationMethod.Layout,

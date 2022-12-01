@@ -5,7 +5,7 @@
 
 import React from "react"
 import FilesSummaryItem from "App/files-manager/components/files-summary-item/files-summary-item.component"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled from "styled-components"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesSummaryTestIds } from "App/files-manager/components/files-summary/files-summary-test-ids.enum"
@@ -16,13 +16,13 @@ import {
 } from "App/files-manager/components/files-manager/files-manager.styled"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import StackedBarChart, {
   DisplayStyle,
   ChartItem,
-} from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+} from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
-import { convertFromBytesToDecimal } from "Renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ export const messages = defineMessages({
 
 interface Props {
   diskSpaceCategories: DiskSpaceCategory[]
-  systemMemory: number
+  usedMemory: number
   totalMemorySpace: number
 }
 
@@ -56,10 +56,10 @@ const memoryToStackedBarChartData = (
 
 const FilesSummary: FunctionComponent<Props> = ({
   diskSpaceCategories,
-  systemMemory,
+  usedMemory,
   totalMemorySpace,
 }) => {
-  const totalMemoryPercent = Math.floor((systemMemory / totalMemorySpace) * 100)
+  const usedMemoryPercent = Math.floor((usedMemory / totalMemorySpace) * 100)
 
   return (
     <FilesSummaryContainer>
@@ -78,13 +78,19 @@ const FilesSummary: FunctionComponent<Props> = ({
         chartData={memoryToStackedBarChartData(diskSpaceCategories)}
       />
       <StatsContainer>
-        <Text displayStyle={TextDisplayStyle.Paragraph3} color="secondary">
-          {`${convertFromBytesToDecimal(
-            systemMemory
-          )} (${totalMemoryPercent}%)`}
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph3}
+          color="secondary"
+          testId={FilesSummaryTestIds.UsedMemory}
+        >
+          {`${convertBytes(usedMemory)} (${usedMemoryPercent}%)`}
         </Text>
-        <Text displayStyle={TextDisplayStyle.Paragraph3} color="secondary">
-          {convertFromBytesToDecimal(totalMemorySpace)}
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph3}
+          color="secondary"
+          testId={FilesSummaryTestIds.TotalMemory}
+        >
+          {convertBytes(totalMemorySpace)}
         </Text>
       </StatsContainer>
     </FilesSummaryContainer>

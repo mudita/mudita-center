@@ -6,22 +6,24 @@
 import React from "react"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import {
   backgroundColor,
   borderRadius,
-} from "Renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled from "styled-components"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
-import { convertFromBytesToDecimal } from "Renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
 import { defineMessages } from "react-intl"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 
 const FilesSummaryItemContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   background-color: ${backgroundColor("row")};
   padding: 1.6rem;
   width: 28rem;
@@ -37,7 +39,7 @@ const SummaryIcon = styled(Icon)<{ fileColor: string }>`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   height: 100%;
 `
 export const messages = defineMessages({
@@ -72,7 +74,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
               ...messages.summaryItemDescription,
               values: {
                 filesAmount: filesAmount,
-                size: convertFromBytesToDecimal(size),
+                size: convertBytes(size),
               },
             }}
           />
@@ -82,7 +84,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
             element={"p"}
             data-testid={FilesSummaryItemTestIds.Description}
           >
-            {`(${convertFromBytesToDecimal(size)})`}
+            {`(${convertBytes(size)})`}
           </Text>
         )}
       </TextWrapper>

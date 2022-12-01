@@ -4,18 +4,18 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
-import thunk from "redux-thunk"
-import createMockStore from "redux-mock-store"
-import { ContactsEvent } from "App/contacts/constants"
-import { AddNewContactError } from "App/contacts/errors/add-new-contact.error"
-import { createContactRequest } from "App/contacts/requests"
-import { Contact, initialState, NewContact } from "App/contacts/reducers"
-import { testError } from "Renderer/store/constants"
 import { createNewContact } from "App/contacts/actions/create-new-contacts.action"
+import { ContactsEvent } from "App/contacts/constants"
+import { Contact, initialState, NewContact } from "App/contacts/reducers"
+import { createContactRequest } from "App/contacts/requests"
+import { AppError } from "App/core/errors"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 
 jest.mock("App/contacts/requests/create-contact.request")
 
@@ -65,6 +65,8 @@ describe("async `createNewContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         createNewContact(newContact) as unknown as AnyAction
       )
@@ -85,12 +87,17 @@ describe("async `createNewContact` ", () => {
   describe("when `createContactRequest` return error", () => {
     test("fire async `createNewContact` returns `rejected` action", async () => {
       ;(createContactRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new AddNewContactError("Add Contact request failed")
+      const errorMock = new AppError(
+        ContactsEvent.AddNewContact,
+        "Add Contact request failed"
+      )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         createNewContact(newContact) as unknown as AnyAction
       )

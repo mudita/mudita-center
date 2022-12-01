@@ -6,7 +6,7 @@
 import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { PasswordField } from "App/ui/components/password-field/password-filed.component"
 import { PasswordFieldTestIds } from "App/ui/components/password-field/password-field-test-ids.enum"
 

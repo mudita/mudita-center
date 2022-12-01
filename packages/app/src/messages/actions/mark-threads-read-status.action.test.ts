@@ -11,11 +11,12 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { CreateMessageDataResponse } from "App/messages/services"
-import { MarkThreadsReadStatusError } from "App/messages/errors"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { toggleThreadsReadStatusRequest } from "App/messages/requests"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 import { markThreadsReadStatus } from "App/messages/actions/mark-threads-read-status.action"
+import { MessagesError, MessageType } from "App/messages/constants"
+import { AppError } from "App/core/errors"
 
 jest.mock("App/messages/requests/toggle-threads-read-status.request")
 
@@ -26,6 +27,9 @@ const thread: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {
@@ -60,6 +64,8 @@ describe("`markThreadsReadStatus`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         markThreadsReadStatus([thread]) as unknown as AnyAction
       )
@@ -78,12 +84,15 @@ describe("`markThreadsReadStatus`", () => {
       ;(toggleThreadsReadStatusRequest as jest.Mock).mockReturnValue(
         errorDeviceResponse
       )
-      const errorMock = new MarkThreadsReadStatusError(
+      const errorMock = new AppError(
+        MessagesError.MarkThreadsReadStatus,
         "Mark threads read status request failed"
       )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         markThreadsReadStatus([thread]) as unknown as AnyAction
       )
@@ -108,6 +117,8 @@ describe("`markThreadsReadStatus`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         markThreadsReadStatus([thread]) as unknown as AnyAction
       )

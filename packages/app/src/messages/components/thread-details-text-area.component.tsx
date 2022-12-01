@@ -4,22 +4,30 @@
  */
 
 import React, { ChangeEvent, KeyboardEvent } from "react"
-import { intl } from "Renderer/utils/intl"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
-  IconButton,
   Textarea,
   TextareaWrapper,
 } from "App/messages/components/thread-details.styled"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { Feature, flags } from "App/feature-flags"
-import { IconBackgroundWithTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
+import { IconBackgroundWithTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
 import { defineMessages } from "react-intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 
 const messages = defineMessages({
-  sendButtonTooltipDescription: { id: "module.messages.sendButtonTooltipDescription" },
+  sendButtonTooltipDescription: {
+    id: "module.messages.sendButtonTooltipDescription",
+  },
+  attachContactTooltipDescription: {
+    id: "module.messages.attachContactTooltipDescription",
+  },
+  attachTemplateTooltipDescription: {
+    id: "module.messages.attachTemplateTooltipDescription",
+  },
 })
 
 interface Props {
@@ -27,6 +35,7 @@ interface Props {
   onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void
   onSendClick: () => void
   onAttachContactClick: () => void
+  onAttachTemplateClick: () => void
 }
 
 const ThreadDetailsTextArea: FunctionComponent<Props> = ({
@@ -34,21 +43,31 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
   onSendClick,
   onChange,
   onAttachContactClick,
+  onAttachTemplateClick,
 }) => {
   const isValueEmpty = (): boolean => {
     return value.length === 0
   }
 
   const leadingIcons = [
-    flags.get(Feature.DevelopOnly) && (
-      <IconButton
-        key={IconType.AttachContact}
+    flags.get(Feature.MessagesThreadAttachContactEnabled) && (
+      <IconButtonWithSecondaryTooltip
+        testId={ThreadDetailsTextAreaTestIds.AttachContactButton}
         Icon={IconType.AttachContact}
+        key={IconType.AttachContact}
+        description={messages.attachContactTooltipDescription}
         onClick={onAttachContactClick}
+        place={ElementWithTooltipPlace.TopLeft}
       />
     ),
-    flags.get(Feature.DevelopOnly) && (
-      <Icon type={IconType.Template} key={IconType.Template} size={IconSize.Big} />
+    flags.get(Feature.MessagesThreadAttachTemplateEnabled) && (
+      <IconButtonWithSecondaryTooltip
+        Icon={IconType.Template}
+        key={IconType.Template}
+        description={messages.attachTemplateTooltipDescription}
+        onClick={onAttachTemplateClick}
+        place={ElementWithTooltipPlace.TopLeft}
+      />
     ),
   ]
 

@@ -5,4 +5,7 @@
 
 export enum TemplateError {
   CreateTemplate = "CREATE_TEMPLATE_ERROR",
+  DeleteTemplate = "DELETE_TEMPLATE_ERROR",
+  UpdateTemplate = "UPDATE_TEMPLATE_ERROR",
+  UpdateTemplateOrder = "UPDATE_TEMPLATE_ORDER_ERROR",
 }

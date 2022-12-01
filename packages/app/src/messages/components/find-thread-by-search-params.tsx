@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { isCallerMatchingPhoneNumber } from "Renderer/models/calls/caller-utils.ts"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { isCallerMatchingPhoneNumber } from "App/__deprecated__/renderer/models/calls/caller-utils.ts"
+import { Thread } from "App/messages/dto"
 
 const findThreadBySearchParams = (
   searchParams: URLSearchParams,

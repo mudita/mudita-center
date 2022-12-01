@@ -3,20 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { intl } from "Renderer/utils/intl"
-import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
-import Icon from "Renderer/components/core/icon/icon.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import React, { ComponentProps } from "react"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import { Size } from "Renderer/components/core/button/button.config"
+import { ModalDialog } from "App/ui/components/modal-dialog"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   errorSyncModalHeaderTitle: {
@@ -61,7 +61,7 @@ const ErrorSyncModal: FunctionComponent<Props> = ({ onRetry, ...props }) => {
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={IconType.Fail} width={4} />
+          <Icon type={IconType.ThinFail} width={3.2} />
         </RoundIconWrapper>
         <ModalText
           displayStyle={TextDisplayStyle.Headline4}

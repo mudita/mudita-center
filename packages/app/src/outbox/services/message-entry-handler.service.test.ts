@@ -3,16 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { OutboxEntry, OutboxEntryChange, OutboxEntryType } from "@mudita/pure"
+import { OutboxEntry } from "App/device/types/mudita-os"
+import { OutboxEntryChange, OutboxEntryType } from "App/device/constants"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { MessageEntryHandlerService } from "App/outbox/services/message-entry-handler.service"
-import { Message, MessageType } from "App/messages/reducers"
+import { Message, Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { MessageService } from "App/messages/services"
-import { MessageRepository } from "App/messages/repositories"
+import { MessageRepository, ThreadRepository } from "App/messages/repositories"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
 
 const messageMock: Message = {
@@ -24,6 +26,19 @@ const messageMock: Message = {
   phoneNumber: "+48 755 853 216",
   messageType: MessageType.INBOX,
 }
+
+const threadMock: Thread = {
+  id: "1",
+  phoneNumber: "+48 755 853 216",
+  lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+  messageSnippet:
+    "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+  unread: true,
+  messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
+}
+
 const successResponse: SuccessRequestResponse<Message> = {
   status: RequestResponseStatus.Ok,
   data: messageMock,
@@ -42,6 +57,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadRepository: ThreadRepository
     let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
@@ -60,15 +76,21 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
       } as unknown as MessageService
+      threadRepository = {
+        findById: jest.fn().mockReturnValue(threadMock),
+      } as unknown as ThreadRepository
       subject = new MessageEntryHandlerService(
         messageService,
         messageRepository,
+        threadRepository,
         threadEntryHandlerService
       )
     })
 
     test("`delete` method in messageRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(messageRepository.delete).toHaveBeenCalledWith("1")
     })
 
@@ -82,6 +104,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadRepository: ThreadRepository
     let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
@@ -100,15 +123,21 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
       } as unknown as MessageService
+      threadRepository = {
+        findById: jest.fn().mockReturnValue(threadMock),
+      } as unknown as ThreadRepository
       subject = new MessageEntryHandlerService(
         messageService,
         messageRepository,
+        threadRepository,
         threadEntryHandlerService
       )
     })
 
     test("`create` method in messageRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(messageMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(messageRepository.create).toHaveBeenCalled()
     })
 
@@ -122,6 +151,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadRepository: ThreadRepository
     let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
@@ -140,15 +170,21 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
       } as unknown as MessageService
+      threadRepository = {
+        findById: jest.fn().mockReturnValue(threadMock),
+      } as unknown as ThreadRepository
       subject = new MessageEntryHandlerService(
         messageService,
         messageRepository,
+        threadRepository,
         threadEntryHandlerService
       )
     })
 
     test("`update` method in messageRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(messageMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(messageRepository.update).toHaveBeenCalled()
     })
 
@@ -162,6 +198,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadRepository: ThreadRepository
     let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
@@ -180,15 +217,21 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       messageService = {
         getMessage: jest.fn().mockReturnValue(errorResponse),
       } as unknown as MessageService
+      threadRepository = {
+        findById: jest.fn().mockReturnValue(threadMock),
+      } as unknown as ThreadRepository
       subject = new MessageEntryHandlerService(
         messageService,
         messageRepository,
+        threadRepository,
         threadEntryHandlerService
       )
     })
 
     test("`update` method in messageRepository wasn't called", async () => {
       expect(await subject.handleEntry(entry)).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(messageRepository.update).not.toHaveBeenCalled()
     })
 

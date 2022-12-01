@@ -4,17 +4,18 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
-import thunk from "redux-thunk"
-import createMockStore from "redux-mock-store"
-import { createContactRequest, editContactRequest } from "App/contacts/requests"
-import { Contact, initialState, NewContact } from "App/contacts/reducers"
-import { testError } from "Renderer/store/constants"
 import { importContact } from "App/contacts/actions/import-contact.action"
-import { ImportContactError } from "App/contacts/errors/import-contact.error"
+import { ContactsEvent } from "App/contacts/constants"
+import { Contact, initialState, NewContact } from "App/contacts/reducers"
+import { createContactRequest, editContactRequest } from "App/contacts/requests"
+import { AppError } from "App/core/errors"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 
 jest.mock("App/contacts/requests/create-contact.request")
 jest.mock("App/contacts/requests/edit-contact.request")
@@ -75,6 +76,8 @@ describe("async `importContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         importContact(newContact) as unknown as AnyAction
       )
@@ -95,12 +98,17 @@ describe("async `importContact` ", () => {
   describe("when `addContact` request return error", () => {
     test("fire async `importContact` returns `rejected` action", async () => {
       ;(createContactRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new ImportContactError("Import Contact request failed")
+      const errorMock = new AppError(
+        ContactsEvent.ImportContact,
+        "Import Contact request failed"
+      )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         importContact(newContact) as unknown as AnyAction
       )
@@ -119,12 +127,16 @@ describe("async `importContact` ", () => {
       ;(createContactRequest as jest.Mock).mockReturnValue(
         duplicatedErrorDeviceResponse
       )
-      ;(editContactRequest as jest.Mock).mockReturnValue(duplicatedErrorDeviceResponse)
+      ;(editContactRequest as jest.Mock).mockReturnValue(
+        duplicatedErrorDeviceResponse
+      )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         importContact(newContact) as unknown as AnyAction
       )
@@ -134,6 +146,8 @@ describe("async `importContact` ", () => {
         importContact.fulfilled(
           {
             ...newContact,
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-non-null-assertion
             id: duplicatedErrorDeviceResponse.error!.data.id,
           } as Contact,
           requestId,

@@ -5,8 +5,8 @@
 
 import React, { ComponentProps } from "react"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
 type Props = ComponentProps<typeof ErrorModal>
 
@@ -26,7 +26,7 @@ test("title is passed to modal properly", () => {
 
 test("proper icon is rendered", () => {
   const { getByTestId } = renderModal()
-  expect(getByTestId("icon-Fail")).toBeInTheDocument()
+  expect(getByTestId("icon-ThinFail")).toBeInTheDocument()
 })
 
 test("subtitle is passed to modal properly", () => {

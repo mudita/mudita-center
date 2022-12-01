@@ -5,11 +5,11 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import { DeviceType } from "@mudita/pure"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { DeviceType } from "App/device/constants"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { StatusProps } from "App/overview/components/status/status.interface"
 import Status from "App/overview/components/status/status.component"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 
 const renderStatus = ({

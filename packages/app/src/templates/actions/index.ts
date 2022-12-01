@@ -3,4 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./delete-templates.action"
+export * from "./select-items.action"
 export * from "./create-template.action"
+export * from "./update-template.action"
+export * from "./update-template-order.action"

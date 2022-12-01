@@ -4,39 +4,41 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceType } from "@mudita/pure"
 import { DeviceEvent, ConnectionState } from "App/device/constants"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { setDeviceData } from "App/device/actions/base.action"
-import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
+import { getDeviceInfoRequest } from "App/device-info/requests"
 import { setValue, MetadataKey } from "App/metadata"
 import { trackOsVersion } from "App/analytic-data-tracker/helpers"
 
-export const loadDeviceData = createAsyncThunk<any, DeviceType>(
+export const loadDeviceData = createAsyncThunk(
   DeviceEvent.Loading,
-  async (payload, { getState, dispatch, rejectWithValue }) => {
+  async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
 
     if (state.device.state === ConnectionState.Loaded) {
       return
     }
 
-    const loader = new DeviceDataLoader()
-
     try {
-      const data = await loader.loadDeviceData(payload)
+      const { ok, data } = await getDeviceInfoRequest()
+
+      if (!ok || !data) {
+        return
+      }
+
       if (state.device.deviceType !== null) {
-        trackOsVersion({
+        void trackOsVersion({
           serialNumber: data.serialNumber,
           osVersion: data.osVersion,
           deviceType: state.device.deviceType,
         })
       }
-      setValue({
+      void setValue({
         key: MetadataKey.DeviceOsVersion,
         value: data.osVersion ?? null,
       })
-      setValue({
+      void setValue({
         key: MetadataKey.DeviceType,
         value: state.device.deviceType,
       })

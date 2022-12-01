@@ -18,27 +18,33 @@ import SpeedDialModal from "App/contacts/components/speed-dial-modal/speed-dial-
 import {
   ModalBackdrop,
   ModalWrapper,
-} from "Renderer/components/core/modal/modal.styled.elements"
-import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import { contactsSeed, contactsSeedInput } from "App/seeds/contacts"
+} from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
+import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import { contactsSeed } from "App/__deprecated__/seeds/contacts"
 import {
   createFullName,
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
 } from "App/contacts/helpers/contacts.helpers"
-import { asyncNoop, noop } from "Renderer/utils/noop"
-import { PhoneProps } from "App/contacts/components/contacts/contacts.type"
+import { asyncNoop, noop } from "App/__deprecated__/renderer/utils/noop"
+import { ContactsProps } from "App/contacts/components/contacts/contacts.interface"
 import {
   Contact,
   ContactID,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
 const dummyPromise = (result: any) => () => result
 const getContact = (id: ContactID) => contactsSeed.db[id]
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const labeledContactList: any = getSortedContactList(contactsSeed)
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const flatList: any = getFlatList(contactsSeed)
 const speedDialChosenList: number[] = getSpeedDialChosenList(contactsSeed)
 const isThreadOpened = () => true
@@ -51,17 +57,22 @@ const ContactsWrapper = styled.div`
 
 const ContactsComponent = ({
   resultState = ResultState.Empty,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   contactList = labeledContactList,
-}: Partial<Pick<PhoneProps, "resultState" | "contactList">>) => (
+}: Partial<Pick<ContactsProps, "resultState" | "contactList">>) => (
   <Contacts
+    allItemsSelected={false}
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
     getContact={getContact as any}
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     flatList={flatList}
     contactList={contactList}
     speedDialChosenList={speedDialChosenList}
     onManageButtonClick={dummyPromise(action("Manage contact"))}
-    onNewButtonClick={action("New contact")}
     onEdit={action("Edit contact")}
-    onExport={action("Export contact")}
     onForward={action("Forward contact")}
     onUnblock={action("Unblock contact")}
     onBlock={action("Block contact")}
@@ -70,25 +81,22 @@ const ContactsComponent = ({
     onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
     resultState={resultState}
-    selectedContacts={[]}
-    resetRows={action("Reset rows")}
     setProviderData={noop}
     isThreadOpened={isThreadOpened}
     addNewContactsToState={asyncNoop}
     addNewContact={asyncNoop}
     importContact={asyncNoop}
     editContact={asyncNoop}
-    contacts={contactsSeedInput}
     loadContacts={asyncNoop}
-    inputValue={""}
-    speedDialContacts={[]}
     deleteContacts={asyncNoop}
     authorize={asyncNoop}
-    editMode={false}
-    searchValue={""}
-    onSearchValueChange={asyncNoop}
-    results={[]}
-    exportContacts={asyncNoop}/>
+    exportContacts={asyncNoop}
+    selectedItems={[]}
+    allRowsSelected={false}
+    resetAllItems={noop}
+    selectAllItems={noop}
+    toggleItem={noop}
+  />
 )
 
 storiesOf("Views|Phone", module)
@@ -235,9 +243,13 @@ storiesOf("Views|Contacts/Modals", module)
     <>
       <ModalWrapper>
         <SpeedDialModal
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
           editContact={noop as any}
           onSave={action("Save")}
           onClose={action("Close")}
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           flatList={flatList}
         />
       </ModalWrapper>

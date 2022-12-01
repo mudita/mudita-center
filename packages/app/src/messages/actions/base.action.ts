@@ -8,7 +8,7 @@ import { MessagesEvent } from "App/messages/constants"
 import { MessagesState } from "App/messages/reducers"
 
 export const changeVisibilityFilter = createAction<
-  MessagesState["visibilityFilter"]
+  MessagesState["data"]["visibilityFilter"]
 >(MessagesEvent.ChangeVisibilityFilter)
 
 export const changeSearchValue = createAction<string>(
@@ -16,5 +16,3 @@ export const changeSearchValue = createAction<string>(
 )
 
 export const clearAllThreads = createAction(MessagesEvent.ClearAllThreads)
-
-export const hideDeleteModal = createAction(MessagesEvent.HideDeleteModal)

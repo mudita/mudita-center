@@ -10,8 +10,7 @@ import {
   changeVisibilityFilter,
   clearAllThreads,
 } from "App/messages/actions/base.action"
-import { MessagesEvent } from "App/messages/constants"
-import { VisibilityFilter } from "App/messages/reducers"
+import { MessagesEvent, VisibilityFilter } from "App/messages/constants"
 
 const mockStore = createMockStore([thunk])()
 

@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { Contact } from "App/contacts/reducers"
@@ -20,6 +20,7 @@ const defaultProps: Props = {
   onExport: jest.fn(),
   onForward: jest.fn(),
   onMessage: jest.fn(),
+  onClose: jest.fn(),
   isThreadOpened: () => false,
 }
 
@@ -79,6 +80,6 @@ describe("`ContactDetails` component", () => {
     const onExport = jest.fn()
     const { getByTestId } = render({ contact: contactBasic, onExport })
     getByTestId(ContactDetailsTestIds.ExportButton).click()
-    expect(onExport).toBeCalledWith([contactBasic])
+    expect(onExport).toBeCalledWith([contactBasic.id])
   })
 })

@@ -4,28 +4,30 @@
  */
 
 import React, { useEffect, FocusEvent } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import ButtonComponent from "Renderer/components/core/button/button.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Type,
-} from "Renderer/components/core/button/button.config"
+} from "App/__deprecated__/renderer/components/core/button/button.config"
 import InputCheckbox, {
   Size,
-} from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import Icon from "Renderer/components/core/icon/icon.component"
+} from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { useForm } from "react-hook-form"
 import {
   primaryPhoneNumberValidator,
   secondaryPhoneNumberValidator,
-} from "Renderer/utils/form-validators"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+  nameValidator,
+  addressValidator,
+} from "App/__deprecated__/renderer/utils/form-validators"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import {
   Buttons,
   ContactDetailsWrapper,
@@ -36,9 +38,9 @@ import {
 } from "App/contacts/components/contact-edit/contact-edit.styled"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
-import { FormError } from "App/contacts/components/contacts/contacts.type"
+import { FormError } from "App/contacts/components/contacts/contacts.interface"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   editTitle: { id: "module.contacts.editTitle" },
@@ -92,9 +94,13 @@ interface ContactEditProps {
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
   contact,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   speedDialChosenList,
   onCancel,
   onSave,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSpeedDialSettingsOpen,
   saving,
   validationError,
@@ -134,6 +140,8 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   useEffect(() => {
     handleSpeedDialSelect(contact?.speedDial)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contact?.speedDial])
 
   useEffect(() => {
@@ -145,6 +153,8 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
         })
       })
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validationError])
 
   useEffect(() => {
@@ -154,8 +164,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       fields.primaryPhoneNumber?.length > 0 &&
       fields.secondaryPhoneNumber?.length > 0
     ) {
-      trigger()
+      void trigger()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fields.primaryPhoneNumber, fields.secondaryPhoneNumber])
 
   const savingPossible =
@@ -200,7 +212,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstName)}
-              {...register("firstName")}
+              {...register("firstName", nameValidator)}
               errorMessage={errors.firstName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.FirstName}
@@ -208,7 +220,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondName)}
-              {...register("lastName")}
+              {...register("lastName", nameValidator)}
               errorMessage={errors.lastName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.SecondName}
@@ -249,18 +261,16 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstAddressLine)}
-              {...register("firstAddressLine")}
+              {...register("firstAddressLine", addressValidator)}
               errorMessage={errors.firstAddressLine?.message}
-              maxLength={30}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.FirstAddressLine}
             />
             <Input
               type="text"
               label={intl.formatMessage(messages.secondAddressLine)}
-              {...register("secondAddressLine")}
+              {...register("secondAddressLine", addressValidator)}
               errorMessage={errors.secondAddressLine?.message}
-              maxLength={30}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.SecondAddressLine}
             />

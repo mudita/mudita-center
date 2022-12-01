@@ -3,21 +3,23 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Thread } from "App/messages/reducers/messages.interface"
-import DeviceService from "Backend/device-service"
+import { Thread } from "App/messages/dto"
+import DeviceService from "App/__deprecated__/backend/device-service"
+import {
+  GetThreadsRequestConfig,
+  PaginationBody,
+} from "App/device/types/mudita-os"
 import {
   Endpoint,
-  GetThreadsBody,
-  MessagesCategory as PureMessagesCategory,
   Method,
-  PaginationBody,
-} from "@mudita/pure"
+  MessagesCategory as PureMessagesCategory,
+} from "App/device/constants"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { ThreadPresenter } from "App/messages/presenters"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import { ThreadRepository } from "App/messages/repositories"
 
 export interface GetThreadsResponse {
@@ -33,14 +35,22 @@ export class ThreadService {
   ) {}
 
   public async getThread(id: string): Promise<RequestResponse<Thread>> {
-    // return this.getThreadRequest(id)
-    return this.getThreadRequestViaWorkaround(id)
+    const threadResult = await this.getThreadRequestViaWorkaround(id)
+
+    if (isResponseSuccessWithData(threadResult)) {
+      return threadResult
+    } else {
+      return {
+        status: RequestResponseStatus.Error,
+        error: { message: "Get thread: Something went wrong" },
+      }
+    }
   }
 
   public async getThreads(
     pagination: PaginationBody
   ): Promise<RequestResponse<GetThreadsResponse>> {
-    const body: GetThreadsBody = {
+    const body: GetThreadsRequestConfig["body"] = {
       category: PureMessagesCategory.thread,
       ...pagination,
     }
@@ -57,6 +67,8 @@ export class ThreadService {
       return {
         status: RequestResponseStatus.Ok,
         data: {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           data: data.entries.map(ThreadPresenter.mapToThread),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
@@ -73,23 +85,23 @@ export class ThreadService {
   // Target method is getThreadRequest. This is workaround to handle no implemented `getThread` API
   private async getThreadRequestViaWorkaround(
     id: string
-  ): Promise<RequestResponse<Thread>> {
+  ): Promise<RequestResponse<Thread | undefined>> {
     const response = await this.loadAllThreadsInSingleRequest({
       limit: 99999,
       offset: 0,
     })
-    const success = isResponseSuccessWithData(response)
-    const thread = response.data?.data.find((thread) => thread.id === id)
-    if (success && thread) {
-      return {
-        status: response.status,
-        data: thread,
-      }
-    } else {
+
+    if (!isResponseSuccess(response)) {
       return {
         status: RequestResponseStatus.Error,
-        error: { message: "Get thread: Something went wrong" },
+        error: { message: "Fetch thread: Something went wrong" },
       }
+    }
+
+    const thread = response.data?.data.find((thread) => thread.id === id)
+    return {
+      status: response.status,
+      data: thread,
     }
   }
 
@@ -138,6 +150,8 @@ export class ThreadService {
     )
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   // the method is commented until os part will be implemented as CP-1232
   private async getThreadRequest(id: string): Promise<RequestResponse<Thread>> {
@@ -248,6 +262,31 @@ export class ThreadService {
       return {
         status: RequestResponseStatus.Ok,
       }
+    }
+  }
+
+  async refreshThread(threadId: string): Promise<RequestResponse<undefined>> {
+    const response = await this.getThreadRequestViaWorkaround(threadId)
+
+    if (!isResponseSuccess(response)) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Refresh thread: Something went wrong",
+        },
+      }
+    }
+
+    const thread = response.data
+
+    if (thread) {
+      this.threadRepository.update(thread)
+    } else {
+      this.threadRepository.delete(threadId)
+    }
+
+    return {
+      status: RequestResponseStatus.Ok,
     }
   }
 }

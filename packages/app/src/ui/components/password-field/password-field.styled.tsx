@@ -4,11 +4,13 @@
  */
 
 import styled from "styled-components"
-import Text from "Renderer/components/core/text/text.component"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
+import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
 
 export const FormInputLabel = styled(Text)<{ withError?: boolean }>`
   color: ${({ theme, withError }) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
     withError ? theme.color.text.error : theme.color.text.primary};
 `
 

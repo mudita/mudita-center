@@ -5,10 +5,12 @@
 
 import React from "react"
 import { Meta } from "@storybook/react"
-import Story from "Renderer/components/storybook/story.component"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import { action } from "@storybook/addon-actions"
 import { RestoreConfirmSecretKeyModal } from "App/overview/components/restore-confirm-secret-key-modal-dialog/restore-confirm-secret-key-modal-dialog.component"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreConfirmSecretKeyModalStory = () => {
   return (
     <Story transparentMode>

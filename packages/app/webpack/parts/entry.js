@@ -1,8 +1,8 @@
 module.exports = (renderer) =>
   renderer
     ? {
-        app: ["@babel/polyfill", "./src/renderer/app.tsx"],
+        app: ["@babel/polyfill", "./src/__deprecated__/renderer/app.tsx"],
       }
     : {
-        main: "./src/main/main.ts",
+        main: "./src/__deprecated__/main/main.ts",
       }

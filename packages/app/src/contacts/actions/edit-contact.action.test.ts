@@ -4,18 +4,18 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
-import thunk from "redux-thunk"
-import createMockStore from "redux-mock-store"
-import { ContactsEvent } from "App/contacts/constants"
-import { editContactRequest } from "App/contacts/requests"
-import { Contact, initialState } from "App/contacts/reducers"
-import { testError } from "Renderer/store/constants"
 import { editContact } from "App/contacts/actions/edit-contact.action"
-import { EditContactError } from "App/contacts/errors/edit-contact.error"
+import { ContactsEvent } from "App/contacts/constants"
+import { Contact, initialState } from "App/contacts/reducers"
+import { editContactRequest } from "App/contacts/requests"
+import { AppError } from "App/core/errors"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 
 jest.mock("App/contacts/requests/edit-contact.request")
 
@@ -59,6 +59,8 @@ describe("async `editContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(editContact(contact) as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -77,12 +79,17 @@ describe("async `editContact` ", () => {
   describe("when `editContactRequest` request return error", () => {
     test("fire async `editContact` returns `rejected` action", async () => {
       ;(editContactRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new EditContactError("Edit Contact request failed")
+      const errorMock = new AppError(
+        ContactsEvent.EditContact,
+        "Edit Contact request failed"
+      )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(editContact(contact) as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([

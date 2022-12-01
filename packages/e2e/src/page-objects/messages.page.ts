@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
@@ -18,6 +23,18 @@ class MessagesPage extends Page {
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="thread-details-text-area-input"]')
+  }
+
+  public get notSendMessageIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="message-bubble-not-send-icon"]')
+  }
+
+  public get notSendThreadIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="thread-not-send-message-icon"]')
   }
 }
 

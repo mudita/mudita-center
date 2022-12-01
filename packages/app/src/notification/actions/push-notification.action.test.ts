@@ -13,7 +13,8 @@ import {
   NotificationResourceType,
 } from "App/notification/constants"
 import { Notification } from "App/notification/types"
-import { Message, MessageType } from "App/messages/reducers"
+import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { pushNotification } from "./push-notification.action"
 
 const message: Message = {
@@ -37,6 +38,8 @@ const notificationPayload: Notification = {
 const mockStore = createMockStore([thunk])()
 
 test("fire `pushNotification` action dispatch NotificationEvent.PushEvent event", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await mockStore.dispatch(
     pushNotification(notificationPayload) as unknown as AnyAction
   )

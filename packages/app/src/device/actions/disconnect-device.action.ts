@@ -4,24 +4,29 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceEvent } from "App/device/constants"
-import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request"
+import { AppError } from "App/core/errors"
 import { setConnectionStatus } from "App/device/actions/set-connection-status.action"
-import { DeviceDisconnectionError } from "App/device/errors"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { DeviceError, DeviceEvent } from "App/device/constants"
+import { disconnectDeviceRequest } from "App/device/requests"
 
 export const disconnectDevice = createAsyncThunk(
   DeviceEvent.Disconnected,
-  async (_, { getState, dispatch, rejectWithValue }) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async (_, { dispatch, rejectWithValue }) => {
     const response = await disconnectDeviceRequest()
 
-    if (response.status !== RequestResponseStatus.Ok) {
+    if (!response.ok || !response.data) {
       return rejectWithValue(
-        new DeviceDisconnectionError("Cannot disconnect from device", response)
+        new AppError(
+          DeviceError.Disconnection,
+          "Cannot disconnect from device",
+          response
+        )
       )
     }
 
-    dispatch(setConnectionStatus(false))
+    void dispatch(setConnectionStatus(false))
 
     return
   }

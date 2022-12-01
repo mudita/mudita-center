@@ -3,16 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { GetEntriesResponseBody, OutboxEntry } from "App/device/types/mudita-os"
 import {
-  Endpoint,
-  GetEntriesResponseBody,
-  Method,
-  OutboxEntry,
-  OutboxCategory,
   OutboxEntryType,
-} from "@mudita/pure"
-import { asyncNoop } from "Renderer/utils/noop"
-import { DeviceService } from "App/backend/device-service"
+  OutboxCategory,
+  Method,
+  Endpoint,
+} from "App/device/constants"
+import { asyncNoop } from "App/__deprecated__/renderer/utils/noop"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -20,6 +19,8 @@ import {
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 
 export type EntryHandlersMapType = Record<OutboxEntryType, EntryHandler>
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EntryChangesEvent = { entry: OutboxEntry; payload: any }
 
 export class OutboxService {
@@ -43,6 +44,8 @@ export class OutboxService {
     }
 
     for (const entry of entries) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       const handle = this.entryHandlersMap[entry.type].handleEntry ?? asyncNoop
       const payload = await handle(entry)
       changes.push({ entry, payload })

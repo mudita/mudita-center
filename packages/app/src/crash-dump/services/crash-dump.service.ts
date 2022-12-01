@@ -3,25 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  DiagnosticsFileList,
-  Endpoint,
-  GetFileListResponseBody,
-  Method,
-} from "@mudita/pure"
+import { DiagnosticsFileList, Endpoint, Method } from "App/device/constants"
+import { GetDeviceFilesResponseBody } from "App/device/types/mudita-os"
 import path from "path"
-import getAppPath from "App/main/utils/get-app-path"
-import { DeviceFileSystem } from "App/backend/adapters/device-file-system/device-file-system.adapter"
+import getAppPath from "App/__deprecated__/main/utils/get-app-path"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { DeviceService } from "App/backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 
 export class CrashDumpService {
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystem: DeviceFileSystem
+    private deviceFileSystem: DeviceFileSystemService
   ) {}
 
   public async getDeviceCrashDumpFiles(): Promise<RequestResponse<string[]>> {
@@ -51,10 +47,7 @@ export class CrashDumpService {
       })
     const deviceFiles = downloadDeviceFilesResponse.data
 
-    if (
-      downloadDeviceFilesResponse.status !== RequestResponseStatus.Ok ||
-      deviceFiles === undefined
-    ) {
+    if (!downloadDeviceFilesResponse.ok || deviceFiles === undefined) {
       return {
         status: RequestResponseStatus.Error,
       }
@@ -92,7 +85,7 @@ export class CrashDumpService {
 
   public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
-  ): Promise<RequestResponse<GetFileListResponseBody>> {
+  ): Promise<RequestResponse<GetDeviceFilesResponseBody>> {
     return this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,

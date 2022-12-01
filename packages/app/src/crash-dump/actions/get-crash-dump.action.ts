@@ -5,11 +5,11 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { getCrashDumpsRequest } from "App/crash-dump/requests/get-crash-dumps.request"
-import { Event } from "App/crash-dump/constants"
-import { GetCrashDumpError } from "App/crash-dump/errors"
+import { CrashDumpError, Event } from "App/crash-dump/constants"
 import { setCrashDump } from "App/crash-dump/actions/base.action"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
 
 export const getCrashDump = createAsyncThunk<RequestResponseStatus | undefined>(
   Event.GetCrashDump,
@@ -26,7 +26,8 @@ export const getCrashDump = createAsyncThunk<RequestResponseStatus | undefined>(
       dispatch(setCrashDump(data))
     } else {
       return rejectWithValue(
-        new GetCrashDumpError(
+        new AppError(
+          CrashDumpError.Getting,
           "Getting crash dumps from device isn't possible",
           error
         )

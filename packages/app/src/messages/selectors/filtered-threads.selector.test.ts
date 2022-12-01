@@ -3,14 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState, RootState } from "Renderer/store"
-import { initialState, messagesReducer, Thread, VisibilityFilter } from "App/messages/reducers"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { initialState, messagesReducer } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
 import { filteredThreadsSelector } from "App/messages/selectors/filtered-threads.selector"
 import { initialState as contactsInitialState } from "App/contacts/reducers"
+import { MessageType, VisibilityFilter } from "App/messages/constants"
 
 describe("`filteredThreadsSelector` selector", () => {
   test("when initial state is set selector returns value properly", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       messages: messagesReducer(initialState, {} as any),
       contacts: contactsInitialState,
     } as RootState & ReduxRootState
@@ -25,17 +29,25 @@ describe("`filteredThreadsSelector` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
+      messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const state = {
       messages: messagesReducer(
         {
           ...initialState,
-          visibilityFilter: VisibilityFilter.Unread,
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            visibilityFilter: VisibilityFilter.Unread,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
       contacts: contactsInitialState,
@@ -51,17 +63,25 @@ describe("`filteredThreadsSelector` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
+      messageType: MessageType.INBOX,
+      contactId: undefined,
+      contactName: undefined,
     }
 
     const state = {
       messages: messagesReducer(
         {
           ...initialState,
-          searchValue: "755",
-          threadMap: {
-            [thread.id]: thread,
+          data: {
+            ...initialState.data,
+            threadMap: {
+              [thread.id]: thread,
+            },
+            searchValue: "755",
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
       contacts: contactsInitialState,

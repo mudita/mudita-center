@@ -4,10 +4,10 @@
  */
 
 import styled from "styled-components"
-import Text from "Renderer/components/core/text/text.component"
-import Button from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { IconSize } from "App/renderer/components/core/icon/icon.component"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 
 export const ModalText = styled(Text)`
   text-align: center;

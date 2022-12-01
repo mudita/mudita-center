@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import createFile from "Renderer/utils/create-file/create-file"
+import createFile from "App/__deprecated__/renderer/utils/create-file/create-file"
 import mapVCFsToContacts from "./map-vcfs-to-contacts"
 
 describe("map VCF's to Contacts helper", () => {
@@ -14,11 +14,21 @@ describe("map VCF's to Contacts helper", () => {
   const multipleContactsFile = createFile(
     path.join(__dirname, "./multiple-contacts.vcf")
   )
+  const emptyContact = createFile(path.join(__dirname, "./empty-contact.vcf"))
+  const multipleContactsWithEmpty = createFile(
+    path.join(__dirname, "./multiple-contacts-with-empty.vcf")
+  )
   const encodedContactFile = createFile(
     path.join(__dirname, "./encoded-contact.vcf")
   )
   const noEncodedContactFile = createFile(
     path.join(__dirname, "./no-encoded-contact.vcf")
+  )
+  const withPolishCharsContactFile = createFile(
+    path.join(__dirname, "./utf-8-polish-characters.vcf")
+  )
+  const contactWithEmailListFile = createFile(
+    path.join(__dirname, "./contact-with-email-list.vcf")
   )
   const noVcfFile = createFile(path.join(__dirname, "./no-vcf.png"))
 
@@ -40,6 +50,16 @@ describe("map VCF's to Contacts helper", () => {
 
   test("should return contact list when in a file is multiple records", async () => {
     const contacts = await mapVCFsToContacts([multipleContactsFile])
+    expect(contacts).toHaveLength(2)
+  })
+
+  test("when contact is empty the import should return empty array", async () => {
+    const contacts = await mapVCFsToContacts([emptyContact])
+    expect(contacts).toMatchInlineSnapshot(`Array []`)
+  })
+
+  test("should skip empty contacts", async () => {
+    const contacts = await mapVCFsToContacts([multipleContactsWithEmpty])
     expect(contacts).toHaveLength(2)
   })
 
@@ -69,12 +89,38 @@ describe("map VCF's to Contacts helper", () => {
     const contacts = await mapVCFsToContacts([noEncodedContactFile])
     expect(contacts).toStrictEqual([
       {
-        firstName: "/",
+        firstName: "是",
         lastName: "Jürgen",
         primaryPhoneNumber: "123456789",
         secondaryPhoneNumber: "321234455",
         firstAddressLine: "Saudi Arabia, 11564, Arabia",
-        secondAddressLine: "'C*4A",
+        secondAddressLine: "اكتشف",
+      },
+    ])
+  })
+
+  test("should return contact with file that contains polish characters", async () => {
+    const contacts = await mapVCFsToContacts([withPolishCharsContactFile])
+    expect(contacts).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "firstName": "NąMĘ ąłść",
+          "lastName": "SURNąMę",
+          "primaryPhoneNumber": "123456789",
+        },
+      ]
+    `)
+  })
+
+  test("should return contact with email separated by coma if `vcf` with email list has been provided", async () => {
+    const contacts = await mapVCFsToContacts([contactWithEmailListFile])
+    expect(contacts).toStrictEqual([
+      {
+        primaryPhoneNumber: "664364535",
+        note: "Some note",
+        email: "lukasz.jarkowski@mudita.com, mudita.ex@hotmail.com",
+        firstName: "Łukasz 1",
+        lastName: "Jark",
       },
     ])
   })

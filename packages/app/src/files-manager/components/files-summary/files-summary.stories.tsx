@@ -9,14 +9,14 @@ import FilesSummary from "App/files-manager/components/files-summary/files-summa
 import styled from "styled-components"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const fakeData: DiskSpaceCategory[] = [
   {
-    type: DiskSpaceCategoryType.UsedSpace,
+    type: DiskSpaceCategoryType.Music,
     color: "#DFEFDE",
     icon: IconType.MuditaLogo,
-    label: "Used space",
+    label: "Music",
     size: 41943040,
   },
   {
@@ -38,7 +38,7 @@ storiesOf("Views|Files Manager/Files Summary", module).add(
     return (
       <Container>
         <FilesSummary
-          systemMemory={62914560}
+          usedMemory={62914560}
           totalMemorySpace={104857600}
           diskSpaceCategories={fakeData}
         />

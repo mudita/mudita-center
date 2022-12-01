@@ -3,16 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact, contactsReducer, initialState } from "App/contacts/reducers"
 import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
 
 describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       contacts: contactsReducer(initialState, {} as any),
     } as ReduxRootState
-    expect(isContactCreatedByPhoneNumberSelector("+71195069214")(state)).toBeFalsy()
+    expect(
+      isContactCreatedByPhoneNumberSelector("+71195069214")(state)
+    ).toBeFalsy()
   })
 
   test("when contacts are loaded selector returns properly contact", () => {
@@ -39,9 +43,13 @@ describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
             [contact.id]: contact,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState
-    expect(isContactCreatedByPhoneNumberSelector("+71195069214")(state)).toBeTruthy()
+    expect(
+      isContactCreatedByPhoneNumberSelector("+71195069214")(state)
+    ).toBeTruthy()
   })
 })

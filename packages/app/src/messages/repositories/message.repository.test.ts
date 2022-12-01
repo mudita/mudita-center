@@ -5,7 +5,8 @@
 
 import { MessageRepository } from "App/messages/repositories/message.repository"
 import { MessageModel } from "App/messages/models"
-import { Message, MessageType } from "App/messages/reducers"
+import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 const message: Message = {
   id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
@@ -28,16 +29,22 @@ const subject = new MessageRepository(messageModel)
 describe("`MessageRepository`", () => {
   test("fire `create` call `messageModel.create` with message", () => {
     expect(subject.create(message)).toEqual(message)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(messageModel.create).toHaveBeenCalledWith(message, false)
   })
 
   test("fire `update` call `messageModel.update` with message", () => {
     expect(subject.update(message)).toEqual(message)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(messageModel.update).toHaveBeenCalledWith(message, false)
   })
 
   test("fire `delete` call `messageModel.delete` with message id", () => {
     expect(subject.delete(message.id)).toBeUndefined()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(messageModel.delete).toHaveBeenCalledWith(message.id, false)
   })
 })

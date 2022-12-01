@@ -5,7 +5,8 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import { Index } from "elasticlunr"
+import { ElasticlunrFactory } from "App/index-storage/factories"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { MessageTable } from "App/data-sync/constants"
 import {
@@ -33,7 +34,7 @@ export class MessageIndexer extends BaseIndexer {
   }
 
   private createIndex(data: MessageObject[]): Index<MessageObject> {
-    const index = elasticlunr<MessageObject>()
+    const index = ElasticlunrFactory.create<MessageObject>()
 
     index.setRef("id")
     index.addField("content")

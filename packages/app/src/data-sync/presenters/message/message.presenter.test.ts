@@ -7,6 +7,8 @@ import { MessagePresenter } from "App/data-sync/presenters"
 import { MessageInput } from "App/data-sync/types"
 
 describe("`MessagePresenter`", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
     const messageInput: MessageInput = {
       sms: {
@@ -22,6 +24,7 @@ describe("`MessagePresenter`", () => {
         values: [
           ["1", "Test Message #1", "4", "391", "", "1", "1"],
           ["2", "Test Message #2", "4", "392", "", "1", "1"],
+          ["2", "Test Message #2", "4", "392", "", "1", "3"],
         ],
       },
       threads: {
@@ -51,7 +54,15 @@ describe("`MessagePresenter`", () => {
           "content": "Test Message #1",
           "date": 1970-01-01T00:06:31.000Z,
           "id": "1",
-          "messageType": "INBOX",
+          "messageType": "DRAFT",
+          "phoneNumber": "+91898402777",
+          "threadId": "1",
+        },
+        Object {
+          "content": "Test Message #2",
+          "date": 1970-01-01T00:06:32.000Z,
+          "id": "2",
+          "messageType": "DRAFT",
           "phoneNumber": "+91898402777",
           "threadId": "1",
         },

@@ -10,7 +10,7 @@ import {
   IpcThreadEvent,
   ThreadControllerPrefix,
 } from "App/messages/constants/controller.constant"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 
 @Controller(ThreadControllerPrefix)
 export class ThreadController {

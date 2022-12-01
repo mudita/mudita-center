@@ -14,4 +14,7 @@ export enum ContactsEvent {
   EditContact = "CONTACTS_EDIT_CONTACT",
   EditContactInState = "CONTACTS_EDIT_CONTACT_IN_STATE",
   DeleteContactsInState = "CONTACTS_DELETE_CONTACTS_IN_STATE",
+  SelectAllItems = "CONTACTS_SELECT_ALL_ITEMS",
+  ResetAllItems = "CONTACTS_RESET_ALL_ITEMS",
+  ToggleItem = "CONTACTS_TOGGLE_ITEM",
 }

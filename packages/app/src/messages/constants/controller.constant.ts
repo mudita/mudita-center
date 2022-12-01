@@ -7,10 +7,16 @@ export const MessageControllerPrefix = "message"
 
 export enum IpcMessageEvent {
   CreateMessage = "create-message",
+  DeleteMessage = "delete-message",
+  ResendMessage = "resend-message",
+  UpdateMessage = "update-message",
 }
 
 export enum IpcMessageRequest {
   CreateMessage = "message-create-message",
+  DeleteMessage = "message-delete-message",
+  ResendMessage = "message-resend-message",
+  UpdateMessage = "message-update-message",
 }
 
 export const ThreadControllerPrefix = "thread"

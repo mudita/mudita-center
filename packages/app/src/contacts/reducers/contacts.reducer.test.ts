@@ -4,19 +4,23 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import {
-  contactsReducer,
-  initialState,
-} from "App/contacts/reducers/contacts.reducer"
 import { ContactsEvent } from "App/contacts/constants"
 import {
   Contact,
   ContactID,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
-import { fulfilledAction, rejectedAction } from "Renderer/store/helpers"
-import { DataSyncEvent } from "App/data-sync/constants"
-import { ReadAllIndexesError } from "App/data-sync/errors"
+import {
+  contactsReducer,
+  initialState,
+} from "App/contacts/reducers/contacts.reducer"
+import { AppError } from "App/core/errors"
+import { CoreEvent } from "App/core/constants"
+import { DataSyncError, DataSyncEvent } from "App/data-sync/constants"
+import {
+  fulfilledAction,
+  rejectedAction,
+} from "App/__deprecated__/renderer/store/helpers"
 
 describe("ReadAllIndexes data functionality", () => {
   test("Event: ReadAllIndexes/fulfilled change `resultState` to Loaded", () => {
@@ -56,7 +60,7 @@ describe("ReadAllIndexes data functionality", () => {
   })
 
   test("Event: ReadAllIndexes/rejected change `resultState` to Error", () => {
-    const errorMock = new ReadAllIndexesError("I'm error")
+    const errorMock = new AppError(DataSyncError.ReadAllIndexes, "I'm error")
 
     expect(
       contactsReducer(undefined, {
@@ -264,6 +268,114 @@ describe("Clear All Contacts data functionality", () => {
       db: {},
       collection: [],
       resultState: ResultState.Empty,
+    })
+  })
+})
+
+describe("Select contact functionality", () => {
+  test("Event: ContactsEvent.SelectAllItems set provided ids to `selectedItems.rows`", () => {
+    expect(
+      contactsReducer(initialState, {
+        type: fulfilledAction(ContactsEvent.SelectAllItems),
+        payload: ["1", "2"],
+      })
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: ["1", "2"],
+        allItemsSelected: true,
+      },
+    })
+  })
+
+  test("Event: ContactsEvent.ToggleItem set provided ids to `selectedItems.rows`", () => {
+    expect(
+      contactsReducer(initialState, {
+        type: fulfilledAction(ContactsEvent.ToggleItem),
+        payload: ["1", "2"],
+      })
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: ["1", "2"],
+      },
+    })
+  })
+
+  test("Event: ContactsEvent.ToggleItem set provided ids to `selectedItems.rows` and set `allItemsSelected` to `true` if rows length equal to `collection` length", () => {
+    expect(
+      contactsReducer(
+        {
+          ...initialState,
+          collection: ["1", "2"],
+        },
+        {
+          type: fulfilledAction(ContactsEvent.ToggleItem),
+          payload: ["1", "2"],
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      collection: ["1", "2"],
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: ["1", "2"],
+        allItemsSelected: true,
+      },
+    })
+  })
+
+  test("Event: ContactsEvent.ResetAllItems removes all selected items and `allItemsSelected` flag", () => {
+    expect(
+      contactsReducer(
+        {
+          ...initialState,
+          selectedItems: {
+            ...initialState.selectedItems,
+            rows: ["1", "2"],
+            allItemsSelected: true,
+          },
+        },
+        {
+          type: ContactsEvent.ResetAllItems,
+          payload: undefined,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: [],
+        allItemsSelected: false,
+      },
+    })
+  })
+
+  test("Event: CoreEvent.ChangeLocation removes all selected items and `allItemsSelected` flag", () => {
+    expect(
+      contactsReducer(
+        {
+          ...initialState,
+          selectedItems: {
+            ...initialState.selectedItems,
+            rows: ["1", "2"],
+            allItemsSelected: true,
+          },
+        },
+        {
+          type: CoreEvent.ChangeLocation,
+          payload: undefined,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: [],
+        allItemsSelected: false,
+      },
     })
   })
 })

@@ -5,7 +5,7 @@
 
 import React from "react"
 import { Meta } from "@storybook/react"
-import Story from "Renderer/components/storybook/story.component"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import {
   RestoreFailureModal,
   RestoreModal,
@@ -14,7 +14,7 @@ import {
 } from "App/overview/components/restore-modal-dialogs/restore-modal-dialogs"
 import { action } from "@storybook/addon-actions"
 import RestoreAvailableBackupModal from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal"
-import { Backup } from "App/backup/reducers"
+import { Backup } from "App/backup/dto"
 
 const backups: Backup[] = [
   {
@@ -23,6 +23,8 @@ const backups: Backup[] = [
   },
 ]
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreAvailableBackupModalStory = () => {
   return (
     <Story transparentMode>
@@ -36,6 +38,8 @@ export const RestoreAvailableBackupModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreModalStory = () => {
   return (
     <Story transparentMode>
@@ -50,6 +54,8 @@ export const RestoreModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreSpinnerModalStory = () => {
   return (
     <Story transparentMode>
@@ -58,6 +64,8 @@ export const RestoreSpinnerModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreFailureModalStory = () => {
   return (
     <Story transparentMode>
@@ -70,6 +78,8 @@ export const RestoreFailureModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreSuccessModalStory = () => {
   return (
     <Story transparentMode>

@@ -4,7 +4,11 @@
  */
 
 import { connect } from "react-redux"
-import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
+import {
+  ReduxRootState,
+  RootState,
+  TmpDispatch,
+} from "App/__deprecated__/renderer/store"
 import ModalsManager from "App/modals-manager/components/modals-manager.component"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
@@ -12,6 +16,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   updateOnlineStatus: () => dispatch.networkStatus.updateOnlineStatus(),
 })
 

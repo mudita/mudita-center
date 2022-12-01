@@ -4,6 +4,7 @@
   "productName": "Mudita Center",
   "private": true,
   "scripts": {
+    "pre-commit": "lint-staged",
     "setup": "npm install && npm run bootstrap:local",
     "bootstrap:local": "lerna bootstrap",
     "bootstrap:ci": "lerna bootstrap --no-ci",
@@ -33,12 +34,6 @@
     "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve",
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build",
     "app:electron:rebuild-serialport": "lerna run --scope @mudita/mudita-center-app electron:rebuild-serialport --",
-    "PURE COMMANDS": "========================================================",
-    "pure:build": "lerna run --scope @mudita/pure build",
-    "pure:lint": "lerna run --scope @mudita/pure lint",
-    "pure:lint:typecheck": "lerna run --scope @mudita/pure lint:typecheck",
-    "pure:test:coverage": "lerna run --scope @mudita/pure test:coverage",
-    "pure:command": "lerna run --scope @mudita/pure command --",
     "E2E TEST COMMANDS": "========================================================",
     "test:e2e": "lerna run --scope @mudita/mudita-center-e2e test --"
   },
@@ -59,11 +54,12 @@
     "@mudita/eslint-config": "1.0.14",
     "@types/react-syntax-highlighter": "^13.5.2",
     "eslint-plugin-license-header": "^0.4.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
-    "lint-staged": "^12.4.1",
-    "prettier": "^2.6.2",
-    "typescript": "^4.6.4"
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
   },
   "engines": {
     "node": "14.17.3",

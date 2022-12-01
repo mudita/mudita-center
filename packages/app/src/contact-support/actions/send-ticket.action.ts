@@ -4,14 +4,17 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import logger from "App/main/utils/logger"
-import { ContactSupportEvent } from "App/contact-support/constants"
+import {
+  ContactSupportEvent,
+  ContactSupportError,
+} from "App/contact-support/constants"
 import sendTicketRequest, {
   CreateBugTicketResponseStatus,
 } from "App/contact-support/requests/send-ticket.request"
-import { ReduxRootState, RootState } from "Renderer/store"
-import { StartBackupDeviceError } from "App/backup-device"
-import { FreshdeskTicketData } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+import { AppError } from "App/core/errors"
+import logger from "App/__deprecated__/main/utils/logger"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 
 export type SendTicketPayload = Pick<
   FreshdeskTicketData,
@@ -26,7 +29,7 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
 
     const response = await sendTicketRequest({
       email,
-      description,
+      description: (description || "").replace(/\r\n|\r|\n/g, "<br/>"),
       serialNumber,
       subject: `Error`,
     })
@@ -34,9 +37,11 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
     if (response.status === CreateBugTicketResponseStatus.Ok) {
       return
     } else {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       logger.error(`Send Ticket: ${response.error?.message}`)
       return rejectWithValue(
-        new StartBackupDeviceError("Send ticket throw error")
+        new AppError(ContactSupportError.SendTicket, "Send ticket throw error")
       )
     }
   }

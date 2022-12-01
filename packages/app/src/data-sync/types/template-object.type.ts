@@ -12,8 +12,11 @@ export type TemplateObject = Template
 export type TemplateEntity = Entity<{
   text: string
   lastUsageTimestamp: string
+  rowOrder?: number
 }>
 
 export interface TemplateInput {
-  [TemplateTable.Templates]: DBQueryResult<keyof TemplateEntity, string[]>
+  [TemplateTable.Templates]:
+    | DBQueryResult<keyof TemplateEntity, string[]>
+    | undefined
 }

@@ -5,7 +5,7 @@
 
 import { createSelector } from "reselect"
 import moment from "moment"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { deviceStateSelector } from "App/device/selectors/device-state.selector"
 import { DeviceState, PureDeviceData } from "App/device"
 

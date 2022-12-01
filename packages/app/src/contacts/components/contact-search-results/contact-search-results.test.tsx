@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
@@ -22,17 +22,13 @@ type Props = ComponentProps<typeof ContactSearchResults>
 
 const defaultProps: Props = {
   results: [],
-  getRowStatus: jest
-    .fn()
-    .mockReturnValue({ indeterminate: false, selected: false }),
-  noneRowsSelected: false,
+  selectedItems: [],
   onBlock: jest.fn(),
   onDelete: jest.fn(),
   onExport: jest.fn(),
   onForward: jest.fn(),
   onSelect: jest.fn(),
   onUnblock: jest.fn(),
-  toggleRow: jest.fn(),
   selectedContact: null,
   resultsState: ResultState.Empty,
 }

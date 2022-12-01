@@ -1,0 +1,12 @@
+{
+  "ignore": [
+    "src/**/actions/*",
+    "src/**/reducers/*",
+    "src/**/selectors/*",
+    "src/**/components/*"
+  ],
+
+  "watch": ["src"],
+  "exec": "webpack --config webpack.config.main.js && electron ./dist/main.js",
+  "ext": "ts"
+}

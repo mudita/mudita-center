@@ -5,10 +5,10 @@
 
 import React from "react"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { Content } from "App/messages/components/thread-details.styled"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 
 const ThreadDetailsLoading: FunctionComponent = () => {
   return (

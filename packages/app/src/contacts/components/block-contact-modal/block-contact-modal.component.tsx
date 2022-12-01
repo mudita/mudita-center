@@ -4,22 +4,22 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal from "Renderer/components/core/modal/modal.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import { noop } from "Renderer/utils/noop"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Modal from "App/__deprecated__/renderer/components/core/modal/modal.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import Loader from "Renderer/components/core/loader/loader.component"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`
   display: flex;

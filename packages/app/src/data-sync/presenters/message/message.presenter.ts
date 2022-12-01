@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MessageType as PureMessageType } from "@mudita/pure"
-import { MessageType } from "App/messages/reducers"
+import { MessageType as PureMessageType } from "App/device/constants"
+import { MessageType } from "App/messages/constants"
 import {
   MessageInput,
   MessageObject,
@@ -49,7 +49,6 @@ export class MessagePresenter {
     )
 
     return sms
-      .filter((message) => message.type !== 1)
       .map((message) => {
         const thread = this.findRecords<ThreadEntity>(
           threads,
@@ -73,12 +72,14 @@ export class MessagePresenter {
   }
 
   private static getMessageType(messageType: PureMessageType): MessageType {
-    if (
-      messageType === PureMessageType.FAILED ||
-      messageType === PureMessageType.QUEUED ||
-      messageType === PureMessageType.OUTBOX
-    ) {
+    if (messageType === PureMessageType.OUTBOX) {
       return MessageType.OUTBOX
+    } else if (messageType === PureMessageType.FAILED) {
+      return MessageType.FAILED
+    } else if (messageType === PureMessageType.DRAFT) {
+      return MessageType.DRAFT
+    } else if (messageType === PureMessageType.QUEUED) {
+      return MessageType.QUEUED
     } else {
       return MessageType.INBOX
     }

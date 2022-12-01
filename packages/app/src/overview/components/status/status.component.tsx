@@ -4,19 +4,19 @@
  */
 
 import React from "react"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { defineMessages, FormattedMessage } from "react-intl"
 import styled from "styled-components"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { StatusProps } from "App/overview/components/status/status.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import Card, { CardBody } from "App/overview/components/card.elements"
-import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
-import RangeIcon from "Renderer/components/core/icon/range-icon.component"
+import BatteryIcon from "App/__deprecated__/renderer/components/core/icon/battery-icon.component"
+import RangeIcon from "App/__deprecated__/renderer/components/core/icon/range-icon.component"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 const Stats = styled.div`
   display: flex;

@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { Contact } from "App/contacts/reducers/contacts.interface"
@@ -43,11 +43,14 @@ const contacts: Contact[] = [
 ]
 
 const defaultProps: Props = {
+  contactsList: contacts,
   editMode: false,
   searchValue: "",
   results: contacts,
+  allItemsSelected: false,
   onManageButtonClick: jest.fn(),
   onNewButtonClick: jest.fn(),
+  toggleAll: jest.fn(),
   resetRows: jest.fn(),
   selectedContacts: [],
   deleteContacts: jest.fn(),
@@ -68,7 +71,7 @@ const render = (extraProps?: Partial<Props>) => {
 describe("`ContactPanel` component", () => {
   test("selection manager is displayed when there is at least one contact selected", () => {
     const { getByTestId } = render({
-      selectedContacts: [contacts[0]],
+      selectedContacts: [contacts[0].id],
     })
     expect(
       getByTestId(ContactPanelTestIdsEnum.SelectionManager)
@@ -90,5 +93,16 @@ describe("`ContactPanel` component", () => {
     expect(getByTestId(ContactPanelTestIdsEnum.SearchTitle)).toHaveTextContent(
       "[value] module.contacts.searchResultsTitle"
     )
+  })
+  test("import and new contact buttons are hidden when there is at least one contact selected", () => {
+    const { queryByTestId } = render({
+      selectedContacts: [contacts[0].id],
+    })
+    expect(
+      queryByTestId(ContactPanelTestIdsEnum.ImportButton)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(ContactPanelTestIdsEnum.NewButton)
+    ).not.toBeInTheDocument()
   })
 })

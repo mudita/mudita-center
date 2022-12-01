@@ -4,4 +4,3 @@
  */
 
 export * from "./crash-dump-modal"
-export * from "./crash-dump-sending-modal"

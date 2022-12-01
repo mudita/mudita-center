@@ -19,4 +19,25 @@ export class TemplateController {
   ): Promise<RequestResponse<Template>> {
     return this.templateService.createTemplate(template)
   }
+
+  @IpcEvent(IpcTemplateEvent.DeleteTemplates)
+  public deleteTemplates(
+    templateIds: string[]
+  ): Promise<RequestResponse<string[]>> {
+    return this.templateService.deleteTemplates(templateIds)
+  }
+
+  @IpcEvent(IpcTemplateEvent.UpdateTemplate)
+  public async updateTemplate(
+    template: Template
+  ): Promise<RequestResponse<Template>> {
+    return this.templateService.updateTemplate(template)
+  }
+
+  @IpcEvent(IpcTemplateEvent.UpdateTemplateOrder)
+  public async updateTemplateOrder(
+    templates: Template[]
+  ): Promise<RequestResponse<Template[]>> {
+    return this.templateService.updateTemplatesOrder(templates)
+  }
 }

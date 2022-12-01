@@ -6,16 +6,17 @@
 import "@testing-library/jest-dom/extend-expect"
 import { fireEvent } from "@testing-library/dom"
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ThreadDetails from "App/messages/components/thread-details.component"
 import {
-  Message,
-  MessageType,
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
+import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
+import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
@@ -72,7 +73,7 @@ const defaultProps: Props = {
   messages: messages,
   content: "",
   contactCreated: false,
-  onCheckClick: jest.fn(),
+  onMarkAsUnreadClick: jest.fn(),
   onContentChange: jest.fn(),
   onSendClick: jest.fn(),
   onClose: jest.fn(),
@@ -82,6 +83,12 @@ const defaultProps: Props = {
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
   onMessageRead: jest.fn(),
+  currentlyDeletingMessageId: null,
+  onMessageDelete: jest.fn(),
+  resendMessage: jest.fn(),
+  onAttachTemplateClick: jest.fn(),
+  selectedMessage: null,
+  searchQuery: "",
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -114,13 +121,11 @@ test("Left part of sidebar displays details correctly", () => {
   )
 })
 
-test("Message from unknown person displays only phone number", () => {
+test("Message from unknown person displays only phone number as raw phone number", () => {
   const { getByTestId } = renderer({
     receiver: unknownReceiver,
   })
-  expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    unknownReceiver.phoneNumber
-  )
+  expect(getByTestId("sidebar-fullname")).toHaveTextContent("+123456123")
 })
 
 test("Open contacts", () => {
@@ -141,4 +146,12 @@ test("Show info about contact with multiple numbers", () => {
   })
   expect(getByTestId("multiple-number")).toBeInTheDocument()
   expect(getByText("#2")).toBeInTheDocument()
+})
+
+test("If thread is empty, all buttons on the right side should be disabled", () => {
+  const { getByTestId } = renderer({ messages: [] })
+  expect(getByTestId(ThreadDetailsTestIds.CallButton)).toBeDisabled()
+  expect(getByTestId(ThreadDetailsTestIds.ContactButton)).toBeDisabled()
+  expect(getByTestId(ThreadDetailsTestIds.MarkAsUnreadButton)).toBeDisabled()
+  expect(getByTestId(ThreadDetailsTestIds.DeleteButton)).toBeDisabled()
 })

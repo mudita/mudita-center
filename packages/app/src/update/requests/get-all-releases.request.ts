@@ -4,14 +4,12 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcUpdate } from "App/update/constants"
-import { Release } from "App/update/types"
-import { Feature, flags } from "App/feature-flags"
+import { ResultObject } from "App/core/builder"
+import { IpcReleaseRequest, Product } from "App/update/constants"
+import { Release } from "App/update/dto"
 
-export const getAllReleasesRequest = async (): Promise<Release[]> => {
-  if (flags.get(Feature.AllReleaseListAvailable)) {
-    return ipcRenderer.callMain<void, Release[]>(IpcUpdate.GetAllReleases)
-  } else {
-    return []
-  }
+export const getAllReleasesRequest = async (
+  product: Product
+): Promise<ResultObject<Release[]>> => {
+  return ipcRenderer.callMain(IpcReleaseRequest.GetAllReleases, product)
 }

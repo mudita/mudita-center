@@ -6,14 +6,15 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { DeviceType } from "@mudita/pure"
-import { pendingAction } from "Renderer/store/helpers"
+import { DeviceType } from "App/device/constants"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { connectDevice } from "./connect-device.action"
-import { ConnectionState } from "App/device/constants"
-import { DeviceConnectionError } from "App/device/errors"
-import connectDeviceRequest from "Renderer/requests/connect-device.request"
-import { testError } from "App/renderer/store/constants"
+import { ConnectionState, DeviceError } from "App/device/constants"
+import { connectDeviceRequest } from "App/device/requests/connect-device.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
+import { Result } from "App/core/builder"
 
 const mockStore = createMockStore([thunk])({
   device: {
@@ -21,22 +22,22 @@ const mockStore = createMockStore([thunk])({
   },
 })
 
-jest.mock("Renderer/requests/get-device-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-device-info.request", () =>
   jest.fn().mockReturnValue({
     status: RequestResponseStatus.Ok,
   })
 )
-jest.mock("Renderer/requests/get-network-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-network-info.request", () =>
   jest.fn().mockReturnValue({
     status: RequestResponseStatus.Ok,
   })
 )
-jest.mock("Renderer/requests/get-storage-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-storage-info.request", () =>
   jest.fn().mockReturnValue({
     status: RequestResponseStatus.Ok,
   })
 )
-jest.mock("Renderer/requests/get-battery-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-battery-info.request", () =>
   jest.fn().mockReturnValue({
     status: RequestResponseStatus.Ok,
   })
@@ -53,7 +54,7 @@ jest.mock("App/device/actions/set-connection-status.action", () => ({
     payload: true,
   }),
 }))
-jest.mock("Renderer/requests/connect-device.request")
+jest.mock("App/device/requests/connect-device.request")
 
 afterEach(() => {
   mockStore.clearActions()
@@ -61,12 +62,14 @@ afterEach(() => {
 
 describe("Connect Device request returns `success` status", () => {
   test("fire async `connectDevice` action and execute `SetSimData` event", async () => {
-    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-    })
+    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.success(true)
+    )
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       connectDevice(DeviceType.MuditaPure) as unknown as AnyAction
     )
@@ -94,13 +97,18 @@ describe("Connect Device request returns `success` status", () => {
 
 describe("Connect Device request returns `error` status", () => {
   test("fire async `connectDevice` action and execute `rejected` event", async () => {
-    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Error,
-    })
+    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.failed(new AppError("", ""))
+    )
 
-    const errorMock = new DeviceConnectionError("Cannot connected to device")
+    const errorMock = new AppError(
+      DeviceError.Connection,
+      "Cannot connected to device"
+    )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       connectDevice(DeviceType.MuditaPure) as unknown as AnyAction
     )

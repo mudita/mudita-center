@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import NavigationTabs from "../../page-objects/tabs.page"
 import MessagesPage from "../../page-objects/messages.page"
 
@@ -8,7 +13,6 @@ describe("Messages screen check", () => {
       setTimeout(done, 10000)
     })
   })
-
   it("Should click Messages tab and check 'new message' button is displayed", async () => {
     const messagesTab = await NavigationTabs.messagesTab
     await messagesTab.waitForDisplayed()

@@ -4,10 +4,11 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
-import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
+import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
+import { MessageType } from "App/messages/constants"
 
 type Properties = ComponentProps<typeof MessageDayBubble>
 
@@ -22,8 +23,15 @@ const defaultProps: Properties = {
   id: "c7873064-ee7c-49ae-a1c0-bd2d73f401ib",
   displayDate: false,
   date: new Date("2021-02-13T22:22:13.615Z"),
+  messageType: MessageType.OUTBOX,
+  isMessageBeingDeleted: false,
+  removeMessage: jest.fn(),
+  selected: false,
+  searchQuery: "",
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const props: Properties = {
     ...defaultProps,

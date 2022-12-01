@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Contact as PureContact } from "@mudita/pure"
+import { Contact as PureContact } from "App/device/types/mudita-os"
 import { ContactPresenter } from "App/contacts/presenters/contact.presenter"
 import { Contact } from "App/contacts/reducers"
 
@@ -15,6 +15,7 @@ const pureContact: PureContact = {
   favourite: true,
   numbers: ["500400300"],
   priName: "Alek",
+  email: "",
 }
 
 const contact: Contact = {
@@ -41,5 +42,16 @@ describe("`ContactPresenter`", () => {
   test("`serialize` record properly", () => {
     const result = ContactPresenter.mapToPureContact(contact)
     expect(result).toEqual(pureContact)
+  })
+
+  test("`serialize` record with email address", () => {
+    const result = ContactPresenter.mapToPureContact({
+      ...contact,
+      email: "user@example.com",
+    })
+    expect(result).toEqual({
+      ...pureContact,
+      email: "user@example.com",
+    })
   })
 })

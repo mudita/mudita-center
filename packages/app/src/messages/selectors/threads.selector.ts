@@ -4,14 +4,15 @@
  */
 
 import { createSelector } from "reselect"
-import { MessagesState, Thread } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessagesState } from "App/messages/reducers"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const threadsSelector = createSelector<
   ReduxRootState,
   MessagesState,
   Thread[]
->(messagesStateSelector, ({ threadMap }) => {
+>(messagesStateSelector, ({ data: { threadMap } }) => {
   return Object.keys(threadMap).map((key) => threadMap[key])
 })

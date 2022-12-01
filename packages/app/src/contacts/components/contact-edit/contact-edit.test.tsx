@@ -4,13 +4,15 @@
  */
 
 import { fireEvent, waitFor } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import ContactEdit from "App/contacts/components/contact-edit/contact-edit.component"
-import { contactsSeed } from "App/seeds/contacts"
+import { contactsSeed } from "App/__deprecated__/seeds/contacts"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const defaultProps = {
     onCancel: noop,
@@ -171,4 +173,60 @@ describe("Not display error for phone number regexp match", () => {
       })
     }
   )
+})
+
+describe("Too long text validation", () => {
+  const longNameText = new Array(33).fill("1").join("")
+  const longAddressText = new Array(31).fill("1").join("")
+  const invalidFormatMessageError = "[value] component.formErrorTooLong"
+
+  test("by default displays no errors", () => {
+    const { queryByText } = renderer()
+
+    expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
+  })
+
+  test("displays error when firstName is longer than 32 characters", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const primaryNumber = getByTestId(ContactEditTestIdsEnum.FirstName)
+
+    fireEvent.input(primaryNumber, { target: { value: longNameText } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("displays error when secondName is longer than 32 characters", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const primaryNumber = getByTestId(ContactEditTestIdsEnum.SecondName)
+
+    fireEvent.input(primaryNumber, { target: { value: longNameText } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("displays error when first address line is longer than 30 characters", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const firstAddressLine = getByTestId(
+      ContactEditTestIdsEnum.FirstAddressLine
+    )
+
+    fireEvent.input(firstAddressLine, { target: { value: longAddressText } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("displays error when second address line is longer than 30 characters", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const secondAddressLine = getByTestId(
+      ContactEditTestIdsEnum.SecondAddressLine
+    )
+
+    fireEvent.input(secondAddressLine, { target: { value: longAddressText } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
 })

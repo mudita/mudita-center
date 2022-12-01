@@ -4,20 +4,19 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { ImportContactsFlowTestIds } from "App/contacts/components/import-contacts-flow/import-contacts-flow-test-ids.component"
 import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import { DownloadContactsModal } from "App/contacts/components/contacts/download-contacts-modal/download-contacts-modal"
 import InfoModal from "App/contacts/components/info-modal/info-modal.component"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import ContactImportModal, {
-  ModalType,
-} from "App/contacts/components/contact-import/contact-import-modal.component"
+import { ContactImportModal } from "App/contacts/components/contact-import/contact-import-modal.component"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
+import { ModalType } from "App/contacts/components/contact-import/contact-import-modal.enum"
 
 export const messages = defineMessages({
   downloadingErrorTitle: {

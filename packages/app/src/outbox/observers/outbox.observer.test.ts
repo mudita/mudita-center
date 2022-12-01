@@ -4,7 +4,9 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
+import DeviceService, {
+  DeviceServiceEventName,
+} from "App/__deprecated__/backend/device-service"
 import {
   OutboxObserver,
   outboxTime,
@@ -13,8 +15,9 @@ import { OutboxService } from "App/outbox/services"
 import { ipcMain } from "electron-better-ipc"
 import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"
 import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
-import { Thread } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
 import { flushPromises } from "App/core/helpers/flush-promises"
+import { MessageType } from "App/messages/constants"
 
 const threadMock: Thread = {
   id: "1",
@@ -23,6 +26,9 @@ const threadMock: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
 
 describe("Outbox Observer: observe", () => {
@@ -51,12 +57,18 @@ describe("Outbox Observer: observe", () => {
       subject = new OutboxObserver(ipcMain, deviceService, outboxService)
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     test("`readOutboxEntries` has been called", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalled()
     })
 
@@ -78,6 +90,8 @@ describe("Outbox Observer: observe", () => {
       })
 
       test("`DataUpdated` and `PushOutboxNotification` is emitted", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
         subject.observe()
@@ -85,10 +99,16 @@ describe("Outbox Observer: observe", () => {
 
         await flushPromises()
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
           DataSyncIpcEvent.DataUpdated
         )
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
           NotificationIpcEvent.PushOutboxNotification,
           threadMock
@@ -114,6 +134,8 @@ describe("Outbox Observer: observe", () => {
       })
 
       test("`DataUpdated` and `PushOutboxNotification` isn't emitted", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
         subject.observe()
@@ -121,10 +143,16 @@ describe("Outbox Observer: observe", () => {
 
         await flushPromises()
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
           DataSyncIpcEvent.DataUpdated
         )
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
           NotificationIpcEvent.PushOutboxNotification,
           threadMock
@@ -133,38 +161,58 @@ describe("Outbox Observer: observe", () => {
     })
 
     test("`readOutboxEntries` has been called every `outboxTime`", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
 
       await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(2)
 
       await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(3)
     })
 
     test("`DeviceServiceEventName.DeviceDisconnected` interrupts watch OutboxEntries", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
 
       await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(2)
 
       eventEmitterMock.emit(DeviceServiceEventName.DeviceDisconnected)
 
       await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).not.toHaveBeenCalledTimes(3)
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     test("several `DeviceServiceEventName.DeviceUnlocked` no duplicate logic", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
@@ -172,6 +220,8 @@ describe("Outbox Observer: observe", () => {
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
     })
   })

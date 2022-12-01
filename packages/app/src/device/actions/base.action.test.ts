@@ -17,9 +17,9 @@ import {
   setOsVersionData,
   setUpdateState,
   setInitState,
+  setAgreementStatus,
 } from "./base.action"
-import { DeviceEvent, UpdatingState } from "App/device/constants"
-import { CaseColour } from "@mudita/pure"
+import { DeviceEvent, UpdatingState, CaseColor } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -40,11 +40,11 @@ const pureDeviceMock: PureDeviceData = {
   serialNumber: "303",
   phoneLockTime: 1630703219,
   memorySpace: {
-    free: 124,
-    full: 1021,
+    reservedSpace: 124,
+    usedUserSpace: 1021,
     total: 16000000000,
   },
-  caseColour: CaseColour.Gray,
+  caseColour: CaseColor.Gray,
   backupLocation: "path/to/directory",
 }
 
@@ -53,8 +53,9 @@ const harmonyDeviceMock: HarmonyDeviceData = {
   batteryLevel: 0.99,
   serialNumber: "303",
   memorySpace: {
-    free: 124,
-    full: 1021,
+    reservedSpace: 124,
+    usedUserSpace: 1021,
+    total: 1021,
   },
 }
 
@@ -173,6 +174,28 @@ describe("Action: setInitState", () => {
       {
         type: DeviceEvent.SetInitState,
         payload: undefined,
+      },
+    ])
+  })
+})
+
+describe("Action: setAgreementStatus", () => {
+  test("fire action with `AgreementStatus` type with provided payload", () => {
+    mockStore.dispatch(setAgreementStatus(true))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: DeviceEvent.AgreementStatus,
+        payload: true,
+      },
+    ])
+
+    mockStore.clearActions()
+
+    mockStore.dispatch(setAgreementStatus(false))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: DeviceEvent.AgreementStatus,
+        payload: false,
       },
     ])
   })

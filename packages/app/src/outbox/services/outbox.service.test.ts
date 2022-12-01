@@ -8,18 +8,18 @@ import {
   EntryHandlersMapType,
   OutboxService,
 } from "App/outbox/services/outbox.service"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { IpcEvent } from "App/data-sync/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { OutboxEntry } from "App/device/types/mudita-os"
 import {
-  Endpoint,
-  Method,
-  OutboxEntry,
   OutboxEntryChange,
   OutboxEntryType,
-} from "@mudita/pure"
+  Endpoint,
+  Method,
+} from "App/device/constants"
 
-jest.mock("Backend/device-service")
+jest.mock("App/__deprecated__/backend/device-service")
 
 beforeEach(() => {
   jest.resetAllMocks()
@@ -56,6 +56,8 @@ describe("`OutboxService`", () => {
 
     test("`DataLoaded` isn't emits", async () => {
       await subject.readOutboxEntries()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataLoaded
       )
@@ -63,6 +65,8 @@ describe("`OutboxService`", () => {
 
     test("outbox `delete` request was called", async () => {
       await subject.readOutboxEntries()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenCalledWith({
         endpoint: Endpoint.Outbox,
         method: Method.Delete,
@@ -75,6 +79,8 @@ describe("`OutboxService`", () => {
     test("contact handler was called", async () => {
       await subject.readOutboxEntries()
       expect(
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         entryHandlersMap[OutboxEntryType.Contact].handleEntry
       ).toHaveBeenCalledWith(entries[0])
     })
@@ -96,6 +102,8 @@ describe("`OutboxService`", () => {
 
     test("`DataLoaded` isn't emits", async () => {
       await subject.readOutboxEntries()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataLoaded
       )
@@ -118,6 +126,8 @@ describe("`OutboxService`", () => {
 
     test("`DataLoaded` isn't emits", async () => {
       await subject.readOutboxEntries()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataLoaded
       )

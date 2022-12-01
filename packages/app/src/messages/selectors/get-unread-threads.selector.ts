@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState } from "Renderer/store"
-import { Thread } from "App/messages/reducers"
 import { Selector } from "reselect"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { Thread } from "App/messages/dto"
 import { threadsSelector } from "App/messages/selectors/threads.selector"
 
 export const getUnreadThreads: Selector<ReduxRootState, Thread[]> = (state) => {

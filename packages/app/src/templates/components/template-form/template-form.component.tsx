@@ -6,18 +6,18 @@
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ButtonComponent from "Renderer/components/core/button/button.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Type,
-} from "Renderer/components/core/button/button.config"
+} from "App/__deprecated__/renderer/components/core/button/button.config"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import { TemplateFormProps } from "App/templates/components/template-form/template-form.interface"
 import {
   Content,
@@ -42,13 +42,12 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
   onSave,
   error,
   template,
-  savingPossible = true,
   saving = false,
 }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
     setError,
   } = useForm({
     defaultValues: template
@@ -66,6 +65,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
         message: error?.toString(),
       })
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const HeaderLeft = (
@@ -95,6 +96,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
             defaultHeight="100%"
             errorMessage={errors.text?.message}
             label={intl.formatMessage(messages.text)}
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           />
         </Content>
@@ -109,9 +112,7 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
           <ButtonComponent
             type={Type.Submit}
             data-testid={TemplateFormTestIds.SaveButton}
-            disabled={
-              !savingPossible || Object.keys(errors).length > 0 || saving
-            }
+            disabled={!isDirty || !isValid || saving}
             label={
               saving ? (
                 <Loader

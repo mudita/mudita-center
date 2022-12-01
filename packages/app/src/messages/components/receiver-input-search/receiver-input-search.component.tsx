@@ -6,14 +6,16 @@
 import React, { ComponentProps } from "react"
 import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { intl } from "Renderer/utils/intl"
-import InputSearch from "Renderer/components/core/input-search/input-search.component"
-import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import InputSearch from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
+import { searchIcon } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
 import { Receiver } from "App/messages/reducers/messages.interface"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { renderListItem } from "App/messages/components/receiver-input-search/receiver-input-search.helpers"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
+
+import { ItemType } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
@@ -46,18 +48,26 @@ const ReceiverInputSearch: FunctionComponent<Props> = ({
   onReceiverSelect,
   ...props
 }) => {
-  const handleSelect = (receiver?: Receiver | string) => {
-    if (receiver !== undefined && typeof receiver !== "string") {
-      onReceiverSelect(receiver)
+  const handleSelect = (receiver: Receiver) => {
+    if (!receiver) {
+      return
     }
+
+    onReceiverSelect(receiver)
   }
+
   return (
     <ReceiverInputSelect
       type="search"
       data-testid={ReceiverInputSelectTestIds.Input}
       outlined
       searchable
-      items={results}
+      items={[
+        ...results.map((contact) => ({
+          type: ItemType.Data,
+          data: contact,
+        })),
+      ]}
       leadingIcons={[searchIcon]}
       label={intl.formatMessage(messages.searchPlaceholder)}
       onSelect={handleSelect}

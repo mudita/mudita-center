@@ -4,3 +4,5 @@
  */
 
 export * from "./password-field"
+export * from "./modal-dialog"
+export * from "./visible-on-device"

@@ -4,18 +4,17 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/messages/is-name-available"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import modalService from "Renderer/components/core/modal/modal.service"
-import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
+import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
+import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { defineMessages } from "react-intl"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import {
   Buttons,
   ContactSelectionManager,
@@ -25,17 +24,17 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import {
   ErrorDataModal,
   LoadingStateDataModal,
-} from "Renderer/components/rest/data-modal/data.modals"
+} from "App/__deprecated__/renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
-import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
+import { ContactInputSearch } from "App/contacts/components/contact-input-search/contact-input-search.component"
 import styled from "styled-components"
-import { borderColor } from "Renderer/styles/theming/theme-getters"
+import { borderColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "module.contacts.deleteTitle" },
@@ -56,33 +55,34 @@ const PanelWrapper = styled.div<{ showSearchResults: boolean }>`
 const SearchTitle = styled(Text)`
   padding: 2.7rem 3.2rem 2rem;
 `
-interface Props {
+interface ContactPanelProps {
+  contactsList: Contact[]
   onContactSelect: (contact: Contact) => void
   onManageButtonClick: () => void
   onNewButtonClick: () => void
-  selectedContacts: Contact[]
-  allItemsSelected?: boolean
-  toggleAll?: UseTableSelect<Contact>["toggleAll"]
+  selectedContacts: string[]
+  allItemsSelected: boolean
+  toggleAll: () => void
   deleteContacts: (
     ids: ContactID[]
   ) => Promise<PayloadAction<Error | undefined>>
-  resetRows: UseTableSelect<Contact>["resetRows"]
+  resetRows: () => void
   editMode: boolean
   onSearchEnterClick?: () => void
   searchValue: string
   onSearchValueChange: (value: string) => void
   showSearchResults?: boolean
   results: Contact[]
-  onExport: (contact: Contact[]) => void
+  onExport: (ids: string[]) => void
 }
 
-const ContactPanel: FunctionComponent<Props> = ({
+const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   onContactSelect,
   onManageButtonClick,
   onNewButtonClick,
   selectedContacts,
   allItemsSelected,
-  toggleAll = noop,
+  toggleAll,
   deleteContacts,
   resetRows,
   editMode,
@@ -92,6 +92,7 @@ const ContactPanel: FunctionComponent<Props> = ({
   showSearchResults = false,
   results,
   onExport,
+  contactsList,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -101,38 +102,38 @@ const ContactPanel: FunctionComponent<Props> = ({
   }
 
   const openModal = () => {
-    const selectedContactsIds = selectedContacts.map(({ id }) => id)
+    const selectedContact = contactsList.find(
+      (contact) => contact.id === selectedContacts[0]
+    )
     const nameAvailable =
-      selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
+      selectedContacts.length === 1 && isNameAvailable(selectedContact)
     const onDelete = async () => {
-      modalService.openModal(
+      void modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
-      const { payload } = await delayResponse(
-        deleteContacts(selectedContactsIds)
-      )
+      const { payload } = await delayResponse(deleteContacts(selectedContacts))
       if (payload) {
-        modalService.openModal(<ErrorDataModal />, true)
+        void modalService.openModal(<ErrorDataModal />, true)
       } else {
-        modalService.closeModal()
+        void modalService.closeModal()
       }
       resetRows()
     }
+
     const modalConfig = {
       title: intl.formatMessage(messages.title),
       message: {
         ...messages.body,
         values: {
-          num: allItemsSelected ? -1 : selectedContactsIds.length,
-          name: nameAvailable && createFullName(selectedContacts[0]),
+          num: allItemsSelected ? -1 : selectedContacts.length,
+          name: nameAvailable && createFullName(selectedContact),
           ...textFormatters,
         },
       },
       onDelete,
-      onClose: resetRows,
     }
-    modalService.openModal(<DeleteModal {...modalConfig} />)
+    void modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   return (
     <PanelWrapper showSearchResults={showSearchResults}>
@@ -140,10 +141,10 @@ const ContactPanel: FunctionComponent<Props> = ({
         {selectionMode ? (
           <ContactSelectionManager
             selectedItemsNumber={selectedItemsCount}
-            allItemsSelected={Boolean(allItemsSelected)}
+            allItemsSelected={allItemsSelected}
             message={{ id: "module.contacts.selectionsNumber" }}
             checkboxSize={Size.Medium}
-            onToggle={toggleAll}
+            onToggle={allItemsSelected ? resetRows : toggleAll}
             buttons={[
               <ButtonComponent
                 key="export"
@@ -163,31 +164,33 @@ const ContactPanel: FunctionComponent<Props> = ({
             data-testid={ContactPanelTestIdsEnum.SelectionManager}
           />
         ) : (
-          <ContactInputSearch
-            onContactSelect={onContactSelect}
-            onSearchEnterClick={onSearchEnterClick}
-            searchValue={searchValue}
-            onSearchValueChange={onSearchValueChange}
-            showSearchResults={showSearchResults}
-            results={results}
-          />
+          <>
+            <ContactInputSearch
+              onContactSelect={onContactSelect}
+              onSearchEnterClick={onSearchEnterClick}
+              searchValue={searchValue}
+              onSearchValueChange={onSearchValueChange}
+              showSearchResults
+              results={results}
+            />
+            <Buttons>
+              <ButtonComponent
+                displayStyle={DisplayStyle.Secondary}
+                labelMessage={{ id: "module.contacts.importButton" }}
+                onClick={onManageButtonClick}
+                data-testid={ContactPanelTestIdsEnum.ImportButton}
+              />
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.contacts.panelNewContactButton",
+                }}
+                onClick={onNewButtonClick}
+                disabled={editMode}
+                data-testid={ContactPanelTestIdsEnum.NewButton}
+              />
+            </Buttons>
+          </>
         )}
-        <Buttons>
-          <ButtonComponent
-            displayStyle={DisplayStyle.Secondary}
-            labelMessage={{ id: "module.contacts.importButton" }}
-            onClick={onManageButtonClick}
-            data-testid={ContactPanelTestIdsEnum.ImportButton}
-          />
-          <ButtonComponent
-            labelMessage={{
-              id: "module.contacts.panelNewContactButton",
-            }}
-            onClick={onNewButtonClick}
-            disabled={editMode}
-            data-testid={ContactPanelTestIdsEnum.NewButton}
-          />
-        </Buttons>
       </Panel>
       {showSearchResults && (
         <SearchTitle

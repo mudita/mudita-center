@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
@@ -11,7 +16,7 @@ class NavigationTabs extends Page {
   public get overviewTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-MenuOverview"]')
+    return $('[data-testid="overview-link"]')
   }
 
   async overviewTabClick() {

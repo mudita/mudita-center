@@ -4,15 +4,16 @@
  */
 
 import React from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { TemplatesList } from "App/templates/components/templates-list/templates-list.component"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
 import { Template } from "App/templates/dto"
 
 const templateMock: Template = {
   id: "1",
-  text: "Thanks for reaching out. I can't talk right now, I'll call you later",
+  text: "Thanks for reaching out",
   lastUsedAt: "2020-02-12T10:00:00.000Z",
+  order: 1,
 }
 
 const render = (props: TemplatesListProps) => {
@@ -21,7 +22,16 @@ const render = (props: TemplatesListProps) => {
 
 describe("`TemplatesList` component", () => {
   test("shows empty state if templates list is empty", () => {
-    const { getByText } = render({ templates: [] })
+    const { getByText } = render({
+      templates: [],
+      deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
+      toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
+      active: undefined,
+      templateFormOpen: false,
+      selectedItems: [],
+    })
     expect(
       getByText("[value] module.templates.emptyList.title")
     ).toBeInTheDocument()
@@ -31,7 +41,30 @@ describe("`TemplatesList` component", () => {
   })
 
   test("shows templates list", () => {
-    const { getByText } = render({ templates: [templateMock] })
+    const { getByText } = render({
+      templates: [templateMock],
+      selectedItems: [],
+      deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
+      toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
+      active: undefined,
+      templateFormOpen: false,
+    })
     expect(getByText(templateMock.text)).toBeInTheDocument()
+  })
+
+  test("shows checkbox if at least one row is selected", () => {
+    const { getByTestId } = render({
+      templates: [templateMock],
+      selectedItems: [templateMock.id],
+      deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
+      toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
+      active: undefined,
+      templateFormOpen: false,
+    })
+    expect(getByTestId("template-checkbox")).toBeVisible()
   })
 })

@@ -5,7 +5,8 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import { Index } from "elasticlunr"
+import { ElasticlunrFactory } from "App/index-storage/factories"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { TemplateTable } from "App/data-sync/constants"
 import {
@@ -23,6 +24,8 @@ export class TemplateIndexer extends BaseIndexer {
     super(fileSystemService)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async index(fileDir: string, token: string): Promise<any> {
     const db = await this.initTmpDatabase(fileDir, token)
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))
@@ -30,11 +33,12 @@ export class TemplateIndexer extends BaseIndexer {
   }
 
   private createIndex(data: TemplateObject[]): Index<TemplateObject> {
-    const index = elasticlunr<TemplateObject>()
+    const index = ElasticlunrFactory.create<TemplateObject>()
 
     index.setRef("id")
     index.addField("text")
     index.addField("lastUsedAt")
+    index.addField("order")
 
     data.forEach((item) => {
       index.addDoc(item)

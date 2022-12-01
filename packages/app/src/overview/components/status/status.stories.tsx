@@ -5,11 +5,11 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import Status from "App/overview/components/status/status.component"
 import { css } from "styled-components"
-import StoryContainer from "Renderer/components/storybook/story-container.component"
-import Story from "Renderer/components/storybook/story.component"
+import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 
 const storyStyle = css`
   > * {

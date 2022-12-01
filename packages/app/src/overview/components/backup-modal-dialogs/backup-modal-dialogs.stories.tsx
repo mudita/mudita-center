@@ -5,7 +5,7 @@
 
 import React from "react"
 import { Meta } from "@storybook/react"
-import Story from "Renderer/components/storybook/story.component"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import {
   BackupFailureModal,
   BackupModal,
@@ -14,6 +14,8 @@ import {
 } from "App/overview/components/backup-modal-dialogs/backup-modal-dialogs"
 import { action } from "@storybook/addon-actions"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const BackupModalStory = () => {
   return (
     <Story transparentMode>
@@ -27,6 +29,8 @@ export const BackupModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const BackupSpinnerModalStory = () => {
   return (
     <Story transparentMode>
@@ -35,6 +39,8 @@ export const BackupSpinnerModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const BackupFailureModalStory = () => {
   return (
     <Story transparentMode>
@@ -47,6 +53,8 @@ export const BackupFailureModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const BackupSuccessModalStory = () => {
   return (
     <Story transparentMode>

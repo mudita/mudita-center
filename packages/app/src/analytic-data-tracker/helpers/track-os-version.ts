@@ -5,7 +5,7 @@
 
 import { trackUniqueRequest } from "App/analytic-data-tracker/requests"
 import { HarmonyDeviceData, PureDeviceData } from "App/device"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { TrackEvent } from "App/analytic-data-tracker/types"
 import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 

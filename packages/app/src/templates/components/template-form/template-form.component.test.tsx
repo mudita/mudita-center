@@ -6,8 +6,8 @@
 import React from "react"
 import { waitFor } from "@testing-library/dom"
 import { fireEvent } from "@testing-library/react"
-import { noop } from "Renderer/utils/noop"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { TemplateForm } from "App/templates/components/template-form/template-form.component"
 import { TemplateFormProps } from "App/templates/components/template-form/template-form.interface"
 import { TemplateFormTestIds } from "App/templates/components/template-form/template-form-ids.enum"
@@ -29,6 +29,10 @@ const renderWithWaitForm = async (props: TemplateFormProps) => {
   return outcome
 }
 
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
 describe("`TemplateForm` component", () => {
   describe("Close functionality", () => {
     test("close the form when click on `Close` button", async () => {
@@ -37,7 +41,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
       const closeButton = getByTestId(TemplateFormTestIds.CancelButton)
@@ -49,13 +52,58 @@ describe("`TemplateForm` component", () => {
   })
 
   describe("Save functionality", () => {
+    test("`Save` button is disabled when no template text", async () => {
+      const { getByTestId, queryByTestId } = await renderWithWaitForm({
+        onClose: onCloseMock,
+        onSave: onSaveMock,
+        error: null,
+        template: undefined,
+        saving: false,
+      })
+      const saveButton = queryByTestId(
+        TemplateFormTestIds.SaveButton
+      ) as HTMLInputElement
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+
+      fireEvent.change(textField, {
+        target: { value: "" },
+      })
+
+      await waitFor(() => {
+        expect(saveButton).toBeDisabled()
+        fireEvent.click(saveButton)
+        expect(onSaveMock).toHaveBeenCalledTimes(0)
+      })
+    })
+    test("`Save` button is not disabled when added template text", async () => {
+      const { getByTestId, queryByTestId } = await renderWithWaitForm({
+        onClose: onCloseMock,
+        onSave: onSaveMock,
+        error: null,
+        template: undefined,
+        saving: false,
+      })
+      const saveButton = queryByTestId(
+        TemplateFormTestIds.SaveButton
+      ) as HTMLInputElement
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+
+      fireEvent.change(textField, {
+        target: { value: textMock },
+      })
+
+      await waitFor(() => {
+        expect(saveButton).toBeEnabled()
+        fireEvent.click(saveButton)
+        expect(onSaveMock).toHaveBeenCalledTimes(0)
+      })
+    })
     test("`onSave` callback called with provided string when click on `Save` button", async () => {
       const { getByTestId } = await renderWithWaitForm({
         onClose: onCloseMock,
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
       const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
@@ -64,8 +112,9 @@ describe("`TemplateForm` component", () => {
       fireEvent.change(textField, {
         target: { value: textMock },
       })
-
-      expect(onSaveMock).toHaveBeenCalledTimes(0)
+      await waitFor(() => {
+        expect(onSaveMock).toHaveBeenCalledTimes(0)
+      })
       fireEvent.click(saveButton)
 
       await waitFor(() => {
@@ -79,14 +128,22 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
       const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+      fireEvent.change(textField, {
+        target: { value: "test" },
+      })
+      await waitFor(() => {
+        expect(
+          queryByText("[value] module.templates.required")
+        ).not.toBeInTheDocument()
+      })
 
-      expect(
-        queryByText("[value] module.templates.required")
-      ).not.toBeInTheDocument()
+      fireEvent.change(textField, {
+        target: { value: "" },
+      })
       fireEvent.click(saveButton)
       await waitFor(() => {
         expect(
@@ -101,7 +158,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
       const textField = getByTestId(TemplateFormTestIds.TextFiled)
@@ -125,7 +181,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: true,
       })
 
@@ -140,7 +195,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: "Luke, I'm your error",
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
 

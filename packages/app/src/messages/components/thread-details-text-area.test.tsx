@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { fireEvent } from "@testing-library/dom"
 
@@ -16,6 +16,7 @@ const defaultProps: Props = {
   onAttachContactClick: jest.fn(),
   onChange: jest.fn(),
   onSendClick: jest.fn(),
+  onAttachTemplateClick: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

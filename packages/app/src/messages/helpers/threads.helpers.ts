@@ -4,20 +4,21 @@
  */
 
 import {
-  Message,
   MessagesState as MessagesProps,
   Receiver,
   ReceiverIdentification,
-  Thread,
-  VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
+import { Message, Thread } from "App/messages/dto"
+import { VisibilityFilter } from "App/messages/constants"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const searchThreads = (
   threads: Thread[] = [],
   contactMap: Record<ContactID, Contact>,
-  searchValue: MessagesProps["searchValue"]
+  searchValue: MessagesProps["data"]["searchValue"]
 ) => {
   if (searchValue.length) {
     return threads?.filter(({ phoneNumber }) => {
@@ -39,14 +40,18 @@ export const searchThreads = (
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const filterThreads = (
   threads: Thread[],
-  visibilityFilter: MessagesProps["visibilityFilter"]
+  visibilityFilter: MessagesProps["data"]["visibilityFilter"]
 ) =>
   threads?.filter(({ unread }) =>
     visibilityFilter === VisibilityFilter.Unread ? unread : true
   )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const sortThreads = (threads: Thread[]) => {
   return threads?.sort((a, b) => {
     const x = a.lastUpdatedAt

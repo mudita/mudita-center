@@ -5,30 +5,55 @@
 
 import React from "react"
 import { waitFor } from "@testing-library/dom"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { fireEvent } from "@testing-library/react"
-import { noop } from "Renderer/utils/noop"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import {
+  renderWithThemeAndIntl,
+  constructWrapper,
+} from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { Templates } from "App/templates/components/templates/templates.component"
 import { TemplatesProps } from "App/templates/components/templates/templates.interface"
 import { TemplatesPanelTestIds } from "App/templates/components/templates-panel/templates-panel-ids.enum"
 import { TemplateFormTestIds } from "App/templates/components/template-form/template-form-ids.enum"
 import { Template } from "App/templates/dto"
+import { TemplateOptionsTestIds } from "App/templates/components/template-options/template-options-test-ids.enum"
+import { DeletingTemplateModalsTestIds } from "App/templates/components/deleting-template-modals/deleting-template-modals-test-ids.enum"
+import { CreatingTemplateModalsTestIds } from "App/templates/components/creating-template-modals/creating-template-modals-test-ids.enum"
+import { UpdatingTemplateModalsTestIds } from "App/templates/components/updating-template-modals/updating-template-modals-test-ids.enum"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
 const templateMock: Template = {
   id: "1",
   text: "Hello world!",
   lastUsedAt: "2",
+  order: 1,
 }
 
 const createTemplateMock = jest
   .fn()
   .mockResolvedValue({ payload: templateMock })
 
-const render = async (props: TemplatesProps) => {
-  const outcome = renderWithThemeAndIntl(<Templates {...props} />)
-  await waitFor(noop)
+const updateTemplateMock = jest
+  .fn()
+  .mockResolvedValue({ payload: templateMock })
 
-  return outcome
+const deleteTemplatesMock = jest.fn()
+
+const updateTemplateOrderMock = jest
+  .fn()
+  .mockResolvedValue({ payload: templateMock })
+
+const render = async (props: TemplatesProps) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  const result = await renderWithThemeAndIntl(<Templates {...props} />)
+  return {
+    ...result,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
+    rerender: async (newProps: TemplatesProps) =>
+      result.rerender(constructWrapper(<Templates {...newProps} />)),
+  }
 }
 
 describe("`Templates` component", () => {
@@ -36,8 +61,17 @@ describe("`Templates` component", () => {
     test("open/close template form", async () => {
       const { getByTestId, queryByTestId } = await render({
         templates: [],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
         loading: false,
+        loaded: false,
         error: null,
       })
       const openFormButton = getByTestId(TemplatesPanelTestIds.Button)
@@ -62,8 +96,17 @@ describe("`Templates` component", () => {
     test("renders list of templates", async () => {
       const { getByText } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
         loading: false,
+        loaded: false,
         error: null,
       })
 
@@ -73,8 +116,17 @@ describe("`Templates` component", () => {
     test("renders empty message if templates array is empty", async () => {
       const { getByText } = await render({
         templates: [],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
         loading: false,
+        loaded: false,
         error: null,
       })
 
@@ -88,11 +140,20 @@ describe("`Templates` component", () => {
   })
 
   describe("`createTemplate` functionality", () => {
-    test("calls `createTemplate` when clicks on `Save` button", async () => {
+    test("Calls `createTemplate` when clicks on `Save` button", async () => {
       const { getByTestId } = await render({
         templates: [],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
         loading: false,
+        loaded: false,
         error: null,
       })
 
@@ -102,25 +163,32 @@ describe("`Templates` component", () => {
       const textField = getByTestId(TemplateFormTestIds.TextFiled)
       const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
 
-      fireEvent.change(textField, {
+      fireEvent.input(textField, {
         target: { value: "Hello world!" },
       })
-      expect(createTemplateMock).toHaveBeenCalledTimes(0)
+      await waitFor(() => {
+        expect(createTemplateMock).toHaveBeenCalledTimes(0)
+      })
       fireEvent.click(saveButton)
       await waitFor(() => {
         expect(createTemplateMock).toHaveBeenCalledTimes(1)
       })
     })
 
-    test("close form if `createTemplate` callback returns value", async () => {
-      const successCreateTemplateMock = jest
-        .fn()
-        .mockResolvedValue({ payload: templateMock })
-
+    test("Shows creating template loader after click on save button", async () => {
       const { getByTestId } = await render({
-        templates: [],
-        createTemplate: successCreateTemplateMock,
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
         loading: false,
+        loaded: false,
         error: null,
       })
 
@@ -129,30 +197,527 @@ describe("`Templates` component", () => {
 
       const textField = getByTestId(TemplateFormTestIds.TextFiled)
       const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
-      const templateForm = getByTestId(TemplateFormTestIds.Container)
 
       fireEvent.change(textField, {
         target: { value: "Hello world!" },
       })
-      expect(templateForm).toBeInTheDocument()
+
+      await waitFor(noop)
+
       fireEvent.click(saveButton)
+
       await waitFor(() => {
-        expect(templateForm).not.toBeInTheDocument()
+        expect(
+          getByTestId(CreatingTemplateModalsTestIds.LoadingModal)
+        ).toBeInTheDocument()
       })
     })
 
-    test("show top level error in form", async () => {
-      const { getByTestId, getByText } = await render({
-        templates: [],
+    test("Shows creation templates info after state changed to `loaded: true`", async () => {
+      const { getByTestId, rerender } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
         loading: false,
-        error: "Some error",
+        loaded: false,
+        error: null,
       })
 
       const openFormButton = getByTestId(TemplatesPanelTestIds.Button)
       fireEvent.click(openFormButton)
 
-      expect(getByText("Some error")).toBeInTheDocument()
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+      const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
+
+      fireEvent.change(textField, {
+        target: { value: "Hello world!" },
+      })
+      await waitFor(noop)
+
+      fireEvent.click(saveButton)
+
+      await waitFor(noop)
+
+      await rerender({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: true,
+        error: null,
+      })
+
+      await waitFor(() => {
+        expect(
+          getByTestId(CreatingTemplateModalsTestIds.CreatedPopUp)
+        ).toBeInTheDocument()
+      })
+    })
+
+    test("Shows creating template error if error isn't empty", async () => {
+      const { getByTestId, rerender } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const openFormButton = getByTestId(TemplatesPanelTestIds.Button)
+      fireEvent.click(openFormButton)
+
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+      const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
+
+      fireEvent.change(textField, {
+        target: { value: "Hello world!" },
+      })
+      await waitFor(noop)
+
+      fireEvent.click(saveButton)
+
+      await waitFor(noop)
+
+      await rerender({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: true,
+        error: "Luke, I'm your error",
+      })
+
+      await waitFor(() => {
+        expect(
+          getByTestId(CreatingTemplateModalsTestIds.ErrorModal)
+        ).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe("`updateTemplate` functionality", () => {
+    test("Calls `updateTemplate` when clicks on `Save` button", async () => {
+      const { getByTestId } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
+      fireEvent.click(editButton)
+
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+      const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
+
+      fireEvent.change(textField, {
+        target: { value: "Hello updated world!" },
+      })
+
+      expect(updateTemplateMock).toHaveBeenCalledTimes(0)
+
+      await waitFor(noop)
+
+      fireEvent.click(saveButton)
+
+      await waitFor(() => {
+        expect(updateTemplateMock).toHaveBeenCalledWith({
+          ...templateMock,
+          text: "Hello updated world!",
+        })
+      })
+    })
+
+    test("Shows updating template loader after click on save button", async () => {
+      const { getByTestId } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
+      fireEvent.click(editButton)
+
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+      const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
+
+      fireEvent.change(textField, {
+        target: { value: "Hello updated world!" },
+      })
+
+      await waitFor(noop)
+
+      fireEvent.click(saveButton)
+
+      await waitFor(() => {
+        expect(
+          getByTestId(UpdatingTemplateModalsTestIds.LoadingModal)
+        ).toBeInTheDocument()
+      })
+    })
+
+    test("Shows updating templates info after state changed to `loaded: true`", async () => {
+      const { getByTestId, rerender } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
+      fireEvent.click(editButton)
+
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+      const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
+
+      fireEvent.change(textField, {
+        target: { value: "Hello updated world!" },
+      })
+
+      await waitFor(noop)
+
+      fireEvent.click(saveButton)
+
+      await waitFor(noop)
+
+      await rerender({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: true,
+        error: null,
+      })
+
+      await waitFor(() => {
+        expect(
+          getByTestId(UpdatingTemplateModalsTestIds.UpdatedPopUp)
+        ).toBeInTheDocument()
+      })
+    })
+
+    test("Shows updating template error if error isn't empty", async () => {
+      const { getByTestId, rerender } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
+      fireEvent.click(editButton)
+
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+      const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
+
+      fireEvent.change(textField, {
+        target: { value: "Hello updated world!" },
+      })
+
+      await waitFor(noop)
+
+      fireEvent.click(saveButton)
+
+      await waitFor(noop)
+
+      await rerender({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: true,
+        error: "Luke, I'm your error",
+      })
+
+      await waitFor(() => {
+        expect(
+          getByTestId(UpdatingTemplateModalsTestIds.ErrorModal)
+        ).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe("`deleteTemplates` functionality", () => {
+    test("Clicking on dropdown delete opens delete confirmation modal", async () => {
+      const { getByTestId } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: true,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
+      fireEvent.click(deleteButton)
+
+      expect(
+        getByTestId(DeletingTemplateModalsTestIds.ConfirmationModal)
+      ).toBeInTheDocument()
+    })
+
+    test("Clicking on confirmation delete triggers `deleteTemplates` action", async () => {
+      const { getByTestId } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
+      fireEvent.click(deleteButton)
+
+      expect(deleteTemplatesMock).toHaveBeenCalledTimes(0)
+
+      const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
+      fireEvent.click(modalConfirmButton)
+
+      expect(deleteTemplatesMock).toHaveBeenCalledTimes(1)
+    })
+
+    test("Shows deleted templates loader after click on delete confirmation button", async () => {
+      const { getByTestId } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
+      fireEvent.click(deleteButton)
+
+      const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
+      fireEvent.click(modalConfirmButton)
+
+      await waitFor(() => {
+        expect(
+          getByTestId(DeletingTemplateModalsTestIds.LoadingModal)
+        ).toBeInTheDocument()
+      })
+    })
+
+    test("Shows deleted templates info after state changed to `loaded: true`", async () => {
+      const { getByTestId, rerender } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
+      fireEvent.click(deleteButton)
+
+      const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
+      fireEvent.click(modalConfirmButton)
+
+      await rerender({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: true,
+        error: null,
+      })
+
+      await waitFor(() => {
+        expect(
+          getByTestId(DeletingTemplateModalsTestIds.DeletedPopUp)
+        ).toBeInTheDocument()
+      })
+    })
+
+    test("Shows deleted templates error if error isn't empty", async () => {
+      const { getByTestId, rerender } = await render({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: false,
+        error: null,
+      })
+
+      const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
+      dropdownButton?.click()
+
+      const deleteButton = getByTestId(TemplateOptionsTestIds.DeleteButton)
+      fireEvent.click(deleteButton)
+
+      const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
+      fireEvent.click(modalConfirmButton)
+
+      await rerender({
+        templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
+        createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
+        updateTemplate: updateTemplateMock,
+        updateTemplateOrder: updateTemplateOrderMock,
+        loading: false,
+        loaded: true,
+        error: "Luke, I'm your error",
+      })
+
+      await waitFor(() => {
+        expect(
+          getByTestId(DeletingTemplateModalsTestIds.ErrorModal)
+        ).toBeInTheDocument()
+      })
     })
   })
 })

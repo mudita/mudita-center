@@ -3,34 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import ContactList from "App/contacts/components/contact-list/contact-list.component"
+import { waitFor } from "@testing-library/react"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
-import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
+import ContactList from "App/contacts/components/contact-list/contact-list.component"
+import { VirtualizedContactListItemTestIds } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
 import {
   Contact,
   ContactCategory,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
-
-const intersectionObserverMock = () => ({
-  observe: () => null,
-  disconnect: () => null,
-  unobserve: () => null,
-})
-window.IntersectionObserver = jest
-  .fn()
-  .mockImplementation(intersectionObserverMock)
+import {
+  constructWrapper,
+  renderWithThemeAndIntl,
+} from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import React, { ComponentProps } from "react"
+import { VirtuosoMockContext } from "react-virtuoso"
 
 type Props = ComponentProps<typeof ContactList>
 
 const defaultProps: Props = {
   contactList: [],
-  getRowStatus: jest
-    .fn()
-    .mockReturnValue({ indeterminate: false, selected: false }),
-  noneRowsSelected: false,
+  selectedItems: [],
   onEdit: jest.fn(),
   onBlock: jest.fn(),
   onDelete: jest.fn(),
@@ -41,7 +34,7 @@ const defaultProps: Props = {
   toggleRow: jest.fn(),
   selectedContact: null,
   resultsState: ResultState.Empty,
-  editMode: false
+  editMode: false,
 }
 
 const johnContact: Contact = {
@@ -64,10 +57,31 @@ const kareemContact: Contact = {
   firstAddressLine: "",
 }
 
+const harryContact: Contact = {
+  id: "8fa0b2b48377-13b7-4f42-962d-274970a2",
+  firstName: "Harry",
+  lastName: "Brown",
+  primaryPhoneNumber: "666 888 999",
+  email: "example@mudita.com",
+  note: "",
+  firstAddressLine: "",
+}
+
 const contactList: ContactCategory[] = [
   {
     category: johnContact.lastName?.charAt(0) ?? "#",
     contacts: [kareemContact, johnContact],
+  },
+]
+
+const contactListWithHarry: ContactCategory[] = [
+  {
+    category: johnContact.lastName?.charAt(0) ?? "#",
+    contacts: [kareemContact, johnContact],
+  },
+  {
+    category: harryContact.lastName?.charAt(0) ?? "#",
+    contacts: [harryContact],
   },
 ]
 
@@ -76,12 +90,35 @@ const render = (extraProps?: Partial<Props>) => {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<ContactList {...props} />)
-}
 
-beforeAll(() => {
-  mockAllIsIntersecting(true)
-})
+  const outcome = renderWithThemeAndIntl(
+    <VirtuosoMockContext.Provider
+      value={{ viewportHeight: 300, itemHeight: 5 }}
+    >
+      <ContactList {...props} />
+    </VirtuosoMockContext.Provider>
+  )
+
+  return {
+    ...outcome,
+
+    rerender: (newExtraProps: Partial<Props>) => {
+      const newProps = {
+        ...defaultProps,
+        ...newExtraProps,
+      }
+      outcome.rerender(
+        constructWrapper(
+          <VirtuosoMockContext.Provider
+            value={{ viewportHeight: 300, itemHeight: 5 }}
+          >
+            <ContactList {...newProps} />
+          </VirtuosoMockContext.Provider>
+        )
+      )
+    },
+  }
+}
 
 describe("`ContactList` component", () => {
   test("Empty phonebook is rendered as default state", () => {
@@ -140,12 +177,12 @@ describe("`ContactList` component", () => {
   })
 
   test("Contact list is rendered if resultState is Loaded and contactList isn't empty", () => {
-    const { queryByTestId, queryAllByTestId } = render({
+    const { queryByTestId } = render({
       resultsState: ResultState.Loaded,
       contactList,
     })
     expect(
-      queryAllByTestId(ContactListTestIdsEnum.ContactListGroup)[0]
+      queryByTestId(ContactListTestIdsEnum.ContactListWithResults)
     ).toBeInTheDocument()
     expect(
       queryByTestId(ContactListTestIdsEnum.ContactListLoading)
@@ -168,11 +205,11 @@ describe("`ContactList` component", () => {
     test("each row is disabled", () => {
       const { queryAllByTestId } = render(extraProps)
 
-      mockAllIsIntersecting(0.1)
-
-      queryAllByTestId(ContactListTestIdsEnum.ContactRow).forEach((item) => {
-        expect(item).toHaveAttribute("disabled")
-      })
+      queryAllByTestId(VirtualizedContactListItemTestIds.ContactRow).forEach(
+        (item) => {
+          expect(item).toHaveAttribute("disabled")
+        }
+      )
     })
   })
 
@@ -187,15 +224,43 @@ describe("`ContactList` component", () => {
     test("each row is disabled expect the active one", () => {
       const { queryAllByTestId } = render(extraProps)
 
-      mockAllIsIntersecting(0.1)
-
-      const rows = queryAllByTestId(ContactListTestIdsEnum.ContactRow)
+      const rows = queryAllByTestId(
+        VirtualizedContactListItemTestIds.ContactRow
+      )
       const [firstRow, ...restRows] = rows
 
       expect(firstRow).toBeEnabled()
       restRows.forEach((item) => {
         expect(item).toHaveAttribute("disabled")
       })
+    })
+  })
+
+  test("passing new contacts to the component renders them correctly", async () => {
+    const { queryAllByTestId, queryByText, rerender } = render({
+      resultsState: ResultState.Loaded,
+      contactList,
+    })
+
+    expect(
+      queryAllByTestId(VirtualizedContactListItemTestIds.ContactRow)
+    ).toHaveLength(2)
+    expect(queryByText("John Doe")).toBeInTheDocument()
+    expect(queryByText("Kareem Doe")).toBeInTheDocument()
+    expect(queryByText("Harry Brown")).not.toBeInTheDocument()
+
+    rerender({
+      resultsState: ResultState.Loaded,
+      contactList: contactListWithHarry,
+    })
+
+    await waitFor(() => {
+      expect(
+        queryAllByTestId(VirtualizedContactListItemTestIds.ContactRow)
+      ).toHaveLength(3)
+      expect(queryByText("John Doe")).toBeInTheDocument()
+      expect(queryByText("Kareem Doe")).toBeInTheDocument()
+      expect(queryByText("Harry Brown")).toBeInTheDocument()
     })
   })
 })

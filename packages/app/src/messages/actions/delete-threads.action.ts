@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { deleteThreadsRequest } from "App/messages/requests"
 import { MessagesEvent } from "App/messages/constants"
-import { DeleteThreadError } from "App/messages/errors"
+import { AppError } from "App/core/errors"
 
 export const deleteThreads = createAsyncThunk<Error | string[], string[]>(
   MessagesEvent.DeleteThreads,
@@ -14,11 +14,16 @@ export const deleteThreads = createAsyncThunk<Error | string[], string[]>(
     const { error } = await deleteThreadsRequest(ids)
     if (error && error.data === undefined) {
       return rejectWithValue(
-        new DeleteThreadError("Delete Thread request failed")
+        new AppError(
+          MessagesEvent.DeleteThreads,
+          "Delete Thread request failed"
+        )
       )
     }
 
     if (error && error.data !== undefined) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       const successIds = ids.filter((id) => error.data.includes(id))
       return successIds
     }

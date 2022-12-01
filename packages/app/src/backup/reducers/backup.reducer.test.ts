@@ -4,17 +4,20 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
+import { State } from "App/core/constants"
+import { AppError } from "App/core/errors"
+import { BackupError, BackupEvent } from "App/backup/constants"
+import { Backup } from "App/backup/dto"
 import { backupReducer, initialState } from "App/backup/reducers/backup.reducer"
-import { BackupEvent } from "App/backup/constants"
-import { Backup, BackupDataState } from "App/backup/reducers/backup.interface"
-import { LoadBackupDataError } from "App/backup/errors"
 import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 
 test("empty event returns initial state", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   expect(backupReducer(undefined, {} as any)).toEqual(initialState)
 })
 
@@ -26,7 +29,7 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: BackupDataState.Loading,
+      loadingState: State.Loading,
     })
   })
 
@@ -37,12 +40,12 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: BackupDataState.Loaded,
+      loadingState: State.Loaded,
     })
   })
 
   test("Event: Load/rejected change `state` to Error", () => {
-    const errorMock = new LoadBackupDataError("I'm error")
+    const errorMock = new AppError(BackupError.Load, "I'm error")
 
     expect(
       backupReducer(undefined, {
@@ -51,7 +54,7 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: BackupDataState.Error,
+      loadingState: State.Failed,
       error: errorMock,
     })
   })
@@ -71,7 +74,9 @@ describe("Set Backup data functionality", () => {
   test("Event: SetBackupData set backups field", () => {
     expect(backupReducer(undefined, setBackupDataAction)).toEqual({
       ...initialState,
-      backups: setBackupDataAction.payload,
+      data: {
+        backups: setBackupDataAction.payload,
+      },
     })
   })
 
@@ -80,18 +85,160 @@ describe("Set Backup data functionality", () => {
       backupReducer(
         {
           ...initialState,
-          backups: [
-            {
-              filePath: "C:\\backups\\backup-1.text",
-              date: new Date(),
-            },
-          ],
+          data: {
+            backups: [
+              {
+                filePath: "C:\\backups\\backup-1.text",
+                date: new Date(),
+              },
+            ],
+          },
         },
         setBackupDataAction
       )
     ).toEqual({
       ...initialState,
-      backups: setBackupDataAction.payload,
+      data: {
+        backups: setBackupDataAction.payload,
+      },
+    })
+  })
+})
+
+describe("Start backup functionality", () => {
+  test("Event: CreateBackup/pending set `backingUpState` to loading", () => {
+    expect(
+      backupReducer(undefined, {
+        type: pendingAction(BackupEvent.CreateBackup),
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      backingUpState: State.Loading,
+    })
+  })
+
+  test("Event: CreateBackup/fulfilled set `backingUpState` to loaded", () => {
+    expect(
+      backupReducer(undefined, {
+        type: fulfilledAction(BackupEvent.CreateBackup),
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      backingUpState: State.Loaded,
+    })
+  })
+
+  test("Event: CreateBackup/rejected set `backingUpState` to failed", () => {
+    const errorMock = new AppError(
+      BackupError.BackupLocationIsUndefined,
+      "Pure OS Backup Desktop Location is undefined"
+    )
+
+    expect(
+      backupReducer(undefined, {
+        type: rejectedAction(BackupEvent.CreateBackup),
+        payload: errorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      backingUpState: State.Failed,
+      error: errorMock,
+    })
+  })
+
+  test("Event: ReadBackupDeviceDataState reset `backingUpState` to initial value", () => {
+    const errorMock = new AppError(
+      BackupError.BackupLocationIsUndefined,
+      "Pure OS Backup Desktop Location is undefined"
+    )
+
+    expect(
+      backupReducer(
+        {
+          ...initialState,
+          backingUpState: State.Failed,
+          error: errorMock,
+        },
+        {
+          type: BackupEvent.ReadBackupDeviceDataState,
+          payload: errorMock,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      backingUpState: State.Initial,
+      error: null,
+    })
+  })
+})
+
+describe("Restore backup functionality", () => {
+  test("Event: RestoreBackup/pending set `restoringState` to loading", () => {
+    expect(
+      backupReducer(undefined, {
+        type: pendingAction(BackupEvent.RestoreBackup),
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      restoringState: State.Loading,
+    })
+  })
+
+  test("Event: RestoreBackup/fulfilled set `restoringState` to loaded", () => {
+    expect(
+      backupReducer(undefined, {
+        type: fulfilledAction(BackupEvent.RestoreBackup),
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      restoringState: State.Loaded,
+    })
+  })
+
+  test("Event: RestoreBackup/rejected set `restoringState` to failed", () => {
+    const errorMock = new AppError(
+      BackupError.BackupLocationIsUndefined,
+      "Pure OS Backup Desktop Location is undefined"
+    )
+
+    expect(
+      backupReducer(undefined, {
+        type: rejectedAction(BackupEvent.RestoreBackup),
+        payload: errorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      restoringState: State.Failed,
+      error: errorMock,
+    })
+  })
+
+  test("Event: ReadRestoreDeviceDataState reset `restoringState` to initial value", () => {
+    const errorMock = new AppError(
+      BackupError.BackupLocationIsUndefined,
+      "Pure OS Backup Desktop Location is undefined"
+    )
+
+    expect(
+      backupReducer(
+        {
+          ...initialState,
+          restoringState: State.Failed,
+          error: errorMock,
+        },
+        {
+          type: BackupEvent.ReadRestoreDeviceDataState,
+          payload: errorMock,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      restoringState: State.Initial,
+      error: null,
     })
   })
 })

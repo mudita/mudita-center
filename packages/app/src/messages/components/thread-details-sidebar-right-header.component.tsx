@@ -4,12 +4,13 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { noop } from "Renderer/utils/noop"
-import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { SidebarHeaderButton } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Feature, flags } from "App/feature-flags"
 import { defineMessages } from "react-intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 
 const messages = defineMessages({
   callsTooltipDescription: { id: "module.messages.callsTooltipDescription" },
@@ -19,8 +20,8 @@ const messages = defineMessages({
   newContactTooltipDescription: {
     id: "module.messages.newContactTooltipDescription",
   },
-  marksAsReadTooltipDescription: {
-    id: "module.messages.marksAsReadTooltipDescription",
+  marksAsUnreadTooltipDescription: {
+    id: "module.messages.marksAsUnreadTooltipDescription",
   },
   deleteTooltipDescription: { id: "module.messages.deleteTooltipDescription" },
 })
@@ -29,22 +30,26 @@ interface Props {
   contactCreated: boolean
   onContactClick: () => void
   onDeleteClick: () => void
-  onCheckClick: () => void
+  onMarkAsUnreadClick: () => void
+  emptyThread: boolean
 }
 
 const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
   contactCreated,
   onContactClick,
   onDeleteClick,
-  onCheckClick,
+  onMarkAsUnreadClick,
+  emptyThread,
 }) => {
   return (
     <>
-      {flags.get(Feature.DevelopOnly) && (
+      {flags.get(Feature.MessagesThreadCallsEnabled) && (
         <SidebarHeaderButton
           description={messages.callsTooltipDescription}
           iconType={IconType.Calls}
           onClick={noop}
+          disabled={emptyThread}
+          data-testid={ThreadDetailsTestIds.CallButton}
         />
       )}
       {contactCreated ? (
@@ -52,27 +57,34 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           description={messages.contactTooltipDescription}
           iconType={IconType.Contact}
           onClick={onContactClick}
+          disabled={emptyThread}
         />
       ) : (
         <SidebarHeaderButton
           description={messages.newContactTooltipDescription}
           iconType={IconType.NewContact}
           onClick={onContactClick}
+          disabled={emptyThread}
+          data-testid={ThreadDetailsTestIds.ContactButton}
         />
       )}
-      {flags.get(Feature.DevelopOnly) && (
-        <>
-          <SidebarHeaderButton
-            description={messages.deleteTooltipDescription}
-            iconType={IconType.BorderCheckIcon}
-            onClick={onCheckClick}
-          />
-          <SidebarHeaderButton
-            description={messages.deleteTooltipDescription}
-            iconType={IconType.Delete}
-            onClick={onDeleteClick}
-          />
-        </>
+      {flags.get(Feature.MessagesThreadDetailsMarkAsReadEnabled) && (
+        <SidebarHeaderButton
+          description={messages.marksAsUnreadTooltipDescription}
+          iconType={IconType.MarkAsUnread}
+          onClick={onMarkAsUnreadClick}
+          disabled={emptyThread}
+          data-testid={ThreadDetailsTestIds.MarkAsUnreadButton}
+        />
+      )}
+      {flags.get(Feature.MessagesThreadDeleteEnabled) && (
+        <SidebarHeaderButton
+          description={messages.deleteTooltipDescription}
+          iconType={IconType.Delete}
+          onClick={onDeleteClick}
+          disabled={emptyThread}
+          data-testid={ThreadDetailsTestIds.DeleteButton}
+        />
       )}
     </>
   )

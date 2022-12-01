@@ -4,9 +4,8 @@
  */
 
 export enum ContactListTestIdsEnum {
-  ContactRow = "contact-row",
   ContactListEmpty = "contact-list-empty",
   ContactListNoResult = "contact-list-no-result",
   ContactListLoading = "contact-list-loading",
-  ContactListGroup = "contact-list-group",
+  ContactListWithResults = "contact-list-with-results",
 }

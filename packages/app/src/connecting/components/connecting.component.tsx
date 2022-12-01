@@ -6,20 +6,21 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { DeviceType, timeoutMs } from "@mudita/pure"
-import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
+import { DeviceType, CONNECTION_TIME_OUT_MS } from "App/device/constants"
+import {
+  URL_MAIN,
+  URL_ONBOARDING,
+  URL_OVERVIEW,
+} from "App/__deprecated__/renderer/constants/urls"
 import ConnectingContent from "App/connecting/components/connecting-content.component"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import PasscodeModal from "App/passcode-modal/passcode-modal.component"
-import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import PasscodeModal from "App/__deprecated__/passcode-modal/passcode-modal.component"
 import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
 import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-
-const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -27,9 +28,7 @@ const Connecting: FunctionComponent<{
   unlocked: boolean | null
   syncInitialized: boolean
   syncState: SynchronizationState
-  unlockDevice: (
-    code: number[]
-  ) => Promise<PayloadAction<RequestResponseStatus>>
+  unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
   getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
   leftTime: number | undefined
   noModalsVisible: boolean
@@ -48,13 +47,6 @@ const Connecting: FunctionComponent<{
 }) => {
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
-
-  useEffect(() => {
-    if (simulatePhoneConnectionEnabled) {
-      togglePureSimulation()
-    }
-  }, [simulatePhoneConnectionEnabled])
-
   const [passcodeOpenModal, setPasscodeOpenModal] = useState(false)
 
   useEffect(() => {
@@ -81,6 +73,8 @@ const Connecting: FunctionComponent<{
       setPasscodeOpenModal(false)
     }
     return () => clearTimeout(timeout)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, unlocked, syncInitialized, noModalsVisible])
 
   useEffect(() => {
@@ -94,7 +88,7 @@ const Connecting: FunctionComponent<{
         setError(ConnectingError.Connecting)
       }
       // the value is a little higher than API timeoutMs
-    }, timeoutMs + 5000)
+    }, CONNECTION_TIME_OUT_MS + 5000)
 
     return () => {
       mounted = false

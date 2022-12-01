@@ -4,17 +4,17 @@
  */
 
 import React from "react"
-import { DeviceType, CaseColour } from "@mudita/pure"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Image from "Renderer/components/core/image/image.component"
-import PureGrayImage from "Renderer/images/pure-gray-front.png"
-import PureBlackImage from "Renderer/images/pure-black-front.png"
-import HarmonyImage from "Renderer/images/harmony-render.png"
+import { DeviceType, CaseColor } from "App/device/constants"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Image from "App/__deprecated__/renderer/components/core/image/image.component"
+import PureGrayImage from "App/__deprecated__/renderer/images/pure-gray-front.png"
+import PureBlackImage from "App/__deprecated__/renderer/images/pure-black-front.png"
+import HarmonyImage from "App/__deprecated__/renderer/images/harmony-render.png"
 import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 
 interface DeviceImageProps {
   deviceType: DeviceType
-  caseColour?: CaseColour
+  caseColour?: CaseColor
 }
 
 export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
@@ -24,12 +24,18 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
   return (
     <>
       {deviceType === DeviceType.MuditaPure ? (
-        caseColour === CaseColour.Gray ? (
+        caseColour === CaseColor.Gray ? (
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <Image src={PureGrayImage} data-testid={DeviceTestIds.PureGray} />
         ) : (
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <Image src={PureBlackImage} data-testid={DeviceTestIds.PureBlack} />
         )
       ) : (
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         <Image src={HarmonyImage} />
       )}
     </>

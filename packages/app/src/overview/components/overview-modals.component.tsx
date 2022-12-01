@@ -5,43 +5,43 @@
 
 import Modal, {
   ModalProps,
-} from "Renderer/components/core/modal/modal.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+} from "App/__deprecated__/renderer/components/core/modal/modal.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import React, { ComponentProps } from "react"
 import styled from "styled-components"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import {
   backgroundColor,
   borderRadius,
   transitionTime,
-} from "Renderer/styles/theming/theme-getters"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { DownloadProgress } from "Renderer/interfaces/file-download.interface"
-import { convertBytes } from "Renderer/utils/convert-bytes"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { DownloadProgress } from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import formatDuration from "Renderer/utils/format-duration"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import formatDuration from "App/__deprecated__/renderer/utils/format-duration"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
-} from "Renderer/components/rest/data-modal/data.modals"
+} from "App/__deprecated__/renderer/components/rest/data-modal/data.modals"
 import { OverviewModalsTestIds } from "App/overview/components/overview-modals-test-ids.enum"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import {
+  ModalDialog,
   RoundIconWrapper,
   ModalMainText,
-} from "Renderer/components/core/modal-dialog/modal-dialog-shared"
-import { Size } from "App/renderer/components/core/button/button.config"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { DeviceType } from "@mudita/pure"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+} from "App/ui/components/modal-dialog"
+import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { DeviceType } from "App/device/constants"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`
   display: flex;
@@ -207,6 +207,8 @@ const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
   </Modal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const CheckingUpdatesModal = () => (
   <LoadingStateDataModal
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
@@ -214,6 +216,8 @@ export const CheckingUpdatesModal = () => (
   />
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdateAvailable = ({
   onDownload = noop,
   version = "",
@@ -225,7 +229,7 @@ export const UpdateAvailable = ({
     closeButton={false}
   >
     <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={4} />
+      <Icon type={IconType.Pure} width={3.2} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
@@ -249,10 +253,12 @@ export const UpdateAvailable = ({
   </OSUpdateModal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdateNotAvailable = ({ version = "" }) => (
   <OSUpdateModal>
     <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={4} />
+      <Icon type={IconType.Pure} width={3.2} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
@@ -271,6 +277,8 @@ export const UpdateNotAvailable = ({ version = "" }) => (
   </OSUpdateModal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdateServerError = ({ onRetry = noop }) => (
   <ErrorWithRetryDataModal
     onRetry={onRetry}
@@ -280,6 +288,8 @@ export const UpdateServerError = ({ onRetry = noop }) => (
   />
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DownloadingUpdateModal = ({
   percent = 0,
   speed = 0,
@@ -309,7 +319,7 @@ export const DownloadingUpdateModal = ({
       onActionButtonClick={onCancel}
     >
       <RoundIconWrapper>
-        <Icon type={IconType.Download} width={4} />
+        <Icon type={IconType.Download} width={3.2} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}
@@ -329,6 +339,8 @@ export const DownloadingUpdateModal = ({
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
   <OSUpdateModal
     actionButtonLabel={intl.formatMessage(messages.downloadCompletedButton)}
@@ -337,7 +349,7 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     data-testid={OverviewModalsTestIds.DownloadingUpdateFinishedModal}
   >
     <RoundIconWrapper>
-      <Icon type={IconType.Download} width={4} />
+      <Icon type={IconType.Download} width={3.2} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
@@ -351,6 +363,8 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
   </OSUpdateModal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DownloadingUpdateCancelledModal = () => (
   <ErrorDataModal
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
@@ -358,6 +372,8 @@ export const DownloadingUpdateCancelledModal = () => (
   />
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   <ErrorWithRetryDataModal
     onRetry={onRetry}
@@ -372,7 +388,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
       <RoundIconWrapper>
-        <Loader type={LoaderType.Spinner} size={6} />
+        <Loader type={LoaderType.Spinner} size={3.2} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}
@@ -388,10 +404,12 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
 }
 
 // FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal data-testid={OverviewModalsTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={4} />
+      <Icon type={IconType.Pure} width={3.2} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
@@ -406,6 +424,8 @@ export const UpdatingSuccessModal = () => (
 )
 
 // FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdatingFailureModal = ({
   code,
   onContact,
@@ -432,6 +452,8 @@ export const UpdatingFailureModal = ({
 }
 
 // FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdatingFailureWithHelpModal = ({
   onContact,
   onHelp,
@@ -455,6 +477,8 @@ export const UpdatingFailureWithHelpModal = ({
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DevUpdate = ({
   action = noop,
   install = false,
@@ -474,12 +498,14 @@ export const DevUpdate = ({
       closeButton={false}
     >
       <RoundIconWrapper>
-        <Icon type={IconType.Pure} width={4} />
+        <Icon type={IconType.Pure} width={3.2} />
       </RoundIconWrapper>
       <ModalMainText displayStyle={TextDisplayStyle.Headline4}>
         {install ? "Installing" : "Downloading"}. Are you sure?
       </ModalMainText>
       <CenteredText displayStyle={TextDisplayStyle.Paragraph3}>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         You're about to {install ? "install" : "download"} an update that{" "}
         {prerelease ? (
           <span>may be unstable</span>
@@ -492,6 +518,8 @@ export const DevUpdate = ({
         <strong>{textDate}</strong>).
         <br />
         <br />
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         Please make sure you know what you're doing!
       </CenteredText>
     </OSUpdateModal>
@@ -517,7 +545,7 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={IconType.NoBattery} width={5} />
+          <Icon type={IconType.NoBattery} width={3.2} />
         </RoundIconWrapper>
         {deviceType === DeviceType.MuditaPure ? (
           <>

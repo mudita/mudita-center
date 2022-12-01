@@ -4,19 +4,18 @@
  */
 
 import React, { ComponentProps, useEffect, useState } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   RestoreFailureModal,
   RestoreModal,
   RestoreSpinnerModal,
   RestoreSuccessModal,
 } from "App/overview/components/restore-modal-dialogs/restore-modal-dialogs"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
-import { Backup } from "App/backup/reducers"
+import { Backup, RestoreBackup } from "App/backup/dto"
 import RestoreAvailableBackupModal from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal"
 import { RestoreConfirmSecretKeyModal } from "App/overview/components/restore-confirm-secret-key-modal-dialog/restore-confirm-secret-key-modal-dialog.component"
-import { StartRestoreOption } from "App/restore-device/actions"
 
 export enum RestoreDeviceFlowState {
   Start = "start",
@@ -29,7 +28,7 @@ export enum RestoreDeviceFlowState {
 interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   openState?: RestoreDeviceFlowState
   backups: Backup[]
-  onStartRestoreDeviceButtonClick: (option: StartRestoreOption) => void
+  onStartRestoreDeviceButtonClick: (option: RestoreBackup) => void
   onSupportButtonClick: () => void
 }
 
@@ -51,9 +50,9 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
     setActiveBackup(backup)
   }
 
-  const startBackupDeviceButtonClick = (secretKey = ""): void => {
+  const startBackupDeviceButtonClick = (key = ""): void => {
     if (activeBackup) {
-      onStartRestoreDeviceButtonClick({ backup: activeBackup, secretKey })
+      onStartRestoreDeviceButtonClick({ backup: activeBackup, key })
     }
   }
 

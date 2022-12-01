@@ -8,7 +8,7 @@ namespace SyncTranslation {
     phraseUrl,
     axiosConfig,
     axiosDevConfig,
-  } = require("../src/common/configs/phrase")
+  } = require("../src/__deprecated__/common/configs/phrase")
 
   require("dotenv").config({
     path: path.join(__dirname, "../../../.env"),
@@ -123,30 +123,39 @@ namespace SyncTranslation {
     try {
       console.log(`Syncing local translations with phrase.com`)
 
-      const localesDir = "./src/renderer/locales/default/"
-
+      const localesDir = path.join(
+        __dirname,
+        "..",
+        `src/__deprecated__/renderer/locales/default`
+      )
       for await (const language of translationConfig.availableLanguages) {
         const localesJsonPath = path.join(localesDir, `${language.code}.json`)
-        const internalTranslations = await fs.readJsonSync(localesJsonPath)
-        const externalTranslations = await getTranslations(language.id)
+        if (await fs.pathExists(localesJsonPath)) {
+          const internalTranslations = await fs.readJsonSync(localesJsonPath)
+          const externalTranslations = await getTranslations(language.id)
 
-        const addedKeysDiff = Object.keys(internalTranslations).reduce(
-          (acc: InternalNewKey[], value: string) => {
-            const externalTranslation = externalTranslations.find(
-              (item) => item.key.name === value
-            )
+          const addedKeysDiff = Object.keys(internalTranslations).reduce(
+            (acc: InternalNewKey[], value: string) => {
+              const externalTranslation = externalTranslations.find(
+                (item) => item.key.name === value
+              )
 
-            if (!externalTranslation) {
-              acc.push({ name: value, content: internalTranslations[value] })
-            }
+              if (!externalTranslation) {
+                acc.push({ name: value, content: internalTranslations[value] })
+              }
 
-            return acc
-          },
-          []
-        )
+              return acc
+            },
+            []
+          )
 
-        await addTranslation(addedKeysDiff, language.id)
-        await updateInternalTranslations(language.id, localesJsonPath)
+          await addTranslation(addedKeysDiff, language.id)
+          await updateInternalTranslations(language.id, localesJsonPath)
+
+          console.log(`Translation for ${language.code} synced`)
+        } else {
+          console.error("Translation file not found!", localesJsonPath)
+        }
       }
     } catch (error: any) {
       console.log(error.response)

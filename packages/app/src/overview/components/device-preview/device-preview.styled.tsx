@@ -8,12 +8,13 @@ import Card, {
   CardAction,
   CardContent,
 } from "App/overview/components/card.elements"
-import { borderColor } from "App/renderer/styles/theming/theme-getters"
+import { borderColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
   grid-template-columns: 1fr;
   height: 100%;
+  min-height: 60rem;
   padding: 8rem 0 0;
   justify-items: center;
   ${CardAction} {
@@ -26,7 +27,7 @@ export const PhoneCard = styled(Card)`
   }
 `
 
-export const PhoneInfo = styled(CardContent)`
+export const DeviceInfo = styled(CardContent)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,10 +36,6 @@ export const PhoneInfo = styled(CardContent)`
   img {
     height: 29.7rem;
   }
-`
-
-export const HarmonyInfo = styled(PhoneInfo)`
-  margin-bottom: 12rem;
 `
 
 export const PureSystemButtonContainer = styled.div`

@@ -7,6 +7,8 @@ import { ipcRenderer } from "electron-better-ipc"
 import { SerialisedIndexData } from "elasticlunr"
 import { IpcDataSyncRequest, DataIndex } from "App/data-sync/constants"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getIndexRequest = async <Type extends {}>(
   indexName: DataIndex
 ): Promise<SerialisedIndexData<Type> | undefined> => {

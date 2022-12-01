@@ -4,12 +4,13 @@
  */
 
 import { createSelector } from "reselect"
-import { MessagesState, VisibilityFilter } from "App/messages/reducers"
+import { MessagesState } from "App/messages/reducers"
+import { VisibilityFilter } from "App/messages/constants"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const visibilityFilterSelector = createSelector<
   ReduxRootState,
   MessagesState,
   VisibilityFilter
->(messagesStateSelector, ({ visibilityFilter }) => visibilityFilter)
+>(messagesStateSelector, ({ data: { visibilityFilter } }) => visibilityFilter)

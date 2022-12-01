@@ -5,34 +5,30 @@
 
 import React from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Table from "Renderer/components/core/table/table.component"
-import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { noop } from "Renderer/utils/noop"
-import { AppSettings } from "App/main/store/settings.interface"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Table from "App/__deprecated__/renderer/components/core/table/table.component"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { Settings } from "App/settings/dto"
+import { Thread } from "App/messages/dto"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { AutoSizer, IndexRange, List, ListRowProps } from "react-virtualized"
 import ThreadRow from "App/messages/components/thread-row.component"
 import ThreadPlaceholderRow from "App/messages/components/thread-placeholder-row.component"
 
-const Threads = styled(Table)<{
-  noneRowsSelected?: boolean
-}>`
+export const Threads = styled(Table)`
   min-width: 32rem;
-  --columnsTemplate: 10.4rem 60.5rem 1fr;
+  --columnsTemplate: 10.4rem 1fr 6rem;
   --columnsTemplateWithOpenedSidebar: 10.4rem 1fr;
   --columnsGap: 0;
 `
 
+const ListStyle: React.CSSProperties = {
+  outline: "none",
+}
+
 const listContainerStyle: React.CSSProperties = { minHeight: "100%" }
 
-type SelectHook = Pick<
-  UseTableSelect<Thread>,
-  "getRowStatus" | "toggleRow" | "noneRowsSelected"
->
-
-interface Props extends SelectHook, Pick<AppSettings, "language"> {
+interface Props extends Pick<Settings, "language"> {
   threads: Thread[]
   onThreadClick?: (thread: Thread) => void
   activeThread?: Thread
@@ -42,6 +38,8 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   onContactClick: (phoneNumber: string) => void
   loadMoreRows: (props: IndexRange) => Promise<void>
   newConversation: string
+  selectedItems: { rows: string[] }
+  toggleItem: (id: string) => void
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -50,18 +48,19 @@ const ThreadList: FunctionComponent<Props> = ({
   onThreadClick = noop,
   onDeleteClick,
   onToggleReadStatus,
-  getRowStatus,
-  toggleRow,
-  noneRowsSelected,
   language,
   getContactByPhoneNumber,
   onContactClick,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadMoreRows,
   newConversation,
+  selectedItems,
+  toggleItem,
   ...props
 }) => {
   const sidebarOpened = Boolean(activeThread)
-
+  const noneRowsSelected = selectedItems.rows.length <= 0
   const renderRow = ({ index, style }: ListRowProps) => {
     const thread = threads[index]
     if (thread === undefined) {
@@ -70,19 +69,20 @@ const ThreadList: FunctionComponent<Props> = ({
       const { id, phoneNumber } = thread
       const active = activeThread?.id === id
       const contact = getContactByPhoneNumber(phoneNumber)
-      const { selected, indeterminate } = getRowStatus(thread)
+      const indeterminate = false
+      const selectedRow = selectedItems.rows.includes(thread.id)
 
       return (
         <ThreadRow
           key={phoneNumber}
           active={active}
-          selected={selected}
+          selected={selectedRow}
           indeterminate={indeterminate}
           sidebarOpened={sidebarOpened}
           noneRowsSelected={noneRowsSelected}
           contact={contact}
           language={language}
-          onCheckboxChange={toggleRow}
+          onCheckboxChange={() => toggleItem(thread.id)}
           onRowClick={onThreadClick}
           onDeleteClick={onDeleteClick}
           onToggleReadClick={onToggleReadStatus}
@@ -98,7 +98,6 @@ const ThreadList: FunctionComponent<Props> = ({
   return (
     <Threads
       scrollable={false}
-      noneRowsSelected={noneRowsSelected}
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={sidebarOpened}
       {...props}
@@ -112,6 +111,7 @@ const ThreadList: FunctionComponent<Props> = ({
             rowHeight={80}
             rowCount={threads.length}
             containerStyle={listContainerStyle}
+            style={ListStyle}
           />
         )}
       </AutoSizer>

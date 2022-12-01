@@ -6,22 +6,24 @@
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
-import store from "Renderer/store"
-import history from "Renderer/routes/history"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { CaseColor } from "App/device/constants"
+import store from "App/__deprecated__/renderer/store"
+import history from "App/__deprecated__/renderer/routes/history"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { PureOverview } from "App/overview/components/overview-screens/pure-overview/pure-overview.component"
-import {
-  DataState,
-  UpdatingState,
-} from "Renderer/models/basic-info/basic-info.typings"
-import { ConversionFormat, Convert } from "App/main/store/settings.interface"
+import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { intl } from "Renderer/utils/intl"
-import { BackupDeviceDataState } from "App/backup-device/reducers"
-import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { State } from "App/core/constants"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
+import * as UpdatingForceModalFlowModule from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
+import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 jest.mock("electron", () => ({
   remote: {
@@ -37,67 +39,33 @@ type Props = ComponentProps<typeof PureOverview>
 
 const defaultProps: Props = {
   openContactSupportFlow: jest.fn(),
-  backupDeviceState: BackupDeviceDataState.Empty,
-  backupLocation: "",
+  backupDeviceState: State.Initial,
   backups: [],
-  caseColour: undefined,
-  diagnosticSentTimestamp: 0,
-  networkLevel: "",
-  phoneLockTime: 0,
+  caseColour: CaseColor.Black,
+  networkLevel: 0,
   readBackupDeviceDataState: jest.fn(),
   readRestoreDeviceDataState: jest.fn(),
-  restoreDeviceState: RestoreDeviceDataState.Empty,
+  restoreDeviceState: State.Initial,
   startBackupDevice: jest.fn(),
   startRestoreDevice: jest.fn(),
-  deviceType: null,
-  appLatestVersion: "",
-  appUpdateAvailable: undefined,
+  setUpdateState: jest.fn(),
+  startUpdateOs: jest.fn(),
   lowestSupportedOsVersion: undefined,
-  lowestSupportedCenterVersion: undefined,
-  settingsLoaded: false,
-  deviceUnlocked: undefined,
-  appAutostart: false,
-  appCollectingData: undefined,
-  appConversionFormat: ConversionFormat.FLAC,
-  appConvert: Convert.ConvertAutomatically,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appNonStandardAudioFilesConversion: false,
-  appOsUpdates: false,
-  appTethering: false,
-  appTray: false,
   batteryLevel: 0,
-  changeSim: jest.fn(),
   disconnectDevice: jest.fn(),
-  deviceConnected: true,
-  language: "en-US",
-  loadData: jest.fn(),
+  lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
+  lastAvailableOsVersion: "",
   networkName: "network name",
-  osVersion: "release-1.0.0",
-  pureNeverConnected: false,
+  osVersion: "1.0.0",
+  pureOsDownloaded: false,
   pureOsBackupLocation: "path/location/backup",
-  pureOsDownloadLocation: "path/location/download",
-  basicInfoDataState: DataState.Empty,
   serialNumber: undefined,
-  initialDataLoaded: false,
-  appVersion: undefined,
-  toggleAppCollectingData: jest.fn(),
-  simCards: [
-    {
-      active: true,
-      network: "Y-Mobile",
-      networkLevel: 0.2,
-      number: 12345678,
-      slot: 1,
-    },
-  ],
-  toggleDeviceUpdating: jest.fn(),
   updatePhoneOsInfo: jest.fn(),
   updatingState: UpdatingState.Standby,
   memorySpace: {
-    free: 100,
-    full: 200,
+    reservedSpace: 100,
+    usedUserSpace: 200,
+    total: 200,
   },
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),
@@ -117,6 +85,10 @@ const render = (extraProps?: Partial<Props>) => {
   )
 }
 
+afterEach(() => {
+  jest.clearAllMocks()
+})
+
 test("Renders Mudita pure data", () => {
   const { getByTestId, queryByText } = render()
   expect(getByTestId(StatusTestIds.BatteryLevel)).toHaveTextContent("0 %")
@@ -127,7 +99,105 @@ test("Renders Mudita pure data", () => {
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
 })
 
-test("PureOverview shows Sync error modal if sync error occurred", () => {
-  const { getByTestId } = render({ syncState: SynchronizationState.Error })
-  expect(getByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
+describe("`ErrorSyncModal` logic", () => {
+  test("when sync error occurred and `restoreDeviceState` is undefined modal is visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: undefined,
+      syncState: SynchronizationState.Error,
+    })
+    expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
+  })
+  test("when sync error occurred and `restoreDeviceState` has empty state modal is visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: State.Initial,
+      syncState: SynchronizationState.Error,
+    })
+    expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
+  })
+  test("when sync error occurred and `restoreDeviceState` has failed state modal isn't visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: State.Failed,
+      syncState: SynchronizationState.Error,
+    })
+    expect(
+      queryByTestId(ErrorSyncModalTestIds.Container)
+    ).not.toBeInTheDocument()
+  })
+  test("when sync error occurred and `restoreDeviceState` has loading state modal isn't visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: State.Loading,
+      syncState: SynchronizationState.Error,
+    })
+    expect(
+      queryByTestId(ErrorSyncModalTestIds.Container)
+    ).not.toBeInTheDocument()
+  })
+  test("when sync error occurred and `restoreDeviceState` has loaded state modal isn't visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: State.Loaded,
+      syncState: SynchronizationState.Error,
+    })
+    expect(
+      queryByTestId(ErrorSyncModalTestIds.Container)
+    ).not.toBeInTheDocument()
+  })
+})
+
+describe("update state", () => {
+  jest.spyOn(flags, "get").mockReturnValue(true)
+
+  type TestCase = [
+    updatingStateKeyValue: keyof typeof UpdatingState | undefined, // passing as key to improve test title readability
+    isOsSupported: boolean,
+    updatingForceModalState: UpdatingForceModalFlowState
+  ]
+
+  const testCases: TestCase[] = [
+    ["Success", true, UpdatingForceModalFlowState.Success],
+    ["Fail", true, UpdatingForceModalFlowState.Fail],
+    ["Updating", true, UpdatingForceModalFlowState.Updating],
+    ["Updating", false, UpdatingForceModalFlowState.Updating],
+    [undefined, false, UpdatingForceModalFlowState.Info],
+  ]
+
+  let updateForceModalSpy: jest.SpyInstance<
+    unknown,
+    UpdatingForceModalFlowProps[]
+  >
+
+  beforeEach(() => {
+    updateForceModalSpy = jest.spyOn(UpdatingForceModalFlowModule, "default")
+  })
+
+  describe.each(testCases)(
+    "when updating state from store equals to %p and os support state equal to %p",
+    (updatingStateKeyValue, isOsSupported, updatingForceModalState) => {
+      test(`update force modal should receive ${updatingForceModalState}`, () => {
+        const updatingState = updatingStateKeyValue
+          ? UpdatingState[updatingStateKeyValue]
+          : undefined
+
+        if (isOsSupported) {
+          render({
+            osVersion: "1.1.0",
+            lowestSupportedOsVersion: "1.0.0",
+            updatingState,
+          })
+        } else {
+          render({
+            updatingState,
+            osVersion: "0.1.0",
+            lowestSupportedOsVersion: "1.0.0",
+          })
+        }
+
+        expect(updateForceModalSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: updatingForceModalState,
+          }),
+          expect.anything()
+        )
+      })
+    }
+  )
 })

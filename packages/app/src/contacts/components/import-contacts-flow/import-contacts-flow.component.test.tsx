@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ImportContactsFlow, {
   ImportContactsFlowState,
 } from "App/contacts/components/import-contacts-flow/import-contacts-flow.component"

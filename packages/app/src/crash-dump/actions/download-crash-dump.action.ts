@@ -4,19 +4,21 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { Event } from "App/crash-dump/constants"
-import { DownloadCrashDumpError } from "App/crash-dump/errors"
+import { AppError } from "App/core/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { setDownloadedCrashDump } from "App/crash-dump/actions/base.action"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
-import { ReduxRootState } from "App/renderer/store"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { CrashDumpError, Event } from "App/crash-dump/constants"
 import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash-dump.request"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { CrashDump } from "App/crash-dump/dto"
 
 export const downloadCrashDump = createAsyncThunk<
-  RequestResponseStatus | undefined
+  RequestResponseStatus | undefined,
+  CrashDump
 >(
   Event.DownloadCrashDump,
-  async (_, { dispatch, rejectWithValue, getState }) => {
+  async ({ email, description }, { dispatch, rejectWithValue, getState }) => {
     const state = getState() as ReduxRootState
 
     if (!state.crashDump.data.files.length) {
@@ -27,10 +29,16 @@ export const downloadCrashDump = createAsyncThunk<
 
     if (status === RequestResponseStatus.Ok && data) {
       dispatch(setDownloadedCrashDump(data))
-      dispatch(sendCrashDumpData())
+      void dispatch(
+        sendCrashDumpData({
+          email,
+          description: (description || "").replace(/\r\n|\r|\n/g, "<br/>"),
+        })
+      )
     } else {
       return rejectWithValue(
-        new DownloadCrashDumpError(
+        new AppError(
+          CrashDumpError.Downloading,
           "Downloading process have been interrupted",
           error
         )

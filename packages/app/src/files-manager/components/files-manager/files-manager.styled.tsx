@@ -4,14 +4,15 @@
  */
 
 import styled from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import Text from "Renderer/components/core/text/text.component"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
 export const FilesManagerContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   background-color: ${backgroundColor("main")};
+  overflow: scroll;
 `
 
 export const FilesSummaryContainer = styled.div`
@@ -25,5 +26,4 @@ export const StatsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 1.2rem;
-  margin-bottom: 4rem;
 `

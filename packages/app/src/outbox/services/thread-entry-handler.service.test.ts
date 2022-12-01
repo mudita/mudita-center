@@ -3,14 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { OutboxEntry, OutboxEntryChange, OutboxEntryType } from "@mudita/pure"
+import { OutboxEntry } from "App/device/types/mudita-os"
+import { OutboxEntryChange, OutboxEntryType } from "App/device/constants"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
-import { Thread } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { ThreadService } from "App/messages/services"
 import { ThreadRepository } from "App/messages/repositories"
 
@@ -21,7 +23,11 @@ const threadMock: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
+  contactId: undefined,
+  contactName: undefined,
 }
+
 const successResponse: SuccessRequestResponse<Thread> = {
   status: RequestResponseStatus.Ok,
   data: threadMock,
@@ -59,6 +65,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`delete` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.delete).toHaveBeenCalledWith("1")
     })
   })
@@ -86,6 +94,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`create` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(threadMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.create).toHaveBeenCalled()
     })
   })
@@ -113,6 +123,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`update` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(threadMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.update).toHaveBeenCalled()
     })
   })
@@ -141,6 +153,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`create` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(threadMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.create).toHaveBeenCalled()
     })
   })
@@ -168,6 +182,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`update` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.update).not.toHaveBeenCalled()
     })
   })

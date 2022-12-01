@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import React from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { NotificationBadgeTestIds } from "./notification-badge-ids.enum"
 import { NotificationBadge } from "./notification-badge.component"
 import { NotificationBadgeProps } from "./notification-badge.interface"

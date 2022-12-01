@@ -6,10 +6,11 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { BackupEvent } from "App/backup/constants"
 import { DeviceEvent, UpdatingState } from "App/device/constants"
 import { setConnectionStatus } from "App/device/actions"
 import { setValue } from "App/metadata"
-import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { State } from "App/core/constants"
 import { DataSyncEvent } from "App/data-sync/constants"
 
 jest.mock("App/metadata")
@@ -17,8 +18,8 @@ const state = {
   device: {
     updatingState: null,
   },
-  restoreDevice: {
-    state: RestoreDeviceDataState.Empty,
+  backup: {
+    restoringState: State.Initial,
   },
 }
 
@@ -33,6 +34,8 @@ describe("async `setConnectionStatus` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         setConnectionStatus(true) as unknown as AnyAction
       )
@@ -48,6 +51,8 @@ describe("async `setConnectionStatus` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         setConnectionStatus(false) as unknown as AnyAction
       )
@@ -62,6 +67,10 @@ describe("async `setConnectionStatus` ", () => {
           payload: undefined,
           type: DeviceEvent.SetInitState,
         },
+        {
+          payload: undefined,
+          type: BackupEvent.ReadRestoreDeviceDataState,
+        },
         setConnectionStatus.fulfilled(false, requestId, false),
       ])
     })
@@ -69,6 +78,8 @@ describe("async `setConnectionStatus` ", () => {
     test("`setValue` is dispatch if the payload is `false`", async () => {
       const store = createMockStore([thunk])(state)
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await store.dispatch(setConnectionStatus(false) as unknown as AnyAction)
 
       expect(setValue).toHaveBeenCalled()
@@ -85,6 +96,8 @@ describe("async `setConnectionStatus` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         setConnectionStatus(false) as unknown as AnyAction
       )
@@ -106,23 +119,27 @@ describe("async `setConnectionStatus` ", () => {
         },
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await store.dispatch(setConnectionStatus(false) as unknown as AnyAction)
 
       expect(setValue).not.toHaveBeenCalled()
     })
   })
 
-  describe("`state` in `restoreDevice` is set to `Running`", () => {
+  describe("`state` in `restoreDevice` is set to `Loading`", () => {
     test("do not call `setInitState`", async () => {
       const store = createMockStore([thunk])({
         ...state,
-        restoreDevice: {
-          state: RestoreDeviceDataState.Running,
+        backup: {
+          restoringState: State.Loading,
         },
       })
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         setConnectionStatus(false) as unknown as AnyAction
       )
@@ -140,14 +157,54 @@ describe("async `setConnectionStatus` ", () => {
     test("do not call `setValue`", async () => {
       const store = createMockStore([thunk])({
         ...state,
-        restoreDevice: {
-          state: RestoreDeviceDataState.Running,
+        backup: {
+          restoringState: State.Loading,
         },
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await store.dispatch(setConnectionStatus(false) as unknown as AnyAction)
 
       expect(setValue).not.toHaveBeenCalled()
+    })
+  })
+
+  describe("`state` in `restoreDevice` is set to `Failed`", () => {
+    test("call `setInitState`", async () => {
+      const store = createMockStore([thunk])({
+        ...state,
+        backup: {
+          restoringState: State.Failed,
+        },
+      })
+
+      const {
+        meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
+      } = await store.dispatch(
+        setConnectionStatus(false) as unknown as AnyAction
+      )
+
+      expect(store.getActions()).toEqual([
+        setConnectionStatus.pending(requestId, false),
+        {
+          payload: undefined,
+          type: DataSyncEvent.SetDataSyncInitState,
+        },
+        {
+          payload: undefined,
+          type: DeviceEvent.SetInitState,
+        },
+        {
+          payload: undefined,
+          type: BackupEvent.ReadRestoreDeviceDataState,
+        },
+        setConnectionStatus.fulfilled(false, requestId, false),
+      ])
+
+      expect(setValue).toHaveBeenCalled()
     })
   })
 })

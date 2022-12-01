@@ -6,19 +6,21 @@
 import "@testing-library/jest-dom"
 import React, { ComponentProps } from "react"
 import FilesSummaryItem from "App/files-manager/components/files-summary-item/files-summary-item.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const defaultProps: ComponentProps<typeof FilesSummaryItem> = {
-  type: DiskSpaceCategoryType.UsedSpace,
+  type: DiskSpaceCategoryType.System,
   color: "#DFEFDE",
   icon: IconType.MuditaLogo,
-  label: "Used space",
+  label: "System",
   size: 1073741824,
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const render = (extraProps?: {}) => {
   return renderWithThemeAndIntl(
     <FilesSummaryItem {...defaultProps} {...extraProps} />
@@ -29,11 +31,11 @@ describe("FilesSummaryItem", () => {
     const { queryByTestId } = render()
     expect(queryByTestId(FilesSummaryItemTestIds.Wrapper)).toBeInTheDocument()
     expect(queryByTestId(FilesSummaryItemTestIds.Title)).toHaveTextContent(
-      "Used space"
+      "System"
     )
     expect(
       queryByTestId(FilesSummaryItemTestIds.Description)
-    ).toHaveTextContent("(1.1 GB)")
+    ).toHaveTextContent("(1.0 GB)")
   })
 
   test("FilesSummaryItem should render with filesAmount", () => {

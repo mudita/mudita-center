@@ -4,7 +4,7 @@
  */
 
 import { createSelector, Selector, OutputSelector } from "reselect"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import {
   NotificationMethod,
   NotificationResourceType,

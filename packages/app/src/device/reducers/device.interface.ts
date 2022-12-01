@@ -3,22 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  CaseColour,
-  DeviceType,
-  GetPhoneLockTimeResponseBody,
-} from "@mudita/pure"
+import { GetPhoneLockTimeResponseBody } from "App/device/types/mudita-os"
+import { CaseColor, DeviceType } from "App/device/constants"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { DeviceEvent } from "App/device/constants"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import { DeviceError, DeviceEvent } from "App/device/constants"
+import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { UpdatingState, ConnectionState } from "App/device/constants"
-import {
-  DeviceConnectionError,
-  DeviceDisconnectionError,
-  DeviceLoadingError,
-  DeviceInvalidPhoneLockTimeError,
-  DeviceUpdateProcessError,
-} from "App/device/errors"
+import { AppError } from "App/core/errors"
+import StorageInfo from "App/__deprecated__/common/interfaces/storage-info.interface"
 
 export interface PureDeviceData {
   networkName: string
@@ -30,11 +22,11 @@ export interface PureDeviceData {
   phoneLockTime?: number
   timeLeftToNextAttempt?: number
   memorySpace: {
-    free: number
-    full: number
+    reservedSpace: number
+    usedUserSpace: number
     total: number
   }
-  caseColour: CaseColour
+  caseColour: CaseColor
   backupLocation: string
 }
 
@@ -43,8 +35,9 @@ export interface HarmonyDeviceData {
   batteryLevel: number
   serialNumber: string
   memorySpace: {
-    free: number
-    full: number
+    reservedSpace: number
+    usedUserSpace: number
+    total: number
   }
 }
 
@@ -56,6 +49,7 @@ export interface DeviceState {
     connected: boolean
     unlocked: boolean | null
     loaded: boolean
+    agreementAccepted: boolean
   }
   updatingState: UpdatingState | null
   error: Error | string | null
@@ -70,11 +64,11 @@ export type ConnectedFulfilledAction = PayloadAction<
   DeviceEvent.Connected
 >
 export type ConnectedRejectedAction = PayloadAction<
-  DeviceConnectionError,
+  AppError<DeviceError.Connection>,
   DeviceEvent.Connected
 >
 export type DisconnectedRejectedAction = PayloadAction<
-  DeviceDisconnectionError,
+  AppError<DeviceError.Disconnection>,
   DeviceEvent.Disconnected
 >
 export type SetDeviceDataAction = PayloadAction<
@@ -82,7 +76,7 @@ export type SetDeviceDataAction = PayloadAction<
   DeviceEvent.SetData
 >
 export type LoadDataRejectAction = PayloadAction<
-  DeviceLoadingError,
+  AppError<DeviceError.Loading>,
   DeviceEvent.Loading
 >
 export type SetPhoneLockTimeAction = PayloadAction<
@@ -90,7 +84,7 @@ export type SetPhoneLockTimeAction = PayloadAction<
   DeviceEvent.SetLockTime
 >
 export type UnlockDeviceRejectedAction = PayloadAction<
-  DeviceConnectionError | DeviceInvalidPhoneLockTimeError,
+  AppError<DeviceError.Connection> | AppError<DeviceError.InvalidPhoneLockTime>,
   DeviceEvent.Unlocked
 >
 export type SetSimDataAction = PayloadAction<number, DeviceEvent.SetSimData>
@@ -103,10 +97,18 @@ export type SetUpdateStateAction = PayloadAction<
   DeviceEvent.SetUpdateState
 >
 export type OsUpdateRejectedAction = PayloadAction<
-  DeviceUpdateProcessError,
+  AppError<DeviceError.UpdateProcess>,
   DeviceEvent.StartOsUpdateProcess
 >
 export type SetConnectionStateAction = PayloadAction<
   boolean,
   DeviceEvent.SetConnectionState
+>
+export type LoadStorageInfoAction = PayloadAction<
+  StorageInfo,
+  DeviceEvent.LoadStorageInfo
+>
+export type LoadStorageInfoRejectedAction = PayloadAction<
+  AppError<DeviceError.LoadStorageInfo>,
+  DeviceEvent.LoadStorageInfo
 >

@@ -6,8 +6,8 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { initialState } from "Renderer/models/settings/settings"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { initialState } from "App/settings/reducers/settings.reducer"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 import { ModalStateKey } from "App/modals-manager/reducers"
 import { checkCollectingDataModalToShow } from "App/modals-manager/actions/check-collecting-data-modal-to-show.action"
@@ -23,6 +23,8 @@ describe("async `checkCollectingDataModalToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkCollectingDataModalToShow() as unknown as AnyAction
       )
@@ -38,9 +40,9 @@ describe("async `checkCollectingDataModalToShow` ", () => {
     })
   })
 
-  describe("when `appCollectingData` in settings is set to true", () => {
+  describe("when `collectingData` in settings is set to true", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
-      settings: { ...initialState, appCollectingData: true },
+      settings: { ...initialState, collectingData: true },
     }
 
     test("fire async `checkCollectingDataModalToShow` no made any side effects", async () => {
@@ -48,6 +50,8 @@ describe("async `checkCollectingDataModalToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkCollectingDataModalToShow() as unknown as AnyAction
       )
@@ -63,9 +67,9 @@ describe("async `checkCollectingDataModalToShow` ", () => {
     })
   })
 
-  describe("when `appCollectingData` in settings is set to false", () => {
+  describe("when `collectingData` in settings is set to false", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
-      settings: { ...initialState, appCollectingData: false },
+      settings: { ...initialState, collectingData: false },
     }
 
     test("fire async `checkCollectingDataModalToShow` no made any side effects", async () => {
@@ -73,6 +77,8 @@ describe("async `checkCollectingDataModalToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkCollectingDataModalToShow() as unknown as AnyAction
       )
@@ -88,12 +94,12 @@ describe("async `checkCollectingDataModalToShow` ", () => {
     })
   })
 
-  describe("when `appCollectingData` is set to `undefined` and `settingsLoaded` is set to true", () => {
+  describe("when `collectingData` is set to `undefined` and `loaded` is set to true", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
       settings: {
         ...initialState,
-        appCollectingData: undefined,
-        settingsLoaded: true,
+        collectingData: undefined,
+        loaded: true,
       },
     }
 
@@ -102,6 +108,8 @@ describe("async `checkCollectingDataModalToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkCollectingDataModalToShow() as unknown as AnyAction
       )

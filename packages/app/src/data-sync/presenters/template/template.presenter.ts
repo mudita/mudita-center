@@ -8,6 +8,7 @@ import {
   TemplateInput,
   TemplateEntity,
 } from "App/data-sync/types"
+import { Feature, flags } from "App/feature-flags"
 
 export class TemplatePresenter {
   public findRecords<Type extends { _id: string }>(
@@ -27,6 +28,10 @@ export class TemplatePresenter {
   }
 
   public serializeToObject(data: TemplateInput): TemplateObject[] {
+    if (data.templates === undefined) {
+      return []
+    }
+
     const templates = this.serializeRecord<TemplateEntity>(
       data.templates.values,
       data.templates.columns
@@ -34,11 +39,18 @@ export class TemplatePresenter {
 
     return templates
       .map((template) => {
-        return {
-          id: template._id,
-          text: template.text,
-          lastUsedAt: template.lastUsageTimestamp,
-        }
+        return flags.get(Feature.OrderTemplate)
+          ? {
+              id: template._id,
+              text: template.text,
+              lastUsedAt: template.lastUsageTimestamp,
+              order: Number(template.rowOrder),
+            }
+          : {
+              id: template._id,
+              text: template.text,
+              lastUsedAt: template.lastUsageTimestamp,
+            }
       })
       .filter((thread) => typeof thread !== "undefined") as TemplateObject[]
   }

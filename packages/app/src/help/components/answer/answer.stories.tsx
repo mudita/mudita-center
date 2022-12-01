@@ -6,7 +6,7 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
 import { MemoryRouter, Route, RouteComponentProps } from "react-router"
-import { data, mockedRouteAndPath } from "App/seeds/help"
+import { data, mockedRouteAndPath } from "App/__deprecated__/seeds/help"
 import { renderAnswer } from "App/help/helpers/render-answer"
 
 storiesOf("Views/Help", module)

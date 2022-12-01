@@ -1,5 +1,3 @@
-const { coverageThreshold } = require("./jest.coverage.json")
-
 module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
@@ -10,12 +8,9 @@ module.exports = {
     "(.*)svg.component": "<rootDir>/__mocks__/file-mock.js",
     ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
       "<rootDir>/__mocks__/file-mock.js",
-    "Renderer/(.*)": "<rootDir>/src/renderer/$1",
     "App/(.*)": "<rootDir>/src/$1",
     "Cypress/(.*)": "cypress/$1",
     "Storybook/(.*)": ".storybook/$1",
-    "Backend/(.*)": "<rootDir>/src/backend/$1",
-    "Common/(.*)": "<rootDir>/src/common/$1",
   },
   rootDir: "./",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
@@ -29,8 +24,31 @@ module.exports = {
   roots: ["<rootDir>/src"],
   testResultsProcessor: "./jest.processor.js",
   collectCoverage: false,
-  collectCoverageFrom: ["src/**/*.{js,ts,tsx}"],
+  collectCoverageFrom: [
+    "src/**/*.{js,ts,tsx}",
+    "!src/__deprecated__/**",
+    "!src/__mocks__/**",
+    "!src/**/__mocks__/**",
+    "!src/testing-support/**",
+    "!src/**/*.stories.{js,ts,tsx}",
+    "!src/**/*.container.{js,ts,tsx}",
+    "!src/**/*.constant.{js,ts,tsx}",
+    "!src/**/*.error.{js,ts,tsx}",
+    "!src/**/*.request.{js,ts,tsx}",
+    "!src/**/*.module.{js,ts,tsx}",
+    "!src/**/*.styled.{js,ts,tsx}",
+    "!src/**/*.interface.{js,ts,tsx}",
+    "!src/**/*.type.{js,ts,tsx}",
+    "!src/**/*.enum.{js,ts,tsx}",
+    "!src/**/*.index.{js,ts,tsx}",
+    "!src/**/*.d.ts",
+  ],
   coverageReporters: ["lcov", "text-summary", "json-summary"],
   coverageDirectory: "coverage",
-  coverageThreshold,
+  coverageThreshold: {
+    global: {
+      lines: 75,
+      statements: 75,
+    },
+  },
 }

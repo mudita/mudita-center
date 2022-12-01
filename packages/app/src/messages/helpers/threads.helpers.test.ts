@@ -4,7 +4,8 @@
  */
 
 import { searchThreads } from "App/messages/helpers/threads.helpers"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 import { ContactsCollection } from "App/messages/helpers/messages.helpers"
 
@@ -16,19 +17,29 @@ const secondThreadId = "2"
 const threads: Thread[] = [
   {
     id: firstThreadId,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     phoneNumber: contact.primaryPhoneNumber!,
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
   {
     id: secondThreadId,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     phoneNumber: anotherContact.primaryPhoneNumber!,
     lastUpdatedAt: new Date("2020-05-17T19:58:05.136Z"),
     messageSnippet:
       "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
     unread: true,
+    messageType: MessageType.INBOX,
+    contactId: undefined,
+    contactName: undefined,
   },
 ]
 
@@ -57,6 +68,8 @@ test("fails search - last name", () => {
 })
 
 test("searches value - phone number", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const searchValue = contact.primaryPhoneNumber!
   expect(searchThreads(threads, contactsMock, searchValue)).toHaveLength(1)
 })

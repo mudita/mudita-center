@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "@mudita/pure"
-import DeviceService from "Backend/device-service"
+import { Endpoint, Method } from "App/device/constants"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { Contact, ContactID } from "App/contacts/reducers"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactPresenter } from "App/contacts/presenters"
@@ -12,7 +12,7 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccessWithData } from "App/core/helpers"
 
 export class ContactService {
   constructor(
@@ -51,6 +51,8 @@ export class ContactService {
     if (isResponseSuccessWithData(response)) {
       return {
         status: response.status,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         data: response.data.entries.map(ContactPresenter.mapToContact),
       }
     } else {

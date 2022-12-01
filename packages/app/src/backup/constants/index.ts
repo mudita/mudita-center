@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./errors.enum"
+export * from "./controller.constant"
+export * from "./error.constant"
 export * from "./event.enum"

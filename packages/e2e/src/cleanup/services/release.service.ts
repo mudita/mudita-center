@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { join } from "path"
 import { createWriteStream, unlinkSync } from "fs"
 import { GithubHttpAdapterClass } from "../adapters"
@@ -5,7 +10,7 @@ import { DecompressTarCommandClass } from "../commands"
 import { TestConfigurationProviderClass } from "../providers"
 import { Manifest, Asset } from "../types"
 import { ReleaseServiceClass } from "./release-service.class"
-import { sleep } from "../helpers"
+import { sleep } from "../../helpers"
 
 export class ReleaseService implements ReleaseServiceClass {
   constructor(

@@ -10,29 +10,29 @@ import React, {
   useRef,
   useState,
 } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal from "Renderer/components/core/modal/modal.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import { noop } from "Renderer/utils/noop"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Modal from "App/__deprecated__/renderer/components/core/modal/modal.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import Table, {
   Col,
   Labels,
   Row,
   RowSize,
-} from "Renderer/components/core/table/table.component"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
 import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import InputSelect, {
   RenderInputSelectListItem,
-} from "Renderer/components/core/input-select/input-select.component"
+} from "App/__deprecated__/renderer/components/core/input-select/input-select.component"
 import { SpeedDialProps } from "App/contacts/components/speed-dial-modal/speed-dial-modal.container"
 import {
   ListItem,
   upperDropdownListStyles,
-} from "Renderer/components/core/list/list.component"
-import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
+} from "App/__deprecated__/renderer/components/core/list/list.component"
+import SearchableText from "App/__deprecated__/renderer/components/core/searchable-text/searchable-text.component"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 
 const SpeedDialTable = styled(Table)`
@@ -187,6 +187,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           const { height, upperDropdown } = dropdownsPosition.length
             ? dropdownsPosition[i]
             : { height: 0, upperDropdown: false }
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line react-hooks/rules-of-hooks
           const [selectedItem, setSelectedItem] = useState<Contact | undefined>(
             item[speedDial]
           )

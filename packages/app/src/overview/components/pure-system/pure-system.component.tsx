@@ -4,9 +4,9 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { useHistory } from "react-router"
-import { URL_OVERVIEW } from "Renderer/constants/urls"
+import { URL_OVERVIEW } from "App/__deprecated__/renderer/constants/urls"
 import {
   PureSystemSection,
   BackWrapper,
@@ -15,16 +15,16 @@ import {
   PureSystemInfoContainer,
   AutoWidthButtonComponent,
 } from "App/overview/components/pure-system/pure-system.styled"
-import { DisplayStyle } from "App/renderer/components/core/button/button.config"
-import { IconSize } from "App/renderer/components/core/icon/icon.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
-} from "App/renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { PureSystemTestIds } from "App/overview/components/pure-system/pure-system-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { PureSystemActions } from "App/__deprecated__/common/enums/pure-system-actions.enum"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   back: {
@@ -79,7 +79,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
     history.push(URL_OVERVIEW.root)
   }
   const openSarInfo = () => {
-    ipcRenderer.callMain(PureSystemActions.SarOpenWindow)
+    void ipcRenderer.callMain(PureSystemActions.SarOpenWindow)
   }
   return (
     <div>

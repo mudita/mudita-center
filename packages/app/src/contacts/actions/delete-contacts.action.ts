@@ -4,11 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ContactsEvent } from "App/contacts/constants"
-import { DeleteContactsError } from "App/contacts/errors/delete-contacts.error"
 import { deleteContactsInState } from "App/contacts/actions/base.action"
+import { ContactsEvent } from "App/contacts/constants"
 import { ContactID } from "App/contacts/reducers"
 import { deleteContactsRequest } from "App/contacts/requests"
+import { AppError } from "App/core/errors"
 
 export const deleteContacts = createAsyncThunk<Error | undefined, ContactID[]>(
   ContactsEvent.DeleteContacts,
@@ -17,11 +17,16 @@ export const deleteContacts = createAsyncThunk<Error | undefined, ContactID[]>(
 
     if (error && error.data === undefined) {
       return rejectWithValue(
-        new DeleteContactsError("Delete Contacts request failed")
+        new AppError(
+          ContactsEvent.DeleteContacts,
+          "Delete Contacts request failed"
+        )
       )
     }
 
     if (error && error.data !== undefined) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       const successIds = ids.filter((id) => error.data.includes(id))
       dispatch(deleteContactsInState(successIds))
 

@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ignoreCrashDumpRequest } from "App/crash-dump/requests/ignore-crash-dump.request"
 import { Event } from "App/crash-dump/constants"
 import { resetCrashDump } from "App/crash-dump/actions/base.action"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const ignoreCrashDump = createAsyncThunk<void>(
   Event.IgnoreRashDump,
@@ -22,6 +22,8 @@ export const ignoreCrashDump = createAsyncThunk<void>(
       await ignoreCrashDumpRequest(file)
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await dispatch(resetCrashDump())
   }
 )

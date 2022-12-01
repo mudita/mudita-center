@@ -5,18 +5,18 @@
 
 import React, { ComponentProps } from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import Icon from "Renderer/components/core/icon/icon.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import {
+  ModalDialog,
   ModalContent as SimpleModal,
   RoundIconWrapper,
-} from "Renderer/components/core/modal-dialog/modal-dialog-shared"
+} from "App/ui/components/modal-dialog"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "component.supportModalSuccessTitle" },
@@ -29,7 +29,7 @@ const ContactSupportModalSuccess: FunctionComponent<
   <ModalDialog size={ModalSize.Small} {...props}>
     <SimpleModal>
       <RoundIconWrapper>
-        <Icon type={IconType.MuditaLogo} width={4} />
+        <Icon type={IconType.MuditaLogo} width={3.2} />
       </RoundIconWrapper>
       <Text
         message={messages.title}

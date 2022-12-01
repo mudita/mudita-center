@@ -5,19 +5,19 @@
 
 import { Entity, DBQueryResult } from "App/data-sync/types/entity.type"
 import { MessageTable } from "App/data-sync/constants"
-import { Message } from "App/messages/reducers"
+import { Message } from "App/messages/dto"
 import { ContactNumberEntity } from "App/data-sync/types/contact-object.type"
 import { ThreadEntity } from "App/data-sync/types/thread-object.type"
 
 export type MessageObject = Message
 
 export type SmsEntity = Entity<{
-  thread_id: number
-  contact_id: number
+  thread_id: string
+  contact_id: string
   date: number
   error_code: number
   body: string
-  type: number
+  type: string
 }>
 
 export interface MessageInput {

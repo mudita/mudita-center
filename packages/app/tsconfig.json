@@ -43,7 +43,7 @@
     /* Import emit helpers from 'tslib'. */
     // "importHelpers": true,
     /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
-     "downlevelIteration": true,
+    "downlevelIteration": true,
     /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
     // "isolatedModules": true,
 
@@ -63,9 +63,9 @@
 
     /***** Additional Checks *****/
     /* Report errors on unused locals. */
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     /* Report errors on unused parameters. */
-    // "noUnusedParameters": true,
+    "noUnusedParameters": false,
     /* Report error when not all code paths in function return a value. */
     "noImplicitReturns": true,
     /* Report errors for fallthrough cases in switch statement. */

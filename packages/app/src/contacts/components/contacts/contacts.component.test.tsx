@@ -7,15 +7,16 @@
 
 import React, { ComponentProps } from "react"
 import { waitFor, fireEvent } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Contacts from "App/contacts/components/contacts/contacts.component"
-import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
-import { isContactMatching } from "App/contacts/components/contacts/contacts.component"
-import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search.component"
-import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-search.component"
+import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
+import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-select-test-ids.enum"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
+import { ExportContactFailedModalTestIds } from "App/contacts/components/export-contact-failed-modal/export-contact-failed-modal-test-ids.component"
+import { ExportContactsResult } from "App/contacts/constants"
+import { VirtualizedContactListItemTestIds } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
+import { VirtuosoMockContext } from "react-virtuoso"
 
 type Props = ComponentProps<typeof Contacts>
 
@@ -123,8 +124,11 @@ const contacts: Contact[] = [
 
 const defaultProps: Props = {
   getContact: (id: string) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return [contactOne, contactTwo].find((contact) => contact.id === id)!
   },
+  allItemsSelected: false,
   exportContacts: jest.fn(),
   addNewContact: jest.fn(),
   importContact: jest.fn(),
@@ -134,36 +138,30 @@ const defaultProps: Props = {
   loadContacts: jest.fn(),
   addNewContactsToState: jest.fn(),
   isThreadOpened: jest.fn(),
-  onBlock: jest.fn(),
   onCall: jest.fn(),
-  onDelete: jest.fn(),
-  onEdit: jest.fn(),
-  onExport: jest.fn(),
-  onForward: jest.fn(),
   onManageButtonClick: jest.fn(),
   onMessage: jest.fn(),
-  onNewButtonClick: jest.fn(),
   onSpeedDialSettingsSave: jest.fn(),
-  onUnblock: jest.fn(),
-  resetRows: jest.fn(),
   setProviderData: jest.fn(),
+  onEdit: jest.fn(),
+  onForward: jest.fn(),
+  onBlock: jest.fn(),
+  onUnblock: jest.fn(),
+  onDelete: jest.fn(),
   resultState: ResultState.Loaded,
   speedDialChosenList: [],
   contactList: [
     {
-      category: "#",
+      category: "S",
       contacts: [contactOne, contactTwo],
     },
   ],
-  contacts: [],
   flatList: [],
-  selectedContacts: [],
-  speedDialContacts: [],
-  editMode: false,
-  inputValue: "",
-  searchValue: "",
-  onSearchValueChange: jest.fn(),
-  results: [],
+  selectedItems: [],
+  allRowsSelected: false,
+  resetAllItems: jest.fn(),
+  selectAllItems: jest.fn(),
+  toggleItem: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -172,19 +170,21 @@ const renderer = (extraProps?: Partial<Props>) => {
     ...extraProps,
   }
 
-  return renderWithThemeAndIntl(<Contacts {...defaultProps} {...props} />)
+  return renderWithThemeAndIntl(
+    <VirtuosoMockContext.Provider
+      value={{ viewportHeight: 300, itemHeight: 5 }}
+    >
+      <Contacts {...props} />
+    </VirtuosoMockContext.Provider>
+  )
 }
-
-beforeAll(() => {
-  mockAllIsIntersecting(true)
-})
 
 test("changing contact details preview, when the user switching between contacts", async () => {
   const { getAllByTestId, getByTestId } = renderer({})
 
-  mockAllIsIntersecting(0.1)
-
-  fireEvent.click(getAllByTestId(ContactListTestIdsEnum.ContactRow)[0])
+  fireEvent.click(
+    getAllByTestId(VirtualizedContactListItemTestIds.ContactRow)[0]
+  )
 
   await waitFor(() => {
     expect(getByTestId(ContactDetailsTestIds.PrimaryPhoneInput)).toHaveValue(
@@ -198,7 +198,9 @@ test("changing contact details preview, when the user switching between contacts
     )
   })
 
-  fireEvent.click(getAllByTestId(ContactListTestIdsEnum.ContactRow)[1])
+  fireEvent.click(
+    getAllByTestId(VirtualizedContactListItemTestIds.ContactRow)[1]
+  )
 
   await waitFor(() => {
     expect(getByTestId(ContactDetailsTestIds.PrimaryPhoneInput)).toHaveValue(
@@ -213,32 +215,6 @@ test("changing contact details preview, when the user switching between contacts
   })
 })
 
-describe("isContactMatching", () => {
-  test("returns true when search string in email", () => {
-    const searchString = "example"
-    const result = isContactMatching(contacts[0], searchString)
-    expect(result).toBe(true)
-  })
-
-  test("returns true when search string in primaryPhoneNumber", () => {
-    const searchString = "069"
-    const result = isContactMatching(contacts[0], searchString)
-    expect(result).toBe(true)
-  })
-
-  test("returns false when no match ", () => {
-    const searchString = "000"
-    const result = isContactMatching(contacts[0], searchString)
-    expect(result).toBe(false)
-  })
-
-  test("returns true when match and if contact don't have all params ", () => {
-    const searchString = "Bednarów 3"
-    const result = isContactMatching(contacts[3], searchString)
-    expect(result).toBe(false)
-  })
-})
-
 test("first name and second name in search shows correct result", () => {
   const { queryByTestId, getByTestId } = renderer({ flatList: contacts })
   const input = queryByTestId(
@@ -246,4 +222,100 @@ test("first name and second name in search shows correct result", () => {
   ) as HTMLInputElement
   fireEvent.change(input, { target: { value: "Oswald Bednar" } })
   expect(getByTestId(InputSearchTestIds.List).childNodes).toHaveLength(4)
+})
+
+describe("contact export", () => {
+  test("Export failed modal is visible if export failed", async () => {
+    const mockedExportContacts = jest
+      .fn()
+      .mockReturnValue(ExportContactsResult.Failed)
+    const { queryAllByTestId, queryByTestId } = renderer({
+      exportContacts: mockedExportContacts,
+    })
+
+    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
+    fireEvent.click(
+      queryAllByTestId(
+        VirtualizedContactListItemTestIds.ContactRowDropdownToggler
+      )[0]
+    )
+
+    const exportButton = queryAllByTestId(
+      VirtualizedContactListItemTestIds.ContactExportButton
+    )[0] as HTMLInputElement
+
+    await waitFor(() => {
+      fireEvent.click(more)
+      fireEvent.click(exportButton)
+    })
+
+    expect(mockedExportContacts).toHaveBeenCalledTimes(1)
+    expect(
+      queryByTestId(ExportContactFailedModalTestIds.Description)
+    ).toBeInTheDocument()
+  })
+
+  test("successful export resets all items", async () => {
+    const mockedExportContacts = jest
+      .fn()
+      .mockReturnValue(ExportContactsResult.Ok)
+    const mockedResetAllItems = jest.fn()
+    const { queryAllByTestId, queryByTestId } = renderer({
+      exportContacts: mockedExportContacts,
+      resetAllItems: mockedResetAllItems,
+    })
+
+    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
+
+    fireEvent.click(
+      queryAllByTestId(
+        VirtualizedContactListItemTestIds.ContactRowDropdownToggler
+      )[0]
+    )
+    const exportButton = queryAllByTestId(
+      VirtualizedContactListItemTestIds.ContactExportButton
+    )[0] as HTMLInputElement
+
+    await waitFor(() => {
+      fireEvent.click(more)
+      fireEvent.click(exportButton)
+    })
+
+    expect(mockedExportContacts).toHaveBeenCalledTimes(1)
+    expect(mockedResetAllItems).toHaveBeenCalledTimes(1)
+    expect(
+      queryByTestId(ExportContactFailedModalTestIds.Description)
+    ).not.toBeInTheDocument()
+  })
+
+  test("Export failed modal is not shown if export is cancelled", async () => {
+    const mockedExportContacts = jest
+      .fn()
+      .mockReturnValue(ExportContactsResult.Cancelled)
+    const { queryAllByTestId, queryByTestId } = renderer({
+      exportContacts: mockedExportContacts,
+    })
+
+    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
+
+    fireEvent.click(
+      queryAllByTestId(
+        VirtualizedContactListItemTestIds.ContactRowDropdownToggler
+      )[0]
+    )
+
+    const exportButton = queryAllByTestId(
+      VirtualizedContactListItemTestIds.ContactExportButton
+    )[0] as HTMLInputElement
+
+    await waitFor(() => {
+      fireEvent.click(more)
+      fireEvent.click(exportButton)
+    })
+
+    expect(mockedExportContacts).toHaveBeenCalledTimes(1)
+    expect(
+      queryByTestId(ExportContactFailedModalTestIds.Description)
+    ).not.toBeInTheDocument()
+  })
 })

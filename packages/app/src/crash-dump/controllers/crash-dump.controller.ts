@@ -5,7 +5,7 @@
 
 import { Controller, IpcEvent } from "App/core/decorators"
 import { RequestResponse } from "App/core/types"
-import { AppSettingsService } from "App/app-settings/services"
+import { SettingsService } from "App/settings/services"
 import { ControllerPrefix, IpcCrashDumpEvent } from "App/crash-dump/constants"
 import { CrashDumpService } from "App/crash-dump/services"
 
@@ -13,13 +13,13 @@ import { CrashDumpService } from "App/crash-dump/services"
 export class CrashDumpController {
   constructor(
     private crashDumpService: CrashDumpService,
-    private settingsService: AppSettingsService
+    private settingsService: SettingsService
   ) {}
 
   @IpcEvent(IpcCrashDumpEvent.DownloadFiles)
   public async downloadFile(): Promise<RequestResponse<string[]>> {
     const result = await this.crashDumpService.downloadDeviceCrashDumpFiles()
-    this.settingsService.updateAppSettings({
+    this.settingsService.updateSettings({
       key: "ignoredCrashDumps",
       value: [],
     })
@@ -31,12 +31,14 @@ export class CrashDumpController {
     return this.crashDumpService.getDeviceCrashDumpFiles()
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent(IpcCrashDumpEvent.Ignore)
   public async ignoreFile(url: string): Promise<void> {
     const ignoredCrashDumps =
-      this.settingsService.getAppSettings().ignoredCrashDumps || []
+      this.settingsService.getSettings().ignoredCrashDumps || []
     const updatedUniqueList = [...new Set([...ignoredCrashDumps, url])]
-    this.settingsService.updateAppSettings({
+    this.settingsService.updateSettings({
       key: "ignoredCrashDumps",
       value: updatedUniqueList,
     })

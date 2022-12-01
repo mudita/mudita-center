@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
-} from "Renderer/styles/theming/theme-getters"
-import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
-import { showToggleableElement } from "Renderer/modules/tools/tabs/notes.styled"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import SelectionManager from "App/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
+import { showToggleableElement } from "App/__deprecated__/renderer/modules/tools/tabs/notes.styled"
 
 export const Panel = styled.div<{
   selectionMode?: boolean
@@ -21,12 +21,6 @@ export const Panel = styled.div<{
   align-items: end;
   padding: 2.4rem 3.2rem 0 3.2rem;
   background-color: ${backgroundColor("main")};
-  ${({ selectionMode }) =>
-    selectionMode &&
-    css`
-      grid-template-columns: 62.4rem auto;
-      padding-left: 0.6rem;
-    `};
   label {
     width: auto;
   }

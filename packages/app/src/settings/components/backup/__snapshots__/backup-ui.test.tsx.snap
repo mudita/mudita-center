@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+.c5 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c7 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  color: #6a6a6a;
+  white-space: pre-wrap;
+}
+
+.c13 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c9 {
+  grid-area: Actions;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 9rem;
+}
+
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  padding: 0.1rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c11:hover {
+  background: #000000;
+}
+
+.c11 p {
+  color: #ffffff;
+}
+
+.c11 g path {
+  fill: #ffffff;
+}
+
+.c14 {
+  white-space: nowrap;
+}
+
+.c1 {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-areas: "Checkbox Actions";
+  grid-template-columns: 1fr 16.4rem;
+  border-bottom: solid 0.1rem #d2d6db;
+  height: 7.2rem;
+  max-height: 7.2rem;
+}
+
+.c3 {
+  grid-area: Checkbox;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c6 {
+  margin-left: 3.2rem;
+  margin-bottom: 0;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  grid-area: Label;
+}
+
+.c2 {
+  grid-template-areas: "Checkbox Actions";
+  grid-template-columns: 1fr 20rem;
+  border-bottom: solid 0.1rem #d2d6db;
+  width: 100%;
+}
+
+.c0 {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c10 {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.c12 {
+  padding: 0;
+}
+
+.c8 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0 3.2rem;
+  grid-area: Message;
+}
+
+.c4 {
+  display: grid;
+  grid-template-columns: minmax(0,1fr);
+  grid-template-areas: "Label" "Message";
+}
+
+<div>
+  <section
+    class="c0"
+  >
+    <div
+      class="c1 c2"
+    >
+      <div
+        class="c3 c4"
+      >
+        <p
+          class="c5 c6"
+          color="primary"
+        >
+          [value] module.settings.backupLabel
+        </p>
+        <p
+          class="c7 c8"
+          color="secondary"
+          data-for="prefix-1"
+          data-testid="backup-location"
+          data-tip="true"
+        >
+          C:/MuditaOs
+        </p>
+      </div>
+      <div
+        class="c9 c10"
+      >
+        <button
+          class="c11 c12"
+          size="1"
+          type="button"
+        >
+          <p
+            class="c13 c14"
+            color="primary"
+          >
+            [value] module.settings.backupButtonLabel
+          </p>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+`;

@@ -3,27 +3,26 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour, DeviceType } from "@mudita/pure"
 import { deviceReducer, initialState } from "App/device/reducers/device.reducer"
 import {
   PureDeviceData,
   HarmonyDeviceData,
 } from "App/device/reducers/device.interface"
 import {
+  CaseColor,
+  DeviceType,
   DeviceEvent,
   ConnectionState,
   UpdatingState,
+  DeviceError,
 } from "App/device/constants"
 import {
   rejectedAction,
   fulfilledAction,
   pendingAction,
-} from "App/renderer/store/helpers"
-import {
-  DeviceConnectionError,
-  DeviceLoadingError,
-  DeviceInvalidPhoneLockTimeError,
-} from "App/device/errors"
+} from "App/__deprecated__/renderer/store/helpers"
+import { AppError } from "App/core/errors"
+import StorageInfo from "App/__deprecated__/common/interfaces/storage-info.interface"
 
 const pureDeviceMock: PureDeviceData = {
   networkName: "Network",
@@ -42,11 +41,11 @@ const pureDeviceMock: PureDeviceData = {
   serialNumber: "303",
   phoneLockTime: 1630703219,
   memorySpace: {
-    free: 124,
-    full: 1021,
+    reservedSpace: 124,
+    usedUserSpace: 1021,
     total: 16000000000,
   },
-  caseColour: CaseColour.Gray,
+  caseColour: CaseColor.Gray,
   backupLocation: "path/to/directory",
 }
 
@@ -55,12 +54,22 @@ const harmonyDeviceMock: HarmonyDeviceData = {
   batteryLevel: 0.99,
   serialNumber: "303",
   memorySpace: {
-    free: 124,
-    full: 1021,
+    reservedSpace: 124,
+    usedUserSpace: 1021,
+    total: 1021,
   },
 }
 
+const storageInfo: StorageInfo = {
+  categories: [],
+  reservedSpace: 0,
+  totalSpace: 0,
+  usedUserSpace: 0,
+}
+
 test("empty event returns initial state", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   expect(deviceReducer(undefined, {} as any)).toEqual(initialState)
 })
 
@@ -90,7 +99,7 @@ describe("Connecting/Disconnecting functionality", () => {
   })
 
   test("Event: Connected/rejected set error message and updates state to error", () => {
-    const errorMock = new DeviceConnectionError("I'm error")
+    const errorMock = new AppError(DeviceError.Connection, "I'm error")
 
     expect(
       deviceReducer(undefined, {
@@ -124,7 +133,7 @@ describe("Connecting/Disconnecting functionality", () => {
   })
 
   test("Event: Disconnected/rejected set error message and updates state to error", () => {
-    const errorMock = new DeviceConnectionError("I'm error")
+    const errorMock = new AppError(DeviceError.Connection, "I'm error")
 
     expect(
       deviceReducer(undefined, {
@@ -250,8 +259,12 @@ describe("Lock/Unlock functionality", () => {
   })
 
   test("Event: Unlocked/rejected set error with proper type", () => {
-    const deviceConnectionErrorMock = new DeviceConnectionError("I'm error")
-    const deviceInvalidPhoneLockTimeError = new DeviceInvalidPhoneLockTimeError(
+    const deviceConnectionErrorMock = new AppError(
+      DeviceError.Connection,
+      "I'm error"
+    )
+    const deviceInvalidPhoneLockTimeError = new AppError(
+      DeviceError.InvalidPhoneLockTime,
       "I'm error"
     )
 
@@ -271,7 +284,7 @@ describe("Lock/Unlock functionality", () => {
         deviceReducer(undefined, {
           type: rejectedAction(DeviceEvent.Unlocked),
           payload: deviceConnectionErrorMock,
-        }).error as DeviceConnectionError
+        }).error as AppError
       ).type
     ).toEqual(deviceConnectionErrorMock.type)
 
@@ -280,7 +293,7 @@ describe("Lock/Unlock functionality", () => {
         deviceReducer(undefined, {
           type: rejectedAction(DeviceEvent.Unlocked),
           payload: deviceInvalidPhoneLockTimeError,
-        }).error as DeviceInvalidPhoneLockTimeError
+        }).error as AppError
       ).type
     ).toEqual(deviceInvalidPhoneLockTimeError.type)
   })
@@ -328,11 +341,11 @@ describe("Set device data functionality", () => {
         serialNumber: "303",
         phoneLockTime: 1630703219,
         memorySpace: {
-          free: 124,
-          full: 1021,
+          reservedSpace: 124,
+          usedUserSpace: 1021,
           total: 16000000000,
         },
-        caseColour: CaseColour.Gray,
+        caseColour: CaseColor.Gray,
         backupLocation: "path/to/directory",
       },
     })
@@ -351,8 +364,9 @@ describe("Set device data functionality", () => {
         batteryLevel: 0.99,
         serialNumber: "303",
         memorySpace: {
-          free: 124,
-          full: 1021,
+          reservedSpace: 124,
+          usedUserSpace: 1021,
+          total: 1021,
         },
       },
     })
@@ -387,7 +401,7 @@ describe("Updates loading functionality", () => {
   })
 
   test("Event: Loading/rejected change `state` to Loaded", () => {
-    const errorMock = new DeviceLoadingError("I'm error")
+    const errorMock = new AppError(DeviceError.Loading, "I'm error")
 
     expect(
       deviceReducer(undefined, {
@@ -500,6 +514,78 @@ describe("Update functionality", () => {
       data: {
         ...initialState.data,
         osVersion: "7.7.7",
+      },
+    })
+  })
+})
+
+describe("`LoadStorageInfo` functionality", () => {
+  test("Event: LoadStorageInfo/fulfilled change `state` to Loaded", () => {
+    expect(
+      deviceReducer(initialState, {
+        type: fulfilledAction(DeviceEvent.LoadStorageInfo),
+        payload: storageInfo,
+      })
+    ).toMatchInlineSnapshot(`
+      Object {
+        "data": Object {
+          "memorySpace": Object {
+            "reservedSpace": 0,
+            "total": 0,
+            "usedUserSpace": 0,
+          },
+        },
+        "deviceType": null,
+        "error": null,
+        "state": 2,
+        "status": Object {
+          "agreementAccepted": true,
+          "connected": false,
+          "loaded": false,
+          "unlocked": null,
+        },
+        "updatingState": null,
+      }
+    `)
+  })
+
+  test("Event: LoadStorageInfo/rejected change `state` to Loaded", () => {
+    const errorMock = new AppError(DeviceError.LoadStorageInfo, "I'm error")
+
+    expect(
+      deviceReducer(initialState, {
+        type: rejectedAction(DeviceEvent.LoadStorageInfo),
+        payload: errorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      state: ConnectionState.Error,
+      error: errorMock,
+    })
+  })
+})
+
+describe("Agreement status functionality", () => {
+  test("Event: AgreementStatus changing `statue.agreementAccepted` state with provided payload", () => {
+    expect(
+      deviceReducer(
+        {
+          ...initialState,
+          status: {
+            ...initialState.status,
+            agreementAccepted: true,
+          },
+        },
+        {
+          type: DeviceEvent.AgreementStatus,
+          payload: false,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      status: {
+        ...initialState.status,
+        agreementAccepted: false,
       },
     })
   })

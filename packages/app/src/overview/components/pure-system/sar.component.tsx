@@ -4,14 +4,14 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   WindowContainer,
   LightText,
   LightTextNested,
   WindowHeader,
-} from "Renderer/modules/settings/tabs/about/components/shared"
+} from "App/settings/components/about/shared"
 import { PureSystemTestIds } from "App/overview/components/pure-system//pure-system-test-ids.enum"
 
 const SarComponent: FunctionComponent = () => (
@@ -85,6 +85,8 @@ const SarComponent: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The SAR value of the phone was tested with the phone used at a distance of
       0 mm. That is, right next to the head, as most people use the phone.
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       Thanks to our patented solutions, you don't have to do anything to meet
       the requirements for exposure to radio waves when using the phone.
       However, we support what organizations, such as the WHO (World Health

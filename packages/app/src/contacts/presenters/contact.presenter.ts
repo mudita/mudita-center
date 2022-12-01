@@ -4,7 +4,7 @@
  */
 
 import { Contact } from "App/contacts/reducers"
-import { Contact as PureContact } from "@mudita/pure"
+import { Contact as PureContact } from "App/device/types/mudita-os"
 
 export class ContactPresenter {
   static mapToContact(pureContact: PureContact): Contact {
@@ -49,6 +49,7 @@ export class ContactPresenter {
       secondaryPhoneNumber,
       firstAddressLine,
       secondAddressLine,
+      email,
       id,
     } = contact
     const numbers = []
@@ -63,6 +64,7 @@ export class ContactPresenter {
       id: Number(id),
       blocked,
       favourite,
+      email: email || "",
       numbers: numbers,
       priName: firstName,
       altName: lastName,

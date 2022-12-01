@@ -5,14 +5,14 @@
 
 import "@testing-library/jest-dom"
 import React from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Cards from "App/news/components/cards/cards.component"
-import { newsItems } from "App/news/components/cards/cards-mock-data"
+import { mockedNewsItems } from "App/news/__mocks__/mocked-news-items"
 
 test("should render 3 cards", () => {
   const cardsTestId = "news-card"
   const { getAllByTestId } = renderWithThemeAndIntl(
-    <Cards newsItems={newsItems} />
+    <Cards newsItems={mockedNewsItems} />
   )
 
   expect(getAllByTestId(cardsTestId)).toHaveLength(3)

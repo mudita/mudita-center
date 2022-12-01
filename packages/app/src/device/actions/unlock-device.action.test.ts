@@ -6,15 +6,16 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { Result } from "App/core/builder"
+import { AppError } from "App/core/errors"
 import { unlockDevice } from "./unlock-device.action"
-import { DeviceUnlockingError } from "App/device/errors"
-import unlockDeviceRequest from "Renderer/requests/unlock-device.request"
-import { testError } from "App/renderer/store/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { unlockDeviceRequest } from "App/device/requests/unlock-device.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import { DeviceError } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
-jest.mock("Renderer/requests/unlock-device.request")
+jest.mock("App/device/requests/unlock-device.request")
 
 afterEach(() => {
   mockStore.clearActions()
@@ -22,17 +23,19 @@ afterEach(() => {
 
 describe("Unlock Device request returns `success` status", () => {
   test("fire async `unlockDevice` with provided code", async () => {
-    ;(unlockDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-    })
+    ;(unlockDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.success(true)
+    )
     const codeMock = [1, 2, 3, 4]
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(unlockDevice(codeMock) as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
       unlockDevice.pending(requestId, codeMock),
-      unlockDevice.fulfilled(RequestResponseStatus.Ok, requestId, codeMock),
+      unlockDevice.fulfilled(true, requestId, codeMock),
     ])
 
     expect(unlockDeviceRequest).toHaveBeenLastCalledWith(codeMock)
@@ -41,15 +44,18 @@ describe("Unlock Device request returns `success` status", () => {
 
 describe("Unlock Device request returns `error` status", () => {
   test("fire async `unlockDevice` action and execute `rejected` event", async () => {
-    ;(unlockDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Error,
-    })
+    ;(unlockDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.failed(new AppError("", ""))
+    )
     const codeMock = [1, 2, 3, 4]
-    const errorMock = new DeviceUnlockingError(
+    const errorMock = new AppError(
+      DeviceError.Unlocking,
       "Something went wrong during unlocking"
     )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(unlockDevice(codeMock) as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

@@ -5,17 +5,19 @@
 
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
-import store from "Renderer/store"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import store from "App/__deprecated__/renderer/store"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { HarmonyOverview } from "App/overview/components/overview-screens/harmony-overview/harmony-overview.component"
-import {
-  DataState,
-  UpdatingState,
-} from "Renderer/models/basic-info/basic-info.typings"
-import { ConversionFormat, Convert } from "App/main/store/settings.interface"
+import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import * as UpdatingForceModalFlowModule from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
+import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 jest.mock("electron", () => ({
   remote: {
@@ -27,63 +29,31 @@ jest.mock("electron", () => ({
   },
 }))
 
-const defaultProps: ComponentProps<typeof HarmonyOverview> = {
-  deviceType: null,
-  appLatestVersion: "",
-  appUpdateAvailable: undefined,
-  lowestSupportedOsVersion: undefined,
-  lowestSupportedCenterVersion: undefined,
-  settingsLoaded: false,
-  deviceUnlocked: undefined,
-  appAutostart: false,
-  appCollectingData: undefined,
-  appConversionFormat: ConversionFormat.FLAC,
-  appConvert: Convert.ConvertAutomatically,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appNonStandardAudioFilesConversion: false,
-  appOsUpdates: false,
-  appTethering: false,
-  appTray: false,
-  batteryLevel: 0,
-  changeSim: jest.fn(),
-  disconnectDevice: jest.fn(),
-  deviceConnected: true,
-  language: "en-US",
-  loadData: jest.fn(),
-  networkName: "network name",
-  osVersion: "release-1.0.0",
-  pureNeverConnected: false,
-  pureOsBackupLocation: "path/location/backup",
-  pureOsDownloadLocation: "path/location/download",
-  basicInfoDataState: DataState.Empty,
-  serialNumber: undefined,
-  initialDataLoaded: false,
-  appVersion: undefined,
-  toggleAppCollectingData: jest.fn(),
-  simCards: [
-    {
-      active: true,
-      network: "Y-Mobile",
-      networkLevel: 0.2,
-      number: 12345678,
-      slot: 1,
-    },
-  ],
-  toggleDeviceUpdating: jest.fn(),
-  updatePhoneOsInfo: jest.fn(),
+type Props = ComponentProps<typeof HarmonyOverview>
+
+const defaultProps: Props = {
+  lowestSupportedOsVersion: "",
+  lastAvailableOsVersion: "",
+  batteryLevel: undefined,
+  osVersion: "1.0.0",
+  pureOsDownloaded: false,
   updatingState: UpdatingState.Standby,
-  memorySpace: {
-    free: 100,
-    full: 200,
-  },
+  serialNumber: undefined,
+  startUpdateOs: jest.fn(),
+  setUpdateState: jest.fn(),
+  updatePhoneOsInfo: jest.fn(),
+  disconnectDevice: jest.fn(),
+  openContactSupportFlow: jest.fn(),
 }
 
-const render = () => {
+const render = (extraProps?: Partial<Props>) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
+  }
   return renderWithThemeAndIntl(
     <Provider store={store}>
-      <HarmonyOverview {...defaultProps} />
+      <HarmonyOverview {...props} />
     </Provider>
   )
 }
@@ -95,4 +65,63 @@ test("Renders Mudita harmony data", () => {
   expect(queryByTestId(StatusTestIds.NetworkName)).not.toBeInTheDocument()
   queryByText(intl.formatMessage({ id: "module.overview.statusHarmonyTitle" }))
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+})
+
+describe("update state", () => {
+  jest.spyOn(flags, "get").mockReturnValue(true)
+
+  type TestCase = [
+    updatingStateKeyValue: keyof typeof UpdatingState | undefined, // passing as key to improve test title readability
+    isOsSupported: boolean,
+    updatingForceModalState: UpdatingForceModalFlowState
+  ]
+
+  const testCases: TestCase[] = [
+    ["Success", true, UpdatingForceModalFlowState.Success],
+    ["Fail", true, UpdatingForceModalFlowState.Fail],
+    ["Updating", true, UpdatingForceModalFlowState.Updating],
+    ["Updating", false, UpdatingForceModalFlowState.Updating],
+    [undefined, false, UpdatingForceModalFlowState.Info],
+  ]
+
+  let updateForceModalSpy: jest.SpyInstance<
+    unknown,
+    UpdatingForceModalFlowProps[]
+  >
+
+  beforeEach(() => {
+    updateForceModalSpy = jest.spyOn(UpdatingForceModalFlowModule, "default")
+  })
+
+  describe.each(testCases)(
+    "when updating state from store equals to %p and os support state equal to %p",
+    (updatingStateKeyValue, isOsSupported, updatingForceModalState) => {
+      test(`update force modal should receive ${updatingForceModalState}`, () => {
+        const updatingState = updatingStateKeyValue
+          ? UpdatingState[updatingStateKeyValue]
+          : undefined
+
+        if (isOsSupported) {
+          render({
+            osVersion: "1.1.0",
+            lowestSupportedOsVersion: "1.0.0",
+            updatingState,
+          })
+        } else {
+          render({
+            updatingState,
+            osVersion: "0.1.0",
+            lowestSupportedOsVersion: "1.0.0",
+          })
+        }
+
+        expect(updateForceModalSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: updatingForceModalState,
+          }),
+          expect.anything()
+        )
+      })
+    }
+  )
 })

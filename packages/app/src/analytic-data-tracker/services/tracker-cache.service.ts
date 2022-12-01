@@ -5,7 +5,7 @@
 
 import path from "path"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
-import getAppPath from "App/main/utils/get-app-path"
+import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { TrackEvent } from "App/analytic-data-tracker/types"
 
 type CacheMap = Record<string, TrackEvent>
@@ -44,6 +44,8 @@ export class TrackerCacheService {
 
   private async readCacheMap(): Promise<CacheMap> {
     const cache = await this.fileSystem.readFile(this.filePath)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return JSON.parse(cache.toString())
   }
 

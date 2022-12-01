@@ -1,0 +1,503 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+.c2 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  font-weight: 300;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c6 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c14 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c8 {
+  grid-area: Actions;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 9rem;
+}
+
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  padding: 0.1rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c11:hover {
+  background: #000000;
+}
+
+.c11 p {
+  color: #ffffff;
+}
+
+.c11 g path {
+  fill: #ffffff;
+}
+
+.c16 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  padding: 0.1rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  border: 0.1rem solid #000000;
+}
+
+.c16 g path {
+  fill: #000000;
+}
+
+.c16:hover {
+  background: #f4f5f6;
+}
+
+.c15 {
+  white-space: nowrap;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+}
+
+.c12 {
+  --radius: 0.4rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+  z-index: 3;
+}
+
+.c12,
+.c12 * {
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+}
+
+.c12:disabled {
+  pointer-events: none;
+}
+
+.c12:hover {
+  z-index: 2;
+}
+
+.c12:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c12:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c12:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c17 {
+  --radius: 0.4rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+}
+
+.c17,
+.c17 * {
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+}
+
+.c17:disabled {
+  pointer-events: none;
+}
+
+.c17:hover {
+  z-index: 2;
+}
+
+.c17:not(:hover) {
+  border: 0.1rem solid #d2d6db;
+}
+
+.c17:not(:hover) p {
+  color: #a5a5a5;
+}
+
+.c17:not(:hover) g path {
+  fill: #a5a5a5;
+}
+
+.c17:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c17:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c17:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c10 {
+  margin-right: 3.2rem;
+}
+
+.c13 {
+  width: 8.8rem;
+}
+
+.c4 {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-areas: "Checkbox Actions";
+  grid-template-columns: 1fr 16.4rem;
+  border-bottom: solid 0.1rem #d2d6db;
+  height: 7.2rem;
+  max-height: 7.2rem;
+}
+
+.c5 {
+  grid-area: Checkbox;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c7 {
+  margin-left: 3.2rem;
+  margin-bottom: 0;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  grid-area: Label;
+}
+
+.c1 {
+  border-bottom: solid 0.1rem #d2d6db;
+}
+
+.c3 {
+  margin-left: 3.2rem;
+  margin-bottom: 3.2rem;
+}
+
+.c0 {
+  padding-top: 3.2rem;
+}
+
+<div>
+  <section
+    class="c0"
+  >
+    <div
+      class="c1"
+    >
+      <p
+        class="c2 c3"
+        color="primary"
+      >
+        [value] module.settings.notificationsDescription
+      </p>
+    </div>
+    <div
+      class="c4"
+    >
+      <div
+        class="c5"
+      >
+        <p
+          class="c6 c7"
+          color="primary"
+        >
+          [value] module.settings.notificationsIncomingCallsNotificationsLabel
+        </p>
+      </div>
+      <div
+        class="c8"
+      >
+        <section
+          class="c9 c10"
+        >
+          <button
+            class="c11 c12 c13"
+            data-testid="toggler-active"
+            size="1"
+            type="button"
+          >
+            <p
+              class="c14 c15"
+              color="primary"
+            >
+              [value] module.settings.offLabel
+            </p>
+          </button>
+          <button
+            class="c16 c17 c13"
+            data-testid="toggler-inactive"
+            size="1"
+            type="button"
+          >
+            <p
+              class="c14 c15"
+              color="primary"
+            >
+              [value] module.settings.onLabel
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="c4"
+    >
+      <div
+        class="c5"
+      >
+        <p
+          class="c6 c7"
+          color="primary"
+        >
+          [value] module.settings.notificationsIncomingMessagesNotifications
+        </p>
+      </div>
+      <div
+        class="c8"
+      >
+        <section
+          class="c9 c10"
+        >
+          <button
+            class="c11 c12 c13"
+            data-testid="toggler-active"
+            size="1"
+            type="button"
+          >
+            <p
+              class="c14 c15"
+              color="primary"
+            >
+              [value] module.settings.offLabel
+            </p>
+          </button>
+          <button
+            class="c16 c17 c13"
+            data-testid="toggler-inactive"
+            size="1"
+            type="button"
+          >
+            <p
+              class="c14 c15"
+              color="primary"
+            >
+              [value] module.settings.onLabel
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="c4"
+    >
+      <div
+        class="c5"
+      >
+        <p
+          class="c6 c7"
+          color="primary"
+        >
+          [value] module.settings.notificationsLowBatteryNotifications
+        </p>
+      </div>
+      <div
+        class="c8"
+      >
+        <section
+          class="c9 c10"
+        >
+          <button
+            class="c11 c12 c13"
+            data-testid="toggler-active"
+            size="1"
+            type="button"
+          >
+            <p
+              class="c14 c15"
+              color="primary"
+            >
+              [value] module.settings.offLabel
+            </p>
+          </button>
+          <button
+            class="c16 c17 c13"
+            data-testid="toggler-inactive"
+            size="1"
+            type="button"
+          >
+            <p
+              class="c14 c15"
+              color="primary"
+            >
+              [value] module.settings.onLabel
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="c4"
+    >
+      <div
+        class="c5"
+      >
+        <p
+          class="c6 c7"
+          color="primary"
+        >
+          [value] module.settings.notificationsPureOsUpdatesNotifications
+        </p>
+      </div>
+      <div
+        class="c8"
+      >
+        <section
+          class="c9 c10"
+        >
+          <button
+            class="c11 c12 c13"
+            data-testid="toggler-active"
+            size="1"
+            type="button"
+          >
+            <p
+              class="c14 c15"
+              color="primary"
+            >
+              [value] module.settings.offLabel
+            </p>
+          </button>
+          <button
+            class="c16 c17 c13"
+            data-testid="toggler-inactive"
+            size="1"
+            type="button"
+          >
+            <p
+              class="c14 c15"
+              color="primary"
+            >
+              [value] module.settings.onLabel
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+`;

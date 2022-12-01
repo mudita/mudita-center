@@ -13,9 +13,10 @@ import {
 } from "App/core/types/request-response.interface"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { deleteThreadsRequest } from "App/messages/requests"
-import { DeleteThreadError } from "App/messages/errors"
-import { testError } from "Renderer/store/constants"
-import { Message, MessageType } from "App/messages/reducers"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import { Message } from "App/messages/dto"
+import { MessagesEvent, MessageType } from "App/messages/constants"
+import { AppError } from "App/core/errors"
 
 jest.mock("App/messages/requests/delete-threads.request")
 
@@ -61,6 +62,8 @@ describe("`deleteThreads`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteThreads([message.threadId]) as unknown as AnyAction
       )
@@ -79,10 +82,15 @@ describe("`deleteThreads`", () => {
   describe("when `deleteThreads` request return error", () => {
     test("fire `deleteThreads` returns `rejected` action", async () => {
       ;(deleteThreadsRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new DeleteThreadError("Delete Thread request failed")
+      const errorMock = new AppError(
+        MessagesEvent.DeleteThreads,
+        "Delete Thread request failed"
+      )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteThreads([message.threadId]) as unknown as AnyAction
       )
@@ -107,6 +115,8 @@ describe("`deleteThreads`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteThreads([message.threadId]) as unknown as AnyAction
       )

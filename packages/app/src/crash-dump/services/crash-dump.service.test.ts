@@ -3,9 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Result } from "App/core/builder"
 import { CrashDumpService } from "App/crash-dump/services/crash-dump.service"
-import DeviceService from "Backend/device-service"
-import { DeviceFileSystem } from "App/backend/adapters/device-file-system/device-file-system.adapter"
+import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const deviceServiceMock = {
@@ -14,7 +15,7 @@ const deviceServiceMock = {
 
 const deviceFileSystemMock = {
   downloadDeviceFilesLocally: jest.fn(),
-} as unknown as DeviceFileSystem
+} as unknown as DeviceFileSystemService
 
 const subject = new CrashDumpService(deviceServiceMock, deviceFileSystemMock)
 
@@ -31,11 +32,15 @@ describe("Method: getDeviceCrashDumpFiles", () => {
       },
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).not.toHaveBeenCalled()
     expect(await subject.getDeviceCrashDumpFiles()).toEqual({
       data: ["/sys/crash_dumps/crashdump.hex"],
       status: RequestResponseStatus.Ok,
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).toHaveBeenCalled()
   })
 
@@ -45,10 +50,14 @@ describe("Method: getDeviceCrashDumpFiles", () => {
       data: undefined,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).not.toHaveBeenCalled()
     expect(await subject.getDeviceCrashDumpFiles()).toEqual({
       status: RequestResponseStatus.Error,
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).toHaveBeenCalled()
   })
 
@@ -58,10 +67,14 @@ describe("Method: getDeviceCrashDumpFiles", () => {
       data: undefined,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).not.toHaveBeenCalled()
     expect(await subject.getDeviceCrashDumpFiles()).toEqual({
       status: RequestResponseStatus.Error,
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).toHaveBeenCalled()
   })
 })
@@ -76,13 +89,16 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
     })
     ;(
       deviceFileSystemMock.downloadDeviceFilesLocally as jest.Mock
-    ).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-      data: ["C:/MuditaOs/crash-dumps/crashdump.hex"],
-    })
+    ).mockReturnValueOnce(
+      Result.success(["C:/MuditaOs/crash-dumps/crashdump.hex"])
+    )
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).not.toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).not.toHaveBeenCalled()
 
@@ -91,8 +107,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       status: RequestResponseStatus.Ok,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).toHaveBeenCalledWith(["/sys/crash_dumps/crashdump.hex"], {
       cwd: "crash-dumps",
@@ -105,8 +125,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       data: undefined,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).not.toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).not.toHaveBeenCalled()
 
@@ -114,8 +138,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       status: RequestResponseStatus.Error,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).not.toHaveBeenCalled()
   })
@@ -125,8 +153,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       status: RequestResponseStatus.Error,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).not.toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).not.toHaveBeenCalled()
 
@@ -134,8 +166,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       status: RequestResponseStatus.Error,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).not.toHaveBeenCalled()
   })
@@ -154,8 +190,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       data: undefined,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).not.toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).not.toHaveBeenCalled()
 
@@ -163,8 +203,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       status: RequestResponseStatus.Error,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).toHaveBeenCalledWith(["/sys/crash_dumps/crashdump.hex"], {
       cwd: "crash-dumps",
@@ -184,8 +228,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       status: RequestResponseStatus.Error,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).not.toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).not.toHaveBeenCalled()
 
@@ -193,8 +241,12 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       status: RequestResponseStatus.Error,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceServiceMock.request).toHaveBeenCalled()
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
     ).toHaveBeenCalledWith(["/sys/crash_dumps/crashdump.hex"], {
       cwd: "crash-dumps",

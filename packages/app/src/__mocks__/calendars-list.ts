@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Calendar } from "App/calendar/store/calendar.interfaces"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { Calendar } from "App/__deprecated__/calendar/store/calendar.interfaces"
+import { Provider } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
 
 export const mockedCalendars: Calendar[] = [
   {

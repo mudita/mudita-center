@@ -3,28 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "App/device/constants"
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceType } from "@mudita/pure"
-import connectDeviceRequest from "Renderer/requests/connect-device.request"
-import { DeviceEvent } from "App/device/constants"
-import { setConnectionStatus } from "App/device/actions/set-connection-status.action"
+import { AppError } from "App/core/errors"
 import { loadDeviceData } from "App/device/actions/load-device-data.action"
-import { DeviceConnectionError } from "App/device/errors"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { setConnectionStatus } from "App/device/actions/set-connection-status.action"
+import { DeviceError, DeviceEvent } from "App/device/constants"
+import { connectDeviceRequest } from "App/device/requests"
 
 export const connectDevice = createAsyncThunk<DeviceType, DeviceType>(
   DeviceEvent.Connected,
   async (payload, { dispatch, rejectWithValue }) => {
     const data = await connectDeviceRequest()
 
-    if (data.status !== RequestResponseStatus.Ok) {
+    if (!data.ok) {
       return rejectWithValue(
-        new DeviceConnectionError("Cannot connected to device", data)
+        new AppError(DeviceError.Connection, "Cannot connected to device", data)
       )
     }
 
-    dispatch(setConnectionStatus(true))
-    dispatch(loadDeviceData(payload))
+    void dispatch(setConnectionStatus(true))
+    void dispatch(loadDeviceData())
 
     return payload
   }

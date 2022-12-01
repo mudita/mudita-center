@@ -9,6 +9,8 @@ import { indexAllRequest } from "App/data-sync/requests/index-all.request"
 
 describe("`indexAllRequest`", () => {
   test("return properly value", async () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     ;(ipcRenderer as any).__rendererCalls = {
       [IpcDataSyncRequest.IndexAll]: undefined,
     }

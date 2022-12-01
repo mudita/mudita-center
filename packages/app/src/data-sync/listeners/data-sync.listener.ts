@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import store from "Renderer/store"
+import store from "App/__deprecated__/renderer/store"
 import {
   setDataSyncInitialized,
   setLoadingState,
@@ -15,25 +15,27 @@ import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
 import { IpcEvent } from "App/data-sync/constants"
 
 const dataUpdated = (): void => {
-  store.dispatch(readAllIndexes())
+  void store.dispatch(readAllIndexes())
 }
 
 const dataLoaded = (): void => {
-  store.dispatch(readAllIndexes())
-  store.dispatch(setLoadedState())
-  store.dispatch(setDataSyncInitialized())
+  void store.dispatch(readAllIndexes())
+  void store.dispatch(setLoadedState())
+  void store.dispatch(setDataSyncInitialized())
 }
 
 const dataSkipped = (): void => {
-  store.dispatch(setDataSyncInitialized())
+  void store.dispatch(setDataSyncInitialized())
 }
 
 const dataLoading = (): void => {
-  store.dispatch(setLoadingState())
+  void store.dispatch(setLoadingState())
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const dataError = (error: any): void => {
-  store.dispatch(setErrorState(error))
+  void store.dispatch(setErrorState(error))
 }
 
 export const registerDataSyncListener = (): (() => void) => {

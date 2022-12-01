@@ -8,9 +8,8 @@ import React from "react"
 import System from "App/overview/components/system/system.component"
 import { action } from "@storybook/addon-actions"
 import { css } from "styled-components"
-import StoryContainer from "Renderer/components/storybook/story-container.component"
-import Story from "Renderer/components/storybook/story.component"
-import appConfig from "App/main/default-app-configuration.json"
+import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 
 const storyStyle = css`
   > * {
@@ -24,13 +23,13 @@ storiesOf("Views|Overview/System", module).add("System", () => {
     <StoryContainer column>
       <Story title="Not updated yet" customStyle={storyStyle}>
         <System
-          osVersion={appConfig.osVersion}
+          osVersion={"1.0.0"}
           onUpdateCheck={action("checked for update")}
         />
       </Story>
       <Story title="New update available" customStyle={storyStyle}>
         <System
-          osVersion={appConfig.osVersion}
+          osVersion={"1.0.0"}
           onUpdate={action("update requested")}
           updateAvailable
         />

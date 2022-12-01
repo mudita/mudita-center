@@ -1,9 +1,3 @@
-# Shared
-packages/design-system/dist
-packages/design-system/tmp-svg
-packages/design-system/dist-svg
-
-
 # Logs
 logs
 *.log
@@ -61,11 +55,11 @@ tmp/**/*
 **/*/tmp/**/*
 !tmp/.keep
 
-packages/app/src/renderer/fonts/main/**/*
-!packages/app/src/renderer/fonts/main/.gitkeep
+packages/app/src/__deprecated__/renderer/fonts/main/**/*
+!packages/app/src/__deprecated__/renderer/fonts/main/.gitkeep
 
 # Fetched news
-packages/app/src/main/default-news.json
+packages/app/src/news/default-news.json
 
-# Fetched app configuration
-packages/app/src/main/app-configuration.json
+# Fetched appplication configuration
+packages/app/src/settings/static/app-configuration.json

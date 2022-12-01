@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import store from "Renderer/store"
+import store from "App/__deprecated__/renderer/store"
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
 import {
   setCacheState,
@@ -13,9 +13,9 @@ import {
 import { IpcEvent } from "App/data-sync/constants"
 
 const dataRestored = (): void => {
-  store.dispatch(setCacheState())
-  store.dispatch(readAllIndexes())
-  store.dispatch(setDataSyncInitialized())
+  void store.dispatch(setCacheState())
+  void store.dispatch(readAllIndexes())
+  void store.dispatch(setDataSyncInitialized())
 }
 
 export const registerCacheDataListener = (): (() => void) => {

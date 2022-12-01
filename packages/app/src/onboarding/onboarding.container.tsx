@@ -4,18 +4,26 @@
  */
 
 import { connect } from "react-redux"
-import { RootModel } from "Renderer/models/models"
-import { TmpDispatch } from "Renderer/store"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import {
+  TmpDispatch,
+  ReduxRootState,
+  RootState,
+} from "App/__deprecated__/renderer/store"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { useHistory } from "react-router"
-import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_ONBOARDING,
+} from "App/__deprecated__/renderer/constants/urls"
 import OnboardingWelcome from "App/onboarding/components/onboarding-welcome.component"
 import React from "react"
 
-const mapStateToProps = (state: RootModel) => {
+const mapStateToProps = (state: ReduxRootState & RootState) => {
   return state.settings
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
 const mapDispatchToProps = (dispatch: TmpDispatch) => dispatch.settings
 
 const Onboarding: FunctionComponent = () => {

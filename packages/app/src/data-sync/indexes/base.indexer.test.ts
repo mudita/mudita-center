@@ -21,6 +21,8 @@ beforeEach(() => {
 })
 
 describe("`BaseIndexer`", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`getData` execution works properly", async () => {
     vol.fromJSON(json, "/")
     const indexer = new Indexer(new FileSystemService())
@@ -30,6 +32,8 @@ describe("`BaseIndexer`", () => {
     ).not.toBeUndefined()
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`getData` returns `null` if file doesn't exists", async () => {
     vol.fromJSON(json, "/")
     const indexer = new Indexer(new FileSystemService())

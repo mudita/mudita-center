@@ -3,39 +3,38 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import { PaginationBody } from "App/device/types/mudita-os"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"
-import Messages from "App/messages/components/messages/messages.component"
-import {
-  rowMessages,
-  rowThreads,
-} from "Renderer/components/core/table/table.fake-data"
-import AttachContactModal from "App/messages/components/attach-contact-modal.component"
-import {
-  ModalBackdrop,
-  ModalWrapper,
-} from "Renderer/components/core/modal/modal.styled.elements"
 import {
   Contact,
   ContactCategory,
 } from "App/contacts/reducers/contacts.interface"
+import Messages from "App/messages/components/messages/messages.component"
+import { ResultState } from "App/messages/constants"
 import {
   Receiver,
   ReceiverIdentification,
-  ResultState,
 } from "App/messages/reducers/messages.interface"
-import { action } from "@storybook/addon-actions"
-import history from "Renderer/routes/history"
+import {
+  rowMessages,
+  rowThreads,
+} from "App/__deprecated__/renderer/components/core/table/table.fake-data"
+import history from "App/__deprecated__/renderer/routes/history"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import React from "react"
 import { Router } from "react-router"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { PaginationBody } from "@mudita/pure"
+import { State } from "App/core/constants"
 
-const promiseAction =
-  (msg: string): ((...args: any[]) => Promise<any>) =>
-  (...args) => {
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const promiseAction = (msg: string): ((...args: any[]) => Promise<any>) => {
+  return (...args) => {
     action(msg)(...args)
     return Promise.resolve()
   }
+}
 
 const receivers: Receiver[] = [
   {
@@ -145,48 +144,35 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         language={"en"}
         threads={rowThreads}
         searchValue={""}
-        attachContactList={attachContactListData}
-        attachContactFlatList={attachContactFlatListData}
         getContact={getContact}
-        getMessagesByThreadId={getMessagesByThreadId}
+        getActiveMessagesByThreadIdSelector={getMessagesByThreadId}
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
         isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
         addNewMessage={promiseAction("Add New Message")}
-        getContactByPhoneNumber={jest.fn()}
-        getReceiver={jest.fn()}
+        getContactByPhoneNumber={noop}
+        getReceiver={noop}
         receivers={receivers}
         loadThreads={loadData}
         threadsState={ResultState.Loaded}
         messageLayoutNotifications={[]}
-        removeLayoutNotification={jest.fn()}
-        deletingState={null}
-        hideDeleteModal={jest.fn()}
+        removeLayoutNotification={noop}
+        currentlyDeletingMessageId={null}
+        deleteMessage={noop}
+        resendMessage={jest.fn()}
+        getThreadDraftMessageSelector={jest.fn()}
+        updateMessage={jest.fn()}
+        templates={[]}
+        error={null}
+        selectedItems={{
+          rows: [],
+        }}
+        toggleItem={jest.fn()}
+        selectAllItems={jest.fn()}
+        resetItems={jest.fn()}
+        searchMessages={jest.fn()}
+        searchResult={{}}
+        state={State.Initial}
       />
     </div>
   </Router>
 ))
-
-storiesOf("Views|Messages/Modals", module)
-  .add("Attach contact", () => {
-    return (
-      <div style={{ maxWidth: "97.5rem" }}>
-        <ModalWrapper>
-          <AttachContactModal
-            contactList={attachContactListData}
-            contactFlatList={attachContactFlatListData}
-          />
-        </ModalWrapper>
-        <ModalBackdrop />
-      </div>
-    )
-  })
-  .add("Attach contact - empty list", () => {
-    return (
-      <div style={{ maxWidth: "97.5rem" }}>
-        <ModalWrapper>
-          <AttachContactModal contactList={[]} contactFlatList={[]} />
-        </ModalWrapper>
-        <ModalBackdrop />
-      </div>
-    )
-  })

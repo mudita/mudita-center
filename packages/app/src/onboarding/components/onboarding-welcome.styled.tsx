@@ -4,8 +4,8 @@
  */
 
 import styled from "styled-components"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
-import ButtonComponent from "Renderer/components/core/button/button.component"
+import { fontWeight } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 
 export const OnboardingWrapper = styled.section`
   display: grid;

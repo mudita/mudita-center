@@ -9,6 +9,8 @@ import { ControllerInitializer } from "./controller.initializer"
 
 @Controller("fake-controller")
 class FakeController {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent("event")
   public async fakeEventHandler(): Promise<string> {
     return "hello world"

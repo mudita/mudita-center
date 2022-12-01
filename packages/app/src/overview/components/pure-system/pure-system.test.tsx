@@ -5,8 +5,8 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { intl } from "Renderer/utils/intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import PureSystem from "App/overview/components/pure-system/pure-system.component"
 import { PureSystemTestIds } from "App/overview/components/pure-system//pure-system-test-ids.enum"
 

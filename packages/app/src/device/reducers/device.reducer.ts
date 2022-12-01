@@ -4,12 +4,12 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import {
   rejectedAction,
   pendingAction,
   fulfilledAction,
-} from "App/renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 import {
   DeviceEvent,
   ConnectionState,
@@ -30,7 +30,10 @@ import {
   SetUpdateStateAction,
   OsUpdateRejectedAction,
   SetConnectionStateAction,
+  LoadStorageInfoAction,
+  LoadStorageInfoRejectedAction,
 } from "App/device/reducers/device.interface"
+import { setAgreementStatus } from "App/device/actions/base.action"
 
 export const initialState: DeviceState = {
   deviceType: null,
@@ -39,6 +42,7 @@ export const initialState: DeviceState = {
     connected: false,
     unlocked: null,
     loaded: false,
+    agreementAccepted: true,
   },
   state: ConnectionState.Empty,
   updatingState: null,
@@ -304,5 +308,36 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
+
+      .addCase(
+        fulfilledAction(DeviceEvent.LoadStorageInfo),
+        (state, action: LoadStorageInfoAction) => {
+          return {
+            ...state,
+            data: {
+              ...state.data,
+              memorySpace: {
+                usedUserSpace: action.payload.usedUserSpace,
+                reservedSpace: action.payload.reservedSpace,
+                total: action.payload.totalSpace,
+              },
+            },
+          }
+        }
+      )
+      .addCase(
+        rejectedAction(DeviceEvent.LoadStorageInfo),
+        (state, action: LoadStorageInfoRejectedAction) => {
+          return {
+            ...state,
+            state: ConnectionState.Error,
+            error: action.payload,
+          }
+        }
+      )
+
+      .addCase(setAgreementStatus, (state, action) => {
+        state.status.agreementAccepted = action.payload
+      })
   }
 )

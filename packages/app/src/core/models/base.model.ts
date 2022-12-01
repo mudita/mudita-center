@@ -4,11 +4,11 @@
  */
 
 import { Index, SerialisedIndexData } from "elasticlunr"
-import { EventEmitter } from "events"
-import { IndexStorage } from "App/index-storage/types"
+import { ModelError, ModelEvent } from "App/core/constants"
+import { AppError } from "App/core/errors"
 import { DataIndex } from "App/index-storage/constants"
-import { IndexConnectionError } from "App/core/errors"
-import { ModelEvent } from "App/core/constants"
+import { IndexStorage } from "App/index-storage/types"
+import { EventEmitter } from "events"
 
 export class BaseModel<Type extends { id: string }> {
   private _modelName: DataIndex = "" as DataIndex
@@ -20,6 +20,8 @@ export class BaseModel<Type extends { id: string }> {
     this._modelName = value
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   get modelName() {
     return this._modelName
   }
@@ -43,8 +45,11 @@ export class BaseModel<Type extends { id: string }> {
     this.connection?.addDoc(changedData)
     const record = this.findById(data.id)
 
-    if (!skipCallbacks && record) {
+    if (record) {
       this.afterCreate(record)
+    }
+
+    if (!skipCallbacks && record) {
       this.eventEmitter.emit(ModelEvent.Created)
     }
 
@@ -57,8 +62,11 @@ export class BaseModel<Type extends { id: string }> {
     this.connection?.updateDoc(changedData)
     const record = this.findById(data.id)
 
-    if (!skipCallbacks && record) {
+    if (record) {
       this.afterUpdate(record)
+    }
+
+    if (!skipCallbacks && record) {
       this.eventEmitter.emit(ModelEvent.Updated)
     }
 
@@ -75,9 +83,9 @@ export class BaseModel<Type extends { id: string }> {
 
     this.beforeDelete(data)
     this.connection?.removeDocByRef(id)
+    this.afterDelete(data)
 
     if (!skipCallbacks) {
-      this.afterDelete(data)
       this.eventEmitter.emit(ModelEvent.Deleted)
     }
   }
@@ -86,7 +94,8 @@ export class BaseModel<Type extends { id: string }> {
     this.connection = this.index.get(this._modelName)
 
     if (!this.connection) {
-      throw new IndexConnectionError(
+      throw new AppError(
+        ModelError.IndexConnection,
         `Cannot connect to '${this._modelName}' index`
       )
     }
@@ -96,20 +105,23 @@ export class BaseModel<Type extends { id: string }> {
     return data
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public afterCreate(_data: Type): void {}
 
   public beforeUpdate(data: Type): Type {
     return data
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public afterUpdate(_data: Type): void {}
 
   public beforeDelete(data: Type): Type {
     return data
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public afterDelete(_data: Type): void {}
 }

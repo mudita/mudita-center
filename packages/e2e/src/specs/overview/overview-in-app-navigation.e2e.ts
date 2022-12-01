@@ -15,7 +15,6 @@ describe("Overview screen check", () => {
       console.log(error)
     }
   })
-
   xit("Click on Overview tab and check 'Overview' text label is displayed", async () => {
     const overviewTab = await NavigationTabs.overviewTab
     await overviewTab.waitForDisplayed()
@@ -35,7 +34,7 @@ describe("Overview screen check", () => {
     await about.waitForDisplayed({ timeout: 4000 })
     await about.click()
 
-    const sarLink = await OverviewPage.checkSARInfoLink
+    const sarLink = await OverviewPage.checkSARInformationButton
     await expect(sarLink).toBeDisplayed()
     await browser.executeAsync((done) => {
       setTimeout(done, 2000)

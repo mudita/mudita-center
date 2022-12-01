@@ -4,7 +4,9 @@
  */
 
 export * from "./contact-list.selector"
+export * from "./contacts-hash.selector"
 export * from "./contacts-state.selector"
+export * from "./favourite-contacts-hash.selector"
 export * from "./flat-list.selector"
 export * from "./get-contact.selector"
 export * from "./get-contact-map.selector"
@@ -12,3 +14,4 @@ export * from "./is-contact-created.selector"
 export * from "./is-contact-created-by-phone-number.selector"
 export * from "./result-state.selector"
 export * from "./speed-dial-chosen-list.selector"
+export * from "./get-contact-by-phone-number.selector"

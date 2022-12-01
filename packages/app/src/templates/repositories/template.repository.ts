@@ -14,8 +14,8 @@ export class TemplateRepository implements Repository {
     return this.templateModel.create(template)
   }
 
-  public update(thread: TemplateDto): TemplateDto | undefined {
-    return this.templateModel.update(thread)
+  public update(template: TemplateDto): TemplateDto | undefined {
+    return this.templateModel.update(template)
   }
 
   public delete(id: TemplateDto["id"]): void {

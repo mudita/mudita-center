@@ -4,11 +4,11 @@
  */
 
 import React, { useRef, ComponentProps } from "react"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { noop } from "Renderer/utils/noop"
-import { intl } from "Renderer/utils/intl"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   ButtonsContainer,
   ButtonWrapper,
@@ -18,8 +18,8 @@ import {
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { defineMessages } from "react-intl"
 import GoogleButton from "react-google-button"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { ModalDialog } from "App/ui/components/modal-dialog"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: {

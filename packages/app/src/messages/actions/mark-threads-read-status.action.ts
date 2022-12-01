@@ -5,9 +5,9 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { toggleThreadsReadStatusRequest } from "App/messages/requests"
-import { MessagesEvent } from "App/messages/constants"
-import { MarkThreadsReadStatusError } from "App/messages/errors"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { MessagesError, MessagesEvent } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
+import { AppError } from "App/core/errors"
 
 export const markThreadsReadStatus = createAsyncThunk<
   Error | Thread[],
@@ -18,7 +18,10 @@ export const markThreadsReadStatus = createAsyncThunk<
   )
   if (error && error.data === undefined) {
     return rejectWithValue(
-      new MarkThreadsReadStatusError("Mark threads read status request failed")
+      new AppError(
+        MessagesError.MarkThreadsReadStatus,
+        "Mark threads read status request failed"
+      )
     )
   }
 

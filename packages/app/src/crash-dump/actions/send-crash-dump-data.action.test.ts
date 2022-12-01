@@ -6,33 +6,42 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
-import mockCreateFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
-import createFile from "Renderer/utils/create-file/create-file"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
+import mockCreateFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
+import createFile from "App/__deprecated__/renderer/utils/create-file/create-file"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
-import { SendingCrashDumpError } from "App/crash-dump/errors"
-import { DeviceConnectionError } from "App/device"
-import { testError } from "App/renderer/store/constants"
-import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
-import archiveFiles from "Renderer/requests/archive-files.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.request"
+import { AppError } from "App/core/errors"
+import { CrashDumpError } from "App/crash-dump/constants"
+import { DeviceError } from "App/device/constants"
+import { CrashDump } from "App/crash-dump/dto"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
 const muditaOSLogs = new File([""], "MuditaOS.log", { type: "text/html" })
 const logsFiles: File[] = [muditaOSLogs]
 
-jest.mock("Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket")
+const payload: CrashDump = {
+  description: "",
+  email: "",
+}
+
+jest.mock(
+  "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+)
 jest.mock("App/device-file-system", () => ({
   removeFile: jest.fn().mockReturnValue({
     type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
     payload: crashDumpsMock,
   }),
 }))
-jest.mock("Renderer/utils/create-file/create-file")
+jest.mock("App/__deprecated__/renderer/utils/create-file/create-file")
 jest.mock("App/contact-support/helpers/downloading-logs", () => ({
   downloadingLogs: jest.fn().mockReturnValue(logsFiles),
 }))
-jest.mock("Renderer/requests/archive-files.request")
+jest.mock("App/__deprecated__/renderer/requests/archive-files.request")
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -50,11 +59,15 @@ describe("when Crash dumps doesn't downloaded", () => {
 
     const {
       meta: { requestId },
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
-      sendCrashDumpData.fulfilled(undefined, requestId),
+      sendCrashDumpData.pending(requestId, payload),
+      sendCrashDumpData.fulfilled(undefined, requestId, payload),
     ])
 
     expect(createFile).not.toHaveBeenCalled()
@@ -62,11 +75,11 @@ describe("when Crash dumps doesn't downloaded", () => {
 })
 
 describe("when Crash dumps downloaded", () => {
-  test("fire async `sendCrashDumpData` action and execute `rejected` event if serialNumber is equal to undefined", async () => {
+  test("fire async `sendCrashDumpData` action and execute `rejected` event if batteryLevel is equal to undefined", async () => {
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
-          serialNumber: undefined,
+          batteryLevel: undefined,
         },
       },
       crashDump: {
@@ -75,15 +88,22 @@ describe("when Crash dumps downloaded", () => {
         },
       },
     })
-    const errorMock = new DeviceConnectionError("Device isn't connected")
+    const errorMock = new AppError(
+      DeviceError.Connection,
+      "Device isn't connected"
+    )
 
     const {
       meta: { requestId },
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
-      sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
+      sendCrashDumpData.pending(requestId, payload),
+      sendCrashDumpData.rejected(testError, requestId, payload, errorMock),
     ])
 
     expect(createFile).not.toHaveBeenCalled()
@@ -103,6 +123,7 @@ describe("when Crash dumps downloaded", () => {
       device: {
         data: {
           serialNumber: "1234567890",
+          batteryLevel: 50,
         },
       },
       crashDump: {
@@ -115,19 +136,19 @@ describe("when Crash dumps downloaded", () => {
 
     const {
       meta: { requestId },
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
+      sendCrashDumpData.pending(requestId, payload),
       {
         payload: undefined,
         type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
       },
-      {
-        payload: undefined,
-        type: "RESET_CRASH_DUMP",
-      },
-      sendCrashDumpData.fulfilled(undefined, requestId),
+      sendCrashDumpData.fulfilled(undefined, requestId, payload),
     ])
 
     expect(createFile).toHaveBeenCalledWith(crashDumpsMock[0])
@@ -138,7 +159,7 @@ describe("when Crash dumps downloaded", () => {
 describe("when `createFreshdeskTicket` returns `error` status", () => {
   test("fire async `sendCrashDumpData` action and execute `rejected` event", async () => {
     ;(createFile as jest.Mock).mockReturnValue(
-      new File([new Buffer("hello world")], "hello.world")
+      new File([Buffer.from("hello world")], "hello.world")
     )
     ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from(""))
     ;(createFreshdeskTicket as jest.Mock).mockReturnValue(Promise.reject())
@@ -147,6 +168,7 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
       device: {
         data: {
           serialNumber: "1234567890",
+          batteryLevel: 50,
         },
       },
       crashDump: {
@@ -157,16 +179,21 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
       },
     })
 
-    const errorMock = new SendingCrashDumpError(
+    const errorMock = new AppError(
+      CrashDumpError.Sending,
       "The error happened during crash dump sending process"
     )
     const {
       meta: { requestId },
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
-      sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
+      sendCrashDumpData.pending(requestId, payload),
+      sendCrashDumpData.rejected(testError, requestId, payload, errorMock),
     ])
     expect(createFile).toHaveBeenCalled()
     expect(createFreshdeskTicket).toHaveBeenCalled()
@@ -181,6 +208,7 @@ describe("when logs downloaded", () => {
       device: {
         data: {
           serialNumber: "1234567890",
+          batteryLevel: 50,
         },
       },
       crashDump: {
@@ -191,20 +219,76 @@ describe("when logs downloaded", () => {
       },
     })
 
-    const errorMock = new SendingCrashDumpError(
+    const errorMock = new AppError(
+      CrashDumpError.Sending,
       "Create Crash Dump Ticket - ArchiveFiles error"
     )
 
     const {
       meta: { requestId },
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
-      sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
+      sendCrashDumpData.pending(requestId, payload),
+      sendCrashDumpData.rejected(testError, requestId, payload, errorMock),
     ])
 
     expect(createFile).not.toHaveBeenCalled()
     expect(createFreshdeskTicket).not.toHaveBeenCalled()
+  })
+})
+
+describe("when serialNumber is undefined", () => {
+  test("freshdesk ticket contains info about unknown serial number", async () => {
+    ;(createFile as jest.Mock).mockReturnValue(
+      new File([new Buffer("hello world")], "hello.world")
+    )
+    ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from("hello world"))
+    ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
+      mockCreateFreshdeskTicket(data)
+    )
+
+    const mockStore = createMockStore([thunk])({
+      device: {
+        data: {
+          serialNumber: undefined,
+          batteryLevel: 50,
+        },
+      },
+      crashDump: {
+        data: {
+          files: crashDumpsMock,
+          downloadedFiles: crashDumpsMock,
+        },
+      },
+    })
+
+    const {
+      meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
+
+    expect(mockStore.getActions()).toEqual([
+      sendCrashDumpData.pending(requestId, payload),
+      {
+        payload: undefined,
+        type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
+      },
+      sendCrashDumpData.fulfilled(undefined, requestId, payload),
+    ])
+
+    expect(createFile).toHaveBeenCalledWith(crashDumpsMock[0])
+    expect(createFreshdeskTicket).toHaveBeenCalledWith(
+      expect.objectContaining({
+        serialNumber: "Unknown serial number",
+      })
+    )
   })
 })

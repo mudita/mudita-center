@@ -1,0 +1,277 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  padding: 0.1rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c1:hover {
+  background: #000000;
+}
+
+.c1 p {
+  color: #ffffff;
+}
+
+.c1 g path {
+  fill: #ffffff;
+}
+
+.c0 {
+  position: relative;
+  z-index: 2;
+}
+
+.c0 svg path {
+  fill: textColor("primary");
+}
+
+<div>
+  <div
+    class="c0"
+  >
+    <button
+      class="c1"
+      size="1"
+      type="button"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders dropdown 1`] = `
+.c2 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2.8rem;
+  width: 2.8rem;
+  position: relative;
+  font-style: normal;
+}
+
+.c6 svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  padding: 0.1rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 2.4rem;
+  padding: 0;
+  border: none;
+  opacity: 0.8;
+  width: 100%;
+}
+
+.c5 p {
+  color: #000000;
+}
+
+.c5 g path {
+  fill: #000000;
+}
+
+.c5:hover {
+  opacity: 1;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  padding: 0.1rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c1:hover {
+  background: #000000;
+}
+
+.c1 p {
+  color: #ffffff;
+}
+
+.c1 g path {
+  fill: #ffffff;
+}
+
+.c7 {
+  margin-right: 0.4rem;
+}
+
+.c3 {
+  white-space: nowrap;
+}
+
+.c0 {
+  position: relative;
+  z-index: 3;
+}
+
+.c0 svg path {
+  fill: textColor("primary");
+}
+
+.c4 {
+  position: absolute;
+  list-style-type: none;
+  padding: 1.4rem 0;
+  background-color: #ffffff;
+  border-radius: 0.2rem 0.2rem;
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(0,0,0,0.08);
+  min-width: 17rem;
+  pointer-events: auto;
+  opacity: 1;
+  right: 0;
+  top: 100%;
+  margin-top: 1rem;
+}
+
+<div>
+  <div
+    class="c0"
+  >
+    <button
+      class="c1"
+      size="1"
+      type="button"
+    >
+      <p
+        class="c2 c3"
+        color="primary"
+      >
+        Example
+      </p>
+    </button>
+    <ul
+      class="c4"
+      data-testid="dropdown"
+    >
+      <a
+        class="c5"
+        href="http://www.google.pl"
+        size="1"
+        target="_blank"
+      >
+        <span
+          class="c6 c7"
+          data-testid="icon-Upload"
+          height="2.8"
+          width="2.8"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </span>
+        <p
+          class="c2 c3"
+          color="primary"
+        >
+          I open Google in new tab
+        </p>
+      </a>
+    </ul>
+  </div>
+</div>
+`;

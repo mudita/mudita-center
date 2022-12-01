@@ -4,9 +4,10 @@
  */
 
 import { createSelector, OutputSelector } from "reselect"
-import { MessagesState, ResultState } from "App/messages/reducers"
+import { MessagesState } from "App/messages/reducers"
+import { ResultState } from "App/messages/constants"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const getMessagesStateByThreadIdSelector = (
   threadId: string
@@ -17,7 +18,7 @@ export const getMessagesStateByThreadIdSelector = (
 > => {
   return createSelector<ReduxRootState, MessagesState, ResultState>(
     messagesStateSelector,
-    ({ messagesStateMap }) => {
+    ({ data: { messagesStateMap } }) => {
       return messagesStateMap[threadId] ?? ResultState.Empty
     }
   )

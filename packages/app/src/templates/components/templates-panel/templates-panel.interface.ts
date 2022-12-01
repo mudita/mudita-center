@@ -6,4 +6,9 @@
 export interface TemplatesPanelProps {
   onAddNewTemplate: () => void
   disabled: boolean
+  toggleAll: () => void
+  resetRows: () => void
+  onDeleteClick: () => void
+  selectedTemplates: string[]
+  allItemsSelected: boolean
 }

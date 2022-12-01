@@ -5,18 +5,19 @@
 
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType } from "App/device/constants"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
-import { getConnectedDevice } from "./get-connected-device.action"
-import { DeviceConnectionError } from "App/device/errors"
-import connectDeviceRequest from "Renderer/requests/connect-device.request"
-import { testError } from "App/renderer/store/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
+import { getConnectedDevice } from "App/device/actions/get-connected-device.action"
+import { connectDeviceRequest } from "App/device/requests/connect-device.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import { AppError } from "App/core/errors"
+import { Result } from "App/core/builder"
+import { DeviceError } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
-jest.mock("Renderer/requests/connect-device.request")
+jest.mock("App/device/requests/connect-device.request")
 
 jest.mock("App/device/actions/connect-device.action", () => ({
   connectDevice: jest.fn().mockReturnValue({
@@ -31,13 +32,16 @@ afterEach(() => {
 
 describe("Get Connected Device request returns `success` status without `data`", () => {
   test("fire async `getConnectedDevice` and dispatch `connectDevice` action", async () => {
-    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-    })
+    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce(Result.success(""))
 
-    const errorMock = new DeviceConnectionError("Cannot connected to device")
+    const errorMock = new AppError(
+      DeviceError.Connection,
+      "Cannot connected to device"
+    )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getConnectedDevice() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -49,15 +53,16 @@ describe("Get Connected Device request returns `success` status without `data`",
 
 describe("Get Connected Device request returns `success` status within `data`", () => {
   test("fire async `getConnectedDevice` and dispatch `connectDevice` action", async () => {
-    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-      data: {
+    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.success({
         deviceType: DeviceType.MuditaPure,
-      },
-    })
+      })
+    )
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getConnectedDevice() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -75,12 +80,17 @@ describe("Get Connected Device request returns `success` status within `data`", 
 
 describe("Get Connected Device request returns `error` status", () => {
   test("fire async `getConnectedDevice` action and execute `rejected` event", async () => {
-    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Error,
-    })
-    const errorMock = new DeviceConnectionError("Cannot connected to device")
+    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.failed(new AppError("", ""))
+    )
+    const errorMock = new AppError(
+      DeviceError.Connection,
+      "Cannot connected to device"
+    )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getConnectedDevice() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

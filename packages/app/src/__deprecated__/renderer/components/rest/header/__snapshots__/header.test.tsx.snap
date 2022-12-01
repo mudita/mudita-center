@@ -1,0 +1,271 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot with tabs 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c8 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c0 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: #ffffff;
+  border-bottom: 0.1rem solid #d2d6db;
+}
+
+.c2 {
+  margin: 1.6rem 0 1.5rem 3.2rem;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2.4rem;
+  width: 2.4rem;
+  position: relative;
+  font-style: normal;
+}
+
+.c6 svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  padding: 0.1rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: "auto";
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 0.8rem 0;
+  border: none;
+  position: relative;
+}
+
+.c4:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0.2rem;
+  background-color: #000000;
+  -webkit-transition: width 500ms ease;
+  transition: width 500ms ease;
+}
+
+.c4 p {
+  color: #6a6a6a;
+}
+
+.c4 svg {
+  opacity: 0.75;
+}
+
+.c4:hover p {
+  color: #3b3f42;
+}
+
+.c4:hover g path {
+  fill: #3b3f42;
+}
+
+.c4.active p {
+  color: #000000;
+}
+
+.c4.active g path {
+  fill: #000000;
+}
+
+.c4.active:after {
+  width: 100%;
+}
+
+.c7 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c9 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c5:not(:last-child) {
+  margin-right: 4rem;
+}
+
+<div
+  class="c0"
+>
+  <h4
+    class="c1 c2"
+    color="primary"
+    data-testid="location"
+  >
+    [value] module.phone
+  </h4>
+  <div
+    class="c3"
+  >
+    <a
+      aria-current="page"
+      class="c4 c5 active"
+      displaystyle="8"
+      href="/phone"
+      size="3"
+    >
+      <span
+        class="c6 c7"
+        data-testid="icon-Calls"
+        height="2.4"
+        width="2.4"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </span>
+      <p
+        class="c8 c9"
+        color="primary"
+      >
+        [value] module.phone.calls
+      </p>
+    </a>
+    <a
+      class="c4 c5"
+      displaystyle="8"
+      href="/phone/dial"
+      size="3"
+    >
+      <span
+        class="c6 c7"
+        data-testid="icon-Dial"
+        height="2.4"
+        width="2.4"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </span>
+      <p
+        class="c8 c9"
+        color="primary"
+      >
+        [value] module.dial
+      </p>
+    </a>
+  </div>
+</div>
+`;
+
+exports[`matches snapshot without tabs 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+.c0 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: #ffffff;
+  border-bottom: 0.1rem solid #d2d6db;
+}
+
+.c2 {
+  margin: 1.6rem 0 1.5rem 3.2rem;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+<div
+  class="c0"
+>
+  <h4
+    class="c1 c2"
+    color="primary"
+    data-testid="location"
+  >
+    [value] module.overview
+  </h4>
+  <div
+    class="c3"
+  />
+</div>
+`;

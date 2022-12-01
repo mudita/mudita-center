@@ -5,12 +5,12 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
-import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"
-import { DeviceFileSystem } from "App/backend/adapters/device-file-system/device-file-system.adapter"
-import { AppLogger } from "App/main/utils/logger"
+import { getSettingsService } from "App/settings/containers/settings.container"
+import { DeviceFileSystemService } from "App/device-file-system/services"
+import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { CrashDumpController } from "App/crash-dump/controllers"
@@ -41,25 +41,25 @@ export class CrashDumpModule extends BaseModule {
       fileSystem
     )
 
-    const appSettingsService = getAppSettingsService()
+    const settingsService = getSettingsService()
 
-    if (appSettingsService === undefined) {
-      throw new Error("Initialize `AppSettingsService` before get it")
+    if (settingsService === undefined) {
+      throw new Error("Initialize `SettingsService` before get it")
     }
 
     this.crashDumpService = new CrashDumpService(
       this.deviceService,
-      new DeviceFileSystem(this.deviceService)
+      new DeviceFileSystemService(this.deviceService)
     )
     this.crashDumpController = new CrashDumpController(
       this.crashDumpService,
-      appSettingsService
+      settingsService
     )
     this.crashDumpObserver = new CrashDumpObserver(
       this.ipc,
       this.deviceService,
       this.crashDumpService,
-      appSettingsService
+      settingsService
     )
 
     this.controllers = [this.crashDumpController]

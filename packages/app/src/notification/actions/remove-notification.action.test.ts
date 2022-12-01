@@ -13,7 +13,8 @@ import {
   NotificationResourceType,
 } from "App/notification/constants"
 import { Notification } from "App/notification/types"
-import { Message, MessageType } from "App/messages/reducers"
+import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { removeNotification } from "./remove-notification.action"
 
 const message: Message = {
@@ -41,6 +42,8 @@ const mockStore = createMockStore([thunk])({
 })
 
 test("fire `removeNotification` action dispatch NotificationEvent.RemoveEvent event", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await mockStore.dispatch(removeNotification("1234") as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([

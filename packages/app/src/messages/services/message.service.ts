@@ -4,32 +4,31 @@
  */
 
 import {
-  Message,
-  NewMessage,
-  Thread,
-} from "App/messages/reducers/messages.interface"
-import DeviceService from "Backend/device-service"
-import {
   Endpoint,
-  GetMessagesBody as PureGetMessagesBody,
-  Message as PureMessage,
+  Method,
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
-  Method,
+} from "App/device/constants"
+import {
+  GetMessagesRequestConfig as PureGetMessagesBody,
+  Message as PureMessage,
   PaginationBody,
-} from "@mudita/pure"
+} from "App/device/types/mudita-os"
+import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import {
   RequestResponse,
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
+import { Message, NewMessage, Thread } from "App/messages/dto"
 import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { MessageRepository } from "App/messages/repositories"
 import { ThreadService } from "App/messages/services/thread.service"
-import { splitMessageByBytesSize } from "../helpers"
+import DeviceService from "App/__deprecated__/backend/device-service"
+import { mapToRawNumber, splitMessageByBytesSize } from "../helpers"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
@@ -48,7 +47,8 @@ export interface CreateMessageDataResponse {
 export class MessageService {
   constructor(
     private deviceService: DeviceService,
-    private threadService: ThreadService
+    private threadService: ThreadService,
+    private messageRepository: MessageRepository
   ) {}
 
   private MESSAGE_MAX_SIZE_IN_BYTES = 469
@@ -82,7 +82,7 @@ export class MessageService {
   public async getMessages(
     pagination: PaginationBody
   ): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
-    const body: PureGetMessagesBody = {
+    const body: PureGetMessagesBody["body"] = {
       category: PureMessagesCategory.message,
       ...pagination,
     }
@@ -98,7 +98,11 @@ export class MessageService {
         status: RequestResponseStatus.Ok,
         data: {
           data: response.data.entries
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             .filter(MessageService.isAcceptablePureMessageType)
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             .map(MessagePresenter.mapToMessage),
           nextPage: response.data.nextPage,
         },
@@ -125,6 +129,7 @@ export class MessageService {
     for (const message of messages) {
       const result = await this.createSingleMessage({
         ...newMessage,
+        phoneNumber: mapToRawNumber(newMessage.phoneNumber),
         content: message,
       })
 
@@ -161,7 +166,7 @@ export class MessageService {
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessagePartDataResponse>> {
     const { data } = await this.deviceService.request({
-      body: MessagePresenter.mapToPureMessageMessagesBody(newMessage),
+      body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
       endpoint: Endpoint.Messages,
       method: Method.Post,
     })
@@ -206,6 +211,89 @@ export class MessageService {
     }
   }
 
+  public async deleteMessage(
+    messageId: string
+  ): Promise<RequestResponse<undefined>> {
+    const message = this.messageRepository.findById(messageId)
+
+    if (!message) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete message: Message not found",
+        },
+      }
+    }
+
+    const result = await this.deviceService.request({
+      body: {
+        category: PureMessagesCategory.message,
+        messageID: Number(messageId),
+      },
+      endpoint: Endpoint.Messages,
+      method: Method.Delete,
+    })
+
+    if (!isResponseSuccess(result)) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete message: Something went wrong",
+        },
+      }
+    }
+
+    this.messageRepository.delete(messageId)
+
+    const refreshThreadResult = await this.threadService.refreshThread(
+      message.threadId
+    )
+
+    if (!isResponseSuccess(refreshThreadResult)) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Refresh message: Something went wrong",
+        },
+      }
+    }
+
+    return {
+      status: RequestResponseStatus.Ok,
+    }
+  }
+
+  public async resendMessage(
+    messageId: string
+  ): Promise<RequestResponse<CreateMessageDataResponse>> {
+    const message = this.messageRepository.findById(messageId)
+
+    if (!message) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Message not fond in internal database",
+        },
+      }
+    }
+
+    const result = await this.createMessage({
+      phoneNumber: message.phoneNumber,
+      content: message.content,
+      threadId: message.threadId,
+    })
+
+    return result
+  }
+
+  public async updateMessage(message: Message): Promise<RequestResponse> {
+    return this.deviceService.request({
+      body: MessagePresenter.mapToUpdatePureMessagesBody(message),
+      endpoint: Endpoint.Messages,
+      method: Method.Put,
+    })
+  }
+
   static isAcceptablePureMessageType(
     pureMessage?: PureMessage
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
@@ -216,7 +304,8 @@ export class MessageService {
       pureMessage.messageType === PureMessageType.FAILED ||
       pureMessage.messageType === PureMessageType.QUEUED ||
       pureMessage.messageType === PureMessageType.INBOX ||
-      pureMessage.messageType === PureMessageType.OUTBOX
+      pureMessage.messageType === PureMessageType.OUTBOX ||
+      pureMessage.messageType === PureMessageType.DRAFT
     )
   }
 }

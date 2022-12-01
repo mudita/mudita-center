@@ -4,10 +4,12 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
+import DeviceService, {
+  DeviceServiceEventName,
+} from "App/__deprecated__/backend/device-service"
 import { CrashDumpObserver } from "App/crash-dump/observers/crash-dump.observer"
 import { CrashDumpService } from "App/crash-dump/services"
-import { AppSettingsService } from "App/app-settings/services"
+import { SettingsService } from "App/settings/services"
 import { ipcMain } from "electron-better-ipc"
 import { IpcCrashDumpRenderedEvent } from "App/crash-dump/constants"
 
@@ -25,7 +27,7 @@ describe("Crash Dump Observer: observe", () => {
       let subject: CrashDumpObserver
       let eventEmitterMock: EventEmitter
       let crashDumpService: CrashDumpService
-      let appSettingsService: AppSettingsService
+      let settingsService: SettingsService
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
@@ -37,33 +39,43 @@ describe("Crash Dump Observer: observe", () => {
         crashDumpService = {
           getDeviceCrashDumpFiles: jest.fn().mockReturnValue({ data: [] }),
         } as unknown as CrashDumpService
-        appSettingsService = {
-          getAppSettings: jest.fn().mockReturnValue({
+        settingsService = {
+          getSettings: jest.fn().mockReturnValue({
             ignoredCrashDumps: [],
           }),
-        } as unknown as AppSettingsService
+        } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
           deviceService,
           crashDumpService,
-          appSettingsService
+          settingsService
         )
       })
 
       test("calls `getDeviceCrashDumpFiles` and `getAppSettings` methods", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(0)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
         eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
-        expect(appSettingsService.getAppSettings).toHaveBeenCalled()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(settingsService.getSettings).toHaveBeenCalled()
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists
         )
@@ -74,7 +86,7 @@ describe("Crash Dump Observer: observe", () => {
       let subject: CrashDumpObserver
       let eventEmitterMock: EventEmitter
       let crashDumpService: CrashDumpService
-      let appSettingsService: AppSettingsService
+      let settingsService: SettingsService
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
@@ -88,33 +100,43 @@ describe("Crash Dump Observer: observe", () => {
             .fn()
             .mockReturnValue({ data: ["/sys/crash_dumps/crashdump.hex"] }),
         } as unknown as CrashDumpService
-        appSettingsService = {
-          getAppSettings: jest.fn().mockReturnValue({
+        settingsService = {
+          getSettings: jest.fn().mockReturnValue({
             ignoredCrashDumps: [],
           }),
-        } as unknown as AppSettingsService
+        } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
           deviceService,
           crashDumpService,
-          appSettingsService
+          settingsService
         )
       })
 
       test("emits `IpcCrashDumpRenderedEvent.CrashDumpExists` event", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(0)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
         eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
-        expect(appSettingsService.getAppSettings).toHaveBeenCalled()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(settingsService.getSettings).toHaveBeenCalled()
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists,
           ["/sys/crash_dumps/crashdump.hex"]
@@ -126,7 +148,7 @@ describe("Crash Dump Observer: observe", () => {
       let subject: CrashDumpObserver
       let eventEmitterMock: EventEmitter
       let crashDumpService: CrashDumpService
-      let appSettingsService: AppSettingsService
+      let settingsService: SettingsService
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
@@ -140,33 +162,43 @@ describe("Crash Dump Observer: observe", () => {
             .fn()
             .mockReturnValue({ data: ["/sys/crash_dumps/crashdump.hex"] }),
         } as unknown as CrashDumpService
-        appSettingsService = {
-          getAppSettings: jest.fn().mockReturnValue({
+        settingsService = {
+          getSettings: jest.fn().mockReturnValue({
             ignoredCrashDumps: ["/sys/crash_dumps/crashdump.hex"],
           }),
-        } as unknown as AppSettingsService
+        } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
           deviceService,
           crashDumpService,
-          appSettingsService
+          settingsService
         )
       })
 
       test("doesn't emits `IpcCrashDumpRenderedEvent.CrashDumpExists` event", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(0)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
         eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
-        expect(appSettingsService.getAppSettings).toHaveBeenCalled()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(settingsService.getSettings).toHaveBeenCalled()
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists,
           ["/sys/crash_dumps/crashdump.hex"]
@@ -178,7 +210,7 @@ describe("Crash Dump Observer: observe", () => {
       let subject: CrashDumpObserver
       let eventEmitterMock: EventEmitter
       let crashDumpService: CrashDumpService
-      let appSettingsService: AppSettingsService
+      let settingsService: SettingsService
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
@@ -192,24 +224,28 @@ describe("Crash Dump Observer: observe", () => {
             .fn()
             .mockReturnValue({ data: ["/sys/crash_dumps/crashdump.hex"] }),
         } as unknown as CrashDumpService
-        appSettingsService = {
-          getAppSettings: jest.fn().mockReturnValue({
+        settingsService = {
+          getSettings: jest.fn().mockReturnValue({
             ignoredCrashDumps: [],
           }),
-        } as unknown as AppSettingsService
+        } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
           deviceService,
           crashDumpService,
-          appSettingsService
+          settingsService
         )
       })
 
       test("emits `IpcCrashDumpRenderedEvent.CrashDumpExists` event only once", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(0)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
         subject.observe()
@@ -218,10 +254,16 @@ describe("Crash Dump Observer: observe", () => {
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           1
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(1)
       })
     })
