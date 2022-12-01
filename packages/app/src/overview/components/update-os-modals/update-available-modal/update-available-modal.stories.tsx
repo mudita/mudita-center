@@ -18,11 +18,11 @@ export const UpdateAvailableMultipleUpdatesModalStory: FunctionComponent =
           releases={[
             {
               version: "1.0.0",
-              date: new Date("2020-01-01 11:00"),
+              date: "2020-01-01 11:00",
             },
             {
               version: "1.0.1",
-              date: new Date("2020-01-01 11:00"),
+              date: "2020-01-01 11:00",
             },
           ]}
           onDownload={action("Close Update Available Modal")}
@@ -40,7 +40,7 @@ export const UpdateAvailableSingleUpdatesModalStory: FunctionComponent = () => {
         releases={[
           {
             version: "1.0.0",
-            date: new Date("2020-01-01 11:00"),
+            date: "2020-01-01 11:00",
           },
         ]}
         onDownload={action("Close Update Available Modal")}

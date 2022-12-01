@@ -10,7 +10,7 @@ import { ReleaseService } from "App/update/services/releases.service"
 import { ReleaseManifest } from "App/update/dto"
 import {
   Product,
-  ReleaseType,
+  OsReleaseType,
   UpdateErrorServiceErrors,
 } from "App/update/constants"
 
@@ -30,6 +30,7 @@ const productionReleaseManifest: ReleaseManifest = {
     size: 156928000,
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
+  mandatoryVersions: ["1.2.2"],
 }
 
 const candidateReleaseManifest: ReleaseManifest = {
@@ -41,6 +42,7 @@ const candidateReleaseManifest: ReleaseManifest = {
     size: 156928000,
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
+  mandatoryVersions: [""],
 }
 
 const dailyReleaseManifest: ReleaseManifest = {
@@ -52,13 +54,14 @@ const dailyReleaseManifest: ReleaseManifest = {
     size: 156928000,
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
+  mandatoryVersions: [""],
 }
 
-describe("Method: `getAllReleases`", () => {
-  afterEach(() => {
-    executionCount = 0
-  })
+afterEach(() => {
+  executionCount = 0
+})
 
+describe("Method: `getAllReleases`", () => {
   test("returns Result.success with formatted releases if each release request returns data", async () => {
     clientMock.getLatestRelease = jest.fn().mockImplementation(() => {
       executionCount++
@@ -76,16 +79,16 @@ describe("Method: `getAllReleases`", () => {
       Result.success([
         {
           ...productionReleaseManifest,
-          type: ReleaseType.Production,
+          type: OsReleaseType.Production,
         },
         {
           ...candidateReleaseManifest,
-          type: ReleaseType.Candidate,
+          type: OsReleaseType.Candidate,
         },
         {
           ...dailyReleaseManifest,
           version: "1.2.3-daily.2022.8.12",
-          type: ReleaseType.Daily,
+          type: OsReleaseType.Daily,
         },
       ])
     )
@@ -120,7 +123,7 @@ describe("Method: `getRelease`", () => {
     expect(result).toEqual(
       Result.success({
         ...productionReleaseManifest,
-        type: ReleaseType.Production,
+        type: OsReleaseType.Production,
       })
     )
   })
@@ -137,6 +140,69 @@ describe("Method: `getRelease`", () => {
         new AppError(
           UpdateErrorServiceErrors.GetAllRelease,
           "Fail during retrieving of the release"
+        )
+      )
+    )
+  })
+})
+
+describe("Method: `getReleasesByVersions`", () => {
+  test("returns Result.success with formatted releases if each release request returns data", async () => {
+    clientMock.getLatestRelease = jest.fn().mockImplementation(() => {
+      executionCount++
+
+      return [
+        {
+          data: {
+            ...productionReleaseManifest,
+            version: "1.1.0",
+          },
+        },
+        {
+          data: {
+            ...productionReleaseManifest,
+            version: "1.2.0",
+          },
+        },
+      ][executionCount - 1]
+    })
+
+    const result = await subject.getReleasesByVersions({
+      product: Product.PurePhone,
+      versions: ["1.1.0", "1.2.0"],
+    })
+
+    expect(result).toEqual(
+      Result.success([
+        {
+          ...productionReleaseManifest,
+          version: "1.1.0",
+          type: OsReleaseType.Production,
+        },
+        {
+          ...productionReleaseManifest,
+          version: "1.2.0",
+          type: OsReleaseType.Production,
+        },
+      ])
+    )
+  })
+
+  test("returns Result.failed if one of request returns error", async () => {
+    clientMock.getLatestRelease = jest
+      .fn()
+      .mockRejectedValueOnce(new Error("Luke, I'm your error"))
+
+    const result = await subject.getReleasesByVersions({
+      product: Product.PurePhone,
+      versions: ["1.1.0", "1.2.0"],
+    })
+
+    expect(result).toEqual(
+      Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.GetReleasesByVersion,
+          "Fail during retrieving of the releases"
         )
       )
     )

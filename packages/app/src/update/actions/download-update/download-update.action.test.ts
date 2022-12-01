@@ -7,8 +7,8 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { downloadUpdate } from "App/update/actions/download-update/download-update.action"
-import { Product, ReleaseType, UpdateError } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { Product, OsReleaseType, UpdateError } from "App/update/constants"
+import { OsRelease } from "App/update/dto"
 import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import * as downloadOsUpdateRequestModule from "App/update/requests/download-os-update.request"
@@ -16,7 +16,7 @@ import * as osUpdateAlreadyDownloadedCheckModule from "App/update/requests/os-up
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 
-const mockedRelease: Release = {
+const mockedRelease: OsRelease = {
   date: "2021-02-02",
   file: {
     name: "test file",
@@ -24,8 +24,9 @@ const mockedRelease: Release = {
     url: "some-url",
   },
   product: Product.PurePhone,
-  type: ReleaseType.Daily,
+  type: OsReleaseType.Daily,
   version: "123",
+  mandatoryVersions: [],
 }
 
 const params = { release: mockedRelease }

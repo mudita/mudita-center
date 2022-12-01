@@ -19,9 +19,9 @@ import RestoreDeviceFlow, {
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import isVersionGreater from "App/overview/helpers/is-version-greater"
+import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { DownloadState } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import logger from "App/__deprecated__/main/utils/logger"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -61,14 +61,14 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   checkForUpdate,
   silentCheckForUpdate,
   checkingForUpdateState,
-  releaseAvailableForUpdate,
-  downloadUpdate,
+  availableReleasesForUpdate,
   downloadingState,
   clearUpdateState,
   abortDownload,
   allReleases,
   updateOsError,
   silentUpdateCheck,
+  downloadUpdate,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -86,7 +86,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   useEffect(() => {
     try {
       setOsVersionSupported(
-        isVersionGreater(osVersion, lowestSupportedOsVersion)
+        isVersionGreaterOrEqual(osVersion, lowestSupportedOsVersion)
       )
     } catch (error) {
       logger.error(`Overview: ${(error as Error).message}`)
@@ -208,13 +208,21 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     )
   }
 
-  const updateRelease = (release?: Release) => {
-    const releaseToInstall = releaseAvailableForUpdate ?? release
+  // TODO [mw] handle sequential update - scope of CP-1686
+  const updateRelease = (release?: OsRelease) => {
+    const releaseToInstall = availableReleasesForUpdate
+      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+      : release
+
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
 
-  const downloadRelease = (release?: Release) => {
-    const releaseToDownload = releaseAvailableForUpdate ?? release
+  // TODO [mw] handle sequential download - scope of CP-1686
+  const downloadRelease = (release?: OsRelease) => {
+    const releaseToDownload = availableReleasesForUpdate
+      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+      : release
+
     releaseToDownload && downloadUpdate(releaseToDownload)
   }
 
@@ -227,7 +235,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       <UpdateOsFlow
         currentOsVersion={osVersion}
         checkForUpdateState={checkingForUpdateState}
-        releaseAvailableForUpdate={releaseAvailableForUpdate}
+        availableReleasesForUpdate={availableReleasesForUpdate}
         downloadState={downloadingState}
         clearUpdateOsFlow={clearUpdateState}
         downloadUpdate={downloadRelease}
@@ -281,7 +289,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         memorySpace={memorySpace}
         networkName={networkName}
         networkLevel={networkLevel}
-        pureOsAvailable={Boolean(releaseAvailableForUpdate)}
+        pureOsAvailable={Boolean(availableReleasesForUpdate)}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={updateRelease}

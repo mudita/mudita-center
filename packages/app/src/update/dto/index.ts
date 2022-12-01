@@ -6,3 +6,4 @@
 export * from "./release-manifest.object"
 export * from "./release.object"
 export * from "./update-os.object"
+export * from "./get-releases-by-version-input.object"

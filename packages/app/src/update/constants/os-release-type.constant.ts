@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum ReleaseSpace {
-  ProductionReleases = "latest",
-  PreReleases = "rc-latest",
-  DailyReleases = "daily-latest",
+export enum OsReleaseType {
+  Candidate = "rc",
+  Daily = "daily",
+  Production = "production",
 }

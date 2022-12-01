@@ -10,7 +10,7 @@ import { SynchronizationState } from "App/data-sync/reducers"
 import { CaseColor, DeviceType } from "App/device/constants"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 import { DownloadState, UpdateError } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 
 export interface PureOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -29,9 +29,9 @@ export interface PureOverviewProps {
   readonly syncState: SynchronizationState
   readonly serialNumber: string | undefined
   readonly checkingForUpdateState: State
-  readonly releaseAvailableForUpdate: Release | null
+  readonly availableReleasesForUpdate: OsRelease[] | null
   readonly downloadingState: DownloadState
-  readonly allReleases: Release[] | null
+  readonly allReleases: OsRelease[] | null
   readonly updateOsError: AppError<UpdateError> | null
   readonly silentUpdateCheck: boolean
   readonly updateAllIndexes: () => Promise<void>
@@ -45,7 +45,7 @@ export interface PureOverviewProps {
   readonly disconnectDevice: () => void
   readonly checkForUpdate: (deviceType: DeviceType) => void
   readonly silentCheckForUpdate: (deviceType: DeviceType) => void
-  readonly downloadUpdate: (release: Release) => void
+  readonly downloadUpdate: (release: OsRelease) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void
 }

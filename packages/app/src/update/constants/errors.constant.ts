@@ -5,6 +5,7 @@
 
 export enum UpdateErrorServiceErrors {
   GetAllRelease = "GET_ALL_RELEASES_ERROR",
+  GetReleasesByVersion = "GET_RELEASES_BY_VERSION",
   CannotGetOsVersion = "CANNOT_GET_OS_VERSION_ERROR",
   UpdateFileUpload = "UPDATE_FILE_UPLOAD_ERROR",
   UpdateCommand = "UPDATE_COMMAND_ERROR",

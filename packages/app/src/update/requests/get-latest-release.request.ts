@@ -6,10 +6,10 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
 import { IpcReleaseRequest, Product } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 
 export const getLatestReleaseRequest = async (
   product: Product
-): Promise<ResultObject<Release>> => {
+): Promise<ResultObject<OsRelease>> => {
   return ipcRenderer.callMain(IpcReleaseRequest.GetLatestRelease, product)
 }

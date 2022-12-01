@@ -5,14 +5,14 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { osUpdateAlreadyDownloadedChannel } from "App/update/requests/register-os-update-already-downloaded-checker.request"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 
 export const osUpdateAlreadyDownloadedCheck = (
-  file: Release["file"]
+  file: OsRelease["file"]
 ): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     try {
-      const data = ipcRenderer.callMain<Release["file"], boolean>(
+      const data = ipcRenderer.callMain<OsRelease["file"], boolean>(
         osUpdateAlreadyDownloadedChannel,
         file
       )

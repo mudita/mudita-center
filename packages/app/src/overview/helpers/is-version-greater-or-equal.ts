@@ -6,7 +6,7 @@
 import semver from "semver/preload"
 import isVersionMatch from "App/overview/helpers/is-version-match"
 
-const isVersionGreater = (v1: string, v2: string): boolean => {
+const isVersionGreaterOrEqual = (v1: string, v2: string): boolean => {
   if (!isVersionMatch(v1)) {
     throw new Error(`v1 argument isn't semantic version: ${v1}`)
   } else if (!isVersionMatch(v2)) {
@@ -16,4 +16,4 @@ const isVersionGreater = (v1: string, v2: string): boolean => {
   }
 }
 
-export default isVersionGreater
+export default isVersionGreaterOrEqual

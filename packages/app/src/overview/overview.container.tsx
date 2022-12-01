@@ -28,7 +28,7 @@ import {
   cancelDownload,
 } from "App/update/actions"
 import { State } from "App/core/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -50,7 +50,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
     updatingState: state.update.updateOsState,
     checkingForUpdateState: state.update.checkForUpdateState,
-    releaseAvailableForUpdate: state.update.data.releaseAvailableForUpdate,
+    availableReleasesForUpdate: state.update.data.availableReleasesForUpdate,
     downloadingState: state.update.downloadState,
     allReleases: state.update.data.allReleases,
     updateOsError: state.update.error,
@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(checkForUpdate({ deviceType, isSilentCheck: true })),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  downloadUpdate: (release: Release) => dispatch(downloadUpdate({ release })),
+  downloadUpdate: (release: OsRelease) => dispatch(downloadUpdate({ release })),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   clearUpdateState: () => dispatch(clearState()),

@@ -24,8 +24,8 @@ export const initialState: UpdateOsState = {
   silentUpdateCheck: false,
   error: null,
   data: {
-    releaseAvailableForUpdate: null,
     allReleases: null,
+    availableReleasesForUpdate: null,
   },
 }
 
@@ -51,13 +51,17 @@ export const updateOsReducer = createReducer<UpdateOsState>(
 
     builder.addCase(checkForUpdate.pending, (state, payload) => {
       state.error = null
+      state.data = {
+        allReleases: null,
+        availableReleasesForUpdate: null,
+      }
       state.silentUpdateCheck = payload.meta.arg.isSilentCheck
       state.checkForUpdateState = State.Loading
     })
     builder.addCase(checkForUpdate.fulfilled, (state, action) => {
       state.checkForUpdateState = State.Loaded
-      state.data.releaseAvailableForUpdate =
-        action.payload.releaseAvailableForUpdate
+      state.data.availableReleasesForUpdate =
+        action.payload.availableReleasesForUpdate
       state.data.allReleases = action.payload.allReleases
     })
     builder.addCase(checkForUpdate.rejected, (state, action) => {
