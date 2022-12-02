@@ -203,6 +203,12 @@ class OverviewPage extends Page {
   > {
     return $('[data-testid="device-serial-number"]')
   }
+
+  public get muditaOSVersion(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="os-version"]')
+  }
 }
 
 export default new OverviewPage()

@@ -130,12 +130,12 @@ describe("Overview screen check", () => {
     }
   })
 
-  it("Check serial number in about your Pure matches serial number displayed on overview screen", async () => {
+  xit("Check serial number in about your Pure matches serial number displayed on overview screen", async () => {
     await NavigationTabs.overviewTabClick()
 
-    const about = await OverviewPage.aboutYourPureButton
-    await about.waitForDisplayed({ timeout: 4000 })
-    await about.click()
+    const aboutYourPure = await OverviewPage.aboutYourPureButton
+    await aboutYourPure.waitForDisplayed({ timeout: 4000 })
+    await aboutYourPure.click()
 
     const serialNumberAboutYourPure =
       await OverviewPage.aboutYourPureSerialNumber
@@ -153,5 +153,19 @@ describe("Overview screen check", () => {
     expect(serialNumberAboutYourPureValue.length > 13)
     expect(overviewSerialNumberValue.length > 13)
     expect(serialNumberAboutYourPureValue === overviewSerialNumberValue)
+  })
+
+  it("Check MuditaOS version format", async () => {
+    await NavigationTabs.overviewTabClick()
+
+    const MuditaOSVer = await OverviewPage.muditaOSVersion
+    await MuditaOSVer.waitForDisplayed({ timeout: 4000 })
+    const muditaOSVersion = await MuditaOSVer.getText()
+    console.log(
+      "checking if MuditaOS version (" +
+        muditaOSVersion +
+        ") matches the format: MuditaOS \\d.\\d.\\d"
+    )
+    expect(/MuditaOS \d.\d.\d/.test(muditaOSVersion)).toBeTruthy()
   })
 })
