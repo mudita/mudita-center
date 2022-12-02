@@ -31,7 +31,7 @@ export class MessagePresenter {
   }
 
   public serializeToObject(data: MessageInput): MessageObject[] {
-    if (!data.sms || !data.contact_number) {
+    if (!data.sms || !data.contact_number || !data.threads) {
       return []
     }
 

@@ -51,6 +51,11 @@ export class DeviceConnectionObserver implements Observer {
           return
         }
 
+        if (this.keyStorage.getValue(MetadataKey.BackupInProgress)) {
+          await this.ipc.sendToRenderers(IpcEvent.DataSkipped)
+          return
+        }
+
         try {
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/await-thenable

@@ -63,8 +63,8 @@ export class BaseBackupService {
 
     const result = JSON.parse(response.data.toString("utf8")) as UpdaterStatus
 
-    if (result.performed_operation === operation) {
-      if (result.operation_result === OperationStatus.Success) {
+    if (result.operation === operation) {
+      if (result.successful) {
         return Result.success(true)
       } else {
         return Result.failed(
@@ -78,7 +78,7 @@ export class BaseBackupService {
       return Result.failed(
         new AppError(
           BackupError.OperationDoesNotMatch,
-          `The operation ${operation} doesn't match to operation type ${result.performed_operation}`
+          `The operation ${operation} doesn't match to operation type ${result.message}`
         )
       )
     }
@@ -107,7 +107,6 @@ export class BaseBackupService {
   }
 
   private async waitUntilDeviceResponse(
-    firstRequest = true,
     index = 0
   ): Promise<RequestResponse> {
     if (index === this.MAX_WAKE_UP_RETRIES) {
@@ -116,28 +115,19 @@ export class BaseBackupService {
       }
     }
 
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-
-    if (isResponseSuccessWithData(response)) {
-      return { status: RequestResponseStatus.Ok }
-    }
-
-    if (!firstRequest && response.status === RequestResponseStatus.Error) {
-      return { status: RequestResponseStatus.Ok }
-    }
-
-    if (response.status === RequestResponseStatus.Error) {
-      return {
-        status: RequestResponseStatus.Error,
-      }
-    }
-
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(this.waitUntilDeviceResponse(false, ++index))
+      setTimeout(async () => {
+        const response = await this.deviceService.request({
+          endpoint: Endpoint.DeviceInfo,
+          method: Method.Get,
+        })
+
+        if (isResponseSuccessWithData(response)) {
+          resolve({ status: RequestResponseStatus.Ok })
+          return
+        }
+
+        resolve(this.waitUntilDeviceResponse(++index))
       }, this.REQUEST_TIME_OUT)
     })
   }
@@ -158,8 +148,7 @@ export class BaseBackupService {
     })
 
     if (
-      response.status === RequestResponseStatus.Ok ||
-      response.status === RequestResponseStatus.PhoneLocked
+      response.status === RequestResponseStatus.Ok
     ) {
       return {
         status: RequestResponseStatus.Ok,

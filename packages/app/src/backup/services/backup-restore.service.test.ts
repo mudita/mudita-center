@@ -34,21 +34,30 @@ const encodedBackupMock = fs.readFileSync(
 )
 
 const updaterStatusSuccessMock: UpdaterStatus = {
-  updater_version: "1.2.3",
-  performed_operation: Operation.Restore,
-  operation_result: OperationStatus.Success,
+  branch: "",
+  message: "",
+  revision: "",
+  version: "1.2.3",
+  operation: Operation.Restore,
+  successful: true,
 }
 
 const updaterStatusFailedMock: UpdaterStatus = {
-  updater_version: "1.2.3",
-  performed_operation: Operation.Restore,
-  operation_result: OperationStatus.Failed,
+  branch: "",
+  message: "",
+  revision: "",
+  version: "1.2.3",
+  operation: Operation.Restore,
+  successful: false,
 }
 
 const updaterStatusSuccessForAnotherOperationMock: UpdaterStatus = {
-  updater_version: "1.2.3",
-  performed_operation: Operation.Recovery,
-  operation_result: OperationStatus.Success,
+  branch: "",
+  message: "",
+  revision: "",
+  version: "1.2.3",
+  operation: Operation.Recovery,
+  successful: true,
 }
 
 const successResponseMock: RequestResponse = {

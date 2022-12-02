@@ -28,7 +28,7 @@ import {
   TemplatePresenter,
   ThreadPresenter,
 } from "App/data-sync/presenters"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { SyncBackupCreateService } from "App/backup/services/sync-backup-create.service"
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
@@ -36,7 +36,7 @@ export class DataSyncService {
   private threadIndexer: ThreadIndexer | null = null
   private templateIndexer: TemplateIndexer | null = null
   // TODO implement device backup service and use it instead of adapter
-  private deviceBackupService: DeviceBackup
+  private deviceBackupService: SyncBackupCreateService
 
   constructor(
     private index: IndexStorage,
@@ -44,10 +44,10 @@ export class DataSyncService {
     private keyStorage: MetadataStore,
     private fileSystemStorage: FileSystemService
   ) {
-    this.deviceBackupService = new DeviceBackup(
-      new DeviceBaseInfo(this.deviceService),
-      new DeviceBackupService(this.deviceService),
-      new DeviceFileSystem(this.deviceService)
+    this.deviceBackupService = new SyncBackupCreateService(
+      this.deviceService,
+      new DeviceFileSystem(this.deviceService),
+      this.keyStorage,
     )
 
     this.contactIndexer = new ContactIndexer(
@@ -92,17 +92,16 @@ export class DataSyncService {
     }
 
     const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
-    const { status, data } =
-      await this.deviceBackupService.downloadDeviceBackup(
+    const { ok } =
+      await this.deviceBackupService.createSyncBackup(
         {
           token,
           extract: true,
           cwd: syncFileDir,
-        },
-        BackupCategory.Sync
+        }
       )
 
-    if (status !== RequestResponseStatus.Ok || data === undefined) {
+    if (!ok) {
       return false
     }
 

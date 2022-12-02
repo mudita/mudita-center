@@ -23,9 +23,12 @@ import DeviceService from "App/__deprecated__/backend/device-service"
 import DeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 
 const updaterStatusSuccessMock: UpdaterStatus = {
-  updater_version: "1.2.3",
-  performed_operation: Operation.Backup,
-  operation_result: OperationStatus.Success,
+  branch: "",
+  message: "",
+  revision: "",
+  version: "1.2.3",
+  operation: Operation.Backup,
+  successful: true,
 }
 
 const errorResponseMock: RequestResponse = {
