@@ -3,19 +3,28 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
-import { Meta } from "@storybook/react"
-import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import { action } from "@storybook/addon-actions"
+import { Meta } from "@storybook/react"
 import { DownloadingUpdateInterruptedModal } from "App/overview/components/update-os-modals/downloading-update-interrupted-modal/downloading-update-interrupted-modal.component"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
+import React, { FunctionComponent } from "react"
 
 export const DownloadingUpdateInterruptedModalStory: FunctionComponent = () => {
+  const releases = [
+    {
+      version: "1.2.0",
+    },
+    {
+      version: "1.3.0",
+    },
+  ]
+
   return (
     <Story transparentMode>
       <DownloadingUpdateInterruptedModal
         open
-        onRetry={action("Retry Downloading Update Interrupted Modal")}
         onClose={action("Close Downloading Update Interrupted Modal")}
+        alreadyDownloadedReleases={releases}
       />
     </Story>
   )

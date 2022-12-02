@@ -115,7 +115,7 @@ const TextWrapper = styled.div<{
 
 export interface TextProps {
   readonly element?: Element
-  readonly message?: MessageInterface
+  readonly message?: MessageInterface | string
   readonly displayStyle?: TextDisplayStyle
   readonly color?: keyof Theme["color"]["text"]
   readonly onClick?: () => void
@@ -181,7 +181,12 @@ const Text: FunctionComponent<TextProps> = ({
     color={color}
     ref={textRef}
   >
-    {message ? <FormattedMessage {...message} /> : children}
+    {message && typeof message === "string" && message}
+    {message && typeof message !== "string" && (
+      <FormattedMessage {...message} />
+    )}
+
+    {!message && children}
   </TextWrapper>
 )
 

@@ -3,8 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface DownloadingUpdateCancelledModalProps {
-  open: boolean
+export interface DownloadingUpdateFailedModalProps {
+  onContactSupport: () => void
+  onGoToHelp: () => void
   onClose: () => void
+  open: boolean
   testId?: string
 }
