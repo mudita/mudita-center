@@ -111,16 +111,14 @@ describe("Method: `downloadDeviceLogs`", () => {
     deviceServiceMock.request = jest
       .fn()
       .mockResolvedValueOnce(deviceInfoSuccessResponse)
-    deviceFileSystemMock.downloadDeviceFiles = jest
-      .fn()
-      .mockResolvedValueOnce(
-        Result.success([
-          {
-            name: "log.hex",
-            data: `${firstsPartDecodeLog}${secondsPartDecodeLog}`,
-          },
-        ])
-      )
+    deviceFileSystemMock.downloadDeviceFiles = jest.fn().mockResolvedValueOnce(
+      Result.success([
+        {
+          name: "log.hex",
+          data: `${firstsPartDecodeLog}${secondsPartDecodeLog}`,
+        },
+      ])
+    )
 
     const result = await subject.downloadDeviceLogs()
 

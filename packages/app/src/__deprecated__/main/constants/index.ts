@@ -4,4 +4,3 @@
  */
 
 export * from "App/__deprecated__/main/constants/product"
-export * from "App/__deprecated__/main/constants/release-space"

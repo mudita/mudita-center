@@ -8,6 +8,7 @@ import { ipcMain } from "electron-better-ipc"
 import {
   DownloadChannel,
   DownloadFinished,
+  DownloadFinishedStatus,
   DownloadListener,
   DownloadProgress,
   DownloadStatus,
@@ -112,7 +113,9 @@ const createDownloadListenerRegistrar =
 
           item.once("done", (_, state) => {
             const finished: DownloadFinished = {
-              status: interrupted ? DownloadStatus.Interrupted : state,
+              status: interrupted
+                ? DownloadStatus.Interrupted
+                : (state as DownloadFinishedStatus),
               directory: item.savePath,
               totalBytes: item.getTotalBytes(),
             }

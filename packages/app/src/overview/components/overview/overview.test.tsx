@@ -9,7 +9,6 @@ import { Router } from "react-router"
 import { DeviceType, CaseColor } from "App/device/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "App/overview/components/overview/overview.component"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import store from "App/__deprecated__/renderer/store"
 import history from "App/__deprecated__/renderer/routes/history"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
@@ -21,6 +20,7 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { flags } from "App/feature-flags"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { DownloadState } from "App/update/constants"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -108,9 +108,7 @@ const defaultProps: Props = {
   networkLevel: 0,
   deviceType: DeviceType.MuditaPure,
   lowestSupportedOsVersion: undefined,
-  lastAvailableOsVersion: "",
   lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
-  pureOsDownloaded: false,
   setUpdateState: jest.fn(),
   startUpdateOs: jest.fn(),
   batteryLevel: 0,
@@ -119,8 +117,7 @@ const defaultProps: Props = {
   osVersion: "1.0.0",
   pureOsBackupLocation: "path/location/backup",
   serialNumber: undefined,
-  updatePhoneOsInfo: jest.fn(),
-  updatingState: UpdatingState.Standby,
+  updatingState: State.Initial,
   memorySpace: {
     reservedSpace: 100,
     usedUserSpace: 200,
@@ -129,6 +126,17 @@ const defaultProps: Props = {
   caseColour: CaseColor.Gray,
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),
+  abortDownload: jest.fn(),
+  allReleases: [],
+  checkForUpdate: jest.fn(),
+  checkingForUpdateState: State.Initial,
+  clearUpdateState: jest.fn(),
+  downloadingState: DownloadState.Initial,
+  downloadUpdate: jest.fn(),
+  availableReleasesForUpdate: null,
+  silentCheckForUpdate: jest.fn(),
+  silentUpdateCheck: false,
+  updateOsError: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {

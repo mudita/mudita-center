@@ -11,15 +11,15 @@ import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
+import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.enum"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import {
   IpcReleaseRequest,
-  ReleaseType,
-  ReleaseError,
+  OsReleaseType,
+  UpdateErrorServiceErrors,
 } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { OsRelease } from "App/update/dto"
 import { waitFor } from "@testing-library/dom"
 import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
@@ -35,18 +35,20 @@ const defaultProps: Props = {
   onHelp: jest.fn(),
   updateOs: jest.fn(),
   batteryLevel: 0.6,
+  closeModal: jest.fn(),
 }
 
-const release: Release = {
+const release: OsRelease = {
   version: "0.73.1",
   date: "2021-07-09T13:57:39Z",
   product: Product.PurePhone,
-  type: ReleaseType.Production,
+  type: OsReleaseType.Production,
   file: {
     url: "www.mudita.com/assets/39998772",
     name: "release-0.73.1",
     size: 26214400,
   },
+  mandatoryVersions: [],
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -143,7 +145,7 @@ test("failure modal is display if no is latestRelease", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcReleaseRequest.GetLatestRelease]: Result.failed(
       new AppError(
-        ReleaseError.GetAllRelease,
+        UpdateErrorServiceErrors.GetAllRelease,
         "Fail during retrieving of the release"
       )
     ),
@@ -212,7 +214,7 @@ test("failure modal is display if failure download os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcReleaseRequest.GetLatestRelease]: Result.failed(
       new AppError(
-        ReleaseError.GetAllRelease,
+        UpdateErrorServiceErrors.GetAllRelease,
         "Fail during retrieving of the release"
       )
     ),

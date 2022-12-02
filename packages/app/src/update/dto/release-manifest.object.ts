@@ -14,4 +14,5 @@ export interface ReleaseManifest {
     size: number
     name: string
   }
+  mandatoryVersions: string[]
 }
