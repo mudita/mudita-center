@@ -129,4 +129,29 @@ describe("Overview screen check", () => {
       expect(false).toBeTruthy()
     }
   })
+
+  it("Check serial number in about your Pure matches serial number displayed on overview screen", async () => {
+    await NavigationTabs.overviewTabClick()
+
+    const about = await OverviewPage.aboutYourPureButton
+    await about.waitForDisplayed({ timeout: 4000 })
+    await about.click()
+
+    const serialNumberAboutYourPure =
+      await OverviewPage.aboutYourPureSerialNumber
+    await expect(serialNumberAboutYourPure).toBeDisplayed()
+    const serialNumberAboutYourPureValue =
+      await serialNumberAboutYourPure.getText()
+
+    console.log(serialNumberAboutYourPureValue)
+
+    const backToOverview = await OverviewPage.backToOverviewButton
+    await backToOverview.click()
+
+    const overviewSerialNumber = await OverviewPage.overviewSerialNumber
+    const overviewSerialNumberValue = await overviewSerialNumber.getText()
+    expect(serialNumberAboutYourPureValue.length > 13)
+    expect(overviewSerialNumberValue.length > 13)
+    expect(serialNumberAboutYourPureValue === overviewSerialNumberValue)
+  })
 })

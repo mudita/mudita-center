@@ -191,6 +191,18 @@ class OverviewPage extends Page {
   > {
     return $('[data-testid="pure-black"]')
   }
+
+  public get aboutYourPureSerialNumber(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="serial-number-value"]')
+  }
+
+  public get overviewSerialNumber(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="device-serial-number"]')
+  }
 }
 
 export default new OverviewPage()

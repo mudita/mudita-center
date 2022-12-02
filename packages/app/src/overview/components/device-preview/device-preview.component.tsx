@@ -80,7 +80,10 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
           color="secondary"
           message={messages.serialNumber}
         />
-        <Text displayStyle={TextDisplayStyle.Paragraph1}>
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph1}
+          testId={DeviceTestIds.SerialNumber}
+        >
           {serialNumber
             ? serialNumber
             : intl.formatMessage(messages.noSerialNumberMessage)}

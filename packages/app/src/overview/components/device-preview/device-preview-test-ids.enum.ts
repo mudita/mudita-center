@@ -8,4 +8,5 @@ export enum DeviceTestIds {
   PureGray = "pure-gray",
   PureBlack = "pure-black",
   PureSystemButton = "pure-system-button",
+  SerialNumber = "device-serial-number",
 }

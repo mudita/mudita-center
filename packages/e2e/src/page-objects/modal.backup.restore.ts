@@ -39,7 +39,7 @@ class ModalBackupRestorePage extends Page {
   public get confirmModalButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="modal-action-button"]')
+    return $('[data-testid="modal-action-button"]*=Create backup')
   }
 
   public get backupPasswordFirstInput(): ChainablePromiseElement<
