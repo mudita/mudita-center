@@ -57,6 +57,7 @@ import {
   registerCurrentDeviceChangedListener,
   registerDeviceDetachedListener,
 } from "App/device-manager/listeners"
+import { registerDeviceUnlockedListener } from "App/device/listeners"
 
 interface Props {
   history: History
@@ -144,25 +145,21 @@ const RootWrapper: FunctionComponent<Props> = ({
     const dataSync = registerDataSyncListener()
     const dataCache = registerCacheDataListener()
     const outboxNotifications = registerOutboxNotificationListener()
+    const deviceUnlocked = registerDeviceUnlockedListener()
     const crashDump = registerCrashDumpExistListener()
+    const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
+    const deviceDetachedListener = registerDeviceDetachedListener()
 
     return () => {
       dataSync()
       dataCache()
       outboxNotifications()
+      deviceUnlocked()
       crashDump()
-    }
-  })
-
-  useEffect(() => {
-    const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
-    const deviceDetachedListener = registerDeviceDetachedListener()
-
-    return () => {
       currentDeviceChangedListener()
       deviceDetachedListener()
     }
-  }, [])
+  })
 
   useEffect(() => {
     getCurrentDevice()
