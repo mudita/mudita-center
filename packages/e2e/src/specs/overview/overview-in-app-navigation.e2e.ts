@@ -15,7 +15,7 @@ describe("Overview screen check", () => {
       console.log(error)
     }
   })
-  xit("Click on Overview tab and check 'Overview' text label is displayed", async () => {
+  it("Click on Overview tab and check 'Overview' text label is displayed", async () => {
     const overviewTab = await NavigationTabs.overviewTab
     await overviewTab.waitForDisplayed()
     await overviewTab.click()
@@ -27,7 +27,7 @@ describe("Overview screen check", () => {
     await expect(locationTextLabelText).toEqual("Overview")
   })
 
-  xit("Click on 'About Your Pure' button and check 'CHECK SAR INFORMATION' link is displayed", async () => {
+  it("Click on 'About Your Pure' button and check 'CHECK SAR INFORMATION' link is displayed", async () => {
     await NavigationTabs.overviewTabClick()
 
     const about = await OverviewPage.aboutYourPureButton
@@ -41,7 +41,7 @@ describe("Overview screen check", () => {
     })
   })
 
-  xit("Check Disconnect button is displayed", async () => {
+  it("Check Disconnect button is displayed", async () => {
     await NavigationTabs.overviewTabClick()
 
     const disconnectButton = await OverviewPage.disconnectButton
@@ -49,7 +49,7 @@ describe("Overview screen check", () => {
     await expect(disconnectButton).toBeDisplayed()
   })
 
-  xit("Check battery level and corresponding battery icon", async () => {
+  it("Check battery level and corresponding battery icon", async () => {
     await NavigationTabs.overviewTabClick()
 
     const batteryLevel = await OverviewPage.batteryLevel
@@ -79,14 +79,11 @@ describe("Overview screen check", () => {
     }
   })
 
-  xit("Check network name and signal strength icon", async () => {
-    await NavigationTabs.overviewTabClick()
-
+  it("Check network name and signal strength icon", async () => {
     const networkName = await OverviewPage.networkName
     await networkName.waitForDisplayed({ timeout: 4000 })
     await expect(networkName).toBeDisplayed()
-    const networkNameValue = await networkName.getText()
-    console.log(networkNameValue)
+
     await expect(networkName).toHaveTextContaining([
       "Plus",
       "Orange",
@@ -94,28 +91,27 @@ describe("Overview screen check", () => {
       "T-Mobile",
     ])
 
-    const NoRange = await OverviewPage.noRangeIcon
-    const LowRange = await OverviewPage.LowRangeIcon
-    const MediumRange = await OverviewPage.MediumRangeIcon
-    const HighRange = await OverviewPage.HighRangeIcon
-    const VeryHighRange = await OverviewPage.VeryHighRangeIcon
+    const oneOfThoseShouldBeDisplayed = [
+      await OverviewPage.LowRangeIcon.isDisplayed(),
+      await OverviewPage.MediumRangeIcon.isDisplayed(),
+      await OverviewPage.HighRangeIcon.isDisplayed(),
+      await OverviewPage.VeryHighRangeIcon.isDisplayed(),
+    ]
 
-    if ((await NoRange.isDisplayed()) === true) {
-      await expect(NoRange).toBeDisplayed()
-    } else if ((await LowRange.isDisplayed()) === true) {
-      await expect(LowRange).toBeDisplayed()
-    } else if ((await MediumRange.isDisplayed()) === true) {
-      await expect(MediumRange).toBeDisplayed()
-    } else if ((await HighRange.isDisplayed()) === true) {
-      await expect(HighRange).toBeDisplayed()
-    } else if ((await VeryHighRange.isDisplayed()) === true) {
-      await expect(VeryHighRange).toBeDisplayed()
-    } else {
-      expect(false).toBeTruthy()
-    }
+    expect(oneOfThoseShouldBeDisplayed.filter(Boolean)).toHaveLength(1)
   })
 
-  xit("Check device image is displayed", async () => {
+  it("Check offline mode", async () => {
+    const networkName = await OverviewPage.networkName
+
+    await expect(networkName).not.toBeDisplayed()
+
+    const noRangeIcon = OverviewPage.noRangeIcon
+    await noRangeIcon.waitForDisplayed({ timeout: 4000 })
+    expect(noRangeIcon).toBeDisplayed()
+  })
+
+  it("Check device image is displayed", async () => {
     await NavigationTabs.overviewTabClick()
 
     const PureGreyImage = await OverviewPage.pureGrayImage
@@ -130,7 +126,7 @@ describe("Overview screen check", () => {
     }
   })
 
-  xit("Check serial number in about your Pure matches serial number displayed on overview screen", async () => {
+  it("Check serial number in about your Pure matches serial number displayed on overview screen", async () => {
     await NavigationTabs.overviewTabClick()
 
     const aboutYourPure = await OverviewPage.aboutYourPureButton

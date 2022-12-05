@@ -36,10 +36,10 @@ class ModalBackupRestorePage extends Page {
     return $('[type="submit"]*=Confirm')
   }
   //BACKUP modal objects
-  public get confirmModalButton(): ChainablePromiseElement<
+  public get createBackupModalButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="modal-action-button"]*=Create backup')
+    return $('[data-testid="modal-action-button"]')
   }
 
   public get backupPasswordFirstInput(): ChainablePromiseElement<
