@@ -88,7 +88,13 @@ class ContactsPage extends Page {
   public get noContactsTextLabel(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="contact-list-no-result]')
+    return $('[data-testid="contact-list-no-result"]')
+  }
+  public get listOfContacts() {
+    return $$('[data-testid="contact-row"]')
+  }
+  public get phoneNumberOnContactList() {
+    return $('[data-testid="virtualized-contact-phone-number"]')
   }
 }
 
