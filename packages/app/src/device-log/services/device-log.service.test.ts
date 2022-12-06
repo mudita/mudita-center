@@ -3,49 +3,49 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Result } from "App/core/builder"
+import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { Endpoint, Method, DiagnosticsFileList } from "App/device/constants"
+import {
+  Endpoint,
+  Method,
+  DiagnosticsFileList,
+  DeviceCommunicationError,
+} from "App/device/constants"
 import { GetDeviceFilesResponseBody } from "App/device/types/mudita-os"
 import { DeviceLogService } from "App/device-log/services/device-log.service"
 import { DeviceEnumError } from "App/device-log/constants"
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 import { DeviceFileSystemService } from "App/device-file-system/services"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import {
   firstsPartDecodeLog,
   secondsPartDecodeLog,
 } from "App/testing-support/mocks/diagnostic-data.mock"
 
-jest.mock("App/__deprecated__/backend/device-service")
-
-const deviceServiceMock = {
-  request: jest.fn(),
-} as unknown as DeviceService
+const deviceManagerMock = {
+  device: {
+    request: jest.fn(),
+  },
+} as unknown as DeviceManager
 
 const deviceFileSystemMock = {
   downloadDeviceFiles: jest.fn(),
 } as unknown as DeviceFileSystemService
 
-const subject = new DeviceLogService(deviceServiceMock, deviceFileSystemMock)
+const subject = new DeviceLogService(deviceManagerMock, deviceFileSystemMock)
 
-const deviceInfoErrorResponse: RequestResponse = {
-  status: RequestResponseStatus.Error,
-}
+const deviceInfoErrorResponse: ResultObject<unknown> = Result.failed(
+  new AppError(DeviceCommunicationError.RequestFailed, "Something went wrong", {
+    status: RequestResponseStatus.Error,
+  })
+)
 
-const deviceInfoSuccessResponse: RequestResponse<GetDeviceFilesResponseBody> = {
-  status: RequestResponseStatus.Ok,
-  data: {
-    files: ["/usr/log/log.hex"],
-  },
-}
+const deviceInfoSuccessResponse: ResultObject<GetDeviceFilesResponseBody> =
+  Result.success({ files: ["/usr/log/log.hex"] })
 
 describe("Method: `downloadDeviceLogs`", () => {
   test("returns Result.failed if DeviceInfo endpoint response with error", async () => {
-    deviceServiceMock.request = jest
+    deviceManagerMock.device.request = jest
       .fn()
       .mockResolvedValueOnce(deviceInfoErrorResponse)
 
@@ -61,7 +61,7 @@ describe("Method: `downloadDeviceLogs`", () => {
     )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceServiceMock.request).toHaveBeenLastCalledWith({
+    expect(deviceManagerMock.device.request).toHaveBeenLastCalledWith({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       body: {
@@ -74,7 +74,7 @@ describe("Method: `downloadDeviceLogs`", () => {
   })
 
   test("returns Result.failed if `downloadDeviceFiles` returns empty data", async () => {
-    deviceServiceMock.request = jest
+    deviceManagerMock.device.request = jest
       .fn()
       .mockResolvedValueOnce(deviceInfoSuccessResponse)
     deviceFileSystemMock.downloadDeviceFiles = jest
@@ -93,7 +93,7 @@ describe("Method: `downloadDeviceLogs`", () => {
     )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceServiceMock.request).toHaveBeenLastCalledWith({
+    expect(deviceManagerMock.device.request).toHaveBeenLastCalledWith({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       body: {
@@ -108,7 +108,7 @@ describe("Method: `downloadDeviceLogs`", () => {
   })
 
   test("returns Result.success if `downloadDeviceFiles` returns file data", async () => {
-    deviceServiceMock.request = jest
+    deviceManagerMock.device.request = jest
       .fn()
       .mockResolvedValueOnce(deviceInfoSuccessResponse)
     deviceFileSystemMock.downloadDeviceFiles = jest.fn().mockResolvedValueOnce(

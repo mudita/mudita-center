@@ -6,11 +6,9 @@
 import { DeviceConnectionObserver } from "./device-connection.observer"
 import { EventEmitter } from "events"
 import { ipcMain } from "electron-better-ipc"
+import { DeviceManager } from "App/device-manager/services"
 import { SerialPortDevice } from "App/device/types/serial-port-device.type"
-import { DeviceType } from "App/device/constants"
-import DeviceService, {
-  DeviceServiceEventName,
-} from "App/__deprecated__/backend/device-service"
+import { DeviceType, DeviceServiceEvent } from "App/device/constants"
 import { MetadataStore } from "App/metadata/services"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
 import { IpcEvent } from "App/data-sync/constants"
@@ -18,12 +16,11 @@ import { flushPromises } from "App/core/helpers/flush-promises"
 
 let subject: DeviceConnectionObserver
 const eventEmitterMock = new EventEmitter()
-const deviceService = {
-  request: jest.fn(),
-  on: (eventName: DeviceServiceEventName, listener: () => void) => {
-    eventEmitterMock.on(eventName, listener)
+const deviceManager = {
+  device: {
+    request: jest.fn(),
   },
-} as unknown as DeviceService
+} as unknown as DeviceManager
 const keyStorage = new MetadataStore()
 let indexStorageService: DataSyncService
 
@@ -34,7 +31,7 @@ describe("Method: observe", () => {
       indexAll: jest.fn().mockReturnValue(Promise.resolve(true)),
     } as unknown as DataSyncService
     subject = new DeviceConnectionObserver(
-      deviceService,
+      deviceManager,
       keyStorage,
       indexStorageService,
       ipcMain,
@@ -44,7 +41,7 @@ describe("Method: observe", () => {
 
   describe("when the `DeviceUnlocked` event is emit with `MuditaPure` device type", () => {
     test("calls the `DeviceService.request` and `DataSyncService.indexAll` methods when `DeviceServiceEventName.DeviceUnlocked` has been emitted", async () => {
-      deviceService.request = jest.fn().mockResolvedValueOnce({
+      deviceManager.device.request = jest.fn().mockResolvedValueOnce({
         data: {
           deviceToken: "1234567890",
           serialNumber: "0000000000",
@@ -56,14 +53,14 @@ describe("Method: observe", () => {
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(0)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledTimes(0)
+      expect(deviceManager.device.request).toHaveBeenCalledTimes(0)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(0)
 
       subject.observe()
 
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked, {
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
         deviceType: DeviceType.MuditaPure,
       } as SerialPortDevice)
       await flushPromises()
@@ -78,7 +75,7 @@ describe("Method: observe", () => {
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(1)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledTimes(1)
+      expect(deviceManager.device.request).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -91,13 +88,13 @@ describe("Method: observe", () => {
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(0)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledTimes(0)
+      expect(deviceManager.device.request).toHaveBeenCalledTimes(0)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(0)
       subject.observe()
 
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked, {
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
         deviceType: DeviceType.MuditaHarmony,
       } as SerialPortDevice)
 
@@ -111,7 +108,7 @@ describe("Method: observe", () => {
       expect(indexStorageService.indexAll).not.toHaveBeenCalledTimes(1)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).not.toHaveBeenCalledTimes(1)
+      expect(deviceManager.device.request).not.toHaveBeenCalledTimes(1)
     })
   })
 })

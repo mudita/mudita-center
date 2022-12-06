@@ -5,7 +5,6 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
@@ -15,11 +14,12 @@ import { MessageModel, ThreadModel } from "App/messages/models"
 import { MessageService, ThreadService } from "App/messages/services"
 import { MessageController, ThreadController } from "App/messages/controllers"
 import { MessageRepository, ThreadRepository } from "App/messages/repositories"
+import { DeviceManager } from "App/device-manager/services"
 
 export class MessageModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceService: DeviceService,
+    public deviceModule: DeviceManager,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -28,7 +28,7 @@ export class MessageModule extends BaseModule {
   ) {
     super(
       index,
-      deviceService,
+      deviceModule,
       keyStorage,
       logger,
       ipc,
@@ -40,12 +40,9 @@ export class MessageModule extends BaseModule {
     const threadModel = new ThreadModel(this.index, this.eventEmitter)
     const threadRepository = new ThreadRepository(threadModel)
     const messageRepository = new MessageRepository(messageModel)
-    const threadService = new ThreadService(
-      this.deviceService,
-      threadRepository
-    )
+    const threadService = new ThreadService(this.deviceModule, threadRepository)
     const messageService = new MessageService(
-      this.deviceService,
+      this.deviceModule,
       threadService,
       messageRepository
     )
