@@ -105,60 +105,62 @@ export class BackupRestoreService {
       }
     }
 
-    return new Promise(async (resolve) => {
-      try {
-        const response =
-          await this.deviceManager.device.request<GetRestoreDeviceStatusResponseBody>(
-            {
-              endpoint: Endpoint.Restore,
-              method: Method.Get,
-              body: {
-                id,
-              },
-            }
-          )
+    return new Promise((resolve) => {
+      void (async () => {
+        try {
+          const response =
+            await this.deviceManager.device.request<GetRestoreDeviceStatusResponseBody>(
+              {
+                endpoint: Endpoint.Restore,
+                method: Method.Get,
+                body: {
+                  id,
+                },
+              }
+            )
 
-        if (response.data?.state === RestoreState.Finished) {
-          resolve({
-            status: RequestResponseStatus.Ok,
-          })
-          return
-        }
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (response.error?.type === DeviceCommunicationError.RequestFailed) {
-          resolve({
-            status: RequestResponseStatus.Ok,
-          })
-          return
-        }
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (response.error?.payload?.status === RequestResponseStatus.Error) {
-          resolve({
-            status: RequestResponseStatus.Error,
-          })
-          return
-        }
+          if (response.data?.state === RestoreState.Finished) {
+            resolve({
+              status: RequestResponseStatus.Ok,
+            })
+            return
+          }
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (response.error?.type === DeviceCommunicationError.RequestFailed) {
+            resolve({
+              status: RequestResponseStatus.Ok,
+            })
+            return
+          }
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (response.error?.payload?.status === RequestResponseStatus.Error) {
+            resolve({
+              status: RequestResponseStatus.Error,
+            })
+            return
+          }
 
-        if (
-          (response.data as GetRestoreDeviceStatusResponseBody)?.state ===
-          RestoreState.Error
-        ) {
-          resolve({
-            status: RequestResponseStatus.Error,
-          })
-          return
-        }
+          if (
+            (response.data as GetRestoreDeviceStatusResponseBody)?.state ===
+            RestoreState.Error
+          ) {
+            resolve({
+              status: RequestResponseStatus.Error,
+            })
+            return
+          }
 
-        setTimeout(() => {
-          resolve(this.waitUntilGetRestoreDeviceStatusNoResponse(id, ++index))
-        }, timeout)
-      } catch(e) {
-        setTimeout(() => {
-          resolve(this.waitUntilGetRestoreDeviceStatusNoResponse(id, ++index))
-        }, timeout)
-      }
+          setTimeout(() => {
+            resolve(this.waitUntilGetRestoreDeviceStatusNoResponse(id, ++index))
+          }, timeout)
+        } catch (e) {
+          setTimeout(() => {
+            resolve(this.waitUntilGetRestoreDeviceStatusNoResponse(id, ++index))
+          }, timeout)
+        }
+      })()
     })
   }
 
