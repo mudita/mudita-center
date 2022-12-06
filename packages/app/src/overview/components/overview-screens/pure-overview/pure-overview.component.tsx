@@ -208,21 +208,25 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     )
   }
 
+  const getReleaseForAction = (release?: OsRelease): OsRelease | undefined => {
+    if (release) {
+      return release
+    }
+    return availableReleasesForUpdate && availableReleasesForUpdate.length > 0
+      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+      : undefined
+  }
+
   // TODO [mw] handle sequential update - scope of CP-1686
   const updateRelease = (release?: OsRelease) => {
-    const releaseToInstall = availableReleasesForUpdate
-      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
-      : release
+    const releaseToInstall = getReleaseForAction(release)
 
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
 
   // TODO [mw] handle sequential download - scope of CP-1686
   const downloadRelease = (release?: OsRelease) => {
-    const releaseToDownload = availableReleasesForUpdate
-      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
-      : release
-
+    const releaseToDownload = getReleaseForAction(release)
     releaseToDownload && downloadUpdate(releaseToDownload)
   }
 
