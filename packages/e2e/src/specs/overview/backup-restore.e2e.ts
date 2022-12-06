@@ -1,6 +1,12 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import NavigationTabs from "../../page-objects/tabs.page"
 import OverviewPage from "../../page-objects/overview.page"
-import ModalBackupRestorePage from "../../page-objects/modal.backup.restore"
-import ModalGeneralPage from "../../page-objects/modal.general"
+import ModalBackupRestorePage from "../../page-objects/modal-backup-restore.page"
+import ModalGeneralPage from "../../page-objects/modal-general.page"
 
 describe("Backup&Restore tests", () => {
   before(async () => {
@@ -9,6 +15,7 @@ describe("Backup&Restore tests", () => {
       setTimeout(done, 10000)
     })
     ModalGeneralPage.closeModalButtonClick()
+    NavigationTabs.overviewTabClick()
   })
 
   it("Check backup can be created", async () => {

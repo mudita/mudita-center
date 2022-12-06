@@ -29,10 +29,18 @@ class NavigationTabs extends Page {
     return $('[data-testid="overview-menu-link"]')
   }
 
+  async messagesTabClick() {
+    await this.messagesTab.click()
+  }
+
   public get contactsTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="contacts-menu-link"]')
+  }
+
+  async contactsTabClick() {
+    await this.contactsTab.click()
   }
 
   public get settingsTab(): ChainablePromiseElement<
@@ -41,8 +49,16 @@ class NavigationTabs extends Page {
     return $('[data-testid="icon-MenuSettings"]')
   }
 
+  async settingsTabClick() {
+    await this.settingsTab.click()
+  }
+
   public get helpTab(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
     return $('[data-testid="help-menu-button"]')
+  }
+
+  async helpTabClick() {
+    await this.helpTab.click()
   }
 }
 

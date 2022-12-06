@@ -1,6 +1,6 @@
 import NavigationTabs from "../../page-objects/tabs.page"
 import OverviewPage from "../../page-objects/overview.page"
-import ModalGeneralPage from "../../page-objects/modal.general"
+import ModalGeneralPage from "../../page-objects/modal-general.page"
 
 describe("Overview screen check", () => {
   before(async () => {
@@ -8,12 +8,8 @@ describe("Overview screen check", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-    try {
-      const closeButton = ModalGeneralPage.closeIcon
-      await closeButton.click()
-    } catch (error) {
-      console.log(error)
-    }
+    await ModalGeneralPage.closeModalButtonClick()
+    await NavigationTabs.overviewTabClick()
   })
   it("Click on Overview tab and check 'Overview' text label is displayed", async () => {
     const overviewTab = await NavigationTabs.overviewTab
@@ -28,8 +24,6 @@ describe("Overview screen check", () => {
   })
 
   it("Click on 'About Your Pure' button and check 'CHECK SAR INFORMATION' link is displayed", async () => {
-    await NavigationTabs.overviewTabClick()
-
     const about = await OverviewPage.aboutYourPureButton
     await about.waitForDisplayed({ timeout: 4000 })
     await about.click()
