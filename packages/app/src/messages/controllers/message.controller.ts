@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ResultObject } from "App/core/builder"
 import { Controller, IpcEvent } from "App/core/decorators"
 import { RequestResponse } from "App/core/types/request-response.interface"
 import {
@@ -29,7 +30,7 @@ export class MessageController {
   @IpcEvent(IpcMessageEvent.UpdateMessage)
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public updateMessage(message: Message): Promise<RequestResponse<any>> {
+  public updateMessage(message: Message): Promise<ResultObject<unknown>> {
     return this.messageService.updateMessage(message)
   }
 

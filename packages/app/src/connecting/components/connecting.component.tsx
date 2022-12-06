@@ -16,11 +16,9 @@ import ConnectingContent from "App/connecting/components/connecting-content.comp
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import PasscodeModal from "App/__deprecated__/passcode-modal/passcode-modal.component"
-import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
 import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -29,7 +27,7 @@ const Connecting: FunctionComponent<{
   syncInitialized: boolean
   syncState: SynchronizationState
   unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
-  getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<boolean>>
   leftTime: number | undefined
   noModalsVisible: boolean
   updateAllIndexes: () => Promise<void>
@@ -101,10 +99,6 @@ const Connecting: FunctionComponent<{
       setError(ConnectingError.Sync)
     }
   }, [syncInitialized, syncState, unlocked])
-
-  useEffect(() => {
-    registerFirstPhoneConnection()
-  }, [])
 
   const history = useHistory()
 

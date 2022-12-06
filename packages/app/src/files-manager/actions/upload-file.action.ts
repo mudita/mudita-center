@@ -70,8 +70,8 @@ export const uploadFile = createAsyncThunk(
       return rejectWithValue(result.error)
     }
 
-    await dispatch(getFiles(directory))
-    await dispatch(loadStorageInfoAction())
+    void dispatch(getFiles(directory))
+    void dispatch(loadStorageInfoAction())
     dispatch(setUploadingState(State.Loaded))
 
     return

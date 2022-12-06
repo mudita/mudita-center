@@ -20,7 +20,6 @@ import {
   SetDeviceDataAction,
   LoadDataRejectAction,
   SetPhoneLockTimeAction,
-  UnlockDeviceRejectedAction,
   SetSimDataAction,
   SetOsVersionDataAction,
   SetConnectionStateAction,
@@ -33,6 +32,7 @@ export const initialState: DeviceState = {
   deviceType: null,
   data: null,
   status: {
+    connecting: false,
     connected: false,
     unlocked: null,
     loaded: false,
@@ -58,6 +58,10 @@ export const deviceReducer = createReducer<DeviceState>(
         return {
           ...state,
           state: ConnectionState.Loading,
+          status: {
+            ...state.status,
+            connecting: true,
+          },
           error: null,
         }
       })
@@ -67,6 +71,10 @@ export const deviceReducer = createReducer<DeviceState>(
           return {
             ...state,
             deviceType: action.payload,
+            status: {
+              ...state.status,
+              connecting: true,
+            },
             error: null,
           }
         }
@@ -79,6 +87,7 @@ export const deviceReducer = createReducer<DeviceState>(
             status: {
               ...state.status,
               connected: false,
+              connecting: false,
             },
             state: ConnectionState.Error,
             error: action.payload,
@@ -137,7 +146,7 @@ export const deviceReducer = createReducer<DeviceState>(
           },
         }
       })
-      .addCase(fulfilledAction(DeviceEvent.Unlocked), (state) => {
+      .addCase(DeviceEvent.Unlocked, (state) => {
         return {
           ...state,
           status: {
@@ -147,16 +156,6 @@ export const deviceReducer = createReducer<DeviceState>(
           error: null,
         }
       })
-      .addCase(
-        rejectedAction(DeviceEvent.Unlocked),
-        (state, action: UnlockDeviceRejectedAction) => {
-          return {
-            ...state,
-            state: ConnectionState.Error,
-            error: action.payload,
-          }
-        }
-      )
       .addCase(
         DeviceEvent.SetLockTime,
         (state, action: SetPhoneLockTimeAction) => {
