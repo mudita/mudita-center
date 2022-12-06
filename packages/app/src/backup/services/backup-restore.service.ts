@@ -94,9 +94,9 @@ export class BackupRestoreService {
     return Result.success(true)
   }
 
+  // Please skip during review the bellow logic :pray:. These code will be refactored in the second PR
   private async waitUntilGetRestoreDeviceStatusNoResponse(
     id: string,
-    firstRequest = true,
     index = 0
   ): Promise<RequestResponse> {
     if (index === callsMax) {
@@ -105,50 +105,60 @@ export class BackupRestoreService {
       }
     }
 
-    const response =
-      await this.deviceManager.device.request<GetRestoreDeviceStatusResponseBody>(
-        {
-          endpoint: Endpoint.Restore,
-          method: Method.Get,
-          body: {
-            id,
-          },
+    return new Promise(async (resolve) => {
+      try {
+        const response =
+          await this.deviceManager.device.request<GetRestoreDeviceStatusResponseBody>(
+            {
+              endpoint: Endpoint.Restore,
+              method: Method.Get,
+              body: {
+                id,
+              },
+            }
+          )
+
+        if (response.data?.state === RestoreState.Finished) {
+          resolve({
+            status: RequestResponseStatus.Ok,
+          })
+          return
         }
-      )
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (response.error?.type === DeviceCommunicationError.RequestFailed) {
+          resolve({
+            status: RequestResponseStatus.Ok,
+          })
+          return
+        }
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if (response.error?.payload?.status === RequestResponseStatus.Error) {
+          resolve({
+            status: RequestResponseStatus.Error,
+          })
+          return
+        }
 
-    if (response.data?.state === RestoreState.Finished) {
-      return {
-        status: RequestResponseStatus.Ok,
+        if (
+          (response.data as GetRestoreDeviceStatusResponseBody)?.state ===
+          RestoreState.Error
+        ) {
+          resolve({
+            status: RequestResponseStatus.Error,
+          })
+          return
+        }
+
+        setTimeout(() => {
+          resolve(this.waitUntilGetRestoreDeviceStatusNoResponse(id, ++index))
+        }, timeout)
+      } catch(e) {
+        setTimeout(() => {
+          resolve(this.waitUntilGetRestoreDeviceStatusNoResponse(id, ++index))
+        }, timeout)
       }
-    }
-
-    if (!firstRequest && !response.ok) {
-      return { status: RequestResponseStatus.Ok }
-    }
-
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (response.error?.payload?.status === RequestResponseStatus.Error) {
-      return {
-        status: RequestResponseStatus.Error,
-      }
-    }
-
-    if (
-      (response.data as GetRestoreDeviceStatusResponseBody)?.state ===
-      RestoreState.Error
-    ) {
-      return {
-        status: RequestResponseStatus.Error,
-      }
-    }
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(
-          this.waitUntilGetRestoreDeviceStatusNoResponse(id, false, ++index)
-        )
-      }, timeout)
     })
   }
 
