@@ -4,9 +4,7 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, {
-  DeviceServiceEventName,
-} from "App/__deprecated__/backend/device-service"
+import { DeviceServiceEvent } from "App/device/constants"
 import {
   OutboxObserver,
   outboxTime,
@@ -40,21 +38,16 @@ describe("Outbox Observer: observe", () => {
     jest.resetAllMocks()
   })
 
-  describe("when `DeviceServiceEventName.DeviceUnlocked` has been emitted", () => {
+  describe("when `DeviceServiceEvent.DeviceUnlocked` has been emitted", () => {
     let subject: OutboxObserver
     let eventEmitterMock: EventEmitter
     let outboxService: OutboxService
     beforeEach(() => {
       eventEmitterMock = new EventEmitter()
-      const deviceService = {
-        on: (eventName: DeviceServiceEventName, listener: () => void) => {
-          eventEmitterMock.on(eventName, listener)
-        },
-      } as unknown as DeviceService
       outboxService = {
         readOutboxEntries: jest.fn(),
       } as unknown as OutboxService
-      subject = new OutboxObserver(ipcMain, deviceService, outboxService)
+      subject = new OutboxObserver(ipcMain, eventEmitterMock, outboxService)
     })
 
     // AUTO DISABLED - fix me if you like :)
@@ -65,7 +58,7 @@ describe("Outbox Observer: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -78,15 +71,10 @@ describe("Outbox Observer: observe", () => {
       let outboxService: OutboxService
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
-        const deviceService = {
-          on: (eventName: DeviceServiceEventName, listener: () => void) => {
-            eventEmitterMock.on(eventName, listener)
-          },
-        } as unknown as DeviceService
         outboxService = {
           readOutboxEntries: jest.fn().mockResolvedValueOnce(threadMock),
         } as unknown as OutboxService
-        subject = new OutboxObserver(ipcMain, deviceService, outboxService)
+        subject = new OutboxObserver(ipcMain, eventEmitterMock, outboxService)
       })
 
       test("`DataUpdated` and `PushOutboxNotification` is emitted", async () => {
@@ -95,7 +83,7 @@ describe("Outbox Observer: observe", () => {
         expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
         subject.observe()
-        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
         await flushPromises()
 
@@ -122,15 +110,10 @@ describe("Outbox Observer: observe", () => {
       let outboxService: OutboxService
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
-        const deviceService = {
-          on: (eventName: DeviceServiceEventName, listener: () => void) => {
-            eventEmitterMock.on(eventName, listener)
-          },
-        } as unknown as DeviceService
         outboxService = {
           readOutboxEntries: jest.fn().mockResolvedValueOnce(undefined),
         } as unknown as OutboxService
-        subject = new OutboxObserver(ipcMain, deviceService, outboxService)
+        subject = new OutboxObserver(ipcMain, eventEmitterMock, outboxService)
       })
 
       test("`DataUpdated` and `PushOutboxNotification` isn't emitted", async () => {
@@ -139,7 +122,7 @@ describe("Outbox Observer: observe", () => {
         expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
         subject.observe()
-        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
         await flushPromises()
 
@@ -166,7 +149,7 @@ describe("Outbox Observer: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -183,13 +166,13 @@ describe("Outbox Observer: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(3)
     })
 
-    test("`DeviceServiceEventName.DeviceDisconnected` interrupts watch OutboxEntries", async () => {
+    test("`DeviceServiceEvent.DeviceDisconnected` interrupts watch OutboxEntries", async () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -200,7 +183,7 @@ describe("Outbox Observer: observe", () => {
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(2)
 
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceDisconnected)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceDisconnected)
 
       await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
       // AUTO DISABLED - fix me if you like :)
@@ -210,15 +193,15 @@ describe("Outbox Observer: observe", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/require-await
-    test("several `DeviceServiceEventName.DeviceUnlocked` no duplicate logic", async () => {
+    test("several `DeviceServiceEvent.DeviceUnlocked` no duplicate logic", async () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method

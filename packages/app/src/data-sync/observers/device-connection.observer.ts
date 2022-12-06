@@ -9,20 +9,19 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { Observer } from "App/core/types"
 import { ModelEvent } from "App/core/constants"
-import {
-  DeviceService,
-  DeviceServiceEventName,
-} from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
 import { IpcEvent } from "App/data-sync/constants/ipc-event.constant"
+import { DeviceServiceEvent } from "App/device/constants"
+import { DeviceManager } from "App/device-manager/services"
+import { GetDeviceInfoResponseBody } from "App/device/types/mudita-os"
 
 export class DeviceConnectionObserver implements Observer {
   private invoked = false
 
   constructor(
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private keyStorage: MetadataStore,
     private dataSyncService: DataSyncService,
     private ipc: MainProcessIpc,
@@ -34,8 +33,8 @@ export class DeviceConnectionObserver implements Observer {
   }
 
   private registerListener(): void {
-    this.deviceService.on(
-      DeviceServiceEventName.DeviceUnlocked,
+    this.eventEmitter.on(
+      DeviceServiceEvent.DeviceUnlocked,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async (device: SerialPortDevice) => {
@@ -56,10 +55,13 @@ export class DeviceConnectionObserver implements Observer {
           // eslint-disable-next-line @typescript-eslint/await-thenable
           await this.ipc.sendToRenderers(IpcEvent.DataLoading)
 
-          const { data } = await this.deviceService.request({
+          const { data } = await this.deviceManager.device.request({
             endpoint: Endpoint.DeviceInfo,
             method: Method.Get,
           })
+
+          const { serialNumber, deviceToken } =
+            data as GetDeviceInfoResponseBody
 
           if (data === undefined) {
             // AUTO DISABLED - fix me if you like :)
@@ -68,11 +70,8 @@ export class DeviceConnectionObserver implements Observer {
             return
           }
 
-          this.keyStorage.setValue(
-            MetadataKey.DeviceSerialNumber,
-            data.serialNumber
-          )
-          this.keyStorage.setValue(MetadataKey.DeviceToken, data.deviceToken)
+          this.keyStorage.setValue(MetadataKey.DeviceSerialNumber, serialNumber)
+          this.keyStorage.setValue(MetadataKey.DeviceToken, deviceToken)
 
           const indexed = await this.dataSyncService.indexAll()
 
@@ -96,8 +95,8 @@ export class DeviceConnectionObserver implements Observer {
       }
     )
 
-    this.deviceService.on(
-      DeviceServiceEventName.DeviceDisconnected,
+    this.eventEmitter.on(
+      DeviceServiceEvent.DeviceDisconnected,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       async () => {

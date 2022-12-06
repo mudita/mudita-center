@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ResultObject } from "App/core/builder"
 import {
   Endpoint,
   Method,
@@ -13,6 +14,9 @@ import {
   GetMessagesRequestConfig as PureGetMessagesBody,
   Message as PureMessage,
   PaginationBody,
+  GetMessageResponseBody,
+  GetMessagesResponseBody,
+  CreateMessageResponseBody,
 } from "App/device/types/mudita-os"
 import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import {
@@ -27,8 +31,8 @@ import {
 } from "App/messages/presenters"
 import { MessageRepository } from "App/messages/repositories"
 import { ThreadService } from "App/messages/services/thread.service"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import { mapToRawNumber, splitMessageByBytesSize } from "../helpers"
+import { DeviceManager } from "App/device-manager/services"
+import { mapToRawNumber, splitMessageByBytesSize } from "App/messages/helpers"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
@@ -46,7 +50,7 @@ export interface CreateMessageDataResponse {
 
 export class MessageService {
   constructor(
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private threadService: ThreadService,
     private messageRepository: MessageRepository
   ) {}
@@ -54,21 +58,23 @@ export class MessageService {
   private MESSAGE_MAX_SIZE_IN_BYTES = 469
 
   public async getMessage(id: string): Promise<RequestResponse<Message>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Messages,
-      method: Method.Get,
-      body: {
-        category: PureMessagesCategory.message,
-        messageID: Number(id),
-      },
-    })
+    const response =
+      await this.deviceManager.device.request<GetMessageResponseBody>({
+        endpoint: Endpoint.Messages,
+        method: Method.Get,
+        body: {
+          category: PureMessagesCategory.message,
+          messageID: Number(id),
+        },
+      })
 
     if (
-      isResponseSuccessWithData(response) &&
+      response.ok &&
+      response.data &&
       MessageService.isAcceptablePureMessageType(response.data)
     ) {
       return {
-        status: response.status,
+        status: RequestResponseStatus.Ok,
         data: MessagePresenter.mapToMessage(response.data),
       }
     } else {
@@ -87,13 +93,14 @@ export class MessageService {
       ...pagination,
     }
 
-    const response = await this.deviceService.request({
-      body,
-      endpoint: Endpoint.Messages,
-      method: Method.Get,
-    })
+    const response =
+      await this.deviceManager.device.request<GetMessagesResponseBody>({
+        body,
+        endpoint: Endpoint.Messages,
+        method: Method.Get,
+      })
 
-    if (isResponseSuccessWithData(response)) {
+    if (response.ok && response.data) {
       return {
         status: RequestResponseStatus.Ok,
         data: {
@@ -165,11 +172,12 @@ export class MessageService {
   private async createSingleMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessagePartDataResponse>> {
-    const { data } = await this.deviceService.request({
-      body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
-      endpoint: Endpoint.Messages,
-      method: Method.Post,
-    })
+    const { data } =
+      await this.deviceManager.device.request<CreateMessageResponseBody>({
+        body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
+        endpoint: Endpoint.Messages,
+        method: Method.Post,
+      })
 
     if (MessageService.isAcceptablePureMessageType(data)) {
       if (newMessage.threadId === undefined) {
@@ -225,7 +233,7 @@ export class MessageService {
       }
     }
 
-    const result = await this.deviceService.request({
+    const result = await this.deviceManager.device.request({
       body: {
         category: PureMessagesCategory.message,
         messageID: Number(messageId),
@@ -234,7 +242,7 @@ export class MessageService {
       method: Method.Delete,
     })
 
-    if (!isResponseSuccess(result)) {
+    if (!result.ok) {
       return {
         status: RequestResponseStatus.Error,
         error: {
@@ -286,8 +294,8 @@ export class MessageService {
     return result
   }
 
-  public async updateMessage(message: Message): Promise<RequestResponse> {
-    return this.deviceService.request({
+  public async updateMessage(message: Message): Promise<ResultObject<unknown>> {
+    return this.deviceManager.device.request({
       body: MessagePresenter.mapToUpdatePureMessagesBody(message),
       endpoint: Endpoint.Messages,
       method: Method.Put,

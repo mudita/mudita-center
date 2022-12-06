@@ -3,55 +3,115 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ResultObject } from "App/core/builder"
+import { EventEmitter } from "events"
 import {
   Endpoint,
   Method,
+  DeviceServiceEvent,
   DeviceCommunicationEvent,
 } from "App/device/constants"
 import {
   RequestConfig,
-  Response,
   GetDeviceInfoRequestConfig,
   GetDeviceInfoResponseBody,
 } from "App/device/types/mudita-os"
 import { BaseAdapter } from "App/device/modules/base.adapter"
 import { DeviceStrategy } from "App/device/strategies/device-strategy.class"
+import { ResponsePresenter } from "App/device/modules/mudita-os/presenters"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export class HarmonyStrategy implements DeviceStrategy {
-  constructor(private adapter: BaseAdapter) {}
+  private eventEmitter = new EventEmitter()
 
-  public async connect(): Promise<ResultObject<Response>> {
+  constructor(private adapter: BaseAdapter) {
+    EventEmitter.defaultMaxListeners = 15
+    this.mountDisconnectionListener()
+  }
+
+  public async connect(): Promise<RequestResponse<GetDeviceInfoResponseBody>> {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.adapter.request({
+    const response = await this.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
+
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceConnected)
+
+    return response
   }
 
-  public async disconnect(): Promise<ResultObject<boolean>> {
+  public async disconnect(): Promise<boolean> {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.adapter.disconnect()
+
+    const response = await this.adapter.disconnect()
+
+    this.unmountDisconnectionListener()
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
+
+    return Boolean(response.data)
   }
 
   public request(
     config: GetDeviceInfoRequestConfig
-  ): Promise<ResultObject<Response<GetDeviceInfoResponseBody>>>
+  ): Promise<RequestResponse<GetDeviceInfoResponseBody>>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async request(config: RequestConfig<any>): Promise<ResultObject<any>> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.adapter.request(config)
+  public async request(config: RequestConfig<any>): Promise<RequestResponse> {
+    const response = await this.adapter.request(config)
+
+    this.emitUnlockEvent()
+
+    return ResponsePresenter.toResponseObject(response)
   }
 
-  public on(eventName: DeviceCommunicationEvent, listener: () => void): void {
+  public onCommunicationEvent(
+    eventName: DeviceCommunicationEvent,
+    listener: () => void
+  ): void {
     this.adapter.on(eventName, listener)
   }
 
-  public off(eventName: DeviceCommunicationEvent, listener: () => void): void {
+  public offCommunicationEvent(
+    eventName: DeviceCommunicationEvent,
+    listener: () => void
+  ): void {
     this.adapter.off(eventName, listener)
+  }
+
+  public on(
+    eventName: DeviceServiceEvent,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listener: (path: string, ...args: any[]) => void
+  ): void {
+    this.eventEmitter.on(eventName, listener)
+  }
+
+  public off(
+    eventName: DeviceServiceEvent,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listener: (path: string, ...args: any[]) => void
+  ): void {
+    this.eventEmitter.off(eventName, listener)
+  }
+
+  private emitUnlockEvent(): void {
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
+  }
+
+  private mountDisconnectionListener(): void {
+    this.onCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
+    })
+  }
+
+  private unmountDisconnectionListener(): void {
+    this.offCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
+    })
   }
 }

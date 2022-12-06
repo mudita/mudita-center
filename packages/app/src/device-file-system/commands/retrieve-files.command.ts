@@ -7,6 +7,7 @@ import { Endpoint, Method } from "App/device/constants"
 import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { GetFileSystemDirectoryResponseBody } from "App/device/types/mudita-os"
 import { BaseCommand } from "App/device-file-system/commands/base.command"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
 import { DirectoryFile } from "App/device-file-system/types"
@@ -15,15 +16,20 @@ export class RetrieveFilesCommand extends BaseCommand {
   public async exec(
     directory: string
   ): Promise<ResultObject<Record<string, DirectoryFile[]> | undefined>> {
-    const { data, status, error } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Get,
-      body: {
-        listDir: directory,
-      },
-    })
+    const { data, ok, error } =
+      await this.deviceManager.device.request<GetFileSystemDirectoryResponseBody>(
+        {
+          endpoint: Endpoint.FileSystem,
+          method: Method.Get,
+          body: {
+            listDir: directory,
+          },
+        }
+      )
 
-    if (status !== RequestResponseStatus.Ok || !data) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if ((!ok && error?.payload?.status !== RequestResponseStatus.Ok) || !data) {
       return Result.failed(
         new AppError(
           DeviceFileSystemError.FilesRetrieve,

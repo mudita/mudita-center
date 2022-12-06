@@ -24,13 +24,13 @@ export interface RequestResponseError<ErrorDataType = any> {
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface RequestResponse<DataType = undefined, ErrorDataType = any> {
+export interface RequestResponse<DataType = unknown, ErrorDataType = any> {
   status: RequestResponseStatus
   data?: DataType
   error?: RequestResponseError<ErrorDataType>
 }
 
-export interface SuccessRequestResponse<DataType = undefined>
+export interface SuccessRequestResponse<DataType = unknown>
   extends RequestResponse<DataType> {
   status: RequestResponseStatus.Ok
   data: DataType
