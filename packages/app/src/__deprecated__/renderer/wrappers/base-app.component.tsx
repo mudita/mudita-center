@@ -18,7 +18,6 @@ import {
 } from "App/__deprecated__/renderer/constants/urls"
 import { useRouterListener } from "App/core/hooks"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device/actions"
 import { sendDiagnosticData } from "App/settings/actions"
 import { State } from "App/core/constants"
@@ -99,7 +98,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     deviceFeaturesVisible:
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||
-      state.device.updatingState === UpdatingState.Updating ||
+      state.update.updateOsState === State.Loading ||
       state.backup.restoringState === State.Loading ||
       state.backup.restoringState === State.Failed,
     deviceConnecting: state.device.status.connecting,
@@ -107,7 +106,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       state.device.status.loaded && Boolean(state.device.status.unlocked),
     settingsLoaded: state.settings.loaded,
     deviceConnected: state.device.status.connected,
-    deviceUpdating: state.device.updatingState === UpdatingState.Updating,
+    deviceUpdating: state.update.updateOsState === State.Loading,
   }
 }
 

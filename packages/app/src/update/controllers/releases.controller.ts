@@ -11,7 +11,7 @@ import {
   IpcReleaseEvent,
   Product,
 } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { GetReleasesByVersionsInput, OsRelease } from "App/update/dto"
 import { ReleaseService } from "App/update/services"
 
 @Controller(ReleaseControllerPrefix)
@@ -21,7 +21,7 @@ export class ReleasesController {
   @IpcEvent(IpcReleaseEvent.GetAllReleases)
   public async getAllReleases(
     product: Product
-  ): Promise<ResultObject<Release[] | undefined>> {
+  ): Promise<ResultObject<OsRelease[] | undefined>> {
     return flags.get(Feature.DeveloperModeEnabled)
       ? this.releaseService.getAllReleases(product)
       : Result.success([])
@@ -30,7 +30,14 @@ export class ReleasesController {
   @IpcEvent(IpcReleaseEvent.GetLatestRelease)
   public async getLatestRelease(
     product: Product
-  ): Promise<ResultObject<Release | undefined>> {
+  ): Promise<ResultObject<OsRelease | undefined>> {
     return this.releaseService.getLatestRelease(product)
+  }
+
+  @IpcEvent(IpcReleaseEvent.GetReleasesByVersions)
+  public async getReleasesByVersions(
+    params: GetReleasesByVersionsInput
+  ): Promise<ResultObject<OsRelease[]>> {
+    return this.releaseService.getReleasesByVersions(params)
   }
 }

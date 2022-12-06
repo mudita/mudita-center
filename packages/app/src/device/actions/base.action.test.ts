@@ -3,23 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { CaseColor, DeviceEvent } from "App/device/constants"
+import {
+  HarmonyDeviceData,
+  OsVersionPayload,
+  PureDeviceData,
+} from "App/device/reducers/device.interface"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import {
-  PureDeviceData,
-  HarmonyDeviceData,
-  OsVersionPayload,
-} from "App/device/reducers/device.interface"
-import {
-  setDeviceData,
-  setLockTime,
-  setSimData,
-  setOsVersionData,
-  setUpdateState,
-  setInitState,
   setAgreementStatus,
+  setDeviceData,
+  setInitState,
+  setLockTime,
+  setOsVersionData,
+  setSimData,
 } from "./base.action"
-import { DeviceEvent, UpdatingState, CaseColor } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -120,48 +119,6 @@ describe("Action: setOsVersionData", () => {
       {
         type: DeviceEvent.SetOsVersionData,
         payload: osVersionMock,
-      },
-    ])
-  })
-})
-
-describe("Action: setUpdateState", () => {
-  test("fire action with `Updating` state and `SetUpdateState` type", () => {
-    mockStore.dispatch(setUpdateState(UpdatingState.Updating))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: DeviceEvent.SetUpdateState,
-        payload: UpdatingState.Updating,
-      },
-    ])
-  })
-
-  test("fire action with `Success` state and `SetUpdateState` type", () => {
-    mockStore.dispatch(setUpdateState(UpdatingState.Success))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: DeviceEvent.SetUpdateState,
-        payload: UpdatingState.Success,
-      },
-    ])
-  })
-
-  test("fire action with `Standby` state and `SetUpdateState` type", () => {
-    mockStore.dispatch(setUpdateState(UpdatingState.Standby))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: DeviceEvent.SetUpdateState,
-        payload: UpdatingState.Standby,
-      },
-    ])
-  })
-
-  test("fire action with `Fail` state and `SetUpdateState` type", () => {
-    mockStore.dispatch(setUpdateState(UpdatingState.Fail))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: DeviceEvent.SetUpdateState,
-        payload: UpdatingState.Fail,
       },
     ])
   })

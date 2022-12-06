@@ -8,7 +8,6 @@ import { Provider } from "react-redux"
 import store from "App/__deprecated__/renderer/store"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { HarmonyOverview } from "App/overview/components/overview-screens/harmony-overview/harmony-overview.component"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
@@ -16,6 +15,8 @@ import * as UpdatingForceModalFlowModule from "App/overview/components/updating-
 import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import { flags } from "App/feature-flags"
+import { State } from "App/core/constants"
+import { DownloadState } from "App/update/constants"
 
 jest.mock("App/feature-flags")
 
@@ -33,17 +34,25 @@ type Props = ComponentProps<typeof HarmonyOverview>
 
 const defaultProps: Props = {
   lowestSupportedOsVersion: "",
-  lastAvailableOsVersion: "",
   batteryLevel: undefined,
   osVersion: "1.0.0",
-  pureOsDownloaded: false,
-  updatingState: UpdatingState.Standby,
+  updatingState: State.Initial,
   serialNumber: undefined,
   startUpdateOs: jest.fn(),
   setUpdateState: jest.fn(),
-  updatePhoneOsInfo: jest.fn(),
   disconnectDevice: jest.fn(),
   openContactSupportFlow: jest.fn(),
+  abortDownload: jest.fn(),
+  allReleases: [],
+  checkForUpdate: jest.fn(),
+  checkingForUpdateState: State.Initial,
+  clearUpdateState: jest.fn(),
+  downloadingState: DownloadState.Initial,
+  downloadUpdate: jest.fn(),
+  availableReleasesForUpdate: null,
+  silentCheckForUpdate: jest.fn(),
+  silentUpdateCheck: false,
+  updateOsError: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -71,16 +80,16 @@ describe("update state", () => {
   jest.spyOn(flags, "get").mockReturnValue(true)
 
   type TestCase = [
-    updatingStateKeyValue: keyof typeof UpdatingState | undefined, // passing as key to improve test title readability
+    updatingStateKeyValue: keyof typeof State | undefined, // passing as key to improve test title readability
     isOsSupported: boolean,
     updatingForceModalState: UpdatingForceModalFlowState
   ]
 
   const testCases: TestCase[] = [
-    ["Success", true, UpdatingForceModalFlowState.Success],
-    ["Fail", true, UpdatingForceModalFlowState.Fail],
-    ["Updating", true, UpdatingForceModalFlowState.Updating],
-    ["Updating", false, UpdatingForceModalFlowState.Updating],
+    ["Loaded", true, UpdatingForceModalFlowState.Success],
+    ["Failed", true, UpdatingForceModalFlowState.Fail],
+    ["Loading", true, UpdatingForceModalFlowState.Updating],
+    ["Loading", false, UpdatingForceModalFlowState.Updating],
     [undefined, false, UpdatingForceModalFlowState.Info],
   ]
 
@@ -98,7 +107,7 @@ describe("update state", () => {
     (updatingStateKeyValue, isOsSupported, updatingForceModalState) => {
       test(`update force modal should receive ${updatingForceModalState}`, () => {
         const updatingState = updatingStateKeyValue
-          ? UpdatingState[updatingStateKeyValue]
+          ? State[updatingStateKeyValue]
           : undefined
 
         if (isOsSupported) {

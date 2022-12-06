@@ -4,3 +4,4 @@
  */
 
 export * from "./version-formatter.helper"
+export * from "./is-battery-level-enough/is-battery-enough-for-update.helper"

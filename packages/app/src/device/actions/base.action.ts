@@ -9,7 +9,7 @@ import {
   HarmonyDeviceData,
   OsVersionPayload,
 } from "App/device/reducers"
-import { DeviceEvent, UpdatingState } from "App/device/constants"
+import { DeviceEvent } from "App/device/constants"
 import { GetPhoneLockTimeResponseBody } from "App/device/types/mudita-os"
 
 export const setDeviceData = createAction<
@@ -21,9 +21,6 @@ export const setLockTime = createAction<
 export const setSimData = createAction<number>(DeviceEvent.SetSimData)
 export const setOsVersionData = createAction<OsVersionPayload>(
   DeviceEvent.SetOsVersionData
-)
-export const setUpdateState = createAction<UpdatingState>(
-  DeviceEvent.SetUpdateState
 )
 export const setInitState = createAction(DeviceEvent.SetInitState)
 export const setAgreementStatus = createAction<boolean>(
