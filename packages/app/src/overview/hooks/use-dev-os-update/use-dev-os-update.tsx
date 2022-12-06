@@ -12,7 +12,7 @@ import { useEffect, useState } from "react"
 interface Params {
   allReleases: OsRelease[] | null
   updateOs: (release?: OsRelease) => void
-  downloadUpdate: (release?: OsRelease) => void
+  downloadUpdates: (releases?: OsRelease[]) => void
   clearUpdateOsFlow: () => void
   downloadState: DownloadState | null
   updateState: State | null
@@ -29,7 +29,7 @@ interface Result {
 
 export const useDevUpdate = ({
   allReleases,
-  downloadUpdate,
+  downloadUpdates,
   updateOs,
   clearUpdateOsFlow,
   downloadState,
@@ -59,7 +59,7 @@ export const useDevUpdate = ({
 
   const downloadDevUpdate = () => {
     if (devRelease) {
-      downloadUpdate(devRelease)
+      downloadUpdates([devRelease])
     }
   }
 

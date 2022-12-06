@@ -41,6 +41,9 @@ const messages = defineMessages({
 
 export const UpdateAvailableModal: FunctionComponent<UpdateAvailableModalProps> =
   ({ open = false, releases, onClose, onDownload, testId }) => {
+    const handleDownloadButtonClick = (_event: unknown) => {
+      onDownload()
+    }
     return (
       <OSUpdateModal
         open={open}
@@ -75,7 +78,7 @@ export const UpdateAvailableModal: FunctionComponent<UpdateAvailableModalProps> 
             ...messages.updateAvailableButton,
             values: { num: releases.length },
           }}
-          onClick={onDownload}
+          onClick={handleDownloadButtonClick}
           data-testid={ModalTestIds.ModalActionButton}
         />
         <CautionSection isSingleRelease={releases.length === 1} />

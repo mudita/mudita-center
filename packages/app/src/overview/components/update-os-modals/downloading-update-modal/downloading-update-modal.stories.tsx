@@ -15,8 +15,9 @@ export const DownloadingUpdateModalStory: FunctionComponent = () => {
       <DownloadingUpdateModal
         open
         percent={50}
-        speed={1}
-        timeLeft={1}
+        currentlyDownloadingReleaseVersion={"1.1.0"}
+        currentlyDownloadingReleaseOrder={1}
+        downloadedReleasesSize={3}
         onCancel={action("Cancel Downloading Update Modal")}
       />
     </Story>

@@ -11,6 +11,7 @@ import {
   OsReleaseType,
   UpdateError,
   UpdateOsEvent,
+  ReleaseProcessState,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { updateOsReducer, initialState } from "App/update/reducers"
@@ -47,6 +48,7 @@ test("empty event returns initial state", () => {
       "data": Object {
         "allReleases": null,
         "availableReleasesForUpdate": null,
+        "downloadedProcessedReleases": null,
       },
       "downloadState": 0,
       "error": null,
@@ -171,6 +173,7 @@ describe("checkForUpdate", () => {
       data: {
         availableReleasesForUpdate: [mockedRelease],
         allReleases: [mockedRelease],
+        downloadedProcessedReleases: null,
       },
     })
   })
@@ -205,10 +208,22 @@ describe("downloadUpdate", () => {
         },
         {
           type: pendingAction(UpdateOsEvent.DownloadUpdate),
+          meta: {
+            arg: {
+              releases: [mockedRelease],
+            },
+          },
         }
       )
     ).toEqual({
       ...initialState,
+      data: {
+        allReleases: null,
+        availableReleasesForUpdate: null,
+        downloadedProcessedReleases: [
+          { release: mockedRelease, state: ReleaseProcessState.Initial },
+        ],
+      },
       checkForUpdateState: State.Initial,
       downloadState: DownloadState.Loading,
       error: null,
@@ -268,6 +283,39 @@ describe("downloadUpdate", () => {
       ...initialState,
       downloadState: DownloadState.Failed,
       error: exampleError,
+    })
+  })
+})
+
+describe("updateDownloadProcessState", () => {
+  test("sets new state for downloaded release version", () => {
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+          data: {
+            ...initialState.data,
+            downloadedProcessedReleases: [
+              { release: mockedRelease, state: ReleaseProcessState.Initial },
+            ],
+          },
+        },
+        {
+          type: UpdateOsEvent.UpdateDownloadStateFile,
+          payload: {
+            version: mockedRelease.version,
+            state: ReleaseProcessState.Done,
+          },
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      data: {
+        ...initialState.data,
+        downloadedProcessedReleases: [
+          { release: mockedRelease, state: ReleaseProcessState.Done },
+        ],
+      },
     })
   })
 })

@@ -6,6 +6,7 @@
 import { DownloadingUpdateModalProps } from "App/overview/components/update-os-modals/downloading-update-modal/downloading-update-modal.interface"
 import {
   DownloadBar,
+  DownloadProgressText,
   Pergentage,
   Submessage,
 } from "App/overview/components/update-os-modals/downloading-update-modal/downloading-update-modal.styled"
@@ -32,10 +33,21 @@ const messages = defineMessages({
   downloadingUpdateSubmessage: {
     id: "module.overview.downloadingUpdateSubmessage",
   },
+  downloadingReleaseInfo: {
+    id: "module.overview.downloadingReleaseInfo",
+  },
 })
 
 export const DownloadingUpdateModal: FunctionComponent<DownloadingUpdateModalProps> =
-  ({ percent, open, onCancel, testId }) => {
+  ({
+    percent,
+    open,
+    onCancel,
+    testId,
+    currentlyDownloadingReleaseVersion,
+    currentlyDownloadingReleaseOrder,
+    downloadedReleasesSize,
+  }) => {
     return (
       <OSUpdateModal
         testId={testId}
@@ -62,6 +74,13 @@ export const DownloadingUpdateModal: FunctionComponent<DownloadingUpdateModalPro
         <Pergentage displayStyle={TextDisplayStyle.Paragraph4} color="primary">
           {percent}%
         </Pergentage>
+        <DownloadProgressText
+          processText={intl.formatMessage(messages.downloadingReleaseInfo, {
+            value: currentlyDownloadingReleaseVersion,
+          })}
+          currentIndex={currentlyDownloadingReleaseOrder}
+          totalSize={downloadedReleasesSize}
+        />
       </OSUpdateModal>
     )
   }

@@ -6,7 +6,7 @@
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DownloadState, UpdateError } from "App/update/constants"
-import { OsRelease } from "App/update/dto"
+import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface UpdateOsFlowProps {
   currentOsVersion: string
@@ -17,7 +17,8 @@ export interface UpdateOsFlowProps {
   silentUpdateCheck: boolean
   allReleases: OsRelease[] | null
   error: AppError<UpdateError> | null
-  downloadUpdate: (release?: OsRelease) => void
+  downloadingReleasesProcessStates: ProcessedRelease[] | null
+  downloadUpdates: (releases?: OsRelease[]) => void
   abortDownloading: () => void
   updateOs: (release?: OsRelease) => void
   clearUpdateOsFlow: () => void

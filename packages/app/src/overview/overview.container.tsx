@@ -21,7 +21,7 @@ import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.actio
 import { getDeviceLatestVersion } from "App/settings/selectors"
 import {
   checkForUpdate,
-  downloadUpdate,
+  downloadUpdates,
   setUpdateState,
   startUpdateOs,
   clearState,
@@ -55,6 +55,8 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     allReleases: state.update.data.allReleases,
     updateOsError: state.update.error,
     silentUpdateCheck: state.update.silentUpdateCheck,
+    downloadingReleasesProcessStates:
+      state.update.data.downloadedProcessedReleases,
   }
 }
 
@@ -101,9 +103,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(checkForUpdate({ deviceType, isSilentCheck: true })),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  downloadUpdate: (release: OsRelease) => dispatch(downloadUpdate({ release })),
+  downloadUpdates: (releases: OsRelease[]) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(downloadUpdates({ releases })),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   clearUpdateState: () => dispatch(clearState()),
