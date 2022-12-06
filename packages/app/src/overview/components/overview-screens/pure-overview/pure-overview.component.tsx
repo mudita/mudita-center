@@ -289,7 +289,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         memorySpace={memorySpace}
         networkName={networkName}
         networkLevel={networkLevel}
-        pureOsAvailable={Boolean(availableReleasesForUpdate)}
+        pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={updateRelease}
