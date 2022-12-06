@@ -9,9 +9,9 @@ import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/upda
 import { UpdateOsFlowProps } from "App/overview/components/update-os-flow/update-os-flow.component.interface"
 import { CheckingUpdatesModal } from "App/overview/components/update-os-modals/checking-updates-modal"
 import { DevUpdateModal } from "App/overview/components/update-os-modals/dev-update-modal"
-import { DownloadingUpdateCancelledModal } from "App/overview/components/update-os-modals/downloading-update-cancelled-modal"
-import { DownloadingUpdateFinishedModal } from "App/overview/components/update-os-modals/downloading-update-finished-modal"
 import { DownloadingUpdateInterruptedModal } from "App/overview/components/update-os-modals/downloading-update-interrupted-modal"
+import { DownloadingUpdateFinishedModal } from "App/overview/components/update-os-modals/downloading-update-finished-modal"
+import { DownloadingUpdateFailedModal } from "App/overview/components/update-os-modals/downloading-update-failed-modal"
 import { DownloadingUpdateModal } from "App/overview/components/update-os-modals/downloading-update-modal"
 import { TooLowBatteryModal } from "App/overview/components/update-os-modals/too-low-battery-modal"
 import { UpdateAvailableModal } from "App/overview/components/update-os-modals/update-available-modal"
@@ -109,25 +109,28 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         timeLeft={downloadProgress?.timeLeft}
         onCancel={onOsDownloadCancel}
       />
-      <DownloadingUpdateCancelledModal
+      <DownloadingUpdateInterruptedModal
         testId={UpdateOsFlowTestIds.DownloadingCancelledModal}
         open={downloadState === DownloadState.Cancelled}
         onClose={resetUpdateFlow}
+        alreadyDownloadedReleases={[]}
       />
-      <DownloadingUpdateInterruptedModal
+      <DownloadingUpdateFailedModal
         testId={UpdateOsFlowTestIds.DownloadingInterruptedModal}
         open={
           downloadState === DownloadState.Failed &&
           error?.type !== UpdateError.TooLowBattery
         }
-        onRetry={downloadUpdate}
         onClose={resetUpdateFlow}
+        onGoToHelp={openHelpView}
+        onContactSupport={openContactSupportFlow}
       />
       <DownloadingUpdateFinishedModal
         testId={UpdateOsFlowTestIds.DownloadingFinishedModal}
         open={downloadState === DownloadState.Loaded && !devRelease}
         onClose={resetUpdateFlow}
         onOsUpdate={updateOs}
+        downloadedReleases={[]}
       />
 
       <UpdatingSpinnerModal

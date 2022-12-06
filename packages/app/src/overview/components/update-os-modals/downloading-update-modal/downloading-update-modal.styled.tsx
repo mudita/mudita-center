@@ -9,6 +9,7 @@ import {
   transitionTime,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import styled from "styled-components"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
 export const DownloadBar = styled.div`
   width: 22rem;
@@ -25,4 +26,10 @@ export const DownloadBar = styled.div`
     background-color: ${backgroundColor("activity")};
     transition: width ${transitionTime("faster")} ease-in-out;
   }
+`
+export const Submessage = styled(Text)`
+  text-align: center;
+`
+export const Pergentage = styled(Text)`
+  margin-top: 0.8rem;
 `
