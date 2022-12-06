@@ -3,22 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method, PhoneLockCategory } from "@mudita/pure"
 import fs from "fs"
 import path from "path"
 import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { BackupRestoreService } from "App/backup/services/backup-restore.service"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
-import { BackupError, Operation, OperationStatus } from "App/backup/constants"
+import { BackupError, Operation } from "App/backup/constants"
 import { UpdaterStatus } from "App/backup/dto"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import DeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
+import { DeviceManager } from "App/device-manager/services"
+import { DeviceFileSystemService } from "App/device-file-system/services"
+import { Endpoint, Method, PhoneLockCategory } from "App/device"
 
 const arrayBufferToBuffer = (unitArray: Uint8Array): Buffer => {
   const buffer = Buffer.alloc(unitArray.byteLength)
@@ -34,53 +30,56 @@ const encodedBackupMock = fs.readFileSync(
 )
 
 const updaterStatusSuccessMock: UpdaterStatus = {
-  updater_version: "1.2.3",
-  performed_operation: Operation.Restore,
-  operation_result: OperationStatus.Success,
+  branch: "",
+  message: "",
+  revision: "",
+  version: "1.2.3",
+  operation: Operation.Restore,
+  successful: true,
 }
 
 const updaterStatusFailedMock: UpdaterStatus = {
-  updater_version: "1.2.3",
-  performed_operation: Operation.Restore,
-  operation_result: OperationStatus.Failed,
+  branch: "",
+  message: "",
+  revision: "",
+  version: "1.2.3",
+  operation: Operation.Restore,
+  successful: false,
 }
 
 const updaterStatusSuccessForAnotherOperationMock: UpdaterStatus = {
-  updater_version: "1.2.3",
-  performed_operation: Operation.Recovery,
-  operation_result: OperationStatus.Success,
+  branch: "",
+  message: "",
+  revision: "",
+  version: "1.2.3",
+  operation: Operation.Recovery,
+  successful: true,
 }
 
-const successResponseMock: RequestResponse = {
-  status: RequestResponseStatus.Ok,
-}
-
-const errorResponseMock: RequestResponse = {
-  status: RequestResponseStatus.Error,
-}
-
-const deviceService = {
-  request: jest.fn(),
-} as unknown as DeviceService
+const deviceManager = {
+  device: {
+    request: jest.fn(),
+  },
+} as unknown as DeviceManager
 
 const deviceFileSystemAdapter = {
   uploadFile: jest.fn(),
   removeDeviceFile: jest.fn(),
   downloadFile: jest.fn(),
-} as unknown as DeviceFileSystemAdapter
+} as unknown as DeviceFileSystemService
 
 const fileSystemServiceMock = {
   readFileSync: jest.fn(),
 } as unknown as FileSystemService
 
 const subject = new BackupRestoreService(
-  deviceService,
+  deviceManager,
   deviceFileSystemAdapter,
   fileSystemServiceMock
 )
 
-afterEach(() => {
-  jest.clearAllMocks()
+beforeEach(() => {
+  jest.resetAllMocks()
 })
 
 describe("Restore process happy path", () => {
@@ -90,47 +89,39 @@ describe("Restore process happy path", () => {
       .mockResolvedValueOnce(encodedBackupMock)
     deviceFileSystemAdapter.uploadFile = jest
       .fn()
-      .mockResolvedValueOnce(successResponseMock)
-    deviceFileSystemAdapter.downloadFile = jest.fn().mockResolvedValueOnce({
-      status: RequestResponseStatus.Ok,
-      data: JSON.stringify(updaterStatusSuccessMock),
-    })
-    deviceService.request = jest
+      .mockResolvedValueOnce(Result.success(true))
+    deviceFileSystemAdapter.downloadFile = jest
+      .fn()
+      .mockResolvedValueOnce(
+        Result.success(JSON.stringify(updaterStatusSuccessMock))
+      )
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
           config.endpoint === Endpoint.DeviceInfo &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              backupFilePath: "/user/local/backup/backupFilePath",
-            },
-          }
+          return Result.success({
+            backupFilePath: "/user/local/backup/backupFilePath",
+          })
         }
 
         if (
           config.endpoint === Endpoint.Restore &&
           config.method === Method.Post
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(true)
         }
 
         if (
           config.endpoint === Endpoint.Security &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(true)
         }
 
-        return {
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(new AppError("", ""))
       })
 
     const result = await subject.restoreBackup({
@@ -160,25 +151,26 @@ describe("Restore process happy path", () => {
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceService.request).toHaveBeenNthCalledWith(1, {
+    expect(deviceManager.device.request).toHaveBeenNthCalledWith(1, {
       endpoint: Endpoint.Restore,
       method: Method.Post,
       body: { restore: "fileBase.tar" },
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceService.request).toHaveBeenNthCalledWith(2, {
+    expect(deviceManager.device.request).toHaveBeenNthCalledWith(2, {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceService.request).toHaveBeenNthCalledWith(3, {
+    expect(deviceManager.device.request).toHaveBeenNthCalledWith(3, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
     })
-  })
+    // TODO: please remove custom timeout
+  }, 10000)
 })
 
 describe("Backup restoring failed path", () => {
@@ -208,7 +200,7 @@ describe("Backup restoring failed path", () => {
       .mockResolvedValueOnce(encodedBackupMock)
     deviceFileSystemAdapter.uploadFile = jest
       .fn()
-      .mockResolvedValueOnce(errorResponseMock)
+      .mockResolvedValueOnce(Result.failed(new AppError("", "")))
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
@@ -232,34 +224,27 @@ describe("Backup restoring failed path", () => {
       .mockResolvedValueOnce(encodedBackupMock)
     deviceFileSystemAdapter.uploadFile = jest
       .fn()
-      .mockResolvedValueOnce(successResponseMock)
-    deviceService.request = jest
+      .mockResolvedValueOnce(Result.success(true))
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
           config.endpoint === Endpoint.DeviceInfo &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              backupFilePath: "/user/local/backup/backupFilePath",
-            },
-          }
+          return Result.success({
+            backupFilePath: "/user/local/backup/backupFilePath",
+          })
         }
 
         if (
           config.endpoint === Endpoint.Backup &&
           config.method === Method.Post
         ) {
-          return {
-            status: RequestResponseStatus.Error,
-          }
+          return Result.failed(new AppError("", ""))
         }
 
-        return {
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(new AppError("", ""))
       })
 
     const result = await subject.restoreBackup({
@@ -275,114 +260,44 @@ describe("Backup restoring failed path", () => {
     )
   })
 
-  test("Returns the `Result.failed` with `BackupError.RestoreBackupFailed` if `Endpoint.DeviceInfo` endpoint returns error status during awaiting", async () => {
-    fileSystemServiceMock.readFile = jest
-      .fn()
-      .mockResolvedValueOnce(encodedBackupMock)
-    deviceFileSystemAdapter.uploadFile = jest
-      .fn()
-      .mockResolvedValueOnce(successResponseMock)
-    deviceFileSystemAdapter.downloadFile = jest.fn().mockResolvedValueOnce({
-      status: RequestResponseStatus.Ok,
-      data: JSON.stringify(updaterStatusSuccessMock),
-    })
-    deviceService.request = jest
-      .fn()
-      .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return {
-            status: RequestResponseStatus.Error,
-          }
-        }
-
-        if (
-          config.endpoint === Endpoint.Restore &&
-          config.method === Method.Post
-        ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
-        }
-
-        if (
-          config.endpoint === Endpoint.Security &&
-          config.method === Method.Get
-        ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
-        }
-
-        return {
-          status: RequestResponseStatus.Error,
-        }
-      })
-
-    const result = await subject.restoreBackup({
-      filePath: "/backup.tar",
-      backupFilePath: "/usr/backup/fileBase.tar",
-      token: "1234567890",
-    })
-
-    expect(result).toEqual(
-      Result.failed(
-        new AppError(BackupError.RestoreBackupFailed, "Device didn't wake up")
-      )
-    )
-  })
-
   test("Returns the `Result.failed` with `BackupError.CannotGetProcessStatus` if `deviceFileSystem.downloadFile` method doesn't return response", async () => {
     fileSystemServiceMock.readFile = jest
       .fn()
       .mockResolvedValueOnce(encodedBackupMock)
     deviceFileSystemAdapter.uploadFile = jest
       .fn()
-      .mockResolvedValueOnce(successResponseMock)
-    deviceFileSystemAdapter.downloadFile = jest.fn().mockResolvedValueOnce({
-      status: RequestResponseStatus.Ok,
-      data: undefined,
-    })
-    deviceService.request = jest
+      .mockResolvedValueOnce(Result.success(true))
+    deviceFileSystemAdapter.downloadFile = jest
+      .fn()
+      .mockResolvedValueOnce(Result.failed(new AppError("", "")))
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
           config.endpoint === Endpoint.DeviceInfo &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              backupFilePath: "/user/local/backup/fileBase.tar",
-              recoveryStatusFilePath:
-                "/user/local/recovery/updater_status.json",
-            },
-          }
+          return Result.success({
+            backupFilePath: "/user/local/backup/fileBase.tar",
+            recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
+          })
         }
 
         if (
           config.endpoint === Endpoint.Restore &&
           config.method === Method.Post
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(true)
         }
 
         if (
           config.endpoint === Endpoint.Security &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(true)
         }
 
-        return {
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(new AppError("", ""))
       })
 
     const result = await subject.restoreBackup({
@@ -399,7 +314,8 @@ describe("Backup restoring failed path", () => {
         )
       )
     )
-  })
+    // TODO: please remove custom timeout
+  }, 10000)
 
   test("Returns the `Result.failed` with `BackupError.OperationFailed` if `deviceFileSystem.downloadFile` method returns status but for another operation", async () => {
     fileSystemServiceMock.readFile = jest
@@ -407,47 +323,42 @@ describe("Backup restoring failed path", () => {
       .mockResolvedValueOnce(encodedBackupMock)
     deviceFileSystemAdapter.uploadFile = jest
       .fn()
-      .mockResolvedValueOnce(successResponseMock)
-    deviceFileSystemAdapter.downloadFile = jest.fn().mockResolvedValueOnce({
-      status: RequestResponseStatus.Ok,
-      data: JSON.stringify(updaterStatusSuccessForAnotherOperationMock),
-    })
-    deviceService.request = jest
+      .mockResolvedValueOnce(Result.success(true))
+    deviceFileSystemAdapter.downloadFile = jest
+      .fn()
+      .mockResolvedValueOnce(
+        Result.success(
+          JSON.stringify(updaterStatusSuccessForAnotherOperationMock)
+        )
+      )
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
           config.endpoint === Endpoint.DeviceInfo &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              backupLocation: "/user/local/backup/",
-            },
-          }
+          return Result.success({
+            backupFilePath: "/user/local/backup/fileBase.tar",
+            recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
+          })
         }
 
         if (
           config.endpoint === Endpoint.Restore &&
           config.method === Method.Post
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(true)
         }
 
         if (
           config.endpoint === Endpoint.Security &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(true)
         }
 
-        return {
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(new AppError("", ""))
       })
 
     const result = await subject.restoreBackup({
@@ -464,55 +375,49 @@ describe("Backup restoring failed path", () => {
         )
       )
     )
-  })
+    // TODO: please remove custom timeout
+  }, 10000)
 
-  test("Returns the `Result.failed` with `BackupError.OperationFailed` if `deviceFileSystem.downloadFile` method returns status but for another operation", async () => {
+  test("Returns the `Result.failed` with `BackupError.OperationFailed` if `deviceFileSystem.downloadFile` method returns status but with fail status", async () => {
     fileSystemServiceMock.readFile = jest
       .fn()
       .mockResolvedValueOnce(encodedBackupMock)
     deviceFileSystemAdapter.uploadFile = jest
       .fn()
-      .mockResolvedValueOnce(successResponseMock)
-    deviceFileSystemAdapter.downloadFile = jest.fn().mockResolvedValueOnce({
-      status: RequestResponseStatus.Ok,
-      data: JSON.stringify(updaterStatusFailedMock),
-    })
-    deviceService.request = jest
+      .mockResolvedValueOnce(Result.success(true))
+    deviceFileSystemAdapter.downloadFile = jest
+      .fn()
+      .mockResolvedValueOnce(
+        Result.success(JSON.stringify(updaterStatusFailedMock))
+      )
+    deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
           config.endpoint === Endpoint.DeviceInfo &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-            data: {
-              backupLocation: "/user/local/backup/",
-            },
-          }
+          return Result.success({
+            backupFilePath: "/user/local/backup/fileBase.tar",
+            recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
+          })
         }
 
         if (
           config.endpoint === Endpoint.Restore &&
           config.method === Method.Post
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(true)
         }
 
         if (
           config.endpoint === Endpoint.Security &&
           config.method === Method.Get
         ) {
-          return {
-            status: RequestResponseStatus.Ok,
-          }
+          return Result.success(true)
         }
 
-        return {
-          status: RequestResponseStatus.Error,
-        }
+        return Result.failed(new AppError("", ""))
       })
 
     const result = await subject.restoreBackup({
@@ -526,5 +431,6 @@ describe("Backup restoring failed path", () => {
         new AppError(BackupError.OperationFailed, "Operation: restore - Failed")
       )
     )
-  })
+    // TODO: please remove custom timeout
+  }, 10000)
 })

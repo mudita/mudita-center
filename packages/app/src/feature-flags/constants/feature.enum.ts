@@ -44,5 +44,4 @@ export enum Feature {
   OrderTemplate = "order-template",
   AlphaRelaseWarning = "alpha-release-warning",
   ForceUpdate = "force-update",
-  BackupCategoriesEnabled = "backup-categories-enabled",
 }

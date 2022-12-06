@@ -3,10 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Operation, OperationStatus } from "App/backup/constants"
+import { Operation } from "App/backup/constants"
 
 export interface UpdaterStatus {
-  updater_version: string
-  performed_operation: Operation
-  operation_result: OperationStatus
+  version: string
+  branch: string
+  revision: string
+  operation: Operation
+  successful: boolean
+  message: string
 }

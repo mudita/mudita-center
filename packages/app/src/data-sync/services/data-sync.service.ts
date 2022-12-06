@@ -4,7 +4,6 @@
  */
 
 import path from "path"
-import { BackupCategory } from "App/device/constants"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { IndexStorage } from "App/index-storage/types"
@@ -25,14 +24,14 @@ import {
   TemplatePresenter,
   ThreadPresenter,
 } from "App/data-sync/presenters"
-import { BackupCreateService } from "App/backup/services/backup-create.service"
+import { SyncBackupCreateService } from "App/backup/services/sync-backup-create.service"
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
   private templateIndexer: TemplateIndexer | null = null
-  private deviceBackupService: BackupCreateService
+  private syncBackupCreateService: SyncBackupCreateService
 
   constructor(
     private index: IndexStorage,
@@ -40,7 +39,7 @@ export class DataSyncService {
     private keyStorage: MetadataStore,
     private fileSystemStorage: FileSystemService
   ) {
-    this.deviceBackupService = new BackupCreateService(
+    this.syncBackupCreateService = new SyncBackupCreateService(
       this.deviceManager,
       new DeviceFileSystemService(this.deviceManager),
       this.keyStorage
@@ -88,16 +87,13 @@ export class DataSyncService {
     }
 
     const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
-    const { ok, data } = await this.deviceBackupService.createBackup(
-      {
-        token,
-        extract: true,
-        cwd: syncFileDir,
-      },
-      BackupCategory.Sync
-    )
+    const { ok } = await this.syncBackupCreateService.createSyncBackup({
+      token,
+      extract: true,
+      cwd: syncFileDir,
+    })
 
-    if (!ok || data === undefined) {
+    if (!ok) {
       return false
     }
 

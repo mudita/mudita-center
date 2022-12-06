@@ -7,25 +7,21 @@ import {
   Endpoint,
   Method,
   BackupCategory,
-  BackupState,
 } from "App/device/constants"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { BackupError } from "App/backup/constants"
+import { BackupError, Operation } from "App/backup/constants"
 import { MetadataStore, MetadataKey } from "App/metadata"
 import { CreateDeviceBackup } from "App/backup/types"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import { DeviceManager } from "App/device-manager/services"
-import {
-  StartBackupResponseBody,
-  GetDeviceInfoResponseBody,
-  GetBackupDeviceStatusResponseBody,
-} from "App/device/types/mudita-os"
+import { BaseBackupService } from "App/backup/services/base-backup.service"
+import { DeviceInfo } from "App/device/types/mudita-os"
 
 export class BackupCreateService extends BaseBackupService {
   constructor(
-    private deviceManager: DeviceManager,
-    private deviceFileSystem: DeviceFileSystemService,
+    public deviceManager: DeviceManager,
+    public deviceFileSystem: DeviceFileSystemService,
     private keyStorage: MetadataStore
   ) {
     super(deviceManager, deviceFileSystem)
@@ -92,7 +88,7 @@ export class BackupCreateService extends BaseBackupService {
   }
 
   private async runDeviceBackup(): Promise<ResultObject<string | undefined>> {
-    const deviceResponse = await this.deviceManager.request({
+    const deviceResponse = await this.deviceManager.device.request<DeviceInfo>({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
@@ -106,7 +102,7 @@ export class BackupCreateService extends BaseBackupService {
       )
     }
 
-    const backupResponse = await this.deviceManager.request({
+    const backupResponse = await this.deviceManager.device.request({
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {
@@ -114,7 +110,7 @@ export class BackupCreateService extends BaseBackupService {
       },
     })
 
-    if (!isResponseSuccess(backupResponse)) {
+    if (!backupResponse.ok) {
       return Result.failed(
         new AppError(
           BackupError.CannotBackupDevice,

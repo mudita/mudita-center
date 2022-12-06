@@ -6,5 +6,5 @@
 export * from "./controller.constant"
 export * from "./error.constant"
 export * from "./event.enum"
-export * from "./operation-status.constant"
+export * from "./ipc-backup.enum"
 export * from "./operation.constant"

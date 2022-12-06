@@ -131,8 +131,11 @@ export interface DeviceInfo {
   networkStatus: NetworkStatus
   serialNumber: string
   caseColour: CaseColor
-  backupLocation: string
   deviceToken?: string
+  backupFilePath: string
+  updateFilePath: string
+  syncFilePath: string
+  recoveryStatusFilePath: string
 }
 
 export interface GetDeviceInfoRequestConfig extends RequestConfig {

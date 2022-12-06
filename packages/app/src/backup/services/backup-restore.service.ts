@@ -3,33 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import fs from "fs"
 import {
   Endpoint,
   Method,
-  RestoreState,
-  DeviceCommunicationError,
 } from "App/device/constants"
-import { GetRestoreDeviceStatusResponseBody } from "App/device/types/mudita-os"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 import { RestoreDeviceBackup } from "App/backup/types"
-import { BackupError } from "App/backup/constants"
+import { BackupError, Operation } from "App/backup/constants"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import { DeviceManager } from "App/device-manager/services"
+import { BaseBackupService } from "App/backup/services/base-backup.service"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 export class BackupRestoreService extends BaseBackupService {
   constructor(
-    private deviceManager: DeviceManager,
-    private deviceFileSystem: DeviceFileSystemService,
+    public deviceManager: DeviceManager,
+    public deviceFileSystem: DeviceFileSystemService,
     private fileSystem: FileSystemService
   ) {
-    super(deviceService, deviceFileSystem)
+    super(deviceManager, deviceFileSystem)
   }
 
   public async restoreBackup({

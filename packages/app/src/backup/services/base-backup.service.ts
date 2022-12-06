@@ -3,43 +3,33 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method, PhoneLockCategory } from "@mudita/pure"
+import { Endpoint, Method, PhoneLockCategory } from "App/device"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
-import { isResponseSuccessWithData } from "App/core/helpers"
-import {
-  Operation,
-  OperationStatus,
-  BackupError,
-} from "App/backup/constants"
+import { Operation, BackupError } from "App/backup/constants"
 import { UpdaterStatus } from "App/backup/dto"
-
-// DEPRECATED
-import DeviceService from "App/__deprecated__/backend/device-service"
-import DeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DeviceManager } from "App/device-manager/services"
+import { DeviceFileSystemService } from "App/device-file-system/services"
+import { DeviceInfo } from "App/device/types/mudita-os"
 
 export class BaseBackupService {
   private MAX_WAKE_UP_RETRIES = 24
   private REQUEST_TIME_OUT = 5000
 
   constructor(
-    public deviceService: DeviceService,
-    public deviceFileSystem: DeviceFileSystemAdapter
+    public deviceManager: DeviceManager,
+    public deviceFileSystem: DeviceFileSystemService
   ) {}
 
   public async checkStatus(
     operation: Operation
   ): Promise<ResultObject<boolean | undefined>> {
-    const deviceResponse = await this.deviceService.request({
+    const deviceResponse = await this.deviceManager.device.request<DeviceInfo>({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
 
-    if (!isResponseSuccessWithData(deviceResponse)) {
+    if (!deviceResponse.ok || !deviceResponse.data) {
       return Result.failed(
         new AppError(
           BackupError.CannotGetDeviceInfo,
@@ -52,7 +42,7 @@ export class BaseBackupService {
       deviceResponse.data.recoveryStatusFilePath
     )
 
-    if (!isResponseSuccessWithData(response)) {
+    if (!response.ok || !response.data) {
       return Result.failed(
         new AppError(
           BackupError.CannotGetProcessStatus,
@@ -63,8 +53,8 @@ export class BaseBackupService {
 
     const result = JSON.parse(response.data.toString("utf8")) as UpdaterStatus
 
-    if (result.performed_operation === operation) {
-      if (result.operation_result === OperationStatus.Success) {
+    if (result.operation === operation) {
+      if (result.successful) {
         return Result.success(true)
       } else {
         return Result.failed(
@@ -78,7 +68,7 @@ export class BaseBackupService {
       return Result.failed(
         new AppError(
           BackupError.OperationDoesNotMatch,
-          `The operation ${operation} doesn't match to operation type ${result.performed_operation}`
+          `The operation ${operation} doesn't match to operation type ${result.operation}`
         )
       )
     }
@@ -89,7 +79,7 @@ export class BaseBackupService {
   > {
     const wakeUpResponse = await this.waitUntilDeviceResponse()
 
-    if (wakeUpResponse.status === RequestResponseStatus.Error) {
+    if (!wakeUpResponse) {
       return Result.failed(
         new AppError(BackupError.OperationTimeout, "Device didn't wake up")
       )
@@ -97,7 +87,7 @@ export class BaseBackupService {
 
     const unlockResponse = await this.waitUntilGetUnlockDeviceStatusResponse()
 
-    if (unlockResponse.status === RequestResponseStatus.Ok) {
+    if (unlockResponse) {
       return Result.success(true)
     } else {
       return Result.failed(
@@ -106,64 +96,49 @@ export class BaseBackupService {
     }
   }
 
-  private async waitUntilDeviceResponse(
-    firstRequest = true,
-    index = 0
-  ): Promise<RequestResponse> {
+  private async waitUntilDeviceResponse(index = 0): Promise<boolean> {
     if (index === this.MAX_WAKE_UP_RETRIES) {
-      return {
-        status: RequestResponseStatus.Error,
-      }
-    }
-
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-
-    if (isResponseSuccessWithData(response)) {
-      return { status: RequestResponseStatus.Ok }
-    }
-
-    if (!firstRequest && response.status === RequestResponseStatus.Error) {
-      return { status: RequestResponseStatus.Ok }
-    }
-
-    if (response.status === RequestResponseStatus.Error) {
-      return {
-        status: RequestResponseStatus.Error,
-      }
+      return false
     }
 
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(this.waitUntilDeviceResponse(false, ++index))
+        void (async () => {
+          try {
+            const response = await this.deviceManager.device.request({
+              endpoint: Endpoint.DeviceInfo,
+              method: Method.Get,
+            })
+
+            if (response.ok) {
+              resolve(true)
+              return
+            }
+
+            resolve(this.waitUntilDeviceResponse(++index))
+          } catch (e) {
+            resolve(this.waitUntilDeviceResponse(++index))
+          }
+        })()
       }, this.REQUEST_TIME_OUT)
     })
   }
 
   private async waitUntilGetUnlockDeviceStatusResponse(
     index = 0
-  ): Promise<RequestResponse> {
+  ): Promise<boolean> {
     if (index === this.REQUEST_TIME_OUT) {
-      return {
-        status: RequestResponseStatus.Error,
-      }
+      return false
     }
 
-    const response = await this.deviceService.request({
+    const response = await this.deviceManager.device.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
     })
 
-    if (
-      response.status === RequestResponseStatus.Ok ||
-      response.status === RequestResponseStatus.PhoneLocked
-    ) {
-      return {
-        status: RequestResponseStatus.Ok,
-      }
+    if (response.ok) {
+      return true
     } else {
       return new Promise((resolve) => {
         setTimeout(() => {

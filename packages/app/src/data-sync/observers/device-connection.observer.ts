@@ -35,73 +35,62 @@ export class DeviceConnectionObserver implements Observer {
   private registerListener(): void {
     this.eventEmitter.on(
       DeviceServiceEvent.DeviceUnlocked,
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      async (device: SerialPortDevice) => {
-        if (this.invoked) {
-          return
-        }
-        this.invoked = true
+      (device: SerialPortDevice) => {
+        void (async () => {
+          if (this.invoked) {
+            return
+          }
+          this.invoked = true
 
-        if (device.deviceType === DeviceType.MuditaHarmony) {
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/await-thenable
-          await this.ipc.sendToRenderers(IpcEvent.DataSkipped)
-          return
-        }
-
-        try {
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/await-thenable
-          await this.ipc.sendToRenderers(IpcEvent.DataLoading)
-
-          const { data } = await this.deviceManager.device.request({
-            endpoint: Endpoint.DeviceInfo,
-            method: Method.Get,
-          })
-
-          const { serialNumber, deviceToken } =
-            data as GetDeviceInfoResponseBody
-
-          if (data === undefined) {
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/await-thenable
-            await this.ipc.sendToRenderers(IpcEvent.DataError)
+          if (device.deviceType === DeviceType.MuditaHarmony) {
+            this.ipc.sendToRenderers(IpcEvent.DataSkipped)
             return
           }
 
-          this.keyStorage.setValue(MetadataKey.DeviceSerialNumber, serialNumber)
-          this.keyStorage.setValue(MetadataKey.DeviceToken, deviceToken)
-
-          const indexed = await this.dataSyncService.indexAll()
-
-          if (indexed) {
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/await-thenable
-            await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/await-thenable
-            await this.eventEmitter.emit(ModelEvent.Loaded)
-          } else {
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/await-thenable
-            await this.ipc.sendToRenderers(IpcEvent.DataError)
+          if (this.keyStorage.getValue(MetadataKey.BackupInProgress)) {
+            this.ipc.sendToRenderers(IpcEvent.DataSkipped)
+            return
           }
-        } catch (error) {
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/await-thenable
-          await this.ipc.sendToRenderers(IpcEvent.DataError, error)
-        }
+
+          try {
+            this.ipc.sendToRenderers(IpcEvent.DataLoading)
+
+            const { data } = await this.deviceManager.device.request({
+              endpoint: Endpoint.DeviceInfo,
+              method: Method.Get,
+            })
+
+            const { serialNumber, deviceToken } =
+              data as GetDeviceInfoResponseBody
+
+            if (data === undefined) {
+              this.ipc.sendToRenderers(IpcEvent.DataError)
+              return
+            }
+
+            this.keyStorage.setValue(
+              MetadataKey.DeviceSerialNumber,
+              serialNumber
+            )
+            this.keyStorage.setValue(MetadataKey.DeviceToken, deviceToken)
+
+            const indexed = await this.dataSyncService.indexAll()
+
+            if (indexed) {
+              this.ipc.sendToRenderers(IpcEvent.DataLoaded)
+              this.eventEmitter.emit(ModelEvent.Loaded)
+            } else {
+              this.ipc.sendToRenderers(IpcEvent.DataError)
+            }
+          } catch (error) {
+            this.ipc.sendToRenderers(IpcEvent.DataError, error)
+          }
+        })()
       }
     )
 
-    this.eventEmitter.on(
-      DeviceServiceEvent.DeviceDisconnected,
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
-      async () => {
-        this.invoked = false
-      }
-    )
+    this.eventEmitter.on(DeviceServiceEvent.DeviceDisconnected, () => {
+      this.invoked = false
+    })
   }
 }
