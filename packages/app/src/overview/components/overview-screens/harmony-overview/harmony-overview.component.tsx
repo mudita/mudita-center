@@ -147,7 +147,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         batteryLevel={batteryLevel}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
-        pureOsAvailable={Boolean(availableReleasesForUpdate)}
+        pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={updateRelease}
