@@ -22,8 +22,9 @@ export class ReleasesController {
   public async getAllReleases(
     product: Product
   ): Promise<ResultObject<OsRelease[] | undefined>> {
+    // TODO [mw] workaround change needed for QA team. Should be removed when implementing CP-1743
     return flags.get(Feature.DeveloperModeEnabled)
-      ? this.releaseService.getAllReleases(product)
+      ? this.releaseService.getTestReleasesForSOSUfeature(product)
       : Result.success([])
   }
 

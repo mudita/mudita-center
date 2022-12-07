@@ -209,11 +209,18 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     )
   }
 
-  // TODO [mw] handle sequential update - scope of CP-1687
-  const updateRelease = (release?: OsRelease) => {
-    const releaseToInstall = availableReleasesForUpdate
+  const getReleaseForAction = (release?: OsRelease): OsRelease | undefined => {
+    if (release) {
+      return release
+    }
+    return availableReleasesForUpdate && availableReleasesForUpdate.length > 0
       ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
-      : release
+      : undefined
+  }
+
+  // TODO [mw] handle me - scope of CP-1687
+  const updateRelease = (release?: OsRelease) => {
+    const releaseToInstall = getReleaseForAction(release)
 
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
@@ -221,7 +228,9 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const downloadReleases = (releases?: OsRelease[]) => {
     const releasesToDownload = releases ?? availableReleasesForUpdate
 
-    releasesToDownload && downloadUpdates(releasesToDownload)
+    releasesToDownload &&
+      releasesToDownload.length > 0 &&
+      downloadUpdates(releasesToDownload)
   }
 
   const checkForPureUpdate = () => {

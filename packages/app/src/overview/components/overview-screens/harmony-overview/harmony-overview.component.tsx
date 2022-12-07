@@ -90,11 +90,18 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     }
   }
 
+  const getReleaseForAction = (release?: OsRelease): OsRelease | undefined => {
+    if (release) {
+      return release
+    }
+    return availableReleasesForUpdate && availableReleasesForUpdate.length > 0
+      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+      : undefined
+  }
+
   // TODO [mw] handle me - scope of CP-1687
   const updateRelease = (release?: OsRelease) => {
-    const releaseToInstall = availableReleasesForUpdate
-      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
-      : release
+    const releaseToInstall = getReleaseForAction(release)
 
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
@@ -102,7 +109,9 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   const downloadReleases = (releases?: OsRelease[]) => {
     const releasesToDownload = releases ?? availableReleasesForUpdate
 
-    releasesToDownload && downloadUpdates(releasesToDownload)
+    releasesToDownload &&
+      releasesToDownload.length > 0 &&
+      downloadUpdates(releasesToDownload)
   }
 
   const checkForPureUpdate = () => {
