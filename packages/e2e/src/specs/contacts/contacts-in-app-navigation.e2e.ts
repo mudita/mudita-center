@@ -23,7 +23,7 @@ describe("Contacts screen check", () => {
 
   it("Should close New Contact windw and check text display on no contacts screen", async () => {
     const noContactsTextLabel = await ContactsPage.noContactsTextLabel
-    await browser.saveScreenshot("./screenshot.png")
+
     await noContactsTextLabel.waitForDisplayed()
     const noContactsH3Value = await noContactsTextLabel.$("<h3>")
     const noContactsPValue = await noContactsTextLabel.$("<p>")
