@@ -12,10 +12,13 @@ describe("Add, edit, delete single contact scenarios", () => {
   before(async () => {
     // Waiting for device connected through USB
     await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
+      setTimeout(done, 13000)
     })
     ModalGeneralPage.closeModalButtonClick()
     NavigationTabs.contactsTabClick()
+    await browser.executeAsync((done) => {
+      setTimeout(done, 1000)
+    })
   })
 
   it("Should press new contact button, add contact data and save it", async () => {
@@ -24,16 +27,16 @@ describe("Add, edit, delete single contact scenarios", () => {
     await newContactBtn.click()
     await expect(newContactBtn).toBeDisabled()
 
-    await ContactsPage.setFirstName("Henryk")
-    await ContactsPage.setLastName("Zaskroniec")
-    const phoneNumberInputValue = (
-      Math.floor(Math.random() * 9000000) + 100000
-    ).toString()
-    await ContactsPage.setPhoneNumber1(phoneNumberInputValue)
+    await ContactsPage.firstNameSetValue("Henryk")
+    await ContactsPage.lastNameSetValue("Zaskroniec")
+    await ContactsPage.phoneNumber1SetValue("602900000")
+    await ContactsPage.phoneNumber2SetValue("510100100")
+    await ContactsPage.addressLine1SetValue("Al. Ujazdowskie 100/19")
+    await ContactsPage.addressLine2SetValue("00-675 Warszawa")
 
     await ContactsPage.saveButtonClick()
     await browser.executeAsync((done) => {
-      setTimeout(done, 5000)
+      setTimeout(done, 2000)
     })
 
     const storedContacts = await ContactsPage.listOfContacts
@@ -42,7 +45,28 @@ describe("Add, edit, delete single contact scenarios", () => {
     expect(ContactData).toHaveText("Henryk Zaskroniec")
 
     const phoneNumber = await ContactsPage.phoneNumberOnContactList
-    expect(phoneNumber).toHaveText(phoneNumberInputValue)
+    expect(phoneNumber).toHaveTextContaining(["602900000", "510100100"])
+  })
+
+  it("Should click on contact and check contact details screen", async () => {
+    const singleContact = await ContactsPage.singleContact
+    await singleContact.click()
+    const nameDetails = await ContactsPage.nameOnContactDetailScreen
+    await nameDetails.waitForDisplayed()
+    await expect(nameDetails).toHaveText("Henryk Zaskroniec")
+
+    const number1Details = await ContactsPage.phoneNumber1OnContactDetailScreen
+    await number1Details.waitForDisplayed()
+    const number1DetailsValue = await number1Details.getValue()
+    console.log(number1DetailsValue)
+    expect(number1DetailsValue).toHaveValue("602900000")
+
+    const number2Details = await ContactsPage.phoneNumber2OnContactDetailScreen
+    await number2Details.waitForDisplayed()
+
+    expect(number2Details).toHaveValue("510100100")
+
+    await ContactsPage.closeButtonClick()
   })
 
   it("Should edit contact using options menu", async () => {
@@ -54,19 +78,17 @@ describe("Add, edit, delete single contact scenarios", () => {
     const editOption = await ContactsPage.editContactOptionMenu
     await editOption.click()
     await browser.executeAsync((done) => {
-      setTimeout(done, 5000)
+      setTimeout(done, 2000)
     })
 
-    await ContactsPage.setFirstName("Kazimierz")
-    await ContactsPage.setLastName("Glonojad")
-    const phoneNumberInputValue = (
-      Math.floor(Math.random() * 9000000) + 100000
-    ).toString()
-    await ContactsPage.setPhoneNumber1(phoneNumberInputValue)
+    await ContactsPage.firstNameSetValue("Kazimierz")
+    await ContactsPage.lastNameSetValue("Glonojad")
+
+    await ContactsPage.phoneNumber1SetValue("601100601")
 
     await ContactsPage.saveButtonClick()
     await browser.executeAsync((done) => {
-      setTimeout(done, 5000)
+      setTimeout(done, 2000)
     })
 
     await ContactsPage.closeButtonClick()
@@ -78,7 +100,6 @@ describe("Add, edit, delete single contact scenarios", () => {
   })
 
   it("Should delete single contact using options menu and check no concats screen is displayed", async () => {
-    await browser.saveScreenshot("./BeforeDeletescreenshot.png")
     await ContactsPage.optionsButtonOnContactListClick()
     await browser.executeAsync((done) => {
       setTimeout(done, 2000)

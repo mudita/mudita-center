@@ -31,7 +31,7 @@ class ContactsPage extends Page {
     return $('[data-testid="first-name"]')
   }
 
-  async setFirstName(inputValue) {
+  async firstNameSetValue(inputValue) {
     await this.firstNameInput.waitForDisplayed()
     await this.firstNameInput.setValue(inputValue)
   }
@@ -42,7 +42,7 @@ class ContactsPage extends Page {
     return $('[data-testid="second-name"]')
   }
 
-  async setLastName(inputValue) {
+  async lastNameSetValue(inputValue) {
     await this.lastNameInput.waitForDisplayed()
     await this.lastNameInput.setValue(inputValue)
   }
@@ -53,7 +53,7 @@ class ContactsPage extends Page {
     return $('[data-testid="primary-number"]')
   }
 
-  async setPhoneNumber1(inputValue) {
+  async phoneNumber1SetValue(inputValue) {
     await this.phoneNumberInput.waitForDisplayed()
     await this.phoneNumberInput.setValue(inputValue)
   }
@@ -64,7 +64,7 @@ class ContactsPage extends Page {
     return $('[data-testid="secondary-number"]')
   }
 
-  async setPhoneNumber2(inputValue) {
+  async phoneNumber2SetValue(inputValue) {
     await this.secondPhoneNumberInput.waitForDisplayed()
     await this.secondPhoneNumberInput.setValue(inputValue)
   }
@@ -75,7 +75,7 @@ class ContactsPage extends Page {
     return $('[data-testid="first-address-line"]')
   }
 
-  async setAddressLine1(inputValue) {
+  async addressLine1SetValue(inputValue) {
     await this.addressLine1Input.waitForDisplayed()
     await this.addressLine1Input.setValue(inputValue)
   }
@@ -86,7 +86,7 @@ class ContactsPage extends Page {
     return $('[data-testid="second-address-line"]')
   }
 
-  async setAddressLine2(inputValue) {
+  async addressLine2SetValue(inputValue) {
     await this.addressLine2Input.waitForDisplayed()
     await this.addressLine2Input.setValue(inputValue)
   }
@@ -134,11 +134,22 @@ class ContactsPage extends Page {
   public get listOfContacts() {
     return $$('[data-testid="contact-row"]')
   }
-  public get phoneNumberOnContactList() {
+
+  public get singleContact(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="contact-row"]')
+  }
+
+  public get phoneNumberOnContactList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
     return $('[data-testid="virtualized-contact-phone-number"]')
   }
 
-  public get optionsButtonOnContactList() {
+  public get optionsButtonOnContactList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
     return $('[data-testid="icon-More"]')
   }
   async optionsButtonOnContactListClick() {
@@ -146,16 +157,64 @@ class ContactsPage extends Page {
     await this.optionsButtonOnContactList.click()
   }
 
-  public get editContactOptionMenu() {
+  public get editContactOptionMenu(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
     return $('[data-testid="icon-Edit"]')
   }
 
-  public get exportAsVCardOptionMenu() {
+  public get exportAsVCardOptionMenu(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
     return $('[data-testid="icon-UploadDark"]')
   }
 
-  public get deleteContactOptionMenu() {
+  public get deleteContactOptionMenu(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
     return $('[data-testid="icon-Delete"]')
+  }
+
+  public get nameOnContactDetailScreen(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="name"]')
+  }
+
+  public get phoneNumber1OnContactDetailScreen(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="primary-phone-input"]')
+  }
+
+  public get phoneNumber2OnContactDetailScreen(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="secondary-phone-input"]')
+  }
+
+  public get addressOnContactDetailScreen(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="address-details"]')
+  }
+
+  public get deleteButtonOnContactDetailScreen(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-Delete"]')
+  }
+
+  public get exportButtonOnContactDetailScreen(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-UploadDark"]')
+  }
+
+  public get editButtonOnContactDetailScreen(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-Edit"]')
   }
 }
 
