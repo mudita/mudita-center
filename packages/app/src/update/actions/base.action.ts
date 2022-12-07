@@ -5,8 +5,12 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
-import { UpdateOsEvent } from "App/update/constants"
+import { ReleaseProcessState, UpdateOsEvent } from "App/update/constants"
 
 export const setUpdateState = createAction<State>(UpdateOsEvent.SetUpdateState)
 export const clearState = createAction(UpdateOsEvent.ClearState)
 export const cancelDownload = createAction(UpdateOsEvent.CancelDownload)
+export const updateDownloadProcessState = createAction<{
+  version: string
+  state: ReleaseProcessState
+}>(UpdateOsEvent.UpdateDownloadStateFile)

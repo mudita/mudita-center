@@ -9,7 +9,12 @@ import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { UpdateOsFlowProps } from "App/overview/components/update-os-flow/update-os-flow.component.interface"
 import * as useDevUpdateModule from "App/overview/hooks/use-dev-os-update/use-dev-os-update"
-import { DownloadState, OsReleaseType, UpdateError } from "App/update/constants"
+import {
+  DownloadState,
+  OsReleaseType,
+  ReleaseProcessState,
+  UpdateError,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { Product } from "App/__deprecated__/main/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
@@ -36,10 +41,11 @@ const defaultProps: UpdateOsFlowProps = {
   error: null,
   abortDownloading: jest.fn(),
   clearUpdateOsFlow: jest.fn(),
-  downloadUpdate: jest.fn(),
+  downloadUpdates: jest.fn(),
   openContactSupportFlow: jest.fn(),
   openHelpView: jest.fn(),
   updateOs: jest.fn(),
+  downloadingReleasesProcessStates: null,
 }
 
 const release: OsRelease = {
@@ -153,10 +159,16 @@ describe("check for update modals", () => {
 })
 
 describe("download modals", () => {
-  describe("when download state is marked as loading", () => {
+  describe("when download state is marked as loading and there is a downloaded release", () => {
     test("loading modal should be displayed", () => {
       const { queryByTestId } = render({
         downloadState: DownloadState.Loading,
+        downloadingReleasesProcessStates: [
+          {
+            release,
+            state: ReleaseProcessState.InProgress,
+          },
+        ],
       })
 
       checkModalsVisibility(queryByTestId, [

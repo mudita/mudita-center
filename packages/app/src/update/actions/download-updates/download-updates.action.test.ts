@@ -6,8 +6,14 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { downloadUpdate } from "App/update/actions/download-update/download-update.action"
-import { Product, OsReleaseType, UpdateError } from "App/update/constants"
+import { downloadUpdates } from "App/update/actions/download-updates/download-updates.action"
+import {
+  Product,
+  OsReleaseType,
+  UpdateError,
+  UpdateOsEvent,
+  ReleaseProcessState,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import { testError } from "App/__deprecated__/renderer/store/constants"
@@ -25,11 +31,37 @@ const mockedRelease: OsRelease = {
   },
   product: Product.PurePhone,
   type: OsReleaseType.Daily,
-  version: "123",
+  version: "1.1.0",
   mandatoryVersions: [],
 }
 
-const params = { release: mockedRelease }
+const mockedRelease2: OsRelease = {
+  date: "2021-02-02",
+  file: {
+    name: "test file",
+    size: 123,
+    url: "some-url",
+  },
+  product: Product.PurePhone,
+  type: OsReleaseType.Daily,
+  version: "1.2.0",
+  mandatoryVersions: [],
+}
+
+const params = { releases: [mockedRelease, mockedRelease2] }
+
+const getUpdatingDownloadActionProcessParams = (
+  version: string,
+  progressState: ReleaseProcessState
+) => {
+  return {
+    type: UpdateOsEvent.UpdateDownloadStateFile,
+    payload: {
+      state: progressState,
+      version,
+    },
+  }
+}
 
 describe("when battery is lower than 40%", () => {
   test("the action is rejected", async () => {
@@ -45,7 +77,9 @@ describe("when battery is lower than 40%", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(downloadUpdate(params) as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      downloadUpdates(params) as unknown as AnyAction
+    )
 
     const error = new AppError(
       UpdateError.TooLowBattery,
@@ -53,20 +87,20 @@ describe("when battery is lower than 40%", () => {
     )
 
     expect(mockStore.getActions()).toEqual([
-      downloadUpdate.pending(requestId, params),
-      downloadUpdate.rejected(testError, requestId, params, error),
+      downloadUpdates.pending(requestId, params),
+      downloadUpdates.rejected(testError, requestId, params, error),
     ])
   })
 })
 
-describe("when update has already been downloaded", () => {
-  test("the action is fulfilled", async () => {
+describe("when some of the updates have been downloaded before", () => {
+  test("the action is fulfilled and updating download process actions are dispatched for all downloaded files", async () => {
     jest
       .spyOn(
         osUpdateAlreadyDownloadedCheckModule,
         "osUpdateAlreadyDownloadedCheck"
       )
-      .mockResolvedValueOnce(true)
+      .mockResolvedValue(true)
 
     const mockStore = createMockStore([thunk])({
       device: {
@@ -80,11 +114,23 @@ describe("when update has already been downloaded", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(downloadUpdate(params) as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      downloadUpdates(params) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      downloadUpdate.pending(requestId, params),
-      downloadUpdate.fulfilled(undefined, requestId, params),
+      downloadUpdates.pending(requestId, params),
+      getUpdatingDownloadActionProcessParams(
+        "1.1.0",
+        ReleaseProcessState.InProgress
+      ),
+      getUpdatingDownloadActionProcessParams("1.1.0", ReleaseProcessState.Done),
+      getUpdatingDownloadActionProcessParams(
+        "1.2.0",
+        ReleaseProcessState.InProgress
+      ),
+      getUpdatingDownloadActionProcessParams("1.2.0", ReleaseProcessState.Done),
+      downloadUpdates.fulfilled(undefined, requestId, params),
     ])
   })
 })
@@ -96,11 +142,11 @@ describe("when update downloads successfully", () => {
         osUpdateAlreadyDownloadedCheckModule,
         "osUpdateAlreadyDownloadedCheck"
       )
-      .mockResolvedValueOnce(false)
+      .mockResolvedValue(false)
 
     jest
       .spyOn(downloadOsUpdateRequestModule, "downloadOsUpdateRequest")
-      .mockResolvedValueOnce(
+      .mockResolvedValue(
         Result.success({
           directory: "somedir",
           status: DownloadStatus.Completed,
@@ -120,11 +166,23 @@ describe("when update downloads successfully", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(downloadUpdate(params) as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      downloadUpdates(params) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      downloadUpdate.pending(requestId, params),
-      downloadUpdate.fulfilled(undefined, requestId, params),
+      downloadUpdates.pending(requestId, params),
+      getUpdatingDownloadActionProcessParams(
+        "1.1.0",
+        ReleaseProcessState.InProgress
+      ),
+      getUpdatingDownloadActionProcessParams("1.1.0", ReleaseProcessState.Done),
+      getUpdatingDownloadActionProcessParams(
+        "1.2.0",
+        ReleaseProcessState.InProgress
+      ),
+      getUpdatingDownloadActionProcessParams("1.2.0", ReleaseProcessState.Done),
+      downloadUpdates.fulfilled(undefined, requestId, params),
     ])
   })
 })
@@ -156,7 +214,9 @@ describe("when download is cancelled by user", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(downloadUpdate(params) as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      downloadUpdates(params) as unknown as AnyAction
+    )
 
     const error = new AppError(
       UpdateError.DownloadCancelledByUser,
@@ -164,8 +224,12 @@ describe("when download is cancelled by user", () => {
     )
 
     expect(mockStore.getActions()).toEqual([
-      downloadUpdate.pending(requestId, params),
-      downloadUpdate.rejected(testError, requestId, params, error),
+      downloadUpdates.pending(requestId, params),
+      getUpdatingDownloadActionProcessParams(
+        "1.1.0",
+        ReleaseProcessState.InProgress
+      ),
+      downloadUpdates.rejected(testError, requestId, params, error),
     ])
   })
 })
@@ -197,7 +261,9 @@ describe("when download failed", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(downloadUpdate(params) as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      downloadUpdates(params) as unknown as AnyAction
+    )
 
     const error = new AppError(
       UpdateError.UnexpectedDownloadError,
@@ -205,8 +271,12 @@ describe("when download failed", () => {
     )
 
     expect(mockStore.getActions()).toEqual([
-      downloadUpdate.pending(requestId, params),
-      downloadUpdate.rejected(testError, requestId, params, error),
+      downloadUpdates.pending(requestId, params),
+      getUpdatingDownloadActionProcessParams(
+        "1.1.0",
+        ReleaseProcessState.InProgress
+      ),
+      downloadUpdates.rejected(testError, requestId, params, error),
     ])
   })
 })

@@ -41,7 +41,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   checkForUpdate,
   silentUpdateCheck,
   silentCheckForUpdate,
-  downloadUpdate,
+  downloadUpdates,
+  downloadingReleasesProcessStates,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
 
@@ -98,18 +99,19 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       : undefined
   }
 
-  // TODO [mw] handle me - scope of CP-1686
+  // TODO [mw] handle me - scope of CP-1687
   const updateRelease = (release?: OsRelease) => {
     const releaseToInstall = getReleaseForAction(release)
 
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
 
-  // TODO [mw] handle sequential download - scope of CP-1686
-  const downloadRelease = (release?: OsRelease) => {
-    const releaseToDownload = getReleaseForAction(release)
+  const downloadReleases = (releases?: OsRelease[]) => {
+    const releasesToDownload = releases ?? availableReleasesForUpdate
 
-    releaseToDownload && downloadUpdate(releaseToDownload)
+    releasesToDownload &&
+      releasesToDownload.length > 0 &&
+      downloadUpdates(releasesToDownload)
   }
 
   const checkForPureUpdate = () => {
@@ -124,7 +126,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         availableReleasesForUpdate={availableReleasesForUpdate}
         downloadState={downloadingState}
         clearUpdateOsFlow={clearUpdateState}
-        downloadUpdate={downloadRelease}
+        downloadUpdates={downloadReleases}
         abortDownloading={abortDownload}
         updateState={updatingState}
         updateOs={updateRelease}
@@ -133,6 +135,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         openHelpView={goToHelp}
         error={updateOsError}
         silentUpdateCheck={silentUpdateCheck}
+        downloadingReleasesProcessStates={downloadingReleasesProcessStates}
       />
 
       {flags.get(Feature.ForceUpdate) && (
@@ -155,8 +158,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
-        onUpdateInstall={updateRelease}
-        onUpdateDownload={downloadRelease}
+        onUpdateInstall={() => updateRelease()}
+        onUpdateDownload={() => downloadReleases()}
         serialNumber={serialNumber}
       />
     </>

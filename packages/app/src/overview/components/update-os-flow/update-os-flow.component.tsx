@@ -20,16 +20,21 @@ import { UpdatingFailureWithHelpModal } from "App/overview/components/update-os-
 import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/updating-spinner-modal"
 import { UpdatingSuccessModal } from "App/overview/components/update-os-modals/updating-success-modal"
 import { useDevUpdate, useDownloadProgress } from "App/overview/hooks"
-import { DownloadState, OsReleaseType, UpdateError } from "App/update/constants"
+import {
+  DownloadState,
+  OsReleaseType,
+  ReleaseProcessState,
+  UpdateError,
+} from "App/update/constants"
 import { cancelOsDownload } from "App/update/requests"
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useMemo } from "react"
 
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   checkForUpdateState,
   downloadState,
   availableReleasesForUpdate,
   currentOsVersion,
-  downloadUpdate,
+  downloadUpdates,
   clearUpdateOsFlow,
   abortDownloading,
   updateOs,
@@ -39,6 +44,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   openHelpView,
   error,
   silentUpdateCheck,
+  downloadingReleasesProcessStates,
 }) => {
   const {
     devRelease,
@@ -49,7 +55,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
     canShowInstallVersion,
   } = useDevUpdate({
     allReleases,
-    downloadUpdate,
+    downloadUpdates,
     updateOs,
     clearUpdateOsFlow,
     downloadState,
@@ -71,6 +77,18 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
     abortDownloading()
   }
 
+  const currentlyDownloadedRelease = useMemo(() => {
+    return (downloadingReleasesProcessStates ?? []).findIndex(
+      (item) => item.state === ReleaseProcessState.InProgress
+    )
+  }, [downloadingReleasesProcessStates])
+
+  const alreadyDownloadedReleases = useMemo(() => {
+    return (downloadingReleasesProcessStates ?? [])
+      .filter((item) => item.state === ReleaseProcessState.Done)
+      .map((item) => item.release)
+  }, [downloadingReleasesProcessStates])
+
   return (
     <>
       {!silentUpdateCheck && (
@@ -85,7 +103,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
                 testId={UpdateOsFlowTestIds.UpdateAvailableModal}
                 open={checkForUpdateState === State.Loaded}
                 releases={availableReleasesForUpdate}
-                onDownload={downloadUpdate}
+                onDownload={downloadUpdates}
                 onClose={resetUpdateFlow}
               />
             )}
@@ -101,19 +119,26 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         </>
       )}
 
-      <DownloadingUpdateModal
-        testId={UpdateOsFlowTestIds.DownloadingUpdateModal}
-        open={downloadState === DownloadState.Loading}
-        percent={downloadProgress?.percent ?? 0}
-        speed={downloadProgress?.speed ?? 0}
-        timeLeft={downloadProgress?.timeLeft}
-        onCancel={onOsDownloadCancel}
-      />
+      {downloadingReleasesProcessStates && currentlyDownloadedRelease >= 0 && (
+        <DownloadingUpdateModal
+          testId={UpdateOsFlowTestIds.DownloadingUpdateModal}
+          open={downloadState === DownloadState.Loading}
+          percent={downloadProgress?.percent ?? 0}
+          onCancel={onOsDownloadCancel}
+          currentlyDownloadingReleaseOrder={currentlyDownloadedRelease + 1}
+          currentlyDownloadingReleaseVersion={
+            downloadingReleasesProcessStates[currentlyDownloadedRelease].release
+              .version
+          }
+          downloadedReleasesSize={downloadingReleasesProcessStates.length}
+        />
+      )}
+
       <DownloadingUpdateInterruptedModal
         testId={UpdateOsFlowTestIds.DownloadingCancelledModal}
         open={downloadState === DownloadState.Cancelled}
         onClose={resetUpdateFlow}
-        alreadyDownloadedReleases={[]}
+        alreadyDownloadedReleases={alreadyDownloadedReleases}
       />
       <DownloadingUpdateFailedModal
         testId={UpdateOsFlowTestIds.DownloadingInterruptedModal}
@@ -130,7 +155,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         open={downloadState === DownloadState.Loaded && !devRelease}
         onClose={resetUpdateFlow}
         onOsUpdate={updateOs}
-        downloadedReleases={[]}
+        downloadedReleases={alreadyDownloadedReleases}
       />
 
       <UpdatingSpinnerModal

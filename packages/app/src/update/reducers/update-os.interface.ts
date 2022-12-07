@@ -6,7 +6,7 @@
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DownloadState, UpdateError } from "App/update/constants"
-import { OsRelease } from "App/update/dto"
+import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface UpdateOsState {
   updateOsState: State
@@ -17,5 +17,6 @@ export interface UpdateOsState {
   data: {
     allReleases: OsRelease[] | null
     availableReleasesForUpdate: OsRelease[] | null
+    downloadedProcessedReleases: ProcessedRelease[] | null
   }
 }

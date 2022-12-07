@@ -10,11 +10,16 @@ import {
   cancelDownload,
   checkForUpdate,
   clearState,
-  downloadUpdate,
+  downloadUpdates,
   setUpdateState,
   startUpdateOs,
+  updateDownloadProcessState,
 } from "App/update/actions"
-import { DownloadState, UpdateError } from "App/update/constants"
+import {
+  DownloadState,
+  ReleaseProcessState,
+  UpdateError,
+} from "App/update/constants"
 import { UpdateOsState } from "App/update/reducers/update-os.interface"
 
 export const initialState: UpdateOsState = {
@@ -26,6 +31,7 @@ export const initialState: UpdateOsState = {
   data: {
     allReleases: null,
     availableReleasesForUpdate: null,
+    downloadedProcessedReleases: null,
   },
 }
 
@@ -48,12 +54,34 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         downloadState: DownloadState.Initial,
       }
     })
+    builder.addCase(updateDownloadProcessState, (state, action) => {
+      const { state: newReleaseState, version } = action.payload
+      const newDownloadedProcessedReleases = (
+        state.data.downloadedProcessedReleases ?? []
+      ).map((item) =>
+        item.release.version === version
+          ? {
+              ...item,
+              state: newReleaseState,
+            }
+          : item
+      )
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          downloadedProcessedReleases: newDownloadedProcessedReleases,
+        },
+      }
+    })
 
     builder.addCase(checkForUpdate.pending, (state, payload) => {
       state.error = null
       state.data = {
         allReleases: null,
         availableReleasesForUpdate: null,
+        downloadedProcessedReleases: null,
       }
       state.silentUpdateCheck = payload.meta.arg.isSilentCheck
       state.checkForUpdateState = State.Loading
@@ -69,15 +97,21 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.error = action.payload as AppError<UpdateError>
     })
 
-    builder.addCase(downloadUpdate.pending, (state) => {
+    builder.addCase(downloadUpdates.pending, (state, action) => {
+      state.data.downloadedProcessedReleases = action.meta.arg.releases.map(
+        (release) => ({
+          release,
+          state: ReleaseProcessState.Initial,
+        })
+      )
       state.error = null
       state.checkForUpdateState = State.Initial
       state.downloadState = DownloadState.Loading
     })
-    builder.addCase(downloadUpdate.fulfilled, (state) => {
+    builder.addCase(downloadUpdates.fulfilled, (state) => {
       state.downloadState = DownloadState.Loaded
     })
-    builder.addCase(downloadUpdate.rejected, (state, action) => {
+    builder.addCase(downloadUpdates.rejected, (state, action) => {
       if (action.payload?.type === UpdateError.DownloadCancelledByUser) {
         state.downloadState = DownloadState.Cancelled
       } else {

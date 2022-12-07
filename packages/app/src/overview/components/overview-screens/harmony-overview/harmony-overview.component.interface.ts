@@ -7,7 +7,7 @@ import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
 import { DownloadState, UpdateError } from "App/update/constants"
-import { OsRelease } from "App/update/dto"
+import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface HarmonyOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -21,13 +21,14 @@ export interface HarmonyOverviewProps {
   readonly updateOsError: AppError<UpdateError> | null
   readonly availableReleasesForUpdate: OsRelease[] | null
   readonly silentUpdateCheck: boolean
+  readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
   readonly startUpdateOs: (data: string) => void
   readonly setUpdateState: (data: State) => void
   readonly disconnectDevice: () => void
   readonly openContactSupportFlow: () => void
   readonly checkForUpdate: (deviceType: DeviceType) => void
   readonly silentCheckForUpdate: (deviceType: DeviceType) => void
-  readonly downloadUpdate: (release: OsRelease) => void
+  readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void
 }

@@ -10,4 +10,5 @@ export enum UpdateOsEvent {
   SetUpdateState = "DEVICE_SET_UPDATE_STATE",
   CancelDownload = "CANCEL_DOWNLOAD",
   ClearState = "CLEAR_STATE",
+  UpdateDownloadStateFile = "UPDATE_DOWNLOAD_STATE_FILE",
 }
