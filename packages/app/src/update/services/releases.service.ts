@@ -44,6 +44,35 @@ export class ReleaseService {
     }
   }
 
+  // TODO [mw] workaround change needed for QA team. Should be removed when implementing CP-1743
+  public async getTestReleasesForSOSUfeature(
+    product: Product
+  ): Promise<ResultObject<OsRelease[] | undefined>> {
+    try {
+      const promises = [
+        this.getRelease(product, OsEnvironment.Production, "latest"),
+        product === Product.BellHybrid
+          ? this.getRelease(product, OsEnvironment.Production, "1.6.0")
+          : undefined,
+        this.getRelease(product, OsEnvironment.TestProduction, "latest"),
+        this.getRelease(product, OsEnvironment.Daily, "latest"),
+      ].filter((item): item is Promise<ReleaseManifest> => !!item)
+
+      const releases = await Promise.all(promises)
+
+      return Result.success(
+        releases.map((release) => GithubReleasePresenter.toRelease(release))
+      )
+    } catch (error) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.GetAllRelease,
+          "Fail during retrieving of the release"
+        )
+      )
+    }
+  }
+
   public async getReleasesByVersions({
     product,
     versions,
