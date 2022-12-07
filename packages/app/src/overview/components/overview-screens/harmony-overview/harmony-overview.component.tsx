@@ -158,8 +158,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
-        onUpdateInstall={updateRelease}
-        onUpdateDownload={downloadReleases}
+        onUpdateInstall={() => updateRelease()}
+        onUpdateDownload={() => downloadReleases()}
         serialNumber={serialNumber}
       />
     </>

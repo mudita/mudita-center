@@ -122,17 +122,13 @@ const System: FunctionComponent<Props> = ({
               <CardActionButton
                 active
                 labelMessage={messages.systemUpdateAction}
-                // AUTO DISABLED - fix me if you like :)
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                onClick={() => onUpdate()}
+                onClick={onUpdate}
               />
             ) : (
               <CardActionButton
                 active
                 labelMessage={messages.systemDownloadAction}
-                // AUTO DISABLED - fix me if you like :)
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                onClick={() => onDownload()}
+                onClick={onDownload}
                 data-testid={SystemTestIds.DownloadButton}
               />
             )
@@ -140,9 +136,7 @@ const System: FunctionComponent<Props> = ({
             <CardActionButton
               active
               labelMessage={messages.systemCheckForUpdates}
-              // AUTO DISABLED - fix me if you like :)
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-              onClick={() => onUpdateCheck()}
+              onClick={onUpdateCheck}
             />
           )}
         </CardAction>

@@ -300,8 +300,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
-        onUpdateInstall={updateRelease}
-        onUpdateDownload={downloadReleases}
+        onUpdateInstall={() => updateRelease()}
+        onUpdateDownload={() => downloadReleases()}
         caseColour={caseColour}
         lastBackupDate={lastBackupDate}
         onBackupCreate={handleBackupCreate}
