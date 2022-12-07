@@ -12,12 +12,14 @@ import {
   UpdateOsEvent,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
-import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
+import {
+  isBatteryLevelEnoughForUpdate,
+  isDownloadRequestCanelledByUser,
+} from "App/update/helpers"
 import {
   downloadOsUpdateRequest,
   osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
-import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 interface Params {
@@ -45,12 +47,6 @@ export const downloadUpdates = createAsyncThunk<
       )
     }
 
-    const isActionCanelledByUser = (
-      result: Awaited<ReturnType<typeof downloadOsUpdateRequest>>
-    ) => {
-      return !result.ok && result.data === DownloadStatus.Cancelled
-    }
-
     for (const release of releases) {
       dispatch(
         updateDownloadProcessState({
@@ -69,7 +65,7 @@ export const downloadUpdates = createAsyncThunk<
           fileName: release.file.name,
         })
 
-        if (isActionCanelledByUser(result)) {
+        if (isDownloadRequestCanelledByUser(result)) {
           return rejectWithValue(
             new AppError(
               UpdateError.DownloadCancelledByUser,
