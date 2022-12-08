@@ -237,7 +237,7 @@ export class DeviceFileSystemService {
     } else {
       const data: string[] = []
       const { cwd, extract, token, key } = options
-      const name = filePath.split("/").pop() as string
+      const fileBase = options.fileBase ? options.fileBase : filePath.split("/").pop() as string
 
       if (!fs.existsSync(cwd)) {
         fs.mkdirSync(cwd, {
@@ -246,7 +246,7 @@ export class DeviceFileSystemService {
       }
 
       try {
-        const entryFilePath = path.join(cwd, name)
+        const entryFilePath = path.join(cwd, fileBase)
         const input = new stream.PassThrough()
         input.end(result)
 
