@@ -22,6 +22,8 @@ storiesOf("Components/Connecting", module)
       <Wrapper>
         <ConnectingContent
           longerConnection={false}
+          restoring={false}
+          backuping={false}
           onCancel={action("Cancel")}
         />
       </Wrapper>
@@ -30,7 +32,12 @@ storiesOf("Components/Connecting", module)
   .add("Longer Connecting", () => {
     return (
       <Wrapper>
-        <ConnectingContent longerConnection onCancel={action("Cancel")} />
+        <ConnectingContent
+          restoring={false}
+          backuping={false}
+          longerConnection
+          onCancel={action("Cancel")}
+        />
       </Wrapper>
     )
   })

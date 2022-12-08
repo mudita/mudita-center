@@ -33,6 +33,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   unlocked: state.device.status.unlocked,
   syncInitialized: state.dataSync.initialized,
   syncState: state.dataSync.state,
+  restoringState: state.backup.restoringState,
+  backingUpState: state.backup.backingUpState,
   noModalsVisible: noModalsShowSelector(state),
   leftTime: getLeftTimeSelector(state),
 })

@@ -6,12 +6,8 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { DeviceType, CONNECTION_TIME_OUT_MS } from "App/device/constants"
-import {
-  URL_MAIN,
-  URL_ONBOARDING,
-  URL_OVERVIEW,
-} from "App/__deprecated__/renderer/constants/urls"
+import { CONNECTION_TIME_OUT_MS, DeviceType } from "App/device/constants"
+import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "App/__deprecated__/renderer/constants/urls"
 import ConnectingContent from "App/connecting/components/connecting-content.component"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -19,6 +15,7 @@ import PasscodeModal from "App/__deprecated__/passcode-modal/passcode-modal.comp
 import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"
+import { State } from "App/core/constants"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -30,6 +27,8 @@ const Connecting: FunctionComponent<{
   getUnlockStatus: () => Promise<PayloadAction<boolean>>
   leftTime: number | undefined
   noModalsVisible: boolean
+  backingUpState: State
+  restoringState: State
   updateAllIndexes: () => Promise<void>
 }> = ({
   loaded,
@@ -41,6 +40,8 @@ const Connecting: FunctionComponent<{
   getUnlockStatus,
   leftTime,
   noModalsVisible,
+  backingUpState,
+  restoringState,
   updateAllIndexes,
 }) => {
   const [error, setError] = useState<ConnectingError | null>(null)
@@ -138,6 +139,8 @@ const Connecting: FunctionComponent<{
       <ConnectingContent
         onCancel={onCancel}
         longerConnection={longerConnection}
+        backuping={backingUpState === State.Loading}
+        restoring={restoringState === State.Loading}
       />
     </>
   )

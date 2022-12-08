@@ -13,6 +13,8 @@ import Loader from "App/__deprecated__/renderer/components/core/loader/loader.co
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import styled from "styled-components"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { Message } from "App/__deprecated__/renderer/interfaces/message.interface"
+import { defineMessages } from "react-intl"
 
 export const Container = styled.section`
   display: grid;
@@ -44,9 +46,46 @@ const LoaderWrapper = styled.div`
 interface Props {
   onCancel?: () => void
   longerConnection: boolean
+  restoring: boolean
+  backuping: boolean
 }
 
-const ConnectingContent: FunctionComponent<Props> = ({ longerConnection }) => {
+const messages = defineMessages({
+  connectingLongMessage: {
+    id: "module.onboarding.connectingLongMessage",
+  },
+  connectingMessage: {
+    id: "module.onboarding.connectingMessage",
+  },
+  backupInProgressMessage: {
+    id: "module.onboarding.backupInProgressMessage",
+  },
+  restoreInProgressMessage: {
+    id: "module.onboarding.restoreInProgressMessage",
+  },
+})
+
+const getMessage = ({
+  longerConnection,
+  restoring,
+  backuping,
+}: {
+  longerConnection: boolean
+  restoring: boolean
+  backuping: boolean
+}): Message => {
+  if (backuping) {
+    return messages.backupInProgressMessage
+  }
+  if (restoring) {
+    return messages.restoreInProgressMessage
+  }
+  return longerConnection
+    ? messages.connectingLongMessage
+    : messages.connectingMessage
+}
+
+const ConnectingContent: FunctionComponent<Props> = (props) => {
   return (
     <Container>
       <main>
@@ -55,11 +94,7 @@ const ConnectingContent: FunctionComponent<Props> = ({ longerConnection }) => {
         </LoaderWrapper>
         <Text
           displayStyle={TextDisplayStyle.Headline3}
-          message={{
-            id: longerConnection
-              ? "module.onboarding.connectingLongMessage"
-              : "module.onboarding.connectingMessage",
-          }}
+          message={getMessage(props)}
         />
       </main>
     </Container>
