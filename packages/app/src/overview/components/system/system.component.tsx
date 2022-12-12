@@ -18,7 +18,10 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { backgroundColor, borderRadius } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  borderRadius,
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 

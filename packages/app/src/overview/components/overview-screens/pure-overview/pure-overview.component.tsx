@@ -68,7 +68,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   allReleases,
   updateOsError,
   silentUpdateCheck,
-  downloadUpdate,
+  downloadUpdates,
+  downloadingReleasesProcessStates,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -208,22 +209,28 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     )
   }
 
-  // TODO [mw] handle sequential update - scope of CP-1686
-  const updateRelease = (release?: OsRelease) => {
-    const releaseToInstall = availableReleasesForUpdate
+  const getReleaseForAction = (release?: OsRelease): OsRelease | undefined => {
+    if (release) {
+      return release
+    }
+    return availableReleasesForUpdate && availableReleasesForUpdate.length > 0
       ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
-      : release
+      : undefined
+  }
+
+  // TODO [mw] handle me - scope of CP-1687
+  const updateRelease = (release?: OsRelease) => {
+    const releaseToInstall = getReleaseForAction(release)
 
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
 
-  // TODO [mw] handle sequential download - scope of CP-1686
-  const downloadRelease = (release?: OsRelease) => {
-    const releaseToDownload = availableReleasesForUpdate
-      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
-      : release
+  const downloadReleases = (releases?: OsRelease[]) => {
+    const releasesToDownload = releases ?? availableReleasesForUpdate
 
-    releaseToDownload && downloadUpdate(releaseToDownload)
+    releasesToDownload &&
+      releasesToDownload.length > 0 &&
+      downloadUpdates(releasesToDownload)
   }
 
   const checkForPureUpdate = () => {
@@ -238,7 +245,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         availableReleasesForUpdate={availableReleasesForUpdate}
         downloadState={downloadingState}
         clearUpdateOsFlow={clearUpdateState}
-        downloadUpdate={downloadRelease}
+        downloadUpdates={downloadReleases}
         abortDownloading={abortDownload}
         updateState={updatingState}
         updateOs={updateRelease}
@@ -247,6 +254,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         openHelpView={goToHelp}
         error={updateOsError}
         silentUpdateCheck={silentUpdateCheck}
+        downloadingReleasesProcessStates={downloadingReleasesProcessStates}
       />
 
       {flags.get(Feature.ForceUpdate) && (
@@ -289,11 +297,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         memorySpace={memorySpace}
         networkName={networkName}
         networkLevel={networkLevel}
-        pureOsAvailable={Boolean(availableReleasesForUpdate)}
+        pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
-        onUpdateInstall={updateRelease}
-        onUpdateDownload={downloadRelease}
+        onUpdateInstall={() => updateRelease()}
+        onUpdateDownload={() => downloadReleases()}
         caseColour={caseColour}
         lastBackupDate={lastBackupDate}
         onBackupCreate={handleBackupCreate}

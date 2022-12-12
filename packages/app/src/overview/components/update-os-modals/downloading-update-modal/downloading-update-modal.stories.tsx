@@ -14,9 +14,10 @@ export const DownloadingUpdateModalStory: FunctionComponent = () => {
     <Story transparentMode>
       <DownloadingUpdateModal
         open
-        percent={1}
-        speed={1}
-        timeLeft={1}
+        percent={50}
+        currentlyDownloadingReleaseVersion={"1.1.0"}
+        currentlyDownloadingReleaseOrder={1}
+        downloadedReleasesSize={3}
         onCancel={action("Cancel Downloading Update Modal")}
       />
     </Story>

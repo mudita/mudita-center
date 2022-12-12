@@ -92,7 +92,7 @@ export const AboutUpdatesSection: FunctionComponent<AboutUpdatesSectionProps> =
               {displaySubDescription && (
                 <Text
                   displayStyle={TextDisplayStyle.Label}
-                  color="tabHover"
+                  color="info"
                   message={messages.updateAvailableAboutOsVersionSubDescription}
                 />
               )}

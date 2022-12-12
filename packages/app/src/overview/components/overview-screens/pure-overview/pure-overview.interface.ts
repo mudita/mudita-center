@@ -10,7 +10,7 @@ import { SynchronizationState } from "App/data-sync/reducers"
 import { CaseColor, DeviceType } from "App/device/constants"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 import { DownloadState, UpdateError } from "App/update/constants"
-import { OsRelease } from "App/update/dto"
+import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface PureOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -34,6 +34,7 @@ export interface PureOverviewProps {
   readonly allReleases: OsRelease[] | null
   readonly updateOsError: AppError<UpdateError> | null
   readonly silentUpdateCheck: boolean
+  readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
   readonly updateAllIndexes: () => Promise<void>
   readonly openContactSupportFlow: () => void
   readonly readRestoreDeviceDataState: () => void
@@ -45,7 +46,7 @@ export interface PureOverviewProps {
   readonly disconnectDevice: () => void
   readonly checkForUpdate: (deviceType: DeviceType) => void
   readonly silentCheckForUpdate: (deviceType: DeviceType) => void
-  readonly downloadUpdate: (release: OsRelease) => void
+  readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void
 }

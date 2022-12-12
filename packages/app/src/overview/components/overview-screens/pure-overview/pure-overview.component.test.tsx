@@ -74,11 +74,12 @@ const defaultProps: Props = {
   checkingForUpdateState: State.Initial,
   clearUpdateState: jest.fn(),
   downloadingState: DownloadState.Initial,
-  downloadUpdate: jest.fn(),
+  downloadUpdates: jest.fn(),
   availableReleasesForUpdate: null,
   silentCheckForUpdate: jest.fn(),
   silentUpdateCheck: false,
   updateOsError: null,
+  downloadingReleasesProcessStates: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {

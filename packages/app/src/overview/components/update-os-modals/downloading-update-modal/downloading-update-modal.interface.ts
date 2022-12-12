@@ -6,8 +6,9 @@
 export interface DownloadingUpdateModalProps {
   open: boolean
   percent: number
-  speed: number
-  timeLeft: number | undefined
+  currentlyDownloadingReleaseVersion: string
+  currentlyDownloadingReleaseOrder: number
+  downloadedReleasesSize: number
   onCancel: () => void
   testId?: string
 }

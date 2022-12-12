@@ -13,6 +13,14 @@ export const DownloadingUpdateFinishedModalStory: FunctionComponent = () => {
   return (
     <Story transparentMode>
       <DownloadingUpdateFinishedModal
+        downloadedReleases={[
+          {
+            version: "1.2.0",
+          },
+          {
+            version: "1.3.0",
+          },
+        ]}
         open
         onOsUpdate={action("Close Downloading Update Finished Modal")}
         onClose={action("Close Downloading Update Finished Modal")}

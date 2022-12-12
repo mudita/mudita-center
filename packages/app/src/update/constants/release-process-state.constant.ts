@@ -3,4 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./downloading-update-cancelled-modal.component"
+export enum ReleaseProcessState {
+  Initial = "initial",
+  InProgress = "in-progress",
+  Done = "done",
+}

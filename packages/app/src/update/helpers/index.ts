@@ -5,3 +5,4 @@
 
 export * from "./version-formatter.helper"
 export * from "./is-battery-level-enough/is-battery-enough-for-update.helper"
+export * from "./is-download-request-cancelled-by-user/is-download-request-cancelled-by-user.helper"
