@@ -98,7 +98,6 @@ describe("Backup&Restore tests", () => {
     await restorePasswordInput.waitForDisplayed({ timeout: 6000 })
     await restorePasswordInput.click()
     await restorePasswordInput.setValue("Mudita123!")
-    console.log(await restorePasswordInput.getValue())
     const restoreSubmitButton = ModalBackupRestorePage.restoreSubmitButton
     await restoreSubmitButton.waitForDisplayed({ timeout: 6000 })
     await restoreSubmitButton.click()
