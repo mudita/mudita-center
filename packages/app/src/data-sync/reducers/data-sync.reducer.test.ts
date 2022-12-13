@@ -72,7 +72,6 @@ describe("data-sync functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: SynchronizationState.Loaded,
       initialized: true,
       error: null,
     })

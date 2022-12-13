@@ -505,8 +505,6 @@
   "module.news.productCardsTitle": "Mudita Store",
   "module.news.updateButtonLabel": "Update",
   "module.onboarding": "Onboarding",
-  "module.onboarding.backupInProgressMessage": "Creating backup...\nPlease do not unplug your device during the process.",
-  "module.onboarding.restoreInProgressMessage": "Restoring backup...\nPlease do not unplug your device during the process.",
   "module.onboarding.connectingButton": "Cancel",
   "module.onboarding.connectingLongMessage": "Sync in progress, it could take up to few minutes...",
   "module.onboarding.connectingMessage": "Checking connection, please wait...",

@@ -13,15 +13,12 @@ import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-moda
 import { SynchronizationState } from "App/data-sync/reducers"
 import { DeviceType } from "App/device/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { State } from "App/core/constants"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 
 type Props = ComponentProps<typeof Connecting>
 
 const defaultProps: Props = {
-  backingUpState: State.Initial,
-  restoringState: State.Initial,
   loaded: false,
   deviceType: DeviceType.MuditaPure,
   unlocked: null,
