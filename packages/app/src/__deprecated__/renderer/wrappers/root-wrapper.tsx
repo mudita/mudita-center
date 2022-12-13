@@ -58,6 +58,10 @@ import {
   registerDeviceDetachedListener,
 } from "App/device-manager/listeners"
 import { registerDeviceUnlockedListener } from "App/device/listeners"
+import {
+  registerClearingUpdateStateOnDeviceAttachedListener,
+  registerDownloadCancelOnDeviceDetachedListener,
+} from "App/update/listeners"
 
 interface Props {
   history: History
@@ -149,6 +153,10 @@ const RootWrapper: FunctionComponent<Props> = ({
     const crashDump = registerCrashDumpExistListener()
     const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
     const deviceDetachedListener = registerDeviceDetachedListener()
+    const downloadCancelOnDeviceDetachedListener =
+      registerDownloadCancelOnDeviceDetachedListener()
+    const clearingUpdateStateOnDeviceAttachedListener =
+      registerClearingUpdateStateOnDeviceAttachedListener()
 
     return () => {
       dataSync()
@@ -158,6 +166,8 @@ const RootWrapper: FunctionComponent<Props> = ({
       crashDump()
       currentDeviceChangedListener()
       deviceDetachedListener()
+      downloadCancelOnDeviceDetachedListener()
+      clearingUpdateStateOnDeviceAttachedListener()
     }
   })
 
