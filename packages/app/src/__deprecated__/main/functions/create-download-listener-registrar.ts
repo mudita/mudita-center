@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { BrowserWindow, DownloadItem } from "electron"
-import { ipcMain } from "electron-better-ipc"
 import {
   DownloadChannel,
   DownloadFinished,
@@ -14,10 +12,9 @@ import {
   DownloadStatus,
 } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import transferProgress from "App/__deprecated__/renderer/utils/transfer-progress"
+import { BrowserWindow, DownloadItem } from "electron"
+import { ipcMain } from "electron-better-ipc"
 import path from "path"
-import fs from "fs-extra"
-import getAppSettingsMain from "./get-app-settings"
-import logger from "App/__deprecated__/main/utils/logger"
 
 const registeredChannels: string[] = []
 
@@ -36,21 +33,6 @@ export const createDownloadChannels = (uniqueKey: string): DownloadChannel => {
     cancel: uniqueKey + "-download-cancel",
     done: uniqueKey + "-download-finished",
   }
-}
-
-const removeOldDownloadFiles = async (filename: string) => {
-  const { osDownloadLocation } = await getAppSettingsMain()
-  fs.readdir(osDownloadLocation, (error, files) => {
-    if (error) {
-      logger.error(error)
-    }
-    files.forEach((file) => {
-      const fileDir = path.join(osDownloadLocation, file)
-      if (file !== filename) {
-        fs.unlinkSync(fileDir)
-      }
-    })
-  })
 }
 
 const createDownloadListenerRegistrar =
@@ -119,8 +101,6 @@ const createDownloadListenerRegistrar =
               directory: item.savePath,
               totalBytes: item.getTotalBytes(),
             }
-
-            void removeOldDownloadFiles(fileName)
 
             resolve(finished)
 

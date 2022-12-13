@@ -13,7 +13,7 @@ const productionReleaseManifest: ReleaseManifest = {
   product: Product.PurePhone,
   file: {
     url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",
-    size: 156928000,
+    size: "156928000",
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
   mandatoryVersions: ["1.2.2"],
@@ -25,7 +25,7 @@ const candidateReleaseManifest: ReleaseManifest = {
   product: Product.PurePhone,
   file: {
     url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",
-    size: 156928000,
+    size: "156928000",
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
   mandatoryVersions: [],
@@ -37,7 +37,7 @@ const dailyReleaseManifest: ReleaseManifest = {
   product: Product.PurePhone,
   file: {
     url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",
-    size: 156928000,
+    size: "156928000",
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
   mandatoryVersions: [],
