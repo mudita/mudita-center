@@ -21,6 +21,7 @@ export const startUpdateOs = createAsyncThunk<
 >(
   UpdateOsEvent.StartOsUpdateProcess,
   async (file, { dispatch, rejectWithValue, getState }) => {
+    // TODO [mw] dispatch request with deleting release from the user computer - scope of CP-1687
     const { device } = getState() as RootState & ReduxRootState
     const batteryLevel = device.data?.batteryLevel ?? 0
 
