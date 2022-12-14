@@ -17,8 +17,8 @@ export class BaseBackupService {
   private REQUEST_TIME_OUT = 5000
 
   constructor(
-    public deviceManager: DeviceManager,
-    public deviceFileSystem: DeviceFileSystemService
+    protected deviceManager: DeviceManager,
+    protected  deviceFileSystem: DeviceFileSystemService
   ) {}
 
   public async checkStatus(

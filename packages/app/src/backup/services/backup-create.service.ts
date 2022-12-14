@@ -20,8 +20,8 @@ import { DeviceInfo } from "App/device/types/mudita-os"
 
 export class BackupCreateService extends BaseBackupService {
   constructor(
-    public deviceManager: DeviceManager,
-    public deviceFileSystem: DeviceFileSystemService,
+    protected deviceManager: DeviceManager,
+    protected deviceFileSystem: DeviceFileSystemService,
     private keyStorage: MetadataStore
   ) {
     super(deviceManager, deviceFileSystem)

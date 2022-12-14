@@ -19,8 +19,8 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 
 export class BackupRestoreService extends BaseBackupService {
   constructor(
-    public deviceManager: DeviceManager,
-    public deviceFileSystem: DeviceFileSystemService,
+    protected deviceManager: DeviceManager,
+    protected deviceFileSystem: DeviceFileSystemService,
     private fileSystem: FileSystemService
   ) {
     super(deviceManager, deviceFileSystem)
