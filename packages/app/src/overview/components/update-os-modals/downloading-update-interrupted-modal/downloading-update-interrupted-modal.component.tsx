@@ -7,7 +7,7 @@ import { DownloadingUpdateInterruptedModalProps } from "App/overview/components/
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
-import React from "react"
+import React, { useMemo } from "react"
 import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
@@ -30,9 +30,13 @@ const messages = defineMessages({
 
 export const DownloadingUpdateInterruptedModal: FunctionComponent<DownloadingUpdateInterruptedModalProps> =
   ({ open, onClose, testId, alreadyDownloadedReleases }) => {
-    const formattedVersionsText = alreadyDownloadedReleases
-      .map((release) => `MuditaOS v${release.version}`)
-      .join(" / ")
+    const formattedVersionsText = useMemo(
+      () =>
+        alreadyDownloadedReleases
+          .map((release) => `MuditaOS v${release.version}`)
+          .join(" / "),
+      [alreadyDownloadedReleases]
+    )
 
     return (
       <ErrorModal
@@ -46,14 +50,18 @@ export const DownloadingUpdateInterruptedModal: FunctionComponent<DownloadingUpd
         closeModal={onClose}
         title={intl.formatMessage(messages.muditaOsUpdateTitle)}
         subtitle={intl.formatMessage(messages.downloadingAbortedSubtitle)}
-        body={{
-          ...messages.downloadingAbortedBody,
-          values: {
-            versionsAmount: alreadyDownloadedReleases.length,
-            data: formattedVersionsText,
-            ...textFormatters,
-          },
-        }}
+        body={
+          formattedVersionsText.length > 0
+            ? {
+                ...messages.downloadingAbortedBody,
+                values: {
+                  versionsAmount: formattedVersionsText.length,
+                  data: formattedVersionsText,
+                  ...textFormatters,
+                },
+              }
+            : undefined
+        }
         subbody={intl.formatMessage(messages.downloadingAbortedInstruction)}
       />
     )
