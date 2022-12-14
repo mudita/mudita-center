@@ -23,5 +23,8 @@ export interface DeviceInfo {
     total: number
   }
   caseColour: CaseColor
-  backupLocation: string
+  backupFilePath: string
+  updateFilePath: string
+  syncFilePath: string
+  recoveryStatusFilePath: string
 }

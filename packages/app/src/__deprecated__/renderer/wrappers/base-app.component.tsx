@@ -100,7 +100,9 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
         Boolean(state.device.status.unlocked)) ||
       state.update.updateOsState === State.Loading ||
       state.backup.restoringState === State.Loading ||
-      state.backup.restoringState === State.Failed,
+      state.backup.restoringState === State.Failed ||
+      state.backup.backingUpState === State.Loading ||
+      state.backup.backingUpState === State.Failed,
     deviceConnecting: state.device.status.connecting,
     deviceParred:
       state.device.status.loaded && Boolean(state.device.status.unlocked),

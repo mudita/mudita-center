@@ -35,7 +35,7 @@ describe("When backup location path doesn't exists", () => {
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
-          backupLocation: undefined,
+          backupFilePath: undefined,
         },
       },
     })
@@ -72,7 +72,7 @@ describe("when `restoreBackupRequest` request returns `Result.success`", () => {
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
-          backupLocation: "C:\\backups",
+          backupFilePath: "C:\\backups",
         },
       },
     })
@@ -92,7 +92,7 @@ describe("when `restoreBackupRequest` request returns `Result.success`", () => {
     expect(restoreBackupRequest).toHaveBeenCalledWith({
       token: "MySuperSecretKey",
       filePath: "/usr/example/backup",
-      backupLocation: "C:\\backups",
+      backupFilePath: "C:\\backups",
     })
   })
 })
@@ -111,7 +111,7 @@ describe("when `restoreBackupRequest` request returns `Result.failed`", () => {
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
-          backupLocation: "C:\\backups",
+          backupFilePath: "C:\\backups",
         },
       },
     })
@@ -133,7 +133,7 @@ describe("when `restoreBackupRequest` request returns `Result.failed`", () => {
     expect(restoreBackupRequest).toHaveBeenCalledWith({
       token: "MySuperSecretKey",
       filePath: "/usr/example/backup",
-      backupLocation: "C:\\backups",
+      backupFilePath: "C:\\backups",
     })
   })
 })

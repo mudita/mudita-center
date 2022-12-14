@@ -29,8 +29,15 @@ export const startBackupDevice = createAsyncThunk<undefined, CreateBackup>(
       )
     }
 
+    const fileBase = `${new Date()
+      .toISOString()
+      .replace(/\./g, "")
+      .replace(/-/g, "")
+      .replace(/:/g, "")}`
+
     const downloadDeviceBackupResponse = await createBackupRequest({
       key,
+      fileBase,
       cwd: pureOsBackupDesktopFileDir,
     })
 

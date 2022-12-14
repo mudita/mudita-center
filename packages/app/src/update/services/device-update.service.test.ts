@@ -54,7 +54,10 @@ const payloadMock: UpdateOS = {
 
 const deviceInfoResponseMock: DeviceInfo = {
   accessTechnology: AccessTechnology.Gsm,
-  backupLocation: "/sys/user/backup",
+  backupFilePath: "",
+  updateFilePath: "",
+  recoveryStatusFilePath: "",
+  syncFilePath: "",
   batteryLevel: "100",
   batteryState: BatteryState.Discharging,
   caseColour: CaseColor.Black,

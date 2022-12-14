@@ -6,5 +6,5 @@
 export interface RestoreDeviceBackup {
   token: string
   filePath: string
-  backupLocation: string
+  backupFilePath: string
 }
