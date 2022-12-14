@@ -11,9 +11,9 @@ import React from "react"
 
 const defaultProps: UpdateOsInterruptedFlowProps = {
   alreadyDownloadedReleases: [],
-  isDownloadInterruptedModalOpen: false,
-  isUpdateInterruptedModalOpen: false,
-  onModalClose: jest.fn(),
+  downloadInterruptedModalOpened: false,
+  updateInterruptedModalOpened: false,
+  onClose: jest.fn(),
   openContactSupportFlow: jest.fn(),
 }
 
@@ -40,7 +40,7 @@ test("by default it does not show any modal", () => {
 
 test("shows downloading interrupted modals", () => {
   const { queryByTestId } = render({
-    isDownloadInterruptedModalOpen: true,
+    downloadInterruptedModalOpened: true,
   })
   expect(
     queryByTestId(UpdateOsInterruptedFlowTestIds.DownloadingInterruptedModal)
@@ -52,7 +52,7 @@ test("shows downloading interrupted modals", () => {
 
 test("shows updating interrupted modals", () => {
   const { queryByTestId } = render({
-    isUpdateInterruptedModalOpen: true,
+    updateInterruptedModalOpened: true,
   })
   expect(
     queryByTestId(UpdateOsInterruptedFlowTestIds.DownloadingInterruptedModal)

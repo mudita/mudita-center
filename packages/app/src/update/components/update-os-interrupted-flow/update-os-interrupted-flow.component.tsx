@@ -13,13 +13,13 @@ import React, { FunctionComponent } from "react"
 
 export const UpdateOsInterruptedFlow: FunctionComponent<UpdateOsInterruptedFlowProps> =
   ({
-    onModalClose,
+    onClose,
     alreadyDownloadedReleases,
     openContactSupportFlow,
-    isDownloadInterruptedModalOpen,
-    isUpdateInterruptedModalOpen,
+    downloadInterruptedModalOpened,
+    updateInterruptedModalOpened,
   }) => {
-    const openHelpView = (): void => {
+    const openHelpWindow = (): void => {
       void ipcRenderer.callMain(HelpActions.OpenWindow)
     }
 
@@ -27,15 +27,15 @@ export const UpdateOsInterruptedFlow: FunctionComponent<UpdateOsInterruptedFlowP
       <>
         <DownloadingUpdateInterruptedModal
           testId={UpdateOsInterruptedFlowTestIds.DownloadingInterruptedModal}
-          open={isDownloadInterruptedModalOpen}
-          onClose={onModalClose}
+          open={downloadInterruptedModalOpened}
+          onClose={onClose}
           alreadyDownloadedReleases={alreadyDownloadedReleases}
         />
         <UpdatingFailureWithHelpModal
           testId={UpdateOsInterruptedFlowTestIds.UpdatingInterruptedModal}
-          open={isUpdateInterruptedModalOpen}
-          onClose={onModalClose}
-          onHelp={openHelpView}
+          open={updateInterruptedModalOpened}
+          onClose={onClose}
+          onHelp={openHelpWindow}
           onContact={openContactSupportFlow}
         />
       </>
