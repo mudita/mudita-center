@@ -19,9 +19,9 @@ import { connect } from "react-redux"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    isDownloadInterruptedModalOpen:
+    downloadInterruptedModalOpened:
       state.update.downloadState === DownloadState.Failed,
-    isUpdateInterruptedModalOpen: state.update.updateOsState === State.Failed,
+    updateInterruptedModalOpened: state.update.updateOsState === State.Failed,
     alreadyDownloadedReleases: alreadyDownloadedReleasesSelector(state),
   }
 }
@@ -29,7 +29,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  onModalClose: () => dispatch(clearState()),
+  onClose: () => dispatch(clearState()),
   openContactSupportFlow: () =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
