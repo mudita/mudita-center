@@ -112,9 +112,11 @@ export class SyncBackupCreateService {
         )
       )
     }
+    const backupId = String(backupResponse.data?.id)
+    const backupLocation = String(deviceResponse.data?.backupLocation)
 
     // id field as backup response is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
-    const id = deviceResponse.data.syncFilePath ? deviceResponse.data.syncFilePath : `${backupResponse.data?.id}`
+    const id = deviceResponse.data.syncFilePath ? deviceResponse.data.syncFilePath : backupId
 
     const syncBackupFinished = await this.waitUntilBackupDeviceFinished(id)
 
@@ -128,7 +130,7 @@ export class SyncBackupCreateService {
     }
 
     // syncFilePath is a target `filePath` for download backups after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
-    const filePath = deviceResponse.data.syncFilePath ? deviceResponse.data.syncFilePath : `${deviceResponse.data.backupLocation}/${backupResponse.data?.id}`
+    const filePath = deviceResponse.data.syncFilePath ? deviceResponse.data.syncFilePath : `${backupLocation}/${backupId}`
 
     return Result.success(filePath)
   }
