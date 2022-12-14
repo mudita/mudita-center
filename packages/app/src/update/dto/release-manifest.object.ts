@@ -11,7 +11,7 @@ export interface ReleaseManifest {
   product: Product
   file: {
     url: string
-    size: number
+    size: string
     name: string
   }
   mandatoryVersions: string[]

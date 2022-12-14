@@ -22,7 +22,7 @@ export class GithubReleasePresenter {
       product: item.product,
       file: {
         url: item.file.url,
-        size: item.file.size,
+        size: Number(item.file.size),
         name: item.file.name,
       },
       mandatoryVersions: item.mandatoryVersions,

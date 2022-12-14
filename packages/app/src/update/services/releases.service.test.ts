@@ -7,7 +7,7 @@ import { createClient } from "App/__deprecated__/api/mudita-center-server"
 import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { ReleaseService } from "App/update/services/releases.service"
-import { ReleaseManifest } from "App/update/dto"
+import { OsRelease, ReleaseManifest } from "App/update/dto"
 import {
   Product,
   OsReleaseType,
@@ -27,7 +27,7 @@ const productionReleaseManifest: ReleaseManifest = {
   product: Product.PurePhone,
   file: {
     url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",
-    size: 156928000,
+    size: "156928000",
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
   mandatoryVersions: ["1.2.2"],
@@ -39,7 +39,7 @@ const candidateReleaseManifest: ReleaseManifest = {
   product: Product.PurePhone,
   file: {
     url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",
-    size: 156928000,
+    size: "156928000",
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
   mandatoryVersions: [""],
@@ -51,11 +51,23 @@ const dailyReleaseManifest: ReleaseManifest = {
   product: Product.PurePhone,
   file: {
     url: "https://muditacenterosreleaseweb-muditaoslatestreleases07-fomskribsxjs.s3.eu-central-1.amazonaws.com/latest/PurePhone/PurePhone-1.3.0-RT1051-Update.tar",
-    size: 156928000,
+    size: "156928000",
     name: "PurePhone-1.3.0-RT1051-Update.tar",
   },
   mandatoryVersions: [""],
 }
+
+const mapManifestToRelease = (
+  manifest: ReleaseManifest,
+  type: OsReleaseType
+): OsRelease => ({
+  ...manifest,
+  file: {
+    ...manifest.file,
+    size: Number(manifest.file.size),
+  },
+  type,
+})
 
 afterEach(() => {
   executionCount = 0
@@ -77,18 +89,14 @@ describe("Method: `getAllReleases`", () => {
 
     expect(result).toEqual(
       Result.success([
+        mapManifestToRelease(
+          productionReleaseManifest,
+          OsReleaseType.Production
+        ),
+        mapManifestToRelease(candidateReleaseManifest, OsReleaseType.Candidate),
         {
-          ...productionReleaseManifest,
-          type: OsReleaseType.Production,
-        },
-        {
-          ...candidateReleaseManifest,
-          type: OsReleaseType.Candidate,
-        },
-        {
-          ...dailyReleaseManifest,
+          ...mapManifestToRelease(dailyReleaseManifest, OsReleaseType.Daily),
           version: "1.2.3-daily.2022.8.12",
-          type: OsReleaseType.Daily,
         },
       ])
     )
@@ -121,10 +129,12 @@ describe("Method: `getRelease`", () => {
     const result = await subject.getLatestRelease(Product.PurePhone)
 
     expect(result).toEqual(
-      Result.success({
-        ...productionReleaseManifest,
-        type: OsReleaseType.Production,
-      })
+      Result.success(
+        mapManifestToRelease(
+          productionReleaseManifest,
+          OsReleaseType.Production
+        )
+      )
     )
   })
 
@@ -175,14 +185,18 @@ describe("Method: `getReleasesByVersions`", () => {
     expect(result).toEqual(
       Result.success([
         {
-          ...productionReleaseManifest,
+          ...mapManifestToRelease(
+            productionReleaseManifest,
+            OsReleaseType.Production
+          ),
           version: "1.1.0",
-          type: OsReleaseType.Production,
         },
         {
-          ...productionReleaseManifest,
+          ...mapManifestToRelease(
+            productionReleaseManifest,
+            OsReleaseType.Production
+          ),
           version: "1.2.0",
-          type: OsReleaseType.Production,
         },
       ])
     )
