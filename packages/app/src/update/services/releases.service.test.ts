@@ -64,7 +64,7 @@ const mapManifestToRelease = (
   ...manifest,
   file: {
     ...manifest.file,
-    size: +manifest.file.size,
+    size: Number(manifest.file.size),
   },
   type,
 })
