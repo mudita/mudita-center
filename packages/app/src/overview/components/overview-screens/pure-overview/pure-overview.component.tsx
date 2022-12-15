@@ -219,14 +219,14 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   // TODO [mw] handle me - scope of CP-1687
-  const updateRelease = (release?: OsRelease) => {
-    const releaseToInstall = getReleaseForAction(release)
+  const updateRelease = (devRelease?: OsRelease) => {
+    const releaseToInstall = getReleaseForAction(devRelease)
 
     releaseToInstall && startUpdateOs(releaseToInstall.file.name)
   }
 
-  const downloadReleases = (releases?: OsRelease[]) => {
-    const releasesToDownload = releases ?? availableReleasesForUpdate
+  const downloadReleases = (devReleases?: OsRelease[]) => {
+    const releasesToDownload = devReleases ?? availableReleasesForUpdate
 
     releasesToDownload &&
       releasesToDownload.length > 0 &&

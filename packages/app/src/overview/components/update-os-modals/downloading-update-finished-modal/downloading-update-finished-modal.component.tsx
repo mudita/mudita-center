@@ -30,44 +30,48 @@ const messages = defineMessages({
   },
 })
 
-export const DownloadingUpdateFinishedModal: FunctionComponent<DownloadingUpdateFinishedModalProps> =
-  ({ onOsUpdate, open, onClose, testId, downloadedReleases }) => {
-    const formattedVersionsText = downloadedReleases
-      .map((release) => `MuditaOS v${release.version}`)
-      .join(" / ")
-
-    return (
-      <OSUpdateModal
-        testId={testId}
-        open={open}
-        closeButton
-        closeable
-        closeModal={onClose}
-        onActionButtonClick={onOsUpdate}
-        actionButtonLabel={intl.formatMessage(messages.downloadCompletedButton)}
-        closeButtonLabel={intl.formatMessage(
-          messages.downloadCompletedCloseButton
-        )}
-      >
-        <RoundIconWrapper>
-          <Icon type={IconType.Pure} width={3.2} />
-        </RoundIconWrapper>
-        <ModalMainText
-          displayStyle={TextDisplayStyle.Headline4}
-          message={messages.downloadCompletedMessage}
-        />
-        <ModalText
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
-          message={{
-            ...messages.downloadCompletedDescription,
-            values: {
-              versionsAmount: formattedVersionsText.length,
-              data: formattedVersionsText,
-              ...textFormatters,
-            },
-          }}
-        />
-      </OSUpdateModal>
-    )
+export const DownloadingUpdateFinishedModal: FunctionComponent<
+  DownloadingUpdateFinishedModalProps
+> = ({ onOsUpdate, open, onClose, testId, downloadedReleases }) => {
+  const handleUpdateButtonClick = (): void => {
+    onOsUpdate()
   }
+  const formattedVersionsText = downloadedReleases
+    .map((release) => `MuditaOS v${release.version}`)
+    .join(" / ")
+
+  return (
+    <OSUpdateModal
+      testId={testId}
+      open={open}
+      closeButton
+      closeable
+      closeModal={onClose}
+      onActionButtonClick={handleUpdateButtonClick}
+      actionButtonLabel={intl.formatMessage(messages.downloadCompletedButton)}
+      closeButtonLabel={intl.formatMessage(
+        messages.downloadCompletedCloseButton
+      )}
+    >
+      <RoundIconWrapper>
+        <Icon type={IconType.Pure} width={3.2} />
+      </RoundIconWrapper>
+      <ModalMainText
+        displayStyle={TextDisplayStyle.Headline4}
+        message={messages.downloadCompletedMessage}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
+        message={{
+          ...messages.downloadCompletedDescription,
+          values: {
+            versionsAmount: formattedVersionsText.length,
+            data: formattedVersionsText,
+            ...textFormatters,
+          },
+        }}
+      />
+    </OSUpdateModal>
+  )
+}
