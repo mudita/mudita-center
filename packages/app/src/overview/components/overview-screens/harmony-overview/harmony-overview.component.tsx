@@ -43,6 +43,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   silentCheckForUpdate,
   downloadUpdates,
   downloadingReleasesProcessStates,
+  updatingReleasesProcessStates,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
 
@@ -90,20 +91,12 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     }
   }
 
-  const getReleaseForAction = (release?: OsRelease): OsRelease | undefined => {
-    if (release) {
-      return release
-    }
-    return availableReleasesForUpdate && availableReleasesForUpdate.length > 0
-      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
-      : undefined
-  }
+  const updateReleases = (devReleases?: OsRelease[]) => {
+    const releasesToInstall = devReleases ?? availableReleasesForUpdate
 
-  // TODO [mw] handle me - scope of CP-1687
-  const updateRelease = (devRelease?: OsRelease) => {
-    const releaseToInstall = getReleaseForAction(devRelease)
-
-    releaseToInstall && startUpdateOs(releaseToInstall.file.name)
+    releasesToInstall &&
+      releasesToInstall.length > 0 &&
+      startUpdateOs(releasesToInstall)
   }
 
   const downloadReleases = (devReleases?: OsRelease[]) => {
@@ -129,13 +122,14 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         downloadUpdates={downloadReleases}
         abortDownloading={abortDownload}
         updateState={updatingState}
-        updateOs={updateRelease}
+        updateOs={updateReleases}
         openContactSupportFlow={openContactSupportFlow}
         allReleases={allReleases}
         openHelpView={goToHelp}
         error={updateOsError}
         silentUpdateCheck={silentUpdateCheck}
         downloadingReleasesProcessStates={downloadingReleasesProcessStates}
+        updatingReleasesProcessStates={updatingReleasesProcessStates}
       />
 
       {flags.get(Feature.ForceUpdate) && (
@@ -158,7 +152,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
-        onUpdateInstall={() => updateRelease()}
+        onUpdateInstall={() => updateReleases()}
         onUpdateDownload={() => downloadReleases()}
         serialNumber={serialNumber}
       />

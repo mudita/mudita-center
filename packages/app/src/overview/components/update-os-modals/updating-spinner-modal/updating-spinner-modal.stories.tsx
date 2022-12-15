@@ -11,7 +11,12 @@ import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/u
 export const UpdatingSpinnerModalStory: FunctionComponent = () => {
   return (
     <Story transparentMode>
-      <UpdatingSpinnerModal open />
+      <UpdatingSpinnerModal
+        open
+        currentlyUpdatingReleaseOrder={1}
+        currentlyUpdatingReleaseVersion={"1.0.0"}
+        updatedReleasesSize={3}
+      />
     </Story>
   )
 }

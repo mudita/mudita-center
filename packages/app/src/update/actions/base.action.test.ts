@@ -56,3 +56,5 @@ describe("Action: setUpdateState", () => {
     ])
   })
 })
+
+// TODO [mw] add tests for setStateForDownloadedRelease and setStateForInstalledRelease

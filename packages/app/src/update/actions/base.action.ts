@@ -10,7 +10,11 @@ import { ReleaseProcessState, UpdateOsEvent } from "App/update/constants"
 export const setUpdateState = createAction<State>(UpdateOsEvent.SetUpdateState)
 export const clearState = createAction(UpdateOsEvent.ClearState)
 export const cancelDownload = createAction(UpdateOsEvent.CancelDownload)
-export const updateDownloadProcessState = createAction<{
+export const setStateForDownloadedRelease = createAction<{
   version: string
   state: ReleaseProcessState
-}>(UpdateOsEvent.UpdateDownloadStateFile)
+}>(UpdateOsEvent.SetStateForDownloadedRelease)
+export const setStateForInstalledRelease = createAction<{
+  version: string
+  state: ReleaseProcessState
+}>(UpdateOsEvent.SetStateForInstalledRelease)

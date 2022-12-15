@@ -70,6 +70,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   silentUpdateCheck,
   downloadUpdates,
   downloadingReleasesProcessStates,
+  updatingReleasesProcessStates,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -95,7 +96,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }, [osVersion, lowestSupportedOsVersion])
 
   useEffect(() => {
-    if (osVersion) {
+    // TODO [mw] the condition is ok, but should it be here? otherwise - it triggers checking for update process
+    if (osVersion && updatingState !== State.Loading) {
       silentCheckForUpdate(DeviceType.MuditaPure)
     }
     // AUTO DISABLED - fix me if you like :)
@@ -209,20 +211,12 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     )
   }
 
-  const getReleaseForAction = (release?: OsRelease): OsRelease | undefined => {
-    if (release) {
-      return release
-    }
-    return availableReleasesForUpdate && availableReleasesForUpdate.length > 0
-      ? availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
-      : undefined
-  }
+  const updateReleases = (devReleases?: OsRelease[]) => {
+    const releasesToInstall = devReleases ?? availableReleasesForUpdate
 
-  // TODO [mw] handle me - scope of CP-1687
-  const updateRelease = (devRelease?: OsRelease) => {
-    const releaseToInstall = getReleaseForAction(devRelease)
-
-    releaseToInstall && startUpdateOs(releaseToInstall.file.name)
+    releasesToInstall &&
+      releasesToInstall.length > 0 &&
+      startUpdateOs(releasesToInstall)
   }
 
   const downloadReleases = (devReleases?: OsRelease[]) => {
@@ -248,13 +242,14 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         downloadUpdates={downloadReleases}
         abortDownloading={abortDownload}
         updateState={updatingState}
-        updateOs={updateRelease}
+        updateOs={updateReleases}
         openContactSupportFlow={openContactSupportFlow}
         allReleases={allReleases}
         openHelpView={goToHelp}
         error={updateOsError}
         silentUpdateCheck={silentUpdateCheck}
         downloadingReleasesProcessStates={downloadingReleasesProcessStates}
+        updatingReleasesProcessStates={updatingReleasesProcessStates}
       />
 
       {flags.get(Feature.ForceUpdate) && (
@@ -300,7 +295,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={downloadingState === DownloadState.Loaded}
         onUpdateCheck={checkForPureUpdate}
-        onUpdateInstall={() => updateRelease()}
+        onUpdateInstall={() => updateReleases()}
         onUpdateDownload={() => downloadReleases()}
         caseColour={caseColour}
         lastBackupDate={lastBackupDate}

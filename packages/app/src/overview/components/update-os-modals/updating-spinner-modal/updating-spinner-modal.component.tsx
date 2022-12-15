@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ProcessReleasesProgress } from "App/overview/components/update-os-modals/process-releases-progress"
 import { UpdatingSpinnerModalProps } from "App/overview/components/update-os-modals/updating-spinner-modal/updating-spinner-modal.interface"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -20,18 +21,35 @@ const messages = defineMessages({
   updatingProgressDescription: {
     id: "module.overview.updatingProgressDescription",
   },
+  updatingReleaseInfo: {
+    id: "module.overview.updatingReleaseInfo",
+  },
 })
 
-export const UpdatingSpinnerModal: FunctionComponent<
-  UpdatingSpinnerModalProps
-> = ({ open, testId }) => {
-  return (
-    <LoaderModal
-      testId={testId}
-      open={open}
-      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-      subtitle={intl.formatMessage(messages.updatingProgressTitle)}
-      body={intl.formatMessage(messages.updatingProgressDescription)}
-    />
-  )
-}
+export const UpdatingSpinnerModal: FunctionComponent<UpdatingSpinnerModalProps> =
+  ({
+    open,
+    testId,
+    currentlyUpdatingReleaseOrder,
+    currentlyUpdatingReleaseVersion,
+    updatedReleasesSize,
+  }) => {
+    return (
+      <LoaderModal
+        testId={testId}
+        open={open}
+        title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+        subtitle={intl.formatMessage(messages.updatingProgressTitle)}
+        body={intl.formatMessage(messages.updatingProgressDescription)}
+      >
+        {/* TODO [mw] add styling - margin-top */}
+        <ProcessReleasesProgress
+          processText={intl.formatMessage(messages.updatingReleaseInfo, {
+            value: currentlyUpdatingReleaseVersion,
+          })}
+          currentIndex={currentlyUpdatingReleaseOrder}
+          totalSize={updatedReleasesSize}
+        />
+      </LoaderModal>
+    )
+  }

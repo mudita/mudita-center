@@ -94,7 +94,7 @@ const UpdatingForceModalFlow: FunctionComponent<UpdatingForceModalFlowProps> =
 
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
-        await updateOs(latestRelease.data.file.name)
+        await updateOs([latestRelease.data])
       }
     }
 
@@ -154,6 +154,9 @@ const UpdatingForceModalFlow: FunctionComponent<UpdatingForceModalFlowProps> =
         <UpdatingSpinnerModal
           testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
           open={updatingForceOpenState === UpdatingForceModalFlowState.Updating}
+          currentlyUpdatingReleaseOrder={1}
+          currentlyUpdatingReleaseVersion={"TODO [mw] handle me! but how?"}
+          updatedReleasesSize={1}
         />
         <UpdatingFailureWithHelpModal
           testId={

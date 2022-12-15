@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "App/core/errors"
-import { updateDownloadProcessState } from "App/update/actions/base.action"
+import { setStateForDownloadedRelease } from "App/update/actions/base.action"
 import {
   ReleaseProcessState,
   UpdateError,
@@ -49,7 +49,7 @@ export const downloadUpdates = createAsyncThunk<
 
     for (const release of releases) {
       dispatch(
-        updateDownloadProcessState({
+        setStateForDownloadedRelease({
           state: ReleaseProcessState.InProgress,
           version: release.version,
         })
@@ -85,7 +85,7 @@ export const downloadUpdates = createAsyncThunk<
       }
 
       dispatch(
-        updateDownloadProcessState({
+        setStateForDownloadedRelease({
           state: ReleaseProcessState.Done,
           version: release.version,
         })

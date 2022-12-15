@@ -301,7 +301,7 @@ describe("updateDownloadProcessState", () => {
           },
         },
         {
-          type: UpdateOsEvent.UpdateDownloadStateFile,
+          type: UpdateOsEvent.SetStateForDownloadedRelease,
           payload: {
             version: mockedRelease.version,
             state: ReleaseProcessState.Done,

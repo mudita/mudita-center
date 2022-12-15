@@ -55,7 +55,7 @@ const getUpdatingDownloadActionProcessParams = (
   progressState: ReleaseProcessState
 ) => {
   return {
-    type: UpdateOsEvent.UpdateDownloadStateFile,
+    type: UpdateOsEvent.SetStateForDownloadedRelease,
     payload: {
       state: progressState,
       version,

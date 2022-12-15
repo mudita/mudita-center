@@ -45,6 +45,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   error,
   silentUpdateCheck,
   downloadingReleasesProcessStates,
+  updatingReleasesProcessStates,
 }) => {
   const {
     devRelease,
@@ -77,11 +78,17 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
     abortDownloading()
   }
 
-  const currentlyDownloadedRelease = useMemo(() => {
+  const currentlyDownloadedReleaseIndex = useMemo(() => {
     return (downloadingReleasesProcessStates ?? []).findIndex(
       (item) => item.state === ReleaseProcessState.InProgress
     )
   }, [downloadingReleasesProcessStates])
+
+  const currentlyInstalledReleaseIndex = useMemo(() => {
+    return (updatingReleasesProcessStates ?? []).findIndex(
+      (item) => item.state === ReleaseProcessState.InProgress
+    )
+  }, [updatingReleasesProcessStates])
 
   const alreadyDownloadedReleases = useMemo(() => {
     return (downloadingReleasesProcessStates ?? [])
@@ -119,20 +126,23 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         </>
       )}
 
-      {downloadingReleasesProcessStates && currentlyDownloadedRelease >= 0 && (
-        <DownloadingUpdateModal
-          testId={UpdateOsFlowTestIds.DownloadingUpdateModal}
-          open={downloadState === DownloadState.Loading}
-          percent={downloadProgress?.percent ?? 0}
-          onCancel={onOsDownloadCancel}
-          currentlyDownloadingReleaseOrder={currentlyDownloadedRelease + 1}
-          currentlyDownloadingReleaseVersion={
-            downloadingReleasesProcessStates[currentlyDownloadedRelease].release
-              .version
-          }
-          downloadedReleasesSize={downloadingReleasesProcessStates.length}
-        />
-      )}
+      {downloadingReleasesProcessStates &&
+        currentlyDownloadedReleaseIndex >= 0 && (
+          <DownloadingUpdateModal
+            testId={UpdateOsFlowTestIds.DownloadingUpdateModal}
+            open={downloadState === DownloadState.Loading}
+            percent={downloadProgress?.percent ?? 0}
+            onCancel={onOsDownloadCancel}
+            currentlyDownloadingReleaseOrder={
+              currentlyDownloadedReleaseIndex + 1
+            }
+            currentlyDownloadingReleaseVersion={
+              downloadingReleasesProcessStates[currentlyDownloadedReleaseIndex]
+                .release.version
+            }
+            downloadedReleasesSize={downloadingReleasesProcessStates.length}
+          />
+        )}
 
       <DownloadingUpdateInterruptedModal
         testId={UpdateOsFlowTestIds.DownloadingCancelledModal}
@@ -158,15 +168,25 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         downloadedReleases={alreadyDownloadedReleases}
       />
 
-      <UpdatingSpinnerModal
-        testId={UpdateOsFlowTestIds.UpdateInProgressModal}
-        open={updateState === State.Loading}
-      />
+      {updatingReleasesProcessStates && currentlyInstalledReleaseIndex >= 0 && (
+        <UpdatingSpinnerModal
+          testId={UpdateOsFlowTestIds.UpdateInProgressModal}
+          open={updateState === State.Loading}
+          currentlyUpdatingReleaseOrder={currentlyInstalledReleaseIndex + 1}
+          currentlyUpdatingReleaseVersion={
+            updatingReleasesProcessStates[currentlyInstalledReleaseIndex]
+              .release.version
+          }
+          updatedReleasesSize={updatingReleasesProcessStates.length}
+        />
+      )}
+
       <UpdatingSuccessModal
         testId={UpdateOsFlowTestIds.UpdateSuccessModal}
         open={updateState === State.Loaded}
         onClose={resetUpdateFlow}
       />
+      {/* TODO [mw] hande displaying failed releases */}
       <UpdatingFailureWithHelpModal
         testId={UpdateOsFlowTestIds.UpdateFailedModal}
         open={

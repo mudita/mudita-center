@@ -5,13 +5,14 @@
 
 import { DeviceType } from "App/device/constants"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
+import { OsRelease } from "App/update/dto"
 
 export interface UpdatingForceModalFlowProps {
   state: UpdatingForceModalFlowState | undefined
   osVersion: string | undefined
   onContact: () => void
   onHelp: () => void
-  updateOs: (fileName: string) => void
+  updateOs: (releases: OsRelease[]) => void
   deviceType: DeviceType
   batteryLevel: number
   closeModal: () => void

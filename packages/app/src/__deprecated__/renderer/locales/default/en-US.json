@@ -686,6 +686,7 @@
   "module.overview.updatingForceDescription": "The MuditaOS version of your device is too old. Please update your device to use Mudita Center.",
   "module.overview.updatingForceTitle": "Update the MuditaOS on your device.",
   "module.overview.updatingProgressDescription": "This might take a few minutes. Please do not unplug your device during the process.",
+  "module.overview.updatingReleaseInfo": "Updating MuditaOS {value}",
   "module.overview.updatingProgressTitle": "Updating MuditaOS…",
   "module.overview.updatingSuccessDescription": "MuditaOS has been updated successfully!",
   "module.overview.updatingSuccessTitle": "Update completed!",

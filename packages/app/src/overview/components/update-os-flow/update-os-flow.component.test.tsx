@@ -46,6 +46,7 @@ const defaultProps: UpdateOsFlowProps = {
   openHelpView: jest.fn(),
   updateOs: jest.fn(),
   downloadingReleasesProcessStates: null,
+  updatingReleasesProcessStates: null,
 }
 
 const release: OsRelease = {
