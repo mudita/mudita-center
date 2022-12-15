@@ -105,13 +105,13 @@ class ContactsPage extends Page {
   public get addToFavouritessCheckbox(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[name="favourite"]')
+    return $('[name*="favourite"]')
   }
 
   public get cancelButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $("p=Cancel")
+    return $("p*=Cancel")
   }
 
   public get saveButton(): ChainablePromiseElement<
@@ -135,7 +135,7 @@ class ContactsPage extends Page {
     return $$('[data-testid="contact-row"]')
   }
 
-  public get singleContact(): ChainablePromiseElement<
+  public get singleContactRow(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="contact-row"]')
@@ -199,13 +199,13 @@ class ContactsPage extends Page {
     return $('[data-testid="address-details"]')
   }
 
-  public get deleteButtonOnContactDetailScreen(): ChainablePromiseElement<
+  public get buttonDeleteOnContactDetailScreen(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Delete"]')
   }
 
-  public get exportButtonOnContactDetailScreen(): ChainablePromiseElement<
+  public get buttonExportOnContactDetailScreen(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-UploadDark"]')
@@ -215,6 +215,77 @@ class ContactsPage extends Page {
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Edit"]')
+  }
+
+  public get checkboxSingleContact(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[type="checkbox"]')
+  }
+
+  public get checkboxesList() {
+    return $$('[type="checkbox"]')
+  }
+
+  public get checkboxSelectAll(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="selection-manager"]').$('[type="checkbox"]')
+  }
+
+  public get textSummaryOfContactsSelected(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="info"]')
+  }
+
+  public get buttonDeleteSelectionManager(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("p*=Delete")
+  }
+
+  public get inputHiddenVcfFile(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="file-input"]')
+  }
+
+  public get buttonContinueWithGoogle(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="google-button"]')
+  }
+
+  public get buttonOutlookImport(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="outlook-button"]')
+  }
+
+  public get buttonImportFromVCFFileImport(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-Upload"]')
+  }
+
+  public get inputSearch(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="contact-input-select-input"]')
+  }
+
+  public get dropDownSearchResultList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="input-select-list"]')
+  }
+
+  public get dropDownSearchResultListItems() {
+    this.dropDownSearchResultList.waitForDisplayed()
+    return this.dropDownSearchResultList.$$(
+      '[data-testid="input-select-list-item"]'
+    )
   }
 }
 

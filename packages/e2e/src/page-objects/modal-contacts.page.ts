@@ -7,36 +7,71 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class ModalContacts extends Page {
-  public get closeIcon(): ChainablePromiseElement<
+  public get iconClose(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Close"]')
   }
-  async closeModalButtonClick() {
+  async buttonCloseClick() {
     try {
-      this.closeIcon.waitForDisplayed({ timeout: 6000 })
-      await this.closeIcon.click()
+      this.iconClose.waitForDisplayed({ timeout: 6000 })
+      await this.iconClose.click()
     } catch (error) {
       console.log(error)
     }
   }
-  public get confrimModalButton(): ChainablePromiseElement<
+
+  public get modalContent(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="delete-modal-content"]')
+  }
+
+  public get textOnModal(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="delete-modal-content"]').$("p")
+  }
+
+  public get iconDelete(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-DeleteBig"]')
+  }
+
+  public get buttonConfirmDelete(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="modal-action-button"]*=Delete')
   }
-  async confirmModalButtonClick() {
-    await this.confrimModalButton.waitForDisplayed()
-    await this.confrimModalButton.click()
+  async buttonConfirmDeleteClick() {
+    await this.buttonConfirmDelete.waitForDisplayed()
+    await this.buttonConfirmDelete.click()
   }
 
-  public get cancelModalButton(): ChainablePromiseElement<
+  public get buttonCancel(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="close-bottom-button"]')
   }
   async cancelModalButtonClick() {
-    await this.cancelModalButton.click()
+    await this.buttonCancel.click()
+  }
+
+  public get buttonImport(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="modal-action-button"]*=Import')
+  }
+
+  public get textSavingCompleted(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("h4*=Saving completed")
+  }
+
+  public get buttonOK(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
+    return $('[data-testid="modal-action-button"]*=OK')
   }
 }
 

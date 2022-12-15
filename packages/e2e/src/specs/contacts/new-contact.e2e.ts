@@ -49,7 +49,7 @@ describe("Add, edit, delete single contact scenarios", () => {
   })
 
   it("Should click on contact and check contact details screen", async () => {
-    const singleContact = await ContactsPage.singleContact
+    const singleContact = await ContactsPage.singleContactRow
     await singleContact.click()
     const nameDetails = await ContactsPage.nameOnContactDetailScreen
     await nameDetails.waitForDisplayed()
@@ -99,7 +99,7 @@ describe("Add, edit, delete single contact scenarios", () => {
     expect(ContactData).toHaveText("Kazimierz Glonojad")
   })
 
-  it("Should delete single contact using options menu and check no concats screen is displayed", async () => {
+  it("Should delete single contact using options menu and check no contacts screen is displayed", async () => {
     await ContactsPage.optionsButtonOnContactListClick()
     await browser.executeAsync((done) => {
       setTimeout(done, 2000)
@@ -107,7 +107,7 @@ describe("Add, edit, delete single contact scenarios", () => {
     const deleteOption = await ContactsPage.deleteContactOptionMenu
     await deleteOption.click()
 
-    ModalContactsPage.confirmModalButtonClick()
+    ModalContactsPage.buttonConfirmDeleteClick()
     await browser.executeAsync((done) => {
       setTimeout(done, 3000)
     })
