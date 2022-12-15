@@ -167,25 +167,29 @@ export class DeviceUpdateService {
 
     let response
 
-    if (deviceType === DeviceType.MuditaHarmony) {
-      response = await this.getDeviceInfo()
-    } else {
-      response = await this.getUnlockDeviceStatus()
+    try {
+      if (deviceType === DeviceType.MuditaHarmony) {
+        response = await this.getDeviceInfo()
+      } else {
+        response = await this.getUnlockDeviceStatus()
+      }
+
+      if (
+        index !== 0 &&
+        (response.data === RequestResponseStatus.Ok ||
+          response.data === RequestResponseStatus.PhoneLocked)
+      ) {
+        return Result.success(true)
+      }
+    } catch {
+      // the error is ignored intentionally because the process handles restarting a device
     }
 
-    if (
-      index !== 0 &&
-      (response.data === RequestResponseStatus.Ok ||
-        response.data === RequestResponseStatus.PhoneLocked)
-    ) {
-      return Result.success(true)
-    } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(this.waitUntilDeviceRestart(++index, deviceType))
-        }, timeout)
-      })
-    }
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.waitUntilDeviceRestart(++index, deviceType))
+      }, timeout)
+    })
   }
 
   private async waitUntilDeviceUnlocked(
