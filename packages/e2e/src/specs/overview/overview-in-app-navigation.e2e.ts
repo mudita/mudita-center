@@ -134,8 +134,6 @@ describe("Overview screen check", () => {
     const serialNumberAboutYourPureValue =
       await serialNumberAboutYourPure.getText()
 
-    console.log(serialNumberAboutYourPureValue)
-
     const backToOverview = await OverviewPage.backToOverviewButton
     await backToOverview.click()
 
@@ -152,11 +150,6 @@ describe("Overview screen check", () => {
     const MuditaOSVer = await OverviewPage.muditaOSVersion
     await MuditaOSVer.waitForDisplayed({ timeout: 4000 })
     const muditaOSVersion = await MuditaOSVer.getText()
-    console.log(
-      "checking if MuditaOS version (" +
-        muditaOSVersion +
-        ") matches the format: MuditaOS \\d.\\d.\\d"
-    )
     expect(/MuditaOS \d.\d.\d/.test(muditaOSVersion)).toBeTruthy()
   })
 })
