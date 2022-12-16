@@ -12,6 +12,7 @@ export enum BackupError {
   BackupInProgress = "BACKUP_IN_PROGRESS_ERROR",
   BackupLocationIsUndefined = "BACKUP_LOCATION_IS_UNDEFINED_ERROR",
   CannotReadBackupFile = "CANNOT_READ_BACKUP_FILE_ERROR",
+  BackupFileIsInvalid = "BACKUP_FILE_IS_INVALID",
   CannotUploadBackupToDevice = "CANNOT_UPLOAD_BACKUP_TO_DEVICE_ERROR",
   CannotRestoreBackup = "CANNOT_RESTORE_BACKUP_ERROR",
   RestoreBackupFailed = "RESTORE_BACKUP_FAILED_ERROR",
