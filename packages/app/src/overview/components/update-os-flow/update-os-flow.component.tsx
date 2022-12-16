@@ -187,7 +187,6 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         open={updateState === State.Loaded}
         onClose={resetUpdateFlow}
       />
-      {/* TODO [mw] hande displaying failed releases */}
       <UpdatingFailureWithHelpModal
         testId={UpdateOsFlowTestIds.UpdateFailedModal}
         open={
