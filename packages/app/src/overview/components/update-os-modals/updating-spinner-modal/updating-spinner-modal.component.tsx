@@ -27,13 +27,7 @@ const messages = defineMessages({
 })
 
 export const UpdatingSpinnerModal: FunctionComponent<UpdatingSpinnerModalProps> =
-  ({
-    open,
-    testId,
-    currentlyUpdatingReleaseOrder,
-    currentlyUpdatingReleaseVersion,
-    updatedReleasesSize,
-  }) => {
+  ({ open, testId, progressParams }) => {
     return (
       <LoaderModal
         testId={testId}
@@ -42,13 +36,15 @@ export const UpdatingSpinnerModal: FunctionComponent<UpdatingSpinnerModalProps> 
         subtitle={intl.formatMessage(messages.updatingProgressTitle)}
         body={intl.formatMessage(messages.updatingProgressDescription)}
       >
-        <UpdateProgressText
-          processText={intl.formatMessage(messages.updatingReleaseInfo, {
-            value: currentlyUpdatingReleaseVersion,
-          })}
-          currentIndex={currentlyUpdatingReleaseOrder}
-          totalSize={updatedReleasesSize}
-        />
+        {progressParams && (
+          <UpdateProgressText
+            processText={intl.formatMessage(messages.updatingReleaseInfo, {
+              value: progressParams.currentlyUpdatingReleaseVersion,
+            })}
+            currentIndex={progressParams.currentlyUpdatingReleaseOrder}
+            totalSize={progressParams.updatedReleasesSize}
+          />
+        )}
       </LoaderModal>
     )
   }

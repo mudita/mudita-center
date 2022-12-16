@@ -13,9 +13,11 @@ export const UpdatingSpinnerModalStory: FunctionComponent = () => {
     <Story transparentMode>
       <UpdatingSpinnerModal
         open
-        currentlyUpdatingReleaseOrder={1}
-        currentlyUpdatingReleaseVersion={"1.0.0"}
-        updatedReleasesSize={3}
+        progressParams={{
+          currentlyUpdatingReleaseOrder: 1,
+          currentlyUpdatingReleaseVersion: "1.0.0",
+          updatedReleasesSize: 3,
+        }}
       />
     </Story>
   )

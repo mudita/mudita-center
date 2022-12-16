@@ -154,9 +154,6 @@ const UpdatingForceModalFlow: FunctionComponent<UpdatingForceModalFlowProps> =
         <UpdatingSpinnerModal
           testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
           open={updatingForceOpenState === UpdatingForceModalFlowState.Updating}
-          currentlyUpdatingReleaseOrder={1}
-          currentlyUpdatingReleaseVersion={"TODO [mw] handle me! but how?"}
-          updatedReleasesSize={1}
         />
         <UpdatingFailureWithHelpModal
           testId={

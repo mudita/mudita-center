@@ -172,12 +172,13 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         <UpdatingSpinnerModal
           testId={UpdateOsFlowTestIds.UpdateInProgressModal}
           open={updateState === State.Loading}
-          currentlyUpdatingReleaseOrder={currentlyInstalledReleaseIndex + 1}
-          currentlyUpdatingReleaseVersion={
-            updatingReleasesProcessStates[currentlyInstalledReleaseIndex]
-              .release.version
-          }
-          updatedReleasesSize={updatingReleasesProcessStates.length}
+          progressParams={{
+            currentlyUpdatingReleaseOrder: currentlyInstalledReleaseIndex + 1,
+            currentlyUpdatingReleaseVersion:
+              updatingReleasesProcessStates[currentlyInstalledReleaseIndex]
+                .release.version,
+            updatedReleasesSize: updatingReleasesProcessStates.length,
+          }}
         />
       )}
 
