@@ -11,11 +11,23 @@ import { AppError } from "App/core/errors"
 import { unlockDevice } from "./unlock-device.action"
 import { unlockDeviceRequest } from "App/device/requests/unlock-device.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { DeviceError } from "App/device/constants"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers/action.helper"
+import { DeviceError, DeviceEvent, DeviceType } from "App/device/constants"
 
-const mockStore = createMockStore([thunk])()
+const mockStore = createMockStore([thunk])({
+  device: {
+    deviceType: DeviceType.MuditaPure,
+  },
+})
 
 jest.mock("App/device/requests/unlock-device.request")
+
+jest.mock("App/device/actions/connect-device.action", () => ({
+  connectDevice: () => ({
+    type: pendingAction(DeviceEvent.Connected),
+    payload: undefined,
+  }),
+}))
 
 afterEach(() => {
   mockStore.clearActions()
@@ -35,6 +47,10 @@ describe("Unlock Device request returns `success` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       unlockDevice.pending(requestId, codeMock),
+      {
+        type: pendingAction(DeviceEvent.Connected),
+        payload: undefined,
+      },
       unlockDevice.fulfilled(true, requestId, codeMock),
     ])
 

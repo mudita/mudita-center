@@ -4,18 +4,18 @@
  */
 
 import { NewTemplate, Template } from "App/templates/dto"
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 import {
   Endpoint,
   Method,
   MessagesCategory as PureMessagesCategory,
 } from "App/device/constants"
+import { CreateTemplateResponseBody } from "App/device/types/mudita-os"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { TemplatePresenter } from "App/templates/presenters"
-import { isResponseSuccessWithData, isResponseSuccess } from "App/core/helpers"
 import { TemplateRepository } from "App/templates/repositories"
 import {
   DeleteTemplateRequestResponse,
@@ -24,20 +24,21 @@ import {
 
 export class TemplateService {
   constructor(
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private templateRepository: TemplateRepository
   ) {}
 
   public async createTemplate(
     template: NewTemplate
   ): Promise<RequestResponse<Template>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Messages,
-      method: Method.Post,
-      body: TemplatePresenter.mapToPureNewTemplateBody(template),
-    })
+    const response =
+      await this.deviceManager.device.request<CreateTemplateResponseBody>({
+        endpoint: Endpoint.Messages,
+        method: Method.Post,
+        body: TemplatePresenter.mapToPureNewTemplateBody(template),
+      })
 
-    if (isResponseSuccessWithData(response)) {
+    if (response.ok && response.data) {
       const templateData = TemplatePresenter.mapToTemplate({
         ...response.data,
         templateBody: template.text,
@@ -48,12 +49,12 @@ export class TemplateService {
       this.templateRepository.create(templateData)
 
       return {
-        status: response.status,
+        status: RequestResponseStatus.Ok,
         data: templateData,
       }
     } else {
       return {
-        status: response.status,
+        status: RequestResponseStatus.Error,
         error: { message: "Create template: Something went wrong" },
       }
     }
@@ -63,7 +64,7 @@ export class TemplateService {
     templateIds: string[]
   ): Promise<DeleteTemplateRequestResponse> {
     const results = templateIds.map(async (id) => {
-      const { status } = await this.deviceService.request({
+      const { ok } = await this.deviceManager.device.request({
         endpoint: Endpoint.Messages,
         method: Method.Delete,
         body: {
@@ -72,7 +73,7 @@ export class TemplateService {
         },
       })
       return {
-        status,
+        status: ok ? RequestResponseStatus.Ok : RequestResponseStatus.Error,
         id,
       }
     })
@@ -106,22 +107,22 @@ export class TemplateService {
   public async updateTemplate(
     template: Template
   ): Promise<RequestResponse<Template>> {
-    const response = await this.deviceService.request({
+    const response = await this.deviceManager.device.request({
       endpoint: Endpoint.Messages,
       method: Method.Put,
       body: TemplatePresenter.mapToPureTemplateBody(template),
     })
 
-    if (isResponseSuccess(response)) {
+    if (response.ok) {
       this.templateRepository.update(template)
 
       return {
-        status: response.status,
+        status: RequestResponseStatus.Ok,
         data: template,
       }
     } else {
       return {
-        status: response.status,
+        status: RequestResponseStatus.Error,
         error: { message: "Update template: Something went wrong" },
       }
     }
@@ -131,13 +132,13 @@ export class TemplateService {
     templates: Template[]
   ): Promise<UpdateTemplateOrderRequestResponse> {
     const results = templates.map(async (template) => {
-      const { status } = await this.deviceService.request({
+      const { ok } = await this.deviceManager.device.request({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: TemplatePresenter.mapToPureTemplateOrder(template),
       })
       return {
-        status,
+        status: ok ? RequestResponseStatus.Ok : RequestResponseStatus.Error,
         template,
       }
     })

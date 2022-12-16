@@ -11,7 +11,6 @@ import store from "App/__deprecated__/renderer/store"
 import history from "App/__deprecated__/renderer/routes/history"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { PureOverview } from "App/overview/components/overview-screens/pure-overview/pure-overview.component"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
@@ -22,6 +21,9 @@ import * as UpdatingForceModalFlowModule from "App/overview/components/updating-
 import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import { flags } from "App/feature-flags"
+import { DownloadState } from "App/update/constants"
+
+// TODO [mw] add integration tests for update process - scope of the next PR (after all the changes from CP-1681 are done)
 
 jest.mock("App/feature-flags")
 
@@ -54,14 +56,11 @@ const defaultProps: Props = {
   batteryLevel: 0,
   disconnectDevice: jest.fn(),
   lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
-  lastAvailableOsVersion: "",
   networkName: "network name",
   osVersion: "1.0.0",
-  pureOsDownloaded: false,
   pureOsBackupLocation: "path/location/backup",
   serialNumber: undefined,
-  updatePhoneOsInfo: jest.fn(),
-  updatingState: UpdatingState.Standby,
+  updatingState: State.Initial,
   memorySpace: {
     reservedSpace: 100,
     usedUserSpace: 200,
@@ -69,6 +68,18 @@ const defaultProps: Props = {
   },
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),
+  abortDownload: jest.fn(),
+  allReleases: [],
+  checkForUpdate: jest.fn(),
+  checkingForUpdateState: State.Initial,
+  clearUpdateState: jest.fn(),
+  downloadingState: DownloadState.Initial,
+  downloadUpdates: jest.fn(),
+  availableReleasesForUpdate: null,
+  silentCheckForUpdate: jest.fn(),
+  silentUpdateCheck: false,
+  updateOsError: null,
+  downloadingReleasesProcessStates: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -147,16 +158,16 @@ describe("update state", () => {
   jest.spyOn(flags, "get").mockReturnValue(true)
 
   type TestCase = [
-    updatingStateKeyValue: keyof typeof UpdatingState | undefined, // passing as key to improve test title readability
+    updatingStateKeyValue: keyof typeof State | undefined, // passing as key to improve test title readability
     isOsSupported: boolean,
     updatingForceModalState: UpdatingForceModalFlowState
   ]
 
   const testCases: TestCase[] = [
-    ["Success", true, UpdatingForceModalFlowState.Success],
-    ["Fail", true, UpdatingForceModalFlowState.Fail],
-    ["Updating", true, UpdatingForceModalFlowState.Updating],
-    ["Updating", false, UpdatingForceModalFlowState.Updating],
+    ["Loaded", true, UpdatingForceModalFlowState.Success],
+    ["Failed", true, UpdatingForceModalFlowState.Fail],
+    ["Loading", true, UpdatingForceModalFlowState.Updating],
+    ["Loading", false, UpdatingForceModalFlowState.Updating],
     [undefined, false, UpdatingForceModalFlowState.Info],
   ]
 
@@ -174,7 +185,7 @@ describe("update state", () => {
     (updatingStateKeyValue, isOsSupported, updatingForceModalState) => {
       test(`update force modal should receive ${updatingForceModalState}`, () => {
         const updatingState = updatingStateKeyValue
-          ? UpdatingState[updatingStateKeyValue]
+          ? State[updatingStateKeyValue]
           : undefined
 
         if (isOsSupported) {

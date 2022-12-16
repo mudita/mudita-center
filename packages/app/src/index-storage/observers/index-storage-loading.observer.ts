@@ -7,21 +7,19 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { ModelEvent } from "App/core/constants"
 import { Observer } from "App/core/types"
-import {
-  DeviceService,
-  DeviceServiceEventName,
-} from "App/__deprecated__/backend/device-service"
-import { Endpoint, Method } from "App/device/constants"
+import { Endpoint, Method, DeviceServiceEvent } from "App/device/constants"
+import { GetDeviceInfoResponseBody } from "App/device/types/mudita-os"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import { IndexStorageService } from "App/index-storage/services"
 import { IpcEvent } from "App/data-sync/constants"
+import { DeviceManager } from "App/device-manager/services"
 
 export class IndexStorageLoadingObserver implements Observer {
   private invoked = false
 
   constructor(
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private keyStorage: MetadataStore,
     private indexStorageService: IndexStorageService,
     private ipc: MainProcessIpc,
@@ -32,16 +30,17 @@ export class IndexStorageLoadingObserver implements Observer {
     this.registerListeners()
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
+    this.eventEmitter.on(DeviceServiceEvent.DeviceUnlocked, async () => {
       if (this.invoked) {
         return
       }
       this.invoked = true
 
-      const { data } = await this.deviceService.request({
-        endpoint: Endpoint.DeviceInfo,
-        method: Method.Get,
-      })
+      const { data } =
+        await this.deviceManager.device.request<GetDeviceInfoResponseBody>({
+          endpoint: Endpoint.DeviceInfo,
+          method: Method.Get,
+        })
 
       // const { data } = await getDeviceInfoRequest(this.deviceService)
       if (data === undefined) {
@@ -66,8 +65,8 @@ export class IndexStorageLoadingObserver implements Observer {
       }
     })
 
-    this.deviceService.on(
-      DeviceServiceEventName.DeviceDisconnected,
+    this.eventEmitter.on(
+      DeviceServiceEvent.DeviceDisconnected,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       async () => {

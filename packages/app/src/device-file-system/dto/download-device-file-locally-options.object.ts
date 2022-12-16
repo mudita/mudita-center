@@ -6,6 +6,7 @@
 export interface DownloadDeviceFileLocallyOptions {
   key?: string
   cwd: string
+  fileBase?: string
   token?: string
   extract?: boolean
 }

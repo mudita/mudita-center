@@ -11,7 +11,7 @@ import {
 } from "App/__deprecated__/renderer/components/core/button/button.config"
 import styled from "styled-components"
 import Button, {
-  Props as ButtonProps,
+  ButtonComponentProps as ButtonProps,
 } from "App/__deprecated__/renderer/components/core/button/button.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import {

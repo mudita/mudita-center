@@ -5,7 +5,6 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
@@ -18,11 +17,12 @@ import {
   LoadBackupService,
 } from "App/backup/services"
 import { BackupController } from "App/backup/controllers"
+import { DeviceManager } from "App/device-manager/services"
 
 export class BackupModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceService: DeviceService,
+    public deviceManager: DeviceManager,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -31,7 +31,7 @@ export class BackupModule extends BaseModule {
   ) {
     super(
       index,
-      deviceService,
+      deviceManager,
       keyStorage,
       logger,
       ipc,
@@ -39,15 +39,16 @@ export class BackupModule extends BaseModule {
       fileSystem
     )
 
-    const deviceFileSystem = new DeviceFileSystemService(this.deviceService)
+    const deviceFileSystem = new DeviceFileSystemService(this.deviceManager)
     const backupCreateService = new BackupCreateService(
-      this.deviceService,
+      this.deviceManager,
       deviceFileSystem,
       this.keyStorage
     )
     const backupRestoreService = new BackupRestoreService(
-      this.deviceService,
-      deviceFileSystem
+      this.deviceManager,
+      deviceFileSystem,
+      fileSystem
     )
     const loadBackupService = new LoadBackupService()
     const backupController = new BackupController(

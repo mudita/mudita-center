@@ -11,6 +11,5 @@ export enum DeviceError {
   Locked = "DEVICE_LOCKED_ERROR",
   InvalidPhoneLockTime = "DEVICE_INVALID_PHONE_LOCK_TIME_ERROR",
   ChangeSim = "DEVICE_CHANGE_SIM_ERROR",
-  UpdateProcess = "DEVICE_UPDATE_PROCESS_ERROR",
   LoadStorageInfo = "DEVICE_LOAD_STORAGE_INFO_ERROR",
 }

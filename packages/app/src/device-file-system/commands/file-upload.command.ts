@@ -5,7 +5,8 @@
 
 import path from "path"
 import { Endpoint, Method } from "App/device/constants"
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { PutFileSystemResponseBody } from "App/device/types/mudita-os"
+import { DeviceManager } from "App/device-manager/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
@@ -15,10 +16,10 @@ import { DeviceFileSystemError } from "App/device-file-system/constants"
 
 export class FileUploadCommand extends BaseCommand {
   constructor(
-    public deviceService: DeviceService,
+    public deviceManager: DeviceManager,
     public fileSystemService: FileSystemService
   ) {
-    super(deviceService)
+    super(deviceManager)
   }
 
   public async exec(
@@ -42,21 +43,24 @@ export class FileUploadCommand extends BaseCommand {
     const fileCrc32 = this.countCRC32(data)
     const fileName = path.basename(filePath)
 
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Put,
-      body: {
-        fileSize,
-        fileCrc32,
-        fileName: [directory, fileName].join("/"),
-      },
-    })
+    const response =
+      await this.deviceManager.device.request<PutFileSystemResponseBody>({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Put,
+        body: {
+          fileSize,
+          fileCrc32,
+          fileName: [directory, fileName].join("/"),
+        },
+      })
 
-    if (
-      response.status !== RequestResponseStatus.Ok ||
-      response.data === undefined
-    ) {
-      if (response.status === RequestResponseStatus.InsufficientStorage) {
+    if (!response.ok || response.data === undefined) {
+      if (
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        response.error?.payload?.status ===
+        RequestResponseStatus.InsufficientStorage
+      ) {
         return Result.failed(
           new AppError(
             DeviceFileSystemError.NoSpaceLeft,
@@ -90,7 +94,7 @@ export class FileUploadCommand extends BaseCommand {
       const chunkedBufferSize = Buffer.byteLength(chunkedBuffer)
       const lastChunk = chunkedBufferSize < chunkSize
 
-      const response = await this.deviceService.request({
+      const response = await this.deviceManager.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -100,7 +104,7 @@ export class FileUploadCommand extends BaseCommand {
         },
       })
 
-      if (response.status !== RequestResponseStatus.Ok) {
+      if (!response.ok) {
         return Result.failed(
           new AppError(
             DeviceFileSystemError.FileUploadChunk,

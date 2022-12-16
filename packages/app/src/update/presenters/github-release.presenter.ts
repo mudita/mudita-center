@@ -4,27 +4,28 @@
  */
 
 import { prerelease } from "semver"
-import { ReleaseManifest, Release } from "App/update/dto"
-import { ReleaseType } from "App/update/constants"
+import { ReleaseManifest, OsRelease } from "App/update/dto"
+import { OsReleaseType } from "App/update/constants"
 import { versionFormatter } from "App/update/helpers"
 
 export class GithubReleasePresenter {
-  static toRelease(item: ReleaseManifest): Release {
+  static toRelease(item: ReleaseManifest): OsRelease {
     const version = versionFormatter(item.version)
     const releaseType = prerelease(version)
 
     return {
       version,
       type: releaseType
-        ? (releaseType[0] as ReleaseType)
-        : ReleaseType.Production,
+        ? (releaseType[0] as OsReleaseType)
+        : OsReleaseType.Production,
       date: item.date,
       product: item.product,
       file: {
         url: item.file.url,
-        size: item.file.size,
+        size: Number(item.file.size),
         name: item.file.name,
       },
+      mandatoryVersions: item.mandatoryVersions,
     }
   }
 }

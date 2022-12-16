@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { State } from "App/core/constants"
 import { DeviceType, CaseColor } from "App/device/constants"
 
 export interface SimCard {
@@ -25,17 +26,10 @@ export enum DataState {
   Error,
 }
 
-export enum UpdatingState {
-  Standby,
-  Updating,
-  Success,
-  Fail,
-}
-
 export interface StoreValues {
   readonly deviceType: DeviceType | undefined
   readonly deviceConnected: boolean
-  readonly updatingState: UpdatingState
+  readonly updatingState: State
   readonly deviceUnlocked: boolean | undefined
   readonly batteryLevel: number
   readonly networkName: string

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ReactElement } from "react"
+import React, { ComponentProps, ReactElement } from "react"
 import {
   ButtonTogglerItemProps,
   ButtonTogglerProps,
@@ -46,11 +46,16 @@ const buttonTogglerTransitionStyles = css`
     )};
 `
 
+const WrappedButton: FunctionComponent<ComponentProps<typeof ButtonComponent>> =
+  (props) => (
+    <ButtonComponent data-testid={ButtonTogglerTestIds.Item} {...props} />
+  )
+
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
-  <ButtonComponent data-testid={ButtonTogglerTestIds.Item} {...props} />
-)).attrs<ButtonTogglerItemProps>(({ filled, active }) => {
+export const ButtonTogglerItem = styled(
+  WrappedButton
+).attrs<ButtonTogglerItemProps>(({ filled, active }) => {
   const displayStyle =
     active && filled ? DisplayStyle.Primary : DisplayStyle.Secondary
   return {

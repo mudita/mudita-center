@@ -114,6 +114,8 @@ export type DeleteContactResponseBody = string
 
 // DeviceInfo types
 export interface DeviceInfo {
+  // backupLocation is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
+  backupLocation?: string
   batteryLevel: string
   batteryState: BatteryState
   currentRTCTime: string
@@ -131,8 +133,11 @@ export interface DeviceInfo {
   networkStatus: NetworkStatus
   serialNumber: string
   caseColour: CaseColor
-  backupLocation: string
   deviceToken?: string
+  backupFilePath: string
+  updateFilePath: string
+  syncFilePath: string
+  recoveryStatusFilePath: string
 }
 
 export interface GetDeviceInfoRequestConfig extends RequestConfig {

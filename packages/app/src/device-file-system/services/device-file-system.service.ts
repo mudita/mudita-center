@@ -9,11 +9,15 @@ import path from "path"
 import { AppError } from "App/core/errors"
 import { ResultObject, Result } from "App/core/builder"
 import { Endpoint, Method } from "App/device/constants"
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 import logger from "App/__deprecated__/main/utils/logger"
 import countCRC32 from "App/device-file-system/helpers/count-crc32"
 import { FileSystemService } from "App/file-system/services/file-system.service"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import {
+  GetFileSystemResponseBody,
+  PutFileSystemResponseBody,
+  DownloadFileSystemResponseBody,
+} from "App/device/types/mudita-os"
 import {
   DownloadDeviceFileLocallyOptions,
   UploadFile,
@@ -23,7 +27,7 @@ import {
 } from "App/device-file-system/dto"
 
 export class DeviceFileSystemService {
-  constructor(private deviceService: DeviceService) {}
+  constructor(private deviceManager: DeviceManager) {}
 
   public async downloadDeviceFilesLocally(
     filePaths: string[],
@@ -73,15 +77,16 @@ export class DeviceFileSystemService {
   }
 
   public async downloadFile(filePath: string): Promise<ResultObject<Buffer>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Get,
-      body: {
-        fileName: filePath,
-      },
-    })
+    const { ok, data } =
+      await this.deviceManager.device.request<GetFileSystemResponseBody>({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Get,
+        body: {
+          fileName: filePath,
+        },
+      })
 
-    if (status !== RequestResponseStatus.Ok || data === undefined) {
+    if (!ok || data === undefined) {
       return Result.failed(
         new AppError(
           "",
@@ -133,20 +138,18 @@ export class DeviceFileSystemService {
   }: UploadFile): Promise<ResultObject<boolean>> {
     const fileSize = Buffer.byteLength(data)
     const fileCrc32 = countCRC32(data)
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Put,
-      body: {
-        fileSize,
-        fileCrc32,
-        fileName: targetPath,
-      },
-    })
+    const response =
+      await this.deviceManager.device.request<PutFileSystemResponseBody>({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Put,
+        body: {
+          fileSize,
+          fileCrc32,
+          fileName: targetPath,
+        },
+      })
 
-    if (
-      response.status !== RequestResponseStatus.Ok ||
-      response.data === undefined
-    ) {
+    if (!response.ok || response.data === undefined) {
       return Result.failed(
         new AppError(
           "",
@@ -168,17 +171,18 @@ export class DeviceFileSystemService {
       const fileBuffer = fs.readFileSync(filePath)
       const fileCrc32 = countCRC32(fileBuffer)
 
-      const { status, data } = await this.deviceService.request({
-        endpoint: Endpoint.FileSystem,
-        method: Method.Put,
-        body: {
-          fileSize,
-          fileCrc32,
-          fileName: targetPath,
-        },
-      })
+      const { ok, data } =
+        await this.deviceManager.device.request<PutFileSystemResponseBody>({
+          endpoint: Endpoint.FileSystem,
+          method: Method.Put,
+          body: {
+            fileSize,
+            fileCrc32,
+            fileName: targetPath,
+          },
+        })
 
-      if (status !== RequestResponseStatus.Ok || data === undefined) {
+      if (!ok || data === undefined) {
         return Result.failed(
           new AppError(
             "",
@@ -207,7 +211,7 @@ export class DeviceFileSystemService {
       return Result.failed(new AppError("", ""))
     }
 
-    const { status } = await this.deviceService.request({
+    const { ok } = await this.deviceManager.device.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Delete,
       body: {
@@ -215,7 +219,11 @@ export class DeviceFileSystemService {
       },
     })
 
-    return Result.success(status === RequestResponseStatus.Ok)
+    if (ok) {
+      return Result.success(ok)
+    } else {
+      return Result.success(false)
+    }
   }
 
   private async downloadDeviceFileLocally(
@@ -229,7 +237,7 @@ export class DeviceFileSystemService {
     } else {
       const data: string[] = []
       const { cwd, extract, token, key } = options
-      const name = filePath.split("/").pop() as string
+      const fileBase = options.fileBase ? options.fileBase : filePath.split("/").pop() as string
 
       if (!fs.existsSync(cwd)) {
         fs.mkdirSync(cwd, {
@@ -238,7 +246,7 @@ export class DeviceFileSystemService {
       }
 
       try {
-        const entryFilePath = path.join(cwd, name)
+        const entryFilePath = path.join(cwd, fileBase)
         const input = new stream.PassThrough()
         input.end(result)
 
@@ -288,7 +296,7 @@ export class DeviceFileSystemService {
       const chunkedBufferSize = Buffer.byteLength(chunkedBuffer)
       const lastChunk = chunkedBufferSize < chunkSize
 
-      const response = await this.deviceService.request({
+      const response = await this.deviceManager.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -298,7 +306,7 @@ export class DeviceFileSystemService {
         },
       })
 
-      if (response.status !== RequestResponseStatus.Ok) {
+      if (!response.ok) {
         return Result.failed(
           new AppError(
             "",
@@ -339,7 +347,7 @@ export class DeviceFileSystemService {
       const lastChunk = nread < chunkSize
       const dataBuffer = lastChunk ? buffer.slice(0, nread) : buffer
 
-      const response = await this.deviceService.request({
+      const response = await this.deviceManager.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -349,7 +357,7 @@ export class DeviceFileSystemService {
         },
       })
 
-      if (response.status !== RequestResponseStatus.Ok) {
+      if (!response.ok) {
         fs.closeSync(fd)
         return Result.failed(
           new AppError(
@@ -376,29 +384,31 @@ export class DeviceFileSystemService {
     chunkNo = 1,
     chunkedString = ""
   ): Promise<ResultObject<EncodedFile>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Get,
-      body: {
-        rxID,
-        chunkNo,
-      },
-    })
+    const { ok, data } =
+      await this.deviceManager.device.request<DownloadFileSystemResponseBody>({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Get,
+        body: {
+          rxID,
+          chunkNo,
+        },
+      })
 
-    if (status !== RequestResponseStatus.Ok || data === undefined) {
+    if (!ok || data === undefined) {
       return Result.failed(
         new AppError("", "Download encoded file: Something went wrong")
       )
     }
 
-    const string = `${chunkedString}${data.data}`
+    const { data: downloadData, fileCrc32 } = data
+    const string = `${chunkedString}${downloadData}`
 
     if (chunkNo < chunkLength) {
       return this.downloadEncodedFile(rxID, chunkLength, chunkNo + 1, string)
     } else {
       return Result.success({
         file: string,
-        fileCrc32: data.fileCrc32,
+        fileCrc32: fileCrc32,
       })
     }
   }

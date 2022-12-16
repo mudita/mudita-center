@@ -23,7 +23,12 @@ export class DeviceInfoPresenter {
         total: Number(data.deviceSpaceTotal) * 1048576,
       },
       caseColour: data.caseColour ? data.caseColour : CaseColor.Gray,
-      backupLocation: data.backupLocation ? data.backupLocation : "",
+      backupFilePath: data.backupFilePath ? data.backupFilePath : "",
+      updateFilePath: data.updateFilePath ? data.updateFilePath : "",
+      recoveryStatusFilePath: data.recoveryStatusFilePath
+        ? data.recoveryStatusFilePath
+        : "",
+      syncFilePath: data.syncFilePath ? data.syncFilePath : "",
     }
   }
 }
