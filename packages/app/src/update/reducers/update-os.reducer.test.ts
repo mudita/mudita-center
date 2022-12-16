@@ -49,6 +49,7 @@ test("empty event returns initial state", () => {
         "allReleases": null,
         "availableReleasesForUpdate": null,
         "downloadedProcessedReleases": null,
+        "updateProcessedReleases": null,
       },
       "downloadState": 0,
       "error": null,
@@ -87,9 +88,23 @@ describe("startUpdateOs action", () => {
     expect(
       updateOsReducer(undefined, {
         type: pendingAction(UpdateOsEvent.StartOsUpdateProcess),
+        meta: {
+          arg: {
+            releases: [mockedRelease],
+          },
+        },
       })
     ).toEqual({
       ...initialState,
+      data: {
+        ...initialState.data,
+        updateProcessedReleases: [
+          {
+            release: mockedRelease,
+            state: ReleaseProcessState.Initial,
+          },
+        ],
+      },
       updateOsState: State.Loading,
     })
   })
@@ -171,9 +186,9 @@ describe("checkForUpdate", () => {
       ...initialState,
       checkForUpdateState: State.Loaded,
       data: {
+        ...initialState.data,
         availableReleasesForUpdate: [mockedRelease],
         allReleases: [mockedRelease],
-        downloadedProcessedReleases: null,
       },
     })
   })
@@ -218,8 +233,7 @@ describe("downloadUpdate", () => {
     ).toEqual({
       ...initialState,
       data: {
-        allReleases: null,
-        availableReleasesForUpdate: null,
+        ...initialState.data,
         downloadedProcessedReleases: [
           { release: mockedRelease, state: ReleaseProcessState.Initial },
         ],
@@ -287,7 +301,7 @@ describe("downloadUpdate", () => {
   })
 })
 
-describe("updateDownloadProcessState", () => {
+describe("setStateForDownloadedRelease", () => {
   test("sets new state for downloaded release version", () => {
     expect(
       updateOsReducer(
@@ -313,6 +327,39 @@ describe("updateDownloadProcessState", () => {
       data: {
         ...initialState.data,
         downloadedProcessedReleases: [
+          { release: mockedRelease, state: ReleaseProcessState.Done },
+        ],
+      },
+    })
+  })
+})
+
+describe("setStateForInstalledRelease", () => {
+  test("sets new state for downloaded release version", () => {
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+          data: {
+            ...initialState.data,
+            updateProcessedReleases: [
+              { release: mockedRelease, state: ReleaseProcessState.Initial },
+            ],
+          },
+        },
+        {
+          type: UpdateOsEvent.SetStateForInstalledRelease,
+          payload: {
+            version: mockedRelease.version,
+            state: ReleaseProcessState.Done,
+          },
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      data: {
+        ...initialState.data,
+        updateProcessedReleases: [
           { release: mockedRelease, state: ReleaseProcessState.Done },
         ],
       },

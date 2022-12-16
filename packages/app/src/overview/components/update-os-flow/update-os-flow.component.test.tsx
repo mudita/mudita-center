@@ -243,10 +243,16 @@ describe("download modals", () => {
 })
 
 describe("update os", () => {
-  describe("when os update is being performed", () => {
+  describe("when os update is being performed and there is one release being installed", () => {
     test("spinner modal is shown", () => {
       const { queryByTestId } = render({
         updateState: State.Loading,
+        updatingReleasesProcessStates: [
+          {
+            release,
+            state: ReleaseProcessState.InProgress,
+          },
+        ],
       })
 
       checkModalsVisibility(queryByTestId, [

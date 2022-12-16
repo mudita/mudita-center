@@ -50,7 +50,7 @@ const mockedRelease2: OsRelease = {
 
 const params = { releases: [mockedRelease, mockedRelease2] }
 
-const getUpdatingDownloadActionProcessParams = (
+const getParamsForDownloadingIntallingRelaseStateAction = (
   version: string,
   progressState: ReleaseProcessState
 ) => {
@@ -120,16 +120,22 @@ describe("when some of the updates have been downloaded before", () => {
 
     expect(mockStore.getActions()).toEqual([
       downloadUpdates.pending(requestId, params),
-      getUpdatingDownloadActionProcessParams(
+      getParamsForDownloadingIntallingRelaseStateAction(
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
-      getUpdatingDownloadActionProcessParams("1.1.0", ReleaseProcessState.Done),
-      getUpdatingDownloadActionProcessParams(
+      getParamsForDownloadingIntallingRelaseStateAction(
+        "1.1.0",
+        ReleaseProcessState.Done
+      ),
+      getParamsForDownloadingIntallingRelaseStateAction(
         "1.2.0",
         ReleaseProcessState.InProgress
       ),
-      getUpdatingDownloadActionProcessParams("1.2.0", ReleaseProcessState.Done),
+      getParamsForDownloadingIntallingRelaseStateAction(
+        "1.2.0",
+        ReleaseProcessState.Done
+      ),
       downloadUpdates.fulfilled(undefined, requestId, params),
     ])
   })
@@ -172,16 +178,22 @@ describe("when update downloads successfully", () => {
 
     expect(mockStore.getActions()).toEqual([
       downloadUpdates.pending(requestId, params),
-      getUpdatingDownloadActionProcessParams(
+      getParamsForDownloadingIntallingRelaseStateAction(
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
-      getUpdatingDownloadActionProcessParams("1.1.0", ReleaseProcessState.Done),
-      getUpdatingDownloadActionProcessParams(
+      getParamsForDownloadingIntallingRelaseStateAction(
+        "1.1.0",
+        ReleaseProcessState.Done
+      ),
+      getParamsForDownloadingIntallingRelaseStateAction(
         "1.2.0",
         ReleaseProcessState.InProgress
       ),
-      getUpdatingDownloadActionProcessParams("1.2.0", ReleaseProcessState.Done),
+      getParamsForDownloadingIntallingRelaseStateAction(
+        "1.2.0",
+        ReleaseProcessState.Done
+      ),
       downloadUpdates.fulfilled(undefined, requestId, params),
     ])
   })
@@ -225,7 +237,7 @@ describe("when download is cancelled by user", () => {
 
     expect(mockStore.getActions()).toEqual([
       downloadUpdates.pending(requestId, params),
-      getUpdatingDownloadActionProcessParams(
+      getParamsForDownloadingIntallingRelaseStateAction(
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
@@ -235,7 +247,7 @@ describe("when download is cancelled by user", () => {
 })
 
 describe("when download failed", () => {
-  test("action is rejected with cancelled error", async () => {
+  test("action is rejected with unknown error", async () => {
     jest
       .spyOn(
         osUpdateAlreadyDownloadedCheckModule,
@@ -272,7 +284,7 @@ describe("when download failed", () => {
 
     expect(mockStore.getActions()).toEqual([
       downloadUpdates.pending(requestId, params),
-      getUpdatingDownloadActionProcessParams(
+      getParamsForDownloadingIntallingRelaseStateAction(
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
