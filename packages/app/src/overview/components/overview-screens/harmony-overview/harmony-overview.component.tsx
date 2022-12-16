@@ -61,8 +61,9 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     }
   }, [osVersion, lowestSupportedOsVersion])
 
+  // TODO [mw] the silent check behaviour would be changed. For this moment - not the best, but working solution. Scope of CP-1742
   useEffect(() => {
-    if (osVersion) {
+    if (osVersion && updatingState !== State.Loading) {
       silentCheckForUpdate(DeviceType.MuditaHarmony)
     }
     // AUTO DISABLED - fix me if you like :)

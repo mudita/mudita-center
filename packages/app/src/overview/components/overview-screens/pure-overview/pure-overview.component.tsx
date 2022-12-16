@@ -96,7 +96,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }, [osVersion, lowestSupportedOsVersion])
 
   useEffect(() => {
-    // TODO [mw] the condition is ok, but should it be here? otherwise - it triggers checking for update process
+    // TODO [mw] the silent check behaviour would be changed. For this moment - not the best, but working solution. Scope of CP-1742
     if (osVersion && updatingState !== State.Loading) {
       silentCheckForUpdate(DeviceType.MuditaPure)
     }
