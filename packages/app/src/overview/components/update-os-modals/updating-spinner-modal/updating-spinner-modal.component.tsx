@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ProcessReleasesProgress } from "App/overview/components/update-os-modals/process-releases-progress"
 import { UpdatingSpinnerModalProps } from "App/overview/components/update-os-modals/updating-spinner-modal/updating-spinner-modal.interface"
+import { UpdateProgressText } from "App/overview/components/update-os-modals/updating-spinner-modal/updating-spinner-modal.styled"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
@@ -42,8 +42,7 @@ export const UpdatingSpinnerModal: FunctionComponent<UpdatingSpinnerModalProps> 
         subtitle={intl.formatMessage(messages.updatingProgressTitle)}
         body={intl.formatMessage(messages.updatingProgressDescription)}
       >
-        {/* TODO [mw] add styling - margin-top */}
-        <ProcessReleasesProgress
+        <UpdateProgressText
           processText={intl.formatMessage(messages.updatingReleaseInfo, {
             value: currentlyUpdatingReleaseVersion,
           })}
