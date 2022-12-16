@@ -15,7 +15,7 @@ import {
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
-import { startOsUpdate } from "App/update/requests"
+import { removeDownloadedOsUpdates, startOsUpdate } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 interface Params {
@@ -72,6 +72,8 @@ export const startUpdateOs = createAsyncThunk<
         })
       )
     }
+
+    void removeDownloadedOsUpdates()
 
     return
   }
