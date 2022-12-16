@@ -49,7 +49,8 @@ export class UpdateModule extends BaseModule {
     const deviceUpdateService = new DeviceUpdateService(
       settingsService,
       this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager)
+      new DeviceFileSystemService(this.deviceManager),
+      this.keyStorage
     )
     const releaseService = new ReleaseService(createClient())
     const releasesController = new ReleasesController(releaseService)
