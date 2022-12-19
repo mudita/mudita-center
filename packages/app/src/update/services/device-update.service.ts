@@ -31,11 +31,11 @@ export class DeviceUpdateService {
   ) {}
 
   public async updateOs(payload: UpdateOS): Promise<ResultObject<boolean>> {
-    this.keyStorage.setValue(MetadataKey.BackupInProgress, true)
+    this.keyStorage.setValue(MetadataKey.UpdateInProgress, true)
     const deviceInfoResult = await this.getDeviceInfo()
 
     if (!deviceInfoResult.ok || !deviceInfoResult.data) {
-      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+      this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
       return Result.failed(
         new AppError(
           UpdateErrorServiceErrors.CannotGetOsVersion,
@@ -55,7 +55,7 @@ export class DeviceUpdateService {
     })
 
     if (!fileResponse.ok || !fileResponse.data) {
-      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+      this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
       return Result.failed(
         new AppError(
           UpdateErrorServiceErrors.UpdateFileUpload,
@@ -74,7 +74,7 @@ export class DeviceUpdateService {
     })
 
     if (!pureUpdateResponse.ok) {
-      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+      this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
       return Result.failed(
         new AppError(
           UpdateErrorServiceErrors.UpdateCommand,
@@ -86,7 +86,7 @@ export class DeviceUpdateService {
     const deviceRestartResponse = await this.waitUntilDeviceRestart()
 
     if (!deviceRestartResponse.ok) {
-      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+      this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
       return deviceRestartResponse
     }
 
@@ -94,7 +94,7 @@ export class DeviceUpdateService {
       const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
 
       if (!deviceUnlockedResponse.ok) {
-        this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+        this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
         return deviceUnlockedResponse
       }
     }
@@ -102,7 +102,7 @@ export class DeviceUpdateService {
     const deviceInfoAfterUpdateResult = await this.getDeviceInfo()
 
     if (!deviceInfoAfterUpdateResult.ok || !deviceInfoAfterUpdateResult.data) {
-      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+      this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
       return Result.failed(
         new AppError(
           UpdateErrorServiceErrors.CannotGetOsVersion,
@@ -115,7 +115,7 @@ export class DeviceUpdateService {
     const beforeUpdateOsVersion = deviceInfoResult.data.version
 
     if (beforeUpdateOsVersion === afterUpdateOsVersion) {
-      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+      this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
       return Result.failed(
         new AppError(
           UpdateErrorServiceErrors.VersionDoesntChanged,
@@ -124,7 +124,7 @@ export class DeviceUpdateService {
       )
     }
 
-    this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+    this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
 
     return Result.success(true)
   }
