@@ -54,6 +54,7 @@ const defaultProps: Props = {
   silentUpdateCheck: false,
   updateOsError: null,
   downloadingReleasesProcessStates: null,
+  updatingReleasesProcessStates: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {

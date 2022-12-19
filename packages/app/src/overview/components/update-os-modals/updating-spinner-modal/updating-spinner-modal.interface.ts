@@ -6,4 +6,9 @@
 export interface UpdatingSpinnerModalProps {
   open: boolean
   testId?: string
+  progressParams?: {
+    currentlyUpdatingReleaseVersion: string
+    currentlyUpdatingReleaseOrder: number
+    updatedReleasesSize: number
+  }
 }

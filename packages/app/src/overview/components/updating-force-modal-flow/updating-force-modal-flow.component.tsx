@@ -94,7 +94,7 @@ const UpdatingForceModalFlow: FunctionComponent<UpdatingForceModalFlowProps> =
 
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
-        await updateOs(latestRelease.data.file.name)
+        await updateOs([latestRelease.data])
       }
     }
 

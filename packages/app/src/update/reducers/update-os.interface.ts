@@ -18,5 +18,6 @@ export interface UpdateOsState {
     allReleases: OsRelease[] | null
     availableReleasesForUpdate: OsRelease[] | null
     downloadedProcessedReleases: ProcessedRelease[] | null
+    updateProcessedReleases: ProcessedRelease[] | null
   }
 }

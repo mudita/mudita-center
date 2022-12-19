@@ -52,6 +52,11 @@ export class DeviceConnectionObserver implements Observer {
             return
           }
 
+          if (this.keyStorage.getValue(MetadataKey.UpdateInProgress)) {
+            this.ipc.sendToRenderers(IpcEvent.DataSkipped)
+            return
+          }
+
           try {
             this.ipc.sendToRenderers(IpcEvent.DataLoading)
 

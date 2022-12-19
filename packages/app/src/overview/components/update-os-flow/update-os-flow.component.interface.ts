@@ -18,9 +18,10 @@ export interface UpdateOsFlowProps {
   allReleases: OsRelease[] | null
   error: AppError<UpdateError> | null
   downloadingReleasesProcessStates: ProcessedRelease[] | null
+  updatingReleasesProcessStates: ProcessedRelease[] | null
   downloadUpdates: (releases?: OsRelease[]) => void
   abortDownloading: () => void
-  updateOs: (release?: OsRelease) => void
+  updateOs: (releases?: OsRelease[]) => void
   clearUpdateOsFlow: () => void
   openContactSupportFlow: () => void
   openHelpView: () => void

@@ -10,4 +10,5 @@ export enum MetadataKey {
   DeviceSerialNumber = "deviceSerialNumber",
   DeviceToken = "deviceToken",
   BackupInProgress = "backupInProgress",
+  UpdateInProgress = "updateInProgress",
 }

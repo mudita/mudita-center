@@ -13,7 +13,11 @@ import { DeviceFileSystemService } from "App/device-file-system/services"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
-import { ReleaseService, DeviceUpdateService } from "App/update/services"
+import {
+  ReleaseService,
+  DeviceUpdateService,
+  DeviceUpdateFilesService,
+} from "App/update/services"
 import {
   ReleasesController,
   DeviceUpdateController,
@@ -49,12 +53,15 @@ export class UpdateModule extends BaseModule {
     const deviceUpdateService = new DeviceUpdateService(
       settingsService,
       this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager)
+      new DeviceFileSystemService(this.deviceManager),
+      this.keyStorage
     )
+    const deviceUpdateFilesService = new DeviceUpdateFilesService()
     const releaseService = new ReleaseService(createClient())
     const releasesController = new ReleasesController(releaseService)
     const deviceUpdateController = new DeviceUpdateController(
-      deviceUpdateService
+      deviceUpdateService,
+      deviceUpdateFilesService
     )
 
     this.controllers = [releasesController, deviceUpdateController]
