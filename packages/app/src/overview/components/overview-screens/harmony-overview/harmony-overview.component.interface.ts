@@ -22,7 +22,8 @@ export interface HarmonyOverviewProps {
   readonly availableReleasesForUpdate: OsRelease[] | null
   readonly silentUpdateCheck: boolean
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
-  readonly startUpdateOs: (data: string) => void
+  readonly updatingReleasesProcessStates: ProcessedRelease[] | null
+  readonly startUpdateOs: (releases: OsRelease[]) => void
   readonly setUpdateState: (data: State) => void
   readonly disconnectDevice: () => void
   readonly openContactSupportFlow: () => void

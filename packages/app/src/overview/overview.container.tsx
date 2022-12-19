@@ -57,6 +57,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     silentUpdateCheck: state.update.silentUpdateCheck,
     downloadingReleasesProcessStates:
       state.update.data.downloadedProcessedReleases,
+    updatingReleasesProcessStates: state.update.data.updateProcessedReleases,
   }
 }
 
@@ -67,9 +68,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   setUpdateState: (state: State) => dispatch(setUpdateState(state)),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
+  startUpdateOs: (releases: OsRelease[]) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(startUpdateOs({ releases })),
   startBackupDevice: (key: string) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call

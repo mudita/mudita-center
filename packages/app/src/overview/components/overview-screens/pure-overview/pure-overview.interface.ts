@@ -35,6 +35,7 @@ export interface PureOverviewProps {
   readonly updateOsError: AppError<UpdateError> | null
   readonly silentUpdateCheck: boolean
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
+  readonly updatingReleasesProcessStates: ProcessedRelease[] | null
   readonly updateAllIndexes: () => Promise<void>
   readonly openContactSupportFlow: () => void
   readonly readRestoreDeviceDataState: () => void
@@ -42,7 +43,7 @@ export interface PureOverviewProps {
   readonly readBackupDeviceDataState: () => void
   readonly startBackupDevice: (secretKey: string) => void
   readonly setUpdateState: (data: State) => void
-  readonly startUpdateOs: (data: string) => void
+  readonly startUpdateOs: (releases: OsRelease[]) => void
   readonly disconnectDevice: () => void
   readonly checkForUpdate: (deviceType: DeviceType) => void
   readonly silentCheckForUpdate: (deviceType: DeviceType) => void

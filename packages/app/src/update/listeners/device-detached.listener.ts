@@ -4,13 +4,14 @@
  */
 
 import { ListenerEvent } from "App/device-manager/constants"
-import { cancelOsDownload } from "App/update/requests"
 import { ipcRenderer } from "electron-better-ipc"
+import store from "App/__deprecated__/renderer/store"
+import { handleDeviceDetached } from "App/update/actions"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const deviceDetachedHandler = (_: any, _data: string): void => {
-  cancelOsDownload(true)
+  void store.dispatch(handleDeviceDetached())
 }
 
 export const registerDownloadCancelOnDeviceDetachedListener =

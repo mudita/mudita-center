@@ -13,7 +13,8 @@ import {
   downloadUpdates,
   setUpdateState,
   startUpdateOs,
-  updateDownloadProcessState,
+  setStateForDownloadedRelease,
+  setStateForInstalledRelease,
 } from "App/update/actions"
 import {
   DownloadState,
@@ -32,6 +33,7 @@ export const initialState: UpdateOsState = {
     allReleases: null,
     availableReleasesForUpdate: null,
     downloadedProcessedReleases: null,
+    updateProcessedReleases: null,
   },
 }
 
@@ -54,7 +56,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         downloadState: DownloadState.Initial,
       }
     })
-    builder.addCase(updateDownloadProcessState, (state, action) => {
+    builder.addCase(setStateForDownloadedRelease, (state, action) => {
       const { state: newReleaseState, version } = action.payload
       const newDownloadedProcessedReleases = (
         state.data.downloadedProcessedReleases ?? []
@@ -75,6 +77,27 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         },
       }
     })
+    builder.addCase(setStateForInstalledRelease, (state, action) => {
+      const { state: newReleaseState, version } = action.payload
+      const newUpdateProcessedReleases = (
+        state.data.updateProcessedReleases ?? []
+      ).map((item) =>
+        item.release.version === version
+          ? {
+              ...item,
+              state: newReleaseState,
+            }
+          : item
+      )
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          updateProcessedReleases: newUpdateProcessedReleases,
+        },
+      }
+    })
 
     builder.addCase(checkForUpdate.pending, (state, payload) => {
       state.error = null
@@ -82,6 +105,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         allReleases: null,
         availableReleasesForUpdate: null,
         downloadedProcessedReleases: null,
+        updateProcessedReleases: null,
       }
       state.silentUpdateCheck = payload.meta.arg.isSilentCheck
       state.checkForUpdateState = State.Loading
@@ -123,7 +147,13 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.downloadState = DownloadState.Cancelled
     })
 
-    builder.addCase(startUpdateOs.pending, (state) => {
+    builder.addCase(startUpdateOs.pending, (state, action) => {
+      state.data.updateProcessedReleases = action.meta.arg.releases.map(
+        (release) => ({
+          release,
+          state: ReleaseProcessState.Initial,
+        })
+      )
       state.error = null
       state.downloadState = DownloadState.Initial
       state.updateOsState = State.Loading
