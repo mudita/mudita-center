@@ -78,6 +78,35 @@ export class FileSystemService {
     return this.handleStreamFinish(input).then(() => entryFilePaths)
   }
 
+  public async validateEncryptedZippedFile(
+    filePath: string,
+    key: string
+  ): Promise<boolean> {
+    // `entered` flag is a workaround. Thrown error during on reading broken file is ignored by the stream package.
+    let entered = false
+    const input = new stream.PassThrough()
+    const file = await this.readEncryptedFileViaKey(filePath, key)
+    return new Promise((resolve) => {
+      input.end(file)
+
+      const extract = tar.extract({ allowUnknownFormat: true })
+
+      extract.on("entry", function (header, inputStream, next) {
+        inputStream.on("end", function () {
+          entered = true
+          next()
+        })
+        inputStream.on("error", function () {
+          resolve(false)
+        })
+        inputStream.resume()
+      })
+      input.pipe(extract)
+
+      void this.handleStreamFinish(input).then(() => resolve(entered))
+    })
+  }
+
   public async extractEncryptedFile(
     filePath: string,
     cwd: string,
@@ -118,6 +147,14 @@ export class FileSystemService {
     return CryptoFileService.decryptViaToken({ buffer, token })
   }
 
+  public async readEncryptedFileViaKey(
+    filePath: string,
+    key: string
+  ): Promise<Buffer | undefined> {
+    const buffer = await this.readFile(filePath)
+    return CryptoFileService.decrypt({ buffer, key })
+  }
+
   public async writeEncryptedFile(
     filePath: string,
     data: Buffer | Uint8Array,
@@ -146,9 +183,11 @@ export class FileSystemService {
     return new Promise((resolve, reject) => {
       input
         .on("finish", function () {
+          console.log("handleStreamFinish finish: ")
           resolve()
         })
         .on("error", function () {
+          console.log("handleStreamFinish error: ")
           reject()
         })
     })

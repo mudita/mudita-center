@@ -3,10 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-} from "App/device/constants"
+import { Endpoint, Method } from "App/device/constants"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
@@ -32,6 +29,21 @@ export class BackupRestoreService extends BaseBackupService {
     token,
   }: RestoreDeviceBackup): Promise<ResultObject<boolean | undefined>> {
     const backupId = backupFilePath.split("/").pop() as string
+
+    const validBackup = await this.fileSystem.validateEncryptedZippedFile(
+      filePath,
+      token
+    )
+
+    if (!validBackup) {
+      return Result.failed(
+        new AppError(
+          BackupError.BackupFileIsInvalid,
+          `File: token is incorrect`
+        )
+      )
+    }
+
     const fileData = await this.readFile(filePath, token)
 
     if (!fileData) {
