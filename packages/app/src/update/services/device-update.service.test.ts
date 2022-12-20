@@ -26,7 +26,6 @@ import { SettingsService } from "App/settings/services/settings.service"
 import { UpdateErrorServiceErrors } from "App/update/constants"
 import { UpdateOS } from "App/update/dto"
 import { DeviceUpdateService } from "App/update/services/device-update.service"
-import { MetadataStore } from "App/metadata"
 
 const settingsService = {
   getByKey: jest.fn().mockReturnValue("/some/path/"),
@@ -41,14 +40,13 @@ const deviceManager = {
 
 const deviceFileSystem = {
   uploadFileLocally: jest.fn(),
+  removeDeviceFile: jest.fn(),
 } as unknown as DeviceFileSystemService
-const keyStorage = new MetadataStore()
 
 const subject = new DeviceUpdateService(
   settingsService,
   deviceManager,
-  deviceFileSystem,
-  keyStorage
+  deviceFileSystem
 )
 
 const payloadMock: UpdateOS = {
@@ -58,7 +56,7 @@ const payloadMock: UpdateOS = {
 const deviceInfoResponseMock: DeviceInfo = {
   accessTechnology: AccessTechnology.Gsm,
   backupFilePath: "",
-  updateFilePath: "",
+  updateFilePath: undefined,
   recoveryStatusFilePath: "",
   syncFilePath: "",
   batteryLevel: "100",

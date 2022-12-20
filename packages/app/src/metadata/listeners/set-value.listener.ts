@@ -13,7 +13,7 @@ export const registerMetadataSetValueListener = (): void => {
     IpcMetadata.SetValue,
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/require-await
-    async (data: { key: MetadataKey; value: string | number | null }) => {
+    async (data: { key: MetadataKey; value: string | number | boolean | undefined | null }) => {
       const store = getMetadataStore()
       const result = store.setValue(data.key, data.value)
 
