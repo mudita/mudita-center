@@ -49,7 +49,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.LogsScrubbingEnabled]: {
     [Environment.Development]: false,
-    [Environment.Production]: true,
+    [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
   [Feature.DeveloperModeEnabled]: {
@@ -204,7 +204,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.ForceUpdate]: {
     [Environment.Development]: false,
-    [Environment.Production]: true,
+    [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
 }
