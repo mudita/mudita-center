@@ -41,6 +41,7 @@ const deviceManager = {
 
 const deviceFileSystem = {
   uploadFileLocally: jest.fn(),
+  removeDeviceFile: jest.fn(),
 } as unknown as DeviceFileSystemService
 const keyStorage = new MetadataStore()
 
@@ -58,7 +59,7 @@ const payloadMock: UpdateOS = {
 const deviceInfoResponseMock: DeviceInfo = {
   accessTechnology: AccessTechnology.Gsm,
   backupFilePath: "",
-  updateFilePath: "",
+  updateFilePath: undefined,
   recoveryStatusFilePath: "",
   syncFilePath: "",
   batteryLevel: "100",

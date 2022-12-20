@@ -49,9 +49,12 @@ export class DeviceUpdateService {
       payload.fileName
     )
 
+    const targetPath = this.getTargetPath(deviceInfoResult.data)
+    await this.deviceFileSystem.removeDeviceFile(targetPath)
+
     const fileResponse = await this.deviceFileSystem.uploadFileLocally({
       filePath,
-      targetPath: "/sys/user/update.tar",
+      targetPath,
     })
 
     if (!fileResponse.ok || !fileResponse.data) {
@@ -127,6 +130,12 @@ export class DeviceUpdateService {
     this.keyStorage.setValue(MetadataKey.UpdateInProgress, false)
 
     return Result.success(true)
+  }
+
+  private getTargetPath({ updateFilePath }: DeviceInfo): string {
+    return updateFilePath !== undefined
+      ? updateFilePath
+      : "/sys/user/update.tar"
   }
 
   private async getDeviceInfo(): Promise<ResultObject<DeviceInfo>> {
