@@ -4,6 +4,6 @@
  */
 
 export enum DeviceDirectory {
-  Music = "/sys/user/music",
+  Music = "/user/media/app/music_player",
   Relaxation = "/sys/current/assets/audio/bg_sounds",
 }
