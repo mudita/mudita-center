@@ -9,7 +9,7 @@ import { ModalStateKey } from "App/modals-manager/reducers"
 import { clearState } from "App/update/actions"
 import { UpdateOsInterruptedFlow } from "App/update/components/update-os-interrupted-flow/update-os-interrupted-flow.component"
 import { DownloadState } from "App/update/constants"
-import { alreadyDownloadedReleasesSelector } from "App/update/selectors"
+import { alreadyProcessedReleasesSelector, Mode } from "App/update/selectors"
 import {
   ReduxRootState,
   RootState,
@@ -22,7 +22,12 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     downloadInterruptedModalOpened:
       state.update.downloadState === DownloadState.Failed,
     updateInterruptedModalOpened: state.update.updateOsState === State.Failed,
-    alreadyDownloadedReleases: alreadyDownloadedReleasesSelector(state),
+    alreadyDownloadedReleases: alreadyProcessedReleasesSelector(
+      Mode.DownloadedReleases
+    )(state),
+    alreadyInstalledReleases: alreadyProcessedReleasesSelector(
+      Mode.InstalledReleases
+    )(state),
   }
 }
 
