@@ -3,4 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./already-downloaded-releases.selector"
+export * from "./already-processed-releases.selector"

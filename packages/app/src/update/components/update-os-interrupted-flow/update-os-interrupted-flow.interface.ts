@@ -8,7 +8,7 @@ import { OsRelease } from "App/update/dto"
 export interface UpdateOsInterruptedFlowProps {
   onClose: () => void
   alreadyDownloadedReleases: OsRelease[]
-  openContactSupportFlow: () => void
+  alreadyInstalledReleases: OsRelease[]
   downloadInterruptedModalOpened: boolean
   updateInterruptedModalOpened: boolean
 }

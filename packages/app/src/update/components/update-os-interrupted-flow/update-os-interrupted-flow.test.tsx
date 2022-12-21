@@ -11,10 +11,10 @@ import React from "react"
 
 const defaultProps: UpdateOsInterruptedFlowProps = {
   alreadyDownloadedReleases: [],
+  alreadyInstalledReleases: [],
   downloadInterruptedModalOpened: false,
   updateInterruptedModalOpened: false,
   onClose: jest.fn(),
-  openContactSupportFlow: jest.fn(),
 }
 
 const render = (extraProps?: Partial<UpdateOsInterruptedFlowProps>) => {
