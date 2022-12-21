@@ -17,7 +17,7 @@ import { OsRelease } from "App/update/dto"
 import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
 import { removeDownloadedOsUpdates, startOsUpdate } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { MetadataKey, setValue } from "App/metadata"
+import { setUpdatingRequest } from "App/device/requests/set-updating.request"
 
 interface Params {
   releases: OsRelease[]
@@ -32,12 +32,11 @@ export const startUpdateOs = createAsyncThunk<
 >(
   UpdateOsEvent.StartOsUpdateProcess,
   async ({ releases }, { dispatch, rejectWithValue, getState }) => {
-    void setValue({ key: MetadataKey.UpdateInProgress, value: true })
+    void setUpdatingRequest(true)
     const { device } = getState() as RootState & ReduxRootState
     const batteryLevel = device.data?.batteryLevel ?? 0
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
-      void setValue({ key: MetadataKey.UpdateInProgress, value: false })
       return rejectWithValue(
         new AppError(
           UpdateError.TooLowBattery,
@@ -59,7 +58,7 @@ export const startUpdateOs = createAsyncThunk<
       const result = await startOsUpdate({ fileName: release.file.name })
 
       if (!result.ok) {
-        void setValue({ key: MetadataKey.UpdateInProgress, value: false })
+        void setUpdatingRequest(false)
         return rejectWithValue(
           new AppError(
             UpdateError.UpdateOsProcess,
@@ -78,7 +77,7 @@ export const startUpdateOs = createAsyncThunk<
 
     void removeDownloadedOsUpdates()
 
-    void setValue({ key: MetadataKey.UpdateInProgress, value: false })
+    void setUpdatingRequest(false)
 
     return
   }

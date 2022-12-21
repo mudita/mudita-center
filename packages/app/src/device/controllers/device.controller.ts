@@ -38,4 +38,9 @@ export class DeviceController {
   public async deviceLockTime(): Promise<ResultObject<PhoneLockTime>> {
     return this.deviceService.unlockTime()
   }
+
+  @IpcEvent(IpcDeviceEvent.SetUpdating)
+  public setUpdating(updating: boolean): void {
+    return this.deviceService.setUpdating(updating)
+  }
 }

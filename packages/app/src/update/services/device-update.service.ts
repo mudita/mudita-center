@@ -117,7 +117,6 @@ export class DeviceUpdateService {
       )
     }
 
-
     return Result.success(true)
   }
 
@@ -175,20 +174,16 @@ export class DeviceUpdateService {
       )
     }
 
-    let response
+    let result: ResultObject<DeviceInfo | RequestResponseStatus>
 
     try {
       if (deviceType === DeviceType.MuditaHarmony) {
-        response = await this.getDeviceInfo()
+        result = await this.getDeviceInfo()
       } else {
-        response = await this.getUnlockDeviceStatus()
+        result = await this.getUnlockDeviceStatus()
       }
 
-      if (
-        index !== 0 &&
-        (response.data === RequestResponseStatus.Ok ||
-          response.data === RequestResponseStatus.PhoneLocked)
-      ) {
+      if (index !== 0 && result.ok) {
         return Result.success(true)
       }
     } catch {

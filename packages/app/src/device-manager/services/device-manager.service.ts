@@ -18,6 +18,11 @@ export class DeviceManager {
   public currentDevice: Device | undefined
   public devicesMap = new Map<string, Device>()
 
+  // The `updating` property is a tmp solution to skip sync process
+  // The tech debt will be fixed as part ot tech task
+  // https://appnroll.atlassian.net/browse/CP-1765
+  public updating = false
+
   constructor(
     private deviceResolver: DeviceResolverService,
     private ipc: MainProcessIpc
