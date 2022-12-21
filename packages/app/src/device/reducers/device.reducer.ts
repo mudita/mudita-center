@@ -61,6 +61,8 @@ export const deviceReducer = createReducer<DeviceState>(
           status: {
             ...state.status,
             connecting: true,
+            connected: false,
+            loaded: false,
           },
           error: null,
         }
@@ -73,7 +75,8 @@ export const deviceReducer = createReducer<DeviceState>(
             deviceType: action.payload,
             status: {
               ...state.status,
-              connecting: true,
+              connected: true,
+              connecting: false,
             },
             error: null,
           }
@@ -131,7 +134,7 @@ export const deviceReducer = createReducer<DeviceState>(
             status: {
               ...state.status,
               connected: action.payload ? action.payload : false,
-              connecting: action.payload ? state.status.connecting: false,
+              connecting: action.payload ? state.status.connecting : false,
             },
             error: null,
           }

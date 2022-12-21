@@ -84,6 +84,8 @@ describe("Connecting/Disconnecting functionality", () => {
       status: {
         ...initialState.status,
         connecting: true,
+        connected: false,
+        loaded: false,
       },
       state: ConnectionState.Loading,
     })
@@ -99,7 +101,8 @@ describe("Connecting/Disconnecting functionality", () => {
       ...initialState,
       status: {
         ...initialState.status,
-        connecting: true,
+        connected: true,
+        connecting: false,
       },
       deviceType: DeviceType.MuditaPure,
     })

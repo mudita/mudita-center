@@ -33,6 +33,7 @@ interface Props {
   settingsLoaded?: boolean
   deviceParred?: boolean
   deviceConnected: boolean
+  deviceLocked?: boolean
   deviceUpdating: boolean
   deviceRestarting: boolean
   sendDiagnosticData: () => void
@@ -47,6 +48,7 @@ const BaseApp: FunctionComponent<Props> = ({
   deviceParred,
   sendDiagnosticData,
   deviceConnected,
+  deviceLocked,
   deviceUpdating,
   deviceRestarting,
 }) => {
@@ -58,18 +60,18 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (deviceRestarting || deviceParred) {
+    if (deviceRestarting) {
       return
     }
 
-    if (deviceConnecting) {
+    if (deviceConnecting || deviceLocked) {
       history.push(URL_ONBOARDING.connecting)
     } else if (!deviceFeaturesVisible) {
       history.push(URL_ONBOARDING.welcome)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceFeaturesVisible, deviceConnecting, deviceRestarting, deviceParred])
+  }, [deviceFeaturesVisible, deviceConnecting, deviceRestarting, deviceLocked])
 
   useEffect(() => {
     if (deviceParred && Boolean(settingsLoaded)) {
@@ -134,6 +136,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       state.device.status.loaded && Boolean(state.device.status.unlocked),
     settingsLoaded: state.settings.loaded,
     deviceConnected: state.device.status.connected,
+    deviceLocked:
+      state.device.status.connected && !state.device.status.unlocked,
     deviceUpdating: state.update.updateOsState === State.Loading,
     deviceRestarting: isDeviceRestarting(state),
   }
