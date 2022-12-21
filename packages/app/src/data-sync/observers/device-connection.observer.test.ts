@@ -17,6 +17,7 @@ import { flushPromises } from "App/core/helpers/flush-promises"
 let subject: DeviceConnectionObserver
 const eventEmitterMock = new EventEmitter()
 const deviceManager = {
+  updating: false,
   device: {
     request: jest.fn(),
   },

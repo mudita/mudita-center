@@ -11,6 +11,7 @@ export enum IpcDeviceEvent {
   Unlock = "unlock",
   UnlockStatus = "unlock-status",
   LockTime = "lock-time",
+  SetUpdating = "set-updating",
 }
 
 export enum IpcDeviceRequest {
@@ -19,4 +20,5 @@ export enum IpcDeviceRequest {
   Unlock = "device-unlock",
   UnlockStatus = "device-unlock-status",
   LockTime = "device-lock-time",
+  SetUpdating = "device-set-updating",
 }
