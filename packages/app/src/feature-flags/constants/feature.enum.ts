@@ -16,7 +16,6 @@ export enum Feature {
   MessagesThreadCallsEnabled = "messages-thread-calls-enabled",
   MessagesThreadDetailsMarkAsReadEnabled = "messages-thread-details-mark-as-read-enabled",
   MessagesCallFromThreadEnabled = "messages-call-from-thread-enabled",
-  MessagesTemplatesTabEnabled = "messages-templates-tab-enabled",
   MessagesDraftStatus = "messages-draft-status",
   MuditaCenterPrereleaseEnabled = "mudita-center-prerelease-enabled",
   ContactForwardEnabled = "contact-forward-enabled",

@@ -37,11 +37,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  [Feature.MessagesTemplatesTabEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
