@@ -52,11 +52,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.MessagesThreadBrowseContacts]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MessagesDraftStatus]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
