@@ -50,16 +50,14 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
   }
 
   const leadingIcons = [
-    flags.get(Feature.MessagesThreadAttachContactEnabled) && (
-      <IconButtonWithSecondaryTooltip
-        testId={ThreadDetailsTextAreaTestIds.AttachContactButton}
-        Icon={IconType.AttachContact}
-        key={IconType.AttachContact}
-        description={messages.attachContactTooltipDescription}
-        onClick={onAttachContactClick}
-        place={ElementWithTooltipPlace.TopLeft}
-      />
-    ),
+    <IconButtonWithSecondaryTooltip
+      testId={ThreadDetailsTextAreaTestIds.AttachContactButton}
+      Icon={IconType.AttachContact}
+      key={IconType.AttachContact}
+      description={messages.attachContactTooltipDescription}
+      onClick={onAttachContactClick}
+      place={ElementWithTooltipPlace.TopLeft}
+    />,
     flags.get(Feature.MessagesThreadAttachTemplateEnabled) && (
       <IconButtonWithSecondaryTooltip
         Icon={IconType.Template}
