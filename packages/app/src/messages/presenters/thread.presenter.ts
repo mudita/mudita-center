@@ -20,7 +20,7 @@ export class ThreadPresenter {
     } = pureThread
     return {
       messageSnippet: ThreadPresenter.buildMessageSnippet(pureThread),
-      unread: flags.get(Feature.ReadAndUnreadMessages) ? isUnread : false,
+      unread: isUnread,
       id: String(threadID),
       phoneNumber: String(number),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),

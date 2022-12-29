@@ -31,7 +31,6 @@ export enum Feature {
   MeditationTabEnabled = "meditation-tab-enabled",
   RecoveryModeTabEnabled = "recovery-mode-tab-enabled",
   YourPureIconsEnabled = "your-pure-icons-enabled",
-  ReadAndUnreadMessages = "read-and-unread-messages",
   OrderTemplate = "order-template",
   AlphaRelaseWarning = "alpha-release-warning",
   ForceUpdate = "force-update",

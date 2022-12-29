@@ -132,11 +132,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.ReadAndUnreadMessages]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.OrderTemplate]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
