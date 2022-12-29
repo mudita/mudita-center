@@ -22,11 +22,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.MessagesThreadDeleteEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.LoggerEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: true,

@@ -18,7 +18,6 @@ import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { lightAvatarStyles } from "App/contacts/components/contact-list/contact-list.styled"
 import Avatar from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import { Col } from "App/__deprecated__/renderer/components/core/table/table.component"
-import { flags, Feature } from "App/feature-flags"
 
 export const checkboxShowedStyles = css`
   margin-left: 4.4rem;
@@ -76,12 +75,8 @@ export const hoverRowStyles = css`
     }
 
     ${InitialsAvatar} {
-      ${flags.get(Feature.MessagesThreadDeleteEnabled)
-        ? css`
-            display: none;
-            ${animatedOpacityStyles}
-          `
-        : lightAvatarStyles}
+      display: none;
+      ${animatedOpacityStyles}
     }
   }
 `

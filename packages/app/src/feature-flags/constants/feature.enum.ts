@@ -12,7 +12,6 @@ export enum Feature {
   FilesManagerEnabled = "files-manager-enabled",
   FilesManagerActionsEnabled = "files-manager-actions-enabled",
   MessagesForwardEnabled = "messages-forward-enabled",
-  MessagesThreadDeleteEnabled = "messages-thread-delete-enabled",
   MessagesThreadAttachContactEnabled = "messages-thread-attach-contact-enabled",
   MessagesThreadAttachTemplateEnabled = "messages-thread-attach-template-enabled",
   MessagesThreadBrowseContacts = "messages-thread-browse-contacts",
