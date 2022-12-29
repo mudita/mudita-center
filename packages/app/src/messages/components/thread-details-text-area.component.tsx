@@ -11,7 +11,6 @@ import {
   TextareaWrapper,
 } from "App/messages/components/thread-details.styled"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
-import { Feature, flags } from "App/feature-flags"
 import { IconBackgroundWithTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
 import { defineMessages } from "react-intl"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
@@ -58,15 +57,13 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
       onClick={onAttachContactClick}
       place={ElementWithTooltipPlace.TopLeft}
     />,
-    flags.get(Feature.MessagesThreadAttachTemplateEnabled) && (
-      <IconButtonWithSecondaryTooltip
-        Icon={IconType.Template}
-        key={IconType.Template}
-        description={messages.attachTemplateTooltipDescription}
-        onClick={onAttachTemplateClick}
-        place={ElementWithTooltipPlace.TopLeft}
-      />
-    ),
+    <IconButtonWithSecondaryTooltip
+      Icon={IconType.Template}
+      key={IconType.Template}
+      description={messages.attachTemplateTooltipDescription}
+      onClick={onAttachTemplateClick}
+      place={ElementWithTooltipPlace.TopLeft}
+    />,
   ]
 
   const trailingIcon = [

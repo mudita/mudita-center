@@ -42,11 +42,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  [Feature.MessagesThreadAttachTemplateEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MessagesThreadCallsEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
