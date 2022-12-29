@@ -37,11 +37,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  [Feature.FilesManagerEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.FilesManagerActionsEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: true,
