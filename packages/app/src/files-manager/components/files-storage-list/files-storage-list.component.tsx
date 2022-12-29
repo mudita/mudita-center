@@ -39,7 +39,6 @@ import {
 } from "App/files-manager/components/files-storage-list/files-storage-list.styled"
 import { DeviceType } from "App/device/constants"
 import { VisibleOnDevice } from "App/ui/components"
-import { Feature, flags } from "App/feature-flags"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 

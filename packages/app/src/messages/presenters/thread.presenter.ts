@@ -7,7 +7,6 @@ import { Thread as PureThread } from "App/device/types/mudita-os"
 import { MessageType as PureMessageType } from "App/device/constants"
 import { Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
-import { Feature, flags } from "App/feature-flags"
 
 export class ThreadPresenter {
   static mapToThread(pureThread: PureThread): Thread {
