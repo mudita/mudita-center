@@ -227,16 +227,14 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
                                 displayStyle={DisplayStyle.Dropdown}
                               />
                             )}
-                          {flags.get(Feature.MessagesDeleteEnabled) && (
-                            <ButtonComponent
-                              labelMessage={{
-                                id: "module.messages.messageDropdownDelete",
-                              }}
-                              Icon={IconType.Delete}
-                              onClick={remove}
-                              displayStyle={DisplayStyle.Dropdown}
-                            />
-                          )}
+                          <ButtonComponent
+                            labelMessage={{
+                              id: "module.messages.messageDropdownDelete",
+                            }}
+                            Icon={IconType.Delete}
+                            onClick={remove}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
                         </Dropdown>
                       </Actions>
                     </Col>

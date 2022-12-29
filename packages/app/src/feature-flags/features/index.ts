@@ -17,11 +17,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  [Feature.MessagesDeleteEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MessagesForwardEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,

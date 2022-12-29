@@ -75,7 +75,6 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
     }
 
     return (
-      flags.get(Feature.MessagesDeleteEnabled) ||
       flags.get(Feature.MessagesForwardEnabled) ||
       flags.get(Feature.MessagesResendEnabled)
     )
@@ -132,17 +131,15 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
                   data-testid={MessageBubbleTestIds.ForwardMessageButton}
                 />
               )}
-              {flags.get(Feature.MessagesDeleteEnabled) && (
-                <ButtonComponent
-                  labelMessage={{
-                    id: "module.messages.messageDropdownDelete",
-                  }}
-                  Icon={IconType.Delete}
-                  onClick={remove}
-                  displayStyle={DisplayStyle.Dropdown}
-                  data-testid={MessageBubbleTestIds.DeleteMessageButton}
-                />
-              )}
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.messages.messageDropdownDelete",
+                }}
+                Icon={IconType.Delete}
+                onClick={remove}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid={MessageBubbleTestIds.DeleteMessageButton}
+              />
             </MessageBubbleDropdown>
           )}
           {isMessageFailed && (
