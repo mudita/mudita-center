@@ -74,10 +74,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
       return false
     }
 
-    return (
-      flags.get(Feature.MessagesForwardEnabled) ||
-      flags.get(Feature.MessagesResendEnabled)
-    )
+    return flags.get(Feature.MessagesForwardEnabled)
   }
 
   return (
@@ -109,7 +106,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
               display={(clicked === id).toString()}
               data-testid={MessageBubbleTestIds.Dropdown}
             >
-              {flags.get(Feature.MessagesResendEnabled) && isMessageFailed && (
+              {isMessageFailed && (
                 <ButtonComponent
                   labelMessage={{
                     id: "module.messages.messageDropdownResend",

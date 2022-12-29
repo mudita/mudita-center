@@ -216,17 +216,16 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
                             />
                           }
                         >
-                          {flags.get(Feature.MessagesResendEnabled) &&
-                            isMessageFailed && (
-                              <ButtonComponent
-                                labelMessage={{
-                                  id: "module.messages.messageDropdownResend",
-                                }}
-                                Icon={IconType.Send}
-                                onClick={resend}
-                                displayStyle={DisplayStyle.Dropdown}
-                              />
-                            )}
+                          {isMessageFailed && (
+                            <ButtonComponent
+                              labelMessage={{
+                                id: "module.messages.messageDropdownResend",
+                              }}
+                              Icon={IconType.Send}
+                              onClick={resend}
+                              displayStyle={DisplayStyle.Dropdown}
+                            />
+                          )}
                           <ButtonComponent
                             labelMessage={{
                               id: "module.messages.messageDropdownDelete",
