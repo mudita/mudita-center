@@ -11,7 +11,6 @@ export enum Feature {
   DeveloperModeEnabled = "developer-mode-enabled",
   FilesManagerEnabled = "files-manager-enabled",
   FilesManagerActionsEnabled = "files-manager-actions-enabled",
-  MessagesSearchEnabled = "messages-search-enabled",
   MessagesDeleteEnabled = "messages-delete-enabled",
   MessagesForwardEnabled = "messages-forward-enabled",
   MessagesResendEnabled = "messages-resend-enabled",
