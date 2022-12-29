@@ -68,15 +68,13 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           data-testid={ThreadDetailsTestIds.ContactButton}
         />
       )}
-      {flags.get(Feature.MessagesThreadDetailsMarkAsReadEnabled) && (
-        <SidebarHeaderButton
-          description={messages.marksAsUnreadTooltipDescription}
-          iconType={IconType.MarkAsUnread}
-          onClick={onMarkAsUnreadClick}
-          disabled={emptyThread}
-          data-testid={ThreadDetailsTestIds.MarkAsUnreadButton}
-        />
-      )}
+      <SidebarHeaderButton
+        description={messages.marksAsUnreadTooltipDescription}
+        iconType={IconType.MarkAsUnread}
+        onClick={onMarkAsUnreadClick}
+        disabled={emptyThread}
+        data-testid={ThreadDetailsTestIds.MarkAsUnreadButton}
+      />
       <SidebarHeaderButton
         description={messages.deleteTooltipDescription}
         iconType={IconType.Delete}

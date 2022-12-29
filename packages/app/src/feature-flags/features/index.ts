@@ -47,11 +47,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.MessagesThreadDetailsMarkAsReadEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MessagesCallFromThreadEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,

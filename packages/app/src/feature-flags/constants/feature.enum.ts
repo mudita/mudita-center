@@ -13,7 +13,6 @@ export enum Feature {
   MessagesThreadAttachTemplateEnabled = "messages-thread-attach-template-enabled",
   MessagesThreadBrowseContacts = "messages-thread-browse-contacts",
   MessagesThreadCallsEnabled = "messages-thread-calls-enabled",
-  MessagesThreadDetailsMarkAsReadEnabled = "messages-thread-details-mark-as-read-enabled",
   MessagesCallFromThreadEnabled = "messages-call-from-thread-enabled",
   MessagesDraftStatus = "messages-draft-status",
   MuditaCenterPrereleaseEnabled = "mudita-center-prerelease-enabled",
