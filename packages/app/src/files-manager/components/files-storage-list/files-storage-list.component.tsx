@@ -106,9 +106,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
   const deviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   )
-  const filesManagerActionsEnable =
-    flags.get(Feature.FilesManagerActionsEnabled) &&
-    deviceType === DeviceType.MuditaPure
+  const filesManagerActionsEnable = deviceType === DeviceType.MuditaPure
   return (
     <FilesStorageContainer {...rest}>
       {state === State.Loaded && files.length > 0 && (

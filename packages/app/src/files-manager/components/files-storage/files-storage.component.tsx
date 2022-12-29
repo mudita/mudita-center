@@ -12,7 +12,6 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
-import { Feature, flags } from "App/feature-flags"
 import { FilesManagerPanel } from "App/files-manager/components/files-manager-panel"
 import { FilesStorageProps } from "App/files-manager/components/files-storage/files-storage.interface"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
@@ -56,19 +55,17 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
           message={messages.title}
         />
       </TitleWrapper>
-      {flags.get(Feature.FilesManagerActionsEnabled) && (
-        <FilesManagerPanel
-          onUploadFile={uploadFiles}
-          disabled={disableUpload}
-          toggleAll={selectAllItems}
-          resetRows={resetAllItems}
-          onDeleteClick={onManagerDeleteClick}
-          selectedFiles={selectedItems}
-          allItemsSelected={allItemsSelected}
-          searchValue={searchValue}
-          onSearchValueChange={onSearchValueChange}
-        />
-      )}
+      <FilesManagerPanel
+        onUploadFile={uploadFiles}
+        disabled={disableUpload}
+        toggleAll={selectAllItems}
+        resetRows={resetAllItems}
+        onDeleteClick={onManagerDeleteClick}
+        selectedFiles={selectedItems}
+        allItemsSelected={allItemsSelected}
+        searchValue={searchValue}
+        onSearchValueChange={onSearchValueChange}
+      />
       <FilesStorageList
         data-testid={FilesStorageTestIds.List}
         files={files}
