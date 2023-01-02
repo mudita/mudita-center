@@ -48,13 +48,11 @@ export const tabElements: TabElement[] = [
         label: messages.conversations,
         url: URL_MAIN.messages,
         icon: IconType.Message,
-        hidden: !flags.get(Feature.MessagesTemplatesTabEnabled),
       },
       {
         label: messages.templates,
         url: `${URL_MAIN.messages}${URL_TABS.templates}`,
         icon: IconType.Templates,
-        hidden: !flags.get(Feature.MessagesTemplatesTabEnabled),
       },
     ],
   },

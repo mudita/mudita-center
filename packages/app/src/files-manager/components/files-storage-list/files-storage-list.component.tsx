@@ -39,7 +39,6 @@ import {
 } from "App/files-manager/components/files-storage-list/files-storage-list.styled"
 import { DeviceType } from "App/device/constants"
 import { VisibleOnDevice } from "App/ui/components"
-import { Feature, flags } from "App/feature-flags"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
@@ -106,9 +105,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
   const deviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   )
-  const filesManagerActionsEnable =
-    flags.get(Feature.FilesManagerActionsEnabled) &&
-    deviceType === DeviceType.MuditaPure
+  const filesManagerActionsEnable = deviceType === DeviceType.MuditaPure
   return (
     <FilesStorageContainer {...rest}>
       {state === State.Loaded && files.length > 0 && (

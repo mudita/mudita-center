@@ -74,11 +74,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
       return false
     }
 
-    return (
-      flags.get(Feature.MessagesDeleteEnabled) ||
-      flags.get(Feature.MessagesForwardEnabled) ||
-      flags.get(Feature.MessagesResendEnabled)
-    )
+    return flags.get(Feature.MessagesForwardEnabled)
   }
 
   return (
@@ -110,7 +106,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
               display={(clicked === id).toString()}
               data-testid={MessageBubbleTestIds.Dropdown}
             >
-              {flags.get(Feature.MessagesResendEnabled) && isMessageFailed && (
+              {isMessageFailed && (
                 <ButtonComponent
                   labelMessage={{
                     id: "module.messages.messageDropdownResend",
@@ -132,17 +128,15 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
                   data-testid={MessageBubbleTestIds.ForwardMessageButton}
                 />
               )}
-              {flags.get(Feature.MessagesDeleteEnabled) && (
-                <ButtonComponent
-                  labelMessage={{
-                    id: "module.messages.messageDropdownDelete",
-                  }}
-                  Icon={IconType.Delete}
-                  onClick={remove}
-                  displayStyle={DisplayStyle.Dropdown}
-                  data-testid={MessageBubbleTestIds.DeleteMessageButton}
-                />
-              )}
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.messages.messageDropdownDelete",
+                }}
+                Icon={IconType.Delete}
+                onClick={remove}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid={MessageBubbleTestIds.DeleteMessageButton}
+              />
             </MessageBubbleDropdown>
           )}
           {isMessageFailed && (

@@ -13,7 +13,6 @@ import {
 } from "App/data-sync/types"
 import { MessageType as PureMessageType } from "App/device/constants"
 import { MessageType } from "App/messages/constants"
-import { Feature, flags } from "App/feature-flags"
 
 export class ThreadPresenter {
   private findRecords<Type extends { _id: string }>(
@@ -94,9 +93,7 @@ export class ThreadPresenter {
           phoneNumber: contactNumber?.number_user,
           lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: sms ? this.buildMessageSnippet(sms) : "",
-          unread: flags.get(Feature.ReadAndUnreadMessages)
-            ? Number(thread.read) !== 0
-            : false,
+          unread: Number(thread.read) !== 0,
           messageType: sms
             ? ThreadPresenter.getMessageType(Number(sms.type))
             : MessageType.OUTBOX,

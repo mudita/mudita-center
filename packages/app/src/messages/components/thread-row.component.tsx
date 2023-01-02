@@ -115,17 +115,16 @@ const ThreadRow: FunctionComponent<Props> = ({
       {...props}
     >
       <Col>
-        {flags.get(Feature.MessagesThreadDeleteEnabled) &&
-          !newConversationOpen && (
-            <Checkbox
-              checked={selected}
-              onChange={handleCheckboxChange}
-              size={Size.Large}
-              indeterminate={indeterminate}
-              visible={!noneRowsSelected}
-              data-testid="checkbox"
-            />
-          )}
+        {!newConversationOpen && (
+          <Checkbox
+            checked={selected}
+            onChange={handleCheckboxChange}
+            size={Size.Large}
+            indeterminate={indeterminate}
+            visible={!noneRowsSelected}
+            data-testid="checkbox"
+          />
+        )}
         {(noneRowsSelected || newConversationOpen) && (
           <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
         )}
@@ -149,27 +148,17 @@ const ThreadRow: FunctionComponent<Props> = ({
                       .locale(language ?? "en")
                       .format("ll")}
               </Time>
-              {flags.get(Feature.ReadAndUnreadMessages) ? (
-                <LastMessageText
-                  unread={unread}
-                  color="secondary"
-                  displayStyle={
-                    unread
-                      ? TextDisplayStyle.Paragraph3
-                      : TextDisplayStyle.Paragraph4
-                  }
-                >
-                  {thread?.messageSnippet}
-                </LastMessageText>
-              ) : (
-                <LastMessageText
-                  unread={false}
-                  color="secondary"
-                  displayStyle={TextDisplayStyle.Paragraph4}
-                >
-                  {thread?.messageSnippet}
-                </LastMessageText>
-              )}
+              <LastMessageText
+                unread={unread}
+                color="secondary"
+                displayStyle={
+                  unread
+                    ? TextDisplayStyle.Paragraph3
+                    : TextDisplayStyle.Paragraph4
+                }
+              >
+                {thread?.messageSnippet}
+              </LastMessageText>
             </ThreadDataWrapper>
             {isMessageFailed && (
               <WarningIconWrapper>
@@ -232,30 +221,26 @@ const ThreadRow: FunctionComponent<Props> = ({
                 data-testid="dropdown-add-to-contacts"
               />
             )}
-            {flags.get(Feature.MessagesThreadDeleteEnabled) && (
-              <ButtonComponent
-                labelMessage={{
-                  id: "module.messages.dropdownDelete",
-                }}
-                Icon={IconType.Delete}
-                onClick={handleDeleteClick}
-                displayStyle={DisplayStyle.Dropdown}
-                data-testid="dropdown-delete"
-              />
-            )}
-            {flags.get(Feature.ReadAndUnreadMessages) && (
-              <ButtonComponent
-                labelMessage={{
-                  id: unread
-                    ? "module.messages.markAsRead"
-                    : "module.messages.markAsUnread",
-                }}
-                Icon={unread ? IconType.MarkAsRead : IconType.MarkAsUnread}
-                onClick={handleToggleClick}
-                displayStyle={DisplayStyle.Dropdown}
-                data-testid="dropdown-mark-as-read"
-              />
-            )}
+            <ButtonComponent
+              labelMessage={{
+                id: "module.messages.dropdownDelete",
+              }}
+              Icon={IconType.Delete}
+              onClick={handleDeleteClick}
+              displayStyle={DisplayStyle.Dropdown}
+              data-testid="dropdown-delete"
+            />
+            <ButtonComponent
+              labelMessage={{
+                id: unread
+                  ? "module.messages.markAsRead"
+                  : "module.messages.markAsUnread",
+              }}
+              Icon={unread ? IconType.MarkAsRead : IconType.MarkAsUnread}
+              onClick={handleToggleClick}
+              displayStyle={DisplayStyle.Dropdown}
+              data-testid="dropdown-mark-as-read"
+            />
           </Dropdown>
         </Actions>
       </Col>
