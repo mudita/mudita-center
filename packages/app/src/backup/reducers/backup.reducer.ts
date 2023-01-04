@@ -15,6 +15,7 @@ import {
   startRestoreDevice,
   readRestoreDeviceDataState,
 } from "App/backup/actions"
+import { BackupError } from "App/backup/constants"
 
 export const initialState: BackupState = {
   data: {
@@ -39,7 +40,7 @@ export const backupReducer = createReducer<BackupState>(
       })
       .addCase(loadBackupData.rejected, (state, action) => {
         state.loadingState = State.Failed
-        state.error = action.payload as AppError
+        state.error = action.payload as AppError<BackupError>
       })
       .addCase(setBackupData, (state, action) => {
         state.data.backups = action.payload
@@ -54,7 +55,7 @@ export const backupReducer = createReducer<BackupState>(
       })
       .addCase(startBackupDevice.rejected, (state, action) => {
         state.backingUpState = State.Failed
-        state.error = action.payload as AppError
+        state.error = action.payload as AppError<BackupError>
       })
       .addCase(readBackupDeviceDataState, (state) => {
         state.backingUpState = State.Initial
@@ -69,7 +70,7 @@ export const backupReducer = createReducer<BackupState>(
       })
       .addCase(startRestoreDevice.rejected, (state, action) => {
         state.restoringState = State.Failed
-        state.error = action.payload as AppError
+        state.error = action.payload as AppError<BackupError>
       })
       .addCase(readRestoreDeviceDataState, (state) => {
         state.restoringState = State.Initial

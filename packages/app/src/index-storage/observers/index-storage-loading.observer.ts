@@ -36,14 +36,14 @@ export class IndexStorageLoadingObserver implements Observer {
       }
       this.invoked = true
 
-      const { data } =
+      const result =
         await this.deviceManager.device.request<GetDeviceInfoResponseBody>({
           endpoint: Endpoint.DeviceInfo,
           method: Method.Get,
         })
 
       // const { data } = await getDeviceInfoRequest(this.deviceService)
-      if (data === undefined) {
+      if (!result.ok) {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
         await this.ipc.sendToRenderers(IpcEvent.DataError)
@@ -52,9 +52,9 @@ export class IndexStorageLoadingObserver implements Observer {
 
       this.keyStorage.setValue(
         MetadataKey.DeviceSerialNumber,
-        data.serialNumber
+        result.data.serialNumber
       )
-      this.keyStorage.setValue(MetadataKey.DeviceToken, data.deviceToken)
+      this.keyStorage.setValue(MetadataKey.DeviceToken, result.data.deviceToken)
 
       const restored = await this.indexStorageService.loadIndex()
 

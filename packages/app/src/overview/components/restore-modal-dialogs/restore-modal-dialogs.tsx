@@ -63,6 +63,15 @@ const messages = defineMessages({
   restoreSuccessModalMainButton: {
     id: "module.overview.restoreSuccessModalMainButton",
   },
+  restoreInvalidPasswordModalDescription: {
+    id: "module.overview.restoreInvalidPasswordModalDescription",
+  },
+  restoreInvalidPasswordModalMainButton: {
+    id: "module.overview.restoreInvalidPasswordModalMainButton",
+  },
+  restoreInvalidPasswordModalTitle: {
+    id: "module.overview.restoreInvalidPasswordModalTitle",
+  },
 })
 
 const ModalContent = styled.div`
@@ -150,39 +159,38 @@ interface RestoreFailureWithHelpModalProps
   secondaryActionButtonClick: () => void
 }
 
-export const RestoreFailureModal: FunctionComponent<
-  RestoreFailureWithHelpModalProps
-> = ({ secondaryActionButtonClick, onClose, ...props }) => {
-  const handleOnClose = (): void => {
-    if (onClose) {
-      onClose()
+export const RestoreFailureModal: FunctionComponent<RestoreFailureWithHelpModalProps> =
+  ({ secondaryActionButtonClick, onClose, ...props }) => {
+    const handleOnClose = (): void => {
+      if (onClose) {
+        onClose()
+      }
     }
-  }
 
-  return (
-    <Modal
-      closeButtonLabel={intl.formatMessage(
-        messages.restoreFailureModalSecondaryButton
-      )}
-      onCloseButton={secondaryActionButtonClick}
-      onClose={handleOnClose}
-      actionButtonSize={Size.FixedSmall}
-      {...props}
-    >
-      <RoundIconWrapper>
-        <Icon type={IconType.ThinFail} width={3.2} />
-      </RoundIconWrapper>
-      <ModalText
-        displayStyle={TextDisplayStyle.Headline4}
-        message={messages.restoreFailureModalTitle}
-      />
-      <ModalText
-        displayStyle={TextDisplayStyle.Paragraph4}
-        message={messages.restoreFailureModalDescription}
-      />
-    </Modal>
-  )
-}
+    return (
+      <Modal
+        closeButtonLabel={intl.formatMessage(
+          messages.restoreFailureModalSecondaryButton
+        )}
+        onCloseButton={secondaryActionButtonClick}
+        onClose={handleOnClose}
+        actionButtonSize={Size.FixedSmall}
+        {...props}
+      >
+        <RoundIconWrapper>
+          <Icon type={IconType.ThinFail} width={3.2} />
+        </RoundIconWrapper>
+        <ModalText
+          displayStyle={TextDisplayStyle.Headline4}
+          message={messages.restoreFailureModalTitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.Paragraph4}
+          message={messages.restoreFailureModalDescription}
+        />
+      </Modal>
+    )
+  }
 
 export const RestoreSuccessModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
@@ -209,3 +217,42 @@ export const RestoreSuccessModal: FunctionComponent<
     </Modal>
   )
 }
+
+interface InvalidBackupPasswordModalProps
+  extends ComponentProps<typeof ModalDialog> {
+  onTryAgain: () => void
+}
+
+export const InvalidBackupPasswordModal: FunctionComponent<InvalidBackupPasswordModalProps> =
+  ({ onTryAgain, onClose, ...props }) => {
+    const handleOnClose = (): void => {
+      if (onClose) {
+        onClose()
+      }
+    }
+
+    return (
+      <Modal
+        actionButtonLabel={intl.formatMessage(
+          messages.restoreInvalidPasswordModalMainButton
+        )}
+        closeModal={handleOnClose}
+        closeButton={false}
+        onActionButtonClick={onTryAgain}
+        actionButtonSize={Size.FixedSmall}
+        {...props}
+      >
+        <RoundIconWrapper>
+          <Icon type={IconType.ThinFail} width={3.2} />
+        </RoundIconWrapper>
+        <ModalText
+          displayStyle={TextDisplayStyle.Headline4}
+          message={messages.restoreInvalidPasswordModalTitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.Paragraph4}
+          message={messages.restoreInvalidPasswordModalDescription}
+        />
+      </Modal>
+    )
+  }

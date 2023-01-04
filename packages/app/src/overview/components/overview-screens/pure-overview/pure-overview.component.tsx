@@ -71,6 +71,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   downloadUpdates,
   downloadingReleasesProcessStates,
   updatingReleasesProcessStates,
+  backupError,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -280,6 +281,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
           onStartRestoreDeviceButtonClick={startRestoreDevice}
           closeModal={closeRestoreDeviceFlowState}
           onSupportButtonClick={openContactSupportFlow}
+          error={backupError}
         />
       )}
       {shouldErrorSyncModalVisible() && (

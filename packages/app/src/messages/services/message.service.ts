@@ -149,6 +149,7 @@ export class MessageService {
 
     const isAnyErrorResponseFound = successResponses.length !== messages.length
 
+    // TODO [mw] kurwa gowno!
     if (isAnyErrorResponseFound) {
       return {
         status: RequestResponseStatus.Error,
@@ -172,12 +173,20 @@ export class MessageService {
   private async createSingleMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessagePartDataResponse>> {
-    const { data } =
+    const result =
       await this.deviceManager.device.request<CreateMessageResponseBody>({
         body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
         endpoint: Endpoint.Messages,
         method: Method.Post,
       })
+
+    if (!result.ok) {
+      return {
+        status: RequestResponseStatus.Error,
+      }
+    }
+
+    const data = result.data
 
     if (MessageService.isAcceptablePureMessageType(data)) {
       if (newMessage.threadId === undefined) {
