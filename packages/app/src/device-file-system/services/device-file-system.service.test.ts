@@ -76,7 +76,7 @@ test("downloading file handle properly chunks data", async () => {
   )
 
   expect(ok).toBeTruthy()
-  expect(data?.toString()).toEqual(
+  expect((data as Buffer).toString()).toEqual(
     `${firstsPartDecodeLog}${secondsPartDecodeLog}`
   )
 })
@@ -118,7 +118,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
     "/sys/user/mock-file-name.log"
   )
   expect(ok).toBeTruthy()
-  expect(data?.toString()).toEqual(firstsPartDecodeLog)
+  expect((data as Buffer).toString()).toEqual(firstsPartDecodeLog)
 })
 
 test("downloading file return error when part of the chunks data is broken", async () => {
