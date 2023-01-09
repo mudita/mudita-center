@@ -149,7 +149,6 @@ export class MessageService {
 
     const isAnyErrorResponseFound = successResponses.length !== messages.length
 
-    // TODO [mw] kurwa gowno!
     if (isAnyErrorResponseFound) {
       return {
         status: RequestResponseStatus.Error,

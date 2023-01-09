@@ -37,12 +37,6 @@ describe("Method: observe", () => {
   })
 
   test("calls the `DeviceService.request` and `IndexStorageService.loadIndex` methods when `DeviceServiceEvent.DeviceUnlocked` has been emitted", async () => {
-    // deviceManager.device.request = jest.fn().mockResolvedValueOnce({
-    //   data: {
-    //     deviceToken: "1234567890",
-    //     serialNumber: "0000000000",
-    //   },
-    // })
     deviceManager.device.request = jest.fn().mockResolvedValueOnce(
       Result.success({
         deviceToken: "1234567890",
