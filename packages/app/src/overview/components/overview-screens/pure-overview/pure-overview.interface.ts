@@ -28,14 +28,15 @@ export interface PureOverviewProps {
   readonly backups: Backup[]
   readonly syncState: SynchronizationState
   readonly serialNumber: string | undefined
+  readonly silentCheckForUpdateState: State
   readonly checkingForUpdateState: State
   readonly availableReleasesForUpdate: OsRelease[] | null
   readonly downloadingState: DownloadState
   readonly allReleases: OsRelease[] | null
   readonly updateOsError: AppError<UpdateError> | null
-  readonly silentUpdateCheck: boolean
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
   readonly updatingReleasesProcessStates: ProcessedRelease[] | null
+  readonly areAllReleasesDownloaded: boolean
   readonly updateAllIndexes: () => Promise<void>
   readonly openContactSupportFlow: () => void
   readonly readRestoreDeviceDataState: () => void

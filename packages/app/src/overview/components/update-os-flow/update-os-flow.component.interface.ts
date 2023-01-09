@@ -10,11 +10,11 @@ import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface UpdateOsFlowProps {
   currentOsVersion: string
+  silentCheckForUpdateState: State
   checkForUpdateState: State
   downloadState: DownloadState
   updateState: State
   availableReleasesForUpdate: OsRelease[] | null
-  silentUpdateCheck: boolean
   allReleases: OsRelease[] | null
   error: AppError<UpdateError> | null
   downloadingReleasesProcessStates: ProcessedRelease[] | null

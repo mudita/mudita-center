@@ -11,8 +11,8 @@ import { OsRelease, ProcessedRelease } from "App/update/dto"
 export interface UpdateOsState {
   updateOsState: State
   checkForUpdateState: State
+  silentCheckForUpdate: State
   downloadState: DownloadState
-  silentUpdateCheck: boolean
   error: AppError<UpdateError> | null
   data: {
     allReleases: OsRelease[] | null

@@ -24,6 +24,7 @@ interface OverviewContentProps {
   readonly networkLevel: number | undefined
   readonly pureOsAvailable: boolean
   readonly pureOsDownloaded: boolean | undefined
+  readonly checkForUpdateInProgress: boolean
   readonly osVersion: string
   readonly caseColour: CaseColor | undefined
   readonly lastBackupDate: Date
@@ -48,6 +49,7 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
   onUpdateInstall,
   pureOsAvailable,
   pureOsDownloaded,
+  checkForUpdateInProgress,
   toggleDevMode,
   osVersion,
   caseColour,
@@ -73,6 +75,7 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
     <SystemInfo
       updateDownloaded={pureOsDownloaded}
       updateAvailable={pureOsAvailable}
+      checkForUpdateInProgress={checkForUpdateInProgress}
       osVersion={osVersion}
       onUpdateCheck={onUpdateCheck}
       onDownload={onUpdateDownload}

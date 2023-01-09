@@ -24,11 +24,12 @@ import {
   downloadUpdates,
   setUpdateState,
   startUpdateOs,
-  clearState,
+  clearStateOnly,
   cancelDownload,
 } from "App/update/actions"
 import { State } from "App/core/constants"
 import { OsRelease } from "App/update/dto"
+import { areAllReleasesDownloaded } from "App/update/selectors"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -52,12 +53,13 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     checkingForUpdateState: state.update.checkForUpdateState,
     availableReleasesForUpdate: state.update.data.availableReleasesForUpdate,
     downloadingState: state.update.downloadState,
+    silentCheckForUpdateState: state.update.silentCheckForUpdate,
     allReleases: state.update.data.allReleases,
     updateOsError: state.update.error,
-    silentUpdateCheck: state.update.silentUpdateCheck,
     downloadingReleasesProcessStates:
       state.update.data.downloadedProcessedReleases,
     updatingReleasesProcessStates: state.update.data.updateProcessedReleases,
+    areAllReleasesDownloaded: areAllReleasesDownloaded(state),
   }
 }
 
@@ -111,7 +113,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(downloadUpdates({ releases })),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  clearUpdateState: () => dispatch(clearState()),
+  clearUpdateState: () => dispatch(clearStateOnly()),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   abortDownload: () => dispatch(cancelDownload()),

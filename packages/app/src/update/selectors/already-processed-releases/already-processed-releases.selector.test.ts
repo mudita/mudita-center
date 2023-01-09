@@ -8,7 +8,7 @@ import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import {
   alreadyProcessedReleasesSelector,
   Mode,
-} from "App/update/selectors/already-processed-releases.selector"
+} from "App/update/selectors/already-processed-releases/already-processed-releases.selector"
 import { OsRelease } from "App/update/dto"
 import {
   OsReleaseType,

@@ -72,12 +72,14 @@ interface Props {
   onDownload?: () => void
   updateAvailable?: boolean
   updateDownloaded?: boolean
+  checkForUpdateInProgress: boolean
 }
 
 const System: FunctionComponent<Props> = ({
   osVersion = "",
   updateAvailable,
   updateDownloaded,
+  checkForUpdateInProgress,
   onUpdateCheck = noop,
   onUpdate = noop,
   onDownload = noop,
@@ -102,19 +104,20 @@ const System: FunctionComponent<Props> = ({
               {" " + osVersion}
             </Text>
           </CardText>
-          {updateAvailable ? (
-            <AvailableUpdateText>
-              {updateDownloaded ? (
-                <FormattedMessage {...messages.systemUpdateDownloaded} />
-              ) : (
-                <FormattedMessage {...messages.systemUpdateAvailable} />
-              )}
-            </AvailableUpdateText>
-          ) : (
-            <AvailableUpdateText>
-              <FormattedMessage {...messages.systemUpdateUpToDate} />
-            </AvailableUpdateText>
-          )}
+          {!checkForUpdateInProgress &&
+            (updateAvailable ? (
+              <AvailableUpdateText>
+                {updateDownloaded ? (
+                  <FormattedMessage {...messages.systemUpdateDownloaded} />
+                ) : (
+                  <FormattedMessage {...messages.systemUpdateAvailable} />
+                )}
+              </AvailableUpdateText>
+            ) : (
+              <AvailableUpdateText>
+                <FormattedMessage {...messages.systemUpdateUpToDate} />
+              </AvailableUpdateText>
+            ))}
         </CardContent>
         <CardAction filled>
           {updateAvailable ? (
@@ -134,7 +137,8 @@ const System: FunctionComponent<Props> = ({
             )
           ) : (
             <CardActionButton
-              active
+              active={!checkForUpdateInProgress}
+              disabled={checkForUpdateInProgress}
               labelMessage={messages.systemCheckForUpdates}
               onClick={onUpdateCheck}
             />

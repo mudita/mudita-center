@@ -43,7 +43,6 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   allReleases,
   openHelpView,
   error,
-  silentUpdateCheck,
   downloadingReleasesProcessStates,
   updatingReleasesProcessStates,
 }) => {
@@ -98,32 +97,27 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
 
   return (
     <>
-      {!silentUpdateCheck && (
-        <>
-          <CheckingUpdatesModal
-            testId={UpdateOsFlowTestIds.CheckForUpdateModal}
-            open={checkForUpdateState === State.Loading}
-          />
-          {availableReleasesForUpdate &&
-            availableReleasesForUpdate.length > 0 && (
-              <UpdateAvailableModal
-                testId={UpdateOsFlowTestIds.UpdateAvailableModal}
-                open={checkForUpdateState === State.Loaded}
-                releases={availableReleasesForUpdate}
-                onDownload={downloadUpdates}
-                onClose={resetUpdateFlow}
-              />
-            )}
-          {(!availableReleasesForUpdate ||
-            availableReleasesForUpdate.length === 0) && (
-            <UpdateNotAvailableModal
-              testId={UpdateOsFlowTestIds.UpdateNotAvailableModal}
-              open={checkForUpdateState === State.Loaded}
-              version={currentOsVersion}
-              onClose={resetUpdateFlow}
-            />
-          )}
-        </>
+      <CheckingUpdatesModal
+        testId={UpdateOsFlowTestIds.CheckForUpdateModal}
+        open={checkForUpdateState === State.Loading}
+      />
+      {availableReleasesForUpdate && availableReleasesForUpdate.length > 0 && (
+        <UpdateAvailableModal
+          testId={UpdateOsFlowTestIds.UpdateAvailableModal}
+          open={checkForUpdateState === State.Loaded}
+          releases={availableReleasesForUpdate}
+          onDownload={downloadUpdates}
+          onClose={resetUpdateFlow}
+        />
+      )}
+      {(!availableReleasesForUpdate ||
+        availableReleasesForUpdate.length === 0) && (
+        <UpdateNotAvailableModal
+          testId={UpdateOsFlowTestIds.UpdateNotAvailableModal}
+          open={checkForUpdateState === State.Loaded}
+          version={currentOsVersion}
+          onClose={resetUpdateFlow}
+        />
       )}
 
       {downloadingReleasesProcessStates &&
