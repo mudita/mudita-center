@@ -12,6 +12,8 @@ import {
   UpdateError,
   UpdateOsEvent,
   ReleaseProcessState,
+  SilentCheckForUpdateState,
+  CheckForUpdateMode,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { updateOsReducer, initialState } from "App/update/reducers"
@@ -144,128 +146,167 @@ describe("startUpdateOs action", () => {
 })
 
 describe("checkForUpdate", () => {
-  describe.each([true, false])(
-    "when silent update flag equals to %p",
-    (silentUpdateFlag) => {
-      test("pending action sets proper states and clears error", () => {
-        expect(
-          updateOsReducer(
-            {
-              ...initialState,
-              error: exampleError,
-            },
-            {
-              type: pendingAction(UpdateOsEvent.CheckForUpdate),
-              meta: {
-                arg: {
-                  isSilentCheck: silentUpdateFlag,
-                },
-              },
-            }
-          )
-        ).toEqual({
-          ...initialState,
-          silentCheckForUpdate: silentUpdateFlag
-            ? State.Loading
-            : State.Initial,
-          checkForUpdateState: !silentUpdateFlag
-            ? State.Loading
-            : State.Initial,
-          error: null,
-        })
-      })
+  const testCases: CheckForUpdateMode[] = [
+    "normal",
+    "silent-check",
+    "try-again",
+  ]
+  const expectedStates = {
+    pending: {
+      normal: {
+        silentCheckForUpdate: SilentCheckForUpdateState.Initial,
+        checkForUpdateState: State.Loading,
+      },
+      "silent-check": {
+        silentCheckForUpdate: SilentCheckForUpdateState.Loading,
+        checkForUpdateState: State.Initial,
+      },
+      "try-again": {
+        silentCheckForUpdate: SilentCheckForUpdateState.Skipped,
+        checkForUpdateState: State.Loading,
+      },
+    },
+    fulfilled: {
+      normal: {
+        silentCheckForUpdate: SilentCheckForUpdateState.Initial,
+        checkForUpdateState: State.Loaded,
+      },
+      "silent-check": {
+        silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
+        checkForUpdateState: State.Initial,
+      },
+      "try-again": {
+        silentCheckForUpdate: SilentCheckForUpdateState.Initial,
+        checkForUpdateState: State.Loaded,
+      },
+    },
+    rejected: {
+      normal: {
+        silentCheckForUpdate: SilentCheckForUpdateState.Initial,
+        checkForUpdateState: State.Failed,
+      },
+      "silent-check": {
+        silentCheckForUpdate: SilentCheckForUpdateState.Failed,
+        checkForUpdateState: State.Initial,
+      },
+      "try-again": {
+        silentCheckForUpdate: SilentCheckForUpdateState.Initial,
+        checkForUpdateState: State.Failed,
+      },
+    },
+  }
 
-      test("fulfilled action set proper state and data", () => {
-        expect(
-          updateOsReducer(
-            {
-              ...initialState,
-            },
-            {
-              type: fulfilledAction(UpdateOsEvent.CheckForUpdate),
-              meta: {
-                arg: {
-                  isSilentCheck: silentUpdateFlag,
-                },
-              },
-              payload: {
-                availableReleasesForUpdate: [mockedRelease],
-                allReleases: [mockedRelease],
-              },
-            }
-          )
-        ).toEqual({
-          ...initialState,
-          silentCheckForUpdate: silentUpdateFlag ? State.Loaded : State.Initial,
-          checkForUpdateState: !silentUpdateFlag ? State.Loaded : State.Initial,
-          data: {
-            ...initialState.data,
-            availableReleasesForUpdate: [mockedRelease],
-            allReleases: [mockedRelease],
+  describe.each(testCases)("when mode equals to %p", (mode) => {
+    test("pending action sets proper states and clears error", () => {
+      expect(
+        updateOsReducer(
+          {
+            ...initialState,
+            error: exampleError,
           },
-        })
-      })
-
-      test("rejected action sets proper state and error", () => {
-        expect(
-          updateOsReducer(
-            {
-              ...initialState,
+          {
+            type: pendingAction(UpdateOsEvent.CheckForUpdate),
+            meta: {
+              arg: {
+                mode,
+              },
             },
-            {
-              type: rejectedAction(UpdateOsEvent.CheckForUpdate),
-              meta: {
-                arg: {
-                  isSilentCheck: silentUpdateFlag,
-                },
-              },
-              payload: exampleError,
-            }
-          )
-        ).toEqual({
-          ...initialState,
-          silentCheckForUpdate: silentUpdateFlag ? State.Failed : State.Initial,
-          checkForUpdateState: !silentUpdateFlag ? State.Failed : State.Initial,
-          error: exampleError,
-        })
+          }
+        )
+      ).toEqual({
+        ...initialState,
+        ...expectedStates.pending[mode],
+        error: null,
       })
+    })
 
-      test("areAllReleasesAlreadyDownloaded equal to marks releases as downloaded", () => {
-        expect(
-          updateOsReducer(
-            {
-              ...initialState,
-            },
-            {
-              type: fulfilledAction(UpdateOsEvent.CheckForUpdate),
-              meta: {
-                arg: {
-                  isSilentCheck: silentUpdateFlag,
-                },
-              },
-              payload: {
-                availableReleasesForUpdate: [mockedRelease],
-                allReleases: [mockedRelease],
-                areAllReleasesAlreadyDownloaded: true,
-              },
-            }
-          )
-        ).toEqual({
-          ...initialState,
-          silentCheckForUpdate: silentUpdateFlag ? State.Loaded : State.Initial,
-          checkForUpdateState: !silentUpdateFlag ? State.Loaded : State.Initial,
-          data: {
-            ...initialState.data,
-            availableReleasesForUpdate: [mockedRelease],
-            allReleases: [mockedRelease],
-            downloadedProcessedReleases: [
-              { release: mockedRelease, state: ReleaseProcessState.Done },
-            ],
+    test("fulfilled action set proper state and data", () => {
+      expect(
+        updateOsReducer(
+          {
+            ...initialState,
           },
-        })
+          {
+            type: fulfilledAction(UpdateOsEvent.CheckForUpdate),
+            meta: {
+              arg: {
+                mode,
+              },
+            },
+            payload: {
+              availableReleasesForUpdate: [mockedRelease],
+              allReleases: [mockedRelease],
+            },
+          }
+        )
+      ).toEqual({
+        ...initialState,
+        ...expectedStates.fulfilled[mode],
+        data: {
+          ...initialState.data,
+          availableReleasesForUpdate: [mockedRelease],
+          allReleases: [mockedRelease],
+        },
       })
-    }
-  )
+    })
+
+    test("rejected action sets proper state and error", () => {
+      expect(
+        updateOsReducer(
+          {
+            ...initialState,
+          },
+          {
+            type: rejectedAction(UpdateOsEvent.CheckForUpdate),
+            meta: {
+              arg: {
+                mode,
+              },
+            },
+            payload: exampleError,
+          }
+        )
+      ).toEqual({
+        ...initialState,
+        ...expectedStates.rejected[mode],
+        error: exampleError,
+      })
+    })
+
+    test("areAllReleasesAlreadyDownloaded equal to true marks releases as downloaded", () => {
+      expect(
+        updateOsReducer(
+          {
+            ...initialState,
+          },
+          {
+            type: fulfilledAction(UpdateOsEvent.CheckForUpdate),
+            meta: {
+              arg: {
+                mode,
+              },
+            },
+            payload: {
+              availableReleasesForUpdate: [mockedRelease],
+              allReleases: [mockedRelease],
+              areAllReleasesAlreadyDownloaded: true,
+            },
+          }
+        )
+      ).toEqual({
+        ...initialState,
+        ...expectedStates.fulfilled[mode],
+        data: {
+          ...initialState.data,
+          availableReleasesForUpdate: [mockedRelease],
+          allReleases: [mockedRelease],
+          downloadedProcessedReleases: [
+            { release: mockedRelease, state: ReleaseProcessState.Done },
+          ],
+        },
+      })
+    })
+  })
 })
 
 describe("downloadUpdate", () => {
@@ -423,7 +464,7 @@ describe("setStateForInstalledRelease", () => {
   })
 })
 
-describe("clearStateOnly", () => {
+describe("closeUpdateFlow", () => {
   test("clear states and leaves data", () => {
     const data = {
       ...initialState.data,
@@ -446,12 +487,29 @@ describe("clearStateOnly", () => {
           data,
         },
         {
-          type: UpdateOsEvent.ClearStateOnly,
+          type: UpdateOsEvent.CloseUpdateFlow,
         }
       )
     ).toEqual({
       ...initialState,
       data,
+    })
+  })
+  test("sets silentCheckForUpdate as skipped when it failed previously", () => {
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+          error: exampleError,
+          silentCheckForUpdate: SilentCheckForUpdateState.Failed,
+        },
+        {
+          type: UpdateOsEvent.CloseUpdateFlow,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      silentCheckForUpdate: SilentCheckForUpdateState.Skipped,
     })
   })
 })

@@ -31,7 +31,7 @@ const mockedRelease: OsRelease = {
   mandatoryVersions: [],
 }
 
-const params = { deviceType: DeviceType.MuditaPure, isSilentCheck: false }
+const params = { deviceType: DeviceType.MuditaPure, mode: "normal" as const }
 
 describe("when fetching latest release fails", () => {
   test("action is rejected", async () => {

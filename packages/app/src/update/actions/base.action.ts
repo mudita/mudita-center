@@ -8,7 +8,7 @@ import { State } from "App/core/constants"
 import { ReleaseProcessState, UpdateOsEvent } from "App/update/constants"
 
 export const setUpdateState = createAction<State>(UpdateOsEvent.SetUpdateState)
-export const clearStateOnly = createAction(UpdateOsEvent.ClearStateOnly)
+export const closeUpdateFlow = createAction(UpdateOsEvent.CloseUpdateFlow)
 export const clearStateAndData = createAction(UpdateOsEvent.ClearStateAndData)
 export const cancelDownload = createAction(UpdateOsEvent.CancelDownload)
 export const setStateForDownloadedRelease = createAction<{

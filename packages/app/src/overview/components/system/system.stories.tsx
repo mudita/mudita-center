@@ -26,6 +26,7 @@ storiesOf("Views|Overview/System", module).add("System", () => {
           osVersion={"1.0.0"}
           onUpdateCheck={action("checked for update")}
           checkForUpdateInProgress={false}
+          checkForUpdatePerformed
         />
       </Story>
       <Story title="New update available" customStyle={storyStyle}>
@@ -34,6 +35,7 @@ storiesOf("Views|Overview/System", module).add("System", () => {
           onUpdate={action("update requested")}
           updateAvailable
           checkForUpdateInProgress={false}
+          checkForUpdatePerformed
         />
       </Story>
     </StoryContainer>

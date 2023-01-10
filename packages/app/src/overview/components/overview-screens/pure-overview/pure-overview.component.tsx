@@ -20,6 +20,7 @@ import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
+import { SilentCheckForUpdateState } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import logger from "App/__deprecated__/main/utils/logger"
@@ -58,7 +59,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   updateAllIndexes,
   serialNumber,
   checkForUpdate,
-  silentCheckForUpdate,
   checkingForUpdateState,
   availableReleasesForUpdate,
   downloadingState,
@@ -97,8 +97,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }, [osVersion, lowestSupportedOsVersion])
 
   useEffect(() => {
-    if (silentCheckForUpdateState === State.Initial) {
-      silentCheckForUpdate(DeviceType.MuditaPure)
+    if (silentCheckForUpdateState === SilentCheckForUpdateState.Initial) {
+      checkForUpdate(DeviceType.MuditaPure, "silent-check")
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -228,7 +228,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   const checkForPureUpdate = () => {
-    checkForUpdate(DeviceType.MuditaPure)
+    checkForUpdate(DeviceType.MuditaPure, "normal")
+  }
+
+  const tryAgainPureUpdate = () => {
+    checkForUpdate(DeviceType.MuditaHarmony, "try-again")
   }
 
   return (
@@ -239,6 +243,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         checkForUpdateState={checkingForUpdateState}
         availableReleasesForUpdate={availableReleasesForUpdate}
         downloadState={downloadingState}
+        tryAgainCheckForUpdate={tryAgainPureUpdate}
         clearUpdateOsFlow={clearUpdateState}
         downloadUpdates={downloadReleases}
         abortDownloading={abortDownload}
@@ -295,7 +300,13 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         networkLevel={networkLevel}
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={areAllReleasesDownloaded}
-        checkForUpdateInProgress={silentCheckForUpdateState === State.Loading}
+        checkForUpdateInProgress={
+          silentCheckForUpdateState === SilentCheckForUpdateState.Loading
+        }
+        checkForUpdatePerformed={
+          silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
+          checkingForUpdateState === State.Loaded
+        }
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={() => updateReleases()}
         onUpdateDownload={() => downloadReleases()}

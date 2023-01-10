@@ -13,6 +13,7 @@ import {
   DownloadState,
   OsReleaseType,
   ReleaseProcessState,
+  SilentCheckForUpdateState,
   UpdateError,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
@@ -34,7 +35,7 @@ const defaultProps: UpdateOsFlowProps = {
   checkForUpdateState: State.Initial,
   downloadState: DownloadState.Initial,
   updateState: State.Initial,
-  silentCheckForUpdateState: State.Initial,
+  silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   allReleases: [],
   availableReleasesForUpdate: null,
   currentOsVersion: "1.2.0",
@@ -45,6 +46,7 @@ const defaultProps: UpdateOsFlowProps = {
   openContactSupportFlow: jest.fn(),
   openHelpView: jest.fn(),
   updateOs: jest.fn(),
+  tryAgainCheckForUpdate: jest.fn(),
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
 }
@@ -143,6 +145,33 @@ describe("check for update modals", () => {
 
       checkModalsVisibility(queryByTestId, [
         UpdateOsFlowTestIds.UpdateNotAvailableModal,
+      ])
+    })
+  })
+
+  describe("when check for update state failed", () => {
+    test("check for update failed modal should be displayed", () => {
+      const { queryByTestId } = render({
+        checkForUpdateState: State.Failed,
+        availableReleasesForUpdate: null,
+      })
+
+      checkModalsVisibility(queryByTestId, [
+        UpdateOsFlowTestIds.CheckForUpdateFailedModal,
+      ])
+    })
+  })
+
+  describe("when silent check for update state failed", () => {
+    test("check for update failed modal should be displayed", () => {
+      const { queryByTestId } = render({
+        checkForUpdateState: State.Initial,
+        silentCheckForUpdateState: SilentCheckForUpdateState.Failed,
+        availableReleasesForUpdate: null,
+      })
+
+      checkModalsVisibility(queryByTestId, [
+        UpdateOsFlowTestIds.CheckForUpdateFailedModal,
       ])
     })
   })

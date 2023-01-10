@@ -9,7 +9,7 @@ import { AppError } from "App/core/errors"
 import {
   cancelDownload,
   checkForUpdate,
-  clearStateOnly,
+  closeUpdateFlow,
   downloadUpdates,
   setUpdateState,
   startUpdateOs,
@@ -20,12 +20,13 @@ import {
 import {
   DownloadState,
   ReleaseProcessState,
+  SilentCheckForUpdateState,
   UpdateError,
 } from "App/update/constants"
 import { UpdateOsState } from "App/update/reducers/update-os.interface"
 
 export const initialState: UpdateOsState = {
-  silentCheckForUpdate: State.Initial,
+  silentCheckForUpdate: SilentCheckForUpdateState.Initial,
   checkForUpdateState: State.Initial,
   updateOsState: State.Initial,
   downloadState: DownloadState.Initial,
@@ -47,10 +48,14 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         updateOsState: action.payload,
       }
     })
-    builder.addCase(clearStateOnly, (state) => {
+    builder.addCase(closeUpdateFlow, (state) => {
       return {
         ...state,
         error: null,
+        silentCheckForUpdate:
+          state.silentCheckForUpdate === SilentCheckForUpdateState.Failed
+            ? SilentCheckForUpdateState.Skipped
+            : state.silentCheckForUpdate,
         checkForUpdateState: State.Initial,
         updateOsState: State.Initial,
         downloadState: DownloadState.Initial,
@@ -113,8 +118,18 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         updateProcessedReleases: null,
       }
 
-      if (payload.meta.arg.isSilentCheck) {
-        state.silentCheckForUpdate = State.Loading
+      const {
+        meta: {
+          arg: { mode },
+        },
+      } = payload
+
+      if (mode === "silent-check") {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Loading
+        state.checkForUpdateState = State.Initial
+      } else if (mode === "try-again") {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Skipped
+        state.checkForUpdateState = State.Loading
       } else {
         state.checkForUpdateState = State.Loading
       }
@@ -123,8 +138,8 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.data.availableReleasesForUpdate =
         action.payload.availableReleasesForUpdate
       state.data.allReleases = action.payload.allReleases
-      if (action.meta.arg.isSilentCheck) {
-        state.silentCheckForUpdate = State.Loaded
+      if (action.meta.arg.mode === "silent-check") {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Loaded
       } else {
         state.checkForUpdateState = State.Loaded
       }
@@ -137,8 +152,8 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       }
     })
     builder.addCase(checkForUpdate.rejected, (state, action) => {
-      if (action.meta.arg.isSilentCheck) {
-        state.silentCheckForUpdate = State.Failed
+      if (action.meta.arg.mode === "silent-check") {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Failed
       } else {
         state.checkForUpdateState = State.Failed
       }

@@ -24,15 +24,18 @@ import {
   DownloadState,
   OsReleaseType,
   ReleaseProcessState,
+  SilentCheckForUpdateState,
   UpdateError,
 } from "App/update/constants"
 import { cancelOsDownload } from "App/update/requests"
 import React, { FunctionComponent, useMemo } from "react"
+import { CheckForUpdateFailedModal } from "App/overview/components/update-os-modals/check-for-update-failed-modal"
 
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   checkForUpdateState,
   downloadState,
   availableReleasesForUpdate,
+  silentCheckForUpdateState,
   currentOsVersion,
   downloadUpdates,
   clearUpdateOsFlow,
@@ -45,6 +48,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   error,
   downloadingReleasesProcessStates,
   updatingReleasesProcessStates,
+  tryAgainCheckForUpdate,
 }) => {
   const {
     devRelease,
@@ -119,6 +123,17 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
           onClose={resetUpdateFlow}
         />
       )}
+
+      <CheckForUpdateFailedModal
+        testId={UpdateOsFlowTestIds.CheckForUpdateFailedModal}
+        open={
+          checkForUpdateState === State.Failed ||
+          silentCheckForUpdateState === SilentCheckForUpdateState.Failed
+        }
+        onClose={resetUpdateFlow}
+        onContactSupport={openContactSupportFlow}
+        onTryAgain={tryAgainCheckForUpdate}
+      />
 
       {downloadingReleasesProcessStates &&
         currentlyDownloadedReleaseIndex >= 0 && (

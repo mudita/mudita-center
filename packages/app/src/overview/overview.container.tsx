@@ -24,12 +24,13 @@ import {
   downloadUpdates,
   setUpdateState,
   startUpdateOs,
-  clearStateOnly,
+  closeUpdateFlow,
   cancelDownload,
 } from "App/update/actions"
 import { State } from "App/core/constants"
 import { OsRelease } from "App/update/dto"
 import { areAllReleasesDownloaded } from "App/update/selectors"
+import { CheckForUpdateMode } from "App/update/constants"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -100,21 +101,17 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   updateAllIndexes: () => dispatch(updateAllIndexes()),
-  checkForUpdate: (deviceType: DeviceType) =>
+  checkForUpdate: (deviceType: DeviceType, mode: CheckForUpdateMode) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    dispatch(checkForUpdate({ deviceType, isSilentCheck: false })),
-  silentCheckForUpdate: (deviceType: DeviceType) =>
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    dispatch(checkForUpdate({ deviceType, isSilentCheck: true })),
+    dispatch(checkForUpdate({ deviceType, mode })),
   downloadUpdates: (releases: OsRelease[]) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(downloadUpdates({ releases })),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  clearUpdateState: () => dispatch(clearStateOnly()),
+  clearUpdateState: () => dispatch(closeUpdateFlow()),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   abortDownload: () => dispatch(cancelDownload()),

@@ -7,7 +7,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
-import { Product, UpdateError, UpdateOsEvent } from "App/update/constants"
+import {
+  CheckForUpdateMode,
+  Product,
+  UpdateError,
+  UpdateOsEvent,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { versionFormatter } from "App/update/helpers"
 import {
@@ -20,7 +25,7 @@ import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 interface Params {
   deviceType: DeviceType
-  isSilentCheck: boolean
+  mode: CheckForUpdateMode
 }
 
 interface Result {
