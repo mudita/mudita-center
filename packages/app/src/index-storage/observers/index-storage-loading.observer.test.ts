@@ -11,6 +11,7 @@ import { MetadataStore } from "App/metadata/services"
 import { IndexStorageService } from "App/index-storage/services/index-storage.service"
 import { flushPromises } from "App/core/helpers/flush-promises"
 import { DeviceServiceEvent } from "App/device/constants"
+import { Result } from "App/core/builder"
 
 let subject: IndexStorageLoadingObserver
 const eventEmitterMock = new EventEmitter()
@@ -36,12 +37,12 @@ describe("Method: observe", () => {
   })
 
   test("calls the `DeviceService.request` and `IndexStorageService.loadIndex` methods when `DeviceServiceEvent.DeviceUnlocked` has been emitted", async () => {
-    deviceManager.device.request = jest.fn().mockResolvedValueOnce({
-      data: {
+    deviceManager.device.request = jest.fn().mockResolvedValueOnce(
+      Result.success({
         deviceToken: "1234567890",
         serialNumber: "0000000000",
-      },
-    })
+      })
+    )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(indexStorageService.loadIndex).toHaveBeenCalledTimes(0)

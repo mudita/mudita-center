@@ -82,6 +82,7 @@ const defaultProps: Props = {
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
   areAllReleasesDownloaded: false,
+  backupError: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {

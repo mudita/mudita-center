@@ -15,7 +15,10 @@ import {
   ReleaseProcessState,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
-import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import {
+  DownloadFinished,
+  DownloadStatus,
+} from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import * as downloadOsUpdateRequestModule from "App/update/requests/download-os-update.request"
 import * as osUpdateAlreadyDownloadedCheckModule from "App/update/requests/os-update-already-downloaded.request"
@@ -153,7 +156,7 @@ describe("when update downloads successfully", () => {
     jest
       .spyOn(downloadOsUpdateRequestModule, "downloadOsUpdateRequest")
       .mockResolvedValue(
-        Result.success({
+        Result.success<DownloadFinished>({
           directory: "somedir",
           status: DownloadStatus.Completed,
           totalBytes: 123,

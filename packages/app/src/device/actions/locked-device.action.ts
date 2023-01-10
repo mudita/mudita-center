@@ -27,7 +27,7 @@ export const lockedDevice = createAsyncThunk(
         dispatch(setAgreementStatus(false))
       }
 
-      if (!lockTime.ok && !lockTime.data?.phoneLockTime) {
+      if (!lockTime.ok || !lockTime.data?.phoneLockTime) {
         dispatch(setLockTime(undefined))
       }
 

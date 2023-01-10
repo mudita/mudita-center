@@ -68,12 +68,11 @@ const UpdatingForceModalFlow: FunctionComponent<UpdatingForceModalFlowProps> =
           ? Product.PurePhone
           : Product.BellHybrid
       )
-      const newestPureOsAvailable = isNewestPureOsAvailable(
-        osVersion,
-        latestRelease.data?.version
-      )
 
-      if (!newestPureOsAvailable || !latestRelease) {
+      if (
+        !latestRelease.ok ||
+        !isNewestPureOsAvailable(osVersion, latestRelease.data.version)
+      ) {
         handleUpdateOsFailed(
           ApplicationUpdateErrorCodeMap[
             ApplicationUpdateError.FetchReleaseFromGithub

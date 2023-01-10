@@ -18,12 +18,12 @@ export class BaseBackupService {
 
   constructor(
     protected deviceManager: DeviceManager,
-    protected  deviceFileSystem: DeviceFileSystemService
+    protected deviceFileSystem: DeviceFileSystemService
   ) {}
 
   public async checkStatus(
     operation: Operation
-  ): Promise<ResultObject<boolean | undefined>> {
+  ): Promise<ResultObject<boolean, BackupError>> {
     const deviceResponse = await this.deviceManager.device.request<DeviceInfo>({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,

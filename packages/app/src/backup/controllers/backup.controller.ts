@@ -6,7 +6,11 @@
 import { Controller, IpcEvent } from "App/core/decorators"
 import { ResultObject } from "App/core/builder"
 import { Backup } from "App/backup/dto"
-import { ControllerPrefix, IpcBackupEvent } from "App/backup/constants"
+import {
+  BackupError,
+  ControllerPrefix,
+  IpcBackupEvent,
+} from "App/backup/constants"
 import {
   BackupCreateService,
   BackupRestoreService,
@@ -37,7 +41,7 @@ export class BackupController {
   @IpcEvent(IpcBackupEvent.RestoreBackup)
   public async restoreBackup(
     data: RestoreDeviceBackup
-  ): Promise<ResultObject<boolean | undefined>> {
+  ): Promise<ResultObject<boolean, BackupError>> {
     return this.backupRestoreService.restoreBackup(data)
   }
 }

@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { BackupError } from "App/backup"
 import { Backup, RestoreBackup } from "App/backup/dto"
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
@@ -26,6 +27,7 @@ export interface PureOverviewProps {
   readonly backupDeviceState: State
   readonly restoreDeviceState: State
   readonly backups: Backup[]
+  readonly backupError: AppError<BackupError> | null
   readonly syncState: SynchronizationState
   readonly serialNumber: string | undefined
   readonly silentCheckForUpdateState: State

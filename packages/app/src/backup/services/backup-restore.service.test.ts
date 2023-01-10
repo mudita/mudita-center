@@ -71,6 +71,7 @@ const deviceFileSystemAdapter = {
 const fileSystemServiceMock = {
   readFileSync: jest.fn(),
   validateEncryptedZippedFile: jest.fn(),
+  exists: jest.fn(),
 } as unknown as FileSystemService
 
 const subject = new BackupRestoreService(
@@ -85,11 +86,11 @@ beforeEach(() => {
 
 describe("Restore process happy path", () => {
   test("Returns the `Result.success` object restore status", async () => {
+    fileSystemServiceMock.exists = jest.fn().mockResolvedValue(true)
     fileSystemServiceMock.readFile = jest
       .fn()
       .mockResolvedValueOnce(encodedBackupMock)
-    fileSystemServiceMock.
-      validateEncryptedZippedFile = jest
+    fileSystemServiceMock.validateEncryptedZippedFile = jest
       .fn()
       .mockResolvedValueOnce(Promise.resolve(true))
     deviceFileSystemAdapter.uploadFile = jest
@@ -179,6 +180,7 @@ describe("Restore process happy path", () => {
 })
 
 test("Returns the `Result.failed` with `BackupError.CannotReadBackupFile` local backup file doesn't exist", async () => {
+  fileSystemServiceMock.exists = jest.fn().mockResolvedValue(true)
   fileSystemServiceMock.readFile = jest
     .fn()
     .mockRejectedValueOnce("Can not find file or directory")
@@ -204,8 +206,8 @@ test("Returns the `Result.failed` with `BackupError.CannotReadBackupFile` local 
 })
 
 describe("Backup restoring failed path", () => {
-
   test("Returns the `Result.failed` with `BackupError.BackupFileIsInvalid` if `deviceFileSystem.validateEncryptedZippedFile` method return false", async () => {
+    fileSystemServiceMock.exists = jest.fn().mockResolvedValue(true)
     fileSystemServiceMock.validateEncryptedZippedFile = jest
       .fn()
       .mockResolvedValueOnce(Promise.resolve(false))
@@ -218,15 +220,13 @@ describe("Backup restoring failed path", () => {
 
     expect(result).toEqual(
       Result.failed(
-        new AppError(
-          BackupError.BackupFileIsInvalid,
-          "File: token is incorrect"
-        )
+        new AppError(BackupError.InvalidToken, "File: token is incorrect")
       )
     )
   })
 
   test("Returns the `Result.failed` with `BackupError.CannotUploadBackupToDevice` if `deviceFileSystem.uploadFile` method return error status", async () => {
+    fileSystemServiceMock.exists = jest.fn().mockResolvedValue(true)
     fileSystemServiceMock.readFile = jest
       .fn()
       .mockResolvedValueOnce(encodedBackupMock)
@@ -254,6 +254,7 @@ describe("Backup restoring failed path", () => {
   })
 
   test("Returns the `Result.failed` with `BackupError.CannotRestoreBackup` if `Endpoint.Restore` endpoint returns error status", async () => {
+    fileSystemServiceMock.exists = jest.fn().mockResolvedValue(true)
     fileSystemServiceMock.readFile = jest
       .fn()
       .mockResolvedValueOnce(encodedBackupMock)
@@ -299,6 +300,7 @@ describe("Backup restoring failed path", () => {
   })
 
   test("Returns the `Result.failed` with `BackupError.CannotGetProcessStatus` if `deviceFileSystem.downloadFile` method doesn't return response", async () => {
+    fileSystemServiceMock.exists = jest.fn().mockResolvedValue(true)
     fileSystemServiceMock.readFile = jest
       .fn()
       .mockResolvedValueOnce(encodedBackupMock)
@@ -359,6 +361,7 @@ describe("Backup restoring failed path", () => {
   }, 10000)
 
   test("Returns the `Result.failed` with `BackupError.OperationFailed` if `deviceFileSystem.downloadFile` method returns status but for another operation", async () => {
+    fileSystemServiceMock.exists = jest.fn().mockResolvedValue(true)
     fileSystemServiceMock.readFile = jest
       .fn()
       .mockResolvedValueOnce(encodedBackupMock)
@@ -423,6 +426,7 @@ describe("Backup restoring failed path", () => {
   }, 10000)
 
   test("Returns the `Result.failed` with `BackupError.OperationFailed` if `deviceFileSystem.downloadFile` method returns status but with fail status", async () => {
+    fileSystemServiceMock.exists = jest.fn().mockResolvedValue(true)
     fileSystemServiceMock.readFile = jest
       .fn()
       .mockResolvedValueOnce(encodedBackupMock)

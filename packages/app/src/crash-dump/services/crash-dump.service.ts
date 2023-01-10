@@ -46,16 +46,18 @@ export class CrashDumpService {
       await this.deviceFileSystem.downloadDeviceFilesLocally(files.data, {
         cwd: path.join(getAppPath(), "crash-dumps"),
       })
-    const deviceFiles = downloadDeviceFilesResponse.data
 
-    if (!downloadDeviceFilesResponse.ok || deviceFiles === undefined) {
+    if (
+      !downloadDeviceFilesResponse.ok ||
+      downloadDeviceFilesResponse.data === undefined
+    ) {
       return {
         status: RequestResponseStatus.Error,
       }
     }
 
     return {
-      data: deviceFiles,
+      data: downloadDeviceFilesResponse.data,
       status: RequestResponseStatus.Ok,
     }
   }

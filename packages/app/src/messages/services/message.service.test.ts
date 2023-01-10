@@ -422,10 +422,9 @@ describe("`MessageService`", () => {
           phoneNumber: "+48500600700",
           messageType: MessageType.INBOX,
         })
-        deviceManager.device.request = jest.fn().mockReturnValue({
-          ...successResponse,
-          data: pureMessage,
-        })
+        deviceManager.device.request = jest
+          .fn()
+          .mockResolvedValue(Result.success(pureMessage))
 
         const result = await subject.resendMessage(messageId)
         // AUTO DISABLED - fix me if you like :)

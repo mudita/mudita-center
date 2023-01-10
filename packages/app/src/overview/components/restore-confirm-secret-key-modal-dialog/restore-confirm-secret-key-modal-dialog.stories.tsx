@@ -8,6 +8,7 @@ import { Meta } from "@storybook/react"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import { action } from "@storybook/addon-actions"
 import { RestoreConfirmSecretKeyModal } from "App/overview/components/restore-confirm-secret-key-modal-dialog/restore-confirm-secret-key-modal-dialog.component"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -18,6 +19,8 @@ export const RestoreConfirmSecretKeyModalStory = () => {
         open
         closeModal={action("Close Confirm Secret Key Restore Modal")}
         onSecretKeySet={action("Set secret key trigger")}
+        forceFormReset={false}
+        onResetCompleted={noop}
       />
     </Story>
   )
