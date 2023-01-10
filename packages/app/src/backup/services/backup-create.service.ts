@@ -3,11 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  BackupCategory,
-} from "App/device/constants"
+import { Endpoint, Method, BackupCategory } from "App/device/constants"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { BackupError, Operation } from "App/backup/constants"
@@ -40,7 +36,7 @@ export class BackupCreateService extends BaseBackupService {
 
     const runDeviceBackupResponse = await this.runDeviceBackup()
 
-    if (!runDeviceBackupResponse.data) {
+    if (!runDeviceBackupResponse.ok || !runDeviceBackupResponse.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
       return Result.failed(
@@ -66,10 +62,11 @@ export class BackupCreateService extends BaseBackupService {
 
     const filePath = runDeviceBackupResponse.data
 
-    const backupFileResult = await this.deviceFileSystem.downloadDeviceFilesLocally(
-      [filePath],
-      options
-    )
+    const backupFileResult =
+      await this.deviceFileSystem.downloadDeviceFilesLocally(
+        [filePath],
+        options
+      )
 
     if (!backupFileResult.ok || !backupFileResult.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)

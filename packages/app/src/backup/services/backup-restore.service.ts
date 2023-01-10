@@ -27,8 +27,14 @@ export class BackupRestoreService extends BaseBackupService {
     filePath,
     backupFilePath,
     token,
-  }: RestoreDeviceBackup): Promise<ResultObject<boolean | undefined>> {
+  }: RestoreDeviceBackup): Promise<ResultObject<boolean, BackupError>> {
     const backupId = backupFilePath.split("/").pop() as string
+
+    if (!(await this.fileSystem.exists(filePath))) {
+      return Result.failed(
+        new AppError(BackupError.BackupFileNotFound, `Backup file not found`)
+      )
+    }
 
     const validBackup = await this.fileSystem.validateEncryptedZippedFile(
       filePath,
@@ -37,10 +43,7 @@ export class BackupRestoreService extends BaseBackupService {
 
     if (!validBackup) {
       return Result.failed(
-        new AppError(
-          BackupError.BackupFileIsInvalid,
-          `File: token is incorrect`
-        )
+        new AppError(BackupError.InvalidToken, `File: token is incorrect`)
       )
     }
 

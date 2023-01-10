@@ -44,7 +44,7 @@ export class SyncBackupCreateService {
 
     const runDeviceSyncBackupResponse = await this.runDeviceSyncBackup()
 
-    if (!runDeviceSyncBackupResponse.data) {
+    if (!runDeviceSyncBackupResponse.ok || !runDeviceSyncBackupResponse.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
       return Result.failed(
@@ -96,7 +96,9 @@ export class SyncBackupCreateService {
     }
 
     // id field as backup response is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
-    const backupResponse = await this.deviceManager.device.request<{id?: string}>({
+    const backupResponse = await this.deviceManager.device.request<{
+      id?: string
+    }>({
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {
@@ -116,7 +118,9 @@ export class SyncBackupCreateService {
     const backupLocation = String(deviceResponse.data?.backupLocation)
 
     // id field as backup response is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
-    const id = deviceResponse.data.syncFilePath ? deviceResponse.data.syncFilePath : backupId
+    const id = deviceResponse.data.syncFilePath
+      ? deviceResponse.data.syncFilePath
+      : backupId
 
     const syncBackupFinished = await this.waitUntilBackupDeviceFinished(id)
 
@@ -130,7 +134,9 @@ export class SyncBackupCreateService {
     }
 
     // syncFilePath is a target `filePath` for download backups after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
-    const filePath = deviceResponse.data.syncFilePath ? deviceResponse.data.syncFilePath : `${backupLocation}/${backupId}`
+    const filePath = deviceResponse.data.syncFilePath
+      ? deviceResponse.data.syncFilePath
+      : `${backupLocation}/${backupId}`
 
     return Result.success(filePath)
   }

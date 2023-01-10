@@ -43,9 +43,8 @@ export class DeviceLogService {
 
     const downloadDeviceFilesResponse =
       await this.deviceFileSystem.downloadDeviceFiles(files.data.files)
-    const deviceFiles = downloadDeviceFilesResponse.data
 
-    if (!deviceFiles) {
+    if (!downloadDeviceFilesResponse.ok) {
       return Result.failed(
         new AppError(
           DeviceEnumError.CannotDownloadLogFileFromDevice,
@@ -53,6 +52,7 @@ export class DeviceLogService {
         )
       )
     }
+    const deviceFiles = downloadDeviceFilesResponse.data
 
     return Result.success(
       option ? transformDeviceFilesByOption(deviceFiles, option) : deviceFiles

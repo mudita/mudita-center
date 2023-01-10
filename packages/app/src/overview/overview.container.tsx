@@ -43,6 +43,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     caseColour: (state.device.data as PureDeviceData)?.caseColour,
     pureOsBackupLocation: state.settings.osBackupLocation,
     backupDeviceState: state.backup.backingUpState,
+    backupError: state.backup.error,
     restoreDeviceState: state.backup.restoringState,
     backups: state.backup.data.backups,
     ...state.devMode,

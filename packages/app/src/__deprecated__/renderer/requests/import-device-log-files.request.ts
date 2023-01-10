@@ -7,14 +7,14 @@ import { getDeviceLogFiles } from "App/device-log/requests"
 import writeFile from "App/__deprecated__/renderer/requests/write-file.request"
 
 const importDeviceLogFiles = async (cwd: string): Promise<boolean> => {
-  const { ok, data = [] } = await getDeviceLogFiles({ datePrefix: true })
+  const result = await getDeviceLogFiles({ datePrefix: true })
 
-  if (!ok) {
+  if (!result.ok) {
     return false
   }
 
-  for (let i = 0; i < data.length; i++) {
-    const deviceLogFile = data[i]
+  for (let i = 0; i < result.data.length; i++) {
+    const deviceLogFile = result.data[i]
     const writeFileSuccess = await writeFile({
       cwd,
       data: deviceLogFile.data,

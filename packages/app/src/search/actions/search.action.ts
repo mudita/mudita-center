@@ -12,6 +12,6 @@ export const search = createAsyncThunk<SearchResult | undefined, SearchParams>(
   SearchEvent.SearchData,
   async (payload) => {
     const result = await searchRequest(payload)
-    return result.data
+    return result.ok ? result.data : undefined
   }
 )

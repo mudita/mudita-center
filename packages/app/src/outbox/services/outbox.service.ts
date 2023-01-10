@@ -28,15 +28,14 @@ export class OutboxService {
 
   public async readOutboxEntries(): Promise<EntryChangesEvent[] | undefined> {
     const changes: EntryChangesEvent[] = []
-    const { ok, data } = await this.getOutboxEntriesRequest()
+    const result = await this.getOutboxEntriesRequest()
 
-    const entries = data?.entries
-
-    if (!ok || entries === undefined) {
+    if (!result.ok) {
       return
     }
+    const entries = result.data.entries
 
-    if (entries.length === 0) {
+    if (entries === undefined || entries.length === 0) {
       return
     }
 
