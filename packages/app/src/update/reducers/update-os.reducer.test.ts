@@ -229,6 +229,41 @@ describe("checkForUpdate", () => {
           error: exampleError,
         })
       })
+
+      test("areAllReleasesAlreadyDownloaded equal to marks releases as downloaded", () => {
+        expect(
+          updateOsReducer(
+            {
+              ...initialState,
+            },
+            {
+              type: fulfilledAction(UpdateOsEvent.CheckForUpdate),
+              meta: {
+                arg: {
+                  isSilentCheck: silentUpdateFlag,
+                },
+              },
+              payload: {
+                availableReleasesForUpdate: [mockedRelease],
+                allReleases: [mockedRelease],
+                areAllReleasesAlreadyDownloaded: true,
+              },
+            }
+          )
+        ).toEqual({
+          ...initialState,
+          silentCheckForUpdate: silentUpdateFlag ? State.Loaded : State.Initial,
+          checkForUpdateState: !silentUpdateFlag ? State.Loaded : State.Initial,
+          data: {
+            ...initialState.data,
+            availableReleasesForUpdate: [mockedRelease],
+            allReleases: [mockedRelease],
+            downloadedProcessedReleases: [
+              { release: mockedRelease, state: ReleaseProcessState.Done },
+            ],
+          },
+        })
+      })
     }
   )
 })
