@@ -14,6 +14,7 @@ import {
   getAllReleasesRequest,
   getLatestReleaseRequest,
   getReleasesByVersions,
+  osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
@@ -25,6 +26,17 @@ interface Params {
 interface Result {
   allReleases: OsRelease[]
   availableReleasesForUpdate: OsRelease[]
+  areAllReleasesAlreadyDownloaded?: boolean
+}
+
+const areAllReleasesDownloaded = async (
+  releases: OsRelease[]
+): Promise<boolean> => {
+  const result = await Promise.all(
+    releases.map((release) => osUpdateAlreadyDownloadedCheck(release.file))
+  )
+
+  return result.every(Boolean)
 }
 
 export const checkForUpdate = createAsyncThunk<Result, Params>(
@@ -77,6 +89,9 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       return {
         allReleases,
         availableReleasesForUpdate,
+        areAllReleasesAlreadyDownloaded: await areAllReleasesDownloaded(
+          availableReleasesForUpdate
+        ),
       }
     }
 
@@ -96,6 +111,9 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
     return {
       allReleases,
       availableReleasesForUpdate,
+      areAllReleasesAlreadyDownloaded: await areAllReleasesDownloaded(
+        availableReleasesForUpdate
+      ),
     }
   }
 )

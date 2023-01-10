@@ -128,6 +128,13 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       } else {
         state.checkForUpdateState = State.Loaded
       }
+      if (action.payload.areAllReleasesAlreadyDownloaded) {
+        state.data.downloadedProcessedReleases =
+          action.payload.availableReleasesForUpdate.map((release) => ({
+            release,
+            state: ReleaseProcessState.Done,
+          }))
+      }
     })
     builder.addCase(checkForUpdate.rejected, (state, action) => {
       if (action.meta.arg.isSilentCheck) {
