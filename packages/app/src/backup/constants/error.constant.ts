@@ -23,4 +23,5 @@ export enum BackupError {
   OperationTimeout = "OPERATION_TIMEOUT_ERROR",
   DeviceLocked = "DEVICE_LOCKED",
   BackupFileNotFound = "BACKUP_FILE_NOT_FOUND",
+  BackupSpaceIsNotEnough = "BACKUP_SPACE_IS_NOT_ENOUGH",
 }

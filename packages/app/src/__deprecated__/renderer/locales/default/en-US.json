@@ -544,6 +544,7 @@
   "module.overview.backupFailedRestoringBackupModalBody": "We are sorry, a backup cannot be performed. Please try again.",
   "module.overview.backupFailedRestoringBackupModalTitle": "Backup has been unsuccessful",
   "module.overview.backupFailureModalDescription": "Please try to back up your data once again.",
+  "module.overview.backupNoSpaceFailureModalDescription": "The device storage is full. {size} of memory are missing. Delete unused files to allow storage space and try again.",
   "module.overview.backupFailureModalMainButton": "Cancel",
   "module.overview.backupFailureModalSecondaryButton": "Contact support",
   "module.overview.backupFailureModalTitle": "Backup has been unsuccessful",
