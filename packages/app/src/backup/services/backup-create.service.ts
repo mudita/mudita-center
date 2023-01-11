@@ -12,18 +12,19 @@ import { CreateDeviceBackup } from "App/backup/types"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import { DeviceManager } from "App/device-manager/services"
 import { BaseBackupService } from "App/backup/services/base-backup.service"
-import { DeviceInfo } from "App/device/types/mudita-os"
 import { FileManagerService } from "App/files-manager/services"
 import { DeviceDirectory } from "App/files-manager/constants"
+import { DeviceInfoService } from "App/device-info/services"
 
 export class BackupCreateService extends BaseBackupService {
   constructor(
     protected deviceManager: DeviceManager,
     protected deviceFileSystem: DeviceFileSystemService,
     protected fileManagerService: FileManagerService,
+    protected deviceInfoService: DeviceInfoService,
     private keyStorage: MetadataStore
   ) {
-    super(deviceManager, deviceFileSystem)
+    super(deviceManager, deviceFileSystem, deviceInfoService)
   }
 
   public async createBackup(
@@ -95,12 +96,9 @@ export class BackupCreateService extends BaseBackupService {
   }
 
   private async runDeviceBackup(): Promise<ResultObject<string | undefined>> {
-    const deviceResponse = await this.deviceManager.device.request<DeviceInfo>({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
+    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
 
-    if (!deviceResponse.ok || !deviceResponse.data) {
+    if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
         new AppError(
           BackupError.CannotGetDeviceInfo,
@@ -134,7 +132,7 @@ export class BackupCreateService extends BaseBackupService {
       )
     }
 
-    const filePath = deviceResponse.data.backupFilePath
+    const filePath = deviceInfoResult.data.backupFilePath
 
     return Result.success(filePath)
   }
@@ -158,14 +156,12 @@ export class BackupCreateService extends BaseBackupService {
     const backupSize = getDeviceFilesResult.data.reduce((prev, file) => {
       return prev + file.size
     }, 0)
+
     // 100 MiB as buffer space
     const backupSizeRequaired = backupSize * 2 + 100
-    const deviceResult = await this.deviceManager.device.request<DeviceInfo>({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
+    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
 
-    if (!deviceResult.ok || !deviceResult.data) {
+    if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
         new AppError(
           BackupError.BackupSpaceIsNotEnough,
@@ -173,19 +169,16 @@ export class BackupCreateService extends BaseBackupService {
         )
       )
     }
-    const { deviceSpaceTotal, usedUserSpace } = deviceResult.data
-    const free = Number(deviceSpaceTotal) - Number(usedUserSpace)
-
+    const { total, usedUserSpace } = deviceInfoResult.data.memorySpace
+    const free = total - usedUserSpace
     if (backupSizeRequaired <= free) {
       return Result.success(undefined)
     } else {
-      return Promise.resolve(
-        Result.failed(
-          new AppError(
-            BackupError.BackupSpaceIsNotEnough,
-            `File: token is incorrect`,
-            backupSizeRequaired
-          )
+      return Result.failed(
+        new AppError(
+          BackupError.BackupSpaceIsNotEnough,
+          `Backup space is not enough`,
+          backupSizeRequaired
         )
       )
     }

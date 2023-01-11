@@ -24,6 +24,7 @@ import {
   FileUploadCommand,
   RetrieveFilesCommand,
 } from "App/device-file-system/commands"
+import { DeviceInfoService } from "App/device-info/services"
 
 export class BackupModule extends BaseModule {
   constructor(
@@ -57,15 +58,20 @@ export class BackupModule extends BaseModule {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       new FileUploadCommand(this.deviceManager, this.fileSystem)
     )
+
+    const deviceInfoService = new DeviceInfoService(this.deviceManager)
+
     const backupCreateService = new BackupCreateService(
       this.deviceManager,
       deviceFileSystem,
       fileManagerService,
+      deviceInfoService,
       this.keyStorage
     )
     const backupRestoreService = new BackupRestoreService(
       this.deviceManager,
       deviceFileSystem,
+      deviceInfoService,
       fileSystem
     )
     const loadBackupService = new LoadBackupService()

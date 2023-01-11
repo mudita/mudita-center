@@ -15,6 +15,7 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 import { DeviceManager } from "App/device-manager/services"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import { Endpoint, Method, PhoneLockCategory } from "App/device"
+import { DeviceInfoService } from "App/device-info/services"
 
 const arrayBufferToBuffer = (unitArray: Uint8Array): Buffer => {
   const buffer = Buffer.alloc(unitArray.byteLength)
@@ -74,9 +75,14 @@ const fileSystemServiceMock = {
   exists: jest.fn(),
 } as unknown as FileSystemService
 
+const deviceInfoService = {
+  getDeviceInfo: jest.fn(),
+} as unknown as DeviceInfoService
+
 const subject = new BackupRestoreService(
   deviceManager,
   deviceFileSystemAdapter,
+  deviceInfoService,
   fileSystemServiceMock
 )
 
@@ -105,15 +111,6 @@ describe("Restore process happy path", () => {
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/backupFilePath",
-          })
-        }
-
-        if (
           config.endpoint === Endpoint.Restore &&
           config.method === Method.Post
         ) {
@@ -129,7 +126,11 @@ describe("Restore process happy path", () => {
 
         return Result.failed(new AppError("", ""))
       })
-
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/backupFilePath",
+      })
+    )
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
       backupFilePath: "/usr/backup/fileBase.tar",
@@ -165,12 +166,6 @@ describe("Restore process happy path", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceManager.device.request).toHaveBeenNthCalledWith(2, {
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenNthCalledWith(3, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
@@ -268,15 +263,6 @@ describe("Backup restoring failed path", () => {
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/backupFilePath",
-          })
-        }
-
-        if (
           config.endpoint === Endpoint.Backup &&
           config.method === Method.Post
         ) {
@@ -285,7 +271,11 @@ describe("Backup restoring failed path", () => {
 
         return Result.failed(new AppError("", ""))
       })
-
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/backupFilePath",
+      })
+    )
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
       backupFilePath: "/usr/backup/fileBase.tar",
@@ -317,16 +307,6 @@ describe("Backup restoring failed path", () => {
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/fileBase.tar",
-            recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
-          })
-        }
-
-        if (
           config.endpoint === Endpoint.Restore &&
           config.method === Method.Post
         ) {
@@ -343,6 +323,12 @@ describe("Backup restoring failed path", () => {
         return Result.failed(new AppError("", ""))
       })
 
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/fileBase.tar",
+        recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
+      })
+    )
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
       backupFilePath: "/usr/backup/fileBase.tar",
@@ -382,16 +368,6 @@ describe("Backup restoring failed path", () => {
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/fileBase.tar",
-            recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
-          })
-        }
-
-        if (
           config.endpoint === Endpoint.Restore &&
           config.method === Method.Post
         ) {
@@ -408,6 +384,12 @@ describe("Backup restoring failed path", () => {
         return Result.failed(new AppError("", ""))
       })
 
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/fileBase.tar",
+        recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
+      })
+    )
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",
       backupFilePath: "/usr/backup/fileBase.tar",
@@ -445,16 +427,6 @@ describe("Backup restoring failed path", () => {
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/fileBase.tar",
-            recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
-          })
-        }
-
-        if (
           config.endpoint === Endpoint.Restore &&
           config.method === Method.Post
         ) {
@@ -470,6 +442,13 @@ describe("Backup restoring failed path", () => {
 
         return Result.failed(new AppError("", ""))
       })
+
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/fileBase.tar",
+        recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
+      })
+    )
 
     const result = await subject.restoreBackup({
       filePath: "/backup.tar",

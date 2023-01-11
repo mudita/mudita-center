@@ -10,7 +10,7 @@ import { Operation, BackupError } from "App/backup/constants"
 import { UpdaterStatus } from "App/backup/dto"
 import { DeviceManager } from "App/device-manager/services"
 import { DeviceFileSystemService } from "App/device-file-system/services"
-import { DeviceInfo } from "App/device/types/mudita-os"
+import { DeviceInfoService } from "App/device-info/services"
 
 export class BaseBackupService {
   private MAX_WAKE_UP_RETRIES = 24
@@ -18,16 +18,14 @@ export class BaseBackupService {
 
   constructor(
     protected deviceManager: DeviceManager,
-    protected deviceFileSystem: DeviceFileSystemService
+    protected deviceFileSystem: DeviceFileSystemService,
+    protected deviceInfoService: DeviceInfoService
   ) {}
 
   public async checkStatus(
     operation: Operation
   ): Promise<ResultObject<boolean, BackupError>> {
-    const deviceResponse = await this.deviceManager.device.request<DeviceInfo>({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
+    const deviceResponse = await this.deviceInfoService.getDeviceInfo()
 
     if (!deviceResponse.ok || !deviceResponse.data) {
       return Result.failed(
@@ -105,10 +103,7 @@ export class BaseBackupService {
       setTimeout(() => {
         void (async () => {
           try {
-            const response = await this.deviceManager.device.request({
-              endpoint: Endpoint.DeviceInfo,
-              method: Method.Get,
-            })
+            const response = await this.deviceInfoService.getDeviceInfo()
 
             if (response.ok) {
               resolve(true)
