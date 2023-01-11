@@ -55,7 +55,12 @@ const WrappedButton: FunctionComponent<ComponentProps<typeof ButtonComponent>> =
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ButtonTogglerItem = styled(
   WrappedButton
-).attrs<ButtonTogglerItemProps>(({ filled, active }) => {
+).attrs<ButtonTogglerItemProps>(({ filled, active, loading, disabled }) => {
+  if (loading && disabled) {
+    return {
+      displayStyle: DisplayStyle.Primary,
+    }
+  }
   const displayStyle =
     active && filled ? DisplayStyle.Primary : DisplayStyle.Secondary
   return {

@@ -139,6 +139,7 @@ const System: FunctionComponent<Props> = ({
             <CardActionButton
               active={!checkForUpdateInProgress}
               disabled={checkForUpdateInProgress}
+              loading={checkForUpdateInProgress}
               labelMessage={messages.systemCheckForUpdates}
               onClick={onUpdateCheck}
             />
