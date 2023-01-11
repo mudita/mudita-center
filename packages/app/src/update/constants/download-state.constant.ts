@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum SilentCheckForUpdateState {
+export enum DownloadState {
   Initial,
   Loading,
   Loaded,
   Failed,
-  Skipped,
+  Cancelled,
 }

@@ -55,6 +55,7 @@ const defaultProps: Props = {
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
   areAllReleasesDownloaded: false,
+  setCheckForUpdateState: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

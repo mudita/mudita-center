@@ -47,6 +47,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   updatingReleasesProcessStates,
   silentCheckForUpdateState,
   areAllReleasesDownloaded,
+  setCheckForUpdateState,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
 
@@ -121,6 +122,10 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.TryAgain)
   }
 
+  const openCheckForUpdateModal = () => {
+    setCheckForUpdateState(State.Loaded)
+  }
+
   return (
     <>
       <UpdateOsFlow
@@ -168,7 +173,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         pureOsDownloaded={areAllReleasesDownloaded}
         onUpdateCheck={checkForHarmonyUpdate}
         onUpdateInstall={() => updateReleases()}
-        onUpdateDownload={() => downloadReleases()}
+        onUpdateDownload={openCheckForUpdateModal}
         serialNumber={serialNumber}
         checkForUpdateInProgress={
           silentCheckForUpdateState === SilentCheckForUpdateState.Loading

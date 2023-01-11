@@ -76,6 +76,7 @@ const defaultProps: Props = {
   silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   clearUpdateState: jest.fn(),
   downloadUpdates: jest.fn(),
+  setCheckForUpdateState: jest.fn(),
   availableReleasesForUpdate: null,
   updateOsError: null,
   downloadingReleasesProcessStates: null,

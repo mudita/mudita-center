@@ -16,6 +16,7 @@ import {
   setStateForDownloadedRelease,
   setStateForInstalledRelease,
   clearStateAndData,
+  setCheckForUpdateState,
 } from "App/update/actions"
 import {
   CheckForUpdateMode,
@@ -47,6 +48,12 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       return {
         ...state,
         updateOsState: action.payload,
+      }
+    })
+    builder.addCase(setCheckForUpdateState, (state, action) => {
+      return {
+        ...state,
+        checkForUpdateState: action.payload,
       }
     })
     builder.addCase(closeUpdateFlow, (state) => {

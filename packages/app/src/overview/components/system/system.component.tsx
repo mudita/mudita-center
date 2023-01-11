@@ -111,15 +111,12 @@ const System: FunctionComponent<Props> = ({
             (updateAvailable ? (
               <AvailableUpdateText>
                 {updateDownloaded ? (
-                  // Update is available
                   <FormattedMessage {...messages.systemUpdateDownloaded} />
                 ) : (
-                  // Update is available
                   <FormattedMessage {...messages.systemUpdateAvailable} />
                 )}
               </AvailableUpdateText>
             ) : (
-              // You’re up to date.
               <AvailableUpdateText>
                 <FormattedMessage {...messages.systemUpdateUpToDate} />
               </AvailableUpdateText>
