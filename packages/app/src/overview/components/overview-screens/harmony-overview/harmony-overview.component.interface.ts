@@ -37,6 +37,7 @@ export interface HarmonyOverviewProps {
     deviceType: DeviceType,
     mode: CheckForUpdateMode
   ) => void
+  readonly setCheckForUpdateState: (state: State) => void
   readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void

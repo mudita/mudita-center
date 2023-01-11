@@ -85,6 +85,30 @@ describe("setUpdateState action", () => {
   })
 })
 
+describe("setCheckForUpdateState action", () => {
+  test("action sets the checking state", () => {
+    expect(
+      updateOsReducer(undefined, {
+        type: UpdateOsEvent.SetCheckForUpdateState,
+        payload: State.Loaded,
+      })
+    ).toEqual({
+      ...initialState,
+      checkForUpdateState: State.Loaded,
+    })
+
+    expect(
+      updateOsReducer(undefined, {
+        type: UpdateOsEvent.SetCheckForUpdateState,
+        payload: State.Failed,
+      })
+    ).toEqual({
+      ...initialState,
+      checkForUpdateState: State.Failed,
+    })
+  })
+})
+
 describe("startUpdateOs action", () => {
   test("pending action sets proper updateOsState", () => {
     expect(

@@ -75,6 +75,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   silentCheckForUpdateState,
   areAllReleasesDownloaded,
   backupError,
+  setCheckForUpdateState,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -238,6 +239,10 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.TryAgain)
   }
 
+  const openCheckForUpdateModal = () => {
+    setCheckForUpdateState(State.Loaded)
+  }
+
   return (
     <>
       <UpdateOsFlow
@@ -312,7 +317,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         }
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={() => updateReleases()}
-        onUpdateDownload={() => downloadReleases()}
+        onUpdateDownload={openCheckForUpdateModal}
         caseColour={caseColour}
         lastBackupDate={lastBackupDate}
         onBackupCreate={handleBackupCreate}
