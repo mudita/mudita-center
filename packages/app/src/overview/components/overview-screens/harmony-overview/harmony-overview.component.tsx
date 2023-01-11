@@ -12,7 +12,10 @@ import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
-import { SilentCheckForUpdateState } from "App/update/constants"
+import {
+  CheckForUpdateMode,
+  SilentCheckForUpdateState,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import logger from "App/__deprecated__/main/utils/logger"
@@ -52,7 +55,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   }
 
   const harmonySilentCheckForUpdate = () =>
-    checkForUpdate(DeviceType.MuditaHarmony, "silent-check")
+    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck)
 
   useEffect(() => {
     try {
@@ -111,11 +114,11 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   }
 
   const checkForHarmonyUpdate = () => {
-    checkForUpdate(DeviceType.MuditaHarmony, "normal")
+    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.Normal)
   }
 
   const tryAgainHarmonyUpdate = () => {
-    checkForUpdate(DeviceType.MuditaHarmony, "try-again")
+    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.TryAgain)
   }
 
   return (

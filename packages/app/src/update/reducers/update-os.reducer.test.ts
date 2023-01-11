@@ -146,50 +146,46 @@ describe("startUpdateOs action", () => {
 })
 
 describe("checkForUpdate", () => {
-  const testCases: CheckForUpdateMode[] = [
-    "normal",
-    "silent-check",
-    "try-again",
-  ]
+  const testCases: CheckForUpdateMode[] = Object.values(CheckForUpdateMode)
   const expectedStates = {
     pending: {
-      normal: {
+      [CheckForUpdateMode.Normal]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Initial,
         checkForUpdateState: State.Loading,
       },
-      "silent-check": {
+      [CheckForUpdateMode.SilentCheck]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Loading,
         checkForUpdateState: State.Initial,
       },
-      "try-again": {
+      [CheckForUpdateMode.TryAgain]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Skipped,
         checkForUpdateState: State.Loading,
       },
     },
     fulfilled: {
-      normal: {
+      [CheckForUpdateMode.Normal]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Initial,
         checkForUpdateState: State.Loaded,
       },
-      "silent-check": {
+      [CheckForUpdateMode.SilentCheck]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
         checkForUpdateState: State.Initial,
       },
-      "try-again": {
+      [CheckForUpdateMode.TryAgain]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Initial,
         checkForUpdateState: State.Loaded,
       },
     },
     rejected: {
-      normal: {
+      [CheckForUpdateMode.Normal]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Initial,
         checkForUpdateState: State.Failed,
       },
-      "silent-check": {
+      [CheckForUpdateMode.SilentCheck]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Failed,
         checkForUpdateState: State.Initial,
       },
-      "try-again": {
+      [CheckForUpdateMode.TryAgain]: {
         silentCheckForUpdate: SilentCheckForUpdateState.Initial,
         checkForUpdateState: State.Failed,
       },

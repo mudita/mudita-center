@@ -3,4 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export type CheckForUpdateMode = "try-again" | "silent-check" | "normal"
+export enum CheckForUpdateMode {
+  Normal = "normal",
+  TryAgain = "try-again",
+  SilentCheck = "silent-check",
+}

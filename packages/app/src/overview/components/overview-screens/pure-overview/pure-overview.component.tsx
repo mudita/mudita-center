@@ -20,7 +20,10 @@ import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
-import { SilentCheckForUpdateState } from "App/update/constants"
+import {
+  CheckForUpdateMode,
+  SilentCheckForUpdateState,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import logger from "App/__deprecated__/main/utils/logger"
@@ -98,7 +101,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   useEffect(() => {
     if (silentCheckForUpdateState === SilentCheckForUpdateState.Initial) {
-      checkForUpdate(DeviceType.MuditaPure, "silent-check")
+      checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.SilentCheck)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -228,11 +231,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   const checkForPureUpdate = () => {
-    checkForUpdate(DeviceType.MuditaPure, "normal")
+    checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.Normal)
   }
 
   const tryAgainPureUpdate = () => {
-    checkForUpdate(DeviceType.MuditaHarmony, "try-again")
+    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.TryAgain)
   }
 
   return (

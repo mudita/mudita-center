@@ -8,7 +8,12 @@ import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
 import { checkForUpdate } from "App/update/actions"
-import { Product, OsReleaseType, UpdateError } from "App/update/constants"
+import {
+  Product,
+  OsReleaseType,
+  UpdateError,
+  CheckForUpdateMode,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import * as getAllReleasesRequestModule from "App/update/requests/get-all-releases.request"
 import * as getLatestReleaseRequestModule from "App/update/requests/get-latest-release.request"
@@ -31,7 +36,10 @@ const mockedRelease: OsRelease = {
   mandatoryVersions: [],
 }
 
-const params = { deviceType: DeviceType.MuditaPure, mode: "normal" as const }
+const params = {
+  deviceType: DeviceType.MuditaPure,
+  mode: CheckForUpdateMode.Normal,
+}
 
 describe("when fetching latest release fails", () => {
   test("action is rejected", async () => {
