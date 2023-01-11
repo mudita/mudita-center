@@ -5,12 +5,16 @@
 
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
-import { DownloadState, UpdateError } from "App/update/constants"
+import {
+  DownloadState,
+  SilentCheckForUpdateState,
+  UpdateError,
+} from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface UpdateOsFlowProps {
   currentOsVersion: string
-  silentCheckForUpdateState: State
+  silentCheckForUpdateState: SilentCheckForUpdateState
   checkForUpdateState: State
   downloadState: DownloadState
   updateState: State
@@ -25,4 +29,5 @@ export interface UpdateOsFlowProps {
   clearUpdateOsFlow: () => void
   openContactSupportFlow: () => void
   openHelpView: () => void
+  tryAgainCheckForUpdate: () => void
 }

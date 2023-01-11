@@ -7,6 +7,7 @@ export enum UpdateOsFlowTestIds {
   CheckForUpdateModal = "update-os-flow-check-for-update-modal",
   UpdateAvailableModal = "update-os-flow-update-available-modal",
   UpdateNotAvailableModal = "update-os-flow-update-not-available-modal",
+  CheckForUpdateFailedModal = "update-os-flow-check-for-update-failed-modal",
 
   DownloadingUpdateModal = "update-os-flow-downloading-update-modal",
   DownloadingCancelledModal = "update-os-flow-downloading-cancelled-modal",

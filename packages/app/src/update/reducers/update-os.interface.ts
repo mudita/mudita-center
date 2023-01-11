@@ -5,13 +5,17 @@
 
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
-import { DownloadState, UpdateError } from "App/update/constants"
+import {
+  DownloadState,
+  SilentCheckForUpdateState,
+  UpdateError,
+} from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface UpdateOsState {
   updateOsState: State
   checkForUpdateState: State
-  silentCheckForUpdate: State
+  silentCheckForUpdate: SilentCheckForUpdateState
   downloadState: DownloadState
   error: AppError<UpdateError> | null
   data: {

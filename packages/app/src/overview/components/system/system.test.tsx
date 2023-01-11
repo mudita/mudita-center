@@ -16,6 +16,7 @@ type Props = ComponentProps<typeof System>
 const defaultProps: Props = {
   osVersion: "1.0.0",
   checkForUpdateInProgress: false,
+  checkForUpdatePerformed: true,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -34,7 +35,10 @@ test("renders os version properly", () => {
 })
 
 test("renders available update info properly", () => {
-  const { getByText } = render({ updateAvailable: true })
+  const { getByText } = render({
+    updateAvailable: true,
+    checkForUpdatePerformed: true,
+  })
   expect(
     getByText(
       intl.formatMessage({ id: "module.overview.systemUpdateAvailable" })
@@ -43,7 +47,10 @@ test("renders available update info properly", () => {
 })
 
 test("renders You're up to date info properly", () => {
-  const { getByText } = render({ updateAvailable: false })
+  const { getByText } = render({
+    updateAvailable: false,
+    checkForUpdatePerformed: true,
+  })
   expect(
     getByText(
       intl.formatMessage({ id: "module.overview.systemUpdateUpToDate" })
@@ -63,6 +70,50 @@ test("renders 'update now' button properly", () => {
   expect(queryByRole("button")).toHaveTextContent(
     intl.formatMessage({ id: "module.overview.systemDownloadAction" })
   )
+})
+
+test("does not render any label when check for update was not performed", () => {
+  const { queryByText } = render({
+    updateAvailable: true,
+    checkForUpdatePerformed: false,
+  })
+  expect(
+    queryByText(
+      intl.formatMessage({ id: "module.overview.systemUpdateAvailable" })
+    )
+  ).not.toBeInTheDocument()
+  expect(
+    queryByText(
+      intl.formatMessage({ id: "module.overview.systemUpdateUpToDate" })
+    )
+  ).not.toBeInTheDocument()
+  expect(
+    queryByText(
+      intl.formatMessage({ id: "module.overview.systemUpdateDownloaded" })
+    )
+  ).not.toBeInTheDocument()
+})
+test("does not render any label when check for update is in progress", () => {
+  const { queryByText } = render({
+    updateAvailable: true,
+    checkForUpdatePerformed: true,
+    checkForUpdateInProgress: true,
+  })
+  expect(
+    queryByText(
+      intl.formatMessage({ id: "module.overview.systemUpdateAvailable" })
+    )
+  ).not.toBeInTheDocument()
+  expect(
+    queryByText(
+      intl.formatMessage({ id: "module.overview.systemUpdateUpToDate" })
+    )
+  ).not.toBeInTheDocument()
+  expect(
+    queryByText(
+      intl.formatMessage({ id: "module.overview.systemUpdateDownloaded" })
+    )
+  ).not.toBeInTheDocument()
 })
 
 test("checks for update after button click", () => {

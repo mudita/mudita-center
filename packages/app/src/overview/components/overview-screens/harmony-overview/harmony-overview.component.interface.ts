@@ -6,14 +6,19 @@
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
-import { DownloadState, UpdateError } from "App/update/constants"
+import {
+  CheckForUpdateMode,
+  DownloadState,
+  SilentCheckForUpdateState,
+  UpdateError,
+} from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface HarmonyOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
   readonly batteryLevel: number | undefined
   readonly osVersion: string | undefined
-  readonly silentCheckForUpdateState: State
+  readonly silentCheckForUpdateState: SilentCheckForUpdateState
   readonly updatingState: State
   readonly serialNumber: string | undefined
   readonly checkingForUpdateState: State
@@ -28,8 +33,10 @@ export interface HarmonyOverviewProps {
   readonly setUpdateState: (data: State) => void
   readonly disconnectDevice: () => void
   readonly openContactSupportFlow: () => void
-  readonly checkForUpdate: (deviceType: DeviceType) => void
-  readonly silentCheckForUpdate: (deviceType: DeviceType) => void
+  readonly checkForUpdate: (
+    deviceType: DeviceType,
+    mode: CheckForUpdateMode
+  ) => void
   readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void

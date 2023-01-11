@@ -21,7 +21,7 @@ import * as UpdatingForceModalFlowModule from "App/overview/components/updating-
 import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import { flags } from "App/feature-flags"
-import { DownloadState } from "App/update/constants"
+import { DownloadState, SilentCheckForUpdateState } from "App/update/constants"
 
 // TODO [mw] add integration tests for update process - scope of the next PR (after all the changes from CP-1681 are done)
 
@@ -73,11 +73,10 @@ const defaultProps: Props = {
   updatingState: State.Initial,
   checkingForUpdateState: State.Initial,
   downloadingState: DownloadState.Initial,
-  silentCheckForUpdateState: State.Initial,
+  silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   clearUpdateState: jest.fn(),
   downloadUpdates: jest.fn(),
   availableReleasesForUpdate: null,
-  silentCheckForUpdate: jest.fn(),
   updateOsError: null,
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,

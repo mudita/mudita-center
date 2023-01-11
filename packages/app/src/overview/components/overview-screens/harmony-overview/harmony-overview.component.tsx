@@ -12,6 +12,10 @@ import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
+import {
+  CheckForUpdateMode,
+  SilentCheckForUpdateState,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import logger from "App/__deprecated__/main/utils/logger"
@@ -38,7 +42,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   allReleases,
   updateOsError,
   checkForUpdate,
-  silentCheckForUpdate,
   downloadUpdates,
   downloadingReleasesProcessStates,
   updatingReleasesProcessStates,
@@ -51,6 +54,9 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     void ipcRenderer.callMain(HelpActions.OpenWindow)
   }
 
+  const harmonySilentCheckForUpdate = () =>
+    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck)
+
   useEffect(() => {
     try {
       setOsVersionSupported(
@@ -62,8 +68,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   }, [osVersion, lowestSupportedOsVersion])
 
   useEffect(() => {
-    if (silentCheckForUpdateState === State.Initial) {
-      silentCheckForUpdate(DeviceType.MuditaHarmony)
+    if (silentCheckForUpdateState === SilentCheckForUpdateState.Initial) {
+      harmonySilentCheckForUpdate()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,8 +113,12 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       downloadUpdates(releasesToDownload)
   }
 
-  const checkForPureUpdate = () => {
-    checkForUpdate(DeviceType.MuditaHarmony)
+  const checkForHarmonyUpdate = () => {
+    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.Normal)
+  }
+
+  const tryAgainHarmonyUpdate = () => {
+    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.TryAgain)
   }
 
   return (
@@ -119,6 +129,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         checkForUpdateState={checkingForUpdateState}
         availableReleasesForUpdate={availableReleasesForUpdate}
         downloadState={downloadingState}
+        tryAgainCheckForUpdate={tryAgainHarmonyUpdate}
         clearUpdateOsFlow={clearUpdateState}
         downloadUpdates={downloadReleases}
         abortDownloading={abortDownload}
@@ -150,12 +161,18 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
+        checkForUpdatePerformed={
+          silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
+          checkingForUpdateState === State.Loaded
+        }
         pureOsDownloaded={areAllReleasesDownloaded}
-        onUpdateCheck={checkForPureUpdate}
+        onUpdateCheck={checkForHarmonyUpdate}
         onUpdateInstall={() => updateReleases()}
         onUpdateDownload={() => downloadReleases()}
         serialNumber={serialNumber}
-        checkForUpdateInProgress={silentCheckForUpdateState === State.Loading}
+        checkForUpdateInProgress={
+          silentCheckForUpdateState === SilentCheckForUpdateState.Loading
+        }
       />
     </>
   )

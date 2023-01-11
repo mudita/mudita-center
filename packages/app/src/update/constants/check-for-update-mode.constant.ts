@@ -3,10 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum SilentCheckForUpdateState {
-  Initial,
-  Loading,
-  Loaded,
-  Failed,
-  Skipped,
+export enum CheckForUpdateMode {
+  Normal = "normal",
+  TryAgain = "try-again",
+  SilentCheck = "silent-check",
 }
