@@ -9,12 +9,13 @@ import { AppError } from "App/core/errors"
 import {
   cancelDownload,
   checkForUpdate,
-  clearState,
+  clearStateOnly,
   downloadUpdates,
   setUpdateState,
   startUpdateOs,
   setStateForDownloadedRelease,
   setStateForInstalledRelease,
+  clearStateAndData,
 } from "App/update/actions"
 import {
   DownloadState,
@@ -24,10 +25,10 @@ import {
 import { UpdateOsState } from "App/update/reducers/update-os.interface"
 
 export const initialState: UpdateOsState = {
+  silentCheckForUpdate: State.Initial,
   checkForUpdateState: State.Initial,
   updateOsState: State.Initial,
   downloadState: DownloadState.Initial,
-  silentUpdateCheck: false,
   error: null,
   data: {
     allReleases: null,
@@ -46,14 +47,18 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         updateOsState: action.payload,
       }
     })
-    builder.addCase(clearState, (state) => {
+    builder.addCase(clearStateOnly, (state) => {
       return {
         ...state,
-        batteryState: null,
         error: null,
         checkForUpdateState: State.Initial,
         updateOsState: State.Initial,
         downloadState: DownloadState.Initial,
+      }
+    })
+    builder.addCase(clearStateAndData, () => {
+      return {
+        ...initialState,
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -107,17 +112,37 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         downloadedProcessedReleases: null,
         updateProcessedReleases: null,
       }
-      state.silentUpdateCheck = payload.meta.arg.isSilentCheck
-      state.checkForUpdateState = State.Loading
+
+      if (payload.meta.arg.isSilentCheck) {
+        state.silentCheckForUpdate = State.Loading
+      } else {
+        state.checkForUpdateState = State.Loading
+      }
     })
     builder.addCase(checkForUpdate.fulfilled, (state, action) => {
-      state.checkForUpdateState = State.Loaded
       state.data.availableReleasesForUpdate =
         action.payload.availableReleasesForUpdate
       state.data.allReleases = action.payload.allReleases
+      if (action.meta.arg.isSilentCheck) {
+        state.silentCheckForUpdate = State.Loaded
+      } else {
+        state.checkForUpdateState = State.Loaded
+      }
+      if (action.payload.areAllReleasesAlreadyDownloaded) {
+        state.data.downloadedProcessedReleases =
+          action.payload.availableReleasesForUpdate.map((release) => ({
+            release,
+            state: ReleaseProcessState.Done,
+          }))
+      }
     })
     builder.addCase(checkForUpdate.rejected, (state, action) => {
-      state.checkForUpdateState = State.Failed
+      if (action.meta.arg.isSilentCheck) {
+        state.silentCheckForUpdate = State.Failed
+      } else {
+        state.checkForUpdateState = State.Failed
+      }
+
       state.error = action.payload as AppError<UpdateError>
     })
 

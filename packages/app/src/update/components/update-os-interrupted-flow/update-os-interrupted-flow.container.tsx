@@ -6,7 +6,7 @@
 import { State } from "App/core/constants"
 import { showModal } from "App/modals-manager/actions"
 import { ModalStateKey } from "App/modals-manager/reducers"
-import { clearState } from "App/update/actions"
+import { clearStateOnly } from "App/update/actions"
 import { UpdateOsInterruptedFlow } from "App/update/components/update-os-interrupted-flow/update-os-interrupted-flow.component"
 import { DownloadState } from "App/update/constants"
 import { alreadyProcessedReleasesSelector, Mode } from "App/update/selectors"
@@ -34,7 +34,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  onClose: () => dispatch(clearState()),
+  onClose: () => dispatch(clearStateOnly()),
   openContactSupportFlow: () =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call

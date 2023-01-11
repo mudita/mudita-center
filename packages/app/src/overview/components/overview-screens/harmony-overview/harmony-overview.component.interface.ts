@@ -13,6 +13,7 @@ export interface HarmonyOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
   readonly batteryLevel: number | undefined
   readonly osVersion: string | undefined
+  readonly silentCheckForUpdateState: State
   readonly updatingState: State
   readonly serialNumber: string | undefined
   readonly checkingForUpdateState: State
@@ -20,9 +21,9 @@ export interface HarmonyOverviewProps {
   readonly allReleases: OsRelease[] | null
   readonly updateOsError: AppError<UpdateError> | null
   readonly availableReleasesForUpdate: OsRelease[] | null
-  readonly silentUpdateCheck: boolean
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
   readonly updatingReleasesProcessStates: ProcessedRelease[] | null
+  readonly areAllReleasesDownloaded: boolean
   readonly startUpdateOs: (releases: OsRelease[]) => void
   readonly setUpdateState: (data: State) => void
   readonly disconnectDevice: () => void

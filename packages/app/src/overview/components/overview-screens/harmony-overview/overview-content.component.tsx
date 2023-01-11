@@ -19,6 +19,7 @@ interface OverviewProps {
   readonly onUpdateInstall: () => void
   readonly toggleDevMode?: () => void
   readonly disconnectDevice: () => void
+  readonly checkForUpdateInProgress: boolean
   readonly osVersion: string
   readonly batteryLevel: number
   readonly pureOsAvailable: boolean
@@ -39,24 +40,27 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   osVersion,
   deviceType,
   serialNumber,
-}) => (
-  <OverviewWrapper>
-    <DeviceInfo
-      deviceType={deviceType}
-      onClick={toggleDevMode}
-      onDisconnect={disconnectDevice}
-      serialNumber={serialNumber}
-    />
-    <StatusInfo deviceType={deviceType} batteryLevel={batteryLevel} />
-    <SystemInfo
-      updateDownloaded={pureOsDownloaded}
-      updateAvailable={pureOsAvailable}
-      osVersion={osVersion}
-      onUpdateCheck={onUpdateCheck}
-      onDownload={onUpdateDownload}
-      onUpdate={onUpdateInstall}
-    />
-  </OverviewWrapper>
-)
-
+  checkForUpdateInProgress,
+}) => {
+  return (
+    <OverviewWrapper>
+      <DeviceInfo
+        deviceType={deviceType}
+        onClick={toggleDevMode}
+        onDisconnect={disconnectDevice}
+        serialNumber={serialNumber}
+      />
+      <StatusInfo deviceType={deviceType} batteryLevel={batteryLevel} />
+      <SystemInfo
+        updateDownloaded={pureOsDownloaded}
+        updateAvailable={pureOsAvailable}
+        osVersion={osVersion}
+        onUpdateCheck={onUpdateCheck}
+        onDownload={onUpdateDownload}
+        onUpdate={onUpdateInstall}
+        checkForUpdateInProgress={checkForUpdateInProgress}
+      />
+    </OverviewWrapper>
+  )
+}
 export default OverviewContent

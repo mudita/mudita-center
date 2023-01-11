@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
-import { clearState } from "App/update/actions/base.action"
+import { clearStateAndData } from "App/update/actions/base.action"
 import { UpdateOsEvent } from "App/update/constants"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
@@ -18,6 +18,6 @@ export const handleDeviceAttached = createAsyncThunk<void, void>(
       return
     }
 
-    dispatch(clearState())
+    dispatch(clearStateAndData())
   }
 )

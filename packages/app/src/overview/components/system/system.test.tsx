@@ -15,6 +15,7 @@ type Props = ComponentProps<typeof System>
 
 const defaultProps: Props = {
   osVersion: "1.0.0",
+  checkForUpdateInProgress: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {

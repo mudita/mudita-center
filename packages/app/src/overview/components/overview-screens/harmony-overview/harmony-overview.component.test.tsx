@@ -36,7 +36,6 @@ const defaultProps: Props = {
   lowestSupportedOsVersion: "",
   batteryLevel: undefined,
   osVersion: "1.0.0",
-  updatingState: State.Initial,
   serialNumber: undefined,
   startUpdateOs: jest.fn(),
   setUpdateState: jest.fn(),
@@ -45,16 +44,18 @@ const defaultProps: Props = {
   abortDownload: jest.fn(),
   allReleases: [],
   checkForUpdate: jest.fn(),
+  updatingState: State.Initial,
   checkingForUpdateState: State.Initial,
-  clearUpdateState: jest.fn(),
   downloadingState: DownloadState.Initial,
+  silentCheckForUpdateState: State.Initial,
+  clearUpdateState: jest.fn(),
   downloadUpdates: jest.fn(),
   availableReleasesForUpdate: null,
   silentCheckForUpdate: jest.fn(),
-  silentUpdateCheck: false,
   updateOsError: null,
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
+  areAllReleasesDownloaded: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {

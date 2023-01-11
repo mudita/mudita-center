@@ -60,7 +60,6 @@ const defaultProps: Props = {
   osVersion: "1.0.0",
   pureOsBackupLocation: "path/location/backup",
   serialNumber: undefined,
-  updatingState: State.Initial,
   memorySpace: {
     reservedSpace: 100,
     usedUserSpace: 200,
@@ -71,16 +70,18 @@ const defaultProps: Props = {
   abortDownload: jest.fn(),
   allReleases: [],
   checkForUpdate: jest.fn(),
+  updatingState: State.Initial,
   checkingForUpdateState: State.Initial,
-  clearUpdateState: jest.fn(),
   downloadingState: DownloadState.Initial,
+  silentCheckForUpdateState: State.Initial,
+  clearUpdateState: jest.fn(),
   downloadUpdates: jest.fn(),
   availableReleasesForUpdate: null,
   silentCheckForUpdate: jest.fn(),
-  silentUpdateCheck: false,
   updateOsError: null,
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
+  areAllReleasesDownloaded: false,
   backupError: null,
 }
 

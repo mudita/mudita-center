@@ -34,10 +34,10 @@ const defaultProps: UpdateOsFlowProps = {
   checkForUpdateState: State.Initial,
   downloadState: DownloadState.Initial,
   updateState: State.Initial,
+  silentCheckForUpdateState: State.Initial,
   allReleases: [],
   availableReleasesForUpdate: null,
   currentOsVersion: "1.2.0",
-  silentUpdateCheck: false,
   error: null,
   abortDownloading: jest.fn(),
   clearUpdateOsFlow: jest.fn(),
@@ -144,17 +144,6 @@ describe("check for update modals", () => {
       checkModalsVisibility(queryByTestId, [
         UpdateOsFlowTestIds.UpdateNotAvailableModal,
       ])
-    })
-  })
-
-  describe("when silient update check is being performed", () => {
-    test("check update modals should not be visible", () => {
-      const { queryByTestId } = render({
-        checkForUpdateState: State.Loading,
-        silentUpdateCheck: true,
-      })
-
-      checkModalsVisibility(queryByTestId, [])
     })
   })
 })
