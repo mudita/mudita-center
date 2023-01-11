@@ -8,11 +8,17 @@ import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
 import { checkForUpdate } from "App/update/actions"
-import { Product, OsReleaseType, UpdateError } from "App/update/constants"
+import {
+  Product,
+  OsReleaseType,
+  UpdateError,
+  CheckForUpdateMode,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import * as getAllReleasesRequestModule from "App/update/requests/get-all-releases.request"
 import * as getLatestReleaseRequestModule from "App/update/requests/get-latest-release.request"
 import * as getReleasesByVersionsModule from "App/update/requests/get-releases-by-versions.request"
+import * as osUpdateAlreadyDownloadedCheckModule from "App/update/requests/os-update-already-downloaded.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
@@ -30,7 +36,10 @@ const mockedRelease: OsRelease = {
   mandatoryVersions: [],
 }
 
-const params = { deviceType: DeviceType.MuditaPure, isSilentCheck: false }
+const params = {
+  deviceType: DeviceType.MuditaPure,
+  mode: CheckForUpdateMode.Normal,
+}
 
 describe("when fetching latest release fails", () => {
   test("action is rejected", async () => {
@@ -146,6 +155,15 @@ describe("when latest release os version is not greater than current os version"
 
 describe("when latest release os version is greater than current os version", () => {
   test("action is fulfilled with available release", async () => {
+    const expectedAlreadyDownloadedResult = true
+
+    jest
+      .spyOn(
+        osUpdateAlreadyDownloadedCheckModule,
+        "osUpdateAlreadyDownloadedCheck"
+      )
+      .mockResolvedValue(expectedAlreadyDownloadedResult)
+
     const newerRelease = { ...mockedRelease, version: "1.9.0" }
     jest
       .spyOn(getLatestReleaseRequestModule, "getLatestReleaseRequest")
@@ -175,6 +193,7 @@ describe("when latest release os version is greater than current os version", ()
         {
           allReleases: [mockedRelease],
           availableReleasesForUpdate: [newerRelease],
+          areAllReleasesAlreadyDownloaded: expectedAlreadyDownloadedResult,
         },
         requestId,
         params
@@ -185,12 +204,20 @@ describe("when latest release os version is greater than current os version", ()
 
 describe("when latest release contains information about mandatory releases", () => {
   test("system should fetch and return releases never than current os version in the ascending order", async () => {
+    const expectedAlreadyDownloadedResult = false
     const allowedVersionsToFetch = ["1.3.0", "1.5.0"]
     const newerRelease = {
       ...mockedRelease,
       version: "1.9.0",
       mandatoryVersions: ["1.1.0", "1.2.0", ...allowedVersionsToFetch],
     }
+
+    jest
+      .spyOn(
+        osUpdateAlreadyDownloadedCheckModule,
+        "osUpdateAlreadyDownloadedCheck"
+      )
+      .mockResolvedValue(expectedAlreadyDownloadedResult)
 
     jest
       .spyOn(getLatestReleaseRequestModule, "getLatestReleaseRequest")
@@ -243,6 +270,7 @@ describe("when latest release contains information about mandatory releases", ()
             { ...mockedRelease, version: "1.5.0" },
             newerRelease,
           ],
+          areAllReleasesAlreadyDownloaded: expectedAlreadyDownloadedResult,
         },
         requestId,
         params

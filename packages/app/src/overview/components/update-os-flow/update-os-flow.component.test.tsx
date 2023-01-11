@@ -13,6 +13,7 @@ import {
   DownloadState,
   OsReleaseType,
   ReleaseProcessState,
+  SilentCheckForUpdateState,
   UpdateError,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
@@ -34,10 +35,10 @@ const defaultProps: UpdateOsFlowProps = {
   checkForUpdateState: State.Initial,
   downloadState: DownloadState.Initial,
   updateState: State.Initial,
+  silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   allReleases: [],
   availableReleasesForUpdate: null,
   currentOsVersion: "1.2.0",
-  silentUpdateCheck: false,
   error: null,
   abortDownloading: jest.fn(),
   clearUpdateOsFlow: jest.fn(),
@@ -45,6 +46,7 @@ const defaultProps: UpdateOsFlowProps = {
   openContactSupportFlow: jest.fn(),
   openHelpView: jest.fn(),
   updateOs: jest.fn(),
+  tryAgainCheckForUpdate: jest.fn(),
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
 }
@@ -147,14 +149,30 @@ describe("check for update modals", () => {
     })
   })
 
-  describe("when silient update check is being performed", () => {
-    test("check update modals should not be visible", () => {
+  describe("when check for update state failed", () => {
+    test("check for update failed modal should be displayed", () => {
       const { queryByTestId } = render({
-        checkForUpdateState: State.Loading,
-        silentUpdateCheck: true,
+        checkForUpdateState: State.Failed,
+        availableReleasesForUpdate: null,
       })
 
-      checkModalsVisibility(queryByTestId, [])
+      checkModalsVisibility(queryByTestId, [
+        UpdateOsFlowTestIds.CheckForUpdateFailedModal,
+      ])
+    })
+  })
+
+  describe("when silent check for update state failed", () => {
+    test("check for update failed modal should be displayed", () => {
+      const { queryByTestId } = render({
+        checkForUpdateState: State.Initial,
+        silentCheckForUpdateState: SilentCheckForUpdateState.Failed,
+        availableReleasesForUpdate: null,
+      })
+
+      checkModalsVisibility(queryByTestId, [
+        UpdateOsFlowTestIds.CheckForUpdateFailedModal,
+      ])
     })
   })
 })

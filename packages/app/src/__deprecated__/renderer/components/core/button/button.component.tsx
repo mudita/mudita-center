@@ -39,6 +39,7 @@ export interface ButtonComponentProps {
   to?: string
   type?: Type
   buttonRef?: Ref<HTMLElement>
+  loading?: boolean
 }
 
 const ButtonText = styled(Text)`
@@ -62,6 +63,7 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
   to,
   type = Type.Button,
   buttonRef,
+  loading,
   ...rest
 }) => {
   // AUTO DISABLED - fix me if you like :)
@@ -135,6 +137,15 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
       size={size}
       disabled={disabled}
     >
+      {loading && (
+        <StyledIcon
+          displayStyle={displayStyle}
+          withMargin={Boolean(label || labelMessage)}
+          type={IconType.Refresh}
+          size={IconSize.Medium}
+          rotate
+        />
+      )}
       {Icon && (
         <StyledIcon
           displayStyle={displayStyle}

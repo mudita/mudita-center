@@ -20,7 +20,7 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { flags } from "App/feature-flags"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { DownloadState } from "App/update/constants"
+import { DownloadState, SilentCheckForUpdateState } from "App/update/constants"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -134,12 +134,13 @@ const defaultProps: Props = {
   downloadingState: DownloadState.Initial,
   downloadUpdates: jest.fn(),
   availableReleasesForUpdate: null,
-  silentCheckForUpdate: jest.fn(),
-  silentUpdateCheck: false,
+  silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   updateOsError: null,
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
+  areAllReleasesDownloaded: false,
   backupError: null,
+  setCheckForUpdateState: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

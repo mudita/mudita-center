@@ -16,7 +16,7 @@ import { UpdatingForceModalFlowProps } from "App/overview/components/updating-fo
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import { flags } from "App/feature-flags"
 import { State } from "App/core/constants"
-import { DownloadState } from "App/update/constants"
+import { DownloadState, SilentCheckForUpdateState } from "App/update/constants"
 
 jest.mock("App/feature-flags")
 
@@ -36,7 +36,6 @@ const defaultProps: Props = {
   lowestSupportedOsVersion: "",
   batteryLevel: undefined,
   osVersion: "1.0.0",
-  updatingState: State.Initial,
   serialNumber: undefined,
   startUpdateOs: jest.fn(),
   setUpdateState: jest.fn(),
@@ -45,16 +44,18 @@ const defaultProps: Props = {
   abortDownload: jest.fn(),
   allReleases: [],
   checkForUpdate: jest.fn(),
+  updatingState: State.Initial,
   checkingForUpdateState: State.Initial,
-  clearUpdateState: jest.fn(),
   downloadingState: DownloadState.Initial,
+  silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
+  clearUpdateState: jest.fn(),
   downloadUpdates: jest.fn(),
   availableReleasesForUpdate: null,
-  silentCheckForUpdate: jest.fn(),
-  silentUpdateCheck: false,
   updateOsError: null,
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
+  areAllReleasesDownloaded: false,
+  setCheckForUpdateState: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

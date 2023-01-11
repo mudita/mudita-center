@@ -10,7 +10,12 @@ import { AppError } from "App/core/errors"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { CaseColor, DeviceType } from "App/device/constants"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
-import { DownloadState, UpdateError } from "App/update/constants"
+import {
+  CheckForUpdateMode,
+  DownloadState,
+  SilentCheckForUpdateState,
+  UpdateError,
+} from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface PureOverviewProps {
@@ -30,14 +35,15 @@ export interface PureOverviewProps {
   readonly backupError: AppError<BackupError> | null
   readonly syncState: SynchronizationState
   readonly serialNumber: string | undefined
+  readonly silentCheckForUpdateState: SilentCheckForUpdateState
   readonly checkingForUpdateState: State
   readonly availableReleasesForUpdate: OsRelease[] | null
   readonly downloadingState: DownloadState
   readonly allReleases: OsRelease[] | null
   readonly updateOsError: AppError<UpdateError> | null
-  readonly silentUpdateCheck: boolean
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
   readonly updatingReleasesProcessStates: ProcessedRelease[] | null
+  readonly areAllReleasesDownloaded: boolean
   readonly updateAllIndexes: () => Promise<void>
   readonly openContactSupportFlow: () => void
   readonly readRestoreDeviceDataState: () => void
@@ -47,8 +53,11 @@ export interface PureOverviewProps {
   readonly setUpdateState: (data: State) => void
   readonly startUpdateOs: (releases: OsRelease[]) => void
   readonly disconnectDevice: () => void
-  readonly checkForUpdate: (deviceType: DeviceType) => void
-  readonly silentCheckForUpdate: (deviceType: DeviceType) => void
+  readonly checkForUpdate: (
+    deviceType: DeviceType,
+    mode: CheckForUpdateMode
+  ) => void
+  readonly setCheckForUpdateState: (state: State) => void
   readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void

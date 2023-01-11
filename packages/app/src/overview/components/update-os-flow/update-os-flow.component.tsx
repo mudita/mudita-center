@@ -24,15 +24,18 @@ import {
   DownloadState,
   OsReleaseType,
   ReleaseProcessState,
+  SilentCheckForUpdateState,
   UpdateError,
 } from "App/update/constants"
 import { cancelOsDownload } from "App/update/requests"
 import React, { FunctionComponent, useMemo } from "react"
+import { CheckForUpdateFailedModal } from "App/overview/components/update-os-modals/check-for-update-failed-modal"
 
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   checkForUpdateState,
   downloadState,
   availableReleasesForUpdate,
+  silentCheckForUpdateState,
   currentOsVersion,
   downloadUpdates,
   clearUpdateOsFlow,
@@ -43,9 +46,9 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   allReleases,
   openHelpView,
   error,
-  silentUpdateCheck,
   downloadingReleasesProcessStates,
   updatingReleasesProcessStates,
+  tryAgainCheckForUpdate,
 }) => {
   const {
     devRelease,
@@ -98,33 +101,39 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
 
   return (
     <>
-      {!silentUpdateCheck && (
-        <>
-          <CheckingUpdatesModal
-            testId={UpdateOsFlowTestIds.CheckForUpdateModal}
-            open={checkForUpdateState === State.Loading}
-          />
-          {availableReleasesForUpdate &&
-            availableReleasesForUpdate.length > 0 && (
-              <UpdateAvailableModal
-                testId={UpdateOsFlowTestIds.UpdateAvailableModal}
-                open={checkForUpdateState === State.Loaded}
-                releases={availableReleasesForUpdate}
-                onDownload={downloadUpdates}
-                onClose={resetUpdateFlow}
-              />
-            )}
-          {(!availableReleasesForUpdate ||
-            availableReleasesForUpdate.length === 0) && (
-            <UpdateNotAvailableModal
-              testId={UpdateOsFlowTestIds.UpdateNotAvailableModal}
-              open={checkForUpdateState === State.Loaded}
-              version={currentOsVersion}
-              onClose={resetUpdateFlow}
-            />
-          )}
-        </>
+      <CheckingUpdatesModal
+        testId={UpdateOsFlowTestIds.CheckForUpdateModal}
+        open={checkForUpdateState === State.Loading}
+      />
+      {availableReleasesForUpdate && availableReleasesForUpdate.length > 0 && (
+        <UpdateAvailableModal
+          testId={UpdateOsFlowTestIds.UpdateAvailableModal}
+          open={checkForUpdateState === State.Loaded}
+          releases={availableReleasesForUpdate}
+          onDownload={downloadUpdates}
+          onClose={resetUpdateFlow}
+        />
       )}
+      {(!availableReleasesForUpdate ||
+        availableReleasesForUpdate.length === 0) && (
+        <UpdateNotAvailableModal
+          testId={UpdateOsFlowTestIds.UpdateNotAvailableModal}
+          open={checkForUpdateState === State.Loaded}
+          version={currentOsVersion}
+          onClose={resetUpdateFlow}
+        />
+      )}
+
+      <CheckForUpdateFailedModal
+        testId={UpdateOsFlowTestIds.CheckForUpdateFailedModal}
+        open={
+          checkForUpdateState === State.Failed ||
+          silentCheckForUpdateState === SilentCheckForUpdateState.Failed
+        }
+        onClose={resetUpdateFlow}
+        onContactSupport={openContactSupportFlow}
+        onTryAgain={tryAgainCheckForUpdate}
+      />
 
       {downloadingReleasesProcessStates &&
         currentlyDownloadedReleaseIndex >= 0 && (

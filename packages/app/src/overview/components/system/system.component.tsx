@@ -72,12 +72,16 @@ interface Props {
   onDownload?: () => void
   updateAvailable?: boolean
   updateDownloaded?: boolean
+  checkForUpdateInProgress: boolean
+  checkForUpdatePerformed: boolean
 }
 
 const System: FunctionComponent<Props> = ({
   osVersion = "",
   updateAvailable,
   updateDownloaded,
+  checkForUpdateInProgress,
+  checkForUpdatePerformed,
   onUpdateCheck = noop,
   onUpdate = noop,
   onDownload = noop,
@@ -102,19 +106,21 @@ const System: FunctionComponent<Props> = ({
               {" " + osVersion}
             </Text>
           </CardText>
-          {updateAvailable ? (
-            <AvailableUpdateText>
-              {updateDownloaded ? (
-                <FormattedMessage {...messages.systemUpdateDownloaded} />
-              ) : (
-                <FormattedMessage {...messages.systemUpdateAvailable} />
-              )}
-            </AvailableUpdateText>
-          ) : (
-            <AvailableUpdateText>
-              <FormattedMessage {...messages.systemUpdateUpToDate} />
-            </AvailableUpdateText>
-          )}
+          {!checkForUpdateInProgress &&
+            checkForUpdatePerformed &&
+            (updateAvailable ? (
+              <AvailableUpdateText>
+                {updateDownloaded ? (
+                  <FormattedMessage {...messages.systemUpdateDownloaded} />
+                ) : (
+                  <FormattedMessage {...messages.systemUpdateAvailable} />
+                )}
+              </AvailableUpdateText>
+            ) : (
+              <AvailableUpdateText>
+                <FormattedMessage {...messages.systemUpdateUpToDate} />
+              </AvailableUpdateText>
+            ))}
         </CardContent>
         <CardAction filled>
           {updateAvailable ? (
@@ -134,7 +140,9 @@ const System: FunctionComponent<Props> = ({
             )
           ) : (
             <CardActionButton
-              active
+              active={!checkForUpdateInProgress}
+              disabled={checkForUpdateInProgress}
+              loading={checkForUpdateInProgress}
               labelMessage={messages.systemCheckForUpdates}
               onClick={onUpdateCheck}
             />

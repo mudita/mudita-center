@@ -7,24 +7,41 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device/constants"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
-import { Product, UpdateError, UpdateOsEvent } from "App/update/constants"
+import {
+  CheckForUpdateMode,
+  Product,
+  UpdateError,
+  UpdateOsEvent,
+} from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { versionFormatter } from "App/update/helpers"
 import {
   getAllReleasesRequest,
   getLatestReleaseRequest,
   getReleasesByVersions,
+  osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 interface Params {
   deviceType: DeviceType
-  isSilentCheck: boolean
+  mode: CheckForUpdateMode
 }
 
 interface Result {
   allReleases: OsRelease[]
   availableReleasesForUpdate: OsRelease[]
+  areAllReleasesAlreadyDownloaded?: boolean
+}
+
+const areAllReleasesDownloaded = async (
+  releases: OsRelease[]
+): Promise<boolean> => {
+  const result = await Promise.all(
+    releases.map((release) => osUpdateAlreadyDownloadedCheck(release.file))
+  )
+
+  return result.every(Boolean)
 }
 
 export const checkForUpdate = createAsyncThunk<Result, Params>(
@@ -77,6 +94,9 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       return {
         allReleases,
         availableReleasesForUpdate,
+        areAllReleasesAlreadyDownloaded: await areAllReleasesDownloaded(
+          availableReleasesForUpdate
+        ),
       }
     }
 
@@ -96,6 +116,9 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
     return {
       allReleases,
       availableReleasesForUpdate,
+      areAllReleasesAlreadyDownloaded: await areAllReleasesDownloaded(
+        availableReleasesForUpdate
+      ),
     }
   }
 )

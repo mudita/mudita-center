@@ -16,7 +16,7 @@ import {
   transitionTimingFunction,
   width,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import styled, { css } from "styled-components"
+import styled, { css, keyframes } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { Theme } from "App/__deprecated__/renderer/styles/theming/theme"
@@ -372,9 +372,20 @@ export const StyledButton = styled.button<{
 }>`
   ${buttonStyles}
 `
+
+const rotateAnimation = keyframes`
+  from {
+    transform: rotateZ(0deg)
+  }
+  to {
+    transform: rotateZ(360deg)
+  }
+`
+
 export const StyledIcon = styled(Icon)<{
   displayStyle: DisplayStyle
   withMargin: boolean
+  rotate?: boolean
 }>`
   ${({ displayStyle, withMargin }) => {
     if (withMargin) {
@@ -399,5 +410,11 @@ export const StyledIcon = styled(Icon)<{
     css`
       width: 100%;
       height: 100%;
+    `};
+
+  ${({ rotate }) =>
+    rotate &&
+    css`
+      animation: ${rotateAnimation} 2s infinite linear;
     `};
 `

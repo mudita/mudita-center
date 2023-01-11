@@ -24,11 +24,14 @@ import {
   downloadUpdates,
   setUpdateState,
   startUpdateOs,
-  clearState,
+  closeUpdateFlow,
   cancelDownload,
+  setCheckForUpdateState,
 } from "App/update/actions"
 import { State } from "App/core/constants"
 import { OsRelease } from "App/update/dto"
+import { areAllReleasesDownloaded } from "App/update/selectors"
+import { CheckForUpdateMode } from "App/update/constants"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -53,12 +56,13 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     checkingForUpdateState: state.update.checkForUpdateState,
     availableReleasesForUpdate: state.update.data.availableReleasesForUpdate,
     downloadingState: state.update.downloadState,
+    silentCheckForUpdateState: state.update.silentCheckForUpdate,
     allReleases: state.update.data.allReleases,
     updateOsError: state.update.error,
-    silentUpdateCheck: state.update.silentUpdateCheck,
     downloadingReleasesProcessStates:
       state.update.data.downloadedProcessedReleases,
     updatingReleasesProcessStates: state.update.data.updateProcessedReleases,
+    areAllReleasesDownloaded: areAllReleasesDownloaded(state),
   }
 }
 
@@ -98,21 +102,21 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   updateAllIndexes: () => dispatch(updateAllIndexes()),
-  checkForUpdate: (deviceType: DeviceType) =>
+  checkForUpdate: (deviceType: DeviceType, mode: CheckForUpdateMode) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    dispatch(checkForUpdate({ deviceType, isSilentCheck: false })),
-  silentCheckForUpdate: (deviceType: DeviceType) =>
+    dispatch(checkForUpdate({ deviceType, mode })),
+  setCheckForUpdateState: (state: State) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    dispatch(checkForUpdate({ deviceType, isSilentCheck: true })),
+    dispatch(setCheckForUpdateState(state)),
   downloadUpdates: (releases: OsRelease[]) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(downloadUpdates({ releases })),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  clearUpdateState: () => dispatch(clearState()),
+  clearUpdateState: () => dispatch(closeUpdateFlow()),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   abortDownload: () => dispatch(cancelDownload()),

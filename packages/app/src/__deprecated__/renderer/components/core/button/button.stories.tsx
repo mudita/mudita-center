@@ -62,7 +62,11 @@ storiesOf("Components|Core/Button", module)
       </StoryContainer>
       <StoryContainer title="Modifiers (icon)">
         <Story title="Primary (default)">
-          <Button Icon={IconType.Upload} label="Button" iconSize={IconSize.Small} />
+          <Button
+            Icon={IconType.Upload}
+            label="Button"
+            iconSize={IconSize.Small}
+          />
         </Story>
         <Story title="Primary disabled">
           <Button
@@ -88,6 +92,9 @@ storiesOf("Components|Core/Button", module)
             label="Button"
             iconSize={IconSize.Small}
           />
+        </Story>
+        <Story title="Loading">
+          <Button label="Button" loading disabled />
         </Story>
       </StoryContainer>
     </>

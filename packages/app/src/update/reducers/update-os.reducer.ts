@@ -9,25 +9,29 @@ import { AppError } from "App/core/errors"
 import {
   cancelDownload,
   checkForUpdate,
-  clearState,
+  closeUpdateFlow,
   downloadUpdates,
   setUpdateState,
   startUpdateOs,
   setStateForDownloadedRelease,
   setStateForInstalledRelease,
+  clearStateAndData,
+  setCheckForUpdateState,
 } from "App/update/actions"
 import {
+  CheckForUpdateMode,
   DownloadState,
   ReleaseProcessState,
+  SilentCheckForUpdateState,
   UpdateError,
 } from "App/update/constants"
 import { UpdateOsState } from "App/update/reducers/update-os.interface"
 
 export const initialState: UpdateOsState = {
+  silentCheckForUpdate: SilentCheckForUpdateState.Initial,
   checkForUpdateState: State.Initial,
   updateOsState: State.Initial,
   downloadState: DownloadState.Initial,
-  silentUpdateCheck: false,
   error: null,
   data: {
     allReleases: null,
@@ -46,14 +50,28 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         updateOsState: action.payload,
       }
     })
-    builder.addCase(clearState, (state) => {
+    builder.addCase(setCheckForUpdateState, (state, action) => {
       return {
         ...state,
-        batteryState: null,
+        checkForUpdateState: action.payload,
+      }
+    })
+    builder.addCase(closeUpdateFlow, (state) => {
+      return {
+        ...state,
         error: null,
+        silentCheckForUpdate:
+          state.silentCheckForUpdate === SilentCheckForUpdateState.Failed
+            ? SilentCheckForUpdateState.Skipped
+            : state.silentCheckForUpdate,
         checkForUpdateState: State.Initial,
         updateOsState: State.Initial,
         downloadState: DownloadState.Initial,
+      }
+    })
+    builder.addCase(clearStateAndData, () => {
+      return {
+        ...initialState,
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -107,17 +125,47 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         downloadedProcessedReleases: null,
         updateProcessedReleases: null,
       }
-      state.silentUpdateCheck = payload.meta.arg.isSilentCheck
-      state.checkForUpdateState = State.Loading
+
+      const {
+        meta: {
+          arg: { mode },
+        },
+      } = payload
+
+      if (mode === CheckForUpdateMode.SilentCheck) {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Loading
+        state.checkForUpdateState = State.Initial
+      } else if (mode === CheckForUpdateMode.TryAgain) {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Skipped
+        state.checkForUpdateState = State.Loading
+      } else {
+        state.checkForUpdateState = State.Loading
+      }
     })
     builder.addCase(checkForUpdate.fulfilled, (state, action) => {
-      state.checkForUpdateState = State.Loaded
       state.data.availableReleasesForUpdate =
         action.payload.availableReleasesForUpdate
       state.data.allReleases = action.payload.allReleases
+      if (action.meta.arg.mode === CheckForUpdateMode.SilentCheck) {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Loaded
+      } else {
+        state.checkForUpdateState = State.Loaded
+      }
+      if (action.payload.areAllReleasesAlreadyDownloaded) {
+        state.data.downloadedProcessedReleases =
+          action.payload.availableReleasesForUpdate.map((release) => ({
+            release,
+            state: ReleaseProcessState.Done,
+          }))
+      }
     })
     builder.addCase(checkForUpdate.rejected, (state, action) => {
-      state.checkForUpdateState = State.Failed
+      if (action.meta.arg.mode === CheckForUpdateMode.SilentCheck) {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Failed
+      } else {
+        state.checkForUpdateState = State.Failed
+      }
+
       state.error = action.payload as AppError<UpdateError>
     })
 
