@@ -7,6 +7,16 @@ import https from "https"
 import axios, { Axios, AxiosResponse } from "axios"
 import defaultConfiguration from "App/settings/static/default-app-configuration.json"
 import { Configuration } from "App/settings/dto"
+import { MuditaCenterServerRoutes } from "App/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
+
+export enum AppConfigurationVersion {
+  v1 = "app-configuration",
+  v2 = "v2-app-configuration",
+}
+
+export interface getNewConfigurationParams {
+  version: AppConfigurationVersion
+}
 
 export class ConfigurationService {
   private instance: Axios
@@ -24,7 +34,9 @@ export class ConfigurationService {
 
   public async getConfiguration(): Promise<Configuration> {
     try {
-      const { data, status } = await this.getNewConfiguration()
+      const { data, status } = await this.getNewConfiguration({
+        version: AppConfigurationVersion.v2,
+      })
       if (status === 200) {
         return data
       }
@@ -41,7 +53,14 @@ export class ConfigurationService {
     return this.defaultConfiguration
   }
 
-  private async getNewConfiguration(): Promise<AxiosResponse<Configuration>> {
-    return this.instance.get<Configuration>("v2-app-configuration")
+  private async getNewConfiguration(
+    params: getNewConfigurationParams
+  ): Promise<AxiosResponse<Configuration>> {
+    return this.instance.get<Configuration>(
+      MuditaCenterServerRoutes.AppConfigurationV2,
+      {
+        params,
+      }
+    )
   }
 }
