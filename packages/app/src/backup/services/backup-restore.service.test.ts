@@ -271,6 +271,9 @@ describe("Backup restoring failed path", () => {
 
         return Result.failed(new AppError("", ""))
       })
+    deviceManager.device.request = jest
+      .fn()
+      .mockResolvedValue(Result.failed(new AppError("", "")))
     deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
       Result.success({
         backupFilePath: "/user/local/backup/backupFilePath",

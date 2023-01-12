@@ -162,16 +162,7 @@ describe("Backup process failed path", () => {
   test("Returns the `Result.failed` with `BackupError.CannotReachBackupLocation` if `DeviceInfo` endpoint return error status", async () => {
     deviceManager.device.request = jest
       .fn()
-      .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
-        if (
-          config.endpoint === Endpoint.Backup &&
-          config.method === Method.Post
-        ) {
-          return Result.failed(new AppError("", ""))
-        }
-
-        return Result.failed(new AppError("", ""))
-      })
+      .mockResolvedValue(Result.failed(new AppError("", "")))
     deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
       Result.success({
         memorySpace: {
@@ -202,16 +193,7 @@ describe("Backup process failed path", () => {
   test("Returns the `Result.failed` with `BackupError.CannotReachBackupLocation` if `Backup` endpoint return error status", async () => {
     deviceManager.device.request = jest
       .fn()
-      .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
-        if (
-          config.endpoint === Endpoint.Backup &&
-          config.method === Method.Post
-        ) {
-          return Result.failed(new AppError("", ""))
-        }
-
-        return Result.failed(new AppError("", ""))
-      })
+      .mockResolvedValue(Result.failed(new AppError("", "")))
     deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
       Result.success({
         backupFilePath: "/user/local/backup/fileBase.tar",
