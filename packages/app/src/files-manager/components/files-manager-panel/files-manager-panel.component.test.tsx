@@ -51,7 +51,7 @@ const render = (
 }
 
 describe("When Mudita Harmony connected", () => {
-  test("don't render component component", () => {
+  test("render component component", () => {
     const { queryByTestId } = render(defaultProps, {
       device: {
         deviceType: DeviceType.MuditaHarmony,
@@ -60,7 +60,7 @@ describe("When Mudita Harmony connected", () => {
 
     expect(
       queryByTestId(FilesManagerPanelTestIds.Wrapper)
-    ).not.toBeInTheDocument()
+    ).toBeInTheDocument()
   })
 })
 
