@@ -18,6 +18,13 @@ import {
 } from "App/backup/services"
 import { BackupController } from "App/backup/controllers"
 import { DeviceManager } from "App/device-manager/services"
+import { FileManagerService } from "App/files-manager/services"
+import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
+import {
+  FileUploadCommand,
+  RetrieveFilesCommand,
+} from "App/device-file-system/commands"
+import { DeviceInfoService } from "App/device-info/services"
 
 export class BackupModule extends BaseModule {
   constructor(
@@ -40,14 +47,31 @@ export class BackupModule extends BaseModule {
     )
 
     const deviceFileSystem = new DeviceFileSystemService(this.deviceManager)
+    const fileManagerService = new FileManagerService(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new FileDeleteCommand(this.deviceManager),
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new RetrieveFilesCommand(this.deviceManager),
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new FileUploadCommand(this.deviceManager, this.fileSystem)
+    )
+
+    const deviceInfoService = new DeviceInfoService(this.deviceManager)
+
     const backupCreateService = new BackupCreateService(
       this.deviceManager,
       deviceFileSystem,
+      fileManagerService,
+      deviceInfoService,
       this.keyStorage
     )
     const backupRestoreService = new BackupRestoreService(
       this.deviceManager,
       deviceFileSystem,
+      deviceInfoService,
       fileSystem
     )
     const loadBackupService = new LoadBackupService()

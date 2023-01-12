@@ -284,6 +284,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
           onStartBackupDeviceButtonClick={startBackupDevice}
           closeModal={closeBackupDeviceFlowState}
           onSupportButtonClick={openContactSupportFlow}
+          error={backupError}
         />
       )}
       {restoreDeviceFlowState && (

@@ -13,14 +13,16 @@ import { DeviceFileSystemService } from "App/device-file-system/services"
 import { DeviceManager } from "App/device-manager/services"
 import { BaseBackupService } from "App/backup/services/base-backup.service"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
+import { DeviceInfoService } from "App/device-info/services"
 
 export class BackupRestoreService extends BaseBackupService {
   constructor(
     protected deviceManager: DeviceManager,
     protected deviceFileSystem: DeviceFileSystemService,
+    protected deviceInfoService: DeviceInfoService,
     private fileSystem: FileSystemService
   ) {
-    super(deviceManager, deviceFileSystem)
+    super(deviceManager, deviceFileSystem, deviceInfoService)
   }
 
   public async restoreBackup({

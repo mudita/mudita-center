@@ -12,6 +12,8 @@ import { UpdaterStatus } from "App/backup/dto"
 import { DeviceManager } from "App/device-manager/services"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import { BackupCategory, Endpoint, Method, PhoneLockCategory } from "App/device"
+import { FileManagerService } from "App/files-manager/services"
+import { DeviceInfoService } from "App/device-info/services"
 
 const updaterStatusSuccessMock: UpdaterStatus = {
   branch: "",
@@ -36,9 +38,21 @@ const deviceFileSystemAdapter = {
 
 const keyStorage = new MetadataStore()
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const fileManagerService = {
+  getDeviceFiles: jest.fn(),
+} as unknown as FileManagerService
+
+const deviceInfoService = {
+  getDeviceInfo: jest.fn(),
+} as unknown as DeviceInfoService
+
 const subject = new BackupCreateService(
   deviceManager,
   deviceFileSystemAdapter,
+  fileManagerService,
+  deviceInfoService,
   keyStorage
 )
 
@@ -51,16 +65,6 @@ describe("Backup process happy path", () => {
     deviceManager.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/fileBase.tar",
-            recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
-          })
-        }
-
         if (
           config.endpoint === Endpoint.Backup &&
           config.method === Method.Post
@@ -77,7 +81,19 @@ describe("Backup process happy path", () => {
 
         return Result.failed(new AppError("", ""))
       })
-
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/fileBase.tar",
+        recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
+        memorySpace: {
+          total: 14000,
+          usedUserSpace: 2000,
+        },
+      })
+    )
+    fileManagerService.getDeviceFiles = jest
+      .fn()
+      .mockResolvedValue(Result.success([]))
     deviceFileSystemAdapter.downloadFile = jest
       .fn()
       .mockResolvedValue(
@@ -97,25 +113,13 @@ describe("Backup process happy path", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceManager.device.request).toHaveBeenNthCalledWith(1, {
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenNthCalledWith(2, {
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: { category: BackupCategory.Backup },
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenNthCalledWith(3, {
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenNthCalledWith(4, {
+    expect(deviceManager.device.request).toHaveBeenNthCalledWith(2, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
@@ -159,6 +163,17 @@ describe("Backup process failed path", () => {
     deviceManager.device.request = jest
       .fn()
       .mockResolvedValue(Result.failed(new AppError("", "")))
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        memorySpace: {
+          total: 14000,
+          usedUserSpace: 2000,
+        },
+      })
+    )
+    fileManagerService.getDeviceFiles = jest
+      .fn()
+      .mockResolvedValue(Result.success([]))
 
     const result = await subject.createBackup({
       key: "1234",
@@ -178,25 +193,19 @@ describe("Backup process failed path", () => {
   test("Returns the `Result.failed` with `BackupError.CannotReachBackupLocation` if `Backup` endpoint return error status", async () => {
     deviceManager.device.request = jest
       .fn()
-      .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/fileBase.tar",
-          })
-        }
-
-        if (
-          config.endpoint === Endpoint.Backup &&
-          config.method === Method.Post
-        ) {
-          return Result.failed(new AppError("", ""))
-        }
-
-        return Result.failed(new AppError("", ""))
+      .mockResolvedValue(Result.failed(new AppError("", "")))
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/fileBase.tar",
+        memorySpace: {
+          total: 14000,
+          usedUserSpace: 2000,
+        },
       })
+    )
+    fileManagerService.getDeviceFiles = jest
+      .fn()
+      .mockResolvedValue(Result.success([]))
 
     const result = await subject.createBackup({
       key: "1234",
@@ -218,15 +227,6 @@ describe("Backup process failed path", () => {
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/backupFilePath",
-          })
-        }
-
-        if (
           config.endpoint === Endpoint.Backup &&
           config.method === Method.Post
         ) {
@@ -242,7 +242,18 @@ describe("Backup process failed path", () => {
 
         return Result.failed(new AppError("", ""))
       })
-
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/backupFilePath",
+        memorySpace: {
+          total: 14000,
+          usedUserSpace: 2000,
+        },
+      })
+    )
+    fileManagerService.getDeviceFiles = jest
+      .fn()
+      .mockResolvedValue(Result.success([]))
     deviceFileSystemAdapter.downloadFile = jest
       .fn()
       .mockResolvedValue(Result.failed(new AppError("", "")))
@@ -268,15 +279,6 @@ describe("Backup process failed path", () => {
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success({
-            backupFilePath: "/user/local/backup/backupFilePath",
-          })
-        }
-
-        if (
           config.endpoint === Endpoint.Backup &&
           config.method === Method.Post
         ) {
@@ -292,7 +294,18 @@ describe("Backup process failed path", () => {
 
         return Result.failed(new AppError("", ""))
       })
-
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/backupFilePath",
+        memorySpace: {
+          total: 14000,
+          usedUserSpace: 2000,
+        },
+      })
+    )
+    fileManagerService.getDeviceFiles = jest
+      .fn()
+      .mockResolvedValue(Result.success([]))
     deviceFileSystemAdapter.downloadFile = jest
       .fn()
       .mockResolvedValue(

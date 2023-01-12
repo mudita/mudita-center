@@ -8,6 +8,12 @@ import { CaseColor } from "App/device/constants"
 // DEPRECATED
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 
+export interface DeviceInfoMemorySpace {
+  reservedSpace: number
+  usedUserSpace: number
+  total: number
+}
+
 export interface DeviceInfo {
   networkName: string
   networkLevel: string
@@ -17,11 +23,7 @@ export interface DeviceInfo {
   serialNumber: string
   phoneLockTime?: number
   timeLeftToNextAttempt?: number
-  memorySpace: {
-    reservedSpace: number
-    usedUserSpace: number
-    total: number
-  }
+  memorySpace: DeviceInfoMemorySpace
   caseColour: CaseColor
   backupFilePath: string
   updateFilePath: string

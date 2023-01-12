@@ -10,10 +10,13 @@ import {
   BackupModal,
   BackupSpinnerModal,
   BackupSuccessModal,
+  NoSpaceBackupFailureModal,
 } from "App/overview/components/backup-modal-dialogs/backup-modal-dialogs"
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
 import { BackupSetSecretKeyModal } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog.component"
+import { AppError } from "App/core/errors"
+import { BackupError } from "App/backup"
 
 export enum BackupDeviceFlowState {
   Start = "start",
@@ -28,6 +31,7 @@ interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   pureOsBackupLocation: string
   onStartBackupDeviceButtonClick: (secretKey: string) => void
   onSupportButtonClick: () => void
+  error: AppError<BackupError> | null
 }
 
 const BackupDeviceFlow: FunctionComponent<Props> = ({
@@ -36,6 +40,7 @@ const BackupDeviceFlow: FunctionComponent<Props> = ({
   onStartBackupDeviceButtonClick,
   onSupportButtonClick,
   closeModal,
+  error,
 }) => {
   const [state, setState] = useState<BackupDeviceFlowState>(openState)
   const goToBackupSecretKeySettingModal = (): void => {
@@ -77,9 +82,22 @@ const BackupDeviceFlow: FunctionComponent<Props> = ({
       />
       <BackupFailureModal
         testId={BackupDeviceFlowTestIds.BackupDeviceError}
-        open={BackupDeviceFlowState.Error === state}
+        open={
+          BackupDeviceFlowState.Error === state &&
+          error?.type !== BackupError.BackupSpaceIsNotEnough
+        }
         secondaryActionButtonClick={onSupportButtonClick}
         closeModal={closeModal}
+      />
+      <NoSpaceBackupFailureModal
+        testId={BackupDeviceFlowTestIds.BackupDeviceError}
+        open={
+          BackupDeviceFlowState.Error === state &&
+          error?.type === BackupError.BackupSpaceIsNotEnough
+        }
+        secondaryActionButtonClick={onSupportButtonClick}
+        closeModal={closeModal}
+        size={Number(error?.payload)}
       />
     </>
   )
