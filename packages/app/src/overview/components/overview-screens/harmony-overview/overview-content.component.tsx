@@ -23,8 +23,9 @@ interface OverviewProps {
   readonly osVersion: string
   readonly batteryLevel: number
   readonly pureOsAvailable: boolean
-  readonly pureOsDownloaded: boolean | undefined
+  readonly pureOsDownloaded: boolean
   readonly checkForUpdatePerformed: boolean
+  readonly checkForUpdateFailed: boolean
   readonly deviceType: DeviceType
   readonly serialNumber: string | undefined
 }
@@ -43,6 +44,7 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   serialNumber,
   checkForUpdateInProgress,
   checkForUpdatePerformed,
+  checkForUpdateFailed,
 }) => {
   return (
     <OverviewWrapper>
@@ -62,6 +64,7 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
         onUpdate={onUpdateInstall}
         checkForUpdateInProgress={checkForUpdateInProgress}
         checkForUpdatePerformed={checkForUpdatePerformed}
+        checkForUpdateFailed={checkForUpdateFailed}
       />
     </OverviewWrapper>
   )

@@ -8,6 +8,7 @@ import { DeviceType } from "App/device/constants"
 import { Feature, flags } from "App/feature-flags"
 import { HarmonyOverviewProps } from "App/overview/components/overview-screens/harmony-overview/harmony-overview.component.interface"
 import OverviewContent from "App/overview/components/overview-screens/harmony-overview/overview-content.component"
+import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/overview.enum"
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
@@ -50,13 +51,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   setCheckForUpdateState,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
-
-  const goToHelp = (): void => {
-    void ipcRenderer.callMain(HelpActions.OpenWindow)
-  }
-
-  const harmonySilentCheckForUpdate = () =>
-    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck)
+  const [checkForUpdateLocalState, setCheckForUpdateLocalState] =
+    useState<CheckForUpdateLocalState>()
 
   useEffect(() => {
     try {
@@ -75,6 +71,37 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [silentCheckForUpdateState])
+
+  useEffect(() => {
+    if (
+      silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
+      checkingForUpdateState === State.Failed
+    ) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
+    }
+
+    if (silentCheckForUpdateState === SilentCheckForUpdateState.Loading) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.SilentCheckLoading)
+    }
+
+    if (checkingForUpdateState === State.Loading) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
+    }
+
+    if (
+      silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
+      checkingForUpdateState === State.Loaded
+    ) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
+    }
+  }, [silentCheckForUpdateState, checkingForUpdateState])
+
+  const goToHelp = (): void => {
+    void ipcRenderer.callMain(HelpActions.OpenWindow)
+  }
+
+  const harmonySilentCheckForUpdate = () =>
+    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck)
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -166,18 +193,21 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
+        checkForUpdateFailed={
+          checkForUpdateLocalState === CheckForUpdateLocalState.Failed
+        }
+        checkForUpdateInProgress={
+          checkForUpdateLocalState ===
+          CheckForUpdateLocalState.SilentCheckLoading
+        }
         checkForUpdatePerformed={
-          silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
-          checkingForUpdateState === State.Loaded
+          checkForUpdateLocalState === CheckForUpdateLocalState.Loaded
         }
         pureOsDownloaded={areAllReleasesDownloaded}
         onUpdateCheck={checkForHarmonyUpdate}
         onUpdateInstall={() => updateReleases()}
         onUpdateDownload={openCheckForUpdateModal}
         serialNumber={serialNumber}
-        checkForUpdateInProgress={
-          silentCheckForUpdateState === SilentCheckForUpdateState.Loading
-        }
       />
     </>
   )

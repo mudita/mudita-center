@@ -17,6 +17,9 @@ const defaultProps: Props = {
   osVersion: "1.0.0",
   checkForUpdateInProgress: false,
   checkForUpdatePerformed: true,
+  checkForUpdateFailed: false,
+  updateAvailable: false,
+  updateDownloaded: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {

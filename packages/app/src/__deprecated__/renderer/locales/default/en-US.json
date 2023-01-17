@@ -666,6 +666,7 @@
   "module.overview.systemUpdateAction": "Update now",
   "module.overview.systemUpdateAvailable": "Update is available",
   "module.overview.systemUpdateDownloaded": "Update is available",
+  "module.overview.systemUpdateCheckFailed": "Checking for update failed",
   "module.overview.systemUpdateUpToDate": "You’re up to date.",
   "module.overview.systemVersion": "MuditaOS version",
   "module.overview.systemVersionTitle": "Current version:",

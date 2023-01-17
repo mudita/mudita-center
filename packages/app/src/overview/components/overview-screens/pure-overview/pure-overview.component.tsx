@@ -11,6 +11,7 @@ import { Feature, flags } from "App/feature-flags"
 import BackupDeviceFlow, {
   BackupDeviceFlowState,
 } from "App/overview/components/backup-device-flow/backup-device-flow.component"
+import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/overview.enum"
 import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
 import { PureOverviewProps } from "App/overview/components/overview-screens/pure-overview/pure-overview.interface"
 import RestoreDeviceFlow, {
@@ -85,10 +86,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-
-  const goToHelp = (): void => {
-    void ipcRenderer.callMain(HelpActions.OpenWindow)
-  }
+  const [checkForUpdateLocalState, setCheckForUpdateLocalState] =
+    useState<CheckForUpdateLocalState>()
 
   useEffect(() => {
     try {
@@ -133,6 +132,34 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       clearInterval(progressSimulator)
     }
   }, [openModal, progress])
+
+  useEffect(() => {
+    if (
+      silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
+      checkingForUpdateState === State.Failed
+    ) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
+    }
+
+    if (silentCheckForUpdateState === SilentCheckForUpdateState.Loading) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.SilentCheckLoading)
+    }
+
+    if (checkingForUpdateState === State.Loading) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
+    }
+
+    if (
+      silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
+      checkingForUpdateState === State.Loaded
+    ) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
+    }
+  }, [silentCheckForUpdateState, checkingForUpdateState])
+
+  const goToHelp = (): void => {
+    void ipcRenderer.callMain(HelpActions.OpenWindow)
+  }
 
   const closeUpdatingForceModalFlow = () => {
     setUpdateState(State.Initial)
@@ -236,7 +263,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   const tryAgainPureUpdate = () => {
-    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.TryAgain)
+    checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.TryAgain)
   }
 
   const openCheckForUpdateModal = () => {
@@ -309,12 +336,15 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         networkLevel={networkLevel}
         pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
         pureOsDownloaded={areAllReleasesDownloaded}
+        checkForUpdateFailed={
+          checkForUpdateLocalState === CheckForUpdateLocalState.Failed
+        }
         checkForUpdateInProgress={
-          silentCheckForUpdateState === SilentCheckForUpdateState.Loading
+          checkForUpdateLocalState ===
+          CheckForUpdateLocalState.SilentCheckLoading
         }
         checkForUpdatePerformed={
-          silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
-          checkingForUpdateState === State.Loaded
+          checkForUpdateLocalState === CheckForUpdateLocalState.Loaded
         }
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={() => updateReleases()}

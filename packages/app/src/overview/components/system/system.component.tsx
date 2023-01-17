@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Card, {
   CardAction,
   CardActionButton,
@@ -13,17 +11,15 @@ import Card, {
   CardHeader,
   CardText,
 } from "App/overview/components/card.elements"
-import styled from "styled-components"
+import { SystemUpdateText } from "App/overview/components/system-update-text"
+import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import { defineMessages, FormattedMessage } from "react-intl"
-import {
-  backgroundColor,
-  borderRadius,
-} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
+import React from "react"
+import { defineMessages, FormattedMessage } from "react-intl"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
@@ -32,19 +28,9 @@ const messages = defineMessages({
   systemVersionTitle: {
     id: "module.overview.systemVersionTitle",
   },
-  systemUpdateDownloaded: {
-    id: "module.overview.systemUpdateDownloaded",
-  },
-  systemUpdateAvailable: {
-    id: "module.overview.systemUpdateAvailable",
-  },
-  systemUpdateUpToDate: {
-    id: "module.overview.systemUpdateUpToDate",
-  },
   systemUpdateAction: {
     id: "module.overview.systemUpdateAction",
   },
-
   systemDownloadAction: {
     id: "module.overview.systemDownloadAction",
   },
@@ -53,27 +39,16 @@ const messages = defineMessages({
   },
 })
 
-const AvailableUpdateText = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.Label,
-  color: "secondary",
-}))`
-  margin-left: 1.6rem;
-  text-transform: none;
-  display: inline-box;
-  padding: 0.3rem 0.5rem;
-  border-radius: ${borderRadius("medium")};
-  background-color: ${backgroundColor("minor")};
-`
-
 interface Props {
   osVersion?: string
   onUpdateCheck?: () => void
   onUpdate?: () => void
   onDownload?: () => void
-  updateAvailable?: boolean
-  updateDownloaded?: boolean
+  updateAvailable: boolean
+  updateDownloaded: boolean
   checkForUpdateInProgress: boolean
   checkForUpdatePerformed: boolean
+  checkForUpdateFailed: boolean
 }
 
 const System: FunctionComponent<Props> = ({
@@ -82,6 +57,7 @@ const System: FunctionComponent<Props> = ({
   updateDownloaded,
   checkForUpdateInProgress,
   checkForUpdatePerformed,
+  checkForUpdateFailed,
   onUpdateCheck = noop,
   onUpdate = noop,
   onDownload = noop,
@@ -106,21 +82,13 @@ const System: FunctionComponent<Props> = ({
               {" " + osVersion}
             </Text>
           </CardText>
-          {!checkForUpdateInProgress &&
-            checkForUpdatePerformed &&
-            (updateAvailable ? (
-              <AvailableUpdateText>
-                {updateDownloaded ? (
-                  <FormattedMessage {...messages.systemUpdateDownloaded} />
-                ) : (
-                  <FormattedMessage {...messages.systemUpdateAvailable} />
-                )}
-              </AvailableUpdateText>
-            ) : (
-              <AvailableUpdateText>
-                <FormattedMessage {...messages.systemUpdateUpToDate} />
-              </AvailableUpdateText>
-            ))}
+          <SystemUpdateText
+            checkForUpdateFailed={checkForUpdateFailed}
+            checkForUpdateInProgress={checkForUpdateInProgress}
+            checkForUpdatePerformed={checkForUpdatePerformed}
+            updateAvailable={updateAvailable}
+            updateDownloaded={updateDownloaded}
+          />
         </CardContent>
         <CardAction filled>
           {updateAvailable ? (
