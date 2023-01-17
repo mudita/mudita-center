@@ -160,6 +160,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         silentCheckForUpdateState={silentCheckForUpdateState}
         checkForUpdateState={checkingForUpdateState}
         availableReleasesForUpdate={availableReleasesForUpdate}
+        areAllReleasesDownloaded={areAllReleasesDownloaded}
         downloadState={downloadingState}
         tryAgainCheckForUpdate={tryAgainHarmonyUpdate}
         clearUpdateOsFlow={clearUpdateState}

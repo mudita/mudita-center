@@ -34,16 +34,35 @@ const messages = defineMessages({
   updateAvailableDescription: {
     id: "module.overview.updateAvailableDescription",
   },
+  updateAvailableForInstallDescription: {
+    id: "module.overview.updateAvailableForInstallDescription",
+  },
   updateAvailableButton: {
     id: "module.overview.updateAvailableButton",
+  },
+  installUpdateButton: {
+    id: "module.overview.installUpdateButton",
   },
 })
 
 export const UpdateAvailableModal: FunctionComponent<UpdateAvailableModalProps> =
-  ({ open = false, releases, onClose, onDownload, testId }) => {
-    const handleDownloadButtonClick = (_event: unknown) => {
-      onDownload()
+  ({
+    open = false,
+    releases,
+    onClose,
+    onDownload,
+    areAllReleasesDownloaded,
+    onUpdate,
+    testId,
+  }) => {
+    const handleButtonClick = (_event: unknown) => {
+      if (areAllReleasesDownloaded) {
+        onUpdate()
+      } else {
+        onDownload()
+      }
     }
+
     return (
       <OSUpdateModal
         open={open}
@@ -65,20 +84,34 @@ export const UpdateAvailableModal: FunctionComponent<UpdateAvailableModalProps> 
         <Text
           displayStyle={TextDisplayStyle.Paragraph4}
           color="secondary"
-          message={{
-            ...messages.updateAvailableDescription,
-            values: { num: releases.length },
-          }}
+          message={
+            areAllReleasesDownloaded
+              ? {
+                  ...messages.updateAvailableForInstallDescription,
+                  values: { num: releases.length },
+                }
+              : {
+                  ...messages.updateAvailableDescription,
+                  values: { num: releases.length },
+                }
+          }
         />
         <AboutUpdatesSection releases={releases} />
         <Button
           displayStyle={DisplayStyle.Primary}
           size={Size.FixedSmall}
-          labelMessage={{
-            ...messages.updateAvailableButton,
-            values: { num: releases.length },
-          }}
-          onClick={handleDownloadButtonClick}
+          labelMessage={
+            areAllReleasesDownloaded
+              ? {
+                  ...messages.installUpdateButton,
+                  values: { num: releases.length },
+                }
+              : {
+                  ...messages.updateAvailableButton,
+                  values: { num: releases.length },
+                }
+          }
+          onClick={handleButtonClick}
           data-testid={ModalTestIds.ModalActionButton}
         />
         <CautionSection isSingleRelease={releases.length === 1} />

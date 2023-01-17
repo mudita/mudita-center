@@ -23,6 +23,7 @@ export interface UpdateOsFlowProps {
   error: AppError<UpdateError> | null
   downloadingReleasesProcessStates: ProcessedRelease[] | null
   updatingReleasesProcessStates: ProcessedRelease[] | null
+  areAllReleasesDownloaded: boolean
   downloadUpdates: (releases?: OsRelease[]) => void
   abortDownloading: () => void
   updateOs: (releases?: OsRelease[]) => void

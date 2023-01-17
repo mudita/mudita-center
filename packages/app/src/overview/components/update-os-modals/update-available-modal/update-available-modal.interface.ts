@@ -8,7 +8,9 @@ import { AboutUpdatesSectionProps } from "App/overview/components/update-os-moda
 export interface UpdateAvailableModalProps {
   onDownload: () => void
   onClose: () => void
+  onUpdate: () => void
   open: boolean
   releases: AboutUpdatesSectionProps["releases"]
+  areAllReleasesDownloaded: boolean
   testId?: string
 }

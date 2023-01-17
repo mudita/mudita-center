@@ -277,6 +277,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         silentCheckForUpdateState={silentCheckForUpdateState}
         checkForUpdateState={checkingForUpdateState}
         availableReleasesForUpdate={availableReleasesForUpdate}
+        areAllReleasesDownloaded={areAllReleasesDownloaded}
         downloadState={downloadingState}
         tryAgainCheckForUpdate={tryAgainPureUpdate}
         clearUpdateOsFlow={clearUpdateState}
