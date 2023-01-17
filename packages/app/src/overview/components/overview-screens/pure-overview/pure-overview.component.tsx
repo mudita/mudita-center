@@ -11,7 +11,8 @@ import { Feature, flags } from "App/feature-flags"
 import BackupDeviceFlow, {
   BackupDeviceFlowState,
 } from "App/overview/components/backup-device-flow/backup-device-flow.component"
-import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/overview.enum"
+import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
+import { useUpdateFlowState } from "App/overview/components/overview-screens/helpers/use-update-flow-state.hook"
 import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
 import { PureOverviewProps } from "App/overview/components/overview-screens/pure-overview/pure-overview.interface"
 import RestoreDeviceFlow, {
@@ -21,10 +22,7 @@ import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
-import {
-  CheckForUpdateMode,
-  SilentCheckForUpdateState,
-} from "App/update/constants"
+import { CheckForUpdateMode } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import logger from "App/__deprecated__/main/utils/logger"
@@ -86,8 +84,12 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-  const [checkForUpdateLocalState, setCheckForUpdateLocalState] =
-    useState<CheckForUpdateLocalState>()
+  const { checkForUpdateLocalState } = useUpdateFlowState({
+    checkingForUpdateState,
+    silentCheckForUpdateState,
+    checkForUpdate: () =>
+      checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.SilentCheck),
+  })
 
   useEffect(() => {
     try {
@@ -98,14 +100,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       logger.error(`Overview: ${(error as Error).message}`)
     }
   }, [osVersion, lowestSupportedOsVersion])
-
-  useEffect(() => {
-    if (silentCheckForUpdateState === SilentCheckForUpdateState.Initial) {
-      checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.SilentCheck)
-    }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [silentCheckForUpdateState])
 
   useEffect(() => {
     let progressSimulator: NodeJS.Timeout
@@ -132,30 +126,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       clearInterval(progressSimulator)
     }
   }, [openModal, progress])
-
-  useEffect(() => {
-    if (
-      silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
-      checkingForUpdateState === State.Failed
-    ) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
-    }
-
-    if (silentCheckForUpdateState === SilentCheckForUpdateState.Loading) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.SilentCheckLoading)
-    }
-
-    if (checkingForUpdateState === State.Loading) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
-    }
-
-    if (
-      silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
-      checkingForUpdateState === State.Loaded
-    ) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
-    }
-  }, [silentCheckForUpdateState, checkingForUpdateState])
 
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)

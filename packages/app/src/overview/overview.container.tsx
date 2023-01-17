@@ -5,7 +5,11 @@
 
 import { connect } from "react-redux"
 import Overview from "App/overview/components/overview/overview.component"
-import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
+import {
+  ReduxRootState,
+  RejectableThunk,
+  TmpDispatch,
+} from "App/__deprecated__/renderer/store"
 import { RootModel } from "App/__deprecated__/renderer/models/models"
 import { PureDeviceData, disconnectDevice, DeviceType } from "App/device"
 import { lastBackupDateSelector } from "App/backup/selectors"
@@ -102,7 +106,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   updateAllIndexes: () => dispatch(updateAllIndexes()),
-  checkForUpdate: (deviceType: DeviceType, mode: CheckForUpdateMode) =>
+  checkForUpdate: (
+    deviceType: DeviceType,
+    mode: CheckForUpdateMode
+  ): RejectableThunk =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(checkForUpdate({ deviceType, mode })),

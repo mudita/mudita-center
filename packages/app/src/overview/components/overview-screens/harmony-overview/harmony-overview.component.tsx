@@ -6,17 +6,15 @@
 import { State } from "App/core/constants"
 import { DeviceType } from "App/device/constants"
 import { Feature, flags } from "App/feature-flags"
+import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
 import { HarmonyOverviewProps } from "App/overview/components/overview-screens/harmony-overview/harmony-overview.component.interface"
 import OverviewContent from "App/overview/components/overview-screens/harmony-overview/overview-content.component"
-import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/overview.enum"
+import { useUpdateFlowState } from "App/overview/components/overview-screens/helpers/use-update-flow-state.hook"
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
-import {
-  CheckForUpdateMode,
-  SilentCheckForUpdateState,
-} from "App/update/constants"
+import { CheckForUpdateMode } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import logger from "App/__deprecated__/main/utils/logger"
@@ -51,8 +49,12 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   setCheckForUpdateState,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
-  const [checkForUpdateLocalState, setCheckForUpdateLocalState] =
-    useState<CheckForUpdateLocalState>()
+  const { checkForUpdateLocalState } = useUpdateFlowState({
+    checkingForUpdateState,
+    silentCheckForUpdateState,
+    checkForUpdate: () =>
+      checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck),
+  })
 
   useEffect(() => {
     try {
@@ -64,48 +66,11 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     }
   }, [osVersion, lowestSupportedOsVersion])
 
-  useEffect(() => {
-    if (silentCheckForUpdateState === SilentCheckForUpdateState.Initial) {
-      harmonySilentCheckForUpdate()
-    }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [silentCheckForUpdateState])
-
-  useEffect(() => {
-    if (
-      silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
-      checkingForUpdateState === State.Failed
-    ) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
-    }
-
-    if (silentCheckForUpdateState === SilentCheckForUpdateState.Loading) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.SilentCheckLoading)
-    }
-
-    if (checkingForUpdateState === State.Loading) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
-    }
-
-    if (
-      silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
-      checkingForUpdateState === State.Loaded
-    ) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
-    }
-  }, [silentCheckForUpdateState, checkingForUpdateState])
-
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
   }
 
-  const harmonySilentCheckForUpdate = () =>
-    checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck)
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  const closeUpdatingForceModalFlow = async () => {
+  const closeUpdatingForceModalFlow = () => {
     setUpdateState(State.Initial)
   }
 
