@@ -203,6 +203,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         })
       )
       state.error = null
+      state.checkForUpdateState = State.Initial
       state.downloadState = DownloadState.Initial
       state.updateOsState = State.Loading
     })
