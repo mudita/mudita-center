@@ -47,7 +47,6 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
       closeButton
       closeable
       closeModal={onClose}
-      onClose={onClose}
       closeButtonLabel={intl.formatMessage(
         messages.updatingFlatBatteryActionButton
       )}
