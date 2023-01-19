@@ -33,6 +33,8 @@ const defaultProps: Props = {
   syncInitialized: false,
   syncState: SynchronizationState.Empty,
   updateAllIndexes: jest.fn(),
+  checkingForOsForceUpdate: false,
+  forceOsUpdateFailed: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {

@@ -9,15 +9,17 @@ import { AppError } from "App/core/errors"
 import {
   cancelDownload,
   checkForUpdate,
+  clearStateAndData,
   closeUpdateFlow,
   downloadUpdates,
-  setUpdateState,
-  startUpdateOs,
+  setCheckForUpdateState,
   setStateForDownloadedRelease,
   setStateForInstalledRelease,
-  clearStateAndData,
-  setCheckForUpdateState,
+  setUpdateState,
+  startUpdateOs,
 } from "App/update/actions"
+import { checkForForceUpdateNeed } from "App/update/actions/check-for-force-update-need/check-for-force-update-need.action"
+
 import {
   CheckForUpdateMode,
   DownloadState,
@@ -33,6 +35,7 @@ export const initialState: UpdateOsState = {
   updateOsState: State.Initial,
   downloadState: DownloadState.Initial,
   error: null,
+  needsForceUpdate: false,
   data: {
     allReleases: null,
     availableReleasesForUpdate: null,
@@ -214,6 +217,9 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(startUpdateOs.rejected, (state, action) => {
       state.updateOsState = State.Failed
       state.error = action.payload as AppError<UpdateError>
+    })
+    builder.addCase(checkForForceUpdateNeed.fulfilled, (state, action) => {
+      state.needsForceUpdate = action.payload
     })
   }
 )

@@ -30,6 +30,8 @@ const Connecting: FunctionComponent<{
   getUnlockStatus: () => Promise<PayloadAction<boolean>>
   leftTime: number | undefined
   noModalsVisible: boolean
+  forceOsUpdateFailed: boolean
+  checkingForOsForceUpdate: boolean
   updateAllIndexes: () => Promise<void>
 }> = ({
   loaded,
@@ -42,6 +44,8 @@ const Connecting: FunctionComponent<{
   leftTime,
   noModalsVisible,
   updateAllIndexes,
+  forceOsUpdateFailed,
+  checkingForOsForceUpdate,
 }) => {
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
@@ -59,7 +63,13 @@ const Connecting: FunctionComponent<{
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (unlocked && loaded && syncInitialized) {
+      if (
+        unlocked &&
+        loaded &&
+        syncInitialized &&
+        !checkingForOsForceUpdate &&
+        !forceOsUpdateFailed
+      ) {
         history.push(URL_OVERVIEW.root)
       }
     }, 500)
@@ -73,7 +83,14 @@ const Connecting: FunctionComponent<{
     return () => clearTimeout(timeout)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded, unlocked, syncInitialized, noModalsVisible])
+  }, [
+    loaded,
+    unlocked,
+    syncInitialized,
+    noModalsVisible,
+    checkingForOsForceUpdate,
+    forceOsUpdateFailed,
+  ])
 
   useEffect(() => {
     if (unlocked !== null) {
@@ -99,6 +116,12 @@ const Connecting: FunctionComponent<{
       setError(ConnectingError.Sync)
     }
   }, [syncInitialized, syncState, unlocked])
+
+  useEffect(() => {
+    if (unlocked && forceOsUpdateFailed) {
+      setError(ConnectingError.ForceUpdateCheckFailed)
+    }
+  }, [unlocked, forceOsUpdateFailed])
 
   const history = useHistory()
 
@@ -126,6 +149,9 @@ const Connecting: FunctionComponent<{
         <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
       )}
       {error === ConnectingError.Connecting && (
+        <ErrorConnectingModal open closeModal={close} />
+      )}
+      {error === ConnectingError.ForceUpdateCheckFailed && (
         <ErrorConnectingModal open closeModal={close} />
       )}
       <PasscodeModal

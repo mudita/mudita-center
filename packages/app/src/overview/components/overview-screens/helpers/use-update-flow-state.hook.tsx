@@ -13,6 +13,7 @@ interface Params {
   silentCheckForUpdateState: SilentCheckForUpdateState
   checkingForUpdateState: State
   checkForUpdate: () => RejectableThunk
+  forceUpdateNeeded: boolean
 }
 
 interface Result {
@@ -22,6 +23,7 @@ interface Result {
 export const useUpdateFlowState = ({
   checkingForUpdateState,
   silentCheckForUpdateState,
+  forceUpdateNeeded,
   checkForUpdate,
 }: Params): Result => {
   const [checkForUpdateLocalState, setCheckForUpdateLocalState] =
@@ -30,7 +32,10 @@ export const useUpdateFlowState = ({
     useState<RejectableThunk>()
 
   useEffect(() => {
-    if (silentCheckForUpdateState === SilentCheckForUpdateState.Initial) {
+    if (
+      silentCheckForUpdateState === SilentCheckForUpdateState.Initial &&
+      !forceUpdateNeeded
+    ) {
       const actionResult = checkForUpdate()
       setSilentCheckForUpdatePromise(actionResult)
     }
@@ -48,6 +53,10 @@ export const useUpdateFlowState = ({
   }, [silentCheckForUpdateState])
 
   useEffect(() => {
+    if (forceUpdateNeeded) {
+      return
+    }
+
     if (
       silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
       checkingForUpdateState === State.Failed
@@ -69,7 +78,7 @@ export const useUpdateFlowState = ({
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
     }
-  }, [silentCheckForUpdateState, checkingForUpdateState])
+  }, [silentCheckForUpdateState, checkingForUpdateState, forceUpdateNeeded])
   return {
     checkForUpdateLocalState,
   }

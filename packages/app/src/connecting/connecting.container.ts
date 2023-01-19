@@ -3,17 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { connect } from "react-redux"
+import Connecting from "App/connecting/components/connecting.component"
+import { State } from "App/core/constants"
+import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
+import { getUnlockStatus, unlockDevice } from "App/device"
+import { getLeftTimeSelector } from "App/device/selectors/get-left-time.selector"
+import { noModalsShowSelector } from "App/modals-manager/selectors/no-modals-show.selector"
 import {
-  RootState,
   ReduxRootState,
+  RootState,
   TmpDispatch,
 } from "App/__deprecated__/renderer/store"
-import { unlockDevice, getUnlockStatus } from "App/device"
-import Connecting from "App/connecting/components/connecting.component"
-import { noModalsShowSelector } from "App/modals-manager/selectors/no-modals-show.selector"
-import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
-import { getLeftTimeSelector } from "App/device/selectors/get-left-time.selector"
+import { connect } from "react-redux"
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
@@ -35,6 +36,12 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   syncState: state.dataSync.state,
   noModalsVisible: noModalsShowSelector(state),
   leftTime: getLeftTimeSelector(state),
+  forceOsUpdateFailed:
+    state.update.checkForUpdateState === State.Failed &&
+    state.update.needsForceUpdate === true,
+  checkingForOsForceUpdate:
+    state.update.checkForUpdateState === State.Loading &&
+    Boolean(state.update.needsForceUpdate),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Connecting)

@@ -141,6 +141,7 @@ const defaultProps: Props = {
   areAllReleasesDownloaded: false,
   backupError: null,
   setCheckForUpdateState: jest.fn(),
+  forceUpdateNeeded: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {

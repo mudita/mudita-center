@@ -30,6 +30,7 @@ export interface HarmonyOverviewProps {
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
   readonly updatingReleasesProcessStates: ProcessedRelease[] | null
   readonly areAllReleasesDownloaded: boolean
+  readonly forceUpdateNeeded: boolean
   readonly startUpdateOs: (releases: OsRelease[]) => void
   readonly setUpdateState: (data: State) => void
   readonly disconnectDevice: () => void

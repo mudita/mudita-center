@@ -75,6 +75,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   areAllReleasesDownloaded,
   backupError,
   setCheckForUpdateState,
+  forceUpdateNeeded,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -89,6 +90,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     silentCheckForUpdateState,
     checkForUpdate: () =>
       checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.SilentCheck),
+    forceUpdateNeeded,
   })
 
   useEffect(() => {
@@ -239,31 +241,32 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const openCheckForUpdateModal = () => {
     setCheckForUpdateState(State.Loaded)
   }
-
   return (
     <>
-      <UpdateOsFlow
-        currentOsVersion={osVersion}
-        silentCheckForUpdateState={silentCheckForUpdateState}
-        checkForUpdateState={checkingForUpdateState}
-        availableReleasesForUpdate={availableReleasesForUpdate}
-        areAllReleasesDownloaded={areAllReleasesDownloaded}
-        downloadState={downloadingState}
-        tryAgainCheckForUpdate={tryAgainPureUpdate}
-        clearUpdateOsFlow={clearUpdateState}
-        downloadUpdates={downloadReleases}
-        abortDownloading={abortDownload}
-        updateState={updatingState}
-        updateOs={updateReleases}
-        openContactSupportFlow={openContactSupportFlow}
-        allReleases={allReleases}
-        openHelpView={goToHelp}
-        error={updateOsError}
-        downloadingReleasesProcessStates={downloadingReleasesProcessStates}
-        updatingReleasesProcessStates={updatingReleasesProcessStates}
-      />
+      {!forceUpdateNeeded && (
+        <UpdateOsFlow
+          currentOsVersion={osVersion}
+          silentCheckForUpdateState={silentCheckForUpdateState}
+          checkForUpdateState={checkingForUpdateState}
+          availableReleasesForUpdate={availableReleasesForUpdate}
+          areAllReleasesDownloaded={areAllReleasesDownloaded}
+          downloadState={downloadingState}
+          tryAgainCheckForUpdate={tryAgainPureUpdate}
+          clearUpdateOsFlow={clearUpdateState}
+          downloadUpdates={downloadReleases}
+          abortDownloading={abortDownload}
+          updateState={updatingState}
+          updateOs={updateReleases}
+          openContactSupportFlow={openContactSupportFlow}
+          allReleases={allReleases}
+          openHelpView={goToHelp}
+          error={updateOsError}
+          downloadingReleasesProcessStates={downloadingReleasesProcessStates}
+          updatingReleasesProcessStates={updatingReleasesProcessStates}
+        />
+      )}
 
-      {flags.get(Feature.ForceUpdate) && (
+      {forceUpdateNeeded && flags.get(Feature.ForceUpdate) && (
         <UpdatingForceModalFlow
           deviceType={DeviceType.MuditaPure}
           state={getUpdatingForceModalFlowState()}

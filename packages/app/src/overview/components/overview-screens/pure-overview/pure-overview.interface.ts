@@ -45,6 +45,7 @@ export interface PureOverviewProps {
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
   readonly updatingReleasesProcessStates: ProcessedRelease[] | null
   readonly areAllReleasesDownloaded: boolean
+  readonly forceUpdateNeeded: boolean
   readonly updateAllIndexes: () => Promise<void>
   readonly openContactSupportFlow: () => void
   readonly readRestoreDeviceDataState: () => void
