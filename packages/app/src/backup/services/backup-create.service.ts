@@ -42,6 +42,7 @@ export class BackupCreateService extends BaseBackupService {
       await this.validateRequiredBackupSpace()
 
     if (!validateRequiredBackupSpaceResult.ok) {
+      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
       return validateRequiredBackupSpaceResult
     }
 
