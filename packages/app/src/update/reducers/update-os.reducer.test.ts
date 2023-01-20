@@ -37,7 +37,7 @@ const mockedRelease: OsRelease = {
   },
   product: Product.PurePhone,
   type: OsReleaseType.Daily,
-  version: "123",
+  version: "1.1.0",
   mandatoryVersions: [],
 }
 
@@ -149,6 +149,12 @@ describe("startUpdateOs action", () => {
     ).toEqual({
       ...initialState,
       updateOsState: State.Loaded,
+      data: {
+        ...initialState.data,
+        availableReleasesForUpdate: [],
+        downloadedProcessedReleases: [],
+        updateProcessedReleases: [],
+      },
     })
   })
   test("rejected action sets proper updateOsState and error", () => {
@@ -459,8 +465,49 @@ describe("setStateForInstalledRelease", () => {
           ...initialState,
           data: {
             ...initialState.data,
+            availableReleasesForUpdate: [mockedRelease],
             updateProcessedReleases: [
               { release: mockedRelease, state: ReleaseProcessState.Initial },
+            ],
+          },
+        },
+        {
+          type: UpdateOsEvent.SetStateForInstalledRelease,
+          payload: {
+            version: mockedRelease.version,
+            state: ReleaseProcessState.InProgress,
+          },
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      data: {
+        ...initialState.data,
+        availableReleasesForUpdate: [mockedRelease],
+        updateProcessedReleases: [
+          { release: mockedRelease, state: ReleaseProcessState.InProgress },
+        ],
+      },
+    })
+  })
+  test("removes release from availableReleasesForUpdate if payload state equals to 'done'", () => {
+    const anotherMockedRelease: OsRelease = {
+      ...mockedRelease,
+      version: "1.2.0",
+    }
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+          data: {
+            ...initialState.data,
+            availableReleasesForUpdate: [mockedRelease, anotherMockedRelease],
+            updateProcessedReleases: [
+              { release: mockedRelease, state: ReleaseProcessState.Initial },
+              {
+                release: anotherMockedRelease,
+                state: ReleaseProcessState.Initial,
+              },
             ],
           },
         },
@@ -478,7 +525,9 @@ describe("setStateForInstalledRelease", () => {
         ...initialState.data,
         updateProcessedReleases: [
           { release: mockedRelease, state: ReleaseProcessState.Done },
+          { release: anotherMockedRelease, state: ReleaseProcessState.Initial },
         ],
+        availableReleasesForUpdate: [anotherMockedRelease],
       },
     })
   })
