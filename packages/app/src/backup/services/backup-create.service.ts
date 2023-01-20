@@ -42,6 +42,7 @@ export class BackupCreateService extends BaseBackupService {
       await this.validateRequiredBackupSpace()
 
     if (!validateRequiredBackupSpaceResult.ok) {
+      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
       return validateRequiredBackupSpaceResult
     }
 
@@ -169,8 +170,9 @@ export class BackupCreateService extends BaseBackupService {
         )
       )
     }
-    const { total, usedUserSpace } = deviceInfoResult.data.memorySpace
-    const free = total - usedUserSpace
+    const { total, usedUserSpace, reservedSpace } = deviceInfoResult.data.memorySpace
+    const free = total - usedUserSpace - reservedSpace
+
     if (backupSizeRequaired <= free) {
       return Result.success(undefined)
     } else {

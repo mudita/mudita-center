@@ -111,11 +111,22 @@ export const updateOsReducer = createReducer<UpdateOsState>(
           : item
       )
 
+      const newAvailableReleasesForUpdate = (
+        state.data.availableReleasesForUpdate ?? []
+      ).filter(
+        (release) =>
+          !(
+            release.version === version &&
+            newReleaseState === ReleaseProcessState.Done
+          )
+      )
+
       return {
         ...state,
         data: {
           ...state.data,
           updateProcessedReleases: newUpdateProcessedReleases,
+          availableReleasesForUpdate: newAvailableReleasesForUpdate,
         },
       }
     })
@@ -212,6 +223,12 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     })
     builder.addCase(startUpdateOs.fulfilled, (state) => {
       state.updateOsState = State.Loaded
+      state.data = {
+        ...state.data,
+        availableReleasesForUpdate: [],
+        downloadedProcessedReleases: [],
+        updateProcessedReleases: [],
+      }
       state.error = null
     })
     builder.addCase(startUpdateOs.rejected, (state, action) => {

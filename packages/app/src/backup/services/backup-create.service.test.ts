@@ -88,6 +88,7 @@ describe("Backup process happy path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
@@ -159,6 +160,34 @@ describe("Backup process failed path", () => {
     keyStorage.setValue(MetadataKey.BackupInProgress, false)
   })
 
+  test("Returns the `Result.failed` with `BackupError.BackupSpaceIsNotEnough` when user space is full", async () => {
+    fileManagerService.getDeviceFiles = jest
+      .fn()
+      .mockResolvedValue(Result.success([]))
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
+      Result.success({
+        backupFilePath: "/user/local/backup/fileBase.tar",
+        recoveryStatusFilePath: "/user/local/recovery/updater_status.json",
+        memorySpace: {
+          total: 14000,
+          usedUserSpace: 14000,
+          reservedSpace: 0,
+        },
+      })
+    )
+
+    const result = await subject.createBackup({
+      key: "1234",
+      cwd: "/User/documents/backup",
+    })
+
+    expect(result).toEqual(
+      Result.failed(
+        new AppError(BackupError.BackupSpaceIsNotEnough, "Backup space is not enough", 100)
+      )
+    )
+  })
+
   test("Returns the `Result.failed` with `BackupError.CannotReachBackupLocation` if `DeviceInfo` endpoint return error status", async () => {
     deviceManager.device.request = jest
       .fn()
@@ -168,6 +197,7 @@ describe("Backup process failed path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
@@ -200,6 +230,7 @@ describe("Backup process failed path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
@@ -248,6 +279,7 @@ describe("Backup process failed path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
@@ -300,6 +332,7 @@ describe("Backup process failed path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
