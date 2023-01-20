@@ -25,7 +25,34 @@ export const UpdateAvailableMultipleUpdatesModalStory: FunctionComponent =
               date: "2020-01-01 11:00",
             },
           ]}
-          onDownload={action("Close Update Available Modal")}
+          areAllReleasesDownloaded={false}
+          onUpdate={action("On Update Available Modal")}
+          onDownload={action("On Dowload Available Modal")}
+          onClose={action("Close Update Available Modal")}
+        />
+      </Story>
+    )
+  }
+
+export const UpdateForInstallAvailableMultipleUpdatesModalStory: FunctionComponent =
+  () => {
+    return (
+      <Story transparentMode>
+        <UpdateAvailableModal
+          open
+          releases={[
+            {
+              version: "1.0.0",
+              date: "2020-01-01 11:00",
+            },
+            {
+              version: "1.0.1",
+              date: "2020-01-01 11:00",
+            },
+          ]}
+          areAllReleasesDownloaded
+          onUpdate={action("On Update Available Modal")}
+          onDownload={action("On Dowload Available Modal")}
           onClose={action("Close Update Available Modal")}
         />
       </Story>
@@ -43,12 +70,34 @@ export const UpdateAvailableSingleUpdatesModalStory: FunctionComponent = () => {
             date: "2020-01-01 11:00",
           },
         ]}
-        onDownload={action("Close Update Available Modal")}
+        areAllReleasesDownloaded={false}
+        onUpdate={action("On Update Available Modal")}
+        onDownload={action("On Dowload Available Modal")}
         onClose={action("Close Update Available Modal")}
       />
     </Story>
   )
 }
+export const UpdateAvailableForInstallSingleUpdatesModalStory: FunctionComponent =
+  () => {
+    return (
+      <Story transparentMode>
+        <UpdateAvailableModal
+          open
+          releases={[
+            {
+              version: "1.0.0",
+              date: "2020-01-01 11:00",
+            },
+          ]}
+          areAllReleasesDownloaded
+          onUpdate={action("On Update Available Modal")}
+          onDownload={action("On Dowload Available Modal")}
+          onClose={action("Close Update Available Modal")}
+        />
+      </Story>
+    )
+  }
 
 export default {
   title: "Views|Overview/Update OS - Update Available Modal",

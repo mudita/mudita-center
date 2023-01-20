@@ -49,6 +49,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   downloadingReleasesProcessStates,
   updatingReleasesProcessStates,
   tryAgainCheckForUpdate,
+  areAllReleasesDownloaded,
 }) => {
   const {
     devRelease,
@@ -112,6 +113,8 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
           releases={availableReleasesForUpdate}
           onDownload={downloadUpdates}
           onClose={resetUpdateFlow}
+          areAllReleasesDownloaded={areAllReleasesDownloaded}
+          onUpdate={updateOs}
         />
       )}
       {(!availableReleasesForUpdate ||

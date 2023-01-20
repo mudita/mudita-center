@@ -49,6 +49,7 @@ const defaultProps: UpdateOsFlowProps = {
   tryAgainCheckForUpdate: jest.fn(),
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
+  areAllReleasesDownloaded: false,
 }
 
 const release: OsRelease = {

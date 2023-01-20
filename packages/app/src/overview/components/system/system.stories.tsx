@@ -21,21 +21,59 @@ const storyStyle = css`
 storiesOf("Views|Overview/System", module).add("System", () => {
   return (
     <StoryContainer column>
-      <Story title="Not updated yet" customStyle={storyStyle}>
-        <System
-          osVersion={"1.0.0"}
-          onUpdateCheck={action("checked for update")}
-          checkForUpdateInProgress={false}
-          checkForUpdatePerformed
-        />
-      </Story>
       <Story title="New update available" customStyle={storyStyle}>
         <System
           osVersion={"1.0.0"}
           onUpdate={action("update requested")}
           updateAvailable
-          checkForUpdateInProgress={false}
           checkForUpdatePerformed
+          updateDownloaded={false}
+          checkForUpdateInProgress={false}
+          checkForUpdateFailed={false}
+        />
+      </Story>
+      <Story title="Update available and downloaded" customStyle={storyStyle}>
+        <System
+          osVersion={"1.0.0"}
+          onUpdate={action("update requested")}
+          updateAvailable
+          checkForUpdatePerformed
+          updateDownloaded
+          checkForUpdateInProgress={false}
+          checkForUpdateFailed={false}
+        />
+      </Story>
+      <Story title="System up to date" customStyle={storyStyle}>
+        <System
+          osVersion={"1.0.0"}
+          onUpdate={action("update requested")}
+          checkForUpdatePerformed
+          updateAvailable={false}
+          updateDownloaded={false}
+          checkForUpdateInProgress={false}
+          checkForUpdateFailed={false}
+        />
+      </Story>
+      <Story title="Update failed" customStyle={storyStyle}>
+        <System
+          osVersion={"1.0.0"}
+          onUpdate={action("update requested")}
+          checkForUpdateFailed
+          updateAvailable={false}
+          checkForUpdateInProgress={false}
+          checkForUpdatePerformed={false}
+          updateDownloaded={false}
+        />
+      </Story>
+      <Story title="Check for update in progress" customStyle={storyStyle}>
+        <System
+          osVersion={"1.0.0"}
+          onUpdate={action("update requested")}
+          checkForUpdateInProgress
+          updateAvailable={false}
+          checkForUpdatePerformed={false}
+          checkForUpdateFailed={false}
+          updateDownloaded={false}
         />
       </Story>
     </StoryContainer>

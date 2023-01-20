@@ -13,6 +13,7 @@ import {
   UpdateError,
 } from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
+import { RejectableThunk } from "App/__deprecated__/renderer/store"
 
 export interface HarmonyOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -36,7 +37,7 @@ export interface HarmonyOverviewProps {
   readonly checkForUpdate: (
     deviceType: DeviceType,
     mode: CheckForUpdateMode
-  ) => void
+  ) => RejectableThunk
   readonly setCheckForUpdateState: (state: State) => void
   readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
