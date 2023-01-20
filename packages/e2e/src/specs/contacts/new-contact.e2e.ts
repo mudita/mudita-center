@@ -22,10 +22,10 @@ describe("Add, edit, delete single contact scenarios", () => {
   })
 
   it("Should press new contact button, add contact data and save it", async () => {
-    const newContactBtn = await ContactsPage.newContactButton
-    await expect(newContactBtn).toBeDisplayed()
-    await newContactBtn.click()
-    await expect(newContactBtn).toBeDisabled()
+    const newContactButton = await ContactsPage.newContactButton
+    await expect(newContactButton).toBeDisplayed()
+    await newContactButton.click()
+    await expect(newContactButton).toBeDisabled()
 
     await ContactsPage.firstNameSetValue("Henryk")
     await ContactsPage.lastNameSetValue("Zaskroniec")
@@ -58,7 +58,6 @@ describe("Add, edit, delete single contact scenarios", () => {
     const number1Details = await ContactsPage.phoneNumber1OnContactDetailScreen
     await number1Details.waitForDisplayed()
     const number1DetailsValue = await number1Details.getValue()
-    console.log(number1DetailsValue)
     expect(number1DetailsValue).toHaveValue("602900000")
 
     const number2Details = await ContactsPage.phoneNumber2OnContactDetailScreen

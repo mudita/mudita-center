@@ -17,11 +17,11 @@ describe("Contacts screen check", () => {
     NavigationTabs.contactsTabClick()
   })
   it("Should check Import button is displayed", async () => {
-    const importBtn = await ContactsPage.importButton
-    await expect(importBtn).toBeDisplayed()
+    const contactsImportButton = await ContactsPage.importButton
+    await expect(contactsImportButton).toBeDisplayed()
   })
 
-  it("Should close New Contact windw and check text display on no contacts screen", async () => {
+  it("Should close New Contact window and check text display on no contacts screen", async () => {
     const noContactsTextLabel = await ContactsPage.noContactsTextLabel
 
     await noContactsTextLabel.waitForDisplayed()
@@ -32,12 +32,14 @@ describe("Contacts screen check", () => {
       "Search results do not match any contact."
     )
   })
+
   it("Should click 'new contact' button and check it will become disabled", async () => {
-    const newContactBtn = await ContactsPage.newContactButton
-    await expect(newContactBtn).toBeDisplayed()
-    await newContactBtn.click()
-    await expect(newContactBtn).toBeDisabled()
+    const newContactButton = await ContactsPage.newContactButton
+    await expect(newContactButton).toBeDisplayed()
+    await newContactButton.click()
+    await expect(newContactButton).toBeDisabled()
   })
+
   it("Should check 'first name' input field is displayed", async () => {
     const firstName = await ContactsPage.firstNameInput
 
