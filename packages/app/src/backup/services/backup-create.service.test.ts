@@ -88,6 +88,7 @@ describe("Backup process happy path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
@@ -168,6 +169,7 @@ describe("Backup process failed path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
@@ -200,6 +202,7 @@ describe("Backup process failed path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
@@ -248,6 +251,7 @@ describe("Backup process failed path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
@@ -300,6 +304,7 @@ describe("Backup process failed path", () => {
         memorySpace: {
           total: 14000,
           usedUserSpace: 2000,
+          reservedSpace: 0,
         },
       })
     )
