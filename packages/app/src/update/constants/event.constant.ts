@@ -16,4 +16,6 @@ export enum UpdateOsEvent {
   SetStateForInstalledRelease = "SET_STATE_FOR_INSTALLED_RELEASE",
   HandleDeviceAttached = "HANDLE_DEVICE_ATTACHED",
   HandleDeviceDetached = "HANDLE_DEVICE_DETACHED",
+  CheckForForceUpdate = "CHECK_FOR_FORCE_UPDATE",
+  StartOsForceUpdateProcess = "START_OS_FORCE_UPDATE_PROCESS",
 }

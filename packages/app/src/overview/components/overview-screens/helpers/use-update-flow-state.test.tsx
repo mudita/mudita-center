@@ -18,6 +18,7 @@ const defaultParams = {
   checkForUpdate: jest.fn(),
   checkingForUpdateState: State.Initial,
   silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
+  forceUpdateNeeded: false,
 }
 
 const silentCheckTestCases: TestCase[] = [
@@ -143,5 +144,32 @@ describe("when hook is going to be destroyed", () => {
     unmount()
 
     expect(abortSpy).toHaveBeenCalledTimes(0)
+  })
+})
+
+describe("when force update is needed", () => {
+  test("checkForUpdate should not be called", () => {
+    const spy = jest.fn()
+    renderHook(() =>
+      useUpdateFlowState({
+        ...defaultParams,
+        silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
+        checkForUpdate: spy,
+        forceUpdateNeeded: true,
+      })
+    )
+    expect(spy).toHaveBeenCalledTimes(0)
+  })
+
+  test("checkForUpdateLocalState should not be changed", () => {
+    const { result } = renderHook(() =>
+      useUpdateFlowState({
+        ...defaultParams,
+        silentCheckForUpdateState: SilentCheckForUpdateState.Failed,
+        forceUpdateNeeded: true,
+      })
+    )
+
+    expect(result.current.checkForUpdateLocalState).toEqual(undefined)
   })
 })

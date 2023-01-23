@@ -10,7 +10,11 @@ import { History } from "history"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import NetworkStatusChecker from "App/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.container"
 import BaseRoutes from "App/__deprecated__/renderer/routes/base-routes"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import {
+  ReduxRootState,
+  RootState,
+  TmpDispatch,
+} from "App/__deprecated__/renderer/store"
 import {
   URL_MAIN,
   URL_ONBOARDING,
@@ -24,6 +28,8 @@ import { State } from "App/core/constants"
 import { CrashDump } from "App/crash-dump"
 
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
+import { checkForForceUpdateNeed } from "App/update/actions/check-for-force-update-need/check-for-force-update-need.action"
+import { getDeviceLatestVersion } from "App/settings/selectors"
 
 interface Props {
   getConnectedDevice: () => void
@@ -37,6 +43,10 @@ interface Props {
   deviceUpdating: boolean
   deviceRestarting: boolean
   sendDiagnosticData: () => void
+  checkForOsForceUpdate: () => void
+  lowestSupportedOsVersion: string | undefined
+  osVersion: string | undefined
+  checkingForOsForceUpdate: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -51,6 +61,10 @@ const BaseApp: FunctionComponent<Props> = ({
   deviceLocked,
   deviceUpdating,
   deviceRestarting,
+  checkForOsForceUpdate,
+  lowestSupportedOsVersion,
+  osVersion,
+  checkingForOsForceUpdate,
 }) => {
   useRouterListener(history, {
     [URL_MAIN.contacts]: [],
@@ -60,18 +74,32 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
+    if (lowestSupportedOsVersion && osVersion && !deviceUpdating) {
+      checkForOsForceUpdate()
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lowestSupportedOsVersion, osVersion, deviceUpdating])
+
+  useEffect(() => {
     if (deviceRestarting) {
       return
     }
 
-    if (deviceConnecting || deviceLocked) {
+    if (deviceConnecting || deviceLocked || checkingForOsForceUpdate) {
       history.push(URL_ONBOARDING.connecting)
     } else if (!deviceFeaturesVisible) {
       history.push(URL_ONBOARDING.welcome)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceFeaturesVisible, deviceConnecting, deviceRestarting, deviceLocked])
+  }, [
+    deviceFeaturesVisible,
+    deviceConnecting,
+    deviceRestarting,
+    deviceLocked,
+    checkingForOsForceUpdate,
+  ])
 
   useEffect(() => {
     if (deviceParred && Boolean(settingsLoaded)) {
@@ -140,12 +168,20 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       state.device.status.connected && !state.device.status.unlocked,
     deviceUpdating: state.update.updateOsState === State.Loading,
     deviceRestarting: isDeviceRestarting(state),
+    osVersion: state.device.data?.osVersion,
+    lowestSupportedOsVersion: getDeviceLatestVersion(state),
+    checkingForOsForceUpdate:
+      state.update.checkForUpdateState === State.Loading &&
+      Boolean(state.update.needsForceUpdate),
   }
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   getConnectedDevice,
   sendDiagnosticData,
-}
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  checkForOsForceUpdate: () => dispatch(checkForForceUpdateNeed()),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

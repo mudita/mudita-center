@@ -10,7 +10,12 @@ import { RootState, ReduxRootState } from "App/__deprecated__/renderer/store"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   deviceFeaturesVisible:
-    (state.device.status.connected && state.device.status.unlocked) ||
+    (state.device.status.connected &&
+      state.device.status.unlocked &&
+      !(
+        state.update.needsForceUpdate &&
+        state.update.checkForUpdateState === State.Failed
+      )) ||
     state.update.updateOsState === State.Loading ||
     state.backup.restoringState === State.Loading ||
     state.backup.restoringState === State.Failed ||

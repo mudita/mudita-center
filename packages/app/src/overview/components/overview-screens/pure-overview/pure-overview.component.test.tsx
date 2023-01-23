@@ -83,6 +83,7 @@ const defaultProps: Props = {
   updatingReleasesProcessStates: null,
   areAllReleasesDownloaded: false,
   backupError: null,
+  forceUpdateNeeded: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -196,12 +197,14 @@ describe("update state", () => {
             osVersion: "1.1.0",
             lowestSupportedOsVersion: "1.0.0",
             updatingState,
+            forceUpdateNeeded: true,
           })
         } else {
           render({
             updatingState,
             osVersion: "0.1.0",
             lowestSupportedOsVersion: "1.0.0",
+            forceUpdateNeeded: true,
           })
         }
 

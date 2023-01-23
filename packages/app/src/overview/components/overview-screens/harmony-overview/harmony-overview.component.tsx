@@ -47,6 +47,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   silentCheckForUpdateState,
   areAllReleasesDownloaded,
   setCheckForUpdateState,
+  forceUpdateNeeded,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const { checkForUpdateLocalState } = useUpdateFlowState({
@@ -54,6 +55,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     silentCheckForUpdateState,
     checkForUpdate: () =>
       checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck),
+    forceUpdateNeeded,
   })
 
   useEffect(() => {
@@ -141,7 +143,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         updatingReleasesProcessStates={updatingReleasesProcessStates}
       />
 
-      {flags.get(Feature.ForceUpdate) && (
+      {forceUpdateNeeded && flags.get(Feature.ForceUpdate) && (
         <UpdatingForceModalFlow
           deviceType={DeviceType.MuditaHarmony}
           state={getUpdatingForceModalFlowState()}

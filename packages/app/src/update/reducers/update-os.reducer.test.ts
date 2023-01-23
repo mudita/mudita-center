@@ -55,6 +55,7 @@ test("empty event returns initial state", () => {
       },
       "downloadState": 0,
       "error": null,
+      "needsForceUpdate": false,
       "silentCheckForUpdate": 0,
       "updateOsState": 0,
     }
@@ -611,6 +612,40 @@ describe("clearStateAndData", () => {
       )
     ).toEqual({
       ...initialState,
+    })
+  })
+})
+
+describe("checkForForceUpdateNeed", () => {
+  test("sets needsForceUpdate according to the action result", () => {
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+        },
+        {
+          type: fulfilledAction(UpdateOsEvent.CheckForForceUpdate),
+          payload: true,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      needsForceUpdate: true,
+    })
+
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+        },
+        {
+          type: fulfilledAction(UpdateOsEvent.CheckForForceUpdate),
+          payload: false,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      needsForceUpdate: false,
     })
   })
 })

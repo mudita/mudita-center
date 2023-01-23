@@ -28,33 +28,33 @@ const messages = defineMessages({
   },
 })
 
-export const UpdatingFailureWithHelpModal: FunctionComponent<
-  UpdatingFailureWithHelpModalProps
-> = ({
-  onContact,
-  onHelp,
-  onClose,
-  open,
-  testId,
-}: UpdatingFailureWithHelpModalProps) => {
-  return (
-    <ErrorModal
-      testId={testId}
-      open={open}
-      closeButton
-      closeable
-      closeModal={onClose}
-      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-      subtitle={intl.formatMessage(messages.updatingFailedTitle)}
-      body={intl.formatMessage(messages.updatingFailedDescription)}
-      onCloseButton={onContact}
-      closeButtonLabel={intl.formatMessage(
-        messages.updatingFailedSupportButton
-      )}
-      onActionButtonClick={onHelp}
-      actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
-      onClose={onClose}
-      actionButtonSize={Size.FixedSmall}
-    />
-  )
-}
+export const UpdatingFailureWithHelpModal: FunctionComponent<UpdatingFailureWithHelpModalProps> =
+  ({
+    onContact,
+    onHelp,
+    onClose,
+    open,
+    testId,
+  }: UpdatingFailureWithHelpModalProps) => {
+    return (
+      <ErrorModal
+        testId={testId}
+        open={open}
+        closeButton
+        closeable
+        closeModal={onClose}
+        title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+        subtitle={intl.formatMessage(messages.updatingFailedTitle)}
+        body={intl.formatMessage(messages.updatingFailedDescription)}
+        onCloseButton={onContact}
+        closeButtonLabel={intl.formatMessage(
+          messages.updatingFailedSupportButton
+        )}
+        onActionButtonClick={onHelp}
+        actionButtonLabel={intl.formatMessage(
+          messages.updatingFailedHelpButton
+        )}
+        actionButtonSize={Size.FixedSmall}
+      />
+    )
+  }
