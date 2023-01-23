@@ -107,9 +107,8 @@ const defaultProps: Props = {
   backupDeviceState: State.Initial,
   networkLevel: 0,
   deviceType: DeviceType.MuditaPure,
-  lowestSupportedOsVersion: undefined,
   lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
-  setUpdateState: jest.fn(),
+  closeForceUpdateFlow: jest.fn(),
   startUpdateOs: jest.fn(),
   batteryLevel: 0,
   disconnectDevice: jest.fn(),
@@ -142,6 +141,8 @@ const defaultProps: Props = {
   backupError: null,
   setCheckForUpdateState: jest.fn(),
   forceUpdateNeeded: false,
+  forceUpdate: jest.fn(),
+  forceUpdateState: State.Initial,
 }
 
 const render = (extraProps?: Partial<Props>) => {

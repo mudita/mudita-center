@@ -12,25 +12,20 @@ import OverviewContent from "App/overview/components/overview-screens/harmony-ov
 import { useUpdateFlowState } from "App/overview/components/overview-screens/helpers/use-update-flow-state.hook"
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { CheckForUpdateMode } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
-import logger from "App/__deprecated__/main/utils/logger"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
-import React, { useEffect, useState } from "react"
+import React from "react"
 
 export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   batteryLevel = 0,
   disconnectDevice = noop,
   osVersion = "",
-  lowestSupportedOsVersion = "",
   updatingState,
   startUpdateOs,
-  setUpdateState,
   openContactSupportFlow,
   serialNumber,
   checkingForUpdateState,
@@ -48,8 +43,10 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   areAllReleasesDownloaded,
   setCheckForUpdateState,
   forceUpdateNeeded,
+  forceUpdate,
+  forceUpdateState,
+  closeForceUpdateFlow,
 }) => {
-  const [osVersionSupported, setOsVersionSupported] = useState(true)
   const { checkForUpdateLocalState } = useUpdateFlowState({
     checkingForUpdateState,
     silentCheckForUpdateState,
@@ -58,38 +55,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     forceUpdateNeeded,
   })
 
-  useEffect(() => {
-    try {
-      setOsVersionSupported(
-        isVersionGreaterOrEqual(osVersion, lowestSupportedOsVersion)
-      )
-    } catch (error) {
-      logger.error(`Overview: ${(error as Error).message}`)
-    }
-  }, [osVersion, lowestSupportedOsVersion])
-
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
-  }
-
-  const closeUpdatingForceModalFlow = () => {
-    setUpdateState(State.Initial)
-  }
-
-  const getUpdatingForceModalFlowState = ():
-    | UpdatingForceModalFlowState
-    | undefined => {
-    if (updatingState === State.Loaded) {
-      return UpdatingForceModalFlowState.Success
-    } else if (updatingState === State.Failed) {
-      return UpdatingForceModalFlowState.Fail
-    } else if (updatingState === State.Loading) {
-      return UpdatingForceModalFlowState.Updating
-    } else if (!osVersionSupported) {
-      return UpdatingForceModalFlowState.Info
-    } else {
-      return undefined
-    }
   }
 
   const updateReleases = (devReleases?: OsRelease[]) => {
@@ -120,9 +87,18 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     setCheckForUpdateState(State.Loaded)
   }
 
+  const startForceUpdate = () => {
+    const releasesToInstall = availableReleasesForUpdate
+
+    releasesToInstall &&
+      releasesToInstall.length > 0 &&
+      forceUpdate(releasesToInstall)
+  }
+
   return (
     <>
       <UpdateOsFlow
+        deviceType={DeviceType.MuditaHarmony}
         currentOsVersion={osVersion}
         silentCheckForUpdateState={silentCheckForUpdateState}
         checkForUpdateState={checkingForUpdateState}
@@ -143,18 +119,21 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         updatingReleasesProcessStates={updatingReleasesProcessStates}
       />
 
-      {forceUpdateNeeded && flags.get(Feature.ForceUpdate) && (
+      {flags.get(Feature.ForceUpdate) && (
         <UpdatingForceModalFlow
           deviceType={DeviceType.MuditaHarmony}
-          state={getUpdatingForceModalFlowState()}
-          updateOs={startUpdateOs}
-          osVersion={osVersion}
-          closeModal={closeUpdatingForceModalFlow}
-          onContact={openContactSupportFlow}
-          onHelp={goToHelp}
-          batteryLevel={batteryLevel}
+          availableReleasesForUpdate={availableReleasesForUpdate}
+          updatingReleasesProcessStates={updatingReleasesProcessStates}
+          enabled={forceUpdateNeeded}
+          startForceUpdate={startForceUpdate}
+          error={updateOsError}
+          openHelpView={goToHelp}
+          openContactSupportFlow={openContactSupportFlow}
+          forceUpdateState={forceUpdateState}
+          closeForceUpdateFlow={closeForceUpdateFlow}
         />
       )}
+
       <OverviewContent
         deviceType={DeviceType.MuditaHarmony}
         batteryLevel={batteryLevel}

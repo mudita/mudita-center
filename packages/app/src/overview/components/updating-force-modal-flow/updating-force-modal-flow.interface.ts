@@ -3,17 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "App/device/constants"
-import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import { OsRelease } from "App/update/dto"
+import { State } from "App/core/constants"
+import { AppError } from "App/core/errors"
+import { DeviceType } from "App/device"
+import { UpdateError } from "App/update/constants"
+import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface UpdatingForceModalFlowProps {
-  state: UpdatingForceModalFlowState | undefined
-  osVersion: string | undefined
-  onContact: () => void
-  onHelp: () => void
-  updateOs: (releases: OsRelease[]) => void
+  enabled: boolean
+  error: AppError<UpdateError> | null
+  availableReleasesForUpdate: OsRelease[] | null
+  updatingReleasesProcessStates: ProcessedRelease[] | null
+  forceUpdateState: State
   deviceType: DeviceType
-  batteryLevel: number
-  closeModal: () => void
+  startForceUpdate: () => void
+  openHelpView: () => void
+  openContactSupportFlow: () => void
+  closeForceUpdateFlow: () => void
 }

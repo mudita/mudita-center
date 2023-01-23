@@ -15,10 +15,11 @@ import {
   setCheckForUpdateState,
   setStateForDownloadedRelease,
   setStateForInstalledRelease,
-  setUpdateState,
+  closeForceUpdateFlow,
   startUpdateOs,
+  forceUpdate,
+  checkForForceUpdateNeed,
 } from "App/update/actions"
-import { checkForForceUpdateNeed } from "App/update/actions/check-for-force-update-need/check-for-force-update-need.action"
 
 import {
   CheckForUpdateMode,
@@ -34,6 +35,7 @@ export const initialState: UpdateOsState = {
   checkForUpdateState: State.Initial,
   updateOsState: State.Initial,
   downloadState: DownloadState.Initial,
+  forceUpdateState: State.Initial,
   error: null,
   needsForceUpdate: false,
   data: {
@@ -47,10 +49,10 @@ export const initialState: UpdateOsState = {
 export const updateOsReducer = createReducer<UpdateOsState>(
   initialState,
   (builder) => {
-    builder.addCase(setUpdateState, (state, action) => {
+    builder.addCase(closeForceUpdateFlow, (state) => {
       return {
         ...state,
-        updateOsState: action.payload,
+        forceUpdateState: State.Initial,
       }
     })
     builder.addCase(setCheckForUpdateState, (state, action) => {
@@ -237,6 +239,33 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     })
     builder.addCase(checkForForceUpdateNeed.fulfilled, (state, action) => {
       state.needsForceUpdate = action.payload
+    })
+
+    builder.addCase(forceUpdate.pending, (state, action) => {
+      state.data.updateProcessedReleases = action.meta.arg.releases.map(
+        (release) => ({
+          release,
+          state: ReleaseProcessState.Initial,
+        })
+      )
+      state.data.downloadedProcessedReleases = action.meta.arg.releases.map(
+        (release) => ({
+          release,
+          state: ReleaseProcessState.Initial,
+        })
+      )
+      state.error = null
+      state.forceUpdateState = State.Loading
+    })
+    builder.addCase(forceUpdate.fulfilled, (state) => {
+      state.forceUpdateState = State.Loaded
+      state.downloadState = DownloadState.Initial
+      state.updateOsState = State.Initial
+      state.needsForceUpdate = false
+    })
+    builder.addCase(forceUpdate.rejected, (state, action) => {
+      state.forceUpdateState = State.Failed
+      state.error = action.payload as AppError<UpdateError>
     })
   }
 )

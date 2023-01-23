@@ -26,7 +26,7 @@ import { getDeviceLatestVersion } from "App/settings/selectors"
 import {
   checkForUpdate,
   downloadUpdates,
-  setUpdateState,
+  closeForceUpdateFlow,
   startUpdateOs,
   closeUpdateFlow,
   cancelDownload,
@@ -36,6 +36,7 @@ import { State } from "App/core/constants"
 import { OsRelease } from "App/update/dto"
 import { areAllReleasesDownloaded } from "App/update/selectors"
 import { CheckForUpdateMode } from "App/update/constants"
+import { forceUpdate } from "App/update/actions/force-update/force-update.action"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -68,6 +69,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     updatingReleasesProcessStates: state.update.data.updateProcessedReleases,
     areAllReleasesDownloaded: areAllReleasesDownloaded(state),
     forceUpdateNeeded: state.update.needsForceUpdate,
+    forceUpdateState: state.update.forceUpdateState,
   }
 }
 
@@ -77,7 +79,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  setUpdateState: (state: State) => dispatch(setUpdateState(state)),
+  closeForceUpdateFlow: () => dispatch(closeForceUpdateFlow()),
   startUpdateOs: (releases: OsRelease[]) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
@@ -128,6 +130,9 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   abortDownload: () => dispatch(cancelDownload()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  forceUpdate: (releases: OsRelease[]) => dispatch(forceUpdate({ releases })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

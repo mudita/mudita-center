@@ -7,7 +7,6 @@ export enum UpdateOsEvent {
   StartOsUpdateProcess = "START_OS_UPDATE_PROCESS",
   CheckForUpdate = "CHECK_FOR_UPDATE",
   DownloadUpdate = "DOWNLOAD_UPDATE",
-  SetUpdateState = "DEVICE_SET_UPDATE_STATE",
   SetCheckForUpdateState = "SET_CHECK_FOR_UPDATE_STATE",
   CancelDownload = "CANCEL_DOWNLOAD",
   CloseUpdateFlow = "CLOSE_UPDATE_FLOW",
@@ -18,4 +17,5 @@ export enum UpdateOsEvent {
   HandleDeviceDetached = "HANDLE_DEVICE_DETACHED",
   CheckForForceUpdate = "CHECK_FOR_FORCE_UPDATE",
   StartOsForceUpdateProcess = "START_OS_FORCE_UPDATE_PROCESS",
+  CloseForceUpdateFlow = "CLOSE_FORCE_UPDATE_FLOW",
 }

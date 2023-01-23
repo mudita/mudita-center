@@ -20,4 +20,5 @@ export enum UpdateError {
   DownloadCancelledByUser = "DOWNLOAD_CANCELLED_BY_USER",
   TooLowBattery = "TOO_LOW_BATTERY",
   UnexpectedDownloadError = "UNEXPECTED_DOWNLOAD_ERROR",
+  ForceUpdateError = "FORCE_UPDATE_ERROR",
 }

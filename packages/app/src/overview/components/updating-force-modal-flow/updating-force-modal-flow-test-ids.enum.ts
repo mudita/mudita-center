@@ -7,7 +7,6 @@ export enum UpdatingForceModalFlowTestIds {
   UpdatingForceInfoModal = "updating-force-info-modal",
   UpdatingForceSpinnerModal = "updating-force-spinner-modal",
   UpdatingForceFailureWithHelpModal = "updating-force-failure-with-help-modal",
-  UpdatingForceFailureModal = "updating-force-failure-modal",
-  UpdatingSuccessModal = "updating-success-modal",
   UpdatingForceTooLowBatteryModal = "updating-too-low-battery-modal",
+  UpdatingSuccessModal = "updating-success-modal",
 }
