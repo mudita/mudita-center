@@ -50,7 +50,7 @@ export const useUpdateFlowState = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [silentCheckForUpdateState])
+  }, [silentCheckForUpdateState, forceUpdateNeeded])
 
   useEffect(() => {
     if (forceUpdateNeeded) {

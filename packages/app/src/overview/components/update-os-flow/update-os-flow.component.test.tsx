@@ -5,6 +5,7 @@
 
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
+import { DeviceType } from "App/device"
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { UpdateOsFlowProps } from "App/overview/components/update-os-flow/update-os-flow.component.interface"
@@ -50,6 +51,7 @@ const defaultProps: UpdateOsFlowProps = {
   downloadingReleasesProcessStates: null,
   updatingReleasesProcessStates: null,
   areAllReleasesDownloaded: false,
+  deviceType: DeviceType.MuditaPure,
 }
 
 const release: OsRelease = {

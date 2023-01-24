@@ -4,14 +4,14 @@
  */
 
 import { State } from "App/core/constants"
-import { DeviceType } from "App/device"
 import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { UpdateOsFlowProps } from "App/overview/components/update-os-flow/update-os-flow.component.interface"
+import { CheckForUpdateFailedModal } from "App/overview/components/update-os-modals/check-for-update-failed-modal"
 import { CheckingUpdatesModal } from "App/overview/components/update-os-modals/checking-updates-modal"
 import { DevUpdateModal } from "App/overview/components/update-os-modals/dev-update-modal"
-import { DownloadingUpdateInterruptedModal } from "App/overview/components/update-os-modals/downloading-update-interrupted-modal"
-import { DownloadingUpdateFinishedModal } from "App/overview/components/update-os-modals/downloading-update-finished-modal"
 import { DownloadingUpdateFailedModal } from "App/overview/components/update-os-modals/downloading-update-failed-modal"
+import { DownloadingUpdateFinishedModal } from "App/overview/components/update-os-modals/downloading-update-finished-modal"
+import { DownloadingUpdateInterruptedModal } from "App/overview/components/update-os-modals/downloading-update-interrupted-modal"
 import { DownloadingUpdateModal } from "App/overview/components/update-os-modals/downloading-update-modal"
 import { TooLowBatteryModal } from "App/overview/components/update-os-modals/too-low-battery-modal"
 import { UpdateAvailableModal } from "App/overview/components/update-os-modals/update-available-modal"
@@ -29,7 +29,6 @@ import {
 } from "App/update/constants"
 import { cancelOsDownload } from "App/update/requests"
 import React, { FunctionComponent, useMemo } from "react"
-import { CheckForUpdateFailedModal } from "App/overview/components/update-os-modals/check-for-update-failed-modal"
 
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   checkForUpdateState,
@@ -50,6 +49,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   updatingReleasesProcessStates,
   tryAgainCheckForUpdate,
   areAllReleasesDownloaded,
+  deviceType,
 }) => {
   const {
     devRelease,
@@ -213,7 +213,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       <TooLowBatteryModal
         testId={UpdateOsFlowTestIds.TooLowBatteryModal}
         open={error?.type === UpdateError.TooLowBattery}
-        deviceType={DeviceType.MuditaPure}
+        deviceType={deviceType}
         onClose={resetUpdateFlow}
       />
 

@@ -7,7 +7,9 @@ import { createAction } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
 import { ReleaseProcessState, UpdateOsEvent } from "App/update/constants"
 
-export const setUpdateState = createAction<State>(UpdateOsEvent.SetUpdateState)
+export const closeForceUpdateFlow = createAction(
+  UpdateOsEvent.CloseForceUpdateFlow
+)
 export const setCheckForUpdateState = createAction<State>(
   UpdateOsEvent.SetCheckForUpdateState
 )

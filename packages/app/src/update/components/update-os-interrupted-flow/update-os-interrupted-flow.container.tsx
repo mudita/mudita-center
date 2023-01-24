@@ -20,8 +20,11 @@ import { connect } from "react-redux"
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     downloadInterruptedModalOpened:
-      state.update.downloadState === DownloadState.Failed,
-    updateInterruptedModalOpened: state.update.updateOsState === State.Failed,
+      state.update.downloadState === DownloadState.Failed &&
+      !state.device.status.connected,
+    updateInterruptedModalOpened:
+      state.update.updateOsState === State.Failed &&
+      !state.device.status.connected,
     alreadyDownloadedReleases: alreadyProcessedReleasesSelector(
       Mode.DownloadedReleases
     )(state),

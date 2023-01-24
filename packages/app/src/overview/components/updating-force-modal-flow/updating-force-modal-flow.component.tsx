@@ -3,170 +3,131 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "App/device/constants"
-import {
-  ApplicationUpdateError,
-  ApplicationUpdateErrorCodeMap,
-} from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
-import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.enum"
-import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
-import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
-import logger from "App/__deprecated__/main/utils/logger"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import {
-  downloadOsUpdateRequest,
-  getLatestReleaseRequest,
-} from "App/update/requests"
-import { OsRelease } from "App/update/dto"
-import { Product } from "App/update/constants"
-import React, { useEffect, useState } from "react"
-import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/updating-spinner-modal"
-import { UpdatingFailureWithHelpModal } from "App/overview/components/update-os-modals/updating-failure-with-help-modal"
-import { UpdatingSuccessModal } from "App/overview/components/update-os-modals/updating-success-modal"
+import { State } from "App/core/constants"
+import { ForceUpdateAvailableModal } from "App/overview/components/update-os-modals/force-update-available-modal"
 import { TooLowBatteryModal } from "App/overview/components/update-os-modals/too-low-battery-modal"
-import { UpdatingForceModal } from "App/overview/components/update-os-modals/update-force-modal"
+import { UpdatingFailureWithHelpModal } from "App/overview/components/update-os-modals/updating-failure-with-help-modal"
+import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/updating-spinner-modal"
+import { UpdatingSuccessModal } from "App/overview/components/update-os-modals/updating-success-modal"
+import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.enum"
+import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
+import { ReleaseProcessState, UpdateError } from "App/update/constants"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import React, { useEffect, useMemo, useState } from "react"
 
 const UpdatingForceModalFlow: FunctionComponent<UpdatingForceModalFlowProps> =
   ({
-    state,
-    osVersion,
-    onContact,
-    onHelp,
-    closeModal,
-    updateOs,
+    enabled,
+    availableReleasesForUpdate,
+    updatingReleasesProcessStates,
+    startForceUpdate,
+    openContactSupportFlow,
+    openHelpView,
+    error,
+    forceUpdateState,
+    closeForceUpdateFlow,
     deviceType,
-    batteryLevel,
   }) => {
-    const [updatingForceOpenState, setUpdatingForceOpenState] =
-      useState<UpdatingForceModalFlowState | undefined>(state)
-    const minBattery = 40
-    const notEnoughBattery = Math.round(batteryLevel * 100) <= minBattery
+    const [forceUpdateShowModal, setForceUpdateShowModal] =
+      useState<boolean>(false)
+    const [showErrorModal, setShowErrorModal] = useState<boolean>(false)
+    const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false)
+    const [showLoadingModal, setShowLoadingModal] = useState<boolean>(false)
+
     useEffect(() => {
-      setUpdatingForceOpenState(state)
-    }, [state])
-
-    const runUpdateProcess = async () => {
-      if (osVersion === undefined) {
-        handleUpdateOsFailed(
-          ApplicationUpdateErrorCodeMap[
-            ApplicationUpdateError.UnableReadOSVersion
-          ]
-        )
-        return
+      if (forceUpdateState === State.Initial && enabled) {
+        setForceUpdateShowModal(true)
+      } else if (forceUpdateState === State.Loading) {
+        setShowErrorModal(false)
+        setForceUpdateShowModal(false)
+        setShowLoadingModal(true)
+      } else if (forceUpdateState === State.Loaded) {
+        setShowSuccessModal(true)
+        setShowLoadingModal(false)
+        setShowErrorModal(false)
+      } else if (forceUpdateState === State.Failed) {
+        setShowErrorModal(true)
+        setForceUpdateShowModal(false)
+        setShowLoadingModal(false)
       }
+    }, [forceUpdateState, enabled])
 
-      if (notEnoughBattery) {
-        setUpdatingForceOpenState(UpdatingForceModalFlowState.TooLowBattery)
-        return
-      }
-
-      setUpdatingForceOpenState(UpdatingForceModalFlowState.Updating)
-
-      const latestRelease = await getLatestReleaseRequest(
-        deviceType === DeviceType.MuditaPure
-          ? Product.PurePhone
-          : Product.BellHybrid
+    const currentlyInstalledReleaseIndex = useMemo(() => {
+      return (updatingReleasesProcessStates ?? []).findIndex(
+        (item) => item.state === ReleaseProcessState.InProgress
       )
+    }, [updatingReleasesProcessStates])
 
-      if (
-        !latestRelease.ok ||
-        !isNewestPureOsAvailable(osVersion, latestRelease.data.version)
-      ) {
-        handleUpdateOsFailed(
-          ApplicationUpdateErrorCodeMap[
-            ApplicationUpdateError.FetchReleaseFromGithub
-          ]
-        )
-        return
-      }
+    const canShowInstallProgress =
+      updatingReleasesProcessStates &&
+      currentlyInstalledReleaseIndex >= 0 &&
+      forceUpdateState === State.Loading
 
-      if (latestRelease.ok && latestRelease.data) {
-        const downloadOSSuccess = await downloadOS(latestRelease.data)
-
-        if (!downloadOSSuccess) {
-          handleUpdateOsFailed(
-            ApplicationUpdateErrorCodeMap[ApplicationUpdateError.DownloadOS]
-          )
-          return
-        }
-
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/await-thenable
-        await updateOs([latestRelease.data])
-      }
+    const onCloseErrorModal = () => {
+      setShowErrorModal(false)
+      setForceUpdateShowModal(true)
     }
 
-    const handleUpdateOsFailed = (code?: number): void => {
-      setUpdatingForceOpenState(UpdatingForceModalFlowState.Fail)
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      logger.error(`Overview: force updating pure fails. Code: ${code}`)
-    }
-
-    const isNewestPureOsAvailable = (
-      osVersion: string,
-      latestReleaseVersion?: string
-    ): boolean => {
-      try {
-        return latestReleaseVersion
-          ? !isVersionGreaterOrEqual(osVersion, latestReleaseVersion)
-          : false
-      } catch (error) {
-        logger.error(
-          `Overview: force updating pure. Check that isNewestPureOsAvailable fails ${
-            (error as Error).message
-          }`
-        )
-        return false
-      }
-    }
-
-    const downloadOS = async (release: OsRelease): Promise<boolean> => {
-      const response = await downloadOsUpdateRequest({
-        url: release.file.url,
-        fileName: release.file.name,
-      })
-
-      return response.ok
-    }
-
-    const backToInfoModal = (): void => {
-      setUpdatingForceOpenState(UpdatingForceModalFlowState.Info)
+    const onCloseSuccessModal = () => {
+      setShowSuccessModal(false)
+      closeForceUpdateFlow()
     }
 
     return (
       <>
-        <UpdatingForceModal
+        <ForceUpdateAvailableModal
           testId={UpdatingForceModalFlowTestIds.UpdatingForceInfoModal}
-          open={updatingForceOpenState === UpdatingForceModalFlowState.Info}
-          onActionButtonClick={runUpdateProcess}
+          open={forceUpdateShowModal}
+          releases={availableReleasesForUpdate ?? []}
+          onUpdate={startForceUpdate}
         />
-        <TooLowBatteryModal
-          testId={UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal}
-          open={
-            updatingForceOpenState === UpdatingForceModalFlowState.TooLowBattery
-          }
-          onClose={backToInfoModal}
-          deviceType={deviceType}
-        />
-        <UpdatingSpinnerModal
-          testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
-          open={updatingForceOpenState === UpdatingForceModalFlowState.Updating}
-        />
+
+        {availableReleasesForUpdate && availableReleasesForUpdate.length > 0 && (
+          <UpdatingSpinnerModal
+            testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
+            open={showLoadingModal}
+            progressParams={
+              canShowInstallProgress
+                ? {
+                    currentlyUpdatingReleaseOrder:
+                      currentlyInstalledReleaseIndex + 1,
+                    currentlyUpdatingReleaseVersion:
+                      updatingReleasesProcessStates[
+                        currentlyInstalledReleaseIndex
+                      ].release.version,
+                    updatedReleasesSize: updatingReleasesProcessStates.length,
+                  }
+                : {
+                    currentlyUpdatingReleaseOrder: 1,
+                    currentlyUpdatingReleaseVersion:
+                      availableReleasesForUpdate[0].version,
+                    updatedReleasesSize: availableReleasesForUpdate.length,
+                  }
+            }
+          />
+        )}
+
         <UpdatingFailureWithHelpModal
           testId={
             UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
           }
-          onContact={onContact}
-          onHelp={onHelp}
-          onClose={backToInfoModal}
-          open={updatingForceOpenState === UpdatingForceModalFlowState.Fail}
+          open={showErrorModal && error?.type !== UpdateError.TooLowBattery}
+          onClose={onCloseErrorModal}
+          onHelp={openHelpView}
+          onContact={openContactSupportFlow}
         />
+
+        <TooLowBatteryModal
+          testId={UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal}
+          open={showErrorModal && error?.type === UpdateError.TooLowBattery}
+          deviceType={deviceType}
+          onClose={onCloseErrorModal}
+        />
+
         <UpdatingSuccessModal
           testId={UpdatingForceModalFlowTestIds.UpdatingSuccessModal}
-          open={updatingForceOpenState === UpdatingForceModalFlowState.Success}
-          onClose={closeModal}
+          open={showSuccessModal}
+          onClose={onCloseSuccessModal}
         />
       </>
     )

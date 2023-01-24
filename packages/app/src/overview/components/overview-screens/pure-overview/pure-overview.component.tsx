@@ -20,8 +20,6 @@ import RestoreDeviceFlow, {
 } from "App/overview/components/restore-device-flow/restore-device-flow.component"
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { CheckForUpdateMode } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
@@ -43,10 +41,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   networkName,
   networkLevel,
   pureOsBackupLocation = "",
-  lowestSupportedOsVersion = "",
   updatingState,
   startUpdateOs,
-  setUpdateState,
   caseColour,
   lastBackupDate,
   startBackupDevice,
@@ -76,8 +72,10 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   backupError,
   setCheckForUpdateState,
   forceUpdateNeeded,
+  forceUpdate,
+  forceUpdateState,
+  closeForceUpdateFlow,
 }) => {
-  const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
     loadingModal: false,
@@ -92,16 +90,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.SilentCheck),
     forceUpdateNeeded,
   })
-
-  useEffect(() => {
-    try {
-      setOsVersionSupported(
-        isVersionGreaterOrEqual(osVersion, lowestSupportedOsVersion)
-      )
-    } catch (error) {
-      logger.error(`Overview: ${(error as Error).message}`)
-    }
-  }, [osVersion, lowestSupportedOsVersion])
 
   useEffect(() => {
     let progressSimulator: NodeJS.Timeout
@@ -131,26 +119,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
-  }
-
-  const closeUpdatingForceModalFlow = () => {
-    setUpdateState(State.Initial)
-  }
-
-  const getUpdatingForceModalFlowState = ():
-    | UpdatingForceModalFlowState
-    | undefined => {
-    if (updatingState === State.Loaded) {
-      return UpdatingForceModalFlowState.Success
-    } else if (updatingState === State.Failed) {
-      return UpdatingForceModalFlowState.Fail
-    } else if (updatingState === State.Loading) {
-      return UpdatingForceModalFlowState.Updating
-    } else if (!osVersionSupported) {
-      return UpdatingForceModalFlowState.Info
-    } else {
-      return undefined
-    }
   }
 
   const [backupDeviceFlowState, setBackupDeviceFlowState] =
@@ -209,6 +177,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     if (syncState !== SynchronizationState.Error) {
       return false
     }
+
     return (
       restoreDeviceState === undefined || restoreDeviceState === State.Initial
     )
@@ -241,10 +210,20 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const openCheckForUpdateModal = () => {
     setCheckForUpdateState(State.Loaded)
   }
+
+  const startForceUpdate = () => {
+    const releasesToInstall = availableReleasesForUpdate
+
+    releasesToInstall &&
+      releasesToInstall.length > 0 &&
+      forceUpdate(releasesToInstall)
+  }
+
   return (
     <>
       {!forceUpdateNeeded && (
         <UpdateOsFlow
+          deviceType={DeviceType.MuditaPure}
           currentOsVersion={osVersion}
           silentCheckForUpdateState={silentCheckForUpdateState}
           checkForUpdateState={checkingForUpdateState}
@@ -266,16 +245,18 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         />
       )}
 
-      {forceUpdateNeeded && flags.get(Feature.ForceUpdate) && (
+      {flags.get(Feature.ForceUpdate) && (
         <UpdatingForceModalFlow
           deviceType={DeviceType.MuditaPure}
-          state={getUpdatingForceModalFlowState()}
-          updateOs={startUpdateOs}
-          osVersion={osVersion}
-          closeModal={closeUpdatingForceModalFlow}
-          onContact={openContactSupportFlow}
-          onHelp={goToHelp}
-          batteryLevel={batteryLevel}
+          availableReleasesForUpdate={availableReleasesForUpdate}
+          updatingReleasesProcessStates={updatingReleasesProcessStates}
+          enabled={forceUpdateNeeded}
+          startForceUpdate={startForceUpdate}
+          error={updateOsError}
+          openHelpView={goToHelp}
+          openContactSupportFlow={openContactSupportFlow}
+          forceUpdateState={forceUpdateState}
+          closeForceUpdateFlow={closeForceUpdateFlow}
         />
       )}
       {backupDeviceFlowState && (

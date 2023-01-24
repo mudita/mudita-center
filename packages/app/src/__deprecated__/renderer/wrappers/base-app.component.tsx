@@ -47,6 +47,7 @@ interface Props {
   lowestSupportedOsVersion: string | undefined
   osVersion: string | undefined
   checkingForOsForceUpdate: boolean
+  shouldCheckForForceUpdateNeed: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -65,6 +66,7 @@ const BaseApp: FunctionComponent<Props> = ({
   lowestSupportedOsVersion,
   osVersion,
   checkingForOsForceUpdate,
+  shouldCheckForForceUpdateNeed,
 }) => {
   useRouterListener(history, {
     [URL_MAIN.contacts]: [],
@@ -74,12 +76,16 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (lowestSupportedOsVersion && osVersion && !deviceUpdating) {
+    if (
+      lowestSupportedOsVersion &&
+      osVersion &&
+      shouldCheckForForceUpdateNeed
+    ) {
       checkForOsForceUpdate()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lowestSupportedOsVersion, osVersion, deviceUpdating])
+  }, [lowestSupportedOsVersion, osVersion, shouldCheckForForceUpdateNeed])
 
   useEffect(() => {
     if (deviceRestarting) {
@@ -173,6 +179,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     checkingForOsForceUpdate:
       state.update.checkForUpdateState === State.Loading &&
       Boolean(state.update.needsForceUpdate),
+    shouldCheckForForceUpdateNeed:
+      state.update.forceUpdateState === State.Initial,
   }
 }
 
