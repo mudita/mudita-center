@@ -8,7 +8,7 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { DeviceType } from "App/device/constants"
+import { DeviceCommunicationError, DeviceType } from "App/device/constants"
 import { lockedDevice } from "./locked-device.action"
 import { unlockDeviceStatusRequest } from "App/device/requests/unlock-device-status.request"
 import { deviceLockTimeRequest } from "App/device/requests/device-lock-time.request"
@@ -114,14 +114,18 @@ describe("Device: MuditaPure", () => {
     })
   })
 
-  describe("Get Device Lock Status request returns `agreement-is-not-accepted` status", () => {
+  describe("Get Device Lock Status request returns `DeviceAgreementNotAccepted` error", () => {
     test("fire async `lockedDevice` calls `setAgreementStatus` action", async () => {
+      const error = new AppError(
+        DeviceCommunicationError.DeviceAgreementNotAccepted,
+        "Oups, eula not accepted!"
+      )
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
       ;(deviceLockTimeRequest as jest.Mock).mockReturnValueOnce(
         Result.failed(new AppError("", ""))
       )
       ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
-        Result.success(RequestResponseStatus.NotAcceptable)
+        Result.failed(error)
       )
       const mockStore = createMockStore([thunk])({
         device: {

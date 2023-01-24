@@ -4,7 +4,12 @@
  */
 
 import { ResultObject, Result } from "App/core/builder"
-import { Endpoint, Method, PhoneLockCategory } from "App/device/constants"
+import {
+  DeviceCommunicationError,
+  Endpoint,
+  Method,
+  PhoneLockCategory,
+} from "App/device/constants"
 import { PhoneLockTime } from "App/device/dto"
 import {
   DeviceInfo,
@@ -35,7 +40,9 @@ export class DeviceService {
     return Result.success(response.ok)
   }
 
-  public async unlockStatus(): Promise<ResultObject<unknown>> {
+  public async unlockStatus(): Promise<
+    ResultObject<unknown, DeviceCommunicationError>
+  > {
     return this.deviceManager.device.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
@@ -51,7 +58,7 @@ export class DeviceService {
     })
   }
 
-  public setUpdating(updating: boolean): void{
+  public setUpdating(updating: boolean): void {
     this.deviceManager.updating = updating
   }
 }
