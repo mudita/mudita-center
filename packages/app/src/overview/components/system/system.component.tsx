@@ -37,6 +37,9 @@ const messages = defineMessages({
   systemCheckForUpdates: {
     id: "module.overview.systemCheckForUpdates",
   },
+  systemCheckForUpdatesInProgress: {
+    id: "module.overview.systemCheckForUpdatesInProgress",
+  },
 })
 
 interface Props {
@@ -111,7 +114,11 @@ const System: FunctionComponent<Props> = ({
               active={!checkForUpdateInProgress}
               disabled={checkForUpdateInProgress}
               loading={checkForUpdateInProgress}
-              labelMessage={messages.systemCheckForUpdates}
+              labelMessage={
+                checkForUpdateInProgress
+                  ? messages.systemCheckForUpdatesInProgress
+                  : messages.systemCheckForUpdates
+              }
               onClick={onUpdateCheck}
             />
           )}
