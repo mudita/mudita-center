@@ -110,7 +110,7 @@ export class Device {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     config: RequestConfig<any>
-  ): Promise<ResultObject<ResponseType>> {
+  ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
     const response = (await this.strategy.request(config)) as RequestResponse<
       ResponseType,
       // AUTO DISABLED - fix me if you like :)

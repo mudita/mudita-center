@@ -319,6 +319,7 @@ export class PureStrategy implements DeviceStrategy {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
     } else if (response.status === RequestResponseStatus.Ok) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
     } else if (response.status === RequestResponseStatus.NotAcceptable) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementNotAccepted)
     } else {
