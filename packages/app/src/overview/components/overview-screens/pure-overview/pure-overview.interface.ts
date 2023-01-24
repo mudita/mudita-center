@@ -20,7 +20,6 @@ import { OsRelease, ProcessedRelease } from "App/update/dto"
 import { RejectableThunk } from "App/__deprecated__/renderer/store"
 
 export interface PureOverviewProps {
-  readonly lowestSupportedOsVersion: string | undefined
   readonly batteryLevel: number | undefined
   readonly osVersion: string | undefined
   readonly memorySpace: MemorySpace | undefined
@@ -32,6 +31,7 @@ export interface PureOverviewProps {
   readonly lastBackupDate: Date
   readonly backupDeviceState: State
   readonly restoreDeviceState: State
+  readonly forceUpdateState: State
   readonly backups: Backup[]
   readonly backupError: AppError<BackupError> | null
   readonly syncState: SynchronizationState
@@ -52,7 +52,7 @@ export interface PureOverviewProps {
   readonly startRestoreDevice: (option: RestoreBackup) => void
   readonly readBackupDeviceDataState: () => void
   readonly startBackupDevice: (secretKey: string) => void
-  readonly setUpdateState: (data: State) => void
+  readonly closeForceUpdateFlow: () => void
   readonly startUpdateOs: (releases: OsRelease[]) => void
   readonly disconnectDevice: () => void
   readonly checkForUpdate: (
@@ -63,4 +63,5 @@ export interface PureOverviewProps {
   readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void
+  forceUpdate: (releases: OsRelease[]) => void
 }

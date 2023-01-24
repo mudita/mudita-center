@@ -23,6 +23,7 @@ import { startUpdateOs } from "./start-update-os.action"
 import * as removeDownloadedOsUpdatesModule from "App/update/requests/remove-downloaded-os-updates.request"
 
 jest.mock("App/update/requests/remove-downloaded-os-updates.request")
+jest.mock("App/device/requests/set-updating.request")
 
 jest.mock("App/device-file-system", () => ({
   removeFile: jest.fn().mockReturnValue({

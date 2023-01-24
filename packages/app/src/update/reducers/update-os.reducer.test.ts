@@ -55,35 +55,12 @@ test("empty event returns initial state", () => {
       },
       "downloadState": 0,
       "error": null,
+      "forceUpdateState": 0,
       "needsForceUpdate": false,
       "silentCheckForUpdate": 0,
       "updateOsState": 0,
     }
   `)
-})
-
-describe("setUpdateState action", () => {
-  test("action sets the updating state", () => {
-    expect(
-      updateOsReducer(undefined, {
-        type: UpdateOsEvent.SetUpdateState,
-        payload: State.Loaded,
-      })
-    ).toEqual({
-      ...initialState,
-      updateOsState: State.Loaded,
-    })
-
-    expect(
-      updateOsReducer(undefined, {
-        type: UpdateOsEvent.SetUpdateState,
-        payload: State.Failed,
-      })
-    ).toEqual({
-      ...initialState,
-      updateOsState: State.Failed,
-    })
-  })
 })
 
 describe("setCheckForUpdateState action", () => {
@@ -646,6 +623,107 @@ describe("checkForForceUpdateNeed", () => {
     ).toEqual({
       ...initialState,
       needsForceUpdate: false,
+    })
+  })
+})
+
+describe("forceUpdate", () => {
+  test("pending action sets proper state for forceUpdateState, clears error and resets processed releases info", () => {
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+          error: exampleError,
+          data: {
+            ...initialState.data,
+            downloadedProcessedReleases: [
+              { release: mockedRelease, state: ReleaseProcessState.Done },
+            ],
+            updateProcessedReleases: [
+              { release: mockedRelease, state: ReleaseProcessState.Done },
+            ],
+          },
+        },
+        {
+          type: pendingAction(UpdateOsEvent.StartOsForceUpdateProcess),
+          meta: {
+            arg: {
+              releases: [mockedRelease],
+            },
+          },
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      forceUpdateState: State.Loading,
+      error: null,
+      data: {
+        ...initialState.data,
+        downloadedProcessedReleases: [
+          { release: mockedRelease, state: ReleaseProcessState.Initial },
+        ],
+        updateProcessedReleases: [
+          { release: mockedRelease, state: ReleaseProcessState.Initial },
+        ],
+      },
+    })
+  })
+  test("fulfilled action sets proper states and clears force update need", () => {
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+          downloadState: DownloadState.Loaded,
+          updateOsState: State.Loaded,
+          needsForceUpdate: true,
+        },
+        {
+          type: fulfilledAction(UpdateOsEvent.StartOsForceUpdateProcess),
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      forceUpdateState: State.Loaded,
+      downloadState: DownloadState.Initial,
+      updateOsState: State.Initial,
+      needsForceUpdate: false,
+    })
+  })
+  test("rejected action sets proper state and sets error", () => {
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+          forceUpdateState: State.Loading,
+        },
+        {
+          type: rejectedAction(UpdateOsEvent.StartOsForceUpdateProcess),
+          payload: exampleError,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      forceUpdateState: State.Failed,
+      error: exampleError,
+    })
+  })
+})
+
+describe("closeForceUpdateFlow action", () => {
+  test("sets forceUpdateState to initial value", () => {
+    expect(
+      updateOsReducer(
+        {
+          ...initialState,
+          forceUpdateState: State.Loaded,
+        },
+        {
+          type: UpdateOsEvent.CloseForceUpdateFlow,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      updateOsState: State.Initial,
     })
   })
 })

@@ -16,7 +16,6 @@ import { OsRelease, ProcessedRelease } from "App/update/dto"
 import { RejectableThunk } from "App/__deprecated__/renderer/store"
 
 export interface HarmonyOverviewProps {
-  readonly lowestSupportedOsVersion: string | undefined
   readonly batteryLevel: number | undefined
   readonly osVersion: string | undefined
   readonly silentCheckForUpdateState: SilentCheckForUpdateState
@@ -24,6 +23,7 @@ export interface HarmonyOverviewProps {
   readonly serialNumber: string | undefined
   readonly checkingForUpdateState: State
   readonly downloadingState: DownloadState
+  readonly forceUpdateState: State
   readonly allReleases: OsRelease[] | null
   readonly updateOsError: AppError<UpdateError> | null
   readonly availableReleasesForUpdate: OsRelease[] | null
@@ -32,7 +32,6 @@ export interface HarmonyOverviewProps {
   readonly areAllReleasesDownloaded: boolean
   readonly forceUpdateNeeded: boolean
   readonly startUpdateOs: (releases: OsRelease[]) => void
-  readonly setUpdateState: (data: State) => void
   readonly disconnectDevice: () => void
   readonly openContactSupportFlow: () => void
   readonly checkForUpdate: (
@@ -43,4 +42,6 @@ export interface HarmonyOverviewProps {
   readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void
+  readonly forceUpdate: (releases: OsRelease[]) => void
+  readonly closeForceUpdateFlow: () => void
 }

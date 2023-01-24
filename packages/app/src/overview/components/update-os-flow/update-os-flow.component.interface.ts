@@ -5,6 +5,7 @@
 
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
+import { DeviceType } from "App/device"
 import {
   DownloadState,
   SilentCheckForUpdateState,
@@ -24,6 +25,7 @@ export interface UpdateOsFlowProps {
   downloadingReleasesProcessStates: ProcessedRelease[] | null
   updatingReleasesProcessStates: ProcessedRelease[] | null
   areAllReleasesDownloaded: boolean
+  deviceType: DeviceType
   downloadUpdates: (releases?: OsRelease[]) => void
   abortDownloading: () => void
   updateOs: (releases?: OsRelease[]) => void
