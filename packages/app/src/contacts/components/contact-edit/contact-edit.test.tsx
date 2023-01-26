@@ -105,7 +105,7 @@ describe("display invalid format error", () => {
     "for primary number",
     async (specialCharacter) => {
       const invalidFormatMessageError =
-        "[value] component.formErrorNumbersAndSpacesOnly"
+        "[value] component.formErrorDigitsAndPlusOnly"
       const { getByTestId, queryByText } = renderer()
       const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
       fireEvent.input(primaryNumber, { target: { value: specialCharacter } })
@@ -118,7 +118,7 @@ describe("display invalid format error", () => {
     "for secondary number",
     async (specialCharacter) => {
       const invalidFormatMessageError =
-        "[value] component.formErrorNumbersAndSpacesOnly"
+        "[value] component.formErrorDigitsAndPlusOnly"
       const { getByTestId, queryByText } = renderer()
       const secondaryNumber = getByTestId(
         ContactEditTestIdsEnum.SecondaryNumber
@@ -147,32 +147,34 @@ test("Not display unique numbers error for empty numbers", async () => {
 })
 
 describe("Not display error for phone number regexp match", () => {
+  const invalidPhoneNumber = "-"
+  const validPhoneNumber = "+1234567890"
   const invalidFormatMessageError =
-    "[value] component.formErrorNumbersAndSpacesOnly"
-  test.each([" ", "(", ")", "+", "-", ".", "#"])(
-    "for primary number should pass as valid when password value contains %s",
-    async (specialCharacter) => {
-      const { getByTestId, queryByText } = renderer()
-      const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
-      fireEvent.input(primaryNumber, { target: { value: specialCharacter } })
-      await waitFor(() => {
-        expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
-      })
-    }
-  )
-  test.each([" ", "(", ")", "+", "-", ".", "#"])(
-    "for secondary number should pass as valid when password value contains %s",
-    async (specialCharacter) => {
-      const { getByTestId, queryByText } = renderer()
-      const secondaryNumber = getByTestId(
-        ContactEditTestIdsEnum.SecondaryNumber
-      )
-      fireEvent.input(secondaryNumber, { target: { value: specialCharacter } })
-      await waitFor(() => {
-        expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
-      })
-    }
-  )
+    "[value] component.formErrorDigitsAndPlusOnly"
+  test("for primary number should pass as valid when phone numer is valid", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
+    fireEvent.input(primaryNumber, { target: { value: invalidPhoneNumber } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+    fireEvent.input(primaryNumber, { target: { value: validPhoneNumber } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
+    })
+  })
+  test("for secondary number should pass as valid when phone number is valid", async () => {
+    const { getByTestId, queryByText } = renderer()
+    const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
+    fireEvent.input(secondaryNumber, { target: { value: invalidPhoneNumber } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
+    })
+    fireEvent.input(secondaryNumber, { target: { value: validPhoneNumber } })
+    await waitFor(() => {
+      expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
+    })
+  })
 })
 
 describe("Too long text validation", () => {

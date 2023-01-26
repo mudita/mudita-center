@@ -37,7 +37,7 @@ export const primaryPhoneNumberValidator = (
   pattern: {
     value: phoneNumberRegexp,
     message: intl.formatMessage({
-      id: "component.formErrorNumbersAndSpacesOnly",
+      id: "component.formErrorDigitsAndPlusOnly",
     }),
   },
   validate: (value): string | undefined => {
@@ -75,7 +75,7 @@ export const secondaryPhoneNumberValidator = (
   pattern: {
     value: phoneNumberRegexp,
     message: intl.formatMessage({
-      id: "component.formErrorNumbersAndSpacesOnly",
+      id: "component.formErrorDigitsAndPlusOnly",
     }),
   },
   validate: (value): string | undefined => {

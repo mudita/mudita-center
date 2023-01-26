@@ -65,14 +65,14 @@ const contact: Contact = {
   id: "1",
   firstName: "John",
   lastName: "Doe",
-  primaryPhoneNumber: "123 456 789",
+  primaryPhoneNumber: "123456789",
 }
 
 const unknownContact: Contact = {
   id: "2",
   firstName: "",
   lastName: "",
-  primaryPhoneNumber: "+123 456 123",
+  primaryPhoneNumber: "+123456123",
 }
 
 const contactsMap: Record<string, Contact> = {
@@ -81,7 +81,7 @@ const contactsMap: Record<string, Contact> = {
 }
 
 const unknownReceiver: Receiver = {
-  phoneNumber: "200 000 00",
+  phoneNumber: "20000000",
   identification: ReceiverIdentification.unknown,
 }
 
