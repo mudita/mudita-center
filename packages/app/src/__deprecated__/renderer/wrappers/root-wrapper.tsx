@@ -91,7 +91,10 @@ const RootWrapper: FunctionComponent<Props> = ({
   connectedAndUnlocked,
 }) => {
   useApplicationListener({
-    onAgreementStatusChangeListener: setAgreementStatus,
+    // intentional use of arrow function - solves problem with https://appnroll.atlassian.net/browse/CP-1755?focusedCommentId=70356
+    onAgreementStatusChangeListener: (value) => {
+      setAgreementStatus(value)
+    },
   })
 
   const params = new URLSearchParams(window.location.search)

@@ -53,6 +53,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     checkForUpdate: () =>
       checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck),
     forceUpdateNeeded,
+    osVersion,
   })
 
   const goToHelp = (): void => {
