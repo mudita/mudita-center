@@ -19,6 +19,7 @@ const defaultParams = {
   checkingForUpdateState: State.Initial,
   silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   forceUpdateNeeded: false,
+  osVersion: "1.2.0",
 }
 
 const silentCheckTestCases: TestCase[] = [
@@ -90,6 +91,20 @@ describe("when silentCheckForUpdateState is not set as initial", () => {
         ...defaultParams,
         silentCheckForUpdateState: SilentCheckForUpdateState.Loaded,
         checkForUpdate: spy,
+      })
+    )
+    expect(spy).toHaveBeenCalledTimes(0)
+  })
+})
+
+describe("when os version is not specified", () => {
+  test("check for update should not be called", () => {
+    const spy = jest.fn()
+    renderHook(() =>
+      useUpdateFlowState({
+        ...defaultParams,
+        checkForUpdate: spy,
+        osVersion: undefined,
       })
     )
     expect(spy).toHaveBeenCalledTimes(0)

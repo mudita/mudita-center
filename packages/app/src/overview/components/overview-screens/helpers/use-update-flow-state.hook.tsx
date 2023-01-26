@@ -14,6 +14,7 @@ interface Params {
   checkingForUpdateState: State
   checkForUpdate: () => RejectableThunk
   forceUpdateNeeded: boolean
+  osVersion: string | undefined
 }
 
 interface Result {
@@ -25,6 +26,7 @@ export const useUpdateFlowState = ({
   silentCheckForUpdateState,
   forceUpdateNeeded,
   checkForUpdate,
+  osVersion,
 }: Params): Result => {
   const [checkForUpdateLocalState, setCheckForUpdateLocalState] =
     useState<CheckForUpdateLocalState>()
@@ -34,7 +36,8 @@ export const useUpdateFlowState = ({
   useEffect(() => {
     if (
       silentCheckForUpdateState === SilentCheckForUpdateState.Initial &&
-      !forceUpdateNeeded
+      !forceUpdateNeeded &&
+      osVersion
     ) {
       const actionResult = checkForUpdate()
       setSilentCheckForUpdatePromise(actionResult)
@@ -50,7 +53,7 @@ export const useUpdateFlowState = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [silentCheckForUpdateState, forceUpdateNeeded])
+  }, [silentCheckForUpdateState, forceUpdateNeeded, osVersion])
 
   useEffect(() => {
     if (forceUpdateNeeded) {
