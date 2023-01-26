@@ -89,6 +89,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     checkForUpdate: () =>
       checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.SilentCheck),
     forceUpdateNeeded,
+    osVersion,
   })
 
   useEffect(() => {
