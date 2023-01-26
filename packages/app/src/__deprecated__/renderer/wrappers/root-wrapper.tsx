@@ -62,6 +62,7 @@ import {
   registerClearingUpdateStateOnDeviceAttachedListener,
   registerDownloadCancelOnDeviceDetachedListener,
 } from "App/update/listeners"
+import { registerDeviceLockedListener } from "App/device/listeners/device-lock-time.listener"
 
 interface Props {
   history: History
@@ -150,6 +151,7 @@ const RootWrapper: FunctionComponent<Props> = ({
     const dataCache = registerCacheDataListener()
     const outboxNotifications = registerOutboxNotificationListener()
     const deviceUnlocked = registerDeviceUnlockedListener()
+    const deviceLocked = registerDeviceLockedListener()
     const crashDump = registerCrashDumpExistListener()
     const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
     const deviceDetachedListener = registerDeviceDetachedListener()
@@ -163,6 +165,7 @@ const RootWrapper: FunctionComponent<Props> = ({
       dataCache()
       outboxNotifications()
       deviceUnlocked()
+      deviceLocked()
       crashDump()
       currentDeviceChangedListener()
       deviceDetachedListener()

@@ -9,13 +9,14 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
+import { AppError } from "App/core/errors"
 
 interface Props {
   openModal: boolean
   close: () => void
   leftTime?: number
   unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
-  getUnlockStatus: () => Promise<PayloadAction<boolean>>
+  getUnlockStatus: () => Promise<PayloadAction<boolean | AppError>>
 }
 
 enum ErrorState {
@@ -76,7 +77,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
         timeoutId = setTimeout(async () => {
           const unlockCheckStatus = await getUnlockStatus()
 
-          if (!unlockCheckStatus.payload) {
+          if (unlockCheckStatus.payload !== true) {
             setErrorState(ErrorState.BadPasscode)
           }
         }, 1000)
