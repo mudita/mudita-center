@@ -17,6 +17,7 @@ interface Props {
   leftTime?: number
   unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
   getUnlockStatus: () => Promise<PayloadAction<boolean | AppError>>
+  canBeClosed: boolean
 }
 
 enum ErrorState {
@@ -37,6 +38,7 @@ let timeoutId3: NodeJS.Timeout
 
 const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
+  canBeClosed,
   close,
   leftTime,
   unlockDevice,
@@ -130,6 +132,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
       openHelpWindow={openHelpWindow}
       onNotAllowedKeyDown={onNotAllowedKeyDown}
       leftTime={leftTime}
+      canBeClosed={canBeClosed}
     />
   )
 }
