@@ -13,6 +13,7 @@ import { BaseModule } from "App/core/module"
 import { DeviceService } from "App/device/services"
 import { DeviceController } from "App/device/controllers"
 import { DeviceManager } from "App/device-manager/services"
+import { DeviceLockTimeObserver } from "App/device/observers"
 
 export class DeviceModule extends BaseModule {
   constructor(
@@ -38,5 +39,13 @@ export class DeviceModule extends BaseModule {
     const deviceController = new DeviceController(deviceService)
 
     this.controllers = [deviceController]
+
+    const deviceLockTimeObserver = new DeviceLockTimeObserver(
+      this.ipc,
+      this.eventEmitter,
+      deviceService
+    )
+
+    this.observers = [deviceLockTimeObserver]
   }
 }
