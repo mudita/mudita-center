@@ -111,6 +111,9 @@ export const Close = styled(Button)`
   margin-right: -0.8rem;
   grid-area: Close;
   justify-self: end;
+  width: 2.8rem;
+  height: 2.8rem;
+  padding: 0;
 `
 
 export const CloseButton = styled(Button)<{ actionButton?: boolean }>`
