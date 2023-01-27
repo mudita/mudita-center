@@ -50,7 +50,6 @@ const Connecting: FunctionComponent<{
   checkingForOsForceUpdate,
   passcodeModalCloseable,
 }) => {
-  console.log("mw_", "passcodeModalCloseable", passcodeModalCloseable)
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
   const [passcodeOpenModal, setPasscodeOpenModal] = useState(false)
