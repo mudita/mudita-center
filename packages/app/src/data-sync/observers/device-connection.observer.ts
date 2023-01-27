@@ -17,6 +17,8 @@ import { DeviceServiceEvent } from "App/device/constants"
 import { DeviceManager } from "App/device-manager/services"
 import { GetDeviceInfoResponseBody } from "App/device/types/mudita-os"
 
+const corruptedPureOSVersions = ["1.5.1"]
+
 export class DeviceConnectionObserver implements Observer {
   private invoked = false
 
@@ -42,7 +44,7 @@ export class DeviceConnectionObserver implements Observer {
           }
           this.invoked = true
 
-          if(this.deviceManager.updating){
+          if (this.deviceManager.updating) {
             this.ipc.sendToRenderers(IpcEvent.DataSkipped)
             return
           }
@@ -65,11 +67,17 @@ export class DeviceConnectionObserver implements Observer {
               method: Method.Get,
             })
 
-            const { serialNumber, deviceToken } =
-              data as GetDeviceInfoResponseBody
-
             if (data === undefined) {
               this.ipc.sendToRenderers(IpcEvent.DataError)
+              return
+            }
+
+            const { serialNumber, deviceToken, version } =
+              data as GetDeviceInfoResponseBody
+            const baseVersion = version.split("-")[0]
+
+            if (corruptedPureOSVersions.some((v) => v === baseVersion)) {
+              this.ipc.sendToRenderers(IpcEvent.DataSkipped)
               return
             }
 

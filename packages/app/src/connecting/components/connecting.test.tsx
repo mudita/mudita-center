@@ -20,6 +20,7 @@ type Props = ComponentProps<typeof Connecting>
 
 const defaultProps: Props = {
   loaded: false,
+  passcodeModalCloseable: true,
   deviceType: DeviceType.MuditaPure,
   unlocked: null,
   leftTime: undefined,

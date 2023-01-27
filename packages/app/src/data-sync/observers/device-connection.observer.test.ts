@@ -46,6 +46,7 @@ describe("Method: observe", () => {
         data: {
           deviceToken: "1234567890",
           serialNumber: "0000000000",
+          version: "1.5.0",
         },
       })
 
@@ -74,6 +75,47 @@ describe("Method: observe", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(1)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(deviceManager.device.request).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe("when the `DeviceUnlocked` event is emit with `MuditaPure` device type and corrupted os version", () => {
+    test("no run `indexAll` process and emit `DataSkipped` event", async () => {
+      deviceManager.device.request = jest.fn().mockResolvedValueOnce({
+        data: {
+          deviceToken: "1234567890",
+          serialNumber: "0000000000",
+          version: "1.5.1",
+        },
+      })
+
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(indexStorageService.indexAll).toHaveBeenCalledTimes(0)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(deviceManager.device.request).toHaveBeenCalledTimes(0)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(0)
+
+      subject.observe()
+
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+        deviceType: DeviceType.MuditaPure,
+      } as SerialPortDevice)
+      await flushPromises()
+
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+      expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
+        IpcEvent.DataSkipped
+      )
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(indexStorageService.indexAll).toHaveBeenCalledTimes(0)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceManager.device.request).toHaveBeenCalledTimes(1)
