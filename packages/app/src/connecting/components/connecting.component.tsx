@@ -34,6 +34,7 @@ const Connecting: FunctionComponent<{
   forceOsUpdateFailed: boolean
   checkingForOsForceUpdate: boolean
   updateAllIndexes: () => Promise<void>
+  passcodeModalCloseable: boolean
 }> = ({
   loaded,
   deviceType,
@@ -47,6 +48,7 @@ const Connecting: FunctionComponent<{
   updateAllIndexes,
   forceOsUpdateFailed,
   checkingForOsForceUpdate,
+  passcodeModalCloseable,
 }) => {
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
@@ -161,6 +163,7 @@ const Connecting: FunctionComponent<{
         leftTime={leftTime}
         unlockDevice={unlockDevice}
         getUnlockStatus={getUnlockStatus}
+        canBeClosed={passcodeModalCloseable}
       />
       <ConnectingContent
         onCancel={onCancel}

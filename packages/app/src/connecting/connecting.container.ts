@@ -42,6 +42,11 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   checkingForOsForceUpdate:
     state.update.checkForUpdateState === State.Loading &&
     Boolean(state.update.needsForceUpdate),
+  passcodeModalCloseable: !(
+    state.update.needsForceUpdate ||
+    state.update.forceUpdateState === State.Loading ||
+    state.update.updateOsState === State.Loading
+  ),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Connecting)
