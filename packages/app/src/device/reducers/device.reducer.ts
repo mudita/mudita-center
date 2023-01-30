@@ -148,6 +148,7 @@ export const deviceReducer = createReducer<DeviceState>(
           status: {
             ...state.status,
             unlocked: state.deviceType === DeviceType.MuditaHarmony,
+            loaded: false,
           },
         }
       })
