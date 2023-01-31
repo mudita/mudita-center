@@ -227,6 +227,28 @@ describe("Lock/Unlock functionality", () => {
     })
   })
 
+  test("Event: Locked event changes loaded state to false", () => {
+    expect(
+      deviceReducer(
+        {
+          ...initialState,
+          deviceType: DeviceType.MuditaPure,
+        },
+        {
+          type: fulfilledAction(DeviceEvent.Locked),
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      deviceType: DeviceType.MuditaPure,
+      status: {
+        ...initialState.status,
+        unlocked: false,
+        loaded: false,
+      },
+    })
+  })
+
   test("Event: SetLockTime set deviceLockTime", () => {
     expect(
       deviceReducer(undefined, {

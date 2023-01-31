@@ -20,6 +20,7 @@ export interface UpdateOsState {
   silentCheckForUpdate: SilentCheckForUpdateState
   error: AppError<UpdateError> | null
   needsForceUpdate: boolean
+  checkedForForceUpdateNeed: boolean
   data: {
     allReleases: OsRelease[] | null
     availableReleasesForUpdate: OsRelease[] | null

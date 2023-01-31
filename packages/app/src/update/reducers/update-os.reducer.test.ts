@@ -47,6 +47,7 @@ test("empty event returns initial state", () => {
   expect(updateOsReducer(undefined, {} as any)).toMatchInlineSnapshot(`
     Object {
       "checkForUpdateState": 0,
+      "checkedForForceUpdateNeed": false,
       "data": Object {
         "allReleases": null,
         "availableReleasesForUpdate": null,
@@ -594,7 +595,7 @@ describe("clearStateAndData", () => {
 })
 
 describe("checkForForceUpdateNeed", () => {
-  test("sets needsForceUpdate according to the action result", () => {
+  test("sets needsForceUpdate according to the action result and checkedForForceUpdateNeed as true", () => {
     expect(
       updateOsReducer(
         {
@@ -608,6 +609,7 @@ describe("checkForForceUpdateNeed", () => {
     ).toEqual({
       ...initialState,
       needsForceUpdate: true,
+      checkedForForceUpdateNeed: true,
     })
 
     expect(
@@ -623,6 +625,7 @@ describe("checkForForceUpdateNeed", () => {
     ).toEqual({
       ...initialState,
       needsForceUpdate: false,
+      checkedForForceUpdateNeed: true,
     })
   })
 })
