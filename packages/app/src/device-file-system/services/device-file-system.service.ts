@@ -77,56 +77,65 @@ export class DeviceFileSystemService {
   }
 
   public async downloadFile(filePath: string): Promise<ResultObject<Buffer>> {
-    const { ok, data } =
-      await this.deviceManager.device.request<GetFileSystemResponseBody>({
-        endpoint: Endpoint.FileSystem,
-        method: Method.Get,
-        body: {
-          fileName: filePath,
-        },
-      })
+    try {
+      const { ok, data } =
+        await this.deviceManager.device.request<GetFileSystemResponseBody>({
+          endpoint: Endpoint.FileSystem,
+          method: Method.Get,
+          body: {
+            fileName: filePath,
+          },
+        })
 
-    if (!ok || data === undefined) {
-      return Result.failed(
-        new AppError(
-          "",
-          "Get device logs: Something went wrong in init downloading request"
-        )
-      )
-    }
-
-    const { rxID, fileSize, chunkSize } = data
-    const chunkLength = fileSize > chunkSize ? fileSize / chunkSize : 1
-    const downloadFileResponse = await this.downloadEncodedFile(
-      rxID,
-      chunkLength
-    )
-
-    if (
-      downloadFileResponse.ok &&
-      downloadFileResponse.data !== undefined &&
-      downloadFileResponse.data.fileCrc32 !== undefined
-    ) {
-      const fileBuffer = Buffer.from(downloadFileResponse.data.file, "base64")
-      const receivedFileCrc32 =
-        downloadFileResponse.data.fileCrc32.toLowerCase()
-      const countedFileCrc32 = countCRC32(fileBuffer)
-      logger.info(
-        `downloadFile crc: received ${receivedFileCrc32}, counted  ${countedFileCrc32}`
-      )
-
-      if (receivedFileCrc32 === countedFileCrc32) {
-        return Result.success(fileBuffer)
-      } else {
+      if (!ok || data === undefined) {
         return Result.failed(
-          new AppError("", "Get device logs: File CRC32 mismatch")
+          new AppError(
+            "",
+            "Get device logs: Something went wrong in init downloading request"
+          )
         )
       }
-    } else {
+
+      const { rxID, fileSize, chunkSize } = data
+      const chunkLength = fileSize > chunkSize ? fileSize / chunkSize : 1
+      const downloadFileResponse = await this.downloadEncodedFile(
+        rxID,
+        chunkLength
+      )
+
+      if (
+        downloadFileResponse.ok &&
+        downloadFileResponse.data !== undefined &&
+        downloadFileResponse.data.fileCrc32 !== undefined
+      ) {
+        const fileBuffer = Buffer.from(downloadFileResponse.data.file, "base64")
+        const receivedFileCrc32 =
+          downloadFileResponse.data.fileCrc32.toLowerCase()
+        const countedFileCrc32 = countCRC32(fileBuffer)
+        logger.info(
+          `downloadFile crc: received ${receivedFileCrc32}, counted  ${countedFileCrc32}`
+        )
+
+        if (receivedFileCrc32 === countedFileCrc32) {
+          return Result.success(fileBuffer)
+        } else {
+          return Result.failed(
+            new AppError("", "Get device logs: File CRC32 mismatch")
+          )
+        }
+      } else {
+        return Result.failed(
+          new AppError(
+            "",
+            "Get device logs: Something went wrong in downloading request"
+          )
+        )
+      }
+    } catch (error) {
       return Result.failed(
         new AppError(
           "",
-          "Get device logs: Something went wrong in downloading request"
+          (error as Error)?.message || "Error during download device logs"
         )
       )
     }
@@ -237,7 +246,9 @@ export class DeviceFileSystemService {
     } else {
       const data: string[] = []
       const { cwd, extract, token, key } = options
-      const fileBase = options.fileBase ? options.fileBase : filePath.split("/").pop() as string
+      const fileBase = options.fileBase
+        ? options.fileBase
+        : (filePath.split("/").pop() as string)
 
       if (!fs.existsSync(cwd)) {
         fs.mkdirSync(cwd, {
