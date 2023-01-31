@@ -6,10 +6,11 @@
 import { EventEmitter } from "events"
 import { MainProcessIpc } from "electron-better-ipc"
 import { Observer } from "App/core/types"
-import { DeviceServiceEvent } from "App/device/constants"
+import { DeviceServiceEvent, DeviceType } from "App/device/constants"
 import { OutboxService } from "App/outbox/services/outbox.service"
 import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"
 import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
+import { SerialPortDevice } from "App/device/types/serial-port-device.type"
 
 export const outboxTime = 10000
 
@@ -28,19 +29,26 @@ export class OutboxObserver implements Observer {
   }
 
   private registerListener(): void {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.eventEmitter.on(DeviceServiceEvent.DeviceUnlocked, async () => {
-      this.disconnected = false
+    this.eventEmitter.on(
+      DeviceServiceEvent.DeviceUnlocked,
+      (device: SerialPortDevice) => {
+        void (async () => {
+          if (device.deviceType === DeviceType.MuditaHarmony) {
+            return
+          }
 
-      if (this.invoked) {
-        return
+          this.disconnected = false
+
+          if (this.invoked) {
+            return
+          }
+
+          this.invoked = true
+
+          await this.watchOutboxEntries()
+        })()
       }
-
-      this.invoked = true
-
-      await this.watchOutboxEntries()
-    })
+    )
 
     this.eventEmitter.on(
       DeviceServiceEvent.DeviceDisconnected,

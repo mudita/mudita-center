@@ -69,6 +69,9 @@ export class DeviceUpdateService {
         update: true,
         reboot: true,
       },
+      options: {
+        connectionTimeOut: 120000,
+      },
     })
 
     if (!pureUpdateResponse.ok) {
