@@ -136,12 +136,14 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
 
   private deviceRequest(
     port: SerialPort,
-    payload: RequestPayload
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<ResultObject<Response<any>>> {
+    { options = {}, ...payload }: RequestPayload
+  ): // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Promise<ResultObject<Response<any>>> {
+    const connectionTimeOut =
+      options?.connectionTimeOut ?? CONNECTION_TIME_OUT_MS
     return new Promise((resolve) => {
-      const [promise, cancel] = timeout(CONNECTION_TIME_OUT_MS)
+      const [promise, cancel] = timeout(connectionTimeOut)
       void promise.then(() => {
         resolve(
           Result.failed(
