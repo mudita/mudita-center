@@ -38,6 +38,7 @@ export const initialState: UpdateOsState = {
   forceUpdateState: State.Initial,
   error: null,
   needsForceUpdate: false,
+  checkedForForceUpdateNeed: false,
   data: {
     allReleases: null,
     availableReleasesForUpdate: null,
@@ -239,6 +240,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     })
     builder.addCase(checkForForceUpdateNeed.fulfilled, (state, action) => {
       state.needsForceUpdate = action.payload
+      state.checkedForForceUpdateNeed = true
     })
 
     builder.addCase(forceUpdate.pending, (state, action) => {

@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   deviceFeaturesVisible:
     (state.device.status.connected &&
       state.device.status.unlocked &&
+      state.update.checkedForForceUpdateNeed &&
       !(
         state.update.needsForceUpdate &&
         state.update.checkForUpdateState === State.Failed
