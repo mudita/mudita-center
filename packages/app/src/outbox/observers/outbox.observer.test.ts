@@ -4,7 +4,7 @@
  */
 
 import { EventEmitter } from "events"
-import { DeviceServiceEvent } from "App/device/constants"
+import { DeviceServiceEvent, DeviceType } from "App/device/constants"
 import {
   OutboxObserver,
   outboxTime,
@@ -16,6 +16,7 @@ import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
 import { Thread } from "App/messages/dto"
 import { flushPromises } from "App/core/helpers/flush-promises"
 import { MessageType } from "App/messages/constants"
+import { SerialPortDevice } from "App/device/types/serial-port-device.type"
 
 const threadMock: Thread = {
   id: "1",
@@ -58,7 +59,9 @@ describe("Outbox Observer: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
-      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+        deviceType: DeviceType.MuditaPure,
+      } as SerialPortDevice)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -83,7 +86,9 @@ describe("Outbox Observer: observe", () => {
         expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
         subject.observe()
-        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
+        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+          deviceType: DeviceType.MuditaPure,
+        } as SerialPortDevice)
 
         await flushPromises()
 
@@ -122,7 +127,9 @@ describe("Outbox Observer: observe", () => {
         expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
         subject.observe()
-        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
+        eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+          deviceType: DeviceType.MuditaPure,
+        } as SerialPortDevice)
 
         await flushPromises()
 
@@ -149,7 +156,9 @@ describe("Outbox Observer: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
-      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+        deviceType: DeviceType.MuditaPure,
+      } as SerialPortDevice)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -172,7 +181,9 @@ describe("Outbox Observer: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
-      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+        deviceType: DeviceType.MuditaPure,
+      } as SerialPortDevice)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -199,13 +210,49 @@ describe("Outbox Observer: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
-      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
-      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
-      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+        deviceType: DeviceType.MuditaPure,
+      } as SerialPortDevice)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+        deviceType: DeviceType.MuditaPure,
+      } as SerialPortDevice)
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+        deviceType: DeviceType.MuditaPure,
+      } as SerialPortDevice)
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe("when `DeviceServiceEvent.DeviceUnlocked` has been emitted for MuditaHarmony", () => {
+    let subject: OutboxObserver
+    let eventEmitterMock: EventEmitter
+    let outboxService: OutboxService
+    beforeEach(() => {
+      eventEmitterMock = new EventEmitter()
+      outboxService = {
+        readOutboxEntries: jest.fn(),
+      } as unknown as OutboxService
+      subject = new OutboxObserver(ipcMain, eventEmitterMock, outboxService)
+    })
+
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
+    test("`readOutboxEntries` hasn't been called", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
+
+      subject.observe()
+      eventEmitterMock.emit(DeviceServiceEvent.DeviceUnlocked, {
+        deviceType: DeviceType.MuditaHarmony,
+      } as SerialPortDevice)
+
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(outboxService.readOutboxEntries).not.toHaveBeenCalled()
     })
   })
 })
