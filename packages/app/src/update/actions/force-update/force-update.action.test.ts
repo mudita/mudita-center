@@ -96,6 +96,7 @@ describe("happy path", () => {
 })
 
 describe("when downloadUpdates action fails", () => {
+  const error = new AppError(UpdateError.UnexpectedDownloadError, "Oups 2")
   beforeEach(() => {
     jest
       .spyOn(downloadUpdatesActionModule, "downloadUpdates")
@@ -103,15 +104,12 @@ describe("when downloadUpdates action fails", () => {
         () =>
           ({
             type: rejectedAction(UpdateOsEvent.DownloadUpdate),
+            payload: error,
           } as unknown as jest.Mock)
       )
   })
 
   test("action is rejected", async () => {
-    const error = new AppError(
-      UpdateError.ForceUpdateError,
-      "Error during download"
-    )
     const mockStore = createMockStore([thunk])({
       device: {},
       settings: {},
@@ -127,6 +125,7 @@ describe("when downloadUpdates action fails", () => {
       forceUpdate.pending(requestId, params),
       {
         type: rejectedAction(UpdateOsEvent.DownloadUpdate),
+        payload: error,
       },
       forceUpdate.rejected(testError, requestId, params, error),
     ])
@@ -134,6 +133,8 @@ describe("when downloadUpdates action fails", () => {
 })
 
 describe("when startUpdateOs action fails", () => {
+  const error = new AppError(UpdateError.TooLowBattery, "Oups")
+
   beforeEach(() => {
     jest
       .spyOn(downloadUpdatesActionModule, "downloadUpdates")
@@ -147,15 +148,12 @@ describe("when startUpdateOs action fails", () => {
       () =>
         ({
           type: rejectedAction(UpdateOsEvent.StartOsUpdateProcess),
+          payload: error,
         } as unknown as jest.Mock)
     )
   })
 
   test("action is rejected", async () => {
-    const error = new AppError(
-      UpdateError.ForceUpdateError,
-      "Error during installation"
-    )
     const mockStore = createMockStore([thunk])({
       device: {},
       settings: {},
@@ -174,6 +172,7 @@ describe("when startUpdateOs action fails", () => {
       },
       {
         type: rejectedAction(UpdateOsEvent.StartOsUpdateProcess),
+        payload: error,
       },
       forceUpdate.rejected(testError, requestId, params, error),
     ])
