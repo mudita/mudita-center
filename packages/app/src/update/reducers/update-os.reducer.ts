@@ -177,13 +177,20 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       }
     })
     builder.addCase(checkForUpdate.rejected, (state, action) => {
-      if (action.meta.arg.mode === CheckForUpdateMode.SilentCheck) {
+      let error: AppError<UpdateError> | null =
+        action.payload as AppError<UpdateError>
+      if (
+        action.meta.aborted &&
+        action.meta.arg.mode === CheckForUpdateMode.SilentCheck
+      ) {
+        state.silentCheckForUpdate = SilentCheckForUpdateState.Initial
+        error = null
+      } else if (action.meta.arg.mode === CheckForUpdateMode.SilentCheck) {
         state.silentCheckForUpdate = SilentCheckForUpdateState.Failed
       } else {
         state.checkForUpdateState = State.Failed
       }
-
-      state.error = action.payload as AppError<UpdateError>
+      state.error = error
     })
 
     builder.addCase(downloadUpdates.pending, (state, action) => {
