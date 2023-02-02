@@ -312,6 +312,32 @@ describe("checkForUpdate", () => {
       })
     })
   })
+
+  describe("when check for update action is aborted and mode equals to silent check", () => {
+    test("state is set as initial", () => {
+      expect(
+        updateOsReducer(
+          {
+            ...initialState,
+            error: exampleError,
+          },
+          {
+            type: rejectedAction(UpdateOsEvent.CheckForUpdate),
+            meta: {
+              aborted: true,
+              arg: {
+                mode: CheckForUpdateMode.SilentCheck,
+              },
+            },
+          }
+        )
+      ).toEqual({
+        ...initialState,
+        silentCheckForUpdate: SilentCheckForUpdateState.Initial,
+        error: null,
+      })
+    })
+  })
 })
 
 describe("downloadUpdate", () => {
