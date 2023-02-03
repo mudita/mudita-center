@@ -8,10 +8,16 @@ import { SearchEvent } from "App/search/constants"
 import { SearchParams, SearchResult } from "App/search/dto"
 import { searchRequest } from "App/search/requests"
 
-export const search = createAsyncThunk<SearchResult | undefined, SearchParams>(
-  SearchEvent.SearchData,
-  async (payload) => {
-    const result = await searchRequest(payload)
-    return result.ok ? result.data : undefined
-  }
+const searchActionGenerator = (searchAction: SearchEvent) =>
+  createAsyncThunk<SearchResult | undefined, SearchParams>(
+    searchAction,
+    async (payload) => {
+      const result = await searchRequest(payload)
+      return result.ok ? result.data : undefined
+    }
+  )
+
+export const search = searchActionGenerator(SearchEvent.SearchData)
+export const searchPreview = searchActionGenerator(
+  SearchEvent.SearchDataPreview
 )

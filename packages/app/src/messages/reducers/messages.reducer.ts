@@ -44,6 +44,7 @@ import assert from "assert"
 import { SearchEvent } from "App/search/constants"
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
+import { search, searchPreview } from "App/search/actions/search.action"
 
 export const initialState: MessagesState = {
   data: {
@@ -53,6 +54,7 @@ export const initialState: MessagesState = {
     messagesStateMap: {},
     currentlyDeletingMessageId: null,
     searchResult: {},
+    searchPreviewResult: {},
     searchValue: "",
     threadsState: ResultState.Empty,
     visibilityFilter: VisibilityFilter.All,
@@ -433,17 +435,11 @@ export const messagesReducer = createReducer<MessagesState>(
           selectedItems: { rows: [] },
         }
       })
-      .addCase(
-        fulfilledAction(SearchEvent.SearchData),
-        (state, action: SearchMessagesAction) => {
-          return {
-            ...state,
-            data: {
-              ...state.data,
-              searchResult: action.payload,
-            },
-          }
-        }
-      )
+      .addCase(search.fulfilled, (state, action) => {
+        state.data.searchResult = action.payload ?? {}
+      })
+      .addCase(searchPreview.fulfilled, (state, action) => {
+        state.data.searchPreviewResult = action.payload ?? {}
+      })
   }
 )
