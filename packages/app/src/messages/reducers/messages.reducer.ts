@@ -27,7 +27,6 @@ import {
   DeleteMessageAction,
   DeleteMessagePendingAction,
   DeleteMessageRejectedAction,
-  SearchMessagesAction,
   DeleteThreadsRejectedAction,
 } from "App/messages/reducers/messages.interface"
 import {
@@ -41,7 +40,6 @@ import { ReadAllIndexesAction } from "App/data-sync/reducers"
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
 import { changeLocation } from "App/core/actions"
 import assert from "assert"
-import { SearchEvent } from "App/search/constants"
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { search, searchPreview } from "App/search/actions/search.action"
