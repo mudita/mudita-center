@@ -5,7 +5,10 @@
 
 import styled from "styled-components"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  zIndex,
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
@@ -53,6 +56,7 @@ export const Textarea = styled(InputComponent)`
 
 export const MessagesSidebar = styled(Sidebar)`
   border-top: none;
+  z-index: ${zIndex("content")};
 `
 
 export const NameWrapper = styled.div`
