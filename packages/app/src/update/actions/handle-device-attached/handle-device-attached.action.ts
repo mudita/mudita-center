@@ -12,9 +12,13 @@ import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 export const handleDeviceAttached = createAsyncThunk<void, void>(
   UpdateOsEvent.HandleDeviceAttached,
   (_, { dispatch, getState }) => {
-    const { update } = getState() as RootState & ReduxRootState
+    const { update, backup } = getState() as RootState & ReduxRootState
 
-    if (update.updateOsState === State.Loading) {
+    if (
+      update.updateOsState === State.Loading ||
+      backup.restoringState === State.Loading ||
+      backup.backingUpState === State.Loading
+    ) {
       return
     }
 

@@ -154,7 +154,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     closeSidebar()
     setNewContact(defaultContact)
     setShowSearchResults(false)
-    setSearchValue("")
+    setSearchPreviewValue("")
   }
 
   const cancelOrCloseContactHandler = () => {
@@ -516,6 +516,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   }
 
   const [showSearchResults, setShowSearchResults] = useState<boolean>(false)
+  const [searchPreviewValue, setSearchPreviewValue] = useState<string>("")
   const [searchValue, setSearchValue] = useState<string>("")
 
   const handleContactSelect = (contact: Contact) => {
@@ -525,14 +526,14 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   }
 
   useEffect(() => {
-    if (searchValue === "") {
+    if (searchPreviewValue === "") {
       setShowSearchResults(false)
     }
-  }, [searchValue])
+  }, [searchPreviewValue])
 
   useEffect(() => {
     if (detailsEnabled === true) {
-      setSearchValue("")
+      setSearchPreviewValue("")
     }
   }, [detailsEnabled])
 
@@ -540,10 +541,14 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     setShowSearchResults(true)
     setEditedContact(undefined)
     setNewContact(undefined)
+    setSearchValue(searchPreviewValue)
   }
 
   const results = flatList.filter((item) =>
     contactsFilter(item, searchValue || "")
+  )
+  const resultsPreview = flatList.filter((item) =>
+    contactsFilter(item, searchPreviewValue || "")
   )
 
   const handleExport = async (ids: string[]): Promise<void> => {
@@ -600,9 +605,9 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           resetRows={resetAllItems}
           editMode={Boolean(editedContact || newContact)}
           onSearchEnterClick={openSearchResults}
-          searchValue={searchValue}
-          onSearchValueChange={setSearchValue}
-          results={results}
+          searchValue={searchPreviewValue}
+          onSearchValueChange={setSearchPreviewValue}
+          results={resultsPreview}
           showSearchResults={showSearchResults}
           onExport={handleExport}
         />

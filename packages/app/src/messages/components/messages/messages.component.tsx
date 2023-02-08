@@ -109,7 +109,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
   selectAllItems,
   resetItems,
   searchMessages,
+  searchMessagesForPreview,
   searchResult,
+  searchPreviewResult,
   state,
 }) => {
   const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
@@ -645,7 +647,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (query.length > 0) {
       setLastSearchQuery(query)
       setActiveSearchDropdown(true)
-      searchMessages({
+      searchMessagesForPreview({
         scope: [DataIndex.Message, DataIndex.Thread],
         query: query,
       })
@@ -677,6 +679,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const handleSearchMessage = () => {
     searchMessages({ scope: [DataIndex.Message], query: searchValue })
+    searchMessagesForPreview({ scope: [DataIndex.Message], query: searchValue })
   }
   return (
     <>
@@ -716,7 +719,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         allItemsSelected={allItemsSelected}
         toggleAll={handleToggleAllCheckboxes}
         onDeleteClick={handleDeleteThreads}
-        results={searchResult}
+        results={searchPreviewResult}
         onSelect={handleSearchSelect}
         onSearchEnterClick={handleSearchEnter}
         showSearchResults={activeSearchDropdown}
