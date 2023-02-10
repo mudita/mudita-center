@@ -140,6 +140,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const debouncedContent = useDebounce(content, 1000)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+  const [searchPreviewValue, setSearchPreviewValue] = useState<string>("")
   const [searchValue, setSearchValue] = useState<string>("")
   const [lastSearchQuery, setLastSearchQuery] = useState<string>("")
   const [searchedMessage, setSearchedMessage] = useState<Message | null>(null)
@@ -148,7 +149,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
-    if (searchValue !== "") {
+    if (searchPreviewValue !== "") {
       return
     }
     if (messagesState === MessagesState.SearchResult) {
@@ -156,7 +157,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
     setActiveSearchDropdown(false)
     setSearchedMessage(null)
-  }, [searchValue, messagesState])
+  }, [searchPreviewValue, messagesState])
 
   useEffect(() => {
     messageLayoutNotifications
@@ -642,7 +643,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const handleSearch = (query: string) => {
-    setSearchValue(query)
+    setSearchPreviewValue(query)
 
     if (query.length > 0) {
       setLastSearchQuery(query)
@@ -661,6 +662,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleSearchEnter = () => {
     setMessagesState(MessagesState.SearchResult)
     setActiveThread(undefined)
+    setSearchValue(searchPreviewValue)
     handleSearchMessage()
   }
 
@@ -679,7 +681,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const handleSearchMessage = () => {
     searchMessages({ scope: [DataIndex.Message], query: searchValue })
-    searchMessagesForPreview({ scope: [DataIndex.Message], query: searchValue })
+    searchMessagesForPreview({
+      scope: [DataIndex.Message],
+      query: searchValue,
+    })
   }
   return (
     <>
@@ -711,7 +716,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         templates={templates}
       />
       <MessagesPanel
-        searchValue={searchValue}
+        searchValue={searchPreviewValue}
         onSearchValueChange={handleSearch}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}

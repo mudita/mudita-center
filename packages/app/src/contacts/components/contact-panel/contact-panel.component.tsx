@@ -70,7 +70,8 @@ interface ContactPanelProps {
   editMode: boolean
   onSearchEnterClick?: () => void
   searchValue: string
-  onSearchValueChange: (value: string) => void
+  searchPreviewValue: string
+  onSearchPreviewValueChange: (value: string) => void
   showSearchResults?: boolean
   results: Contact[]
   onExport: (ids: string[]) => void
@@ -88,7 +89,8 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   editMode,
   onSearchEnterClick = noop,
   searchValue,
-  onSearchValueChange,
+  searchPreviewValue,
+  onSearchPreviewValueChange,
   showSearchResults = false,
   results,
   onExport,
@@ -168,8 +170,8 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             <ContactInputSearch
               onContactSelect={onContactSelect}
               onSearchEnterClick={onSearchEnterClick}
-              searchValue={searchValue}
-              onSearchValueChange={onSearchValueChange}
+              searchValue={searchPreviewValue}
+              onSearchValueChange={onSearchPreviewValueChange}
               showSearchResults
               results={results}
             />
