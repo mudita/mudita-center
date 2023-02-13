@@ -17,6 +17,6 @@ export class ConfigurationController {
 
   @IpcEvent(IpcConfigurationsEvent.Get)
   async getSettings(): Promise<Configuration> {
-    return this.configurationService.getTMPConfigurationForSOSU()
+    return this.configurationService.getConfiguration()
   }
 }
