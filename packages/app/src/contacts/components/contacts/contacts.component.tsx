@@ -522,7 +522,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const handleContactSelect = (contact: Contact) => {
     setSelectedContact(contact)
     openSidebar(contact)
-    setShowSearchResults(false)
   }
 
   useEffect(() => {
@@ -605,8 +604,9 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           resetRows={resetAllItems}
           editMode={Boolean(editedContact || newContact)}
           onSearchEnterClick={openSearchResults}
-          searchValue={searchPreviewValue}
-          onSearchValueChange={setSearchPreviewValue}
+          searchValue={searchValue}
+          searchPreviewValue={searchPreviewValue}
+          onSearchPreviewValueChange={setSearchPreviewValue}
           results={resultsPreview}
           showSearchResults={showSearchResults}
           onExport={handleExport}

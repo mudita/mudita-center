@@ -46,6 +46,7 @@ const defaultProps: Props = {
   contactsList: contacts,
   editMode: false,
   searchValue: "",
+  searchPreviewValue: "",
   results: contacts,
   allItemsSelected: false,
   onManageButtonClick: jest.fn(),
@@ -55,7 +56,7 @@ const defaultProps: Props = {
   selectedContacts: [],
   deleteContacts: jest.fn(),
   onContactSelect: jest.fn(),
-  onSearchValueChange: jest.fn(),
+  onSearchPreviewValueChange: jest.fn(),
   onExport: jest.fn(),
 }
 
@@ -90,6 +91,7 @@ describe("`ContactPanel` component", () => {
       showSearchResults: true,
       searchValue: "test",
     })
+
     expect(getByTestId(ContactPanelTestIdsEnum.SearchTitle)).toHaveTextContent(
       "[value] module.contacts.searchResultsTitle"
     )
