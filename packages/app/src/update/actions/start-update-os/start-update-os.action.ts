@@ -58,8 +58,6 @@ export const startUpdateOs = createAsyncThunk<
 
       const result = await startOsUpdate({ fileName: release.file.name })
 
-      console.log(result.error?.type)
-
       if (!result.ok) {
         void setUpdatingRequest(false)
 

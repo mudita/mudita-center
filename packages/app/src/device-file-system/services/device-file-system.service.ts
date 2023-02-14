@@ -180,8 +180,6 @@ export class DeviceFileSystemService {
       const fileBuffer = fs.readFileSync(filePath)
       const fileCrc32 = countCRC32(fileBuffer)
 
-      console.log(fileSize)
-
       const { ok, data } =
         await this.deviceManager.device.request<PutFileSystemResponseBody>({
           endpoint: Endpoint.FileSystem,
