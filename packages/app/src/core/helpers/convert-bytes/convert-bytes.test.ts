@@ -3,18 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
-const oneKbInBytes = 1024
-const tenMbInBytes = 10485760
-const fourGbInBytes = 4294967296
-const oneTbInBytes = 1099511627776
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
+const oneKbInBytes = 1000
+const tenMbInBytes = 10000000
+const fourGbInBytes = 4000000000
+const oneTbInBytes = 1000000000000
 
 test("returns 0 B when 0 bytes provided", () => {
   expect(convertBytes(0)).toBe("0 B")
-})
-
-test("returns correct format in bytes", () => {
-  expect(convertBytes(1000)).toBe("1000 B")
 })
 
 test("returns correct format in B", () => {
@@ -58,11 +54,11 @@ test("returns correct format when not forcing fraction digits", () => {
       fixedFractionDigits: false,
       precision: 3,
     })
-  ).toBe("1.147 KB")
+  ).toBe("1.151 KB")
   expect(
     convertBytes(oneKbInBytes + 256, {
       fixedFractionDigits: false,
       precision: 3,
     })
-  ).toBe("1.25 KB")
+  ).toBe("1.256 KB")
 })

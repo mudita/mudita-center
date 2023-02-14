@@ -22,7 +22,7 @@ import StackedBarChart, {
   ChartItem,
 } from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;

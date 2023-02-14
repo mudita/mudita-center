@@ -21,7 +21,7 @@ import {
   ModalMainText,
 } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 
 const messages = defineMessages({
   backupModalHeaderTitle: {
