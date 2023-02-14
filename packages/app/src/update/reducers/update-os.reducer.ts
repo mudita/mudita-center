@@ -242,6 +242,8 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.error = null
     })
     builder.addCase(startUpdateOs.rejected, (state, action) => {
+      console.log(`action.payload :${action.payload}`)
+      console.log(`action.payload :${action.payload?.type}`)
       state.updateOsState = State.Failed
       state.error = action.payload as AppError<UpdateError>
     })

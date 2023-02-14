@@ -9,7 +9,10 @@ import { DeviceInfo } from "App/device-info/dto"
 import { DeviceInfoPresenter } from "App/device-info/presenters"
 import { DeviceManager } from "App/device-manager/services"
 import { Endpoint, Method } from "App/device/constants"
-import { DeviceInfo as DeviceInfoRaw } from "App/device/types/mudita-os"
+import {
+  DeviceInfo as DeviceInfoRaw,
+  NotSupportedDeviceInfo,
+} from "App/device/types/mudita-os"
 
 export class DeviceInfoService {
   constructor(private deviceManager: DeviceManager) {}
@@ -26,6 +29,39 @@ export class DeviceInfoService {
       }
 
       return Result.success(DeviceInfoPresenter.toDto(response.data))
+    } catch (error) {
+      return Result.failed(new AppError("", ""))
+    }
+  }
+
+  public async getDeviceFreeSpace(): Promise<ResultObject<number, string>> {
+    try {
+      const response = await this.deviceManager.device.request<
+        DeviceInfoRaw | NotSupportedDeviceInfo
+      >({
+        endpoint: Endpoint.DeviceInfo,
+        method: Method.Get,
+      })
+
+      if (!response.ok) {
+        return response
+      }
+
+      const freeSpaceInNoTSupportedDevice = +(
+        response.data as NotSupportedDeviceInfo
+      ).fsFree
+
+      if (!isNaN(freeSpaceInNoTSupportedDevice)) {
+        return Result.success(freeSpaceInNoTSupportedDevice)
+      }
+
+      const { deviceSpaceTotal, usedUserSpace, systemReservedSpace } =
+        response.data as DeviceInfoRaw
+
+      const freeSpace =
+        +deviceSpaceTotal - +usedUserSpace - +systemReservedSpace
+
+      return Result.success(freeSpace)
     } catch (error) {
       return Result.failed(new AppError("", ""))
     }

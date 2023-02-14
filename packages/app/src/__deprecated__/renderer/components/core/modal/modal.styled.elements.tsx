@@ -107,8 +107,6 @@ export const ModalSubTitle = styled(Text)`
 `
 
 export const Close = styled(Button)`
-  margin-top: -0.6rem;
-  margin-right: -0.8rem;
   grid-area: Close;
   justify-self: end;
   width: 2.8rem;
