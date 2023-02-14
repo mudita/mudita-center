@@ -22,16 +22,10 @@ export interface Spaces {
 
 export const getSpaces = (files: File[], memorySpace: MemorySpace): Spaces => {
   const { reservedSpace, usedUserSpace, total } = memorySpace
-  const totalUsedSpace = reservedSpace + usedUserSpace
-  const totalAndTotalUsedSpaceDifference = total - totalUsedSpace
-  const isSizeCorrupt = totalAndTotalUsedSpaceDifference < 0
-  const usedMemorySpace = isSizeCorrupt ? total : totalUsedSpace
-  const freeSpace = !isSizeCorrupt ? totalAndTotalUsedSpaceDifference : 0
+  const usedMemorySpace = reservedSpace + usedUserSpace
+  const freeSpace = total - usedMemorySpace
   const musicSpace = files.reduce((a, b) => a + b.size, 0)
-
-  const otherSpace = !isSizeCorrupt
-    ? usedUserSpace - musicSpace
-    : usedUserSpace - musicSpace + totalAndTotalUsedSpaceDifference
+  const otherSpace = usedUserSpace - musicSpace
 
   return {
     reservedSpace,
