@@ -24,15 +24,12 @@ import * as fs from "fs"
 import { DeviceInfoService } from "App/device-info/services"
 
 export class DeviceUpdateService {
-  private deviceInfoService: DeviceInfoService
-
   constructor(
     private settingsService: SettingsService,
     private deviceManager: DeviceManager,
-    private deviceFileSystem: DeviceFileSystemService
-  ) {
-    this.deviceInfoService = new DeviceInfoService(deviceManager)
-  }
+    private deviceFileSystem: DeviceFileSystemService,
+    private deviceInfoService: DeviceInfoService
+  ) {}
 
   public async updateOs(payload: UpdateOS): Promise<ResultObject<boolean>> {
     const deviceInfoResult = await this.getDeviceInfo()

@@ -8,7 +8,11 @@ import { AppError } from "App/core/errors"
 import { DeviceInfo } from "App/device-info/dto"
 import { DeviceInfoPresenter } from "App/device-info/presenters"
 import { DeviceManager } from "App/device-manager/services"
-import { Endpoint, Method } from "App/device/constants"
+import {
+  DeviceCommunicationError,
+  Endpoint,
+  Method,
+} from "App/device/constants"
 import {
   DeviceInfo as DeviceInfoRaw,
   NotSupportedDeviceInfo,
@@ -17,12 +21,18 @@ import {
 export class DeviceInfoService {
   constructor(private deviceManager: DeviceManager) {}
 
+  private async getDeviceInfoRequest<TResult>(): Promise<
+    ResultObject<TResult, DeviceCommunicationError>
+  > {
+    return this.deviceManager.device.request<TResult>({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+    })
+  }
+
   public async getDeviceInfo(): Promise<ResultObject<DeviceInfo, string>> {
     try {
-      const response = await this.deviceManager.device.request<DeviceInfoRaw>({
-        endpoint: Endpoint.DeviceInfo,
-        method: Method.Get,
-      })
+      const response = await this.getDeviceInfoRequest<DeviceInfoRaw>()
 
       if (!response.ok) {
         return response
@@ -36,20 +46,17 @@ export class DeviceInfoService {
 
   public async getDeviceFreeSpace(): Promise<ResultObject<number, string>> {
     try {
-      const response = await this.deviceManager.device.request<
+      const response = await this.getDeviceInfoRequest<
         DeviceInfoRaw | NotSupportedDeviceInfo
-      >({
-        endpoint: Endpoint.DeviceInfo,
-        method: Method.Get,
-      })
+      >()
 
       if (!response.ok) {
         return response
       }
 
-      const freeSpaceInNoTSupportedDevice = +(
-        response.data as NotSupportedDeviceInfo
-      ).fsFree
+      const freeSpaceInNoTSupportedDevice = Number(
+        (response.data as NotSupportedDeviceInfo).fsFree
+      )
 
       if (!isNaN(freeSpaceInNoTSupportedDevice)) {
         return Result.success(freeSpaceInNoTSupportedDevice)
@@ -59,7 +66,9 @@ export class DeviceInfoService {
         response.data as DeviceInfoRaw
 
       const freeSpace =
-        +deviceSpaceTotal - +usedUserSpace - +systemReservedSpace
+        Number(deviceSpaceTotal) -
+        Number(usedUserSpace) -
+        Number(systemReservedSpace)
 
       return Result.success(freeSpace)
     } catch (error) {
