@@ -27,8 +27,8 @@ const messages = defineMessages({
   updatingNotEnoughSpaceDescription: {
     id: "module.overview.updatingNotEnoughSpaceDescription",
   },
-  updatingFlatBatteryActionButton: {
-    id: "module.overview.updatingFlatBatteryActionButton",
+  updatingNotEnoughSpaceActionButton: {
+    id: "component.okButton",
   },
 })
 
@@ -43,7 +43,7 @@ export const NotEnoughSpaceModal: FunctionComponent<
       closeable
       closeModal={onClose}
       closeButtonLabel={intl.formatMessage(
-        messages.updatingFlatBatteryActionButton
+        messages.updatingNotEnoughSpaceActionButton
       )}
     >
       <RoundIconWrapper>
