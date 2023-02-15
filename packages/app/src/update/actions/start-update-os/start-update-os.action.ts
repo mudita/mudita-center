@@ -11,6 +11,7 @@ import { setStateForInstalledRelease } from "App/update/actions/base.action"
 import {
   ReleaseProcessState,
   UpdateError,
+  UpdateErrorServiceErrors,
   UpdateOsEvent,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
@@ -59,11 +60,14 @@ export const startUpdateOs = createAsyncThunk<
 
       if (!result.ok) {
         void setUpdatingRequest(false)
+
+        const errorType =
+          result.error?.type === UpdateErrorServiceErrors.NotEnoughSpace
+            ? UpdateError.NotEnoughSpace
+            : UpdateError.UpdateOsProcess
+
         return rejectWithValue(
-          new AppError(
-            UpdateError.UpdateOsProcess,
-            "Device updating process failed"
-          )
+          new AppError(errorType, "Device updating process failed")
         )
       }
 
