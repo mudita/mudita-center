@@ -8,6 +8,7 @@ import { Feature, flags } from "App/feature-flags"
 import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { checkForUpdate } from "App/update/actions/check-for-update/check-for-update.action"
 import { CheckForUpdateMode, UpdateOsEvent } from "App/update/constants"
+import { versionFormatter } from "App/update/helpers"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
@@ -18,7 +19,7 @@ export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
     }
     const { device, settings } = getState() as RootState & ReduxRootState
 
-    const osVersion = device.data?.osVersion
+    const osVersion = versionFormatter(device.data?.osVersion ?? "")
     const lowestSupportedProductVersion =
       settings.lowestSupportedVersions?.lowestSupportedProductVersion
     const deviceType = device.deviceType
