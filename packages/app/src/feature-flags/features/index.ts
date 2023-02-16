@@ -39,7 +39,8 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    // TODO: tmp solutions for tests
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {

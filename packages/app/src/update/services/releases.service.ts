@@ -26,7 +26,7 @@ export class ReleaseService {
   ): Promise<ResultObject<OsRelease[] | undefined>> {
     try {
       const releases = await Promise.all([
-        this.getRelease(product, OsEnvironment.Production, "latest"),
+        this.getRelease(product, OsEnvironment.Daily, "latest"),
         this.getRelease(product, OsEnvironment.TestProduction, "latest"),
         this.getRelease(product, OsEnvironment.Daily, "latest"),
       ])
@@ -50,9 +50,9 @@ export class ReleaseService {
   ): Promise<ResultObject<OsRelease[] | undefined>> {
     try {
       const promises = [
-        this.getRelease(product, OsEnvironment.Production, "latest"),
+        this.getRelease(product, OsEnvironment.Daily, "latest"),
         product === Product.BellHybrid
-          ? this.getRelease(product, OsEnvironment.Production, "1.6.0")
+          ? this.getRelease(product, OsEnvironment.Daily, "1.6.0")
           : undefined,
         this.getRelease(product, OsEnvironment.TestProduction, "latest"),
         this.getRelease(product, OsEnvironment.Daily, "latest"),
@@ -80,7 +80,7 @@ export class ReleaseService {
     try {
       const releases = await Promise.all(
         versions.map((version) =>
-          this.getRelease(product, OsEnvironment.Production, version)
+          this.getRelease(product, OsEnvironment.Daily, version)
         )
       )
 
@@ -103,7 +103,7 @@ export class ReleaseService {
     try {
       const release = await this.getRelease(
         product,
-        OsEnvironment.Production,
+        OsEnvironment.Daily,
         "latest"
       )
 
