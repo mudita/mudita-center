@@ -75,6 +75,7 @@ const messagesState: MessagesState = {
     threadsState: ResultState.Empty,
     currentlyDeletingMessageId: null,
     searchResult: {},
+    searchPreviewResult: {},
   },
   selectedItems: { rows: [] },
   error: null,

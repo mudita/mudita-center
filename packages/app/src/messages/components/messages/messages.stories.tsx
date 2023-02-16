@@ -170,7 +170,9 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         selectAllItems={jest.fn()}
         resetItems={jest.fn()}
         searchMessages={jest.fn()}
+        searchMessagesForPreview={jest.fn()}
         searchResult={{}}
+        searchPreviewResult={{}}
         state={State.Initial}
       />
     </div>
