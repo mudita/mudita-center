@@ -74,7 +74,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
       return false
     }
 
-    return flags.get(Feature.MessagesForwardEnabled)
+    return true
   }
 
   return (
