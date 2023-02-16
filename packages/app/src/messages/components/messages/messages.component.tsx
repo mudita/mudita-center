@@ -663,7 +663,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setMessagesState(MessagesState.SearchResult)
     setActiveThread(undefined)
     setSearchValue(searchPreviewValue)
-    handleSearchMessage()
+    handleSearchMessage(searchPreviewValue)
   }
 
   const handleResultClick = (message: Message): void => {
@@ -679,11 +679,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
   }
 
-  const handleSearchMessage = () => {
-    searchMessages({ scope: [DataIndex.Message], query: searchValue })
+  const handleSearchMessage = (currentSearchValue = searchValue) => {
+    searchMessages({ scope: [DataIndex.Message], query: currentSearchValue })
     searchMessagesForPreview({
       scope: [DataIndex.Message],
-      query: searchValue,
+      query: searchPreviewValue,
     })
   }
   return (
