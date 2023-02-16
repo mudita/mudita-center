@@ -29,6 +29,7 @@ import {
 } from "App/update/constants"
 import { cancelOsDownload } from "App/update/requests"
 import React, { FunctionComponent, useMemo } from "react"
+import { NotEnoughSpaceModal } from "App/overview/components/update-os-modals/not-enough-space-modal"
 
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   checkForUpdateState,
@@ -203,7 +204,8 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         testId={UpdateOsFlowTestIds.UpdateFailedModal}
         open={
           updateState === State.Failed &&
-          error?.type !== UpdateError.TooLowBattery
+          error?.type !== UpdateError.TooLowBattery &&
+          error?.type !== UpdateError.NotEnoughSpace
         }
         onClose={resetUpdateFlow}
         onHelp={openHelpView}
@@ -215,6 +217,13 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         open={error?.type === UpdateError.TooLowBattery}
         deviceType={deviceType}
         onClose={resetUpdateFlow}
+      />
+
+      <NotEnoughSpaceModal
+        testId={UpdateOsFlowTestIds.NotEnoughSpaceModal}
+        open={error?.type === UpdateError.NotEnoughSpace}
+        onClose={resetUpdateFlow}
+        fileSize={availableReleasesForUpdate?.[0]?.file?.size ?? 0}
       />
 
       {devRelease && (
