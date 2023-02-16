@@ -5,7 +5,7 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import FilesManager from "App/overview/components/files-manager/files-manager.component"
 import { FilesManagerProps } from "App/overview/components/files-manager/files-manager.interface"

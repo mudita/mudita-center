@@ -60,14 +60,14 @@ describe("FilesSummary", () => {
   test("used memory percentage is displayed", () => {
     const { queryByTestId } = render()
     expect(queryByTestId(FilesSummaryTestIds.UsedMemory)).toHaveTextContent(
-      "60.0 MB (60%)"
+      "62.9 MB (60%)"
     )
   })
 
   test("total memory is displayed", () => {
     const { queryByTestId } = render()
     expect(queryByTestId(FilesSummaryTestIds.TotalMemory)).toHaveTextContent(
-      "100.0 MB"
+      "104.9 MB"
     )
   })
 })

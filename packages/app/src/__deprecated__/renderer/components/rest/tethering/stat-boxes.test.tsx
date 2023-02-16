@@ -26,12 +26,12 @@ test("time active text is rendered", () => {
 
 test("data sent is rendered after conversion", () => {
   const { getByTestId } = renderer()
-  expect(getByTestId(StatBoxesTestIds.DataSentText)).toHaveTextContent("88.1MB")
+  expect(getByTestId(StatBoxesTestIds.DataSentText)).toHaveTextContent("92.3MB")
 })
 
 test("data received is rendered after conversion ", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(StatBoxesTestIds.DataReceivedText)).toHaveTextContent(
-    "22.8MB"
+    "23.9MB"
   )
 })
