@@ -23,7 +23,6 @@ import {
   DeviceUpdateController,
 } from "App/update/controllers"
 import { DeviceManager } from "App/device-manager/services"
-import { DeviceInfoService } from "App/device-info/services"
 
 export class UpdateModule extends BaseModule {
   constructor(
@@ -54,8 +53,7 @@ export class UpdateModule extends BaseModule {
     const deviceUpdateService = new DeviceUpdateService(
       settingsService,
       this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager),
-      new DeviceInfoService(this.deviceManager)
+      new DeviceFileSystemService(this.deviceManager)
     )
     const deviceUpdateFilesService = new DeviceUpdateFilesService()
     const releaseService = new ReleaseService(createClient())

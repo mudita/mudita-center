@@ -8,7 +8,6 @@ export enum UpdateErrorServiceErrors {
   GetReleasesByVersion = "GET_RELEASES_BY_VERSION",
   CannotGetOsVersion = "CANNOT_GET_OS_VERSION_ERROR",
   UpdateFileUpload = "UPDATE_FILE_UPLOAD_ERROR",
-  NotEnoughSpace = "NOT_ENOUGH_SPACE_ERROR",
   UpdateCommand = "UPDATE_COMMAND_ERROR",
   VersionDoesntChanged = "VERSION_DOESNT_CHANGE_ERROR",
   CannotGetDeviceInfo = "CANNOT_GET_DEVICE_INFO_ERROR",
@@ -16,7 +15,6 @@ export enum UpdateErrorServiceErrors {
 }
 
 export enum UpdateError {
-  NotEnoughSpace = "NOT_ENOUGH_SPACE_ERROR",
   UpdateOsProcess = "UPDATE_OS_PROCESS",
   CheckForUpdate = "CHECK_FOR_UPDATE",
   DownloadCancelledByUser = "DOWNLOAD_CANCELLED_BY_USER",

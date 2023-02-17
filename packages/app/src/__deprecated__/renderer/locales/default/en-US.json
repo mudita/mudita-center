@@ -711,8 +711,6 @@
   "module.overview.updatingReleaseInfo": "Updating MuditaOS {value}",
   "module.overview.updatingSuccessDescription": "MuditaOS has been updated successfully!",
   "module.overview.updatingSuccessTitle": "Update completed!",
-  "module.overview.updatingUnsuccessTitle": "Update has been unsuccessful",
-  "module.overview.updatingNotEnoughSpaceDescription": "The device storage is full. To update the system you need {value} MB of storage space. Delete unused files to allow storage space and try again.",
   "module.phone": "Phone",
   "module.phone.calls": "Calls",
   "module.phone.callsAllCallTypes": "All call types",
