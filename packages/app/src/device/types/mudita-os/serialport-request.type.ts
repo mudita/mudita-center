@@ -140,12 +140,6 @@ export interface DeviceInfo {
   recoveryStatusFilePath: string
 }
 
-export interface NotSupportedDeviceInfo {
-  fsFree: string
-  fsFreePercent: string
-  fsTotal: string
-}
-
 export interface GetDeviceInfoRequestConfig extends RequestConfig {
   endpoint: Endpoint.DeviceInfo
   method: Method.Get

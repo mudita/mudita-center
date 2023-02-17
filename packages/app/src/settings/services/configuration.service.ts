@@ -63,4 +63,17 @@ export class ConfigurationService {
       }
     )
   }
+  // TODO tmp changes needed for testing SOSU feature
+  // should be removed when working on https://appnroll.atlassian.net/browse/CP-1801
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async getTMPConfigurationForSOSU(): Promise<Configuration> {
+    return {
+      centerVersion: "1.5.1",
+      productVersions: {
+        MuditaPure: "1.4.0",
+        MuditaHarmony: "1.7.0",
+      },
+    }
+  }
 }
