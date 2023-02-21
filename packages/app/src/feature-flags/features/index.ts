@@ -145,7 +145,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.ForceUpdate]: {
     [Environment.Development]: false,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: false,
   },
 }
