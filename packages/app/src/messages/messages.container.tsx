@@ -72,7 +72,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   )(state),
   templates: state.templates.data,
   selectedItems: state.messages.selectedItems,
-  searchResult: state.messages.data.searchResult,
   searchPreviewResult: state.messages.data.searchPreviewResult,
   state: state.messages.state,
 })

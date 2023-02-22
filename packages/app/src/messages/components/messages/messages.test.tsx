@@ -177,7 +177,6 @@ const defaultProps: Props = {
   resetItems: jest.fn(),
   searchMessages: jest.fn(),
   searchMessagesForPreview: jest.fn(),
-  searchResult: {},
   searchPreviewResult: {},
   state: State.Initial,
 }

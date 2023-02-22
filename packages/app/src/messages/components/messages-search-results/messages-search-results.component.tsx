@@ -31,7 +31,6 @@ import {
   LastMessageText,
   WarningIconWrapper,
 } from "App/messages/components/thread-row.styled"
-import { Settings } from "App/settings/dto"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import moment from "moment"
 import { isToday } from "App/__deprecated__/renderer/utils/is-today"
@@ -46,11 +45,11 @@ import ButtonComponent from "App/__deprecated__/renderer/components/core/button/
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
-import { Contact } from "App/contacts/reducers/contacts.interface"
 import { MessageType } from "App/messages/constants"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Threads } from "App/messages/components/thread-list.component"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
+import { MessagesSearchResultsReduxProps } from "App/messages/components/messages-search-results/messages-search-results.connector"
 
 export const lightAvatarStyles = css`
   background-color: ${backgroundColor("row")};
@@ -88,14 +87,10 @@ const messages = defineMessages({
   },
 })
 
-interface MessagesSearchResultProps extends Pick<Settings, "language"> {
-  resultsState: ResultState
-  results: Message[]
+interface MessagesSearchResultProps extends MessagesSearchResultsReduxProps {
   searchValue: string
   onRowClick: (message: Message) => void
   removeMessage: (messageId: string) => void
-  resendMessage?: (messageId: string) => void
-  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
 }
 
 const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({

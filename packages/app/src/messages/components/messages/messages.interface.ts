@@ -72,7 +72,6 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   resetItems: () => void
   searchMessages: (searchParams: SearchParams) => void
   searchMessagesForPreview: (searchParams: SearchParams) => void
-  searchResult: SearchResult
   searchPreviewResult: SearchResult
   state: State
 }
