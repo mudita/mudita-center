@@ -4,7 +4,6 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { MessagesError, MessagesEvent } from "App/messages/constants"
 import { updateMessageRequest } from "App/messages/requests"
 import { Message } from "App/messages/dto"
@@ -13,9 +12,9 @@ import { AppError } from "App/core/errors"
 export const updateMessage = createAsyncThunk<AppError | void, Message>(
   MessagesEvent.UpdateMessage,
   async (message, { rejectWithValue }) => {
-    const { status, error } = await updateMessageRequest(message)
+    const { ok, error } = await updateMessageRequest(message)
 
-    if (error || status !== RequestResponseStatus.Ok) {
+    if (error || !ok) {
       return rejectWithValue(
         new AppError(
           MessagesError.UpdateMessageError,

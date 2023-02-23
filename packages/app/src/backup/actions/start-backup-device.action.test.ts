@@ -6,11 +6,12 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import MockDate from "mockdate"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers/action.helper"
 import { BackupEvent } from "App/backup/constants"
 import { startBackupDevice } from "App/backup/actions/start-backup-device.action"
 import { createBackupRequest } from "App/backup/requests/create-backup.request"
-import { CreateDeviceBackup } from "App/backup/types"
+import { CreateBackup } from "App/backup/dto"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { AppError } from "App/core/errors"
 import { Result } from "App/core/builder"
@@ -24,15 +25,21 @@ jest.mock("App/backup/actions/load-backup-data.action", () => ({
   }),
 }))
 
-const option: CreateDeviceBackup = {
+const option: CreateBackup = {
   key: "MySuperSecretKey",
-  cwd: "",
 }
+
+afterAll(() => {
+  MockDate.reset()
+})
 
 afterEach(() => {
   jest.resetAllMocks()
 })
 
+const todayDateMock = "2021-08-05T11:50:35.157Z"
+
+MockDate.set(new Date(todayDateMock))
 describe("When backup location path doesn't exists", () => {
   test("rejects with `BackupError.BackupLocationIsUndefined` error", async () => {
     const mockStore = createMockStore([thunk])({
@@ -94,6 +101,7 @@ describe("when `createBackupRequest` request returns `Result.success`", () => {
 
     expect(createBackupRequest).toHaveBeenCalledWith({
       ...option,
+      fileBase: "20210805T115035157Z",
       cwd: "C:\\backups",
     })
   })
@@ -132,6 +140,7 @@ describe("when `createBackupRequest` request returns `Result.failed`", () => {
 
     expect(createBackupRequest).toHaveBeenCalledWith({
       ...option,
+      fileBase: "20210805T115035157Z",
       cwd: "C:\\backups",
     })
   })

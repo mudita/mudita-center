@@ -6,4 +6,5 @@
 export enum ConnectingError {
   Connecting = "error-connecting",
   Sync = "error-sync",
+  ForceUpdateCheckFailed = "error-force-update-check-failed",
 }

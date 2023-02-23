@@ -5,16 +5,21 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceError, DeviceEvent } from "App/device/constants"
-import unlockDeviceRequest from "App/__deprecated__/renderer/requests/unlock-device.request"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { unlockDeviceRequest } from "App/device/requests"
+import { connectDevice } from "App/device/actions/connect-device.action"
 import { AppError } from "App/core/errors"
 
-export const unlockDevice = createAsyncThunk<RequestResponseStatus, number[]>(
+// DEPRECATED
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+
+export const unlockDevice = createAsyncThunk<boolean, number[]>(
   DeviceEvent.Unlock,
-  async (code, { rejectWithValue }) => {
+  async (code, { rejectWithValue, dispatch, getState }) => {
     const data = await unlockDeviceRequest(code)
 
-    if (data.status !== RequestResponseStatus.Ok) {
+    const state = getState() as ReduxRootState
+
+    if (!data.ok) {
       return rejectWithValue(
         new AppError(
           DeviceError.Unlocking,
@@ -24,6 +29,10 @@ export const unlockDevice = createAsyncThunk<RequestResponseStatus, number[]>(
       )
     }
 
-    return data.status
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    void dispatch(connectDevice(state.device.deviceType!))
+
+    return Boolean(data.data)
   }
 )

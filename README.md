@@ -6,7 +6,7 @@
 
 Mudita Center is written in JavaScript and distributed as an Electron app.
 
-Mudita Center allows you to expand and update the features of Mudita Pure, while using your computer. Update [MuditaOS](https://github.com/mudita/MuditaOS/), synchronise calendar and contacts, upload audio, use Pure as a mobile hotspot. One application for every platform, open-sourced for transparency.
+Mudita Center allows you to expand and update the features of Mudita Pure and Mudita Harmony, while using your computer. One application for every platform, open-sourced for transparency.
 
 If you would like to help us create Mudita Center as a full-time job - **[we're hiring!](https://mudita.com/career/)**
 

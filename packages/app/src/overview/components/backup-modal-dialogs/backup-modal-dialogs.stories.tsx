@@ -11,6 +11,7 @@ import {
   BackupModal,
   BackupSpinnerModal,
   BackupSuccessModal,
+  NoSpaceBackupFailureModal,
 } from "App/overview/components/backup-modal-dialogs/backup-modal-dialogs"
 import { action } from "@storybook/addon-actions"
 
@@ -46,6 +47,21 @@ export const BackupFailureModalStory = () => {
     <Story transparentMode>
       <BackupFailureModal
         open
+        closeModal={action("Close Failure Backup Modal")}
+        secondaryActionButtonClick={action("Go to Support Action")}
+      />
+    </Story>
+  )
+}
+
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const NoSpaceBackupFailureModalStory = () => {
+  return (
+    <Story transparentMode>
+      <NoSpaceBackupFailureModal
+        open
+        size={100}
         closeModal={action("Close Failure Backup Modal")}
         secondaryActionButtonClick={action("Go to Support Action")}
       />

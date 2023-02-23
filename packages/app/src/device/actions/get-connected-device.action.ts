@@ -4,18 +4,16 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import connectDeviceRequest from "App/__deprecated__/renderer/requests/connect-device.request"
+import { connectDeviceRequest } from "App/device/requests"
 import { DeviceError, DeviceEvent } from "App/device/constants"
-import { connectDevice } from "App/device/actions/connect-device.action"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { AppError } from "App/core/errors"
 
 export const getConnectedDevice = createAsyncThunk(
   DeviceEvent.GetConnected,
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     const response = await connectDeviceRequest()
 
-    if (response.status !== RequestResponseStatus.Ok || !response.data) {
+    if (!response.data || !response.data) {
       return rejectWithValue(
         new AppError(
           DeviceError.Connection,
@@ -24,8 +22,6 @@ export const getConnectedDevice = createAsyncThunk(
         )
       )
     }
-
-    void dispatch(connectDevice(response.data.deviceType))
 
     return
   }

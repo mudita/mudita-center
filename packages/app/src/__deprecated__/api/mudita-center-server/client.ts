@@ -3,21 +3,23 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { EntryCollection, SyncCollection } from "contentful"
-import axios, { AxiosInstance, AxiosResponse } from "axios"
-import https from "https"
+import { NewsEntry } from "App/news/dto"
+import { OsEnvironment } from "App/update/constants"
+import { ReleaseManifest } from "App/update/dto"
 import {
   ClientInterface,
   HelpQuery,
 } from "App/__deprecated__/api/mudita-center-server/client.interface"
 import { MuditaCenterServerRoutes } from "App/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
-import { NewsEntry } from "App/news/dto"
-import { Release } from "App/__deprecated__/update"
-import { Product, ReleaseSpace } from "App/__deprecated__/main/constants"
+import { Product } from "App/__deprecated__/main/constants"
+import axios, { AxiosInstance, AxiosResponse } from "axios"
+import { EntryCollection, SyncCollection } from "contentful"
+import https from "https"
 
 export interface getLatestProductionReleaseParams {
   product: Product
-  releaseSpace: ReleaseSpace
+  version: "latest" | string
+  environment: OsEnvironment
 }
 
 export class Client implements ClientInterface {
@@ -82,8 +84,8 @@ export class Client implements ClientInterface {
 
   async getLatestRelease(
     params: getLatestProductionReleaseParams
-  ): Promise<AxiosResponse<Release>> {
-    return this.httpClient.get(MuditaCenterServerRoutes.GetRelease, {
+  ): Promise<AxiosResponse<ReleaseManifest>> {
+    return this.httpClient.get(MuditaCenterServerRoutes.GetReleaseV2, {
       params,
     })
   }

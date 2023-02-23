@@ -29,9 +29,10 @@ describe("Method: Success", () => {
 describe("Method: Failed", () => {
   test("returns `FailedResult` object with data", () => {
     const errorMock = new AppError("SOME_TYPE", "Luke, I'm your error")
-    const result = Result.failed(errorMock)
+    const data = { test: "Test" }
+    const result = Result.failed(errorMock, data)
 
-    expect(result).toEqual(new FailedResult({ ...errorMock }))
+    expect(result).toEqual(new FailedResult({ ...errorMock }, data))
   })
 
   test("object fields match to expected values", () => {

@@ -10,7 +10,7 @@ import { TextWrapper } from "App/__deprecated__/renderer/components/rest/meditat
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 import {
   RotatedArrowIcon,
   StatBoxesWrapper,

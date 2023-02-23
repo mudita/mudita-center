@@ -7,5 +7,6 @@ export interface CreateDeviceBackup {
   cwd: string
   token?: string
   extract?: boolean
-  key: string
+  fileBase?: string
+  key?: string
 }

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SuccessResult, FailedResult } from "App/core/builder"
+import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { DeviceDirectory } from "App/files-manager/constants"
 import { FilesManagerError } from "App/files-manager/constants"
@@ -48,7 +48,7 @@ describe("Method: getDeviceFiles", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       retrieveFilesCommand.exec = jest.fn().mockResolvedValueOnce(
-        new SuccessResult({
+        Result.success({
           [DeviceDirectory.Music]: [
             {
               path: "/test/file-1.mp3",
@@ -63,7 +63,7 @@ describe("Method: getDeviceFiles", () => {
       })
 
       expect(result).toEqual(
-        new SuccessResult([
+        Result.success([
           {
             name: "file-1.mp3",
             type: "mp3",
@@ -78,7 +78,7 @@ describe("Method: getDeviceFiles", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       retrieveFilesCommand.exec = jest.fn().mockResolvedValueOnce(
-        new SuccessResult({
+        Result.success({
           [DeviceDirectory.Music]: [
             {
               path: "/test/file-1.mp3",
@@ -98,7 +98,7 @@ describe("Method: getDeviceFiles", () => {
       })
 
       expect(result).toEqual(
-        new SuccessResult([
+        Result.success([
           {
             name: "file-1.mp3",
             type: "mp3",
@@ -115,7 +115,7 @@ describe("Method: getDeviceFiles", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       retrieveFilesCommand.exec = jest.fn().mockResolvedValueOnce(
-        new FailedResult({
+        Result.failed({
           ...new AppError(
             DeviceFileSystemError.FilesRetrieve,
             "Something wen't wrong"
@@ -128,9 +128,9 @@ describe("Method: getDeviceFiles", () => {
       })
 
       expect(result).toEqual(
-        new FailedResult({
-          ...new AppError(FilesManagerError.GetFiles, "Something wen't wrong"),
-        })
+        Result.failed(
+          new AppError(FilesManagerError.GetFiles, "Something wen't wrong")
+        )
       )
     })
   })
@@ -143,14 +143,14 @@ describe("Method: uploadFiles", () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       fileUploadCommand.exec = jest
         .fn()
-        .mockResolvedValueOnce(new SuccessResult("/test/path/file-1.mp3"))
+        .mockResolvedValueOnce(Result.success("/test/path/file-1.mp3"))
 
       const result = await subject.uploadFiles({
         directory: DeviceDirectory.Music,
         filePaths: ["/usr/audio/file-1.mp3"],
       })
 
-      expect(result).toEqual(new SuccessResult(["/usr/audio/file-1.mp3"]))
+      expect(result).toEqual(Result.success(["/usr/audio/file-1.mp3"]))
     })
   })
 
@@ -158,14 +158,16 @@ describe("Method: uploadFiles", () => {
     test("returns failed result object with error", async () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      fileUploadCommand.exec = jest.fn().mockResolvedValueOnce(
-        new FailedResult({
-          ...new AppError(
-            DeviceFileSystemError.FileUploadRequest,
-            "Uploading file: Something went wrong in init sending request"
-          ),
-        })
-      )
+      fileUploadCommand.exec = jest
+        .fn()
+        .mockResolvedValueOnce(
+          Result.failed(
+            new AppError(
+              DeviceFileSystemError.FileUploadRequest,
+              "Uploading file: Something went wrong in init sending request"
+            )
+          )
+        )
 
       const result = await subject.uploadFiles({
         directory: DeviceDirectory.Music,
@@ -173,9 +175,9 @@ describe("Method: uploadFiles", () => {
       })
 
       expect(result).toEqual(
-        new FailedResult({
-          ...new AppError(FilesManagerError.UploadFiles, "Upload failed"),
-        })
+        Result.failed(
+          new AppError(FilesManagerError.UploadFiles, "Upload failed")
+        )
       )
     })
   })
@@ -184,14 +186,16 @@ describe("Method: uploadFiles", () => {
     test("returns failed result with `FilesManagerError.NotEnoughSpace` error type", async () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      fileUploadCommand.exec = jest.fn().mockResolvedValueOnce(
-        new FailedResult({
-          ...new AppError(
-            DeviceFileSystemError.NoSpaceLeft,
-            "Uploading file: no space left on device"
-          ),
-        })
-      )
+      fileUploadCommand.exec = jest
+        .fn()
+        .mockResolvedValueOnce(
+          Result.failed(
+            new AppError(
+              DeviceFileSystemError.NoSpaceLeft,
+              "Uploading file: no space left on device"
+            )
+          )
+        )
 
       const result = await subject.uploadFiles({
         directory: DeviceDirectory.Music,
@@ -199,12 +203,12 @@ describe("Method: uploadFiles", () => {
       })
 
       expect(result).toEqual(
-        new FailedResult({
-          ...new AppError(
+        Result.failed(
+          new AppError(
             FilesManagerError.NotEnoughSpace,
             "Not enough space on your device"
-          ),
-        })
+          )
+        )
       )
     })
   })
@@ -217,11 +221,11 @@ describe("Method: deleteFiles", () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       fileDeleteCommand.exec = jest
         .fn()
-        .mockResolvedValueOnce(new SuccessResult(undefined))
+        .mockResolvedValueOnce(Result.success(undefined))
 
       const result = await subject.deleteFiles(["/usr/audio/file-1.mp3"])
 
-      expect(result).toEqual(new SuccessResult(["/usr/audio/file-1.mp3"]))
+      expect(result).toEqual(Result.success(["/usr/audio/file-1.mp3"]))
     })
   })
 
@@ -229,21 +233,23 @@ describe("Method: deleteFiles", () => {
     test("returns failed result object with error", async () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      fileDeleteCommand.exec = jest.fn().mockResolvedValueOnce(
-        new FailedResult({
-          ...new AppError(
-            DeviceFileSystemError.FileDeleteCommand,
-            "Something went wrong"
-          ),
-        })
-      )
+      fileDeleteCommand.exec = jest
+        .fn()
+        .mockResolvedValueOnce(
+          Result.failed(
+            new AppError(
+              DeviceFileSystemError.FileDeleteCommand,
+              "Something went wrong"
+            )
+          )
+        )
 
       const result = await subject.deleteFiles(["/usr/audio/file-1.mp3"])
 
       expect(result).toEqual(
-        new FailedResult({
-          ...new AppError(FilesManagerError.DeleteFiles, "Delete failed"),
-        })
+        Result.failed(
+          new AppError(FilesManagerError.DeleteFiles, "Delete failed")
+        )
       )
     })
   })

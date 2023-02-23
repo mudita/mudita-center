@@ -5,32 +5,37 @@
 
 import { AppError } from "App/core/errors"
 
-export interface ResultObject<Data> {
-  ok: boolean
-  data: Data | undefined
-  error: AppError | undefined
-}
+export type ResultObject<
+  Data,
+  ErrorType extends string = string,
+  ErrorData = unknown
+> = SuccessResult<Data> | FailedResult<ErrorData, ErrorType>
 
 export class SuccessResult<Data> {
   public error = undefined
-  public ok = true
+  public ok: true = true
 
   constructor(public data: Data) {}
 }
 
-export class FailedResult {
-  public data = undefined
-  public ok = false
+export class FailedResult<Data, ErrorType extends string = string> {
+  public ok: false = false
 
-  constructor(public error: AppError) {}
+  constructor(
+    public error: AppError<ErrorType>,
+    public data: Data | undefined
+  ) {}
 }
 
 export class Result {
-  static success<Data>(data: Data): ResultObject<Data> {
+  static success<Data>(data: Data): SuccessResult<Data> {
     return new SuccessResult<Data>(data)
   }
 
-  static failed(error: AppError): ResultObject<undefined> {
-    return new FailedResult({ ...error })
+  static failed<Data, ErrorType extends string = string>(
+    error: AppError<ErrorType>,
+    data?: Data
+  ): FailedResult<Data, ErrorType> {
+    return new FailedResult<Data, ErrorType>({ ...error }, data)
   }
 }

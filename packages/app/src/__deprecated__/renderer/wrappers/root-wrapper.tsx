@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SerialPortDevice } from "App/device/types/serial-port-device.type"
 import { DeviceType } from "App/device/constants"
 import { connect } from "react-redux"
 import { History } from "history"
@@ -25,21 +24,8 @@ import { Mode } from "App/__deprecated__/common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "App/help/components/help.component"
-import registerDeviceConnectedListener, {
-  removeDeviceConnectedListener,
-} from "App/__deprecated__/renderer/listeners/register-device-connected.listener"
-import registerDeviceDisconnectedListener, {
-  removeDeviceDisconnectedListener,
-} from "App/__deprecated__/renderer/listeners/register-device-disconnected.listener"
-import registerHotkeys from "App/__deprecated__/renderer/register-hotkeys"
 import registerAppContextMenu from "App/__deprecated__/renderer/register-app-context-menu"
 import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
-import registerDeviceLockedListener, {
-  removeDeviceLockedListener,
-} from "App/__deprecated__/renderer/listeners/register-device-locked.listener"
-import registerDeviceUnlockedListener, {
-  removeDeviceUnlockedListener,
-} from "App/__deprecated__/renderer/listeners/register-device-unlocked.listener"
 import registerAvailableAppUpdateListener from "App/__deprecated__/main/functions/register-avaible-app-update-listener"
 import registerNotAvailableAppUpdateListener from "App/__deprecated__/main/functions/register-not-avaible-app-update-listener"
 import LicenseApp from "./license-app.component"
@@ -47,22 +33,12 @@ import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
 import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
-
-import { TmpDispatch, ReduxRootState } from "App/__deprecated__/renderer/store"
-import {
-  connectDevice,
-  unlockedDevice,
-  lockedDevice,
-  getConnectedDevice,
-  loadDeviceData,
-  setConnectionStatus,
-  setAgreementStatus,
-} from "App/device"
-import { getCrashDump } from "App/crash-dump"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { loadDeviceData, setAgreementStatus } from "App/device"
 import {
   loadSettings,
   setLatestVersion,
-  toggleUpdateAvailable,
+  toggleApplicationUpdateAvailable,
   checkUpdateAvailable,
 } from "App/settings/actions"
 import {
@@ -76,47 +52,49 @@ import { registerCrashDumpExistListener } from "App/crash-dump/listeners"
 import { EULAAgreement } from "App/eula-agreement/components"
 import { useApplicationListener } from "App/application/hooks"
 
+import { getCurrentDevice } from "App/device-manager/actions"
+import {
+  registerCurrentDeviceChangedListener,
+  registerDeviceDetachedListener,
+} from "App/device-manager/listeners"
+import { registerDeviceUnlockedListener } from "App/device/listeners"
+import {
+  registerClearingUpdateStateOnDeviceAttachedListener,
+  registerDownloadCancelOnDeviceDetachedListener,
+} from "App/update/listeners"
+import { registerDeviceLockedListener } from "App/device/listeners/device-lock-time.listener"
+
 interface Props {
   history: History
-  connect: () => void
-  setFalseConnectionStatus: () => void
-  connectDevice: (value: DeviceType) => void
-  lockedDevice: () => void
-  unlockedDevice: () => void
-  getCrashDump: () => void
   // TODO remove legacy staff
-  checkAppUpdateAvailable: () => void
-  toggleAppUpdateAvailable: (value: boolean) => void
+  checkUpdateAvailable: () => void
+  toggleApplicationUpdateAvailable: (value: boolean) => void
   setLatestVersion: (value: string) => void
   loadSettings: () => void
-  loadDeviceData: (value: DeviceType) => void
+  loadDeviceData: () => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
   setAgreementStatus: (value: boolean) => void
+  getCurrentDevice: () => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
   history,
-  connect,
-  setFalseConnectionStatus,
-  connectDevice,
-  lockedDevice,
-  unlockedDevice,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getCrashDump,
+  setAgreementStatus,
+  getCurrentDevice,
   // TODO remove legacy staff
-  checkAppUpdateAvailable,
-  toggleAppUpdateAvailable,
+  checkUpdateAvailable,
+  toggleApplicationUpdateAvailable,
   setLatestVersion,
   loadSettings,
   loadDeviceData,
   connectedAndUnlocked,
-  deviceType,
-  setAgreementStatus,
 }) => {
   useApplicationListener({
-    onAgreementStatusChangeListener: setAgreementStatus,
+    // intentional use of arrow function - solves problem with https://appnroll.atlassian.net/browse/CP-1755?focusedCommentId=70356
+    onAgreementStatusChangeListener: (value) => {
+      setAgreementStatus(value)
+    },
   })
 
   const params = new URLSearchParams(window.location.search)
@@ -161,9 +139,9 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   const handleAppUpdateAvailableCheck = (): void => {
     if (!window.navigator.onLine) {
-      toggleAppUpdateAvailable(false)
+      toggleApplicationUpdateAvailable(false)
     } else {
-      checkAppUpdateAvailable()
+      checkUpdateAvailable()
     }
   }
 
@@ -172,30 +150,44 @@ const RootWrapper: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    connect()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
     const dataSync = registerDataSyncListener()
     const dataCache = registerCacheDataListener()
     const outboxNotifications = registerOutboxNotificationListener()
+    const deviceUnlocked = registerDeviceUnlockedListener()
+    const deviceLocked = registerDeviceLockedListener()
     const crashDump = registerCrashDumpExistListener()
+    const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
+    const deviceDetachedListener = registerDeviceDetachedListener()
+    const downloadCancelOnDeviceDetachedListener =
+      registerDownloadCancelOnDeviceDetachedListener()
+    const clearingUpdateStateOnDeviceAttachedListener =
+      registerClearingUpdateStateOnDeviceAttachedListener()
 
     return () => {
       dataSync()
       dataCache()
       outboxNotifications()
+      deviceUnlocked()
+      deviceLocked()
       crashDump()
+      currentDeviceChangedListener()
+      deviceDetachedListener()
+      downloadCancelOnDeviceDetachedListener()
+      clearingUpdateStateOnDeviceAttachedListener()
     }
   })
 
   useEffect(() => {
+    getCurrentDevice()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     let interval: NodeJS.Timeout
 
-    if (deviceType && connectedAndUnlocked) {
-      interval = setInterval(() => loadDeviceData(deviceType), 60000)
+    if (connectedAndUnlocked) {
+      interval = setInterval(() => loadDeviceData(), 10000)
     }
 
     return () => {
@@ -203,55 +195,11 @@ const RootWrapper: FunctionComponent<Props> = ({
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceType, connectedAndUnlocked])
-
-  useEffect(() => {
-    const listener = () => {
-      setFalseConnectionStatus()
-    }
-    const unregister = () => {
-      removeDeviceDisconnectedListener(listener)
-    }
-    registerDeviceDisconnectedListener(listener)
-    return () => unregister()
-  })
-
-  useEffect(() => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const listener = (_: any, props: SerialPortDevice) => {
-      connectDevice(props.deviceType)
-    }
-    registerDeviceConnectedListener(listener)
-    return () => removeDeviceConnectedListener(listener)
-  })
-
-  useEffect(() => {
-    const listener = () => {
-      lockedDevice()
-    }
-    const unregister = () => {
-      removeDeviceLockedListener(listener)
-    }
-    registerDeviceLockedListener(listener)
-    return () => unregister()
-  })
-
-  useEffect(() => {
-    const listener = () => {
-      if (!connectedAndUnlocked) {
-        unlockedDevice()
-      }
-    }
-    registerDeviceUnlockedListener(listener)
-    return () => removeDeviceUnlockedListener(listener)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectedAndUnlocked])
 
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
-      toggleAppUpdateAvailable(true)
+      toggleApplicationUpdateAvailable(true)
       setLatestVersion(version as string)
     })
 
@@ -260,7 +208,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerNotAvailableAppUpdateListener(() => {
-      toggleAppUpdateAvailable(false)
+      toggleApplicationUpdateAvailable(false)
     })
 
     return () => unregister()
@@ -271,11 +219,8 @@ const RootWrapper: FunctionComponent<Props> = ({
     handleAppUpdateAvailableCheck()
 
     const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
-    //Remove this condition to get devMode on production
+    // Remove this condition to get devMode on production
     if (devModeEnabled) {
-      // Register hotkeys
-      registerHotkeys()
-
       // Register context menu
       registerAppContextMenu(appContextMenu)
       appContextMenu.init()
@@ -309,45 +254,14 @@ const mapStateToProps = (state: ReduxRootState) => ({
   deviceType: state.device.deviceType,
 })
 
-const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  connect: () => dispatch(getConnectedDevice()),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  setFalseConnectionStatus: () => dispatch(setConnectionStatus(false)),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  lockedDevice: () => dispatch(lockedDevice()),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  unlockedDevice: () => dispatch(unlockedDevice()),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  getCrashDump: () => dispatch(getCrashDump()),
-  // TODO remove legacy staff
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  checkAppUpdateAvailable: () => dispatch(checkUpdateAvailable()),
-  toggleAppUpdateAvailable: (value: boolean) =>
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    dispatch(toggleUpdateAvailable(value)),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  setLatestVersion: (value: string) => dispatch(setLatestVersion(value)),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  loadSettings: () => dispatch(loadSettings()),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  setAgreementStatus: (value: boolean) => dispatch(setAgreementStatus(value)),
-})
+const mapDispatchToProps = {
+  loadDeviceData,
+  checkUpdateAvailable,
+  toggleApplicationUpdateAvailable,
+  setLatestVersion,
+  loadSettings,
+  setAgreementStatus,
+  getCurrentDevice,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)

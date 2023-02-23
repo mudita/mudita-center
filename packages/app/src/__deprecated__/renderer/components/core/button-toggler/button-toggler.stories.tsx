@@ -29,6 +29,16 @@ storiesOf("Components|Core/Button Toggler", module)
             <ButtonTogglerItem label="Turn on" />
           </ButtonToggler>
         </Story>
+        <Story title="Disabled">
+          <ButtonToggler>
+            <ButtonTogglerItem label="Turn on" disabled />
+          </ButtonToggler>
+        </Story>
+        <Story title="Disabled with loading">
+          <ButtonToggler>
+            <ButtonTogglerItem label="Turn on" disabled loading />
+          </ButtonToggler>
+        </Story>
         <Story title="Two buttons">
           <ButtonToggler>
             <ButtonTogglerItem label="Yes" active />

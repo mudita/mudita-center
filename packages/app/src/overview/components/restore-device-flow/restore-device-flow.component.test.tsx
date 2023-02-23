@@ -13,6 +13,8 @@ import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device
 import { Backup } from "App/backup/dto"
 import { RestoreAvailableBackupModalTestIds } from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal-test-ids.component"
 import { fireEvent } from "@testing-library/dom"
+import { AppError } from "App/core/errors"
+import { BackupError } from "App/backup"
 
 type Props = ComponentProps<typeof RestoreDeviceFlow>
 
@@ -27,6 +29,7 @@ const defaultProps: Props = {
   backups,
   onStartRestoreDeviceButtonClick: noop,
   onSupportButtonClick: noop,
+  error: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -40,29 +43,30 @@ const render = (extraProps?: Partial<Props>) => {
   }
 }
 
+const checkModalsVisibility = (
+  visibleElementId: RestoreDeviceFlowTestIds,
+  queryFunction: (id: string) => HTMLElement | null
+) => {
+  const values = Object.values(RestoreDeviceFlowTestIds)
+
+  values.forEach((value) => {
+    if (value === visibleElementId) {
+      expect(queryFunction(value)).toBeInTheDocument()
+    } else {
+      expect(queryFunction(value)).not.toBeInTheDocument()
+    }
+  })
+}
+
 describe("`RestoreDeviceFlow` component", () => {
   describe("when component is render with default props", () => {
     test("should be displayed `RestoreAvailableBackupModal`", () => {
       const { queryByTestId } = render()
 
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
-      ).toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
-      ).not.toBeInTheDocument()
+      checkModalsVisibility(
+        RestoreDeviceFlowTestIds.RestoreAvailableBackupModal,
+        queryByTestId
+      )
     })
   })
 
@@ -74,24 +78,10 @@ describe("`RestoreDeviceFlow` component", () => {
       )
       fireEvent.click(rows[0])
 
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
-      ).toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
-      ).not.toBeInTheDocument()
+      checkModalsVisibility(
+        RestoreDeviceFlowTestIds.RestoreDeviceStart,
+        queryByTestId
+      )
     })
   })
 
@@ -102,24 +92,10 @@ describe("`RestoreDeviceFlow` component", () => {
     test("should be displayed `RestoreConfirmSecretKeyModal`", () => {
       const { queryByTestId } = render(extraProps)
 
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
-      ).toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
-      ).not.toBeInTheDocument()
+      checkModalsVisibility(
+        RestoreDeviceFlowTestIds.RestoreSecretKeySetting,
+        queryByTestId
+      )
     })
   })
 
@@ -130,24 +106,10 @@ describe("`RestoreDeviceFlow` component", () => {
     test("should be displayed `RestoreModal`", () => {
       const { queryByTestId } = render(extraProps)
 
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
-      ).toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
-      ).not.toBeInTheDocument()
+      checkModalsVisibility(
+        RestoreDeviceFlowTestIds.RestoreDeviceRunning,
+        queryByTestId
+      )
     })
   })
 
@@ -158,52 +120,40 @@ describe("`RestoreDeviceFlow` component", () => {
     test("should be displayed `RestoreSuccessModal`", () => {
       const { queryByTestId } = render(extraProps)
 
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
-      ).toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
-      ).not.toBeInTheDocument()
+      checkModalsVisibility(
+        RestoreDeviceFlowTestIds.RestoreDeviceFinished,
+        queryByTestId
+      )
     })
   })
 
-  describe("when `openState` property is set to `Error`", () => {
+  describe("when `openState` property is set to `Error` and error does not equal to InvalidToken", () => {
     const extraProps: Partial<Props> = {
       openState: RestoreDeviceFlowState.Error,
+      error: new AppError(BackupError.CannotReadBackupFile, "Oups"),
     }
     test("should be displayed `RestoreFailureModal`", () => {
       const { queryByTestId } = render(extraProps)
 
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
-      ).toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
-      ).not.toBeInTheDocument()
+      checkModalsVisibility(
+        RestoreDeviceFlowTestIds.RestoreDeviceError,
+        queryByTestId
+      )
+    })
+  })
+
+  describe("when `openState` property is set to `Error` and error equals to InvalidToken", () => {
+    const extraProps: Partial<Props> = {
+      openState: RestoreDeviceFlowState.Error,
+      error: new AppError(BackupError.InvalidToken, "Oups"),
+    }
+    test("should be displayed `InvalidBackupPasswordModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      checkModalsVisibility(
+        RestoreDeviceFlowTestIds.RestoreDeviceInvalidPasswordError,
+        queryByTestId
+      )
     })
   })
 })

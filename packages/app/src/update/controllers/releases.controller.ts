@@ -11,7 +11,7 @@ import {
   IpcReleaseEvent,
   Product,
 } from "App/update/constants"
-import { Release } from "App/update/dto"
+import { GetReleasesByVersionsInput, OsRelease } from "App/update/dto"
 import { ReleaseService } from "App/update/services"
 
 @Controller(ReleaseControllerPrefix)
@@ -21,16 +21,24 @@ export class ReleasesController {
   @IpcEvent(IpcReleaseEvent.GetAllReleases)
   public async getAllReleases(
     product: Product
-  ): Promise<ResultObject<Release[] | undefined>> {
+  ): Promise<ResultObject<OsRelease[] | undefined>> {
+    // TODO [mw] workaround change needed for QA team. Should be removed when implementing CP-1743
     return flags.get(Feature.DeveloperModeEnabled)
-      ? this.releaseService.getAllReleases(product)
+      ? this.releaseService.getTestReleasesForSOSUfeature(product)
       : Result.success([])
   }
 
   @IpcEvent(IpcReleaseEvent.GetLatestRelease)
   public async getLatestRelease(
     product: Product
-  ): Promise<ResultObject<Release | undefined>> {
+  ): Promise<ResultObject<OsRelease | undefined>> {
     return this.releaseService.getLatestRelease(product)
+  }
+
+  @IpcEvent(IpcReleaseEvent.GetReleasesByVersions)
+  public async getReleasesByVersions(
+    params: GetReleasesByVersionsInput
+  ): Promise<ResultObject<OsRelease[]>> {
+    return this.releaseService.getReleasesByVersions(params)
   }
 }

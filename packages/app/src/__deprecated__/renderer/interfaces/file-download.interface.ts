@@ -27,11 +27,13 @@ export interface DownloadProgress extends TransferProgress {
   >
 }
 
+export type DownloadFinishedStatus = Exclude<
+  DownloadStatus,
+  DownloadStatus.Progressing | DownloadStatus.Paused
+>
+
 export interface DownloadFinished {
-  status: Omit<
-    DownloadStatus,
-    DownloadStatus.Progressing | DownloadStatus.Paused
-  >
+  status: DownloadFinishedStatus
   directory: string
   totalBytes: number
 }

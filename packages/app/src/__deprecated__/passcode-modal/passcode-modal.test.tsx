@@ -14,6 +14,7 @@ import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { PasscodeLockedTestIds } from "App/__deprecated__/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
 import { flags } from "App/feature-flags"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
 jest.mock("App/feature-flags")
 
@@ -21,6 +22,7 @@ type Props = ComponentProps<typeof PasscodeModal>
 
 const defaultProps: Props = {
   openModal: true,
+  canBeClosed: true,
   close: jest.fn(),
   leftTime: undefined,
   unlockDevice: jest.fn().mockReturnValue({
@@ -99,9 +101,7 @@ test("Show typing error message", async () => {
 
 test("Message is displayed properly when request about phone lock return internal server error", async () => {
   const { inputsList, errorMessage } = renderer({
-    unlockDevice: jest.fn().mockReturnValue({
-      payload: RequestResponseStatus.InternalServerError,
-    }),
+    unlockDevice: jest.fn().mockReturnValue(false),
   })
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
 
@@ -118,9 +118,9 @@ test("Message is displayed properly when request about phone lock return interna
 
 test("Message is displayed properly when request about phone lock status return phone locked", async () => {
   const { inputsList, errorMessage } = renderer({
-    getUnlockStatus: jest.fn().mockReturnValue({
-      status: RequestResponseStatus.PhoneLocked,
-    }),
+    getUnlockStatus: jest
+      .fn()
+      .mockReturnValue(RequestResponseStatus.PhoneLocked),
   })
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
   fireEvent.keyDown(inputsList()[1] as Element, digitKeyEvent)
@@ -138,6 +138,22 @@ test("Modal should show phoneLocked info when phone have time block", () => {
   jest.spyOn(flags, "get").mockReturnValueOnce(true)
   const { phoneLockedContainer } = renderer({ leftTime: 16308881830 })
   expect(phoneLockedContainer()).toBeInTheDocument()
+})
+
+test("Modal should not display close icon when has flag canBeClosed is set as false", () => {
+  jest.spyOn(flags, "get").mockReturnValueOnce(true)
+  const { queryByTestId } = renderer({
+    canBeClosed: false,
+  })
+  expect(queryByTestId(ModalTestIds.CloseButton)).not.toBeInTheDocument()
+})
+
+test("Modal should display close icon when has flag canBeClosed is set as true", () => {
+  jest.spyOn(flags, "get").mockReturnValueOnce(true)
+  const { queryByTestId } = renderer({
+    canBeClosed: true,
+  })
+  expect(queryByTestId(ModalTestIds.CloseButton)).toBeInTheDocument()
 })
 
 test("backspace key down event refresh previous input state to default", () => {

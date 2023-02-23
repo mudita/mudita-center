@@ -37,7 +37,6 @@ import moment from "moment"
 import { isToday } from "App/__deprecated__/renderer/utils/is-today"
 import { Time } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import ThreadRowName from "App/messages/components/thread-row-name"
-import { Feature, flags } from "App/feature-flags"
 import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
@@ -216,27 +215,24 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
                             />
                           }
                         >
-                          {flags.get(Feature.MessagesResendEnabled) &&
-                            isMessageFailed && (
-                              <ButtonComponent
-                                labelMessage={{
-                                  id: "module.messages.messageDropdownResend",
-                                }}
-                                Icon={IconType.Send}
-                                onClick={resend}
-                                displayStyle={DisplayStyle.Dropdown}
-                              />
-                            )}
-                          {flags.get(Feature.MessagesDeleteEnabled) && (
+                          {isMessageFailed && (
                             <ButtonComponent
                               labelMessage={{
-                                id: "module.messages.messageDropdownDelete",
+                                id: "module.messages.messageDropdownResend",
                               }}
-                              Icon={IconType.Delete}
-                              onClick={remove}
+                              Icon={IconType.Send}
+                              onClick={resend}
                               displayStyle={DisplayStyle.Dropdown}
                             />
                           )}
+                          <ButtonComponent
+                            labelMessage={{
+                              id: "module.messages.messageDropdownDelete",
+                            }}
+                            Icon={IconType.Delete}
+                            onClick={remove}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
                         </Dropdown>
                       </Actions>
                     </Col>

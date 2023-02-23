@@ -15,7 +15,6 @@ import {
 } from "App/messages/components/messages-panel/messages-panel.styled"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel/messages-panel-test-ids.enum"
 import { MessagesPanelProps } from "App/messages/components/messages-panel/messages-panel.interface"
-import { flags, Feature } from "App/feature-flags"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
@@ -74,16 +73,14 @@ export const MessagesPanel: FunctionComponent<MessagesPanelProps> = ({
         />
       ) : (
         <>
-          {flags.get(Feature.MessagesSearchEnabled) && (
-            <MessagesInputSearch
-              onSelect={onSelect}
-              onSearchEnterClick={onSearchEnterClick}
-              searchValue={searchValue}
-              onSearchValueChange={onSearchValueChange}
-              showSearchResults={showSearchResults}
-              results={results}
-            />
-          )}
+          <MessagesInputSearch
+            onSelect={onSelect}
+            onSearchEnterClick={onSearchEnterClick}
+            searchValue={searchValue}
+            onSearchValueChange={onSearchValueChange}
+            showSearchResults={showSearchResults}
+            results={results}
+          />
           <ButtonWrapper>
             <Button
               data-testid={MessagePanelTestIds.NewMessageButton}

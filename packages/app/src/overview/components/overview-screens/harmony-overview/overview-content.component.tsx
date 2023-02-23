@@ -19,11 +19,15 @@ interface OverviewProps {
   readonly onUpdateInstall: () => void
   readonly toggleDevMode?: () => void
   readonly disconnectDevice: () => void
+  readonly checkForUpdateInProgress: boolean
   readonly osVersion: string
   readonly batteryLevel: number
   readonly pureOsAvailable: boolean
-  readonly pureOsDownloaded: boolean | undefined
+  readonly pureOsDownloaded: boolean
+  readonly checkForUpdatePerformed: boolean
+  readonly checkForUpdateFailed: boolean
   readonly deviceType: DeviceType
+  readonly serialNumber: string | undefined
 }
 
 const OverviewContent: FunctionComponent<OverviewProps> = ({
@@ -37,23 +41,32 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   toggleDevMode,
   osVersion,
   deviceType,
-}) => (
-  <OverviewWrapper>
-    <DeviceInfo
-      deviceType={deviceType}
-      onClick={toggleDevMode}
-      onDisconnect={disconnectDevice}
-    />
-    <StatusInfo deviceType={deviceType} batteryLevel={batteryLevel} />
-    <SystemInfo
-      updateDownloaded={pureOsDownloaded}
-      updateAvailable={pureOsAvailable}
-      osVersion={osVersion}
-      onUpdateCheck={onUpdateCheck}
-      onDownload={onUpdateDownload}
-      onUpdate={onUpdateInstall}
-    />
-  </OverviewWrapper>
-)
-
+  serialNumber,
+  checkForUpdateInProgress,
+  checkForUpdatePerformed,
+  checkForUpdateFailed,
+}) => {
+  return (
+    <OverviewWrapper>
+      <DeviceInfo
+        deviceType={deviceType}
+        onClick={toggleDevMode}
+        onDisconnect={disconnectDevice}
+        serialNumber={serialNumber}
+      />
+      <StatusInfo deviceType={deviceType} batteryLevel={batteryLevel} />
+      <SystemInfo
+        updateDownloaded={pureOsDownloaded}
+        updateAvailable={pureOsAvailable}
+        osVersion={osVersion}
+        onUpdateCheck={onUpdateCheck}
+        onDownload={onUpdateDownload}
+        onUpdate={onUpdateInstall}
+        checkForUpdateInProgress={checkForUpdateInProgress}
+        checkForUpdatePerformed={checkForUpdatePerformed}
+        checkForUpdateFailed={checkForUpdateFailed}
+      />
+    </OverviewWrapper>
+  )
+}
 export default OverviewContent

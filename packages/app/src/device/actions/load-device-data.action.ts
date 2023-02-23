@@ -4,29 +4,38 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceType } from "App/device/constants"
-import { DeviceEvent, ConnectionState } from "App/device/constants"
+import {
+  DeviceEvent,
+  ConnectionState,
+  DeviceCommunicationError,
+} from "App/device/constants"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { setDeviceData } from "App/device/actions/base.action"
-import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
+import { lockedDevice } from "App/device/actions/locked-device.action"
+import { getDeviceInfoRequest } from "App/device-info/requests"
 import { setValue, MetadataKey } from "App/metadata"
 import { trackOsVersion } from "App/analytic-data-tracker/helpers"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const loadDeviceData = createAsyncThunk<any, DeviceType>(
+export const loadDeviceData = createAsyncThunk(
   DeviceEvent.Loading,
-  async (payload, { getState, dispatch, rejectWithValue }) => {
+  async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
 
     if (state.device.state === ConnectionState.Loaded) {
       return
     }
 
-    const loader = new DeviceDataLoader()
-
     try {
-      const data = await loader.loadDeviceData(payload)
+      const { ok, data, error } = await getDeviceInfoRequest()
+
+      if (!ok || !data) {
+        if (error?.type === DeviceCommunicationError.DeviceLocked) {
+          void dispatch(lockedDevice())
+        }
+
+        return
+      }
+
       if (state.device.deviceType !== null) {
         void trackOsVersion({
           serialNumber: data.serialNumber,

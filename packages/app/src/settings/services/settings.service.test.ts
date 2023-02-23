@@ -95,7 +95,7 @@ describe("`SettingsService`", () => {
     expect(defaultStore.reset).toHaveBeenCalled()
   })
 
-  test("`updateSettings` calls set and get methods ", () => {
+  test("`updateSettings` calls set and get methods", () => {
     subject.updateSettings({
       key: "applicationId",
       value: "app-Nr8uiSV7KmWxX3WOFqZPF7uw",
@@ -106,5 +106,12 @@ describe("`SettingsService`", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(defaultStore.get).toHaveBeenCalled()
+  })
+
+  test("`getByKey` calls get methods with provided key", () => {
+    subject.getByKey("applicationId")
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(defaultStore.get).toHaveBeenCalledWith("applicationId")
   })
 })

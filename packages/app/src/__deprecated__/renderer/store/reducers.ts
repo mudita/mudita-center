@@ -17,6 +17,7 @@ import { notificationReducer } from "App/notification/reducers"
 import { templateReducer } from "App/templates/reducers"
 import { newsReducer } from "App/news/reducers"
 import { settingsReducer } from "App/settings/reducers"
+import { updateOsReducer } from "App/update/reducers"
 
 export const reducers = {
   device: deviceReducer,
@@ -32,6 +33,7 @@ export const reducers = {
   templates: templateReducer,
   news: newsReducer,
   settings: settingsReducer,
+  update: updateOsReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

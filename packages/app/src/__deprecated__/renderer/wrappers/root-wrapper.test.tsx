@@ -18,9 +18,9 @@ import { backupReducer } from "App/backup/reducers/backup.reducer"
 import { modalsManagerReducer } from "App/modals-manager/reducers"
 import { settingsReducer } from "App/settings/reducers"
 import { checkUpdateAvailable } from "App/settings/actions/check-update-available.action"
+import { updateOsReducer } from "App/update/reducers"
 
 jest.mock("App/settings/actions/check-update-available.action")
-jest.mock("App/__deprecated__/renderer/register-hotkeys")
 
 jest.mock("electron", () => ({
   remote: {
@@ -108,6 +108,7 @@ const store = init({
       crashDump: crashDumpReducer,
       modalsManager: modalsManagerReducer,
       settings: settingsReducer,
+      update: updateOsReducer,
     },
   },
 }) as Store

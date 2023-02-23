@@ -4,7 +4,7 @@
  */
 
 import { dialog } from "electron"
-import { SuccessResult, FailedResult } from "App/core/builder"
+import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { FilesSystemDialogService } from "App/file-system/services/file-system-dialog.service"
 import { DialogFileSystemError } from "App/file-system/constants"
@@ -25,7 +25,7 @@ test("returns `Result.success` with selected files list", async () => {
   })
 
   const result = await subject.getPaths()
-  expect(result).toEqual(new SuccessResult(["/test/file-1.txt"]))
+  expect(result).toEqual(Result.success(["/test/file-1.txt"]))
 })
 
 test("returns `Result.failed` if `showOpenDialog` throw an error", async () => {
@@ -35,8 +35,8 @@ test("returns `Result.failed` if `showOpenDialog` throw an error", async () => {
 
   const result = await subject.getPaths()
   expect(result).toEqual(
-    new FailedResult({
-      ...new AppError(DialogFileSystemError.GetPath, "Luke, I'm your error"),
-    })
+    Result.failed(
+      new AppError(DialogFileSystemError.GetPath, "Luke, I'm your error")
+    )
   )
 })

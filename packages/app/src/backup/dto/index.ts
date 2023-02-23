@@ -6,3 +6,4 @@
 export * from "./backup.object"
 export * from "./create-backup.object"
 export * from "./restore-backup.object"
+export * from "./updater-status.object"

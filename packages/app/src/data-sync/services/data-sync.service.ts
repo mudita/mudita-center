@@ -4,15 +4,11 @@
  */
 
 import path from "path"
-import { BackupCategory } from "App/device/constants"
-import { DeviceBackup } from "App/__deprecated__/backend/adapters/device-backup/device-backup.adapter"
-import { DeviceBackupService } from "App/__deprecated__/backend/device-backup-service/device-backup-service"
-import { DeviceBaseInfo } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
-import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { IndexStorage } from "App/index-storage/types"
 import { DataIndex } from "App/index-storage/constants"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import {
@@ -28,26 +24,25 @@ import {
   TemplatePresenter,
   ThreadPresenter,
 } from "App/data-sync/presenters"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { SyncBackupCreateService } from "App/backup/services/sync-backup-create.service"
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
   private templateIndexer: TemplateIndexer | null = null
-  // TODO implement device backup service and use it instead of adapter
-  private deviceBackupService: DeviceBackup
+  private syncBackupCreateService: SyncBackupCreateService
 
   constructor(
     private index: IndexStorage,
-    private deviceService: DeviceService,
+    private deviceManager: DeviceManager,
     private keyStorage: MetadataStore,
     private fileSystemStorage: FileSystemService
   ) {
-    this.deviceBackupService = new DeviceBackup(
-      new DeviceBaseInfo(this.deviceService),
-      new DeviceBackupService(this.deviceService),
-      new DeviceFileSystem(this.deviceService)
+    this.syncBackupCreateService = new SyncBackupCreateService(
+      this.deviceManager,
+      new DeviceFileSystemService(this.deviceManager),
+      this.keyStorage
     )
 
     this.contactIndexer = new ContactIndexer(
@@ -74,7 +69,7 @@ export class DataSyncService {
     )
     const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
 
-    if (!this.deviceService.currentDeviceUnlocked) {
+    if (this.deviceManager.device.locked) {
       return true
     }
 
@@ -92,17 +87,13 @@ export class DataSyncService {
     }
 
     const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
-    const { status, data } =
-      await this.deviceBackupService.downloadDeviceBackup(
-        {
-          token,
-          extract: true,
-          cwd: syncFileDir,
-        },
-        BackupCategory.Sync
-      )
+    const { ok } = await this.syncBackupCreateService.createSyncBackup({
+      token,
+      extract: true,
+      cwd: syncFileDir,
+    })
 
-    if (status !== RequestResponseStatus.Ok || data === undefined) {
+    if (!ok) {
       return false
     }
 

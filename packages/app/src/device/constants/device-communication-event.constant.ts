@@ -4,6 +4,8 @@
  */
 
 export enum DeviceCommunicationEvent {
-  Disconnected = "disconnected",
-  DataReceived = "dataReceived",
+  Connected = "device-connected",
+  Disconnected = "device-disconnected",
+  DataReceived = "device-data-received",
+  InitializationFailed = "device-connection-failed",
 }

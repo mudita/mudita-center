@@ -17,6 +17,7 @@ const defaultProps: Props = {
   pureOsBackupLocation: "C:/Mudita OS",
   onStartBackupDeviceButtonClick: noop,
   onSupportButtonClick: noop,
+  error: null,
 }
 
 const render = (extraProps?: Partial<Props>) => {

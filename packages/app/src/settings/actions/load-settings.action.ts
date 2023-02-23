@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import isVersionGreater from "App/overview/helpers/is-version-greater"
+import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 import { SettingsEvent } from "App/settings/constants"
 import { getSettings } from "App/settings/requests"
 import { loadBackupData } from "App/backup/actions/load-backup-data.action"
@@ -26,7 +26,7 @@ export const loadSettings = createAsyncThunk<void, void>(
     const configuration = await getConfiguration()
 
     try {
-      updateRequired = isVersionGreater(
+      updateRequired = isVersionGreaterOrEqual(
         configuration.centerVersion,
         packageInfo.version
       )

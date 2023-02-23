@@ -3,22 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "App/device/constants"
-import { RetrieveFilesCommand } from "App/device-file-system/commands/retrieve-files.command"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import { AppError } from "App/core/errors"
-import { SuccessResult, FailedResult } from "App/core/builder"
 import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
+  Endpoint,
+  Method,
+  DeviceCommunicationError,
+} from "App/device/constants"
+import { RetrieveFilesCommand } from "App/device-file-system/commands/retrieve-files.command"
+import { DeviceManager } from "App/device-manager/services"
+import { AppError } from "App/core/errors"
+import { Result, ResultObject } from "App/core/builder"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
 
-const deviceService = {
-  request: jest.fn(),
-} as unknown as DeviceService
+const deviceManager = {
+  device: {
+    request: jest.fn(),
+  },
+} as unknown as DeviceManager
 
-const subject = new RetrieveFilesCommand(deviceService)
+const subject = new RetrieveFilesCommand(deviceManager)
 
 const responseData: Record<string, string[]> = {
   ["/test/directory"]: [
@@ -28,27 +31,28 @@ const responseData: Record<string, string[]> = {
   ],
 }
 
-const successResponse: RequestResponse<Record<string, string[]>> = {
-  data: responseData,
-  status: RequestResponseStatus.Ok,
-  error: undefined,
-}
+const successResponse: ResultObject<Record<string, string[]>> =
+  Result.success(responseData)
 
-const failedResponse: RequestResponse<Record<string, string[]>> = {
-  data: undefined,
-  status: RequestResponseStatus.Error,
-  error: {
-    message: "Something went wrong",
-  },
-}
+const failedResponse: ResultObject<Record<string, string[]>> = Result.failed(
+  new AppError(DeviceCommunicationError.RequestFailed, "Something went wrong", {
+    data: undefined,
+    status: RequestResponseStatus.Error,
+    error: {
+      message: "Something went wrong",
+    },
+  })
+)
 
 beforeEach(() => {
   jest.resetAllMocks()
 })
 
-describe("When `DeviceService.request` returns success response", () => {
+describe("When `DeviceManager.device.request` returns success response", () => {
   beforeEach(() => {
-    deviceService.request = jest.fn().mockResolvedValueOnce(successResponse)
+    deviceManager.device.request = jest
+      .fn()
+      .mockResolvedValueOnce(successResponse)
   })
 
   test("returns `ResultObject.success` with payload", async () => {
@@ -56,20 +60,22 @@ describe("When `DeviceService.request` returns success response", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceService.request).toHaveBeenCalledWith({
+    expect(deviceManager.device.request).toHaveBeenCalledWith({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {
         listDir: "/test/directory",
       },
     })
-    expect(result).toEqual(new SuccessResult(responseData))
+    expect(result).toEqual(Result.success(responseData))
   })
 })
 
-describe("When `DeviceService.request` returns failed response", () => {
+describe("When `DeviceManager.device.request` returns failed response", () => {
   beforeEach(() => {
-    deviceService.request = jest.fn().mockResolvedValueOnce(failedResponse)
+    deviceManager.device.request = jest
+      .fn()
+      .mockResolvedValueOnce(failedResponse)
   })
 
   test("returns `ResultObject.failed` with payload", async () => {
@@ -77,7 +83,7 @@ describe("When `DeviceService.request` returns failed response", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceService.request).toHaveBeenCalledWith({
+    expect(deviceManager.device.request).toHaveBeenCalledWith({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {
@@ -85,12 +91,12 @@ describe("When `DeviceService.request` returns failed response", () => {
       },
     })
     expect(result).toEqual(
-      new FailedResult({
-        ...new AppError(
+      Result.failed(
+        new AppError(
           DeviceFileSystemError.FilesRetrieve,
           "Something went wrong"
-        ),
-      })
+        )
+      )
     )
   })
 })

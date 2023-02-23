@@ -8,15 +8,15 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { disconnectDevice } from "App/device/actions/disconnect-device.action"
-import disconnectDeviceRequest from "App/__deprecated__/renderer/requests/disconnect-device.request"
+import { disconnectDeviceRequest } from "App/device/requests/disconnect-device.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { AppError } from "App/core/errors"
+import { Result } from "App/core/builder"
 import { DeviceError } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
-jest.mock("App/__deprecated__/renderer/requests/disconnect-device.request")
+jest.mock("App/device/requests/disconnect-device.request")
 
 jest.mock("App/device/actions/set-connection-status.action", () => ({
   setConnectionStatus: jest.fn().mockReturnValue({
@@ -31,9 +31,9 @@ afterEach(() => {
 
 describe("Disconnect Device request returns `success` status", () => {
   test("fire async `disconnectDevice`", async () => {
-    ;(disconnectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Ok,
-    })
+    ;(disconnectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.success(true)
+    )
     const {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
@@ -55,9 +55,9 @@ describe("Disconnect Device request returns `success` status", () => {
 
 describe("Disconnect Device request returns `error` status", () => {
   test("fire async `disconnectDevice` action and execute `rejected` event", async () => {
-    ;(disconnectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: RequestResponseStatus.Error,
-    })
+    ;(disconnectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.failed(new AppError("", ""))
+    )
     const errorMock = new AppError(
       DeviceError.Disconnection,
       "Cannot disconnect from device"

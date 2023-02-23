@@ -3,28 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { connect } from "react-redux"
-import {
-  TmpDispatch,
-  ReduxRootState,
-  RootState,
-} from "App/__deprecated__/renderer/store"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import React from "react"
 import { useHistory } from "react-router"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   URL_MAIN,
   URL_ONBOARDING,
 } from "App/__deprecated__/renderer/constants/urls"
 import OnboardingWelcome from "App/onboarding/components/onboarding-welcome.component"
-import React from "react"
-
-const mapStateToProps = (state: ReduxRootState & RootState) => {
-  return state.settings
-}
-
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
-const mapDispatchToProps = (dispatch: TmpDispatch) => dispatch.settings
 
 const Onboarding: FunctionComponent = () => {
   const history = useHistory()
@@ -46,4 +32,4 @@ const Onboarding: FunctionComponent = () => {
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Onboarding)
+export default Onboarding

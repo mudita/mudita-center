@@ -16,7 +16,6 @@ export enum IpcRequest {
   GetDeviceLogFiles = "get-device-log-files",
   GetDeviceCrashDumpFiles = "get-device-crash-dump-files",
   DownloadCrashDumpFiles = "download-crash-dump-files",
-  UpdateOs = "update-os",
   ExportContacts = "export-contacts",
   ExportEvents = "export-events",
   GetEvents = "get-events",

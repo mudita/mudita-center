@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceEventName } from "@mudita/pure"
+import { DeviceEvent } from "App/device/constants"
 import { DeviceType } from "App/device/constants"
 import { RequestConfig, Response } from "App/device/types/mudita-os"
 
@@ -15,6 +15,6 @@ export interface SerialPortDevice {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   request(config: RequestConfig<any>): Promise<Response<any>>
-  on(eventName: DeviceEventName, listener: () => void): void
-  off(eventName: DeviceEventName, listener: () => void): void
+  on(eventName: DeviceEvent, listener: () => void): void
+  off(eventName: DeviceEvent, listener: () => void): void
 }

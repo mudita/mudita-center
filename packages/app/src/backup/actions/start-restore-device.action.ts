@@ -4,25 +4,21 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { BackupEvent, BackupError } from "App/backup/constants"
+import { BackupError, BackupEvent } from "App/backup/constants"
 import { RestoreBackup } from "App/backup/dto"
+import { restoreBackupRequest } from "App/backup/requests"
+import { AppError } from "App/core/errors"
 import { PureDeviceData } from "App/device"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { AppError } from "App/core/errors"
-import { restoreBackupRequest } from "App/backup/requests"
 
 export const startRestoreDevice = createAsyncThunk<undefined, RestoreBackup>(
   BackupEvent.RestoreBackup,
   async ({ key, backup }, { getState, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
-    const pureOsBackupPureLocation = (
-      state.device.data as PureDeviceData | undefined
-    )?.backupLocation
+    const osBackupFilePath = (state.device.data as PureDeviceData | undefined)
+      ?.backupFilePath
 
-    if (
-      pureOsBackupPureLocation === undefined ||
-      pureOsBackupPureLocation === ""
-    ) {
+    if (osBackupFilePath === undefined || osBackupFilePath === "") {
       return rejectWithValue(
         new AppError(
           BackupError.BackupLocationIsUndefined,
@@ -34,7 +30,7 @@ export const startRestoreDevice = createAsyncThunk<undefined, RestoreBackup>(
     const result = await restoreBackupRequest({
       token: key,
       filePath: backup.filePath,
-      backupLocation: pureOsBackupPureLocation,
+      backupFilePath: osBackupFilePath,
     })
 
     if (!result.ok) {

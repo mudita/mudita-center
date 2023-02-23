@@ -6,18 +6,19 @@
 import { DiagnosticsFileList, Endpoint, Method } from "App/device/constants"
 import { GetDeviceFilesResponseBody } from "App/device/types/mudita-os"
 import path from "path"
+import { ResultObject } from "App/core/builder"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
-import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 
 export class CrashDumpService {
   constructor(
-    private deviceService: DeviceService,
-    private deviceFileSystem: DeviceFileSystem
+    private deviceManager: DeviceManager,
+    private deviceFileSystem: DeviceFileSystemService
   ) {}
 
   public async getDeviceCrashDumpFiles(): Promise<RequestResponse<string[]>> {
@@ -45,11 +46,10 @@ export class CrashDumpService {
       await this.deviceFileSystem.downloadDeviceFilesLocally(files.data, {
         cwd: path.join(getAppPath(), "crash-dumps"),
       })
-    const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
-      downloadDeviceFilesResponse.status !== RequestResponseStatus.Ok ||
-      deviceFiles === undefined
+      !downloadDeviceFilesResponse.ok ||
+      downloadDeviceFilesResponse.data === undefined
     ) {
       return {
         status: RequestResponseStatus.Error,
@@ -57,7 +57,7 @@ export class CrashDumpService {
     }
 
     return {
-      data: deviceFiles,
+      data: downloadDeviceFilesResponse.data,
       status: RequestResponseStatus.Ok,
     }
   }
@@ -70,7 +70,7 @@ export class CrashDumpService {
     )
 
     if (
-      getDiagnosticFileListResponse.status !== RequestResponseStatus.Ok ||
+      !getDiagnosticFileListResponse.ok ||
       getDiagnosticFileListResponse.data === undefined
     ) {
       return {
@@ -88,8 +88,8 @@ export class CrashDumpService {
 
   public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
-  ): Promise<RequestResponse<GetDeviceFilesResponseBody>> {
-    return this.deviceService.request({
+  ): Promise<ResultObject<GetDeviceFilesResponseBody>> {
+    return this.deviceManager.device.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       body: { fileList },

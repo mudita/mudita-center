@@ -6,7 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import { toggleUpdateAvailable } from "./toggle-update-available.action"
+import { toggleApplicationUpdateAvailable } from "./toggle-application-update-available.action"
 
 jest.mock("App/modals-manager/actions", () => ({
   checkAppUpdateFlowToShow: () => jest.fn(),
@@ -18,17 +18,17 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-test("calls `toggleUpdateAvailable` action dispatch SettingsEvent.ToggleUpdateAvailable", async () => {
+test("calls `toggleApplicationUpdateAvailable` action dispatch SettingsEvent.ToggleUpdateAvailable", async () => {
   const {
     meta: { requestId },
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(
-    toggleUpdateAvailable(true) as unknown as AnyAction
+    toggleApplicationUpdateAvailable(true) as unknown as AnyAction
   )
 
   expect(mockStore.getActions()).toEqual([
-    toggleUpdateAvailable.pending(requestId, true),
-    toggleUpdateAvailable.fulfilled(true, requestId, true),
+    toggleApplicationUpdateAvailable.pending(requestId, true),
+    toggleApplicationUpdateAvailable.fulfilled(true, requestId, true),
   ])
 })

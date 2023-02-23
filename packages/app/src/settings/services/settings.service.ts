@@ -35,4 +35,8 @@ export class SettingsService {
     this.store.set(key, value)
     return this.store.get(key)
   }
+
+  getByKey(key: keyof Settings): SettingsValue {
+    return this.store.get(key)
+  }
 }

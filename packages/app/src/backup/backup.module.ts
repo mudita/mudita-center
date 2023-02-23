@@ -5,11 +5,10 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
-import createDeviceFileSystemAdapter from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import {
@@ -18,11 +17,19 @@ import {
   LoadBackupService,
 } from "App/backup/services"
 import { BackupController } from "App/backup/controllers"
+import { DeviceManager } from "App/device-manager/services"
+import { FileManagerService } from "App/files-manager/services"
+import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
+import {
+  FileUploadCommand,
+  RetrieveFilesCommand,
+} from "App/device-file-system/commands"
+import { DeviceInfoService } from "App/device-info/services"
 
 export class BackupModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceService: DeviceService,
+    public deviceManager: DeviceManager,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -31,7 +38,7 @@ export class BackupModule extends BaseModule {
   ) {
     super(
       index,
-      deviceService,
+      deviceManager,
       keyStorage,
       logger,
       ipc,
@@ -39,15 +46,33 @@ export class BackupModule extends BaseModule {
       fileSystem
     )
 
-    const deviceFileSystem = createDeviceFileSystemAdapter(this.deviceService)
+    const deviceFileSystem = new DeviceFileSystemService(this.deviceManager)
+    const fileManagerService = new FileManagerService(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new FileDeleteCommand(this.deviceManager),
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new RetrieveFilesCommand(this.deviceManager),
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new FileUploadCommand(this.deviceManager, this.fileSystem)
+    )
+
+    const deviceInfoService = new DeviceInfoService(this.deviceManager)
+
     const backupCreateService = new BackupCreateService(
-      this.deviceService,
+      this.deviceManager,
       deviceFileSystem,
+      fileManagerService,
+      deviceInfoService,
       this.keyStorage
     )
     const backupRestoreService = new BackupRestoreService(
-      this.deviceService,
-      deviceFileSystem
+      this.deviceManager,
+      deviceFileSystem,
+      deviceInfoService,
+      fileSystem
     )
     const loadBackupService = new LoadBackupService()
     const backupController = new BackupController(

@@ -3,11 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { EventEmitter } from "events"
 import { Observer } from "App/core/types"
-import {
-  DeviceService,
-  DeviceServiceEventName,
-} from "App/__deprecated__/backend/device-service"
+import { DeviceServiceEvent } from "App/device/constants"
 import { SettingsService } from "App/settings/services"
 import { CrashDumpService } from "App/crash-dump/services"
 import { MainProcessIpc } from "electron-better-ipc"
@@ -19,7 +17,7 @@ export class CrashDumpObserver implements Observer {
 
   constructor(
     private ipc: MainProcessIpc,
-    private deviceService: DeviceService,
+    private eventEmitter: EventEmitter,
     private crashDumpService: CrashDumpService,
     private settingsService: SettingsService
   ) {}
@@ -31,7 +29,7 @@ export class CrashDumpObserver implements Observer {
   private registerListener(): void {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
+    this.eventEmitter.on(DeviceServiceEvent.DeviceUnlocked, async () => {
       this.disconnected = false
 
       if (this.invoked || this.disconnected) {
@@ -54,8 +52,8 @@ export class CrashDumpObserver implements Observer {
       }
     })
 
-    this.deviceService.on(
-      DeviceServiceEventName.DeviceDisconnected,
+    this.eventEmitter.on(
+      DeviceServiceEvent.DeviceDisconnected,
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       async () => {
