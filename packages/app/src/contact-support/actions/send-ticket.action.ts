@@ -15,6 +15,7 @@ import { AppError } from "App/core/errors"
 import logger from "App/__deprecated__/main/utils/logger"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+import { mapDeviceTypeToProduct } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/map-device-type-to-product.helper"
 
 export type SendTicketPayload = Pick<
   FreshdeskTicketData,
@@ -26,12 +27,14 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
   async ({ email, description }, { getState, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
     const serialNumber = state.device.data?.serialNumber
+    const product = mapDeviceTypeToProduct(state.device.deviceType)
 
     const response = await sendTicketRequest({
       email,
       description: (description || "").replace(/\r\n|\r|\n/g, "<br/>"),
       serialNumber,
       subject: `Error`,
+      product,
     })
 
     if (response.status === CreateBugTicketResponseStatus.Ok) {

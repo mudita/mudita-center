@@ -12,7 +12,10 @@ import { getDeviceLogFiles } from "App/device-log/requests/get-device-log-files.
 import { downloadDeviceFiles } from "App/device-file-system/requests/download-device-file.request"
 import createFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import mockCreateFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
-import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+import {
+  FreshdeskTicketData,
+  FreshdeskTicketProduct,
+} from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 import { DeviceFile } from "App/device-file-system/dto"
 import {
   RequestResponse,
@@ -44,6 +47,7 @@ const data: Omit<FreshdeskTicketData, "type" | "attachments"> = {
   subject: "",
   email: "",
   serialNumber: "",
+  product: FreshdeskTicketProduct.None,
 }
 
 afterEach(() => {

@@ -21,6 +21,7 @@ import {
   FreshdeskTicketDataType,
 } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 import { CrashDump } from "App/crash-dump/dto"
+import { mapDeviceTypeToProduct } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/map-device-type-to-product.helper"
 
 const mapToAttachments = (paths: string[]): File[] => {
   return paths.map((path) => createFile(path))
@@ -71,6 +72,7 @@ export const sendCrashDumpData = createAsyncThunk<undefined, CrashDump>(
       attachments,
       email,
       description,
+      product: mapDeviceTypeToProduct(state.device.deviceType),
     }
 
     try {

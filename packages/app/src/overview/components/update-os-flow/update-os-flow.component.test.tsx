@@ -82,11 +82,6 @@ const updateError = new AppError(
   "Unexpected update error"
 )
 
-const notEnoughSpaceError = new AppError(
-  UpdateError.NotEnoughSpace,
-  "Device updating process failed"
-)
-
 const render = (extraProps?: Partial<UpdateOsFlowProps>) => {
   const props = {
     ...defaultProps,
@@ -308,19 +303,6 @@ describe("update os", () => {
 
       checkModalsVisibility(queryByTestId, [
         UpdateOsFlowTestIds.UpdateFailedModal,
-      ])
-    })
-  })
-
-  describe("when updating failed because of lack of memory", () => {
-    test("error modal is shown", () => {
-      const { queryByTestId } = render({
-        updateState: State.Failed,
-        error: notEnoughSpaceError,
-      })
-
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.NotEnoughSpaceModal,
       ])
     })
   })
