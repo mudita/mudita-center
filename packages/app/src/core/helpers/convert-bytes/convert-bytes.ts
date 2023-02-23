@@ -22,7 +22,7 @@ export const convertBytes = (
     return bytes + " " + sizes[0]
   }
 
-  const i = Math.floor(Math.log(bytes) / Math.log(1024))
+  const i = Math.floor(Math.log(bytes) / Math.log(1000))
 
   if (i === 0) {
     // AUTO DISABLED - fix me if you like :)
@@ -30,7 +30,7 @@ export const convertBytes = (
     return bytes + " " + sizes[i]
   }
 
-  const value = bytes / 1024 ** i
+  const value = bytes / 1000 ** i
 
   const returnedValue = fixedFractionDigits
     ? value.toFixed(precision)

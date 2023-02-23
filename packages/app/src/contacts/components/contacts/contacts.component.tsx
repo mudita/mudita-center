@@ -267,6 +267,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       if (payload) {
         void modalService.openModal(<ErrorDataModal />, true)
       } else {
+        closeSidebar()
         cancelOrCloseContactHandler()
         await modalService.closeModal()
       }
@@ -570,6 +571,16 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     }
   }
 
+  const handleDeleteContacts = (
+    ...params: Parameters<typeof deleteContacts>
+  ): ReturnType<typeof deleteContacts> => {
+    const [ids] = params
+    if (activeRow !== undefined && ids.includes(activeRow.id.toString())) {
+      closeSidebar()
+    }
+    return deleteContacts(...params)
+  }
+
   return (
     <>
       {exportFailed && (
@@ -600,7 +611,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           selectedContacts={selectedItems}
           allItemsSelected={allItemsSelected}
           toggleAll={selectAllItems}
-          deleteContacts={deleteContacts}
+          deleteContacts={handleDeleteContacts}
           resetRows={resetAllItems}
           editMode={Boolean(editedContact || newContact)}
           onSearchEnterClick={openSearchResults}

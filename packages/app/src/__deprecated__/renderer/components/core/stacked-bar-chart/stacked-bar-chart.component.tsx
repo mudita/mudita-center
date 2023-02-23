@@ -9,7 +9,7 @@ import Text, {
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { borderRadius, height } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 import styled, { css } from "styled-components"
 
 export enum DisplayStyle {
