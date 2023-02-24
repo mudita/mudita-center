@@ -11,6 +11,7 @@ import {
   Product,
   ReleaseProcessState,
   UpdateError,
+  UpdateErrorServiceErrors,
   UpdateOsEvent,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
@@ -186,7 +187,11 @@ describe("when updating os request return failure status", () => {
   test("action is rejected", async () => {
     jest
       .spyOn(startOsUpdateRequestModule, "startOsUpdate")
-      .mockResolvedValueOnce(Result.failed(new AppError("", "")))
+      .mockResolvedValueOnce(
+        Result.failed(
+          new AppError(UpdateErrorServiceErrors.CannotGetDeviceInfo, "")
+        )
+      )
 
     const error = new AppError(
       UpdateError.UpdateOsProcess,
