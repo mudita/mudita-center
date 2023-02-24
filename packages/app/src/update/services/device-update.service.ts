@@ -11,6 +11,7 @@ import {
   DeviceType,
   Endpoint,
   Method,
+  OnboardingState,
   PhoneLockCategory,
 } from "App/device/constants"
 import { SettingsService } from "App/settings/services"
@@ -37,6 +38,15 @@ export class DeviceUpdateService {
         new AppError(
           UpdateErrorServiceErrors.CannotGetOsVersion,
           "Current os version request failed"
+        )
+      )
+    }
+
+    if (deviceInfoResult.data.onboardingState === OnboardingState.InProgress) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.OnboardingNotComplete,
+          "Onboarding not complete"
         )
       )
     }

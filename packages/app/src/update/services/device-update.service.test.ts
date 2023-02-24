@@ -13,6 +13,7 @@ import {
   CaseColor,
   DeviceType,
   DeviceCommunicationError,
+  OnboardingState,
 } from "App/device/constants"
 import { DeviceInfo } from "App/device-info/dto"
 import { SettingsService } from "App/settings/services/settings.service"
@@ -32,6 +33,7 @@ const payloadMock: UpdateOS = {
 }
 
 const deviceInfoResponseMock: DeviceInfo = {
+  onboardingState: OnboardingState.InProgress,
   memorySpace: {
     reservedSpace: 0,
     usedUserSpace: 0,
