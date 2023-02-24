@@ -10,19 +10,11 @@ import { DeviceManager } from "App/device-manager/services"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import {
-  AccessTechnology,
-  BatteryState,
   CaseColor,
   DeviceType,
-  Endpoint,
-  Method,
-  NetworkStatus,
-  SignalStrength,
-  SIM,
-  Tray,
   DeviceCommunicationError,
 } from "App/device/constants"
-import { DeviceInfo, RequestConfig } from "App/device/types/mudita-os"
+import { DeviceInfo } from "App/device-info/dto"
 import { SettingsService } from "App/settings/services/settings.service"
 import { UpdateErrorServiceErrors } from "App/update/constants"
 import { UpdateOS } from "App/update/dto"
@@ -40,28 +32,22 @@ const payloadMock: UpdateOS = {
 }
 
 const deviceInfoResponseMock: DeviceInfo = {
-  accessTechnology: AccessTechnology.Gsm,
+  memorySpace: {
+    reservedSpace: 0,
+    usedUserSpace: 0,
+    total: 0,
+  },
+  networkLevel: "25",
+  networkName: "Play",
+  simCards: [],
   backupFilePath: "",
-  updateFilePath: undefined,
+  updateFilePath: "/sys/user/update.tar",
   recoveryStatusFilePath: "",
   syncFilePath: "",
-  batteryLevel: "100",
-  batteryState: BatteryState.Discharging,
+  batteryLevel: 100,
   caseColour: CaseColor.Black,
-  currentRTCTime: "1667993610",
-  deviceSpaceTotal: "14945",
-  deviceToken: "Pziv07Iz9E5OBOLfOwXqPJgWCRsE1Xfu",
-  gitBranch: "HEAD",
-  gitRevision: "b6ae5b95",
-  networkOperatorName: "Play",
-  networkStatus: NetworkStatus.RegisteredHomeNetwork,
-  selectedSim: SIM.One,
   serialNumber: "00000010133631",
-  signalStrength: SignalStrength.Four,
-  systemReservedSpace: "2042",
-  trayState: Tray.In,
-  usedUserSpace: "1674",
-  version: "1.4.0",
+  osVersion: "1.4.0",
 }
 
 const oneMB = 1024 * 1024
@@ -89,6 +75,9 @@ beforeEach(() => {
 
   deviceInfoService = {
     getDeviceFreeSpace: jest.fn().mockReturnValue({ ok: true, data: 2 }),
+    getDeviceInfo: jest
+      .fn()
+      .mockReturnValue(Result.success(deviceInfoResponseMock)),
   } as unknown as DeviceInfoService
 
   subject = new DeviceUpdateService(
@@ -109,9 +98,6 @@ describe("Method: updateOs", () => {
       jest.spyOn(fs, "lstatSync").mockReturnValue({
         size: 3 * oneMB,
       } as Stats)
-      deviceManager.device.request = jest
-        .fn()
-        .mockResolvedValueOnce(Result.success(deviceInfoResponseMock))
       deviceFileSystem.uploadFileLocally = jest
         .fn()
         .mockResolvedValueOnce(Result.failed(new AppError("", "")))
@@ -133,8 +119,8 @@ describe("Method: updateOs", () => {
       )
     })
   })
-  test("Device info endpoint returns `Result.failed`", async () => {
-    deviceManager.device.request = jest.fn().mockResolvedValueOnce({
+  test("deviceInfoService.getDeviceInfo returns `Result.failed`", async () => {
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValueOnce({
       data: undefined,
       status: RequestResponseStatus.Error,
     })
@@ -158,9 +144,6 @@ describe("Method: updateOs", () => {
   })
 
   test("Upload File Locally method returns `Result.failed`", async () => {
-    deviceManager.device.request = jest
-      .fn()
-      .mockResolvedValueOnce(Result.success(deviceInfoResponseMock))
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.failed(new AppError("", "")))
@@ -189,35 +172,10 @@ describe("Method: updateOs", () => {
   })
 
   test("Device update endpoint returns `Result.failed`", async () => {
-    deviceManager.device.request = jest
-      .fn()
-      .mockImplementation((config: RequestConfig) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success(deviceInfoResponseMock)
-        }
-
-        if (
-          config.endpoint === Endpoint.Update &&
-          config.method === Method.Post
-        ) {
-          return Result.failed(
-            new AppError(
-              DeviceCommunicationError.RequestFailed,
-              "Something went wrong"
-            )
-          )
-        }
-
-        return Result.failed(
-          new AppError(
-            DeviceCommunicationError.RequestFailed,
-            "Something went wrong"
-          )
-        )
-      })
+    deviceManager.device.request = jest.fn().mockResolvedValueOnce({
+      data: undefined,
+      status: DeviceCommunicationError.RequestFailed,
+    })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
@@ -248,28 +206,8 @@ describe("Method: updateOs", () => {
   test("Returns `Result.failed` if device wakes up too long", async () => {
     deviceManager.device.request = jest
       .fn()
-      .mockImplementation((config: RequestConfig) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success(deviceInfoResponseMock)
-        }
+      .mockResolvedValueOnce(Result.success(undefined))
 
-        if (
-          config.endpoint === Endpoint.Update &&
-          config.method === Method.Post
-        ) {
-          return Result.success(undefined)
-        }
-
-        return Result.failed(
-          new AppError(
-            DeviceCommunicationError.RequestFailed,
-            "Something went wrong"
-          )
-        )
-      })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
@@ -312,28 +250,8 @@ describe("Method: updateOs", () => {
   test("Returns `Result.failed` if version from device endpoint after update is equal to version before update", async () => {
     deviceManager.device.request = jest
       .fn()
-      .mockImplementation((config: RequestConfig) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return Result.success(deviceInfoResponseMock)
-        }
+      .mockResolvedValueOnce(Result.success(undefined))
 
-        if (
-          config.endpoint === Endpoint.Update &&
-          config.method === Method.Post
-        ) {
-          return Result.success(undefined)
-        }
-
-        return Result.failed(
-          new AppError(
-            DeviceCommunicationError.RequestFailed,
-            "Something went wrong"
-          )
-        )
-      })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
@@ -372,40 +290,23 @@ describe("Method: updateOs", () => {
   })
 
   test("Returns `Result.success` if version from device endpoint after update changed", async () => {
-    let isFirstRequest = true
-
     deviceManager.device.request = jest
       .fn()
-      .mockImplementation((config: RequestConfig) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          if (isFirstRequest) {
-            isFirstRequest = false
-            return Result.success(deviceInfoResponseMock)
-          } else {
-            return Result.success({
-              ...deviceInfoResponseMock,
-              version: "1.5.0",
-            })
-          }
-        }
+      .mockResolvedValueOnce(Result.success(undefined))
+    let isFirstRequest = true
 
-        if (
-          config.endpoint === Endpoint.Update &&
-          config.method === Method.Post
-        ) {
-          return Result.success(undefined)
-        }
+    deviceInfoService.getDeviceInfo = jest.fn().mockImplementation(() => {
+      if (isFirstRequest) {
+        isFirstRequest = false
+        return Result.success(deviceInfoResponseMock)
+      } else {
+        return Result.success({
+          ...deviceInfoResponseMock,
+          osVersion: "1.5.0",
+        })
+      }
+    })
 
-        return Result.failed(
-          new AppError(
-            DeviceCommunicationError.RequestFailed,
-            "Something went wrong"
-          )
-        )
-      })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))

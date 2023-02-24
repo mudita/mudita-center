@@ -34,7 +34,7 @@ export class DeviceInfoPresenter {
       },
       caseColour: data.caseColour ? data.caseColour : CaseColor.Gray,
       backupFilePath: data.backupFilePath ? data.backupFilePath : "",
-      updateFilePath: data.updateFilePath ? data.updateFilePath : "",
+      updateFilePath: data.updateFilePath ? data.updateFilePath : "/sys/user/update.tar",
       recoveryStatusFilePath: data.recoveryStatusFilePath
         ? data.recoveryStatusFilePath
         : "",

@@ -138,6 +138,7 @@ export interface DeviceInfo {
   updateFilePath?: string
   syncFilePath: string
   recoveryStatusFilePath: string
+  onboardingDone: boolean
 }
 
 export interface NotSupportedDeviceInfo {
