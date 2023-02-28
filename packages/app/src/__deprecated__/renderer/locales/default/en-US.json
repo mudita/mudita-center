@@ -707,6 +707,7 @@
   "module.overview.updatingForceDescription": "The MuditaOS version of your device is too old. Please update your device to use Mudita Center.",
   "module.overview.updatingForceTitle": "Update the MuditaOS on your device.",
   "module.overview.updatingNotEnoughSpaceDescription": "The device storage is full. To update the system you need {value} MB of storage space. Delete unused files to allow storage space and try again.",
+  "module.overview.updatingOnboardingNotCompleteDescription": "The device onboarding process has not been completed. Complete it on the device and try again.",
   "module.overview.updatingProgressDescription": "This might take a few minutes. Please do not unplug your device during the process.",
   "module.overview.updatingProgressTitle": "Updating MuditaOS…",
   "module.overview.updatingReleaseInfo": "Updating MuditaOS {value}",

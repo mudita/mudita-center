@@ -24,6 +24,18 @@ interface Params {
   releases: OsRelease[]
 }
 
+const getErrorType = (error?: UpdateErrorServiceErrors): UpdateError => {
+  if (error === UpdateErrorServiceErrors.NotEnoughSpace) {
+    return UpdateError.NotEnoughSpace
+  }
+
+  if (error === UpdateErrorServiceErrors.OnboardingNotComplete) {
+    return UpdateError.OnboardingNotComplete
+  }
+
+  return UpdateError.UpdateOsProcess
+}
+
 export const startUpdateOs = createAsyncThunk<
   void,
   Params,
@@ -63,10 +75,7 @@ export const startUpdateOs = createAsyncThunk<
         if (!result.ok) {
           void setUpdatingRequest(false)
 
-          const errorType =
-            result.error?.type === UpdateErrorServiceErrors.NotEnoughSpace
-              ? UpdateError.NotEnoughSpace
-              : UpdateError.UpdateOsProcess
+          const errorType = getErrorType(result.error?.type)
 
           return rejectWithValue(
             new AppError(errorType, "Device updating process failed")

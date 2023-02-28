@@ -7,6 +7,7 @@ import { DeviceInfo as DeviceInfoRaw } from "App/device/types/mudita-os"
 import { CaseColor } from "App/device/constants"
 import { DeviceInfo } from "App/device-info/dto"
 import { SimCardPresenter } from "App/device-info/presenters/sim-card.presenter"
+import { OnboardingState } from "App/device/constants/onboarding-state.constant"
 
 const missingStorageBytes = 300000000
 
@@ -34,11 +35,17 @@ export class DeviceInfoPresenter {
       },
       caseColour: data.caseColour ? data.caseColour : CaseColor.Gray,
       backupFilePath: data.backupFilePath ? data.backupFilePath : "",
-      updateFilePath: data.updateFilePath ? data.updateFilePath : "",
+      updateFilePath: data.updateFilePath
+        ? data.updateFilePath
+        : "/sys/user/update.tar",
       recoveryStatusFilePath: data.recoveryStatusFilePath
         ? data.recoveryStatusFilePath
         : "",
       syncFilePath: data.syncFilePath ? data.syncFilePath : "",
+      onboardingState:
+        data.onboardingState === undefined
+          ? OnboardingState.Finished
+          : data.onboardingState,
     }
   }
 }
