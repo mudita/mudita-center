@@ -40,6 +40,7 @@ import * as ContactSelectModalModule from "App/contacts/components/contacts-sele
 import { PayloadAction } from "@reduxjs/toolkit"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { State } from "App/core/constants"
+import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {
@@ -1051,6 +1052,68 @@ describe("Messages component", () => {
           queryByTestId(MessagesTestIds.NewMessageForm)
         ).not.toBeInTheDocument()
         expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe("search input", () => {
+    const searchText = "Dolore"
+
+    describe("when enter key hasn't been pressed", () => {
+      test("search shouldn't be triggered", () => {
+        const { queryByTestId } = renderer()
+        const input = queryByTestId(
+          InputSearchTestIds.Input
+        ) as HTMLInputElement
+        fireEvent.change(input, { target: { value: searchText } })
+
+        expect(defaultProps.searchMessages).not.toBeCalled()
+      })
+    })
+    describe("when enter key has been pressed", () => {
+      test("search should be triggered", () => {
+        const { queryByTestId } = renderer()
+        const input = queryByTestId(
+          InputSearchTestIds.Input
+        ) as HTMLInputElement
+        fireEvent.change(input, { target: { value: searchText } })
+        fireEvent.keyDown(input, {
+          key: "Enter",
+          code: "Enter",
+          keyCode: 13,
+          charCode: 13,
+        })
+
+        expect(defaultProps.searchMessages).toHaveBeenLastCalledWith({
+          query: searchText,
+          scope: ["message"],
+        })
+      })
+    })
+    describe("when text has been changed after enter key hasn't been pressed", () => {
+      test("search shouldn't be retriggered", () => {
+        const changedSearchValue = "Lorem ipsum"
+        const { queryByTestId } = renderer()
+        const input = queryByTestId(
+          InputSearchTestIds.Input
+        ) as HTMLInputElement
+        fireEvent.change(input, { target: { value: searchText } })
+        fireEvent.keyDown(input, {
+          key: "Enter",
+          code: "Enter",
+          keyCode: 13,
+          charCode: 13,
+        })
+        fireEvent.change(input, { target: { value: changedSearchValue } })
+
+        expect(defaultProps.searchMessages).toHaveBeenLastCalledWith({
+          query: searchText,
+          scope: ["message"],
+        })
+        expect(defaultProps.searchMessagesForPreview).toHaveBeenLastCalledWith({
+          query: changedSearchValue,
+          scope: ["message", "thread"],
+        })
       })
     })
   })
