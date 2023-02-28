@@ -39,6 +39,7 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 export enum InputSearchTestIds {
+  Input = "input-search",
   Icon = "input-select-icon",
   List = "input-select-list",
   ListItem = "input-select-list-item",
@@ -436,6 +437,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   return (
     <SelectInputWrapper className={className} listStyles={listStyles}>
       <InputText
+        data-testid={InputSearchTestIds.Input}
         {...rest}
         type={type}
         value={getInputValue()}
