@@ -33,7 +33,7 @@ const payloadMock: UpdateOS = {
 }
 
 const deviceInfoResponseMock: DeviceInfo = {
-  onboardingState: OnboardingState.InProgress,
+  onboardingState: OnboardingState.Finished,
   memorySpace: {
     reservedSpace: 0,
     usedUserSpace: 0,
@@ -95,7 +95,7 @@ beforeEach(() => {
 })
 
 describe("Method: updateOs", () => {
-  describe("When not enough space on Pure device", () => {
+  describe("when not enough space on Pure device", () => {
     test("action should end with `Result.failed`", async () => {
       jest.spyOn(fs, "lstatSync").mockReturnValue({
         size: 3 * oneMB,
@@ -118,6 +118,28 @@ describe("Method: updateOs", () => {
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(settingsService.getByKey).toHaveBeenLastCalledWith(
         "osDownloadLocation"
+      )
+    })
+  })
+
+  describe("when onboarding is not complete", () => {
+    test("action should end with `Result.failed`", async () => {
+      deviceInfoService.getDeviceInfo = jest.fn().mockReturnValue(
+        Result.success({
+          ...deviceInfoResponseMock,
+          onboardingState: OnboardingState.InProgress,
+        })
+      )
+
+      const result = await subject.updateOs(payloadMock)
+
+      expect(result).toEqual(
+        Result.failed(
+          new AppError(
+            UpdateErrorServiceErrors.OnboardingNotComplete,
+            "Onboarding not complete"
+          )
+        )
       )
     })
   })
