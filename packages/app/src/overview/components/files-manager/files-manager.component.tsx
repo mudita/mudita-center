@@ -14,7 +14,7 @@ import Card, {
 import StackedBarChart, {
   DisplayStyle,
 } from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 import styled from "styled-components"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import Text, {

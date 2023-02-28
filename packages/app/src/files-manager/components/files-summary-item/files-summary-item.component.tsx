@@ -19,7 +19,7 @@ import Icon, {
 } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
 import { defineMessages } from "react-intl"
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 
 const FilesSummaryItemContainer = styled.div`
   display: flex;

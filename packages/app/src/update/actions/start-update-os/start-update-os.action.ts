@@ -11,6 +11,7 @@ import { setStateForInstalledRelease } from "App/update/actions/base.action"
 import {
   ReleaseProcessState,
   UpdateError,
+  UpdateErrorServiceErrors,
   UpdateOsEvent,
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
@@ -33,8 +34,8 @@ export const startUpdateOs = createAsyncThunk<
   UpdateOsEvent.StartOsUpdateProcess,
   async ({ releases }, { dispatch, rejectWithValue, getState }) => {
     void setUpdatingRequest(true)
-    const { device } = getState() as RootState & ReduxRootState
-    const batteryLevel = device.data?.batteryLevel ?? 0
+    let state = getState() as RootState & ReduxRootState
+    const batteryLevel = state.device.data?.batteryLevel ?? 0
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
       return rejectWithValue(
@@ -48,6 +49,7 @@ export const startUpdateOs = createAsyncThunk<
     await dispatch(removeFile(DiagnosticsFilePath.UPDATER_LOG))
 
     for (const release of releases) {
+      state = getState() as RootState & ReduxRootState
       dispatch(
         setStateForInstalledRelease({
           state: ReleaseProcessState.InProgress,
@@ -55,16 +57,21 @@ export const startUpdateOs = createAsyncThunk<
         })
       )
 
-      const result = await startOsUpdate({ fileName: release.file.name })
+      if (release.version !== state.device.data?.osVersion) {
+        const result = await startOsUpdate({ fileName: release.file.name })
 
-      if (!result.ok) {
-        void setUpdatingRequest(false)
-        return rejectWithValue(
-          new AppError(
-            UpdateError.UpdateOsProcess,
-            "Device updating process failed"
+        if (!result.ok) {
+          void setUpdatingRequest(false)
+
+          const errorType =
+            result.error?.type === UpdateErrorServiceErrors.NotEnoughSpace
+              ? UpdateError.NotEnoughSpace
+              : UpdateError.UpdateOsProcess
+
+          return rejectWithValue(
+            new AppError(errorType, "Device updating process failed")
           )
-        )
+        }
       }
 
       dispatch(

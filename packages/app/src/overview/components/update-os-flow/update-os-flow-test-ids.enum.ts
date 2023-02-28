@@ -19,5 +19,6 @@ export enum UpdateOsFlowTestIds {
   UpdateFailedModal = "update-os-flow-update-failed-modal",
 
   TooLowBatteryModal = "update-os-flow-too-low-battery-modal",
+  NotEnoughSpaceModal = "update-os-flow-not-enough-space-modal",
   DevUpdate = "update-os-flow-dev-update",
 }

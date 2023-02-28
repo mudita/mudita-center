@@ -25,7 +25,7 @@ import Text, {
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { InputError } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
-import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 import { defineMessages } from "react-intl"
 import FileList from "App/__deprecated__/renderer/components/core/file-list/file-list.component"
 
