@@ -20,23 +20,23 @@ describe("Messages screen check", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 2000)
     })
-    const newMessageBtn = await MessagesPage.newMessageButton
+    const newMessageBtn = await MessagesPage.buttonNewMessage
     await expect(newMessageBtn).toBeDisplayed()
   })
 
   it("Should click 'New Message' button and check it will become disabled", async () => {
-    const newMessageBtn = await MessagesPage.newMessageButton
+    const newMessageBtn = await MessagesPage.buttonNewMessage
     await newMessageBtn.click()
     await expect(newMessageBtn).toBeDisabled()
   })
 
   it("Should check 'Search Contacts' input field is displayed", async () => {
-    const searchInput = await MessagesPage.searchContactsInput
+    const searchInput = await MessagesPage.inputSearchContacts
     await expect(searchInput).toBeDisplayed()
   })
 
   it("Should check if 'message' input field is displayed", async () => {
-    const msgInput = await MessagesPage.messageInput
+    const msgInput = await MessagesPage.inputMessage
     await expect(msgInput).toBeDisplayed()
   })
 })
