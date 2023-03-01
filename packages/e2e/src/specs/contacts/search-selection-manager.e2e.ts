@@ -133,7 +133,7 @@ describe(" search, selection manager, delete", () => {
     await expect(deleteText).toHaveTextContaining(
       "Do you really want to delete"
     )
-    ModalContactsPage.confirmDeleteButtonClick()
+    ModalContactsPage.buttonConfirmDeleteClick()
     //add timeout for delete operation to complete
     await contactRow.waitForDisplayed({ timeout: 6000 })
     await expect(checkbox).not.toBeDisplayed()
@@ -173,7 +173,7 @@ describe(" search, selection manager, delete", () => {
     expect(deleteIcon).toBeDisplayed()
     const deleteText = ModalContactsPage.textOnModal
     await expect(deleteText).toHaveText(textExpectedOnModal)
-    ModalContactsPage.confirmDeleteButtonClick()
+    ModalContactsPage.buttonConfirmDeleteClick()
     //add timeout for delete operation to complete
     const noContactsTextLabel = await ContactsPage.noContactsTextLabel
 
