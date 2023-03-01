@@ -5,6 +5,7 @@
 
 export enum VirtualizedContactListItemTestIds {
   ContactRow = "virtualized-contact-list-item-contact-row",
+  PhoneNumber = "virtualized-contact-phone-number",
   ContactExportButton = "virtualized-contact-list-item-contact-export-button",
   BlockedIcon = "virtualized-contact-list-item-blocked-icon",
   ContactRowDropdownToggler = "virtualized-contact-dropdown-toggler",
