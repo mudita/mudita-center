@@ -7,6 +7,7 @@ import React from "react"
 import { Meta } from "@storybook/react"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import {
+  InvalidBackupPasswordModal,
   RestoreFailureModal,
   RestoreModal,
   RestoreSpinnerModal,
@@ -87,6 +88,19 @@ export const RestoreSuccessModalStory = () => {
         open
         closeModal={action("Close Success Restore Modal")}
         onActionButtonClick={action("click done Success Restore Button")}
+      />
+    </Story>
+  )
+}
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const InvalidBackupPasswordModalStory = () => {
+  return (
+    <Story transparentMode>
+      <InvalidBackupPasswordModal
+        open
+        onTryAgain={action("try again success")}
+        closeModal={action("close modal success")}
       />
     </Story>
   )

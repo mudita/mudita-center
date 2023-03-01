@@ -10,7 +10,11 @@ import { History } from "history"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import NetworkStatusChecker from "App/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.container"
 import BaseRoutes from "App/__deprecated__/renderer/routes/base-routes"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import {
+  ReduxRootState,
+  RootState,
+  TmpDispatch,
+} from "App/__deprecated__/renderer/store"
 import {
   URL_MAIN,
   URL_ONBOARDING,
@@ -18,13 +22,14 @@ import {
 } from "App/__deprecated__/renderer/constants/urls"
 import { useRouterListener } from "App/core/hooks"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device/actions"
 import { sendDiagnosticData } from "App/settings/actions"
 import { State } from "App/core/constants"
 import { CrashDump } from "App/crash-dump"
 
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
+import { checkForForceUpdateNeed } from "App/update/actions/check-for-force-update-need/check-for-force-update-need.action"
+import { getDeviceLatestVersion } from "App/settings/selectors"
 
 interface Props {
   getConnectedDevice: () => void
@@ -34,8 +39,15 @@ interface Props {
   settingsLoaded?: boolean
   deviceParred?: boolean
   deviceConnected: boolean
+  deviceLocked?: boolean
   deviceUpdating: boolean
+  deviceRestarting: boolean
   sendDiagnosticData: () => void
+  checkForOsForceUpdate: () => void
+  lowestSupportedOsVersion: string | undefined
+  osVersion: string | undefined
+  checkingForOsForceUpdate: boolean
+  shouldCheckForForceUpdateNeed: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -47,7 +59,14 @@ const BaseApp: FunctionComponent<Props> = ({
   deviceParred,
   sendDiagnosticData,
   deviceConnected,
+  deviceLocked,
   deviceUpdating,
+  deviceRestarting,
+  checkForOsForceUpdate,
+  lowestSupportedOsVersion,
+  osVersion,
+  checkingForOsForceUpdate,
+  shouldCheckForForceUpdateNeed,
 }) => {
   useRouterListener(history, {
     [URL_MAIN.contacts]: [],
@@ -57,14 +76,36 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (deviceConnecting) {
+    if (
+      lowestSupportedOsVersion &&
+      osVersion &&
+      shouldCheckForForceUpdateNeed
+    ) {
+      checkForOsForceUpdate()
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lowestSupportedOsVersion, osVersion, shouldCheckForForceUpdateNeed])
+
+  useEffect(() => {
+    if (deviceRestarting) {
+      return
+    }
+
+    if (deviceConnecting || deviceLocked || checkingForOsForceUpdate) {
       history.push(URL_ONBOARDING.connecting)
     } else if (!deviceFeaturesVisible) {
       history.push(URL_ONBOARDING.welcome)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceFeaturesVisible, deviceConnecting])
+  }, [
+    deviceFeaturesVisible,
+    deviceConnecting,
+    deviceRestarting,
+    deviceLocked,
+    checkingForOsForceUpdate,
+  ])
 
   useEffect(() => {
     if (deviceParred && Boolean(settingsLoaded)) {
@@ -94,27 +135,61 @@ const BaseApp: FunctionComponent<Props> = ({
   )
 }
 
+const isDeviceRestarting = (state: RootState & ReduxRootState): boolean => {
+  if (!state.device.status.unlocked) {
+    return false
+  }
+
+  if (state.update.updateOsState === State.Loading) {
+    return true
+  }
+
+  if (state.backup.backingUpState === State.Loading) {
+    return true
+  }
+
+  if (state.backup.restoringState === State.Loading) {
+    return true
+  }
+
+  return false
+}
+
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     deviceFeaturesVisible:
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||
-      state.device.updatingState === UpdatingState.Updating ||
+      state.update.updateOsState === State.Loading ||
       state.backup.restoringState === State.Loading ||
-      state.backup.restoringState === State.Failed,
-    deviceConnecting:
-      state.device.status.connected && !state.device.status.unlocked,
+      state.backup.restoringState === State.Failed ||
+      state.backup.backingUpState === State.Loading ||
+      state.backup.backingUpState === State.Failed,
+    deviceConnecting: state.device.status.connecting,
     deviceParred:
       state.device.status.loaded && Boolean(state.device.status.unlocked),
     settingsLoaded: state.settings.loaded,
     deviceConnected: state.device.status.connected,
-    deviceUpdating: state.device.updatingState === UpdatingState.Updating,
+    deviceLocked:
+      state.device.status.connected && !state.device.status.unlocked,
+    deviceUpdating: state.update.updateOsState === State.Loading,
+    deviceRestarting: isDeviceRestarting(state),
+    osVersion: state.device.data?.osVersion,
+    lowestSupportedOsVersion: getDeviceLatestVersion(state),
+    checkingForOsForceUpdate:
+      state.update.checkForUpdateState === State.Loading &&
+      Boolean(state.update.needsForceUpdate),
+    shouldCheckForForceUpdateNeed:
+      state.update.forceUpdateState === State.Initial,
   }
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   getConnectedDevice,
   sendDiagnosticData,
-}
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  checkForOsForceUpdate: () => dispatch(checkForForceUpdateNeed()),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

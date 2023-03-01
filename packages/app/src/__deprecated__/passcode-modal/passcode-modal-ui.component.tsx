@@ -57,6 +57,7 @@ export interface PasscodeModalProps {
   onNotAllowedKeyDown: () => void
   errorMessage: string
   leftTime?: number | undefined
+  canBeClosed: boolean
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
@@ -68,6 +69,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   onNotAllowedKeyDown,
   errorMessage,
   leftTime,
+  canBeClosed,
   ...props
 }) => {
   const muditaLogo = (
@@ -85,8 +87,9 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       testId={PasscodeModalTestIds.Container}
       {...props}
       open={openModal}
+      closeable={canBeClosed}
       closeButton={false}
-      closeModal={close}
+      closeModal={canBeClosed ? close : undefined}
       title={muditaLogo}
       zIndex={zIndex("passCodeModal")({ theme })}
     >

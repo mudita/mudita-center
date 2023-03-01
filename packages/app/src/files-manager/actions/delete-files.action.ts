@@ -12,11 +12,12 @@ export const deleteFiles = createAsyncThunk<string[], string[]>(
   FilesManagerEvent.DeleteFiles,
   async (ids, { rejectWithValue, dispatch }) => {
     const result = await deleteFilesRequest(ids)
+
     if (!result.ok || !result.data) {
       return rejectWithValue(result.error)
     }
 
-    await dispatch(loadStorageInfoAction())
+    void dispatch(loadStorageInfoAction())
 
     return result.data
   }

@@ -7,6 +7,14 @@ import { DeviceInfo as DeviceInfoRaw } from "App/device/types/mudita-os"
 import { CaseColor } from "App/device/constants"
 import { DeviceInfo } from "App/device-info/dto"
 import { SimCardPresenter } from "App/device-info/presenters/sim-card.presenter"
+import { OnboardingState } from "App/device/constants/onboarding-state.constant"
+
+const missingStorageBytes = 300000000
+
+const fromMebiToByte = (mebi: number): number => {
+  const factor = 1048576
+  return mebi * factor
+}
 
 export class DeviceInfoPresenter {
   static toDto(data: DeviceInfoRaw): DeviceInfo {
@@ -18,12 +26,26 @@ export class DeviceInfoPresenter {
       simCards: [SimCardPresenter.toDto(data)],
       serialNumber: data.serialNumber,
       memorySpace: {
-        reservedSpace: Number(data.systemReservedSpace) * 1048576,
-        usedUserSpace: Number(data.usedUserSpace) * 1048576,
-        total: Number(data.deviceSpaceTotal) * 1048576,
+        reservedSpace:
+          fromMebiToByte(Number(data.systemReservedSpace)) +
+          missingStorageBytes,
+        usedUserSpace: fromMebiToByte(Number(data.usedUserSpace)),
+        total:
+          fromMebiToByte(Number(data.deviceSpaceTotal)) + missingStorageBytes,
       },
       caseColour: data.caseColour ? data.caseColour : CaseColor.Gray,
-      backupLocation: data.backupLocation ? data.backupLocation : "",
+      backupFilePath: data.backupFilePath ? data.backupFilePath : "",
+      updateFilePath: data.updateFilePath
+        ? data.updateFilePath
+        : "/sys/user/update.tar",
+      recoveryStatusFilePath: data.recoveryStatusFilePath
+        ? data.recoveryStatusFilePath
+        : "",
+      syncFilePath: data.syncFilePath ? data.syncFilePath : "",
+      onboardingState:
+        data.onboardingState === undefined
+          ? OnboardingState.Finished
+          : data.onboardingState,
     }
   }
 }

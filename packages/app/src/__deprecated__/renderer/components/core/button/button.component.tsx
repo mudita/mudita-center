@@ -23,7 +23,7 @@ import {
 import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
-export interface Props {
+export interface ButtonComponentProps {
   nav?: boolean
   exact?: boolean
   disabled?: boolean
@@ -39,6 +39,7 @@ export interface Props {
   to?: string
   type?: Type
   buttonRef?: Ref<HTMLElement>
+  loading?: boolean
 }
 
 const ButtonText = styled(Text)`
@@ -46,7 +47,7 @@ const ButtonText = styled(Text)`
 `
 
 /** Component for displaying buttons. Other props are passed down (object spread), some are filtered. */
-const ButtonComponent: FunctionComponent<Props> = ({
+const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
   className,
   disabled = false,
   displayStyle = DisplayStyle.Primary,
@@ -62,6 +63,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   to,
   type = Type.Button,
   buttonRef,
+  loading,
   ...rest
 }) => {
   // AUTO DISABLED - fix me if you like :)
@@ -135,6 +137,15 @@ const ButtonComponent: FunctionComponent<Props> = ({
       size={size}
       disabled={disabled}
     >
+      {loading && (
+        <StyledIcon
+          displayStyle={displayStyle}
+          withMargin={Boolean(label || labelMessage)}
+          type={IconType.Refresh}
+          size={IconSize.Medium}
+          rotate
+        />
+      )}
       {Icon && (
         <StyledIcon
           displayStyle={displayStyle}

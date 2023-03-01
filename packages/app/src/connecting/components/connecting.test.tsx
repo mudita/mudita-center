@@ -20,6 +20,7 @@ type Props = ComponentProps<typeof Connecting>
 
 const defaultProps: Props = {
   loaded: false,
+  passcodeModalCloseable: true,
   deviceType: DeviceType.MuditaPure,
   unlocked: null,
   leftTime: undefined,
@@ -33,6 +34,8 @@ const defaultProps: Props = {
   syncInitialized: false,
   syncState: SynchronizationState.Empty,
   updateAllIndexes: jest.fn(),
+  checkingForOsForceUpdate: false,
+  forceOsUpdateFailed: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {

@@ -32,6 +32,7 @@ const LoaderModal: FunctionComponent<LoaderModalProps> = ({
   title,
   subtitle,
   body,
+  children,
   ...rest
 }) => (
   <ModalDialog
@@ -58,6 +59,7 @@ const LoaderModal: FunctionComponent<LoaderModalProps> = ({
           {body}
         </ModalText>
       )}
+      {children}
     </Content>
   </ModalDialog>
 )

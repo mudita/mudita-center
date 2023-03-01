@@ -5,7 +5,6 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { getSettingsService } from "App/settings/containers/settings.container"
@@ -16,6 +15,7 @@ import { BaseModule } from "App/core/module"
 import { CrashDumpController } from "App/crash-dump/controllers"
 import { CrashDumpService } from "App/crash-dump/services"
 import { CrashDumpObserver } from "App/crash-dump/observers"
+import { DeviceManager } from "App/device-manager/services"
 
 export class CrashDumpModule extends BaseModule {
   private crashDumpController: CrashDumpController
@@ -24,7 +24,7 @@ export class CrashDumpModule extends BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceService: DeviceService,
+    public deviceManager: DeviceManager,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -33,7 +33,7 @@ export class CrashDumpModule extends BaseModule {
   ) {
     super(
       index,
-      deviceService,
+      deviceManager,
       keyStorage,
       logger,
       ipc,
@@ -48,8 +48,8 @@ export class CrashDumpModule extends BaseModule {
     }
 
     this.crashDumpService = new CrashDumpService(
-      this.deviceService,
-      new DeviceFileSystemService(this.deviceService)
+      this.deviceManager,
+      new DeviceFileSystemService(this.deviceManager)
     )
     this.crashDumpController = new CrashDumpController(
       this.crashDumpService,
@@ -57,7 +57,7 @@ export class CrashDumpModule extends BaseModule {
     )
     this.crashDumpObserver = new CrashDumpObserver(
       this.ipc,
-      this.deviceService,
+      this.eventEmitter,
       this.crashDumpService,
       settingsService
     )

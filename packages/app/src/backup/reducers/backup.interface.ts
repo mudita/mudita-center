@@ -6,6 +6,7 @@
 import { AppError } from "App/core/errors"
 import { State } from "App/core/constants"
 import { Backup } from "App/backup/dto"
+import { BackupError } from "App/backup/constants"
 
 export interface BackupState {
   data: {
@@ -14,5 +15,5 @@ export interface BackupState {
   loadingState: State
   backingUpState: State
   restoringState: State
-  error: AppError | null
+  error: AppError<BackupError> | null
 }

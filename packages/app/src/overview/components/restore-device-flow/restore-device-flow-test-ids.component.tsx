@@ -10,4 +10,5 @@ export enum RestoreDeviceFlowTestIds {
   RestoreDeviceRunning = "restore-device-running",
   RestoreDeviceFinished = "restore-device-finished",
   RestoreDeviceError = "restore-device-error",
+  RestoreDeviceInvalidPasswordError = "restore-device-invalid-password-error",
 }

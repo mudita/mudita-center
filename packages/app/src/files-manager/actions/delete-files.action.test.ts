@@ -50,11 +50,7 @@ describe("when `deleteFiles` request return success result", () => {
         type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
         payload: undefined,
       },
-      deleteFiles.fulfilled(
-        successObjectResult.data as string[],
-        requestId,
-        filePaths
-      ),
+      deleteFiles.fulfilled(successObjectResult.data, requestId, filePaths),
     ])
 
     expect(deleteFilesRequest).toHaveBeenCalled()

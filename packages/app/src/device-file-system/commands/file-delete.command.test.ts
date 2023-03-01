@@ -3,41 +3,47 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "App/device/constants"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import { SuccessResult } from "App/core/builder"
 import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
+  Endpoint,
+  Method,
+  DeviceCommunicationError,
+} from "App/device/constants"
+import { DeviceManager } from "App/device-manager/services"
+import { AppError } from "App/core/errors"
+import { Result, ResultObject, SuccessResult } from "App/core/builder"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
 
-const deviceService = {
-  request: jest.fn(),
-} as unknown as DeviceService
-
-const subject = new FileDeleteCommand(deviceService)
-
-const successResponse: RequestResponse = {
-  status: RequestResponseStatus.Ok,
-}
-
-const failedResponse: RequestResponse<undefined> = {
-  status: RequestResponseStatus.Error,
-  error: {
-    message: "Something went wrong",
+const deviceManager = {
+  device: {
+    request: jest.fn(),
   },
-  data: undefined,
-}
+} as unknown as DeviceManager
+
+const subject = new FileDeleteCommand(deviceManager)
+
+const successResponse: ResultObject<unknown> = Result.success(undefined)
+
+const failedResponse: ResultObject<undefined> = Result.failed(
+  new AppError(DeviceCommunicationError.RequestFailed, "Something went wrong", {
+    status: RequestResponseStatus.Error,
+    error: {
+      message: "Something went wrong",
+    },
+    data: undefined,
+  })
+)
 
 beforeEach(() => {
   jest.resetAllMocks()
 })
 
 describe("`FileDeleteCommand`", () => {
-  describe("when `DeviceService.request` returns success response", () => {
+  describe("when `DeviceManager.device.request` returns success response", () => {
     beforeEach(() => {
-      deviceService.request = jest.fn().mockResolvedValue(successResponse)
+      deviceManager.device.request = jest
+        .fn()
+        .mockResolvedValue(successResponse)
     })
 
     test("returns `ResultObject.success`", async () => {
@@ -45,20 +51,20 @@ describe("`FileDeleteCommand`", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledWith({
+      expect(deviceManager.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Delete,
         body: {
           removeFile: "/usr/local/file-1.txt",
         },
       })
-      expect(result).toEqual(new SuccessResult(undefined))
+      expect(result).toEqual(new SuccessResult("/usr/local/file-1.txt"))
     })
   })
 
-  describe("when `DeviceService.request` returns failed response", () => {
+  describe("when `DeviceManager.device.request` returns failed response", () => {
     beforeEach(() => {
-      deviceService.request = jest.fn().mockResolvedValue(failedResponse)
+      deviceManager.device.request = jest.fn().mockResolvedValue(failedResponse)
     })
 
     test("returns `ResultObject.failed`", async () => {
@@ -66,7 +72,7 @@ describe("`FileDeleteCommand`", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledWith({
+      expect(deviceManager.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Delete,
         body: {

@@ -26,6 +26,7 @@ import {
 } from "App/device/constants"
 import { RequestConfig } from "App/device/types/mudita-os/request-config.type"
 import { PaginationBody } from "App/device/types/mudita-os/pagination.type"
+import { OnboardingState } from "App/device/constants/onboarding-state.constant"
 
 // Backup types
 export interface StartBackupRequestConfig
@@ -114,6 +115,8 @@ export type DeleteContactResponseBody = string
 
 // DeviceInfo types
 export interface DeviceInfo {
+  // backupLocation is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
+  backupLocation?: string
   batteryLevel: string
   batteryState: BatteryState
   currentRTCTime: string
@@ -131,8 +134,18 @@ export interface DeviceInfo {
   networkStatus: NetworkStatus
   serialNumber: string
   caseColour: CaseColor
-  backupLocation: string
   deviceToken?: string
+  backupFilePath: string
+  updateFilePath?: string
+  syncFilePath: string
+  recoveryStatusFilePath: string
+  onboardingState: OnboardingState
+}
+
+export interface NotSupportedDeviceInfo {
+  fsFree: string
+  fsFreePercent: string
+  fsTotal: string
 }
 
 export interface GetDeviceInfoRequestConfig extends RequestConfig {

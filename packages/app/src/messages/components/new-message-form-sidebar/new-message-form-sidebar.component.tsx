@@ -12,7 +12,6 @@ import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-
 import { defineMessages } from "react-intl"
 import { NewMessageFormSidebarTestIds } from "App/messages/components/new-message-form-sidebar/new-message-form-sidebar-test-ids.enum"
 import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
-import { Feature, flags } from "App/feature-flags"
 
 type SidebarProps = ComponentProps<typeof Sidebar>
 type NewMessageFormSidebarLeftHeaderProps = Omit<
@@ -54,14 +53,12 @@ const NewMessageFormSidebar: FunctionComponent<Props> = ({
         />
       }
       headerRight={
-        flags.get(Feature.MessagesThreadBrowseContacts) && (
-          <IconButtonWithSecondaryTooltip
-            testId={NewMessageFormSidebarTestIds.BrowseContacts}
-            Icon={IconType.MenuContacts}
-            description={messages.close}
-            onClick={onBrowseContactsClick}
-          />
-        )
+        <IconButtonWithSecondaryTooltip
+          testId={NewMessageFormSidebarTestIds.BrowseContacts}
+          Icon={IconType.MenuContacts}
+          description={messages.close}
+          onClick={onBrowseContactsClick}
+        />
       }
       {...props}
     >

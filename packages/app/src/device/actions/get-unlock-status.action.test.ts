@@ -12,7 +12,6 @@ import { getUnlockStatus } from "./get-unlock-status.action"
 import { unlockDeviceStatusRequest } from "App/device/requests/unlock-device-status.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { DeviceError } from "App/device/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
@@ -25,7 +24,7 @@ afterEach(() => {
 describe("Get Unlock Device Status request returns `success` status", () => {
   test("fire async `getUnlockStatus`", async () => {
     ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
-      Result.success(RequestResponseStatus.Ok)
+      Result.success(undefined)
     )
     const {
       meta: { requestId },
@@ -35,7 +34,7 @@ describe("Get Unlock Device Status request returns `success` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       getUnlockStatus.pending(requestId),
-      getUnlockStatus.fulfilled(RequestResponseStatus.Ok, requestId, undefined),
+      getUnlockStatus.fulfilled(true, requestId, undefined),
     ])
 
     expect(unlockDeviceStatusRequest).toHaveBeenCalled()

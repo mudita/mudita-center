@@ -5,16 +5,13 @@
 
 import { connect } from "react-redux"
 import Overview from "App/overview/components/overview/overview.component"
-import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
-import { RootModel } from "App/__deprecated__/renderer/models/models"
-import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
 import {
-  UpdatingState,
-  PureDeviceData,
-  disconnectDevice,
-  setUpdateState,
-  startUpdateOs,
-} from "App/device"
+  ReduxRootState,
+  RejectableThunk,
+  TmpDispatch,
+} from "App/__deprecated__/renderer/store"
+import { RootModel } from "App/__deprecated__/renderer/models/models"
+import { PureDeviceData, disconnectDevice, DeviceType } from "App/device"
 import { lastBackupDateSelector } from "App/backup/selectors"
 import {
   startBackupDevice,
@@ -26,6 +23,20 @@ import { RestoreBackup } from "App/backup/dto"
 import { ModalStateKey, showModal } from "App/modals-manager"
 import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 import { getDeviceLatestVersion } from "App/settings/selectors"
+import {
+  checkForUpdate,
+  downloadUpdates,
+  closeForceUpdateFlow,
+  startUpdateOs,
+  closeUpdateFlow,
+  cancelDownload,
+  setCheckForUpdateState,
+} from "App/update/actions"
+import { State } from "App/core/constants"
+import { OsRelease } from "App/update/dto"
+import { areAllReleasesDownloaded } from "App/update/selectors"
+import { CheckForUpdateMode } from "App/update/constants"
+import { forceUpdate } from "App/update/actions/force-update/force-update.action"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -40,13 +51,25 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     caseColour: (state.device.data as PureDeviceData)?.caseColour,
     pureOsBackupLocation: state.settings.osBackupLocation,
     backupDeviceState: state.backup.backingUpState,
+    backupError: state.backup.error,
     restoreDeviceState: state.backup.restoringState,
     backups: state.backup.data.backups,
-    ...state.phoneUpdate,
     ...state.devMode,
     syncState: state.dataSync.state,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
-    updatingState: state.device.updatingState,
+    updatingState: state.update.updateOsState,
+    checkingForUpdateState: state.update.checkForUpdateState,
+    availableReleasesForUpdate: state.update.data.availableReleasesForUpdate,
+    downloadingState: state.update.downloadState,
+    silentCheckForUpdateState: state.update.silentCheckForUpdate,
+    allReleases: state.update.data.allReleases,
+    updateOsError: state.update.error,
+    downloadingReleasesProcessStates:
+      state.update.data.downloadedProcessedReleases,
+    updatingReleasesProcessStates: state.update.data.updateProcessedReleases,
+    areAllReleasesDownloaded: areAllReleasesDownloaded(state),
+    forceUpdateNeeded: state.update.needsForceUpdate,
+    forceUpdateState: state.update.forceUpdateState,
   }
 }
 
@@ -56,10 +79,11 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
+  closeForceUpdateFlow: () => dispatch(closeForceUpdateFlow()),
+  startUpdateOs: (releases: OsRelease[]) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(startUpdateOs({ releases })),
   startBackupDevice: (key: string) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
@@ -82,14 +106,33 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(showModal(ModalStateKey.ContactSupportFlow)),
-  // TODO refactor legacy staff
-  updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    dispatch.phoneUpdate.update(updateInfo),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   updateAllIndexes: () => dispatch(updateAllIndexes()),
+  checkForUpdate: (
+    deviceType: DeviceType,
+    mode: CheckForUpdateMode
+  ): RejectableThunk =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(checkForUpdate({ deviceType, mode })),
+  setCheckForUpdateState: (state: State) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(setCheckForUpdateState(state)),
+  downloadUpdates: (releases: OsRelease[]) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(downloadUpdates({ releases })),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  clearUpdateState: () => dispatch(closeUpdateFlow()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  abortDownload: () => dispatch(cancelDownload()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+  forceUpdate: (releases: OsRelease[]) => dispatch(forceUpdate({ releases })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

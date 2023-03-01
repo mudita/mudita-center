@@ -3,25 +3,23 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
+import { State } from "App/core/constants"
+import { SynchronizationState } from "App/data-sync/reducers"
+import { CaseColor } from "App/device/constants"
+import { PureOverview } from "App/overview/components/overview-screens/pure-overview/pure-overview.component"
+import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
+import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
+import { DownloadState, SilentCheckForUpdateState } from "App/update/constants"
+import history from "App/__deprecated__/renderer/routes/history"
+import store from "App/__deprecated__/renderer/store"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
-import { CaseColor } from "App/device/constants"
-import store from "App/__deprecated__/renderer/store"
-import history from "App/__deprecated__/renderer/routes/history"
-import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import { PureOverview } from "App/overview/components/overview-screens/pure-overview/pure-overview.component"
-import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
-import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
-import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { intl } from "App/__deprecated__/renderer/utils/intl"
-import { State } from "App/core/constants"
-import { SynchronizationState } from "App/data-sync/reducers"
-import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
-import * as UpdatingForceModalFlowModule from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
-import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
-import { flags } from "App/feature-flags"
+
+// TODO [mw] add integration tests for update process - scope of the next PR (after all the changes from CP-1681 are done)
 
 jest.mock("App/feature-flags")
 
@@ -48,20 +46,14 @@ const defaultProps: Props = {
   restoreDeviceState: State.Initial,
   startBackupDevice: jest.fn(),
   startRestoreDevice: jest.fn(),
-  setUpdateState: jest.fn(),
   startUpdateOs: jest.fn(),
-  lowestSupportedOsVersion: undefined,
   batteryLevel: 0,
   disconnectDevice: jest.fn(),
   lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
-  lastAvailableOsVersion: "",
   networkName: "network name",
   osVersion: "1.0.0",
-  pureOsDownloaded: false,
   pureOsBackupLocation: "path/location/backup",
   serialNumber: undefined,
-  updatePhoneOsInfo: jest.fn(),
-  updatingState: UpdatingState.Standby,
   memorySpace: {
     reservedSpace: 100,
     usedUserSpace: 200,
@@ -69,6 +61,26 @@ const defaultProps: Props = {
   },
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),
+  abortDownload: jest.fn(),
+  allReleases: [],
+  checkForUpdate: jest.fn(),
+  updatingState: State.Initial,
+  checkingForUpdateState: State.Initial,
+  downloadingState: DownloadState.Initial,
+  silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
+  clearUpdateState: jest.fn(),
+  downloadUpdates: jest.fn(),
+  setCheckForUpdateState: jest.fn(),
+  availableReleasesForUpdate: null,
+  updateOsError: null,
+  downloadingReleasesProcessStates: null,
+  updatingReleasesProcessStates: null,
+  areAllReleasesDownloaded: false,
+  backupError: null,
+  forceUpdateNeeded: false,
+  forceUpdate: jest.fn(),
+  forceUpdateState: State.Initial,
+  closeForceUpdateFlow: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -141,63 +153,4 @@ describe("`ErrorSyncModal` logic", () => {
       queryByTestId(ErrorSyncModalTestIds.Container)
     ).not.toBeInTheDocument()
   })
-})
-
-describe("update state", () => {
-  jest.spyOn(flags, "get").mockReturnValue(true)
-
-  type TestCase = [
-    updatingStateKeyValue: keyof typeof UpdatingState | undefined, // passing as key to improve test title readability
-    isOsSupported: boolean,
-    updatingForceModalState: UpdatingForceModalFlowState
-  ]
-
-  const testCases: TestCase[] = [
-    ["Success", true, UpdatingForceModalFlowState.Success],
-    ["Fail", true, UpdatingForceModalFlowState.Fail],
-    ["Updating", true, UpdatingForceModalFlowState.Updating],
-    ["Updating", false, UpdatingForceModalFlowState.Updating],
-    [undefined, false, UpdatingForceModalFlowState.Info],
-  ]
-
-  let updateForceModalSpy: jest.SpyInstance<
-    unknown,
-    UpdatingForceModalFlowProps[]
-  >
-
-  beforeEach(() => {
-    updateForceModalSpy = jest.spyOn(UpdatingForceModalFlowModule, "default")
-  })
-
-  describe.each(testCases)(
-    "when updating state from store equals to %p and os support state equal to %p",
-    (updatingStateKeyValue, isOsSupported, updatingForceModalState) => {
-      test(`update force modal should receive ${updatingForceModalState}`, () => {
-        const updatingState = updatingStateKeyValue
-          ? UpdatingState[updatingStateKeyValue]
-          : undefined
-
-        if (isOsSupported) {
-          render({
-            osVersion: "1.1.0",
-            lowestSupportedOsVersion: "1.0.0",
-            updatingState,
-          })
-        } else {
-          render({
-            updatingState,
-            osVersion: "0.1.0",
-            lowestSupportedOsVersion: "1.0.0",
-          })
-        }
-
-        expect(updateForceModalSpy).toHaveBeenLastCalledWith(
-          expect.objectContaining({
-            state: updatingForceModalState,
-          }),
-          expect.anything()
-        )
-      })
-    }
-  )
 })

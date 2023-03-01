@@ -6,7 +6,7 @@
 import * as React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Button, {
-  Props as ButtonProps,
+  ButtonComponentProps as ButtonProps,
 } from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import styled, { css } from "styled-components"

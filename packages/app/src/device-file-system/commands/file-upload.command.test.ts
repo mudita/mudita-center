@@ -5,57 +5,65 @@
 
 import fs from "fs"
 import path from "path"
-import { Endpoint, Method } from "App/device/constants"
+import {
+  Endpoint,
+  Method,
+  DeviceCommunicationError,
+} from "App/device/constants"
 import { FileUploadCommand } from "App/device-file-system/commands/file-upload.command"
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppError } from "App/core/errors"
-import { Result } from "App/core/builder"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
+import { Result, ResultObject } from "App/core/builder"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
 
 const fileMock = fs.readFileSync(
   path.join(__dirname, "../../testing-support/mocks/test.txt")
 )
 
-const deviceService = {
-  request: jest.fn(),
-} as unknown as DeviceService
+const deviceManager = {
+  device: {
+    request: jest.fn(),
+  },
+} as unknown as DeviceManager
 
 const fileSystemService = {
   readFile: jest.fn(),
 } as unknown as FileSystemService
 
-const subject = new FileUploadCommand(deviceService, fileSystemService)
+const subject = new FileUploadCommand(deviceManager, fileSystemService)
 
-const successResponse: RequestResponse<{
+const successResponse: ResultObject<{
   txID: string
   chunkSize: number
-}> = {
-  status: RequestResponseStatus.Ok,
-  error: undefined,
-  data: {
-    txID: "123",
-    chunkSize: 2,
-  },
-}
+}> = Result.success({
+  txID: "123",
+  chunkSize: 2,
+})
 
-const failedResponse: RequestResponse<undefined> = {
-  status: RequestResponseStatus.Error,
-  error: {
-    message: "Something went wrong",
-  },
-  data: undefined,
-}
+const failedResponse: ResultObject<unknown> = Result.failed(
+  new AppError(DeviceCommunicationError.RequestFailed, "Something went wrong", {
+    status: RequestResponseStatus.Error,
+    error: {
+      message: "Something went wrong",
+    },
+    data: undefined,
+  })
+)
 
-const failedResponseWithInsufficientStorage: RequestResponse<undefined> = {
-  status: RequestResponseStatus.InsufficientStorage,
-  error: undefined,
-  data: undefined,
-}
+const failedResponseWithInsufficientStorage: ResultObject<unknown> =
+  Result.failed(
+    new AppError(
+      DeviceCommunicationError.RequestFailed,
+      "Something went wrong",
+      {
+        status: RequestResponseStatus.InsufficientStorage,
+        error: undefined,
+        data: undefined,
+      }
+    )
+  )
 
 beforeEach(() => {
   jest.resetAllMocks()
@@ -76,7 +84,7 @@ describe("When requested file is unreadable", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceService.request).not.toHaveBeenCalled()
+    expect(deviceManager.device.request).not.toHaveBeenCalled()
     expect(result).toEqual(
       Result.failed(
         new AppError(
@@ -93,9 +101,11 @@ describe("When requested file is valid", () => {
     fileSystemService.readFile = jest.fn().mockReturnValue(fileMock)
   })
 
-  describe("when `DeviceService.request` returns success response", () => {
+  describe("when `DeviceManager.device.request` returns success response", () => {
     beforeEach(() => {
-      deviceService.request = jest.fn().mockResolvedValue(successResponse)
+      deviceManager.device.request = jest
+        .fn()
+        .mockResolvedValue(successResponse)
     })
 
     test("returns `ResultObject.success`", async () => {
@@ -106,7 +116,7 @@ describe("When requested file is valid", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledWith({
+      expect(deviceManager.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -119,9 +129,9 @@ describe("When requested file is valid", () => {
     })
   })
 
-  describe("when `DeviceService.request` returns failed response on first request", () => {
+  describe("when `DeviceManager.device.request` returns failed response on first request", () => {
     beforeEach(() => {
-      deviceService.request = jest.fn().mockResolvedValue(failedResponse)
+      deviceManager.device.request = jest.fn().mockResolvedValue(failedResponse)
     })
 
     test("returns `ResultObject.failed` with `DeviceFileSystemError.FileUploadRequest` type", async () => {
@@ -132,7 +142,7 @@ describe("When requested file is valid", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledWith({
+      expect(deviceManager.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -152,19 +162,21 @@ describe("When requested file is valid", () => {
     })
   })
 
-  describe("when `DeviceService.request` returns failed response on the next requests", () => {
+  describe("when `DeviceManager.device.request` returns failed response on the next requests", () => {
     beforeEach(() => {
-      deviceService.request = jest.fn().mockImplementation(({ body }) => {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const { chunkNo } = body
+      deviceManager.device.request = jest
+        .fn()
+        .mockImplementation(({ body }) => {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const { chunkNo } = body
 
-        if (chunkNo === 2) {
-          return failedResponse
-        } else {
-          return successResponse
-        }
-      })
+          if (chunkNo === 2) {
+            return failedResponse
+          } else {
+            return successResponse
+          }
+        })
     })
 
     test("returns `ResultObject.success` with DeviceFileSystemError.FileUploadChunk type", async () => {
@@ -175,7 +187,7 @@ describe("When requested file is valid", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledWith({
+      expect(deviceManager.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -195,9 +207,9 @@ describe("When requested file is valid", () => {
     })
   })
 
-  describe("when `DeviceService.request` returns failed response with `RequestResponseStatus.InsufficientStorage` status", () => {
+  describe("when `DeviceManager.device.request` returns failed response with `RequestResponseStatus.InsufficientStorage` status", () => {
     beforeEach(() => {
-      deviceService.request = jest
+      deviceManager.device.request = jest
         .fn()
         .mockResolvedValue(failedResponseWithInsufficientStorage)
     })
@@ -210,7 +222,7 @@ describe("When requested file is valid", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledWith({
+      expect(deviceManager.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {

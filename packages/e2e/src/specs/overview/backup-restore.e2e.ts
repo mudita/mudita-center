@@ -46,7 +46,7 @@ describe("Backup&Restore tests", () => {
     ModalGeneralPage.closeModalButtonClick()
   })
 
-  it("Restore -> incorrect password", async () => {
+  it("Should display failed modal for incorrect password", async () => {
     const restoreBackupButton = await OverviewPage.restoreBackupButton
     await restoreBackupButton.waitForDisplayed({ timeout: 4000 })
     await restoreBackupButton.click()
@@ -78,7 +78,7 @@ describe("Backup&Restore tests", () => {
     ModalGeneralPage.closeModalButtonClick()
   })
 
-  it("Restore -> correct password", async () => {
+  it("should display success modal for successful restore operation", async () => {
     const restoreBackupButton = await OverviewPage.restoreBackupButton
     await restoreBackupButton.waitForDisplayed({ timeout: 4000 })
     await restoreBackupButton.click()
@@ -98,7 +98,6 @@ describe("Backup&Restore tests", () => {
     await restorePasswordInput.waitForDisplayed({ timeout: 6000 })
     await restorePasswordInput.click()
     await restorePasswordInput.setValue("Mudita123!")
-    console.log(await restorePasswordInput.getValue())
     const restoreSubmitButton = ModalBackupRestorePage.restoreSubmitButton
     await restoreSubmitButton.waitForDisplayed({ timeout: 6000 })
     await restoreSubmitButton.click()

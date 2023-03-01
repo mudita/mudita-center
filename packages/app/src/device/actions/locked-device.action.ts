@@ -4,15 +4,17 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceType } from "App/device/constants"
-import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { DeviceEvent } from "App/device/constants"
+import { setAgreementStatus, setLockTime } from "App/device/actions/base.action"
 import {
-  unlockDeviceStatusRequest,
+  DeviceCommunicationError,
+  DeviceEvent,
+  DeviceType,
+} from "App/device/constants"
+import {
   deviceLockTimeRequest,
+  unlockDeviceStatusRequest,
 } from "App/device/requests"
-import { setLockTime, setAgreementStatus } from "App/device/actions/base.action"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const lockedDevice = createAsyncThunk(
   DeviceEvent.Locked,
@@ -23,11 +25,15 @@ export const lockedDevice = createAsyncThunk(
       const unlocked = await unlockDeviceStatusRequest()
       const lockTime = await deviceLockTimeRequest()
 
-      if (unlocked.data === RequestResponseStatus.NotAcceptable) {
+      if (
+        !unlocked.ok &&
+        unlocked.error.type ===
+          DeviceCommunicationError.DeviceAgreementNotAccepted
+      ) {
         dispatch(setAgreementStatus(false))
       }
 
-      if (!lockTime.ok && !lockTime.data?.phoneLockTime) {
+      if (!lockTime.ok || !lockTime.data?.phoneLockTime) {
         dispatch(setLockTime(undefined))
       }
 

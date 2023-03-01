@@ -6,6 +6,7 @@
 import React, { ComponentProps, useEffect, useState } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
+  InvalidBackupPasswordModal,
   RestoreFailureModal,
   RestoreModal,
   RestoreSpinnerModal,
@@ -16,6 +17,8 @@ import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device
 import { Backup, RestoreBackup } from "App/backup/dto"
 import RestoreAvailableBackupModal from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal"
 import { RestoreConfirmSecretKeyModal } from "App/overview/components/restore-confirm-secret-key-modal-dialog/restore-confirm-secret-key-modal-dialog.component"
+import { AppError } from "App/core/errors"
+import { BackupError } from "App/backup"
 
 export enum RestoreDeviceFlowState {
   Start = "start",
@@ -30,6 +33,7 @@ interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   backups: Backup[]
   onStartRestoreDeviceButtonClick: (option: RestoreBackup) => void
   onSupportButtonClick: () => void
+  error: AppError<BackupError> | null
 }
 
 const RestoreDeviceFlow: FunctionComponent<Props> = ({
@@ -38,11 +42,22 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
   onStartRestoreDeviceButtonClick,
   onSupportButtonClick,
   closeModal,
+  error,
 }) => {
   const [state, setState] = useState<RestoreDeviceFlowState>(openState)
   const [activeBackup, setActiveBackup] = useState<Backup>()
+  const [forceFormReset, setForceFormReset] = useState<boolean>(false)
+
+  const onResetCompleted = () => {
+    setForceFormReset(false)
+  }
 
   const goToRestoreConfirmSecretKeyModal = (): void => {
+    setState(RestoreDeviceFlowState.SecretKeySetting)
+  }
+
+  const tryAgainAfterInvalidPassword = (): void => {
+    setForceFormReset(true)
     setState(RestoreDeviceFlowState.SecretKeySetting)
   }
 
@@ -84,6 +99,8 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
         open={RestoreDeviceFlowState.SecretKeySetting === state}
         onSecretKeySet={startBackupDeviceButtonClick}
         closeModal={closeModal}
+        forceFormReset={forceFormReset}
+        onResetCompleted={onResetCompleted}
       />
       <RestoreSpinnerModal
         testId={RestoreDeviceFlowTestIds.RestoreDeviceRunning}
@@ -97,8 +114,20 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
       />
       <RestoreFailureModal
         testId={RestoreDeviceFlowTestIds.RestoreDeviceError}
-        open={RestoreDeviceFlowState.Error === state}
+        open={
+          RestoreDeviceFlowState.Error === state &&
+          error?.type !== BackupError.InvalidToken
+        }
         secondaryActionButtonClick={onSupportButtonClick}
+        closeModal={closeModal}
+      />
+      <InvalidBackupPasswordModal
+        testId={RestoreDeviceFlowTestIds.RestoreDeviceInvalidPasswordError}
+        open={
+          RestoreDeviceFlowState.Error === state &&
+          error?.type === BackupError.InvalidToken
+        }
+        onTryAgain={tryAgainAfterInvalidPassword}
         closeModal={closeModal}
       />
     </>

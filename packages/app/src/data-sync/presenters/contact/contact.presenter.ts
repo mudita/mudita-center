@@ -138,6 +138,7 @@ export class ContactPresenter {
           email: contactAddress?.mail,
           favourite: this.contactFavored(contactGroups, contactGroup),
         }
+
         return contactObject
       })
       .filter(

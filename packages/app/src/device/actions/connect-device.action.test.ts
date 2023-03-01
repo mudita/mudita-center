@@ -9,7 +9,11 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { DeviceType } from "App/device/constants"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { connectDevice } from "./connect-device.action"
-import { ConnectionState, DeviceError } from "App/device/constants"
+import {
+  ConnectionState,
+  DeviceError,
+  DeviceCommunicationError,
+} from "App/device/constants"
 import { connectDeviceRequest } from "App/device/requests/connect-device.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
@@ -54,6 +58,13 @@ jest.mock("App/device/actions/set-connection-status.action", () => ({
     payload: true,
   }),
 }))
+jest.mock("App/device/actions/locked-device.action", () => ({
+  lockedDevice: jest.fn().mockReturnValue({
+    type: pendingAction("DEVICE_LOCKED"),
+    payload: undefined,
+  }),
+}))
+
 jest.mock("App/device/requests/connect-device.request")
 
 afterEach(() => {
@@ -76,6 +87,10 @@ describe("Connect Device request returns `success` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       connectDevice.pending(requestId, DeviceType.MuditaPure),
+      {
+        type: "DEVICE_UNLOCKED",
+        payload: undefined,
+      },
       {
         type: pendingAction("DEVICE_SET_CONNECTION_STATE"),
         payload: true,
@@ -120,6 +135,45 @@ describe("Connect Device request returns `error` status", () => {
         requestId,
         DeviceType.MuditaPure,
         errorMock
+      ),
+    ])
+  })
+})
+
+describe("Connect Device request returns `error` with type `DeviceCommunicationError.DeviceLocked`", () => {
+  test("fire async `connectDevice` action and execute `lockedDevice` action", async () => {
+    ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce(
+      Result.failed(
+        new AppError(DeviceCommunicationError.DeviceLocked, "Device is locked")
+      )
+    )
+
+    const {
+      meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(
+      connectDevice(DeviceType.MuditaPure) as unknown as AnyAction
+    )
+
+    expect(mockStore.getActions()).toEqual([
+      connectDevice.pending(requestId, DeviceType.MuditaPure),
+      {
+        type: pendingAction("DEVICE_LOCKED"),
+        payload: undefined,
+      },
+      {
+        type: pendingAction("DEVICE_SET_CONNECTION_STATE"),
+        payload: true,
+      },
+      {
+        type: pendingAction("DEVICE_DATA_LOADING"),
+        payload: undefined,
+      },
+      connectDevice.fulfilled(
+        DeviceType.MuditaPure,
+        requestId,
+        DeviceType.MuditaPure
       ),
     ])
   })

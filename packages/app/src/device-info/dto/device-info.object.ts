@@ -7,6 +7,13 @@ import { CaseColor } from "App/device/constants"
 
 // DEPRECATED
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
+import { OnboardingState } from "App/device/constants/onboarding-state.constant"
+
+export interface DeviceInfoMemorySpace {
+  reservedSpace: number
+  usedUserSpace: number
+  total: number
+}
 
 export interface DeviceInfo {
   networkName: string
@@ -17,11 +24,11 @@ export interface DeviceInfo {
   serialNumber: string
   phoneLockTime?: number
   timeLeftToNextAttempt?: number
-  memorySpace: {
-    reservedSpace: number
-    usedUserSpace: number
-    total: number
-  }
+  memorySpace: DeviceInfoMemorySpace
   caseColour: CaseColor
-  backupLocation: string
+  backupFilePath: string
+  updateFilePath: string
+  syncFilePath: string
+  recoveryStatusFilePath: string
+  onboardingState: OnboardingState
 }

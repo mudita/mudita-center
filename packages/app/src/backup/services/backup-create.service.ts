@@ -3,33 +3,32 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  BackupCategory,
-  BackupState,
-} from "App/device/constants"
+import { Endpoint, Method, BackupCategory } from "App/device/constants"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { isResponseSuccessWithData } from "App/core/helpers"
-import { BackupError } from "App/backup/constants"
+import { BackupError, Operation } from "App/backup/constants"
 import { MetadataStore, MetadataKey } from "App/metadata"
 import { CreateDeviceBackup } from "App/backup/types"
 import { DeviceFileSystemService } from "App/device-file-system/services"
+import { DeviceManager } from "App/device-manager/services"
+import { BaseBackupService } from "App/backup/services/base-backup.service"
+import { FileManagerService } from "App/files-manager/services"
+import { DeviceDirectory } from "App/files-manager/constants"
+import { DeviceInfoService } from "App/device-info/services"
 
-// DEPRECATED
-import DeviceService from "App/__deprecated__/backend/device-service"
-
-export class BackupCreateService {
+export class BackupCreateService extends BaseBackupService {
   constructor(
-    private deviceService: DeviceService,
-    private deviceFileSystem: DeviceFileSystemService,
+    protected deviceManager: DeviceManager,
+    protected deviceFileSystem: DeviceFileSystemService,
+    protected fileManagerService: FileManagerService,
+    protected deviceInfoService: DeviceInfoService,
     private keyStorage: MetadataStore
-  ) {}
+  ) {
+    super(deviceManager, deviceFileSystem, deviceInfoService)
+  }
 
   public async createBackup(
-    options: CreateDeviceBackup,
-    category = BackupCategory.Backup
+    options: CreateDeviceBackup
   ): Promise<ResultObject<string[] | undefined>> {
     if (this.keyStorage.getValue(MetadataKey.BackupInProgress)) {
       return Result.failed(
@@ -39,9 +38,17 @@ export class BackupCreateService {
 
     this.keyStorage.setValue(MetadataKey.BackupInProgress, true)
 
-    const runDeviceBackupResponse = await this.runDeviceBackup(category)
+    const validateRequiredBackupSpaceResult =
+      await this.validateRequiredBackupSpace()
 
-    if (!runDeviceBackupResponse.data) {
+    if (!validateRequiredBackupSpaceResult.ok) {
+      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+      return validateRequiredBackupSpaceResult
+    }
+
+    const runDeviceBackupResult = await this.runDeviceBackup()
+
+    if (!runDeviceBackupResult.ok || !runDeviceBackupResult.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
 
       return Result.failed(
@@ -52,7 +59,20 @@ export class BackupCreateService {
       )
     }
 
-    const filePath = runDeviceBackupResponse.data
+    const operationStatus = await this.checkStatus(Operation.Backup)
+
+    if (!operationStatus.ok) {
+      this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
+
+      return Result.failed(
+        new AppError(
+          BackupError.BackupProcessFailed,
+          "Device backup operation failed"
+        )
+      )
+    }
+
+    const filePath = runDeviceBackupResult.data
 
     const backupFileResult =
       await this.deviceFileSystem.downloadDeviceFilesLocally(
@@ -76,15 +96,10 @@ export class BackupCreateService {
     return Result.success(backupFileResult.data)
   }
 
-  private async runDeviceBackup(
-    category: BackupCategory
-  ): Promise<ResultObject<string | undefined>> {
-    const deviceResponse = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
+  private async runDeviceBackup(): Promise<ResultObject<string | undefined>> {
+    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
 
-    if (!isResponseSuccessWithData(deviceResponse)) {
+    if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
         new AppError(
           BackupError.CannotGetDeviceInfo,
@@ -93,15 +108,15 @@ export class BackupCreateService {
       )
     }
 
-    const backupResponse = await this.deviceService.request({
+    const backupResponse = await this.deviceManager.device.request({
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {
-        category,
+        category: BackupCategory.Backup,
       },
     })
 
-    if (!isResponseSuccessWithData(backupResponse) || !backupResponse.data) {
+    if (!backupResponse.ok) {
       return Result.failed(
         new AppError(
           BackupError.CannotBackupDevice,
@@ -110,9 +125,7 @@ export class BackupCreateService {
       )
     }
 
-    const backupId = backupResponse.data.id
-
-    const backupFinished = await this.waitUntilBackupDeviceFinished(backupId)
+    const backupFinished = await this.waitUntilProcessFinished()
 
     if (!backupFinished.ok && backupFinished.error) {
       return Result.failed(
@@ -120,40 +133,56 @@ export class BackupCreateService {
       )
     }
 
-    const filePath = `${deviceResponse.data.backupLocation}/${backupId}`
+    const filePath = deviceInfoResult.data.backupFilePath
 
     return Result.success(filePath)
   }
 
-  private async waitUntilBackupDeviceFinished(
-    id: string
-  ): Promise<ResultObject<boolean | undefined>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Backup,
-      method: Method.Get,
-      body: {
-        id,
-      },
+  private async validateRequiredBackupSpace(): Promise<
+    ResultObject<undefined, BackupError>
+  > {
+    const getDeviceFilesResult = await this.fileManagerService.getDeviceFiles({
+      directory: DeviceDirectory.DB,
     })
 
-    if (
-      !isResponseSuccessWithData(response) ||
-      response.data?.state === BackupState.Error
-    ) {
+    if (!getDeviceFilesResult.ok || getDeviceFilesResult.data === undefined) {
       return Result.failed(
         new AppError(
-          BackupError.BackupProcessFailed,
-          "Something went wrong during backup process"
+          BackupError.BackupSpaceIsNotEnough,
+          "DB Catalog Size is undefined"
         )
       )
-    } else if (response.data?.state === BackupState.Finished) {
-      return Result.success(true)
+    }
+
+    const backupSize = getDeviceFilesResult.data.reduce((prev, file) => {
+      return prev + file.size
+    }, 0)
+
+    // 100 MiB as buffer space
+    const backupSizeRequaired = backupSize * 2 + 100
+    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
+
+    if (!deviceInfoResult.ok || !deviceInfoResult.data) {
+      return Result.failed(
+        new AppError(
+          BackupError.BackupSpaceIsNotEnough,
+          "Device space returned is undefined"
+        )
+      )
+    }
+    const { total, usedUserSpace, reservedSpace } = deviceInfoResult.data.memorySpace
+    const free = total - usedUserSpace - reservedSpace
+
+    if (backupSizeRequaired <= free) {
+      return Result.success(undefined)
     } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(this.waitUntilBackupDeviceFinished(id))
-        }, 1000)
-      })
+      return Result.failed(
+        new AppError(
+          BackupError.BackupSpaceIsNotEnough,
+          `Backup space is not enough`,
+          backupSizeRequaired
+        )
+      )
     }
   }
 }

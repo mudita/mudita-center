@@ -4,10 +4,10 @@
  */
 
 import * as CRC32 from "crc-32"
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 
 export abstract class BaseCommand {
-  constructor(public deviceService: DeviceService) {}
+  constructor(public deviceManager: DeviceManager) {}
 
   public countCRC32(buffer: Buffer | Uint8Array): string {
     const crc = CRC32.buf(buffer)

@@ -17,6 +17,16 @@ import { ExportContactFailedModalTestIds } from "App/contacts/components/export-
 import { ExportContactsResult } from "App/contacts/constants"
 import { VirtualizedContactListItemTestIds } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
 import { VirtuosoMockContext } from "react-virtuoso"
+import { ContactSearchResultsTestIdsEnum } from "../contact-search-results/contact-search-results-test-ids.enum"
+
+const intersectionObserverMock = () => ({
+  observe: () => null,
+  disconnect: () => null,
+  unobserve: () => null,
+})
+window.IntersectionObserver = jest
+  .fn()
+  .mockImplementation(intersectionObserverMock)
 
 type Props = ComponentProps<typeof Contacts>
 
@@ -317,5 +327,40 @@ describe("contact export", () => {
     expect(
       queryByTestId(ExportContactFailedModalTestIds.Description)
     ).not.toBeInTheDocument()
+  })
+})
+
+describe("search preview", () => {
+  test("preview list should be independent of search results", () => {
+    const { queryByTestId, getByTestId, queryAllByTestId } = renderer({
+      flatList: [contactOne, contactTwo],
+    })
+    const input = queryByTestId(
+      ContactInputSelectTestIds.Input
+    ) as HTMLInputElement
+    fireEvent.change(input, { target: { value: "Luke Skywalker" } })
+
+    expect(
+      queryAllByTestId(VirtualizedContactListItemTestIds.ContactRow)
+    ).toHaveLength(2)
+
+    fireEvent.keyDown(input, {
+      key: "Enter",
+      code: "Enter",
+      keyCode: 13,
+      charCode: 13,
+    })
+
+    expect(
+      getByTestId(ContactSearchResultsTestIdsEnum.Table).childNodes
+    ).toHaveLength(1)
+
+    fireEvent.change(input, { target: { value: "S" } })
+
+    expect(
+      getByTestId(ContactSearchResultsTestIdsEnum.Table).childNodes
+    ).toHaveLength(1)
+
+    expect(queryAllByTestId(InputSearchTestIds.ListItem)).toHaveLength(2)
   })
 })

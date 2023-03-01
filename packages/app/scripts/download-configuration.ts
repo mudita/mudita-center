@@ -24,7 +24,7 @@ let defaultData = require("../src/settings/static/default-app-configuration.json
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))
 
-    const url = `${process.env.MUDITA_CENTER_SERVER_URL}/v2-app-configuration`
+    const url = `${process.env.MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v2-app-configuration`
     const { status, data } = await axios.get<Configuration>(url)
 
     if (status === 200 && data !== undefined) {

@@ -13,6 +13,7 @@ import {
   backupSecretKeyValidator,
   emailValidator,
   nameValidator,
+  primaryPhoneNumberValidator,
 } from "App/__deprecated__/renderer/utils/form-validators"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
@@ -54,6 +55,8 @@ const Form: FunctionComponent<Props> = ({ validator }) => {
 const render = (props: Props) => {
   return renderWithThemeAndIntl(<Form {...props} />)
 }
+
+const invalidPhoneNumbers = "!@#$%^&*()_-={}[]:\"|;'\\,./<>?~`§£".split("")
 
 describe("Form Validators", () => {
   describe("Email Validator", () => {
@@ -281,6 +284,81 @@ describe("Form Validators", () => {
       expect(
         queryByText("[value] component.formErrorTooLong")
       ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("phone validator", () => {
+    const defaultProps: Props = {
+      validator: primaryPhoneNumberValidator({}),
+    }
+    test("should pass as valid when the input wasn't active", () => {
+      const { queryByText } = render(defaultProps)
+      expect(
+        queryByText("[value] component.formErrorTooShort")
+      ).not.toBeInTheDocument()
+    })
+
+    test("should show error when phone number is longer than 15 characters", async () => {
+      const { getByTestId, queryByText } = render(defaultProps)
+      fireEvent.change(getByTestId(FormTestIds.Input), {
+        target: {
+          value: "1234567890123456",
+        },
+      })
+
+      await waitFor(() => {
+        expect(
+          queryByText("[value] component.formErrorTooLong")
+        ).toBeInTheDocument()
+      })
+    })
+    test.each(invalidPhoneNumbers)(
+      "should show error when phone number contains invalid character (%s)",
+      async (phoneNumber) => {
+        const { getByTestId, queryByText } = render(defaultProps)
+        fireEvent.change(getByTestId(FormTestIds.Input), {
+          target: {
+            value: phoneNumber,
+          },
+        })
+
+        await waitFor(() => {
+          expect(
+            queryByText("[value] component.formErrorDigitsAndPlusOnly")
+          ).toBeInTheDocument()
+        })
+      }
+    )
+
+    test("should not display error when phone number is valid", async () => {
+      const { getByTestId, queryByText } = render(defaultProps)
+      fireEvent.change(getByTestId(FormTestIds.Input), {
+        target: {
+          value: "-",
+        },
+      })
+      await waitFor(() => {
+        expect(
+          queryByText("[value] component.formErrorDigitsAndPlusOnly")
+        ).toBeInTheDocument()
+      })
+      fireEvent.change(getByTestId(FormTestIds.Input), {
+        target: {
+          value: "+1234",
+        },
+      })
+
+      await waitFor(() => {
+        expect(
+          queryByText("[value] component.formErrorTooShort")
+        ).not.toBeInTheDocument()
+        expect(
+          queryByText("[value] component.formErrorTooLong")
+        ).not.toBeInTheDocument()
+        expect(
+          queryByText("[value] component.formErrorDigitsAndPlusOnly")
+        ).not.toBeInTheDocument()
+      })
     })
   })
 })

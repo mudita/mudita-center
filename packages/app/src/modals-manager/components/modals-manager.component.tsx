@@ -12,6 +12,7 @@ import {
   AppUpdateFlowContainer,
 } from "App/settings/components"
 import ContactSupportFlow from "App/contact-support/containers/contact-support-flow.container"
+import { UpdateOsInterruptedFlowContainer } from "App/update/components/update-os-interrupted-flow"
 
 type Props = ModalsManagerState
 
@@ -27,6 +28,7 @@ const ModalsManager: FunctionComponent<Props> = ({
       {appForcedUpdateFlowShow && <AppForcedUpdateFlowContainer />}
       {appUpdateFlowShow && <AppUpdateFlowContainer />}
       {contactSupportFlowShow && <ContactSupportFlow />}
+      <UpdateOsInterruptedFlowContainer />
     </>
   )
 }

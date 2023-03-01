@@ -37,6 +37,7 @@ export type MessagesState = Readonly<{
     threadsState: ResultState
     currentlyDeletingMessageId: MessageId | null
     searchResult: SearchResult
+    searchPreviewResult: SearchResult
   }
   selectedItems: { rows: string[] }
   error: AppError | null
@@ -143,6 +144,6 @@ export type ChangeSearchValueAction = PayloadAction<
 >
 
 export type SearchMessagesAction = PayloadAction<
-  SearchResult,
-  SearchEvent.SearchData
+  SearchResult | undefined,
+  SearchEvent
 >

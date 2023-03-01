@@ -792,6 +792,28 @@ describe("Searching messages", () => {
     })
   })
 })
+describe("Searching preview messages", () => {
+  test("Searching by message content returns proper value", () => {
+    const searchMessagesAction: PayloadAction<SearchResult> = {
+      type: fulfilledAction(SearchEvent.SearchDataPreview),
+      payload: { message: [messageOne], thread: [thread] },
+    }
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+        },
+        searchMessagesAction
+      )
+    ).toEqual({
+      ...initialState,
+      data: {
+        ...initialState.data,
+        searchPreviewResult: { message: [messageOne], thread: [thread] },
+      },
+    })
+  })
+})
 
 describe("ResendMessage", () => {
   test("ResendMessage/pending clears error state", () => {

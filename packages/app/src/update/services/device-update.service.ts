@@ -3,40 +3,50 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { join } from "path"
-import { ResultObject, Result } from "App/core/builder"
+import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { SettingsService } from "App/settings/services"
-import { UpdateOS } from "App/update/dto"
-import { UpdateError } from "App/update/constants"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 import {
+  DeviceType,
   Endpoint,
   Method,
-  DeviceType,
+  OnboardingState,
   PhoneLockCategory,
 } from "App/device/constants"
-import { DeviceFileSystemService } from "App/device-file-system/services"
-import { DeviceInfo } from "App/device/types/mudita-os/serialport-request.type"
-
-// DEPRECATED
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { SettingsService } from "App/settings/services"
+import { UpdateErrorServiceErrors } from "App/update/constants"
+import { UpdateOS } from "App/update/dto"
+import { join } from "path"
+import { DeviceManager } from "App/device-manager/services"
+import * as fs from "fs"
+import { DeviceInfoService } from "App/device-info/services"
 
 export class DeviceUpdateService {
   constructor(
     private settingsService: SettingsService,
-    private deviceService: DeviceService,
-    private deviceFileSystem: DeviceFileSystemService
+    private deviceManager: DeviceManager,
+    private deviceFileSystem: DeviceFileSystemService,
+    private deviceInfoService: DeviceInfoService
   ) {}
 
   public async updateOs(payload: UpdateOS): Promise<ResultObject<boolean>> {
-    const deviceInfoResult = await this.getDeviceInfo()
+    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
 
     if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
         new AppError(
-          UpdateError.CannotGetOsVersion,
+          UpdateErrorServiceErrors.CannotGetOsVersion,
           "Current os version request failed"
+        )
+      )
+    }
+
+    if (deviceInfoResult.data.onboardingState === OnboardingState.InProgress) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.OnboardingNotComplete,
+          "Onboarding not complete"
         )
       )
     }
@@ -46,32 +56,59 @@ export class DeviceUpdateService {
       payload.fileName
     )
 
+    const targetPath = deviceInfoResult.data.updateFilePath
+    await this.deviceFileSystem.removeDeviceFile(targetPath)
+
+    if (this.deviceManager.device.deviceType === DeviceType.MuditaPure) {
+      const fileSizeInMB = fs.lstatSync(filePath).size / (1024 * 1024)
+      const freeSpaceResult = await this.deviceInfoService.getDeviceFreeSpace()
+
+      if (
+        freeSpaceResult.ok &&
+        !isNaN(freeSpaceResult.data) &&
+        freeSpaceResult.data < fileSizeInMB
+      ) {
+        return Result.failed(
+          new AppError(
+            UpdateErrorServiceErrors.NotEnoughSpace,
+            `Cannot upload ${filePath} to device - not enough space`
+          )
+        )
+      }
+    }
+
     const fileResponse = await this.deviceFileSystem.uploadFileLocally({
       filePath,
-      targetPath: "/sys/user/update.tar",
+      targetPath,
     })
 
     if (!fileResponse.ok || !fileResponse.data) {
       return Result.failed(
         new AppError(
-          UpdateError.UpdateFileUpload,
+          UpdateErrorServiceErrors.UpdateFileUpload,
           `Cannot upload ${filePath} to device`
         )
       )
     }
 
-    const pureUpdateResponse = await this.deviceService.request({
+    const pureUpdateResponse = await this.deviceManager.device.request({
       endpoint: Endpoint.Update,
       method: Method.Post,
       body: {
         update: true,
         reboot: true,
       },
+      options: {
+        connectionTimeOut: 120000,
+      },
     })
 
-    if (pureUpdateResponse.status !== RequestResponseStatus.Ok) {
+    if (!pureUpdateResponse.ok) {
       return Result.failed(
-        new AppError(UpdateError.UpdateCommand, "Cannot restart device")
+        new AppError(
+          UpdateErrorServiceErrors.UpdateCommand,
+          "Cannot restart device"
+        )
       )
     }
 
@@ -81,9 +118,7 @@ export class DeviceUpdateService {
       return deviceRestartResponse
     }
 
-    if (
-      this.deviceService.currentDevice?.deviceType === DeviceType.MuditaPure
-    ) {
+    if (this.deviceManager.device.deviceType === DeviceType.MuditaPure) {
       const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
 
       if (!deviceUnlockedResponse.ok) {
@@ -91,24 +126,25 @@ export class DeviceUpdateService {
       }
     }
 
-    const deviceInfoAfterUpdateResult = await this.getDeviceInfo()
+    const deviceInfoAfterUpdateResult =
+      await this.deviceInfoService.getDeviceInfo()
 
     if (!deviceInfoAfterUpdateResult.ok || !deviceInfoAfterUpdateResult.data) {
       return Result.failed(
         new AppError(
-          UpdateError.CannotGetOsVersion,
+          UpdateErrorServiceErrors.CannotGetOsVersion,
           "New os version request failed"
         )
       )
     }
 
-    const afterUpdateOsVersion = deviceInfoAfterUpdateResult.data.version
-    const beforeUpdateOsVersion = deviceInfoResult.data.version
+    const afterUpdateOsVersion = deviceInfoAfterUpdateResult.data.osVersion
+    const beforeUpdateOsVersion = deviceInfoResult.data.osVersion
 
     if (beforeUpdateOsVersion === afterUpdateOsVersion) {
       return Result.failed(
         new AppError(
-          UpdateError.VersionDoesntChanged,
+          UpdateErrorServiceErrors.VersionDoesntChanged,
           "The version OS isn't changed"
         )
       )
@@ -117,72 +153,56 @@ export class DeviceUpdateService {
     return Result.success(true)
   }
 
-  private async getDeviceInfo(): Promise<ResultObject<DeviceInfo>> {
-    const { status, data, error } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-
-    if (status !== RequestResponseStatus.Ok || data === undefined) {
-      return Result.failed(
-        new AppError(
-          UpdateError.CannotGetDeviceInfo,
-          error?.message || "Device info request failed"
-        )
-      )
-    } else {
-      return Result.success(data)
-    }
-  }
-
   private async getUnlockDeviceStatus(): Promise<
     ResultObject<RequestResponseStatus>
   > {
-    const { status } = await this.deviceService.request({
+    const { ok, error } = await this.deviceManager.device.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
     })
 
-    return Result.success(status)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return Result.success(ok ? RequestResponseStatus.Ok : error?.payload.status)
   }
 
   private async waitUntilDeviceRestart(
     index = 0,
-    deviceType = this.deviceService.currentDevice?.deviceType,
+    deviceType = this.deviceManager.device.deviceType,
     timeout = 10000,
     callsMax = 60
   ): Promise<ResultObject<boolean>> {
     if (index === callsMax) {
       return Result.failed(
         new AppError(
-          UpdateError.RequestLimitExceeded,
+          UpdateErrorServiceErrors.RequestLimitExceeded,
           "The device no restart successful in 10 minutes"
         )
       )
     }
 
-    let response
+    let result: { ok: boolean }
 
-    if (deviceType === DeviceType.MuditaHarmony) {
-      response = await this.getDeviceInfo()
-    } else {
-      response = await this.getUnlockDeviceStatus()
+    try {
+      if (deviceType === DeviceType.MuditaHarmony) {
+        result = await this.deviceInfoService.getDeviceInfo()
+      } else {
+        result = await this.getUnlockDeviceStatus()
+      }
+
+      if (index !== 0 && result.ok) {
+        return Result.success(true)
+      }
+    } catch {
+      // the error is ignored intentionally because the process handles restarting a device
     }
 
-    if (
-      index !== 0 &&
-      (response.data === RequestResponseStatus.Ok ||
-        response.data === RequestResponseStatus.PhoneLocked)
-    ) {
-      return Result.success(true)
-    } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(this.waitUntilDeviceRestart(++index, deviceType))
-        }, timeout)
-      })
-    }
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.waitUntilDeviceRestart(++index, deviceType))
+      }, timeout)
+    })
   }
 
   private async waitUntilDeviceUnlocked(
@@ -193,7 +213,7 @@ export class DeviceUpdateService {
     if (index === callsMax) {
       return Result.failed(
         new AppError(
-          UpdateError.RequestLimitExceeded,
+          UpdateErrorServiceErrors.RequestLimitExceeded,
           "The device isn't unlocked by user in 10 minutes"
         )
       )
