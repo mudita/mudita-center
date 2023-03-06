@@ -15,6 +15,7 @@ import {
   pendingAction,
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
+import { State } from "App/core/constants"
 
 describe("data-sync functionality", () => {
   test("Event: SetDataSyncInitState set `state` to initial", () => {
@@ -72,6 +73,7 @@ describe("data-sync functionality", () => {
       })
     ).toEqual({
       ...initialState,
+      state: State.Loaded,
       initialized: true,
       error: null,
     })

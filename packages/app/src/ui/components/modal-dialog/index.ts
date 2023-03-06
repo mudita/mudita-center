@@ -6,3 +6,4 @@
 export * from "./modal-dialog.component"
 export * from "./modal-dialog.interface"
 export * from "./modal-dialog.styles"
+export * from "./get-modal-dialog-style.helper"

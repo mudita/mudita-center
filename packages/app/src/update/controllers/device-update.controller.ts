@@ -6,7 +6,10 @@
 import { Controller, IpcEvent } from "App/core/decorators"
 import { ResultObject } from "App/core/builder"
 import { UpdateOS } from "App/update/dto"
-import { DeviceUpdateService } from "App/update/services"
+import {
+  DeviceUpdateFilesService,
+  DeviceUpdateService,
+} from "App/update/services"
 import {
   DeviceUpdateControllerPrefix,
   IpcDeviceUpdateEvent,
@@ -14,10 +17,18 @@ import {
 
 @Controller(DeviceUpdateControllerPrefix)
 export class DeviceUpdateController {
-  constructor(private deviceUpdateService: DeviceUpdateService) {}
+  constructor(
+    private deviceUpdateService: DeviceUpdateService,
+    private deviceUpdateFilesService: DeviceUpdateFilesService
+  ) {}
 
   @IpcEvent(IpcDeviceUpdateEvent.UpdateOS)
   public async updateOs(payload: UpdateOS): Promise<ResultObject<boolean>> {
     return this.deviceUpdateService.updateOs(payload)
+  }
+
+  @IpcEvent(IpcDeviceUpdateEvent.RemoveDownloadedOsUpdates)
+  public async removeDownloadedOsUpdates(): Promise<void> {
+    return this.deviceUpdateFilesService.removeDownloadedOsUpdates()
   }
 }

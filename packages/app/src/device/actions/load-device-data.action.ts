@@ -4,9 +4,14 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceEvent, ConnectionState } from "App/device/constants"
+import {
+  DeviceEvent,
+  ConnectionState,
+  DeviceCommunicationError,
+} from "App/device/constants"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { setDeviceData } from "App/device/actions/base.action"
+import { lockedDevice } from "App/device/actions/locked-device.action"
 import { getDeviceInfoRequest } from "App/device-info/requests"
 import { setValue, MetadataKey } from "App/metadata"
 import { trackOsVersion } from "App/analytic-data-tracker/helpers"
@@ -21,9 +26,13 @@ export const loadDeviceData = createAsyncThunk(
     }
 
     try {
-      const { ok, data } = await getDeviceInfoRequest()
+      const { ok, data, error } = await getDeviceInfoRequest()
 
       if (!ok || !data) {
+        if (error?.type === DeviceCommunicationError.DeviceLocked) {
+          void dispatch(lockedDevice())
+        }
+
         return
       }
 

@@ -44,6 +44,7 @@ const theme = {
       tabHover: grey1,
       actionHover: blue1,
       warning: orange,
+      info: grey1,
     },
     background: {
       activity: blue2,

@@ -21,6 +21,7 @@ import {
   ModalMainText,
 } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 
 const messages = defineMessages({
   backupModalHeaderTitle: {
@@ -49,6 +50,9 @@ const messages = defineMessages({
   },
   backupFailureModalDescription: {
     id: "module.overview.backupFailureModalDescription",
+  },
+  backupNoSpaceFailureModalDescription: {
+    id: "module.overview.backupNoSpaceFailureModalDescription",
   },
   backupFailureModalSecondaryButton: {
     id: "module.overview.backupFailureModalSecondaryButton",
@@ -174,6 +178,49 @@ export const BackupFailureModal: FunctionComponent<
         displayStyle={TextDisplayStyle.Paragraph4}
         color="secondary"
         message={messages.backupFailureModalDescription}
+      />
+    </Modal>
+  )
+}
+
+interface NoSpaceBackupFailureModalProps
+  extends ComponentProps<typeof ModalDialog> {
+  size: number
+  secondaryActionButtonClick: () => void
+}
+
+export const NoSpaceBackupFailureModal: FunctionComponent<
+  NoSpaceBackupFailureModalProps
+> = ({ size, secondaryActionButtonClick, onClose, ...props }) => {
+  const handleOnClose = (): void => {
+    if (onClose) {
+      onClose()
+    }
+  }
+
+  return (
+    <Modal
+      closeButtonLabel={intl.formatMessage(
+        messages.backupFailureModalSecondaryButton
+      )}
+      onCloseButton={secondaryActionButtonClick}
+      onClose={handleOnClose}
+      {...props}
+    >
+      <RoundIconWrapper>
+        <Icon type={IconType.ThinFail} width={3.2} />
+      </RoundIconWrapper>
+      <ModalMainText
+        displayStyle={TextDisplayStyle.Headline4}
+        message={messages.backupFailureModalTitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
+        message={{
+          ...messages.backupNoSpaceFailureModalDescription,
+          values: { size: convertBytes(size) },
+        }}
       />
     </Modal>
   )

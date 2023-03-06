@@ -7,6 +7,12 @@ export enum FreshdeskTicketDataType {
   Problem = "Problem",
 }
 
+export enum FreshdeskTicketProduct {
+  Pure = "Mudita Pure",
+  Harmony = "Mudita Harmony",
+  None = "None",
+}
+
 export interface FreshdeskTicketData {
   type: FreshdeskTicketDataType.Problem
   email?: string
@@ -14,4 +20,5 @@ export interface FreshdeskTicketData {
   description?: string
   serialNumber?: string
   attachments: File[]
+  product: FreshdeskTicketProduct
 }

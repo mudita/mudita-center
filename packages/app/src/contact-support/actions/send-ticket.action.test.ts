@@ -14,9 +14,10 @@ import sendTicketRequest, {
   CreateBugTicketResponseStatus,
 } from "App/contact-support/requests/send-ticket.request"
 import { AppError } from "App/core/errors"
-import { DeviceState } from "App/device"
+import { DeviceState, DeviceType } from "App/device"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { testError } from "App/__deprecated__/renderer/store/constants"
+import { FreshdeskTicketProduct } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 
@@ -38,6 +39,7 @@ const payload: SendTicketPayload = {
 const state: Partial<RootState & ReduxRootState> = {
   device: {
     data: undefined,
+    deviceType: DeviceType.MuditaPure,
   } as unknown as DeviceState,
 }
 
@@ -83,6 +85,7 @@ describe("async `sendTicket` ", () => {
         subject: "Error",
         serialNumber: undefined,
         description: "Hello<br/><br/>World<br/>...<br/>Bye",
+        product: FreshdeskTicketProduct.Pure,
       })
     })
   })

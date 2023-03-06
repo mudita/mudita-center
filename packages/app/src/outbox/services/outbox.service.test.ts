@@ -4,22 +4,43 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
+import { Result } from "App/core/builder"
+import { AppError } from "App/core/errors"
 import {
   EntryHandlersMapType,
   OutboxService,
 } from "App/outbox/services/outbox.service"
-import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceManager } from "App/device-manager/services"
 import { IpcEvent } from "App/data-sync/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { OutboxEntry } from "App/device/types/mudita-os"
 import {
+  DeviceCommunicationError,
   OutboxEntryChange,
   OutboxEntryType,
   Endpoint,
   Method,
 } from "App/device/constants"
 
-jest.mock("App/__deprecated__/backend/device-service")
+const deviceManager = {
+  device: {
+    request: jest.fn().mockResolvedValue(Result.success({ entries: [] })),
+  },
+} as unknown as DeviceManager
+const entryHandlersMap = {
+  [OutboxEntryType.Contact]: {
+    handleEntry: jest.fn(),
+  },
+} as unknown as EntryHandlersMapType
+const subject = new OutboxService(deviceManager, entryHandlersMap)
+
+const entriesMock: OutboxEntry[] = [
+  {
+    uid: 1,
+    type: OutboxEntryType.Contact,
+    change: OutboxEntryChange.Deleted,
+    record_id: 1,
+  },
+]
 
 beforeEach(() => {
   jest.resetAllMocks()
@@ -27,34 +48,11 @@ beforeEach(() => {
 
 describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Contact Entry", () => {
-    let subject: OutboxService
-    let entryHandlersMap: EntryHandlersMapType
-    let deviceService: DeviceService
-    const entries: OutboxEntry[] = [
-      {
-        uid: 1,
-        type: OutboxEntryType.Contact,
-        change: OutboxEntryChange.Deleted,
-        record_id: 1,
-      },
-    ]
-
-    beforeEach(() => {
-      deviceService = {
-        request: jest.fn().mockReturnValue({
-          status: RequestResponseStatus.Ok,
-          data: { entries },
-        }),
-      } as unknown as DeviceService
-      entryHandlersMap = {
-        [OutboxEntryType.Contact]: {
-          handleEntry: jest.fn(),
-        },
-      } as unknown as EntryHandlersMapType
-      subject = new OutboxService(deviceService, entryHandlersMap)
-    })
-
     test("`DataLoaded` isn't emits", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockResolvedValueOnce(Result.success({ entries: entriesMock }))
+
       await subject.readOutboxEntries()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
@@ -64,10 +62,14 @@ describe("`OutboxService`", () => {
     })
 
     test("outbox `delete` request was called", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockResolvedValueOnce(Result.success({ entries: entriesMock }))
+
       await subject.readOutboxEntries()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceService.request).toHaveBeenCalledWith({
+      expect(deviceManager.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.Outbox,
         method: Method.Delete,
         body: {
@@ -77,30 +79,25 @@ describe("`OutboxService`", () => {
     })
 
     test("contact handler was called", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockResolvedValueOnce(Result.success({ entries: entriesMock }))
+
       await subject.readOutboxEntries()
       expect(
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
         entryHandlersMap[OutboxEntryType.Contact].handleEntry
-      ).toHaveBeenCalledWith(entries[0])
+      ).toHaveBeenCalledWith(entriesMock[0])
     })
   })
 
   describe("when Get Outbox Entries returns Entries with empty list", () => {
-    let subject: OutboxService
-    let entryHandlersMap: EntryHandlersMapType
-    let deviceService: DeviceService
-    beforeEach(() => {
-      deviceService = {
-        request: jest.fn().mockReturnValue({
-          status: RequestResponseStatus.Ok,
-          data: { entries: [] },
-        }),
-      } as unknown as DeviceService
-      subject = new OutboxService(deviceService, entryHandlersMap)
-    })
-
     test("`DataLoaded` isn't emits", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockResolvedValueOnce(Result.success({ entries: [] }))
+
       await subject.readOutboxEntries()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
@@ -111,20 +108,17 @@ describe("`OutboxService`", () => {
   })
 
   describe("when Get Outbox Entries returns error", () => {
-    let subject: OutboxService
-    let entryHandlersMap: EntryHandlersMapType
-    let deviceService: DeviceService
-    beforeEach(() => {
-      deviceService = {
-        request: jest.fn().mockReturnValue({
-          status: RequestResponseStatus.Error,
-          data: { entries: [] },
-        }),
-      } as unknown as DeviceService
-      subject = new OutboxService(deviceService, entryHandlersMap)
-    })
-
     test("`DataLoaded` isn't emits", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockResolvedValueOnce(
+          Result.failed(
+            new AppError(DeviceCommunicationError.RequestFailed, "", {
+              entries: [],
+            })
+          )
+        )
+
       await subject.readOutboxEntries()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any

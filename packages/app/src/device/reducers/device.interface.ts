@@ -8,7 +8,7 @@ import { CaseColor, DeviceType } from "App/device/constants"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { DeviceError, DeviceEvent } from "App/device/constants"
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
-import { UpdatingState, ConnectionState } from "App/device/constants"
+import { ConnectionState } from "App/device/constants"
 import { AppError } from "App/core/errors"
 import StorageInfo from "App/__deprecated__/common/interfaces/storage-info.interface"
 
@@ -27,7 +27,7 @@ export interface PureDeviceData {
     total: number
   }
   caseColour: CaseColor
-  backupLocation: string
+  backupFilePath: string
 }
 
 export interface HarmonyDeviceData {
@@ -46,12 +46,12 @@ export interface DeviceState {
   data: Partial<PureDeviceData | HarmonyDeviceData> | null
   state: ConnectionState
   status: {
+    connecting: boolean
     connected: boolean
     unlocked: boolean | null
     loaded: boolean
     agreementAccepted: boolean
   }
-  updatingState: UpdatingState | null
   error: Error | string | null
 }
 
@@ -83,22 +83,10 @@ export type SetPhoneLockTimeAction = PayloadAction<
   GetPhoneLockTimeResponseBody,
   DeviceEvent.SetLockTime
 >
-export type UnlockDeviceRejectedAction = PayloadAction<
-  AppError<DeviceError.Connection> | AppError<DeviceError.InvalidPhoneLockTime>,
-  DeviceEvent.Unlocked
->
 export type SetSimDataAction = PayloadAction<number, DeviceEvent.SetSimData>
 export type SetOsVersionDataAction = PayloadAction<
   OsVersionPayload,
   DeviceEvent.SetOsVersionData
->
-export type SetUpdateStateAction = PayloadAction<
-  UpdatingState,
-  DeviceEvent.SetUpdateState
->
-export type OsUpdateRejectedAction = PayloadAction<
-  AppError<DeviceError.UpdateProcess>,
-  DeviceEvent.StartOsUpdateProcess
 >
 export type SetConnectionStateAction = PayloadAction<
   boolean,

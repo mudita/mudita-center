@@ -5,3 +5,4 @@
 
 export * from "./device-update.service"
 export * from "./releases.service"
+export * from "./device-update-files.service"

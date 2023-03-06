@@ -9,6 +9,9 @@ export default interface DeviceInfo {
   readonly serialNumber: string
   readonly osVersion: string
   readonly caseColour: CaseColor
-  readonly backupLocation: string
+  readonly backupFilePath: string
+  readonly syncFilePath: string
+  readonly updateFilePath: string
+  readonly recoveryStatusFilePath: string
   readonly deviceToken: string
 }

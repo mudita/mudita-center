@@ -16,7 +16,7 @@ import {
   setIncomingCalls,
   setIncomingMessages,
   toggleTethering,
-  toggleUpdateAvailable,
+  toggleApplicationUpdateAvailable,
   toggleCollectionData,
   setConversionFormat,
   setConvert,
@@ -96,7 +96,7 @@ export const settingsReducer = createReducer<SettingsState>(
         state.tethering = action.payload
       })
 
-      .addCase(toggleUpdateAvailable.pending, (state, action) => {
+      .addCase(toggleApplicationUpdateAvailable.pending, (state, action) => {
         state.updateAvailable = action.meta.arg
       })
 

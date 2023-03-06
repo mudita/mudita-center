@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useEffect } from "react"
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
@@ -91,50 +91,59 @@ const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
 interface RestoreConfirmSecretKeyModalProps
   extends ComponentProps<typeof ModalDialog> {
   onSecretKeySet: (secretKey: string) => void
+  forceFormReset: boolean
+  onResetCompleted: () => void
 }
 
 // TODO: Provide some abstraction to hide structure modal behind core
 //  https://appnroll.atlassian.net/browse/CP-757
-export const RestoreConfirmSecretKeyModal: FunctionComponent<
-  RestoreConfirmSecretKeyModalProps
-> = ({ onSecretKeySet, ...props }) => {
-  const { register, handleSubmit } =
-    useForm<RestoreConfirmSecretKeyFieldValues>({
-      mode: "onChange",
+export const RestoreConfirmSecretKeyModal: FunctionComponent<RestoreConfirmSecretKeyModalProps> =
+  ({ onSecretKeySet, forceFormReset, onResetCompleted, ...props }) => {
+    const { register, handleSubmit, reset } =
+      useForm<RestoreConfirmSecretKeyFieldValues>({
+        mode: "onChange",
+      })
+
+    const handleSubmitClick = handleSubmit((data) => {
+      onSecretKeySet(data.secretKey)
     })
 
-  const handleSubmitClick = handleSubmit((data) => {
-    onSecretKeySet(data.secretKey)
-  })
+    useEffect(() => {
+      if (forceFormReset) {
+        reset()
+        onResetCompleted()
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [forceFormReset])
 
-  return (
-    <Modal
-      closeButton={false}
-      title={intl.formatMessage(
-        messages.restoreConfirmSecretKeyModalHeaderTitle
-      )}
-      {...props}
-    >
-      <ModalText
-        displayStyle={TextDisplayStyle.Paragraph4}
-        color="secondary"
-        message={messages.restoreConfirmSecretKeyModalDescription}
-      />
-      <Form onSubmit={handleSubmitClick}>
-        <FormInputLabel
-          displayStyle={TextDisplayStyle.Label}
+    return (
+      <Modal
+        closeButton={false}
+        title={intl.formatMessage(
+          messages.restoreConfirmSecretKeyModalHeaderTitle
+        )}
+        {...props}
+      >
+        <ModalText
+          displayStyle={TextDisplayStyle.Paragraph4}
           color="secondary"
-          message={messages.restoreConfirmSecretKeyModalInputLabel}
+          message={messages.restoreConfirmSecretKeyModalDescription}
         />
-        <FormInput type={"password"} {...register(FieldKeys.SecretKey)} />
-        <ButtonWrapper>
-          <Button
-            type={Type.Submit}
-            displayStyle={DisplayStyle.Primary}
-            labelMessage={messages.restoreConfirmSecretKeyModalMainButton}
+        <Form onSubmit={handleSubmitClick}>
+          <FormInputLabel
+            displayStyle={TextDisplayStyle.Label}
+            color="secondary"
+            message={messages.restoreConfirmSecretKeyModalInputLabel}
           />
-        </ButtonWrapper>
-      </Form>
-    </Modal>
-  )
-}
+          <FormInput type={"password"} {...register(FieldKeys.SecretKey)} />
+          <ButtonWrapper>
+            <Button
+              type={Type.Submit}
+              displayStyle={DisplayStyle.Primary}
+              labelMessage={messages.restoreConfirmSecretKeyModalMainButton}
+            />
+          </ButtonWrapper>
+        </Form>
+      </Modal>
+    )
+  }

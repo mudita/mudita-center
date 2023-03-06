@@ -24,11 +24,18 @@ export const downloadingLogs = async (): Promise<
     name: mcFileName,
   }
 
-  const { data: deviceLogFiles = [] } = await getDeviceLogFiles()
+  const getDeviceLogsFilesResult = await getDeviceLogFiles()
 
-  const { data: deviceUpdaterLogFile } = await downloadDeviceFiles([
+  const downloadDeviceFilesResult = await downloadDeviceFiles([
     DiagnosticsFilePath.UPDATER_LOG,
   ])
+
+  const deviceLogFiles = getDeviceLogsFilesResult.ok
+    ? getDeviceLogsFilesResult.data
+    : []
+  const deviceUpdaterLogFile = downloadDeviceFilesResult.ok
+    ? downloadDeviceFilesResult.data
+    : []
 
   let files = [...deviceLogFiles, appLogFile]
 

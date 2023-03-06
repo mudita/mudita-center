@@ -17,30 +17,10 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  [Feature.MessagesSearchEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
-  [Feature.MessagesDeleteEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MessagesForwardEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
-  },
-  [Feature.MessagesResendEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
-  [Feature.MessagesThreadDeleteEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
   },
   [Feature.LoggerEnabled]: {
     [Environment.Development]: true,
@@ -57,34 +37,9 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  [Feature.FilesManagerEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
-  [Feature.FilesManagerActionsEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
-  [Feature.MessagesTemplatesTabEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: true,
-  },
-  [Feature.MessagesThreadAttachContactEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
-  [Feature.MessagesThreadAttachTemplateEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {
@@ -92,20 +47,10 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.MessagesThreadDetailsMarkAsReadEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MessagesCallFromThreadEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
-  },
-  [Feature.MessagesThreadBrowseContacts]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesDraftStatus]: {
     [Environment.Development]: true,
@@ -187,11 +132,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.ReadAndUnreadMessages]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.OrderTemplate]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
@@ -205,11 +145,6 @@ export const features: EnvironmentConfig = {
   [Feature.ForceUpdate]: {
     [Environment.Development]: false,
     [Environment.Production]: true,
-    [Environment.AlphaProduction]: false,
-  },
-  [Feature.BackupCategoriesEnabled]: {
-    [Environment.Development]: false,
-    [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
 }

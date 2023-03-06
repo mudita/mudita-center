@@ -8,6 +8,7 @@ import { Message as MessageInterface } from "App/__deprecated__/renderer/interfa
 export interface ButtonTogglerItemProps {
   filled?: boolean
   active?: boolean
+  loading?: boolean
 }
 
 export interface ButtonTogglerProps {

@@ -4,27 +4,27 @@
  */
 
 import { Endpoint, Method } from "App/device/constants"
-import DeviceService from "App/__deprecated__/backend/device-service"
 import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
 import { BaseCommand } from "App/device-file-system/commands/base.command"
+import { RemoveFileSystemRequestConfig } from "App/device/types/mudita-os"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
 
 export class FileDeleteCommand extends BaseCommand {
-  constructor(public deviceService: DeviceService) {
-    super(deviceService)
-  }
+  public async exec(path: string): Promise<ResultObject<string>> {
+    const { ok, error } =
+      await this.deviceManager.device.request<RemoveFileSystemRequestConfig>({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Delete,
+        body: {
+          removeFile: path,
+        },
+      })
 
-  public async exec(path: string): Promise<ResultObject<undefined>> {
-    const { status, error } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Delete,
-      body: {
-        removeFile: path,
-      },
-    })
-    if (status !== RequestResponseStatus.Ok) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (!ok && error?.payload?.status !== RequestResponseStatus.Ok) {
       return Result.failed(
         new AppError(
           DeviceFileSystemError.FileDeleteCommand,
@@ -32,7 +32,7 @@ export class FileDeleteCommand extends BaseCommand {
         )
       )
     } else {
-      return Result.success(undefined)
+      return Result.success(path)
     }
   }
 }

@@ -5,7 +5,6 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
@@ -14,6 +13,7 @@ import { BaseModule } from "App/core/module"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
 import { DeviceConnectionObserver } from "App/data-sync/observers"
 import { DataSyncController } from "App/data-sync/controllers"
+import { DeviceManager } from "App/device-manager/services"
 
 export class DataSyncModule extends BaseModule {
   private dataSyncService: DataSyncService
@@ -22,7 +22,7 @@ export class DataSyncModule extends BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceService: DeviceService,
+    public deviceManager: DeviceManager,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -31,7 +31,7 @@ export class DataSyncModule extends BaseModule {
   ) {
     super(
       index,
-      deviceService,
+      deviceManager,
       keyStorage,
       logger,
       ipc,
@@ -41,12 +41,12 @@ export class DataSyncModule extends BaseModule {
 
     this.dataSyncService = new DataSyncService(
       this.index,
-      this.deviceService,
+      this.deviceManager,
       this.keyStorage,
       this.fileSystem
     )
     this.deviceConnectionObserver = new DeviceConnectionObserver(
-      this.deviceService,
+      this.deviceManager,
       this.keyStorage,
       this.dataSyncService,
       this.ipc,

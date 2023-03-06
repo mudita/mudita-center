@@ -3,81 +3,148 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Result } from "App/core/builder"
+import fs, { Stats } from "fs"
 import { AppError } from "App/core/errors"
+import { Result } from "App/core/builder"
+import { DeviceManager } from "App/device-manager/services"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { DeviceInfo, RequestConfig } from "App/device/types/mudita-os"
-import {
-  BatteryState,
-  SIM,
-  SignalStrength,
-  Tray,
-  AccessTechnology,
-  NetworkStatus,
-  CaseColor,
-  Endpoint,
-  Method,
-  DeviceType,
-} from "App/device/constants"
-import { DeviceUpdateService } from "App/update/services/device-update.service"
-import { SettingsService } from "App/settings/services/settings.service"
 import { DeviceFileSystemService } from "App/device-file-system/services"
+import {
+  CaseColor,
+  DeviceType,
+  DeviceCommunicationError,
+  OnboardingState,
+} from "App/device/constants"
+import { DeviceInfo } from "App/device-info/dto"
+import { SettingsService } from "App/settings/services/settings.service"
+import { UpdateErrorServiceErrors } from "App/update/constants"
 import { UpdateOS } from "App/update/dto"
-import { UpdateError } from "App/update/constants"
+import { DeviceUpdateService } from "App/update/services/device-update.service"
+import { DeviceInfoService } from "App/device-info/services"
 
-// DEPRECATED
-import DeviceService from "App/__deprecated__/backend/device-service"
-
-const settingsService = {
-  getByKey: jest.fn().mockReturnValue("/some/path/"),
-} as unknown as SettingsService
-
-const deviceService = {
-  currentDevice: {
-    deviceType: DeviceType.MuditaPure,
-  },
-  request: jest.fn(),
-} as unknown as DeviceService
-
-const deviceFileSystem = {
-  uploadFileLocally: jest.fn(),
-} as unknown as DeviceFileSystemService
-
-const subject = new DeviceUpdateService(
-  settingsService,
-  deviceService,
-  deviceFileSystem
-)
+let settingsService: SettingsService
+let deviceManager: DeviceManager
+let deviceFileSystem: DeviceFileSystemService
+let subject: DeviceUpdateService
+let deviceInfoService: DeviceInfoService
 
 const payloadMock: UpdateOS = {
   fileName: "/update.tar",
 }
 
 const deviceInfoResponseMock: DeviceInfo = {
-  accessTechnology: AccessTechnology.Gsm,
-  backupLocation: "/sys/user/backup",
-  batteryLevel: "100",
-  batteryState: BatteryState.Discharging,
+  onboardingState: OnboardingState.Finished,
+  memorySpace: {
+    reservedSpace: 0,
+    usedUserSpace: 0,
+    total: 0,
+  },
+  networkLevel: "25",
+  networkName: "Play",
+  simCards: [],
+  backupFilePath: "",
+  updateFilePath: "/sys/user/update.tar",
+  recoveryStatusFilePath: "",
+  syncFilePath: "",
+  batteryLevel: 100,
   caseColour: CaseColor.Black,
-  currentRTCTime: "1667993610",
-  deviceSpaceTotal: "14945",
-  deviceToken: "Pziv07Iz9E5OBOLfOwXqPJgWCRsE1Xfu",
-  gitBranch: "HEAD",
-  gitRevision: "b6ae5b95",
-  networkOperatorName: "Play",
-  networkStatus: NetworkStatus.RegisteredHomeNetwork,
-  selectedSim: SIM.One,
   serialNumber: "00000010133631",
-  signalStrength: SignalStrength.Four,
-  systemReservedSpace: "2042",
-  trayState: Tray.In,
-  usedUserSpace: "1674",
-  version: "1.4.0",
+  osVersion: "1.4.0",
 }
 
+const oneMB = 1024 * 1024
+
+afterEach(() => {
+  jest.resetAllMocks()
+})
+
+beforeEach(() => {
+  settingsService = {
+    getByKey: jest.fn().mockReturnValue("/some/path/"),
+  } as unknown as SettingsService
+
+  deviceManager = {
+    device: {
+      deviceType: DeviceType.MuditaPure,
+    },
+    request: jest.fn(),
+  } as unknown as DeviceManager
+
+  deviceFileSystem = {
+    uploadFileLocally: jest.fn(),
+    removeDeviceFile: jest.fn(),
+  } as unknown as DeviceFileSystemService
+
+  deviceInfoService = {
+    getDeviceFreeSpace: jest.fn().mockReturnValue({ ok: true, data: 2 }),
+    getDeviceInfo: jest
+      .fn()
+      .mockReturnValue(Result.success(deviceInfoResponseMock)),
+  } as unknown as DeviceInfoService
+
+  subject = new DeviceUpdateService(
+    settingsService,
+    deviceManager,
+    deviceFileSystem,
+    deviceInfoService
+  )
+
+  jest.spyOn(fs, "lstatSync").mockReturnValue({
+    size: oneMB,
+  } as Stats)
+})
+
 describe("Method: updateOs", () => {
-  test("Device info endpoint returns `Result.failed`", async () => {
-    deviceService.request = jest.fn().mockResolvedValueOnce({
+  describe("when not enough space on Pure device", () => {
+    test("action should end with `Result.failed`", async () => {
+      jest.spyOn(fs, "lstatSync").mockReturnValue({
+        size: 3 * oneMB,
+      } as Stats)
+      deviceFileSystem.uploadFileLocally = jest
+        .fn()
+        .mockResolvedValueOnce(Result.failed(new AppError("", "")))
+
+      const result = await subject.updateOs(payloadMock)
+
+      expect(result).toEqual(
+        Result.failed(
+          new AppError(
+            UpdateErrorServiceErrors.NotEnoughSpace,
+            "Cannot upload /some/path/update.tar to device - not enough space"
+          )
+        )
+      )
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(settingsService.getByKey).toHaveBeenLastCalledWith(
+        "osDownloadLocation"
+      )
+    })
+  })
+
+  describe("when onboarding is not complete", () => {
+    test("action should end with `Result.failed`", async () => {
+      deviceInfoService.getDeviceInfo = jest.fn().mockReturnValue(
+        Result.success({
+          ...deviceInfoResponseMock,
+          onboardingState: OnboardingState.InProgress,
+        })
+      )
+
+      const result = await subject.updateOs(payloadMock)
+
+      expect(result).toEqual(
+        Result.failed(
+          new AppError(
+            UpdateErrorServiceErrors.OnboardingNotComplete,
+            "Onboarding not complete"
+          )
+        )
+      )
+    })
+  })
+  test("deviceInfoService.getDeviceInfo returns `Result.failed`", async () => {
+    deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValueOnce({
       data: undefined,
       status: RequestResponseStatus.Error,
     })
@@ -87,7 +154,7 @@ describe("Method: updateOs", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.CannotGetOsVersion,
+          UpdateErrorServiceErrors.CannotGetOsVersion,
           "Current os version request failed"
         )
       )
@@ -101,10 +168,6 @@ describe("Method: updateOs", () => {
   })
 
   test("Upload File Locally method returns `Result.failed`", async () => {
-    deviceService.request = jest.fn().mockResolvedValueOnce({
-      data: deviceInfoResponseMock,
-      status: RequestResponseStatus.Ok,
-    })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.failed(new AppError("", "")))
@@ -114,7 +177,7 @@ describe("Method: updateOs", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.UpdateFileUpload,
+          UpdateErrorServiceErrors.UpdateFileUpload,
           "Cannot upload /some/path/update.tar to device"
         )
       )
@@ -133,34 +196,10 @@ describe("Method: updateOs", () => {
   })
 
   test("Device update endpoint returns `Result.failed`", async () => {
-    deviceService.request = jest
-      .fn()
-      .mockImplementation((config: RequestConfig) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return {
-            data: deviceInfoResponseMock,
-            status: RequestResponseStatus.Ok,
-          }
-        }
-
-        if (
-          config.endpoint === Endpoint.Update &&
-          config.method === Method.Post
-        ) {
-          return {
-            data: undefined,
-            status: RequestResponseStatus.Error,
-          }
-        }
-
-        return {
-          data: undefined,
-          status: RequestResponseStatus.Error,
-        }
-      })
+    deviceManager.device.request = jest.fn().mockResolvedValueOnce({
+      data: undefined,
+      status: DeviceCommunicationError.RequestFailed,
+    })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
@@ -169,7 +208,10 @@ describe("Method: updateOs", () => {
 
     expect(result).toEqual(
       Result.failed(
-        new AppError(UpdateError.UpdateCommand, "Cannot restart device")
+        new AppError(
+          UpdateErrorServiceErrors.UpdateCommand,
+          "Cannot restart device"
+        )
       )
     )
     // AUTO DISABLED - fix me if you like :)
@@ -186,34 +228,10 @@ describe("Method: updateOs", () => {
   })
 
   test("Returns `Result.failed` if device wakes up too long", async () => {
-    deviceService.request = jest
+    deviceManager.device.request = jest
       .fn()
-      .mockImplementation((config: RequestConfig) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return {
-            data: deviceInfoResponseMock,
-            status: RequestResponseStatus.Ok,
-          }
-        }
+      .mockResolvedValueOnce(Result.success(undefined))
 
-        if (
-          config.endpoint === Endpoint.Update &&
-          config.method === Method.Post
-        ) {
-          return {
-            data: undefined,
-            status: RequestResponseStatus.Ok,
-          }
-        }
-
-        return {
-          data: undefined,
-          status: RequestResponseStatus.Error,
-        }
-      })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
@@ -224,7 +242,7 @@ describe("Method: updateOs", () => {
       .mockResolvedValueOnce(
         Result.failed(
           new AppError(
-            UpdateError.RequestLimitExceeded,
+            UpdateErrorServiceErrors.RequestLimitExceeded,
             "The device no restart successful in 10 minutes"
           )
         )
@@ -235,7 +253,7 @@ describe("Method: updateOs", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.RequestLimitExceeded,
+          UpdateErrorServiceErrors.RequestLimitExceeded,
           "The device no restart successful in 10 minutes"
         )
       )
@@ -254,34 +272,10 @@ describe("Method: updateOs", () => {
   })
 
   test("Returns `Result.failed` if version from device endpoint after update is equal to version before update", async () => {
-    deviceService.request = jest
+    deviceManager.device.request = jest
       .fn()
-      .mockImplementation((config: RequestConfig) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          return {
-            data: deviceInfoResponseMock,
-            status: RequestResponseStatus.Ok,
-          }
-        }
+      .mockResolvedValueOnce(Result.success(undefined))
 
-        if (
-          config.endpoint === Endpoint.Update &&
-          config.method === Method.Post
-        ) {
-          return {
-            data: undefined,
-            status: RequestResponseStatus.Ok,
-          }
-        }
-
-        return {
-          data: undefined,
-          status: RequestResponseStatus.Error,
-        }
-      })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
@@ -301,7 +295,7 @@ describe("Method: updateOs", () => {
     expect(result).toEqual(
       Result.failed(
         new AppError(
-          UpdateError.VersionDoesntChanged,
+          UpdateErrorServiceErrors.VersionDoesntChanged,
           "The version OS isn't changed"
         )
       )
@@ -320,47 +314,23 @@ describe("Method: updateOs", () => {
   })
 
   test("Returns `Result.success` if version from device endpoint after update changed", async () => {
+    deviceManager.device.request = jest
+      .fn()
+      .mockResolvedValueOnce(Result.success(undefined))
     let isFirstRequest = true
 
-    deviceService.request = jest
-      .fn()
-      .mockImplementation((config: RequestConfig) => {
-        if (
-          config.endpoint === Endpoint.DeviceInfo &&
-          config.method === Method.Get
-        ) {
-          if (isFirstRequest) {
-            isFirstRequest = false
-            return {
-              data: deviceInfoResponseMock,
-              status: RequestResponseStatus.Ok,
-            }
-          } else {
-            return {
-              data: {
-                ...deviceInfoResponseMock,
-                version: "1.5.0",
-              },
-              status: RequestResponseStatus.Ok,
-            }
-          }
-        }
+    deviceInfoService.getDeviceInfo = jest.fn().mockImplementation(() => {
+      if (isFirstRequest) {
+        isFirstRequest = false
+        return Result.success(deviceInfoResponseMock)
+      } else {
+        return Result.success({
+          ...deviceInfoResponseMock,
+          osVersion: "1.5.0",
+        })
+      }
+    })
 
-        if (
-          config.endpoint === Endpoint.Update &&
-          config.method === Method.Post
-        ) {
-          return {
-            data: undefined,
-            status: RequestResponseStatus.Ok,
-          }
-        }
-
-        return {
-          data: undefined,
-          status: RequestResponseStatus.Error,
-        }
-      })
     deviceFileSystem.uploadFileLocally = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))

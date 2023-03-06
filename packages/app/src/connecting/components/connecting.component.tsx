@@ -16,11 +16,10 @@ import ConnectingContent from "App/connecting/components/connecting-content.comp
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import PasscodeModal from "App/__deprecated__/passcode-modal/passcode-modal.component"
-import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
 import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -29,10 +28,13 @@ const Connecting: FunctionComponent<{
   syncInitialized: boolean
   syncState: SynchronizationState
   unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
-  getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<boolean | AppError>>
   leftTime: number | undefined
   noModalsVisible: boolean
+  forceOsUpdateFailed: boolean
+  checkingForOsForceUpdate: boolean
   updateAllIndexes: () => Promise<void>
+  passcodeModalCloseable: boolean
 }> = ({
   loaded,
   deviceType,
@@ -44,6 +46,9 @@ const Connecting: FunctionComponent<{
   leftTime,
   noModalsVisible,
   updateAllIndexes,
+  forceOsUpdateFailed,
+  checkingForOsForceUpdate,
+  passcodeModalCloseable,
 }) => {
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
@@ -61,7 +66,13 @@ const Connecting: FunctionComponent<{
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (unlocked && loaded && syncInitialized) {
+      if (
+        unlocked &&
+        loaded &&
+        syncInitialized &&
+        !checkingForOsForceUpdate &&
+        !forceOsUpdateFailed
+      ) {
         history.push(URL_OVERVIEW.root)
       }
     }, 500)
@@ -75,7 +86,14 @@ const Connecting: FunctionComponent<{
     return () => clearTimeout(timeout)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded, unlocked, syncInitialized, noModalsVisible])
+  }, [
+    loaded,
+    unlocked,
+    syncInitialized,
+    noModalsVisible,
+    checkingForOsForceUpdate,
+    forceOsUpdateFailed,
+  ])
 
   useEffect(() => {
     if (unlocked !== null) {
@@ -103,8 +121,10 @@ const Connecting: FunctionComponent<{
   }, [syncInitialized, syncState, unlocked])
 
   useEffect(() => {
-    registerFirstPhoneConnection()
-  }, [])
+    if (unlocked && forceOsUpdateFailed) {
+      setError(ConnectingError.ForceUpdateCheckFailed)
+    }
+  }, [unlocked, forceOsUpdateFailed])
 
   const history = useHistory()
 
@@ -134,12 +154,16 @@ const Connecting: FunctionComponent<{
       {error === ConnectingError.Connecting && (
         <ErrorConnectingModal open closeModal={close} />
       )}
+      {error === ConnectingError.ForceUpdateCheckFailed && (
+        <ErrorConnectingModal open closeModal={close} />
+      )}
       <PasscodeModal
         openModal={passcodeOpenModal}
         close={close}
         leftTime={leftTime}
         unlockDevice={unlockDevice}
         getUnlockStatus={getUnlockStatus}
+        canBeClosed={passcodeModalCloseable}
       />
       <ConnectingContent
         onCancel={onCancel}

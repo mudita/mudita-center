@@ -19,6 +19,9 @@ import { Link } from "react-router-dom"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import { LayoutBlankWrapperTestIds } from "App/__deprecated__/renderer/wrappers/wrappers-test-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { RootState, ReduxRootState } from "App/__deprecated__/renderer/store"
+import { State } from "App/core/constants"
+import { connect } from "react-redux"
 
 const Layout = styled.div`
   display: grid;
@@ -60,19 +63,40 @@ const Header = styled.header`
   }
 `
 
-interface Props {
+interface ComponentProps {
   recoveryMode?: boolean
   onClose?: () => void
 }
+interface StateProps {
+  closeable: boolean
+}
+
+type Props = ComponentProps & StateProps
 
 const MainTitle = styled(Text)`
   padding-top: 0.3rem;
 `
 
+const mapStateToProps = (
+  state: RootState & ReduxRootState,
+  ownProps: ComponentProps
+): Props => {
+  return {
+    closeable: !(
+      state.update.needsForceUpdate ||
+      state.update.forceUpdateState === State.Loading ||
+      state.update.updateOsState === State.Loading
+    ),
+    recoveryMode: ownProps.recoveryMode,
+    onClose: ownProps.onClose,
+  }
+}
+
 const LayoutBlankWrapper: FunctionComponent<Props> = ({
   children,
   recoveryMode,
   onClose,
+  closeable,
 }) => {
   return (
     <Layout>
@@ -82,7 +106,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
           displayStyle={TextDisplayStyle.Paragraph3}
           message={{ id: "module.onboarding.mainTitle" }}
         />
-        {!recoveryMode && (
+        {!recoveryMode && closeable && (
           <Link
             to={URL_MAIN.news}
             onClick={onClose}
@@ -97,4 +121,4 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
   )
 }
 
-export default LayoutBlankWrapper
+export default connect(mapStateToProps)(LayoutBlankWrapper)

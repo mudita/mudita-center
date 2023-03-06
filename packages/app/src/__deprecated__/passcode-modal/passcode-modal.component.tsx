@@ -9,14 +9,15 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
 
 interface Props {
   openModal: boolean
   close: () => void
   leftTime?: number
   unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
-  getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<boolean | AppError>>
+  canBeClosed: boolean
 }
 
 enum ErrorState {
@@ -37,6 +38,7 @@ let timeoutId3: NodeJS.Timeout
 
 const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
+  canBeClosed,
   close,
   leftTime,
   unlockDevice,
@@ -77,7 +79,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
         timeoutId = setTimeout(async () => {
           const unlockCheckStatus = await getUnlockStatus()
 
-          if (unlockCheckStatus.payload !== RequestResponseStatus.Ok) {
+          if (unlockCheckStatus.payload !== true) {
             setErrorState(ErrorState.BadPasscode)
           }
         }, 1000)
@@ -130,6 +132,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
       openHelpWindow={openHelpWindow}
       onNotAllowedKeyDown={onNotAllowedKeyDown}
       leftTime={leftTime}
+      canBeClosed={canBeClosed}
     />
   )
 }

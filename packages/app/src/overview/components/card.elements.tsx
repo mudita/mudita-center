@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import {
   backgroundColor,
   borderRadius,
@@ -60,6 +60,14 @@ export const CardActionButton = styled(ButtonTogglerItem)`
     height: initial;
     width: initial;
   }
+
+  ${({ loading }) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    loading &&
+    css`
+      padding: 0px;
+    `};
 `
 
 export default Card

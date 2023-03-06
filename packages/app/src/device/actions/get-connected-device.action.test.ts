@@ -67,10 +67,6 @@ describe("Get Connected Device request returns `success` status within `data`", 
 
     expect(mockStore.getActions()).toEqual([
       getConnectedDevice.pending(requestId),
-      {
-        type: pendingAction("DEVICE_CONNECTED"),
-        payload: undefined,
-      },
       getConnectedDevice.fulfilled(undefined, requestId, undefined),
     ])
 

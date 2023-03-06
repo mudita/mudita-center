@@ -5,11 +5,16 @@
 
 import { Endpoint, Method } from "App/device/constants"
 
+export interface RequestConfigOptions {
+  connectionTimeOut?: number
+}
+
 export interface RequestConfig<Body = undefined> {
   endpoint: Endpoint
   method: Method
   body?: Body
   filePath?: string
+  options?: RequestConfigOptions
 }
 
 export interface RequestPayload<T = undefined> extends RequestConfig<T> {

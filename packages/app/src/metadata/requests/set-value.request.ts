@@ -8,7 +8,7 @@ import { IpcMetadata, MetadataKey } from "App/metadata/constants"
 
 export const setValue = async (data: {
   key: MetadataKey
-  value: string | number | null
+  value: string | number | boolean | undefined | null
 }): Promise<void> => {
   return ipcRenderer.callMain(IpcMetadata.SetValue, data)
 }

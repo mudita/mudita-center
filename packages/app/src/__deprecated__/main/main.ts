@@ -77,7 +77,7 @@ import {
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
 } from "App/metadata"
-import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
+import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
 

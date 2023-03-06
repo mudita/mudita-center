@@ -18,6 +18,7 @@ const createFreshdeskTicket = async ({
   description: tmpDescription,
   serialNumber,
   attachments,
+  product,
 }: FreshdeskTicketData): Promise<AxiosResponse<unknown>> => {
   const config: AxiosRequestConfig = {
     headers: {
@@ -43,7 +44,7 @@ const createFreshdeskTicket = async ({
   formData.append("status", "2")
   formData.append("source", "100")
   formData.append("priority", "1")
-  formData.append("custom_fields[cf_product]", "Mudita Pure")
+  formData.append("custom_fields[cf_product]", product)
   if (serialNumber) {
     formData.append("custom_fields[cf_serial_number_imei]", serialNumber)
   }

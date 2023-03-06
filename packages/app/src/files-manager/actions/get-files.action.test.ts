@@ -57,7 +57,7 @@ describe("when `getFiles` request return success result", () => {
     expect(mockStore.getActions()).toEqual([
       getFiles.pending(requestId, DeviceDirectory.Music),
       getFiles.fulfilled(
-        successObjectResult.data as File[],
+        successObjectResult.data,
         requestId,
         DeviceDirectory.Music
       ),

@@ -13,7 +13,6 @@ import {
   DeviceType,
   DeviceEvent,
   ConnectionState,
-  UpdatingState,
   DeviceError,
 } from "App/device/constants"
 import {
@@ -46,7 +45,7 @@ const pureDeviceMock: PureDeviceData = {
     total: 16000000000,
   },
   caseColour: CaseColor.Gray,
-  backupLocation: "path/to/directory",
+  backupFilePath: "path/to/directory/fileBase.tar",
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {
@@ -82,6 +81,12 @@ describe("Connecting/Disconnecting functionality", () => {
       })
     ).toEqual({
       ...initialState,
+      status: {
+        ...initialState.status,
+        connecting: true,
+        connected: false,
+        loaded: false,
+      },
       state: ConnectionState.Loading,
     })
   })
@@ -94,6 +99,11 @@ describe("Connecting/Disconnecting functionality", () => {
       })
     ).toEqual({
       ...initialState,
+      status: {
+        ...initialState.status,
+        connected: true,
+        connecting: false,
+      },
       deviceType: DeviceType.MuditaPure,
     })
   })
@@ -172,24 +182,6 @@ describe("Connecting/Disconnecting functionality", () => {
       ...initialState,
     })
   })
-
-  test("Event: SetConnectionState/fulfilled set device state to initial and `updatingState` to `Updating` if `false` payload is provided and current updating state is equal `UpdatingState.Updating`", () => {
-    expect(
-      deviceReducer(
-        {
-          ...initialState,
-          updatingState: UpdatingState.Updating,
-        },
-        {
-          type: fulfilledAction(DeviceEvent.SetConnectionState),
-          payload: false,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      updatingState: UpdatingState.Updating,
-    })
-  })
 })
 
 describe("Lock/Unlock functionality", () => {
@@ -235,67 +227,26 @@ describe("Lock/Unlock functionality", () => {
     })
   })
 
-  test("Event: Unlocked/fulfilled changed locked state to `true`", () => {
+  test("Event: Locked event changes loaded state to false", () => {
     expect(
       deviceReducer(
         {
           ...initialState,
-          status: {
-            ...initialState.status,
-            unlocked: false,
-          },
+          deviceType: DeviceType.MuditaPure,
         },
         {
-          type: fulfilledAction(DeviceEvent.Unlocked),
+          type: fulfilledAction(DeviceEvent.Locked),
         }
       )
     ).toEqual({
       ...initialState,
+      deviceType: DeviceType.MuditaPure,
       status: {
         ...initialState.status,
-        unlocked: true,
+        unlocked: false,
+        loaded: false,
       },
     })
-  })
-
-  test("Event: Unlocked/rejected set error with proper type", () => {
-    const deviceConnectionErrorMock = new AppError(
-      DeviceError.Connection,
-      "I'm error"
-    )
-    const deviceInvalidPhoneLockTimeError = new AppError(
-      DeviceError.InvalidPhoneLockTime,
-      "I'm error"
-    )
-
-    expect(
-      deviceReducer(undefined, {
-        type: rejectedAction(DeviceEvent.Unlocked),
-        payload: deviceConnectionErrorMock,
-      })
-    ).toEqual({
-      ...initialState,
-      state: ConnectionState.Error,
-      error: deviceConnectionErrorMock,
-    })
-
-    expect(
-      (
-        deviceReducer(undefined, {
-          type: rejectedAction(DeviceEvent.Unlocked),
-          payload: deviceConnectionErrorMock,
-        }).error as AppError
-      ).type
-    ).toEqual(deviceConnectionErrorMock.type)
-
-    expect(
-      (
-        deviceReducer(undefined, {
-          type: rejectedAction(DeviceEvent.Unlocked),
-          payload: deviceInvalidPhoneLockTimeError,
-        }).error as AppError
-      ).type
-    ).toEqual(deviceInvalidPhoneLockTimeError.type)
   })
 
   test("Event: SetLockTime set deviceLockTime", () => {
@@ -346,7 +297,7 @@ describe("Set device data functionality", () => {
           total: 16000000000,
         },
         caseColour: CaseColor.Gray,
-        backupLocation: "path/to/directory",
+        backupFilePath: "path/to/directory/fileBase.tar",
       },
     })
   })
@@ -541,10 +492,10 @@ describe("`LoadStorageInfo` functionality", () => {
         "status": Object {
           "agreementAccepted": true,
           "connected": false,
+          "connecting": false,
           "loaded": false,
           "unlocked": null,
         },
-        "updatingState": null,
       }
     `)
   })
