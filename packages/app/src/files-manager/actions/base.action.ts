@@ -26,3 +26,7 @@ export const setUploadingFileLength = createAction<number>(
 export const setUploadBlocked = createAction<boolean>(
   FilesManagerEvent.SetUploadBlocked
 )
+
+export const setDeletingFileLength = createAction<number>(
+  FilesManagerEvent.SetDeletingFileLength
+)

@@ -5,6 +5,7 @@
 
 import { DeviceType } from "App/device/constants"
 import React, { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 import { State } from "App/core/constants"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
@@ -26,6 +27,7 @@ import { useLoadingState } from "App/ui"
 import { UploadFilesModals } from "App/files-manager/components/upload-files-modals/upload-files-modals.component"
 import { useFilesFilter } from "App/files-manager/helpers/use-files-filter.hook"
 import { getSpaces } from "App/files-manager/components/files-manager/get-spaces.helper"
+import { setDeletingFileLength } from "../../actions/base.action"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -49,6 +51,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   resetDeletingState,
   resetUploadingState,
   uploadingFileLength,
+  deletingFileLength,
   uploadBlocked,
   error,
 }) => {
@@ -63,6 +66,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     uploadingInfo: false,
     uploadingFailed: false,
   })
+  const dispatch = useDispatch()
   const [toDeleteFileIds, setToDeleteFileIds] = useState<string[]>([])
   const {
     reservedSpace,
@@ -197,6 +201,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     updateFieldState("uploadingInfo", false)
     updateFieldState("deletingConfirmation", true)
     setToDeleteFileIds(ids)
+    dispatch(setDeletingFileLength(ids.length))
   }
 
   const handleDeleteClick = (ids: string[]) => {
@@ -212,6 +217,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   const handleCloseDeletingConfirmationModal = () => {
     updateFieldState("deletingConfirmation", false)
     setToDeleteFileIds([])
+    dispatch(setDeletingFileLength(0))
   }
   const handleConfirmFilesDelete = () => {
     resetAllItems()
@@ -219,6 +225,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   }
   const handleCloseDeletingErrorModal = () => {
     setToDeleteFileIds([])
+    dispatch(setDeletingFileLength(0))
     resetDeletingState()
   }
   return (
@@ -232,7 +239,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         onCloseUploadingErrorModal={handleCloseUploadingErrorModal}
       />
       <DeleteFilesModals
-        filesLength={toDeleteFileIds.length}
+        filesLength={deletingFileLength}
         deletingConfirmation={states.deletingConfirmation}
         deleting={states.deleting}
         deletingInfo={states.deletingInfo}

@@ -19,6 +19,7 @@ type Props = ComponentProps<typeof FilesManager>
 const defaultProps: Props = {
   error: null,
   uploadingFileLength: 0,
+  deletingFileLength: 0,
   memorySpace: {
     reservedSpace: 62914560,
     usedUserSpace: 104857600,

@@ -17,6 +17,7 @@ import {
   toggleItem,
   uploadFile,
   setUploadBlocked,
+  setDeletingFileLength,
 } from "App/files-manager/actions"
 import { changeLocation } from "App/core/actions"
 import { FilesManagerState } from "App/files-manager/reducers/files-manager.interface"
@@ -28,6 +29,7 @@ export const initialState: FilesManagerState = {
   uploading: State.Initial,
   deleting: State.Initial,
   uploadingFileLength: 0,
+  deletingFileLength: 0,
   selectedItems: {
     rows: [],
   },
@@ -139,6 +141,7 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           ...state,
           deleting: State.Initial,
           error: null,
+          deletingFileLength: 0,
         }
       })
       .addCase(resetUploadingState, (state) => {
@@ -154,6 +157,12 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         return {
           ...state,
           uploadingFileLength: action.payload,
+        }
+      })
+      .addCase(setDeletingFileLength, (state, action) => {
+        return {
+          ...state,
+          deletingFileLength: action.payload,
         }
       })
   }

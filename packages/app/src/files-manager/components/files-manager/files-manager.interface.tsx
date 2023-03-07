@@ -18,6 +18,7 @@ export interface FilesManagerProps {
   uploading: State
   uploadingFileLength: number
   deleting: State
+  deletingFileLength: number
   files: File[]
   getFiles: (directory: DeviceDirectory) => void
   resetAllItems: () => void
