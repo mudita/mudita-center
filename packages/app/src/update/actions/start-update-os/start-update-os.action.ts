@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "App/core/errors"
 import { removeFile } from "App/device-file-system"
-import { DiagnosticsFilePath } from "App/device/constants"
+import { DeviceType, DiagnosticsFilePath } from "App/device/constants"
 import { setStateForInstalledRelease } from "App/update/actions/base.action"
 import {
   ReleaseProcessState,
@@ -19,6 +19,11 @@ import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
 import { removeDownloadedOsUpdates, startOsUpdate } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { setUpdatingRequest } from "App/device/requests/set-updating.request"
+import {
+  trackOsUpdate,
+  TrackOsUpdateOptions,
+  TrackOsUpdateState,
+} from "App/analytic-data-tracker/helpers"
 
 interface Params {
   releases: OsRelease[]
@@ -62,6 +67,17 @@ export const startUpdateOs = createAsyncThunk<
 
     for (const release of releases) {
       state = getState() as RootState & ReduxRootState
+      const trackOsUpdateOptions: Omit<TrackOsUpdateOptions, "state"> = {
+        deviceType: state.device.deviceType as DeviceType,
+        fromOsVersion: state.device.data?.osVersion,
+        toOsVersion: release.version,
+      }
+
+      void trackOsUpdate({
+        ...trackOsUpdateOptions,
+        state: TrackOsUpdateState.Start,
+      })
+
       dispatch(
         setStateForInstalledRelease({
           state: ReleaseProcessState.InProgress,
@@ -77,11 +93,21 @@ export const startUpdateOs = createAsyncThunk<
 
           const errorType = getErrorType(result.error?.type)
 
+          void trackOsUpdate({
+            ...trackOsUpdateOptions,
+            state: TrackOsUpdateState.Fail,
+          })
+
           return rejectWithValue(
             new AppError(errorType, "Device updating process failed")
           )
         }
       }
+
+      void trackOsUpdate({
+        ...trackOsUpdateOptions,
+        state: TrackOsUpdateState.Success,
+      })
 
       dispatch(
         setStateForInstalledRelease({
