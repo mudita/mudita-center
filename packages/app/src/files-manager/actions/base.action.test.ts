@@ -11,6 +11,8 @@ import {
   resetUploadingState,
   setUploadingState,
   setUploadBlocked,
+  setDeletingFileCount,
+  setUploadingFileCount,
 } from "App/files-manager/actions/base.action"
 import { FilesManagerEvent } from "App/files-manager/constants"
 
@@ -63,6 +65,30 @@ describe("Action: `setUploadBlocked`", () => {
       {
         type: FilesManagerEvent.SetUploadBlocked,
         payload: true,
+      },
+    ])
+  })
+})
+
+describe("Action: `setDeletingFileCount`", () => {
+  test("dispatch action with provided payload", () => {
+    mockStore.dispatch(setDeletingFileCount(2))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: FilesManagerEvent.SetDeletingFileCount,
+        payload: 2,
+      },
+    ])
+  })
+})
+
+describe("Action: `setUploadBlocked`", () => {
+  test("dispatch action with provided payload", () => {
+    mockStore.dispatch(setUploadingFileCount(3))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: FilesManagerEvent.SetUploadingFileCount,
+        payload: 3,
       },
     ])
   })
