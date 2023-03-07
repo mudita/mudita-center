@@ -21,14 +21,14 @@ class ModalMessages extends Page {
     }
   }
 
-  public get buttonConfirmDelete(): ChainablePromiseElement<
+  public get confirmDeleteButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="modal-action-button"]*=Delete')
   }
-  async buttonConfirmDeleteClick() {
-    await this.buttonConfirmDelete.waitForDisplayed()
-    await this.buttonConfirmDelete.click()
+  async clickConfirmDeleteButton() {
+    await this.confirmDeleteButton.waitForDisplayed()
+    await this.confirmDeleteButton.click()
   }
 }
 

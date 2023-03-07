@@ -7,61 +7,61 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class MessagesPage extends Page {
-  public get buttonNewMessage(): ChainablePromiseElement<
+  public get newMessageButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="message-panel-new-message-button"]')
   }
 
-  public get inputSearchContacts(): ChainablePromiseElement<
+  public get searchContactsInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="receiver-input-select-input"]')
   }
 
-  public get inputMessage(): ChainablePromiseElement<
+  public get messageTextInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="thread-details-text-area-input"]')
   }
 
-  public get buttonSendMessage(): ChainablePromiseElement<
+  public get sendMessageButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="thread-details-text-area-send-button"]')
   }
 
-  public get iconNotSendMessage(): ChainablePromiseElement<
+  public get messageNotSentIcon(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="message-bubble-not-send-icon"]')
   }
 
-  public get iconNotSendThread(): ChainablePromiseElement<
+  public get messageNotSentThreadIcon(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="thread-not-send-message-icon"]')
   }
 
-  public get buttonDeleteOnThreadDetailScreen(): ChainablePromiseElement<
+  public get deleteButtonOnThreadDetailScreen(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Delete"]')
   }
 
-  public get buttonAddContactThreadDetailScreen(): ChainablePromiseElement<
+  public get addContactButtonOnThreadDetailScreen(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-NewContact"]')
   }
 
-  public get buttonCloseThreadDetailScreen(): ChainablePromiseElement<
+  public get closeButtonOnThreadDetailScreen(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Close"]')
   }
 
-  public get buttonMarkUnreadThreadDetailScreen(): ChainablePromiseElement<
+  public get markUnreadButtonOnThreadDetailScreen(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Close"]')
@@ -73,7 +73,7 @@ class MessagesPage extends Page {
     return $('[data-testid="dot"]')
   }
 
-  public get containerMessage(): ChainablePromiseElement<
+  public get messageContainer(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="message-bubble-container"]')
@@ -86,50 +86,51 @@ class MessagesPage extends Page {
   }
 
   async hoverOverMessage() {
+    await this.containerMessageContent.waitForDisplayed({ timeout: 9000 })
     await this.containerMessageContent.moveTo()
   }
 
-  public get dropdownMessageAction(): ChainablePromiseElement<
+  public get messageOptionsDropdownList(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="message-bubble-dropdown-action-button"]')
   }
 
   //
-  public get buttonSingleMessageOptions(): ChainablePromiseElement<
+  public get optionsButtonSingleMessage(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return this.containerMessage.$('[data-testid="icon-More"]')
+    return this.messageContainer.$('[data-testid="icon-More"]')
   }
 
-  async clickMessageOptionsButton() {
-    await this.buttonSingleMessageOptions.waitForClickable()
-    await this.buttonSingleMessageOptions.click()
+  async clickSingleMessageOptionsButton() {
+    await this.optionsButtonSingleMessage.waitForClickable()
+    await this.optionsButtonSingleMessage.click()
   }
 
-  public get listEmptyThread(): ChainablePromiseElement<
+  public get threadScreenEmptyList(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="messages-empty-thread-list-state"]')
   }
 
-  public get dropdownListMessage(): ChainablePromiseElement<
+  public get threadScreenThreadDropdownOptions(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="dropdown"]')
   }
 
-  public get optionDeleteMessageDropdown(): ChainablePromiseElement<
+  public get deleteOnThreadDropdownOptions(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return this.dropdownListMessage.$(
+    return this.threadScreenThreadDropdownOptions.$(
       '[data-testid="message-bubble-delete-message-button"]'
     )
   }
 
-  async clickDeleteMessage() {
-    await this.optionDeleteMessageDropdown.waitForClickable()
-    await this.optionDeleteMessageDropdown.click()
+  async clickDeleteMessageOnThreadScreen() {
+    await this.deleteOnThreadDropdownOptions.waitForClickable()
+    await this.deleteOnThreadDropdownOptions.click()
   }
 
   public get buttonOptionsThreadListScreen(): ChainablePromiseElement<
@@ -145,18 +146,18 @@ class MessagesPage extends Page {
   }
 
   async clickNewMessageButton() {
-    await this.buttonNewMessage.waitForClickable({ timeout: 7000 })
-    await this.buttonNewMessage.click()
+    await this.newMessageButton.waitForClickable({ timeout: 7000 })
+    await this.newMessageButton.click()
   }
 
   async insertTextToSearchContactInput(phoneNumber: string) {
-    await this.inputSearchContacts.waitForDisplayed()
-    await this.inputSearchContacts.setValue(phoneNumber)
+    await this.searchContactsInput.waitForDisplayed()
+    await this.searchContactsInput.setValue(phoneNumber)
   }
 
   async insertTextToMessageInput(messageText: string) {
-    await this.inputMessage.waitForDisplayed()
-    await this.inputMessage.setValue(messageText)
+    await this.messageTextInput.waitForDisplayed()
+    await this.messageTextInput.setValue(messageText)
   }
 
   async sendMessage(phoneNumber: string, messageText: string) {
@@ -168,13 +169,15 @@ class MessagesPage extends Page {
     await this.insertTextToMessageInput(messageText)
     //send by pressing Send button
 
-    await this.buttonSendMessage.waitForClickable()
-    await this.buttonSendMessage.click()
+    await this.sendMessageButton.waitForClickable()
+    await this.sendMessageButton.click()
   }
 
   async clickCloseThreadDetailsScreen() {
-    await this.buttonCloseThreadDetailScreen.waitForClickable({ timeout: 7000 })
-    await this.buttonCloseThreadDetailScreen.click()
+    await this.closeButtonOnThreadDetailScreen.waitForClickable({
+      timeout: 7000,
+    })
+    await this.closeButtonOnThreadDetailScreen.click()
   }
 
   async clickThreadOptionsButton() {
@@ -188,10 +191,10 @@ class MessagesPage extends Page {
   }
 
   async clickDeleteButtonOnConversationDetailsScreen() {
-    await this.buttonDeleteOnThreadDetailScreen.waitForClickable({
+    await this.deleteButtonOnThreadDetailScreen.waitForClickable({
       timeout: 7000,
     })
-    await this.buttonDeleteOnThreadDetailScreen.click()
+    await this.deleteButtonOnThreadDetailScreen.click()
   }
 
   public get singleThreadRow(): ChainablePromiseElement<
@@ -205,26 +208,30 @@ class MessagesPage extends Page {
     await this.singleThreadRow.moveTo()
   }
 
-  public get checkboxThread(): ChainablePromiseElement<
+  public get threadCheckbox(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="checkbox"]')
   }
 
   async clickThreadCheckbox() {
-    await this.checkboxThread.waitForClickable()
-    await this.checkboxThread.click()
+    await this.threadCheckbox.waitForClickable()
+    await this.threadCheckbox.click()
   }
 
-  public get buttonDeleteSelectionManager(): ChainablePromiseElement<
+  public get deleteButtonSelectionManager(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Delete"]')
   }
 
   async clickDeleteButtonSelectionMaanager() {
-    await this.buttonDeleteSelectionManager.waitForClickable()
-    await this.buttonDeleteSelectionManager.click()
+    await this.deleteButtonSelectionManager.waitForClickable()
+    await this.deleteButtonSelectionManager.click()
+  }
+
+  async waitForSendingIconToDisappear() {
+    await this.sendingStatus.waitForDisplayed({ timeout: 30000, reverse: true })
   }
 }
 

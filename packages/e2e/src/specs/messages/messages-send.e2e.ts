@@ -16,9 +16,9 @@ describe("Messages send and delete", () => {
       setTimeout(done, 10000)
     })
 
-    //ModalGeneralPage.closeModalButtonClick()
-    NavigationTabs.messagesTabClick()
-    await browser.pause(2000)
+    await ModalGeneralPage.clickCloseOnUpdateAvailableModal()
+    //await ModalGeneralPage.clickCloseOnBackgroundUpdateFailedModal()
+    await NavigationTabs.messagesTabClick()
   })
   it("Send message to incorrect number using send button", async () => {
     //Send new message
@@ -26,13 +26,14 @@ describe("Messages send and delete", () => {
       "12345",
       "SMS to incorrect number (Send button)"
     )
+    //wait for sending icon to disappear
+    await MessagesPage.waitForSendingIconToDisappear()
 
-    //wait for sending and for failed send icons to appear
-    //browser.pause(4000)
-    const notSendMessageIcon = await MessagesPage.iconNotSendMessage
-    await notSendMessageIcon.waitForDisplayed({ timeout: 7000 })
-    const notSendThreadIcon = await MessagesPage.iconNotSendThread
-    await notSendThreadIcon.waitForDisplayed({ timeout: 7000 })
+    // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
+    const notSendMessageIcon = await MessagesPage.messageNotSentIcon
+    await notSendMessageIcon.waitForDisplayed({ timeout: 15000 })
+    const notSendThreadIcon = await MessagesPage.messageNotSentThreadIcon
+    await notSendThreadIcon.waitForDisplayed({ timeout: 15000 })
     expect(notSendMessageIcon).toBeDisabled()
     expect(notSendThreadIcon).toBeDisabled()
   })
@@ -41,31 +42,37 @@ describe("Messages send and delete", () => {
 
     await MessagesPage.clickDeleteButtonOnConversationDetailsScreen()
 
-    await modalMessagesPage.buttonConfirmDeleteClick()
+    // confirm deletion
+    await modalMessagesPage.clickConfirmDeleteButton()
 
-    const emptyThreadList = MessagesPage.listEmptyThread
+    // expect empty thread screen to be displayed
+    const emptyThreadList = MessagesPage.threadScreenEmptyList
     await emptyThreadList.waitForDisplayed({ timeout: 7000 })
     await expect(emptyThreadList).toBeDisplayed()
-
-    //delay for status popup to disappear
-    await browser.pause(5000)
   })
 
   it("Send message to incorrect number using Enter key", async () => {
     // click New Message Button
     await MessagesPage.clickNewMessageButton()
+
+    // insert recipient number
     await MessagesPage.insertTextToSearchContactInput("54321")
+
+    // insert message text
     await MessagesPage.insertTextToMessageInput(
       "SMS to incorrect number (Enter key send)"
     )
-    // Enter key press
+    // send Enter key to send message
     await browser.keys("\uE007")
 
-    const notSendMessageIcon = await MessagesPage.iconNotSendMessage
-    //extended time to  wait for delete status popup to dissappear
-    await notSendMessageIcon.waitForDisplayed({ timeout: 10000 })
-    const notSendThreadIcon = await MessagesPage.iconNotSendThread
-    await notSendThreadIcon.waitForDisplayed({ timeout: 10000 })
+    //wait for sending icon to disappear
+    await MessagesPage.waitForSendingIconToDisappear()
+
+    // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
+    const notSendMessageIcon = await MessagesPage.messageNotSentIcon
+    await notSendMessageIcon.waitForDisplayed({ timeout: 15000 })
+    const notSendThreadIcon = await MessagesPage.messageNotSentThreadIcon
+    await notSendThreadIcon.waitForDisplayed({ timeout: 15000 })
     expect(notSendMessageIcon).toBeDisabled()
     expect(notSendThreadIcon).toBeDisabled()
   })
@@ -73,14 +80,18 @@ describe("Messages send and delete", () => {
   it("Should close the thread and delete it from the thread list screen", async () => {
     // press X to close the thread details screen
     await MessagesPage.clickCloseThreadDetailsScreen()
+
     // press thread options button (...)
     await MessagesPage.clickThreadOptionsButton()
+
     //click delete from dropdown
     await MessagesPage.clickDropdownThreadOptionDelete()
-    //confirm delete operation
-    await modalMessagesPage.buttonConfirmDeleteClick()
 
-    const emptyThreadList = MessagesPage.listEmptyThread
+    // confirm deletion
+    await modalMessagesPage.clickConfirmDeleteButton()
+
+    // expect empty thread screen to be displayed
+    const emptyThreadList = MessagesPage.threadScreenEmptyList
     await emptyThreadList.waitForDisplayed({ timeout: 8000 })
     await expect(emptyThreadList).toBeDisplayed()
   })
@@ -92,28 +103,33 @@ describe("Messages send and delete", () => {
       "SMS to incorrect number (Send button)"
     )
 
-    //wait for sending and for failed send icons to appear
-    //browser.pause(4000)
-    const notSendMessageIcon = await MessagesPage.iconNotSendMessage
-    await notSendMessageIcon.waitForDisplayed({ timeout: 7000 })
-    const notSendThreadIcon = await MessagesPage.iconNotSendThread
-    await notSendThreadIcon.waitForDisplayed({ timeout: 7000 })
+    //wait for sending icon to disappear
+    await MessagesPage.waitForSendingIconToDisappear()
+
+    // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
+    const notSendMessageIcon = await MessagesPage.messageNotSentIcon
+    await notSendMessageIcon.waitForDisplayed({ timeout: 15000 })
+    const notSendThreadIcon = await MessagesPage.messageNotSentThreadIcon
+    await notSendThreadIcon.waitForDisplayed({ timeout: 15000 })
     expect(notSendMessageIcon).toBeDisabled()
     expect(notSendThreadIcon).toBeDisabled()
   })
   it("Click message options button and delete it", async () => {
-    //Send new message
-    await browser.pause(9000)
+    //hover over message to display options button
     await MessagesPage.hoverOverMessage()
 
-    await MessagesPage.clickMessageOptionsButton()
-    await browser.saveScreenshot("./Screen.png")
-    await MessagesPage.clickDeleteMessage()
+    //click message options button
+    await MessagesPage.clickSingleMessageOptionsButton()
 
-    await modalMessagesPage.buttonConfirmDeleteClick()
+    //click delete from dropdown options list
+    await MessagesPage.clickDeleteMessageOnThreadScreen()
 
-    const emptyThreadList = MessagesPage.listEmptyThread
-    await emptyThreadList.waitForDisplayed({ timeout: 7000 })
+    // confirm deletion
+    await modalMessagesPage.clickConfirmDeleteButton()
+
+    // expect empty thread screen to be displayed
+    const emptyThreadList = MessagesPage.threadScreenEmptyList
+    await emptyThreadList.waitForDisplayed({ timeout: 8000 })
     await expect(emptyThreadList).toBeDisplayed()
   })
 
@@ -123,10 +139,15 @@ describe("Messages send and delete", () => {
       "13579",
       "SMS to incorrect number (Send button)"
     )
-    const notSendMessageIcon = await MessagesPage.iconNotSendMessage
-    await notSendMessageIcon.waitForDisplayed({ timeout: 7000 })
-    const notSendThreadIcon = await MessagesPage.iconNotSendThread
-    await notSendThreadIcon.waitForDisplayed({ timeout: 7000 })
+
+    //wait for sending icon to disappear
+    await MessagesPage.waitForSendingIconToDisappear()
+
+    // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
+    const notSendMessageIcon = await MessagesPage.messageNotSentIcon
+    await notSendMessageIcon.waitForDisplayed({ timeout: 15000 })
+    const notSendThreadIcon = await MessagesPage.messageNotSentThreadIcon
+    await notSendThreadIcon.waitForDisplayed({ timeout: 15000 })
     expect(notSendMessageIcon).toBeDisabled()
     expect(notSendThreadIcon).toBeDisabled()
   })
@@ -134,16 +155,20 @@ describe("Messages send and delete", () => {
     // press X to close the thread details screen
     await MessagesPage.clickCloseThreadDetailsScreen()
 
+    //hover over single thread row
     await MessagesPage.hoverOverSingleThreadRow()
 
+    //click selection manager checkbox
     await MessagesPage.clickThreadCheckbox()
 
+    //click Delete button for Selection manager
     await MessagesPage.clickDeleteButtonSelectionMaanager()
 
-    await modalMessagesPage.buttonConfirmDeleteClick()
+    // confirm deletion
+    await modalMessagesPage.clickConfirmDeleteButton()
 
-    await browser.saveScreenshot("./Screenshot1.png")
-    const emptyThreadList = MessagesPage.listEmptyThread
+    // expect empty thread screen to be displayed
+    const emptyThreadList = MessagesPage.threadScreenEmptyList
     await emptyThreadList.waitForDisplayed({ timeout: 8000 })
     await expect(emptyThreadList).toBeDisplayed()
   })
