@@ -17,7 +17,7 @@ import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
   setUploadBlocked,
-  setUploadingFileLength,
+  setUploadingFileCount,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
 import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
@@ -52,7 +52,7 @@ export const uploadFile = createAsyncThunk(
       return
     }
 
-    dispatch(setUploadingFileLength(filePaths.length))
+    dispatch(setUploadingFileCount(filePaths.length))
     dispatch(setUploadingState(State.Loading))
     dispatch(setUploadBlocked(false))
 

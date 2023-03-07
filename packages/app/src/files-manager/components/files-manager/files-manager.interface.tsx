@@ -16,9 +16,9 @@ export interface FilesManagerProps {
   memorySpace?: MemorySpace
   loading: State
   uploading: State
-  uploadingFileLength: number
+  uploadingFileCount: number
   deleting: State
-  deletingFileLength: number
+  deletingFileCount: number
   files: File[]
   getFiles: (directory: DeviceDirectory) => void
   resetAllItems: () => void
@@ -32,6 +32,7 @@ export interface FilesManagerProps {
   uploadFile: () => void
   uploadBlocked: boolean
   error: AppError | null
+  setDeletingFileCount: (count: number) => void
 }
 
 export interface DiskSpaceCategory {

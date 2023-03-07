@@ -18,8 +18,8 @@ import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-fi
 type Props = ComponentProps<typeof FilesManager>
 const defaultProps: Props = {
   error: null,
-  uploadingFileLength: 0,
-  deletingFileLength: 0,
+  uploadingFileCount: 0,
+  deletingFileCount: 0,
   memorySpace: {
     reservedSpace: 62914560,
     usedUserSpace: 104857600,
@@ -41,6 +41,7 @@ const defaultProps: Props = {
   resetDeletingState: jest.fn(),
   resetUploadingState: jest.fn(),
   uploadBlocked: false,
+  setDeletingFileCount: jest.fn(),
 }
 
 const defaultState = {
