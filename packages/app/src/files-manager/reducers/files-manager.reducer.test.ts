@@ -325,3 +325,39 @@ describe("reset uploading state functionality", () => {
     })
   })
 })
+
+describe("setting uploading and deleting counts functionality", () => {
+  test("Event: `setUploadingFileCount` set uploading file count", () => {
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+        },
+        {
+          type: FilesManagerEvent.SetUploadingFileCount,
+          payload: 2,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      uploadingFileCount: 2,
+    })
+  })
+
+  test("Event: `setDeletingFileCount` set uploading file count", () => {
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+        },
+        {
+          type: FilesManagerEvent.SetDeletingFileCount,
+          payload: 5,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      deletingFileCount: 5,
+    })
+  })
+})
