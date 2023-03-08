@@ -38,6 +38,7 @@ interface OverviewContentProps {
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
   readonly toggleDevMode?: () => void
+  readonly backupActionDisabled: boolean
 }
 
 const OverviewContent: FunctionComponent<OverviewContentProps> = ({
@@ -61,6 +62,7 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
   onBackupCreate,
   onBackupRestore,
   serialNumber,
+  backupActionDisabled,
 }) => (
   <OverviewPureWrapper>
     <DeviceInfo
@@ -91,6 +93,7 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
       lastBackupDate={lastBackupDate}
       onBackupCreate={onBackupCreate}
       onBackupRestore={onBackupRestore}
+      backupActionDisabled={backupActionDisabled}
     />
     <FileManagerInfo
       usedSpace={

@@ -54,7 +54,6 @@ export class SyncBackupCreateService {
         )
       )
     }
-
     const filePath = runDeviceSyncBackupResponse.data
 
     const backupFile = await this.deviceFileSystem.downloadDeviceFilesLocally(
@@ -132,7 +131,6 @@ export class SyncBackupCreateService {
         )
       )
     }
-
     // syncFilePath is a target `filePath` for download backups after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
     const filePath = deviceResponse.data.syncFilePath
       ? deviceResponse.data.syncFilePath
@@ -142,20 +140,27 @@ export class SyncBackupCreateService {
   }
 
   private async waitUntilBackupDeviceFinished(
-    id: string
+    id: string,
+    iteration = 0
   ): Promise<ResultObject<GetBackupDeviceStatusResponseBody>> {
+    const MAX_ITERATION = 60
+
     const result = await this.getBackupDeviceStatus({
       id,
     })
 
-    if (!result.ok || result.data?.state === BackupState.Error) {
+    if (
+      !result.ok ||
+      result.data?.state === BackupState.Error ||
+      iteration > MAX_ITERATION
+    ) {
       return Result.failed(new AppError("", ""))
     } else if (result.data?.state === BackupState.Finished) {
       return result
     } else {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(this.waitUntilBackupDeviceFinished(id))
+          resolve(this.waitUntilBackupDeviceFinished(id, iteration + 1))
         }, 1000)
       })
     }

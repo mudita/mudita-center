@@ -29,6 +29,7 @@ const Template: StoryInterface<Props> = (args) => {
           onBackupCreate={args.onBackupCreate}
           onBackupRestore={args.onBackupRestore}
           lastBackupDate={args.lastBackupDate}
+          backupActionDisabled={args.backupActionDisabled}
         />
       </Story>
     </StoryContainer>
