@@ -16,12 +16,16 @@ const fromMebiToByte = (mebi: number): number => {
   return mebi * factor
 }
 
+const mapDevDefaultToFixOsVersion = (osVersion: string): string => {
+  return osVersion !== "0.0.0" ? osVersion : "999.999.999"
+}
+
 export class DeviceInfoPresenter {
   static toDto(data: DeviceInfoRaw): DeviceInfo {
     return {
       networkName: data.networkOperatorName,
       networkLevel: (Number(data.signalStrength) / 4).toFixed(2),
-      osVersion: data.version,
+      osVersion: mapDevDefaultToFixOsVersion(data.version),
       batteryLevel: Number((Number(data.batteryLevel) / 100).toFixed(2)),
       simCards: [SimCardPresenter.toDto(data)],
       serialNumber: data.serialNumber,
