@@ -75,6 +75,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   forceUpdate,
   forceUpdateState,
   closeForceUpdateFlow,
+  backupActionDisabled,
 }) => {
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -310,6 +311,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         onBackupCreate={handleBackupCreate}
         onBackupRestore={handleRestoreCreate}
         serialNumber={serialNumber}
+        backupActionDisabled={backupActionDisabled}
       />
     </>
   )

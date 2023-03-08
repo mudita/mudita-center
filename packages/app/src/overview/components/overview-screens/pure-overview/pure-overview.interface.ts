@@ -64,4 +64,5 @@ export interface PureOverviewProps {
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void
   forceUpdate: (releases: OsRelease[]) => void
+  readonly backupActionDisabled: boolean
 }
