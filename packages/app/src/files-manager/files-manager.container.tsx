@@ -14,6 +14,7 @@ import {
   uploadFile,
   resetDeletingState,
   resetUploadingState,
+  setDeletingFileCount
 } from "App/files-manager/actions"
 import { deleteFiles } from "App/files-manager/actions/delete-files.action"
 
@@ -23,7 +24,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   loading: state.filesManager.loading,
   deleting: state.filesManager.deleting,
   uploading: state.filesManager.uploading,
-  uploadingFileLength: state.filesManager.uploadingFileLength,
+  uploadingFileCount: state.filesManager.uploadingFileCount,
+  deletingFileCount: state.filesManager.deletingFileCount,
   deviceType: state.device.deviceType,
   error: state.filesManager.error,
   selectedItems: state.filesManager.selectedItems.rows,
@@ -42,6 +44,7 @@ const mapDispatchToProps = {
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
+  setDeletingFileCount
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilesManager)
