@@ -82,6 +82,44 @@ const getParamsForSettingIntallingRelaseStateAction = (
   }
 }
 
+describe("when `deviceType` is a null", () => {
+  const mockStore = createMockStore([thunk])({
+    device: {
+      deviceType: null,
+      data: {
+        batteryLevel: 0.39,
+        osVersion: "1.0.0",
+      },
+    },
+  })
+
+  test("the action is rejected", async () => {
+    const {
+      meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
+
+    const error = new AppError(
+      UpdateError.UpdateOsProcess,
+      "deviceType is a null"
+    )
+
+    expect(mockStore.getActions()).toEqual([
+      startUpdateOs.pending(requestId, params),
+      startUpdateOs.rejected(testError, requestId, params, error),
+    ])
+  })
+
+  test("`trackOsUpdate` shouldn't be called", async () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
+
+    expect(trackOsUpdate).not.toHaveBeenCalled()
+  })
+})
+
 describe("when battery is lower than 40%", () => {
   const mockStore = createMockStore([thunk])({
     device: {

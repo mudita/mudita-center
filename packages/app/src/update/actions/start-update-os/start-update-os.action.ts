@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "App/core/errors"
 import { removeFile } from "App/device-file-system"
-import { DeviceType, DiagnosticsFilePath } from "App/device/constants"
+import { DiagnosticsFilePath } from "App/device/constants"
 import { setStateForInstalledRelease } from "App/update/actions/base.action"
 import {
   ReleaseProcessState,
@@ -53,6 +53,13 @@ export const startUpdateOs = createAsyncThunk<
     void setUpdatingRequest(true)
     let state = getState() as RootState & ReduxRootState
     const batteryLevel = state.device.data?.batteryLevel ?? 0
+    const deviceType = state.device.deviceType
+
+    if (deviceType === null) {
+      return rejectWithValue(
+        new AppError(UpdateError.UpdateOsProcess, "deviceType is a null")
+      )
+    }
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
       return rejectWithValue(
@@ -67,8 +74,9 @@ export const startUpdateOs = createAsyncThunk<
 
     for (const release of releases) {
       state = getState() as RootState & ReduxRootState
+
       const trackOsUpdateOptions: Omit<TrackOsUpdateOptions, "state"> = {
-        deviceType: state.device.deviceType as DeviceType,
+        deviceType,
         fromOsVersion: state.device.data?.osVersion,
         toOsVersion: release.version,
       }
