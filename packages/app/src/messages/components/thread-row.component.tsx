@@ -156,6 +156,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                     ? TextDisplayStyle.Paragraph3
                     : TextDisplayStyle.Paragraph4
                 }
+                data-testid={ThreadListTestIds.LastMessage}
               >
                 {thread?.messageSnippet}
               </LastMessageText>
