@@ -4,7 +4,7 @@
  */
 
 import { NewsEntry } from "App/news/dto"
-import { sortByCreationDateInDescendingOrder } from "App/news/helpers"
+import { sortByDateInDescendingOrder } from "App/news/helpers"
 import { NewsState } from "App/news/reducers"
 import { newsStateSelector } from "App/news/selectors/news-state/news-state.selector"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
@@ -15,5 +15,5 @@ export const newsSortedByCreationDateSelector = createSelector<
   NewsState,
   NewsEntry[]
 >(newsStateSelector, (state) => {
-  return sortByCreationDateInDescendingOrder(state.newsItems)
+  return sortByDateInDescendingOrder(state.newsItems)
 })

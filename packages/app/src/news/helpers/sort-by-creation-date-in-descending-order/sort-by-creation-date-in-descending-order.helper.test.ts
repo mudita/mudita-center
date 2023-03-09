@@ -4,7 +4,7 @@
  */
 
 import { NewsEntry } from "App/news/dto"
-import { sortByCreationDateInDescendingOrder } from "./sort-by-creation-date-in-descending-order.helper"
+import { sortByDateInDescendingOrder } from "./sort-by-creation-date-in-descending-order.helper"
 
 const newsEntityMock: NewsEntry[] = [
   {
@@ -49,7 +49,7 @@ const newsEntityMock: NewsEntry[] = [
 ]
 
 test("returns sorted news entities", () => {
-  const result = sortByCreationDateInDescendingOrder([...newsEntityMock])
+  const result = sortByDateInDescendingOrder([...newsEntityMock])
   expect(result).toHaveLength(2)
   expect(result[0].newsId).toEqual(newsEntityMock[1].newsId)
   expect(result[1].newsId).toEqual(newsEntityMock[0].newsId)
