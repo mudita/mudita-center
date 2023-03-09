@@ -129,6 +129,34 @@ class MessagesPage extends Page {
   > {
     return this.threadDropdownMarkAsReadButton.$("p")
   }
+
+  async getLastMessages() {
+    const allLastMessages = await $$('//*[@data-testid="thread-last-message"]')
+
+    const messagesContent: string[] = await browser.executeAsync((done) => {
+      const messages = Array.from(
+        document.querySelectorAll('p[data-testid="thread-last-message"]')
+      )
+
+      const pseudoElements = messages.map((item) => {
+        const styles = document.defaultView.getComputedStyle(item, "::after")
+        return styles.getPropertyValue("content")
+      })
+
+      done(pseudoElements)
+    })
+
+    const result = await Promise.all(
+      allLastMessages.map(async (lastMessage, index) => {
+        return {
+          text: await lastMessage.getText(),
+          dotDisplayed: messagesContent[index] !== "none",
+        }
+      })
+    )
+
+    return result
+  }
 }
 
 export default new MessagesPage()
