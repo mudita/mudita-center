@@ -20,7 +20,7 @@ const multiDaysEvent = {
   endDate: "2020-02-14T11:00:00.000Z",
 }
 const oneDayResult = `Wednesday, February 12, 2020, 10:00 AM - 11:00 AM`
-const multiDaysResult = `February 12, 2020 at 10:00 AM - February 14, 2020 at 11:00 AM`
+const multiDaysResult = `February 12, 2020, 10:00 AM - February 14, 2020, 11:00 AM`
 
 test("show one day event date", () => {
   const { container } = renderWithThemeAndIntl(
