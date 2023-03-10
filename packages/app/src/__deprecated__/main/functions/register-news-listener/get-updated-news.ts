@@ -9,7 +9,7 @@ import { NewsEntry } from "App/news/dto"
 import { Entry, EntryCollection } from "contentful"
 import fs from "fs-extra"
 import { normalizeContentfulData } from "App/news/helpers"
-import _ from "lodash"
+import { isEqual } from "lodash"
 
 const checkForUpdateAndGetNewData = async (
   newsFilePath: string
@@ -76,7 +76,7 @@ const isOnlineNewsDifferentFromLocal = (
   const onlineNewsDates = online.items.map(
     (item: Entry<NewsEntry>) => new Date(item.fields.date)
   )
-  return !_.isEqual(onlineNewsDates, localNewsDates)
+  return !isEqual(onlineNewsDates, localNewsDates)
 }
 
 // AUTO DISABLED - fix me if you like :)
