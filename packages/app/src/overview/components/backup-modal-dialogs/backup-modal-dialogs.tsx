@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useEffect, useRef } from "react"
+import React, { ComponentProps, useRef } from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
@@ -248,10 +248,8 @@ export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
   description,
   ...props
 }) => {
+  Tooltip.rebuild()
   const descRef = useRef<HTMLElement>(null)
-  useEffect(() => {
-    Tooltip.rebuild()
-  }, [descRef.current])
   const isEllipsisActive = ({ current }: React.RefObject<HTMLElement>) => {
     if (current) {
       return current.offsetWidth < current.scrollWidth
@@ -281,7 +279,7 @@ export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
         />
         <ModalText
           ref={descRef}
-          data-tip={true}
+          data-tip
           data-for="file-path-tooltip"
           displayStyle={TextDisplayStyle.Paragraph3}
         >
