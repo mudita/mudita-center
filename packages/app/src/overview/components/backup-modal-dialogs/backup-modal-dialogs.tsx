@@ -92,7 +92,7 @@ const ModalContent = styled.div`
   }
 `
 const StyledTooltip = styled(Tooltip)`
-  max-width: 332px;
+  max-width: 33.2rem;
 `
 
 const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
