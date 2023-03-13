@@ -11,15 +11,15 @@ import { ReduxRootState } from "App/__deprecated__/renderer/store"
 const newsToBeSorted = [
   {
     ...mockedNewsItems[0],
-    createdAt: "2019-07-11T09:48:32.097Z",
+    date: "2019-07-11T09:48:32.097Z",
   },
   {
     ...mockedNewsItems[1],
-    createdAt: "2022-07-11T09:48:32.097Z",
+    date: "2022-07-11T09:48:32.097Z",
   },
   {
     ...mockedNewsItems[2],
-    createdAt: "2013-07-11T09:48:32.097Z",
+    date: "2013-07-11T09:48:32.097Z",
   },
 ]
 
