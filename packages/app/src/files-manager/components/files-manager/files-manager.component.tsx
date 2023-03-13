@@ -210,6 +210,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     openDeleteModal(selectedItems)
   }
   const handleCloseUploadingErrorModal = () => {
+    updateFieldState("uploadingFailed", false)
     resetUploadingState()
   }
   const handleCloseDeletingConfirmationModal = () => {
