@@ -27,7 +27,7 @@ describe("Messages send and delete", () => {
       "SMS to incorrect number (Send button)"
     )
     //wait for sending icon to disappear
-    await MessagesPage.waitForSendingIconToDisappear()
+    await MessagesPage.waitToDisappearSendingStatusIcon()
 
     // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
     const notSendMessageIcon = await MessagesPage.messageNotSentIcon
@@ -40,7 +40,7 @@ describe("Messages send and delete", () => {
   it("Should delete the thread using delete thread button on open thread screen", async () => {
     //press delete button in the thread
 
-    await MessagesPage.clickDeleteButtonOnConversationDetailsScreen()
+    await MessagesPage.clickThreadDetailScreenDeleteButton()
 
     // confirm deletion
     await modalMessagesPage.clickConfirmDeleteButton()
@@ -66,7 +66,7 @@ describe("Messages send and delete", () => {
     await browser.keys("\uE007")
 
     //wait for sending icon to disappear
-    await MessagesPage.waitForSendingIconToDisappear()
+    await MessagesPage.waitToDisappearSendingStatusIcon()
 
     // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
     const notSendMessageIcon = await MessagesPage.messageNotSentIcon
@@ -82,10 +82,10 @@ describe("Messages send and delete", () => {
     await MessagesPage.clickCloseThreadDetailsScreen()
 
     // press thread options button (...)
-    await MessagesPage.clickThreadOptionsButton()
+    await MessagesPage.clickThreadDropdownIcon()
 
     //click delete from dropdown
-    await MessagesPage.clickDropdownThreadOptionDelete()
+    await MessagesPage.clickThreadDropdownDeleteButton()
 
     // confirm deletion
     await modalMessagesPage.clickConfirmDeleteButton()
@@ -104,7 +104,7 @@ describe("Messages send and delete", () => {
     )
 
     //wait for sending icon to disappear
-    await MessagesPage.waitForSendingIconToDisappear()
+    await MessagesPage.waitToDisappearSendingStatusIcon()
 
     // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
     const notSendMessageIcon = await MessagesPage.messageNotSentIcon
@@ -116,13 +116,13 @@ describe("Messages send and delete", () => {
   })
   it("Click message options button and delete it", async () => {
     //hover over message to display options button
-    await MessagesPage.hoverOverMessage()
+    await MessagesPage.hoverOverMessageContent()
 
     //click message options button
-    await MessagesPage.clickSingleMessageOptionsButton()
+    await MessagesPage.clickMessageDropdownIcon()
 
     //click delete from dropdown options list
-    await MessagesPage.clickDeleteMessageOnThreadScreen()
+    await MessagesPage.clickMessageDropdownDeleteButton()
 
     // confirm deletion
     await modalMessagesPage.clickConfirmDeleteButton()
@@ -141,7 +141,7 @@ describe("Messages send and delete", () => {
     )
 
     //wait for sending icon to disappear
-    await MessagesPage.waitForSendingIconToDisappear()
+    await MessagesPage.waitToDisappearSendingStatusIcon()
 
     // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
     const notSendMessageIcon = await MessagesPage.messageNotSentIcon
@@ -156,13 +156,13 @@ describe("Messages send and delete", () => {
     await MessagesPage.clickCloseThreadDetailsScreen()
 
     //hover over single thread row
-    await MessagesPage.hoverOverSingleThreadRow()
+    await MessagesPage.hoverOverThreadRow()
 
     //click selection manager checkbox
     await MessagesPage.clickThreadCheckbox()
 
     //click Delete button for Selection manager
-    await MessagesPage.clickDeleteButtonSelectionMaanager()
+    await MessagesPage.clickSelectionManagerDeleteButton()
 
     // confirm deletion
     await modalMessagesPage.clickConfirmDeleteButton()
