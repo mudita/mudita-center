@@ -7,7 +7,9 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import MessagesPage from "../../page-objects/messages.page"
 import modalMessagesPage from "../../page-objects/modal-messages.page"
 import ModalGeneralPage from "../../page-objects/modal-general.page"
-import messagesPage from "../../page-objects/messages.page"
+import MessagesConversationPage from "../../page-objects/messages-conversation.page"
+
+import { sendMessage } from "../../helpers/messages.helper"
 
 describe("Messages send and delete", () => {
   before(async () => {
@@ -22,15 +24,12 @@ describe("Messages send and delete", () => {
   })
   it("Send message to incorrect number using send button", async () => {
     //Send new message
-    await messagesPage.sendMessage(
-      "12345",
-      "SMS to incorrect number (Send button)"
-    )
+    await sendMessage("12345", "SMS to incorrect number (Send button)")
     //wait for sending icon to disappear
-    await MessagesPage.waitToDisappearSendingStatusIcon()
+    await MessagesConversationPage.waitToDisappearSendingStatusIcon()
 
     // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
-    const notSendMessageIcon = await MessagesPage.messageNotSentIcon
+    const notSendMessageIcon = await MessagesConversationPage.messageNotSentIcon
     await notSendMessageIcon.waitForDisplayed({ timeout: 15000 })
     const notSendThreadIcon = await MessagesPage.messageNotSentThreadIcon
     await notSendThreadIcon.waitForDisplayed({ timeout: 15000 })
@@ -40,7 +39,7 @@ describe("Messages send and delete", () => {
   it("Should delete the thread using delete thread button on open thread screen", async () => {
     //press delete button in the thread
 
-    await MessagesPage.clickThreadDetailScreenDeleteButton()
+    await MessagesConversationPage.clickThreadDetailScreenDeleteButton()
 
     // confirm deletion
     await modalMessagesPage.clickConfirmDeleteButton()
@@ -56,20 +55,20 @@ describe("Messages send and delete", () => {
     await MessagesPage.clickNewMessageButton()
 
     // insert recipient number
-    await MessagesPage.insertTextToSearchContactInput("54321")
+    await MessagesConversationPage.insertTextToSearchContactInput("54321")
 
     // insert message text
-    await MessagesPage.insertTextToMessageInput(
+    await MessagesConversationPage.insertTextToMessageInput(
       "SMS to incorrect number (Enter key send)"
     )
     // send Enter key to send message
     await browser.keys("\uE007")
 
     //wait for sending icon to disappear
-    await MessagesPage.waitToDisappearSendingStatusIcon()
+    await MessagesConversationPage.waitToDisappearSendingStatusIcon()
 
     // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
-    const notSendMessageIcon = await MessagesPage.messageNotSentIcon
+    const notSendMessageIcon = await MessagesConversationPage.messageNotSentIcon
     await notSendMessageIcon.waitForDisplayed({ timeout: 15000 })
     const notSendThreadIcon = await MessagesPage.messageNotSentThreadIcon
     await notSendThreadIcon.waitForDisplayed({ timeout: 15000 })
@@ -79,7 +78,7 @@ describe("Messages send and delete", () => {
 
   it("Should close the thread and delete it from the thread list screen", async () => {
     // press X to close the thread details screen
-    await MessagesPage.clickCloseThreadDetailsScreen()
+    await MessagesConversationPage.clickCloseThreadDetailsScreen()
 
     // press thread options button (...)
     await MessagesPage.clickThreadDropdownIcon()
@@ -98,16 +97,13 @@ describe("Messages send and delete", () => {
 
   it("Send message to incorrect number using send button", async () => {
     //Send new message
-    await messagesPage.sendMessage(
-      "02468",
-      "SMS to incorrect number (Send button)"
-    )
+    await sendMessage("02468", "SMS to incorrect number (Send button)")
 
     //wait for sending icon to disappear
-    await MessagesPage.waitToDisappearSendingStatusIcon()
+    await MessagesConversationPage.waitToDisappearSendingStatusIcon()
 
     // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
-    const notSendMessageIcon = await MessagesPage.messageNotSentIcon
+    const notSendMessageIcon = await MessagesConversationPage.messageNotSentIcon
     await notSendMessageIcon.waitForDisplayed({ timeout: 15000 })
     const notSendThreadIcon = await MessagesPage.messageNotSentThreadIcon
     await notSendThreadIcon.waitForDisplayed({ timeout: 15000 })
@@ -116,13 +112,13 @@ describe("Messages send and delete", () => {
   })
   it("Click message options button and delete it", async () => {
     //hover over message to display options button
-    await MessagesPage.hoverOverMessageContent()
+    await MessagesConversationPage.hoverOverMessageContent()
 
     //click message options button
-    await MessagesPage.clickMessageDropdownIcon()
+    await MessagesConversationPage.clickMessageDropdownIcon()
 
     //click delete from dropdown options list
-    await MessagesPage.clickMessageDropdownDeleteButton()
+    await MessagesConversationPage.clickMessageDropdownDeleteButton()
 
     // confirm deletion
     await modalMessagesPage.clickConfirmDeleteButton()
@@ -135,16 +131,13 @@ describe("Messages send and delete", () => {
 
   it("Send message to incorrect number using send button", async () => {
     //Send new message
-    await messagesPage.sendMessage(
-      "13579",
-      "SMS to incorrect number (Send button)"
-    )
+    await sendMessage("13579", "SMS to incorrect number (Send button)")
 
     //wait for sending icon to disappear
-    await MessagesPage.waitToDisappearSendingStatusIcon()
+    await MessagesConversationPage.waitToDisappearSendingStatusIcon()
 
     // expect the not sent icon to be displayed on thread details screen and in the middle part of app window - thread list
-    const notSendMessageIcon = await MessagesPage.messageNotSentIcon
+    const notSendMessageIcon = await MessagesConversationPage.messageNotSentIcon
     await notSendMessageIcon.waitForDisplayed({ timeout: 15000 })
     const notSendThreadIcon = await MessagesPage.messageNotSentThreadIcon
     await notSendThreadIcon.waitForDisplayed({ timeout: 15000 })
@@ -153,7 +146,7 @@ describe("Messages send and delete", () => {
   })
   it("Should close the thread and delete thread using selection manager", async () => {
     // press X to close the thread details screen
-    await MessagesPage.clickCloseThreadDetailsScreen()
+    await MessagesConversationPage.clickCloseThreadDetailsScreen()
 
     //hover over single thread row
     await MessagesPage.hoverOverThreadRow()
