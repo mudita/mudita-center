@@ -20,18 +20,24 @@ class ModalGeneralPage extends Page {
       console.log(error)
     }
   }
-  public get closeButtonModalUpdateAvailable(): ChainablePromiseElement<
+  public get modalHeader(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="modal-header"]').$('[data-testid="icon-Close"]')
+    return $('[data-testid="modal-header"]')
   }
 
-  async clickCloseOnUpdateAvailableModal() {
+  public get updateAvailableModalCloseButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return this.modalHeader.$('[data-testid="icon-Close"]')
+  }
+
+  async clickUpdateAvailableModalCloseButton() {
     try {
-      await this.closeButtonModalUpdateAvailable.waitForDisplayed({
+      await this.updateAvailableModalCloseButton.waitForDisplayed({
         timeout: 6000,
       })
-      await this.closeButtonModalUpdateAvailable.click()
+      await this.updateAvailableModalCloseButton.click()
     } catch (error) {
       console.log(error)
     }
