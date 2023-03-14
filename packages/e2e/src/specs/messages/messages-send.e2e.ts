@@ -18,7 +18,7 @@ describe("Messages send and delete", () => {
       setTimeout(done, 10000)
     })
 
-    await ModalGeneralPage.clickCloseOnUpdateAvailableModal()
+    await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
     await NavigationTabs.messagesTabClick()
   })
   it("Send message to incorrect number using send button", async () => {
