@@ -14,6 +14,7 @@ import { Provider } from "react-redux"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { VirtuosoMockContext } from "react-virtuoso"
 
 type Props = ComponentProps<typeof FilesStorageList>
 
@@ -57,7 +58,16 @@ const render = (extraProps?: Partial<Props>, state = defaultState) => {
   return renderWithThemeAndIntl(
     <Provider store={store}>
       <FilesStorageList {...props} />
-    </Provider>
+    </Provider>,
+    {
+      wrapper: ({ children }) => (
+        <VirtuosoMockContext.Provider
+          value={{ viewportHeight: 300, itemHeight: 100 }}
+        >
+          {children}
+        </VirtuosoMockContext.Provider>
+      ),
+    }
   )
 }
 
@@ -144,6 +154,7 @@ describe("`FilesStorageList` component", () => {
       state: State.Loaded,
       files,
     })
+
     expect(queryAllByTestId(FilesStorageListTestIds.Row)[0]).toBeInTheDocument()
     expect(queryByTestId(FilesStorageListTestIds.Loaded)).toBeInTheDocument()
     expect(queryByTestId(FilesStorageListTestIds.Empty)).not.toBeInTheDocument()
