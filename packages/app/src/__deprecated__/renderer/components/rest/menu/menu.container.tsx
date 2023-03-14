@@ -20,8 +20,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     state.update.updateOsState === State.Loading ||
     state.backup.restoringState === State.Loading ||
     state.backup.restoringState === State.Failed ||
-    state.backup.backingUpState === State.Loading ||
-    state.backup.backingUpState === State.Failed,
+    state.backup.backingUpState === State.Loading,
   devModeEnabled: state.devMode.enabled,
   syncState: state.dataSync.state,
 })
