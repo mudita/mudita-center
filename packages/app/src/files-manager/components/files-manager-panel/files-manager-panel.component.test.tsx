@@ -51,7 +51,7 @@ const render = (
 }
 
 describe("When Mudita Harmony connected", () => {
-  test("render component component", () => {
+  test("renders component", () => {
     const { queryByTestId } = render(defaultProps, {
       device: {
         deviceType: DeviceType.MuditaHarmony,
@@ -65,7 +65,7 @@ describe("When Mudita Harmony connected", () => {
 })
 
 describe("When Mudita Pure connected", () => {
-  test("renders component component", () => {
+  test("renders component", () => {
     const { queryByTestId } = render(defaultProps, {
       device: {
         deviceType: DeviceType.MuditaPure,
