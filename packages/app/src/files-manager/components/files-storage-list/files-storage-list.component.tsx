@@ -106,7 +106,9 @@ const FilesStorageList: FunctionComponent<Props> = ({
   const deviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   )
-  const filesManagerActionsEnable = deviceType === DeviceType.MuditaPure
+  const filesManagerActionsEnable =
+    deviceType === DeviceType.MuditaPure ||
+    deviceType === DeviceType.MuditaHarmony
 
   return (
     <FilesStorageContainer {...rest}>
@@ -121,7 +123,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
             <Col />
             <Col>{intl.formatMessage(messages.type)}</Col>
             <Col>{intl.formatMessage(messages.size)}</Col>
-            <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+            <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
               <LastEmptyCol />
             </VisibleOnDevice>
           </FilesListLabels>
