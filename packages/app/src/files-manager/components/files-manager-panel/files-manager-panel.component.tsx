@@ -42,7 +42,9 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   const selectionMode = selectedItemsCount > 0
 
   return (
-    <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+    <VisibleOnDevice
+      devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}
+    >
       <PanelWrapper data-testid={FilesManagerPanelTestIds.Wrapper}>
         <Panel>
           {selectionMode ? (
