@@ -8,18 +8,20 @@ import {
   registerAgreementStatusListener,
   removeAgreementStatusListener,
 } from "App/application/listeners"
-import { ApplicationHookProps } from "App/application/types"
+import { Event } from "electron"
 
-export const useApplicationListener = ({
-  onAgreementStatusChangeListener,
-}: ApplicationHookProps): void => {
+export const useApplicationListener = (
+  onAgreementStatusChangeListener: (status: boolean) => void
+): void => {
   useEffect(() => {
-    registerAgreementStatusListener((_, value: boolean) =>
+    const listener = (_: Event, value: boolean) => {
       onAgreementStatusChangeListener(value)
-    )
+    }
+
+    registerAgreementStatusListener(listener)
 
     return () => {
-      removeAgreementStatusListener(onAgreementStatusChangeListener)
+      removeAgreementStatusListener(listener)
     }
   }, [onAgreementStatusChangeListener])
 }
