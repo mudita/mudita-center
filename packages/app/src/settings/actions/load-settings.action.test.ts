@@ -13,6 +13,10 @@ import { SettingsEvent } from "App/settings/constants"
 import { loadSettings } from "./load-settings.action"
 import packageInfo from "../../../package.json"
 
+jest.mock("../../../package.json", () => ({
+  version: "1.0.0",
+}))
+
 jest.mock("App/settings/requests", () => ({
   getSettings: jest.fn().mockReturnValue({ collectingData: false }),
   getConfiguration: jest.fn().mockReturnValue({
