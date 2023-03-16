@@ -56,7 +56,10 @@ export class BackupModule extends BaseModule {
       new RetrieveFilesCommand(this.deviceManager),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileUploadCommand(this.deviceManager, this.fileSystem)
+      new FileUploadCommand(this.deviceManager, this.fileSystem),
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new DeviceFileSystemService(this.deviceManager)
     )
 
     const deviceInfoService = new DeviceInfoService(this.deviceManager)

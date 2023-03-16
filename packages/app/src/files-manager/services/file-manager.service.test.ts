@@ -14,6 +14,7 @@ import {
 } from "App/device-file-system/commands"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
 import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
+import { DeviceFileSystemService } from "App/device-file-system/services"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -32,10 +33,17 @@ const fileUploadCommand = {
   exec: jest.fn(),
 } as unknown as FileUploadCommand
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const deviceFileSystemService = {
+  changeFileTransferStatus: jest.fn(),
+} as unknown as DeviceFileSystemService
+
 const subject = new FileManagerService(
   fileDeleteCommand,
   retrieveFilesCommand,
-  fileUploadCommand
+  fileUploadCommand,
+  deviceFileSystemService
 )
 
 beforeEach(() => {

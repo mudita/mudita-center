@@ -17,6 +17,7 @@ import {
   GetFileSystemResponseBody,
   PutFileSystemResponseBody,
   DownloadFileSystemResponseBody,
+  FileTransferStatus,
 } from "App/device/types/mudita-os"
 import {
   DownloadDeviceFileLocallyOptions,
@@ -233,6 +234,18 @@ export class DeviceFileSystemService {
     } else {
       return Result.success(false)
     }
+  }
+
+  public async changeFileTransferStatus(
+    fileTransferStatus: FileTransferStatus
+  ): Promise<ResultObject<unknown>> {
+    return await this.deviceManager.device.request({
+      endpoint: Endpoint.FileSystem,
+      method: Method.Put,
+      body: {
+        fileTransferStatus,
+      },
+    })
   }
 
   private async downloadDeviceFileLocally(

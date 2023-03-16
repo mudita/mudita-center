@@ -14,12 +14,15 @@ import {
 } from "App/device-file-system/commands"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
 import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
+import { DeviceFileSystemService } from "App/device-file-system/services"
+import { FileTransferStatus } from "App/device/types/mudita-os"
 
 export class FileManagerService {
   constructor(
     private fileDeleteCommand: FileDeleteCommand,
     private retrieveFilesCommand: RetrieveFilesCommand,
-    private fileUploadCommand: FileUploadCommand
+    private fileUploadCommand: FileUploadCommand,
+    private deviceFileSystemService: DeviceFileSystemService
   ) {}
 
   public async getDeviceFiles({
@@ -56,9 +59,16 @@ export class FileManagerService {
   }: UploadFilesInput): Promise<ResultObject<string[] | undefined>> {
     const results = []
 
+    await this.deviceFileSystemService.changeFileTransferStatus(
+      FileTransferStatus.Start
+    )
+
     for await (const filePath of filePaths) {
       results.push(await this.fileUploadCommand.exec(directory, filePath))
     }
+    await this.deviceFileSystemService.changeFileTransferStatus(
+      FileTransferStatus.Finish
+    )
 
     const success = results.every((result) => result.ok)
     const noSpaceLeft = results.some(

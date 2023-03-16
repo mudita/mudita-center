@@ -203,6 +203,19 @@ export interface UnlockDeviceRequestConfig
 }
 
 // Files system types
+export enum FileTransferStatus {
+  Start,
+  Finish,
+}
+
+export interface PutFileSystemFileTransferStatusRequestConfig
+  extends RequestConfig<{
+    fileTransferStatus: FileTransferStatus
+  }> {
+  endpoint: Endpoint.FileSystem
+  method: Method.Put
+}
+
 export interface PutFileSystemRequestConfig
   extends RequestConfig<{
     fileName: string
