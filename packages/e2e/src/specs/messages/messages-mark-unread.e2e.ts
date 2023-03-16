@@ -8,9 +8,12 @@ import MessagesPage from "../../page-objects/messages.page"
 import ModalGeneralPage from "../../page-objects/modal-general.page"
 import MessagesConversationPage from "../../page-objects/messages-conversation.page"
 
-import { sendMessage } from "../../helpers/messages.helper"
+import {
+  deleteConversationOnThreadList,
+  sendMessage,
+} from "../../helpers/messages.helper"
 
-describe("Messages send and delete", () => {
+describe("Mark conversation as unred/read/unread", () => {
   before(async () => {
     // Waiting for device connected through USB
     await browser.executeAsync((done) => {
@@ -55,5 +58,8 @@ describe("Messages send and delete", () => {
 
     //click Mark As Read from dropdown
     await MessagesPage.clickThreadDropdownMarkAsReadButton()
+  })
+  after(async () => {
+    await deleteConversationOnThreadList()
   })
 })

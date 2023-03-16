@@ -1,5 +1,6 @@
 import MessagesPage from "../page-objects/messages.page"
 import MessagesConversationPage from "../page-objects/messages-conversation.page"
+import ModalMessagesPage from "../page-objects/modal-messages.page"
 
 /** Send message using send button */
 export const sendMessage = async (
@@ -12,4 +13,13 @@ export const sendMessage = async (
 
   await MessagesConversationPage.sendMessageButton.waitForClickable()
   await MessagesConversationPage.sendMessageButton.click()
+}
+
+/** Delete conversation on thread list screen by clicking options (...) and delete conversation from dropdown list */
+export const deleteConversationOnThreadList = async () => {
+  await MessagesPage.clickThreadDropdownIcon()
+
+  await MessagesPage.clickThreadDropdownDeleteButton()
+
+  await ModalMessagesPage.clickConfirmDeleteButton()
 }
