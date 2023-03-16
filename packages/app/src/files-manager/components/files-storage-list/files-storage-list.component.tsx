@@ -33,7 +33,6 @@ import {
   Actions,
   Checkbox,
   FilesListRow,
-  FileIconHarmony,
   FilesListLabels,
   LastEmptyCol,
 } from "App/files-manager/components/files-storage-list/files-storage-list.styled"
@@ -139,7 +138,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
                   data-testid={FilesStorageListTestIds.Row}
                 >
                   <Col>
-                    <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+                    <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
                       <Checkbox
                         checked={selected}
                         onChange={handleCheckboxChange}
@@ -150,14 +149,11 @@ const FilesStorageList: FunctionComponent<Props> = ({
                         <FileIcon iconType={IconType.MenuMusic} />
                       )}
                     </VisibleOnDevice>
-                    <VisibleOnDevice devices={[DeviceType.MuditaHarmony]}>
-                      <FileIconHarmony iconType={IconType.MenuMusic} />
-                    </VisibleOnDevice>
                   </Col>
                   <Col>{file.name}</Col>
                   <FilesStorageListTypeCol file={file} />
                   <Col>{convertBytes(file.size)}</Col>
-                  <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+                  <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
                     <Col>
                       <Actions>
                         <Dropdown onOpen={disableScroll} onClose={enableScroll}>
