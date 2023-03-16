@@ -143,17 +143,11 @@ export class SyncBackupCreateService {
     id: string,
     iteration = 0
   ): Promise<ResultObject<GetBackupDeviceStatusResponseBody>> {
-    const MAX_ITERATION = 60
-
     const result = await this.getBackupDeviceStatus({
       id,
     })
 
-    if (
-      !result.ok ||
-      result.data?.state === BackupState.Error ||
-      iteration > MAX_ITERATION
-    ) {
+    if (!result.ok || result.data?.state === BackupState.Error) {
       return Result.failed(new AppError("", ""))
     } else if (result.data?.state === BackupState.Finished) {
       return result
