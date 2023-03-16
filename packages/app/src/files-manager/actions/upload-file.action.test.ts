@@ -20,7 +20,7 @@ import { GetPathsInput } from "App/file-system/dto"
 import { uploadFile } from "App/files-manager/actions/upload-file.action"
 import {
   setUploadBlocked,
-  setUploadingFileLength,
+  setUploadingFileCount,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
 
@@ -85,7 +85,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
         setUploadBlocked(true),
-        setUploadingFileLength(2),
+        setUploadingFileCount(2),
         setUploadingState(State.Loading),
         setUploadBlocked(false),
         {
@@ -173,7 +173,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
         setUploadBlocked(true),
-        setUploadingFileLength(2),
+        setUploadingFileCount(2),
         setUploadingState(State.Loading),
         setUploadBlocked(false),
         uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),

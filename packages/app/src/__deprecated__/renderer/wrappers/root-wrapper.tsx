@@ -6,7 +6,7 @@
 import { DeviceType } from "App/device/constants"
 import { connect } from "react-redux"
 import { History } from "history"
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
 import { IntlProvider } from "react-intl"
 import localeEn from "App/__deprecated__/renderer/locales/default/en-US.json"
 import { ThemeProvider } from "styled-components"
@@ -90,12 +90,14 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadDeviceData,
   connectedAndUnlocked,
 }) => {
-  useApplicationListener({
-    // intentional use of arrow function - solves problem with https://appnroll.atlassian.net/browse/CP-1755?focusedCommentId=70356
-    onAgreementStatusChangeListener: (value) => {
+  const onAgreementStatusChangeListener = useCallback(
+    (value) => {
       setAgreementStatus(value)
     },
-  })
+    [setAgreementStatus]
+  )
+
+  useApplicationListener(onAgreementStatusChangeListener)
 
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>

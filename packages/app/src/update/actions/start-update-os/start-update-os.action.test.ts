@@ -22,9 +22,15 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { startUpdateOs } from "./start-update-os.action"
 import * as removeDownloadedOsUpdatesModule from "App/update/requests/remove-downloaded-os-updates.request"
+import {
+  trackOsUpdate,
+  TrackOsUpdateState,
+} from "App/analytic-data-tracker/helpers"
+import { DeviceType } from "App/device"
 
 jest.mock("App/update/requests/remove-downloaded-os-updates.request")
 jest.mock("App/device/requests/set-updating.request")
+jest.mock("App/analytic-data-tracker/helpers/track-os-update")
 
 jest.mock("App/device-file-system", () => ({
   removeFile: jest.fn().mockReturnValue({
@@ -76,16 +82,56 @@ const getParamsForSettingIntallingRelaseStateAction = (
   }
 }
 
-describe("when battery is lower than 40%", () => {
-  test("the action is rejected", async () => {
-    const mockStore = createMockStore([thunk])({
-      device: {
-        data: {
-          batteryLevel: 0.39,
-        },
+describe("when `deviceType` is a null", () => {
+  const mockStore = createMockStore([thunk])({
+    device: {
+      deviceType: null,
+      data: {
+        batteryLevel: 0.39,
+        osVersion: "1.0.0",
       },
-    })
+    },
+  })
 
+  test("the action is rejected", async () => {
+    const {
+      meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
+
+    const error = new AppError(
+      UpdateError.UpdateOsProcess,
+      "deviceType is a null"
+    )
+
+    expect(mockStore.getActions()).toEqual([
+      startUpdateOs.pending(requestId, params),
+      startUpdateOs.rejected(testError, requestId, params, error),
+    ])
+  })
+
+  test("`trackOsUpdate` shouldn't be called", async () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
+
+    expect(trackOsUpdate).not.toHaveBeenCalled()
+  })
+})
+
+describe("when battery is lower than 40%", () => {
+  const mockStore = createMockStore([thunk])({
+    device: {
+      deviceType: DeviceType.MuditaPure,
+      data: {
+        batteryLevel: 0.39,
+        osVersion: "1.0.0",
+      },
+    },
+  })
+
+  test("the action is rejected", async () => {
     const {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
@@ -102,10 +148,27 @@ describe("when battery is lower than 40%", () => {
       startUpdateOs.rejected(testError, requestId, params, error),
     ])
   })
+
+  test("`trackOsUpdate` shouldn't be called", async () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
+
+    expect(trackOsUpdate).not.toHaveBeenCalled()
+  })
 })
 
 describe("when all updating os requests return success status", () => {
   let removeDownloadedUpdatesSpy: jest.SpyInstance
+  const mockStore = createMockStore([thunk])({
+    device: {
+      deviceType: DeviceType.MuditaPure,
+      data: {
+        batteryLevel: 0.52,
+        osVersion: "1.0.0",
+      },
+    },
+  })
 
   beforeEach(() => {
     removeDownloadedUpdatesSpy = jest
@@ -121,15 +184,6 @@ describe("when all updating os requests return success status", () => {
     jest
       .spyOn(startOsUpdateRequestModule, "startOsUpdate")
       .mockResolvedValue(Result.success(true))
-
-    const mockStore = createMockStore([thunk])({
-      device: {
-        data: {
-          batteryLevel: 0.52,
-        },
-      },
-    })
-
     const {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
@@ -167,23 +221,42 @@ describe("when all updating os requests return success status", () => {
       .spyOn(startOsUpdateRequestModule, "startOsUpdate")
       .mockResolvedValue(Result.success(true))
 
-    const mockStore = createMockStore([thunk])({
-      device: {
-        data: {
-          batteryLevel: 0.52,
-        },
-      },
-    })
-
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
 
     expect(removeDownloadedUpdatesSpy).toHaveBeenCalledTimes(1)
   })
+
+  test("`trackOsUpdate` should be called", async () => {
+    jest
+      .spyOn(startOsUpdateRequestModule, "startOsUpdate")
+      .mockResolvedValue(Result.success(true))
+
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
+
+    expect(trackOsUpdate).toHaveBeenCalledWith({
+      deviceType: DeviceType.MuditaPure,
+      fromOsVersion: "1.0.0",
+      toOsVersion: "1.1.0",
+      state: TrackOsUpdateState.Success,
+    })
+  })
 })
 
 describe("when updating os request return failure status", () => {
+  const mockStore = createMockStore([thunk])({
+    device: {
+      deviceType: DeviceType.MuditaPure,
+      data: {
+        batteryLevel: 0.52,
+        osVersion: "1.0.0",
+      },
+    },
+  })
+
   test("action is rejected", async () => {
     jest
       .spyOn(startOsUpdateRequestModule, "startOsUpdate")
@@ -197,14 +270,6 @@ describe("when updating os request return failure status", () => {
       UpdateError.UpdateOsProcess,
       "Device updating process failed"
     )
-
-    const mockStore = createMockStore([thunk])({
-      device: {
-        data: {
-          batteryLevel: 0.52,
-        },
-      },
-    })
 
     const {
       meta: { requestId },
@@ -224,5 +289,26 @@ describe("when updating os request return failure status", () => {
       ),
       startUpdateOs.rejected(testError, requestId, params, error),
     ])
+  })
+
+  test("`trackOsUpdate` should be called", async () => {
+    jest
+      .spyOn(startOsUpdateRequestModule, "startOsUpdate")
+      .mockResolvedValueOnce(
+        Result.failed(
+          new AppError(UpdateErrorServiceErrors.CannotGetDeviceInfo, "")
+        )
+      )
+
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
+
+    expect(trackOsUpdate).toHaveBeenCalledWith({
+      deviceType: DeviceType.MuditaPure,
+      fromOsVersion: "1.0.0",
+      toOsVersion: "1.1.0",
+      state: TrackOsUpdateState.Fail,
+    })
   })
 })
