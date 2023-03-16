@@ -14,11 +14,11 @@ describe(" search, selection manager, delete", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 13000)
     })
-    ModalGeneralPage.closeModalButtonClick()
+    await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
     await browser.executeAsync((done) => {
       setTimeout(done, 3000)
     })
-    NavigationTabs.contactsTabClick()
+    await NavigationTabs.clickContactsTab()
     await browser.executeAsync((done) => {
       setTimeout(done, 1000)
     })

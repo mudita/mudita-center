@@ -29,7 +29,7 @@ class NavigationTabs extends Page {
     return $('[data-testid="overview-menu-link"]')
   }
 
-  async messagesTabClick() {
+  async clickMessagesTab() {
     await this.messagesTab.waitForClickable({ timeout: 5000 })
     await this.messagesTab.click()
   }
@@ -40,7 +40,8 @@ class NavigationTabs extends Page {
     return $('[data-testid="contacts-menu-link"]')
   }
 
-  async contactsTabClick() {
+  async clickContactsTab() {
+    await this.contactsTab.waitForClickable()
     await this.contactsTab.click()
   }
 
