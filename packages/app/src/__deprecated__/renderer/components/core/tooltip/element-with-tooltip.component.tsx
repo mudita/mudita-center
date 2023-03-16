@@ -21,6 +21,7 @@ export enum ElementWithTooltipPlace {
   BottomRight = "bottom-right",
   BottomLeft = "bottom-left",
   TopLeft = "top-left",
+  TopRight = "top-right",
 }
 
 interface Props {
@@ -59,6 +60,16 @@ const overridePosition =
         (triggerElement as HTMLElement).getBoundingClientRect().left -
         (tooltipElement as HTMLElement).offsetWidth +
         (triggerElement as HTMLElement).offsetWidth
+
+      const arrowTop =
+        (triggerElement as HTMLElement).getBoundingClientRect().top -
+        (tooltipElement as HTMLElement).offsetHeight -
+        5
+
+      return { left: arrowLeft, top: arrowTop }
+    } else if (place === ElementWithTooltipPlace.TopRight) {
+      const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect()
+        .left
 
       const arrowTop =
         (triggerElement as HTMLElement).getBoundingClientRect().top -

@@ -36,12 +36,24 @@ import {
   FileIconHarmony,
   FilesListLabels,
   LastEmptyCol,
+  TableWrapper,
+  Ellipsis,
 } from "App/files-manager/components/files-storage-list/files-storage-list.styled"
 import { DeviceType } from "App/device/constants"
 import { VisibleOnDevice } from "App/ui/components"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Virtuoso } from "react-virtuoso"
+import ElementWithTooltip, {
+  ElementWithTooltipPlace,
+} from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
+import {
+  TooltipContent,
+  TooltipContentType,
+} from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/tooltip-content.style"
+import Text, {
+  TextDisplayStyle,
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 
 const messages = defineMessages({
   title: {
@@ -87,6 +99,26 @@ interface Props {
   selectedItems: string[]
   onDelete: (ids: string[]) => void
 }
+
+const TruncateText: FunctionComponent<{ text: string }> = ({ text }) => (
+  <TableWrapper>
+    <ElementWithTooltip
+      showIfTextEllipsis
+      place={ElementWithTooltipPlace.TopRight}
+      Element={<Ellipsis>{text}</Ellipsis>}
+    >
+      <TooltipContent type={TooltipContentType.secondary}>
+        <Text
+          displayStyle={TextDisplayStyle.Label}
+          color="primary"
+          element={"p"}
+        >
+          {text}
+        </Text>
+      </TooltipContent>
+    </ElementWithTooltip>
+  </TableWrapper>
+)
 
 const FilesStorageList: FunctionComponent<Props> = ({
   state,
@@ -152,7 +184,9 @@ const FilesStorageList: FunctionComponent<Props> = ({
                       <FileIconHarmony iconType={IconType.MenuMusic} />
                     </VisibleOnDevice>
                   </Col>
-                  <Col>{file.name}</Col>
+                  <Col>
+                    <TruncateText text={file.name} />
+                  </Col>
                   <FilesStorageListTypeCol file={file} />
                   <Col>{convertBytes(file.size)}</Col>
                   <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
