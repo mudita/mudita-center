@@ -171,7 +171,7 @@ const createWindow = async () => {
   const settingsService = createSettingsService()
   settingsService.init()
 
-  new ApplicationModule(ipcMain)
+  const appModules = new ApplicationModule(ipcMain)
 
   registerPureOsDownloadListener(registerDownloadListener)
   registerOsUpdateAlreadyDownloadedCheck()
@@ -219,12 +219,17 @@ const createWindow = async () => {
     shell.openExternal(href)
   })
 
-  if (!productionEnvironment) {
+  if (productionEnvironment) {
+    win.webContents.once("dom-ready", () => {
+      appModules.lateInitialization()
+    })
+  } else {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       win!.webContents.openDevTools()
+      appModules.lateInitialization()
     })
   }
 

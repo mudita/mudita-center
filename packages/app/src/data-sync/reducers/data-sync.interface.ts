@@ -16,9 +16,15 @@ export enum SynchronizationState {
   Error,
 }
 
+export enum SynchronizationProcessState {
+  Done,
+  InProgress,
+}
+
 export interface DataSyncState {
   initialized: boolean
   state: SynchronizationState
+  synchronizationProcess: SynchronizationProcessState
   error: Error | string | null
 }
 
