@@ -5,9 +5,10 @@
 
 import NavigationTabs from "../../page-objects/tabs.page"
 import MessagesPage from "../../page-objects/messages.page"
-import modalMessagesPage from "../../page-objects/modal-messages.page"
 import ModalGeneralPage from "../../page-objects/modal-general.page"
-import messagesPage from "../../page-objects/messages.page"
+import MessagesConversationPage from "../../page-objects/messages-conversation.page"
+
+import { sendMessage } from "../../helpers/messages.helper"
 
 describe("Messages send and delete", () => {
   before(async () => {
@@ -16,43 +17,43 @@ describe("Messages send and delete", () => {
       setTimeout(done, 10000)
     })
 
-    await ModalGeneralPage.clickCloseOnUpdateAvailableModal()
+    await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
     //await ModalGeneralPage.clickCloseOnBackgroundUpdateFailedModal()
     await NavigationTabs.messagesTabClick()
   })
   it("Send message to incorrect number and click mark as unread button thread details screen", async () => {
     //Send new message
-    await messagesPage.sendMessage("14710", "Mark as unread test")
+    await sendMessage("14710", "Mark as unread test")
     //wait for sending icon to disappear
-    await MessagesPage.waitForSendingIconToDisappear()
+    await MessagesConversationPage.waitToDisappearSendingStatusIcon()
 
-    await MessagesPage.clickMarkUnreadButtonOnThreadDetailScreen()
+    await MessagesConversationPage.clickThreadDetailScreenMarkAsUnreadButton()
 
-    const threadDetails = MessagesPage.threadDetailsScreen
+    const threadDetails = MessagesPage.threadScreenEmptyList
     await expect(threadDetails).not.toBeDisplayed()
   })
 
   it("Click options button on thread list screen and click MARK AS READ option", async () => {
     // press thread options button (...)
-    await MessagesPage.clickThreadOptionsButton()
+    await MessagesPage.clickThreadDropdownIcon()
 
     //check dropdown option is MARK AS READ and click it
     const markAsDropdown = MessagesPage.textOptionMarkAsReadDropdown
     await expect(markAsDropdown).toHaveText("MARK AS READ")
 
     //click Mark As Read from dropdown
-    await MessagesPage.clickOptionMarkAsReadDropdown()
+    await MessagesPage.clickThreadDropdownMarkAsReadButton()
   })
 
   it("Click options button on thread list screen and click MARK AS UNREAD option", async () => {
     // press thread options button (...)
-    await MessagesPage.clickThreadOptionsButton()
+    await MessagesPage.clickThreadDropdownIcon()
 
     //check dropdown option is MARK AS READ and click it
     const markAsDropdown = MessagesPage.textOptionMarkAsReadDropdown
     await expect(markAsDropdown).toHaveText("MARK AS UNREAD")
 
     //click Mark As Read from dropdown
-    await MessagesPage.clickOptionMarkAsReadDropdown()
+    await MessagesPage.clickThreadDropdownMarkAsReadButton()
   })
 })
