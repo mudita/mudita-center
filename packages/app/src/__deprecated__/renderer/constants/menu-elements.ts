@@ -82,7 +82,7 @@ const YOUR_PURE_BUTTONS = [
     button: views.filesManager,
     icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
-    visibleOn: [DeviceType.MuditaPure],
+    visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
     viewKey: View.FilesManager,
   },
   {
