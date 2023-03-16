@@ -30,6 +30,7 @@ class NavigationTabs extends Page {
   }
 
   async messagesTabClick() {
+    await this.messagesTab.waitForClickable({ timeout: 5000 })
     await this.messagesTab.click()
   }
 
