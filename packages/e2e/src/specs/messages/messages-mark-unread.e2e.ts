@@ -21,43 +21,46 @@ describe("Mark conversation as unred/read/unread", () => {
     })
 
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    //await ModalGeneralPage.clickCloseOnBackgroundUpdateFailedModal()
     await NavigationTabs.messagesTabClick()
   })
-  it("Send message to incorrect number and click mark as unread button thread details screen", async () => {
-    //Send new message
+  it("Send message to incorrect number and click MARK AS UNREAD button thread details screen", async () => {
     await sendMessage("14710", "Mark as unread test")
-    //wait for sending icon to disappear
+
     await MessagesConversationPage.waitToDisappearSendingStatusIcon()
 
     await MessagesConversationPage.clickThreadDetailScreenMarkAsUnreadButton()
 
     const threadDetails = MessagesPage.threadScreenEmptyList
     await expect(threadDetails).not.toBeDisplayed()
+
+    const messages = await MessagesPage.getLastMessages()
+    await expect(messages[0].text).toBe("Mark as unread test")
+    await expect(await messages[0].dotDisplayed).toBeTruthy()
   })
 
-  it("Click options button on thread list screen and click MARK AS READ option", async () => {
-    // press thread options button (...)
+  it("Click options button on thread list screen and click MARK AS READ on dropdown", async () => {
     await MessagesPage.clickThreadDropdownIcon()
 
-    //check dropdown option is MARK AS READ and click it
     const markAsDropdown = MessagesPage.textOptionMarkAsReadDropdown
     await expect(markAsDropdown).toHaveText("MARK AS READ")
 
-    //click Mark As Read from dropdown
     await MessagesPage.clickThreadDropdownMarkAsReadButton()
+
+    const messages = await MessagesPage.getLastMessages()
+    await expect(messages[0].text).toBe("Mark as unread test")
+    await expect(await messages[0].dotDisplayed).toBeFalsy()
   })
 
-  it("Click options button on thread list screen and click MARK AS UNREAD option", async () => {
-    // press thread options button (...)
+  it("Click options button on thread list screen and click MARK AS UNREAD on dropdown", async () => {
     await MessagesPage.clickThreadDropdownIcon()
 
-    //check dropdown option is MARK AS READ and click it
     const markAsDropdown = MessagesPage.textOptionMarkAsReadDropdown
     await expect(markAsDropdown).toHaveText("MARK AS UNREAD")
 
-    //click Mark As Read from dropdown
     await MessagesPage.clickThreadDropdownMarkAsReadButton()
+    const messages = await MessagesPage.getLastMessages()
+    await expect(messages[0].text).toBe("Mark as unread test")
+    await expect(await messages[0].dotDisplayed).toBeTruthy()
   })
   after(async () => {
     await deleteConversationOnThreadList()
