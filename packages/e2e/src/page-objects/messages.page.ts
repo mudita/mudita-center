@@ -129,7 +129,7 @@ class MessagesPage extends Page {
   > {
     return this.threadDropdownMarkAsReadButton.$("p")
   }
-
+  /** Returns list of last message text displayed on the conversation list and true/false depending on message unread/read status*/
   async getLastMessages() {
     const allLastMessages = await $$('//*[@data-testid="thread-last-message"]')
 
