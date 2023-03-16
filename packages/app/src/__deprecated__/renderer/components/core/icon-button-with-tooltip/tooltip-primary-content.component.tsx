@@ -6,12 +6,12 @@
 import React from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { Message as MessageInterface } from "App/__deprecated__/renderer/interfaces/message.interface"
 import { IconButtonWithTooltipTestIds } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-tooltip.enum"
+import { TooltipContent, TooltipContentType } from "./tooltip-content.style"
 
 interface Props {
   className?: string
@@ -19,15 +19,13 @@ interface Props {
   description: MessageInterface
 }
 
-const Content = styled.div`
-  width: max-content;
-  max-width: 24.3rem;
-  background-color: ${backgroundColor("row")};
-  padding: 1.6rem;
-`
-
 const Title = styled(Text)`
   margin-bottom: 0.8rem;
+`
+
+const Content = styled(TooltipContent)`
+  width: max-content;
+  max-width: 24.3rem;
 `
 
 export const TooltipPrimaryContent: FunctionComponent<Props> = ({
@@ -36,7 +34,7 @@ export const TooltipPrimaryContent: FunctionComponent<Props> = ({
   ...props
 }) => {
   return (
-    <Content {...props}>
+    <Content type={TooltipContentType.primary} {...props}>
       {title && (
         <Title
           displayStyle={TextDisplayStyle.Paragraph3}

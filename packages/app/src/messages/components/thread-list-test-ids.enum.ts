@@ -6,4 +6,5 @@
 export enum ThreadListTestIds {
   Row = "message-row",
   NotSendIcon = "thread-not-send-message-icon",
+  LastMessage = "thread-last-message",
 }

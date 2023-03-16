@@ -102,7 +102,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
       <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />
       <AppUpdateError
         open={appUpdateStep === AppUpdateStep.Error}
-        closeModal={closeModal}
+        closeModal={forced ? close : closeModal}
       />
     </>
   )

@@ -88,7 +88,7 @@ beforeEach(() => {
 })
 
 describe("when news are not found", () => {
-  let result: unknown
+  let result: { newsItems: NewsEntry[], lastUpdate: string } | null
 
   beforeEach(async () => {
     jest.spyOn(CreateClientModule, "createClient").mockImplementation(() => {
@@ -100,12 +100,12 @@ describe("when news are not found", () => {
     result = await getUpdatedNews(mockedPath)
   })
 
-  test("null is returned", () => {
-    expect(result).toEqual(null)
+  test("empty array is returned", () => {
+    expect(result?.newsItems).toStrictEqual([])
   })
 
-  test("updated news are not saved to file", () => {
-    expect(writeJsonSpy).not.toHaveBeenCalled()
+  test("updated news are saved to file", () => {
+    expect(writeJsonSpy).toHaveBeenCalled()
   })
 })
 

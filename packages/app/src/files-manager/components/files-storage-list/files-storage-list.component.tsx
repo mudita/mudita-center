@@ -41,6 +41,7 @@ import { DeviceType } from "App/device/constants"
 import { VisibleOnDevice } from "App/ui/components"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { Virtuoso } from "react-virtuoso"
 
 const messages = defineMessages({
   title: {
@@ -105,7 +106,10 @@ const FilesStorageList: FunctionComponent<Props> = ({
   const deviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   )
-  const filesManagerActionsEnable = deviceType === DeviceType.MuditaPure
+  const filesManagerActionsEnable =
+    deviceType === DeviceType.MuditaPure ||
+    deviceType === DeviceType.MuditaHarmony
+
   return (
     <FilesStorageContainer {...rest}>
       {state === State.Loaded && files.length > 0 && (
@@ -119,53 +123,59 @@ const FilesStorageList: FunctionComponent<Props> = ({
             <Col />
             <Col>{intl.formatMessage(messages.type)}</Col>
             <Col>{intl.formatMessage(messages.size)}</Col>
-            <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+            <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
               <LastEmptyCol />
             </VisibleOnDevice>
           </FilesListLabels>
-          {files.map((file, i) => {
-            const selected = selectedItems.includes(file.id)
-            const handleCheckboxChange = () => toggleRow(file.id)
-            const handleDelete = () => onDelete([file.id])
-            return (
-              <FilesListRow key={i} data-testid={FilesStorageListTestIds.Row}>
-                <Col>
-                  <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
-                    <Checkbox
-                      checked={selected}
-                      onChange={handleCheckboxChange}
-                      size={Size.Medium}
-                      visible={Boolean(selectedItems.length !== 0)}
-                    />
-                    {selectedItems.length === 0 && (
-                      <FileIcon iconType={IconType.MenuMusic} />
-                    )}
-                  </VisibleOnDevice>
-                  <VisibleOnDevice devices={[DeviceType.MuditaHarmony]}>
-                    <FileIconHarmony iconType={IconType.MenuMusic} />
-                  </VisibleOnDevice>
-                </Col>
-                <Col>{file.name}</Col>
-                <FilesStorageListTypeCol file={file} />
-                <Col>{convertBytes(file.size)}</Col>
-                <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+          <Virtuoso
+            data={files}
+            itemContent={(index, file) => {
+              const selected = selectedItems.includes(file.id)
+              const handleCheckboxChange = () => toggleRow(file.id)
+              const handleDelete = () => onDelete([file.id])
+              return (
+                <FilesListRow
+                  key={index}
+                  data-testid={FilesStorageListTestIds.Row}
+                >
                   <Col>
-                    <Actions>
-                      <Dropdown onOpen={disableScroll} onClose={enableScroll}>
-                        <ButtonComponent
-                          labelMessage={messages.deleteAction}
-                          Icon={IconType.Delete}
-                          onClick={handleDelete}
-                          iconSize={IconSize.Medium}
-                          displayStyle={DisplayStyle.Dropdown}
-                        />
-                      </Dropdown>
-                    </Actions>
+                    <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+                      <Checkbox
+                        checked={selected}
+                        onChange={handleCheckboxChange}
+                        size={Size.Medium}
+                        visible={Boolean(selectedItems.length !== 0)}
+                      />
+                      {selectedItems.length === 0 && (
+                        <FileIcon iconType={IconType.MenuMusic} />
+                      )}
+                    </VisibleOnDevice>
+                    <VisibleOnDevice devices={[DeviceType.MuditaHarmony]}>
+                      <FileIconHarmony iconType={IconType.MenuMusic} />
+                    </VisibleOnDevice>
                   </Col>
-                </VisibleOnDevice>
-              </FilesListRow>
-            )
-          })}
+                  <Col>{file.name}</Col>
+                  <FilesStorageListTypeCol file={file} />
+                  <Col>{convertBytes(file.size)}</Col>
+                  <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+                    <Col>
+                      <Actions>
+                        <Dropdown onOpen={disableScroll} onClose={enableScroll}>
+                          <ButtonComponent
+                            labelMessage={messages.deleteAction}
+                            Icon={IconType.Delete}
+                            onClick={handleDelete}
+                            iconSize={IconSize.Medium}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
+                        </Dropdown>
+                      </Actions>
+                    </Col>
+                  </VisibleOnDevice>
+                </FilesListRow>
+              )
+            }}
+          />
         </FilesTable>
       )}
       {state === State.Loading && (

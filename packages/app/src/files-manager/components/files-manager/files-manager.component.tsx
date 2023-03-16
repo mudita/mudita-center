@@ -48,9 +48,11 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
-  uploadingFileLength,
+  uploadingFileCount,
+  deletingFileCount,
   uploadBlocked,
   error,
+  setDeletingFileCount,
 }) => {
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files })
@@ -197,6 +199,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     updateFieldState("uploadingInfo", false)
     updateFieldState("deletingConfirmation", true)
     setToDeleteFileIds(ids)
+    setDeletingFileCount(ids.length)
   }
 
   const handleDeleteClick = (ids: string[]) => {
@@ -207,11 +210,13 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     openDeleteModal(selectedItems)
   }
   const handleCloseUploadingErrorModal = () => {
+    updateFieldState("uploadingFailed", false)
     resetUploadingState()
   }
   const handleCloseDeletingConfirmationModal = () => {
     updateFieldState("deletingConfirmation", false)
     setToDeleteFileIds([])
+    setDeletingFileCount(0)
   }
   const handleConfirmFilesDelete = () => {
     resetAllItems()
@@ -219,20 +224,21 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   }
   const handleCloseDeletingErrorModal = () => {
     setToDeleteFileIds([])
+    setDeletingFileCount(0)
     resetDeletingState()
   }
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
       <UploadFilesModals
         error={error}
-        filesLength={uploadingFileLength}
+        filesLength={uploadingFileCount}
         uploading={states.uploading}
         uploadingInfo={states.uploadingInfo}
         uploadingFailed={states.uploadingFailed}
         onCloseUploadingErrorModal={handleCloseUploadingErrorModal}
       />
       <DeleteFilesModals
-        filesLength={toDeleteFileIds.length}
+        filesLength={deletingFileCount}
         deletingConfirmation={states.deletingConfirmation}
         deleting={states.deleting}
         deletingInfo={states.deletingInfo}

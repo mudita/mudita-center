@@ -23,6 +23,7 @@ export const FilesTable = styled(Table)`
   overflow: initial !important;
   --columnsTemplate: 8.8rem 1fr 15.2rem 15.2rem auto;
   --columnsGap: 0;
+  height: 100%;
 `
 export const FirstCol = styled(Col)`
   margin-left: 3.2rem;
