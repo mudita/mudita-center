@@ -20,6 +20,46 @@ class ModalGeneralPage extends Page {
       console.log(error)
     }
   }
+  public get modalHeader(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="modal-header"]')
+  }
+
+  public get updateAvailableModalCloseButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return this.modalHeader.$('[data-testid="icon-Close"]')
+  }
+
+  async clickUpdateAvailableModalCloseButton() {
+    try {
+      await this.updateAvailableModalCloseButton.waitForDisplayed({
+        timeout: 6000,
+      })
+      await this.updateAvailableModalCloseButton.click()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  public get closeModalBackgroundUpdateAvailableFailed(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="update-os-flow-check-for-update-failed-modal"]').$(
+      '[data-testid="icon-Close"]'
+    )
+  }
+
+  async clickCloseOnBackgroundUpdateFailedModal() {
+    try {
+      await this.closeModalBackgroundUpdateAvailableFailed.waitForDisplayed({
+        timeout: 6000,
+      })
+      await this.closeModalBackgroundUpdateAvailableFailed.click()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 export default new ModalGeneralPage()
