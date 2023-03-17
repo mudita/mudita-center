@@ -8,6 +8,7 @@ import { DataSyncError, DataSyncEvent } from "App/data-sync/constants"
 import {
   dataSyncReducer,
   initialState,
+  SynchronizationProcessState,
   SynchronizationState,
 } from "App/data-sync/reducers"
 import {
@@ -36,6 +37,7 @@ describe("data-sync functionality", () => {
     ).toEqual({
       ...initialState,
       state: SynchronizationState.Loading,
+      synchronizationProcess: SynchronizationProcessState.InProgress,
     })
   })
 
@@ -111,6 +113,7 @@ describe("data-sync functionality", () => {
       ...initialState,
       initialized: false,
       state: SynchronizationState.Loading,
+      synchronizationProcess: SynchronizationProcessState.InProgress,
     })
   })
 

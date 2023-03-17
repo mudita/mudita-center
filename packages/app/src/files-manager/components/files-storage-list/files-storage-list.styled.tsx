@@ -15,7 +15,6 @@ import Table, {
   Row,
   Labels,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 export const FilesTable = styled(Table)`
   flex: 1;
@@ -34,10 +33,7 @@ export const LastEmptyCol = styled(Col)`
 export const FileIcon = styled(Avatar)`
   margin-left: 3.2rem;
 `
-export const FileIconHarmony = styled(Avatar)`
-  margin-left: 3.2rem;
-  background-color: ${backgroundColor("row")};
-`
+
 export const FilesStorageContainer = styled.div`
   height: 100%;
   z-index: 0;
