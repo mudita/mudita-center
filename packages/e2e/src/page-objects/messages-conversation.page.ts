@@ -187,6 +187,18 @@ class MessagesConversationPage extends Page {
   > {
     return $('[data-testid="messages-thread-details"]')
   }
+
+  /** [Selector] Browse contacts button*/
+  public get browseContactsButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="new-message-form-browse-contacts"]')
+  }
+  /** Click Browse Contacts on new message screen*/
+  async clickBrowseContactsButton() {
+    await this.browseContactsButton.waitForClickable()
+    await this.browseContactsButton.click()
+  }
 }
 
 export default new MessagesConversationPage()
