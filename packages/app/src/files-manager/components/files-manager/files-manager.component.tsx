@@ -252,22 +252,25 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         totalMemorySpace={totalMemorySpace}
         usedMemory={usedMemorySpace}
       />
-      <FilesStorage
-        state={loading}
-        files={filteredFiles}
-        selectAllItems={selectAllItems}
-        resetAllItems={resetAllItems}
-        selectedItems={selectedItems}
-        allItemsSelected={allItemsSelected}
-        toggleItem={toggleItem}
-        onDeleteClick={handleDeleteClick}
-        onManagerDeleteClick={handleManagerDeleteClick}
-        uploadFiles={uploadFile}
-        searchValue={searchValue}
-        onSearchValueChange={handleSearchValueChange}
-        noFoundFiles={noFoundFiles}
-        disableUpload={disableUpload}
-      />
+      {deviceType !== null && (
+        <FilesStorage
+          state={loading}
+          files={filteredFiles}
+          selectAllItems={selectAllItems}
+          resetAllItems={resetAllItems}
+          selectedItems={selectedItems}
+          allItemsSelected={allItemsSelected}
+          toggleItem={toggleItem}
+          onDeleteClick={handleDeleteClick}
+          onManagerDeleteClick={handleManagerDeleteClick}
+          uploadFiles={uploadFile}
+          searchValue={searchValue}
+          onSearchValueChange={handleSearchValueChange}
+          noFoundFiles={noFoundFiles}
+          disableUpload={disableUpload}
+          device={deviceType}
+        />
+      )}
     </FilesManagerContainer>
   )
 }
