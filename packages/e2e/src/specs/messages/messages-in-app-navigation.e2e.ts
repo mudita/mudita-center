@@ -5,6 +5,7 @@
 
 import NavigationTabs from "../../page-objects/tabs.page"
 import MessagesPage from "../../page-objects/messages.page"
+import MessagesConversationPage from "../../page-objects/messages-conversation.page"
 
 describe("Messages screen check", () => {
   before(async () => {
@@ -31,12 +32,12 @@ describe("Messages screen check", () => {
   })
 
   it("Should check 'Search Contacts' input field is displayed", async () => {
-    const searchInput = await MessagesPage.searchContactsInput
+    const searchInput = await MessagesConversationPage.searchContactsInput
     await expect(searchInput).toBeDisplayed()
   })
 
   it("Should check if 'message' input field is displayed", async () => {
-    const msgInput = await MessagesPage.messageInput
+    const msgInput = await MessagesConversationPage.messageTextInput
     await expect(msgInput).toBeDisplayed()
   })
 })

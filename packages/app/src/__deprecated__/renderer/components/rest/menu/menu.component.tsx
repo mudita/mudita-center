@@ -18,7 +18,10 @@ import {
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import { SynchronizationState } from "App/data-sync/reducers"
+import {
+  SynchronizationProcessState,
+  SynchronizationState,
+} from "App/data-sync/reducers"
 import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import Text, {
@@ -77,6 +80,7 @@ interface Properties {
   notifications: {
     [View.Messages]: boolean
   }
+  synchronizationProcess?: SynchronizationProcessState
 }
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -86,6 +90,7 @@ const Menu: FunctionComponent<Properties> = ({
   devModeEnabled,
   syncState,
   notifications,
+  synchronizationProcess,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
@@ -125,7 +130,9 @@ const Menu: FunctionComponent<Properties> = ({
       </div>
       {syncState !== undefined &&
         (syncState === SynchronizationState.Loading ||
-          syncState === SynchronizationState.Cache) && (
+          syncState === SynchronizationState.Cache ||
+          synchronizationProcess ===
+            SynchronizationProcessState.InProgress) && (
           <SyncProgressWrapper data-testid={MenuGroupTestIds.Sync}>
             <LoaderWrapper>
               <Loader type={LoaderType.Spinner} size={1.5} />
