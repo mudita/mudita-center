@@ -37,6 +37,18 @@ class MessagesPage extends Page {
     return $('[data-testid="icon-More"]')
   }
 
+  /** [Selector] Thread options icon (...) */
+  public get threadDropdownButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="thread-row-toggler"]')
+  }
+  /** Click Thread options button*/
+  async clickThreadDropdownButton() {
+    await this.threadDropdownButton.waitForClickable({ timeout: 7000 })
+    await this.threadDropdownButton.click()
+  }
+
   /** [Selector] Delete conversation button on therad dropodown list */
   public get threadDropdownDeleteButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
@@ -52,7 +64,7 @@ class MessagesPage extends Page {
 
   /** Click thread options icon (...)*/
   async clickThreadDropdownIcon() {
-    await this.threadDropdownIcon.waitForClickable({ timeout: 7000 })
+    await this.threadDropdownIcon.waitForDisplayed({ timeout: 7000 })
     await this.threadDropdownIcon.click()
   }
 

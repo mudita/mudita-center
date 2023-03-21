@@ -46,28 +46,28 @@ class MessagesConversationPage extends Page {
   public get threadDetailScreenDeleteButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-Delete"]')
+    return $('[data-testid="right-sidebar-delete-button"]')
   }
 
   /** [Selector] Add contact button visible on open thread (thread details) screen*/
   public get threadDetailScreenAddContactButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-NewContact"]')
+    return $('[data-testid="right-sidebar-contact-button"]')
   }
 
   /** [Selector] Close button visible on open thread (thread details) screen*/
   public get threadDetailScreenCloseButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-Close"]')
+    return $('[data-testid="icon-button-with-tooltip-icon"]')
   }
 
   /** [Selector] Mark as unread button visible on open thread (thread details) screen*/
   public get threadDetailScreenMarkAsUnreadButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-MarkAsUnread"]')
+    return $('[data-testid="right-sidebar-mark-as-unread-button"]')
   }
 
   /** [Selector] Single sending status   */
@@ -194,10 +194,13 @@ class MessagesConversationPage extends Page {
   > {
     return $('[data-testid="new-message-form-browse-contacts"]')
   }
-  /** Click Browse Contacts on new message screen*/
-  async clickBrowseContactsButton() {
-    await this.browseContactsButton.waitForClickable()
-    await this.browseContactsButton.click()
+
+  //
+  /** [Selector] Conversation recipient text*/
+  public get conversationRecipientText(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="sidebar-fullname"]')
   }
 }
 
