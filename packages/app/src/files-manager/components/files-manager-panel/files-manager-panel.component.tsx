@@ -31,7 +31,7 @@ const StyledTooltipPrimaryContent = styled(TooltipPrimaryContent)`
   max-width: 21rem;
   position: relative;
   right: 6rem;
-  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.08);
 `
 
 const messages = defineMessages({
