@@ -47,9 +47,9 @@ export const uploadFile = createAsyncThunk(
       return rejectWithValue(filesToUpload.error)
     }
 
-    const filePaths = filesToUpload.data
+    const filePaths = filesToUpload.data ?? []
 
-    if (filePaths?.length === 0) {
+    if (filePaths.length === 0) {
       dispatch(setUploadBlocked(false))
       return
     }
