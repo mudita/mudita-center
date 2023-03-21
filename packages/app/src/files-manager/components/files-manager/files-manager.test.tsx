@@ -43,6 +43,9 @@ const defaultProps: Props = {
   resetUploadingState: jest.fn(),
   uploadBlocked: false,
   setDeletingFileCount: jest.fn(),
+  abortPendingUpload: jest.fn(),
+  continuePendingUpload: jest.fn(),
+  pendingFilesCount: 0,
 }
 
 const defaultState = {

@@ -24,6 +24,7 @@ import FilesManagerSearchInput from "App/files-manager/components/files-manager-
 import { TooltipPrimaryContent } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/tooltip-primary-content.component"
 import ElementWithTooltip from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 import styled from "styled-components"
+import { getFreeFilesSlotsCountForHarmony } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
 
 const StyledTooltipPrimaryContent = styled(TooltipPrimaryContent)`
   max-width: 21rem;
@@ -54,7 +55,9 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   const selectedItemsCount = selectedFiles.length
   const selectionMode = selectedItemsCount > 0
 
-  const tooManyFiles = device === DeviceType.MuditaHarmony && filesCount > 90
+  const freeSlots = getFreeFilesSlotsCountForHarmony(filesCount)
+
+  const tooManyFiles = device === DeviceType.MuditaHarmony && freeSlots < 1
 
   const uploadButton = (
     <ButtonWrapper>

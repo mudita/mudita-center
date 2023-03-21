@@ -20,6 +20,10 @@ const defaultProps: UploadFilesModalProps = {
   uploadingFailed: false,
   error: null,
   onCloseUploadingErrorModal: jest.fn(),
+  pendingUpload: false,
+  pendingFilesCount: 0,
+  onAbortPendingUpload: jest.fn(),
+  onContinuePendingUpload: jest.fn(),
 }
 
 const render = (props: UploadFilesModalProps) => {

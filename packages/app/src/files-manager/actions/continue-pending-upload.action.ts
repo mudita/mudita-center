@@ -24,8 +24,8 @@ import {
 import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
 import { getFreeFilesSlotsCountForHarmony } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
 
-export const uploadFile = createAsyncThunk(
-  FilesManagerEvent.UploadFiles,
+export const continuePendingUpload = createAsyncThunk(
+  FilesManagerEvent.ContinuePendingUpload,
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
 
@@ -33,23 +33,10 @@ export const uploadFile = createAsyncThunk(
       return rejectWithValue("device Type isn't set")
     }
     dispatch(setUploadBlocked(true))
-    const filesToUpload = await getPathsRequest({
-      filters: [
-        {
-          name: "Audio",
-          extensions: Object.values(EligibleFormat),
-        },
-      ],
-      properties: ["openFile", "multiSelections"],
-    })
 
-    if (!filesToUpload.ok || !filesToUpload.data) {
-      return rejectWithValue(filesToUpload.error)
-    }
+    const filePaths = state.filesManager.uploadPendingFiles
 
-    const filePaths = filesToUpload.data
-
-    if (filePaths?.length === 0) {
+    if (filePaths.length === 0) {
       dispatch(setUploadBlocked(false))
       return
     }
@@ -77,7 +64,6 @@ export const uploadFile = createAsyncThunk(
       dispatch(setUploadBlocked(false))
       return
     }
-
     dispatch(setUploadingFileCount(filePaths.length))
     dispatch(setUploadingState(State.Loading))
     dispatch(setUploadBlocked(false))

@@ -33,6 +33,9 @@ export interface FilesManagerProps {
   uploadBlocked: boolean
   error: AppError | null
   setDeletingFileCount: (count: number) => void
+  pendingFilesCount: number
+  abortPendingUpload: () => void
+  continuePendingUpload: () => void
 }
 
 export interface DiskSpaceCategory {

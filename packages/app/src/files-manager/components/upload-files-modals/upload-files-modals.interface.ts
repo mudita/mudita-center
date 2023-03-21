@@ -12,4 +12,8 @@ export interface UploadFilesModalProps {
   uploadingInfo: boolean
   uploadingFailed: boolean
   onCloseUploadingErrorModal: () => void
+  pendingUpload: boolean
+  pendingFilesCount: number
+  onAbortPendingUpload: () => void
+  onContinuePendingUpload: () => void
 }

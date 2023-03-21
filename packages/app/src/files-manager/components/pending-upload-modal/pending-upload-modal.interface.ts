@@ -3,10 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum State {
-  Initial,
-  Loading,
-  Loaded,
-  Failed,
-  Pending,
+export interface PendingUploadModalProps {
+  filesCount: number
+  onClose: () => void
+  onOk: () => void
 }

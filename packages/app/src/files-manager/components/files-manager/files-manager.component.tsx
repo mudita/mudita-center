@@ -53,6 +53,9 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   uploadBlocked,
   error,
   setDeletingFileCount,
+  pendingFilesCount,
+  abortPendingUpload,
+  continuePendingUpload,
 }) => {
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files })
@@ -236,6 +239,10 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         uploadingInfo={states.uploadingInfo}
         uploadingFailed={states.uploadingFailed}
         onCloseUploadingErrorModal={handleCloseUploadingErrorModal}
+        pendingFilesCount={pendingFilesCount}
+        pendingUpload={uploading === State.Pending}
+        onAbortPendingUpload={abortPendingUpload}
+        onContinuePendingUpload={continuePendingUpload}
       />
       <DeleteFilesModals
         filesLength={deletingFileCount}
