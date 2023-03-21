@@ -17,7 +17,7 @@ export const sendMessage = async (
 
 /** Delete conversation on thread list screen by clicking options (...) and delete conversation from dropdown list */
 export const deleteConversationOnThreadList = async () => {
-  await MessagesPage.clickThreadDropdownIcon()
+  await MessagesPage.clickThreadDropdownButton()
 
   await MessagesPage.clickThreadDropdownDeleteButton()
 
