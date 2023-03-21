@@ -25,6 +25,7 @@ import { TooltipPrimaryContent } from "App/__deprecated__/renderer/components/co
 import ElementWithTooltip from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 import styled from "styled-components"
 import { getFreeFilesSlotsCountForHarmony } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
+import { filesSlotsHarmonyLimit } from "App/files-manager/constants/files-slots-harmony-limit.constans"
 
 const StyledTooltipPrimaryContent = styled(TooltipPrimaryContent)`
   max-width: 21rem;
@@ -108,7 +109,7 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
                     description={{
                       ...messages.tooManyFiles,
                       values: {
-                        maxFilesCount: 90,
+                        maxFilesCount: filesSlotsHarmonyLimit,
                       },
                     }}
                   />
