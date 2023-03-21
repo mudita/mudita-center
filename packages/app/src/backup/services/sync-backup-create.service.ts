@@ -122,7 +122,6 @@ export class SyncBackupCreateService {
       : backupId
 
     const syncBackupFinished = await this.waitUntilBackupDeviceFinished(id)
-
     if (!syncBackupFinished.ok) {
       return Result.failed(
         new AppError(
@@ -143,20 +142,24 @@ export class SyncBackupCreateService {
     id: string,
     iteration = 0
   ): Promise<ResultObject<GetBackupDeviceStatusResponseBody>> {
-    const result = await this.getBackupDeviceStatus({
-      id,
-    })
-
-    if (!result.ok || result.data?.state === BackupState.Error) {
-      return Result.failed(new AppError("", ""))
-    } else if (result.data?.state === BackupState.Finished) {
-      return result
-    } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(this.waitUntilBackupDeviceFinished(id, iteration + 1))
-        }, 1000)
+    try {
+      const result = await this.getBackupDeviceStatus({
+        id,
       })
+
+      if (!result.ok || result.data?.state === BackupState.Error) {
+        return Result.failed(new AppError("", ""))
+      } else if (result.data?.state === BackupState.Finished) {
+        return result
+      } else {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(this.waitUntilBackupDeviceFinished(id, iteration + 1))
+          }, 1000)
+        })
+      }
+    } catch (error) {
+      return Result.failed(new AppError("", ""))
     }
   }
 
