@@ -7,12 +7,7 @@ import { DeviceType } from "App/device/constants"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { State } from "App/core/constants/state.constant"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import {
-  FilesManagerEvent,
-  EligibleFormat,
-  DeviceDirectory,
-} from "App/files-manager/constants"
-import { getPathsRequest } from "App/file-system/requests"
+import { FilesManagerEvent, DeviceDirectory } from "App/files-manager/constants"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {

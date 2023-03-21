@@ -18,7 +18,7 @@ import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { fontWeight } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { PendingUploadModalProps } from "App/files-manager/components/pending-upload-modal/pending-upload-modal.interface"
 
@@ -55,7 +55,7 @@ const PendingUploadModal: React.FC<PendingUploadModalProps> = ({
     <ModalDialog
       size={ModalSize.Small}
       title={intl.formatMessage(messages.pendingUploadModalTitle)}
-      open={true}
+      open
       closeButton={false}
       actionButtonLabel={intl.formatMessage(
         messages.pendingUploadModalActionButton
