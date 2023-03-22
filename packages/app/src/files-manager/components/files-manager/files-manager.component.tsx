@@ -53,6 +53,9 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   uploadBlocked,
   error,
   setDeletingFileCount,
+  pendingFilesCount,
+  abortPendingUpload,
+  continuePendingUpload,
 }) => {
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files })
@@ -236,6 +239,10 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         uploadingInfo={states.uploadingInfo}
         uploadingFailed={states.uploadingFailed}
         onCloseUploadingErrorModal={handleCloseUploadingErrorModal}
+        pendingFilesCount={pendingFilesCount}
+        pendingUpload={uploading === State.Pending}
+        onAbortPendingUpload={abortPendingUpload}
+        onContinuePendingUpload={continuePendingUpload}
       />
       <DeleteFilesModals
         filesLength={deletingFileCount}
@@ -252,22 +259,25 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         totalMemorySpace={totalMemorySpace}
         usedMemory={usedMemorySpace}
       />
-      <FilesStorage
-        state={loading}
-        files={filteredFiles}
-        selectAllItems={selectAllItems}
-        resetAllItems={resetAllItems}
-        selectedItems={selectedItems}
-        allItemsSelected={allItemsSelected}
-        toggleItem={toggleItem}
-        onDeleteClick={handleDeleteClick}
-        onManagerDeleteClick={handleManagerDeleteClick}
-        uploadFiles={uploadFile}
-        searchValue={searchValue}
-        onSearchValueChange={handleSearchValueChange}
-        noFoundFiles={noFoundFiles}
-        disableUpload={disableUpload}
-      />
+      {deviceType !== null && (
+        <FilesStorage
+          state={loading}
+          files={filteredFiles}
+          selectAllItems={selectAllItems}
+          resetAllItems={resetAllItems}
+          selectedItems={selectedItems}
+          allItemsSelected={allItemsSelected}
+          toggleItem={toggleItem}
+          onDeleteClick={handleDeleteClick}
+          onManagerDeleteClick={handleManagerDeleteClick}
+          uploadFiles={uploadFile}
+          searchValue={searchValue}
+          onSearchValueChange={handleSearchValueChange}
+          noFoundFiles={noFoundFiles}
+          disableUpload={disableUpload}
+          deviceType={deviceType}
+        />
+      )}
     </FilesManagerContainer>
   )
 }
