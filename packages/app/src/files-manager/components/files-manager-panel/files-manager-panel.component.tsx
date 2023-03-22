@@ -112,7 +112,7 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
                     description={{
                       ...messages.tooManyFilesTooltipDescription,
                       values: {
-                        maxFilesCount: filesSlotsHarmonyMaxLimit,
+                        filesSlotsHarmonyMaxLimit: filesSlotsHarmonyMaxLimit,
                       },
                     }}
                   />
