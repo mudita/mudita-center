@@ -16,5 +16,5 @@ export interface FilesManagerPanelProps {
   selectedFiles: string[]
   allItemsSelected: boolean
   filesCount: number
-  device: DeviceType
+  deviceType: DeviceType
 }

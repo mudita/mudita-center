@@ -24,8 +24,8 @@ import FilesManagerSearchInput from "App/files-manager/components/files-manager-
 import { TooltipPrimaryContent } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/tooltip-primary-content.component"
 import ElementWithTooltip from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 import styled from "styled-components"
-import { getFreeFilesSlotsCountForHarmony } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
-import { filesSlotsHarmonyLimit } from "App/files-manager/constants/files-slots-harmony-limit.constans"
+import { getHarmonyFreeFilesSlotsCount } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
+import { filesSlotsHarmonyLimit as filesSlotsHarmonyMaxLimit } from "App/files-manager/constants/files-slots-harmony-limit.constans"
 
 const StyledTooltipPrimaryContent = styled(TooltipPrimaryContent)`
   max-width: 21rem;
@@ -37,7 +37,9 @@ const StyledTooltipPrimaryContent = styled(TooltipPrimaryContent)`
 const messages = defineMessages({
   uploadButton: { id: "module.filesManager.uploadButton" },
   deleteButton: { id: "module.filesManager.deleteButton" },
-  tooManyFiles: { id: "module.filesManager.tooManyFiles" },
+  tooManyFilesTooltipDescription: {
+    id: "module.filesManager.tooManyFilesTooltipDescription",
+  },
 })
 
 export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
@@ -51,14 +53,15 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   searchValue,
   onSearchValueChange,
   filesCount,
-  device,
+  deviceType,
 }) => {
   const selectedItemsCount = selectedFiles.length
   const selectionMode = selectedItemsCount > 0
 
-  const freeSlots = getFreeFilesSlotsCountForHarmony(filesCount)
+  const filesSlotsHarmonyLimit = getHarmonyFreeFilesSlotsCount(filesCount)
 
-  const tooManyFiles = device === DeviceType.MuditaHarmony && freeSlots < 1
+  const tooManyFiles =
+    deviceType === DeviceType.MuditaHarmony && filesSlotsHarmonyLimit < 1
 
   const uploadButton = (
     <ButtonWrapper>
@@ -107,9 +110,9 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
                 <ElementWithTooltip Element={uploadButton}>
                   <StyledTooltipPrimaryContent
                     description={{
-                      ...messages.tooManyFiles,
+                      ...messages.tooManyFilesTooltipDescription,
                       values: {
-                        maxFilesCount: filesSlotsHarmonyLimit,
+                        maxFilesCount: filesSlotsHarmonyMaxLimit,
                       },
                     }}
                   />

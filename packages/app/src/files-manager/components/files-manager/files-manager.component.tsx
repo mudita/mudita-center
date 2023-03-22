@@ -275,7 +275,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           onSearchValueChange={handleSearchValueChange}
           noFoundFiles={noFoundFiles}
           disableUpload={disableUpload}
-          device={deviceType}
+          deviceType={deviceType}
         />
       )}
     </FilesManagerContainer>

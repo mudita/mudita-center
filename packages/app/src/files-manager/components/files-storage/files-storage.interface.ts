@@ -22,5 +22,5 @@ export interface FilesStorageProps {
   onDeleteClick: (ids: string[]) => void
   onManagerDeleteClick: () => void
   disableUpload: boolean
-  device: DeviceType
+  deviceType: DeviceType
 }

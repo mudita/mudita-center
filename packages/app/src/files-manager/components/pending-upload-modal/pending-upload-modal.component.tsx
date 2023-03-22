@@ -21,6 +21,7 @@ import Text, {
 import styled from "styled-components"
 import { fontWeight } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { PendingUploadModalProps } from "App/files-manager/components/pending-upload-modal/pending-upload-modal.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 
 const messages = defineMessages({
   pendingUploadModalTitle: {
@@ -45,7 +46,7 @@ const PendingUploadDetailText = styled(Text)`
   width: 25rem;
 `
 
-const PendingUploadModal: React.FC<PendingUploadModalProps> = ({
+const PendingUploadModal: FunctionComponent<PendingUploadModalProps> = ({
   filesCount,
   onClose,
   onOk,

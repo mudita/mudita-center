@@ -22,7 +22,7 @@ import {
   setUploadingState,
 } from "App/files-manager/actions/base.action"
 import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
-import { getFreeFilesSlotsCountForHarmony } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
+import { getHarmonyFreeFilesSlotsCount } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
 
 export const uploadFile = createAsyncThunk(
   FilesManagerEvent.UploadFiles,
@@ -54,7 +54,7 @@ export const uploadFile = createAsyncThunk(
       return
     }
 
-    const harmonyFreeFilesSlotsCount = getFreeFilesSlotsCountForHarmony(
+    const harmonyFreeFilesSlotsCount = getHarmonyFreeFilesSlotsCount(
       state.filesManager.files.length
     )
 
