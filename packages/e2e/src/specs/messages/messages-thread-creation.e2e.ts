@@ -147,7 +147,7 @@ describe("New thread creation scenarios - no contacts & thread exists", () => {
 describe("New thread creation scenarios - contact exists & no threads", () => {
   const existingContactName = "Henryk"
   const existingContactSurname = "Kwiatkowski"
-  const existingContactPrimaryNumber = "+48664364535"
+  const existingContactPrimaryNumber = "664364535"
 
   before(async () => {
     // Waiting for device connected through USB
@@ -183,19 +183,73 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
     await waitForClickableAndClick(
       await BrowseContactsModal.modalContactNameText
     )
-    const conversationName =
+    const recipientName =
       await MessagesConversationPage.conversationRecipientNameText
-    const recipientText = await conversationName.getText()
-    const conversationNumber =
+    const recipientNameText = await recipientName.getText()
+    const recipientNumber =
       await MessagesConversationPage.conversationRecipientPhoneText
-    const recipientNumberText = await conversationNumber.getText()
+    const recipientNumberText = await recipientNumber.getText()
 
     const threadName = await MessagesPage.threadRow
-    await expect(threadName).toHaveText(recipientText)
+    await expect(threadName).toHaveText(recipientNameText)
+    await expect(recipientNumberText).toEqual(existingContactPrimaryNumber)
   })
 
-  xit("insert part of existing contact name into search contact input", async () => {})
-  xit("insert part of existing contact number into search contact input", async () => {})
+  it("Insert text to message input, send it and check conversation screen has contact name and phone number displayed above messages", async () => {
+    await MessagesConversationPage.insertTextToMessageInput(
+      "Check conversation title is the same"
+    )
+
+    await waitForClickableAndClick(
+      await MessagesConversationPage.sendMessageButton
+    )
+    const recipientName =
+      await MessagesConversationPage.conversationRecipientNameText
+    const recipientNameText = await recipientName.getText()
+    const recipientNumber =
+      await MessagesConversationPage.conversationRecipientPhoneText
+    const recipientNumberText = await recipientNumber.getText()
+
+    await expect(recipientNameText).toEqual(
+      existingContactName + " " + existingContactSurname
+    )
+    await expect(recipientNumberText).toEqual(existingContactPrimaryNumber)
+  })
+
+  it("click new message and insert part of existing contact name into search contact input", async () => {
+    await waitForClickableAndClick(await MessagesPage.newMessageButton)
+    await MessagesConversationPage.insertTextToSearchContactInput(
+      existingContactName.slice(0, -2)
+    )
+    await expect(
+      MessagesConversationPage.contactSearchResultItem
+    ).toHaveTextContaining(existingContactName)
+    await expect(
+      MessagesConversationPage.contactSearchResultItem
+    ).toHaveTextContaining(existingContactSurname)
+    await expect(
+      MessagesConversationPage.contactSearchResultItem
+    ).toHaveTextContaining(existingContactPrimaryNumber)
+  })
+  it("click New Message and insert part of existing contact number into search contact input", async () => {
+    const recipientInputValue =
+      await MessagesConversationPage.searchContactsInput.getValue()
+    for (let i = 0; i <= (await recipientInputValue).length; i++) {
+      await browser.keys("\ue003")
+    }
+    await MessagesConversationPage.insertTextToSearchContactInput(
+      existingContactPrimaryNumber.slice(0, -2)
+    )
+    await expect(
+      MessagesConversationPage.contactSearchResultItem
+    ).toHaveTextContaining(existingContactName)
+    await expect(
+      MessagesConversationPage.contactSearchResultItem
+    ).toHaveTextContaining(existingContactSurname)
+    await expect(
+      MessagesConversationPage.contactSearchResultItem
+    ).toHaveTextContaining(existingContactPrimaryNumber)
+  })
   after(async () => {
     try {
       await waitForClickableAndClick(

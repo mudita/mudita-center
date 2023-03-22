@@ -195,18 +195,25 @@ class MessagesConversationPage extends Page {
     return $('[data-testid="new-message-form-browse-contacts"]')
   }
 
-  /** [Selector] Conversation recipient text*/
+  /** [Selector] Conversation recipient name text*/
   public get conversationRecipientNameText(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="sidebar-fullname"]')
   }
 
-  /** [Selector] Conversation recipient text*/
+  /** [Selector] Conversation recipient number text*/
   public get conversationRecipientPhoneText(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="sidebar-phone-number"]')
+  }
+
+  /** [Selector] Contact search result item*/
+  public get contactSearchResultItem(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="input-select-list-item"]')
   }
 }
 
