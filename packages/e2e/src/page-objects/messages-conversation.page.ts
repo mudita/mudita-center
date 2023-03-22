@@ -195,12 +195,18 @@ class MessagesConversationPage extends Page {
     return $('[data-testid="new-message-form-browse-contacts"]')
   }
 
-  //
   /** [Selector] Conversation recipient text*/
-  public get conversationRecipientText(): ChainablePromiseElement<
+  public get conversationRecipientNameText(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="sidebar-fullname"]')
+  }
+
+  /** [Selector] Conversation recipient text*/
+  public get conversationRecipientPhoneText(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="sidebar-phone-number"]')
   }
 }
 
