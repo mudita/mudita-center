@@ -16,6 +16,7 @@ import {
   sendMessage,
 } from "../../helpers/messages.helper"
 import messagesConversationPage from "../../page-objects/messages-conversation.page"
+import modalMessagesPage from "../../page-objects/modal-messages.page"
 
 describe("New thread creation scenarios - no contacts & no threads", () => {
   before(async () => {
@@ -88,12 +89,12 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
   })
 
   it("Check thread name is updated with recipient number", async () => {
-    const recipientText =
-      await MessagesConversationPage.conversationRecipientText
-    const threadName = await recipientText.getText()
+    const conversationName =
+      await MessagesConversationPage.conversationRecipientNameText
+    const recipientText = await conversationName.getText()
 
-    const thaedName = await MessagesPage.threadRow
-    await expect(thaedName).toHaveText(threadName)
+    const threadName = await MessagesPage.threadRow
+    await expect(threadName).toHaveText(recipientText)
   })
   after(async () => {
     try {
@@ -144,6 +145,10 @@ describe("New thread creation scenarios - no contacts & thread exists", () => {
 })
 
 describe("New thread creation scenarios - contact exists & no threads", () => {
+  const existingContactName = "Henryk"
+  const existingContactSurname = "Kwiatkowski"
+  const existingContactPrimaryNumber = "+48664364535"
+
   before(async () => {
     // Waiting for device connected through USB
     await browser.executeAsync((done) => {
@@ -152,11 +157,43 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
 
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
     await NavigationTabs.clickContactsTab()
-    //await addNewContact("Henryk", "Kwiatkowski", "+48664364535")
+    await addNewContact(
+      existingContactName,
+      existingContactSurname,
+      existingContactPrimaryNumber
+    )
 
     await NavigationTabs.clickMessagesTab()
   })
-  xit("press phone book button (contact exist)", async () => {})
+  it("Press phone book button (contact exist)", async () => {
+    await waitForClickableAndClick(await MessagesPage.newMessageButton)
+    await waitForClickableAndClick(
+      await MessagesConversationPage.browseContactsButton
+    )
+    const contactName = await BrowseContactsModal.modalContactNameText
+    const contactPrimaryNumber =
+      await BrowseContactsModal.modalContactPrimaryNumberText
+
+    //await expect(contactName).toHaveText(
+    //existingContactName + " " + existingContactSurname
+    //)
+    await expect(contactPrimaryNumber).toHaveText(existingContactPrimaryNumber)
+  })
+  it("Click available contact and check conversation screen has contact name and phone number displayed above messages", async () => {
+    await waitForClickableAndClick(
+      await BrowseContactsModal.modalContactNameText
+    )
+    const conversationName =
+      await MessagesConversationPage.conversationRecipientNameText
+    const recipientText = await conversationName.getText()
+    const conversationNumber =
+      await MessagesConversationPage.conversationRecipientPhoneText
+    const recipientNumberText = await conversationNumber.getText()
+
+    const threadName = await MessagesPage.threadRow
+    await expect(threadName).toHaveText(recipientText)
+  })
+
   xit("insert part of existing contact name into search contact input", async () => {})
   xit("insert part of existing contact number into search contact input", async () => {})
   after(async () => {
