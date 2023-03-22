@@ -8,6 +8,7 @@ import {
   SynchronizationState,
   UpdateAllIndexesRejectAction,
   SetErrorStateError,
+  SynchronizationProcessState,
 } from "App/data-sync/reducers/data-sync.interface"
 import { createReducer } from "@reduxjs/toolkit"
 import { DataSyncEvent } from "App/data-sync/constants/event.enum"
@@ -20,6 +21,7 @@ import {
 export const initialState: DataSyncState = {
   initialized: false,
   state: SynchronizationState.Empty,
+  synchronizationProcess: SynchronizationProcessState.Done,
   error: null,
 }
 export const dataSyncReducer = createReducer<DataSyncState>(
@@ -41,12 +43,14 @@ export const dataSyncReducer = createReducer<DataSyncState>(
         return {
           ...state,
           state: SynchronizationState.Loading,
+          synchronizationProcess: SynchronizationProcessState.InProgress,
         }
       })
       .addCase(fulfilledAction(DataSyncEvent.UpdateAllIndexes), (state) => {
         return {
           ...state,
           state: SynchronizationState.Loaded,
+          synchronizationProcess: SynchronizationProcessState.Done,
           initialized: true,
           error: null,
         }
@@ -57,6 +61,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           return {
             ...state,
             state: SynchronizationState.Error,
+            synchronizationProcess: SynchronizationProcessState.Done,
             error: action.payload,
           }
         }
@@ -65,6 +70,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
         return {
           ...state,
           state: SynchronizationState.Loading,
+          synchronizationProcess: SynchronizationProcessState.InProgress,
         }
       })
       .addCase(DataSyncEvent.SetCacheState, (state) => {
@@ -78,6 +84,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
         return {
           ...state,
           state: SynchronizationState.Loaded,
+          synchronizationProcess: SynchronizationProcessState.Done,
         }
       })
       .addCase(
@@ -86,6 +93,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           return {
             ...state,
             state: SynchronizationState.Error,
+            synchronizationProcess: SynchronizationProcessState.Done,
             error: action.payload,
           }
         }

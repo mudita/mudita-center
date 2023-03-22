@@ -81,6 +81,7 @@ const defaultProps: Props = {
   forceUpdate: jest.fn(),
   forceUpdateState: State.Initial,
   closeForceUpdateFlow: jest.fn(),
+  backupActionDisabled: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {
