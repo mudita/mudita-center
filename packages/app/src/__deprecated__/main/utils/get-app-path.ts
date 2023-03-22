@@ -24,7 +24,7 @@ export const resolve: AppResolver = () => {
   const app = isRenderer
     ? // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      require("electron").remote.app
+      require("@electron/remote").app
     : // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       require("electron").app

@@ -22,18 +22,18 @@ import { updateOsReducer } from "App/update/reducers"
 
 jest.mock("App/settings/actions/check-update-available.action")
 
-jest.mock("electron", () => ({
-  remote: {
-    Menu: () => ({
-      popup: jest.fn,
-      append: jest.fn,
-    }),
-    MenuItem: () => jest.fn(),
-    getCurrentWindow: jest.fn(),
-    app: {
-      getPath: () => "",
-    },
+jest.mock("@electron/remote", () => ({
+  Menu: () => ({
+    popup: jest.fn,
+    append: jest.fn,
+  }),
+  MenuItem: () => jest.fn(),
+  app: {
+    getPath: () => "",
   },
+}))
+
+jest.mock("electron", () => ({
   app: {
     getPath: () => "",
   },

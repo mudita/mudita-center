@@ -97,6 +97,7 @@ export class PureStrategy implements DeviceStrategy {
   }
 
   public async connect(): Promise<RequestResponse<GetDeviceInfoResponseBody>> {
+    console.log("PureStrategy connect")
     const response = await this.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,

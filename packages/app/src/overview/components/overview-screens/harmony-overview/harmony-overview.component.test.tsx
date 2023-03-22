@@ -16,14 +16,12 @@ import { Provider } from "react-redux"
 
 jest.mock("App/feature-flags")
 
-jest.mock("electron", () => ({
-  remote: {
+jest.mock("@electron/remote", () => ({
     Menu: () => ({
       popup: jest.fn(),
       append: jest.fn(),
     }),
-    MenuItem: () => jest.fn(),
-  },
+    MenuItem: () => jest.fn()
 }))
 
 type Props = ComponentProps<typeof HarmonyOverview>

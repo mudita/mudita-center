@@ -13,6 +13,7 @@ import { Device } from "App/device/modules/device"
 import { PortInfo } from "App/device-manager/types"
 import { PortInfoValidator } from "App/device-manager/validators"
 import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
+import {EventEmitter} from "events";
 
 export class DeviceManager {
   public currentDevice: Device | undefined
@@ -44,7 +45,11 @@ export class DeviceManager {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
+
+    console.log('DeviceManager addDevice port', port)
+
     const device = await this.initializeDevice(port)
+    console.log('DeviceManager addDevice device', device)
 
     if (!device) {
       throw new AppError(
@@ -57,13 +62,15 @@ export class DeviceManager {
 
     if (!this.currentDevice) {
       this.currentDevice = device
-      this.ipc.sendToRenderers(
-        ListenerEvent.CurrentDeviceChanged,
-        this.currentDevice
-      )
+      //console.log('addDevice this.currentDevice', this.currentDevice)
+      // this.ipc.sendToRenderers(
+      //   ListenerEvent.CurrentDeviceChanged,
+      //   this.currentDevice
+      // )
     }
 
-    this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, device)
+    this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, {ee: new EventEmitter(), ipc: this.ipc})
+    //this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, {deviceType: 'pure', date: new Date(), array: [{bla: 123, niewiem: 15}, {bla: 123, niewiem: 15}, {bla: 123, niewiem: 15}] })
   }
 
   public removeDevice(path: string): void {

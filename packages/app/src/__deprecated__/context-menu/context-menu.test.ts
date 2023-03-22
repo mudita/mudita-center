@@ -10,13 +10,11 @@ const menuPopupMock = jest.fn()
 const menuAppendMock = jest.fn()
 
 jest.mock("electron", () => ({
-  remote: {
     Menu: () => ({
       popup: menuPopupMock,
       append: menuAppendMock,
     }),
-    MenuItem: () => jest.fn(),
-  },
+    MenuItem: () => jest.fn()
 }))
 
 test("contextmenu event listener is added on ContextMenu init", () => {

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "pre-commit": "lint-staged",
-    "setup": "npm install && npm run bootstrap:local",
+    "setup": "npm ci && npm run bootstrap:local",
     "bootstrap:local": "lerna bootstrap",
     "bootstrap:ci": "lerna bootstrap --no-ci",
     "bootstrap:netlify": "lerna bootstrap --force-local --ignore-scripts",
@@ -52,7 +52,6 @@
   "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {
     "@mudita/eslint-config": "1.0.14",
-    "@types/react-syntax-highlighter": "^13.5.2",
     "eslint-plugin-license-header": "^0.4.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^7.0.4",
@@ -62,7 +61,7 @@
     "typescript": "^4.7.4"
   },
   "engines": {
-    "node": "14.17.3",
-    "npm": "6.14.13"
+    "node": "14.21.3",
+    "npm": "6.14.18"
   }
 }

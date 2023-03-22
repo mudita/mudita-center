@@ -50,6 +50,7 @@ export class Device {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async connect(): Promise<ResultObject<DeviceInfo>> {
+    console.log("Device connect")
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     const response = await this.strategy.connect()

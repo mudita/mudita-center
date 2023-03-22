@@ -24,14 +24,12 @@ import { DownloadState, SilentCheckForUpdateState } from "App/update/constants"
 
 type Props = ComponentProps<typeof Overview>
 
-jest.mock("electron", () => ({
-  remote: {
+jest.mock("@electron/remote", () => ({
     Menu: () => ({
       popup: jest.fn(),
       append: jest.fn(),
     }),
     MenuItem: () => jest.fn(),
-  },
 }))
 
 jest.mock("App/__deprecated__/renderer/requests/get-device-info.request", () =>

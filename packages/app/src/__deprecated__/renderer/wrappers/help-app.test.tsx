@@ -27,13 +27,11 @@ const renderer = () => {
 jest.mock("../utils/hooks/use-help-search/use-help-search")
 
 jest.mock("electron", () => ({
-  remote: {
     Menu: () => ({
       popup: jest.fn,
       append: jest.fn,
     }),
-    MenuItem: () => jest.fn(),
-  },
+    MenuItem: () => jest.fn()
 }))
 
 beforeEach(() =>
