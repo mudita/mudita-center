@@ -85,11 +85,6 @@ import { ApplicationModule } from "App/core/application.module"
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 require("dotenv").config()
 
-// FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-//  There is almost always a better way to accomplish your task than using this module.
-//  You can read more in https://github.com/electron/remote#migrating-from-remote
-require("@electron/remote/main").initialize()
-
 logger.info("Starting the app")
 
 let win: BrowserWindow | null
@@ -115,7 +110,7 @@ const installExtensions = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const installer = require("electron-devtools-installer")
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions: string[] = []
+  const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
 
   return Promise.all(
     // AUTO DISABLED - fix me if you like :)
@@ -133,10 +128,7 @@ const commonWindowOptions = {
     nodeIntegration: true,
     webSecurity: false,
     devTools: !productionEnvironment,
-    // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
-    //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
-    contextIsolation: false,
-    // https://www.electronjs.org/docs/latest/breaking-changes - from electron 20 everything is sandboxed, unless specified differently
+    enableRemoteModule: true
   },
 }
 const getWindowOptions = (
@@ -172,11 +164,6 @@ const createWindow = async () => {
   win.on("closed", () => {
     win = null
   })
-
-  // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-  //  There is almost always a better way to accomplish your task than using this module.
-  //  You can read more in https://github.com/electron/remote#migrating-from-remote
-  require("@electron/remote/main").enable(win.webContents)
 
   new MetadataInitializer(metadataStore).init()
 
@@ -228,18 +215,18 @@ const createWindow = async () => {
 
   // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
   //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
-  win.webContents.setWindowOpenHandler((details) => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    shell.openExternal(details.url)
-    return {action: "allow"}
-  })
-  // win.webContents.on("new-window", (event, href) => {
-  //   event.preventDefault()
+  // win.webContents.setWindowOpenHandler((details) => {
   //   // AUTO DISABLED - fix me if you like :)
   //   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  //   shell.openExternal(href)
+  //   shell.openExternal(details.url)
+  //   return {action: "allow"}
   // })
+  win.webContents.on("new-window", (event, href) => {
+    event.preventDefault()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    shell.openExternal(href)
+  })
 
   if (productionEnvironment) {
     win.webContents.once("dom-ready", () => {
@@ -290,10 +277,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
       helpWindow = null
     })
 
-    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-    //  There is almost always a better way to accomplish your task than using this module.
-    //  You can read more in https://github.com/electron/remote#migrating-from-remote
-    require("@electron/remote/main").enable(helpWindow.webContents)
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -339,11 +322,6 @@ const createOpenWindowListener = (
         newWindow = null
       })
 
-      // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-      //  There is almost always a better way to accomplish your task than using this module.
-      //  You can read more in https://github.com/electron/remote#migrating-from-remote
-      require("@electron/remote/main").enable(newWindow.webContents)
-
       await newWindow.loadURL(
         !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
@@ -359,18 +337,18 @@ const createOpenWindowListener = (
 
       // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
       //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
-      newWindow.webContents.setWindowOpenHandler( (details) => {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        shell.openExternal(details.url)
-        return {action: "allow"}
-      })
-      // newWindow.webContents.on("new-window", (event, href) => {
-      //   event.preventDefault()
+      // newWindow.webContents.setWindowOpenHandler( (details) => {
       //   // AUTO DISABLED - fix me if you like :)
       //   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      //   shell.openExternal(href)
+      //   shell.openExternal(details.url)
+      //   return {action: "allow"}
       // })
+      newWindow.webContents.on("new-window", (event, href) => {
+        event.preventDefault()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        shell.openExternal(href)
+      })
     } else {
       newWindow.show()
     }

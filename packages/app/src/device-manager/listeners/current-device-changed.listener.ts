@@ -11,8 +11,7 @@ import { Device } from "App/device/modules/device"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const currentDeviceChangedHandler = (data: any): void => {
-  console.log("currentDeviceChangedHandler data", data);
+const currentDeviceChangedHandler = (_: any, data: Device): void => {
   if (!data) {
     return
   }
@@ -20,7 +19,7 @@ const currentDeviceChangedHandler = (data: any): void => {
 }
 
 export const registerCurrentDeviceChangedListener = (): (() => void) => {
-  ipcRenderer.answerMain(
+  ipcRenderer.on(
     ListenerEvent.CurrentDeviceChanged,
     currentDeviceChangedHandler
   )
