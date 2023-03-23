@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
 import ContactsPage from "../page-objects/contacts.page"
 import NavigationTabs from "../page-objects/tabs.page"
 import ModalContactsPage from "../page-objects/modal-contacts.page"
