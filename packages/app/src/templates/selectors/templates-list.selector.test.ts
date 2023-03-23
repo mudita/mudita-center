@@ -32,15 +32,15 @@ describe("`templatesListSelector` selector", () => {
     expect(templatesListSelector(state)).toEqual([])
   })
 
-  test("when there are multiple templates, selector returns them sorted by `order` files in ascending way", () => {
+  test("when there are multiple templates, selector returns them sorted by `order` files in descending way", () => {
     const state = {
       templates: templateReducer(
-        { ...initialState, data: [secondTemplate, template] },
+        { ...initialState, data: [template, secondTemplate] },
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState
-    expect(templatesListSelector(state)).toEqual([template, secondTemplate])
+    expect(templatesListSelector(state)).toEqual([secondTemplate, template])
   })
 })
