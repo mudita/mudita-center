@@ -8,6 +8,7 @@ import MessagesPage from "../../page-objects/messages.page"
 import ModalGeneralPage from "../../page-objects/modal-general.page"
 import MessagesConversationPage from "../../page-objects/messages-conversation.page"
 import BrowseContactsModal from "../../page-objects/messages-browse-contacts-modal.page"
+import ModalMessagesPage from "../../page-objects/modal-messages.page"
 
 import { addNewContact, deleteContact } from "../../helpers/contacts.helper"
 import { waitForClickableAndClick } from "../../helpers/general.helper"
@@ -16,7 +17,6 @@ import {
   sendMessage,
 } from "../../helpers/messages.helper"
 import messagesConversationPage from "../../page-objects/messages-conversation.page"
-import modalMessagesPage from "../../page-objects/modal-messages.page"
 
 describe("New thread creation scenarios - no contacts & no threads", () => {
   before(async () => {
@@ -26,9 +26,7 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
     })
 
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    await waitForClickableAndClick(
-      await ModalGeneralPage.updateAvailableModalCloseButton
-    )
+
     await waitForClickableAndClick(await NavigationTabs.messagesTab)
   })
   it("Press browse contacts button and check no contacts is displayed", async () => {
@@ -99,12 +97,27 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
     const threadName = await MessagesPage.threadRow
     await expect(threadName).toHaveText(recipientText)
   })
+  it("Delete empty thread with selection manager", async () => {
+    await MessagesPage.hoverOverThreadRow()
+    await waitForClickableAndClick(await MessagesPage.threadCheckbox)
+    await waitForClickableAndClick(
+      await MessagesPage.selectionManagerDeleteButton
+    )
+    await ModalMessagesPage.clickConfirmDeleteButton()
+
+    const emptyThreadList = MessagesPage.threadScreenEmptyList
+    await emptyThreadList.waitForDisplayed({ timeout: 8000 })
+    await expect(emptyThreadList).toBeDisplayed()
+  })
+
   after(async () => {
     try {
       await waitForClickableAndClick(
         await MessagesConversationPage.threadDetailScreenCloseButton
       )
       await deleteConversationOnThreadList()
+      await waitForClickableAndClick(await NavigationTabs.contactsTab)
+      await waitForClickableAndClick(await NavigationTabs.messagesTab)
     } catch (error) {
       console.log(error)
     }
@@ -291,7 +304,7 @@ describe("New thread creation scenarios - contact exists & thread exists", () =>
       existingContactPrimaryNumber
     )
     await browser.keys("\uE007")
-    await browser.saveScreenshot("./newTest.png")
+
     const recipientName =
       await MessagesConversationPage.conversationRecipientNameText
     const recipientNameText = await recipientName.getText()
