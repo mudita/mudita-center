@@ -13,6 +13,7 @@ import { Device } from "App/device/modules/device"
 import { PortInfo } from "App/device-manager/types"
 import { PortInfoValidator } from "App/device-manager/validators"
 import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
+import {DeviceType} from "App/device";
 
 export class DeviceManager {
   public currentDevice: Device | undefined
@@ -26,16 +27,23 @@ export class DeviceManager {
   constructor(
     private deviceResolver: DeviceResolverService,
     private ipc: MainProcessIpc
-  ) {}
+  ) {
+    console.log("DeviceManager constructor")
+  }
 
   get device(): Device {
-    if (!this.currentDevice) {
-      throw new AppError(
-        DeviceManagerError.NoCurrentDevice,
-        "Current device is undefined"
-      )
+    console.log("DeviceManager device")
+    try {
+      if (!this.currentDevice) {
+        throw new AppError(
+          DeviceManagerError.NoCurrentDevice,
+          "Current device is undefined"
+        )
+      }
+    } catch (e) {
+      console.log("DeviceManager e: ", e)
+      throw new AppError(DeviceManagerError.NoCurrentDevice, "Current device is undefined")
     }
-
     return this.currentDevice
   }
 
@@ -45,25 +53,37 @@ export class DeviceManager {
 
   public async addDevice(port: PortInfo): Promise<void> {
 
-    const device = await this.initializeDevice(port)
 
-    if (!device) {
-      throw new AppError(
-        DeviceManagerError.CannotInitializeDeviceObject,
-        `Cannot initialize device object for ${port.productId || ""}`
-      )
-    }
+    // if (!device) {
+    //   throw new AppError(
+    //     DeviceManagerError.CannotInitializeDeviceObject,
+    //     `Cannot initialize device object for ${port.productId || ""}`
+    //   )
+    // }
 
-    this.devicesMap.set(device.path, device)
+      const device = await this.initializeDevice(port)
+      console.log("DeviceManager addDevice device", device)
 
-    if (!this.currentDevice) {
-      this.currentDevice = device
-      this.ipc.sendToRenderers(
-        ListenerEvent.CurrentDeviceChanged,
-        this.currentDevice
-      )
-    }
-    this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, device)
+      if(device) {
+        this.devicesMap.set(device.path, device)
+
+        console.log("DeviceManager addDevice this.currentDevice", this.currentDevice)
+        if (!this.currentDevice) {
+          console.log("DeviceManager addDevice if - this.currentDevice is undefined")
+          this.currentDevice = device
+          console.log("DeviceManager addDevice if this.currentDevice.deviceType",
+            this.currentDevice.deviceType === DeviceType.MuditaHarmony ? "MuditaHarmony" : "MuditaPure")
+          this.ipc.sendToRenderers(
+            ListenerEvent.CurrentDeviceChanged,
+            this.currentDevice.deviceType === DeviceType.MuditaHarmony ? "MuditaHarmony" : "MuditaPure"
+          )
+        }
+        this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, this.currentDevice.deviceType === DeviceType.MuditaHarmony ? "MuditaHarmony" : "MuditaPure")
+      }
+      else {
+        throw new Error("Device not connected")
+      }
+
   }
 
   public removeDevice(path: string): void {
@@ -78,7 +98,7 @@ export class DeviceManager {
 
       this.ipc.sendToRenderers(
         ListenerEvent.CurrentDeviceChanged,
-        this.currentDevice
+        this.currentDevice?.deviceType
       )
     }
 
@@ -88,21 +108,28 @@ export class DeviceManager {
   public setCurrentDevice(path: string): ResultObject<boolean> {
     const newCurrentDevice = this.devicesMap.get(path)
 
-    if (!newCurrentDevice) {
-      return Result.failed(
-        new AppError(
-          DeviceManagerError.CannotFindDevice,
-          `Device ${path} can't be found`
+    console.log("setCurrentDevice newCurrentDevice", newCurrentDevice)
+
+    // if (!newCurrentDevice) {
+    //   return Result.failed(
+    //     new AppError(
+    //       DeviceManagerError.CannotFindDevice,
+    //       `Device ${path} can't be found`
+    //     )
+    //   )
+    // }
+
+    if(newCurrentDevice) {
+        this.currentDevice = newCurrentDevice
+
+        this.ipc.sendToRenderers(
+          ListenerEvent.CurrentDeviceChanged,
+          this.currentDevice.deviceType
         )
-      )
     }
-
-    this.currentDevice = newCurrentDevice
-
-    this.ipc.sendToRenderers(
-      ListenerEvent.CurrentDeviceChanged,
-      this.currentDevice
-    )
+    else {
+      throw new Error("setCurrentDevice cannot set current device")
+    }
 
     return Result.success(true)
   }

@@ -10,15 +10,21 @@ import { ipcRenderer } from "electron-better-ipc"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const deviceAttachedHandler = (_: any, _data: string): void => {
-  void store.dispatch(handleDeviceAttached())
-}
+// const deviceAttachedHandler = (_: any, _data: string): void => {
+//   void store.dispatch(handleDeviceAttached())
+// }
 
 export const registerClearingUpdateStateOnDeviceAttachedListener =
   (): (() => void) => {
-    ipcRenderer.on(ListenerEvent.DeviceAttached, deviceAttachedHandler)
+    ipcRenderer.on(ListenerEvent.DeviceAttached, (_: any, _data: string): void => {
+      console.log("registerClearingUpdateStateOnDeviceAttachedListener ipcRenderer.on")
+      void store.dispatch(handleDeviceAttached())
+    })
 
     return () => {
-      ipcRenderer.off(ListenerEvent.DeviceAttached, deviceAttachedHandler)
+      ipcRenderer.off(ListenerEvent.DeviceAttached, (_: any, _data: string): void => {
+        console.log("registerClearingUpdateStateOnDeviceAttachedListener ipcRenderer.off")
+        void store.dispatch(handleDeviceAttached())
+      })
     }
   }

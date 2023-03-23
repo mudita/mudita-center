@@ -227,9 +227,9 @@ export class Device {
   private emitConnectionEvent(): void {
     if (this.connecting) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceConnected, this)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceConnected, {
-        deviceType: this.deviceType,
-      })
+      // this.ipc.sendToRenderers(IpcEmitter.DeviceConnected, {
+      //   deviceType: this.deviceType,
+      // })
       this.connecting = false
     }
   }
@@ -237,7 +237,7 @@ export class Device {
   private emitDisconnectionEvent(): void {
     if (!this.connecting) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, this.path)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceDisconnected, this.path)
+      // this.ipc.sendToRenderers(IpcEmitter.DeviceDisconnected, this.path)
       this.unmountDeviceListeners()
     }
   }
@@ -245,21 +245,21 @@ export class Device {
   private emitLockedEvent(): void {
     if (!this.locked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked, this)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceLocked, this)
+      // this.ipc.sendToRenderers(IpcEmitter.DeviceLocked, this)
       this.locked = true
     }
   }
 
   private emitUnlockedEvent(): void {
     this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
-    this.ipc.sendToRenderers(IpcEmitter.DeviceUnlocked, this)
+    // this.ipc.sendToRenderers(IpcEmitter.DeviceUnlocked, this)
     this.locked = false
   }
 
   private emitAgreementAcceptedEvent(): void {
     if (!this.locked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted, true)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceAgreementStatus, true)
+      // this.ipc.sendToRenderers(IpcEmitter.DeviceAgreementStatus, true)
       this.agreementAccepted = true
     }
   }
@@ -270,7 +270,7 @@ export class Device {
         DeviceServiceEvent.DeviceAgreementNotAccepted,
         false
       )
-      this.ipc.sendToRenderers(IpcEmitter.DeviceAgreementStatus, false)
+      // this.ipc.sendToRenderers(IpcEmitter.DeviceAgreementStatus, false)
       this.agreementAccepted = false
     }
   }

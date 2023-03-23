@@ -14,7 +14,11 @@ export class ConnectedDeviceInitializer implements Initializer {
   ) {}
 
   public async initialize(): Promise<void> {
+    console.log("ConnectedDeviceInitializer initialize")
+
     const devices = await this.deviceManager.getConnectedDevices()
+
+    console.log("ConnectedDeviceInitializer initialize devices", devices)
 
     devices.forEach((device) => {
       void this.deviceManager.addDevice(device)
