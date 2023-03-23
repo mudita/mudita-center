@@ -129,6 +129,34 @@ class MessagesPage extends Page {
   > {
     return this.threadDropdownMarkAsReadButton.$("p")
   }
+  /** Returns list of last message text displayed on the conversation list and true/false depending on message unread/read status*/
+  async getLastMessages() {
+    const allLastMessages = await $$('//*[@data-testid="thread-last-message"]')
+
+    const messagesContents: string[] = await browser.executeAsync((done) => {
+      const messages = Array.from(
+        document.querySelectorAll('p[data-testid="thread-last-message"]')
+      )
+
+      const messagesContents = messages.map((item) => {
+        const styles = document.defaultView.getComputedStyle(item, "::after")
+        return styles.getPropertyValue("content")
+      })
+
+      done(messagesContents)
+    })
+
+    const result = await Promise.all(
+      allLastMessages.map(async (lastMessage, index) => {
+        return {
+          text: await lastMessage.getText(),
+          dotDisplayed: messagesContents[index] !== "none",
+        }
+      })
+    )
+
+    return result
+  }
 }
 
 export default new MessagesPage()
