@@ -9,7 +9,7 @@ import ModalGeneralPage from "../../page-objects/modal-general.page"
 import MessagesConversationPage from "../../page-objects/messages-conversation.page"
 import BrowseContactsModal from "../../page-objects/messages-browse-contacts-modal.page"
 
-import { addNewContact } from "../../helpers/contacts.helper"
+import { addNewContact, deleteContact } from "../../helpers/contacts.helper"
 import { waitForClickableAndClick } from "../../helpers/general.helper"
 import {
   deleteConversationOnThreadList,
@@ -26,7 +26,10 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
     })
 
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    await NavigationTabs.clickMessagesTab()
+    await waitForClickableAndClick(
+      await ModalGeneralPage.updateAvailableModalCloseButton
+    )
+    await waitForClickableAndClick(await NavigationTabs.messagesTab)
   })
   it("Press browse contacts button and check no contacts is displayed", async () => {
     await waitForClickableAndClick(await MessagesPage.newMessageButton)
@@ -116,9 +119,8 @@ describe("New thread creation scenarios - no contacts & thread exists", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    await NavigationTabs.clickMessagesTab()
+    await waitForClickableAndClick(await NavigationTabs.messagesTab)
     await sendMessage(existingThreadPhoneNumber, existingThreadMessageText)
   })
   it("input recipient number of existing thread and press enter ", async () => {
@@ -154,16 +156,14 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    await NavigationTabs.clickContactsTab()
+    await waitForClickableAndClick(await NavigationTabs.contactsTab)
     await addNewContact(
       existingContactName,
       existingContactSurname,
       existingContactPrimaryNumber
     )
-
-    await NavigationTabs.clickMessagesTab()
+    await waitForClickableAndClick(await NavigationTabs.messagesTab)
   })
   it("Press phone book button (contact exist)", async () => {
     await waitForClickableAndClick(await MessagesPage.newMessageButton)
@@ -174,6 +174,7 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
     const contactPrimaryNumber =
       await BrowseContactsModal.modalContactPrimaryNumberText
 
+    //TO BE UPDATED AFTER CONTACT NAME HAS DEDICATED DATA-TESTID ATTRIBUTE
     //await expect(contactName).toHaveText(
     //existingContactName + " " + existingContactSurname
     //)
@@ -256,6 +257,8 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
         await MessagesConversationPage.threadDetailScreenCloseButton
       )
       await deleteConversationOnThreadList()
+      await waitForClickableAndClick(await NavigationTabs.contactsTab)
+      await deleteContact()
     } catch (error) {
       console.log(error)
     }
@@ -263,16 +266,44 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
 })
 
 describe("New thread creation scenarios - contact exists & thread exists", () => {
+  const existingContactName = "Zbigniew"
+  const existingContactSurname = "Kuropatwa"
+  const existingContactPrimaryNumber = "664364535"
+  const existingThreadMessageText = "Another existing thread msg"
   before(async () => {
     // Waiting for device connected through USB
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    await NavigationTabs.clickMessagesTab()
+    await waitForClickableAndClick(await NavigationTabs.contactsTab)
+    await addNewContact(
+      existingContactName,
+      existingContactSurname,
+      existingContactPrimaryNumber
+    )
+    await waitForClickableAndClick(await NavigationTabs.messagesTab)
+    await sendMessage(existingContactPrimaryNumber, existingThreadMessageText)
   })
-  xit("input recipient number of existing thread and press enter ", async () => {})
+  it("input recipient number of existing thread and press enter ", async () => {
+    await waitForClickableAndClick(await MessagesPage.newMessageButton)
+    await MessagesConversationPage.insertTextToSearchContactInput(
+      existingContactPrimaryNumber
+    )
+    await browser.keys("\uE007")
+    await browser.saveScreenshot("./newTest.png")
+    const recipientName =
+      await MessagesConversationPage.conversationRecipientNameText
+    const recipientNameText = await recipientName.getText()
+    const recipientNumber =
+      await MessagesConversationPage.conversationRecipientPhoneText
+    const recipientNumberText = await recipientNumber.getText()
+
+    await expect(recipientNameText).toEqual(
+      existingContactName + " " + existingContactSurname
+    )
+    await expect(recipientNumberText).toEqual(existingContactPrimaryNumber)
+  })
 
   after(async () => {
     try {
@@ -280,6 +311,8 @@ describe("New thread creation scenarios - contact exists & thread exists", () =>
         await MessagesConversationPage.threadDetailScreenCloseButton
       )
       await deleteConversationOnThreadList()
+      await waitForClickableAndClick(await NavigationTabs.contactsTab)
+      await deleteContact()
     } catch (error) {
       console.log(error)
     }
