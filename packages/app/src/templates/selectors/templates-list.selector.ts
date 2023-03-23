@@ -10,7 +10,6 @@ import { Template } from "App/templates/dto"
 const templatesSelector = ({ templates }: ReduxRootState) => templates.data
 
 const sortTemplates = (templates: Template[]): Template[] => {
-  console.log(templates)
   return [...templates].sort((a, b) => {
     return a.order && b.order ? b.order - a.order : 1
   })
