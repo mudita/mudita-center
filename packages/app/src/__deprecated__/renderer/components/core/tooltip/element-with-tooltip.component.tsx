@@ -21,6 +21,7 @@ export enum ElementWithTooltipPlace {
   BottomRight = "bottom-right",
   BottomLeft = "bottom-left",
   TopLeft = "top-left",
+  TopRight = "top-right",
 }
 
 interface Props {
@@ -31,6 +32,8 @@ interface Props {
   showIfTextEllipsis?: boolean
 }
 
+const topOffset = 5
+
 const overridePosition =
   (place: Props["place"]): TooltipProps["overridePosition"] =>
   ({ left, top }, event, triggerElement, tooltipElement) => {
@@ -40,7 +43,7 @@ const overridePosition =
       const arrowTop =
         (triggerElement as HTMLElement).getBoundingClientRect().top +
         (triggerElement as HTMLElement).offsetHeight +
-        5
+        topOffset
 
       return { left: arrowLeft, top: arrowTop }
     } else if (place === ElementWithTooltipPlace.BottomLeft) {
@@ -51,7 +54,7 @@ const overridePosition =
       const arrowTop =
         (triggerElement as HTMLElement).getBoundingClientRect().top +
         (triggerElement as HTMLElement).offsetHeight +
-        5
+        topOffset
 
       return { left: arrowLeft, top: arrowTop }
     } else if (place === ElementWithTooltipPlace.TopLeft) {
@@ -63,7 +66,17 @@ const overridePosition =
       const arrowTop =
         (triggerElement as HTMLElement).getBoundingClientRect().top -
         (tooltipElement as HTMLElement).offsetHeight -
-        5
+        topOffset
+
+      return { left: arrowLeft, top: arrowTop }
+    } else if (place === ElementWithTooltipPlace.TopRight) {
+      const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect()
+        .left
+
+      const arrowTop =
+        (triggerElement as HTMLElement).getBoundingClientRect().top -
+        (tooltipElement as HTMLElement).offsetHeight -
+        topOffset
 
       return { left: arrowLeft, top: arrowTop }
     } else {

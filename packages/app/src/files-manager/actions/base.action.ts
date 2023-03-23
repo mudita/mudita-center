@@ -30,3 +30,7 @@ export const setUploadBlocked = createAction<boolean>(
 export const setDeletingFileCount = createAction<number>(
   FilesManagerEvent.SetDeletingFileCount
 )
+
+export const setPendingFilesToUpload = createAction<string[]>(
+  FilesManagerEvent.SetPendingFilesToUpload
+)

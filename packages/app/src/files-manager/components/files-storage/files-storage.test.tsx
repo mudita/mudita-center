@@ -31,6 +31,7 @@ const defaultProps: Props = {
   onManagerDeleteClick: jest.fn(),
   uploadFiles: jest.fn(),
   onSearchValueChange: jest.fn(),
+  deviceType: DeviceType.MuditaPure,
 }
 
 const defaultState = {

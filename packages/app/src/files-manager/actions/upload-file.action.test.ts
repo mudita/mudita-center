@@ -47,6 +47,14 @@ const successGetPathResponse = new SuccessResult<string[]>(pathsMock)
 const failedGetPathResponse = Result.failed(errorMock)
 const successUploadResponse = new SuccessResult<string[]>(pathsMock)
 const failedUploadResponse = Result.failed(errorMock)
+const initialStore = {
+  device: {
+    deviceType: DeviceType.MuditaPure,
+  },
+  filesManager: {
+    files: [],
+  },
+}
 
 const getFilesPathsResponseMock: GetPathsInput = {
   filters: [
@@ -70,11 +78,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
     })
 
     test("dispatch `setUploadingState` with `State.Loaded` and `getFiles` with provided directory", async () => {
-      const mockStore = createMockStore([thunk])({
-        device: {
-          deviceType: DeviceType.MuditaPure,
-        },
-      })
+      const mockStore = createMockStore([thunk])(initialStore)
 
       const {
         meta: { requestId },
@@ -121,11 +125,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
     })
 
     test("any action is dispatch", async () => {
-      const mockStore = createMockStore([thunk])({
-        device: {
-          deviceType: DeviceType.MuditaPure,
-        },
-      })
+      const mockStore = createMockStore([thunk])(initialStore)
 
       const {
         meta: { requestId },
@@ -158,11 +158,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
     })
 
     test("failed with receive from `uploadFileRequest` error", async () => {
-      const mockStore = createMockStore([thunk])({
-        device: {
-          deviceType: DeviceType.MuditaPure,
-        },
-      })
+      const mockStore = createMockStore([thunk])(initialStore)
 
       const {
         meta: { requestId },
@@ -200,11 +196,7 @@ describe("when `getPathRequest` request return Result.failed", () => {
   })
 
   test("failed with receive from `uploadFileRequest` error", async () => {
-    const mockStore = createMockStore([thunk])({
-      device: {
-        deviceType: DeviceType.MuditaPure,
-      },
-    })
+    const mockStore = createMockStore([thunk])(initialStore)
 
     const {
       meta: { requestId },
