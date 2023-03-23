@@ -60,7 +60,7 @@ class MessagesConversationPage extends Page {
   public get threadDetailScreenCloseButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-button-with-tooltip-icon"]')
+    return $('[data-testid="icon-Close"]').parentElement()
   }
 
   /** [Selector] Mark as unread button visible on open thread (thread details) screen*/
