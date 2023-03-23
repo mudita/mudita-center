@@ -92,6 +92,7 @@ const ModalContent = styled.div`
   }
 `
 const StyledTooltip = styled(Tooltip)`
+  word-break: break-all;
   max-width: 33.2rem;
 `
 
