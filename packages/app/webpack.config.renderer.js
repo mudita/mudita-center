@@ -48,6 +48,7 @@ const config = {
       js,
     ],
   },
+  ignoreWarnings: [/Failed to parse source map/],
 }
 
 if (!production) {

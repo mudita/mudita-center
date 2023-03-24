@@ -21,6 +21,7 @@ import { UpdateErrorServiceErrors } from "App/update/constants"
 import { UpdateOS } from "App/update/dto"
 import { DeviceUpdateService } from "App/update/services/device-update.service"
 import { DeviceInfoService } from "App/device-info/services"
+import { normalize } from "path"
 
 let settingsService: SettingsService
 let deviceManager: DeviceManager
@@ -29,7 +30,7 @@ let subject: DeviceUpdateService
 let deviceInfoService: DeviceInfoService
 
 const payloadMock: UpdateOS = {
-  fileName: "/update.tar",
+  fileName: normalize("/update.tar"),
 }
 
 const deviceInfoResponseMock: DeviceInfo = {
@@ -43,7 +44,7 @@ const deviceInfoResponseMock: DeviceInfo = {
   networkName: "Play",
   simCards: [],
   backupFilePath: "",
-  updateFilePath: "/sys/user/update.tar",
+  updateFilePath: normalize("/sys/user/update.tar"),
   recoveryStatusFilePath: "",
   syncFilePath: "",
   batteryLevel: 100,
@@ -60,7 +61,7 @@ afterEach(() => {
 
 beforeEach(() => {
   settingsService = {
-    getByKey: jest.fn().mockReturnValue("/some/path/"),
+    getByKey: jest.fn().mockReturnValue(normalize("/some/path/")),
   } as unknown as SettingsService
 
   deviceManager = {
@@ -110,7 +111,9 @@ describe("Method: updateOs", () => {
         Result.failed(
           new AppError(
             UpdateErrorServiceErrors.NotEnoughSpace,
-            "Cannot upload /some/path/update.tar to device - not enough space"
+            `Cannot upload ${normalize(
+              "/some/path/update.tar"
+            )} to device - not enough space`
           )
         )
       )
@@ -178,7 +181,7 @@ describe("Method: updateOs", () => {
       Result.failed(
         new AppError(
           UpdateErrorServiceErrors.UpdateFileUpload,
-          "Cannot upload /some/path/update.tar to device"
+          `Cannot upload ${normalize("/some/path/update.tar")} to device`
         )
       )
     )
@@ -190,8 +193,8 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: "/some/path/update.tar",
-      targetPath: "/sys/user/update.tar",
+      filePath: normalize("/some/path/update.tar"),
+      targetPath: normalize("/sys/user/update.tar"),
     })
   })
 
@@ -222,8 +225,8 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: "/some/path/update.tar",
-      targetPath: "/sys/user/update.tar",
+      filePath: normalize("/some/path/update.tar"),
+      targetPath: normalize("/sys/user/update.tar"),
     })
   })
 
@@ -266,8 +269,8 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: "/some/path/update.tar",
-      targetPath: "/sys/user/update.tar",
+      filePath: normalize("/some/path/update.tar"),
+      targetPath: normalize("/sys/user/update.tar"),
     })
   })
 
@@ -308,8 +311,8 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: "/some/path/update.tar",
-      targetPath: "/sys/user/update.tar",
+      filePath: normalize("/some/path/update.tar"),
+      targetPath: normalize("/sys/user/update.tar"),
     })
   })
 
@@ -356,8 +359,8 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: "/some/path/update.tar",
-      targetPath: "/sys/user/update.tar",
+      filePath: normalize("/some/path/update.tar"),
+      targetPath: normalize("/sys/user/update.tar"),
     })
   })
 })
