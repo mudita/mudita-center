@@ -24,6 +24,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       state.backup.backingUpState === State.Loading,
     devModeEnabled: state.devMode.enabled,
     syncState: state.dataSync.state,
+    synchronizationProcess: state.dataSync.synchronizationProcess,
   }
 }
 

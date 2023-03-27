@@ -42,7 +42,7 @@ export class TemplateService {
       const templateData = TemplatePresenter.mapToTemplate({
         ...response.data,
         templateBody: template.text,
-        order: template.order,
+        order: response.data.templateID,
         lastUsedAt: 0,
       })
 

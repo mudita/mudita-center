@@ -84,7 +84,7 @@ const ModalContent = styled.div`
   p:first-of-type {
     margin-top: 0;
   }
-  p:last-of-type {
+  p:last-of-type[data-for="file-path-tooltip"] {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -92,6 +92,7 @@ const ModalContent = styled.div`
   }
 `
 const StyledTooltip = styled(Tooltip)`
+  word-break: break-all;
   max-width: 33.2rem;
 `
 

@@ -21,10 +21,25 @@ import { FilesManagerPanelTestIds } from "App/files-manager/components/files-man
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import FilesManagerSearchInput from "App/files-manager/components/files-manager-search-input/files-manager-search-input"
+import { TooltipPrimaryContent } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/tooltip-primary-content.component"
+import ElementWithTooltip from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
+import styled from "styled-components"
+import { getHarmonyFreeFilesSlotsCount } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
+import { filesSlotsHarmonyLimit as filesSlotsHarmonyMaxLimit } from "App/files-manager/constants/files-slots-harmony-limit.constans"
+
+const StyledTooltipPrimaryContent = styled(TooltipPrimaryContent)`
+  max-width: 21rem;
+  position: relative;
+  right: 6rem;
+  box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.08);
+`
 
 const messages = defineMessages({
   uploadButton: { id: "module.filesManager.uploadButton" },
   deleteButton: { id: "module.filesManager.deleteButton" },
+  tooManyFilesTooltipDescription: {
+    id: "module.filesManager.tooManyFilesTooltipDescription",
+  },
 })
 
 export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
@@ -37,9 +52,28 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   resetRows,
   searchValue,
   onSearchValueChange,
+  filesCount,
+  deviceType,
 }) => {
   const selectedItemsCount = selectedFiles.length
   const selectionMode = selectedItemsCount > 0
+
+  const filesSlotsHarmonyLimit = getHarmonyFreeFilesSlotsCount(filesCount)
+
+  const tooManyFiles =
+    deviceType === DeviceType.MuditaHarmony && filesSlotsHarmonyLimit < 1
+
+  const uploadButton = (
+    <ButtonWrapper>
+      <Button
+        data-testid={FilesManagerPanelTestIds.Button}
+        displayStyle={DisplayStyle.Primary}
+        labelMessage={messages.uploadButton}
+        onClick={onUploadFile}
+        disabled={disabled || tooManyFiles}
+      />
+    </ButtonWrapper>
+  )
 
   return (
     <VisibleOnDevice
@@ -72,15 +106,20 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
                 searchValue={searchValue}
                 onSearchValueChange={onSearchValueChange}
               />
-              <ButtonWrapper>
-                <Button
-                  data-testid={FilesManagerPanelTestIds.Button}
-                  displayStyle={DisplayStyle.Primary}
-                  labelMessage={messages.uploadButton}
-                  onClick={onUploadFile}
-                  disabled={disabled}
-                />
-              </ButtonWrapper>
+              {tooManyFiles ? (
+                <ElementWithTooltip Element={uploadButton}>
+                  <StyledTooltipPrimaryContent
+                    description={{
+                      ...messages.tooManyFilesTooltipDescription,
+                      values: {
+                        filesSlotsHarmonyMaxLimit: filesSlotsHarmonyMaxLimit,
+                      },
+                    }}
+                  />
+                </ElementWithTooltip>
+              ) : (
+                <>{uploadButton}</>
+              )}
             </>
           )}
         </Panel>
