@@ -6,6 +6,7 @@
 import fs, { Dirent, Stats } from "fs"
 import { Result } from "App/core/builder"
 import { LoadBackupService } from "App/backup/services/load-backup.service"
+import { normalize } from "path"
 
 const subject = new LoadBackupService()
 
@@ -35,11 +36,11 @@ describe("Method: `loadBackups`", () => {
       expect(subject.loadBackups("/usr/backups/")).toEqual(
         Result.success([
           {
-            filePath: "/usr/backups/backup-1",
+            filePath: normalize("/usr/backups/backup-1"),
             date: new Date(dateMock),
           },
           {
-            filePath: "/usr/backups/backup-2",
+            filePath: normalize("/usr/backups/backup-2"),
             date: new Date(dateMock),
           },
         ])
