@@ -52,6 +52,71 @@ describe("Check Contact Support", () => {
     await waitForClickableAndClick(await HelpModalPage.sendButton)
 
     await expect(HelpModalPage.sendButton).toBeDisabled()
+    await waitForClickableAndClick(await HelpModalPage.closeModalButton)
+  })
+
+  after(async () => {
+    try {
+      await waitForClickableAndClick(await HelpModalPage.closeModalButton)
+    } catch (error) {
+      console.log(error)
+    }
+    await browser.switchWindow("#/overview")
+  })
+})
+describe("Validate email scenarios on contact support modal", () => {
+  before(async () => {
+    // Waiting for device connected through USB
+    await browser.executeAsync((done) => {
+      setTimeout(done, 10000)
+    })
+    await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
+    await waitForClickableAndClick(await NavigationTabs.helpTab)
+    await browser.pause(4000)
+    await browser.switchWindow("#/help")
+    await waitForClickableAndClick(await HelpPage.contactSupportButton)
+  })
+
+  it("Lack of '@' character", async () => {
+    await insertTextToElement(await HelpModalPage.emailInput, "e2emudita.com")
+
+    await expect(await HelpModalPage.invalidEmailTextElement.getText()).toEqual(
+      "Email is invalid"
+    )
+  })
+
+  it("Two '@' characters", async () => {
+    await insertTextToElement(await HelpModalPage.emailInput, "e2e@@mudita.com")
+
+    await expect(await HelpModalPage.invalidEmailTextElement.getText()).toEqual(
+      "Email is invalid"
+    )
+  })
+
+  it("Only '@' and two '..'characters ", async () => {
+    await insertTextToElement(await HelpModalPage.emailInput, "@..")
+
+    await expect(await HelpModalPage.invalidEmailTextElement.getText()).toEqual(
+      "Email is invalid"
+    )
+  })
+
+  it("Correct email to check Email is invalid text stops being displayed", async () => {
+    await insertTextToElement(
+      await HelpModalPage.emailInput,
+      "lukasz@mudita.com"
+    )
+
+    await expect(
+      await HelpModalPage.invalidEmailTextElement.getText()
+    ).not.toEqual("Email is invalid")
+  })
+  it("with ',' character", async () => {
+    await insertTextToElement(await HelpModalPage.emailInput, "e2e@mudita,com")
+
+    await expect(await HelpModalPage.invalidEmailTextElement.getText()).toEqual(
+      "Email is invalid"
+    )
   })
   after(async () => {
     try {

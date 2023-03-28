@@ -60,6 +60,11 @@ class HelpModalPage extends Page {
   > {
     return $('[data-testid="close-bottom-button"]')
   }
+  public get invalidEmailTextElement(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('//input[@data-testid="email-input"]/following-sibling::*[1]')
+  }
 }
 
 export default new HelpModalPage()
