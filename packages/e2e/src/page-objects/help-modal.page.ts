@@ -48,6 +48,18 @@ class HelpModalPage extends Page {
   > {
     return $('[data-testid="file-list-file"]')
   }
+  /**[Selector] Success sent message modal */
+  public get sentSuccessModal(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="contact-support-modal-success"]')
+  }
+  /**[Selector] Close bottom button */
+  public get closeBottomButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="close-bottom-button"]')
+  }
 }
 
 export default new HelpModalPage()
