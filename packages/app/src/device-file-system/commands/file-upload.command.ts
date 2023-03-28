@@ -13,6 +13,8 @@ import { Result, ResultObject } from "App/core/builder"
 import { BaseCommand } from "App/device-file-system/commands/base.command"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
+import NodeID3 from "node-id3"
+import _ from "lodash"
 
 export class FileUploadCommand extends BaseCommand {
   constructor(
@@ -26,10 +28,17 @@ export class FileUploadCommand extends BaseCommand {
     directory: string,
     filePath: string
   ): Promise<ResultObject<undefined>> {
-    let data: Buffer | Uint8Array
+    let data: Buffer
+
+    const fileExtension = filePath.split(".").pop() ?? ""
 
     try {
-      data = await this.fileSystemService.readFile(filePath)
+      data = (await this.fileSystemService.readFile(filePath)) as Buffer
+      if (["mp3", "flac"].includes(fileExtension)) {
+        const allTags = NodeID3.read(data)
+        const newTags = _.pick(allTags, ["title"])
+        data = NodeID3.write(newTags, data)
+      }
     } catch (error) {
       return Result.failed(
         new AppError(

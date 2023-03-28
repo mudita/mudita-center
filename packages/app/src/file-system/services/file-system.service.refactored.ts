@@ -50,7 +50,7 @@ export class FileSystemService {
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async readFile(filePath: string): Promise<Buffer | Uint8Array> {
+  public async readFile(filePath: string): Promise<Buffer> {
     return fs.readFileSync(filePath)
   }
 
