@@ -60,7 +60,7 @@ class MessagesConversationPage extends Page {
   public get threadDetailScreenCloseButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-Close"]').parentElement()
+    return $('[data-testid="table-sidebar-close"]')
   }
 
   /** [Selector] Mark as unread button visible on open thread (thread details) screen*/
@@ -113,7 +113,7 @@ class MessagesConversationPage extends Page {
 
   /** Clicks single message options icon(...) */
   async clickMessageDropdownIcon() {
-    await this.messageDropdownIcon.waitForClickable()
+    await this.messageDropdownIcon.waitForDisplayed()
     await this.messageDropdownIcon.click()
   }
 
