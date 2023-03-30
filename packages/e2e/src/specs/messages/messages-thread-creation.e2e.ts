@@ -21,9 +21,7 @@ import messagesConversationPage from "../../page-objects/messages-conversation.p
 describe("New thread creation scenarios - no contacts & no threads", () => {
   before(async () => {
     // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
+    browser.pause(10000)
 
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
 
