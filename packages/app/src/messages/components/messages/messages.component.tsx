@@ -375,6 +375,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setDraftMessage(undefined)
     updateFieldState("draftDeleting", false)
     setMessagesState(MessagesState.List)
+    resetItems()
   }
 
   const handleNewMessageClick = (): void => {
@@ -591,6 +592,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     await deleteThreads(deletedThreads)
     resetItems()
     setActiveThread(undefined)
+    setTmpActiveThread(undefined)
     if (messagesState === MessagesState.NewMessage) {
       setActiveThread(mockThread)
     }
