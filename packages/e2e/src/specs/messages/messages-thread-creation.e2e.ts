@@ -43,8 +43,8 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
   })
 
   it("Check modal title is Browse Contacts and close it", async () => {
-    const modalTitle = await BrowseContactsModal.modalHeader
-    await expect(modalTitle).toHaveText("Browse Contacts")
+    const modalHeader = await BrowseContactsModal.modalHeader
+    await expect(modalHeader).toHaveText("Browse Contacts")
 
     await BrowseContactsModal.closeModalButtonClick()
   })
