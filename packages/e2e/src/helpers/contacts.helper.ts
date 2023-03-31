@@ -11,7 +11,7 @@ export const addNewContact = async (
   firstNameText: string,
   lastNameText: string,
   primaryPhoneText: string,
-  seondaryPhoneText?: string,
+  secondaryPhoneText?: string,
   firstLineAddressText?: string,
   secondLineAddressText?: string
 ) => {
@@ -22,7 +22,7 @@ export const addNewContact = async (
   await ContactsPage.insertTextToFirstNameInput(firstNameText)
   await ContactsPage.insertTextToLastNameInput(lastNameText)
   await ContactsPage.insertTextToPrimaryPhoneNumberInput(primaryPhoneText)
-  await ContactsPage.insertTextToSecondaryPhoneNumberInput(seondaryPhoneText)
+  await ContactsPage.insertTextToSecondaryPhoneNumberInput(secondaryPhoneText)
   await ContactsPage.insertTextToAddressFirstLineInput(firstLineAddressText)
   await ContactsPage.insertTextToAddressSecondLineInput(secondLineAddressText)
 
