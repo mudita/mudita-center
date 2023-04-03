@@ -21,7 +21,7 @@ describe("Check Contact Support", () => {
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
     await waitForClickableAndClick(await NavigationTabs.helpTab)
   })
-  it("Navigate to Help, click contact support and send a message", async () => {
+  it("Navigate to Help, click contact support input email and message and check attachment is present with 'date'.zip format", async () => {
     await browser.switchWindow("#/help")
 
     await waitForClickableAndClick(await HelpPage.contactSupportButton)
@@ -32,12 +32,27 @@ describe("Check Contact Support", () => {
       await HelpModalPage.descriptionInput,
       "This is test message from automatic tests execution. Please discard it"
     )
+
+    const attachment = await HelpModalPage.singleAttachment
+    const d = new Date()
+    const day = d.getDate()
+    const month = d.getMonth() + 1
+    const year = d.getFullYear()
+    await expect(attachment).toHaveText(
+      `${year}-${(month > 9 ? "" : "0") + month}-${
+        (day > 9 ? "" : "0") + day
+      }.zip`
+    )
+  })
+
+  it("Click send button and wait for message is sent", async () => {
     await waitForClickableAndClick(await HelpModalPage.sendButton)
 
     const successModal = await HelpModalPage.sentSuccessModal
-    await successModal.waitForDisplayed({ timeout: 40000 })
+    await successModal.waitForDisplayed({ timeout: 90000 })
     await expect(successModal).toBeDisplayed()
   })
+
   it("Close success modal, open new contact support modal and close it, ", async () => {
     await waitForClickableAndClick(await HelpModalPage.closeBottomButton)
 
