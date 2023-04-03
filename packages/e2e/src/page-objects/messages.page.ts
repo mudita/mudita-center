@@ -6,6 +6,8 @@
 import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
+const backspaceKey = "\ue003"
+
 class MessagesPage extends Page {
   /** [Selector] NEW MESSAGE button selector */
   public get newMessageButton(): ChainablePromiseElement<
@@ -145,7 +147,6 @@ class MessagesPage extends Page {
   async getLastMessages() {
     const allLastMessages = await $$('//*[@data-testid="thread-last-message"]')
 
-
     const messagesContents: string[] = await browser.executeAsync((done) => {
       const messages = Array.from(
         document.querySelectorAll('p[data-testid="thread-last-message"]')
@@ -169,6 +170,36 @@ class MessagesPage extends Page {
     )
 
     return result
+  }
+  /** [Selector] Messages search input  */
+  public get searchInput(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="input-search"]')
+  }
+
+  async insertTextToSearchInput(searchText: string) {
+    await this.searchInput.waitForClickable()
+
+    const backSpaces = new Array(
+      (await this.searchInput.getValue()).length
+    ).fill("Backspace")
+
+    await this.searchInput.setValue(backSpaces)
+    await this.searchInput.setValue(searchText)
+  }
+
+  /** [Selector] Search result overlay list  */
+  public get searchResultsOverlayList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="input-select-list"]')
+  }
+  /** [Selector] empty search results overlay list   */
+  public get emptySearchResultsOverlayList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return this.searchResultsOverlayList.$("li*=No results found")
   }
 }
 
