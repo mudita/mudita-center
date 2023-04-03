@@ -62,21 +62,22 @@ describe("Messasges search scenarios-results overlay-conversation with contact e
 
     // TODO: GENERATE CONTACTS + MESSAGES
 
-    contacts
+    const only3Contacts = contacts
       .slice(0, 3)
-      .forEach(
-        async (contact) =>
-          await addNewContact(
-            contact.firstName,
-            contact.lastName,
-            contact.primaryNumber
-          )
-      )
+
+    await Promise.all(only3Contacts.map(async (contact) => {
+        await addNewContact(
+          contact.firstName,
+          contact.lastName,
+          contact.primaryNumber
+        )
+      }))
+
     await waitForClickableAndClick(await navigationTabs.messagesTab)
-    contacts.forEach(
-      async (contact) =>
-        await sendMessage(contact.primaryNumber, contact.message)
-    )
+
+    await Promise.all(only3Contacts.map(async (contact) => {
+      await sendMessage(contact.primaryNumber, contact.message)
+    }))
     await waitForClickableAndClick(await navigationTabs.contactsTab)
     await waitForClickableAndClick(await navigationTabs.messagesTab)
   })
