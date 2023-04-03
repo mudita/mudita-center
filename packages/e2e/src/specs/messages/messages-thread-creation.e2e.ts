@@ -184,14 +184,13 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
     await waitForClickableAndClick(
       await MessagesConversationPage.browseContactsButton
     )
-    const contactName = await BrowseContactsModal.modalContactNameText
+    //TO BE UPDATED AFTER CONTACT NAME HAS DEDICATED DATA-TESTID ATTRIBUTE
+    //const contactName = await BrowseContactsModal.modalContactNameText
+    //await expect(contactName).toHaveText(
+    //`${existingContactName} ${existingContactSurname}`
+    //)
     const contactPrimaryNumber =
       await BrowseContactsModal.modalContactPrimaryNumberText
-
-    //TO BE UPDATED AFTER CONTACT NAME HAS DEDICATED DATA-TESTID ATTRIBUTE
-    //await expect(contactName).toHaveText(
-    //existingContactName + " " + existingContactSurname
-    //)
     await expect(contactPrimaryNumber).toHaveText(existingContactPrimaryNumber)
   })
   it("Click available contact and check conversation screen has contact name and phone number displayed above messages", async () => {
@@ -226,7 +225,7 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
     const recipientNumberText = await recipientNumber.getText()
 
     await expect(recipientNameText).toEqual(
-      existingContactName + " " + existingContactSurname
+      `${existingContactName} ${existingContactSurname}`
     )
     await expect(recipientNumberText).toEqual(existingContactPrimaryNumber)
   })
@@ -314,7 +313,7 @@ describe("New thread creation scenarios - contact exists & thread exists", () =>
     const recipientNumberText = await recipientNumber.getText()
 
     await expect(recipientNameText).toEqual(
-      existingContactName + " " + existingContactSurname
+      `${existingContactName} ${existingContactSurname}`
     )
     await expect(recipientNumberText).toEqual(existingContactPrimaryNumber)
   })
