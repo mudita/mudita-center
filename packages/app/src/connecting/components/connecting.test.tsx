@@ -36,6 +36,7 @@ const defaultProps: Props = {
   updateAllIndexes: jest.fn(),
   checkingForOsForceUpdate: false,
   forceOsUpdateFailed: false,
+  criticalBatteryLevel: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {
