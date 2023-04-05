@@ -34,7 +34,7 @@ export const deleteContact = async () => {
   await waitForClickableAndClick(await ContactsPage.deleteContactOptionMenu)
   await waitForClickableAndClick(await ModalContactsPage.buttonConfirmDelete)
 
-  ModalContactsPage.buttonConfirmDeleteClick()
+  await ModalContactsPage.buttonConfirmDeleteClick()
 
   const noContactsTextLabel = await ContactsPage.noContactsTextLabel
 
