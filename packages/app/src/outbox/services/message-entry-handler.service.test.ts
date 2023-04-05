@@ -213,6 +213,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       } as unknown as ThreadEntryHandlerService
       messageRepository = {
         update: jest.fn().mockImplementationOnce((value: Message) => value),
+        findById: jest.fn(),
       } as unknown as MessageRepository
       messageService = {
         getMessage: jest.fn().mockReturnValue(errorResponse),
