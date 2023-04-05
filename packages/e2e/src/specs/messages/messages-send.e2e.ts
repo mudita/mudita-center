@@ -19,7 +19,7 @@ describe("Messages send and delete", () => {
     })
 
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    await NavigationTabs.messagesTabClick()
+    await NavigationTabs.clickMessagesTab()
   })
   it("Send message to incorrect number using send button", async () => {
     await sendMessage("12345", "SMS to incorrect number (Send button)")

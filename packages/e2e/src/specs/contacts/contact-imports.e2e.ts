@@ -20,7 +20,7 @@ describe("import vcf", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 3000)
     })
-    NavigationTabs.contactsTabClick()
+    NavigationTabs.clickContactsTab()
     await browser.executeAsync((done) => {
       setTimeout(done, 1000)
     })

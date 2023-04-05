@@ -7,122 +7,144 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class ContactsPage extends Page {
+  /**[Selector] New contact button on Contacts screen */
   public get newContactButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="new-contact-button"]')
   }
 
+  /**Click New Contact button */
+  async clickNewContactButton() {
+    await this.newContactButton.waitForClickable()
+    await this.newContactButton.click()
+  }
+
+  /**[Selector] Import button on Contacts screen*/
   public get importButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="import-button"]')
   }
 
+  /**[Selector] Search contacts input*/
   public get searchContactsInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="contact-input-select-input"]')
   }
 
+  /**[Selector] First name input*/
   public get firstNameInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="first-name"]')
   }
-
-  async firstNameSetValue(inputValue) {
+  /**Insert provided text to First Name input field*/
+  async insertTextToFirstNameInput(textValue: string) {
     await this.firstNameInput.waitForDisplayed()
-    await this.firstNameInput.setValue(inputValue)
+    await this.firstNameInput.setValue(textValue)
   }
 
+  /**[Selector] Last name input*/
   public get lastNameInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="second-name"]')
   }
 
-  async lastNameSetValue(inputValue) {
+  /**Insert provided text to Last Name input field*/
+  async insertTextToLastNameInput(textValue: string) {
     await this.lastNameInput.waitForDisplayed()
-    await this.lastNameInput.setValue(inputValue)
+    await this.lastNameInput.setValue(textValue)
   }
 
-  public get phoneNumberInput(): ChainablePromiseElement<
+  /**[Selector] Primary phone number input*/
+  public get primaryPhoneNumberInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="primary-number"]')
   }
 
-  async phoneNumber1SetValue(inputValue) {
-    await this.phoneNumberInput.waitForDisplayed()
-    await this.phoneNumberInput.setValue(inputValue)
+  /**Insert provided text to Primary Phone input field*/
+  async insertTextToPrimaryPhoneNumberInput(textValue: string) {
+    await this.primaryPhoneNumberInput.waitForDisplayed()
+    await this.primaryPhoneNumberInput.setValue(textValue)
   }
 
-  public get secondPhoneNumberInput(): ChainablePromiseElement<
+  /**[Selector] Secondary phone number input*/
+  public get secondaryPhoneNumberInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="secondary-number"]')
   }
 
-  async phoneNumber2SetValue(inputValue) {
-    await this.secondPhoneNumberInput.waitForDisplayed()
-    await this.secondPhoneNumberInput.setValue(inputValue)
+  /**Insert provided text to Secondary Phone input field*/
+  async insertTextToSecondaryPhoneNumberInput(textValue: string) {
+    await this.secondaryPhoneNumberInput.waitForDisplayed()
+    await this.secondaryPhoneNumberInput.setValue(textValue)
   }
-
-  public get addressLine1Input(): ChainablePromiseElement<
+  /**[Selector] Adress first line input*/
+  public get addressFirstLineInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="first-address-line"]')
   }
 
-  async addressLine1SetValue(inputValue) {
-    await this.addressLine1Input.waitForDisplayed()
-    await this.addressLine1Input.setValue(inputValue)
+  /**Insert provided text to First Address line input field*/
+  async insertTextToAddressFirstLineInput(textValue: string) {
+    await this.addressFirstLineInput.waitForDisplayed()
+    await this.addressFirstLineInput.setValue(textValue)
   }
 
-  public get addressLine2Input(): ChainablePromiseElement<
+  /**[Selector] Adress second line input*/
+  public get addressSecondLineInput(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="second-address-line"]')
   }
 
-  async addressLine2SetValue(inputValue) {
-    await this.addressLine2Input.waitForDisplayed()
-    await this.addressLine2Input.setValue(inputValue)
+  /**Insert provided text to Second Address line input field*/
+  async insertTextToAddressSecondLineInput(textValue: string) {
+    await this.addressSecondLineInput.waitForDisplayed()
+    await this.addressSecondLineInput.setValue(textValue)
   }
 
+  /**[Selector] Close button on contact detail screen*/
   public get closeButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Close"]')
   }
 
+  /**Click Close button on contact detail screen */
   async closeButtonClick() {
-    await this.closeButton.waitForDisplayed()
+    await this.closeButton.waitForClickable()
     await this.closeButton.click()
   }
-
+  /**[Selector] add to favourites checkbox*/
   public get addToFavouritessCheckbox(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[name*="favourite"]')
   }
-
+  /**[Selector] Cancel button on add/edit contact screen*/
   public get cancelButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $("p*=Cancel")
   }
 
-  public get saveButton(): ChainablePromiseElement<
+  /** [Selector] Save contact button*/
+  public get saveContactButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="save-button"]')
   }
-
-  async saveButtonClick() {
-    await this.saveButton.waitForDisplayed()
-    await this.saveButton.click()
+  /** Click on Save contact button */
+  async clickSaveContactButton() {
+    await this.saveContactButton.waitForClickable()
+    await this.saveContactButton.click()
   }
 
   public get noContactsTextLabel(): ChainablePromiseElement<

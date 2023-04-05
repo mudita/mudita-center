@@ -14,8 +14,8 @@ describe("Add, edit, delete single contact scenarios", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 13000)
     })
-    ModalGeneralPage.closeModalButtonClick()
-    NavigationTabs.contactsTabClick()
+    await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
+    await NavigationTabs.clickContactsTab()
     await browser.executeAsync((done) => {
       setTimeout(done, 1000)
     })
@@ -27,14 +27,16 @@ describe("Add, edit, delete single contact scenarios", () => {
     await newContactButton.click()
     await expect(newContactButton).toBeDisabled()
 
-    await ContactsPage.firstNameSetValue("Henryk")
-    await ContactsPage.lastNameSetValue("Zaskroniec")
-    await ContactsPage.phoneNumber1SetValue("602900000")
-    await ContactsPage.phoneNumber2SetValue("510100100")
-    await ContactsPage.addressLine1SetValue("Al. Ujazdowskie 100/19")
-    await ContactsPage.addressLine2SetValue("00-675 Warszawa")
+    await ContactsPage.insertTextToFirstNameInput("Henryk")
+    await ContactsPage.insertTextToLastNameInput("Zaskroniec")
+    await ContactsPage.insertTextToPrimaryPhoneNumberInput("602900000")
+    await ContactsPage.insertTextToSecondaryPhoneNumberInput("510100100")
+    await ContactsPage.insertTextToAddressFirstLineInput(
+      "Al. Ujazdowskie 100/19"
+    )
+    await ContactsPage.insertTextToAddressSecondLineInput("00-675 Warszawa")
 
-    await ContactsPage.saveButtonClick()
+    await ContactsPage.clickSaveContactButton()
     await browser.executeAsync((done) => {
       setTimeout(done, 2000)
     })
@@ -69,7 +71,6 @@ describe("Add, edit, delete single contact scenarios", () => {
   })
 
   it("Should edit contact using options menu", async () => {
-    await browser.saveScreenshot("./BeforeEditscreenshot.png")
     await ContactsPage.optionsButtonOnContactListClick()
     await browser.executeAsync((done) => {
       setTimeout(done, 2000)
@@ -80,12 +81,12 @@ describe("Add, edit, delete single contact scenarios", () => {
       setTimeout(done, 2000)
     })
 
-    await ContactsPage.firstNameSetValue("Kazimierz")
-    await ContactsPage.lastNameSetValue("Glonojad")
+    await ContactsPage.insertTextToFirstNameInput("Kazimierz")
+    await ContactsPage.insertTextToFirstNameInput("Glonojad")
 
-    await ContactsPage.phoneNumber1SetValue("601100601")
+    await ContactsPage.insertTextToPrimaryPhoneNumberInput("601100601")
 
-    await ContactsPage.saveButtonClick()
+    await ContactsPage.clickSaveContactButton()
     await browser.executeAsync((done) => {
       setTimeout(done, 2000)
     })

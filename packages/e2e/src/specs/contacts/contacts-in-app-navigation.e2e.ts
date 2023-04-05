@@ -13,8 +13,8 @@ describe("Contacts screen check", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-    ModalGeneralPage.closeModalButtonClick()
-    NavigationTabs.contactsTabClick()
+    await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
+    await NavigationTabs.clickContactsTab()
   })
   it("Should check Import button is displayed", async () => {
     const contactsImportButton = await ContactsPage.importButton
@@ -52,22 +52,22 @@ describe("Contacts screen check", () => {
   })
 
   it("Should check if 'phone number' input field is displayed", async () => {
-    const phoneNumber = await ContactsPage.phoneNumberInput
+    const phoneNumber = await ContactsPage.primaryPhoneNumberInput
     await expect(phoneNumber).toBeDisplayed()
   })
 
   it("Should check if 'second phone number' input field is displayed", async () => {
-    const phoneNumber2 = await ContactsPage.secondPhoneNumberInput
+    const phoneNumber2 = await ContactsPage.secondaryPhoneNumberInput
     await expect(phoneNumber2).toBeDisplayed()
   })
 
   it("Should check if 'address1' input field is displayed", async () => {
-    const address1 = await ContactsPage.addressLine1Input
+    const address1 = await ContactsPage.addressFirstLineInput
     await expect(address1).toBeDisplayed()
   })
 
   it("Should check if 'address2' input field is displayed", async () => {
-    const address2 = await ContactsPage.addressLine2Input
+    const address2 = await ContactsPage.addressSecondLineInput
     await expect(address2).toBeDisplayed()
   })
 
@@ -82,7 +82,7 @@ describe("Contacts screen check", () => {
   })
 
   it("Should check if 'save button' field is displayed", async () => {
-    const saveButton = await ContactsPage.saveButton
+    const saveButton = await ContactsPage.saveContactButton
     await expect(saveButton).toBeDisplayed()
   })
 
@@ -93,7 +93,7 @@ describe("Contacts screen check", () => {
     const cancelButton = await ContactsPage.cancelButton
     await expect(cancelButton).not.toBeDisplayed()
 
-    const saveButton = await ContactsPage.saveButton
+    const saveButton = await ContactsPage.saveContactButton
     await expect(saveButton).not.toBeDisplayed()
 
     const addFavourites = await ContactsPage.addToFavouritessCheckbox
@@ -105,16 +105,16 @@ describe("Contacts screen check", () => {
     const lastName = await ContactsPage.lastNameInput
     await expect(lastName).not.toBeDisplayed()
 
-    const phoneNumber = await ContactsPage.phoneNumberInput
+    const phoneNumber = await ContactsPage.primaryPhoneNumberInput
     await expect(phoneNumber).not.toBeDisplayed()
 
-    const phoneNumber2 = await ContactsPage.secondPhoneNumberInput
+    const phoneNumber2 = await ContactsPage.secondaryPhoneNumberInput
     await expect(phoneNumber2).not.toBeDisplayed()
 
-    const address1 = await ContactsPage.addressLine1Input
+    const address1 = await ContactsPage.addressFirstLineInput
     await expect(address1).not.toBeDisplayed()
 
-    const address2 = await ContactsPage.addressLine2Input
+    const address2 = await ContactsPage.addressSecondLineInput
     await expect(address2).not.toBeDisplayed()
   })
 })
