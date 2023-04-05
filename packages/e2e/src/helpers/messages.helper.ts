@@ -2,13 +2,12 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
-import MessagesPage from "../page-objects/messages.page"
-import MessagesConversationPage from "../page-objects/messages-conversation.page"
-import ModalMessagesPage from "../page-objects/modal-messages.page"
-
-import NavigationTabs from "../page-objects/tabs.page"
-import { waitForClickableAndClick } from "../helpers/general.helper"
 import messagesPage from "../page-objects/messages.page"
+import messagesConversationPage from "../page-objects/messages-conversation.page"
+import modalMessagesPage from "../page-objects/modal-messages.page"
+import navigationTabs from "../page-objects/tabs.page"
+
+import { waitForClickableAndClick } from "../helpers/general.helper"
 
 /** Send message using send button */
 export const sendMessage = async (
@@ -18,26 +17,27 @@ export const sendMessage = async (
   await console.log("****SEND MESSAGE****")
   await console.log(recipientText)
 
-  await waitForClickableAndClick(await NavigationTabs.contactsTab)
-  await waitForClickableAndClick(await NavigationTabs.messagesTab)
-  await browser.saveScreenshot("./" + recipientText + "_1.png")
-  await waitForClickableAndClick(await messagesPage.newMessageButton)
-  await browser.saveScreenshot("./" + recipientText + "_2.png")
-  await MessagesConversationPage.insertTextToSearchContactInput(recipientText)
-  await browser.saveScreenshot("./" + recipientText + "_3.png")
-  await MessagesConversationPage.insertTextToMessageInput(messageText)
+  await waitForClickableAndClick(await navigationTabs.contactsTab)
+  await waitForClickableAndClick(await navigationTabs.messagesTab)
 
-  await MessagesConversationPage.sendMessageButton.waitForClickable()
-  await MessagesConversationPage.sendMessageButton.click()
-  await browser.saveScreenshot("./" + recipientText + "_4.png")
-  await browser.pause(2000)
+  await waitForClickableAndClick(await messagesPage.newMessageButton)
+
+  await messagesConversationPage.insertTextToSearchContactInput(recipientText)
+
+  await messagesConversationPage.insertTextToMessageInput(messageText)
+
+  await messagesConversationPage.sendMessageButton.waitForClickable()
+  await messagesConversationPage.sendMessageButton.click()
 }
 
 /** Delete conversation on thread list screen by clicking options (...) and delete conversation from dropdown list */
 export const deleteConversationOnThreadList = async () => {
-  await MessagesPage.clickThreadDropdownButton()
+  // await waitForClickableAndClick(await navigationTabs.contactsTab)
+  // await waitForClickableAndClick(await navigationTabs.messagesTab)
 
-  await MessagesPage.clickThreadDropdownDeleteButton()
+  await messagesPage.clickThreadDropdownButton()
 
-  await ModalMessagesPage.clickConfirmDeleteButton()
+  await messagesPage.clickThreadDropdownDeleteButton()
+
+  await modalMessagesPage.clickConfirmDeleteButton()
 }

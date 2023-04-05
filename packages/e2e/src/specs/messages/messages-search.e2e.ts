@@ -60,70 +60,61 @@ describe("Messasges search scenarios-results overlay-conversation with contact e
     await waitForClickableAndClick(await navigationTabs.contactsTab)
     await waitForClickableAndClick(await navigationTabs.messagesTab)
 
-    // TODO: GENERATE CONTACTS + MESSAGES
-
-    const only3Contacts = contacts
-      .slice(0, 3)
-
-    await Promise.all(only3Contacts.map(async (contact) => {
-        await addNewContact(
-          contact.firstName,
-          contact.lastName,
-          contact.primaryNumber
-        )
-      }))
+    for (let j = 0; j < 3; j++) {
+      await addNewContact(
+        contacts[j].firstName,
+        contacts[j].lastName,
+        contacts[j].primaryNumber
+      )
+    }
 
     await waitForClickableAndClick(await navigationTabs.messagesTab)
+    for (let j = 0; j < contacts.length; j++) {
+      await sendMessage(contacts[j].primaryNumber, contacts[j].message)
+    }
 
-    await Promise.all(only3Contacts.map(async (contact) => {
-      await sendMessage(contact.primaryNumber, contact.message)
-    }))
     await waitForClickableAndClick(await navigationTabs.contactsTab)
     await waitForClickableAndClick(await navigationTabs.messagesTab)
   })
   it("Search by existing contact name and check results", async () => {
-    //await messagesPage.insertTextToSearchInput(contacts[0].firstName)
-    await messagesPage.insertTextToSearchInput("test")
+    await messagesPage.insertTextToSearchInput(contacts[0].firstName)
+
     const resultList = await messagesPage.searchResultsOverlayList
     const emptyList = await messagesPage.emptySearchResultsOverlayList
     await browser.saveScreenshot("./SearchResultOverlay.png")
-    //await expect(resultList).toBeDisplayed()
-    await expect(emptyList).toBeDisplayed()
+    await expect(resultList).toBeDisplayed()
+    await expect(emptyList).not.toBeDisplayed()
   })
 
-  it("Search messages by surname and check results", async () => {
+  it("Search by existing surname and check results", async () => {
     await messagesPage.insertTextToSearchInput(contacts[1].lastName)
   })
 
-  it("Search messages by partial contact name and check results", async () => {})
+  it("Search by partial existing contact name and check results", async () => {})
 
-  it("Search messages by contact number and check results", async () => {})
+  it("Search by existing contact number and check results", async () => {})
 
-  it("Search messages by partial contact number and check results", async () => {})
+  it("Search by existing partial contact number and check results", async () => {})
 
-  it("Search messages by word existing in single thread and check results", async () => {})
+  it("Search by word existing in single thread and check results", async () => {})
 
   it("Search messages by word existing in multiple threads and check results", async () => {})
 })
 
-describe("Messasges search scenarios-results overlay-conversation with contact existing in phonebook", () => {
+describe("Messasges search scenarios-results overlay-conversation with contact NOT existing in phonebook", () => {
   before(async () => {
     await waitForClickableAndClick(await navigationTabs.contactsTab)
     await waitForClickableAndClick(await navigationTabs.messagesTab)
   })
-  it("Search by existing contact name and check results", async () => {})
+  it("Search by NOT existing contact name and check results", async () => {})
 
-  it("Search messages by surname and check results", async () => {})
+  it("Search by NOT existing surname and check results", async () => {})
 
-  it("Search messages by partial contact name and check results", async () => {})
+  it("Search by partial NOT existing contact name and check results", async () => {})
 
   it("Search messages by contact number and check results", async () => {})
 
   it("Search messages by partial contact number and check results", async () => {})
-
-  it("Search messages by word existing in single thread and check results", async () => {})
-
-  it("Search messages by word existing in multiple threads and check results", async () => {})
 })
 
 describe("Messasges search scenarios - results overlay 'SEE ALL'", () => {

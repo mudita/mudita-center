@@ -22,33 +22,24 @@ export const addNewContact = async (
   await waitForClickableAndClick(await NavigationTabs.contactsTab)
 
   await waitForClickableAndClick(await ContactsPage.newContactButton)
-  await browser.saveScreenshot("./" + firstNameText + "_1.png")
-  //await ContactsPage.clickNewContactButton()
 
   await ContactsPage.insertTextToFirstNameInput(firstNameText)
-  await browser.saveScreenshot("./" + firstNameText + "_2.png")
+
   await ContactsPage.insertTextToLastNameInput(lastNameText)
   if (primaryPhoneText != undefined) {
-    await browser.saveScreenshot("./" + firstNameText + "_3.png")
     await ContactsPage.insertTextToPrimaryPhoneNumberInput(primaryPhoneText)
   }
   if (secondaryPhoneText != undefined) {
-    await browser.saveScreenshot("./" + firstNameText + "_4.png")
     await ContactsPage.insertTextToSecondaryPhoneNumberInput(secondaryPhoneText)
   }
   if (firstLineAddressText != undefined) {
-    await browser.saveScreenshot("./" + firstNameText + "_5.png")
     await ContactsPage.insertTextToAddressFirstLineInput(firstLineAddressText)
   }
   if (secondLineAddressText != undefined) {
-    await browser.saveScreenshot("./" + firstNameText + "_6.png")
     await ContactsPage.insertTextToAddressSecondLineInput(secondLineAddressText)
   }
 
-  //await ContactsPage.clickSaveContactButton()
   await waitForClickableAndClick(await ContactsPage.saveContactButton)
-  await browser.saveScreenshot("./" + firstNameText + "_7.png")
-  await browser.pause(2000)
 }
 
 export const deleteContact = async () => {
