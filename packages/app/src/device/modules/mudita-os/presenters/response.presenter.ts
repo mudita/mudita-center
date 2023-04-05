@@ -13,15 +13,15 @@ import { ResponseStatus } from "App/device/constants"
 
 enum BlockReason {
   EulaNotAccepted = 2,
-  BatteryCriticalLevel = 3
+  BatteryCriticalLevel = 3,
 }
 
 type BodyType = {
-  category?: string,
-  phoneLockTime?: number,
-  timeLeftToNextAttempt?: number,
-  phoneLockCode?: number[],
-  reason?: BlockReason,
+  category?: string
+  phoneLockTime?: number
+  timeLeftToNextAttempt?: number
+  phoneLockCode?: number[]
+  reason?: BlockReason
 }
 
 export class ResponsePresenter {
@@ -66,18 +66,21 @@ export class ResponsePresenter {
         error,
         status: RequestResponseStatus.UnprocessableEntity,
       }
-    } else if (status === ResponseStatus.NotAccepted) {
-      if(data?.reason === BlockReason.EulaNotAccepted) {
-        return {
-          error,
-          status: RequestResponseStatus.EulaNotAccepted,
-        }
+    } else if (
+      status === ResponseStatus.NotAccepted &&
+      data?.reason === BlockReason.EulaNotAccepted
+    ) {
+      return {
+        error,
+        status: RequestResponseStatus.EulaNotAccepted,
       }
-      else if(data?.reason === BlockReason.BatteryCriticalLevel) {
-        return {
-          error,
-          status: RequestResponseStatus.BatteryCriticalLevel,
-        }
+    } else if (
+      status === ResponseStatus.NotAccepted &&
+      data?.reason === BlockReason.BatteryCriticalLevel
+    ) {
+      return {
+        error,
+        status: RequestResponseStatus.BatteryCriticalLevel,
       }
     } else if (status === ResponseStatus.InsufficientStorage) {
       return {

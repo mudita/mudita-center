@@ -9,9 +9,7 @@ import Story from "App/__deprecated__/renderer/components/storybook/story.compon
 import CriticalBatteryLevelModal from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const ErrorSyncModalStory = () => {
+export const CriticalBatteryLevelModalStory = (): JSX.Element => {
   return (
     <Story transparentMode>
       <CriticalBatteryLevelModal open closeModal={noop} />
@@ -21,5 +19,5 @@ export const ErrorSyncModalStory = () => {
 
 export default {
   title: "Views|Connecting/Backup Modal Dialogs",
-  component: ErrorSyncModalStory,
+  component: CriticalBatteryLevelModalStory,
 } as Meta
