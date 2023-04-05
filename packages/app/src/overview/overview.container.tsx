@@ -37,6 +37,7 @@ import { OsRelease } from "App/update/dto"
 import { areAllReleasesDownloaded } from "App/update/selectors"
 import { CheckForUpdateMode } from "App/update/constants"
 import { forceUpdate } from "App/update/actions/force-update/force-update.action"
+import { SynchronizationProcessState } from "App/data-sync/reducers/data-sync.interface"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -70,6 +71,9 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     areAllReleasesDownloaded: areAllReleasesDownloaded(state),
     forceUpdateNeeded: state.update.needsForceUpdate,
     forceUpdateState: state.update.forceUpdateState,
+    backupActionDisabled:
+      state.dataSync.synchronizationProcess ===
+      SynchronizationProcessState.InProgress,
   }
 }
 

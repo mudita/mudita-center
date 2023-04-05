@@ -35,6 +35,7 @@ const defaultProps: Props = {
   neverConnected: false,
   osBackupLocation: "",
   osDownloadLocation: "",
+  backupActionDisabled: false,
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

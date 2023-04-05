@@ -5,6 +5,7 @@
 
 import { BackupPresenter } from "./backup.presenter"
 import fs, { Stats } from "fs"
+import { normalize } from "path"
 
 jest.mock("fs")
 
@@ -18,7 +19,7 @@ describe("Method: toBackup", () => {
 
     expect(BackupPresenter.toBackup("backup-1", "/usr/local/backups/")).toEqual(
       {
-        filePath: "/usr/local/backups/backup-1",
+        filePath: normalize("/usr/local/backups/backup-1"),
         date: new Date(dateMock),
       }
     )

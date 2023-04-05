@@ -17,4 +17,7 @@ export enum FilesManagerEvent {
   SetUploadingFileCount = "FILES_MANAGER_SET_UPLOADING_FILE_COUNT",
   SetUploadBlocked = "FILES_MANAGER_SET_UPLOAD_BLOCKED",
   SetDeletingFileCount = "FILES_MANAGER_SET_DELETING_FILE_COUNT",
+  SetPendingFilesToUpload = "FILES_MANAGER_SET_PENDING_FILES_TO_UPLOAD",
+  AbortPendingUpload = "FILES_MANAGER_ABORT_PENDING_UPLOAD",
+  ContinuePendingUpload = "FILES_MANAGER_CONTINUE_PENDING_UPLOAD",
 }

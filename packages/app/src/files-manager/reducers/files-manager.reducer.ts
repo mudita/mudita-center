@@ -18,6 +18,7 @@ import {
   uploadFile,
   setUploadBlocked,
   setDeletingFileCount,
+  setPendingFilesToUpload,
 } from "App/files-manager/actions"
 import { changeLocation } from "App/core/actions"
 import { FilesManagerState } from "App/files-manager/reducers/files-manager.interface"
@@ -35,6 +36,7 @@ export const initialState: FilesManagerState = {
   },
   uploadBlocked: false,
   error: null,
+  uploadPendingFiles: [],
 }
 
 export const filesManagerReducer = createReducer<FilesManagerState>(
@@ -163,6 +165,12 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         return {
           ...state,
           deletingFileCount: action.payload,
+        }
+      })
+      .addCase(setPendingFilesToUpload, (state, action) => {
+        return {
+          ...state,
+          uploadPendingFiles: action.payload,
         }
       })
   }

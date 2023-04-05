@@ -18,12 +18,14 @@ import {
 } from "../../helpers/messages.helper"
 import messagesConversationPage from "../../page-objects/messages-conversation.page"
 
+
+const enterKey = "\uE007"
+const backspaceKey = "\ue003"
+
 describe("New thread creation scenarios - no contacts & no threads", () => {
   before(async () => {
     // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
+    browser.pause(10000)
 
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
 
@@ -43,8 +45,9 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
   })
 
   it("Check modal title is Browse Contacts and close it", async () => {
-    const modalTitle = await BrowseContactsModal.modalHeader
-    await expect(modalTitle).toHaveText("Browse Contacts")
+
+    const modalHeader = await BrowseContactsModal.modalHeader
+    await expect(modalHeader).toHaveText("Browse Contacts")
 
     await BrowseContactsModal.closeModalButtonClick()
   })
@@ -70,7 +73,7 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
     const recipientInputValue =
       await MessagesConversationPage.searchContactsInput.getValue()
     for (let i = 0; i <= (await recipientInputValue).length; i++) {
-      await browser.keys("\ue003")
+      await browser.keys(backspaceKey)
     }
     await MessagesConversationPage.insertTextToSearchContactInput(testNumber)
 
@@ -84,7 +87,7 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
 
   it("Click on recipient input field and send Enter key to lock it and create a thread", async () => {
     waitForClickableAndClick(await MessagesConversationPage.messageTextInput)
-    await browser.keys("\uE007")
+    await browser.keys(enterKey)
     const recipientInput = await MessagesConversationPage.searchContactsInput
     await expect(recipientInput).not.toBeClickable()
   })
@@ -141,7 +144,7 @@ describe("New thread creation scenarios - no contacts & thread exists", () => {
     await MessagesConversationPage.insertTextToSearchContactInput(
       existingThreadPhoneNumber
     )
-    await browser.keys("\uE007")
+    await browser.keys(enterKey)
     const messageContent =
       await messagesConversationPage.messageContent.getText()
     await expect(messageContent).toEqual(existingThreadMessageText)
@@ -183,14 +186,13 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
     await waitForClickableAndClick(
       await MessagesConversationPage.browseContactsButton
     )
-    const contactName = await BrowseContactsModal.modalContactNameText
+    //TO BE UPDATED AFTER CONTACT NAME HAS DEDICATED DATA-TESTID ATTRIBUTE
+    //const contactName = await BrowseContactsModal.modalContactNameText
+    //await expect(contactName).toHaveText(
+    //`${existingContactName} ${existingContactSurname}`
+    //)
     const contactPrimaryNumber =
       await BrowseContactsModal.modalContactPrimaryNumberText
-
-    //TO BE UPDATED AFTER CONTACT NAME HAS DEDICATED DATA-TESTID ATTRIBUTE
-    //await expect(contactName).toHaveText(
-    //existingContactName + " " + existingContactSurname
-    //)
     await expect(contactPrimaryNumber).toHaveText(existingContactPrimaryNumber)
   })
   it("Click available contact and check conversation screen has contact name and phone number displayed above messages", async () => {
@@ -225,7 +227,7 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
     const recipientNumberText = await recipientNumber.getText()
 
     await expect(recipientNameText).toEqual(
-      existingContactName + " " + existingContactSurname
+      `${existingContactName} ${existingContactSurname}`
     )
     await expect(recipientNumberText).toEqual(existingContactPrimaryNumber)
   })
@@ -249,7 +251,7 @@ describe("New thread creation scenarios - contact exists & no threads", () => {
     const recipientInputValue =
       await MessagesConversationPage.searchContactsInput.getValue()
     for (let i = 0; i <= (await recipientInputValue).length; i++) {
-      await browser.keys("\ue003")
+      await browser.keys(backspaceKey)
     }
     await MessagesConversationPage.insertTextToSearchContactInput(
       existingContactPrimaryNumber.slice(0, -2)
@@ -303,7 +305,7 @@ describe("New thread creation scenarios - contact exists & thread exists", () =>
     await MessagesConversationPage.insertTextToSearchContactInput(
       existingContactPrimaryNumber
     )
-    await browser.keys("\uE007")
+    await browser.keys(enterKey)
 
     const recipientName =
       await MessagesConversationPage.conversationRecipientNameText
@@ -313,7 +315,7 @@ describe("New thread creation scenarios - contact exists & thread exists", () =>
     const recipientNumberText = await recipientNumber.getText()
 
     await expect(recipientNameText).toEqual(
-      existingContactName + " " + existingContactSurname
+      `${existingContactName} ${existingContactSurname}`
     )
     await expect(recipientNumberText).toEqual(existingContactPrimaryNumber)
   })

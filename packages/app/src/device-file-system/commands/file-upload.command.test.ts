@@ -5,6 +5,7 @@
 
 import fs from "fs"
 import path from "path"
+import mock from "mock-fs"
 import {
   Endpoint,
   Method,
@@ -17,10 +18,6 @@ import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
-
-const fileMock = fs.readFileSync(
-  path.join(__dirname, "../../testing-support/mocks/test.txt")
-)
 
 const deviceManager = {
   device: {
@@ -70,13 +67,23 @@ beforeEach(() => {
 })
 
 describe("When requested file is unreadable", () => {
-  beforeEach(() => {
-    fileSystemService.readFile = jest
-      .fn()
-      .mockRejectedValueOnce(new Error("ERR_UNKNOWN_FILE_EXTENSION"))
+  beforeAll(() => {
+    mock(
+      {
+        "test.txt": "Hello World!\n",
+      },
+      { createCwd: false, createTmp: false }
+    )
+  })
+
+  afterAll(() => {
+    mock.restore()
   })
 
   test("returns `ResultObject.failed` with error description and path of filed file", async () => {
+    fileSystemService.readFile = jest
+      .fn()
+      .mockRejectedValueOnce(new Error("ERR_UNKNOWN_FILE_EXTENSION"))
     const result = await subject.exec(
       "/test/directory",
       "/usr/local/file-1.txt"
@@ -97,11 +104,34 @@ describe("When requested file is unreadable", () => {
 })
 
 describe("When requested file is valid", () => {
+  beforeAll(() => {
+    mock(
+      {
+        "test.txt": "Hello World!\n",
+      },
+      { createCwd: false, createTmp: false }
+    )
+  })
+  afterAll(() => {
+    mock.restore()
+  })
   beforeEach(() => {
+    const fileMock = fs.readFileSync(path.join(process.cwd(), "test.txt"))
     fileSystemService.readFile = jest.fn().mockReturnValue(fileMock)
   })
 
   describe("when `DeviceManager.device.request` returns success response", () => {
+    beforeAll(() => {
+      mock(
+        {
+          "test.txt": "Hello World!\n",
+        },
+        { createCwd: false, createTmp: false }
+      )
+    })
+    afterAll(() => {
+      mock.restore()
+    })
     beforeEach(() => {
       deviceManager.device.request = jest
         .fn()
@@ -130,6 +160,17 @@ describe("When requested file is valid", () => {
   })
 
   describe("when `DeviceManager.device.request` returns failed response on first request", () => {
+    beforeAll(() => {
+      mock(
+        {
+          "test.txt": "Hello World!\n",
+        },
+        { createCwd: false, createTmp: false }
+      )
+    })
+    afterAll(() => {
+      mock.restore()
+    })
     beforeEach(() => {
       deviceManager.device.request = jest.fn().mockResolvedValue(failedResponse)
     })
@@ -163,6 +204,17 @@ describe("When requested file is valid", () => {
   })
 
   describe("when `DeviceManager.device.request` returns failed response on the next requests", () => {
+    beforeAll(() => {
+      mock(
+        {
+          "test.txt": "Hello World!\n",
+        },
+        { createCwd: false, createTmp: false }
+      )
+    })
+    afterAll(() => {
+      mock.restore()
+    })
     beforeEach(() => {
       deviceManager.device.request = jest
         .fn()
@@ -208,6 +260,17 @@ describe("When requested file is valid", () => {
   })
 
   describe("when `DeviceManager.device.request` returns failed response with `RequestResponseStatus.InsufficientStorage` status", () => {
+    beforeAll(() => {
+      mock(
+        {
+          "test.txt": "Hello World!\n",
+        },
+        { createCwd: false, createTmp: false }
+      )
+    })
+    afterAll(() => {
+      mock.restore()
+    })
     beforeEach(() => {
       deviceManager.device.request = jest
         .fn()

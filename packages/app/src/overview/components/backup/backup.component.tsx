@@ -57,12 +57,14 @@ interface Props {
   lastBackupDate?: Date
   onBackupCreate: () => void
   onBackupRestore?: () => void
+  backupActionDisabled: boolean
 }
 
 const Backup: FunctionComponent<Props & Partial<Settings>> = ({
   lastBackupDate,
   onBackupCreate,
   onBackupRestore = noop,
+  backupActionDisabled,
   ...props
 }) => (
   <Card {...props}>
@@ -109,6 +111,7 @@ const Backup: FunctionComponent<Props & Partial<Settings>> = ({
           active
           labelMessage={messages.createAction}
           onClick={onBackupCreate}
+          disabled={backupActionDisabled}
         />
       </CardAction>
     </CardBody>
