@@ -12,8 +12,8 @@ import { Response } from "App/device/types/mudita-os"
 import { ResponseStatus } from "App/device/constants"
 
 enum BlockReason {
-  EulaNotAccepted = 2,
-  BatteryCriticalLevel = 3,
+  EulaNotAccepted = "2",
+  BatteryCriticalLevel = "3",
 }
 
 type BodyType = {
