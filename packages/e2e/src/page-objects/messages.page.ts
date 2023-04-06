@@ -146,13 +146,11 @@ class MessagesPage extends Page {
     const allLastMessages = await $$('//*[@data-testid="thread-last-message"]')
 
     const messagesContents: string[] = await browser.executeAsync((done) => {
-
       const messages = Array.from(
         document.querySelectorAll('p[data-testid="thread-last-message"]')
       )
 
       const messagesContents = messages.map((item) => {
-
         const styles = document.defaultView.getComputedStyle(item, "::after")
         return styles.getPropertyValue("content")
       })

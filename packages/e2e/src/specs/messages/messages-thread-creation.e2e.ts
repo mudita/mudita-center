@@ -18,7 +18,6 @@ import {
 } from "../../helpers/messages.helper"
 import messagesConversationPage from "../../page-objects/messages-conversation.page"
 
-
 const enterKey = "\uE007"
 const backspaceKey = "\ue003"
 
@@ -45,7 +44,6 @@ describe("New thread creation scenarios - no contacts & no threads", () => {
   })
 
   it("Check modal title is Browse Contacts and close it", async () => {
-
     const modalHeader = await BrowseContactsModal.modalHeader
     await expect(modalHeader).toHaveText("Browse Contacts")
 
