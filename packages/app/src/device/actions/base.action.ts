@@ -27,3 +27,6 @@ export const setAgreementStatus = createAction<boolean>(
   DeviceEvent.AgreementStatus
 )
 export const unlockedDevice = createAction(DeviceEvent.Unlocked)
+export const setCriticalBatteryLevel = createAction<boolean>(
+  DeviceEvent.CriticalBatteryLevel
+)

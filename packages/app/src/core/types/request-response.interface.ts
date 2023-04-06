@@ -12,6 +12,8 @@ export enum RequestResponseStatus {
   UnprocessableEntity = "unprocessable-entity",
   NotAcceptable = "agreement-is-not-accepted",
   InsufficientStorage = "not-enough-space-on-device",
+  EulaNotAccepted = "eula-not-accepted",
+  BatteryCriticalLevel = "battery-critical-level",
 }
 
 // AUTO DISABLED - fix me if you like :)
