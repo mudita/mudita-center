@@ -113,35 +113,31 @@ describe("`BackupDeviceFlow` component", () => {
   })
 
   describe("`CriticalBatteryLevelModal` and `PasscodeModal` components", () => {
-    test("when unlocked, noModalsVisible and criticalBatteryLevel are false, then both modals are hidden", () => {
-      const extraProps: Partial<Props> = {
+    const cases = [
+      {
         noModalsVisible: false,
         unlocked: false,
         criticalBatteryLevel: false,
-      }
-      const { queryByTestId } = render(extraProps)
-      expect(
-        queryByTestId(PasscodeModalTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(CriticalBatteryLevelModalTestIds.Container)
-      ).not.toBeInTheDocument()
-    })
-
-    test("when unlocked is true, but noModalsVisible and criticalBatteryLevel are false then both modals are hidden", () => {
-      const extraProps: Partial<Props> = {
+      },
+      {
         noModalsVisible: false,
         unlocked: true,
         criticalBatteryLevel: false,
+      },
+    ]
+
+    test.each(cases)(
+      "both, Passcode Modal and CriticalBatteryLevel are hidden",
+      (props) => {
+        const { queryByTestId } = render(props)
+        expect(
+          queryByTestId(PasscodeModalTestIds.Container)
+        ).not.toBeInTheDocument()
+        expect(
+          queryByTestId(CriticalBatteryLevelModalTestIds.Container)
+        ).not.toBeInTheDocument()
       }
-      const { queryByTestId } = render(extraProps)
-      expect(
-        queryByTestId(PasscodeModalTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(CriticalBatteryLevelModalTestIds.Container)
-      ).not.toBeInTheDocument()
-    })
+    )
 
     test("when unlocked, noModalsVisible, criticalBatteryLevel are true then both modals are hidden", () => {
       const extraProps: Partial<Props> = {
