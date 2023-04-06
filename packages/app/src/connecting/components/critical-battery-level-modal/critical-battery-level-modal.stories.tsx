@@ -6,18 +6,18 @@
 import React from "react"
 import { Meta } from "@storybook/react"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
-import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
+import CriticalBatteryLevelModal from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
-export const ErrorSyncModalStory = (): JSX.Element => {
+export const CriticalBatteryLevelModalStory = (): JSX.Element => {
   return (
     <Story transparentMode>
-      <ErrorSyncModal open closeModal={noop} onRetry={noop} />
+      <CriticalBatteryLevelModal open closeModal={noop} />
     </Story>
   )
 }
 
 export default {
   title: "Views|Connecting/Backup Modal Dialogs",
-  component: ErrorSyncModalStory,
+  component: CriticalBatteryLevelModalStory,
 } as Meta

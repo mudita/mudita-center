@@ -28,4 +28,5 @@ export enum DeviceEvent {
 
   LoadStorageInfo = "DEVICE_LOAD_STORAGE_INFO",
   AgreementStatus = "DEVICE_AGREEMENT_STATUS",
+  CriticalBatteryLevel = "CRITICAL_BATTERY_LEVEL"
 }

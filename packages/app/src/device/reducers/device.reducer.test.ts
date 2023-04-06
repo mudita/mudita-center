@@ -493,6 +493,7 @@ describe("`LoadStorageInfo` functionality", () => {
           "agreementAccepted": true,
           "connected": false,
           "connecting": false,
+          "criticalBatteryLevel": false,
           "loaded": false,
           "unlocked": null,
         },

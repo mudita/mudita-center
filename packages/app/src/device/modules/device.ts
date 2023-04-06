@@ -134,7 +134,16 @@ export class Device {
           response
         )
       )
-    } else if (response.status !== RequestResponseStatus.Ok) {
+    } else if (response.status === RequestResponseStatus.BatteryCriticalLevel) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.BatteryCriticalLevel,
+          `Device ${this.path} has critical battery level`,
+          response
+        )
+      )
+    }
+    else if (response.status !== RequestResponseStatus.Ok) {
       return Result.failed(
         new AppError(
           DeviceCommunicationError.RequestFailed,
