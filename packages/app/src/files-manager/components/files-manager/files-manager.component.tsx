@@ -258,6 +258,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         diskSpaceCategories={diskSpaceCategories}
         totalMemorySpace={totalMemorySpace}
         usedMemory={usedMemorySpace}
+        uploading={states.uploading}
       />
       {deviceType !== null && (
         <FilesStorage
