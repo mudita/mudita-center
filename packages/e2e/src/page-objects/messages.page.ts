@@ -145,7 +145,6 @@ class MessagesPage extends Page {
   async getLastMessages() {
     const allLastMessages = await $$('//*[@data-testid="thread-last-message"]')
 
-
     const messagesContents: string[] = await browser.executeAsync((done) => {
       const messages = Array.from(
         document.querySelectorAll('p[data-testid="thread-last-message"]')

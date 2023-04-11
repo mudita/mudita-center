@@ -12,6 +12,12 @@ class HelpPage extends Page {
   > {
     return $('[data-testid="help-component-question"]')
   }
+  /**[Selector]  Contact support button  */
+  public get contactSupportButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="help-support-button"]')
+  }
 }
 
 export default new HelpPage()
