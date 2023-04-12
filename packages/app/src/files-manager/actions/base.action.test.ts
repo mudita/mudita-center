@@ -13,6 +13,7 @@ import {
   setUploadBlocked,
   setDeletingFileCount,
   setUploadingFileCount,
+  resetUploadingStateAfterSuccess,
 } from "App/files-manager/actions/base.action"
 import { FilesManagerEvent } from "App/files-manager/constants"
 
@@ -52,6 +53,18 @@ describe("Action: `resetUploadingState`", () => {
     expect(mockStore.getActions()).toEqual([
       {
         type: FilesManagerEvent.ResetUploadingState,
+        payload: undefined,
+      },
+    ])
+  })
+})
+
+describe("Action: `resetUploadingStateAfterSuccess`", () => {
+  test("dispatch action with provided payload", () => {
+    mockStore.dispatch(resetUploadingStateAfterSuccess())
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: FilesManagerEvent.ResetUploadingStateAfterSuccess,
         payload: undefined,
       },
     ])
