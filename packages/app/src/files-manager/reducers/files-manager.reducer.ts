@@ -152,7 +152,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           uploading: State.Initial,
           error: null,
           uploadingFileCount: 0,
-          uploadBlocked: false,
         }
       })
       .addCase(setUploadingFileCount, (state, action) => {
