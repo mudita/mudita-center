@@ -40,6 +40,12 @@ export const addNewContact = async (
   }
 
   await waitForClickableAndClick(await ContactsPage.saveContactButton)
+  try {
+    await ContactsPage.newContactButton.waitForEnabled({ timeout: 9000 })
+  } catch (error) {
+    console.log(error)
+    await browser.saveScreenshot("./waitForEnabledError.png")
+  }
 }
 
 export const deleteContact = async () => {
@@ -47,8 +53,27 @@ export const deleteContact = async () => {
   await waitForClickableAndClick(await ContactsPage.deleteContactOptionMenu)
   await waitForClickableAndClick(await ModalContactsPage.buttonConfirmDelete)
 
-  ModalContactsPage.buttonConfirmDeleteClick()
+  await ModalContactsPage.buttonConfirmDeleteClick()
 
+  const noContactsTextLabel = await ContactsPage.noContactsTextLabel
+
+  await noContactsTextLabel.waitForDisplayed()
+}
+
+export const deleteContactsWithSelectionManager = async () => {
+  //hover over data-testid="contact-row" to make checkbox display=true
+  const contactRow = await ContactsPage.singleContactRow
+  await contactRow.moveTo()
+
+  await waitForClickableAndClick(await ContactsPage.checkboxSingleContact)
+
+  //select all contacts
+  await waitForClickableAndClick(await ContactsPage.checkboxSelectAll)
+
+  await waitForClickableAndClick(
+    await ContactsPage.buttonDeleteSelectionManager
+  )
+  await ModalContactsPage.buttonConfirmDeleteClick()
   const noContactsTextLabel = await ContactsPage.noContactsTextLabel
 
   await noContactsTextLabel.waitForDisplayed()
