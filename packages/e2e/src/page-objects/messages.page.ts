@@ -103,7 +103,7 @@ class MessagesPage extends Page {
   }
 
   /** [Selector] Delete button available when selection manager is active */
-  public get selectionManagerDeleteButton(): ChainablePromiseElement<
+  public get selectionManagerIconDelete(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Delete"]')
@@ -200,6 +200,36 @@ class MessagesPage extends Page {
     Promise<WebdriverIO.Element>
   > {
     return this.searchResultsOverlayList.$("li*=No results found")
+  }
+  /** [Selector] See all button on search results overlay  */
+  public get seeAllSearchResultsButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("button*=See all")
+  }
+
+  /** [Selector] Returns list of multiple elements - contact icon for threads without matching contact in phonebok */
+  public get iconsContactFilled() {
+    return $$('[data-testid="icon-ContactFilled"]')
+  }
+
+  /** [Selector] Returns list of multiple elements - contact icon for threads with matching contact in phonebok */
+  public get avatarsText() {
+    return $$('[data-testid="avatar-text"]')
+  }
+  /** [Selector] Selection manager- select all checkbox */
+  public get selectAllCheckbox(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="message-panel-selection-manager"]').$(
+      '[type="checkbox"]'
+    )
+  }
+  /** [Selector] Selection manager- select all checkbox */
+  public get selectionManagerDeleteButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="message-panel-selection-manager"]').$("p*=Delete")
   }
 }
 
