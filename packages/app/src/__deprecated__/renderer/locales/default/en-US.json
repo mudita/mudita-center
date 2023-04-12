@@ -102,6 +102,7 @@
   "component.formErrorNumbersOnly": "May contain only numbers and + sign",
   "component.formErrorNumberUnique": "The phone number must be unique",
   "component.formErrorRequiredEmail": "Email is required",
+  "component.formErrorRequiredPrimaryPhone": "Phone number is required",
   "component.formErrorTooLong": "Must be shorter than {maxLength} characters",
   "component.formErrorTooManyFiles": "You tried to attach more than {limit} files.",
   "component.formErrorTooShort": "Must be longer than {minLength} characters",
