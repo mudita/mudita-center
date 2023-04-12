@@ -14,6 +14,7 @@ export enum FilesManagerEvent {
   SetUploadingState = "FILES_MANAGER_SET_UPLOADING_STATE",
   ResetDeletingState = "FILES_MANAGER_RESET_DELETING_STATE",
   ResetUploadingState = "FILES_MANAGER_RESET_UPLOADING_STATE",
+  ResetUploadingStateAfterSuccess = "FILES_MANAGER_RESET_UPLOADING_STATE_AFTER_SUCCESS",
   SetUploadingFileCount = "FILES_MANAGER_SET_UPLOADING_FILE_COUNT",
   SetUploadBlocked = "FILES_MANAGER_SET_UPLOAD_BLOCKED",
   SetDeletingFileCount = "FILES_MANAGER_SET_DELETING_FILE_COUNT",
