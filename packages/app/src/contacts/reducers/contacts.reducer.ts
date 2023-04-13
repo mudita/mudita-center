@@ -114,7 +114,7 @@ export const contactsReducer = createReducer<ContactsState>(
           }
         }
       )
-      .addCase(deleteContacts.fulfilled, (state, action) => {
+      .addCase(deleteContacts.fulfilled, (state) => {
         return { ...state, deletedCount: 0 }
       })
 

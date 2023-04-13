@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { useSelector } from "react-redux"
 import { createSelector } from "@reduxjs/toolkit"
 import { contactsStateSelector } from "App/contacts/selectors"
@@ -5,12 +10,13 @@ import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { defineMessages } from "react-intl"
 import { textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import React, { useEffect, useState } from "react"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 
 export const messages = defineMessages({
   deletedInfo: { id: "module.contacts.deletePopup" },
 })
 
-const DeleteContactsPopup = () => {
+const DeleteContactsPopup: FunctionComponent = () => {
   const getContactsCount = createSelector(
     contactsStateSelector,
     (contacts) => contacts.deletedCount
@@ -35,7 +41,9 @@ const DeleteContactsPopup = () => {
     }
   }, [contactsCount])
 
-  if (!showPopup) return null
+  if (!showPopup) {
+    return null
+  }
 
   return (
     <InfoPopup
