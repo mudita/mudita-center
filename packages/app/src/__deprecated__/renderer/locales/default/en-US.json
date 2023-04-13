@@ -288,6 +288,7 @@
   "module.contacts.deleteCallLabel": "Delete call",
   "module.contacts.deleteCancelButton": "Cancel",
   "module.contacts.deleteMultipleContacts": "Do you really want to delete <b>{num, plural, =-1 {all contacts} one {the {name} contact} other {# contacts}}</b>?",
+  "module.contacts.deletePopup": "{num, plural, =-1 {All contacts} one {# Contact} other {# Contacts}} deleted.",
   "module.contacts.deleteText": "Do you really want to delete\n<b>the {name} contact?</b>",
   "module.contacts.deleteTitle": "Delete contact",
   "module.contacts.deleteTooltipDescription": "Delete contact",

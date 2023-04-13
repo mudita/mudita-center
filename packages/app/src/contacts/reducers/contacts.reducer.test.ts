@@ -250,6 +250,7 @@ describe("DeleteContactsInState data functionality", () => {
       )
     ).toEqual({
       ...initialState,
+      deletedCount: 1,
     })
   })
 })
