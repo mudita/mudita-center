@@ -231,6 +231,50 @@ class MessagesPage extends Page {
   > {
     return $('[data-testid="message-panel-selection-manager"]').$("p*=Delete")
   }
+
+  /** [Selector] Search results for ' ' text displayed above the thread list*/
+  public get searchResultsForText(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("h4*=Search results")
+  }
+
+  /** [Selector] Returns list of multiple elements - contact icon for threads with matching contact in phonebok */
+  public get searchOverlayItemsList() {
+    return $$('[data-testid="input-select-list-item"]')
+  }
+
+  async clickByTextConversationOnSearchResultsOverlay(searchText: string) {
+    for (let i = 0; i < (await this.searchOverlayItemsList.length); i++) {
+      if (
+        await this.searchOverlayItemsList[i].$(
+          '[data-testid="icon-Conversation"]'
+        )
+      ) {
+        if (
+          (await this.searchOverlayItemsList[i].getText()).includes(searchText)
+        ) {
+          return this.searchOverlayItemsList[i].click()
+        }
+      }
+    }
+  }
+  async clickByTextMessageOnSearchResultsOverlay(searchText: string) {
+    for (let i = 0; i < (await this.searchOverlayItemsList.length); i++) {
+      if (
+        (await this.searchOverlayItemsList[i].getText()).includes(searchText)
+      ) {
+        return this.searchOverlayItemsList[i].click()
+      }
+    }
+  }
+
+  /** [Selector] Element containing contact number/name displayed on Search results for '' list  */
+  public get nameFieldOnSearchResultsConversationList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="name-field"]')
+  }
 }
 
 export default new MessagesPage()

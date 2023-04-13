@@ -14,9 +14,6 @@ export const sendMessage = async (
   recipientText: string,
   messageText: string
 ) => {
-  await console.log("****SEND MESSAGE****")
-  await console.log(recipientText)
-
   await waitForClickableAndClick(await navigationTabs.contactsTab)
   await waitForClickableAndClick(await navigationTabs.messagesTab)
 
@@ -32,9 +29,6 @@ export const sendMessage = async (
 
 /** Delete conversation on thread list screen by clicking options (...) and delete conversation from dropdown list */
 export const deleteConversationOnThreadList = async () => {
-  // await waitForClickableAndClick(await navigationTabs.contactsTab)
-  // await waitForClickableAndClick(await navigationTabs.messagesTab)
-
   await messagesPage.clickThreadDropdownButton()
 
   await messagesPage.clickThreadDropdownDeleteButton()

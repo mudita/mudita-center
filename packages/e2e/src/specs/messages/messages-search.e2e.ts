@@ -68,6 +68,10 @@ const nonexistingword = "nonexistingwordinthread"
 
 describe("Check search without any threads or contacts", () => {
   before(async () => {
+    // Waiting for device connected through USB
+    await browser.pause(10000)
+
+    await modalGeneralPage.clickUpdateAvailableModalCloseButton()
     await waitForClickableAndClick(await navigationTabs.contactsTab)
     await waitForClickableAndClick(await navigationTabs.messagesTab)
   })
@@ -86,11 +90,6 @@ describe("Check search without any threads or contacts", () => {
 
 describe("Messasges search scenarios-results overlay-conversation with contact existing in phonebook", () => {
   before(async () => {
-    // Waiting for device connected through USB
-    await browser.pause(10000)
-
-    await modalGeneralPage.clickUpdateAvailableModalCloseButton()
-
     for (let j = 0; j < 3; j++) {
       await addNewContact(
         contacts[j].firstName,
@@ -178,7 +177,7 @@ describe("Messasges search scenarios-results overlay-conversation with contact N
     await waitForClickableAndClick(await navigationTabs.contactsTab)
     await waitForClickableAndClick(await navigationTabs.messagesTab)
   })
-  it("Search by NOT existing contact name and check results", async () => {
+  it("Search messages by NOT existing contact name and check results", async () => {
     await browser.pause(4000)
     await messagesPage.insertTextToSearchInput(contacts[4].firstName)
     const resultList = await messagesPage.searchResultsOverlayList
@@ -187,7 +186,7 @@ describe("Messasges search scenarios-results overlay-conversation with contact N
     await expect(emptyList).toBeDisplayed()
   })
 
-  it("Search by NOT existing surname and check results", async () => {
+  it("Search messages by NOT existing surname and check results", async () => {
     await messagesPage.insertTextToSearchInput(contacts[5].lastName)
     const resultList = await messagesPage.searchResultsOverlayList
     const emptyList = await messagesPage.emptySearchResultsOverlayList
@@ -195,7 +194,7 @@ describe("Messasges search scenarios-results overlay-conversation with contact N
     await expect(emptyList).toBeDisplayed()
   })
 
-  it("Search by partial NOT existing contact name and check results", async () => {
+  it("Search messages by partial NOT existing contact name and check results", async () => {
     await messagesPage.insertTextToSearchInput(
       contacts[5].firstName.slice(0, 4)
     )
@@ -239,6 +238,13 @@ describe("Messasges search scenarios - results overlay 'SEE ALL'", () => {
     await expect(emptyList).not.toBeDisplayed()
 
     await waitForClickableAndClick(await messagesPage.seeAllSearchResultsButton)
+
+    const searchResultText = await messagesPage.searchResultsForText
+    const expectedText = 'Search results for "' + commonword + '"'
+    await console.log(expectedText)
+    await expect(searchResultText).toHaveText(
+      `Search results for \u201C${commonword}\u201D`
+    )
   })
 })
 
@@ -248,19 +254,22 @@ describe("Messasges search scenarios - results overlay - click on conversation",
     await waitForClickableAndClick(await navigationTabs.messagesTab)
   })
 
-  xit("Click conversation from search results overlay", async () => {})
+  it("Click conversation from search results overlay", async () => {
+    await messagesPage.insertTextToSearchInput(contacts[1].lastName)
 
-  xit("Check thread is opened and search word is NOT highlighted", async () => {})
+    await messagesPage.clickByTextConversationOnSearchResultsOverlay(
+      contacts[1].lastName
+    )
+  })
 
-  xit("Click message from search results overlay", async () => {})
-
-  xit("Check thread is opened and search word is highlighted", async () => {})
-
-  xit("Press ENTER key after inserting search query and check only matching threads are displayed", async () => {})
-
-  xit("Click thread and check thread is opened and search word is highlighted", async () => {})
-
-  xit("Clear search input and check all thraeds list is displayed ", async () => {})
+  it("Check thread is opened and search word is NOT highlighted", async () => {
+    const conversationWindow = await messagesPage.threadDetailsContainer
+    await expect(conversationWindow).toBeDisplayed()
+    const highlightedMessage = messagesConversationPage.highlightedMessage(
+      contacts[1].message
+    )
+    await expect(highlightedMessage).not.toBeDisplayed()
+  })
 })
 
 describe("Messasges search scenarios - results overlay - click message", () => {
@@ -269,15 +278,21 @@ describe("Messasges search scenarios - results overlay - click message", () => {
     await waitForClickableAndClick(await navigationTabs.messagesTab)
   })
 
-  xit("Click message from search results overlay", async () => {})
+  it("Click thread and check thread is opened and search word is highlighted", async () => {
+    await messagesPage.insertTextToSearchInput(contacts[1].message)
 
-  xit("Check thread is opened and search word is highlighted", async () => {})
-
-  xit("Press ENTER key after inserting search query and check only matching threads are displayed", async () => {})
-
-  xit("Click thread and check thread is opened and search word is highlighted", async () => {})
-
-  xit("Clear search input and check all thraeds list is displayed ", async () => {})
+    await messagesPage.clickByTextConversationOnSearchResultsOverlay(
+      contacts[1].message
+    )
+  })
+  it("Check thread is opened and search word is NOT highlighted", async () => {
+    const conversationWindow = await messagesPage.threadDetailsContainer
+    await expect(conversationWindow).toBeDisplayed()
+    const highlightedMessage = messagesConversationPage.highlightedMessage(
+      contacts[1].message
+    )
+    await expect(highlightedMessage).toBeDisplayed()
+  })
 })
 
 describe("Messasges search scenarios - Enter press in search results", () => {
@@ -294,9 +309,23 @@ describe("Messasges search scenarios - Enter press in search results", () => {
     await expect(resultList).toBeDisplayed()
     await expect(emptyList).not.toBeDisplayed()
     await browser.keys(enterKey)
+
+    const searchResultText = await messagesPage.searchResultsForText
+    await expect(searchResultText).toHaveText(
+      `Search results for \u201C${commonword}\u201D`
+    )
   })
 
-  xit("Click thread and check thread is opened and search word is highlighted", async () => {})
+  it("Click thread and check thread is opened and search word is highlighted", async () => {
+    await waitForClickableAndClick(
+      await messagesPage.nameFieldOnSearchResultsConversationList
+    )
+    const conversationWindow = await messagesPage.threadDetailsContainer
+    await expect(conversationWindow).toBeDisplayed()
+    const highlightedMessage =
+      messagesConversationPage.highlightedMessage(commonword)
+    await expect(highlightedMessage).toBeDisplayed()
+  })
 })
 
 describe("Messasges search scenarios - clear search input", () => {

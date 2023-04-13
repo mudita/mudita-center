@@ -15,9 +15,6 @@ export const addNewContact = async (
   firstLineAddressText?: string,
   secondLineAddressText?: string
 ) => {
-  await console.log("****CONTACT ADD****")
-  await console.log(firstNameText)
-
   await waitForClickableAndClick(await NavigationTabs.messagesTab)
   await waitForClickableAndClick(await NavigationTabs.contactsTab)
 
