@@ -10,23 +10,18 @@ export enum RequestResponseStatus {
   Error = "error",
   Duplicated = "phone-number-duplicated",
   UnprocessableEntity = "unprocessable-entity",
-  NotAcceptable = "agreement-is-not-accepted",
   InsufficientStorage = "not-enough-space-on-device",
   EulaNotAccepted = "eula-not-accepted",
   BatteryCriticalLevel = "battery-critical-level",
 }
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface RequestResponseError<ErrorDataType = any> {
+export interface RequestResponseError<ErrorDataType = unknown> {
   code?: number
   message: string
   data?: ErrorDataType
 }
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface RequestResponse<DataType = unknown, ErrorDataType = any> {
+export interface RequestResponse<DataType = unknown, ErrorDataType = unknown> {
   status: RequestResponseStatus
   data?: DataType
   error?: RequestResponseError<ErrorDataType>
