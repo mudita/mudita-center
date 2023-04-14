@@ -72,6 +72,21 @@ export class ContactService {
   public async createContact(
     newContact: Contact
   ): Promise<RequestResponse<Contact>> {
+    //todo
+    //workaround - https://appnroll.atlassian.net/browse/CP-1931
+    if (
+      newContact.primaryPhoneNumber === undefined ||
+      newContact.primaryPhoneNumber === ""
+    ) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Create contact: Empty primary phone number",
+        },
+      }
+    }
+    //workaround
+
     const response =
       await this.deviceManager.device.request<CreateContactResponseBody>({
         endpoint: Endpoint.Contacts,

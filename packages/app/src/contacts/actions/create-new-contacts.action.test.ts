@@ -87,10 +87,7 @@ describe("async `createNewContact` ", () => {
   describe("when `createContactRequest` return error", () => {
     test("fire async `createNewContact` returns `rejected` action", async () => {
       ;(createContactRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new AppError(
-        ContactsEvent.AddNewContact,
-        "Add Contact request failed"
-      )
+      const errorMock = new AppError(ContactsEvent.AddNewContact, "I'm error")
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
