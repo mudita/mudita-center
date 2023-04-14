@@ -48,6 +48,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
+  resetUploadingStateAfterSuccess,
   uploadingFileCount,
   deletingFileCount,
   uploadBlocked,
@@ -159,7 +160,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 
     const hideInfoPopupsTimeout = setTimeout(() => {
       updateFieldState("uploadingInfo", false)
-      resetUploadingState()
+      resetUploadingStateAfterSuccess()
     }, 5000)
 
     return () => {
@@ -258,6 +259,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         diskSpaceCategories={diskSpaceCategories}
         totalMemorySpace={totalMemorySpace}
         usedMemory={usedMemorySpace}
+        uploading={states.uploading}
       />
       {deviceType !== null && (
         <FilesStorage

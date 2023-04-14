@@ -9,3 +9,12 @@ export const waitForClickableAndClick = async (
   await element.waitForClickable()
   await element.click()
 }
+
+export const insertTextToElement = async (
+  element: WebdriverIO.Element,
+  text: string
+) => {
+  await element.waitForClickable()
+  await element.click()
+  await element.setValue(text)
+}

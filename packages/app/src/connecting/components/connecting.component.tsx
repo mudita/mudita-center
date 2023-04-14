@@ -20,6 +20,7 @@ import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"
 import { AppError } from "App/core/errors"
+import CriticalBatteryLevelModal from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -35,6 +36,7 @@ const Connecting: FunctionComponent<{
   checkingForOsForceUpdate: boolean
   updateAllIndexes: () => Promise<void>
   passcodeModalCloseable: boolean
+  criticalBatteryLevel: boolean
 }> = ({
   loaded,
   deviceType,
@@ -49,10 +51,15 @@ const Connecting: FunctionComponent<{
   forceOsUpdateFailed,
   checkingForOsForceUpdate,
   passcodeModalCloseable,
+  criticalBatteryLevel,
 }) => {
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
   const [passcodeOpenModal, setPasscodeOpenModal] = useState(false)
+  const [criticalBatteryLevelOpenModal, setCriticalBatteryLevelOpenModal] =
+    useState(false)
+
+  const history = useHistory()
 
   useEffect(() => {
     if (deviceType === DeviceType.MuditaHarmony) {
@@ -78,14 +85,15 @@ const Connecting: FunctionComponent<{
     }, 500)
 
     // TODO: how to avoid window jumping by loading setting async action
-    if (unlocked === false && noModalsVisible) {
-      setPasscodeOpenModal(true)
-    } else {
+    if (unlocked === false && noModalsVisible && criticalBatteryLevel) {
       setPasscodeOpenModal(false)
+      setCriticalBatteryLevelOpenModal(true)
+    } else if (unlocked === false && noModalsVisible && !criticalBatteryLevel) {
+      setPasscodeOpenModal(true)
+      setCriticalBatteryLevelOpenModal(false)
     }
+
     return () => clearTimeout(timeout)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     loaded,
     unlocked,
@@ -93,6 +101,8 @@ const Connecting: FunctionComponent<{
     noModalsVisible,
     checkingForOsForceUpdate,
     forceOsUpdateFailed,
+    criticalBatteryLevel,
+    history,
   ])
 
   useEffect(() => {
@@ -126,8 +136,6 @@ const Connecting: FunctionComponent<{
     }
   }, [unlocked, forceOsUpdateFailed])
 
-  const history = useHistory()
-
   const onCancel = () => {
     // TODO: do some logic to connect to the phone, add cancelling logic
     // This redirect is only for testing purposes
@@ -138,6 +146,7 @@ const Connecting: FunctionComponent<{
 
   const close = () => {
     setPasscodeOpenModal(false)
+    setCriticalBatteryLevelOpenModal(false)
     history.push(URL_MAIN.news)
   }
 
@@ -157,6 +166,10 @@ const Connecting: FunctionComponent<{
       {error === ConnectingError.ForceUpdateCheckFailed && (
         <ErrorConnectingModal open closeModal={close} />
       )}
+      <CriticalBatteryLevelModal
+        open={criticalBatteryLevelOpenModal}
+        closeModal={close}
+      />
       <PasscodeModal
         openModal={passcodeOpenModal}
         close={close}

@@ -19,6 +19,10 @@ export const resetUploadingState = createAction(
   FilesManagerEvent.ResetUploadingState
 )
 
+export const resetUploadingStateAfterSuccess = createAction(
+  FilesManagerEvent.ResetUploadingStateAfterSuccess
+)
+
 export const setUploadingFileCount = createAction<number>(
   FilesManagerEvent.SetUploadingFileCount
 )

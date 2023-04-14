@@ -29,13 +29,11 @@ const thirdTemplate: Template = {
 
 describe("`reorder` function", () => {
   const list: Template[] = [template, secondTemplate, thirdTemplate]
-  test("returns only templates with changed order", () => {
-    expect(reorder(list, 0, 2)).toEqual([
-      template,
-      secondTemplate,
-      thirdTemplate,
+  test("sets new order values based on item position in the array", () => {
+    expect(reorder(list)).toEqual([
+      { ...template, order: 3 },
+      { ...secondTemplate, order: 2 },
+      { ...thirdTemplate, order: 1 },
     ])
-    expect(reorder(list, 0, 1)).toEqual([template, secondTemplate])
-    expect(reorder(list, 2, 1)).toEqual([secondTemplate, thirdTemplate])
   })
 })
