@@ -4,42 +4,37 @@
  */
 
 import { useSelector } from "react-redux"
-import { createSelector } from "@reduxjs/toolkit"
-import { contactsStateSelector } from "App/contacts/selectors"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { defineMessages } from "react-intl"
 import { textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { getContactsDeleteCountSelector } from "App/contacts/selectors/contacts-delete-count.selector"
 
 export const messages = defineMessages({
-  deletedInfo: { id: "module.contacts.deletePopup" },
+  deletedPopup: { id: "module.contacts.deletePopup" },
 })
 
 const DeleteContactsPopup: FunctionComponent = () => {
-  const getContactsCount = createSelector(
-    contactsStateSelector,
-    (contacts) => contacts.deletedCount
-  )
-  const contactsCount = useSelector(getContactsCount)
-  const [showPopup, setShowPopup] = useState(Boolean(contactsCount))
-  const [previousContactsCount, setPreviousContactsCount] =
-    useState(contactsCount)
+  const contactsDeleteCount = useSelector(getContactsDeleteCountSelector)
+  const [showPopup, setShowPopup] = useState(Boolean(contactsDeleteCount))
+  const [previousContactsDeleteCount, setPreviousContactsDeleteCount] =
+    useState(contactsDeleteCount)
 
   useEffect(() => {
-    if (contactsCount > 0) {
+    if (contactsDeleteCount > 0) {
       setShowPopup(true)
-      setPreviousContactsCount(contactsCount)
+      setPreviousContactsDeleteCount(contactsDeleteCount)
     }
     const hideInfoPopupsTimeout = setTimeout(() => {
       setShowPopup(false)
-      setPreviousContactsCount(0)
+      setPreviousContactsDeleteCount(0)
     }, 5000)
 
     return () => {
       clearTimeout(hideInfoPopupsTimeout)
     }
-  }, [contactsCount])
+  }, [contactsDeleteCount])
 
   if (!showPopup) {
     return null
@@ -48,10 +43,10 @@ const DeleteContactsPopup: FunctionComponent = () => {
   return (
     <InfoPopup
       message={{
-        ...messages.deletedInfo,
+        ...messages.deletedPopup,
         values: {
           ...textFormatters,
-          num: previousContactsCount,
+          num: previousContactsDeleteCount,
         },
       }}
     />
