@@ -32,6 +32,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   deviceType: state.device.deviceType,
   loaded: state.device.status.loaded,
   unlocked: state.device.status.unlocked,
+  criticalBatteryLevel: state.device.status.criticalBatteryLevel,
   syncInitialized: state.dataSync.initialized,
   syncState: state.dataSync.state,
   noModalsVisible: noModalsShowSelector(state),

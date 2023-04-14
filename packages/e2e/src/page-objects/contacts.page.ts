@@ -42,7 +42,7 @@ class ContactsPage extends Page {
   }
   /**Insert provided text to First Name input field*/
   async insertTextToFirstNameInput(textValue: string) {
-    await this.firstNameInput.waitForClickable()
+    await this.firstNameInput.waitForDisplayed()
     await this.firstNameInput.setValue(textValue)
   }
 
@@ -55,7 +55,7 @@ class ContactsPage extends Page {
 
   /**Insert provided text to Last Name input field*/
   async insertTextToLastNameInput(textValue: string) {
-    await this.lastNameInput.waitForClickable()
+    await this.lastNameInput.waitForDisplayed()
     await this.lastNameInput.setValue(textValue)
   }
 
@@ -68,7 +68,7 @@ class ContactsPage extends Page {
 
   /**Insert provided text to Primary Phone input field*/
   async insertTextToPrimaryPhoneNumberInput(textValue: string) {
-    await this.primaryPhoneNumberInput.waitForClickable()
+    await this.primaryPhoneNumberInput.waitForDisplayed()
     await this.primaryPhoneNumberInput.setValue(textValue)
   }
 
@@ -81,7 +81,7 @@ class ContactsPage extends Page {
 
   /**Insert provided text to Secondary Phone input field*/
   async insertTextToSecondaryPhoneNumberInput(textValue: string) {
-    await this.secondaryPhoneNumberInput.waitForClickable()
+    await this.secondaryPhoneNumberInput.waitForDisplayed()
     await this.secondaryPhoneNumberInput.setValue(textValue)
   }
   /**[Selector] Adress first line input*/
@@ -93,7 +93,7 @@ class ContactsPage extends Page {
 
   /**Insert provided text to First Address line input field*/
   async insertTextToAddressFirstLineInput(textValue: string) {
-    await this.addressFirstLineInput.waitForClickable()
+    await this.addressFirstLineInput.waitForDisplayed()
     await this.addressFirstLineInput.setValue(textValue)
   }
 
@@ -106,7 +106,7 @@ class ContactsPage extends Page {
 
   /**Insert provided text to Second Address line input field*/
   async insertTextToAddressSecondLineInput(textValue: string) {
-    await this.addressSecondLineInput.waitForClickable()
+    await this.addressSecondLineInput.waitForDisplayed()
     await this.addressSecondLineInput.setValue(textValue)
   }
 

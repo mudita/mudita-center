@@ -160,6 +160,15 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [searchPreviewValue, messagesState])
 
   useEffect(() => {
+    const noThreadsToDisplay =
+      threads.length === 0 && !activeThread && !tmpActiveThread
+
+    if (messagesState === MessagesState.ThreadDetails && noThreadsToDisplay) {
+      setMessagesState(MessagesState.List)
+    }
+  }, [messagesState, threads.length, activeThread, tmpActiveThread])
+
+  useEffect(() => {
     messageLayoutNotifications
       .filter(
         (item) => (item.content as Message)?.messageType === MessageType.OUTBOX
@@ -375,6 +384,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setDraftMessage(undefined)
     updateFieldState("draftDeleting", false)
     setMessagesState(MessagesState.List)
+    resetItems()
   }
 
   const handleNewMessageClick = (): void => {
@@ -591,6 +601,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     await deleteThreads(deletedThreads)
     resetItems()
     setActiveThread(undefined)
+    setTmpActiveThread(undefined)
     if (messagesState === MessagesState.NewMessage) {
       setActiveThread(mockThread)
     }
@@ -686,6 +697,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       query: searchPreviewValue,
     })
   }
+
   return (
     <>
       <ContactSelectModal

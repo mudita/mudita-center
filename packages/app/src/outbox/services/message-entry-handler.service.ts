@@ -25,29 +25,35 @@ export class MessageEntryHandlerService implements EntryHandler<Message> {
   ): Promise<Message | undefined> => {
     const id = String(entry.record_id)
 
+    const { status, data } = await this.messageService.getMessage(id)
+
+    const threadId = data ? data.threadId : this.messageRepository.findById(id)?.threadId
+
     if (entry.change === OutboxEntryChange.Deleted) {
       this.messageRepository.delete(id)
     }
 
-    const { status, data } = await this.messageService.getMessage(id)
-
-    if (status !== RequestResponseStatus.Ok || data === undefined) {
+    if(threadId === undefined) {
       return
     }
 
-    const threadData = this.threadRepository.findById(data.threadId)
-
-    const messageObject: Message = {
-      ...data,
-      phoneNumber: threadData ? threadData.phoneNumber : "",
-    }
+    const threadData = this.threadRepository.findById(threadId)
 
     await this.threadEntryHandlerService.handleEntry({
       uid: 0,
       type: OutboxEntryType.Thread,
       change: OutboxEntryChange.Relation,
-      record_id: Number(data.threadId),
+      record_id: Number(threadId),
     })
+
+    if (status !== RequestResponseStatus.Ok || data === undefined) {
+      return
+    }
+
+    const messageObject: Message = {
+      ...data,
+      phoneNumber: threadData ? threadData.phoneNumber : "",
+    }
 
     if (entry.change === OutboxEntryChange.Created) {
       return this.messageRepository.create(messageObject)
