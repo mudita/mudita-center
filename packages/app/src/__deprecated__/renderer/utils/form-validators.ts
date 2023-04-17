@@ -6,6 +6,7 @@
 import { RegisterOptions } from "react-hook-form/dist/types"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { AddressNameLength, MaxNameLength } from "App/contacts/constants"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 export const phoneNumberRegexp = /^[+\d]*$/im
 
@@ -16,9 +17,7 @@ export const emailRegexp =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 export const primaryPhoneNumberValidator = (
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fields: Record<any, any>
+  fields: Contact
 ): RegisterOptions => ({
   minLength: {
     value: 1,
@@ -40,9 +39,7 @@ export const primaryPhoneNumberValidator = (
       id: "component.formErrorDigitsAndPlusOnly",
     }),
   },
-  validate: (value): string | undefined => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  validate: (value: string): string | undefined => {
     if (value.length > 0 && value === fields.secondaryPhoneNumber) {
       return intl.formatMessage({
         id: "component.formErrorNumberUnique",
@@ -54,9 +51,7 @@ export const primaryPhoneNumberValidator = (
 })
 
 export const secondaryPhoneNumberValidator = (
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fields: Record<any, any>
+  fields: Contact
 ): RegisterOptions => ({
   minLength: {
     value: 1,
@@ -78,9 +73,7 @@ export const secondaryPhoneNumberValidator = (
       id: "component.formErrorDigitsAndPlusOnly",
     }),
   },
-  validate: (value): string | undefined => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  validate: (value: string): string | undefined => {
     if (value.length > 0 && value === fields.primaryPhoneNumber) {
       return intl.formatMessage({
         id: "component.formErrorNumberUnique",
