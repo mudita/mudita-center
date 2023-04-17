@@ -38,41 +38,42 @@ const messages = defineMessages({
   },
 })
 
-export const ForceUpdateAvailableModal: FunctionComponent<ForceUpdateAvailableModalProps> =
-  ({ open, releases, onUpdate, testId }) => {
-    const handleButtonClick = (_event: unknown) => {
-      onUpdate()
-    }
-
-    return (
-      <OSUpdateModal open={open} testId={testId} size={ModalSize.Medium}>
-        <RoundIconWrapper>
-          <Icon type={IconType.Pure} width={3.2} />
-        </RoundIconWrapper>
-        <ModalMainText
-          displayStyle={TextDisplayStyle.Headline4}
-          message={{
-            ...messages.updatingForceTitle,
-          }}
-        />
-        <ForceUpdateDescription
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
-          message={{
-            ...messages.updatingForceDescription,
-          }}
-        />
-        <AboutUpdatesSection releases={releases} />
-        <Button
-          displayStyle={DisplayStyle.Primary}
-          size={Size.FixedSmall}
-          labelMessage={{
-            ...messages.updatingForceButton,
-          }}
-          onClick={handleButtonClick}
-          data-testid={ModalTestIds.ModalActionButton}
-        />
-        <CautionSection isSingleRelease={releases.length === 1} />
-      </OSUpdateModal>
-    )
+export const ForceUpdateAvailableModal: FunctionComponent<
+  ForceUpdateAvailableModalProps
+> = ({ open, releases, onUpdate, testId }) => {
+  const handleButtonClick = (_event: unknown) => {
+    onUpdate()
   }
+
+  return (
+    <OSUpdateModal open={open} testId={testId} size={ModalSize.Medium}>
+      <RoundIconWrapper>
+        <Icon type={IconType.Info} width={4.8} />
+      </RoundIconWrapper>
+      <ModalMainText
+        displayStyle={TextDisplayStyle.Headline4}
+        message={{
+          ...messages.updatingForceTitle,
+        }}
+      />
+      <ForceUpdateDescription
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
+        message={{
+          ...messages.updatingForceDescription,
+        }}
+      />
+      <AboutUpdatesSection releases={releases} />
+      <Button
+        displayStyle={DisplayStyle.Primary}
+        size={Size.FixedSmall}
+        labelMessage={{
+          ...messages.updatingForceButton,
+        }}
+        onClick={handleButtonClick}
+        data-testid={ModalTestIds.ModalActionButton}
+      />
+      <CautionSection isSingleRelease={releases.length === 1} />
+    </OSUpdateModal>
+  )
+}
