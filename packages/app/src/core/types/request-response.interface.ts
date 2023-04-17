@@ -15,13 +15,17 @@ export enum RequestResponseStatus {
   BatteryCriticalLevel = "battery-critical-level",
 }
 
-export interface RequestResponseError<ErrorDataType = unknown> {
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface RequestResponseError<ErrorDataType = any> {
   code?: number
   message: string
   data?: ErrorDataType
 }
 
-export interface RequestResponse<DataType = unknown, ErrorDataType = unknown> {
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface RequestResponse<DataType = unknown, ErrorDataType = any> {
   status: RequestResponseStatus
   data?: DataType
   error?: RequestResponseError<ErrorDataType>
