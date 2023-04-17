@@ -30,7 +30,12 @@ import {
   ReadAllIndexesAction,
   ReadAllIndexesRejectAction,
 } from "App/data-sync/reducers/data-sync.interface"
-import { selectAllItems, resetAllItems, toggleItem } from "App/contacts/actions"
+import {
+  selectAllItems,
+  resetAllItems,
+  toggleItem,
+  deleteContacts,
+} from "App/contacts/actions"
 import { changeLocation } from "App/core/actions"
 
 export const initialState: ContactsState = {
@@ -42,6 +47,7 @@ export const initialState: ContactsState = {
     rows: [],
     allItemsSelected: false,
   },
+  deletedCount: 0,
 }
 
 export const contactsReducer = createReducer<ContactsState>(
@@ -101,9 +107,16 @@ export const contactsReducer = createReducer<ContactsState>(
       .addCase(
         ContactsEvent.DeleteContactsInState,
         (state, action: DeleteContactsInStateAction) => {
-          return { ...state, ...removeContact(state, action.payload) }
+          return {
+            ...state,
+            ...removeContact(state, action.payload),
+            deletedCount: action.payload.length,
+          }
         }
       )
+      .addCase(deleteContacts.fulfilled, (state) => {
+        return { ...state, deletedCount: 0 }
+      })
 
       .addCase(ContactsEvent.DevClearAllContacts, (state) => {
         return {
