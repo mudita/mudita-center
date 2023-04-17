@@ -4,12 +4,27 @@
  */
 
 import { DeviceInfo as DeviceInfoRaw } from "App/device/types/mudita-os"
-import { CaseColor } from "App/device/constants"
+import { CaseColor, DeviceType } from "App/device/constants"
 import { DeviceInfo } from "App/device-info/dto"
 import { SimCardPresenter } from "App/device-info/presenters/sim-card.presenter"
 import { OnboardingState } from "App/device/constants/onboarding-state.constant"
 
-const missingStorageBytes = 300000000
+const pureMissingStorageBytes = 300000000
+
+const harmonyTotalSpace = 4000000000
+
+const getMissingStorageBytes = (
+  deviceSpaceTotal: number,
+  deviceType: DeviceType
+): number => {
+  if (deviceType === DeviceType.MuditaPure) {
+    return pureMissingStorageBytes
+  } else if (deviceType === DeviceType.MuditaHarmony) {
+    return harmonyTotalSpace - fromMebiToByte(deviceSpaceTotal)
+  }
+
+  return 0
+}
 
 const fromMebiToByte = (mebi: number): number => {
   const factor = 1048576
@@ -21,7 +36,7 @@ const mapDevDefaultToFixOsVersion = (osVersion: string): string => {
 }
 
 export class DeviceInfoPresenter {
-  static toDto(data: DeviceInfoRaw): DeviceInfo {
+  static toDto(data: DeviceInfoRaw, deviceType: DeviceType): DeviceInfo {
     return {
       networkName: data.networkOperatorName,
       networkLevel: (Number(data.signalStrength) / 4).toFixed(2),
@@ -32,10 +47,11 @@ export class DeviceInfoPresenter {
       memorySpace: {
         reservedSpace:
           fromMebiToByte(Number(data.systemReservedSpace)) +
-          missingStorageBytes,
+          getMissingStorageBytes(Number(data.deviceSpaceTotal), deviceType),
         usedUserSpace: fromMebiToByte(Number(data.usedUserSpace)),
         total:
-          fromMebiToByte(Number(data.deviceSpaceTotal)) + missingStorageBytes,
+          fromMebiToByte(Number(data.deviceSpaceTotal)) +
+          getMissingStorageBytes(Number(data.deviceSpaceTotal), deviceType),
       },
       caseColour: data.caseColour ? data.caseColour : CaseColor.Gray,
       backupFilePath: data.backupFilePath ? data.backupFilePath : "",
