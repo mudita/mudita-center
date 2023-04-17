@@ -104,6 +104,7 @@
   "component.formErrorRequiredEmail": "Email is required",
   "component.formErrorRequiredPrimaryPhone": "Phone number is required",
   "component.formErrorTooLong": "Must be shorter than {maxLength} characters",
+  "component.formErrorRequiredPrimaryPhone": "Phone number is required",
   "component.formErrorTooManyFiles": "You tried to attach more than {limit} files.",
   "component.formErrorTooShort": "Must be longer than {minLength} characters",
   "component.formErrorTypeNotAllowed": "File <i>{name}</i> has wrong type. File types allowed are: {extensions}.",
