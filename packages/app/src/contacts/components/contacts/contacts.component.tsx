@@ -55,6 +55,7 @@ import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-fi
 import { ExportContactFailedModal } from "../export-contact-failed-modal/export-contact-failed-modal.component"
 import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
 import { ExportContactsResult } from "App/contacts/constants"
+import DeleteContactsPopup from "./delete-contacts-popup/delete-contacts-popup.component"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -691,6 +692,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           </TableWithSidebarWrapper>
         )}
       </ContactSection>
+      <DeleteContactsPopup />
     </>
   )
 }
