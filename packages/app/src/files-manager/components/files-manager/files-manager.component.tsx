@@ -147,6 +147,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     }, 5000)
 
     return () => {
+      resetDeletingState()
       clearTimeout(hideInfoPopupsTimeout)
     }
     // AUTO DISABLED - fix me if you like :)
@@ -164,6 +165,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     }, 5000)
 
     return () => {
+      resetUploadingState()
       clearTimeout(hideInfoPopupsTimeout)
     }
     // AUTO DISABLED - fix me if you like :)
