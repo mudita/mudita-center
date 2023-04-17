@@ -50,6 +50,7 @@ import {
   LastMessageText,
   WarningIconWrapper,
 } from "App/messages/components/thread-row.styled"
+import { isPhoneNumberValid } from "App/messages/helpers/threads.helpers"
 
 const messages = defineMessages({
   dropdownTogglerTooltipDescription: {
@@ -220,6 +221,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 onClick={handleContactClick}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid="dropdown-add-to-contacts"
+                disabled={!isPhoneNumberValid(phoneNumber)}
               />
             )}
             <ButtonComponent

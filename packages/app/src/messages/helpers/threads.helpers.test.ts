@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { searchThreads } from "App/messages/helpers/threads.helpers"
+import {
+  searchThreads,
+  isPhoneNumberValid,
+} from "App/messages/helpers/threads.helpers"
 import { Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
@@ -84,4 +87,12 @@ test("fails search - messages", () => {
 
 test("no search value returns initial list", () => {
   expect(searchThreads(threads, contactsMock, "")).toBe(threads)
+})
+
+test("is valid phone number", () => {
+  expect(isPhoneNumberValid("ORANGE")).toBe(false)
+})
+
+test("is not valid phone number", () => {
+  expect(isPhoneNumberValid("123")).toBe(true)
 })
