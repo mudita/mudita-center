@@ -38,7 +38,12 @@ export class DeviceInfoService {
         return response
       }
 
-      return Result.success(DeviceInfoPresenter.toDto(response.data))
+      return Result.success(
+        DeviceInfoPresenter.toDto(
+          response.data,
+          this.deviceManager.device.deviceType
+        )
+      )
     } catch (error) {
       return Result.failed(new AppError("", ""))
     }
