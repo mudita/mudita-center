@@ -525,14 +525,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const getViewReceiver = (activeThread: Thread): Receiver => {
+    const receiver = getReceiver(activeThread.phoneNumber)
+
     if (activeThread.id === mockThread.id) {
       return {
-        phoneNumber: activeThread.phoneNumber,
+        ...(receiver || { phoneNumber: activeThread.phoneNumber }),
         identification: ReceiverIdentification.unknown,
       }
     }
-
-    const receiver = getReceiver(activeThread.phoneNumber)
 
     if (receiver === undefined) {
       return {
