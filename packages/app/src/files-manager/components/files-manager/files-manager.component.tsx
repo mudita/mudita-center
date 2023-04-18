@@ -155,7 +155,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 
   useEffect(() => {
     return () => resetDeletingState()
-  }, [])
+  }, [resetDeletingState])
 
   useEffect(() => {
     if (!states.uploadingInfo) {
@@ -176,7 +176,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 
   useEffect(() => {
     return () => resetUploadingState()
-  }, [])
+  }, [resetUploadingState])
 
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
     const elements = {
