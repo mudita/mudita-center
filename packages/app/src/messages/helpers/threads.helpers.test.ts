@@ -89,10 +89,17 @@ test("no search value returns initial list", () => {
   expect(searchThreads(threads, contactsMock, "")).toBe(threads)
 })
 
-test("is valid phone number", () => {
-  expect(isPhoneNumberValid("ORANGE")).toBe(false)
-})
+describe("is phone number valid", () => {
+  test("valid", () => {
+    expect(isPhoneNumberValid("123")).toBe(true)
+    expect(isPhoneNumberValid("123456789")).toBe(true)
+    expect(isPhoneNumberValid("+123456789")).toBe(true)
+  })
 
-test("is not valid phone number", () => {
-  expect(isPhoneNumberValid("123")).toBe(true)
+  test("invalid", () => {
+    expect(isPhoneNumberValid("ORANGE")).toBe(false)
+    expect(isPhoneNumberValid("123 456 789")).toBe(false)
+    expect(isPhoneNumberValid("+123 456 789")).toBe(false)
+    expect(isPhoneNumberValid("123ABC")).toBe(false)
+  })
 })
