@@ -23,6 +23,7 @@ export type ContactsState = PhoneContacts &
       rows: string[]
       allItemsSelected: boolean
     }
+    deletedCount: number
   }
 export type Store = StoreData & StoreSelectors
 
