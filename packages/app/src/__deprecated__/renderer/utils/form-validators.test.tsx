@@ -20,6 +20,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import React from "react"
 import { useForm } from "react-hook-form"
 import { RegisterOptions } from "react-hook-form/dist/types"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 enum FormTestIds {
   Input = "form-input",
@@ -289,7 +290,7 @@ describe("Form Validators", () => {
 
   describe("phone validator", () => {
     const defaultProps: Props = {
-      validator: primaryPhoneNumberValidator({}),
+      validator: primaryPhoneNumberValidator({} as Contact),
     }
     test("should pass as valid when the input wasn't active", () => {
       const { queryByText } = render(defaultProps)
