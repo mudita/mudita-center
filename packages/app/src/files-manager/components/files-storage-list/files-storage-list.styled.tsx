@@ -67,18 +67,25 @@ const checkboxShowedStyles = css`
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   ${({ visible }) => (visible ? checkboxShowedStyles : "display: none;")};
 `
-export const FilesListRow = styled(Row)`
-  :hover {
-    ${Checkbox} {
-      ${animatedOpacityActiveStyles};
-      ${checkboxShowedStyles};
+export const FilesListRow = styled(Row)<{ hideCheckbox: boolean }>`
+  ${({ hideCheckbox }) => {
+    if (hideCheckbox) {
+      return
     }
+    return css`
+      :hover {
+        ${Checkbox} {
+          ${animatedOpacityActiveStyles};
+          ${checkboxShowedStyles};
+        }
 
-    ${FileIcon} {
-      ${animatedOpacityStyles};
-      display: none;
-    }
-  }
+        ${FileIcon} {
+          ${animatedOpacityStyles};
+          display: none;
+        }
+      }
+    `
+  }}
 `
 
 export const FilesListLabels = styled(Labels)<{

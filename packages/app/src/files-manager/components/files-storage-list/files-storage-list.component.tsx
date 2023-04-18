@@ -97,6 +97,7 @@ interface Props {
   toggleRow: (id: string) => void
   selectedItems: string[]
   onDelete: (ids: string[]) => void
+  hideCheckbox: boolean
 }
 
 const TruncateText: FunctionComponent<{ text: string }> = ({ text }) => (
@@ -126,6 +127,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
   toggleRow,
   onDelete,
   noFoundFiles,
+  hideCheckbox,
   ...rest
 }) => {
   const { enableScroll, disableScroll } = useTableScrolling()
@@ -154,7 +156,9 @@ const FilesStorageList: FunctionComponent<Props> = ({
             <Col />
             <Col>{intl.formatMessage(messages.type)}</Col>
             <Col>{intl.formatMessage(messages.size)}</Col>
-            <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
+            <VisibleOnDevice
+              devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}
+            >
               <LastEmptyCol />
             </VisibleOnDevice>
           </FilesListLabels>
@@ -168,9 +172,15 @@ const FilesStorageList: FunctionComponent<Props> = ({
                 <FilesListRow
                   key={index}
                   data-testid={FilesStorageListTestIds.Row}
+                  hideCheckbox={hideCheckbox}
                 >
                   <Col>
-                    <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
+                    <VisibleOnDevice
+                      devices={[
+                        DeviceType.MuditaPure,
+                        DeviceType.MuditaHarmony,
+                      ]}
+                    >
                       <Checkbox
                         checked={selected}
                         onChange={handleCheckboxChange}
@@ -187,7 +197,9 @@ const FilesStorageList: FunctionComponent<Props> = ({
                   </Col>
                   <FilesStorageListTypeCol file={file} />
                   <Col>{convertBytes(file.size)}</Col>
-                  <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
+                  <VisibleOnDevice
+                    devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}
+                  >
                     <Col>
                       <Actions>
                         <Dropdown onOpen={disableScroll} onClose={enableScroll}>
