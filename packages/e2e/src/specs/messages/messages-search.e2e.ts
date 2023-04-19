@@ -201,8 +201,7 @@ describe("Messasges search scenarios - results overlay 'SEE ALL'", () => {
     await waitForClickableAndClick(await messagesPage.seeAllSearchResultsButton)
 
     const searchResultText = await messagesPage.searchResultsForText
-    const expectedText = 'Search results for "' + commonword + '"'
-    await console.log(expectedText)
+
     await expect(searchResultText).toHaveText(
       `Search results for \u201C${commonword}\u201D`
     )
