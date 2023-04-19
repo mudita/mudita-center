@@ -29,7 +29,7 @@ window.IntersectionObserver = jest
   .fn()
   .mockImplementation(intersectionObserverMock)
 
-const phoneNumber = "123 456 789"
+const phoneNumber = "123456789"
 const firstThreadId = "1"
 
 const receiver: Receiver = {
