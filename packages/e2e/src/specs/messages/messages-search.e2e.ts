@@ -10,6 +10,12 @@ import modalGeneralPage from "../../page-objects/modal-general.page"
 import messagesConversationPage from "../../page-objects/messages-conversation.page"
 
 import {
+  contacts,
+  commonword,
+  nonexistingword,
+} from "../../test-data/messages-search-test-data"
+
+import {
   sendMessage,
   deleteAllMessagesWithSelectionManager,
 } from "../../helpers/messages.helper"
@@ -20,51 +26,6 @@ import {
 import { waitForClickableAndClick } from "../../helpers/general.helper"
 
 const enterKey = "\uE007"
-const contacts: Array<{
-  firstName: string
-  lastName: string
-  primaryNumber: string
-  message: string
-}> = [
-  {
-    firstName: "Janek",
-    lastName: "Szarpidrut",
-    primaryNumber: "664364535",
-    message: "unique",
-  },
-  {
-    firstName: "Kazimierz",
-    lastName: "Podchodek",
-    primaryNumber: "515364135",
-    message: "I did not test this",
-  },
-  {
-    firstName: "Zbigniew",
-    lastName: "Koczkodan",
-    primaryNumber: "12345",
-    message: "You should hire a tester",
-  },
-  {
-    firstName: "Antoni",
-    lastName: "Smutny",
-    primaryNumber: "13579",
-    message: "What?!? I should be asking this question",
-  },
-  {
-    firstName: "Tadeusz",
-    lastName: "Niepali",
-    primaryNumber: "02468",
-    message: " What are you waiting for??? Go and test it",
-  },
-  {
-    firstName: "Witold",
-    lastName: "Brzeczyszczykiewicz",
-    primaryNumber: "036912",
-    message: "So this is it...",
-  },
-]
-const commonword = "test"
-const nonexistingword = "nonexistingwordinthread"
 
 describe("Check search without any threads or contacts", () => {
   before(async () => {
