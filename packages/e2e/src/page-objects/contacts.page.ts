@@ -160,7 +160,7 @@ class ContactsPage extends Page {
   public get singleContactRow(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="contact-row"]')
+    return $('[data-testid="virtualized-contact-list-item-contact-row"]')
   }
 
   public get phoneNumberOnContactList(): ChainablePromiseElement<
