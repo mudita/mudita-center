@@ -13,10 +13,24 @@ import translationConfig from "App/translations.config.json"
 
 const generateApplicationId = (): string => {
   const maxApplicationIdLength = 16
-  const uniqueValue = getMAC().replace(/:/g, "").slice(-maxApplicationIdLength)
+
+  let mac = ""
+  try {
+    mac = getMAC()
+  } catch (ex) {
+    console.log(ex)
+    mac = mac = getRandomMac()
+  } 
+  const uniqueValue = mac.replace(/:/g, "").slice(-maxApplicationIdLength)
   const padLength = maxApplicationIdLength - uniqueValue.length
   const pad = Math.random().toString(16).slice(-padLength)
   return `${pad}${uniqueValue}`
+}
+
+const getRandomMac = () => {
+  return "XX:XX:XX:XX:XX:XX".replace(/X/g, () => {
+    return "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))
+  })
 }
 
 export const settingsSchema: Schema<Settings> = {
