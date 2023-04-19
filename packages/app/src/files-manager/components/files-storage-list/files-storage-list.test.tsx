@@ -25,6 +25,7 @@ const defaultProps: Props = {
   toggleRow: jest.fn(),
   selectedItems: [],
   onDelete: jest.fn(),
+  hideCheckbox: false,
 }
 
 const defaultState = {
