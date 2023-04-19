@@ -103,7 +103,8 @@ export class ReleaseService {
     try {
       const release = await this.getRelease(
         product,
-        OsEnvironment.Production,
+        //(process.env.FEATURE_TOGGLE_LATEST_RELEASE as OsEnvironment) ||
+        OsEnvironment.Daily,
         "latest"
       )
 
@@ -123,9 +124,11 @@ export class ReleaseService {
     releaseSpace: OsEnvironment,
     version: "latest" | string
   ): Promise<ReleaseManifest> {
+    console.log("getRelease releaseSpace", releaseSpace)
+
     const { data } = await this.client.getLatestRelease({
       product,
-      environment: releaseSpace,
+      environment: OsEnvironment.Daily,
       version,
     })
 
