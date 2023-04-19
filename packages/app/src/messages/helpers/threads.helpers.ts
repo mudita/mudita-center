@@ -12,6 +12,7 @@ import { Message, Thread } from "App/messages/dto"
 import { VisibilityFilter } from "App/messages/constants"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
+import { phoneNumberRegexp } from "App/__deprecated__/renderer/utils/form-validators"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -79,13 +80,17 @@ const isContactWithAnyNumber = (
   | (Contact & { primaryPhoneNumber: string })
   | (Contact & { secondaryPhoneNumber: string }) => {
   return (
-    isPhoneNumberValid(contact.primaryPhoneNumber) ||
-    isPhoneNumberValid(contact.secondaryPhoneNumber)
+    isPhoneNumberNotEmpty(contact.primaryPhoneNumber) ||
+    isPhoneNumberNotEmpty(contact.secondaryPhoneNumber)
   )
 }
 
-const isPhoneNumberValid = (phoneNumber = ""): phoneNumber is string => {
+const isPhoneNumberNotEmpty = (phoneNumber = ""): phoneNumber is string => {
   return phoneNumber !== ""
+}
+
+export const isPhoneNumberValid = (phoneNumber: string): boolean => {
+  return phoneNumberRegexp.test(phoneNumber)
 }
 
 export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
@@ -103,8 +108,8 @@ export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
           lastName,
         }
         if (
-          isPhoneNumberValid(primaryPhoneNumber) &&
-          isPhoneNumberValid(secondaryPhoneNumber)
+          isPhoneNumberNotEmpty(primaryPhoneNumber) &&
+          isPhoneNumberNotEmpty(secondaryPhoneNumber)
         ) {
           return [
             {
@@ -118,7 +123,7 @@ export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
               ...contact,
             },
           ]
-        } else if (isPhoneNumberValid(primaryPhoneNumber)) {
+        } else if (isPhoneNumberNotEmpty(primaryPhoneNumber)) {
           return [
             {
               phoneNumber: primaryPhoneNumber,
