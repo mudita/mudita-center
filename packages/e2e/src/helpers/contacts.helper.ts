@@ -11,9 +11,9 @@ export const addNewContact = async (
   firstNameText: string,
   lastNameText: string,
   primaryPhoneText: string,
-  secondaryPhoneText?: string,
-  firstLineAddressText?: string,
-  secondLineAddressText?: string
+  secondaryPhoneText = "",
+  firstLineAddressText = "",
+  secondLineAddressText = ""
 ) => {
   await waitForClickableAndClick(await NavigationTabs.messagesTab)
   await waitForClickableAndClick(await NavigationTabs.contactsTab)
@@ -23,16 +23,16 @@ export const addNewContact = async (
   await ContactsPage.insertTextToFirstNameInput(firstNameText)
 
   await ContactsPage.insertTextToLastNameInput(lastNameText)
-  if (primaryPhoneText != undefined) {
+  if (primaryPhoneText !== "") {
     await ContactsPage.insertTextToPrimaryPhoneNumberInput(primaryPhoneText)
   }
-  if (secondaryPhoneText != undefined) {
+  if (secondaryPhoneText !== "") {
     await ContactsPage.insertTextToSecondaryPhoneNumberInput(secondaryPhoneText)
   }
-  if (firstLineAddressText != undefined) {
+  if (firstLineAddressText !== "") {
     await ContactsPage.insertTextToAddressFirstLineInput(firstLineAddressText)
   }
-  if (secondLineAddressText != undefined) {
+  if (secondLineAddressText !== "") {
     await ContactsPage.insertTextToAddressSecondLineInput(secondLineAddressText)
   }
 
@@ -41,7 +41,6 @@ export const addNewContact = async (
     await ContactsPage.newContactButton.waitForEnabled({ timeout: 9000 })
   } catch (error) {
     console.log(error)
-    await browser.saveScreenshot("./waitForEnabledError.png")
   }
 }
 
