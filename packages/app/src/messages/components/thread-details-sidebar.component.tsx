@@ -16,10 +16,16 @@ import {
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
 import { mapToRawNumber } from "App/messages/helpers"
+import { isPhoneNumberValid } from "App/messages/helpers/threads.helpers"
+
+type SidebarProps = ComponentProps<typeof Sidebar>
+type ThreadDetailsRightHeaderProps = ComponentProps<
+  typeof ThreadDetailsSidebarRightHeader
+>
 
 interface Props
-  extends ComponentProps<typeof Sidebar>,
-    ComponentProps<typeof ThreadDetailsSidebarRightHeader> {
+  extends SidebarProps,
+    Omit<ThreadDetailsRightHeaderProps, "validPhoneNumber"> {
   receiver: Receiver
 }
 
@@ -68,6 +74,7 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
           onDeleteClick={onDeleteClick}
           onMarkAsUnreadClick={onMarkAsUnreadClick}
           emptyThread={emptyThread}
+          validPhoneNumber={isPhoneNumberValid(receiver.phoneNumber)}
         />
       }
       {...props}
