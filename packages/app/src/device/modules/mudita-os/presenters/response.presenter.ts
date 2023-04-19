@@ -26,9 +26,7 @@ type BodyType = {
 
 export class ResponsePresenter {
   static toResponseObject(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    response: ResultObject<Response<any>>
+    response: ResultObject<Response<BodyType>>
   ): RequestResponse {
     const { status, body: data, error } = response.data as Response<BodyType>
 
@@ -68,7 +66,7 @@ export class ResponsePresenter {
       }
     } else if (
       status === ResponseStatus.NotAccepted &&
-      data?.reason === BlockReason.EulaNotAccepted
+      (data === undefined || data?.reason === BlockReason.EulaNotAccepted)
     ) {
       return {
         error,
@@ -87,10 +85,11 @@ export class ResponsePresenter {
         error,
         status: RequestResponseStatus.InsufficientStorage,
       }
-    }
-    return {
-      error,
-      status: RequestResponseStatus.Error,
+    } else {
+      return {
+        error,
+        status: RequestResponseStatus.Error,
+      }
     }
   }
 }
