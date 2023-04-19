@@ -246,16 +246,14 @@ class MessagesPage extends Page {
 
   async clickByTextConversationOnSearchResultsOverlay(searchText: string) {
     for (let i = 0; i < (await this.searchOverlayItemsList.length); i++) {
-      if (
-        await this.searchOverlayItemsList[i].$(
-          '[data-testid="icon-Conversation"]'
-        )
-      ) {
-        if (
-          (await this.searchOverlayItemsList[i].getText()).includes(searchText)
-        ) {
-          return this.searchOverlayItemsList[i].click()
-        }
+      const iconConversation = await this.searchOverlayItemsList[i].$(
+        '[data-testid="icon-Conversation"]'
+      )
+      const contansSearchedText = (
+        await this.searchOverlayItemsList[i].getText()
+      ).includes(searchText)
+      if (iconConversation && contansSearchedText) {
+        return this.searchOverlayItemsList[i].click()
       }
     }
   }
