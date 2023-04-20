@@ -18,7 +18,7 @@ import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import styled from "styled-components"
+import styled, { ThemeProps } from "styled-components"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { useSelector, useDispatch } from "react-redux"
 import { resetUploadingState } from "App/files-manager/actions/base.action"
@@ -26,6 +26,7 @@ import { getUploadPendingFiles } from "App/files-manager/selectors/get-upload-pe
 import { getDuplicatedFiles } from "App/files-manager/selectors/get-duplicated-files.selector"
 import { getFilesManagerError } from "App/files-manager/selectors/get-files-manager-error.selector"
 import { FilesManagerError } from "App/files-manager/constants/errors.enum"
+import { Theme } from "App/__deprecated__/renderer/styles/theming/theme"
 
 const messages = defineMessages({
   duplicatedFilesUploadModalTitle: {
@@ -65,7 +66,7 @@ const DuplicatedFilesListTitleText = styled(Text)`
   margin-bottom: 1.1rem;
   border-width: 0 0 0.1rem 0;
   border-style: solid;
-  border-color: ${({ theme }) => {
+  border-color: ${({ theme }: ThemeProps<Theme>) => {
     return theme.color.border.verticalSeparator
   }};
   text-align: left !important;
