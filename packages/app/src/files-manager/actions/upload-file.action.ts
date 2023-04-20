@@ -11,11 +11,13 @@ import {
   FilesManagerEvent,
   EligibleFormat,
   DeviceDirectory,
+  FilesManagerError,
 } from "App/files-manager/constants"
 import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
+  setDuplicatedFiles,
   setPendingFilesToUpload,
   setUploadBlocked,
   setUploadingFileCount,
@@ -23,6 +25,9 @@ import {
 } from "App/files-manager/actions/base.action"
 import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
 import { getHarmonyFreeFilesSlotsCount } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
+import { getDuplicatedFiles } from "App/files-manager/helpers/get-duplicated-files.helper"
+import { getUniqueFiles } from "App/files-manager/helpers/get-unique-files.helper"
+import { AppError } from "App/core/errors/app-error"
 
 export const uploadFile = createAsyncThunk(
   FilesManagerEvent.UploadFiles,
@@ -52,6 +57,24 @@ export const uploadFile = createAsyncThunk(
     if (filePaths.length === 0) {
       dispatch(setUploadBlocked(false))
       return
+    }
+
+    const duplicatedFiles = getDuplicatedFiles(
+      state.filesManager.files,
+      filePaths
+    )
+
+    if (duplicatedFiles.length > 0) {
+      const uniqueFiles = getUniqueFiles(state.filesManager.files, filePaths)
+      dispatch(setPendingFilesToUpload(uniqueFiles))
+      dispatch(setDuplicatedFiles(duplicatedFiles))
+      dispatch(setUploadBlocked(false))
+      return rejectWithValue(
+        new AppError(
+          FilesManagerError.UploadDuplicates,
+          "File already exists on your device"
+        )
+      )
     }
 
     const harmonyFreeFilesSlotsCount = getHarmonyFreeFilesSlotsCount(

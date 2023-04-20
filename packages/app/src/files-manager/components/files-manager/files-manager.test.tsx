@@ -15,6 +15,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-files-modals/upload-files-modals-test-ids.enum"
 import { DeleteFilesModalsTestIds } from "App/files-manager/components/delete-files-modals/delete-files-modals-test-ids.enum"
+import { initialState as filesManagerInitialState } from "App/files-manager/reducers/files-manager.reducer"
 
 type Props = ComponentProps<typeof FilesManager>
 const defaultProps: Props = {
@@ -52,6 +53,7 @@ const defaultState = {
   device: {
     deviceType: DeviceType.MuditaPure,
   },
+  filesManager: { ...filesManagerInitialState },
 } as unknown as ReduxRootState
 
 const render = (extraProps?: Partial<Props>, state = defaultState) => {
@@ -74,6 +76,7 @@ describe("Files Manager component", () => {
       device: {
         deviceType: DeviceType.MuditaPure,
       },
+      filesManager: { ...filesManagerInitialState },
     } as ReduxRootState)
     expect(queryByTestId(FilesManagerTestIds.Container)).toBeInTheDocument()
   })
@@ -82,6 +85,7 @@ describe("Files Manager component", () => {
       device: {
         deviceType: DeviceType.MuditaHarmony,
       },
+      filesManager: { ...filesManagerInitialState },
     } as ReduxRootState)
     expect(queryByTestId(FilesManagerTestIds.Container)).toBeInTheDocument()
   })

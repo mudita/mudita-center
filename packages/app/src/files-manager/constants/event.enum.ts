@@ -20,4 +20,5 @@ export enum FilesManagerEvent {
   SetPendingFilesToUpload = "FILES_MANAGER_SET_PENDING_FILES_TO_UPLOAD",
   AbortPendingUpload = "FILES_MANAGER_ABORT_PENDING_UPLOAD",
   ContinuePendingUpload = "FILES_MANAGER_CONTINUE_PENDING_UPLOAD",
+  SetDuplicatedFiles = "FILES_MANAGER_SET_DUPLICATED_FILES",
 }
