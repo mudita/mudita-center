@@ -9,7 +9,10 @@ import modalMessagesPage from "../../page-objects/modal-messages.page"
 import modalGeneralPage from "../../page-objects/modal-general.page"
 import messagesConversationPage from "../../page-objects/messages-conversation.page"
 
-import { sendMessage } from "../../helpers/messages.helper"
+import {
+  sendMessage,
+  deleteSingleMessageWithSelectionManager,
+} from "../../helpers/messages.helper"
 import { waitForClickableAndClick } from "../../helpers/general.helper"
 
 describe("Messages send and delete", () => {
@@ -180,5 +183,10 @@ describe("Messages Resend", () => {
     await expect(messageList[0]).toHaveText(messageText)
     await expect(messageList[1]).toHaveText(messageText)
   })
-  after(async () => {})
+  after(async () => {
+    await navigationTabs.clickContactsTab()
+    await navigationTabs.clickMessagesTab()
+
+    await deleteSingleMessageWithSelectionManager()
+  })
 })
