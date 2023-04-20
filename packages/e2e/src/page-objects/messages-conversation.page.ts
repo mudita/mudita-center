@@ -215,6 +215,10 @@ class MessagesConversationPage extends Page {
   > {
     return $('[data-testid="input-select-list-item"]')
   }
+  /** [Selector] Returns list of multiple elements - contact icon for threads with matching contact in phonebok */
+  async highlightedMessage(text: string) {
+    return this.messageContent.$(`strong*=${text}`)
+  }
 }
 
 export default new MessagesConversationPage()
