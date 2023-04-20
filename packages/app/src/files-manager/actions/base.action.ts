@@ -34,3 +34,7 @@ export const setDeletingFileCount = createAction<number>(
 export const setPendingFilesToUpload = createAction<string[]>(
   FilesManagerEvent.SetPendingFilesToUpload
 )
+
+export const setDuplicatedFiles = createAction<string[]>(
+  FilesManagerEvent.SetDuplicatedFiles
+)
