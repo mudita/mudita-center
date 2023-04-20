@@ -112,13 +112,13 @@ const DuplicatedFilesModal: FunctionComponent = ({ ...props }) => {
           message={messages.duplicatedFilesUploadModalListTitle}
         />
         <DuplicatedFilesListItems>
-          {duplicatedFiles.map((fileName, index) => {
+          {duplicatedFiles.map((fileName) => {
             return (
               <DuplicatedFilesListItemText
                 displayStyle={TextDisplayStyle.Paragraph4}
                 color="secondary"
                 message={fileName}
-                key={`duplicated-files-list-item-text-${index}`}
+                key={`duplicated-files-list-item-text-${fileName}`}
               />
             )
           })}
