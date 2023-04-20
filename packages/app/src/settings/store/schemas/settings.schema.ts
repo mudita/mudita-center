@@ -11,31 +11,31 @@ import { Settings } from "App/settings/dto"
 import { ConversionFormat, Convert } from "App/settings/constants"
 import translationConfig from "App/translations.config.json"
 
-const generateApplicationId = (): string => {
+const generateApplicationId = (): string | null => {
   const maxApplicationIdLength = 16
 
-  let mac = ""
-  try {
-    mac = getMAC()
-  } catch (ex) {
-    console.log(ex)
-    mac = mac = getRandomMac()
-  } 
-  const uniqueValue = mac.replace(/:/g, "").slice(-maxApplicationIdLength)
-  const padLength = maxApplicationIdLength - uniqueValue.length
-  const pad = Math.random().toString(16).slice(-padLength)
-  return `${pad}${uniqueValue}`
+  const mac = getMACOrNull()
+  if (mac !== null) {
+    const uniqueValue = mac.replace(/:/g, "").slice(-maxApplicationIdLength)
+    const padLength = maxApplicationIdLength - uniqueValue.length
+    const pad = Math.random().toString(16).slice(-padLength)
+    return `${pad}${uniqueValue}`
+  } else {
+    return null
+  }
 }
 
-const getRandomMac = () => {
-  return "XX:XX:XX:XX:XX:XX".replace(/X/g, () => {
-    return "0123456789ABCDEF".charAt(Math.floor(Math.random() * 16))
-  })
+const getMACOrNull = (): string | null => {
+  try {
+    return getMAC()
+  } catch (ex) {
+    return null
+  }
 }
 
 export const settingsSchema: Schema<Settings> = {
   applicationId: {
-    type: "string",
+    type: ["string", "null"],
     default: generateApplicationId(),
   },
   autostart: {
