@@ -4,16 +4,17 @@
  */
 
 import { createSelector } from "reselect"
-import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { sortBackups } from "App/backup/helpers/sort-backups"
+import { backupStateSelector } from "App/backup/selectors/backup-state-selector"
+import { BackupState } from "App/backup"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
-const backupsSelector = ({ backup }: ReduxRootState) => backup.data.backups
+export const lastBackupDateSelector = createSelector<
+  ReduxRootState,
+  BackupState,
+  Date | undefined
+>(backupStateSelector, (state) => {
+  const sortedBackups = sortBackups(state.data.backups)
 
-export const lastBackupDateSelector = createSelector(
-  backupsSelector,
-  (backups) => {
-    const sortedBackups = sortBackups(backups)
-
-    return sortedBackups[0]?.date
-  }
-)
+  return sortedBackups[0]?.date
+})

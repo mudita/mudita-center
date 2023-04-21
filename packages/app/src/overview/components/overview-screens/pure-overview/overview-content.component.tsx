@@ -29,7 +29,7 @@ interface OverviewContentProps {
   readonly checkForUpdateFailed: boolean
   readonly osVersion: string
   readonly caseColour: CaseColor | undefined
-  readonly lastBackupDate: Date
+  readonly lastBackupDate: Date | undefined
   readonly serialNumber: string | undefined
   readonly disconnectDevice: () => void
   readonly onBackupCreate: () => void
