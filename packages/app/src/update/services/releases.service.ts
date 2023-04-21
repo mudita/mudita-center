@@ -103,7 +103,7 @@ export class ReleaseService {
     try {
       const release = await this.getRelease(
         product,
-        (process.env.FEATURE_TOGGLE_LATEST_RELEASE as OsEnvironment) ||
+        (process.env.FEATURE_TOGGLE_RELEASE_ENVIRONMENT as OsEnvironment) ||
           OsEnvironment.Production,
         "latest"
       )
