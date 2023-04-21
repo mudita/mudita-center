@@ -4,21 +4,21 @@
  */
 
 import { connect } from "react-redux"
-import {
-  ReduxRootState,
-  RootState,
-  TmpDispatch,
-} from "App/__deprecated__/renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import ModalsManager from "App/modals-manager/components/modals-manager.component"
+import { hideModals } from "App/modals-manager"
+import { deviceInitializationFailedModalShowEnabledSelector } from "App/modals-manager/selectors"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
-  return state.modalsManager
+  return {
+    ...state.modalsManager,
+    deviceInitializationFailedModalShowEnabled:
+      deviceInitializationFailedModalShowEnabledSelector(state),
+  }
 }
 
-const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  updateOnlineStatus: () => dispatch.networkStatus.updateOnlineStatus(),
-})
+const mapDispatchToProps = {
+  hideModals,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalsManager)
