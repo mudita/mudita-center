@@ -94,6 +94,7 @@ export class PureStrategy implements DeviceStrategy {
     EventEmitter.defaultMaxListeners = 15
     this.mountDeviceUnlockedListener()
     this.mountDisconnectionListener()
+    this.mountInitializationFailedListener()
   }
 
   public async connect(): Promise<RequestResponse<GetDeviceInfoResponseBody>> {
@@ -117,6 +118,7 @@ export class PureStrategy implements DeviceStrategy {
 
     this.unmountDeviceUnlockedListener()
     this.unmountDisconnectionListener()
+    this.unmountInitializationFailedListener()
     this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
 
     return Boolean(response.data)
@@ -376,5 +378,23 @@ export class PureStrategy implements DeviceStrategy {
     this.offCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
     })
+  }
+
+  private mountInitializationFailedListener(): void {
+    this.onCommunicationEvent(
+      DeviceCommunicationEvent.InitializationFailed,
+      () => {
+        this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
+      }
+    )
+  }
+
+  private unmountInitializationFailedListener(): void {
+    this.offCommunicationEvent(
+      DeviceCommunicationEvent.InitializationFailed,
+      () => {
+        this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
+      }
+    )
   }
 }

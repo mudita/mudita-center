@@ -5,10 +5,8 @@
 
 import { createSelector } from "reselect"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import {
-  ModalsManagerState,
-  modalsManagerStateSelector,
-} from "App/modals-manager"
+import { modalsManagerStateSelector } from "App/modals-manager/selectors/modals-manager-state.selector"
+import { ModalsManagerState } from "App/modals-manager/reducers"
 import { State } from "App/core/constants"
 import { ConnectionState, DeviceState } from "App/device"
 import { settingsStateSelector } from "App/settings/selectors"

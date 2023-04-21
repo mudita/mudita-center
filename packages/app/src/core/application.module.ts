@@ -82,7 +82,8 @@ export class ApplicationModule {
 
   private deviceManager = new DeviceManager(
     new DeviceResolverService(this.ipc, this.eventEmitter),
-    this.ipc
+    this.ipc,
+    this.eventEmitter
   )
 
   constructor(private ipc: MainProcessIpc) {
