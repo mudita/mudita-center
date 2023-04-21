@@ -18,6 +18,9 @@ import {
 } from "App/update/constants"
 import { GithubReleasePresenter } from "App/update/presenters"
 
+const releaseSpace = (process.env.FEATURE_TOGGLE_RELEASE_ENVIRONMENT as OsEnvironment) ||
+    OsEnvironment.Production
+
 export class ReleaseService {
   constructor(private client: ReturnType<typeof createClient>) {}
 
@@ -80,7 +83,7 @@ export class ReleaseService {
     try {
       const releases = await Promise.all(
         versions.map((version) =>
-          this.getRelease(product, OsEnvironment.Production, version)
+          this.getRelease(product, releaseSpace, version)
         )
       )
 
@@ -103,8 +106,7 @@ export class ReleaseService {
     try {
       const release = await this.getRelease(
         product,
-        (process.env.FEATURE_TOGGLE_LATEST_RELEASE as OsEnvironment) ||
-          OsEnvironment.Production,
+        releaseSpace,
         "latest"
       )
 
