@@ -134,7 +134,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.OrderTemplate]: {
     [Environment.Development]: true,
-    [Environment.Production]: true,
+    [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
   [Feature.AlphaRelaseWarning]: {
