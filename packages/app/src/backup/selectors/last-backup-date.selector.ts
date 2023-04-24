@@ -5,7 +5,7 @@
 
 import { createSelector } from "reselect"
 import { sortBackups } from "App/backup/helpers/sort-backups"
-import { backupStateSelector } from "App/backup/selectors/backup-state-selector"
+import { backupStateSelector } from "App/backup/selectors/backup-state.selector"
 import { BackupState } from "App/backup"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
