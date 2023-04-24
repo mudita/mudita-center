@@ -49,9 +49,9 @@ export const deviceInitializationFailedModalShowEnabledSelector =
         !modalsManagerState.contactSupportFlowShow &&
         modalsManagerState.deviceInitializationFailedModalShow &&
         // TODO: Move the bellow loading checks as selector to the new dedicate domain
-        !(updateState.updateOsState === State.Loading) &&
-        !(backupState.restoringState === State.Loading) &&
-        !(backupState.backingUpState === State.Loading)
+        updateState.updateOsState !== State.Loading &&
+        backupState.restoringState !== State.Loading &&
+        backupState.backingUpState !== State.Loading
       )
     }
   )
