@@ -7,16 +7,6 @@ import { EnvironmentConfig } from "App/feature-flags/types"
 import { Feature, Environment } from "App/feature-flags/constants"
 
 export const features: EnvironmentConfig = {
-  [Feature.ProductionReleasesOnly]: {
-    [Environment.Development]: false,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: false,
-  },
-  [Feature.PreReleasesOnly]: {
-    [Environment.Development]: false,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MessagesForwardEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
@@ -39,7 +29,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {
