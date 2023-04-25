@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { State } from "App/core/constants"
 import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
 import { SilentCheckForUpdateState } from "App/update/constants"
 import { RejectableThunk } from "App/__deprecated__/renderer/store"

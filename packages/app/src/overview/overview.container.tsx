@@ -32,7 +32,6 @@ import {
   cancelDownload,
   setCheckForUpdateState,
 } from "App/update/actions"
-import { State } from "App/core/constants"
 import { OsRelease } from "App/update/dto"
 import { areAllReleasesDownloaded } from "App/update/selectors"
 import { CheckForUpdateMode } from "App/update/constants"

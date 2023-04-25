@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { State } from "App/core/constants"
 import { DeviceType } from "App/device/constants"
 import { Feature, flags } from "App/feature-flags"
 import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"

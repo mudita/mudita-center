@@ -4,7 +4,6 @@
  */
 
 import { renderHook } from "@testing-library/react-hooks"
-import { State } from "App/core/constants"
 import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
 import { useUpdateFlowState } from "App/overview/components/overview-screens/helpers/use-update-flow-state.hook"
 import { SilentCheckForUpdateState } from "App/update/constants"

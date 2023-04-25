@@ -4,7 +4,6 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { State } from "App/core/constants"
 import { ReleaseProcessState, UpdateOsEvent } from "App/update/constants"
 import { CheckForUpdateState } from "../constants/check-for-update-state.constant"
 
