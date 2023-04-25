@@ -120,7 +120,7 @@ const installExtensions = async () => {
 }
 
 const productionEnvironment = process.env.NODE_ENV === "production"
-const commonWindowOptions = {
+const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
   fullscreen: false,
   useContentSize: true,
@@ -129,6 +129,7 @@ const commonWindowOptions = {
     webSecurity: false,
     devTools: !productionEnvironment,
   },
+  autoHideMenuBar: true,
 }
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
