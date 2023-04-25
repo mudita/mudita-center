@@ -441,7 +441,9 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const authorizeAtGoogle = () => {
     return authorizeAtProvider(Provider.Google)
   }
-  const authorizeAtOutLook = () => authorizeAtProvider(Provider.Outlook)
+  const authorizeAtOutLook = () => {
+    return authorizeAtProvider(Provider.Outlook)
+  }
 
   const authorizeAtProvider = async (provider: ExternalProvider) => {
     try {
