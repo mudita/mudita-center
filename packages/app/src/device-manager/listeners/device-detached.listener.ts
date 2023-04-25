@@ -7,10 +7,10 @@ import { ipcRenderer } from "electron-better-ipc"
 import store from "App/__deprecated__/renderer/store"
 import { ListenerEvent } from "App/device-manager/constants"
 import { setConnectionStatus } from "App/device/actions"
+import { resetUploadingState } from "App/files-manager/actions"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const deviceDetachedHandler = (_: any, _data: string): void => {
+const deviceDetachedHandler = (_: Electron.IpcRendererEvent): void => {
+  void store.dispatch(resetUploadingState())
   void store.dispatch(setConnectionStatus(false))
 }
 
