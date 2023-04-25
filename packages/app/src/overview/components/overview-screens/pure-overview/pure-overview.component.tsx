@@ -93,7 +93,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     forceUpdateNeeded,
     osVersion,
   })
-  console.log(checkForUpdateLocalState)
 
   useEffect(() => {
     let progressSimulator: NodeJS.Timeout
