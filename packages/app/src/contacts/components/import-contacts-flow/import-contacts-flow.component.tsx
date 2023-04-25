@@ -53,6 +53,7 @@ export const messages = defineMessages({
 
 export enum ImportContactsFlowState {
   Start = "start",
+  MethodSelected = "method-selected",
   Downloading = "downloading",
   Selecting = "selecting",
   Importing = "importing",
@@ -68,11 +69,12 @@ interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   contacts: NewContact[]
   authorizeAtGoogle: () => Promise<void>
   authorizeAtOutLook: () => Promise<void>
-  importFromFile: (inputElement: HTMLInputElement) => Promise<void>
+  importFromFile: (inputElement: HTMLInputElement) => void
   sendContactsToPhone: (contacts: NewContact[]) => Promise<void>
   closeModal: () => void
   retryImport: () => void
   addedContactsCount: number
+  onCancelManualImportClick: () => void
 }
 
 const ImportContactsFlow: FunctionComponent<Props> = ({
@@ -85,6 +87,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
   sendContactsToPhone,
   closeModal,
   retryImport,
+  onCancelManualImportClick,
 }) => {
   return (
     <>
@@ -92,9 +95,14 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         onGoogleButtonClick={authorizeAtGoogle}
         onOutlookButtonClick={authorizeAtOutLook}
         onManualImportClick={importFromFile}
-        open={ImportContactsFlowState.Start === state}
+        open={
+          ImportContactsFlowState.Start === state ||
+          ImportContactsFlowState.MethodSelected === state
+        }
         testId={ImportContactsFlowTestIds.Start}
         closeModal={closeModal}
+        disabledOtherMethod={ImportContactsFlowState.Start !== state}
+        onCancelManualImportClick={onCancelManualImportClick}
       />
       <DownloadContactsModal
         open={ImportContactsFlowState.Downloading === state}

@@ -20,6 +20,7 @@ import { defineMessages } from "react-intl"
 import GoogleButton from "react-google-button"
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import InputFileSelect from "App/contacts/components/sync-contacts-modal/input-file-select"
 
 const messages = defineMessages({
   title: {
@@ -42,11 +43,13 @@ const messages = defineMessages({
   },
 })
 
-interface Props extends ComponentProps<typeof ModalDialog> {
+export interface Props extends ComponentProps<typeof ModalDialog> {
   onGoogleButtonClick: () => void
   onOutlookButtonClick: () => void
   onAppleButtonClick?: () => void
   onManualImportClick: (inputElement: HTMLInputElement) => void
+  disabledOtherMethod: boolean
+  onCancelManualImportClick: () => void
 }
 
 const SyncContactsModal: FunctionComponent<Props> = ({
@@ -55,6 +58,8 @@ const SyncContactsModal: FunctionComponent<Props> = ({
   onOutlookButtonClick,
   onGoogleButtonClick,
   onManualImportClick,
+  disabledOtherMethod,
+  onCancelManualImportClick,
   ...props
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -80,10 +85,13 @@ const SyncContactsModal: FunctionComponent<Props> = ({
       <ButtonsContainer>
         <ButtonWrapper>
           <GoogleButton
-            onClick={onGoogleButtonClick}
+            onClick={() => {
+              onGoogleButtonClick()
+            }}
             type="dark"
             label={intl.formatMessage(messages.googleButtonText)}
             data-testid={SyncContactsModalTestIds.GoogleButton}
+            disabled={disabledOtherMethod}
           />
 
           <SyncButton
@@ -91,26 +99,26 @@ const SyncContactsModal: FunctionComponent<Props> = ({
             Icon={IconType.Outlook}
             onClick={onOutlookButtonClick}
             data-testid={SyncContactsModalTestIds.OutlookButton}
+            disabled={disabledOtherMethod}
           />
           {onAppleButtonClick && (
             <SyncButton
               labelMessage={messages.appleButtonText}
               Icon={IconType.Apple}
               onClick={onAppleButtonClick}
+              disabled={disabledOtherMethod}
             />
           )}
           <SyncButton
             labelMessage={messages.manualImportText}
             Icon={IconType.Upload}
             onClick={handleManualImportClick}
+            disabled={disabledOtherMethod}
           />
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".vcf"
-            hidden
-            multiple
-            data-testid={SyncContactsModalTestIds.FileInput}
+          <InputFileSelect
+            fileInputRef={fileInputRef}
+            onManualImportClick={onManualImportClick}
+            onCancelManualImportClick={onCancelManualImportClick}
           />
         </ButtonWrapper>
       </ButtonsContainer>

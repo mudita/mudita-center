@@ -406,6 +406,10 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
       )
 
       googleAuthWindow.on("close", () => {
+        void ipcMain.callRenderer(
+          win as BrowserWindow,
+          GoogleAuthActions.CloseWindow
+        )
         googleAuthWindow = null
         killAuthServer()
       })
@@ -466,6 +470,14 @@ ipcMain.answerRenderer(
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         outlookAuthWindow.loadURL(authorizationUrl)
+
+        outlookAuthWindow.on("close", () => {
+          void ipcMain.callRenderer(
+            win as BrowserWindow,
+            OutlookAuthActions.CloseWindow
+          )
+          outlookAuthWindow = null
+        })
 
         const {
           session: { webRequest },
