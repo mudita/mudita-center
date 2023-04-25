@@ -8,15 +8,16 @@ import { State } from "App/core/constants"
 import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
 import { useUpdateFlowState } from "App/overview/components/overview-screens/helpers/use-update-flow-state.hook"
 import { SilentCheckForUpdateState } from "App/update/constants"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 type TestCase = [
-  testedState: SilentCheckForUpdateState | State,
+  testedState: SilentCheckForUpdateState | CheckForUpdateState,
   expectedState: CheckForUpdateLocalState
 ]
 
 const defaultParams = {
   checkForUpdate: jest.fn(),
-  checkingForUpdateState: State.Initial,
+  checkingForUpdateState: CheckForUpdateState.Initial,
   silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   forceUpdateNeeded: false,
   osVersion: "1.2.0",
@@ -32,9 +33,9 @@ const silentCheckTestCases: TestCase[] = [
 ]
 
 const checkForUpdateTestCases: TestCase[] = [
-  [State.Failed, CheckForUpdateLocalState.Failed],
-  [State.Loading, CheckForUpdateLocalState.Loading],
-  [State.Loaded, CheckForUpdateLocalState.Loaded],
+  [CheckForUpdateState.Failed, CheckForUpdateLocalState.Failed],
+  [CheckForUpdateState.Loading, CheckForUpdateLocalState.Loading],
+  [CheckForUpdateState.Loaded, CheckForUpdateLocalState.Loaded],
 ]
 
 describe.each(silentCheckTestCases)(
@@ -60,7 +61,7 @@ describe.each(checkForUpdateTestCases)(
       const { result } = renderHook(() =>
         useUpdateFlowState({
           ...defaultParams,
-          checkingForUpdateState: b as State,
+          checkingForUpdateState: b as CheckForUpdateState,
         })
       )
 

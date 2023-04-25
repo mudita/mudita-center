@@ -8,10 +8,11 @@ import { CheckForUpdateLocalState } from "App/overview/components/overview-scree
 import { SilentCheckForUpdateState } from "App/update/constants"
 import { RejectableThunk } from "App/__deprecated__/renderer/store"
 import { useEffect, useState } from "react"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 interface Params {
   silentCheckForUpdateState: SilentCheckForUpdateState
-  checkingForUpdateState: State
+  checkingForUpdateState: CheckForUpdateState
   checkForUpdate: () => RejectableThunk
   forceUpdateNeeded: boolean
   osVersion: string | undefined
@@ -62,7 +63,7 @@ export const useUpdateFlowState = ({
 
     if (
       silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
-      checkingForUpdateState === State.Failed
+      checkingForUpdateState === CheckForUpdateState.Failed
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
     }
@@ -71,13 +72,14 @@ export const useUpdateFlowState = ({
       setCheckForUpdateLocalState(CheckForUpdateLocalState.SilentCheckLoading)
     }
 
-    if (checkingForUpdateState === State.Loading) {
+    if (checkingForUpdateState === CheckForUpdateState.Loading) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
     }
 
     if (
       silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
-      checkingForUpdateState === State.Loaded
+      checkingForUpdateState === CheckForUpdateState.Loaded ||
+      checkingForUpdateState === CheckForUpdateState.Performed
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
     }

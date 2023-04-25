@@ -38,6 +38,7 @@ import { areAllReleasesDownloaded } from "App/update/selectors"
 import { CheckForUpdateMode } from "App/update/constants"
 import { forceUpdate } from "App/update/actions/force-update/force-update.action"
 import { SynchronizationProcessState } from "App/data-sync/reducers/data-sync.interface"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -120,7 +121,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(checkForUpdate({ deviceType, mode })),
-  setCheckForUpdateState: (state: State) =>
+  setCheckForUpdateState: (state: CheckForUpdateState) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(setCheckForUpdateState(state)),

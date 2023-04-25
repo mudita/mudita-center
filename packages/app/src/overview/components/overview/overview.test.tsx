@@ -21,6 +21,7 @@ import { flags } from "App/feature-flags"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { DownloadState, SilentCheckForUpdateState } from "App/update/constants"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -128,7 +129,7 @@ const defaultProps: Props = {
   abortDownload: jest.fn(),
   allReleases: [],
   checkForUpdate: jest.fn(),
-  checkingForUpdateState: State.Initial,
+  checkingForUpdateState: CheckForUpdateState.Initial,
   clearUpdateState: jest.fn(),
   downloadingState: DownloadState.Initial,
   downloadUpdates: jest.fn(),
