@@ -246,11 +246,8 @@ app.on("window-all-closed", () => {
 })
 
 app.on("activate", () => {
-  const allWindows = BrowserWindow.getAllWindows()
-  if (allWindows.length) {
-    allWindows[0].focus()
-  } else {
-    createWindow()
+  if (win === null) {
+    void createWindow()
   }
 })
 
@@ -517,12 +514,4 @@ ipcMain.answerRenderer(
 
 ipcMain.answerRenderer(OutlookAuthActions.CloseWindow, () => {
   outlookAuthWindow?.close()
-})
-
-app.on("second-instance", () => {
-  if (win) {
-    // Focus on the main window if the user tried to open another
-    if (win.isMinimized()) win.restore()
-    win.focus()
-  }
 })
