@@ -59,22 +59,20 @@ export class DeviceUpdateService {
     const targetPath = deviceInfoResult.data.updateFilePath
     await this.deviceFileSystem.removeDeviceFile(targetPath)
 
-    if (this.deviceManager.device.deviceType === DeviceType.MuditaPure) {
-      const fileSizeInMB = fs.lstatSync(filePath).size / (1024 * 1024)
-      const freeSpaceResult = await this.deviceInfoService.getDeviceFreeSpace()
+    const fileSizeInMB = fs.lstatSync(filePath).size / (1024 * 1024)
+    const freeSpaceResult = await this.deviceInfoService.getDeviceFreeSpace()
 
-      if (
-        freeSpaceResult.ok &&
-        !isNaN(freeSpaceResult.data) &&
-        freeSpaceResult.data < fileSizeInMB
-      ) {
-        return Result.failed(
-          new AppError(
-            UpdateErrorServiceErrors.NotEnoughSpace,
-            `Cannot upload ${filePath} to device - not enough space`
-          )
+    if (
+      freeSpaceResult.ok &&
+      !isNaN(freeSpaceResult.data) &&
+      freeSpaceResult.data < fileSizeInMB
+    ) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.NotEnoughSpace,
+          `Cannot upload ${filePath} to device - not enough space`
         )
-      }
+      )
     }
 
     const fileResponse = await this.deviceFileSystem.uploadFileLocally({
