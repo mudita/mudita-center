@@ -18,4 +18,5 @@ export interface FilesManagerState {
   error: AppError | null
   uploadBlocked: boolean
   uploadPendingFiles: string[]
+  duplicatedFiles: string[]
 }
