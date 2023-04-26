@@ -12,6 +12,8 @@ import { contacts } from "../../test-data/contacts-only-test-data"
 import { waitForClickableAndClick } from "../../helpers/general.helper"
 
 describe("Add, edit, delete single contact scenarios", () => {
+  const contactToAdd = contacts[1]
+  const contactToEdit = contacts[3]
   before(async () => {
     // Waiting for device connected through USB
     await browser.pause(10000)
@@ -24,21 +26,21 @@ describe("Add, edit, delete single contact scenarios", () => {
     await waitForClickableAndClick(newContactButton)
     await expect(newContactButton).toBeDisabled()
 
-    await contactsPage.insertTextToFirstNameInput(contacts[1].firstName)
-    await contactsPage.insertTextToLastNameInput(contacts[1].lastName)
+    await contactsPage.insertTextToFirstNameInput(contactToAdd.firstName)
+    await contactsPage.insertTextToLastNameInput(contactToAdd.lastName)
     await contactsPage.insertTextToPrimaryPhoneNumberInput(
-      contacts[1].primaryNumber
+      contactToAdd.primaryNumber
     )
     await contactsPage.insertTextToSecondaryPhoneNumberInput(
-      contacts[1].secondaryNumber
+      contactToAdd.secondaryNumber
     )
     await contactsPage.insertTextToAddressFirstLineInput(
-      contacts[1].addressFirstLine
+      contactToAdd.addressFirstLine
     )
     await contactsPage.insertTextToAddressSecondLineInput(
-      contacts[1].addressSecondLine
+      contactToAdd.addressSecondLine
     )
-    if (contacts[1].addToFavourites) {
+    if (contactToAdd.addToFavourites) {
       await contactsPage.addToFavouritessCheckbox.click()
     }
     await contactsPage.clickSaveContactButton()
@@ -48,13 +50,13 @@ describe("Add, edit, delete single contact scenarios", () => {
     expect(storedContacts.length).toBeGreaterThan(0)
     const ContactData = await storedContacts[0].getText()
     expect(ContactData).toHaveText(
-      `${contacts[1].firstName} ${contacts[1].lastName}`
+      `${contactToAdd.firstName} ${contactToAdd.lastName}`
     )
 
     const phoneNumber = await contactsPage.phoneNumberOnContactList
     expect(phoneNumber).toHaveTextContaining([
-      contacts[1].primaryNumber,
-      contacts[1].secondaryNumber,
+      contactToAdd.primaryNumber,
+      contactToAdd.secondaryNumber,
     ])
   })
 
@@ -64,18 +66,18 @@ describe("Add, edit, delete single contact scenarios", () => {
     const nameDetails = await contactsPage.nameOnContactDetailScreen
     await nameDetails.waitForDisplayed()
     await expect(nameDetails).toHaveText(
-      `${contacts[1].firstName} ${contacts[1].lastName}`
+      `${contactToAdd.firstName} ${contactToAdd.lastName}`
     )
 
     const number1Details = await contactsPage.phoneNumber1OnContactDetailScreen
     await number1Details.waitForDisplayed()
     const number1DetailsValue = await number1Details.getValue()
-    expect(number1DetailsValue).toHaveValue(contacts[1].primaryNumber)
+    expect(number1DetailsValue).toHaveValue(contactToAdd.primaryNumber)
 
     const number2Details = await contactsPage.phoneNumber2OnContactDetailScreen
     await number2Details.waitForDisplayed()
 
-    expect(number2Details).toHaveValue(contacts[1].secondaryNumber)
+    expect(number2Details).toHaveValue(contactToAdd.secondaryNumber)
 
     await contactsPage.closeButtonClick()
   })
@@ -87,11 +89,11 @@ describe("Add, edit, delete single contact scenarios", () => {
     await editOption.click()
     await browser.pause(2000)
 
-    await contactsPage.insertTextToFirstNameInput(contacts[3].firstName)
-    await contactsPage.insertTextToLastNameInput(contacts[3].lastName)
+    await contactsPage.insertTextToFirstNameInput(contactToEdit.firstName)
+    await contactsPage.insertTextToLastNameInput(contactToEdit.lastName)
 
     await contactsPage.insertTextToPrimaryPhoneNumberInput(
-      contacts[2].primaryNumber
+      contactToEdit.primaryNumber
     )
 
     await contactsPage.clickSaveContactButton()
@@ -103,7 +105,7 @@ describe("Add, edit, delete single contact scenarios", () => {
     expect(storedContacts.length).toBeGreaterThan(0)
     const ContactData = await storedContacts[0].getText()
     expect(ContactData).toHaveText(
-      `${contacts[3].firstName} ${contacts[3].lastName}`
+      `${contactToEdit.firstName} ${contactToEdit.lastName}`
     )
   })
 
@@ -165,13 +167,13 @@ describe("Favourites contact scenarios", () => {
     expect(storedContacts.length).toBeGreaterThan(0)
     const ContactData = await storedContacts[0].getText()
     expect(ContactData).toHaveText(
-      `${contacts[0].firstName} ${contacts[0].lastName}`
+      `${contactToAdd.firstName} ${contactToAdd.lastName}`
     )
 
     const phoneNumber = await contactsPage.phoneNumberOnContactList
     expect(phoneNumber).toHaveTextContaining([
-      contacts[0].primaryNumber,
-      contacts[0].secondaryNumber,
+      contactToAdd.primaryNumber,
+      contactToAdd.secondaryNumber,
     ])
   })
 
