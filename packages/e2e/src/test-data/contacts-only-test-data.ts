@@ -1,4 +1,4 @@
-export const contacts: Array<{
+export type Contact = {
   firstName: string
   lastName: string
   primaryNumber: string
@@ -6,7 +6,9 @@ export const contacts: Array<{
   addressFirstLine: string
   addressSecondLine: string
   addToFavourites: boolean
-}> = [
+}
+
+export const contacts: Array<Contact> = [
   {
     firstName: "Henryk",
     lastName: "Zaskroniec",
