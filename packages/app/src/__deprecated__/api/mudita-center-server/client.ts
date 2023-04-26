@@ -25,12 +25,13 @@ export interface getLatestProductionReleaseParams {
 export class Client implements ClientInterface {
   private httpClient: AxiosInstance
 
-  constructor() {
+  constructor(timeout?: number) {
     this.httpClient = axios.create({
       baseURL: process.env.MUDITA_CENTER_SERVER_URL as string,
       httpsAgent: new https.Agent({
         rejectUnauthorized: false,
       }),
+      timeout,
     })
   }
 

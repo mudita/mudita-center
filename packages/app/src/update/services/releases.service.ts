@@ -18,8 +18,9 @@ import {
 } from "App/update/constants"
 import { GithubReleasePresenter } from "App/update/presenters"
 
-const releaseSpace = (process.env.FEATURE_TOGGLE_RELEASE_ENVIRONMENT as OsEnvironment) ||
-    OsEnvironment.Production
+const releaseSpace =
+  (process.env.FEATURE_TOGGLE_RELEASE_ENVIRONMENT as OsEnvironment) ||
+  OsEnvironment.Production
 
 export class ReleaseService {
   constructor(private client: ReturnType<typeof createClient>) {}
@@ -104,11 +105,7 @@ export class ReleaseService {
     product: Product
   ): Promise<ResultObject<OsRelease | undefined>> {
     try {
-      const release = await this.getRelease(
-        product,
-        releaseSpace,
-        "latest"
-      )
+      const release = await this.getRelease(product, releaseSpace, "latest")
 
       return Result.success(GithubReleasePresenter.toRelease(release))
     } catch (error) {

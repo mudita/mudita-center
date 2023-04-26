@@ -24,6 +24,7 @@ import {
 } from "App/update/controllers"
 import { DeviceManager } from "App/device-manager/services"
 import { DeviceInfoService } from "App/device-info/services"
+import { GET_RELEASE_TIMEOUT } from "App/update/constants/get-release-timeout.constant"
 
 export class UpdateModule extends BaseModule {
   constructor(
@@ -58,7 +59,7 @@ export class UpdateModule extends BaseModule {
       new DeviceInfoService(this.deviceManager)
     )
     const deviceUpdateFilesService = new DeviceUpdateFilesService()
-    const releaseService = new ReleaseService(createClient())
+    const releaseService = new ReleaseService(createClient(GET_RELEASE_TIMEOUT))
     const releasesController = new ReleasesController(releaseService)
     const deviceUpdateController = new DeviceUpdateController(
       deviceUpdateService,
