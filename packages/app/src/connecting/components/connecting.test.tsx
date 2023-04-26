@@ -13,6 +13,7 @@ import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-moda
 import { SynchronizationState } from "App/data-sync/reducers"
 import { DeviceType } from "App/device/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { CriticalBatteryLevelModalTestIds } from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal-test-ids.enum"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 
@@ -36,6 +37,7 @@ const defaultProps: Props = {
   updateAllIndexes: jest.fn(),
   checkingForOsForceUpdate: false,
   forceOsUpdateFailed: false,
+  criticalBatteryLevel: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -89,6 +91,13 @@ describe("`BackupDeviceFlow` component", () => {
         queryByTestId(ErrorConnectingModalTestIds.Container)
       ).toBeInTheDocument()
     })
+
+    test("`CriticalBatteryLevelModal` component isn't displayed ", () => {
+      const { queryByTestId } = render()
+      expect(
+        queryByTestId(CriticalBatteryLevelModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
   })
 
   describe("when `noModalsVisible` is set to `false`", () => {
@@ -103,18 +112,82 @@ describe("`BackupDeviceFlow` component", () => {
     })
   })
 
+  describe("`CriticalBatteryLevelModal` and `PasscodeModal` components", () => {
+    const cases = [
+      {
+        noModalsVisible: false,
+        unlocked: false,
+        criticalBatteryLevel: false,
+      },
+      {
+        noModalsVisible: false,
+        unlocked: true,
+        criticalBatteryLevel: false,
+      },
+    ]
+
+    test.each(cases)(
+      "both, Passcode Modal and CriticalBatteryLevel are hidden",
+      (props) => {
+        const { queryByTestId } = render(props)
+        expect(
+          queryByTestId(PasscodeModalTestIds.Container)
+        ).not.toBeInTheDocument()
+        expect(
+          queryByTestId(CriticalBatteryLevelModalTestIds.Container)
+        ).not.toBeInTheDocument()
+      }
+    )
+
+    test("when unlocked, noModalsVisible, criticalBatteryLevel are true then both modals are hidden", () => {
+      const extraProps: Partial<Props> = {
+        noModalsVisible: true,
+        unlocked: true,
+        criticalBatteryLevel: true,
+      }
+      const { queryByTestId } = render(extraProps)
+      expect(
+        queryByTestId(PasscodeModalTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(CriticalBatteryLevelModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+
+    test("when unlocked and criticalBatteryLevel are false then Passcode modal is visible", () => {
+      const extraProps: Partial<Props> = {
+        noModalsVisible: true,
+        unlocked: false,
+        criticalBatteryLevel: false,
+      }
+      const { queryByTestId } = render(extraProps)
+      expect(queryByTestId(PasscodeModalTestIds.Container)).toBeInTheDocument()
+      expect(
+        queryByTestId(CriticalBatteryLevelModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+
+    test("when unlocked is false, but noModalsVisible and criticalBatteryLevel are true then CriticalBatteryModal is visible", () => {
+      const extraProps: Partial<Props> = {
+        noModalsVisible: true,
+        unlocked: false,
+        criticalBatteryLevel: true,
+      }
+      const { queryByTestId } = render(extraProps)
+      expect(
+        queryByTestId(PasscodeModalTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(CriticalBatteryLevelModalTestIds.Container)
+      ).toBeInTheDocument()
+    })
+  })
+
   describe("when `noModalsVisible` is set to `false` and unlocked to `false`", () => {
     const extraProps: Partial<Props> = {
       noModalsVisible: false,
       unlocked: false,
     }
-
-    test("`PasscodeLocked` component isn't displayed ", () => {
-      const { queryByTestId } = render(extraProps)
-      expect(
-        queryByTestId(PasscodeModalTestIds.Container)
-      ).not.toBeInTheDocument()
-    })
 
     test("`ErrorConnectingModal` component isn't displayed ", () => {
       const { queryByTestId } = render(extraProps)

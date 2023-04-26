@@ -77,6 +77,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
         onDelete={onDeleteClick}
         state={state}
         noFoundFiles={noFoundFiles}
+        hideCheckbox={searchValue !== ""}
       />
     </>
   )

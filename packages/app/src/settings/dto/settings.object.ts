@@ -6,7 +6,7 @@
 import { ConversionFormat, Convert } from "App/settings/constants"
 
 export interface Settings {
-  applicationId: string
+  applicationId: string | null
   conversionFormat: ConversionFormat
   convert: Convert
   osBackupLocation: string

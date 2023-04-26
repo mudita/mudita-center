@@ -45,76 +45,77 @@ const messages = defineMessages({
   },
 })
 
-export const UpdateAvailableModal: FunctionComponent<UpdateAvailableModalProps> =
-  ({
-    open = false,
-    releases,
-    onClose,
-    onDownload,
-    areAllReleasesDownloaded,
-    onUpdate,
-    testId,
-  }) => {
-    const handleButtonClick = (_event: unknown) => {
-      if (areAllReleasesDownloaded) {
-        onUpdate()
-      } else {
-        onDownload()
-      }
+export const UpdateAvailableModal: FunctionComponent<
+  UpdateAvailableModalProps
+> = ({
+  open = false,
+  releases,
+  onClose,
+  onDownload,
+  areAllReleasesDownloaded,
+  onUpdate,
+  testId,
+}) => {
+  const handleButtonClick = (_event: unknown) => {
+    if (areAllReleasesDownloaded) {
+      onUpdate()
+    } else {
+      onDownload()
     }
-
-    return (
-      <OSUpdateModal
-        open={open}
-        testId={testId}
-        closeable
-        closeModal={onClose}
-        size={ModalSize.Medium}
-      >
-        <RoundIconWrapper>
-          <Icon type={IconType.Pure} width={3.2} />
-        </RoundIconWrapper>
-        <ModalMainText
-          displayStyle={TextDisplayStyle.Headline4}
-          message={{
-            ...messages.updateAvailableMessage,
-            values: { num: releases.length },
-          }}
-        />
-        <Text
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
-          message={
-            areAllReleasesDownloaded
-              ? {
-                  ...messages.updateAvailableForInstallDescription,
-                  values: { num: releases.length },
-                }
-              : {
-                  ...messages.updateAvailableDescription,
-                  values: { num: releases.length },
-                }
-          }
-        />
-        <AboutUpdatesSection releases={releases} />
-        <Button
-          displayStyle={DisplayStyle.Primary}
-          size={Size.FixedSmall}
-          labelMessage={
-            areAllReleasesDownloaded
-              ? {
-                  ...messages.installUpdateButton,
-                  values: { num: releases.length },
-                }
-              : {
-                  ...messages.updateAvailableButton,
-                  values: { num: releases.length },
-                }
-          }
-          onClick={handleButtonClick}
-          data-testid={ModalTestIds.ModalActionButton}
-        />
-        <CautionSection isSingleRelease={releases.length === 1} />
-      </OSUpdateModal>
-    )
   }
+
+  return (
+    <OSUpdateModal
+      open={open}
+      testId={testId}
+      closeable
+      closeModal={onClose}
+      size={ModalSize.Medium}
+    >
+      <RoundIconWrapper>
+        <Icon type={IconType.Info} width={4.8} />
+      </RoundIconWrapper>
+      <ModalMainText
+        displayStyle={TextDisplayStyle.Headline4}
+        message={{
+          ...messages.updateAvailableMessage,
+          values: { num: releases.length },
+        }}
+      />
+      <Text
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
+        message={
+          areAllReleasesDownloaded
+            ? {
+                ...messages.updateAvailableForInstallDescription,
+                values: { num: releases.length },
+              }
+            : {
+                ...messages.updateAvailableDescription,
+                values: { num: releases.length },
+              }
+        }
+      />
+      <AboutUpdatesSection releases={releases} />
+      <Button
+        displayStyle={DisplayStyle.Primary}
+        size={Size.FixedSmall}
+        labelMessage={
+          areAllReleasesDownloaded
+            ? {
+                ...messages.installUpdateButton,
+                values: { num: releases.length },
+              }
+            : {
+                ...messages.updateAvailableButton,
+                values: { num: releases.length },
+              }
+        }
+        onClick={handleButtonClick}
+        data-testid={ModalTestIds.ModalActionButton}
+      />
+      <CautionSection isSingleRelease={releases.length === 1} />
+    </OSUpdateModal>
+  )
+}

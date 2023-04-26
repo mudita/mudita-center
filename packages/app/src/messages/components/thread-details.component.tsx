@@ -22,7 +22,7 @@ type ThreadDetailsRightHeaderProps = ComponentProps<
 
 interface Props
   extends SidebarProps,
-    Omit<ThreadDetailsRightHeaderProps, "emptyThread"> {
+    Omit<ThreadDetailsRightHeaderProps, "emptyThread" | "validPhoneNumber"> {
   content: string
   receiver: Receiver
   messages: Message[]

@@ -20,6 +20,7 @@ import {
   setDeletingFileCount,
   setPendingFilesToUpload,
   setDuplicatedFiles,
+  resetUploadingStateAfterSuccess,
 } from "App/files-manager/actions"
 import { changeLocation } from "App/core/actions"
 import { FilesManagerState } from "App/files-manager/reducers/files-manager.interface"
@@ -163,6 +164,18 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           uploadingFileCount: 0,
           uploadBlocked: false,
           duplicatedFiles: [],
+        }
+      })
+      .addCase(
+      
+      
+      
+      , (state) => {
+        return {
+          ...state,
+          uploading: State.Initial,
+          error: null,
+          uploadingFileCount: 0,
         }
       })
       .addCase(setUploadingFileCount, (state, action) => {
