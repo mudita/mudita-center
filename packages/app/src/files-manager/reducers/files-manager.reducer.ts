@@ -166,11 +166,7 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           duplicatedFiles: [],
         }
       })
-      .addCase(
-      
-      
-      
-      , (state) => {
+      .addCase(resetUploadingStateAfterSuccess, (state) => {
         return {
           ...state,
           uploading: State.Initial,
