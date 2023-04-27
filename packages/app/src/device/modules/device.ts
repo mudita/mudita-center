@@ -178,10 +178,12 @@ export class Device {
 
   private unmountDeviceListeners(): void {
     this.off(DeviceServiceEvent.DeviceConnected, this.emitConnectionEvent)
-    this.off(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)this.off(
+    this.off(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
+    this.off(
       DeviceServiceEvent.DeviceInitializationFailed,
       this.emitDeviceInitializationFailedEvent
-    )this.off(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
+    )
+    this.off(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     this.off(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.off(
       DeviceServiceEvent.DeviceAgreementAccepted,
