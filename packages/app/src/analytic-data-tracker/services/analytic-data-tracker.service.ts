@@ -9,7 +9,7 @@ import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-
 import { TrackEvent } from "App/analytic-data-tracker/types"
 
 export interface AnalyticDataTrackerOptions {
-  _id: string
+  _id: string | null
   siteId: number
   apiUrl: string
   trackingEnabled?: boolean
@@ -26,7 +26,7 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   private visitorMetadata: VisitorMetadata = {}
   private readonly siteId: number
   private readonly apiUrl: string
-  private readonly _id: string
+  private readonly _id: string | null
 
   constructor(
     options: AnalyticDataTrackerOptions,

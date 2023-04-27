@@ -51,6 +51,7 @@ export interface DeviceState {
     unlocked: boolean | null
     loaded: boolean
     agreementAccepted: boolean
+    criticalBatteryLevel: boolean
   }
   error: Error | string | null
 }

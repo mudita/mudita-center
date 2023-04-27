@@ -1,25 +1,72 @@
-import MessagesPage from "../page-objects/messages.page"
-import MessagesConversationPage from "../page-objects/messages-conversation.page"
-import ModalMessagesPage from "../page-objects/modal-messages.page"
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+import messagesPage from "../page-objects/messages.page"
+import messagesConversationPage from "../page-objects/messages-conversation.page"
+import modalMessagesPage from "../page-objects/modal-messages.page"
+import navigationTabs from "../page-objects/tabs.page"
+
+import { waitForClickableAndClick } from "../helpers/general.helper"
 
 /** Send message using send button */
 export const sendMessage = async (
   recipientText: string,
   messageText: string
 ) => {
-  await MessagesPage.clickNewMessageButton()
-  await MessagesConversationPage.insertTextToSearchContactInput(recipientText)
-  await MessagesConversationPage.insertTextToMessageInput(messageText)
+  await waitForClickableAndClick(await navigationTabs.contactsTab)
+  await waitForClickableAndClick(await navigationTabs.messagesTab)
 
-  await MessagesConversationPage.sendMessageButton.waitForClickable()
-  await MessagesConversationPage.sendMessageButton.click()
+  await waitForClickableAndClick(await messagesPage.newMessageButton)
+
+  await messagesConversationPage.insertTextToSearchContactInput(recipientText)
+
+  await messagesConversationPage.insertTextToMessageInput(messageText)
+
+  await messagesConversationPage.sendMessageButton.waitForClickable()
+  await messagesConversationPage.sendMessageButton.click()
 }
 
 /** Delete conversation on thread list screen by clicking options (...) and delete conversation from dropdown list */
 export const deleteConversationOnThreadList = async () => {
-  await MessagesPage.clickThreadDropdownIcon()
+  await messagesPage.clickThreadDropdownButton()
 
-  await MessagesPage.clickThreadDropdownDeleteButton()
+  await messagesPage.clickThreadDropdownDeleteButton()
 
-  await ModalMessagesPage.clickConfirmDeleteButton()
+  await modalMessagesPage.clickConfirmDeleteButton()
+}
+
+export const deleteAllMessagesWithSelectionManager = async () => {
+  //hover over data-testid="contact-row" to make checkbox display=true
+  await messagesPage.hoverOverThreadRow()
+
+  await waitForClickableAndClick(await messagesPage.threadCheckbox)
+
+  //select all contacts
+  await waitForClickableAndClick(await messagesPage.selectAllCheckbox)
+
+  await waitForClickableAndClick(
+    await messagesPage.selectionManagerDeleteButton
+  )
+  await waitForClickableAndClick(await modalMessagesPage.confirmDeleteButton)
+
+  const noMessagesTextLabel = await messagesPage.threadScreenEmptyList
+
+  await noMessagesTextLabel.waitForDisplayed()
+}
+
+export const deleteSingleMessageWithSelectionManager = async () => {
+  //hover over data-testid="contact-row" to make checkbox display=true
+  await messagesPage.hoverOverThreadRow()
+
+  await waitForClickableAndClick(await messagesPage.threadCheckbox)
+
+  await waitForClickableAndClick(
+    await messagesPage.selectionManagerDeleteButton
+  )
+  await waitForClickableAndClick(await modalMessagesPage.confirmDeleteButton)
+
+  const noMessagesTextLabel = await messagesPage.threadScreenEmptyList
+
+  await noMessagesTextLabel.waitForDisplayed()
 }

@@ -37,11 +37,7 @@ export class Device {
     this.mountListeners()
   }
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async connect(): Promise<ResultObject<DeviceInfo>> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     const response = await this.strategy.connect()
 
     if (response.data) {
@@ -56,7 +52,7 @@ export class Device {
           response
         )
       )
-    } else if (response.status === RequestResponseStatus.NotAcceptable) {
+    } else if (response.status === RequestResponseStatus.EulaNotAccepted) {
       return Result.failed(
         new AppError(
           DeviceCommunicationError.DeviceAgreementNotAccepted,
@@ -78,8 +74,6 @@ export class Device {
   }
 
   public async disconnect(): Promise<ResultObject<boolean>> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     const response = await this.strategy.disconnect()
 
     this.unmountDeviceListeners()
@@ -97,15 +91,11 @@ export class Device {
   }
 
   public async request<ResponseType = unknown>(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: RequestConfig<any>
+    config: RequestConfig<unknown>
   ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
     const response = (await this.strategy.request(config)) as RequestResponse<
       ResponseType,
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      any
+      unknown
     >
 
     if (response.status === RequestResponseStatus.PhoneLocked) {
@@ -116,11 +106,19 @@ export class Device {
           response
         )
       )
-    } else if (response.status === RequestResponseStatus.NotAcceptable) {
+    } else if (response.status === RequestResponseStatus.EulaNotAccepted) {
       return Result.failed(
         new AppError(
           DeviceCommunicationError.DeviceAgreementNotAccepted,
           `Device ${this.path} EULA isn't accepted`,
+          response
+        )
+      )
+    } else if (response.status === RequestResponseStatus.BatteryCriticalLevel) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.BatteryCriticalLevel,
+          `Device ${this.path} has critical battery level`,
           response
         )
       )
@@ -160,67 +158,37 @@ export class Device {
   }
 
   private mountListeners(): void {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceConnected, this.emitConnectionEvent)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(
       DeviceServiceEvent.DeviceInitializationFailed,
       this.emitDeviceInitializationFailedEvent
     )
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.on(
       DeviceServiceEvent.DeviceAgreementAccepted,
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
       this.emitAgreementAcceptedEvent
     )
     this.on(
       DeviceServiceEvent.DeviceAgreementNotAccepted,
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
       this.emitAgreementNotAcceptedEvent
     )
   }
 
   private unmountDeviceListeners(): void {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.off(DeviceServiceEvent.DeviceConnected, this.emitConnectionEvent)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.off(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.off(
+    this.off(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)this.off(
       DeviceServiceEvent.DeviceInitializationFailed,
       this.emitDeviceInitializationFailedEvent
-    )
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.off(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
+    )this.off(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     this.off(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.off(
       DeviceServiceEvent.DeviceAgreementAccepted,
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
       this.emitAgreementAcceptedEvent
     )
     this.off(
       DeviceServiceEvent.DeviceAgreementNotAccepted,
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
       this.emitAgreementNotAcceptedEvent
     )
   }
