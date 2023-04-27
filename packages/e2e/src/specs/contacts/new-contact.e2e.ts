@@ -3,123 +3,304 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import NavigationTabs from "../../page-objects/tabs.page"
-import ContactsPage from "../../page-objects/contacts.page"
-import ModalGeneralPage from "../../page-objects/modal-general.page"
-import ModalContactsPage from "../../page-objects/modal-contacts.page"
+import navigationTabs from "../../page-objects/tabs.page"
+import contactsPage from "../../page-objects/contacts.page"
+import modalGeneralPage from "../../page-objects/modal-general.page"
+import modalContactsPage from "../../page-objects/modal-contacts.page"
+
+import { contacts } from "../../test-data/contacts-only-test-data"
+import { waitForClickableAndClick } from "../../helpers/general.helper"
 
 describe("Add, edit, delete single contact scenarios", () => {
+  const contactToAdd = contacts[1]
+  const contactToEdit = contacts[3]
   before(async () => {
     // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 13000)
-    })
-    await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    await NavigationTabs.clickContactsTab()
-    await browser.executeAsync((done) => {
-      setTimeout(done, 1000)
-    })
+    await browser.pause(10000)
+    await modalGeneralPage.clickUpdateAvailableModalCloseButton()
+    await navigationTabs.clickContactsTab()
   })
 
   it("Should press new contact button, add contact data and save it", async () => {
-    const newContactButton = await ContactsPage.newContactButton
-    await expect(newContactButton).toBeDisplayed()
-    await newContactButton.click()
+    const newContactButton = await contactsPage.newContactButton
+    await waitForClickableAndClick(newContactButton)
     await expect(newContactButton).toBeDisabled()
 
-    await ContactsPage.insertTextToFirstNameInput("Henryk")
-    await ContactsPage.insertTextToLastNameInput("Zaskroniec")
-    await ContactsPage.insertTextToPrimaryPhoneNumberInput("602900000")
-    await ContactsPage.insertTextToSecondaryPhoneNumberInput("510100100")
-    await ContactsPage.insertTextToAddressFirstLineInput(
-      "Al. Ujazdowskie 100/19"
+    await contactsPage.insertTextToFirstNameInput(contactToAdd.firstName)
+    await contactsPage.insertTextToLastNameInput(contactToAdd.lastName)
+    await contactsPage.insertTextToPrimaryPhoneNumberInput(
+      contactToAdd.primaryNumber
     )
-    await ContactsPage.insertTextToAddressSecondLineInput("00-675 Warszawa")
+    await contactsPage.insertTextToSecondaryPhoneNumberInput(
+      contactToAdd.secondaryNumber
+    )
+    await contactsPage.insertTextToAddressFirstLineInput(
+      contactToAdd.addressFirstLine
+    )
+    await contactsPage.insertTextToAddressSecondLineInput(
+      contactToAdd.addressSecondLine
+    )
+    if (contactToAdd.addToFavourites) {
+      await contactsPage.addToFavouritessCheckbox.click()
+    }
+    await contactsPage.clickSaveContactButton()
+    await browser.pause(4000)
 
-    await ContactsPage.clickSaveContactButton()
-    await browser.executeAsync((done) => {
-      setTimeout(done, 2000)
-    })
-
-    const storedContacts = await ContactsPage.listOfContacts
+    const storedContacts = await contactsPage.listOfContacts
     expect(storedContacts.length).toBeGreaterThan(0)
     const ContactData = await storedContacts[0].getText()
-    expect(ContactData).toHaveText("Henryk Zaskroniec")
+    expect(ContactData).toHaveText(
+      `${contactToAdd.firstName} ${contactToAdd.lastName}`
+    )
 
-    const phoneNumber = await ContactsPage.phoneNumberOnContactList
-    expect(phoneNumber).toHaveTextContaining(["602900000", "510100100"])
+    const phoneNumber = await contactsPage.phoneNumberOnContactList
+    expect(phoneNumber).toHaveTextContaining([
+      contactToAdd.primaryNumber,
+      contactToAdd.secondaryNumber,
+    ])
   })
 
   it("Should click on contact and check contact details screen", async () => {
-    const singleContact = await ContactsPage.singleContactRow
+    const singleContact = await contactsPage.singleContactRow
     await singleContact.click()
-    const nameDetails = await ContactsPage.nameOnContactDetailScreen
+    const nameDetails = await contactsPage.nameOnContactDetailScreen
     await nameDetails.waitForDisplayed()
-    await expect(nameDetails).toHaveText("Henryk Zaskroniec")
+    await expect(nameDetails).toHaveText(
+      `${contactToAdd.firstName} ${contactToAdd.lastName}`
+    )
 
-    const number1Details = await ContactsPage.phoneNumber1OnContactDetailScreen
+    const number1Details = await contactsPage.phoneNumber1OnContactDetailScreen
     await number1Details.waitForDisplayed()
     const number1DetailsValue = await number1Details.getValue()
-    expect(number1DetailsValue).toHaveValue("602900000")
+    expect(number1DetailsValue).toHaveValue(contactToAdd.primaryNumber)
 
-    const number2Details = await ContactsPage.phoneNumber2OnContactDetailScreen
+    const number2Details = await contactsPage.phoneNumber2OnContactDetailScreen
     await number2Details.waitForDisplayed()
 
-    expect(number2Details).toHaveValue("510100100")
+    expect(number2Details).toHaveValue(contactToAdd.secondaryNumber)
 
-    await ContactsPage.closeButtonClick()
+    await contactsPage.closeButtonClick()
   })
 
   it("Should edit contact using options menu", async () => {
-    await ContactsPage.optionsButtonOnContactListClick()
-    await browser.executeAsync((done) => {
-      setTimeout(done, 2000)
-    })
-    const editOption = await ContactsPage.editContactOptionMenu
+    await contactsPage.optionsButtonOnContactListClick()
+    await browser.pause(2000)
+    const editOption = await contactsPage.editContactOptionMenu
     await editOption.click()
-    await browser.executeAsync((done) => {
-      setTimeout(done, 2000)
-    })
+    await browser.pause(2000)
 
-    await ContactsPage.insertTextToFirstNameInput("Kazimierz")
-    await ContactsPage.insertTextToFirstNameInput("Glonojad")
+    await contactsPage.insertTextToFirstNameInput(contactToEdit.firstName)
+    await contactsPage.insertTextToLastNameInput(contactToEdit.lastName)
 
-    await ContactsPage.insertTextToPrimaryPhoneNumberInput("601100601")
+    await contactsPage.insertTextToPrimaryPhoneNumberInput(
+      contactToEdit.primaryNumber
+    )
 
-    await ContactsPage.clickSaveContactButton()
-    await browser.executeAsync((done) => {
-      setTimeout(done, 2000)
-    })
+    await contactsPage.clickSaveContactButton()
+    await browser.pause(4000)
 
-    await ContactsPage.closeButtonClick()
+    await contactsPage.closeButtonClick()
 
-    const storedContacts = await ContactsPage.listOfContacts
+    const storedContacts = await contactsPage.listOfContacts
     expect(storedContacts.length).toBeGreaterThan(0)
     const ContactData = await storedContacts[0].getText()
-    expect(ContactData).toHaveText("Kazimierz Glonojad")
+    expect(ContactData).toHaveText(
+      `${contactToEdit.firstName} ${contactToEdit.lastName}`
+    )
   })
 
   it("Should delete single contact using options menu and check no contacts screen is displayed", async () => {
-    await ContactsPage.optionsButtonOnContactListClick()
-    await browser.executeAsync((done) => {
-      setTimeout(done, 2000)
-    })
-    const deleteOption = await ContactsPage.deleteContactOptionMenu
+    await contactsPage.optionsButtonOnContactListClick()
+    await browser.pause(2000)
+    const deleteOption = await contactsPage.deleteContactOptionMenu
     await deleteOption.click()
 
-    ModalContactsPage.buttonConfirmDeleteClick()
-    await browser.executeAsync((done) => {
-      setTimeout(done, 3000)
-    })
+    modalContactsPage.buttonConfirmDeleteClick()
+    await browser.pause(3000)
 
-    const noContactsTextLabel = await ContactsPage.noContactsTextLabel
+    const noContactsTextLabel = await contactsPage.noContactsTextLabel
 
     await noContactsTextLabel.waitForDisplayed()
-    const noContactsH3Value = await noContactsTextLabel.$("<h3>")
-    const noContactsPValue = await noContactsTextLabel.$("<p>")
-    await expect(noContactsH3Value).toHaveText("No contacts found")
-    await expect(noContactsPValue).toHaveText(
-      "Search results do not match any contact."
+    await expect(noContactsTextLabel).toBeDisplayed()
+    await expect(noContactsTextLabel).toHaveTextContaining([
+      "You don't have any contacts yet",
+      "Press New Contact to add one.",
+    ])
+  })
+})
+describe("Favourites contact scenarios", () => {
+  const contactToAdd = contacts[0]
+  const contactToEdit = contacts[2]
+
+  before(async () => {
+    // Waiting for device connected through USB
+    await browser.pause(10000)
+    await modalGeneralPage.clickUpdateAvailableModalCloseButton()
+    await navigationTabs.clickContactsTab()
+  })
+
+  it("Should press new contact button, add contact data and save it", async () => {
+    const newContactButton = await contactsPage.newContactButton
+    await waitForClickableAndClick(newContactButton)
+    await expect(newContactButton).toBeDisabled()
+
+    await contactsPage.insertTextToFirstNameInput(contactToAdd.firstName)
+    await contactsPage.insertTextToLastNameInput(contactToAdd.lastName)
+    await contactsPage.insertTextToPrimaryPhoneNumberInput(
+      contactToAdd.primaryNumber
     )
+    await contactsPage.insertTextToSecondaryPhoneNumberInput(
+      contactToAdd.secondaryNumber
+    )
+    await contactsPage.insertTextToAddressFirstLineInput(
+      contactToAdd.addressFirstLine
+    )
+    await contactsPage.insertTextToAddressSecondLineInput(
+      contactToAdd.addressSecondLine
+    )
+    if (contactToAdd.addToFavourites) {
+      await contactsPage.addToFavouritessCheckbox.click()
+    }
+    await contactsPage.clickSaveContactButton()
+    await browser.pause(2000)
+    const storedContacts = await contactsPage.listOfContacts
+    expect(storedContacts.length).toBeGreaterThan(0)
+    const ContactData = await storedContacts[0].getText()
+    expect(ContactData).toHaveText(
+      `${contactToAdd.firstName} ${contactToAdd.lastName}`
+    )
+
+    const phoneNumber = await contactsPage.phoneNumberOnContactList
+    expect(phoneNumber).toHaveTextContaining([
+      contactToAdd.primaryNumber,
+      contactToAdd.secondaryNumber,
+    ])
+  })
+
+  it("Should click on contact and check contact details screen (including favourites icon)", async () => {
+    const singleContact = await contactsPage.singleContactRow
+    await singleContact.click()
+    const nameDetails = await contactsPage.nameOnContactDetailScreen
+    await nameDetails.waitForDisplayed()
+    await expect(nameDetails).toHaveText(
+      `${contactToAdd.firstName} ${contactToAdd.lastName}`
+    )
+
+    const number1Details = await contactsPage.phoneNumber1OnContactDetailScreen
+    await number1Details.waitForDisplayed()
+    const number1DetailsValue = await number1Details.getValue()
+    expect(number1DetailsValue).toHaveValue(contactToAdd.primaryNumber)
+
+    const number2Details = await contactsPage.phoneNumber2OnContactDetailScreen
+    await number2Details.waitForDisplayed()
+
+    expect(number2Details).toHaveValue(contactToAdd.secondaryNumber)
+
+    const favIcon = await contactsPage.contactDetailsFavouritesIcon
+    await expect(favIcon).toBeDisplayed()
+    await contactsPage.closeButtonClick()
+  })
+
+  it("Should edit contact using options menu (without changing add to favourites settings", async () => {
+    await contactsPage.optionsButtonOnContactListClick()
+    await browser.pause(2000)
+    const editOption = await contactsPage.editContactOptionMenu
+    await editOption.click()
+    await browser.pause(2000)
+
+    await contactsPage.insertTextToFirstNameInput(contactToEdit.firstName)
+    await contactsPage.insertTextToLastNameInput(contactToEdit.lastName)
+
+    await contactsPage.insertTextToPrimaryPhoneNumberInput(
+      contactToEdit.primaryNumber
+    )
+
+    await contactsPage.clickSaveContactButton()
+    await browser.pause(2000)
+    await contactsPage.closeButtonClick()
+
+    const storedContacts = await contactsPage.listOfContacts
+    expect(storedContacts.length).toBeGreaterThan(0)
+    const ContactData = await storedContacts[0].getText()
+    expect(ContactData).toHaveText(
+      `${contactToEdit.firstName} ${contactToEdit.lastName}`
+    )
+  })
+  it("Should click on contact and check contact details screen (including favourites icon)", async () => {
+    const singleContact = await contactsPage.singleContactRow
+    await singleContact.click()
+    const nameDetails = await contactsPage.nameOnContactDetailScreen
+    await nameDetails.waitForDisplayed()
+    await expect(nameDetails).toHaveText(
+      `${contactToEdit.firstName} ${contactToEdit.lastName}`
+    )
+
+    const number1Details = await contactsPage.phoneNumber1OnContactDetailScreen
+    await number1Details.waitForDisplayed()
+    const number1DetailsValue = await number1Details.getValue()
+    expect(number1DetailsValue).toHaveValue(contactToEdit.primaryNumber)
+
+    const number2Details = await contactsPage.phoneNumber2OnContactDetailScreen
+    await number2Details.waitForDisplayed()
+
+    expect(number2Details).toHaveValue(contactToEdit.secondaryNumber)
+
+    const favIcon = await contactsPage.contactDetailsFavouritesIcon
+    await expect(favIcon).toBeDisplayed()
+
+    await contactsPage.closeButtonClick()
+  })
+  it("Should edit contact using options menu (remove from favourites)", async () => {
+    await contactsPage.optionsButtonOnContactListClick()
+    await browser.pause(2000)
+    const editOption = await contactsPage.editContactOptionMenu
+    await editOption.click()
+    await browser.pause(2000)
+
+    await waitForClickableAndClick(await contactsPage.addToFavouritessCheckbox)
+    await contactsPage.clickSaveContactButton()
+    await browser.pause(4000)
+
+    await contactsPage.closeButtonClick()
+
+    const storedContacts = await contactsPage.listOfContacts
+    expect(storedContacts.length).toBeGreaterThan(0)
+    const ContactData = await storedContacts[0].getText()
+    expect(ContactData).toHaveText(
+      `${contactToEdit.firstName} ${contactToEdit.lastName}`
+    )
+  })
+
+  it("Should click on contact and check contact was removed from favourites", async () => {
+    const singleContact = await contactsPage.singleContactRow
+    await singleContact.click()
+    const nameDetails = await contactsPage.nameOnContactDetailScreen
+    await nameDetails.waitForDisplayed()
+    await expect(nameDetails).toHaveText(
+      `${contactToEdit.firstName} ${contactToEdit.lastName}`
+    )
+    const favIcon = await contactsPage.contactDetailsFavouritesIcon
+    await expect(favIcon).not.toBeDisplayed()
+
+    await contactsPage.closeButtonClick()
+  })
+
+  it("Should delete single contact using options menu and check no contacts screen is displayed", async () => {
+    await contactsPage.optionsButtonOnContactListClick()
+    await browser.pause(2000)
+    const deleteOption = await contactsPage.deleteContactOptionMenu
+    await deleteOption.click()
+
+    modalContactsPage.buttonConfirmDeleteClick()
+    await browser.pause(3000)
+
+    const noContactsTextLabel = await contactsPage.noContactsTextLabel
+
+    await noContactsTextLabel.waitForDisplayed()
+    await expect(noContactsTextLabel).toBeDisplayed()
+    await expect(noContactsTextLabel).toHaveTextContaining([
+      "You don't have any contacts yet",
+      "Press New Contact to add one.",
+    ])
   })
 })

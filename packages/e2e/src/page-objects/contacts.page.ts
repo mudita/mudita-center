@@ -154,7 +154,7 @@ class ContactsPage extends Page {
   }
 
   public get listOfContacts() {
-    return $$('[data-testid="contact-row"]')
+    return $$('[data-testid="virtualized-contact-list-item-contact-row"]')
   }
 
   public get singleContactRow(): ChainablePromiseElement<
@@ -308,6 +308,12 @@ class ContactsPage extends Page {
     return this.dropDownSearchResultList.$$(
       '[data-testid="input-select-list-item"]'
     )
+  }
+
+  public get contactDetailsFavouritesIcon(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-Favourites"]')
   }
 }
 
