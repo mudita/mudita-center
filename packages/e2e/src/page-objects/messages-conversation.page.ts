@@ -219,6 +219,18 @@ class MessagesConversationPage extends Page {
   async highlightedMessage(text: string) {
     return this.messageContent.$(`strong*=${text}`)
   }
+  /** [Selector] Delete message button on message dropodown list */
+  public get messageDropdownResendButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return this.messageDropdown.$(
+      '[data-testid="message-bubble-resend-message-button"]'
+    )
+  }
+  /** [Selector] Returns list of multiple elements - list of messages texts in the thread*/
+  public get messagesContentsList() {
+    return $$('[data-testid="message-bubble-message-content"]')
+  }
 }
 
 export default new MessagesConversationPage()
