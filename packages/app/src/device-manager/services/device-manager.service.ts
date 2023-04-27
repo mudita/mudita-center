@@ -13,10 +13,13 @@ import { Device } from "App/device/modules/device"
 import { PortInfo } from "App/device-manager/types"
 import { PortInfoValidator } from "App/device-manager/validators"
 import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
+import { DeviceServiceEvent } from "App/device"
+import { EventEmitter } from "events"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
   public devicesMap = new Map<string, Device>()
+  public currentDeviceInitializationFailed = false
 
   // The `updating` property is a tmp solution to skip sync process
   // The tech debt will be fixed as part ot tech task
@@ -25,8 +28,11 @@ export class DeviceManager {
 
   constructor(
     private deviceResolver: DeviceResolverService,
-    private ipc: MainProcessIpc
-  ) {}
+    private ipc: MainProcessIpc,
+    protected eventEmitter: EventEmitter
+  ) {
+    this.mountListeners()
+  }
 
   get device(): Device {
     if (!this.currentDevice) {
@@ -150,8 +156,26 @@ export class DeviceManager {
     })
   }
 
-  @log("==== serial port: list ====")
+  @log("==== device manager: list ====")
   private getSerialPortList(): Promise<SerialPortInfo[]> {
     return SerialPort.list()
+  }
+
+  private mountListeners(): void {
+    this.eventEmitter.on(
+      DeviceServiceEvent.DeviceInitializationFailed,
+      this.deviceInitializationFailedListener
+    )
+    this.eventEmitter.on(
+      DeviceServiceEvent.DeviceConnected,
+      this.deviceConnectedListener
+    )
+  }
+
+  private deviceInitializationFailedListener = () => {
+    this.currentDeviceInitializationFailed = true
+  }
+  private deviceConnectedListener = () => {
+    this.currentDeviceInitializationFailed = false
   }
 }

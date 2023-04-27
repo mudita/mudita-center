@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { createSelector, OutputSelector } from "reselect"
 import { ReleaseProcessState } from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 import { UpdateOsState } from "App/update/reducers/update-os.interface"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { createSelector, OutputSelector } from "reselect"
+import { updateStateSelector } from "App/update/selectors/update-state-selector"
 
 export enum Mode {
   DownloadedReleases = "downloaded-releases",
@@ -22,7 +23,7 @@ export const alreadyProcessedReleasesSelector = (
   (res: UpdateOsState) => OsRelease[]
 > => {
   return createSelector<ReduxRootState, UpdateOsState, OsRelease[]>(
-    (state) => state.update,
+    updateStateSelector,
     (state) => {
       let processedReleases: ProcessedRelease[] | null
 
