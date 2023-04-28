@@ -85,7 +85,7 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       }
     }
 
-    const availableReleasesForUpdate: OsRelease[] = [latestReleaseResult.data]
+    const availableReleasesForUpdate = [latestReleaseResult.data]
 
     const mandatoryVersionsToInstall =
       latestReleaseResult.data.mandatoryVersions.filter(

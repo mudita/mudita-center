@@ -7,6 +7,7 @@ import { connect } from "react-redux"
 import { State } from "App/core/constants"
 import Menu from "App/__deprecated__/renderer/components/rest/menu/menu.component"
 import { RootState, ReduxRootState } from "App/__deprecated__/renderer/store"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
@@ -16,7 +17,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
         state.update.checkedForForceUpdateNeed &&
         !(
           state.update.needsForceUpdate &&
-          state.update.checkForUpdateState === State.Failed
+          state.update.checkForUpdateState === CheckForUpdateState.Failed
         )) ||
       state.update.updateOsState === State.Loading ||
       state.backup.restoringState === State.Loading ||

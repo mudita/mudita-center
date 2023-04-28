@@ -30,6 +30,7 @@ import { CrashDump } from "App/crash-dump"
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
 import { checkForForceUpdateNeed } from "App/update/actions/check-for-force-update-need/check-for-force-update-need.action"
 import { getDeviceLatestVersion } from "App/settings/selectors"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 interface Props {
   getConnectedDevice: () => void
@@ -176,7 +177,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     osVersion: state.device.data?.osVersion,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
     checkingForOsForceUpdate:
-      state.update.checkForUpdateState === State.Loading &&
+      state.update.checkForUpdateState === CheckForUpdateState.Loading &&
       Boolean(state.update.needsForceUpdate),
     shouldCheckForForceUpdateNeed:
       state.update.forceUpdateState === State.Initial,
