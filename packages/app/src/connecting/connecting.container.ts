@@ -15,6 +15,7 @@ import {
   TmpDispatch,
 } from "App/__deprecated__/renderer/store"
 import { connect } from "react-redux"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
@@ -38,10 +39,10 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   noModalsVisible: noModalsShowSelector(state),
   leftTime: getLeftTimeSelector(state),
   forceOsUpdateFailed:
-    state.update.checkForUpdateState === State.Failed &&
+    state.update.checkForUpdateState === CheckForUpdateState.Failed &&
     state.update.needsForceUpdate === true,
   checkingForOsForceUpdate:
-    state.update.checkForUpdateState === State.Loading &&
+    state.update.checkForUpdateState === CheckForUpdateState.Loading &&
     Boolean(state.update.needsForceUpdate),
   passcodeModalCloseable: !(
     state.update.needsForceUpdate ||

@@ -13,6 +13,7 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 jest.mock("App/feature-flags")
 
@@ -39,7 +40,7 @@ const defaultProps: Props = {
   allReleases: [],
   checkForUpdate: jest.fn(),
   updatingState: State.Initial,
-  checkingForUpdateState: State.Initial,
+  checkingForUpdateState: CheckForUpdateState.Initial,
   downloadingState: DownloadState.Initial,
   silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   clearUpdateState: jest.fn(),
