@@ -54,3 +54,19 @@ export const deleteAllMessagesWithSelectionManager = async () => {
 
   await noMessagesTextLabel.waitForDisplayed()
 }
+
+export const deleteSingleMessageWithSelectionManager = async () => {
+  //hover over data-testid="contact-row" to make checkbox display=true
+  await messagesPage.hoverOverThreadRow()
+
+  await waitForClickableAndClick(await messagesPage.threadCheckbox)
+
+  await waitForClickableAndClick(
+    await messagesPage.selectionManagerDeleteButton
+  )
+  await waitForClickableAndClick(await modalMessagesPage.confirmDeleteButton)
+
+  const noMessagesTextLabel = await messagesPage.threadScreenEmptyList
+
+  await noMessagesTextLabel.waitForDisplayed()
+}
