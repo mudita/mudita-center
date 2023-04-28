@@ -116,7 +116,7 @@ const SyncContactsModal: FunctionComponent<Props> = ({
             disabled={disabledOtherMethod}
           />
           <InputFileSelect
-            fileInputRef={fileInputRef}
+            ref={fileInputRef}
             onManualImportClick={onManualImportClick}
             onCancelManualImportClick={onCancelManualImportClick}
           />
