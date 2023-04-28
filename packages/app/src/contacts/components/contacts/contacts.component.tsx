@@ -417,8 +417,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   // Synchronization, step 2a: file select
   // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  const importFromFile = async (inputElement: HTMLInputElement) => {
+  const importFromFile = (inputElement: HTMLInputElement) => {
     const onFileSelect = () => {
       if (inputElement.files) {
         void getContacts({
@@ -428,19 +427,36 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         inputElement.removeEventListener("change", onFileSelect)
       }
     }
+
     inputElement.click()
     inputElement.addEventListener("change", onFileSelect)
+    setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
+  }
+
+  const cancelImportFromFile = () => {
+    setImportContactsFlowState(ImportContactsFlowState.Start)
   }
 
   // Synchronization, step 2b: 3-rd party services
-  const authorizeAtGoogle = () => authorizeAtProvider(Provider.Google)
-  const authorizeAtOutLook = () => authorizeAtProvider(Provider.Outlook)
+  const authorizeAtGoogle = () => {
+    return authorizeAtProvider(Provider.Google)
+  }
+  const authorizeAtOutLook = () => {
+    return authorizeAtProvider(Provider.Outlook)
+  }
 
   const authorizeAtProvider = async (provider: ExternalProvider) => {
     try {
-      await authorize(provider)
-      await getContacts({ type: provider })
+      setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
+      const authorizeResult = await authorize(provider)
+
+      if (authorizeResult.type === "CONTACTS_AUTHORIZE/rejected") {
+        setImportContactsFlowState(ImportContactsFlowState.Start)
+      } else {
+        await getContacts({ type: provider })
+      }
     } catch {
+      setImportContactsFlowState(ImportContactsFlowState.Start)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
       await showAuthorizaionFailedModal()
@@ -608,6 +624,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           sendContactsToPhone={sendContactsToPhone}
           retryImport={handleImportContacts}
           addedContactsCount={addedContactsCount}
+          onCancelManualImportClick={cancelImportFromFile}
         />
       )}
       <ContactSection>
