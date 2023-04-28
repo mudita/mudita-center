@@ -63,6 +63,8 @@ import {
   registerDownloadCancelOnDeviceDetachedListener,
 } from "App/update/listeners"
 import { registerDeviceLockedListener } from "App/device/listeners/device-lock-time.listener"
+import { setConnectionStatus } from "App/device/actions"
+import { resetUploadingState } from "App/files-manager/actions"
 
 interface Props {
   history: History
@@ -75,7 +77,9 @@ interface Props {
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
   setAgreementStatus: (value: boolean) => void
-  getCurrentDevice: () => void
+  getCurrentDevice: () => void,
+  setConnectionStatus: (status: boolean) => void,
+  resetUploadingState: () => void,
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -89,6 +93,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadSettings,
   loadDeviceData,
   connectedAndUnlocked,
+  setConnectionStatus,
+  resetUploadingState, 
 }) => {
   const onAgreementStatusChangeListener = useCallback(
     (value) => {
@@ -147,6 +153,11 @@ const RootWrapper: FunctionComponent<Props> = ({
     }
   }
 
+  const onDeviceDetachHandler = () => {
+    void resetUploadingState()
+    void setConnectionStatus(false)
+  }
+
   useEffect(() => {
     void initAnalyticDataTracker()
   }, [])
@@ -159,7 +170,7 @@ const RootWrapper: FunctionComponent<Props> = ({
     const deviceLocked = registerDeviceLockedListener()
     const crashDump = registerCrashDumpExistListener()
     const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
-    const deviceDetachedListener = registerDeviceDetachedListener()
+    const deviceDetachedListener = registerDeviceDetachedListener(onDeviceDetachHandler)
     const downloadCancelOnDeviceDetachedListener =
       registerDownloadCancelOnDeviceDetachedListener()
     const clearingUpdateStateOnDeviceAttachedListener =
@@ -264,6 +275,8 @@ const mapDispatchToProps = {
   loadSettings,
   setAgreementStatus,
   getCurrentDevice,
+  setConnectionStatus,
+  resetUploadingState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)
