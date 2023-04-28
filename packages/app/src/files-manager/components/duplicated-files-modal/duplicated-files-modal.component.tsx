@@ -78,7 +78,6 @@ const DuplicatedFilesListItemText = styled(Text)`
 
 const DuplicatedFilesModal: FunctionComponent = ({ ...props }) => {
   const filesManagerError = useSelector(getFilesManagerError)
-
   const uploadPendingFiles = useSelector(getUploadPendingFiles)
   const duplicatedFiles = useSelector(getDuplicatedFiles)
 
