@@ -28,7 +28,7 @@ export interface PureOverviewProps {
   readonly pureOsBackupLocation: string
   readonly updatingState: State
   readonly caseColour: CaseColor
-  readonly lastBackupDate: Date
+  readonly lastBackupDate: Date | undefined
   readonly backupDeviceState: State
   readonly restoreDeviceState: State
   readonly forceUpdateState: State

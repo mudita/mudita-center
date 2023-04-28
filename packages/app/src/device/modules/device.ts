@@ -19,9 +19,7 @@ import {
 } from "App/device/constants"
 import { RequestConfig, DeviceInfo } from "App/device/types/mudita-os"
 import { DeviceStrategy } from "App/device/strategies/device-strategy.class"
-
-// DEPRECATED
-import { IpcEmitter } from "App/__deprecated__/common/emitters/ipc-emitter.enum"
+import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 
 export class Device {
   public connecting = true
@@ -36,15 +34,7 @@ export class Device {
     private ipc: MainProcessIpc,
     private eventEmitter: EventEmitter
   ) {
-    this.emitConnectionEvent = this.emitConnectionEvent.bind(this)
-    this.emitDisconnectionEvent = this.emitDisconnectionEvent.bind(this)
-    this.emitLockedEvent = this.emitLockedEvent.bind(this)
-    this.emitUnlockedEvent = this.emitUnlockedEvent.bind(this)
-    this.emitAgreementAcceptedEvent = this.emitAgreementAcceptedEvent.bind(this)
-    this.emitAgreementNotAcceptedEvent =
-      this.emitAgreementNotAcceptedEvent.bind(this)
-
-    this.mountDeviceListeners()
+    this.mountListeners()
   }
 
   // AUTO DISABLED - fix me if you like :)
@@ -169,13 +159,19 @@ export class Device {
     this.strategy.off(eventName, listener)
   }
 
-  private mountDeviceListeners(): void {
+  private mountListeners(): void {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceConnected, this.emitConnectionEvent)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    this.on(
+      DeviceServiceEvent.DeviceInitializationFailed,
+      this.emitDeviceInitializationFailedEvent
+    )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
@@ -205,6 +201,12 @@ export class Device {
     this.off(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
+    this.off(
+      DeviceServiceEvent.DeviceInitializationFailed,
+      this.emitDeviceInitializationFailedEvent
+    )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.off(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -223,53 +225,65 @@ export class Device {
     )
   }
 
-  private emitConnectionEvent(): void {
+  private emitConnectionEvent = (): void => {
     if (this.connecting) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceConnected, this)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceConnected, {
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceConnected, {
         deviceType: this.deviceType,
       })
       this.connecting = false
     }
   }
 
-  private emitDisconnectionEvent(): void {
+  private emitDisconnectionEvent = (): void => {
     if (!this.connecting) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, this.path)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceDisconnected, this.path)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceDisconnected, this.path)
       this.unmountDeviceListeners()
     }
   }
 
-  private emitLockedEvent(): void {
+  private emitDeviceInitializationFailedEvent = (): void => {
+    this.eventEmitter.emit(
+      DeviceServiceEvent.DeviceInitializationFailed,
+      this.path
+    )
+    this.ipc.sendToRenderers(
+      DeviceIpcEvent.DeviceInitializationFailed,
+      this.path
+    )
+    this.unmountDeviceListeners()
+  }
+
+  private emitLockedEvent = (): void => {
     if (!this.locked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked, this)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceLocked, this)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceLocked, this)
       this.locked = true
     }
   }
 
-  private emitUnlockedEvent(): void {
+  private emitUnlockedEvent = (): void => {
     this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
-    this.ipc.sendToRenderers(IpcEmitter.DeviceUnlocked, this)
+    this.ipc.sendToRenderers(DeviceIpcEvent.DeviceUnlocked, this)
     this.locked = false
   }
 
-  private emitAgreementAcceptedEvent(): void {
+  private emitAgreementAcceptedEvent = (): void => {
     if (!this.locked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted, true)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceAgreementStatus, true)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceAgreementStatus, true)
       this.agreementAccepted = true
     }
   }
 
-  private emitAgreementNotAcceptedEvent(): void {
+  private emitAgreementNotAcceptedEvent = (): void => {
     if (this.locked) {
       this.eventEmitter.emit(
         DeviceServiceEvent.DeviceAgreementNotAccepted,
         false
       )
-      this.ipc.sendToRenderers(IpcEmitter.DeviceAgreementStatus, false)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceAgreementStatus, false)
       this.agreementAccepted = false
     }
   }
