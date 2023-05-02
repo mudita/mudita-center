@@ -190,6 +190,10 @@ const google = createModel<ExternalProvidersModels>({
           unregisterMainListener()
         }
 
+        ipcRenderer.answerMain(GoogleAuthActions.CloseWindow, () => {
+          reject("window closed")
+        })
+
         unregisterMainListener = ipcRenderer.answerMain(
           GoogleAuthActions.GotCredentials,
           processResponse

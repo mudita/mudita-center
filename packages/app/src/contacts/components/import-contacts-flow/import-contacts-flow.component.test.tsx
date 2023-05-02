@@ -38,6 +38,7 @@ const defaultProps: Props = {
   closeModal: jest.fn(),
   retryImport: jest.fn(),
   addedContactsCount: 1,
+  onCancelManualImportClick: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

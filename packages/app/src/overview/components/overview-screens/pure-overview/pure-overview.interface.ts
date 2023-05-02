@@ -18,6 +18,7 @@ import {
 } from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 import { RejectableThunk } from "App/__deprecated__/renderer/store"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 export interface PureOverviewProps {
   readonly batteryLevel: number | undefined
@@ -37,7 +38,7 @@ export interface PureOverviewProps {
   readonly syncState: SynchronizationState
   readonly serialNumber: string | undefined
   readonly silentCheckForUpdateState: SilentCheckForUpdateState
-  readonly checkingForUpdateState: State
+  readonly checkingForUpdateState: CheckForUpdateState
   readonly availableReleasesForUpdate: OsRelease[] | null
   readonly downloadingState: DownloadState
   readonly allReleases: OsRelease[] | null
@@ -59,7 +60,7 @@ export interface PureOverviewProps {
     deviceType: DeviceType,
     mode: CheckForUpdateMode
   ) => RejectableThunk
-  readonly setCheckForUpdateState: (state: State) => void
+  readonly setCheckForUpdateState: (state: CheckForUpdateState) => void
   readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void
