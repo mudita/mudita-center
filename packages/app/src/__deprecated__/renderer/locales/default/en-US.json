@@ -679,6 +679,7 @@
   "module.overview.restoreSuccessModalTitle": "Restore complete!",
   "module.overview.serialNumber": "Serial Number",
   "module.overview.statusHarmonyTitle": "Harmony Status",
+  "module.overview.statusHarmonyLabel": "Connected",
   "module.overview.statusPureTitle": "Pure Status",
   "module.overview.systemCheckForUpdates": "Check for updates",
   "module.overview.systemCheckForUpdatesInProgress": "Checking for updates",
