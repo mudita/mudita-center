@@ -75,6 +75,7 @@ interface Props
   onToggleReadClick: (threads: Thread[]) => void
   onContactClick: (phoneNumber: Thread["phoneNumber"]) => void
   newConversation: string
+  threadsOffset?: { left: number; top: number }
 }
 
 const ThreadRow: FunctionComponent<Props> = ({
@@ -92,6 +93,7 @@ const ThreadRow: FunctionComponent<Props> = ({
   onToggleReadClick,
   onContactClick,
   newConversation,
+  threadsOffset,
   ...props
 }) => {
   const contactCreated = contact !== undefined
@@ -124,6 +126,7 @@ const ThreadRow: FunctionComponent<Props> = ({
             indeterminate={indeterminate}
             visible={!noneRowsSelected}
             data-testid="checkbox"
+            threadsOffset={threadsOffset}
           />
         )}
         {(noneRowsSelected || newConversationOpen) && (

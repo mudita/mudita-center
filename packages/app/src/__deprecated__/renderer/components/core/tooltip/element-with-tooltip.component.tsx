@@ -30,59 +30,73 @@ interface Props {
   offset?: TooltipProps["offset"]
   onClick?: MouseEventHandler
   showIfTextEllipsis?: boolean
+  threadsOffset?: { left: number; top: number }
 }
 
 const topOffset = 5
 
 const overridePosition =
-  (place: Props["place"]): TooltipProps["overridePosition"] =>
-  ({ left, top }, event, triggerElement, tooltipElement) => {
-    if (place === ElementWithTooltipPlace.BottomRight) {
-      const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect()
-        .left
-      const arrowTop =
-        (triggerElement as HTMLElement).getBoundingClientRect().top +
-        (triggerElement as HTMLElement).offsetHeight +
-        topOffset
+  (
+    place: Props["place"],
+    threadsOffset: { left: number; top: number } | undefined
+  ): TooltipProps["overridePosition"] =>
+  ({ left, top }, _, triggerElement, tooltipElement) => {
+    const trigger = triggerElement as HTMLElement
+    const tooltip = tooltipElement as HTMLElement
+    let result: { left: number; top: number } = { left: 0, top: 0 }
 
-      return { left: arrowLeft, top: arrowTop }
+    if (place === ElementWithTooltipPlace.BottomRight) {
+      const arrowLeft = trigger.getBoundingClientRect().left
+      const arrowTop =
+        trigger.getBoundingClientRect().top + trigger.offsetHeight + topOffset
+
+      result = { left: arrowLeft, top: arrowTop }
     } else if (place === ElementWithTooltipPlace.BottomLeft) {
       const arrowLeft =
-        (triggerElement as HTMLElement).getBoundingClientRect().left -
-        (tooltipElement as HTMLElement).offsetWidth +
-        (triggerElement as HTMLElement).offsetWidth
+        trigger.getBoundingClientRect().left -
+        tooltip.offsetWidth +
+        trigger.offsetWidth
       const arrowTop =
-        (triggerElement as HTMLElement).getBoundingClientRect().top +
-        (triggerElement as HTMLElement).offsetHeight +
-        topOffset
+        trigger.getBoundingClientRect().top + trigger.offsetHeight + topOffset
 
-      return { left: arrowLeft, top: arrowTop }
+      result = { left: arrowLeft, top: arrowTop }
     } else if (place === ElementWithTooltipPlace.TopLeft) {
       const arrowLeft =
-        (triggerElement as HTMLElement).getBoundingClientRect().left -
-        (tooltipElement as HTMLElement).offsetWidth +
-        (triggerElement as HTMLElement).offsetWidth
+        trigger.getBoundingClientRect().left -
+        tooltip.offsetWidth +
+        trigger.offsetWidth
 
       const arrowTop =
-        (triggerElement as HTMLElement).getBoundingClientRect().top -
-        (tooltipElement as HTMLElement).offsetHeight -
-        topOffset
+        trigger.getBoundingClientRect().top - tooltip.offsetHeight - topOffset
 
-      return { left: arrowLeft, top: arrowTop }
+      result = { left: arrowLeft, top: arrowTop }
     } else if (place === ElementWithTooltipPlace.TopRight) {
-      const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect()
-        .left
+      const arrowLeft = trigger.getBoundingClientRect().left
 
       const arrowTop =
-        (triggerElement as HTMLElement).getBoundingClientRect().top -
-        (tooltipElement as HTMLElement).offsetHeight -
-        topOffset
+        trigger.getBoundingClientRect().top - tooltip.offsetHeight - topOffset
 
-      return { left: arrowLeft, top: arrowTop }
+      result = { left: arrowLeft, top: arrowTop }
     } else {
-      return { left, top }
+      result = { left, top }
     }
+
+    return includeThreadsOffsetToPosition(result, threadsOffset)
   }
+
+const includeThreadsOffsetToPosition = (
+  position: { left: number; top: number },
+  threadsOffset: { left: number; top: number } | undefined
+) => {
+  if (position && threadsOffset) {
+    return {
+      left: position.left - threadsOffset.left,
+      top: position.top - threadsOffset.top,
+    }
+  } else {
+    return position
+  }
+}
 
 const ElementWithTooltip: FunctionComponent<Props> = ({
   children,
@@ -94,6 +108,7 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
   offset,
   onClick,
   showIfTextEllipsis = false,
+  threadsOffset,
   ...props
 }) => {
   const [id] = useState(_uniqueId("prefix-"))
@@ -107,7 +122,7 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
         place: "bottom",
       }
     : {
-        overridePosition: overridePosition(place),
+        overridePosition: overridePosition(place, threadsOffset),
       }
   const handleOnClick: MouseEventHandler = (event) => {
     if (onClick) {
