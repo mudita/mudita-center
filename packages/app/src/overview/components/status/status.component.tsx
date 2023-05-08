@@ -121,7 +121,7 @@ const Status: FunctionComponent<StatusProps> = ({
         <div>
           <Stats>
             <IconContainer>
-              <BatteryIcon width={2.6} level={batteryLevel} />
+              <BatteryIcon width={2.6} level={1} deviceType={deviceType} />
             </IconContainer>
             <div>
               <Text

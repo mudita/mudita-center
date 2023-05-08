@@ -9,21 +9,26 @@ import Icon, {
   Props as IconProps,
 } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { DeviceType } from "App/device"
 
 export interface BatteryIconProps {
   level: number
   charging?: boolean
+  deviceType: DeviceType | null
 }
 
 const getInteractiveBatteryIcon = (
   batteryLevel: number,
   charging: boolean,
   size: number,
-  rest: Partial<IconProps>
+  rest: Partial<IconProps>,
+  deviceType: DeviceType | null
 ) => {
   switch (true) {
     case charging:
       return <Icon type={IconType.ChargingBattery} {...rest} />
+    case batteryLevel === 1 && deviceType === DeviceType.MuditaPure:
+      return <Icon type={IconType.FullBattery} {...rest} />
     case batteryLevel > 0.8:
       return <Icon type={IconType.VeryHighBattery} {...rest} />
     case batteryLevel > 0.6:
@@ -43,9 +48,12 @@ const BatteryIcon: FunctionComponent<BatteryIconProps & IconProps> = ({
   level,
   charging = false,
   height = 2,
+  deviceType,
   ...rest
 }) => {
-  return <>{getInteractiveBatteryIcon(level, charging, height, rest)}</>
+  return (
+    <>{getInteractiveBatteryIcon(level, charging, height, rest, deviceType)}</>
+  )
 }
 
 export default BatteryIcon

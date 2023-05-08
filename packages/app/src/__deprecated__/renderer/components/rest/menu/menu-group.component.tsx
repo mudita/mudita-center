@@ -60,7 +60,11 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
                       {icon === IconType.MenuRange ? (
                         <RangeIcon strength={61} size={IconSize.Medium} />
                       ) : icon === IconType.MenuBattery ? (
-                        <BatteryIcon level={0.7} size={IconSize.Medium} />
+                        <BatteryIcon
+                          level={0.7}
+                          size={IconSize.Medium}
+                          deviceType={deviceType}
+                        />
                       ) : (
                         <HeaderIcon type={icon} size={IconSize.Medium} />
                       )}

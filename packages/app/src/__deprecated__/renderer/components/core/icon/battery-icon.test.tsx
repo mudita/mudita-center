@@ -7,6 +7,7 @@ import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import BatteryIcon from "App/__deprecated__/renderer/components/core/icon/battery-icon.component"
+import { DeviceType } from "App/device"
 
 describe("battery icon returns correct component", () => {
   const testScenario = [
@@ -45,7 +46,11 @@ describe("battery icon returns correct component", () => {
     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     test(`batteryLevel: ${batteryLevel}, charging ${charging}, dataTestId: ${dataTestId}`, () => {
       const { getByTestId } = renderWithThemeAndIntl(
-        <BatteryIcon level={batteryLevel} charging={charging} />
+        <BatteryIcon
+          level={batteryLevel}
+          charging={charging}
+          deviceType={DeviceType.MuditaPure}
+        />
       )
       expect(getByTestId(dataTestId)).toBeInTheDocument()
     })
