@@ -52,11 +52,13 @@ const Input = styled.input<Omit<InputProps, "children">>`
 
 interface Props extends Omit<InputProps, "children"> {
   description?: ComponentProps<typeof TooltipSecondaryContent>["description"]
+  threadsOffset?: { left: number; top: number }
 }
 
 export const InputCheckboxWithTooltip: FunctionComponent<Props> = ({
   description,
   inputRef,
+  threadsOffset,
   ...props
 }) => {
   return (
@@ -66,6 +68,7 @@ export const InputCheckboxWithTooltip: FunctionComponent<Props> = ({
       ) : (
         <ElementWithTooltip
           Element={<Input type="checkbox" ref={inputRef} {...props} />}
+          threadsOffset={threadsOffset}
         >
           <TooltipSecondaryContent description={description} />
         </ElementWithTooltip>

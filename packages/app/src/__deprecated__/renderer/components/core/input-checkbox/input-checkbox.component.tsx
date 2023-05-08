@@ -84,6 +84,7 @@ export interface CheckboxTooltipDescription {
 export interface InputCheckboxProps extends InputProps {
   size?: Size
   checkboxTooltipDescription?: CheckboxTooltipDescription
+  threadsOffset?: { left: number; top: number }
 }
 
 const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
