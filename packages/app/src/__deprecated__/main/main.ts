@@ -162,6 +162,7 @@ const createWindow = async () => {
 
   win.on("closed", () => {
     win = null
+    app.exit()
   })
 
   new MetadataInitializer(metadataStore).init()
