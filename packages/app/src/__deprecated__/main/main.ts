@@ -99,6 +99,8 @@ const metadataStore: MetadataStore = createMetadataStore()
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 
+const gotTheLock = app.requestSingleInstanceLock()
+
 // Fetch and log all errors
 process.on("uncaughtException", (error) => {
   logger.error(error)
@@ -236,19 +238,23 @@ const createWindow = async () => {
   logger.updateMetadata()
 }
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.on("ready", createWindow)
-
-app.on("window-all-closed", () => {
+if (!gotTheLock) {
   app.quit()
-})
+} else {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  app.on("ready", createWindow)
 
-app.on("activate", () => {
-  if (win === null) {
-    void createWindow()
-  }
-})
+  app.on("window-all-closed", () => {
+    app.quit()
+  })
+
+  app.on("activate", () => {
+    if (win === null) {
+      void createWindow()
+    }
+  })
+}
 
 ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   const title = "Mudita Center - Help"
