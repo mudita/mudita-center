@@ -59,7 +59,7 @@ const ThreadList: FunctionComponent<Props> = ({
   toggleItem,
   ...props
 }) => {
-  const threadsRef = React.useRef<HTMLDivElement | undefined>(undefined)
+  const threadsRef = React.useRef<HTMLDivElement>(null)
   const scrollOffset = React.useRef<number>(0)
 
   const sidebarOpened = Boolean(activeThread)

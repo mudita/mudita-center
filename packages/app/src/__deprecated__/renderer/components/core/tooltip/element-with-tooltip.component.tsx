@@ -38,7 +38,7 @@ const topOffset = 5
 const overridePosition =
   (
     place: Props["place"],
-    threadsOffset: { left: number; top: number } | undefined
+    threadsOffset: Props["threadsOffset"]
   ): TooltipProps["overridePosition"] =>
   ({ left, top }, _, triggerElement, tooltipElement) => {
     const trigger = triggerElement as HTMLElement
@@ -86,7 +86,7 @@ const overridePosition =
 
 const includeThreadsOffsetToPosition = (
   position: { left: number; top: number },
-  threadsOffset: { left: number; top: number } | undefined
+  threadsOffset: Props["threadsOffset"]
 ) => {
   if (position && threadsOffset) {
     return {
