@@ -39,6 +39,7 @@ import { speedDialChosenListSelector } from "App/contacts/selectors/speed-dial-c
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { authorize } from "App/contacts/actions/authorize.action"
+import { closeWindow } from "App/contacts/actions/closeWindow.action"
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { resetAllItems, selectAllItems, toggleItem } from "App/contacts/actions"
 
@@ -144,6 +145,11 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     onBlock: noop,
     onSelect: noop,
     onCall: noop,
+    closeImportWindow: (provider: ExternalProvider) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+      void dispatch(closeWindow(provider))
+    },
   }
 }
 
