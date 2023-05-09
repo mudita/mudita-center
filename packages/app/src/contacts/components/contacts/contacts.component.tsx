@@ -172,13 +172,20 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       const { payload } = await delayResponse(addNewContact(contact))
 
       if (payload) {
-        setFormErrors([
-          ...formErrors,
-          {
+        let newError: FormError
+        if (payload.message === "Create contact: Empty primary phone number") {
+          newError = {
+            field: "primaryPhoneNumber",
+            error: "component.formErrorRequiredPrimaryPhone",
+          }
+        } else {
+          newError = {
             field: "primaryPhoneNumber",
             error: "component.formErrorNumberUnique",
-          },
-        ])
+          }
+        }
+
+        setFormErrors([...formErrors, newError])
         await closeModal()
         return
       }
