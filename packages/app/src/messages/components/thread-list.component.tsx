@@ -59,8 +59,12 @@ const ThreadList: FunctionComponent<Props> = ({
   toggleItem,
   ...props
 }) => {
+  const threadsRef = React.useRef<HTMLDivElement>(null)
+  const scrollOffset = React.useRef<number>(0)
+
   const sidebarOpened = Boolean(activeThread)
   const noneRowsSelected = selectedItems.rows.length <= 0
+
   const renderRow = ({ index, style }: ListRowProps) => {
     const thread = threads[index]
     if (thread === undefined) {
@@ -71,6 +75,14 @@ const ThreadList: FunctionComponent<Props> = ({
       const contact = getContactByPhoneNumber(phoneNumber)
       const indeterminate = false
       const selectedRow = selectedItems.rows.includes(thread.id)
+
+      const threadsRect = threadsRef.current?.getBoundingClientRect()
+      const threadsOffset = threadsRect
+        ? {
+            left: threadsRect.left,
+            top: threadsRect.top - scrollOffset.current,
+          }
+        : undefined
 
       return (
         <ThreadRow
@@ -90,6 +102,7 @@ const ThreadList: FunctionComponent<Props> = ({
           thread={thread}
           style={style}
           newConversation={newConversation}
+          threadsOffset={threadsOffset}
         />
       )
     }
@@ -101,19 +114,25 @@ const ThreadList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={sidebarOpened}
       {...props}
+      ref={threadsRef}
     >
       <AutoSizer>
-        {({ width, height }) => (
-          <List
-            height={height}
-            width={width}
-            rowRenderer={renderRow}
-            rowHeight={80}
-            rowCount={threads.length}
-            containerStyle={listContainerStyle}
-            style={ListStyle}
-          />
-        )}
+        {({ width, height }) => {
+          return (
+            <List
+              height={height}
+              width={width}
+              rowRenderer={renderRow}
+              rowHeight={80}
+              rowCount={threads.length}
+              containerStyle={listContainerStyle}
+              style={ListStyle}
+              onScroll={({ scrollTop }) => {
+                scrollOffset.current = scrollTop
+              }}
+            />
+          )
+        }}
       </AutoSizer>
     </Threads>
   )
