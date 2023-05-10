@@ -96,6 +96,7 @@ const ContactsComponent = ({
     resetAllItems={noop}
     selectAllItems={noop}
     toggleItem={noop}
+    closeImportWindow={noop}
   />
 )
 
