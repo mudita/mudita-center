@@ -5,13 +5,16 @@
 
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import styled from "styled-components"
 import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import BatteryIcon from "App/__deprecated__/renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "App/__deprecated__/renderer/components/core/icon/range-icon.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { DeviceType } from "App/device"
 
 const CustomIcon = styled(Icon)`
   height: 3rem;
@@ -45,28 +48,61 @@ storiesOf("Components|Core/Icon", module)
   .add("Battery", () => (
     <StoryContainer title="States">
       <Story title="Empty">
-        <BatteryIcon level={0} size={IconSize.Medium} />
+        <BatteryIcon
+          level={0}
+          size={IconSize.Medium}
+          deviceType={DeviceType.MuditaPure}
+        />
       </Story>
       <Story title="Very low">
-        <BatteryIcon level={0.1} size={IconSize.Medium} />
+        <BatteryIcon
+          level={0.1}
+          size={IconSize.Medium}
+          deviceType={DeviceType.MuditaPure}
+        />
       </Story>
       <Story title="Low">
-        <BatteryIcon level={0.3} size={IconSize.Medium} />
+        <BatteryIcon
+          level={0.3}
+          size={IconSize.Medium}
+          deviceType={DeviceType.MuditaPure}
+        />
       </Story>
       <Story title="Medium">
-        <BatteryIcon level={0.5} size={IconSize.Medium} />
+        <BatteryIcon
+          level={0.5}
+          size={IconSize.Medium}
+          deviceType={DeviceType.MuditaPure}
+        />
       </Story>
       <Story title="High">
-        <BatteryIcon level={0.7} size={IconSize.Medium} />
+        <BatteryIcon
+          level={0.7}
+          size={IconSize.Medium}
+          deviceType={DeviceType.MuditaPure}
+        />
       </Story>
       <Story title="Very high">
-        <BatteryIcon level={0.9} size={IconSize.Medium} />
+        <BatteryIcon
+          level={0.9}
+          size={IconSize.Medium}
+          deviceType={DeviceType.MuditaPure}
+        />
       </Story>
       <Story title="Full Battery">
-        <BatteryIcon level={1} size={IconSize.Medium} />
+        <BatteryIcon
+          level={1}
+          size={IconSize.Medium}
+          deviceType={DeviceType.MuditaPure}
+        />
       </Story>
       <Story title="Charging">
-        <BatteryIcon charging level={0.5} size={IconSize.Medium} />
+        <BatteryIcon
+          charging
+          level={0.5}
+          size={IconSize.Medium}
+          deviceType={DeviceType.MuditaPure}
+        />
       </Story>
     </StoryContainer>
   ))
