@@ -237,11 +237,16 @@ const outlook = createModel<ExternalProvidersModels>({
       return fetchEvents(accessToken, calendarId)
     }
 
+    const closeWindow = async () => {
+      await ipcRenderer.callMain(OutlookAuthActions.CloseWindow)
+    }
+
     return {
       authorize,
       getContacts,
       getCalendars,
       getEvents,
+      closeWindow,
     }
   },
 })

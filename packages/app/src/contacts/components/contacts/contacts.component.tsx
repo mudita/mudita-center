@@ -88,6 +88,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   toggleItem,
   selectedItems,
   allItemsSelected,
+  closeImportWindow,
 }) => {
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -387,7 +388,9 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     setImportContactsFlowState(ImportContactsFlowState.Start)
   }
 
-  const closeImportContactsModalFlow = () => {
+  const closeImportContactsModalFlow = async () => {
+    await closeImportWindow(Provider.Google)
+    await closeImportWindow(Provider.Outlook)
     setImportContactsFlowState(undefined)
     setAddedContactsCount(0)
   }
@@ -451,7 +454,11 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       const authorizeResult = await authorize(provider)
 
       if (authorizeResult.type === "CONTACTS_AUTHORIZE/rejected") {
-        setImportContactsFlowState(ImportContactsFlowState.Start)
+        setImportContactsFlowState((prev) => {
+          return prev === ImportContactsFlowState.MethodSelected
+            ? ImportContactsFlowState.Start
+            : prev
+        })
       } else {
         await getContacts({ type: provider })
       }
