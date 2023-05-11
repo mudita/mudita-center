@@ -95,7 +95,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     }, 1000)
 
     const secondTimeout = setTimeout(() => {
-      resetState()
+      resetState(["deletingConfirmation", "deleting", "deletingInfo"])
     }, 5000)
     return () => {
       clearTimeout(firstTimeout)
