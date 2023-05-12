@@ -97,14 +97,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
   checkboxTooltipDescription,
   ...props
 }) => {
-  const [checked, setChecked] = useState(props.checked)
-
-  useEffect(() => {
-    setChecked(props.checked)
-  }, [props.checked])
-
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setChecked(props.checked)
     if (onChange) {
       onChange(event)
     }
@@ -115,7 +108,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
       return undefined
     }
 
-    if (checked) {
+    if (props.checked) {
       return checkboxTooltipDescription.uncheckTooltipDescription
     } else {
       return checkboxTooltipDescription.checkTooltipDescription
