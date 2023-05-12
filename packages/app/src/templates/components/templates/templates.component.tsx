@@ -95,7 +95,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     }, 1000)
 
     const secondTimeout = setTimeout(() => {
-      resetState()
+      resetState(["deletingConfirmation", "deleting", "deletingInfo"])
     }, 5000)
     return () => {
       clearTimeout(firstTimeout)
@@ -195,15 +195,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     if (!result.destination) {
       return
     }
+
     const list = Array.from(templatesList)
     const [removed] = list.splice(result.source.index, 1)
     list.splice(result.destination.index, 0, removed)
     setTemplatesList(list)
-    const updatedTemplates = reorder(
-      list,
-      result.source.index,
-      result.destination.index
-    )
+    const updatedTemplates = reorder(list)
     void updateTemplateOrder(updatedTemplates)
   }
   return (

@@ -6,6 +6,8 @@
 import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
+const backspaceKey = "\ue003"
+
 class MessagesPage extends Page {
   /** [Selector] NEW MESSAGE button selector */
   public get newMessageButton(): ChainablePromiseElement<
@@ -37,6 +39,18 @@ class MessagesPage extends Page {
     return $('[data-testid="icon-More"]')
   }
 
+  /** [Selector] Thread options icon (...) */
+  public get threadDropdownButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="thread-row-toggler"]')
+  }
+  /** Click Thread options button*/
+  async clickThreadDropdownButton() {
+    await this.threadDropdownButton.waitForClickable({ timeout: 7000 })
+    await this.threadDropdownButton.click()
+  }
+
   /** [Selector] Delete conversation button on therad dropodown list */
   public get threadDropdownDeleteButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
@@ -52,7 +66,7 @@ class MessagesPage extends Page {
 
   /** Click thread options icon (...)*/
   async clickThreadDropdownIcon() {
-    await this.threadDropdownIcon.waitForClickable({ timeout: 7000 })
+    await this.threadDropdownIcon.waitForDisplayed({ timeout: 7000 })
     await this.threadDropdownIcon.click()
   }
 
@@ -89,7 +103,7 @@ class MessagesPage extends Page {
   }
 
   /** [Selector] Delete button available when selection manager is active */
-  public get selectionManagerDeleteButton(): ChainablePromiseElement<
+  public get selectionManagerIconDelete(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Delete"]')
@@ -156,6 +170,108 @@ class MessagesPage extends Page {
     )
 
     return result
+  }
+  /** [Selector] Messages search input  */
+  public get searchInput(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="input-search"]')
+  }
+
+  async insertTextToSearchInput(searchText: string) {
+    await this.searchInput.waitForClickable()
+
+    const backSpaces = new Array(
+      (await this.searchInput.getValue()).length
+    ).fill("Backspace")
+
+    await this.searchInput.setValue(backSpaces)
+    await this.searchInput.setValue(searchText)
+  }
+
+  /** [Selector] Search result overlay list  */
+  public get searchResultsOverlayList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="input-select-list"]')
+  }
+  /** [Selector] empty search results overlay list   */
+  public get emptySearchResultsOverlayList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return this.searchResultsOverlayList.$("li*=No results found")
+  }
+  /** [Selector] See all button on search results overlay  */
+  public get seeAllSearchResultsButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("button*=See all")
+  }
+
+  /** [Selector] Returns list of multiple elements - contact icon for threads without matching contact in phonebok */
+  public get iconsContactFilled() {
+    return $$('[data-testid="icon-ContactFilled"]')
+  }
+
+  /** [Selector] Returns list of multiple elements - contact icon for threads with matching contact in phonebok */
+  public get avatarsText() {
+    return $$('[data-testid="avatar-text"]')
+  }
+  /** [Selector] Selection manager- select all checkbox */
+  public get selectAllCheckbox(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="message-panel-selection-manager"]').$(
+      '[type="checkbox"]'
+    )
+  }
+  /** [Selector] Selection manager- select all checkbox */
+  public get selectionManagerDeleteButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="message-panel-selection-manager"]').$("p*=Delete")
+  }
+
+  /** [Selector] Search results for ' ' text displayed above the thread list*/
+  public get searchResultsForText(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("h4*=Search results")
+  }
+
+  /** [Selector] Returns list of multiple elements - contact icon for threads with matching contact in phonebok */
+  public get searchOverlayItemsList() {
+    return $$('[data-testid="input-select-list-item"]')
+  }
+
+  async clickByTextConversationOnSearchResultsOverlay(searchText: string) {
+    for (let i = 0; i < (await this.searchOverlayItemsList.length); i++) {
+      const iconConversation = await this.searchOverlayItemsList[i].$(
+        '[data-testid="icon-Conversation"]'
+      )
+      const contansSearchedText = (
+        await this.searchOverlayItemsList[i].getText()
+      ).includes(searchText)
+      if (iconConversation && contansSearchedText) {
+        return this.searchOverlayItemsList[i].click()
+      }
+    }
+  }
+  async clickByTextMessageOnSearchResultsOverlay(searchText: string) {
+    for (let i = 0; i < (await this.searchOverlayItemsList.length); i++) {
+      if (
+        (await this.searchOverlayItemsList[i].getText()).includes(searchText)
+      ) {
+        return this.searchOverlayItemsList[i].click()
+      }
+    }
+  }
+
+  /** [Selector] Element containing contact number/name displayed on Search results for '' list  */
+  public get nameFieldOnSearchResultsConversationList(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="name-field"]')
   }
 }
 

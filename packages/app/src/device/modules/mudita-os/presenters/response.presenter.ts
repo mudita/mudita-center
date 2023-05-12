@@ -11,13 +11,24 @@ import {
 import { Response } from "App/device/types/mudita-os"
 import { ResponseStatus } from "App/device/constants"
 
+enum BlockReason {
+  EulaNotAccepted = "2",
+  BatteryCriticalLevel = "3",
+}
+
+type BodyType = {
+  category?: string
+  phoneLockTime?: number
+  timeLeftToNextAttempt?: number
+  phoneLockCode?: number[]
+  reason?: BlockReason
+}
+
 export class ResponsePresenter {
   static toResponseObject(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    response: ResultObject<Response<any>>
+    response: ResultObject<Response<BodyType>>
   ): RequestResponse {
-    const { status, body: data, error } = response.data as Response<unknown>
+    const { status, body: data, error } = response.data as Response<BodyType>
 
     if (
       status === ResponseStatus.Ok ||
@@ -53,10 +64,21 @@ export class ResponsePresenter {
         error,
         status: RequestResponseStatus.UnprocessableEntity,
       }
-    } else if (status === ResponseStatus.NotAccepted) {
+    } else if (
+      status === ResponseStatus.NotAccepted &&
+      (data === undefined || data?.reason === BlockReason.EulaNotAccepted)
+    ) {
       return {
         error,
-        status: RequestResponseStatus.NotAcceptable,
+        status: RequestResponseStatus.EulaNotAccepted,
+      }
+    } else if (
+      status === ResponseStatus.NotAccepted &&
+      data?.reason === BlockReason.BatteryCriticalLevel
+    ) {
+      return {
+        error,
+        status: RequestResponseStatus.BatteryCriticalLevel,
       }
     } else if (status === ResponseStatus.InsufficientStorage) {
       return {

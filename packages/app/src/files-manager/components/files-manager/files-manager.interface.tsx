@@ -29,6 +29,7 @@ export interface FilesManagerProps {
   deleteFiles: (ids: string[]) => void
   resetDeletingState: () => void
   resetUploadingState: () => void
+  resetUploadingStateAfterSuccess: () => void
   uploadFile: () => void
   uploadBlocked: boolean
   error: AppError | null

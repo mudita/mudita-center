@@ -8,4 +8,5 @@ export enum DeviceCommunicationError {
   DeviceAgreementNotAccepted = "DEVICE_AGREEMENT_NOT_ACCEPTED_ERROR",
   RequestFailed = "REQUEST_FAILED_ERROR",
   DisconnectionFailed = "DEVICE_DISCONNECT_FAILED",
+  BatteryCriticalLevel = "BATTERY_CRITICAL_LEVEL",
 }

@@ -74,6 +74,7 @@ export interface ContactsProps {
   onDelete: (id: string) => void
   resultState: ResultState
   contactList: ContactCategory[]
+  closeImportWindow: (provider: ExternalProvider) => Promise<void>
 }
 
 export interface NewContactResponse extends NewContact {

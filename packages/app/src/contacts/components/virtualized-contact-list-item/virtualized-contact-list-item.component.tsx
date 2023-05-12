@@ -145,8 +145,10 @@ export const VirtualizedContactListItem: FunctionComponent<
           )}
         </ClickableCol>
         <Col>
-          <Text displayStyle={TextDisplayStyle.Paragraph1}
-          testId={VirtualizedContactListItemTestIds.PhoneNumber}>
+          <Text
+            displayStyle={TextDisplayStyle.Paragraph1}
+            testId={VirtualizedContactListItemTestIds.PhoneNumber}
+          >
             {[contact.primaryPhoneNumber, contact.secondaryPhoneNumber].join(
               "  "
             )}

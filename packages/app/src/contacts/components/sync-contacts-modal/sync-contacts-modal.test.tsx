@@ -5,18 +5,20 @@
 
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
+import SyncContactsModal, {
+  Props,
+} from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/ban-types
-const renderer = (extraProps?: {}) => {
+const renderer = (extraProps?: Partial<Props>) => {
   const props = {
     onAppleButtonClick: jest.fn(),
     onGoogleButtonClick: jest.fn(),
     onManualImportClick: jest.fn(),
     onOutlookButtonClick: jest.fn(),
     open: true,
+    disabledOtherMethod: false,
+    onCancelManualImportClick: jest.fn(),
     ...extraProps,
   }
   return renderWithThemeAndIntl(<SyncContactsModal {...props} />)

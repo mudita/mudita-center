@@ -160,6 +160,15 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [searchPreviewValue, messagesState])
 
   useEffect(() => {
+    const noThreadsToDisplay =
+      threads.length === 0 && !activeThread && !tmpActiveThread
+
+    if (messagesState === MessagesState.ThreadDetails && noThreadsToDisplay) {
+      setMessagesState(MessagesState.List)
+    }
+  }, [messagesState, threads.length, activeThread, tmpActiveThread])
+
+  useEffect(() => {
     messageLayoutNotifications
       .filter(
         (item) => (item.content as Message)?.messageType === MessageType.OUTBOX
@@ -516,14 +525,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const getViewReceiver = (activeThread: Thread): Receiver => {
+    const receiver = getReceiver(activeThread.phoneNumber)
+
     if (activeThread.id === mockThread.id) {
       return {
-        phoneNumber: activeThread.phoneNumber,
+        ...(receiver || { phoneNumber: activeThread.phoneNumber }),
         identification: ReceiverIdentification.unknown,
       }
     }
-
-    const receiver = getReceiver(activeThread.phoneNumber)
 
     if (receiver === undefined) {
       return {
@@ -688,6 +697,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       query: searchPreviewValue,
     })
   }
+
   return (
     <>
       <ContactSelectModal

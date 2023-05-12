@@ -15,6 +15,7 @@ import {
   resetDeletingState,
   resetUploadingState,
   setDeletingFileCount,
+  resetUploadingStateAfterSuccess,
 } from "App/files-manager/actions"
 import { deleteFiles } from "App/files-manager/actions/delete-files.action"
 import { abortPendingUpload } from "./actions/abort-pending-upload.action"
@@ -47,6 +48,7 @@ const mapDispatchToProps = {
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
+  resetUploadingStateAfterSuccess,
   setDeletingFileCount,
   abortPendingUpload,
   continuePendingUpload,

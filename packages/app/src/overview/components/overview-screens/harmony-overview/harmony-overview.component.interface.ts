@@ -14,6 +14,7 @@ import {
 } from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 import { RejectableThunk } from "App/__deprecated__/renderer/store"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 export interface HarmonyOverviewProps {
   readonly batteryLevel: number | undefined
@@ -21,7 +22,7 @@ export interface HarmonyOverviewProps {
   readonly silentCheckForUpdateState: SilentCheckForUpdateState
   readonly updatingState: State
   readonly serialNumber: string | undefined
-  readonly checkingForUpdateState: State
+  readonly checkingForUpdateState: CheckForUpdateState
   readonly downloadingState: DownloadState
   readonly forceUpdateState: State
   readonly allReleases: OsRelease[] | null
@@ -38,7 +39,7 @@ export interface HarmonyOverviewProps {
     deviceType: DeviceType,
     mode: CheckForUpdateMode
   ) => RejectableThunk
-  readonly setCheckForUpdateState: (state: State) => void
+  readonly setCheckForUpdateState: (state: CheckForUpdateState) => void
   readonly downloadUpdates: (releases: OsRelease[]) => void
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void

@@ -62,8 +62,10 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       )
     }
 
-    const latestReleaseResult = await getLatestReleaseRequest(product)
-    const allReleasesResult = await getAllReleasesRequest(product)
+    const [latestReleaseResult, allReleasesResult] = await Promise.all([
+      getLatestReleaseRequest(product),
+      getAllReleasesRequest(product),
+    ])
 
     if (!latestReleaseResult.ok || !latestReleaseResult.data) {
       return rejectWithValue(
@@ -83,7 +85,7 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       }
     }
 
-    const availableReleasesForUpdate: OsRelease[] = [latestReleaseResult.data]
+    const availableReleasesForUpdate = [latestReleaseResult.data]
 
     const mandatoryVersionsToInstall =
       latestReleaseResult.data.mandatoryVersions.filter(
