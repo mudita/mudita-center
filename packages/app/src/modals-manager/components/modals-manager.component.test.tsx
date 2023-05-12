@@ -12,7 +12,11 @@ import { CollectingDataModalTestIds } from "App/settings/components/collecting-d
 import { AppForcedUpdateFlowTestIds } from "App/settings/components/app-forced-update-flow/app-forced-update-flow-test-ids.enum"
 import { AppUpdateFlowTestIds } from "App/settings/components/app-update-flow/app-update-flow-test-ids.enum"
 import { ContactSupportFlowTestIds } from "App/contact-support/components/contact-support-flow-test-ids.component"
+import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
 
+jest.mock(
+  "App/modals-manager/selectors/device-initialization-failed-modal-show-enabled.selector"
+)
 jest.mock("electron-better-ipc", () => ({
   ipcRenderer: {
     answerMain: jest.fn(),
@@ -37,6 +41,8 @@ const defaultProps: Props = {
   appForcedUpdateFlowShow: false,
   appUpdateFlowShow: false,
   contactSupportFlowShow: false,
+  deviceInitializationFailedModalShowEnabled: false,
+  hideModals: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -68,6 +74,9 @@ describe("`ModalsManager` component", () => {
       expect(
         queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
       ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -86,6 +95,9 @@ describe("`ModalsManager` component", () => {
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
       ).not.toBeInTheDocument()
     })
   })
@@ -106,6 +118,9 @@ describe("`ModalsManager` component", () => {
       expect(
         queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
       ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -123,6 +138,9 @@ describe("`ModalsManager` component", () => {
       expect(
         queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
       ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -133,6 +151,33 @@ describe("`ModalsManager` component", () => {
       expect(
         queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(AppUpdateFlowTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(AppForcedUpdateFlowTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(CollectingDataModalTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when component is render with proper where `deviceInitializationFailedModalShowEnabled` is set to `true`", () => {
+    test("`ErrorConnectingModal` is visible", () => {
+      const { queryByTestId } = render({
+        deviceInitializationFailedModalShowEnabled: true,
+      })
+
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(AppUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()

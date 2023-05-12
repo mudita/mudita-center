@@ -19,9 +19,7 @@ import {
 } from "App/device/constants"
 import { RequestConfig, DeviceInfo } from "App/device/types/mudita-os"
 import { DeviceStrategy } from "App/device/strategies/device-strategy.class"
-
-// DEPRECATED
-import { IpcEmitter } from "App/__deprecated__/common/emitters/ipc-emitter.enum"
+import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 
 export class Device {
   public connecting = true
@@ -36,7 +34,7 @@ export class Device {
     private ipc: MainProcessIpc,
     private eventEmitter: EventEmitter
   ) {
-    this.mountDeviceListeners()
+    this.mountListeners()
   }
 
   public async connect(): Promise<ResultObject<DeviceInfo>> {
@@ -159,9 +157,13 @@ export class Device {
     this.strategy.off(eventName, listener)
   }
 
-  private mountDeviceListeners(): void {
+  private mountListeners(): void {
     this.on(DeviceServiceEvent.DeviceConnected, this.emitConnectionEvent)
     this.on(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
+    this.on(
+      DeviceServiceEvent.DeviceInitializationFailed,
+      this.emitDeviceInitializationFailedEvent
+    )
     this.on(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     this.on(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.on(
@@ -177,6 +179,10 @@ export class Device {
   private unmountDeviceListeners(): void {
     this.off(DeviceServiceEvent.DeviceConnected, this.emitConnectionEvent)
     this.off(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
+    this.off(
+      DeviceServiceEvent.DeviceInitializationFailed,
+      this.emitDeviceInitializationFailedEvent
+    )
     this.off(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     this.off(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.off(
@@ -192,7 +198,7 @@ export class Device {
   private emitConnectionEvent = (): void => {
     if (this.connecting) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceConnected, this)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceConnected, {
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceConnected, {
         deviceType: this.deviceType,
       })
       this.connecting = false
@@ -202,29 +208,41 @@ export class Device {
   private emitDisconnectionEvent = (): void => {
     if (!this.connecting) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, this.path)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceDisconnected, this.path)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceDisconnected, this.path)
       this.unmountDeviceListeners()
     }
+  }
+
+  private emitDeviceInitializationFailedEvent = (): void => {
+    this.eventEmitter.emit(
+      DeviceServiceEvent.DeviceInitializationFailed,
+      this.path
+    )
+    this.ipc.sendToRenderers(
+      DeviceIpcEvent.DeviceInitializationFailed,
+      this.path
+    )
+    this.unmountDeviceListeners()
   }
 
   private emitLockedEvent = (): void => {
     if (!this.locked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked, this)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceLocked, this)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceLocked, this)
       this.locked = true
     }
   }
 
   private emitUnlockedEvent = (): void => {
     this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
-    this.ipc.sendToRenderers(IpcEmitter.DeviceUnlocked, this)
+    this.ipc.sendToRenderers(DeviceIpcEvent.DeviceUnlocked, this)
     this.locked = false
   }
 
   private emitAgreementAcceptedEvent = (): void => {
     if (!this.locked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted, true)
-      this.ipc.sendToRenderers(IpcEmitter.DeviceAgreementStatus, true)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceAgreementStatus, true)
       this.agreementAccepted = true
     }
   }
@@ -235,7 +253,7 @@ export class Device {
         DeviceServiceEvent.DeviceAgreementNotAccepted,
         false
       )
-      this.ipc.sendToRenderers(IpcEmitter.DeviceAgreementStatus, false)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceAgreementStatus, false)
       this.agreementAccepted = false
     }
   }
