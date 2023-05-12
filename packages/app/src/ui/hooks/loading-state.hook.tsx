@@ -13,10 +13,7 @@ export const useLoadingState = <InitialStateType extends object>(
   const [states, setState] = useState<InitialStateType>(initialState)
   const statesRef = useRef<InitialStateType>()
 
-  const updateFieldState = (
-    key: keyof InitialStateType,
-    value: boolean | Date
-  ) => {
+  const updateFieldState = (key: keyof InitialStateType, value: boolean) => {
     if (initialState[key] === undefined) {
       return
     }
