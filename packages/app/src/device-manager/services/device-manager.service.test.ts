@@ -85,7 +85,7 @@ describe("Method: addDevice", () => {
         },
       ])
 
-    const subject = new DeviceManager(deviceResolver, ipcMain)
+    const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
 
     expect(() => subject.device).toThrow(
       new AppError(
@@ -116,7 +116,7 @@ describe("Method: addDevice", () => {
         },
       ])
 
-    const subject = new DeviceManager(deviceResolver, ipcMain)
+    const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
 
     expect(() => subject.device).toThrow(
       new AppError(
@@ -152,7 +152,7 @@ describe("Method: addDevice", () => {
 
 describe("Method: removeDevice", () => {
   test("Executing method removes device from device map and current device", () => {
-    const subject = new DeviceManager(deviceResolver, ipcMain)
+    const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.currentDevice = deviceMockOne
 
@@ -171,7 +171,7 @@ describe("Method: removeDevice", () => {
   })
 
   test("Executing method removes device from device map and set current device next current device if available", () => {
-    const subject = new DeviceManager(deviceResolver, ipcMain)
+    const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
     subject.currentDevice = deviceMockOne
@@ -188,7 +188,7 @@ describe("Method: removeDevice", () => {
 
 describe("Method: setCurrentDevice", () => {
   test("Changing current device to new one by provided path", () => {
-    const subject = new DeviceManager(deviceResolver, ipcMain)
+    const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
     subject.currentDevice = deviceMockOne
@@ -201,7 +201,7 @@ describe("Method: setCurrentDevice", () => {
   })
 
   test("Return Result.failed if provided path doesn't exist", () => {
-    const subject = new DeviceManager(deviceResolver, ipcMain)
+    const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
     subject.currentDevice = deviceMockOne

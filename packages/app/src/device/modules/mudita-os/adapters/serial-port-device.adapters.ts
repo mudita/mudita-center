@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort from "serialport"
+import SerialPort, { PortInfo } from "serialport"
 import { EventEmitter } from "events"
 import PQueue from "p-queue"
 import { log, LogConfig } from "App/core/decorators/log.decorator"
@@ -32,12 +32,14 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
 
     this.serialPort = new SerialPort(path, (error) => {
       if (error) {
-        this.emitInitializationFailedEvent(
-          Result.failed(new AppError(DeviceError.Initialization, error.message))
-        )
-      }
+        const appError = new AppError(DeviceError.Initialization, error.message)
+        this.emitInitializationFailedEvent(Result.failed(appError))
 
-      this.emitConnectionEvent(Result.success(`Device ${path} connected`))
+        // workaround to trigger a device (USB) restart side effect after an initialization error
+        void this.getSerialPortList()
+      } else {
+        this.emitConnectionEvent(Result.success(`Device ${path} connected`))
+      }
     })
 
     this.serialPort.on("data", (event) => {
@@ -217,5 +219,10 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private mapPayloadToRequest(payload: RequestPayload<any>): string {
     return SerialPortParser.createValidRequest(payload)
+  }
+
+  @log("==== serial port: list ====")
+  private getSerialPortList(): Promise<PortInfo[]> {
+    return SerialPort.list()
   }
 }

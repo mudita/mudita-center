@@ -48,21 +48,24 @@ import {
 import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers"
 import { registerOutboxNotificationListener } from "App/notification/listeners"
 import { registerCrashDumpExistListener } from "App/crash-dump/listeners"
-
 import { EULAAgreement } from "App/eula-agreement/components"
 import { useApplicationListener } from "App/application/hooks"
-
 import { getCurrentDevice } from "App/device-manager/actions"
 import {
   registerCurrentDeviceChangedListener,
   registerDeviceDetachedListener,
 } from "App/device-manager/listeners"
-import { registerDeviceUnlockedListener } from "App/device/listeners"
+import {
+  registerDeviceUnlockedListener,
+  registerDeviceLockTimeListener,
+  registerDeviceInitializationFailedListener,
+} from "App/device/listeners"
 import {
   registerClearingUpdateStateOnDeviceAttachedListener,
   registerDownloadCancelOnDeviceDetachedListener,
 } from "App/update/listeners"
-import { registerDeviceLockedListener } from "App/device/listeners/device-lock-time.listener"
+import { setConnectionStatus } from "App/device/actions"
+import { resetUploadingState } from "App/files-manager/actions"
 
 interface Props {
   history: History
@@ -76,6 +79,8 @@ interface Props {
   deviceType: DeviceType | null
   setAgreementStatus: (value: boolean) => void
   getCurrentDevice: () => void
+  setConnectionStatus: (status: boolean) => void
+  resetUploadingState: () => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -89,6 +94,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadSettings,
   loadDeviceData,
   connectedAndUnlocked,
+  setConnectionStatus,
+  resetUploadingState,
 }) => {
   const onAgreementStatusChangeListener = useCallback(
     (value) => {
@@ -147,6 +154,11 @@ const RootWrapper: FunctionComponent<Props> = ({
     }
   }
 
+  const onDeviceDetachHandler = () => {
+    void resetUploadingState()
+    void setConnectionStatus(false)
+  }
+
   useEffect(() => {
     void initAnalyticDataTracker()
   }, [])
@@ -156,10 +168,14 @@ const RootWrapper: FunctionComponent<Props> = ({
     const dataCache = registerCacheDataListener()
     const outboxNotifications = registerOutboxNotificationListener()
     const deviceUnlocked = registerDeviceUnlockedListener()
-    const deviceLocked = registerDeviceLockedListener()
+    const deviceInitializationFailedListener =
+      registerDeviceInitializationFailedListener()
+    const deviceLockTimeListener = registerDeviceLockTimeListener()
     const crashDump = registerCrashDumpExistListener()
     const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
-    const deviceDetachedListener = registerDeviceDetachedListener()
+    const deviceDetachedListener = registerDeviceDetachedListener(
+      onDeviceDetachHandler
+    )
     const downloadCancelOnDeviceDetachedListener =
       registerDownloadCancelOnDeviceDetachedListener()
     const clearingUpdateStateOnDeviceAttachedListener =
@@ -170,7 +186,8 @@ const RootWrapper: FunctionComponent<Props> = ({
       dataCache()
       outboxNotifications()
       deviceUnlocked()
-      deviceLocked()
+      deviceInitializationFailedListener()
+      deviceLockTimeListener()
       crashDump()
       currentDeviceChangedListener()
       deviceDetachedListener()
@@ -266,6 +283,8 @@ const mapDispatchToProps = {
   loadSettings,
   setAgreementStatus,
   getCurrentDevice,
+  setConnectionStatus,
+  resetUploadingState,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)

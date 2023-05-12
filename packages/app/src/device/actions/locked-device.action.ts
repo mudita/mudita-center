@@ -4,7 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import {setAgreementStatus, setCriticalBatteryLevel, setLockTime} from "App/device/actions/base.action"
+import {
+  setAgreementStatus,
+  setCriticalBatteryLevel,
+  setLockTime,
+} from "App/device/actions/base.action"
 import {
   DeviceCommunicationError,
   DeviceEvent,
@@ -25,14 +29,15 @@ export const lockedDevice = createAsyncThunk(
       const unlocked = await unlockDeviceStatusRequest()
       const lockTime = await deviceLockTimeRequest()
 
-      if (
-        !unlocked.ok
-      ) {
-        if(unlocked.error.type === DeviceCommunicationError.DeviceAgreementNotAccepted)
-        {
+      if (!unlocked.ok) {
+        if (
+          unlocked.error.type ===
+          DeviceCommunicationError.DeviceAgreementNotAccepted
+        ) {
           dispatch(setAgreementStatus(false))
-        }
-        else if(unlocked.error.type === DeviceCommunicationError.BatteryCriticalLevel) {
+        } else if (
+          unlocked.error.type === DeviceCommunicationError.BatteryCriticalLevel
+        ) {
           dispatch(setCriticalBatteryLevel(true))
         }
       }

@@ -16,7 +16,10 @@ import Card, { CardBody } from "App/overview/components/card.elements"
 import BatteryIcon from "App/__deprecated__/renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "App/__deprecated__/renderer/components/core/icon/range-icon.component"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  borderRadius,
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 const Stats = styled.div`
   display: flex;
@@ -30,7 +33,20 @@ const Stats = styled.div`
     margin-bottom: 1.6rem;
   }
 `
+export const HarmonyStatusLabel = styled(Text).attrs(() => ({
+  displayStyle: TextDisplayStyle.Label,
+}))`
+  margin-left: 1.6rem;
+  display: inline-box;
+  padding: 0 0.4rem;
+  border-radius: ${borderRadius("medium")};
+  background-color: ${backgroundColor("disabled")};
+`
 
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
 const IconContainer = styled.div`
   background-color: ${backgroundColor("main")};
   margin-right: 1.6rem;
@@ -43,6 +59,7 @@ const messages = defineMessages({
   battery: { id: "module.overview.phoneBattery" },
   noConnection: { id: "module.overview.phoneNoConnection" },
   network: { id: "module.overview.networkName" },
+  statusLabel: { id: "module.overview.statusHarmonyLabel" },
 })
 
 const Status: FunctionComponent<StatusProps> = ({
@@ -92,14 +109,23 @@ const Status: FunctionComponent<StatusProps> = ({
         {deviceType === DeviceType.MuditaPure ? (
           <FormattedMessage id="module.overview.statusPureTitle" />
         ) : (
-          <FormattedMessage id="module.overview.statusHarmonyTitle" />
+          <FlexContainer>
+            <FormattedMessage id="module.overview.statusHarmonyTitle" />
+            <HarmonyStatusLabel>
+              <FormattedMessage {...messages.statusLabel} />
+            </HarmonyStatusLabel>
+          </FlexContainer>
         )}
       </Text>
       <CardBody>
         <div>
           <Stats>
             <IconContainer>
-              <BatteryIcon width={2.6} level={batteryLevel} />
+              <BatteryIcon
+                width={2.6}
+                level={batteryLevel}
+                deviceType={deviceType}
+              />
             </IconContainer>
             <div>
               <Text
