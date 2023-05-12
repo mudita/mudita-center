@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { ComponentProps, useState, useEffect } from "react"
+import { ComponentProps } from "react"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
