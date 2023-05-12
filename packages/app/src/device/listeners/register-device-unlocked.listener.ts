@@ -5,22 +5,17 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import store from "App/__deprecated__/renderer/store"
-import { Device } from "App/device/modules/device"
 import { unlockedDevice } from "App/device"
+import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 
-// DEPRECATED
-import { IpcEmitter } from "App/__deprecated__/common/emitters/ipc-emitter.enum"
-
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const deviceUnlockedHandler = (_: any, _data: Device): void => {
+const deviceUnlockedHandler = (): void => {
   void store.dispatch(unlockedDevice())
 }
 
 export const registerDeviceUnlockedListener = (): (() => void) => {
-  ipcRenderer.on(IpcEmitter.DeviceUnlocked, deviceUnlockedHandler)
+  ipcRenderer.on(DeviceIpcEvent.DeviceUnlocked, deviceUnlockedHandler)
 
   return () => {
-    ipcRenderer.off(IpcEmitter.DeviceUnlocked, deviceUnlockedHandler)
+    ipcRenderer.off(DeviceIpcEvent.DeviceUnlocked, deviceUnlockedHandler)
   }
 }

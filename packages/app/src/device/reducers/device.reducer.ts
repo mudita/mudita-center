@@ -26,7 +26,10 @@ import {
   LoadStorageInfoAction,
   LoadStorageInfoRejectedAction,
 } from "App/device/reducers/device.interface"
-import {setAgreementStatus, setCriticalBatteryLevel} from "App/device/actions/base.action"
+import {
+  setAgreementStatus,
+  setCriticalBatteryLevel,
+} from "App/device/actions/base.action"
 
 export const initialState: DeviceState = {
   deviceType: null,

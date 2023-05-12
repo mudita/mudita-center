@@ -41,13 +41,17 @@ const ModalContent = styled.div`
     margin-top: 0;
   }
 `
-const CriticalBatteryLevelModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({ ...props }) => {
+const CriticalBatteryLevelModal: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = ({ ...props }) => {
   return (
     <ModalDialog
       testId={CriticalBatteryLevelModalTestIds.Container}
       size={ModalSize.Small}
       title={intl.formatMessage(messages.criticalBatteryLevelModalHeaderTitle)}
-      closeButtonLabel={intl.formatMessage(messages.criticalBatteryLevelModalButton)}
+      closeButtonLabel={intl.formatMessage(
+        messages.criticalBatteryLevelModalButton
+      )}
       zIndex={100}
       {...props}
     >

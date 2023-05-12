@@ -11,6 +11,7 @@ export enum ModalStateKey {
   AppForcedUpdateFlow = "appForcedUpdateFlowShow",
   AppUpdateFlow = "appUpdateFlowShow",
   ContactSupportFlow = "contactSupportFlowShow",
+  DeviceInitializationFailedModalShow = "deviceInitializationFailedModalShow",
 }
 
 export interface ModalsManagerState extends Record<ModalStateKey, boolean> {
@@ -18,6 +19,7 @@ export interface ModalsManagerState extends Record<ModalStateKey, boolean> {
   appForcedUpdateFlowShow: boolean
   appUpdateFlowShow: boolean
   contactSupportFlowShow: boolean
+  deviceInitializationFailedModalShow: boolean
 }
 
 export type ShowModalAction = PayloadAction<

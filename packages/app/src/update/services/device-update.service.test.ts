@@ -124,6 +124,34 @@ describe("Method: updateOs", () => {
       )
     })
   })
+  describe("when not enough space on Pure device", () => {
+    test("action should end with `Result.failed`", async () => {
+      jest.spyOn(fs, "lstatSync").mockReturnValue({
+        size: 3 * oneMB,
+      } as Stats)
+      deviceFileSystem.uploadFileLocally = jest
+        .fn()
+        .mockResolvedValueOnce(Result.failed(new AppError("", "")))
+
+      const result = await subject.updateOs(payloadMock)
+
+      expect(result).toEqual(
+        Result.failed(
+          new AppError(
+            UpdateErrorServiceErrors.NotEnoughSpace,
+            `Cannot upload ${normalize(
+              "/some/path/update.tar"
+            )} to device - not enough space`
+          )
+        )
+      )
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      expect(settingsService.getByKey).toHaveBeenLastCalledWith(
+        "osDownloadLocation"
+      )
+    })
+  })
 
   describe("when onboarding is not complete", () => {
     test("action should end with `Result.failed`", async () => {
@@ -146,6 +174,31 @@ describe("Method: updateOs", () => {
       )
     })
   })
+
+  describe("when `currentDeviceInitializationFailed` is set to `true`", () => {
+    test("action should end with `Result.failed`", async () => {
+      deviceManager.device.request = jest
+        .fn()
+        .mockResolvedValueOnce(Result.success(undefined))
+
+      deviceFileSystem.uploadFileLocally = jest
+        .fn()
+        .mockResolvedValueOnce(Result.success(true))
+      deviceManager.currentDeviceInitializationFailed = true
+
+      const result = await subject.updateOs(payloadMock)
+
+      expect(result).toEqual(
+        Result.failed(
+          new AppError(
+            UpdateErrorServiceErrors.DeviceInitializationFailed,
+            "The device no initialized successful after restart"
+          )
+        )
+      )
+    })
+  })
+
   test("deviceInfoService.getDeviceInfo returns `Result.failed`", async () => {
     deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValueOnce({
       data: undefined,
