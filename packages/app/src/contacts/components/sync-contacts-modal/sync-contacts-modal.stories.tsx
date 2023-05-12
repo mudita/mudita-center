@@ -22,6 +22,8 @@ storiesOf("Components|Rest/Sync Contacts Modal", module)
           onGoogleButtonClick={noop}
           onManualImportClick={action("Import")}
           open
+          disabledOtherMethod
+          onCancelManualImportClick={noop}
         />
       </StoryModalWrapper>
     </Story>

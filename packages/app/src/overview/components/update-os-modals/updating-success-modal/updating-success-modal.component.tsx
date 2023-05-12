@@ -35,7 +35,7 @@ export const UpdatingSuccessModal: FunctionComponent<
     closeModal={onClose}
   >
     <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={3.2} />
+      <Icon type={IconType.CheckCircle} width={3} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}

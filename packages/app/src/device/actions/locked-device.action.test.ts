@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import createMockStore from "redux-mock-store"
+import createMockStore, { MockStoreEnhanced } from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { Result } from "App/core/builder"
@@ -114,24 +114,32 @@ describe("Device: MuditaPure", () => {
     })
   })
 
-  describe("Get Device Lock Status request returns `DeviceAgreementNotAccepted` error", () => {
-    test("fire async `lockedDevice` calls `setAgreementStatus` action", async () => {
-      const error = new AppError(
-        DeviceCommunicationError.DeviceAgreementNotAccepted,
-        "Oups, eula not accepted!"
-      )
-      jest.spyOn(flags, "get").mockReturnValueOnce(true)
-      ;(deviceLockTimeRequest as jest.Mock).mockReturnValueOnce(
-        Result.failed(new AppError("", ""))
-      )
-      ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
-        Result.failed(error)
-      )
-      const mockStore = createMockStore([thunk])({
+  describe("Get Device Lock Status request returns `DeviceAgreementNotAccepted` or `BatteryCriticalLevel`", () => {
+    let mockStore: MockStoreEnhanced<unknown, Record<string, unknown>>
+
+    beforeEach(() => {
+      mockStore = createMockStore<unknown, Record<string, unknown>>([thunk])({
         device: {
           deviceType: DeviceType.MuditaPure,
         },
       })
+
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
+      ;(deviceLockTimeRequest as jest.Mock).mockReturnValueOnce(
+        Result.failed(new AppError("", ""))
+      )
+    })
+
+    test("fire async `lockedDevice` calls `setAgreementStatus` action", async () => {
+      ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
+        Result.failed(
+          new AppError(
+            DeviceCommunicationError.DeviceAgreementNotAccepted,
+            "Oups, eula not accepted!"
+          )
+        )
+      )
+
       const {
         meta: { requestId },
         // AUTO DISABLED - fix me if you like :)
@@ -143,6 +151,39 @@ describe("Device: MuditaPure", () => {
         {
           type: DeviceEvent.AgreementStatus,
           payload: false,
+        },
+        {
+          type: DeviceEvent.SetLockTime,
+          payload: undefined,
+        },
+        lockedDevice.fulfilled(undefined, requestId, undefined),
+      ])
+
+      expect(deviceLockTimeRequest).toHaveBeenCalled()
+      expect(unlockDeviceStatusRequest).toHaveBeenCalled()
+    })
+
+    test("fire async `lockedDevice` calls `setCriticalBatteryLevel` action", async () => {
+      ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
+        Result.failed(
+          new AppError(
+            DeviceCommunicationError.BatteryCriticalLevel,
+            "Upsik, a critical battery level, I have to charge it!"
+          )
+        )
+      )
+
+      const {
+        meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
+      } = await mockStore.dispatch(lockedDevice() as unknown as AnyAction)
+
+      expect(mockStore.getActions()).toEqual([
+        lockedDevice.pending(requestId),
+        {
+          type: DeviceEvent.CriticalBatteryLevel,
+          payload: true,
         },
         {
           type: DeviceEvent.SetLockTime,

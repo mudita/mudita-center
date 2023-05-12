@@ -32,6 +32,7 @@ interface Props {
   onDeleteClick: () => void
   onMarkAsUnreadClick: () => void
   emptyThread: boolean
+  validPhoneNumber: boolean
 }
 
 const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
@@ -40,6 +41,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
   onDeleteClick,
   onMarkAsUnreadClick,
   emptyThread,
+  validPhoneNumber,
 }) => {
   return (
     <>
@@ -64,7 +66,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           description={messages.newContactTooltipDescription}
           iconType={IconType.NewContact}
           onClick={onContactClick}
-          disabled={emptyThread}
+          disabled={emptyThread || !validPhoneNumber}
           data-testid={ThreadDetailsTestIds.ContactButton}
         />
       )}

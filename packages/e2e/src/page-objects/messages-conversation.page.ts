@@ -46,28 +46,28 @@ class MessagesConversationPage extends Page {
   public get threadDetailScreenDeleteButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-Delete"]')
+    return $('[data-testid="right-sidebar-delete-button"]')
   }
 
   /** [Selector] Add contact button visible on open thread (thread details) screen*/
   public get threadDetailScreenAddContactButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-NewContact"]')
+    return $('[data-testid="right-sidebar-contact-button"]')
   }
 
   /** [Selector] Close button visible on open thread (thread details) screen*/
   public get threadDetailScreenCloseButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-Close"]')
+    return $('[data-testid="table-sidebar-close"]')
   }
 
   /** [Selector] Mark as unread button visible on open thread (thread details) screen*/
   public get threadDetailScreenMarkAsUnreadButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-MarkAsUnread"]')
+    return $('[data-testid="right-sidebar-mark-as-unread-button"]')
   }
 
   /** [Selector] Single sending status   */
@@ -113,7 +113,7 @@ class MessagesConversationPage extends Page {
 
   /** Clicks single message options icon(...) */
   async clickMessageDropdownIcon() {
-    await this.messageDropdownIcon.waitForClickable()
+    await this.messageDropdownIcon.waitForDisplayed()
     await this.messageDropdownIcon.click()
   }
 
@@ -186,6 +186,50 @@ class MessagesConversationPage extends Page {
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="messages-thread-details"]')
+  }
+
+  /** [Selector] Browse contacts button*/
+  public get browseContactsButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="new-message-form-browse-contacts"]')
+  }
+
+  /** [Selector] Conversation recipient name text*/
+  public get conversationRecipientNameText(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="sidebar-fullname"]')
+  }
+
+  /** [Selector] Conversation recipient number text*/
+  public get conversationRecipientPhoneText(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="sidebar-phone-number"]')
+  }
+
+  /** [Selector] Contact search result item*/
+  public get contactSearchResultItem(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="input-select-list-item"]')
+  }
+  /** [Selector] Returns list of multiple elements - contact icon for threads with matching contact in phonebok */
+  async highlightedMessage(text: string) {
+    return this.messageContent.$(`strong*=${text}`)
+  }
+  /** [Selector] Delete message button on message dropodown list */
+  public get messageDropdownResendButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return this.messageDropdown.$(
+      '[data-testid="message-bubble-resend-message-button"]'
+    )
+  }
+  /** [Selector] Returns list of multiple elements - list of messages texts in the thread*/
+  public get messagesContentsList() {
+    return $$('[data-testid="message-bubble-message-content"]')
   }
 }
 

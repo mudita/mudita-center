@@ -5,26 +5,8 @@
 
 import { Template } from "App/templates/dto"
 
-export const reorder = (
-  list: Template[],
-  startIndex: number,
-  endIndex: number
-): Template[] => {
-  const movedTemplates = list.filter((_template, index) => {
-    if (startIndex < endIndex) {
-      return startIndex <= index && index <= endIndex
-    } else {
-      return endIndex <= index && index <= startIndex
-    }
+export const reorder = (list: Template[]): Template[] => {
+  return list.map((template, index) => {
+    return { ...template, order: list.length - index }
   })
-  const orderStartValue = startIndex < endIndex ? startIndex : endIndex
-  const indexToOrderValue = 1
-  const updatedTemplates: Template[] = movedTemplates.map((template, index) => {
-    return {
-      ...template,
-      order: orderStartValue + indexToOrderValue + index,
-    }
-  })
-
-  return updatedTemplates
 }

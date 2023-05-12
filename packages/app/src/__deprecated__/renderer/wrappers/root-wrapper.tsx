@@ -106,18 +106,18 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useApplicationListener(onAgreementStatusChangeListener)
 
-  const params = new URLSearchParams(window.location.search)
+  const mode = new URLSearchParams(window.location.search).get("mode")
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
   const getStoreData = async (key?: string) =>
     await ipcRenderer.callMain(HelpActions.GetStore, key)
 
   const RenderRoutes = () => {
-    if (params.get("mode") === Mode.ServerError) {
+    if (mode === Mode.ServerError) {
       return <ErrorApp history={history} />
     }
 
-    if (params.get("mode") === Mode.Help) {
+    if (mode === Mode.Help) {
       return (
         <HelpApp
           history={history}
@@ -127,19 +127,19 @@ const RootWrapper: FunctionComponent<Props> = ({
       )
     }
 
-    if (params.get("mode") === Mode.License) {
+    if (mode === Mode.License) {
       return <LicenseApp history={history} />
     }
 
-    if (params.get("mode") === Mode.TermsOfService) {
+    if (mode === Mode.TermsOfService) {
       return <TermsOfServiceApp history={history} />
     }
 
-    if (params.get("mode") === Mode.PrivacyPolicy) {
+    if (mode === Mode.PrivacyPolicy) {
       return <PrivacyPolicyApp history={history} />
     }
 
-    if (params.get("mode") === Mode.Sar) {
+    if (mode === Mode.Sar) {
       return <SarApp history={history} />
     }
 
@@ -235,7 +235,9 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     loadSettings()
-    handleAppUpdateAvailableCheck()
+    if (!mode) {
+      handleAppUpdateAvailableCheck()
+    }
 
     const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
     // Remove this condition to get devMode on production

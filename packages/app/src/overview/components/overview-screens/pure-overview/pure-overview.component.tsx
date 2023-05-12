@@ -28,6 +28,7 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import React, { useEffect, useState } from "react"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
@@ -210,7 +211,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   const openCheckForUpdateModal = () => {
-    setCheckForUpdateState(State.Loaded)
+    setCheckForUpdateState(CheckForUpdateState.Loaded)
   }
 
   const startForceUpdate = () => {
