@@ -152,7 +152,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         return {
           ...state,
           deleting: State.Initial,
-          error: null,
           deletingFileCount: 0,
         }
       })
@@ -170,7 +169,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         return {
           ...state,
           uploading: State.Initial,
-          error: null,
           uploadingFileCount: 0,
         }
       })
