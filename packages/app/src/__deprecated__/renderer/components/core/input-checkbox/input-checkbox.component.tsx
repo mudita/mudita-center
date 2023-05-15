@@ -108,7 +108,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
       return undefined
     }
 
-    if (props.checked) {
+    if (props.checked && !indeterminate) {
       return checkboxTooltipDescription.uncheckTooltipDescription
     } else {
       return checkboxTooltipDescription.checkTooltipDescription
