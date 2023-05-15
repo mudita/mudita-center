@@ -15,6 +15,7 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import PendingUploadModal from "App/files-manager/components/pending-upload-modal/pending-upload-modal.component"
 import DuplicatedFilesModal from "App/files-manager/components/duplicated-files-modal/duplicated-files-modal.component"
+import UnsupportedFileFormat from "App/files-manager/components/unsupported-file-format/unsupported-file-format.component"
 
 const messages = defineMessages({
   uploadingModalInfo: { id: "module.filesManager.uploadingModalInfo" },
@@ -84,7 +85,8 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
         />
       )}
       {uploadingFailed &&
-        error?.type !== FilesManagerError.UploadDuplicates && (
+        error?.type !== FilesManagerError.UploadDuplicates &&
+        error?.type !== FilesManagerError.UnsupportedFileFormat && (
           <ErrorModal
             testId={UploadFilesModalsTestIds.ErrorModal}
             open={uploadingFailed}
@@ -94,6 +96,7 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
           />
         )}
       <DuplicatedFilesModal />
+      <UnsupportedFileFormat />
     </>
   )
 }
