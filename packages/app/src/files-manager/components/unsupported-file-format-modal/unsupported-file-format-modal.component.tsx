@@ -44,7 +44,7 @@ const DuplicatedFilesDetailText = styled(Text)`
   margin-top: 0.8rem;
 `
 
-const UnsupportedFileFormat: FunctionComponent = ({ ...props }) => {
+const UnsupportedFileFormatModal: FunctionComponent = ({ ...props }) => {
   const filesManagerError = useSelector(getFilesManagerError)
 
   const dispatch = useDispatch()
@@ -86,4 +86,4 @@ const UnsupportedFileFormat: FunctionComponent = ({ ...props }) => {
   )
 }
 
-export default UnsupportedFileFormat
+export default UnsupportedFileFormatModal
