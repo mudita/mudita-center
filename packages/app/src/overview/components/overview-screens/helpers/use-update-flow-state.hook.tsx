@@ -63,7 +63,9 @@ export const useUpdateFlowState = ({
     if (
       silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
       checkingForUpdateState === CheckForUpdateState.Failed ||
-      checkingForUpdateState === CheckForUpdateState.PerformedWithFailure
+      checkingForUpdateState === CheckForUpdateState.PerformedWithFailure ||
+      (silentCheckForUpdateState === SilentCheckForUpdateState.Skipped &&
+        checkingForUpdateState !== CheckForUpdateState.Performed)
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
     }
