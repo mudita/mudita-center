@@ -164,6 +164,8 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
         "data-for": id,
         onClick: handleOnClick,
         ref: ref,
+        "data-event": "mouseenter",
+        "data-event-off": "mouseleave focusout",
         ...props,
       })}
       {showTooltip && (

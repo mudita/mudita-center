@@ -297,7 +297,7 @@ describe("reset deleting state functionality", () => {
     ).toEqual({
       ...initialState,
       deleting: State.Initial,
-      error: null,
+      error: errorMock,
     })
   })
 })
