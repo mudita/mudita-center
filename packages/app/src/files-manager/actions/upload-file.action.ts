@@ -60,9 +60,9 @@ export const uploadFile = createAsyncThunk(
       return
     }
 
-    const supportedFiles = checkFilesExtensions(filePaths)
+    const allFilesSupported = checkFilesExtensions(filePaths)
 
-    if (!supportedFiles) {
+    if (!allFilesSupported) {
       dispatch(setUploadBlocked(false))
       return rejectWithValue(
         new AppError(
