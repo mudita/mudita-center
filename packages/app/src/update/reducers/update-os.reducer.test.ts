@@ -567,7 +567,7 @@ describe("closeUpdateFlow", () => {
       )
     ).toEqual({
       ...initialState,
-      checkForUpdateState: CheckForUpdateState.Performed,
+      checkForUpdateState: CheckForUpdateState.Initial,
       data,
     })
   })
@@ -585,7 +585,7 @@ describe("closeUpdateFlow", () => {
       )
     ).toEqual({
       ...initialState,
-      checkForUpdateState: CheckForUpdateState.Performed,
+      checkForUpdateState: CheckForUpdateState.Initial,
       silentCheckForUpdate: SilentCheckForUpdateState.Skipped,
     })
   })
