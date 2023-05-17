@@ -72,12 +72,13 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       if (silentCheckForUpdate === SilentCheckForUpdateState.Failed) {
         silentCheckForUpdate = SilentCheckForUpdateState.Skipped
       }
-      if (state.checkForUpdateState !== Initial) {
-        if (state.checkForUpdateState === Failed) {
-          checkForUpdateState = PerformedWithFailure
-        } else {
-          checkForUpdateState = Performed
-        }
+      if (
+        state.checkForUpdateState !== Initial &&
+        state.checkForUpdateState === Failed
+      ) {
+        checkForUpdateState = PerformedWithFailure
+      } else if (state.checkForUpdateState !== Initial) {
+        checkForUpdateState = Performed
       }
       return {
         ...state,
