@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createReducer } from "@reduxjs/toolkit"
+import { CaseReducer, createReducer } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
 import { CheckForUpdateState } from "../constants/check-for-update-state.constant"
 import { AppError } from "App/core/errors"
@@ -64,19 +64,26 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       }
     })
     builder.addCase(closeUpdateFlow, (state) => {
+      const { PerformedWithFailure, Performed, Initial, Failed } =
+        CheckForUpdateState
+      let silentCheckForUpdate: SilentCheckForUpdateState =
+        state.silentCheckForUpdate
+      let checkForUpdateState: CheckForUpdateState = Initial
+      if (silentCheckForUpdate === SilentCheckForUpdateState.Failed) {
+        silentCheckForUpdate = SilentCheckForUpdateState.Skipped
+      }
+      if (state.checkForUpdateState !== Initial) {
+        if (state.checkForUpdateState === Failed) {
+          checkForUpdateState = PerformedWithFailure
+        } else {
+          checkForUpdateState = Performed
+        }
+      }
       return {
         ...state,
         error: null,
-        silentCheckForUpdate:
-          state.silentCheckForUpdate === SilentCheckForUpdateState.Failed
-            ? SilentCheckForUpdateState.Skipped
-            : state.silentCheckForUpdate,
-        checkForUpdateState:
-          state.checkForUpdateState === CheckForUpdateState.Initial
-            ? CheckForUpdateState.Initial
-            : state.checkForUpdateState === CheckForUpdateState.Failed
-            ? CheckForUpdateState.PerformedWithFailure
-            : CheckForUpdateState.Performed,
+        silentCheckForUpdate,
+        checkForUpdateState,
         updateOsState: State.Initial,
         downloadState: DownloadState.Initial,
       }
