@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseReducer, createReducer } from "@reduxjs/toolkit"
+import { createReducer } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
 import { CheckForUpdateState } from "../constants/check-for-update-state.constant"
 import { AppError } from "App/core/errors"
