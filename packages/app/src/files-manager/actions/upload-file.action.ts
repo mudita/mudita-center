@@ -28,6 +28,7 @@ import { getHarmonyFreeFilesSlotsCount } from "App/files-manager/helpers/get-fre
 import { getDuplicatedFiles } from "App/files-manager/helpers/get-duplicated-files.helper"
 import { getUniqueFiles } from "App/files-manager/helpers/get-unique-files.helper"
 import { AppError } from "App/core/errors/app-error"
+import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
 
 export const uploadFile = createAsyncThunk(
   FilesManagerEvent.UploadFiles,
@@ -57,6 +58,18 @@ export const uploadFile = createAsyncThunk(
     if (filePaths.length === 0) {
       dispatch(setUploadBlocked(false))
       return
+    }
+
+    const allFilesSupported = checkFilesExtensions(filePaths)
+
+    if (!allFilesSupported) {
+      dispatch(setUploadBlocked(false))
+      return rejectWithValue(
+        new AppError(
+          FilesManagerError.UnsupportedFileFormat,
+          "Unsupported file format"
+        )
+      )
     }
 
     const duplicatedFiles = getDuplicatedFiles(
