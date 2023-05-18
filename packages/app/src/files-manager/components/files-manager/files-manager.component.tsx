@@ -26,6 +26,8 @@ import { useLoadingState } from "App/ui"
 import { UploadFilesModals } from "App/files-manager/components/upload-files-modals/upload-files-modals.component"
 import { useFilesFilter } from "App/files-manager/helpers/use-files-filter.hook"
 import { getSpaces } from "App/files-manager/components/files-manager/get-spaces.helper"
+import { useDispatch } from "react-redux"
+import { resetFiles } from "App/files-manager/actions/base.action"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -78,6 +80,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     otherSpace,
     musicSpace,
   } = getSpaces(files, memorySpace)
+  const dispatch = useDispatch()
 
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
 
@@ -90,6 +93,14 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       getFiles(DeviceDirectory.Relaxation)
     }
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetFiles())
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (deviceType) {
