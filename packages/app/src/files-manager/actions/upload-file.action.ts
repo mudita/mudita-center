@@ -91,7 +91,7 @@ export const uploadFile = createAsyncThunk(
     }
 
     const harmonyFreeFilesSlotsCount = getHarmonyFreeFilesSlotsCount(
-      state.filesManager.files.length
+      state.filesManager.files?.length ?? 0
     )
 
     if (

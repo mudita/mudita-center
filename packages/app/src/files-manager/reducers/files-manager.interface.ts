@@ -8,7 +8,7 @@ import { State } from "App/core/constants"
 import { File } from "App/files-manager/dto"
 
 export interface FilesManagerState {
-  files: File[]
+  files: File[] | null
   loading: State
   deleting: State
   uploading: State
