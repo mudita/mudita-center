@@ -24,6 +24,8 @@ import StackedBarChart, {
 import { defineMessages } from "react-intl"
 import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
 
+const otherCategoryLabel = "Other"
+
 const FilesSummaryWrapper = styled.div`
   display: flex;
   margin-bottom: 2.4rem;
@@ -40,7 +42,6 @@ interface Props {
   diskSpaceCategories: DiskSpaceCategory[]
   usedMemory: number
   totalMemorySpace: number
-  uploading: boolean
 }
 
 const memoryToStackedBarChartData = (
@@ -62,6 +63,17 @@ const FilesSummary: FunctionComponent<Props> = ({
 }) => {
   const usedMemoryPercent = Math.floor((usedMemory / totalMemorySpace) * 100)
 
+  const otherCategory = React.useMemo(() => {
+    const otherCategory = diskSpaceCategories.find(
+      (category) => category.label === otherCategoryLabel
+    )
+    return otherCategory
+  }, [])
+
+  const diskSpaceCategoriesToDisplay = diskSpaceCategories.map((category) =>
+    category.label === otherCategory?.label ? otherCategory : category
+  )
+
   return (
     <FilesSummaryContainer>
       <FilesSummaryHeading
@@ -70,9 +82,11 @@ const FilesSummary: FunctionComponent<Props> = ({
         message={messages.summaryTitle}
       />
       <FilesSummaryWrapper data-testid={FilesSummaryTestIds.Wrapper}>
-        {diskSpaceCategories.map((diskSpaceCategory, index: number) => (
-          <FilesSummaryItem {...diskSpaceCategory} key={index} />
-        ))}
+        {diskSpaceCategoriesToDisplay.map(
+          (diskSpaceCategory, index: number) => (
+            <FilesSummaryItem {...diskSpaceCategory} key={index} />
+          )
+        )}
       </FilesSummaryWrapper>
       <StackedBarChart
         displayStyle={DisplayStyle.Thick}
@@ -98,8 +112,4 @@ const FilesSummary: FunctionComponent<Props> = ({
   )
 }
 
-const shouldNotRerender = (_: Props, newProps: Props): boolean => {
-  return newProps.uploading
-}
-
-export default React.memo(FilesSummary, shouldNotRerender)
+export default FilesSummary
