@@ -62,7 +62,6 @@ const FilesSummary: FunctionComponent<Props> = ({
   usedMemory,
   totalMemorySpace,
 }) => {
-  // console.log(diskSpaceCategories, usedMemory, totalMemorySpace)
   const usedMemoryPercent = Math.floor((usedMemory / totalMemorySpace) * 100)
 
   const otherCategory = React.useMemo(() => {
