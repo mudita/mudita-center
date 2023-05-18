@@ -70,6 +70,8 @@ const FilesSummary: FunctionComponent<Props> = ({
       (category) => category.type === otherCategoryLabel
     )
     return otherCategory
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const diskSpaceCategoriesToDisplay = diskSpaceCategories.map((category) =>
