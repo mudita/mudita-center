@@ -13,7 +13,7 @@ export const selectAllItems = createAsyncThunk<string[]>(
   // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { getState }) => {
     const state = getState() as RootState & ReduxRootState
-    const fileIds = state.filesManager.files.map((file) => file.id)
+    const fileIds = state.filesManager.files?.map((file) => file.id) ?? []
 
     return fileIds
   }

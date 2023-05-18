@@ -59,7 +59,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   continuePendingUpload,
 }) => {
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
-    useFilesFilter({ files })
+    useFilesFilter({ files: files ?? [] })
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
     deletingFailed: false,
     deleting: false,
@@ -191,7 +191,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       [DiskSpaceCategoryType.Music]: {
         ...element,
         size: musicSpace,
-        filesAmount: files.length,
+        filesAmount: files?.length ?? 0,
       },
       [DiskSpaceCategoryType.OtherSpace]: {
         ...element,
@@ -201,11 +201,11 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     return elements[element.type]
   }
 
-  const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
-    (element) => {
+  const diskSpaceCategories: DiskSpaceCategory[] | null =
+    files &&
+    filesSummaryElements.map((element) => {
       return getDiskSpaceCategories(element)
-    }
-  )
+    })
   const openDeleteModal = (ids: string[]) => {
     updateFieldState("deletingInfo", false)
     updateFieldState("uploadingInfo", false)
@@ -263,11 +263,13 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         onCloseDeletingErrorModal={handleCloseDeletingErrorModal}
         onDelete={handleConfirmFilesDelete}
       />
-      <FilesSummary
-        diskSpaceCategories={diskSpaceCategories}
-        totalMemorySpace={totalMemorySpace}
-        usedMemory={usedMemorySpace}
-      />
+      {diskSpaceCategories && (
+        <FilesSummary
+          diskSpaceCategories={diskSpaceCategories}
+          totalMemorySpace={totalMemorySpace}
+          usedMemory={usedMemorySpace}
+        />
+      )}
       {deviceType !== null && (
         <FilesStorage
           state={loading}

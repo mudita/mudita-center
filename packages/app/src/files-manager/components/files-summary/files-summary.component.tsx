@@ -23,8 +23,9 @@ import StackedBarChart, {
 } from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
 import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
+import { DiskSpaceCategoryType } from "App/files-manager/constants/files-manager.enum"
 
-const otherCategoryLabel = "Other"
+const otherCategoryLabel = DiskSpaceCategoryType.OtherSpace
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -61,17 +62,18 @@ const FilesSummary: FunctionComponent<Props> = ({
   usedMemory,
   totalMemorySpace,
 }) => {
+  // console.log(diskSpaceCategories, usedMemory, totalMemorySpace)
   const usedMemoryPercent = Math.floor((usedMemory / totalMemorySpace) * 100)
 
   const otherCategory = React.useMemo(() => {
     const otherCategory = diskSpaceCategories.find(
-      (category) => category.label === otherCategoryLabel
+      (category) => category.type === otherCategoryLabel
     )
     return otherCategory
   }, [])
 
   const diskSpaceCategoriesToDisplay = diskSpaceCategories.map((category) =>
-    category.label === otherCategory?.label ? otherCategory : category
+    category.type === otherCategory?.type ? otherCategory : category
   )
 
   return (

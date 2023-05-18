@@ -20,11 +20,14 @@ export interface Spaces {
  * OS issue url https://appnroll.atlassian.net/browse/MOS-744
  ***/
 
-export const getSpaces = (files: File[], memorySpace: MemorySpace): Spaces => {
+export const getSpaces = (
+  files: File[] | null,
+  memorySpace: MemorySpace
+): Spaces => {
   const { reservedSpace, usedUserSpace, total } = memorySpace
   const usedMemorySpace = reservedSpace + usedUserSpace
   const freeSpace = total - usedMemorySpace
-  const musicSpace = files.reduce((a, b) => a + b.size, 0)
+  const musicSpace = files?.reduce((a, b) => a + b.size, 0) ?? 0
   const otherSpace = usedUserSpace - musicSpace
 
   return {
