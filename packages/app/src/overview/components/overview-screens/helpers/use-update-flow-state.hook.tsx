@@ -60,6 +60,8 @@ export const useUpdateFlowState = ({
       return
     }
     if (
+      (silentCheckForUpdateState === SilentCheckForUpdateState.Skipped &&
+        checkingForUpdateState === CheckForUpdateState.Initial) ||
       silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
       checkingForUpdateState === CheckForUpdateState.Failed ||
       checkingForUpdateState === CheckForUpdateState.PerformedWithFailure
@@ -79,7 +81,6 @@ export const useUpdateFlowState = ({
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
     }
   }, [silentCheckForUpdateState, checkingForUpdateState, forceUpdateNeeded])
-  console.log(checkForUpdateLocalState)
   return {
     checkForUpdateLocalState,
   }
