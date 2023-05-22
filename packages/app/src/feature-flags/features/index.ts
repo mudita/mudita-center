@@ -6,6 +6,8 @@
 import { EnvironmentConfig } from "App/feature-flags/types"
 import { Feature, Environment } from "App/feature-flags/constants"
 
+const muditaCenterPrereleaseEnabled = process.env.MUDITA_CENTER_PRERELEASE_ENABLED === "0"
+
 export const features: EnvironmentConfig = {
   [Feature.MessagesForwardEnabled]: {
     [Environment.Development]: true,
@@ -29,8 +31,8 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: true,
+    [Environment.Production]: muditaCenterPrereleaseEnabled,
+    [Environment.AlphaProduction]: muditaCenterPrereleaseEnabled,
   },
   [Feature.MessagesThreadCallsEnabled]: {
     [Environment.Development]: true,
