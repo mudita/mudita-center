@@ -32,7 +32,7 @@ export const features: EnvironmentConfig = {
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: muditaCenterPrereleaseEnabled,
-    [Environment.AlphaProduction]: muditaCenterPrereleaseEnabled,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {
     [Environment.Development]: true,
