@@ -6,7 +6,7 @@
 import { EnvironmentConfig } from "App/feature-flags/types"
 import { Feature, Environment } from "App/feature-flags/constants"
 
-const muditaCenterPrereleaseEnabled = process.env.MUDITA_CENTER_PRERELEASE_ENABLED === "0"
+const muditaCenterPrereleaseEnabled = process.env.MUDITA_CENTER_PRERELEASE_ENABLED === "1"
 
 export const features: EnvironmentConfig = {
   [Feature.MessagesForwardEnabled]: {
