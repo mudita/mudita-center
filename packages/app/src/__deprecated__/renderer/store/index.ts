@@ -22,10 +22,7 @@ import { reducers, combinedReducers } from "./reducers"
 
 const middlewares: Middleware[] = [thunk]
 
-if (
-  process.env.NODE_ENV === "development" &&
-  process.env.DISABLE_DEV_REDUX_LOGGER !== "1"
-) {
+if (process.env.DEV_REDUX_LOGGER_ENABLED !== "0") {
   middlewares.push(logger)
 }
 
