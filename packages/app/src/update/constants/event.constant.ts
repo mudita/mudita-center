@@ -18,4 +18,5 @@ export enum UpdateOsEvent {
   CheckForForceUpdate = "CHECK_FOR_FORCE_UPDATE",
   StartOsForceUpdateProcess = "START_OS_FORCE_UPDATE_PROCESS",
   CloseForceUpdateFlow = "CLOSE_FORCE_UPDATE_FLOW",
+  DeviceHasBeenDetachedDuringDownload = "DOWNLOAD_DEVICE_DETACHED",
 }
