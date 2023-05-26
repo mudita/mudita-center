@@ -81,6 +81,7 @@ export const useUpdateFlowState = ({
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
     }
   }, [silentCheckForUpdateState, checkingForUpdateState, forceUpdateNeeded])
+  console.log(checkForUpdateLocalState)
   return {
     checkForUpdateLocalState,
   }

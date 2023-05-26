@@ -87,11 +87,7 @@ export class ApplicationModule {
   )
 
   constructor(private ipc: MainProcessIpc) {
-    const enabled =
-      process.env.NODE_ENV === "development" &&
-      process.env.DISABLE_DEV_DEVICE_LOGGER === "1"
-        ? false
-        : flags.get(Feature.LoggerEnabled)
+    const enabled = flags.get(Feature.LoggerEnabled)
 
     this.deviceLogger.registerLogger(new PureLogger())
     this.deviceLogger.toggleLogs(enabled)
