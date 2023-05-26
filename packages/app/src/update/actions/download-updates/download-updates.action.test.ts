@@ -74,6 +74,9 @@ describe("when battery is lower than 40%", () => {
           batteryLevel: 0.39,
         },
       },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
+      },
     })
 
     const {
@@ -110,6 +113,9 @@ describe("when some of the updates have been downloaded before", () => {
         data: {
           batteryLevel: 0.55,
         },
+      },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
       },
     })
 
@@ -168,6 +174,9 @@ describe("when update downloads successfully", () => {
         data: {
           batteryLevel: 0.55,
         },
+      },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
       },
     })
 
