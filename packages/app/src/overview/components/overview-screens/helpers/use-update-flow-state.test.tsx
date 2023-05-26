@@ -35,6 +35,8 @@ const checkForUpdateTestCases: TestCase[] = [
   [CheckForUpdateState.Failed, CheckForUpdateLocalState.Failed],
   [CheckForUpdateState.Loading, CheckForUpdateLocalState.Loading],
   [CheckForUpdateState.Loaded, CheckForUpdateLocalState.Loaded],
+  [CheckForUpdateState.PerformedWithFailure, CheckForUpdateLocalState.Failed],
+  [CheckForUpdateState.Performed, CheckForUpdateLocalState.Loaded],
 ]
 
 describe.each(silentCheckTestCases)(
@@ -68,6 +70,22 @@ describe.each(checkForUpdateTestCases)(
     })
   }
 )
+
+describe("when value for silentCheckForUpdateState equals to Skipped and value for checkingForUpdateState equals to Initial", () => {
+  test("checkForUpdateLocalState should equal to Failed", () => {
+    const { result } = renderHook(() =>
+      useUpdateFlowState({
+        ...defaultParams,
+        checkingForUpdateState: CheckForUpdateState.Initial,
+        silentCheckForUpdateState: SilentCheckForUpdateState.Skipped,
+      })
+    )
+
+    expect(result.current.checkForUpdateLocalState).toEqual(
+      CheckForUpdateLocalState.Failed
+    )
+  })
+})
 
 describe("when silentCheckForUpdateState is set as initial", () => {
   test("check for update should be called", () => {
