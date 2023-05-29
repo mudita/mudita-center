@@ -24,7 +24,6 @@ const ThreadDetailsSidebarLeftHeader: FunctionComponent<Props> = ({
   callerIdentification = "",
   callerNumber = "",
 }) => {
-  console.log("ThreadDetailsSidebarLeftHeader prettyCaller", prettyCaller)
   return (
     <>
       <NameWrapper>

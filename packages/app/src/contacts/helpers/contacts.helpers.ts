@@ -216,7 +216,7 @@ export const getSortedContactList = ({
   const contacts = collection
     .map((item) => db[item])
     .filter((contact) => {
-      return contact.primaryPhoneNumber
+      return contact.primaryPhoneNumberId
     })
 
   const sortedContacts = contacts.sort((a, b) => {

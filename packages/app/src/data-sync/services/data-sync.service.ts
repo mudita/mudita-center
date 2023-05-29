@@ -71,7 +71,6 @@ export class DataSyncService {
   }
 
   public async indexAll(): Promise<boolean> {
-    console.log("DataSyncService indexAll")
     const serialNumber = String(
       this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
     )

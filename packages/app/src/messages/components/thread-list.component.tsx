@@ -72,21 +72,7 @@ const ThreadList: FunctionComponent<Props> = ({
     } else {
       const active = activeThread?.id === thread.id
 
-      console.log("ThreadList activeThread", activeThread)
-
-      // console.log(
-      //   "ThreadList renderRow activeThread?.phoneNumberId",
-      //   activeThread?.phoneNumberId
-      // )
-
       const contact = getContactByPhoneNumberId(thread?.phoneNumberId ?? "")
-
-      console.log(
-        "ThreadList renderRow contact",
-        contact,
-        "thread?.phoneNumberId",
-        thread?.phoneNumberId
-      )
 
       const indeterminate = false
       const selectedRow = selectedItems.rows.includes(thread.id)

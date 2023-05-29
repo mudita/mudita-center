@@ -13,11 +13,5 @@ export const isContactMatchingPhoneNumberId = (
     return false
   }
 
-  console.log(
-    "isContactMatchingPhoneNumberId primaryPhoneNumberId",
-    primaryPhoneNumberId,
-    "secondaryPhoneNumberId",
-    secondaryPhoneNumberId
-  )
   return [primaryPhoneNumberId, secondaryPhoneNumberId].includes(phoneNumberId)
 }

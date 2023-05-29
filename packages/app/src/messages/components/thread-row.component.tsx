@@ -102,13 +102,6 @@ const ThreadRow: FunctionComponent<Props> = ({
   const { unread, id, phoneNumberId } = thread
   const phoneNumber = useSelector(getPhoneNumberById(phoneNumberId)) ?? ""
 
-  console.log(
-    "ThreadRow phoneNumberId",
-    phoneNumberId,
-    "phoneNumber",
-    phoneNumber
-  )
-
   const isMessageFailed = thread.messageType === MessageType.FAILED
   const newConversationOpen =
     getPrettyCaller(contact, phoneNumber) === newConversation
