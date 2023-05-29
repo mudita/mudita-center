@@ -6,26 +6,19 @@
 import { EnvironmentConfig } from "App/feature-flags/types"
 import { Feature, Environment } from "App/feature-flags/constants"
 
+const muditaCenterPrereleaseEnabled = process.env.MUDITA_CENTER_PRERELEASE_ENABLED === "1"
+const loggerEnabled = process.env.DEV_DEVICE_LOGGER_ENABLED !== "0"
+
 export const features: EnvironmentConfig = {
-  [Feature.ProductionReleasesOnly]: {
-    [Environment.Development]: false,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: false,
-  },
-  [Feature.PreReleasesOnly]: {
-    [Environment.Development]: false,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.MessagesForwardEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
   [Feature.LoggerEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
+    [Environment.Development]: loggerEnabled,
+    [Environment.Production]: loggerEnabled,
+    [Environment.AlphaProduction]: loggerEnabled,
   },
   [Feature.LogsScrubbingEnabled]: {
     [Environment.Development]: false,
@@ -39,7 +32,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: muditaCenterPrereleaseEnabled,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {

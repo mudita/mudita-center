@@ -42,3 +42,4 @@ export const setPendingFilesToUpload = createAction<string[]>(
 export const setDuplicatedFiles = createAction<string[]>(
   FilesManagerEvent.SetDuplicatedFiles
 )
+export const resetFiles = createAction(FilesManagerEvent.ResetFiles)

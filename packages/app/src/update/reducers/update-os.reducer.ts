@@ -64,14 +64,27 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       }
     })
     builder.addCase(closeUpdateFlow, (state) => {
+      const { PerformedWithFailure, Performed, Initial, Failed } =
+        CheckForUpdateState
+      let silentCheckForUpdate: SilentCheckForUpdateState =
+        state.silentCheckForUpdate
+      let checkForUpdateState: CheckForUpdateState = Initial
+      if (silentCheckForUpdate === SilentCheckForUpdateState.Failed) {
+        silentCheckForUpdate = SilentCheckForUpdateState.Skipped
+      }
+      if (
+        state.checkForUpdateState !== Initial &&
+        state.checkForUpdateState === Failed
+      ) {
+        checkForUpdateState = PerformedWithFailure
+      } else if (state.checkForUpdateState !== Initial) {
+        checkForUpdateState = Performed
+      }
       return {
         ...state,
         error: null,
-        silentCheckForUpdate:
-          state.silentCheckForUpdate === SilentCheckForUpdateState.Failed
-            ? SilentCheckForUpdateState.Skipped
-            : state.silentCheckForUpdate,
-        checkForUpdateState: CheckForUpdateState.Performed,
+        silentCheckForUpdate,
+        checkForUpdateState,
         updateOsState: State.Initial,
         downloadState: DownloadState.Initial,
       }

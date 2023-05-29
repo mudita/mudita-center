@@ -34,7 +34,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   selectedItems: state.filesManager.selectedItems.rows,
   allItemsSelected:
     state.filesManager.selectedItems.rows.length ===
-    state.filesManager.files.length,
+    (state.filesManager.files?.length ?? 0),
   uploadBlocked: state.filesManager.uploadBlocked,
   pendingFilesCount: state.filesManager.uploadPendingFiles.length,
 })

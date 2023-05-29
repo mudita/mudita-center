@@ -23,10 +23,10 @@ import styled from "styled-components"
 
 const messages = defineMessages({
   checkTooltipDescription: {
-    id: "component.selectionUnselectAllTooltipDescription",
+    id: "component.selectionSelectAllTooltipDescription",
   },
   uncheckTooltipDescription: {
-    id: "component.selectionSelectAllTooltipDescription",
+    id: "component.selectionUnselectAllTooltipDescription",
   },
 })
 

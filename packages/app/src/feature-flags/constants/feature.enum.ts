@@ -4,8 +4,6 @@
  */
 
 export enum Feature {
-  ProductionReleasesOnly = "production-releases-only",
-  PreReleasesOnly = "pre-releases-only",
   LoggerEnabled = "logger-enabled",
   LogsScrubbingEnabled = "logs-scrubbing-enabled",
   DeveloperModeEnabled = "developer-mode-enabled",

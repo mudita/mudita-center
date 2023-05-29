@@ -213,7 +213,11 @@ export const getSortedContactList = ({
   const speedDialContacts = []
   const labeledContacts = []
 
-  const contacts = collection.map((item) => db[item])
+  const contacts = collection
+    .map((item) => db[item])
+    .filter((contact) => {
+      return contact.primaryPhoneNumber
+    })
 
   const sortedContacts = contacts.sort((a, b) => {
     const sortTextA = a.lastName || a.firstName || ""

@@ -9,4 +9,5 @@ export enum CheckForUpdateState {
   Loaded,
   Failed,
   Performed,
+  PerformedWithFailure,
 }
