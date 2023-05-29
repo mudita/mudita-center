@@ -36,6 +36,8 @@ import {
   Item,
 } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { SearchResultAccent } from "App/search/components"
+import { useSelector } from "react-redux"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
   threadGroup: { id: "module.messages.threadGroup" },
@@ -50,6 +52,8 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
   props,
 }) => {
   const messageContent = Boolean(item.data.content)
+  const phoneNumber = useSelector(getPhoneNumberById(item.data.phoneNumberId))
+  console.log("renderListItem", phoneNumber)
 
   if (item.type === ItemType.Data) {
     return (
@@ -61,8 +65,7 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
         )}
         <MessageListItemWrapper>
           <MessageListItemInfoWrapper>
-            {/* TODO CP-1873 */}
-            {/* <ContactName phoneNumber={item.data.phoneNumber} /> */}
+            <ContactName phoneNumber={phoneNumber} />
             {messageContent && (
               <Time displayStyle={TextDisplayStyle.Label} color="secondary">
                 {isToday(item.data.date)
@@ -80,10 +83,7 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
               />
             </MessageSearchResultAccent>
           ) : (
-            <MessageListItemContent>
-              {/* TODO CP-1873 */}
-              {/* {item.data.phoneNumber} */}
-            </MessageListItemContent>
+            <MessageListItemContent>{phoneNumber}</MessageListItemContent>
           )}
         </MessageListItemWrapper>
       </MessageListItem>
