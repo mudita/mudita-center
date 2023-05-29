@@ -27,7 +27,7 @@ export class MessageSearcher extends BaseSearcher {
         content: {
           boost: 2,
         },
-        phoneNumber: {
+        phoneNumberId: {
           boost: 1,
         },
       },

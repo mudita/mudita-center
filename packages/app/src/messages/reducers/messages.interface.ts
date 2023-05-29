@@ -53,7 +53,7 @@ export enum ReceiverIdentification {
 export type MessageId = string
 
 export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
-  phoneNumber: string
+  phoneNumberId: string
   identification: ReceiverIdentification
 }
 

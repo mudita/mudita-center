@@ -34,7 +34,7 @@ export class MessageModel extends BaseModel<Message> {
     const { thread, index } = this.getThread(data)
     this.updateThreadSnippet(data, index, thread)
 
-    data.phoneNumber = thread.phoneNumber
+    data.phoneNumberId = thread.phoneNumberId
 
     return data
   }

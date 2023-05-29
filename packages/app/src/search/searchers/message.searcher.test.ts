@@ -19,7 +19,7 @@ const messageMock: Message = {
   content:
     "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
   threadId: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   messageType: MessageType.INBOX,
 }
 
@@ -34,7 +34,6 @@ describe("When index exists", () => {
     indexMessageMock.addField("content")
     indexMessageMock.addField("date")
     indexMessageMock.addField("messageType")
-    indexMessageMock.addField("phoneNumber")
     indexMessageMock.addField("threadId")
 
     indexMessageMock.addDoc(messageMock)

@@ -8,7 +8,7 @@ import { ContactsEvent } from "App/contacts/constants"
 
 export type ContactID = string
 export type Contact =
-  | ContactWithPhoneNumber
+  | ContactWithPhoneNumberId
   | ContactWithEmail
   | ContactWithFirstName
   | ContactWithLastName
@@ -33,6 +33,8 @@ export interface BaseContactModel {
   lastName?: string
   primaryPhoneNumber?: string
   secondaryPhoneNumber?: string
+  primaryPhoneNumberId?: string
+  secondaryPhoneNumberId?: string
   favourite?: boolean
   blocked?: boolean
   ice?: boolean
@@ -47,8 +49,8 @@ export interface ContactWithID extends BaseContactModel {
   id: ContactID
 }
 
-export interface ContactWithPhoneNumber extends ContactWithID {
-  primaryPhoneNumber: string
+export interface ContactWithPhoneNumberId extends ContactWithID {
+  primaryPhoneNumberId: string
 }
 
 export interface ContactWithEmail extends ContactWithID {

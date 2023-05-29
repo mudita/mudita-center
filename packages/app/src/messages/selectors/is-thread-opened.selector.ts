@@ -9,15 +9,15 @@ import { messagesStateSelector } from "App/messages/selectors/messages-state.sel
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const isThreadOpenedSelector = (
-  phoneNumber: string
+  phoneNumberId: string
 ): OutputSelector<ReduxRootState, boolean, (res: MessagesState) => boolean> => {
   return createSelector<ReduxRootState, MessagesState, boolean>(
     messagesStateSelector,
     ({ data: { threadMap } }) => {
       const numbers: string[] = Object.keys(threadMap).map(
-        (key) => threadMap[key].phoneNumber
+        (key) => threadMap[key].phoneNumberId
       )
-      return numbers.some((number) => number === phoneNumber)
+      return numbers.some((number) => number === phoneNumberId)
     }
   )
 }

@@ -17,6 +17,8 @@ import {
 } from "App/messages/reducers/messages.interface"
 import { mapToRawNumber } from "App/messages/helpers"
 import { isPhoneNumberValid } from "App/messages/helpers/threads.helpers"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { useSelector } from "react-redux"
 
 type SidebarProps = ComponentProps<typeof Sidebar>
 type ThreadDetailsRightHeaderProps = ComponentProps<
@@ -49,13 +51,19 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
   children,
   ...props
 }) => {
+  console.log("ThreadDetailsSidebar receiver", receiver)
+
+  const phoneNumber =
+    useSelector(getPhoneNumberById(receiver.phoneNumberId ?? "")) ?? ""
+
   const nameAvailable = isNameAvailable(receiver)
   const prettyCaller = nameAvailable
     ? createFullName(receiver)
-    : mapToRawNumber(receiver.phoneNumber)
-  const callerNumber = nameAvailable ? receiver.phoneNumber : undefined
+    : mapToRawNumber(phoneNumber)
+  const callerNumber = nameAvailable ? phoneNumber : undefined
 
   return (
+    // <div>{prettyCaller}</div>
     <MessagesSidebar
       show
       withBottomBorder
@@ -74,7 +82,7 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
           onDeleteClick={onDeleteClick}
           onMarkAsUnreadClick={onMarkAsUnreadClick}
           emptyThread={emptyThread}
-          validPhoneNumber={isPhoneNumberValid(receiver.phoneNumber)}
+          validPhoneNumber={isPhoneNumberValid(phoneNumber)}
         />
       }
       {...props}

@@ -7,4 +7,5 @@ export enum NotificationResourceType {
   Message = "message",
   Thread = "thread",
   Contact = "contact",
+  PhoneNumber = "phone-number",
 }

@@ -27,13 +27,15 @@ export class MessageEntryHandlerService implements EntryHandler<Message> {
 
     const { status, data } = await this.messageService.getMessage(id)
 
-    const threadId = data ? data.threadId : this.messageRepository.findById(id)?.threadId
+    const threadId = data
+      ? data.threadId
+      : this.messageRepository.findById(id)?.threadId
 
     if (entry.change === OutboxEntryChange.Deleted) {
       this.messageRepository.delete(id)
     }
 
-    if(threadId === undefined) {
+    if (threadId === undefined) {
       return
     }
 
@@ -52,7 +54,7 @@ export class MessageEntryHandlerService implements EntryHandler<Message> {
 
     const messageObject: Message = {
       ...data,
-      phoneNumber: threadData ? threadData.phoneNumber : "",
+      phoneNumberId: threadData ? threadData.phoneNumberId : "",
     }
 
     if (entry.change === OutboxEntryChange.Created) {

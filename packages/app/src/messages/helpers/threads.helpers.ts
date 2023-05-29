@@ -11,7 +11,7 @@ import {
 import { Message, Thread } from "App/messages/dto"
 import { VisibilityFilter } from "App/messages/constants"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
-import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
+import { isContactMatchingPhoneNumberId } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 import { phoneNumberRegexp } from "App/__deprecated__/renderer/utils/form-validators"
 
 // AUTO DISABLED - fix me if you like :)
@@ -22,19 +22,20 @@ export const searchThreads = (
   searchValue: MessagesProps["data"]["searchValue"]
 ) => {
   if (searchValue.length) {
-    return threads?.filter(({ phoneNumber }) => {
+    return threads?.filter(({ phoneNumberId }) => {
       const search = searchValue.toLowerCase()
       const contacts = Object.keys(contactMap).map((key) => {
         return contactMap[key]
       })
       const contact = contacts.find((contact) => {
-        return isContactMatchingPhoneNumber(contact, phoneNumber)
+        return isContactMatchingPhoneNumberId(contact, phoneNumberId)
       })
       const matchesForename = contact?.firstName?.toLowerCase().includes(search)
       const matchesSurname = contact?.lastName?.toLowerCase().includes(search)
-      const matchesPhone = phoneNumber?.includes(search)
+      //TODO CP-1873
+      // const matchesPhone = phoneNumber?.includes(search)
 
-      return matchesForename || matchesSurname || matchesPhone
+      return matchesForename || matchesSurname // || matchesPhone
     })
   } else {
     return threads
@@ -68,8 +69,8 @@ export const sortMessages = (messages: Message[]): Message[] => {
 }
 
 export const mapThreadsToReceivers = (threads: Thread[]): Receiver[] => {
-  return threads.map(({ phoneNumber }) => ({
-    phoneNumber,
+  return threads.map(({ phoneNumberId }) => ({
+    phoneNumberId,
     identification: ReceiverIdentification.unknown,
   }))
 }
@@ -98,8 +99,8 @@ export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
     .filter(isContactWithAnyNumber)
     .map(
       ({
-        primaryPhoneNumber = "",
-        secondaryPhoneNumber = "",
+        primaryPhoneNumberId = "",
+        secondaryPhoneNumberId = "",
         firstName = "",
         lastName = "",
       }) => {
@@ -108,25 +109,25 @@ export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
           lastName,
         }
         if (
-          isPhoneNumberNotEmpty(primaryPhoneNumber) &&
-          isPhoneNumberNotEmpty(secondaryPhoneNumber)
+          isPhoneNumberNotEmpty(primaryPhoneNumberId) &&
+          isPhoneNumberNotEmpty(secondaryPhoneNumberId)
         ) {
           return [
             {
-              phoneNumber: primaryPhoneNumber,
+              phoneNumberId: primaryPhoneNumberId,
               identification: ReceiverIdentification.primary,
               ...contact,
             },
             {
-              phoneNumber: secondaryPhoneNumber,
+              phoneNumberId: secondaryPhoneNumberId,
               identification: ReceiverIdentification.secondary,
               ...contact,
             },
           ]
-        } else if (isPhoneNumberNotEmpty(primaryPhoneNumber)) {
+        } else if (isPhoneNumberNotEmpty(primaryPhoneNumberId)) {
           return [
             {
-              phoneNumber: primaryPhoneNumber,
+              phoneNumberId: primaryPhoneNumberId,
               identification: ReceiverIdentification.unknown,
               ...contact,
             },
@@ -134,7 +135,7 @@ export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
         } else {
           return [
             {
-              phoneNumber: secondaryPhoneNumber,
+              phoneNumberId: secondaryPhoneNumberId,
               identification: ReceiverIdentification.unknown,
               ...contact,
             },

@@ -93,10 +93,9 @@ export class Device {
   public async request<ResponseType = unknown>(
     config: RequestConfig<unknown>
   ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
-    const response = (await this.strategy.request(config)) as RequestResponse<
-      ResponseType,
-      unknown
-    >
+    const result = await this.strategy.request(config)
+
+    const response = result as RequestResponse<ResponseType, unknown>
 
     if (response.status === RequestResponseStatus.PhoneLocked) {
       return Result.failed(

@@ -5,3 +5,4 @@
 
 export * from "./message.repository"
 export * from "./thread.repository"
+export * from "./phone-number.repository"

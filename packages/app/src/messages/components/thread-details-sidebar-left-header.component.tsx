@@ -24,9 +24,11 @@ const ThreadDetailsSidebarLeftHeader: FunctionComponent<Props> = ({
   callerIdentification = "",
   callerNumber = "",
 }) => {
+  console.log("ThreadDetailsSidebarLeftHeader prettyCaller", prettyCaller)
   return (
     <>
       <NameWrapper>
+        <div>blabla</div>
         <Text
           displayStyle={TextDisplayStyle.Headline4}
           data-testid="sidebar-fullname"

@@ -72,12 +72,13 @@ export class ThreadPresenter {
       data.sms.columns
     )
 
-    return threads
+    const result = threads
       .map((thread) => {
         const contactNumber = this.findRecords<ContactNumberEntity>(
           contactNumbers,
           String(thread.number_id)
         )
+
         const sms = this.getLastSmsInThread(smsMessages, String(thread._id))
         const contact = this.getContactName(
           contactNames,
@@ -90,7 +91,10 @@ export class ThreadPresenter {
           contactName: contact
             ? [contact?.name_primary, contact?.name_alternative].join(" ")
             : "",
-          phoneNumber: contactNumber?.number_user,
+          //TODO - remove phoneNumber
+          phoneNumber: "XXXBBBB",
+          //phoneNumber: contactNumber?.number_user,
+          phoneNumberId: String(thread.number_id),
           lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: sms ? this.buildMessageSnippet(sms) : "",
           unread: Number(thread.read) !== 0,
@@ -100,6 +104,8 @@ export class ThreadPresenter {
         }
       })
       .filter((thread) => typeof thread !== "undefined") as ThreadObject[]
+
+    return result
   }
 
   private buildMessageSnippet(lastSms: SmsEntity): string {

@@ -24,7 +24,7 @@ describe("`filteredThreadsSelector` selector", () => {
   test("when visibilityFilter is set to `Unread` selector filtered list", () => {
     const thread: Thread = {
       id: "1",
-      phoneNumber: "+48 755 853 216",
+      phoneNumberId: "11",
       lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -58,7 +58,7 @@ describe("`filteredThreadsSelector` selector", () => {
   test("when search value contains some parts of phone number ", () => {
     const thread: Thread = {
       id: "1",
-      phoneNumber: "+48 755 853 216",
+      phoneNumberId: "11",
       lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",

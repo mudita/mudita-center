@@ -10,12 +10,18 @@ import { removeDecoratorsFromPhoneNumber } from "App/__deprecated__/renderer/mod
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getReceiverSelector = (phoneNumber: string) => {
+export const getReceiverSelector = (phoneNumberId: string) => {
   return createSelector(getReceiversSelector, (receivers) => {
+    console.log(
+      "getReceiverSelector receivers",
+      receivers,
+      "phoneNumberId",
+      phoneNumberId
+    )
     return receivers.find(
       (receiver) =>
-        removeDecoratorsFromPhoneNumber(receiver.phoneNumber) ===
-        removeDecoratorsFromPhoneNumber(phoneNumber)
+        removeDecoratorsFromPhoneNumber(receiver.phoneNumberId) ===
+        removeDecoratorsFromPhoneNumber(phoneNumberId)
     ) as Receiver
   })
 }

@@ -17,12 +17,13 @@ const pureThread: PureThread = {
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   messageType: 1,
   number: "+48500600700",
+  numberId: "11",
   threadID: 1,
 }
 
 const thread: Thread = {
   id: "1",
-  phoneNumber: "+48500600700",
+  phoneNumberId: "11",
   lastUpdatedAt: new Date(1617089558 * 1000),
   messageSnippet:
     "Draft: Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",

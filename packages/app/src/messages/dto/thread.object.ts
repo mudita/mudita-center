@@ -9,7 +9,7 @@ export interface Thread {
   id: string
   contactId: string | undefined
   contactName: string | undefined
-  phoneNumber: string
+  phoneNumberId: string
   lastUpdatedAt: Date
   messageSnippet: string
   unread: boolean

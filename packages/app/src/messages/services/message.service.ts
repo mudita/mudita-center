@@ -136,7 +136,7 @@ export class MessageService {
     for (const message of messages) {
       const result = await this.createSingleMessage({
         ...newMessage,
-        phoneNumber: mapToRawNumber(newMessage.phoneNumber),
+        phoneNumberId: newMessage.phoneNumberId ?? "",
         content: message,
       })
 
@@ -294,7 +294,7 @@ export class MessageService {
     }
 
     const result = await this.createMessage({
-      phoneNumber: message.phoneNumber,
+      phoneNumberId: message.phoneNumberId,
       content: message.content,
       threadId: message.threadId,
     })

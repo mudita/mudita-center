@@ -60,6 +60,19 @@ export class ContactPresenter {
       return []
     }
 
+    console.log(
+      "serializeToObject data.contacts.values",
+      data.contacts.values,
+      "data.contacts.columns",
+      data.contacts.columns
+    )
+    console.log(
+      "serializeToObject data.contacts.values",
+      data.contact_name.values,
+      "data.contacts.columns",
+      data.contact_name.columns
+    )
+
     const contacts = this.serializeRecord<ContactEntity>(
       data.contacts.values,
       data.contacts.columns
@@ -120,15 +133,16 @@ export class ContactPresenter {
           return
         }
 
-        const [primaryPhoneNumber = "", secondaryPhoneNumber = ""] =
-          contactNumber.map((number) => number.number_user)
+        const [primaryPhoneNumberId = "", secondaryPhoneNumberId = ""] =
+          contact.numbers_id.split("")
         const address = contactAddress?.address
+        //TODO CP-1873 - deprecated methods of string
         const firstAddressLine = address.substr(0, address.indexOf("\n"))
         const secondAddressLine = address.substr(address.indexOf("\n") + 1)
 
         const contactObject: ContactObject = {
-          primaryPhoneNumber,
-          secondaryPhoneNumber,
+          primaryPhoneNumberId,
+          secondaryPhoneNumberId,
           firstAddressLine,
           secondAddressLine,
           id: contact._id,

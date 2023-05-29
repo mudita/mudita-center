@@ -30,7 +30,7 @@ import { AppError } from "App/core/errors"
 
 const thread: Thread = {
   id: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -46,7 +46,7 @@ const messageOne: Message = {
   content:
     "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
   threadId: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   messageType: MessageType.INBOX,
 }
 
@@ -55,7 +55,7 @@ const messageTwo: Message = {
   date: new Date("2019-10-18T11:27:15.256Z"),
   content: "Lorem ipsum viverra.",
   threadId: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   messageType: MessageType.INBOX,
 }
 
@@ -269,7 +269,7 @@ describe("Delete Threads data functionality", () => {
   test("Event: DeleteThreads update properly messageMap and messageIdsInThreadMap fields when exist more than one record", () => {
     const toDeleteThread: Thread = {
       id: "2",
-      phoneNumber: "+48 755 853 216",
+      phoneNumberId: "11",
       lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -285,7 +285,7 @@ describe("Delete Threads data functionality", () => {
       content:
         "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       threadId: "2",
-      phoneNumber: "+48 755 853 216",
+      phoneNumberId: "11",
       messageType: MessageType.INBOX,
     }
 
@@ -677,7 +677,7 @@ describe("Delete message functionality", () => {
 describe("Checkboxes manage", () => {
   const secondThread: Thread = {
     id: "2",
-    phoneNumber: "+48 444 853 216",
+    phoneNumberId: "11",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet: "Exercitationem vel quasi doloremque.",
     unread: true,

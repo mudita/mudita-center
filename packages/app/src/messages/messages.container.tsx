@@ -26,8 +26,8 @@ import {
   getThreadDraftMessageSelector,
 } from "App/messages/selectors"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
-import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
-import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
+import { isContactCreatedByPhoneNumberIdSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
+import { getContactByPhoneNumberSelector as getContactByPhoneNumberIdSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
 import { removeNotification } from "App/notification/actions"
 import { getNotificationByResourceAndMethod } from "App/notification/selectors"
 import {
@@ -56,12 +56,14 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
   currentlyDeletingMessageId: state.messages.data.currentlyDeletingMessageId,
-  getContactByPhoneNumber: (phoneNumber: string) =>
-    getContactByPhoneNumberSelector(phoneNumber)(state),
-  isContactCreatedByPhoneNumber: (phoneNumber: string) =>
-    isContactCreatedByPhoneNumberSelector(phoneNumber)(state),
+  getContactByPhoneNumberId: (phoneNumberId: string) =>
+    getContactByPhoneNumberIdSelector(phoneNumberId)(state),
+  isContactCreatedByPhoneNumber: (phoneNumberId: string) =>
+    isContactCreatedByPhoneNumberIdSelector(phoneNumberId)(state),
   getContact: (id: string) => getContactSelector(id)(state),
-  getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
+  getReceiver: (phoneNumberId: string) => {
+    return getReceiverSelector(phoneNumberId)(state)
+  },
   getActiveMessagesByThreadIdSelector: (threadId: string) =>
     getActiveMessagesByThreadIdSelector(threadId)(state),
   getThreadDraftMessageSelector: (threadId: string) =>

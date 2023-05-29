@@ -14,7 +14,7 @@ const message: Message = {
   content:
     "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
   threadId: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   messageType: MessageType.INBOX,
 }
 

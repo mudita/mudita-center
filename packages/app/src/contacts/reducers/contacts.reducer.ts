@@ -61,12 +61,14 @@ export const contactsReducer = createReducer<ContactsState>(
             (key) => action.payload.contacts[key]
           )
 
-          return {
+          const result = {
             ...state,
             ...contactDatabaseFactory(contacts),
             resultState: ResultState.Loaded,
             error: null,
           }
+
+          return result
         }
       )
       .addCase(

@@ -4,14 +4,14 @@
  */
 
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
+import { isContactMatchingPhoneNumberId } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 const findContactByPhoneNumber = (
   contacts: Contact[],
-  phoneNumber: string
+  phoneNumberId: string
 ): Contact | undefined => {
   return contacts.find((contact) =>
-    isContactMatchingPhoneNumber(contact, phoneNumber)
+    isContactMatchingPhoneNumberId(contact, phoneNumberId)
   )
 }
 

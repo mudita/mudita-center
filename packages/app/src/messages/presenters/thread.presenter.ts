@@ -15,13 +15,14 @@ export class ThreadPresenter {
       lastUpdatedAt,
       threadID,
       number = "",
+      numberId = "",
       messageType,
     } = pureThread
     return {
       messageSnippet: ThreadPresenter.buildMessageSnippet(pureThread),
       unread: isUnread,
       id: String(threadID),
-      phoneNumber: String(number),
+      phoneNumberId: String(numberId),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
       messageType: ThreadPresenter.getMessageType(Number(messageType)),
       contactId: undefined,

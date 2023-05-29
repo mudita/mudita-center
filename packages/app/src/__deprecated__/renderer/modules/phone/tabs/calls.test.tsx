@@ -46,7 +46,7 @@ test("caller name is displayed correctly", () => {
   const contact: Contact = {
     id: caller.id,
     firstName: caller.firstName,
-    lastName: caller.lastName,
+    lastName: caller.lastName ?? "",
     primaryPhoneNumber: caller.phoneNumber,
     secondaryPhoneNumber: caller.secondaryPhoneNumber,
   }

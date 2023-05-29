@@ -16,6 +16,7 @@ import {
   MessageIndexer,
   ThreadIndexer,
   TemplateIndexer,
+  PhoneNumberIndexer,
 } from "App/data-sync/indexes"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import {
@@ -23,6 +24,7 @@ import {
   MessagePresenter,
   TemplatePresenter,
   ThreadPresenter,
+  PhoneNumberPresenter,
 } from "App/data-sync/presenters"
 import { SyncBackupCreateService } from "App/backup/services/sync-backup-create.service"
 
@@ -31,6 +33,7 @@ export class DataSyncService {
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
   private templateIndexer: TemplateIndexer | null = null
+  private phoneNumberIndexer: PhoneNumberIndexer | null = null
   private syncBackupCreateService: SyncBackupCreateService
 
   constructor(
@@ -61,9 +64,14 @@ export class DataSyncService {
       this.fileSystemStorage,
       new TemplatePresenter()
     )
+    this.phoneNumberIndexer = new PhoneNumberIndexer(
+      this.fileSystemStorage,
+      new PhoneNumberPresenter()
+    )
   }
 
   public async indexAll(): Promise<boolean> {
+    console.log("DataSyncService indexAll")
     const serialNumber = String(
       this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
     )
@@ -77,7 +85,8 @@ export class DataSyncService {
       !this.contactIndexer ||
       !this.messageIndexer ||
       !this.threadIndexer ||
-      !this.templateIndexer
+      !this.templateIndexer ||
+      !this.phoneNumberIndexer
     ) {
       return false
     }
@@ -103,11 +112,16 @@ export class DataSyncService {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const templateIndex = await this.templateIndexer.index(syncFileDir, token)
     const threadIndex = await this.threadIndexer.index(syncFileDir, token)
+    const phoneNumberIndex = await this.phoneNumberIndexer.index(
+      syncFileDir,
+      token
+    )
 
     this.index.set(DataIndex.Contact, contactIndex)
     this.index.set(DataIndex.Message, messageIndex)
     this.index.set(DataIndex.Template, templateIndex)
     this.index.set(DataIndex.Thread, threadIndex)
+    this.index.set(DataIndex.PhoneNumber, phoneNumberIndex)
 
     return true
   }

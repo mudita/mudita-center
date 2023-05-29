@@ -14,10 +14,20 @@ import {
 } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection.styled"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { useState } from "react"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { useSelector } from "react-redux"
 
 export const ContactSimpleItemListPhoneSelection: FunctionComponent<
   ContactSimpleItemListPhoneSelectionProps
 > = ({ contact, onPhoneNumberSelect }) => {
+  {
+    /* TODO CP-1873 - needs a change */
+  }
+  const primaryPhoneNumber =
+    useSelector(getPhoneNumberById(contact.primaryPhoneNumberId ?? "")) ?? ""
+  const secondaryPhoneNumber =
+    useSelector(getPhoneNumberById(contact.secondaryPhoneNumberId ?? "")) ?? ""
+
   const [mainColumnHovered, setMainColumnHovered] = useState<boolean>(false)
 
   const onMainColumnMouseEnter = () => {
@@ -28,15 +38,15 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
     setMainColumnHovered(false)
   }
 
-  const handlePhoneNumberSelection = (phoneNumber: string) => {
-    onPhoneNumberSelect(phoneNumber)
+  const handlePhoneNumberSelection = (phoneNumberId: string) => {
+    onPhoneNumberSelect(phoneNumberId)
   }
 
   const onAvatarColClick = () => {
-    if (contact.primaryPhoneNumber) {
-      onPhoneNumberSelect(contact.primaryPhoneNumber)
-    } else if (contact.secondaryPhoneNumber) {
-      onPhoneNumberSelect(contact.secondaryPhoneNumber)
+    if (contact.primaryPhoneNumberId) {
+      onPhoneNumberSelect(contact.primaryPhoneNumberId)
+    } else if (contact.secondaryPhoneNumberId) {
+      onPhoneNumberSelect(contact.secondaryPhoneNumberId)
     }
   }
 
@@ -54,7 +64,7 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
         <ContactSimpleListItemAvatar contact={contact} />
       </AvatarCol>
       <PhoneNumberCol>
-        {contact.primaryPhoneNumber && (
+        {contact.primaryPhoneNumberId && (
           <FirstPhoneNumber
             onMouseEnter={onMainColumnMouseEnter}
             onMouseLeave={onMainColumnMouseOut}
@@ -62,17 +72,17 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
             onClick={() =>
               // AUTO DISABLED - fix me if you like :)
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              handlePhoneNumberSelection(contact.primaryPhoneNumber!)
+              handlePhoneNumberSelection(contact.primaryPhoneNumberId ?? "")
             }
             data-testid={
               ContactSimpleListPhoneSelectionItemTestIdsEnum.PrimaryPhoneField
             }
           >
-            {contact.primaryPhoneNumber}
+            {primaryPhoneNumber}
           </FirstPhoneNumber>
         )}
-        {contact.secondaryPhoneNumber &&
-          (!contact.primaryPhoneNumber ? (
+        {contact.secondaryPhoneNumberId &&
+          (!contact.primaryPhoneNumberId ? (
             <FirstPhoneNumber
               onMouseEnter={onMainColumnMouseEnter}
               onMouseLeave={onMainColumnMouseOut}
@@ -80,26 +90,26 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
               onClick={() =>
                 // AUTO DISABLED - fix me if you like :)
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                handlePhoneNumberSelection(contact.secondaryPhoneNumber!)
+                handlePhoneNumberSelection(contact.secondaryPhoneNumberId!)
               }
               data-testid={
                 ContactSimpleListPhoneSelectionItemTestIdsEnum.SecondaryPhoneField
               }
             >
-              {contact.primaryPhoneNumber}
+              {primaryPhoneNumber}
             </FirstPhoneNumber>
           ) : (
             <SecondPhoneNumber
               onClick={() =>
                 // AUTO DISABLED - fix me if you like :)
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                handlePhoneNumberSelection(contact.secondaryPhoneNumber!)
+                handlePhoneNumberSelection(contact.secondaryPhoneNumberId!)
               }
               data-testid={
                 ContactSimpleListPhoneSelectionItemTestIdsEnum.SecondaryPhoneField
               }
             >
-              {contact.secondaryPhoneNumber}
+              {secondaryPhoneNumber}
             </SecondPhoneNumber>
           ))}
       </PhoneNumberCol>

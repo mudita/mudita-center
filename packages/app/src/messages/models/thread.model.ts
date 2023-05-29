@@ -61,9 +61,9 @@ export class ThreadModel extends BaseModel<Thread> {
 
   private assignContactData(data: Thread): Thread {
     const contactIndex = this.index.get(DataIndex.Contact) as Index<Contact>
-    const contactRef = contactIndex.search(data.phoneNumber, {
+    const contactRef = contactIndex.search(data.phoneNumberId, {
       fields: {
-        primaryPhoneNumber: { boost: 1 },
+        primaryPhoneNumberId: { boost: 1 },
       },
     })
 

@@ -16,6 +16,7 @@ import {
   MessageObject,
   TemplateObject,
   ThreadObject,
+  PhoneNumberObject,
 } from "App/data-sync/types"
 import { AllIndexes } from "App/data-sync/types/all-indexes.type"
 
@@ -26,12 +27,16 @@ export const readAllIndexes = createAsyncThunk<AllIndexes, void>(
     const messages = await getIndexRequest<MessageObject>(DataIndex.Message)
     const templates = await getIndexRequest<TemplateObject>(DataIndex.Template)
     const threads = await getIndexRequest<ThreadObject>(DataIndex.Thread)
+    const phoneNumbers = await getIndexRequest<PhoneNumberObject>(
+      DataIndex.PhoneNumber
+    )
 
     if (
       contacts === undefined ||
       messages === undefined ||
       templates === undefined ||
-      threads === undefined
+      threads === undefined ||
+      phoneNumbers === undefined
     ) {
       return rejectWithValue(
         new AppError(DataSyncError.ReadAllIndexes, "Read All Indexes fails")
@@ -43,6 +48,7 @@ export const readAllIndexes = createAsyncThunk<AllIndexes, void>(
       messages: messages.documentStore.docs,
       templates: templates.documentStore.docs,
       threads: threads.documentStore.docs,
+      phoneNumbers: phoneNumbers.documentStore.docs,
     }
   }
 )

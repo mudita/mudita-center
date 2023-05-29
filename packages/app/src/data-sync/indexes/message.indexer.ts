@@ -40,7 +40,7 @@ export class MessageIndexer extends BaseIndexer {
     index.addField("content")
     index.addField("date")
     index.addField("messageType")
-    index.addField("phoneNumber")
+    index.addField("phoneNumberId")
     index.addField("threadId")
 
     data.forEach((item) => {

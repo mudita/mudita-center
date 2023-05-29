@@ -8,4 +8,5 @@ export enum DataIndex {
   Message = "message",
   Template = "template",
   Thread = "thread",
+  PhoneNumber = "phone-number",
 }

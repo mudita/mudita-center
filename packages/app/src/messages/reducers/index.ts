@@ -5,3 +5,5 @@
 
 export * from "./messages.interface"
 export * from "./messages.reducer"
+export * from "./phone-numbers.interface"
+export * from "./phone-numbers.reducer"

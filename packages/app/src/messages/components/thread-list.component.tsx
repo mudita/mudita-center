@@ -34,7 +34,7 @@ interface Props extends Pick<Settings, "language"> {
   activeThread?: Thread
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (threads: Thread[]) => void
-  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
+  getContactByPhoneNumberId: (phoneNumberId: string) => Contact | undefined
   onContactClick: (phoneNumber: string) => void
   loadMoreRows: (props: IndexRange) => Promise<void>
   newConversation: string
@@ -49,7 +49,7 @@ const ThreadList: FunctionComponent<Props> = ({
   onDeleteClick,
   onToggleReadStatus,
   language,
-  getContactByPhoneNumber,
+  getContactByPhoneNumberId,
   onContactClick,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -70,9 +70,24 @@ const ThreadList: FunctionComponent<Props> = ({
     if (thread === undefined) {
       return <ThreadPlaceholderRow key={index} style={style} />
     } else {
-      const { id, phoneNumber } = thread
-      const active = activeThread?.id === id
-      const contact = getContactByPhoneNumber(phoneNumber)
+      const active = activeThread?.id === thread.id
+
+      console.log("ThreadList activeThread", activeThread)
+
+      // console.log(
+      //   "ThreadList renderRow activeThread?.phoneNumberId",
+      //   activeThread?.phoneNumberId
+      // )
+
+      const contact = getContactByPhoneNumberId(thread?.phoneNumberId ?? "")
+
+      console.log(
+        "ThreadList renderRow contact",
+        contact,
+        "thread?.phoneNumberId",
+        thread?.phoneNumberId
+      )
+
       const indeterminate = false
       const selectedRow = selectedItems.rows.includes(thread.id)
 
@@ -86,7 +101,7 @@ const ThreadList: FunctionComponent<Props> = ({
 
       return (
         <ThreadRow
-          key={phoneNumber}
+          key={thread.id}
           active={active}
           selected={selectedRow}
           indeterminate={indeterminate}

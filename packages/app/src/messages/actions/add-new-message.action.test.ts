@@ -22,7 +22,6 @@ jest.mock("App/messages/requests/create-message.request")
 const mockAddedNewMessageData: NewMessage = {
   content:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-  phoneNumber: "+48500600700",
 }
 const mockAddedMessageData: CreateMessageDataResponse = {
   messageParts: [
@@ -32,7 +31,7 @@ const mockAddedMessageData: CreateMessageDataResponse = {
         date: new Date(),
         content: mockAddedNewMessageData.content,
         threadId: "1",
-        phoneNumber: mockAddedNewMessageData.phoneNumber,
+        phoneNumberId: "1",
         messageType: MessageType.OUTBOX,
       },
     },

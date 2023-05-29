@@ -7,7 +7,7 @@ import { combineReducers } from "redux"
 import { deviceReducer } from "App/device/reducers"
 import { crashDumpReducer } from "App/crash-dump/reducers"
 import { backupReducer } from "App/backup/reducers"
-import { messagesReducer } from "App/messages/reducers"
+import { messagesReducer, phoneNumbersReducer } from "App/messages/reducers"
 import { modalsManagerReducer } from "App/modals-manager/reducers"
 import { contactSupportReducer } from "App/contact-support/reducers"
 import { contactsReducer } from "App/contacts/reducers"
@@ -34,6 +34,7 @@ export const reducers = {
   news: newsReducer,
   settings: settingsReducer,
   update: updateOsReducer,
+  phoneNumbers: phoneNumbersReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

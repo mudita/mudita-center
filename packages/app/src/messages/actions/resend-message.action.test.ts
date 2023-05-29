@@ -28,7 +28,7 @@ const mockReSendedMessageData: CreateMessageDataResponse = {
         content:
           "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
         threadId: "1",
-        phoneNumber: "+48500600700",
+        phoneNumberId: "11",
         messageType: MessageType.OUTBOX,
       },
     },

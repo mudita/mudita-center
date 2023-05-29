@@ -31,7 +31,7 @@ export class MessagePresenter {
   }
 
   public serializeToObject(data: MessageInput): MessageObject[] {
-    if (!data.sms || !data.contact_number|| !data.threads) {
+    if (!data.sms || !data.contact_number || !data.threads) {
       return []
     }
 
@@ -54,16 +54,13 @@ export class MessagePresenter {
           threads,
           String(message.thread_id)
         )
-        const contactNumber = this.findRecords<ContactNumberEntity>(
-          contactNumbers,
-          String(thread?.number_id)
-        )
 
+        //TODO CP-1873 - change ?? ""... :)
         return {
           id: message._id,
           date: new Date(Number(message.date) * 1000),
           content: message.body,
-          phoneNumber: contactNumber?.number_user,
+          phoneNumberId: thread?.number_id ?? "",
           threadId: String(message.thread_id),
           messageType: MessagePresenter.getMessageType(Number(message.type)),
         }

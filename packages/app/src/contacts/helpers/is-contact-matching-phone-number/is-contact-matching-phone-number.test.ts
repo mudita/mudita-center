@@ -3,35 +3,35 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
+import { isContactMatchingPhoneNumberId } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 test("function returns true for the same primary number", () => {
-  const result = isContactMatchingPhoneNumber(
-    { primaryPhoneNumber: "123456" },
+  const result = isContactMatchingPhoneNumberId(
+    { primaryPhoneNumberId: "123456" },
     "123456"
   )
   expect(result).toBeTruthy()
 })
 
 test("function returns true for the same secondary number", () => {
-  const result = isContactMatchingPhoneNumber(
-    { secondaryPhoneNumber: "123456" },
+  const result = isContactMatchingPhoneNumberId(
+    { secondaryPhoneNumberId: "123456" },
     "123456"
   )
   expect(result).toBeTruthy()
 })
 
 test("function returns true for the same primary and secondary numbers", () => {
-  const result = isContactMatchingPhoneNumber(
-    { primaryPhoneNumber: "123456", secondaryPhoneNumber: "123456" },
+  const result = isContactMatchingPhoneNumberId(
+    { primaryPhoneNumberId: "123456", secondaryPhoneNumberId: "123456" },
     "123456"
   )
   expect(result).toBeTruthy()
 })
 
 test("function returns false for different numbers", () => {
-  const result = isContactMatchingPhoneNumber(
-    { primaryPhoneNumber: "123456", secondaryPhoneNumber: "987654" },
+  const result = isContactMatchingPhoneNumberId(
+    { primaryPhoneNumberId: "123456", secondaryPhoneNumberId: "987654" },
     "456789"
   )
   expect(result).toBeFalsy()

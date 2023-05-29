@@ -26,8 +26,10 @@ export class MessagePresenter {
   static mapToCreatePureMessageBody(
     newMessage: NewMessage
   ): CreateMessageRequestConfig["body"] {
+    //TODO CP-1873 - should i send here phone numbeR?
     return {
-      number: newMessage.phoneNumber,
+      //numberId: ...
+      number: newMessage.phoneNumberId ?? "",
       messageBody: newMessage.content,
       category: PureMessagesCategory.message,
       ...(newMessage.messageType
@@ -54,16 +56,24 @@ export class MessagePresenter {
   static mapToMessage(
     pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
   ): Message {
-    const { messageBody, messageID, messageType, createdAt, threadID, number } =
-      pureMessage
-    return {
-      phoneNumber: number,
+    const {
+      messageBody,
+      messageID,
+      messageType,
+      createdAt,
+      threadID,
+      numberId,
+    } = pureMessage
+
+    const result = {
+      phoneNumberId: numberId,
       id: String(messageID),
       date: new Date(createdAt * 1000),
       content: messageBody,
       threadId: String(threadID),
       messageType: MessagePresenter.getMessageType(messageType),
     }
+    return result
   }
 
   private static getMessageType(

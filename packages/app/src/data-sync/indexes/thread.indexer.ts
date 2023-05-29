@@ -27,9 +27,11 @@ export class ThreadIndexer extends BaseIndexer {
   async index(fileDir: string, token: string): Promise<Index<ThreadObject>> {
     const smsDb = await this.initTmpSmsDatabase(fileDir, token)
     const contactDb = await this.initTmpContactDatabase(fileDir, token)
+
     const object = this.dataPresenter.serializeToObject(
       this.loadTables(smsDb, contactDb)
     )
+
     return this.createIndex(object)
   }
 
@@ -39,7 +41,7 @@ export class ThreadIndexer extends BaseIndexer {
     index.setRef("id")
     index.addField("contactId")
     index.addField("contactName")
-    index.addField("phoneNumber")
+    index.addField("phoneNumberId")
     index.addField("lastUpdatedAt")
     index.addField("messageSnippet")
     index.addField("unread")
@@ -53,6 +55,15 @@ export class ThreadIndexer extends BaseIndexer {
   }
 
   private loadTables(smsDb: Database, contactDb: Database): ThreadInput {
+    const threads = smsDb.exec(
+      `SELECT * FROM ${ThreadTable.Threads};`
+    )[0] as unknown as ThreadInput["threads"]
+    console.log("loadTables threads", threads)
+
+    const contact_name = contactDb.exec(
+      `SELECT * FROM ${ThreadTable.Names};`
+    )[0] as unknown as ThreadInput["contact_name"]
+
     return {
       [ThreadTable.Threads]: smsDb.exec(
         `SELECT * FROM ${ThreadTable.Threads};`

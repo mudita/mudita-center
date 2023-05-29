@@ -22,7 +22,7 @@ describe("`isThreadOpenedSelector` selector", () => {
   test("when threadMap no contains searched phoneNumber selector returns false", () => {
     const thread: Thread = {
       id: "1",
-      phoneNumber: "+48 755 853 216",
+      phoneNumberId: "11",
       lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -48,13 +48,13 @@ describe("`isThreadOpenedSelector` selector", () => {
         {} as any
       ),
     } as ReduxRootState
-    expect(isThreadOpenedSelector("500500500")(state)).toBeFalsy()
+    expect(isThreadOpenedSelector("500")(state)).toBeFalsy()
   })
 
   test("when threadMap contains searched phoneNumber selector returns true", () => {
     const thread: Thread = {
       id: "1",
-      phoneNumber: "+48 755 853 216",
+      phoneNumberId: "11",
       lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -80,6 +80,6 @@ describe("`isThreadOpenedSelector` selector", () => {
         {} as any
       ),
     } as ReduxRootState
-    expect(isThreadOpenedSelector("+48 755 853 216")(state)).toBeTruthy()
+    expect(isThreadOpenedSelector("11")(state)).toBeTruthy()
   })
 })

@@ -18,7 +18,7 @@ export const isReceiverMatching = (
   receiver: Receiver,
   search: string
 ): boolean => {
-  const query: (keyof Receiver)[] = ["firstName", "lastName", "phoneNumber"]
+  const query: (keyof Receiver)[] = ["firstName", "lastName", "phoneNumberId"]
   for (const key of query) {
     const param: typeof receiver[keyof typeof receiver] = receiver[key]
     if (
@@ -39,7 +39,7 @@ interface Props extends SidebarProps {
   receivers: Receiver[]
   onContentChange: (content: string) => void
   onSendClick: (phoneNumber: string) => void
-  onPhoneNumberSelect: (phoneNumber: string) => void
+  onPhoneNumberSelect: (phoneNumberId: string) => void
   onReceiverSelect: (receiver: Receiver) => void
   onAttachContactClick: () => void
   onBrowseContactsClick: () => void
@@ -82,7 +82,9 @@ const NewMessageForm: FunctionComponent<Props> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     if (searchValue.match(phoneNumberRegexp)) {
-      onPhoneNumberSelect(searchValue)
+      //TODO CP-1873 - hm, how to fix it?
+      //i am broken
+      //onPhoneNumberSelect(searchValue)
     }
   }
 

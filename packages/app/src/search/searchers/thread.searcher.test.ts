@@ -19,7 +19,7 @@ const threadMock: Thread = {
   messageSnippet:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   unread: true,
-  phoneNumber: "123123123",
+  phoneNumberId: "11",
   messageType: MessageType.INBOX,
   contactId: undefined,
   contactName: undefined,
@@ -36,7 +36,7 @@ describe("When index exists", () => {
     indexThreadMock.addField("lastUpdatedAt")
     indexThreadMock.addField("messageSnippet")
     indexThreadMock.addField("unread")
-    indexThreadMock.addField("phoneNumber")
+    indexThreadMock.addField("phoneNumberId")
     indexThreadMock.addField("messageType")
 
     indexThreadMock.addDoc(threadMock)

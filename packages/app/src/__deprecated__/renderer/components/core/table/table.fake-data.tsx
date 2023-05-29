@@ -64,7 +64,7 @@ const createMessage = ({ id }: Thread): Message => {
     date: faker.date.past(),
     content: faker.lorem.sentences(2),
     threadId: id,
-    phoneNumber: id,
+    phoneNumberId: id,
     messageType: faker.datatype.boolean()
       ? MessageType.OUTBOX
       : MessageType.INBOX,
@@ -75,10 +75,10 @@ const createThread = (): Thread => {
   const contact = createFakeContact()
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const threadId = contact.primaryPhoneNumber!
+  const threadId = contact.primaryPhoneNumberId!
   return {
     id: threadId,
-    phoneNumber: threadId,
+    phoneNumberId: threadId,
     unread: faker.datatype.boolean(),
     lastUpdatedAt: faker.date.past(),
     messageSnippet: faker.lorem.paragraphs(random(1, 3)),

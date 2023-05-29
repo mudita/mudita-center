@@ -22,13 +22,13 @@ const pureMessage: PureMessage & {
   messageType: PureMessageType.OUTBOX,
   createdAt: 1547465101,
   threadID: 1,
-  number: "+48500600700",
+  numberId: "11",
 }
 
 const newMessage: NewMessage = {
   content:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-  phoneNumber: "+48500600700",
+  phoneNumberId: "123",
 }
 
 const message: Message = {
@@ -38,7 +38,7 @@ const message: Message = {
   date: new Date(1547465101 * 1000),
   content:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-  phoneNumber: "+48500600700",
+  phoneNumberId: "11",
 }
 
 describe("Method: mapToCreatePureMessageBody", () => {

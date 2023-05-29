@@ -51,6 +51,8 @@ import {
   WarningIconWrapper,
 } from "App/messages/components/thread-row.styled"
 import { isPhoneNumberValid } from "App/messages/helpers/threads.helpers"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { useSelector } from "react-redux"
 
 const messages = defineMessages({
   dropdownTogglerTooltipDescription: {
@@ -73,7 +75,7 @@ interface Props
   onRowClick: (thread: Thread) => void
   onDeleteClick: (id: Thread["id"]) => void
   onToggleReadClick: (threads: Thread[]) => void
-  onContactClick: (phoneNumber: Thread["phoneNumber"]) => void
+  onContactClick: (phoneNumber: Thread["phoneNumberId"]) => void
   newConversation: string
   threadsOffset?: { left: number; top: number }
 }
@@ -97,17 +99,27 @@ const ThreadRow: FunctionComponent<Props> = ({
   ...props
 }) => {
   const contactCreated = contact !== undefined
-  const { unread, id, phoneNumber } = thread
+  const { unread, id, phoneNumberId } = thread
+  const phoneNumber = useSelector(getPhoneNumberById(phoneNumberId)) ?? ""
+
+  console.log(
+    "ThreadRow phoneNumberId",
+    phoneNumberId,
+    "phoneNumber",
+    phoneNumber
+  )
+
   const isMessageFailed = thread.messageType === MessageType.FAILED
   const newConversationOpen =
     getPrettyCaller(contact, phoneNumber) === newConversation
+
   const handleCheckboxChange = () => onCheckboxChange(thread.id)
   const handleRowClick = () => onRowClick(thread)
   const handleDeleteClick = () => onDeleteClick(id)
   const handleToggleClick = () => {
     onToggleReadClick([thread])
   }
-  const handleContactClick = () => onContactClick(phoneNumber)
+  const handleContactClick = () => onContactClick(phoneNumberId)
 
   return (
     <ThreadRowContainer

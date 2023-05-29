@@ -14,6 +14,8 @@ import {
 } from "App/core/types/request-response.interface"
 import { ContactEntryHandlerService } from "App/outbox/services/contact-entry-handler.service"
 import { Contact } from "App/contacts/reducers"
+import { PhoneNumberService } from "App/messages/services"
+import { PhoneNumberRepository } from "App/messages/repositories"
 
 const contactMock: Contact = {
   blocked: false,
@@ -47,6 +49,8 @@ describe("ContactEntryHandlerService: handleEntry", () => {
     let subject: ContactEntryHandlerService
     let contactService: ContactService
     let contactRepository: ContactRepository
+    let phoneNumberService: PhoneNumberService
+    let phoneNumberRepository: PhoneNumberRepository
     const entry: OutboxEntry = {
       uid: 1,
       type: OutboxEntryType.Contact,
@@ -63,7 +67,9 @@ describe("ContactEntryHandlerService: handleEntry", () => {
       } as unknown as ContactService
       subject = new ContactEntryHandlerService(
         contactService,
-        contactRepository
+        contactRepository,
+        phoneNumberService,
+        phoneNumberRepository
       )
     })
 
@@ -79,6 +85,8 @@ describe("ContactEntryHandlerService: handleEntry", () => {
     let subject: ContactEntryHandlerService
     let contactService: ContactService
     let contactRepository: ContactRepository
+    let phoneNumberService: PhoneNumberService
+    let phoneNumberRepository: PhoneNumberRepository
     const entry: OutboxEntry = {
       uid: 1,
       type: OutboxEntryType.Contact,
@@ -95,7 +103,9 @@ describe("ContactEntryHandlerService: handleEntry", () => {
       } as unknown as ContactService
       subject = new ContactEntryHandlerService(
         contactService,
-        contactRepository
+        contactRepository,
+        phoneNumberService,
+        phoneNumberRepository
       )
     })
 
@@ -111,6 +121,8 @@ describe("ContactEntryHandlerService: handleEntry", () => {
     let subject: ContactEntryHandlerService
     let contactService: ContactService
     let contactRepository: ContactRepository
+    let phoneNumberService: PhoneNumberService
+    let phoneNumberRepository: PhoneNumberRepository
     const entry: OutboxEntry = {
       uid: 1,
       type: OutboxEntryType.Contact,
@@ -127,7 +139,9 @@ describe("ContactEntryHandlerService: handleEntry", () => {
       } as unknown as ContactService
       subject = new ContactEntryHandlerService(
         contactService,
-        contactRepository
+        contactRepository,
+        phoneNumberService,
+        phoneNumberRepository
       )
     })
 
@@ -143,6 +157,8 @@ describe("ContactEntryHandlerService: handleEntry", () => {
     let subject: ContactEntryHandlerService
     let contactService: ContactService
     let contactRepository: ContactRepository
+    let phoneNumberService: PhoneNumberService
+    let phoneNumberRepository: PhoneNumberRepository
     const entry: OutboxEntry = {
       uid: 1,
       type: OutboxEntryType.Contact,
@@ -159,7 +175,9 @@ describe("ContactEntryHandlerService: handleEntry", () => {
       } as unknown as ContactService
       subject = new ContactEntryHandlerService(
         contactService,
-        contactRepository
+        contactRepository,
+        phoneNumberService,
+        phoneNumberRepository
       )
     })
 

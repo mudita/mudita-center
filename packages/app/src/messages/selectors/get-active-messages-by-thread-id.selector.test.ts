@@ -16,7 +16,7 @@ import { State } from "App/core/constants"
 
 const thread: Thread = {
   id: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -31,7 +31,7 @@ const draftMessage: Message = {
   date: new Date("2019-10-18T11:27:15.256Z"),
   content: "Draft message #1",
   threadId: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   messageType: MessageType.DRAFT,
 }
 
@@ -40,7 +40,7 @@ const firstMessage: Message = {
   date: new Date("2019-10-18T11:27:15.256Z"),
   content: "Draft message #2",
   threadId: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   messageType: MessageType.INBOX,
 }
 
@@ -49,7 +49,7 @@ const secondMessage: Message = {
   date: new Date("2019-10-18T11:27:15.256Z"),
   content: "Outbox message",
   threadId: "1",
-  phoneNumber: "+48 755 853 216",
+  phoneNumberId: "11",
   messageType: MessageType.OUTBOX,
 }
 

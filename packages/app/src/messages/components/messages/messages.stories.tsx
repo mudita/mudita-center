@@ -40,18 +40,18 @@ const receivers: Receiver[] = [
   {
     firstName: "Oswald",
     lastName: "Bednar",
-    phoneNumber: "+62761294266",
+    phoneNumberId: "11",
     identification: ReceiverIdentification.unknown,
   },
   {
     lastName: "Abernathy",
-    phoneNumber: "+78722986805",
+    phoneNumberId: "12",
     identification: ReceiverIdentification.unknown,
   },
   {
     firstName: "Sandra",
     lastName: "Zulauf",
-    phoneNumber: "+01078963511",
+    phoneNumberId: "13",
     identification: ReceiverIdentification.unknown,
   },
 ]
@@ -149,7 +149,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
         isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
         addNewMessage={promiseAction("Add New Message")}
-        getContactByPhoneNumber={noop}
+        getContactByPhoneNumberId={noop}
         getReceiver={noop}
         receivers={receivers}
         loadThreads={loadData}

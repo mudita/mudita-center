@@ -61,7 +61,8 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
         )}
         <MessageListItemWrapper>
           <MessageListItemInfoWrapper>
-            <ContactName phoneNumber={item.data.phoneNumber} />
+            {/* TODO CP-1873 */}
+            {/* <ContactName phoneNumber={item.data.phoneNumber} /> */}
             {messageContent && (
               <Time displayStyle={TextDisplayStyle.Label} color="secondary">
                 {isToday(item.data.date)
@@ -80,7 +81,8 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
             </MessageSearchResultAccent>
           ) : (
             <MessageListItemContent>
-              {item.data.phoneNumber}
+              {/* TODO CP-1873 */}
+              {/* {item.data.phoneNumber} */}
             </MessageListItemContent>
           )}
         </MessageListItemWrapper>

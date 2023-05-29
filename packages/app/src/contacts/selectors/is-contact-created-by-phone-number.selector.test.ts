@@ -5,7 +5,7 @@
 
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact, contactsReducer, initialState } from "App/contacts/reducers"
-import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
+import { isContactCreatedByPhoneNumberIdSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
 
 describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
@@ -15,7 +15,7 @@ describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
       contacts: contactsReducer(initialState, {} as any),
     } as ReduxRootState
     expect(
-      isContactCreatedByPhoneNumberSelector("+71195069214")(state)
+      isContactCreatedByPhoneNumberIdSelector("+71195069214")(state)
     ).toBeFalsy()
   })
 
@@ -49,7 +49,7 @@ describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
       ),
     } as ReduxRootState
     expect(
-      isContactCreatedByPhoneNumberSelector("+71195069214")(state)
+      isContactCreatedByPhoneNumberIdSelector("+71195069214")(state)
     ).toBeTruthy()
   })
 })

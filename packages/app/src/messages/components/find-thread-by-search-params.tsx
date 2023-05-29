@@ -10,10 +10,11 @@ const findThreadBySearchParams = (
   searchParams: URLSearchParams,
   threads: Thread[]
 ): Thread | undefined => {
-  const paramsPhoneNumber = searchParams.get("phoneNumber") || ""
+  //TODO CP-1873 - make sure that works
+  const paramsPhoneNumberId = searchParams.get("phoneNumberId") || ""
 
-  return threads.find(({ phoneNumber }) =>
-    isCallerMatchingPhoneNumber(phoneNumber, paramsPhoneNumber)
+  return threads.find(({ phoneNumberId }) =>
+    isCallerMatchingPhoneNumber(phoneNumberId, paramsPhoneNumberId)
   )
 }
 

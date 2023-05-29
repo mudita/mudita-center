@@ -21,6 +21,7 @@ const messages = defineMessages({
 export const ContactName: FunctionComponent<ContactNameProps> = ({
   phoneNumber,
 }) => {
+  //TODO 1873 - phoneNumberId should be used
   const contact = useSelector(getContactByPhoneNumberSelector(phoneNumber))
 
   return (

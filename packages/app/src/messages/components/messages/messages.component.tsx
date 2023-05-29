@@ -34,7 +34,7 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import createRouterPath from "App/__deprecated__/renderer/utils/create-router-path"
 import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
+import { isThreadPhoneNumberIdEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 import { ContactSelectModal } from "App/contacts"
 import { TemplatesSelectModal } from "App/templates/components/templates-select-modal/templates-select-modal.component"
 import { Template } from "App/templates/dto"
@@ -62,7 +62,7 @@ const contactsModalMessages = defineMessages({
 
 const mockThread: Thread = {
   id: "tmpId",
-  phoneNumber: "New Conversation",
+  phoneNumberId: "",
   lastUpdatedAt: new Date(),
   messageSnippet: "",
   unread: false,
@@ -93,7 +93,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   toggleReadStatus = noop,
   markThreadsReadStatus = noop,
   language,
-  getContactByPhoneNumber,
+  getContactByPhoneNumberId,
   isContactCreatedByPhoneNumber,
   addNewMessage,
   deleteMessage,
@@ -126,7 +126,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
     browseContact: false,
     draftDeleting: false,
   })
-
   // TODO [CP-1401] move component logic to custom hook
 
   const history = useHistory()
@@ -134,6 +133,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
+
   const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
   const [draftMessage, setDraftMessage] = useState<Message>()
   const [content, setContent] = useState("")
@@ -224,7 +224,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
+    const thread = threads.find(
+      isThreadPhoneNumberIdEqual(activeThread.phoneNumberId)
+    )
 
     if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
@@ -257,9 +259,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
       if (
         activeThread &&
         debouncedContent &&
-        activeThread.phoneNumber !== mockThread.phoneNumber
+        activeThread.phoneNumberId !== mockThread.phoneNumberId
       ) {
-        void handleAddNewMessage(activeThread.phoneNumber, MessageType.DRAFT)
+        void handleAddNewMessage(activeThread.phoneNumberId, MessageType.DRAFT)
         updateFieldState("draftDeleting", false)
       }
     }
@@ -302,10 +304,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
   }
 
-  const contactClick = (phoneNumber: string) => {
+  const contactClick = (phoneNumberId: string) => {
     history.push(
       createRouterPath(URL_MAIN.contacts, {
-        phoneNumber,
+        phoneNumberId,
       })
     )
   }
@@ -339,17 +341,17 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    if (contact.primaryPhoneNumber) {
-      handlePhoneNumberSelect(contact.primaryPhoneNumber)
-    } else if (contact.secondaryPhoneNumber) {
-      handlePhoneNumberSelect(contact.secondaryPhoneNumber)
+    if (contact.primaryPhoneNumberId) {
+      handlePhoneNumberSelect(contact.primaryPhoneNumberId)
+    } else if (contact.secondaryPhoneNumberId) {
+      handlePhoneNumberSelect(contact.secondaryPhoneNumberId)
     }
 
     updateFieldState("browseContact", false)
   }
 
-  const handleBrowsePhoneNumberSelection = (phoneNumber: string): void => {
-    handlePhoneNumberSelect(phoneNumber)
+  const handleBrowsePhoneNumberSelection = (phoneNumberId: string): void => {
+    handlePhoneNumberSelect(phoneNumberId)
     updateFieldState("browseContact", false)
   }
 
@@ -390,7 +392,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleNewMessageClick = (): void => {
     if (
       tmpActiveThread === undefined ||
-      tmpActiveThread.phoneNumber !== mockThread.phoneNumber
+      tmpActiveThread.phoneNumberId !== mockThread.phoneNumberId
     ) {
       openNewMessage()
     }
@@ -416,7 +418,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
     history.push(
       createRouterPath(URL_MAIN.contacts, {
-        phoneNumber: activeThread.phoneNumber,
+        phoneNumberId: activeThread.phoneNumberId,
       })
     )
   }
@@ -453,7 +455,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const handleAddNewMessage = async (
-    phoneNumber: string,
+    phoneNumberId: string,
     messageType = MessageType.OUTBOX
   ): Promise<void> => {
     if (draftMessage) {
@@ -461,13 +463,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
       setDraftMessage(undefined)
     }
 
-    const threadId = threads.find(isThreadNumberEqual(phoneNumber))?.id
+    const threadId = threads.find(isThreadPhoneNumberIdEqual(phoneNumberId))?.id
     if (tmpActiveThread !== undefined) {
-      handleReceiverSelect({ phoneNumber })
+      handleReceiverSelect({ phoneNumberId })
     }
     const response = await addNewMessage({
       content,
-      phoneNumber,
+      phoneNumberId,
       threadId,
       messageType,
     })
@@ -490,16 +492,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    await handleAddNewMessage(activeThread.phoneNumber)
+    await handleAddNewMessage(activeThread.phoneNumberId)
   }
 
-  const handleReceiverSelect = (receiver: Pick<Receiver, "phoneNumber">) => {
+  const handleReceiverSelect = (receiver: Pick<Receiver, "phoneNumberId">) => {
     if (!receiver) {
       return
     }
-    const phoneNumber = receiver.phoneNumber
+    const phoneNumberId = receiver.phoneNumberId
 
-    const thread = threads.find(isThreadNumberEqual(phoneNumber))
+    const thread = threads.find(isThreadPhoneNumberIdEqual(phoneNumberId))
 
     if (thread) {
       setActiveThread(thread)
@@ -508,7 +510,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     } else {
       const tmpThread: Thread = {
         ...mockThread,
-        phoneNumber,
+        phoneNumberId,
       }
       setTmpActiveThread(tmpThread)
       setActiveThread(tmpThread)
@@ -516,27 +518,27 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
   }
 
-  const handlePhoneNumberSelect = (phoneNumber: string) => {
-    if (!phoneNumber) {
+  const handlePhoneNumberSelect = (phoneNumberId: string) => {
+    if (!phoneNumberId) {
       return
     }
 
-    handleReceiverSelect({ phoneNumber })
+    handleReceiverSelect({ phoneNumberId })
   }
 
   const getViewReceiver = (activeThread: Thread): Receiver => {
-    const receiver = getReceiver(activeThread.phoneNumber)
+    const receiver = getReceiver(activeThread.phoneNumberId)
 
     if (activeThread.id === mockThread.id) {
       return {
-        ...(receiver || { phoneNumber: activeThread.phoneNumber }),
+        ...(receiver || { phoneNumberId: activeThread.phoneNumberId }),
         identification: ReceiverIdentification.unknown,
       }
     }
 
     if (receiver === undefined) {
       return {
-        phoneNumber: "",
+        phoneNumberId: "",
         identification: ReceiverIdentification.unknown,
       }
     } else {
@@ -747,7 +749,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           results={searchResult.message ? searchResult.message : []}
           resultsState={threadsState}
           searchValue={searchValue}
-          getContactByPhoneNumber={getContactByPhoneNumber}
+          getContactByPhoneNumberId={getContactByPhoneNumberId}
           onRowClick={handleResultClick}
           language={language}
           removeMessage={openDeleteMessageModal}
@@ -770,12 +772,12 @@ const Messages: FunctionComponent<MessagesProps> = ({
               activeThread={activeThread}
               threads={getThreads()}
               onThreadClick={handleThreadClick}
-              getContactByPhoneNumber={getContactByPhoneNumber}
+              getContactByPhoneNumberId={getContactByPhoneNumberId}
               onDeleteClick={handleDeleteThread}
               onToggleReadStatus={handleToggleReadStatus}
               onContactClick={contactClick}
               loadMoreRows={loadMoreRows}
-              newConversation={mockThread.phoneNumber}
+              newConversation={mockThread.phoneNumberId}
             />
           )}
           {messagesState === MessagesState.ThreadDetails && activeThread && (
@@ -785,8 +787,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
               receiver={getViewReceiver(activeThread)}
               messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
               currentlyDeletingMessageId={currentlyDeletingMessageId}
+              //todo CP-1873
               contactCreated={isContactCreatedByPhoneNumber(
-                activeThread.phoneNumber
+                activeThread.phoneNumberId
               )}
               onAttachContactClick={openAttachContactModal}
               onContactClick={handleContactClick}

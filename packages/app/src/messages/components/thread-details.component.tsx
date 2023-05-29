@@ -67,7 +67,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
   return (
     <ThreadDetailsSidebar
       receiver={receiver}
-      key={receiver.phoneNumber}
+      key={receiver.phoneNumberId}
       emptyThread={messages.length <= 0}
       {...props}
     >

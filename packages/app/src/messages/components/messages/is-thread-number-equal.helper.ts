@@ -6,8 +6,10 @@
 import { Thread } from "App/messages/dto"
 import { mapToRawNumber } from "App/messages/helpers"
 
-export const isThreadNumberEqual =
-  (phoneNumber: string) =>
+export const isThreadPhoneNumberIdEqual =
+  (phoneNumberId: string) =>
   (thread: Thread): boolean => {
-    return mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
+    return (
+      mapToRawNumber(thread.phoneNumberId) === mapToRawNumber(phoneNumberId)
+    )
   }

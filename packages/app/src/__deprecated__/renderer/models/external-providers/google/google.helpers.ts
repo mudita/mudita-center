@@ -145,8 +145,6 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
     id: contact.resourceName,
     firstName: firstName.trim(),
     lastName,
-    primaryPhoneNumber,
-    secondaryPhoneNumber,
     firstAddressLine,
     secondAddressLine,
     email,

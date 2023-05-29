@@ -27,7 +27,7 @@ const defaultProps: Props = {
   onRowClick: jest.fn(),
   removeMessage: jest.fn(),
   resendMessage: jest.fn(),
-  getContactByPhoneNumber: jest.fn(),
+  getContactByPhoneNumberId: jest.fn(),
   resultsState: ResultState.Empty,
   language: "en",
 }
@@ -37,7 +37,7 @@ const message: Message = {
   date: new Date("2019-10-18T11:45:35.112Z"),
   content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   threadId: "2",
-  phoneNumber: "4566",
+  phoneNumberId: "11",
   messageType: MessageType.OUTBOX,
 }
 

@@ -53,10 +53,10 @@ export const contactTypeGuard = (input: unknown): input is Contact => {
   if (!inputPropertyValidator(input, "lastName")) {
     return false
   }
-  if (!inputPropertyValidator(input, "primaryPhoneNumber")) {
+  if (!inputPropertyValidator(input, "primaryPhoneNumberId")) {
     return false
   }
-  if (!inputPropertyValidator(input, "secondaryPhoneNumber")) {
+  if (!inputPropertyValidator(input, "secondaryPhoneNumberId")) {
     return false
   }
 
@@ -93,7 +93,7 @@ export const contactDatabaseFactory = (
   input: Contact[],
   factory: ContactFactorySignature = contactFactory
 ): PhoneContacts => {
-  return input.reduce(
+  const result = input.reduce(
     (acc: PhoneContacts, item: Contact) => {
       const contact = factory(item)
 
@@ -115,6 +115,7 @@ export const contactDatabaseFactory = (
       db: {},
     }
   )
+  return result
 }
 
 export const addContacts = (

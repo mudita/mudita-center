@@ -35,6 +35,9 @@ export const filteredThreadsSelector = createSelector<
   (threads, contactMap, searchValue, visibilityFilter) => {
     let list = searchThreads(threads, contactMap, searchValue)
     list = filterThreads(list, visibilityFilter)
-    return sortThreads(list)
+
+    const result = sortThreads(list)
+
+    return result
   }
 )

@@ -47,7 +47,7 @@ type Props = ComponentProps<typeof ThreadDetailsMessages>
 const receiver: Receiver = {
   firstName: "John",
   lastName: "Doe",
-  phoneNumber: "123 456 788",
+  phoneNumberId: "123",
   identification: ReceiverIdentification.unknown,
 }
 
@@ -58,7 +58,7 @@ const outboxMessage = {
   id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
   date: new Date("2019-10-18T11:45:35.112Z"),
   content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-  phoneNumber: receiver.phoneNumber,
+  phoneNumberId: "11",
   messageType: MessageType.OUTBOX,
 }
 const inboxMessage = {
@@ -66,7 +66,7 @@ const inboxMessage = {
   id: "27b7108d-d5b8-4bb5-87bc-2cfebcecd571",
   date: new Date(),
   content: "Adipisicing non qui Lorem aliqua officia laboris.",
-  phoneNumber: receiver.phoneNumber,
+  phoneNumberId: "12",
   messageType: MessageType.INBOX,
 }
 

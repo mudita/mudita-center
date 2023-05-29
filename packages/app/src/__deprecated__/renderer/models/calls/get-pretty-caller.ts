@@ -12,9 +12,14 @@ const getPrettyCaller = (
   contact: Contact | undefined,
   phoneNumber: string
 ): string => {
-  return isNameAvailable(contact)
+  console.log("getPrettyCaller contact", contact, "phoneNumber", phoneNumber)
+
+  const result = isNameAvailable(contact)
     ? createFullName(contact as Contact)
     : mapToRawNumber(phoneNumber)
+
+  console.log("getPrettyCaller result", result)
+  return result
 }
 
 export default getPrettyCaller

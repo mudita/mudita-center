@@ -16,7 +16,13 @@ export class ContactPresenter {
       altName,
       priName,
       numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
+      numbersIDs,
     } = pureContact
+
+    const primaryPhoneNumberId =
+      numbersIDs && numbersIDs.length > 0 ? numbersIDs[0] : ""
+    const secondaryPhoneNumberId =
+      numbersIDs && numbersIDs.length > 1 ? numbersIDs[1] : ""
 
     const firstAddressLine = address.substr(0, address.indexOf("\n"))
     const secondAddressLine = address.substr(address.indexOf("\n") + 1)
@@ -26,6 +32,8 @@ export class ContactPresenter {
       favourite,
       primaryPhoneNumber,
       secondaryPhoneNumber,
+      primaryPhoneNumberId,
+      secondaryPhoneNumberId,
       firstAddressLine,
       secondAddressLine,
       id: String(id),

@@ -41,7 +41,8 @@ export const renderListItem: RenderListItem<Item<Receiver>> = ({
         </ContactListItemName>
       )}
       <Text displayStyle={TextDisplayStyle.Paragraph4}>
-        {item.data.phoneNumber}
+        {/* TODO CP-1873 to actual phone number */}
+        {item.data.phoneNumberId}
       </Text>
     </span>
   </ContactListItem>

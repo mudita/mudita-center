@@ -95,7 +95,7 @@ interface MessagesSearchResultProps extends Pick<Settings, "language"> {
   onRowClick: (message: Message) => void
   removeMessage: (messageId: string) => void
   resendMessage?: (messageId: string) => void
-  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
+  getContactByPhoneNumberId: (phoneNumberId: string) => Contact | undefined
 }
 
 const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
@@ -106,7 +106,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
   onRowClick,
   removeMessage = noop,
   resendMessage = noop,
-  getContactByPhoneNumber,
+  getContactByPhoneNumberId,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
 
@@ -137,9 +137,10 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
         {resultsState === ResultState.Loaded &&
           (results.length
             ? results.map((message) => {
-                const phoneNumber = message.phoneNumber
+                //TODO CP-1873 ... actual phone number needed
+                const phoneNumber = message.phoneNumberId
                 const { id, date, content } = message
-                const contact = getContactByPhoneNumber(message.phoneNumber)
+                const contact = getContactByPhoneNumberId(message.phoneNumberId)
                 const isMessageFailed =
                   message.messageType === MessageType.FAILED
                 const handleRowClick = () => onRowClick(message)

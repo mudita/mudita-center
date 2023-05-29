@@ -27,6 +27,7 @@ export class ContactIndexer extends BaseIndexer {
   async index(fileDir: string, token: string): Promise<Index<ContactObject>> {
     const db = await this.initTmpDatabase(fileDir, token)
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))
+    //console.log("ContactIndexer object", object)
     return this.createIndex(object)
   }
 
@@ -36,8 +37,8 @@ export class ContactIndexer extends BaseIndexer {
     index.setRef("id")
     index.addField("firstName")
     index.addField("lastName")
-    index.addField("primaryPhoneNumber")
-    index.addField("secondaryPhoneNumber")
+    index.addField("primaryPhoneNumberId")
+    index.addField("secondaryPhoneNumberId")
     index.addField("firstAddressLine")
     index.addField("secondAddressLine")
     index.addField("note")

@@ -28,4 +28,8 @@ export class ContactRepository implements Repository {
   public delete(id: Contact["id"], skipCallbacks = false): void {
     this.contactModel.delete(id, skipCallbacks)
   }
+
+  public get(id: Contact["id"]): Contact | undefined {
+    return this.contactModel.findById(id)
+  }
 }

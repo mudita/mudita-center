@@ -66,14 +66,14 @@ const contact: Contact = {
   id: "1",
   firstName: "John",
   lastName: "Doe",
-  primaryPhoneNumber: "123456789",
+  primaryPhoneNumberId: "12",
 }
 
 const unknownContact: Contact = {
   id: "2",
   firstName: "",
   lastName: "",
-  primaryPhoneNumber: "+123456123",
+  primaryPhoneNumberId: "134",
 }
 
 const contactsMap: Record<string, Contact> = {
@@ -82,7 +82,7 @@ const contactsMap: Record<string, Contact> = {
 }
 
 const unknownReceiver: Receiver = {
-  phoneNumber: "20000000",
+  phoneNumberId: "200",
   identification: ReceiverIdentification.unknown,
 }
 
@@ -93,7 +93,7 @@ const firstThread: Thread = {
   id: firstThreadId,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  phoneNumber: contact.primaryPhoneNumber!,
+  phoneNumberId: "11",
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -107,7 +107,7 @@ const secondThread: Thread = {
   id: secondThreadId,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  phoneNumber: unknownContact.primaryPhoneNumber!,
+  phoneNumberId: contact.primaryPhoneNumberId ?? "",
   unread: false,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -119,7 +119,7 @@ const secondThread: Thread = {
 
 const incomingThread: Thread = {
   id: "3",
-  phoneNumber: unknownReceiver.phoneNumber,
+  phoneNumberId: unknownReceiver.phoneNumberId,
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -132,7 +132,7 @@ const incomingThread: Thread = {
 const receiver: Receiver = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  phoneNumber: contact.primaryPhoneNumber!,
+  phoneNumberId: contact.primaryPhoneNumberId ?? "",
   firstName: contact.firstName,
   lastName: contact.lastName,
   identification: ReceiverIdentification.unknown,
@@ -158,7 +158,7 @@ const defaultProps: Props = {
   language: "en",
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
-  getContactByPhoneNumber: jest.fn(),
+  getContactByPhoneNumberId: jest.fn(),
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
@@ -189,7 +189,7 @@ const propsWithSingleThread: Partial<Props> = {
   receivers: [receiver],
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
-  getContactByPhoneNumber: jest.fn(),
+  getContactByPhoneNumberId: jest.fn(),
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getThreadDraftMessageSelector: jest.fn(),
@@ -272,14 +272,14 @@ const putReceiverNumber = ({ queryByTestId }: RenderResult): void => {
   const input = queryByTestId(
     ReceiverInputSelectTestIds.Input
   ) as HTMLInputElement
-  fireEvent.change(input, { target: { value: firstThread.phoneNumber } })
+  fireEvent.change(input, { target: { value: firstThread.phoneNumberId } })
 }
 
 const putNewReceiverNumber = ({ queryByTestId }: RenderResult): void => {
   const input = queryByTestId(
     ReceiverInputSelectTestIds.Input
   ) as HTMLInputElement
-  fireEvent.change(input, { target: { value: unknownReceiver.phoneNumber } })
+  fireEvent.change(input, { target: { value: unknownReceiver.phoneNumberId } })
 }
 
 const setNewMessageState = ({ queryByTestId }: RenderResult): void => {
@@ -773,10 +773,10 @@ describe("Messages component", () => {
   })
 
   test("dropdown contact details button has correct content", () => {
-    const getContactByPhoneNumber = jest.fn().mockReturnValue(contact)
+    const getContactByPhoneNumberId = jest.fn().mockReturnValue(contact)
     const { getAllByTestId } = renderer({
       ...propsWithSingleThread,
-      getContactByPhoneNumber,
+      getContactByPhoneNumberId,
     })
 
     fireEvent.click(getAllByTestId("thread-row-toggler")[0])
@@ -789,10 +789,10 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown contact details buttons for contacts", () => {
-    const getContactByPhoneNumber = jest.fn().mockReturnValue(contact)
+    const getContactByPhoneNumberId = jest.fn().mockReturnValue(contact)
     const { getByTestId } = renderer({
       ...propsWithSingleThread,
-      getContactByPhoneNumber,
+      getContactByPhoneNumberId,
       getActiveMessagesByThreadIdSelector: jest.fn(),
     })
 
