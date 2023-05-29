@@ -13,5 +13,5 @@ export interface ContactSimpleListProps {
   contacts: ContactsHashTable
   favouriteContacts?: FavouriteContactsHashTable
   onContactSelect?: (contact: Contact) => void
-  onPhoneNumberSelect?: (phoneNumber: string) => void
+  onPhoneNumberSelect?: (phoneNumberId: string) => void
 }

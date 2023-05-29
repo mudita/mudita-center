@@ -499,7 +499,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (!receiver) {
       return
     }
-    const phoneNumberId = receiver.phoneNumberId
+    const { phoneNumberId } = receiver
 
     const thread = threads.find(isThreadPhoneNumberIdEqual(phoneNumberId))
 

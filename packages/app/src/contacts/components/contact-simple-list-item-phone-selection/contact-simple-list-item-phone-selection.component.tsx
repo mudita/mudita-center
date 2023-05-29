@@ -20,13 +20,12 @@ import { useSelector } from "react-redux"
 export const ContactSimpleItemListPhoneSelection: FunctionComponent<
   ContactSimpleItemListPhoneSelectionProps
 > = ({ contact, onPhoneNumberSelect }) => {
-  {
-    /* TODO CP-1873 - needs a change */
-  }
-  const primaryPhoneNumber =
-    useSelector(getPhoneNumberById(contact.primaryPhoneNumberId ?? "")) ?? ""
-  const secondaryPhoneNumber =
-    useSelector(getPhoneNumberById(contact.secondaryPhoneNumberId ?? "")) ?? ""
+  const primaryPhoneNumber = useSelector(
+    getPhoneNumberById(contact.primaryPhoneNumberId ?? "")
+  )
+  const secondaryPhoneNumber = useSelector(
+    getPhoneNumberById(contact.secondaryPhoneNumberId ?? "")
+  )
 
   const [mainColumnHovered, setMainColumnHovered] = useState<boolean>(false)
 

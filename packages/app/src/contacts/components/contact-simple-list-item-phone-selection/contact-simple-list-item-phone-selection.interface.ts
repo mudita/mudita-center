@@ -7,5 +7,5 @@ import { Contact } from "App/contacts/dto"
 
 export interface ContactSimpleItemListPhoneSelectionProps {
   contact: Contact
-  onPhoneNumberSelect: (phoneNumber: string) => void
+  onPhoneNumberSelect: (phoneNumberId: string) => void
 }
