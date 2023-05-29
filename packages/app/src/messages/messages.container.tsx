@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import Messages from "App/messages/components/messages/messages.component"
 import {
@@ -14,7 +13,6 @@ import {
 import { Thread, NewMessage, Message } from "App/messages/dto"
 import { VisibilityFilter } from "App/messages/constants"
 import {
-  changeSearchValue,
   changeVisibilityFilter,
 } from "App/messages/actions/base.action"
 import { addNewMessage } from "App/messages/actions"
@@ -80,10 +78,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    dispatch(changeSearchValue(target.value)),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call

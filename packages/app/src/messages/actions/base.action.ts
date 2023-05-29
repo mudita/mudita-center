@@ -11,8 +11,4 @@ export const changeVisibilityFilter = createAction<
   MessagesState["data"]["visibilityFilter"]
 >(MessagesEvent.ChangeVisibilityFilter)
 
-export const changeSearchValue = createAction<string>(
-  MessagesEvent.ChangeSearchValue
-)
-
 export const clearAllThreads = createAction(MessagesEvent.ClearAllThreads)

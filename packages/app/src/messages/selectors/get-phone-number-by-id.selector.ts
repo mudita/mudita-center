@@ -12,7 +12,7 @@ export const getPhoneNumberById = (phoneNumberId: string) => {
       return numbers[key].id === phoneNumberId
     })
 
-    return found ? numbers[found].number : ""
+    return found && numbers[found] ? numbers[found].number : ""
   })
 }
 

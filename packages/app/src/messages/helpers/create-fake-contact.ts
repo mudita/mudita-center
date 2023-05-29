@@ -10,6 +10,6 @@ export const createFakeContact = (): Contact => ({
   id: faker.datatype.uuid(),
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
-  primaryPhoneNumber: faker.phone.number("+## ### ### ###"),
-  secondaryPhoneNumber: faker.phone.number("+## ### ### ###"),
+  primaryPhoneNumberId: faker.datatype.number().toString(),
+  secondaryPhoneNumberId: faker.datatype.number().toString(),
 })

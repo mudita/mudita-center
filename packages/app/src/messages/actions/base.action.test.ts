@@ -6,7 +6,6 @@
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import {
-  changeSearchValue,
   changeVisibilityFilter,
   clearAllThreads,
 } from "App/messages/actions/base.action"
@@ -25,18 +24,6 @@ describe("Action: changeVisibilityFilter", () => {
       {
         type: MessagesEvent.ChangeVisibilityFilter,
         payload: VisibilityFilter.All,
-      },
-    ])
-  })
-})
-
-describe("Action: changeSearchValue", () => {
-  test("fire action with empty array and `ChangeSearchValue` type", () => {
-    mockStore.dispatch(changeSearchValue("search value"))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.ChangeSearchValue,
-        payload: "search value",
       },
     ])
   })
