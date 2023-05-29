@@ -10,37 +10,8 @@ import {
 } from "App/messages/reducers/messages.interface"
 import { Message, Thread } from "App/messages/dto"
 import { VisibilityFilter } from "App/messages/constants"
-import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
-import { isContactMatchingPhoneNumberId } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import { phoneNumberRegexp } from "App/__deprecated__/renderer/utils/form-validators"
-
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const searchThreads = (
-  threads: Thread[] = [],
-  contactMap: Record<ContactID, Contact>,
-  searchValue: MessagesProps["data"]["searchValue"]
-) => {
-  if (searchValue.length) {
-    return threads?.filter(({ phoneNumberId }) => {
-      const search = searchValue.toLowerCase()
-      const contacts = Object.keys(contactMap).map((key) => {
-        return contactMap[key]
-      })
-      const contact = contacts.find((contact) => {
-        return isContactMatchingPhoneNumberId(contact, phoneNumberId)
-      })
-      const matchesForename = contact?.firstName?.toLowerCase().includes(search)
-      const matchesSurname = contact?.lastName?.toLowerCase().includes(search)
-      //TODO CP-1873
-      // const matchesPhone = phoneNumber?.includes(search)
-
-      return matchesForename || matchesSurname // || matchesPhone
-    })
-  } else {
-    return threads
-  }
-}
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

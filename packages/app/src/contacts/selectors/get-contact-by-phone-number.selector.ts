@@ -19,17 +19,9 @@ export const getContactByPhoneNumberSelector = (
   return createSelector<ReduxRootState, Contact[], Contact | undefined>(
     flatListSelector,
     (contacts) => {
-      console.log(
-        "getContactByPhoneNumberSelector contacts",
-        contacts,
-        "phoneNumberId",
-        phoneNumberId
-      )
       const result = contacts.find((contact) =>
         isContactMatchingPhoneNumberId(contact, phoneNumberId)
       )
-
-      console.log("getContactByPhoneNumberSelector result", result)
       return result
     }
   )
