@@ -17,6 +17,8 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { Item } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { useSelector } from "react-redux"
 
 const messages = defineMessages({
   noNameProvided: { id: "module.contacts.panelSearchListNoName" },
@@ -25,25 +27,26 @@ const messages = defineMessages({
 export const renderListItem: RenderListItem<Item<Receiver>> = ({
   item,
   props,
-}) => (
-  <ContactListItem {...props}>
-    <span>
-      {createFullName(item.data) ? (
-        <ContactListItemName displayStyle={TextDisplayStyle.Paragraph3}>
-          {createFullName(item.data)}
-        </ContactListItemName>
-      ) : (
-        <ContactListItemName
-          displayStyle={TextDisplayStyle.Paragraph3}
-          color="secondary"
-        >
-          {intl.formatMessage(messages.noNameProvided)}
-        </ContactListItemName>
-      )}
-      <Text displayStyle={TextDisplayStyle.Paragraph4}>
-        {/* TODO CP-1873 to actual phone number */}
-        {item.data.phoneNumberId}
-      </Text>
-    </span>
-  </ContactListItem>
-)
+}) => {
+  const phoneNumber =
+    useSelector(getPhoneNumberById(item.data.phoneNumberId)) ?? ""
+  return (
+    <ContactListItem {...props}>
+      <span>
+        {createFullName(item.data) ? (
+          <ContactListItemName displayStyle={TextDisplayStyle.Paragraph3}>
+            {createFullName(item.data)}
+          </ContactListItemName>
+        ) : (
+          <ContactListItemName
+            displayStyle={TextDisplayStyle.Paragraph3}
+            color="secondary"
+          >
+            {intl.formatMessage(messages.noNameProvided)}
+          </ContactListItemName>
+        )}
+        <Text displayStyle={TextDisplayStyle.Paragraph4}>{phoneNumber}</Text>
+      </span>
+    </ContactListItem>
+  )
+}
