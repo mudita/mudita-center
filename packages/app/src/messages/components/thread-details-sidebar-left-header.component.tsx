@@ -28,7 +28,6 @@ const ThreadDetailsSidebarLeftHeader: FunctionComponent<Props> = ({
   return (
     <>
       <NameWrapper>
-        <div>blabla</div>
         <Text
           displayStyle={TextDisplayStyle.Headline4}
           data-testid="sidebar-fullname"

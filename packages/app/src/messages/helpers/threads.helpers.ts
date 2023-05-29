@@ -75,14 +75,10 @@ export const mapThreadsToReceivers = (threads: Thread[]): Receiver[] => {
   }))
 }
 
-const isContactWithAnyNumber = (
-  contact: Contact
-): contact is
-  | (Contact & { primaryPhoneNumber: string })
-  | (Contact & { secondaryPhoneNumber: string }) => {
+const isContactWithAnyNumber = (contact: Contact): contact is Contact => {
   return (
-    isPhoneNumberNotEmpty(contact.primaryPhoneNumber) ||
-    isPhoneNumberNotEmpty(contact.secondaryPhoneNumber)
+    isPhoneNumberNotEmpty(contact.primaryPhoneNumberId) ||
+    isPhoneNumberNotEmpty(contact.secondaryPhoneNumberId)
   )
 }
 

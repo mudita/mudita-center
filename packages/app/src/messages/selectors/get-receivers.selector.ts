@@ -33,5 +33,6 @@ export const getReceiversSelector = createSelector<
   )
   const threadReceivers = mapThreadsToReceivers(uniqueThreadsReceivers)
   const contactReceivers = mapContactsToReceivers(contacts)
+
   return [...contactReceivers, ...threadReceivers]
 })
