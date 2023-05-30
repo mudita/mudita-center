@@ -6,7 +6,7 @@
 import { MessageType } from "App/messages/constants"
 
 export interface NewMessage {
-  phoneNumberId?: string
+  phoneNumber: string
   content: string
   threadId?: string
   messageType?: MessageType

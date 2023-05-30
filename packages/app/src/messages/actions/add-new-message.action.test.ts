@@ -20,6 +20,7 @@ import { AppError } from "App/core/errors"
 
 jest.mock("App/messages/requests/create-message.request")
 const mockAddedNewMessageData: NewMessage = {
+  phoneNumber: "+48123456789",
   content:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
 }
@@ -31,7 +32,7 @@ const mockAddedMessageData: CreateMessageDataResponse = {
         date: new Date(),
         content: mockAddedNewMessageData.content,
         threadId: "1",
-        phoneNumberId: "1",
+        phoneNumber: "1",
         messageType: MessageType.OUTBOX,
       },
     },

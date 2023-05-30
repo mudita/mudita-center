@@ -9,7 +9,8 @@ export interface Message {
   id: string
   date: Date
   content: string
-  phoneNumberId: string
+  phoneNumber?: string
+  phoneNumberId?: string
   threadId: string
   messageType: MessageType
 }

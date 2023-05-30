@@ -74,9 +74,11 @@ const MessagesSearchResultsItem: FunctionComponent<Props> = ({
   disableScroll,
 }) => {
   const contact = useSelector(
-    getContactByPhoneNumberIdSelector(message.phoneNumberId)
+    getContactByPhoneNumberIdSelector(message.phoneNumberId ?? "")
   )
-  const phoneNumber = useSelector(getPhoneNumberById(message.phoneNumberId))
+  const phoneNumber = useSelector(
+    getPhoneNumberById(message.phoneNumberId ?? "")
+  )
   const { id, date, content } = message
   const isMessageFailed = message.messageType === MessageType.FAILED
   const handleRowClick = () => onRowClick(message)

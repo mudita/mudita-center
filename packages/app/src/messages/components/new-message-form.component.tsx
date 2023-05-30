@@ -40,7 +40,7 @@ interface Props extends SidebarProps {
   content: string
   receivers: Receiver[]
   onContentChange: (content: string) => void
-  onSendClick: (phoneNumber: string) => void
+  onSendClick: (phoneNumberId: string, phoneNumber?: string) => void
   onPhoneNumberSelect: (phoneNumberId: string) => void
   onReceiverSelect: (receiver: Receiver) => void
   onAttachContactClick: () => void
@@ -77,7 +77,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     if (searchValue.match(phoneNumberRegexp) && searchValue.length > 0) {
-      onSendClick(phoneNumberId)
+      onSendClick(phoneNumberId, searchValue)
     }
   }
 

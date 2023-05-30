@@ -456,6 +456,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const handleAddNewMessage = async (
     phoneNumberId: string,
+    phoneNumber?: string,
     messageType = MessageType.OUTBOX
   ): Promise<void> => {
     if (draftMessage) {
@@ -469,7 +470,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
     const response = await addNewMessage({
       content,
-      phoneNumberId,
+      phoneNumber: phoneNumber ?? "",
       threadId,
       messageType,
     })
@@ -483,8 +484,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   // event with the dynamically receiver when `phoneNumber` can't be set before
-  const handleNewMessageSendClick = async (phoneNumberId: string) => {
-    await handleAddNewMessage(phoneNumberId)
+  const handleNewMessageSendClick = async (
+    phoneNumberId: string,
+    phoneNumber?: string
+  ) => {
+    await handleAddNewMessage(phoneNumberId, phoneNumber)
   }
 
   const handleSendClick = async () => {

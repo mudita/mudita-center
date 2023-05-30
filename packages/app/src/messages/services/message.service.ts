@@ -136,7 +136,7 @@ export class MessageService {
     for (const message of messages) {
       const result = await this.createSingleMessage({
         ...newMessage,
-        phoneNumberId: newMessage.phoneNumberId ?? "",
+        phoneNumber: newMessage.phoneNumber ?? "",
         content: message,
       })
 
@@ -294,7 +294,7 @@ export class MessageService {
     }
 
     const result = await this.createMessage({
-      phoneNumberId: message.phoneNumberId,
+      phoneNumber: message.phoneNumber ?? "",
       content: message.content,
       threadId: message.threadId,
     })

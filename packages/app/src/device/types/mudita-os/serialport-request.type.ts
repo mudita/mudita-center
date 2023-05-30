@@ -317,7 +317,7 @@ export interface Message {
   messageType: MessageType
   createdAt: number
   threadID: number
-  numberId: string
+  number: string
 }
 
 export interface Thread {

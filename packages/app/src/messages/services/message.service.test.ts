@@ -78,7 +78,7 @@ const pureMessage: PureMessage & {
   messageType: PureMessageType.OUTBOX,
   createdAt: 1547465101,
   threadID: 1,
-  numberId: "11",
+  number: "123456789",
 }
 
 const message: Message = {
@@ -87,13 +87,14 @@ const message: Message = {
   content:
     "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
   threadId: "1",
+  phoneNumber: "113456879",
   phoneNumberId: "11",
   messageType: MessageTypeFromDTO.INBOX,
 }
 
 const newMessageWithThreadId: NewMessage = {
   content: pureMessage.messageBody,
-  phoneNumberId: pureMessage.numberId,
+  phoneNumber: pureMessage.number,
   threadId: String(pureMessage.threadID),
 }
 
@@ -104,7 +105,7 @@ const newLongMessageWithThreadId: NewMessage = {
 
 const newMessageWithoutThreadId: NewMessage = {
   content: pureMessage.messageBody,
-  phoneNumberId: pureMessage.numberId,
+  phoneNumber: pureMessage.number,
 }
 
 const newLongMessageWithoutThreadId: NewMessage = {
