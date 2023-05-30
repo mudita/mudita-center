@@ -22,13 +22,13 @@ const pureMessage: PureMessage & {
   messageType: PureMessageType.OUTBOX,
   createdAt: 1547465101,
   threadID: 1,
-  numberId: "11",
+  number: "123456789",
 }
 
 const newMessage: NewMessage = {
   content:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-  phoneNumberId: "123",
+  phoneNumber: "123456987",
 }
 
 const message: Message = {
