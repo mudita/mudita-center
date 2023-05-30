@@ -22,7 +22,6 @@ const pureMessage: PureMessage & {
   messageType: PureMessageType.OUTBOX,
   createdAt: 1547465101,
   threadID: 1,
-  number: "123456789",
 }
 
 const newMessage: NewMessage = {

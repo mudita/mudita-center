@@ -78,7 +78,6 @@ const pureMessage: PureMessage & {
   messageType: PureMessageType.OUTBOX,
   createdAt: 1547465101,
   threadID: 1,
-  number: "123456789",
 }
 
 const message: Message = {
@@ -94,7 +93,8 @@ const message: Message = {
 
 const newMessageWithThreadId: NewMessage = {
   content: pureMessage.messageBody,
-  phoneNumber: pureMessage.number,
+  //TODO CP-1873
+  phoneNumber: "123",
   threadId: String(pureMessage.threadID),
 }
 
@@ -105,7 +105,8 @@ const newLongMessageWithThreadId: NewMessage = {
 
 const newMessageWithoutThreadId: NewMessage = {
   content: pureMessage.messageBody,
-  phoneNumber: pureMessage.number,
+  //TODO CP-1873
+  phoneNumber: "123",
 }
 
 const newLongMessageWithoutThreadId: NewMessage = {
