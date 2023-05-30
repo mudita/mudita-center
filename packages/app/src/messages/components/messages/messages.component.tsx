@@ -483,8 +483,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   // event with the dynamically receiver when `phoneNumber` can't be set before
-  const handleNewMessageSendClick = async (phoneNumber: string) => {
-    await handleAddNewMessage(phoneNumber)
+  const handleNewMessageSendClick = async (phoneNumberId: string) => {
+    await handleAddNewMessage(phoneNumberId)
   }
 
   const handleSendClick = async () => {
