@@ -12,9 +12,7 @@ import {
 } from "App/__deprecated__/renderer/store"
 import { Thread, NewMessage, Message } from "App/messages/dto"
 import { VisibilityFilter } from "App/messages/constants"
-import {
-  changeVisibilityFilter,
-} from "App/messages/actions/base.action"
+import { changeVisibilityFilter } from "App/messages/actions/base.action"
 import { addNewMessage } from "App/messages/actions"
 import {
   filteredThreadsSelector,
@@ -24,7 +22,7 @@ import {
   getThreadDraftMessageSelector,
 } from "App/messages/selectors"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
-import { isContactCreatedByPhoneNumberIdSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
+import { isContactCreatedByPhoneNumberIdSelector } from "App/contacts/selectors/is-contact-created-by-phone-number-id.selector"
 import { getContactByPhoneNumberIdSelector } from "App/contacts/selectors/get-contact-by-phone-number-id.selector"
 import { removeNotification } from "App/notification/actions"
 import { getNotificationByResourceAndMethod } from "App/notification/selectors"
@@ -56,7 +54,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   currentlyDeletingMessageId: state.messages.data.currentlyDeletingMessageId,
   getContactByPhoneNumberId: (phoneNumberId: string) =>
     getContactByPhoneNumberIdSelector(phoneNumberId)(state),
-  isContactCreatedByPhoneNumber: (phoneNumberId: string) =>
+  isContactCreatedByPhoneNumberId: (phoneNumberId: string) =>
     isContactCreatedByPhoneNumberIdSelector(phoneNumberId)(state),
   getContact: (id: string) => getContactSelector(id)(state),
   getReceiver: (phoneNumberId: string) => {
