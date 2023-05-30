@@ -112,7 +112,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     getPhoneNumberById(contact?.primaryPhoneNumberId ?? "")
   )
   const secondaryPhoneNumber = useSelector(
-    getPhoneNumberById(contact?.secondaryPhoneNumber ?? "")
+    getPhoneNumberById(contact?.secondaryPhoneNumberId ?? "")
   )
   const contactDefaultValues: Contact = {
     ...(contact as Contact),

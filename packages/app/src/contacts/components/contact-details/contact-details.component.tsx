@@ -124,7 +124,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       getPhoneNumberById(contact.primaryPhoneNumberId ?? "")
     )
     const secondaryPhoneNumber = useSelector(
-      getPhoneNumberById(contact.secondaryPhoneNumber ?? "")
+      getPhoneNumberById(contact.secondaryPhoneNumberId ?? "")
     )
 
     const icons = (
