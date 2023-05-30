@@ -38,6 +38,7 @@ import {
 import { SearchResultAccent } from "App/search/components"
 import { useSelector } from "react-redux"
 import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getContactByPhoneNumberIdSelector } from "App/contacts/selectors"
 
 const messages = defineMessages({
   threadGroup: { id: "module.messages.threadGroup" },
@@ -53,6 +54,7 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
 }) => {
   const messageContent = Boolean(item.data.content)
   const phoneNumber = useSelector(getPhoneNumberById(item.data.phoneNumberId))
+  const contact = useSelector(getContactByPhoneNumberIdSelector(item.data.phoneNumberId))
   console.log("renderListItem", phoneNumber)
 
   if (item.type === ItemType.Data) {
@@ -65,7 +67,7 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
         )}
         <MessageListItemWrapper>
           <MessageListItemInfoWrapper>
-            <ContactName phoneNumber={phoneNumber} />
+            <ContactName contact={contact} />
             {messageContent && (
               <Time displayStyle={TextDisplayStyle.Label} color="secondary">
                 {isToday(item.data.date)

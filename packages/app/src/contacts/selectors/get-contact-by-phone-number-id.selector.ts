@@ -9,7 +9,7 @@ import { Contact } from "App/contacts/reducers"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { isContactMatchingPhoneNumberId } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
-export const getContactByPhoneNumberSelector = (
+export const getContactByPhoneNumberIdSelector = (
   phoneNumberId: string
 ): OutputSelector<
   ReduxRootState,

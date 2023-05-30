@@ -5,7 +5,7 @@
 
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact, contactsReducer, initialState } from "App/contacts/reducers"
-import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
+import { getContactByPhoneNumberIdSelector } from "App/contacts/selectors/get-contact-by-phone-number-id.selector"
 
 describe("`getContactByPhoneNumberSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
@@ -15,7 +15,7 @@ describe("`getContactByPhoneNumberSelector` selector", () => {
       contacts: contactsReducer(initialState, {} as any),
     } as ReduxRootState
     expect(
-      getContactByPhoneNumberSelector("+71195069214")(state)
+      getContactByPhoneNumberIdSelector("1")(state)
     ).toBeUndefined()
   })
 
@@ -24,8 +24,8 @@ describe("`getContactByPhoneNumberSelector` selector", () => {
       id: "0",
       firstName: "Sławomir",
       lastName: "Borewicz",
-      primaryPhoneNumber: "+71195069214",
-      secondaryPhoneNumber: "",
+      primaryPhoneNumberId: "1",
+      secondaryPhoneNumberId: "",
       email: "example@mudita.com",
       note: "sapiente rem dignissimos sunt",
       ice: false,
@@ -48,7 +48,7 @@ describe("`getContactByPhoneNumberSelector` selector", () => {
         {} as any
       ),
     } as ReduxRootState
-    expect(getContactByPhoneNumberSelector("+71195069214")(state)).toEqual(
+    expect(getContactByPhoneNumberIdSelector("1")(state)).toEqual(
       contact
     )
   })

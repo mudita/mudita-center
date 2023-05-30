@@ -38,7 +38,7 @@ import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button
 import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { defineMessages } from "react-intl"
 import { useSelector } from "react-redux"
-import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
+import { getContactByPhoneNumberIdSelector } from "App/contacts/selectors/get-contact-by-phone-number-id.selector"
 import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
@@ -74,7 +74,7 @@ const MessagesSearchResultsItem: FunctionComponent<Props> = ({
   disableScroll,
 }) => {
   const contact = useSelector(
-    getContactByPhoneNumberSelector(message.phoneNumberId)
+    getContactByPhoneNumberIdSelector(message.phoneNumberId)
   )
   const phoneNumber = useSelector(getPhoneNumberById(message.phoneNumberId))
   const { id, date, content } = message
