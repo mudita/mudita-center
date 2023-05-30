@@ -5,7 +5,7 @@
 
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact, contactsReducer, initialState } from "App/contacts/reducers"
-import { isContactCreatedByPhoneNumberIdSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
+import { isContactCreatedByPhoneNumberIdSelector } from "App/contacts/selectors/is-contact-created-by-phone-number-id.selector"
 
 describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
@@ -14,9 +14,7 @@ describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       contacts: contactsReducer(initialState, {} as any),
     } as ReduxRootState
-    expect(
-      isContactCreatedByPhoneNumberIdSelector("+71195069214")(state)
-    ).toBeFalsy()
+    expect(isContactCreatedByPhoneNumberIdSelector("1")(state)).toBeFalsy()
   })
 
   test("when contacts are loaded selector returns properly contact", () => {
@@ -24,7 +22,7 @@ describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
       id: "0",
       firstName: "Sławomir",
       lastName: "Borewicz",
-      primaryPhoneNumber: "+71195069214",
+      primaryPhoneNumberId: "1",
       secondaryPhoneNumber: "",
       email: "example@mudita.com",
       note: "sapiente rem dignissimos sunt",
@@ -48,8 +46,6 @@ describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
         {} as any
       ),
     } as ReduxRootState
-    expect(
-      isContactCreatedByPhoneNumberIdSelector("+71195069214")(state)
-    ).toBeTruthy()
+    expect(isContactCreatedByPhoneNumberIdSelector("1")(state)).toBeTruthy()
   })
 })

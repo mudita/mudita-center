@@ -50,7 +50,7 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   getReceiver: (phoneNumber: string) => Receiver
   getContactByPhoneNumberId: (phoneNumberId: string) => Contact | undefined
   getMessagesStateByThreadId: (threadId: string) => ResultState
-  isContactCreatedByPhoneNumber: (phoneNumberId: string) => boolean
+  isContactCreatedByPhoneNumberId: (phoneNumberId: string) => boolean
   addNewMessage: (
     newMessage: NewMessage
   ) => Promise<PayloadAction<CreateMessageDataResponse>>

@@ -10,13 +10,13 @@ import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { isContactMatchingPhoneNumberId } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 export const isContactCreatedByPhoneNumberIdSelector = (
-  phoneNumber: string
+  phoneNumberId: string
 ): OutputSelector<ReduxRootState, boolean, (res: Contact[]) => boolean> => {
   return createSelector<ReduxRootState, Contact[], boolean>(
     flatListSelector,
     (contacts) => {
       return contacts.some((contact) =>
-        isContactMatchingPhoneNumberId(contact, phoneNumber)
+        isContactMatchingPhoneNumberId(contact, phoneNumberId)
       )
     }
   )

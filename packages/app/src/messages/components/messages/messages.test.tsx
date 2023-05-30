@@ -162,7 +162,7 @@ const defaultProps: Props = {
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
-  isContactCreatedByPhoneNumber: jest.fn(),
+  isContactCreatedByPhoneNumberId: jest.fn(),
   getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([contact]),
   removeLayoutNotification: jest.fn(),
   messageLayoutNotifications: [],
@@ -193,7 +193,7 @@ const propsWithSingleThread: Partial<Props> = {
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getThreadDraftMessageSelector: jest.fn(),
-  isContactCreatedByPhoneNumber: jest.fn(),
+  isContactCreatedByPhoneNumberId: jest.fn(),
   getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([
     {
       content: "Test Message #1",
@@ -808,7 +808,7 @@ describe("Messages component", () => {
         lastName: unknownContact.lastName,
         primaryPhoneNumber: unknownContact.primaryPhoneNumber,
       }),
-      isContactCreatedByPhoneNumber: jest.fn().mockReturnValue(false),
+      isContactCreatedByPhoneNumberId: jest.fn().mockReturnValue(false),
       ...propsWithSingleThread,
     })
 

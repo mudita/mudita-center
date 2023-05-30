@@ -94,7 +94,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   markThreadsReadStatus = noop,
   language,
   getContactByPhoneNumberId,
-  isContactCreatedByPhoneNumber,
+  isContactCreatedByPhoneNumberId,
   addNewMessage,
   deleteMessage,
   messageLayoutNotifications,
@@ -787,8 +787,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
               receiver={getViewReceiver(activeThread)}
               messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
               currentlyDeletingMessageId={currentlyDeletingMessageId}
-              //todo CP-1873
-              contactCreated={isContactCreatedByPhoneNumber(
+              contactCreated={isContactCreatedByPhoneNumberId(
                 activeThread.phoneNumberId
               )}
               onAttachContactClick={openAttachContactModal}
