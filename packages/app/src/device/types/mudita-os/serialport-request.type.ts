@@ -100,6 +100,10 @@ export interface CreateContactRequestConfig extends RequestConfig<Contact> {
 
 export type CreateContactResponseBody = Contact
 
+export interface CreateContactErrorResponseBody {
+  duplicateNumbers: string[]
+}
+
 export interface UpdateContactRequestConfig extends RequestConfig<Contact> {
   endpoint: Endpoint.Contacts
   method: Method.Put

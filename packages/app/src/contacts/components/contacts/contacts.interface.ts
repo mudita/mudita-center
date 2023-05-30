@@ -55,7 +55,7 @@ export interface ContactsProps {
   authorize: (provider: ExternalProvider) => Promise<PayloadAction<Error | any>>
   addNewContact: (
     contact: NewContact
-  ) => Promise<PayloadAction<Error | undefined>>
+  ) => Promise<PayloadAction<ContactErrorResponse | undefined>>
   importContact: (
     contact: NewContact
   ) => Promise<PayloadAction<Error | Contact>>
@@ -86,4 +86,8 @@ export type FormError = { field: keyof Contact; error: string }
 export interface ContactErrorResponse {
   status: RequestResponseStatus
   message: string
+  payload?: {
+    primaryPhoneNumberIsDuplicated?: boolean
+    secondaryPhoneNumberIsDuplicated?: boolean
+  }
 }
