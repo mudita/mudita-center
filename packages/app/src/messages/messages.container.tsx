@@ -25,7 +25,7 @@ import {
 } from "App/messages/selectors"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { isContactCreatedByPhoneNumberIdSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
-import { getContactByPhoneNumberSelector as getContactByPhoneNumberIdSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
+import { getContactByPhoneNumberIdSelector } from "App/contacts/selectors/get-contact-by-phone-number-id.selector"
 import { removeNotification } from "App/notification/actions"
 import { getNotificationByResourceAndMethod } from "App/notification/selectors"
 import {

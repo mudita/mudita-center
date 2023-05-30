@@ -10,7 +10,6 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ContactNameText } from "App/contacts/components/contact-name/contact-name.styled"
 import { ContactNameProps } from "App/contacts/components/contact-name/contact-name.interface"
-import { getContactByPhoneNumberSelector } from "App/contacts/selectors"
 import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/messages/is-name-available"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 
@@ -19,11 +18,8 @@ const messages = defineMessages({
 })
 
 export const ContactName: FunctionComponent<ContactNameProps> = ({
-  phoneNumber,
+  contact,
 }) => {
-  //TODO 1873 - phoneNumberId should be used
-  const contact = useSelector(getContactByPhoneNumberSelector(phoneNumber))
-
   return (
     <ContactNameText>
       {isNameAvailable(contact)
