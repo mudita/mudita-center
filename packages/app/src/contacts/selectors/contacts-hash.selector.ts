@@ -21,7 +21,7 @@ export const contactHashSelector = (
     (stateContacts) => {
       const contacts = withPhoneNumberOnly
         ? stateContacts.filter(
-            (item) => item.primaryPhoneNumber || item.secondaryPhoneNumber
+            (item) => item.primaryPhoneNumberId || item.secondaryPhoneNumberId
           )
         : stateContacts
       const contactsHash = new ContactsHashTable()

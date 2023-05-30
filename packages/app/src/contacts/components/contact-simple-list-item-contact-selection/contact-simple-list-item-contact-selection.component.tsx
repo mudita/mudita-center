@@ -9,11 +9,19 @@ import { ContactSimpleListItemContactSelectionProps } from "App/contacts/compone
 import { ClickableCol } from "App/contacts/components/contact-simple-list-item-contact-selection/contact-simple-list-item-contact-selection.styled"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React from "react"
+import { useSelector } from "react-redux"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
 
 export const ContactSimpleListItemContactSelection: FunctionComponent<
   ContactSimpleListItemContactSelectionProps
 > = (props) => {
   const { contact, onContactSelect } = props
+  const primaryPhoneNumber = useSelector(
+    getPhoneNumberById(contact.primaryPhoneNumberId ?? "")
+  )
+  const secondaryPhoneNumber = useSelector(
+    getPhoneNumberById(contact.secondaryPhoneNumberId ?? "")
+  )
 
   const handleSelectContact = () => {
     onContactSelect(contact)
@@ -35,7 +43,7 @@ export const ContactSimpleListItemContactSelection: FunctionComponent<
           ContactSimpleListItemContactSelectionTestIdsEnum.PhoneNumbersColumn
         }
       >
-        {[contact.primaryPhoneNumber, contact.secondaryPhoneNumber].join("  ")}
+        {[primaryPhoneNumber, secondaryPhoneNumber].join("  ")}
       </ClickableCol>
     </>
   )
