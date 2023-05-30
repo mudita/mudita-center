@@ -48,8 +48,8 @@ export interface ContactsProps {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onManageButtonClick: (cb?: any) => Promise<void>
-  isThreadOpened: (phoneNumber: string) => boolean
-  onMessage: (history: History<LocationState>, phoneNumber: string) => void
+  isThreadOpened: (phoneNumberId: string) => boolean
+  onMessage: (history: History<LocationState>, phoneNumberId: string) => void
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   authorize: (provider: ExternalProvider) => Promise<PayloadAction<Error | any>>
@@ -66,7 +66,7 @@ export interface ContactsProps {
   loadContacts: (provider: Provider) => Promise<Contact[]>
   addNewContactsToState: (contacts: Contact[]) => Promise<void>
   exportContacts: (contacts: Contact[]) => Promise<ExportContactsResult>
-  onCall: (phoneNumber: string) => void
+  onCall: (phoneNumberId: string) => void
   onEdit: (contacts: Contact) => void
   onForward: (contact: Contact) => void
   onBlock: (contact: Contact) => void

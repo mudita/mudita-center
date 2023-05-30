@@ -56,8 +56,8 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     flatList: flatListSelector(state),
     speedDialChosenList: speedDialChosenListSelector(state),
     getContact: (id: string) => getContactSelector(id)(state),
-    isThreadOpened: (phoneNumber: string) =>
-      isThreadOpenedSelector(phoneNumber)(state),
+    isThreadOpened: (phoneNumberId: string) =>
+      isThreadOpenedSelector(phoneNumberId)(state),
   }
 }
 
@@ -69,8 +69,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     ...dispatch.auth,
     exportContacts: exportContacts,
-    onMessage: (history: History<LocationState>, phoneNumber: string) =>
-      history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
+    onMessage: (history: History<LocationState>, phoneNumberId: string) =>
+      history.push(createRouterPath(URL_MAIN.messages, { phoneNumberId })),
     onSpeedDialSettingsSave: noop,
     loadContacts: async (provider: ExternalProvider) => {
       let contacts: Contact[]

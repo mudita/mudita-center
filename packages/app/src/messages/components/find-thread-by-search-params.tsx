@@ -10,7 +10,6 @@ const findThreadBySearchParams = (
   searchParams: URLSearchParams,
   threads: Thread[]
 ): Thread | undefined => {
-  //TODO CP-1873 - make sure that works
   const paramsPhoneNumberId = searchParams.get("phoneNumberId") || ""
 
   return threads.find(({ phoneNumberId }) =>

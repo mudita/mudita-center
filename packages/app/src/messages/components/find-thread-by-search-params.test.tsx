@@ -4,14 +4,10 @@
  */
 
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
-import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 import { MessageType } from "App/messages/constants"
 import { Thread } from "App/messages/dto"
 
-const caller: Caller = {
-  id: "1",
-  phoneNumber: "+33999999999",
-}
+const phoneNumberId = "1"
 
 const mockThread: Thread = {
   id: "1",
@@ -19,37 +15,22 @@ const mockThread: Thread = {
   messageSnippet:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   unread: true,
-  phoneNumberId: caller.id,
+  phoneNumberId,
   messageType: MessageType.INBOX,
   contactId: undefined,
   contactName: undefined,
 }
 const mockThreads: Thread[] = [mockThread]
 
-const searchValue = `?phoneNumber=${caller.phoneNumber}`
+const searchValue = `?phoneNumberId=${phoneNumberId}`
 
-//TODO CP-1873
-// test("thread is found by search params", () => {
-//   const thread = findThreadBySearchParams(
-//     new URLSearchParams(searchValue),
-//     mockThreads
-//   )
-//   expect(thread?.phoneNumber).toEqual(caller.phoneNumber)
-// })
-
-// test("thread is found even if phoneNumber has another format", () => {
-//   const thread = findThreadBySearchParams(new URLSearchParams(searchValue), [
-//     { ...mockThread, phoneNumber: "+33 999 999 999" },
-//   ])
-//   expect(thread?.phoneNumber).toEqual("+33 999 999 999")
-// })
-
-// test("thread isn't found when phoneNumber is started with double zero", () => {
-//   const thread = findThreadBySearchParams(new URLSearchParams(searchValue), [
-//     { ...mockThread, phoneNumber: "0033 999 999 999" },
-//   ])
-//   expect(thread).toBeUndefined()
-// })
+test("thread is found by search params", () => {
+  const thread = findThreadBySearchParams(
+    new URLSearchParams(searchValue),
+    mockThreads
+  )
+  expect(thread?.phoneNumberId).toEqual(phoneNumberId)
+})
 
 test("thread isn't found without search value", () => {
   const thread = findThreadBySearchParams(new URLSearchParams(``), mockThreads)

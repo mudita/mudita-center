@@ -4,6 +4,8 @@
  */
 
 import React, { useEffect, useState } from "react"
+import { defineMessages } from "react-intl"
+import { useHistory } from "react-router-dom"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -21,8 +23,6 @@ import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/components/contacts/contacts.styled"
-import { defineMessages } from "react-intl"
-import { useHistory } from "react-router-dom"
 import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "App/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
 import {
@@ -259,7 +259,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     }
   }
 
-  const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
+  const handleMessage = (phoneNumberId: string) =>
+    onMessage(history, phoneNumberId)
 
   const openDeleteModal = (id: string) => {
     const contact = flatList.find((contact) => contact.id === id)
