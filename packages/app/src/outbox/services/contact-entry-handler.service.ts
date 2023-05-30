@@ -59,7 +59,7 @@ export class ContactEntryHandlerService implements EntryHandler<Contact> {
     return
   }
 
-  //TODO CP-1873 - move it to phoneNumber repository or service?
+  //REFACTOR CP-1873 - move it to phoneNumber repository or service?
   private addPhoneNumber = async (phoneNumberId?: string) => {
     if (phoneNumberId) {
       const response = await this.phoneNumberService.getPhoneNumber(

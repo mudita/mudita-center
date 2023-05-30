@@ -13,6 +13,8 @@ import NewMessageFormSidebar from "App/messages/components/new-message-form-side
 import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Receiver } from "App/messages/reducers/messages.interface"
 import uniqBy from "lodash/uniqBy"
+import { getPhoneNumberIdByNumber } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { useSelector } from "react-redux"
 
 export const isReceiverMatching = (
   receiver: Receiver,
@@ -59,6 +61,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
   ...props
 }) => {
   const [searchValue, setSearchValue] = useState("")
+  const phoneNumberId = useSelector(getPhoneNumberIdByNumber(searchValue))
 
   const handleSearchValueChange = (value: string): void => {
     setSearchValue(value)
@@ -74,7 +77,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     if (searchValue.match(phoneNumberRegexp) && searchValue.length > 0) {
-      onSendClick(searchValue)
+      onSendClick(phoneNumberId)
     }
   }
 
@@ -82,9 +85,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     if (searchValue.match(phoneNumberRegexp)) {
-      //TODO CP-1873 - hm, how to fix it?
-      //i am broken
-      //onPhoneNumberSelect(searchValue)
+      onPhoneNumberSelect(phoneNumberId)
     }
   }
 

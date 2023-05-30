@@ -55,7 +55,7 @@ export class MessagePresenter {
           String(message.thread_id)
         )
 
-        //TODO CP-1873 - change ?? ""... :)
+        //REFACTOR CP-1873 - change ?? ""... :) - remove undefined from Thread number_id
         return {
           id: message._id,
           date: new Date(Number(message.date) * 1000),
