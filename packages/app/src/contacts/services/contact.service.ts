@@ -108,9 +108,13 @@ export class ContactService {
         status: RequestResponseStatus.Ok,
         data: contact,
       }
+      // error type cannot be typed correctly, response method needs enhancement
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     } else if (response.error?.payload?.status === "phone-number-duplicated") {
-      const errorPayloadData = response.error?.payload
-        .data as CreateContactErrorResponseBody
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const errorPayloadData = (response.error?.payload?.data ?? {
+        duplicateNumbers: [],
+      }) as CreateContactErrorResponseBody
 
       return {
         status: RequestResponseStatus.Error,
