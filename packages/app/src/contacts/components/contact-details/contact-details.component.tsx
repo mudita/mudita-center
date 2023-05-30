@@ -66,19 +66,19 @@ interface ContactDetailsProps {
   onDelete: (id: string) => void
   onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
-  onMessage: (phoneNumber: string) => void
+  onMessage: (phoneNumberId: string) => void
   onClose: () => void
-  isThreadOpened: (phoneNumber: string) => boolean
+  isThreadOpened: (phoneNumberId: string) => boolean
 }
 
 export const phoneActions = (
-  phoneNumber: string,
+  phoneNumberId: string,
   messageDisabled: boolean,
   onCall: (input: string) => void,
   onMessage: (input: string) => void
 ): JSX.Element[] => {
-  const callHandler = () => onCall(phoneNumber)
-  const messageHandler = () => onMessage(phoneNumber)
+  const callHandler = () => onCall(phoneNumberId)
+  const messageHandler = () => onMessage(phoneNumberId)
 
   return [
     <ButtonComponent
@@ -117,7 +117,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleBlock = () => onBlock(contact)
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact.id)
-    const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
+    const handleMessage = (phoneNumberId: string) => onMessage(phoneNumberId)
 
     const icons = (
       <>
@@ -214,11 +214,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     label={intl.formatMessage(messages.noPrimaryNumber)}
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
-                      contact.primaryPhoneNumber
+                      contact.primaryPhoneNumberId
                         ? flags.get(Feature.ContactPhoneFieldIconsEnabled)
                           ? phoneActions(
-                              contact.primaryPhoneNumber,
-                              !isThreadOpened(contact.primaryPhoneNumber),
+                              contact.primaryPhoneNumberId,
+                              !isThreadOpened(contact.primaryPhoneNumberId),
                               onCall,
                               handleMessage
                             )
@@ -233,11 +233,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     label={intl.formatMessage(messages.noSecondNumber)}
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
-                      contact.secondaryPhoneNumber
+                      contact.secondaryPhoneNumberId
                         ? flags.get(Feature.ContactPhoneFieldIconsEnabled)
                           ? phoneActions(
-                              contact.secondaryPhoneNumber,
-                              !isThreadOpened(contact.secondaryPhoneNumber),
+                              contact.secondaryPhoneNumberId,
+                              !isThreadOpened(contact.secondaryPhoneNumberId),
                               onCall,
                               handleMessage
                             )
