@@ -35,8 +35,8 @@ export const downloadUpdates = createAsyncThunk<
 >(
   UpdateOsEvent.DownloadUpdate,
   async ({ releases }, { getState, rejectWithValue, dispatch }) => {
-    const { device } = getState() as RootState & ReduxRootState
-    const batteryLevel = device.data?.batteryLevel ?? 0
+    let state = getState() as RootState & ReduxRootState
+    const batteryLevel = state.device.data?.batteryLevel ?? 0
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
       return rejectWithValue(
@@ -89,6 +89,16 @@ export const downloadUpdates = createAsyncThunk<
           state: ReleaseProcessState.Done,
           version: release.version,
         })
+      )
+    }
+    state = getState() as RootState & ReduxRootState
+
+    if (state.update.deviceHasBeenDetachedDuringDownload) {
+      return rejectWithValue(
+        new AppError(
+          UpdateError.UnexpectedDownloadError,
+          "Unexpected error while downloading update"
+        )
       )
     }
 

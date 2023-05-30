@@ -55,6 +55,7 @@ test("empty event returns initial state", () => {
         "downloadedProcessedReleases": null,
         "updateProcessedReleases": null,
       },
+      "deviceHasBeenDetachedDuringDownload": false,
       "downloadState": 0,
       "error": null,
       "forceUpdateState": 0,
