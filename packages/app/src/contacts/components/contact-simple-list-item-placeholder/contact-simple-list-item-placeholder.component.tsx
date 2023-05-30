@@ -13,12 +13,17 @@ import { AvatarPlaceholder } from "App/contacts/components/contact-list/contact-
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { ContactSimpleListItemPlaceholderProps } from "App/contacts/components/contact-simple-list-item-placeholder/contact-simple-list-item-placeholder.interface"
 import { ContactSimpleListItemPlaceholderTestIdsEnum } from "App/contacts/components/contact-simple-list-item-placeholder/contact-simple-list-item-placeholder-test-ids.enum"
+import { useSelector } from "react-redux"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
 
 export const ContactSimpleListItemPlaceholder: FunctionComponent<
   ContactSimpleListItemPlaceholderProps
 > = ({ contact }) => {
   const fullName = createFullName(contact)
-  const phoneNumber = contact.primaryPhoneNumber || contact.secondaryPhoneNumber
+  const phoneNumberId = contact.primaryPhoneNumberId || contact.secondaryPhoneNumberId
+  const phoneNumber = useSelector(
+    getPhoneNumberById(phoneNumberId ?? "")
+  )
 
   return (
     <>

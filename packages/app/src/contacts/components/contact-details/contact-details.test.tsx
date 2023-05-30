@@ -4,10 +4,15 @@
  */
 
 import React, { ComponentProps } from "react"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
-import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { Contact } from "App/contacts/reducers"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { PhoneNumbersState } from "App/messages/reducers"
+import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 
 type Props = ComponentProps<typeof ContactDetails>
 
@@ -43,8 +48,8 @@ const contactBasic: Contact = {
   id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   firstName: "",
   lastName: "",
-  primaryPhoneNumber: "+71 195 069 214",
-  secondaryPhoneNumber: "",
+  primaryPhoneNumberId: "1",
+  secondaryPhoneNumberId: "",
   email: "",
   note: "",
   ice: false,
@@ -56,13 +61,40 @@ const contactBasic: Contact = {
 
 const noAddress = "[value] module.contacts.noAddress"
 
-const render = (extraProps?: Partial<Props>) => {
+const defaultState = {
+  phoneNumbers: {
+    numbers: {
+      "1": {
+        id: "1",
+        number: "+71 195 069 214",
+      },
+    },
+  } as unknown as PhoneNumbersState,
+} as unknown as ReduxRootState
+
+beforeEach(() => {
+  jest.clearAllMocks()
+})
+
+const render = (
+  extraProps?: Partial<Props>,
+  extraState?: Partial<ReduxRootState>
+) => {
+  const storeMock = createMockStore([thunk])({
+    ...defaultState,
+    ...extraState,
+  })
+
   const props = {
     ...defaultProps,
     ...extraProps,
   }
 
-  return renderWithThemeAndIntl(<ContactDetails {...defaultProps} {...props} />)
+  return renderWithThemeAndIntl(
+    <Provider store={storeMock}>
+      <ContactDetails {...defaultProps} {...props} />
+    </Provider>
+  )
 }
 
 describe("`ContactDetails` component", () => {
