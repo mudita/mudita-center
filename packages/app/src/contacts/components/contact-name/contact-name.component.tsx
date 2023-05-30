@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"

@@ -32,6 +32,8 @@ import { defineMessages } from "react-intl"
 import { VirtualizedContactListItemProps } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { VirtualizedContactListItemTestIds } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
+import { useSelector } from "react-redux"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
   forwardNamecard: {
@@ -86,6 +88,12 @@ export const VirtualizedContactListItem: FunctionComponent<
   const handleUnblock = () => onUnblock(contact)
   const handleDelete = () => onDelete(contact.id)
   const handleSelect = () => onSelect(contact)
+  const primaryPhoneNumber = useSelector(
+    getPhoneNumberById(contact.primaryPhoneNumberId ?? "")
+  )
+  const secondaryPhoneNumber = useSelector(
+    getPhoneNumberById(contact.secondaryPhoneNumberId ?? "")
+  )
 
   const createStyledFullName = () => {
     const { firstName, lastName } = contact
@@ -149,9 +157,7 @@ export const VirtualizedContactListItem: FunctionComponent<
             displayStyle={TextDisplayStyle.Paragraph1}
             testId={VirtualizedContactListItemTestIds.PhoneNumber}
           >
-            {[contact.primaryPhoneNumber, contact.secondaryPhoneNumber].join(
-              "  "
-            )}
+            {[primaryPhoneNumber, secondaryPhoneNumber].join("  ")}
           </Text>
         </Col>
         <Col>

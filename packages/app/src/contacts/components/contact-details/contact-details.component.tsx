@@ -30,6 +30,8 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { useSelector } from "react-redux"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },
@@ -118,6 +120,12 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact.id)
     const handleMessage = (phoneNumberId: string) => onMessage(phoneNumberId)
+    const primaryPhoneNumber = useSelector(
+      getPhoneNumberById(contact.primaryPhoneNumberId ?? "")
+    )
+    const secondaryPhoneNumber = useSelector(
+      getPhoneNumberById(contact.secondaryPhoneNumber ?? "")
+    )
 
     const icons = (
       <>
@@ -200,7 +208,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                 color="secondary"
                 message={messages.information}
               />
-              {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber ? (
+              {!primaryPhoneNumber && !secondaryPhoneNumber ? (
                 <Input
                   type={"text"}
                   label={intl.formatMessage(messages.noPhoneNumber)}
@@ -210,7 +218,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   <Input
                     type={"text"}
                     data-testid={ContactDetailsTestIds.PrimaryPhoneInput}
-                    value={contact.primaryPhoneNumber}
+                    value={primaryPhoneNumber}
                     label={intl.formatMessage(messages.noPrimaryNumber)}
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
@@ -229,7 +237,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   <Input
                     type={"text"}
                     data-testid={ContactDetailsTestIds.SecondaryPhoneInput}
-                    value={contact.secondaryPhoneNumber}
+                    value={secondaryPhoneNumber}
                     label={intl.formatMessage(messages.noSecondNumber)}
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={

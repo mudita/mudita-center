@@ -3,20 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React from "react"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 import { VirtualizedContactListItemTestIds } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
 import { VirtualizedContactListItem } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item.component"
 import { VirtualizedContactListItemProps } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item.interface"
 import { Contact } from "App/contacts/dto"
 import * as DropdownModule from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import React from "react"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { PhoneNumbersState } from "App/messages/reducers"
 
 const contact: Contact = {
   id: "0",
   firstName: "Sławomir",
   lastName: "Borewicz",
-  primaryPhoneNumber: "+71 195 069 214",
-  secondaryPhoneNumber: "666",
+  primaryPhoneNumberId: "1",
+  secondaryPhoneNumberId: "2",
   email: "example@mudita.com",
   note: "sapiente rem dignissimos sunt",
   ice: true,
@@ -26,7 +31,33 @@ const contact: Contact = {
   secondAddressLine: "",
 }
 
-const renderer = (extraProps?: Partial<VirtualizedContactListItemProps>) => {
+const defaultState = {
+  phoneNumbers: {
+    numbers: {
+      "1": {
+        id: "1",
+        number: "+71 195 069 214"
+      },
+      "2": {
+        id: "2",
+        number: "666"
+      },
+      "3": {
+        id: "3",
+        number: "777"
+      },
+    },
+  } as unknown as PhoneNumbersState,
+} as unknown as ReduxRootState
+
+const renderer = (
+  extraProps?: Partial<VirtualizedContactListItemProps>,
+  extraState?: Partial<ReduxRootState>
+) => {
+  const storeMock = createMockStore([thunk])({
+    ...defaultState,
+    ...extraState,
+  })
   const props: VirtualizedContactListItemProps = {
     toggleRow: jest.fn(),
     onExport: jest.fn(),
@@ -44,7 +75,11 @@ const renderer = (extraProps?: Partial<VirtualizedContactListItemProps>) => {
     selectedItems: [],
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<VirtualizedContactListItem {...props} />)
+  return renderWithThemeAndIntl(
+    <Provider store={storeMock}>
+      <VirtualizedContactListItem {...props} />
+    </Provider>
+  )
 }
 
 test("renders full name when contact has it defined", () => {
@@ -95,8 +130,8 @@ test("renders primary and secondary phone number if defined", () => {
   const { queryByText } = renderer({
     contact: {
       ...contact,
-      primaryPhoneNumber: "666",
-      secondaryPhoneNumber: "777",
+      primaryPhoneNumberId: "2",
+      secondaryPhoneNumberId: "3",
     },
   })
 
