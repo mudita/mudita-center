@@ -171,23 +171,43 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         true
       )
 
-      const { payload } = await delayResponse(addNewContact(contact))
+      const { message, payload } =
+        (await delayResponse(addNewContact(contact))).payload ?? {}
 
       if (payload) {
-        let newError: FormError
-        if (payload.message === "Create contact: Empty primary phone number") {
-          newError = {
-            field: "primaryPhoneNumber",
-            error: "component.formErrorRequiredPrimaryPhone",
-          }
-        } else {
-          newError = {
+        const newError: FormError[] = []
+        if (
+          message === "phone-number-duplicated" &&
+          payload.primaryPhoneNumberIsDuplicated
+        ) {
+          newError.push({
             field: "primaryPhoneNumber",
             error: "component.formErrorNumberUnique",
-          }
+          })
+        }
+        if (
+          message === "phone-number-duplicated" &&
+          payload.secondaryPhoneNumberIsDuplicated
+        ) {
+          newError.push({
+            field: "secondaryPhoneNumber",
+            error: "component.formErrorNumberUnique",
+          })
+        }
+        if (message === "Create contact: Empty primary phone number") {
+          newError.push({
+            field: "primaryPhoneNumber",
+            error: "component.formErrorRequiredPrimaryPhone",
+          })
+        }
+        if (newError.length === 0) {
+          newError.push({
+            field: "primaryPhoneNumber",
+            error: "component.formErrorNumberUnique",
+          })
         }
 
-        setFormErrors([...formErrors, newError])
+        setFormErrors([...formErrors, ...newError])
         await closeModal()
         return
       }
