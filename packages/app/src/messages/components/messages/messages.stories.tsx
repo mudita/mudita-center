@@ -135,7 +135,7 @@ const getMessagesByThreadId = () => rowMessages
 const loadData = (): Promise<PayloadAction<PaginationBody | undefined>> =>
   Promise.resolve({ payload: undefined, type: "" })
 const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
-const isContactCreatedByPhoneNumber = () => true
+const isContactCreatedByPhoneNumberId = () => true
 
 storiesOf("Views|Messages", module).add("Messages", () => (
   <Router history={history}>
@@ -147,7 +147,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         getContact={getContact}
         getActiveMessagesByThreadIdSelector={getMessagesByThreadId}
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
-        isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
+        isContactCreatedByPhoneNumberId={isContactCreatedByPhoneNumberId}
         addNewMessage={promiseAction("Add New Message")}
         getContactByPhoneNumberId={noop}
         getReceiver={noop}
