@@ -41,6 +41,8 @@ import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/con
 import { FormError } from "App/contacts/components/contacts/contacts.interface"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { useSelector } from "react-redux"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
   editTitle: { id: "module.contacts.editTitle" },
@@ -106,6 +108,17 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   validationError,
   ...rest
 }) => {
+  const primaryPhoneNumber = useSelector(
+    getPhoneNumberById(contact?.primaryPhoneNumberId ?? "")
+  )
+  const secondaryPhoneNumber = useSelector(
+    getPhoneNumberById(contact?.secondaryPhoneNumber ?? "")
+  )
+  const contactDefaultValues: Contact = {
+    ...(contact as Contact),
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+  }
   const {
     register,
     handleSubmit,
@@ -115,7 +128,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     setError,
     trigger,
   } = useForm({
-    defaultValues: contact,
+    defaultValues: contactDefaultValues,
     mode: "onChange",
   })
 

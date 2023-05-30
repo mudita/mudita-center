@@ -3,36 +3,63 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React, { ComponentProps } from "react"
+import { Provider } from "react-redux"
+import thunk from "redux-thunk"
 import { fireEvent, waitFor } from "@testing-library/dom"
+import createMockStore from "redux-mock-store"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import React from "react"
 import ContactEdit from "App/contacts/components/contact-edit/contact-edit.component"
 import { contactsSeed } from "App/__deprecated__/seeds/contacts"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { PhoneNumbersState } from "App/messages/reducers"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/ban-types
-const renderer = (extraProps?: {}) => {
-  const defaultProps = {
-    onCancel: noop,
-    onSpeedDialSettingsOpen: noop,
-    onSave: noop,
-  }
+type Props = ComponentProps<typeof ContactEdit>
+
+const defaultProps: Props = {
+  speedDialChosenList: [],
+  onCancel: jest.fn(),
+  onSpeedDialSettingsOpen: jest.fn(),
+  onSave: jest.fn(),
+}
+
+const defaultState = {
+  phoneNumbers: {
+    numbers: {
+      "1": {
+        id: "1",
+        number: "+71 195 069 214",
+      },
+    },
+  } as unknown as PhoneNumbersState,
+} as unknown as ReduxRootState
+
+const render = (
+  extraProps?: Partial<Props>,
+  extraState?: Partial<ReduxRootState>
+) => {
+  const storeMock = createMockStore([thunk])({
+    ...defaultState,
+    ...extraState,
+  })
   return renderWithThemeAndIntl(
-    <ContactEdit
-      contact={contactsSeed.db[0]}
-      {...defaultProps}
-      {...extraProps}
-      speedDialChosenList={[0]}
-    />
+    <Provider store={storeMock}>
+      <ContactEdit
+        contact={contactsSeed.db[0]}
+        {...defaultProps}
+        {...extraProps}
+        speedDialChosenList={[0]}
+      />
+    </Provider>
   )
 }
 
 test("cancel is called", () => {
   const cancelButtonText = "[value] module.contacts.cancelEdit"
   const onCancel = jest.fn()
-  const { getByText } = renderer({ onCancel })
+  const { getByText } = render({ onCancel })
   const cancelButton = getByText(cancelButtonText)
   cancelButton.click()
   expect(onCancel).toHaveBeenCalled()
@@ -40,7 +67,7 @@ test("cancel is called", () => {
 
 test("display error if user provided the same to primary secondary number", async () => {
   const uniqueMessageError = "[value] component.formErrorNumberUnique"
-  const { getByTestId, getByText } = renderer()
+  const { getByTestId, getByText } = render()
   const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
   const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
 
@@ -58,7 +85,7 @@ test("display error if user provided the same to primary secondary number", asyn
 
 test("display top level validation error from props", async () => {
   const uniqueMessageError = "[value] component.formErrorNumberUnique"
-  const { getByText } = renderer({
+  const { getByText } = render({
     validationError: [
       {
         field: "primaryPhoneNumber",
@@ -75,7 +102,7 @@ test("display top level validation error from props", async () => {
 describe("display too long number error", () => {
   test("for primary number", async () => {
     const tooLongMessageError = "[value] component.formErrorTooLong"
-    const { getByTestId, getByText } = renderer()
+    const { getByTestId, getByText } = render()
     const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
 
     fireEvent.input(primaryNumber, { target: { value: "123123123123123123" } })
@@ -87,7 +114,7 @@ describe("display too long number error", () => {
 
   test("for secondary number", async () => {
     const tooLongMessageError = "[value] component.formErrorTooLong"
-    const { getByTestId, getByText } = renderer()
+    const { getByTestId, getByText } = render()
     const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
 
     fireEvent.input(secondaryNumber, {
@@ -106,7 +133,7 @@ describe("display invalid format error", () => {
     async (specialCharacter) => {
       const invalidFormatMessageError =
         "[value] component.formErrorDigitsAndPlusOnly"
-      const { getByTestId, queryByText } = renderer()
+      const { getByTestId, queryByText } = render()
       const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
       fireEvent.input(primaryNumber, { target: { value: specialCharacter } })
       await waitFor(() => {
@@ -119,7 +146,7 @@ describe("display invalid format error", () => {
     async (specialCharacter) => {
       const invalidFormatMessageError =
         "[value] component.formErrorDigitsAndPlusOnly"
-      const { getByTestId, queryByText } = renderer()
+      const { getByTestId, queryByText } = render()
       const secondaryNumber = getByTestId(
         ContactEditTestIdsEnum.SecondaryNumber
       )
@@ -133,7 +160,7 @@ describe("display invalid format error", () => {
 
 test("Not display unique numbers error for empty numbers", async () => {
   const uniqueNumberError = "[value] component.formErrorNumberUnique"
-  const { getByTestId, queryByText } = renderer()
+  const { getByTestId, queryByText } = render()
   const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
   const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
 
@@ -152,7 +179,7 @@ describe("Not display error for phone number regexp match", () => {
   const invalidFormatMessageError =
     "[value] component.formErrorDigitsAndPlusOnly"
   test("for primary number should pass as valid when phone numer is valid", async () => {
-    const { getByTestId, queryByText } = renderer()
+    const { getByTestId, queryByText } = render()
     const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
     fireEvent.input(primaryNumber, { target: { value: invalidPhoneNumber } })
     await waitFor(() => {
@@ -164,7 +191,7 @@ describe("Not display error for phone number regexp match", () => {
     })
   })
   test("for secondary number should pass as valid when phone number is valid", async () => {
-    const { getByTestId, queryByText } = renderer()
+    const { getByTestId, queryByText } = render()
     const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
     fireEvent.input(secondaryNumber, { target: { value: invalidPhoneNumber } })
     await waitFor(() => {
@@ -183,13 +210,13 @@ describe("Too long text validation", () => {
   const invalidFormatMessageError = "[value] component.formErrorTooLong"
 
   test("by default displays no errors", () => {
-    const { queryByText } = renderer()
+    const { queryByText } = render()
 
     expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
   })
 
   test("displays error when firstName is longer than 32 characters", async () => {
-    const { getByTestId, queryByText } = renderer()
+    const { getByTestId, queryByText } = render()
     const primaryNumber = getByTestId(ContactEditTestIdsEnum.FirstName)
 
     fireEvent.input(primaryNumber, { target: { value: longNameText } })
@@ -199,7 +226,7 @@ describe("Too long text validation", () => {
   })
 
   test("displays error when secondName is longer than 32 characters", async () => {
-    const { getByTestId, queryByText } = renderer()
+    const { getByTestId, queryByText } = render()
     const primaryNumber = getByTestId(ContactEditTestIdsEnum.SecondName)
 
     fireEvent.input(primaryNumber, { target: { value: longNameText } })
@@ -209,7 +236,7 @@ describe("Too long text validation", () => {
   })
 
   test("displays error when first address line is longer than 30 characters", async () => {
-    const { getByTestId, queryByText } = renderer()
+    const { getByTestId, queryByText } = render()
     const firstAddressLine = getByTestId(
       ContactEditTestIdsEnum.FirstAddressLine
     )
@@ -221,7 +248,7 @@ describe("Too long text validation", () => {
   })
 
   test("displays error when second address line is longer than 30 characters", async () => {
-    const { getByTestId, queryByText } = renderer()
+    const { getByTestId, queryByText } = render()
     const secondAddressLine = getByTestId(
       ContactEditTestIdsEnum.SecondAddressLine
     )
