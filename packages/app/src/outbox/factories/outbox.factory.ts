@@ -15,11 +15,8 @@ import { ContactModel } from "App/contacts/models"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactService } from "App/contacts/services"
 import { ContactEntryHandlerService } from "App/outbox/services/contact-entry-handler.service"
-import {
-  MessageService,
-  ThreadService,
-  PhoneNumberService,
-} from "App/messages/services"
+import { MessageService, ThreadService } from "App/messages/services"
+import { PhoneNumberService } from "App/phone-numbers/services"
 import { MessageRepository, ThreadRepository } from "App/messages/repositories"
 import { PhoneNumberRepository } from "App/phone-numbers/repositories"
 import { MessageModel, ThreadModel } from "App/messages/models"

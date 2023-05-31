@@ -10,7 +10,7 @@ import { ContactService } from "App/contacts/services"
 import { ContactRepository } from "App/contacts/repositories"
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 import { Contact } from "App/contacts/dto"
-import { PhoneNumberService } from "App/messages/services"
+import { PhoneNumberService } from "App/phone-numbers/services"
 import { PhoneNumberRepository } from "App/phone-numbers/repositories"
 
 export class ContactEntryHandlerService implements EntryHandler<Contact> {

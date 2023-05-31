@@ -5,4 +5,3 @@
 
 export * from "./message.service"
 export * from "./thread.service"
-export * from "../../phone-numbers/services/phone-number.service"

@@ -14,7 +14,7 @@ import {
 } from "App/core/types/request-response.interface"
 import { ContactEntryHandlerService } from "App/outbox/services/contact-entry-handler.service"
 import { Contact } from "App/contacts/reducers"
-import { PhoneNumberService } from "App/messages/services"
+import { PhoneNumberService } from "App/phone-numbers/services"
 import { PhoneNumberRepository } from "App/phone-numbers/repositories"
 
 const contactMock: Contact = {
