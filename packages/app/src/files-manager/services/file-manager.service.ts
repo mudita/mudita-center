@@ -71,8 +71,6 @@ export class FileManagerService {
         result.error?.type === DeviceFileSystemError.UnsupportedFileSize
     )
 
-    console.log(success, noSpaceLeft, unsupportedFileSize)
-
     if (noSpaceLeft) {
       return Result.failed(
         new AppError(
