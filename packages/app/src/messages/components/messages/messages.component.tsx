@@ -262,7 +262,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
         activeThread.phoneNumberId !== mockThread.phoneNumberId
       ) {
         //TODO CP-1873 - pass phone number?
-        void handleAddNewMessage(activeThread.phoneNumberId, undefined, MessageType.DRAFT)
+        void handleAddNewMessage(
+          activeThread.phoneNumberId,
+          undefined,
+          MessageType.DRAFT
+        )
         updateFieldState("draftDeleting", false)
       }
     }
@@ -476,12 +480,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (tmpActiveThread !== undefined) {
       handleReceiverSelect({ phoneNumberId })
     }
+    
     const response = await addNewMessage({
       content,
       phoneNumber: phoneNumber ?? "",
       threadId,
       messageType,
     })
+
     const thread = response.payload.messageParts[0].thread
     if (thread) {
       openThreadDetails(thread)

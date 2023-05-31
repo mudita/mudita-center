@@ -194,6 +194,7 @@ export class MessageService {
           limit: 1,
           offset: 0,
         })
+
         const threadId = threadsResponse.data?.data[0]?.id
 
         if (!threadId) {

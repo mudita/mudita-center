@@ -13,14 +13,25 @@ import NewMessageFormSidebar from "App/messages/components/new-message-form-side
 import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Receiver } from "App/messages/reducers/messages.interface"
 import uniqBy from "lodash/uniqBy"
-import { getPhoneNumberIdByNumber } from "App/messages/selectors/get-phone-number-by-id.selector"
+import {
+  getPhoneNumberIdByNumber,
+  getAllPhoneNumbers,
+} from "App/messages/selectors/get-phone-number-by-id.selector"
 import { useSelector } from "react-redux"
 
+export type ReceiverWithPhoneNumber = Omit<Receiver, "phoneNumberId"> & {
+  phoneNumber: string
+}
+
 export const isReceiverMatching = (
-  receiver: Receiver,
+  receiver: ReceiverWithPhoneNumber,
   search: string
 ): boolean => {
-  const query: (keyof Receiver)[] = ["firstName", "lastName", "phoneNumberId"]
+  const query: (keyof ReceiverWithPhoneNumber)[] = [
+    "firstName",
+    "lastName",
+    "phoneNumber",
+  ]
   for (const key of query) {
     const param: typeof receiver[keyof typeof receiver] = receiver[key]
     if (
@@ -62,6 +73,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
 }) => {
   const [searchValue, setSearchValue] = useState("")
   const phoneNumberId = useSelector(getPhoneNumberIdByNumber(searchValue))
+  const allPhoneNumbers = useSelector(getAllPhoneNumbers())
 
   const handleSearchValueChange = (value: string): void => {
     setSearchValue(value)
@@ -90,7 +102,14 @@ const NewMessageForm: FunctionComponent<Props> = ({
   }
 
   const results = uniqBy(
-    receivers.filter((item) => isReceiverMatching(item, searchValue || "")),
+    receivers.filter((item) => {
+      const phoneNumber = allPhoneNumbers[item.phoneNumberId].number
+      const receiverWithPhoneNumber: ReceiverWithPhoneNumber = {
+        ...item,
+        phoneNumber,
+      }
+      return isReceiverMatching(receiverWithPhoneNumber, searchValue || "")
+    }),
     "contactId"
   )
 
