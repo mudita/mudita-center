@@ -14,6 +14,8 @@ import { Notification } from "App/notification/types"
 import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { ChangeEvent, ComponentProps } from "react"
+import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { useSelector } from "react-redux"
 
 type SidebarProps = ComponentProps<typeof Sidebar>
 type ThreadDetailsRightHeaderProps = ComponentProps<
@@ -28,7 +30,7 @@ interface Props
   messages: Message[]
   currentlyDeletingMessageId: string | null
   onAttachContactClick: () => void
-  onSendClick: () => void
+  onSendClick: (phoneNumberId: string, phoneNumber?: string) => void
   onContentChange: (content: string) => void
   messageLayoutNotifications: Notification[]
   removeLayoutNotification: (notificationId: string) => void
@@ -63,6 +65,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
   ): void => {
     onContentChange(event.target.value)
   }
+  const phoneNumber = useSelector(getPhoneNumberById(receiver.phoneNumberId))
 
   return (
     <ThreadDetailsSidebar
@@ -87,7 +90,9 @@ const ThreadDetails: FunctionComponent<Props> = ({
       </MessagesWrapper>
       <ThreadDetailsTextArea
         value={content}
-        onSendClick={onSendClick}
+        onSendClick={() => {
+          onSendClick(receiver.phoneNumberId, phoneNumber)
+        }}
         onChange={handleTextAreaChange}
         onAttachContactClick={onAttachContactClick}
         onAttachTemplateClick={onAttachTemplateClick}

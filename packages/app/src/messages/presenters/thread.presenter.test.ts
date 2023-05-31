@@ -17,7 +17,7 @@ const pureThread: PureThread = {
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   messageType: 1,
   number: "+48500600700",
-  numberId: "11",
+  numberID: "11",
   threadID: 1,
 }
 

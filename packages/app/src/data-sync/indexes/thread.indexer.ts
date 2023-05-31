@@ -58,7 +58,6 @@ export class ThreadIndexer extends BaseIndexer {
     const threads = smsDb.exec(
       `SELECT * FROM ${ThreadTable.Threads};`
     )[0] as unknown as ThreadInput["threads"]
-    console.log("loadTables threads", threads)
 
     const contact_name = contactDb.exec(
       `SELECT * FROM ${ThreadTable.Names};`

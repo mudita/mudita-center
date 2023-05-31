@@ -54,23 +54,17 @@ export class MessagePresenter {
   static mapToMessage(
     pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
   ): Message {
-    const {
-      messageBody,
-      messageID,
-      messageType,
-      createdAt,
-      threadID,
-      number,
-    } = pureMessage
+    const { messageBody, messageID, messageType, createdAt, threadID } =
+      pureMessage
 
     const result = {
-      phoneNumber: number,
       id: String(messageID),
       date: new Date(createdAt * 1000),
       content: messageBody,
       threadId: String(threadID),
       messageType: MessagePresenter.getMessageType(messageType),
     }
+
     return result
   }
 

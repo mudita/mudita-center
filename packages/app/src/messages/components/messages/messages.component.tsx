@@ -261,7 +261,12 @@ const Messages: FunctionComponent<MessagesProps> = ({
         debouncedContent &&
         activeThread.phoneNumberId !== mockThread.phoneNumberId
       ) {
-        void handleAddNewMessage(activeThread.phoneNumberId, MessageType.DRAFT)
+        //TODO CP-1873 - pass phone number?
+        void handleAddNewMessage(
+          activeThread.phoneNumberId,
+          undefined,
+          MessageType.DRAFT
+        )
         updateFieldState("draftDeleting", false)
       }
     }
@@ -459,6 +464,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
     phoneNumber?: string,
     messageType = MessageType.OUTBOX
   ): Promise<void> => {
+    console.log(
+      "handleAddNewMessage phoneNumberId",
+      phoneNumberId,
+      "phoneNumber",
+      phoneNumber
+    )
+
     if (draftMessage) {
       await deleteMessage(draftMessage.id)
       setDraftMessage(undefined)
@@ -468,12 +480,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (tmpActiveThread !== undefined) {
       handleReceiverSelect({ phoneNumberId })
     }
+    
     const response = await addNewMessage({
       content,
       phoneNumber: phoneNumber ?? "",
       threadId,
       messageType,
     })
+
     const thread = response.payload.messageParts[0].thread
     if (thread) {
       openThreadDetails(thread)
@@ -488,15 +502,20 @@ const Messages: FunctionComponent<MessagesProps> = ({
     phoneNumberId: string,
     phoneNumber?: string
   ) => {
+    console.log(
+      "handleNewMessageSendClick phoneNumberId",
+      phoneNumberId,
+      "phoneNumber",
+      phoneNumber
+    )
     await handleAddNewMessage(phoneNumberId, phoneNumber)
   }
 
-  const handleSendClick = async () => {
-    if (!activeThread) {
-      return
-    }
-
-    await handleAddNewMessage(activeThread.phoneNumberId)
+  const handleSendClick = async (
+    phoneNumberId: string,
+    phoneNumber?: string
+  ) => {
+    await handleAddNewMessage(phoneNumberId, phoneNumber)
   }
 
   const handleReceiverSelect = (receiver: Pick<Receiver, "phoneNumberId">) => {

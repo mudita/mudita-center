@@ -67,6 +67,7 @@ const ThreadList: FunctionComponent<Props> = ({
 
   const renderRow = ({ index, style }: ListRowProps) => {
     const thread = threads[index]
+    
     if (thread === undefined) {
       return <ThreadPlaceholderRow key={index} style={style} />
     } else {
