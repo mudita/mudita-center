@@ -56,12 +56,10 @@ export class FileManagerService {
   }: UploadFilesInput): Promise<ResultObject<string[] | undefined>> {
     const results = []
 
-    console.log("upload start")
     for await (const filePath of filePaths) {
       results.push(await this.fileUploadCommand.exec(directory, filePath))
     }
 
-    console.log("upload 2")
     const success = results.every((result) => result.ok)
     const noSpaceLeft = results.some(
       (result) => result.error?.type === DeviceFileSystemError.NoSpaceLeft
