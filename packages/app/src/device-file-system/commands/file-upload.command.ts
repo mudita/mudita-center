@@ -30,8 +30,10 @@ export class FileUploadCommand extends BaseCommand {
 
     try {
       data = await this.fileSystemService.readFile(filePath)
-    } catch (error) {
-      if ((error as any).code === "ERR_FS_FILE_TOO_LARGE") {
+    } catch (err) {
+      const error = err as { code?: string }
+
+      if (error.code === "ERR_FS_FILE_TOO_LARGE") {
         return Result.failed(
           new AppError(
             DeviceFileSystemError.UnsupportedFileSize,
