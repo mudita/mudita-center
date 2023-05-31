@@ -13,7 +13,7 @@ import NewMessageFormSidebar from "App/messages/components/new-message-form-side
 import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Receiver } from "App/messages/reducers/messages.interface"
 import uniqBy from "lodash/uniqBy"
-import { getPhoneNumberIdByNumber } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberIdByNumber } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 import { useSelector } from "react-redux"
 
 export const isReceiverMatching = (

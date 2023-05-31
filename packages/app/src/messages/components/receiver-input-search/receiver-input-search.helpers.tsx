@@ -17,7 +17,7 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { Item } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 import { useSelector } from "react-redux"
 
 const messages = defineMessages({

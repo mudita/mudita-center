@@ -5,7 +5,7 @@
 
 import { Entity, DBQueryResult } from "App/data-sync/types/entity.type"
 import { PhoneNumberTable } from "App/data-sync/constants"
-import { PhoneNumber } from "App/messages/dto"
+import { PhoneNumber } from "App/phone-numbers/dto"
 
 export type PhoneNumberObject = PhoneNumber
 

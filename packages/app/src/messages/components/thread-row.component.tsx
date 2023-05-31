@@ -51,7 +51,7 @@ import {
   WarningIconWrapper,
 } from "App/messages/components/thread-row.styled"
 import { isPhoneNumberValid } from "App/messages/helpers/threads.helpers"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 import { useSelector } from "react-redux"
 
 const messages = defineMessages({

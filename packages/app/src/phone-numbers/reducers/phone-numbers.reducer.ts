@@ -7,9 +7,10 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { fulfilledAction } from "App/__deprecated__/renderer/store/helpers"
-import { PhoneNumbersState } from "App/messages/reducers/phone-numbers.interface"
+import { PhoneNumbersState } from "App/phone-numbers/reducers/phone-numbers.interface"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
+
 export const initialNumbersState: PhoneNumbersState = {
   numbers: {},
 }

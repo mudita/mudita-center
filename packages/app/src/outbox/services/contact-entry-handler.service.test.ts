@@ -15,7 +15,7 @@ import {
 import { ContactEntryHandlerService } from "App/outbox/services/contact-entry-handler.service"
 import { Contact } from "App/contacts/reducers"
 import { PhoneNumberService } from "App/messages/services"
-import { PhoneNumberRepository } from "App/messages/repositories"
+import { PhoneNumberRepository } from "App/phone-numbers/repositories"
 
 const contactMock: Contact = {
   blocked: false,

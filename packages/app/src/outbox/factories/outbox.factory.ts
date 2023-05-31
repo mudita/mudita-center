@@ -20,16 +20,10 @@ import {
   ThreadService,
   PhoneNumberService,
 } from "App/messages/services"
-import {
-  MessageRepository,
-  ThreadRepository,
-  PhoneNumberRepository,
-} from "App/messages/repositories"
-import {
-  MessageModel,
-  ThreadModel,
-  PhoneNumberModel,
-} from "App/messages/models"
+import { MessageRepository, ThreadRepository } from "App/messages/repositories"
+import { PhoneNumberRepository } from "App/phone-numbers/repositories"
+import { MessageModel, ThreadModel } from "App/messages/models"
+import { PhoneNumberModel } from "App/phone-numbers/models"
 import { MessageEntryHandlerService } from "App/outbox/services/message-entry-handler.service"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
 

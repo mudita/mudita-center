@@ -6,4 +6,3 @@
 export * from "./message.object"
 export * from "./new-message.object"
 export * from "./thread.object"
-export * from "./phone-number.object"

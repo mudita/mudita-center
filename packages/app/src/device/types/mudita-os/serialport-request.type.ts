@@ -27,7 +27,7 @@ import {
 import { RequestConfig } from "App/device/types/mudita-os/request-config.type"
 import { PaginationBody } from "App/device/types/mudita-os/pagination.type"
 import { OnboardingState } from "App/device/constants/onboarding-state.constant"
-import { PhoneNumber } from "App/messages/dto"
+import { PhoneNumber } from "App/phone-numbers/dto"
 
 // Backup types
 export interface StartBackupRequestConfig
