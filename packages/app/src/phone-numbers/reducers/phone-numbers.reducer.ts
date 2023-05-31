@@ -6,10 +6,9 @@
 // TODO: CP-1494, CP-1495
 
 import { createReducer } from "@reduxjs/toolkit"
-import { fulfilledAction } from "App/__deprecated__/renderer/store/helpers"
 import { PhoneNumbersState } from "App/phone-numbers/reducers/phone-numbers.interface"
-import { DataSyncEvent } from "App/data-sync/constants"
-import { ReadAllIndexesAction } from "App/data-sync/reducers"
+import { addNewPhoneNumbersToState } from "App/phone-numbers/actions/add-new-phone-numbers-to-state.action"
+import { readAllIndexes } from "App/data-sync/actions"
 
 export const initialNumbersState: PhoneNumbersState = {
   numbers: {},
@@ -18,14 +17,19 @@ export const initialNumbersState: PhoneNumbersState = {
 export const phoneNumbersReducer = createReducer<PhoneNumbersState>(
   initialNumbersState,
   (builder) => {
-    builder.addCase(
-      fulfilledAction(DataSyncEvent.ReadAllIndexes),
-      (state, action: ReadAllIndexesAction) => {
-        return {
-          ...state,
-          numbers: action.payload.phoneNumbers,
-        }
-      }
-    )
+    builder
+      .addCase(readAllIndexes.fulfilled, (state, action) => {
+        state.numbers = action.payload.phoneNumbers
+      })
+      .addCase(addNewPhoneNumbersToState.fulfilled, (state, action) => {
+        const numbers = action.payload.reduce(
+          (numbers, phoneNumber) => {
+            numbers[phoneNumber.id] = phoneNumber
+            return numbers
+          },
+          { ...state.numbers }
+        )
+        state.numbers = numbers
+      })
   }
 )

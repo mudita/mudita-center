@@ -9,6 +9,7 @@ import { ContactsEvent } from "App/contacts/constants"
 import { NewContact } from "App/contacts/reducers"
 import { createContactRequest } from "App/contacts/requests"
 import { AppError } from "App/core/errors"
+import { addNewPhoneNumbersToState } from "App/phone-numbers/actions/add-new-phone-numbers-to-state.action"
 
 export const createNewContact = createAsyncThunk<Error | undefined, NewContact>(
   ContactsEvent.AddNewContact,
@@ -24,6 +25,11 @@ export const createNewContact = createAsyncThunk<Error | undefined, NewContact>(
         )
       )
     }
+    const phoneNumberIds = [
+      data.primaryPhoneNumberId,
+      data.secondaryPhoneNumberId,
+    ].filter((id = "") => id !== "")
+    await dispatch(addNewPhoneNumbersToState(phoneNumberIds as string[]))
 
     dispatch(addNewContactsToState([data]))
 

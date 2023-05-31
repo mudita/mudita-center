@@ -95,48 +95,56 @@ export class ContactService {
         body: ContactPresenter.mapToPureContact(newContact),
       })
 
-    if (response.ok && response.data) {
-      const contact = {
-        ...newContact,
-        id: String(response.data.id),
-        primaryPhoneNumber: newContact.primaryPhoneNumber ?? "",
-      }
 
-      this.contactRepository.create(contact, true)
+    if (!(response.ok && response.data)) {
+      if (response.error?.payload?.status === "phone-number-duplicated") {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        const errorPayloadData = (response.error?.payload?.data ?? {
+          duplicateNumbers: [],
+        }) as CreateContactErrorResponseBody
 
-      return {
-        status: RequestResponseStatus.Ok,
-        data: contact,
-      }
-      // error type cannot be typed correctly, response method needs enhancement
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    } else if (response.error?.payload?.status === "phone-number-duplicated") {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const errorPayloadData = (response.error?.payload?.data ?? {
-        duplicateNumbers: [],
-      }) as CreateContactErrorResponseBody
-
-      return {
-        status: RequestResponseStatus.Error,
-        error: {
-          message: "phone-number-duplicated",
-          data: {
-            primaryPhoneNumberIsDuplicated:
-              errorPayloadData.duplicateNumbers.includes(
-                newContact.primaryPhoneNumber
-              ),
-            secondaryPhoneNumberIsDuplicated:
-              errorPayloadData.duplicateNumbers.includes(
-                newContact.secondaryPhoneNumber ?? ""
-              ),
+        return {
+          status: RequestResponseStatus.Error,
+          error: {
+            message: "phone-number-duplicated",
+            data: {
+              primaryPhoneNumberIsDuplicated:
+                errorPayloadData.duplicateNumbers.includes(
+                  newContact.primaryPhoneNumber
+                ),
+              secondaryPhoneNumberIsDuplicated:
+                errorPayloadData.duplicateNumbers.includes(
+                  newContact.secondaryPhoneNumber ?? ""
+                ),
+            },
           },
-        },
+        }
+      } else {
+        return {
+          status: RequestResponseStatus.Error,
+          error: { message: "Create contact: Something went wrong" },
+        }
       }
-    } else {
+    }
+
+    const getContactResponse = await this.getContact(String(response.data.id))
+    if (
+      !(
+        getContactResponse.status === RequestResponseStatus.Ok &&
+        getContactResponse.data
+      )
+    ) {
       return {
         status: RequestResponseStatus.Error,
         error: { message: "Create contact: Something went wrong" },
       }
+    }
+
+    this.contactRepository.create(getContactResponse.data, true)
+
+    return {
+      status: RequestResponseStatus.Ok,
+      data: getContactResponse.data,
     }
   }
 

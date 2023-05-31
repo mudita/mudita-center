@@ -66,7 +66,7 @@ export interface Contact {
   favourite: boolean
   id: number
   numbers: string[]
-  numbersIDs?: string[]
+  numbersIDs: string[]
   priName: string
   email: string
 }
@@ -419,7 +419,10 @@ export interface GetTemplateRequestConfig
   method: Method.Get
 }
 
-export type GetPhoneNumberResponseBody = PhoneNumber
+export type GetPhoneNumberResponseBody = {
+  number: string
+  numberID: number
+}
 
 export interface GetPhoneNumberRequestConfig
   extends RequestConfig<{
