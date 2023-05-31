@@ -4,11 +4,6 @@
  */
 
 import { isPhoneNumberValid } from "App/messages/helpers/threads.helpers"
-import { Thread } from "App/messages/dto"
-import { MessageType } from "App/messages/constants"
-
-const firstThreadId = "1"
-const secondThreadId = "2"
 
 describe("is phone number valid", () => {
   test("valid", () => {

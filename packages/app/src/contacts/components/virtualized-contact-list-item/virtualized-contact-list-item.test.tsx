@@ -14,7 +14,7 @@ import { Contact } from "App/contacts/dto"
 import * as DropdownModule from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { PhoneNumbersState } from "App/messages/reducers"
+import { PhoneNumbersState } from "App/phone-numbers/reducers"
 
 const contact: Contact = {
   id: "0",

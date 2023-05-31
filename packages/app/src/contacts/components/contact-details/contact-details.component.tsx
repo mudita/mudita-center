@@ -31,7 +31,7 @@ import Text, {
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { useSelector } from "react-redux"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },

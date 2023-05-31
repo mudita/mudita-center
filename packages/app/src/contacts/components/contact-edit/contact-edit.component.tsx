@@ -42,7 +42,7 @@ import { FormError } from "App/contacts/components/contacts/contacts.interface"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { useSelector } from "react-redux"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
   editTitle: { id: "module.contacts.editTitle" },

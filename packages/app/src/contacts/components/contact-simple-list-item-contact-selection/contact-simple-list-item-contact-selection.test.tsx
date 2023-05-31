@@ -13,7 +13,7 @@ import { ContactSimpleListItemContactSelection } from "App/contacts/components/c
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { PhoneNumbersState } from "App/messages/reducers"
+import { PhoneNumbersState } from "App/phone-numbers/reducers"
 
 type Props = ComponentProps<typeof ContactSimpleListItemContactSelection>
 

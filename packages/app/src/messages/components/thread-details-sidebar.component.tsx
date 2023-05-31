@@ -17,7 +17,7 @@ import {
 } from "App/messages/reducers/messages.interface"
 import { mapToRawNumber } from "App/messages/helpers"
 import { isPhoneNumberValid } from "App/messages/helpers/threads.helpers"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 import { useSelector } from "react-redux"
 
 type SidebarProps = ComponentProps<typeof Sidebar>

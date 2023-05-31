@@ -12,7 +12,7 @@ import { ContactSimpleListItemPlaceholderTestIdsEnum } from "App/contacts/compon
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { PhoneNumbersState } from "App/messages/reducers"
+import { PhoneNumbersState } from "App/phone-numbers/reducers"
 
 type Props = ComponentProps<typeof ContactSimpleListItemPlaceholder>
 

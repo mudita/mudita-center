@@ -3,36 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PhoneNumber, Thread } from "App/messages/dto"
+import { PhoneNumber } from "App/phone-numbers/dto"
 import { DeviceManager } from "App/device-manager/services"
-import {
-  GetThreadsRequestConfig,
-  PaginationBody,
-  GetThreadResponseBody,
-  GetThreadsResponseBody,
-  GetPhoneNumberResponseBody,
-} from "App/device/types/mudita-os"
-import {
-  Endpoint,
-  Method,
-  MessagesCategory as PureMessagesCategory,
-} from "App/device/constants"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
-import { ThreadPresenter } from "App/messages/presenters"
-import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
-import { PhoneNumberRepository } from "App/messages/repositories"
+import { GetPhoneNumberResponseBody } from "App/device/types/mudita-os"
+import { Endpoint, Method } from "App/device/constants"
+import { RequestResponse, RequestResponseStatus } from "App/core/types/request-response.interface"
+import { PhoneNumberRepository } from "App/phone-numbers/repositories"
 
 export class PhoneNumberService {
   constructor(
     private deviceManager: DeviceManager,
-    private phoneNumberRepository: PhoneNumberRepository
-  ) {}
+    private phoneNumberRepository: PhoneNumberRepository,
+  ) {
+  }
 
   public async getPhoneNumber(
-    id: string
+    id: string,
   ): Promise<RequestResponse<PhoneNumber> | undefined> {
     return await this.getPhoneNumberRequest(id)
   }
@@ -42,7 +28,7 @@ export class PhoneNumberService {
   // @ts-ignore
   // the method is commented until os part will be implemented as CP-1232
   private async getPhoneNumberRequest(
-    id: string
+    id: string,
   ): Promise<RequestResponse<PhoneNumber> | undefined> {
     const response =
       await this.deviceManager.device.request<GetPhoneNumberResponseBody>({

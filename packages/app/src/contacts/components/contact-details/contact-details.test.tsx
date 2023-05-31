@@ -11,7 +11,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
 import { Contact } from "App/contacts/reducers"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { PhoneNumbersState } from "App/messages/reducers"
+import { PhoneNumbersState } from "App/phone-numbers/reducers"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 
 type Props = ComponentProps<typeof ContactDetails>

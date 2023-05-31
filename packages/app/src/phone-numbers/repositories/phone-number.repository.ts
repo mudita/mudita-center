@@ -4,8 +4,8 @@
  */
 
 import { Repository } from "App/core/types"
-import { PhoneNumberModel } from "App/messages/models"
-import { PhoneNumber } from "App/messages/dto"
+import { PhoneNumberModel } from "App/phone-numbers/models"
+import { PhoneNumber } from "App/phone-numbers/dto"
 
 export class PhoneNumberRepository implements Repository {
   constructor(private phoneNumberModel: PhoneNumberModel) {}

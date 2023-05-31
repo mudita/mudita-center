@@ -14,7 +14,7 @@ import {
 } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection.styled"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { useState } from "react"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 import { useSelector } from "react-redux"
 
 export const ContactSimpleItemListPhoneSelection: FunctionComponent<
