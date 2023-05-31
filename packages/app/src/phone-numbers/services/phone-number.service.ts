@@ -36,12 +36,16 @@ export class PhoneNumberService {
       return result
     }
 
+    const phoneNumber = {
+      number: result.data.number,
+      id: String(result.data.numberID),
+    }
+
+    this.phoneNumberRepository.update(phoneNumber)
+
     return {
       ...result,
-      data: {
-        number: result.data.number,
-        id: String(result.data.numberID),
-      },
+      data: phoneNumber,
     }
   }
 }
