@@ -15,14 +15,9 @@ export class ContactPresenter {
       address = "",
       altName,
       priName,
-      numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
-      numbersIDs,
+      numbersIDs: [primaryPhoneNumberId = "", secondaryPhoneNumberId = ""],
     } = pureContact
 
-    const primaryPhoneNumberId =
-      numbersIDs && numbersIDs.length > 0 ? numbersIDs[0] : ""
-    const secondaryPhoneNumberId =
-      numbersIDs && numbersIDs.length > 1 ? numbersIDs[1] : ""
 
     const firstAddressLine = address.substr(0, address.indexOf("\n"))
     const secondAddressLine = address.substr(address.indexOf("\n") + 1)
@@ -30,8 +25,6 @@ export class ContactPresenter {
     return {
       blocked,
       favourite,
-      primaryPhoneNumber,
-      secondaryPhoneNumber,
       primaryPhoneNumberId,
       secondaryPhoneNumberId,
       firstAddressLine,
@@ -74,6 +67,7 @@ export class ContactPresenter {
       favourite,
       email: email || "",
       numbers: numbers,
+      numbersIDs: [],
       priName: firstName,
       altName: lastName,
       address: [firstAddressLine, secondAddressLine].join("\n").trim(),
