@@ -39,7 +39,7 @@ import { speedDialChosenListSelector } from "App/contacts/selectors/speed-dial-c
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { authorize } from "App/contacts/actions/authorize.action"
-import { closeWindow } from "App/contacts/actions/closeWindow.action"
+import { closeWindow } from "App/contacts/actions/close-window.action"
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { resetAllItems, selectAllItems, toggleItem } from "App/contacts/actions"
 

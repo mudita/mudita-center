@@ -7,7 +7,7 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { initialState } from "App/contacts/reducers"
-import { closeWindow } from "App/contacts/actions/closeWindow.action"
+import { closeWindow } from "App/contacts/actions/close-window.action"
 import { Provider } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
 
 jest.mock("App/__deprecated__/renderer/store/external-providers")
