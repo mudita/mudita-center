@@ -27,13 +27,6 @@ export class ContactEntryHandlerService implements EntryHandler<Contact> {
     const id = String(entry.record_id)
 
     if (entry.change === OutboxEntryChange.Deleted) {
-      const contact = this.contactRepository.get(id)
-
-      if (contact) {
-        this.deletePhoneNumber(contact.primaryPhoneNumberId)
-        this.deletePhoneNumber(contact.secondaryPhoneNumberId)
-      }
-
       this.contactRepository.delete(id)
       return
     }
@@ -45,14 +38,14 @@ export class ContactEntryHandlerService implements EntryHandler<Contact> {
     }
 
     if (entry.change === OutboxEntryChange.Created) {
-      this.addPhoneNumber(data.primaryPhoneNumber)
-      this.addPhoneNumber(data.secondaryPhoneNumberId)
+      await this.addPhoneNumber(data.primaryPhoneNumberId)
+      await this.addPhoneNumber(data.secondaryPhoneNumberId)
       return this.contactRepository.create(data)
     }
 
     if (entry.change === OutboxEntryChange.Updated) {
-      this.updatePhoneNumber(data.primaryPhoneNumber)
-      this.updatePhoneNumber(data.secondaryPhoneNumberId)
+      await this.updatePhoneNumber(data.primaryPhoneNumberId)
+      await this.updatePhoneNumber(data.secondaryPhoneNumberId)
       return this.contactRepository.update(data)
     }
 

@@ -9,6 +9,7 @@ import {
   GetContactsResponseBody,
   CreateContactResponseBody,
   CreateContactErrorResponseBody,
+  UpdateContactResponseBody,
 } from "App/device/types/mudita-os"
 import { DeviceManager } from "App/device-manager/services"
 import { Contact, ContactID } from "App/contacts/reducers"
@@ -95,7 +96,6 @@ export class ContactService {
         body: ContactPresenter.mapToPureContact(newContact),
       })
 
-
     if (!(response.ok && response.data)) {
       if (response.error?.payload?.status === "phone-number-duplicated") {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -158,22 +158,35 @@ export class ContactService {
       return isContactValidResponse
     }
 
-    const { ok, data } = await this.deviceManager.device.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Put,
-      body: ContactPresenter.mapToPureContact(contact),
-    })
+    const { ok, data } =
+      await this.deviceManager.device.request<UpdateContactResponseBody>({
+        endpoint: Endpoint.Contacts,
+        method: Method.Put,
+        body: ContactPresenter.mapToPureContact(contact),
+      })
 
-    if (ok) {
-      this.contactRepository.update(contact, true)
-
-      return { status: RequestResponseStatus.Ok, data: contact }
-    } else {
+    if (!ok) {
       return {
         status: RequestResponseStatus.Error,
         error: { message: "Edit contact: Something went wrong", data },
       }
     }
+
+    const getContactResponse = await this.getContact(String(contact.id))
+    if (
+      !(
+        getContactResponse.status === RequestResponseStatus.Ok &&
+        getContactResponse.data
+      )
+    ) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: { message: "Create contact: Something went wrong" },
+      }
+    }
+    this.contactRepository.update(getContactResponse.data, true)
+
+    return { status: RequestResponseStatus.Ok, data: getContactResponse.data }
   }
 
   public async deleteContacts(
