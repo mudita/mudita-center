@@ -44,6 +44,7 @@ import {
   DeviceManager,
   DeviceResolverService,
 } from "App/device-manager/services"
+import { PhoneNumbersModule } from "App/phone-numbers/phone-numbers.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -51,6 +52,7 @@ export class ApplicationModule {
     FileSystemModule,
     IndexStorageModule,
     OutboxModule,
+    PhoneNumbersModule,
     AnalyticDataTrackerModule,
     SettingsModule,
     ContactModule,

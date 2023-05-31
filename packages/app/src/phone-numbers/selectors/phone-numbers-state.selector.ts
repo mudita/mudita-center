@@ -4,7 +4,7 @@
  */
 
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { PhoneNumbersState } from "App/messages/reducers"
+import { PhoneNumbersState } from "App/phone-numbers/reducers"
 import { Selector } from "reselect"
 
 export const phoneNumbersStateSelector: Selector<

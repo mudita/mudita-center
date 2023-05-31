@@ -10,8 +10,8 @@ import { ContactService } from "App/contacts/services"
 import { ContactRepository } from "App/contacts/repositories"
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 import { Contact } from "App/contacts/dto"
-import { PhoneNumberService } from "App/messages/services"
-import { PhoneNumberRepository } from "App/messages/repositories"
+import { PhoneNumberService } from "App/phone-numbers/services"
+import { PhoneNumberRepository } from "App/phone-numbers/repositories"
 
 export class ContactEntryHandlerService implements EntryHandler<Contact> {
   constructor(
@@ -62,22 +62,22 @@ export class ContactEntryHandlerService implements EntryHandler<Contact> {
   //REFACTOR CP-1873 - move it to phoneNumber repository or service?
   private addPhoneNumber = async (phoneNumberId?: string) => {
     if (phoneNumberId) {
-      const response = await this.phoneNumberService.getPhoneNumber(
+      const { data, ok } = await this.phoneNumberService.getPhoneNumber(
         phoneNumberId
       )
-      if (response?.status === RequestResponseStatus.Ok && response.data) {
-        this.phoneNumberRepository.create(response.data)
+      if (ok) {
+        this.phoneNumberRepository.create(data)
       }
     }
   }
 
   private updatePhoneNumber = async (phoneNumberId?: string) => {
     if (phoneNumberId) {
-      const response = await this.phoneNumberService.getPhoneNumber(
+      const { data, ok } = await this.phoneNumberService.getPhoneNumber(
         phoneNumberId
       )
-      if (response?.status === RequestResponseStatus.Ok && response.data) {
-        this.phoneNumberRepository.update(response.data)
+      if (ok) {
+        this.phoneNumberRepository.update(data)
       }
     }
   }

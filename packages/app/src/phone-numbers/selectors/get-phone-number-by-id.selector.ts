@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "reselect"
-import { phoneNumbersStateSelector } from "App/messages/selectors/phone-numbers-state.selector"
+import { phoneNumbersStateSelector } from "App/phone-numbers/selectors/phone-numbers-state.selector"
 
 export const getPhoneNumberById = (phoneNumberId: string) => {
   return createSelector(phoneNumbersStateSelector, ({ numbers }) => {

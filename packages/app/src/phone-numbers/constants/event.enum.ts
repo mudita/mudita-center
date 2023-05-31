@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./message.repository"
-export * from "./thread.repository"
+export enum PhoneNumbersEvent {
+  AddNewPhoneNumbersToState = "ADD_NEW_PHONE_NUMBERS_TO_STATE",
+}

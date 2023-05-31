@@ -5,7 +5,7 @@
 
 import { Model, Field } from "App/core/decorators"
 import { BaseModel } from "App/core/models"
-import { PhoneNumber } from "App/messages/dto"
+import { PhoneNumber } from "App/phone-numbers/dto"
 import { DataIndex } from "App/index-storage/constants"
 
 @Model(DataIndex.PhoneNumber)

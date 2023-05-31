@@ -27,7 +27,7 @@ import {
 import { RequestConfig } from "App/device/types/mudita-os/request-config.type"
 import { PaginationBody } from "App/device/types/mudita-os/pagination.type"
 import { OnboardingState } from "App/device/constants/onboarding-state.constant"
-import { PhoneNumber } from "App/messages/dto"
+import { PhoneNumber } from "App/phone-numbers/dto"
 
 // Backup types
 export interface StartBackupRequestConfig
@@ -66,7 +66,7 @@ export interface Contact {
   favourite: boolean
   id: number
   numbers: string[]
-  numbersIDs?: string[]
+  numbersIDs: string[]
   priName: string
   email: string
 }
@@ -418,7 +418,10 @@ export interface GetTemplateRequestConfig
   method: Method.Get
 }
 
-export type GetPhoneNumberResponseBody = PhoneNumber
+export type GetPhoneNumberResponseBody = {
+  number: string
+  numberID: number
+}
 
 export interface GetPhoneNumberRequestConfig
   extends RequestConfig<{

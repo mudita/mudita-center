@@ -14,7 +14,7 @@ import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { ContactSimpleListItemPlaceholderProps } from "App/contacts/components/contact-simple-list-item-placeholder/contact-simple-list-item-placeholder.interface"
 import { ContactSimpleListItemPlaceholderTestIdsEnum } from "App/contacts/components/contact-simple-list-item-placeholder/contact-simple-list-item-placeholder-test-ids.enum"
 import { useSelector } from "react-redux"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 
 export const ContactSimpleListItemPlaceholder: FunctionComponent<
   ContactSimpleListItemPlaceholderProps

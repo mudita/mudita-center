@@ -10,7 +10,7 @@ import { ClickableCol } from "App/contacts/components/contact-simple-list-item-c
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React from "react"
 import { useSelector } from "react-redux"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 
 export const ContactSimpleListItemContactSelection: FunctionComponent<
   ContactSimpleListItemContactSelectionProps

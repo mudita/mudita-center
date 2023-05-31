@@ -13,7 +13,7 @@ import ContactEdit from "App/contacts/components/contact-edit/contact-edit.compo
 import { contactsSeed } from "App/__deprecated__/seeds/contacts"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { PhoneNumbersState } from "App/messages/reducers"
+import { PhoneNumbersState } from "App/phone-numbers/reducers"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 type Props = ComponentProps<typeof ContactEdit>

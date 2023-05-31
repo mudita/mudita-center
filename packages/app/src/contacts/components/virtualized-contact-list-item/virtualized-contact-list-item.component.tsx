@@ -33,7 +33,7 @@ import { VirtualizedContactListItemProps } from "App/contacts/components/virtual
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { VirtualizedContactListItemTestIds } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
 import { useSelector } from "react-redux"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
   forwardNamecard: {

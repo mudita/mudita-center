@@ -39,7 +39,7 @@ import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/s
 import { defineMessages } from "react-intl"
 import { useSelector } from "react-redux"
 import { getContactByPhoneNumberIdSelector } from "App/contacts/selectors/get-contact-by-phone-number-id.selector"
-import { getPhoneNumberById } from "App/messages/selectors/get-phone-number-by-id.selector"
+import { getPhoneNumberById } from "App/phone-numbers/selectors/get-phone-number-by-id.selector"
 
 const messages = defineMessages({
   dropdownTogglerTooltipDescription: {
