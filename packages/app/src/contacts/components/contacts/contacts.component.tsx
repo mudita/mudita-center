@@ -230,7 +230,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         const cleanedErrors = _.differenceWith(
           formErrors,
           allPossibleFormErrorCausedByAPI,
-          _.isEqual
+          (a, b) => _.isEqual(a, b)
         )
 
         setFormErrors([...cleanedErrors, ...newError])
