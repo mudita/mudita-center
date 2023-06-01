@@ -22,9 +22,6 @@ const messages = defineMessages({
   errorUpdateModalHeaderTitle: {
     id: "module.connecting.errorUpdateModalHeaderTitle",
   },
-  errorUpdateModalButton: {
-    id: "module.connecting.errorUpdateModalSecondaryButton",
-  },
   errorUpdateModalTitle: {
     id: "module.connecting.errorUpdateModalTitle",
   },
