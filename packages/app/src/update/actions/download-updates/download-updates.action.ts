@@ -48,6 +48,16 @@ export const downloadUpdates = createAsyncThunk<
     }
 
     for (const release of releases) {
+      state = getState() as RootState & ReduxRootState
+
+      if (state.update.deviceHasBeenDetachedDuringDownload) {
+        return rejectWithValue(
+          new AppError(
+            UpdateError.UnexpectedDownloadError,
+            "Unexpected error while downloading update"
+          )
+        )
+      }
       dispatch(
         setStateForDownloadedRelease({
           state: ReleaseProcessState.InProgress,
@@ -89,16 +99,6 @@ export const downloadUpdates = createAsyncThunk<
           state: ReleaseProcessState.Done,
           version: release.version,
         })
-      )
-    }
-    state = getState() as RootState & ReduxRootState
-
-    if (state.update.deviceHasBeenDetachedDuringDownload) {
-      return rejectWithValue(
-        new AppError(
-          UpdateError.UnexpectedDownloadError,
-          "Unexpected error while downloading update"
-        )
       )
     }
 
