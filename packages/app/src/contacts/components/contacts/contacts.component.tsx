@@ -56,6 +56,26 @@ import { ExportContactFailedModal } from "../export-contact-failed-modal/export-
 import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
 import { ExportContactsResult } from "App/contacts/constants"
 import DeleteContactsPopup from "./delete-contacts-popup/delete-contacts-popup.component"
+import _ from "lodash"
+
+const allPossibleFormErrorCausedByAPI: FormError[] = [
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+  {
+    field: "secondaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorRequiredPrimaryPhone",
+  },
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+]
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -174,11 +194,11 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       const { message, payload } =
         (await delayResponse(addNewContact(contact))).payload ?? {}
 
-      if (payload) {
+      if (payload || message) {
         const newError: FormError[] = []
         if (
           message === "phone-number-duplicated" &&
-          payload.primaryPhoneNumberIsDuplicated
+          payload?.primaryPhoneNumberIsDuplicated
         ) {
           newError.push({
             field: "primaryPhoneNumber",
@@ -187,7 +207,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         }
         if (
           message === "phone-number-duplicated" &&
-          payload.secondaryPhoneNumberIsDuplicated
+          payload?.secondaryPhoneNumberIsDuplicated
         ) {
           newError.push({
             field: "secondaryPhoneNumber",
@@ -207,7 +227,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           })
         }
 
-        setFormErrors([...formErrors, ...newError])
+        const cleanedErrors = _.differenceWith(
+          formErrors,
+          allPossibleFormErrorCausedByAPI,
+          _.isEqual
+        )
+
+        setFormErrors([...cleanedErrors, ...newError])
         await closeModal()
         return
       }
