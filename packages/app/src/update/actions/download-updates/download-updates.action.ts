@@ -51,6 +51,9 @@ export const downloadUpdates = createAsyncThunk<
       state = getState() as RootState & ReduxRootState
 
       if (state.update.deviceHasBeenDetachedDuringDownload) {
+        console.log(
+          "from first download updates action rejection inside releases loop"
+        )
         return rejectWithValue(
           new AppError(
             UpdateError.UnexpectedDownloadError,
@@ -85,6 +88,19 @@ export const downloadUpdates = createAsyncThunk<
         }
 
         if (!result.ok) {
+          return rejectWithValue(
+            new AppError(
+              UpdateError.UnexpectedDownloadError,
+              "Unexpected error while downloading update"
+            )
+          )
+        }
+        state = getState() as RootState & ReduxRootState
+
+        if (state.update.deviceHasBeenDetachedDuringDownload) {
+          console.log(
+            "from second download updates action rejection inside releases loop"
+          )
           return rejectWithValue(
             new AppError(
               UpdateError.UnexpectedDownloadError,

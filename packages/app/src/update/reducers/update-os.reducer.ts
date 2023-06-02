@@ -306,6 +306,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     })
     builder.addCase(handleDeviceDetached.fulfilled, (state) => {
       if (state.downloadState === DownloadState.Loading) {
+        console.log("from reducer handleDeviceDetached fulfilled case")
         state.deviceHasBeenDetachedDuringDownload = true
       }
     })

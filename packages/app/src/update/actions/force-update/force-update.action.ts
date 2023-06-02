@@ -20,6 +20,7 @@ export const forceUpdate = createAsyncThunk<void, Params>(
   async ({ releases }, { dispatch, rejectWithValue }) => {
     const downloadUpdate = await dispatch(downloadUpdates({ releases }))
     if (downloadUpdate.type === rejectedAction(UpdateOsEvent.DownloadUpdate)) {
+      console.log("from force update action download rejection if statement")
       const error =
         downloadUpdate.payload ??
         new AppError(UpdateError.ForceUpdateError, "Error during download")
@@ -32,6 +33,7 @@ export const forceUpdate = createAsyncThunk<void, Params>(
       installUpdateResult.type ===
       rejectedAction(UpdateOsEvent.StartOsUpdateProcess)
     ) {
+      console.log("from force update action update rejection if statement")
       return rejectWithValue(installUpdateResult.payload)
     }
 
