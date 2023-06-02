@@ -56,7 +56,7 @@ import { ExportContactFailedModal } from "../export-contact-failed-modal/export-
 import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
 import { ExportContactsResult } from "App/contacts/constants"
 import DeleteContactsPopup from "./delete-contacts-popup/delete-contacts-popup.component"
-import _ from "lodash"
+import { differenceWith, isEqual } from "lodash"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {
@@ -227,10 +227,10 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           })
         }
 
-        const cleanedErrors = _.differenceWith(
+        const cleanedErrors = differenceWith(
           formErrors,
           allPossibleFormErrorCausedByAPI,
-          (a, b) => _.isEqual(a, b)
+          (a, b) => isEqual(a, b)
         )
 
         setFormErrors([...cleanedErrors, ...newError])
