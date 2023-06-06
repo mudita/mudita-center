@@ -50,7 +50,7 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
     const state = getState() as RootState & ReduxRootState
 
     const osVersion = versionFormatter(state.device.data?.osVersion || "")
-    
+
     const product =
       deviceType === DeviceType.MuditaPure
         ? Product.PurePhone
@@ -63,8 +63,8 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
     }
 
     const [latestReleaseResult, allReleasesResult] = await Promise.all([
-      getLatestReleaseRequest(product, state.device.data?.serialNumber),
-      getAllReleasesRequest(product, state.device.data?.serialNumber),
+      getLatestReleaseRequest(product),
+      getAllReleasesRequest(product),
     ])
 
     if (!latestReleaseResult.ok || !latestReleaseResult.data) {
@@ -105,7 +105,6 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
     const mandatoryReleasesToInstall = await getReleasesByVersions({
       product,
       versions: mandatoryVersionsToInstall,
-      deviceSerialNumber: state.device.data?.serialNumber
     })
 
     if (!mandatoryReleasesToInstall.ok || !mandatoryReleasesToInstall.data) {

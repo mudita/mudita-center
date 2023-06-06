@@ -9,11 +9,7 @@ import { IpcReleaseRequest, Product } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 
 export const getLatestReleaseRequest = async (
-  product: Product,
-  deviceSerialNumber?: string
+  product: Product
 ): Promise<ResultObject<OsRelease>> => {
-  return ipcRenderer.callMain(IpcReleaseRequest.GetLatestRelease, {
-    product,
-    deviceSerialNumber,
-  })
+  return ipcRenderer.callMain(IpcReleaseRequest.GetLatestRelease, product)
 }

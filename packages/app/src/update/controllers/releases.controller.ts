@@ -19,31 +19,20 @@ export class ReleasesController {
   constructor(private releaseService: ReleaseService) {}
 
   @IpcEvent(IpcReleaseEvent.GetAllReleases)
-  public async getAllReleases({
-    product,
-    deviceSerialNumber,
-  }: {
+  public async getAllReleases(
     product: Product
-    deviceSerialNumber?: string
-  }): Promise<ResultObject<OsRelease[] | undefined>> {
+  ): Promise<ResultObject<OsRelease[] | undefined>> {
     // TODO [mw] workaround change needed for QA team. Should be removed when implementing CP-1743
     return flags.get(Feature.DeveloperModeEnabled)
-      ? this.releaseService.getTestReleasesForSOSUfeature(
-          product,
-          deviceSerialNumber
-        )
+      ? this.releaseService.getTestReleasesForSOSUfeature(product)
       : Result.success([])
   }
 
   @IpcEvent(IpcReleaseEvent.GetLatestRelease)
-  public async getLatestRelease({
-    product,
-    deviceSerialNumber,
-  }: {
+  public async getLatestRelease(
     product: Product
-    deviceSerialNumber?: string
-  }): Promise<ResultObject<OsRelease | undefined>> {
-    return this.releaseService.getLatestRelease(product, deviceSerialNumber)
+  ): Promise<ResultObject<OsRelease | undefined>> {
+    return this.releaseService.getLatestRelease(product)
   }
 
   @IpcEvent(IpcReleaseEvent.GetReleasesByVersions)

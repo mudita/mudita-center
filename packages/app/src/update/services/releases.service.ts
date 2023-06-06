@@ -50,37 +50,16 @@ export class ReleaseService {
 
   // TODO [mw] workaround change needed for QA team. Should be removed when implementing CP-1743
   public async getTestReleasesForSOSUfeature(
-    product: Product,
-    deviceSerialNumber?: string
+    product: Product
   ): Promise<ResultObject<OsRelease[] | undefined>> {
     try {
       const promises = [
-        this.getRelease(
-          product,
-          OsEnvironment.Production,
-          "latest",
-          deviceSerialNumber
-        ),
+        this.getRelease(product, OsEnvironment.Production, "latest"),
         product === Product.BellHybrid
-          ? this.getRelease(
-              product,
-              OsEnvironment.Production,
-              "1.6.0",
-              deviceSerialNumber
-            )
+          ? this.getRelease(product, OsEnvironment.Production, "1.6.0")
           : undefined,
-        this.getRelease(
-          product,
-          OsEnvironment.TestProduction,
-          "latest",
-          deviceSerialNumber
-        ),
-        this.getRelease(
-          product,
-          OsEnvironment.Daily,
-          "latest",
-          deviceSerialNumber
-        ),
+        this.getRelease(product, OsEnvironment.TestProduction, "latest"),
+        this.getRelease(product, OsEnvironment.Daily, "latest"),
       ].filter((item): item is Promise<ReleaseManifest> => !!item)
 
       const releases = await Promise.all(promises)
@@ -101,12 +80,11 @@ export class ReleaseService {
   public async getReleasesByVersions({
     product,
     versions,
-    deviceSerialNumber,
   }: GetReleasesByVersionsInput): Promise<ResultObject<OsRelease[]>> {
     try {
       const releases = await Promise.all(
         versions.map((version) =>
-          this.getRelease(product, releaseSpace, version, deviceSerialNumber)
+          this.getRelease(product, releaseSpace, version)
         )
       )
 
@@ -124,16 +102,10 @@ export class ReleaseService {
   }
 
   public async getLatestRelease(
-    product: Product,
-    deviceSerialNumber?: string
+    product: Product
   ): Promise<ResultObject<OsRelease | undefined>> {
     try {
-      const release = await this.getRelease(
-        product,
-        releaseSpace,
-        "latest",
-        deviceSerialNumber
-      )
+      const release = await this.getRelease(product, releaseSpace, "latest")
 
       return Result.success(GithubReleasePresenter.toRelease(release))
     } catch (error) {
@@ -149,14 +121,12 @@ export class ReleaseService {
   private async getRelease(
     product: Product,
     releaseSpace: OsEnvironment,
-    version: "latest" | string,
-    deviceSerialNumber?: string
+    version: "latest" | string
   ): Promise<ReleaseManifest> {
     const { data } = await this.client.getLatestRelease({
       product,
       environment: releaseSpace,
       version,
-      deviceSerialNumber,
     })
 
     return data

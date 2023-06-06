@@ -20,7 +20,6 @@ export interface getLatestProductionReleaseParams {
   product: Product
   version: "latest" | string
   environment: OsEnvironment
-  deviceSerialNumber?: string
 }
 
 export class Client implements ClientInterface {
