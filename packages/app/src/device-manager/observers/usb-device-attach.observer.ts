@@ -15,12 +15,15 @@ export class UsbDeviceAttachObserver implements Observer {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     usb.on("attach", async (device) => {
+      console.log("UsbDeviceAttachObserver attach device", device)
       const { idVendor, idProduct } = device.deviceDescriptor
 
       const portInfo = {
         vendorId: idVendor.toString(16).padStart(4, "0"),
         productId: idProduct.toString(16).padStart(4, "0"),
       }
+
+      console.log("UsbDeviceAttachObserver attach portInfo", portInfo)
 
       if (PortInfoValidator.isVendorIdValid(portInfo)) {
         await this.deviceManager.addDevice(portInfo)

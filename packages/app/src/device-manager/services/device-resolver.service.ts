@@ -27,8 +27,12 @@ export class DeviceResolverService {
   ): Device | undefined {
     const id = portInfo.productId?.toLowerCase() ?? ""
     const descriptor = this.eligibleDevices.find((device) =>
-      device.productIds.map((item) => item.toLowerCase()).includes(id)
+      device.productIds
+        .map((item) => item.toString().toLowerCase())
+        .includes(id)
     )
+
+    console.log("DeviceResolverService descriptor", descriptor)
 
     if (!descriptor) {
       return

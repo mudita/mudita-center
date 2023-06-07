@@ -38,6 +38,7 @@ const configuration: Configuration = {
   productVersions: {
     MuditaHarmony: "1.1.1",
     MuditaPure: "2.2.2",
+    MuditaKompakt: "3.3.3",
   },
 }
 

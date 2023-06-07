@@ -7,6 +7,7 @@ import { EventEmitter } from "events"
 import { Observer } from "App/core/types"
 import { DeviceManager } from "App/device-manager/services"
 import { DeviceServiceEvent } from "App/device/constants"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export class DeviceDisconnectedObserver implements Observer {
   constructor(
@@ -18,6 +19,9 @@ export class DeviceDisconnectedObserver implements Observer {
     this.eventEmitter.on(
       DeviceServiceEvent.DeviceDisconnected,
       (path: string) => {
+        console.log(
+          "DeviceDisconnectedObserver observe DeviceServiceEvent.DeviceDisconnected"
+        )
         this.deviceManager.removeDevice(path)
       }
     )

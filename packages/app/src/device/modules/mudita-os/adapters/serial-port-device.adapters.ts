@@ -32,12 +32,14 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
 
     this.serialPort = new SerialPort(path, (error) => {
       if (error) {
+        console.log("SerialPortDeviceAdapter error")
         const appError = new AppError(DeviceError.Initialization, error.message)
         this.emitInitializationFailedEvent(Result.failed(appError))
 
         // workaround to trigger a device (USB) restart side effect after an initialization error
         void this.getSerialPortList()
       } else {
+        console.log("SerialPortDeviceAdapter no error")
         this.emitConnectionEvent(Result.success(`Device ${path} connected`))
       }
     })
