@@ -103,6 +103,8 @@ export class PureStrategy implements DeviceStrategy {
       method: Method.Get,
     })
 
+    console.log("PureStrategy connect response", response)
+
     if (
       response.status === RequestResponseStatus.Ok ||
       response.status === RequestResponseStatus.PhoneLocked
@@ -142,7 +144,6 @@ export class PureStrategy implements DeviceStrategy {
   public async request(
     config: GetDeviceFilesRequestConfig
   ): Promise<RequestResponse<GetDeviceFilesResponseBody>>
-
   public async request(
     config: GetMessagesRequestConfig
   ): Promise<RequestResponse<GetMessagesResponseBody>>

@@ -21,7 +21,9 @@ export const connectDevice = createAsyncThunk<
   DeviceType | undefined,
   DeviceType
 >(DeviceEvent.Connected, async (payload, { dispatch, rejectWithValue }) => {
+  console.log("connectDevice")
   const data = await connectDeviceRequest()
+  console.log("connectDevice data", data)
 
   if (!data.ok) {
     if (data.error?.type === DeviceCommunicationError.DeviceLocked) {
@@ -38,7 +40,11 @@ export const connectDevice = createAsyncThunk<
   }
 
   void dispatch(unlockedDevice())
+  console.log("connectDevice device connected")
+  //i think right now we can assume device is connected, loadDeviceData is not necessary
   void dispatch(setConnectionStatus(true))
+  //wtf, we are doing GetDeviceinfo request second time? But we have this data already, but not saved/stored... :(
+  //currently it should work exactly the same as getDeviceInfo during connection :)
   void dispatch(loadDeviceData())
 
   return payload

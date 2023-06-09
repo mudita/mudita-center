@@ -51,6 +51,7 @@ export class DeviceManager {
 
   public async addDevice(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
+    console.log("addDevice device", device)
 
     if (!device) {
       throw new AppError(
@@ -60,6 +61,7 @@ export class DeviceManager {
     }
 
     this.devicesMap.set(device.path, device)
+    console.log("addDevice this.devicesMap", this.devicesMap)
 
     if (!this.currentDevice) {
       // logger.info(`DeviceManager addDevice device ${JSON.stringify(device)}`)
@@ -75,7 +77,11 @@ export class DeviceManager {
   }
 
   public removeDevice(path: string): void {
+    console.log("removeDevice path", path)
+
     this.devicesMap.delete(path)
+
+    console.log("removeDevice this.devicesMap", this.devicesMap)
 
     if (this.currentDevice?.path === path) {
       if (this.devicesMap.size > 0) {
@@ -155,6 +161,8 @@ export class DeviceManager {
             return
           }
 
+          console.log("DeviceManager initializeDevice - we have new device", device)
+
           return resolve(device)
         }
         await sleep()
@@ -184,6 +192,7 @@ export class DeviceManager {
     this.currentDeviceInitializationFailed = true
   }
   private deviceConnectedListener = () => {
+    //this do a lot of important stuff :D
     this.currentDeviceInitializationFailed = false
   }
 }

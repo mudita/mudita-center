@@ -38,6 +38,7 @@ export class Device {
   }
 
   public async connect(): Promise<ResultObject<DeviceInfo>> {
+    console.log("Device connect")
     const response = await this.strategy.connect()
 
     if (response.data) {
@@ -74,7 +75,10 @@ export class Device {
   }
 
   public async disconnect(): Promise<ResultObject<boolean>> {
+    console.log("Device disconnect")
     const response = await this.strategy.disconnect()
+
+    console.log("Device disconnect response", response)
 
     this.unmountDeviceListeners()
 

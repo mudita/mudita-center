@@ -16,11 +16,13 @@ export class DeviceController {
 
   @IpcEvent(IpcDeviceEvent.Connect)
   public async connectDevice(): Promise<ResultObject<DeviceInfo>> {
+    console.log("DeviceController connectDevice")
     return this.deviceService.connect()
   }
 
   @IpcEvent(IpcDeviceEvent.Disconnect)
   public async disconnectDevice(): Promise<ResultObject<boolean>> {
+    console.log("DeviceController disconnectDevice")
     return this.deviceService.disconnect()
   }
 

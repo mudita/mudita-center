@@ -9,12 +9,13 @@ import { EventEmitter } from "events"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
+  MuditaKompaktDescriptor
 } from "App/device/descriptors"
 import { Device } from "App/device/modules/device"
 import { DeviceFactory } from "App/device/factories"
 
 export class DeviceResolverService {
-  private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
+  private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor, MuditaKompaktDescriptor]
 
   constructor(
     private ipc: MainProcessIpc,
