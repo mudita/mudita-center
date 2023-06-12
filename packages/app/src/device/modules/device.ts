@@ -75,10 +75,7 @@ export class Device {
   }
 
   public async disconnect(): Promise<ResultObject<boolean>> {
-    console.log("Device disconnect")
     const response = await this.strategy.disconnect()
-
-    console.log("Device disconnect response", response)
 
     this.unmountDeviceListeners()
 

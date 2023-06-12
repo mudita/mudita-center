@@ -9,13 +9,17 @@ import { EventEmitter } from "events"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
-  MuditaKompaktDescriptor
+  MuditaKompaktDescriptor,
 } from "App/device/descriptors"
 import { Device } from "App/device/modules/device"
 import { DeviceFactory } from "App/device/factories"
 
 export class DeviceResolverService {
-  private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor, MuditaKompaktDescriptor]
+  private eligibleDevices = [
+    MuditaPureDescriptor,
+    MuditaHarmonyDescriptor,
+    MuditaKompaktDescriptor,
+  ]
 
   constructor(
     private ipc: MainProcessIpc,
@@ -32,8 +36,6 @@ export class DeviceResolverService {
         .map((item) => item.toString().toLowerCase())
         .includes(id)
     )
-
-    console.log("DeviceResolverService descriptor", descriptor)
 
     if (!descriptor) {
       return

@@ -9,6 +9,5 @@ import { IpcDeviceRequest } from "App/device/constants"
 import { Device } from "App/device/modules/device"
 
 export const connectDeviceRequest = async (): Promise<ResultObject<Device>> => {
-  console.log("connectDeviceRequest IpcDeviceRequest.Connect")
   return ipcRenderer.callMain(IpcDeviceRequest.Connect)
 }

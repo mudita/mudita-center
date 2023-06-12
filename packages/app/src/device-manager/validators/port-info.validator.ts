@@ -20,23 +20,16 @@ export class PortInfoValidator {
   static isVendorIdValid(portInfo: Partial<PortInfo>): boolean {
     const id = portInfo.vendorId?.toLowerCase() ?? ""
 
-    console.log("PortInfoValidator isVendorIdValid id", id)
-
     const result = Boolean(
       PortInfoValidator.eligibleDevices.find((device) => {
-        console.log("PortInfoValidator isVendorIdValid device", device)
-
         const vendorIds = device.vendorIds.map((item) =>
           item.toString().toLowerCase()
         )
-
-        console.log("PortInfoValidator isVendorIdValid vendorIds", vendorIds)
 
         return vendorIds.includes(id)
       })
     )
 
-    console.log("PortInfoValidator isVendorIdValid result", result)
     return result
   }
 

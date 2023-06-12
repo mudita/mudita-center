@@ -14,7 +14,6 @@ export const disconnectDevice = createAsyncThunk(
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (_, { dispatch, rejectWithValue }) => {
-    console.log("disconnectDevice")
     const response = await disconnectDeviceRequest()
 
     if (!response.ok || !response.data) {
@@ -27,7 +26,6 @@ export const disconnectDevice = createAsyncThunk(
       )
     }
 
-    console.log("disconnectDevice device disconnected")
     void dispatch(setConnectionStatus(false))
 
     return

@@ -12,7 +12,6 @@ import { Device } from "App/device/modules/device"
 const deviceAttachedHandler = (_: any, _data: Device): void => {}
 
 export const registerDeviceAttachedListener = (): (() => void) => {
-  console.log("registerDeviceAttachedListener ListenerEvent.DeviceAttached")
   ipcRenderer.on(ListenerEvent.DeviceAttached, deviceAttachedHandler)
 
   return () => {

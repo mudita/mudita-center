@@ -6,7 +6,7 @@
 import { EventEmitter } from "events"
 import { RequestResponse, RequestResponseStatus } from "App/core/types"
 import { DeviceStrategy } from "App/device/strategies/device-strategy.class"
-import { DeviceInfo, RequestConfig, Response } from "../types/mudita-os"
+import { DeviceInfo, RequestConfig } from "../types/mudita-os"
 import { BaseAdapter } from "App/device/modules/base.adapter"
 import {
   GetDeviceInfoResponseBody,
@@ -65,10 +65,10 @@ export class KompaktStrategy implements DeviceStrategy {
   ): Promise<RequestResponse<GetDeviceInfoResponseBody>>
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
     //throw new Error("Method not implemented.")
-    //here
     //this.adapter.request(config)
     //serialize response and return it
 
+    //right now we have mocked result from endpoint, should be changed when endpoint is ready
     return {
       data: {
         accessTechnology: "255",

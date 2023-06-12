@@ -182,7 +182,6 @@ export const deviceReducer = createReducer<DeviceState>(
 
       // Passing data from the connecting device to state
       .addCase(DeviceEvent.SetData, (state, action: SetDeviceDataAction) => {
-        console.log("DeviceEvent.SetData data", action.payload)
         return {
           ...state,
           data: {

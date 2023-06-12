@@ -21,12 +21,10 @@ export class DeviceService {
   constructor(private deviceManager: DeviceManager) {}
 
   public async connect(): Promise<ResultObject<DeviceInfo>> {
-    console.log("DeviceService connect")
     return this.deviceManager.device.connect()
   }
 
   public async disconnect(): Promise<ResultObject<boolean>> {
-    console.log("DeviceService disconnect")
     return this.deviceManager.device.disconnect()
   }
 

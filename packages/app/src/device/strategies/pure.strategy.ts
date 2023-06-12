@@ -103,8 +103,6 @@ export class PureStrategy implements DeviceStrategy {
       method: Method.Get,
     })
 
-    console.log("PureStrategy connect response", response)
-
     if (
       response.status === RequestResponseStatus.Ok ||
       response.status === RequestResponseStatus.PhoneLocked

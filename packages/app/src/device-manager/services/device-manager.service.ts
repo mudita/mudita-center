@@ -50,8 +50,7 @@ export class DeviceManager {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
-    const device = await this.initializeDevice(port)
-    console.log("addDevice device", device)
+    const { device, serialNumber } = await this.initializeDevice(port)
 
     if (!device) {
       throw new AppError(
@@ -61,11 +60,8 @@ export class DeviceManager {
     }
 
     this.devicesMap.set(device.path, device)
-    console.log("addDevice this.devicesMap", this.devicesMap)
 
     if (!this.currentDevice) {
-      // logger.info(`DeviceManager addDevice device ${JSON.stringify(device)}`)
-      console.log("DeviceManager addDevice device", device)
       this.currentDevice = device
       this.ipc.sendToRenderers(
         ListenerEvent.CurrentDeviceChanged,
@@ -74,14 +70,11 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, device)
+    console.log("Connected device with serial number: ", serialNumber)
   }
 
   public removeDevice(path: string): void {
-    console.log("removeDevice path", path)
-
     this.devicesMap.delete(path)
-
-    console.log("removeDevice this.devicesMap", this.devicesMap)
 
     if (this.currentDevice?.path === path) {
       if (this.devicesMap.size > 0) {
@@ -97,6 +90,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, path)
+    console.log("Disconnected device with path: ", path)
   }
 
   public setCurrentDevice(path: string): ResultObject<boolean> {
@@ -123,7 +117,6 @@ export class DeviceManager {
 
   public async getConnectedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
-    console.log("DeviceManager getConnectedDevices portList", portList)
 
     return (
       portList
@@ -135,9 +128,7 @@ export class DeviceManager {
 
   private async initializeDevice(
     portInfo: PortInfo
-  ): Promise<Device | undefined> {
-    // logger.info(`DeviceManager initializeDevice`)
-    console.log("DeviceManager initializeDevice")
+  ): Promise<{ device: Device | undefined; serialNumber: string | undefined }> {
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
@@ -146,14 +137,12 @@ export class DeviceManager {
     return new Promise(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
         const portList = await this.getConnectedDevices()
-        console.log("DeviceManager initializeDevice portList", portList)
 
         const port = portList.find(
           ({ productId, vendorId }) =>
             productId === portInfo.productId && vendorId === portInfo.vendorId
         )
 
-        console.log("DeviceManager initializeDevice port", port)
         if (port) {
           const device = this.deviceResolver.resolve(portInfo, port.path)
 
@@ -161,14 +150,13 @@ export class DeviceManager {
             return
           }
 
-          console.log("DeviceManager initializeDevice - we have new device", device)
-
-          return resolve(device)
+          const { serialNumber } = port
+          return resolve({ device, serialNumber })
         }
         await sleep()
       }
 
-      resolve(undefined)
+      resolve({ device: undefined, serialNumber: undefined })
     })
   }
 

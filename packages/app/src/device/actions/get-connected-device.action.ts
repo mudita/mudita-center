@@ -11,7 +11,6 @@ import { AppError } from "App/core/errors"
 export const getConnectedDevice = createAsyncThunk(
   DeviceEvent.GetConnected,
   async (_, { rejectWithValue }) => {
-    console.log("getConnectedDevice")
     const response = await connectDeviceRequest()
 
     if (!response.data || !response.data) {

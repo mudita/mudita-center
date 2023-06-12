@@ -16,9 +16,6 @@ const deviceAttachedHandler = (_: any, _data: string): void => {
 
 export const registerClearingUpdateStateOnDeviceAttachedListener =
   (): (() => void) => {
-    console.log(
-      "registerClearingUpdateStateOnDeviceAttachedListener ListenerEvent.DeviceAttached"
-    )
     ipcRenderer.on(ListenerEvent.DeviceAttached, deviceAttachedHandler)
 
     return () => {
