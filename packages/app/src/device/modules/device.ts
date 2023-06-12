@@ -38,7 +38,6 @@ export class Device {
   }
 
   public async connect(): Promise<ResultObject<DeviceInfo>> {
-    console.log("Device connect")
     const response = await this.strategy.connect()
 
     if (response.data) {
