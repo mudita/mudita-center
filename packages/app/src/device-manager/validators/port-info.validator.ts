@@ -45,9 +45,20 @@ export class PortInfoValidator {
   }
 
   static isPortInfoMatch(portInfo: Partial<PortInfo>): boolean {
-    return (
-      PortInfoValidator.isVendorIdValid(portInfo) &&
-      PortInfoValidator.isProductIdValid(portInfo)
+    const vendorId = portInfo.vendorId?.toLowerCase() ?? ""
+    const productId = portInfo.productId?.toLowerCase() ?? ""
+
+    return Boolean(
+      PortInfoValidator.eligibleDevices.find(({ vendorIds, productIds }) => {
+        return (
+          vendorIds
+            .map((item) => item.toString().toLowerCase())
+            .includes(vendorId) &&
+          productIds
+            .map((item) => item.toString().toLowerCase())
+            .includes(productId)
+        )
+      })
     )
   }
 }
