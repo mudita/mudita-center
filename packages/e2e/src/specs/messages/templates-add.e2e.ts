@@ -53,7 +53,7 @@ describe("Templates", () => {
     await messagesTemplatesPage.insertTextToTemplateTextInputInputForm(
       editedTemplateText
     )
-    await browser.saveScreenshot("./templateEdited3.png")
+
     await expect(saveButton).toBeEnabled()
 
     await saveButton.click()
