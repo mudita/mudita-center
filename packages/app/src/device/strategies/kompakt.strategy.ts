@@ -35,6 +35,8 @@ export class KompaktStrategy implements DeviceStrategy {
     this.mountInitializationFailedListener()
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async connect(): Promise<RequestResponse<DeviceInfo, any>> {
     const response = await this.request({
       endpoint: Endpoint.DeviceInfo,
@@ -63,12 +65,10 @@ export class KompaktStrategy implements DeviceStrategy {
   public async request(
     config: GetDeviceInfoRequestConfig
   ): Promise<RequestResponse<GetDeviceInfoResponseBody>>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
-    //throw new Error("Method not implemented.")
-    //this.adapter.request(config)
-    //serialize response and return it
-
-    //right now we have mocked result from endpoint, should be changed when endpoint is ready
+    //right now we have mocked result from endpoint, should be changed when endpoint is ready during task CP-1668
     return {
       data: {
         accessTechnology: "255",
@@ -100,12 +100,16 @@ export class KompaktStrategy implements DeviceStrategy {
   }
   on(
     eventName: DeviceServiceEvent,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listener: (path: string, ...args: any[]) => void
   ): void {
     this.eventEmitter.on(eventName, listener)
   }
   off(
     eventName: DeviceServiceEvent,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listener: (path: string, ...args: any[]) => void
   ): void {
     this.eventEmitter.off(eventName, listener)
@@ -125,12 +129,6 @@ export class KompaktStrategy implements DeviceStrategy {
 
   private mountDeviceUnlockedListener(): void {
     throw new Error("Method not implemented.")
-
-    //here we need another endpoint on Kompakt
-    // void this.getUnlockedStatusRequest()
-    // this.lockedInterval = setInterval(() => {
-    //   void this.getUnlockedStatusRequest()
-    // }, 10000)
   }
 
   private unmountDeviceUnlockedListener(): void {
@@ -139,11 +137,6 @@ export class KompaktStrategy implements DeviceStrategy {
 
   private getUnlockedStatusRequest(): Promise<RequestResponse> {
     throw new Error("Method not implemented.")
-    // return this.request({
-    //   endpoint: Endpoint.Security,
-    //   method: Method.Get,
-    //   body: { category: PhoneLockCategory.Status },
-    // })
   }
 
   private mountDisconnectionListener(): void {

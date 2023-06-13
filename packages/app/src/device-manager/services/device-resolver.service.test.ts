@@ -11,27 +11,44 @@ import { DeviceResolverService } from "App/device-manager/services/device-resolv
 const eventEmitter = new EventEmitter()
 const subject = new DeviceResolverService(ipcMain, eventEmitter)
 
-// describe("Pure descriptor", () => {
-//   test.each([
-//     ProductID.MuditaPure,
-//   ])(
-//     "returns Device with MuditaPure device type if %s productID has been provided",
-//     (productId) => {
-//       expect(subject.resolve({ productId }, "/dev/123")?.deviceType).toEqual(
-//         DeviceType.MuditaPure
-//       )
-//     }
-//   )
-// })
+describe("Pure descriptor", () => {
+  test.each([ProductID.MuditaPure])(
+    "returns Device with MuditaPure device type if %s productID has been provided",
+    (productId) => {
+      expect(subject.resolve({ productId }, "/dev/123")?.deviceType).toEqual(
+        DeviceType.MuditaPure
+      )
+    }
+  )
+})
 
-// describe("Harmony descriptor", () => {
-//   test("returns Device with MuditaPure device type if 0300 productID has been provided", () => {
-//     expect(
-//       subject.resolve({ productId: ProductID.MuditaHarmony }, "/dev/123")
-//         ?.deviceType
-//     ).toEqual(DeviceType.MuditaHarmony)
-//   })
-// })
+describe("Harmony descriptor", () => {
+  test("returns Device with MuditaPure device type if 0300 productID has been provided", () => {
+    expect(
+      subject.resolve({ productId: ProductID.MuditaHarmony }, "/dev/123")
+        ?.deviceType
+    ).toEqual(DeviceType.MuditaHarmony)
+  })
+})
+
+describe("Kompakt descriptor", () => {
+  test("returns Device with MuditaKompakt device type productID has been provided", () => {
+    expect(
+      subject.resolve({ productId: ProductID.MuditaKompaktCharge }, "/dev/123")
+        ?.deviceType
+    ).toEqual(DeviceType.MuditaKompakt)
+    expect(
+      subject.resolve({ productId: ProductID.MuditaKompaktNoDebug }, "/dev/123")
+        ?.deviceType
+    ).toEqual(DeviceType.MuditaKompakt)
+    expect(
+      subject.resolve(
+        { productId: ProductID.MuditaKompaktTransfer },
+        "/dev/123"
+      )?.deviceType
+    ).toEqual(DeviceType.MuditaKompakt)
+  })
+})
 
 describe("Unknown descriptor", () => {
   test("returns undefined if unknown product id has been provided", () => {

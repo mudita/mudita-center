@@ -150,7 +150,6 @@ export class DeviceManager {
             return
           }
 
-          const { serialNumber } = port
           return resolve(device)
         }
         await sleep()
