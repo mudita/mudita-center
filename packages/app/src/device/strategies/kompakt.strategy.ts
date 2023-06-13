@@ -30,7 +30,6 @@ export class KompaktStrategy implements DeviceStrategy {
 
   constructor(private adapter: BaseAdapter) {
     EventEmitter.defaultMaxListeners = 15
-    //this.mountDeviceUnlockedListener()
     this.mountDisconnectionListener()
     this.mountInitializationFailedListener()
   }
@@ -55,7 +54,6 @@ export class KompaktStrategy implements DeviceStrategy {
   async disconnect(): Promise<boolean> {
     const response = await this.adapter.disconnect()
 
-    //this.unmountDeviceUnlockedListener()
     this.unmountDisconnectionListener()
     this.unmountInitializationFailedListener()
     this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)

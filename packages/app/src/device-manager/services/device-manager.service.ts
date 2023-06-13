@@ -179,8 +179,8 @@ export class DeviceManager {
   private deviceInitializationFailedListener = () => {
     this.currentDeviceInitializationFailed = true
   }
+
   private deviceConnectedListener = () => {
-    //this do a lot of important stuff :D
     this.currentDeviceInitializationFailed = false
   }
 }
