@@ -15,6 +15,7 @@ import { PortInfoValidator } from "App/device-manager/validators"
 import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
 import { DeviceServiceEvent } from "App/device"
 import { EventEmitter } from "events"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
@@ -70,7 +71,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, device)
-    console.log("Connected device with serial number: ", device.serialNumber)
+    logger.info(`Connected device with serial number: ${device.serialNumber}`)
   }
 
   public removeDevice(path: string): void {
@@ -90,7 +91,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, path)
-    console.log("Disconnected device with path: ", path)
+    logger.info(`Disconnected device with path: ${path}`)
   }
 
   public setCurrentDevice(path: string): ResultObject<boolean> {
