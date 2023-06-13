@@ -27,10 +27,10 @@ export class DeviceResolverService {
   ) {}
 
   public resolve(
-    portInfo: Pick<PortInfo, "productId">,
+    { productId, serialNumber }: Pick<PortInfo, "productId" | "serialNumber">,
     path: string
   ): Device | undefined {
-    const id = portInfo.productId?.toLowerCase() ?? ""
+    const id = productId?.toLowerCase() ?? ""
     const descriptor = this.eligibleDevices.find((device) =>
       device.productIds
         .map((item) => item.toString().toLowerCase())
@@ -41,7 +41,7 @@ export class DeviceResolverService {
       return
     }
 
-    return DeviceFactory.create(
+    const newDevice = DeviceFactory.create(
       path,
       descriptor.deviceType,
       descriptor.adapter,
@@ -49,5 +49,9 @@ export class DeviceResolverService {
       this.ipc,
       this.eventEmitter
     )
+
+    newDevice.serialNumber = serialNumber ?? ""
+
+    return newDevice
   }
 }

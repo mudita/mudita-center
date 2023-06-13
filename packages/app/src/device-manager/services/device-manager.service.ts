@@ -50,7 +50,7 @@ export class DeviceManager {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
-    const { device, serialNumber } = await this.initializeDevice(port)
+    const device = await this.initializeDevice(port)
 
     if (!device) {
       throw new AppError(
@@ -70,7 +70,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, device)
-    console.log("Connected device with serial number: ", serialNumber)
+    console.log("Connected device with serial number: ", device.serialNumber)
   }
 
   public removeDevice(path: string): void {
@@ -128,7 +128,7 @@ export class DeviceManager {
 
   private async initializeDevice(
     portInfo: PortInfo
-  ): Promise<{ device: Device | undefined; serialNumber: string | undefined }> {
+  ): Promise<Device | undefined> {
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
@@ -151,12 +151,12 @@ export class DeviceManager {
           }
 
           const { serialNumber } = port
-          return resolve({ device, serialNumber })
+          return resolve(device)
         }
         await sleep()
       }
 
-      resolve({ device: undefined, serialNumber: undefined })
+      resolve(undefined)
     })
   }
 
