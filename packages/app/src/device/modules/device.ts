@@ -206,11 +206,9 @@ export class Device {
   }
 
   private emitDisconnectionEvent = (): void => {
-    if (!this.connecting) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, this.path)
-      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceDisconnected, this.path)
-      this.unmountDeviceListeners()
-    }
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, this.path)
+    this.ipc.sendToRenderers(DeviceIpcEvent.DeviceDisconnected, this.path)
+    this.unmountDeviceListeners()
   }
 
   private emitDeviceInitializationFailedEvent = (): void => {
