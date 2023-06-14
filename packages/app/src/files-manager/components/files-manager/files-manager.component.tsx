@@ -28,6 +28,8 @@ import { useFilesFilter } from "App/files-manager/helpers/use-files-filter.hook"
 import { getSpaces } from "App/files-manager/components/files-manager/get-spaces.helper"
 import { useDispatch } from "react-redux"
 import { resetFiles } from "App/files-manager/actions/base.action"
+import { uploadFile } from "App/files-manager/actions"
+import { Dispatch } from "App/__deprecated__/renderer/store"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -40,7 +42,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   deleting,
   files,
   getFiles,
-  uploadFile,
   deviceType,
   resetAllItems,
   selectAllItems,
@@ -80,7 +81,8 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     otherSpace,
     musicSpace,
   } = getSpaces(files, memorySpace)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<Dispatch>()
+  const [uploadActionTrigger, setUploadActionTrigger] = useState<number>()
 
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
 
@@ -186,8 +188,24 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   }, [states.uploadingInfo])
 
   useEffect(() => {
-    return () => resetUploadingState()
+    return () => {
+      resetUploadingState()
+    }
   }, [resetUploadingState])
+
+  useEffect(() => {
+    if (uploadActionTrigger) {
+      const uploadActionPromise = dispatch(uploadFile())
+
+      //abort on dismount or when a new upload has been triggered
+      return () => {
+        if ("abort" in uploadActionPromise) {
+          ;(uploadActionPromise as any).abort()
+        }
+      }
+    }
+    return () => {}
+  }, [uploadActionTrigger])
 
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
     const elements = {
@@ -250,6 +268,11 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     setDeletingFileCount(0)
     resetDeletingState()
   }
+
+  const handleUploadFiles = () => {
+    setUploadActionTrigger(new Date().getTime())
+  }
+
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
       <UploadFilesModals
@@ -292,7 +315,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           toggleItem={toggleItem}
           onDeleteClick={handleDeleteClick}
           onManagerDeleteClick={handleManagerDeleteClick}
-          uploadFiles={uploadFile}
+          uploadFiles={handleUploadFiles}
           searchValue={searchValue}
           onSearchValueChange={handleSearchValueChange}
           noFoundFiles={noFoundFiles}

@@ -83,6 +83,12 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         }
       })
       .addCase(uploadFile.rejected, (state, action) => {
+        if (action.payload === undefined) {
+          return {
+            ...state,
+          }
+        }
+
         return {
           ...state,
           uploading: State.Failed,
@@ -198,7 +204,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         state.duplicatedFiles = action.payload
       })
       .addCase(resetFiles, (state, _) => {
-        console.log("reset")
         state.files = null
       })
   }
