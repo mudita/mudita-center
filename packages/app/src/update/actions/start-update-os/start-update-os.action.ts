@@ -51,7 +51,7 @@ export const startUpdateOs = createAsyncThunk<
   UpdateOsEvent.StartOsUpdateProcess,
   async ({ releases }, { dispatch, rejectWithValue, getState }) => {
     void setUpdatingRequest(true)
-    let state = getState() as RootState & ReduxRootState
+    let state = (await getState()) as RootState & ReduxRootState
     const batteryLevel = state.device.data?.batteryLevel ?? 0
     const deviceType = state.device.deviceType
 
@@ -73,7 +73,7 @@ export const startUpdateOs = createAsyncThunk<
     await dispatch(removeFile(DiagnosticsFilePath.UPDATER_LOG))
 
     for (const release of releases) {
-      state = getState() as RootState & ReduxRootState
+      state = (await getState()) as RootState & ReduxRootState
 
       const trackOsUpdateOptions: Omit<TrackOsUpdateOptions, "state"> = {
         deviceType,
