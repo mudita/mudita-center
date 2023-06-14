@@ -35,7 +35,7 @@ export const downloadUpdates = createAsyncThunk<
 >(
   UpdateOsEvent.DownloadUpdate,
   async ({ releases }, { getState, rejectWithValue, dispatch }) => {
-    let state = getState() as RootState & ReduxRootState
+    let state = (await getState()) as RootState & ReduxRootState
     const batteryLevel = state.device.data?.batteryLevel ?? 0
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
@@ -48,12 +48,9 @@ export const downloadUpdates = createAsyncThunk<
     }
 
     for (const release of releases) {
-      state = getState() as RootState & ReduxRootState
+      state = (await getState()) as RootState & ReduxRootState
 
       if (state.update.deviceHasBeenDetachedDuringDownload) {
-        console.log(
-          "from first download updates action rejection inside releases loop"
-        )
         return rejectWithValue(
           new AppError(
             UpdateError.UnexpectedDownloadError,
@@ -95,12 +92,9 @@ export const downloadUpdates = createAsyncThunk<
             )
           )
         }
-        state = getState() as RootState & ReduxRootState
+        state = (await getState()) as RootState & ReduxRootState
 
         if (state.update.deviceHasBeenDetachedDuringDownload) {
-          console.log(
-            "from second download updates action rejection inside releases loop"
-          )
           return rejectWithValue(
             new AppError(
               UpdateError.UnexpectedDownloadError,

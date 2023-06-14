@@ -235,13 +235,13 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.downloadState = DownloadState.Loaded
     })
     builder.addCase(downloadUpdates.rejected, (state, action) => {
-      state.deviceHasBeenDetachedDuringDownload = false
       if (action.payload?.type === UpdateError.DownloadCancelledByUser) {
         state.downloadState = DownloadState.Cancelled
       } else {
         state.downloadState = DownloadState.Failed
         state.error = action.payload as AppError<UpdateError>
       }
+      state.deviceHasBeenDetachedDuringDownload = false
     })
     builder.addCase(cancelDownload, (state) => {
       state.downloadState = DownloadState.Cancelled
@@ -305,8 +305,13 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.error = action.payload as AppError<UpdateError>
     })
     builder.addCase(handleDeviceDetached.fulfilled, (state) => {
+      state.data = {
+        allReleases: null,
+        availableReleasesForUpdate: null,
+        downloadedProcessedReleases: null,
+        updateProcessedReleases: null,
+      }
       if (state.downloadState === DownloadState.Loading) {
-        console.log("from reducer handleDeviceDetached fulfilled case")
         state.deviceHasBeenDetachedDuringDownload = true
       }
     })
