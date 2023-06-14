@@ -30,6 +30,7 @@ import { useDispatch } from "react-redux"
 import { resetFiles } from "App/files-manager/actions/base.action"
 import { uploadFile } from "App/files-manager/actions"
 import { Dispatch } from "App/__deprecated__/renderer/store"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -81,7 +82,9 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     otherSpace,
     musicSpace,
   } = getSpaces(files, memorySpace)
-  const dispatch = useDispatch<Dispatch>()
+  const dispatch = useDispatch()
+  const dispatchThunk = useDispatch<Dispatch>()
+
   const [uploadActionTrigger, setUploadActionTrigger] = useState<number>()
 
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
@@ -195,16 +198,18 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 
   useEffect(() => {
     if (uploadActionTrigger) {
-      const uploadActionPromise = dispatch(uploadFile())
+      const uploadActionPromise = dispatchThunk(uploadFile())
 
       //abort on dismount or when a new upload has been triggered
       return () => {
         if ("abort" in uploadActionPromise) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
           ;(uploadActionPromise as any).abort()
         }
       }
     }
-    return () => {}
+    return noop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uploadActionTrigger])
 
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
