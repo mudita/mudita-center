@@ -43,15 +43,17 @@ class TemplatesPage extends ModalPage {
     return $('[data-testid="checkbox"]')
   }
 
-  /** Insert text to Search Contacts input field*/
+  /** Click on Template based on the given text*/
   async clickOnTemplateByText(inputText: string) {
     const selector = await $(`p*=${inputText}`)
+    await selector.waitForClickable()
     await selector.click()
   }
 
-  /** Insert text to Search Contacts input field*/
+  /** Hover over Template based on the given text*/
   async hoverOverTemplateByText(inputText: string) {
     const selector = await $(`p*=${inputText}`)
+    await selector.waitForDisplayed()
     await selector.moveTo()
   }
 }
