@@ -56,7 +56,7 @@ describe("Overview Page", () => {
     })
     after(async () => {
       // Waiting for device connected through USB
-      await modalGeneralPage.clickCloseModalBytton()
+      await modalGeneralPage.clickCloseModalButton()
     })
   })
 })

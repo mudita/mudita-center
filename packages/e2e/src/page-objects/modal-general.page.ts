@@ -73,7 +73,7 @@ class ModalGeneralPage extends Page {
     return $('[data-testid="close-modal-button"]')
   }
 
-  async clickCloseModalBytton() {
+  async clickCloseModalButton() {
     try {
       await this.closeModalButton.waitForDisplayed({
         timeout: 6000,
