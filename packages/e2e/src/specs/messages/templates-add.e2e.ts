@@ -31,11 +31,11 @@ describe("Templates", () => {
     await newTemplateButton.click()
 
     const saveButton = await messagesTemplatesPage.saveButton
-    await expect(saveButton).toBeDisabled()
+    await expect(saveButton).not.toBeClickable()
 
     await messagesTemplatesPage.insertTextToTemplateTextInputForm(templateText)
 
-    await expect(saveButton).toBeEnabled()
+    await expect(saveButton).toBeClickable()
     await saveButton.click()
     await browser.pause(8000)
 
@@ -52,7 +52,7 @@ describe("Templates", () => {
       editedTemplateText
     )
 
-    await expect(saveButton).toBeEnabled()
+    await expect(saveButton).toBeClickable()
 
     await saveButton.click()
 
