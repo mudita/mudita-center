@@ -26,7 +26,7 @@ class TemplatesPage extends ModalPage {
   }
 
   /** Insert text to Search Contacts input field*/
-  async insertTextToTemplateTextInputInputForm(inputText: string) {
+  async insertTextToTemplateTextInputForm(inputText: string) {
     await this.templateTextInputForm.waitForDisplayed()
     await this.templateTextInputForm.setValue(inputText)
   }
