@@ -33,9 +33,7 @@ describe("Templates", () => {
     const saveButton = await messagesTemplatesPage.saveButton
     await expect(saveButton).toBeDisabled()
 
-    await messagesTemplatesPage.insertTextToTemplateTextInputInputForm(
-      templateText
-    )
+    await messagesTemplatesPage.insertTextToTemplateTextInputForm(templateText)
 
     await expect(saveButton).toBeEnabled()
     await saveButton.click()
@@ -50,7 +48,7 @@ describe("Templates", () => {
     const saveButton = await messagesTemplatesPage.saveButton
 
     const editedTemplateText = templateText.replace("added", "edited")
-    await messagesTemplatesPage.insertTextToTemplateTextInputInputForm(
+    await messagesTemplatesPage.insertTextToTemplateTextInputForm(
       editedTemplateText
     )
 
