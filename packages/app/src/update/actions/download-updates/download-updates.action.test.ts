@@ -232,6 +232,9 @@ describe("when download is cancelled by user", () => {
           batteryLevel: 0.55,
         },
       },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
+      },
     })
 
     const {
@@ -278,6 +281,9 @@ describe("when download failed", () => {
         data: {
           batteryLevel: 0.55,
         },
+      },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
       },
     })
 

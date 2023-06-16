@@ -87,11 +87,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
 
   public async request(
     config: RequestConfig
-  ): // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
-  public async request(
-    config: RequestConfig
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<ResultObject<Response<any>>> {
