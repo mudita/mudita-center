@@ -16,11 +16,18 @@ export class MuditaKompaktDescriptor {
   static manufacturer = Manufacture.Mudita
   static deviceType = DeviceType.MuditaKompakt
   static productIds = [
-    ProductID.MuditaKompaktCharge,
-    ProductID.MuditaKompaktTransfer,
-    ProductID.MuditaKompaktNoDebug,
+    ProductID.MuditaKompaktChargeDec,
+    ProductID.MuditaKompaktTransferDec,
+    ProductID.MuditaKompaktNoDebugDec,
+    ProductID.MuditaKompaktChargeHex,
+    ProductID.MuditaKompaktTransferHex,
+    ProductID.MuditaKompaktNoDebugHex,
   ]
-  static vendorIds = [VendorID.MuditaKompakt]
+  static vendorIds = [VendorID.MuditaKompaktDec, VendorID.MuditaKompaktHex]
   static adapter = SerialPortDeviceAdapter
   static strategy = KompaktStrategy
 }
+
+// {"busNumber":1,"deviceAddress":6,"deviceDescriptor":{"bLength":18,"bDescriptorType":1,"bcdUSB":512,"bDeviceClass":0,
+// "bDeviceSubClass":0,"bDeviceProtocol":0,"bMaxPacketSize0":64,"idVendor":3725,"idProduct":8198,"bcdDevice":547,"iManufacturer":1,"iProduct":2,
+// "iSerialNumber":3,"bNumConfigurations":1},"portNumbers":[3]} 

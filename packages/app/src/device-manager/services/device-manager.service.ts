@@ -51,6 +51,7 @@ export class DeviceManager {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
+    logger.info(`DeviceManager addDevice port ${JSON.stringify(port)}`)
     const device = await this.initializeDevice(port)
 
     if (!device) {
@@ -133,19 +134,36 @@ export class DeviceManager {
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
+    logger.info(`initializeDevice portInfo ${portInfo}`)
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
         const portList = await this.getConnectedDevices()
+        //logger.info(`initializeDevice portList ${JSON.stringify(portList)}`)
 
-        const port = portList.find(
-          ({ productId, vendorId }) =>
+        const port = portList.find(({ productId, vendorId }) => {
+          logger.info(
+            `initializeDevice productId ${JSON.stringify(
+              productId
+            )} portInfo.productId ${JSON.stringify(
+              portInfo.productId
+            )} vendorId ${JSON.stringify(vendorId)} portInfo.vendorId ${
+              portInfo.vendorId
+            }`
+          )
+          const result =
             productId === portInfo.productId && vendorId === portInfo.vendorId
-        )
+
+          logger.info(`initializeDevice result ${JSON.stringify(result)}`)
+          return result
+        })
+
+        logger.info(`initializeDevice port ${JSON.stringify(port)}`)
 
         if (port) {
-          const device = this.deviceResolver.resolve(portInfo, port.path)
+          const device = this.deviceResolver.resolve(port)
 
           if (!device) {
             return

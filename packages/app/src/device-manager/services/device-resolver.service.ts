@@ -13,6 +13,7 @@ import {
 } from "App/device/descriptors"
 import { Device } from "App/device/modules/device"
 import { DeviceFactory } from "App/device/factories"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export class DeviceResolverService {
   private eligibleDevices = [
@@ -26,16 +27,31 @@ export class DeviceResolverService {
     private eventEmitter: EventEmitter
   ) {}
 
-  public resolve(
-    { productId, serialNumber }: Pick<PortInfo, "productId" | "serialNumber">,
-    path: string
-  ): Device | undefined {
+  public resolve({
+    productId,
+    serialNumber,
+    path,
+  }: Pick<PortInfo, "productId" | "serialNumber" | "path">):
+    | Device
+    | undefined {
+    logger.info(
+      `DeviceResolverService productId ${JSON.stringify(
+        productId
+      )} serialNumber ${JSON.stringify(serialNumber)} path ${JSON.stringify(
+        path
+      )}`
+    )
+
     const id = productId?.toLowerCase() ?? ""
     const descriptor = this.eligibleDevices.find((device) =>
       device.productIds
         .map((item) => item.toString().toLowerCase())
         .includes(id)
     )
+
+    // logger.info(
+    //   `DeviceResolverService descriptor ${JSON.stringify(descriptor)}`
+    // )
 
     if (!descriptor) {
       return
@@ -50,6 +66,7 @@ export class DeviceResolverService {
       this.eventEmitter
     )
 
+    //logger.info(`DeviceResolverService newDevice ${JSON.stringify(newDevice)}`)
     newDevice.serialNumber = serialNumber ?? ""
 
     return newDevice
