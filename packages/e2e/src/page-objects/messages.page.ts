@@ -273,6 +273,13 @@ class MessagesPage extends Page {
   > {
     return $('[data-testid="name-field"]')
   }
+
+  /** [Selector] Templates tab   */
+  public get templatesTab(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("p*=Templates")
+  }
 }
 
 export default new MessagesPage()
