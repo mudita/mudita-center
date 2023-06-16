@@ -6,7 +6,6 @@
 import { MainProcessIpc } from "electron-better-ipc"
 import { Initializer } from "App/core/types"
 import { DeviceManager } from "App/device-manager/services"
-import logger from "App/__deprecated__/main/utils/logger"
 
 export class ConnectedDeviceInitializer implements Initializer {
   constructor(
@@ -16,9 +15,6 @@ export class ConnectedDeviceInitializer implements Initializer {
 
   public async initialize(): Promise<void> {
     const devices = await this.deviceManager.getConnectedDevices()
-    logger.info(
-      `ConnectedDeviceInitializer initialize devices ${JSON.stringify(devices)}`
-    )
 
     devices.forEach((device) => {
       void this.deviceManager.addDevice(device)

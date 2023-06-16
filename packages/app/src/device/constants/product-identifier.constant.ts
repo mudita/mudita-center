@@ -17,6 +17,6 @@ export enum ProductID {
 export enum VendorID {
   MuditaPure = "3310",
   MuditaHarmony = "3310",
-  MuditaKompaktHex = "0e8d", //0x0e8d
+  MuditaKompaktHex = "0e8d",
   MuditaKompaktDec = "3725",
 }
