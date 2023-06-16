@@ -146,15 +146,16 @@ export class DeviceManager {
         const port = portList.find(({ productId, vendorId }) => {
           logger.info(
             `initializeDevice productId ${JSON.stringify(
-              productId
+              productId?.toUpperCase()
             )} portInfo.productId ${JSON.stringify(
-              portInfo.productId
-            )} vendorId ${JSON.stringify(vendorId)} portInfo.vendorId ${
-              portInfo.vendorId
-            }`
+              portInfo.productId?.toUpperCase()
+            )} vendorId ${JSON.stringify(
+              vendorId?.toUpperCase()
+            )} portInfo.vendorId ${portInfo.vendorId?.toUpperCase()}`
           )
           const result =
-            productId === portInfo.productId && vendorId === portInfo.vendorId
+            productId?.toUpperCase() === portInfo.productId?.toUpperCase() &&
+            vendorId?.toUpperCase() === portInfo.vendorId?.toUpperCase()
 
           logger.info(`initializeDevice result ${JSON.stringify(result)}`)
           return result
