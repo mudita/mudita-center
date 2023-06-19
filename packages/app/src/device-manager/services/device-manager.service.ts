@@ -133,19 +133,31 @@ export class DeviceManager {
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
+    portInfo.productId = portInfo.productId?.toUpperCase()
+    portInfo.vendorId = portInfo.vendorId?.toUpperCase()
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
         const portList = await this.getConnectedDevices()
 
-        const port = portList.find(
-          ({ productId, vendorId }) =>
-            productId === portInfo.productId && vendorId === portInfo.vendorId
-        )
+        const port = portList
+          .map((p) => {
+            return {
+              ...p,
+              productId: p.productId?.toUpperCase(),
+              vendorId: p.vendorId?.toUpperCase(),
+            }
+          })
+          .find(({ productId, vendorId }) => {
+            return (
+              productId === portInfo.productId && vendorId === portInfo.vendorId
+            )
+          })
 
         if (port) {
-          const device = this.deviceResolver.resolve(portInfo, port.path)
+          const device = this.deviceResolver.resolve(port)
 
           if (!device) {
             return

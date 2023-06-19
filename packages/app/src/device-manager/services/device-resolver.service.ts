@@ -26,10 +26,13 @@ export class DeviceResolverService {
     private eventEmitter: EventEmitter
   ) {}
 
-  public resolve(
-    { productId, serialNumber }: Pick<PortInfo, "productId" | "serialNumber">,
-    path: string
-  ): Device | undefined {
+  public resolve({
+    productId,
+    serialNumber,
+    path,
+  }: Pick<PortInfo, "productId" | "serialNumber" | "path">):
+    | Device
+    | undefined {
     const id = productId?.toLowerCase() ?? ""
     const descriptor = this.eligibleDevices.find((device) =>
       device.productIds

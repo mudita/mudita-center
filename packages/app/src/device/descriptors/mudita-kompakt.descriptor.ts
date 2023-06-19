@@ -16,11 +16,14 @@ export class MuditaKompaktDescriptor {
   static manufacturer = Manufacture.Mudita
   static deviceType = DeviceType.MuditaKompakt
   static productIds = [
-    ProductID.MuditaKompaktCharge,
-    ProductID.MuditaKompaktTransfer,
-    ProductID.MuditaKompaktNoDebug,
+    ProductID.MuditaKompaktChargeDec,
+    ProductID.MuditaKompaktTransferDec,
+    ProductID.MuditaKompaktNoDebugDec,
+    ProductID.MuditaKompaktChargeHex,
+    ProductID.MuditaKompaktTransferHex,
+    ProductID.MuditaKompaktNoDebugHex,
   ]
-  static vendorIds = [VendorID.MuditaKompakt]
+  static vendorIds = [VendorID.MuditaKompaktDec, VendorID.MuditaKompaktHex]
   static adapter = SerialPortDeviceAdapter
   static strategy = KompaktStrategy
 }
