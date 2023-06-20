@@ -51,6 +51,7 @@ export const loadDeviceData = createAsyncThunk(
         key: MetadataKey.DeviceType,
         value: state.device.deviceType,
       })
+      console.log("loadDeviceData data", data)
       dispatch(setDeviceData(data))
     } catch (error) {
       return rejectWithValue(error)

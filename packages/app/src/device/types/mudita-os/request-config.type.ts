@@ -9,9 +9,14 @@ export interface RequestConfigOptions {
   connectionTimeOut?: number
 }
 
-export interface RequestConfig<Body = undefined> {
+export type Header = {
   endpoint: Endpoint
   method: Method
+  offset?: number
+  limit?: number
+}
+
+export interface RequestConfig<Body = undefined> extends Header {
   body?: Body
   filePath?: string
   options?: RequestConfigOptions

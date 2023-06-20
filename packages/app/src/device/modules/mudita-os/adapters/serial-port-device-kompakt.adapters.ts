@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort, { PortInfo } from "serialport"
-import { EventEmitter } from "events"
-import PQueue from "p-queue"
+import SerialPort from "serialport"
 import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
@@ -21,7 +19,7 @@ import {
 import { timeout } from "App/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "App/device/modules/base.adapter"
 
-export class SerialPortDeviceAdapter extends BaseAdapter {
+export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
   constructor(public path: string) {
     super(path)
   }
@@ -120,7 +118,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected mapPayloadToRequest(payload: RequestPayload<any>): string {
-    return SerialPortParser.createValidRequest(payload)
+    return SerialPortParser.createValidRequestKompakt(payload)
   }
 
   // AUTO DISABLED - fix me if you like :)

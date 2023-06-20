@@ -68,4 +68,33 @@ export class SerialPortParser {
 
     return requestStr
   }
+
+  static createValidRequestKompakt(payload: RequestPayload<unknown>): string {
+    const encoder = new TextEncoder()
+    //?000000058000000000{"endpoint":1,"method”:1,"offset”:0,"limit":1,"uuid":5092}
+
+    const prefix = "?"
+
+    const { endpoint, method, offset, limit, uuid, ...body } = payload
+
+    const headerAsString = JSON.stringify({
+      endpoint,
+      method,
+      offset,
+      limit,
+      uuid,
+    })
+    const headerLength = String(encoder.encode(headerAsString).length).padStart(
+      9,
+      "0"
+    )
+
+    const bodyAsString = JSON.stringify(body)
+    const bodyLength = String(encoder.encode(bodyAsString).length).padStart(
+      9,
+      "0"
+    )
+
+    return `${prefix}${headerLength}${bodyLength}${headerAsString}${bodyAsString}`
+  }
 }
