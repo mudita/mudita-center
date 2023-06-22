@@ -4,17 +4,20 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { setExternalUsageDevice } from "App/device"
 import { DownloadState, UpdateOsEvent } from "App/update/constants"
 import { cancelOsDownload } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 export const handleDeviceDetached = createAsyncThunk<void, void>(
   UpdateOsEvent.HandleDeviceDetached,
-  async (_, { getState }) => {
+  async (_, { getState, dispatch }) => {
     const { update } = (await getState()) as RootState & ReduxRootState
 
     if (update.downloadState === DownloadState.Loading) {
       cancelOsDownload(true)
     }
+
+    dispatch(setExternalUsageDevice(false))
   }
 )

@@ -8,4 +8,5 @@ export enum MuditaCenterServerRoutes {
   Help = "help",
   GetReleaseV2 = "v2-get-release",
   AppConfigurationV2 = "v2-app-configuration",
+  ExternalUsageDevice = "external-usage-device",
 }

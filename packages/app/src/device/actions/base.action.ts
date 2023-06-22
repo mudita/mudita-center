@@ -15,6 +15,9 @@ import { GetPhoneLockTimeResponseBody } from "App/device/types/mudita-os"
 export const setDeviceData = createAction<
   Partial<PureDeviceData | HarmonyDeviceData>
 >(DeviceEvent.SetData)
+export const setExternalUsageDevice = createAction<boolean>(
+  DeviceEvent.ExternalUsageDevice
+)
 export const setLockTime = createAction<
   GetPhoneLockTimeResponseBody | undefined
 >(DeviceEvent.SetLockTime)
