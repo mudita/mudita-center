@@ -18,6 +18,7 @@ import {
   toggleTethering,
   toggleApplicationUpdateAvailable,
   toggleCollectionData,
+  togglePrivacyPolicyAccepted,
   setConversionFormat,
   setConvert,
   setNonStandardAudioFilesConversion,
@@ -37,6 +38,7 @@ export const initialState: SettingsState = {
   ignoredCrashDumps: [],
   diagnosticSentTimestamp: 0,
   collectingData: false,
+  privacyPolicyAccepted: false,
   neverConnected: false,
   tray: false,
   nonStandardAudioFilesConversion: false,
@@ -102,6 +104,10 @@ export const settingsReducer = createReducer<SettingsState>(
 
       .addCase(toggleCollectionData.fulfilled, (state, action) => {
         state.collectingData = action.payload
+      })
+
+      .addCase(togglePrivacyPolicyAccepted.fulfilled, (state, action) => {
+        state.privacyPolicyAccepted = action.payload
       })
 
       .addCase(setDiagnosticTimestamp.fulfilled, (state, action) => {

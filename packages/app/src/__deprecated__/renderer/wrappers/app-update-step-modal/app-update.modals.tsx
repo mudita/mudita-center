@@ -24,6 +24,14 @@ import {
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import InputCheckboxComponent from "../../components/core/input-checkbox/input-checkbox.component"
+import { ipcRenderer } from "electron-better-ipc"
+import { AboutActions } from "App/__deprecated__/common/enums/about-actions.enum"
+import { useDispatch, useSelector } from "react-redux"
+import { togglePrivacyPolicyAccepted } from "App/settings/actions"
+import { Dispatch, ReduxRootState } from "../../store"
+import styled from "styled-components"
+import { fontWeight, textColor } from "../../styles/theming/theme-getters"
 
 export interface AppUpdateAvailableProps {
   appLatestVersion?: string
@@ -41,38 +49,28 @@ export interface AppUpdateForcedProps {
 const messages = defineMessages({
   appUpdateTitle: { id: "component.updateModalTitle" },
   availableUpdateMessage: { id: "component.updateAvailableModalMessage" },
-  availableUpdateAppVersion: { id: "component.updateAvailableModalVersion" },
   availableUpdateButton: { id: "component.updateAvailableModalButton" },
+  availableUpdateCloseButton: {
+    id: "component.updateAvailableModalCloseButton",
+  },
   availableUpdateDescription: {
     id: "component.updateAvailableModalDescription",
   },
   updateForcedModalMessage: { id: "component.updateForcedModalMessage" },
   updateForcedModalVersion: { id: "component.updateForcedModalVersion" },
-  updateForcedModalDescription: {
-    id: "component.updateForcedModalDescription",
-  },
-  updateForcedModalCurrentVersion: {
-    id: "component.updateForcedModalCurrentVersion",
+  updateForcedModalPrivacyPolicy: {
+    id: "component.updateForcedPrivacyPolicy",
   },
   downloadedUpdateMessage: { id: "component.updateDownloadedModalMessage" },
   downloadedUpdateDescription: {
     id: "component.updateDownloadedModalDescription",
   },
-  downloadedUpdateWarning: {
-    id: "component.updateDownloadedModalWarning",
-  },
   downloadedUpdateButton: { id: "component.updateDownloadedModalButton" },
-  downloadedUpdateCloseButton: {
-    id: "component.updateDownloadedModalCloseButton",
-  },
   errorUpdateMessage: {
     id: "component.updateErrorModalMessage",
   },
   errorUpdateDescription: {
     id: "component.updateErrorModalDescription",
-  },
-  downloadUpdateCloseButton: {
-    id: "component.updateDownloadCloseButton",
   },
   progressUpdateTitle: {
     id: "component.updateProgressModalTitle",
@@ -88,6 +86,18 @@ const messages = defineMessages({
   },
 })
 
+const PrivacyPolicyCheckboxWrapper = styled.div`
+  display: flex;
+`
+
+const PrivacyPolicyLink = styled.span`
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: ${fontWeight("default")};
+  color: ${textColor("action")};
+`
+
 const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   children,
   testId,
@@ -100,34 +110,30 @@ const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   >
     <ModalContent data-testid={testId}>
       <RoundIconWrapper>
-        <Icon type={IconType.Pure} width={3.2} />
+        <Icon type={IconType.Info} width={4.8} />
       </RoundIconWrapper>
       {children}
     </ModalContent>
   </ModalDialog>
 )
 
-export const AppUpdateAvailable: FunctionComponent<
+export const AppUpdateRejected: FunctionComponent<
   ComponentProps<typeof ModalDialog> & AppUpdateAvailableProps
 > = ({ appLatestVersion, ...props }) => (
   <AppUpdateModal
     testId={AppUpdateStepModalTestIds.AppUpdateAvailableModal}
     actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
-    closeButton={false}
-    actionButtonSize={Size.FixedBig}
+    closeButtonLabel={intl.formatMessage(messages.availableUpdateCloseButton)}
+    closeButton
+    actionButtonSize={Size.FixedSmall}
     {...props}
   >
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
-      message={messages.availableUpdateMessage}
-    />
-    <Text
-      displayStyle={TextDisplayStyle.Paragraph4}
       message={{
-        ...messages.availableUpdateAppVersion,
+        ...messages.availableUpdateMessage,
         values: { version: appLatestVersion },
       }}
-      color="secondary"
     />
     <Text
       displayStyle={TextDisplayStyle.Paragraph4}
@@ -137,49 +143,68 @@ export const AppUpdateAvailable: FunctionComponent<
   </AppUpdateModal>
 )
 
-export const AppUpdateForced: FunctionComponent<
+export const AppUpdatePrivacyPolicy: FunctionComponent<
   ComponentProps<typeof ModalDialog> & AppUpdateForcedProps
-> = ({ appLatestVersion, appCurrentVersion, ...props }) => (
-  <ModalDialog
-    size={ModalSize.Small}
-    title={intl.formatMessage(messages.appUpdateTitle)}
-    actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
-    closeButton={false}
-    actionButtonSize={Size.FixedBig}
-    {...props}
-  >
-    <ModalContentWithoutMargin>
-      <RoundIconWrapper>
-        <Icon type={IconType.Pure} width={3.2} />
-      </RoundIconWrapper>
-      <ModalMainText
-        displayStyle={TextDisplayStyle.Headline4}
-        message={messages.updateForcedModalMessage}
-      />
-      <Text
-        displayStyle={TextDisplayStyle.Paragraph4}
-        message={{
-          ...messages.updateForcedModalVersion,
-          values: { version: appLatestVersion },
-        }}
-        color="secondary"
-      />
-      <Text
-        displayStyle={TextDisplayStyle.Paragraph4}
-        color="secondary"
-        message={messages.updateForcedModalDescription}
-      />
-      <Text
-        displayStyle={TextDisplayStyle.Paragraph4}
-        message={{
-          ...messages.updateForcedModalCurrentVersion,
-          values: { version: appCurrentVersion },
-        }}
-        color="secondary"
-      />
-    </ModalContentWithoutMargin>
-  </ModalDialog>
-)
+> = ({ appLatestVersion, appCurrentVersion, ...props }) => {
+  const dispatch = useDispatch<Dispatch>()
+  const { privacyPolicyAccepted } = useSelector(
+    (state: ReduxRootState) => state.settings
+  )
+  const openPrivacyPolicyWindow = () =>
+    ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
+  return (
+    <ModalDialog
+      size={ModalSize.Small}
+      title={intl.formatMessage(messages.appUpdateTitle)}
+      actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
+      closeButton={false}
+      actionButtonSize={Size.FixedSmall}
+      actionButtonDisabled={!privacyPolicyAccepted}
+      {...props}
+    >
+      <ModalContentWithoutMargin>
+        <RoundIconWrapper>
+          <Icon type={IconType.MuditaLogo} width={4.8} />
+        </RoundIconWrapper>
+        <ModalMainText
+          displayStyle={TextDisplayStyle.Headline4}
+          message={{
+            ...messages.updateForcedModalMessage,
+            values: { version: appLatestVersion },
+          }}
+        />
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph3}
+          message={{
+            ...messages.updateForcedModalVersion,
+            values: { version: appCurrentVersion },
+          }}
+          color="secondary"
+        />
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph3}
+          message={messages.updateForcedModalPrivacyPolicy}
+          color="primary"
+        />
+        <PrivacyPolicyCheckboxWrapper>
+          <InputCheckboxComponent
+            data-testid="privacy-policy-checkbox"
+            checked={privacyPolicyAccepted}
+            onChange={() =>
+              dispatch(
+                togglePrivacyPolicyAccepted(!privacyPolicyAccepted || false)
+              )
+            }
+            label="I have read and agree to the "
+          />
+          <PrivacyPolicyLink onClick={openPrivacyPolicyWindow}>
+            Privacy Policy
+          </PrivacyPolicyLink>
+        </PrivacyPolicyCheckboxWrapper>
+      </ModalContentWithoutMargin>
+    </ModalDialog>
+  )
+}
 
 export const AppUpdateError: FunctionComponent<
   ComponentProps<typeof ModalDialog>

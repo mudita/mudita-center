@@ -11,11 +11,13 @@ export const ModalContentWithoutMargin = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 16px;
 
   p {
     text-align: center;
     line-height: 1.4;
     white-space: pre-wrap;
+    margin-bottom: 24px;
   }
 `
 
