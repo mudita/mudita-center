@@ -23,6 +23,7 @@ export interface VisitorMetadata {
 
 export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   private trackingEnabled: boolean
+  private externalUsageDevice: boolean
   private visitorMetadata: VisitorMetadata = {}
   private readonly siteId: number
   private readonly apiUrl: string
@@ -37,9 +38,10 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     this.siteId = options.siteId
     this.apiUrl = options.apiUrl
     this.trackingEnabled = options.trackingEnabled ?? true
+    this.externalUsageDevice = false
   }
   public async track(event: TrackEvent): Promise<AxiosResponse | undefined> {
-    if (!this.trackingEnabled) {
+    if (!this.trackingEnabled || !this.externalUsageDevice) {
       return
     }
 
@@ -68,6 +70,10 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
 
   public toggleTracking(flag: boolean): void {
     this.trackingEnabled = flag
+  }
+
+  public setExternalUsageDevice(flag: boolean): void {
+    this.externalUsageDevice = flag
   }
 
   public setVisitorMetadata(visitorMetadata: VisitorMetadata): void {

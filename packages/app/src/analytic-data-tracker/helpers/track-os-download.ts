@@ -8,8 +8,6 @@ import { TrackEvent } from "App/analytic-data-tracker/types"
 import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 import { OsEnvironment } from "App/update/constants"
 import { Product } from "App/__deprecated__/main/constants"
-import { tryTrack } from "./track-check"
-import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export interface TrackOsDownloadOptions {
   version: string
@@ -50,11 +48,4 @@ export const trackOsDownload = async (
   }
 
   await trackRequest(event)
-}
-
-export const tryTrackOsDownload = async (
-  options: TrackOsDownloadOptions,
-  state: ReduxRootState
-): Promise<void> => {
-  await tryTrack(trackOsDownload, [options], state)
 }

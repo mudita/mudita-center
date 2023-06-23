@@ -45,6 +45,7 @@ describe("`AnalyticDataTrackerService`", () => {
         trackerCacheService,
         axiosInstance
       )
+      subject.setExternalUsageDevice(true)
       axiosMock.onPost(apiUrl).replyOnce(200)
       const response = await subject.track({})
 
@@ -74,6 +75,7 @@ describe("`AnalyticDataTrackerService`", () => {
         trackerCacheService,
         axiosInstance
       )
+
       axiosMock.onPost(apiUrl).replyOnce(200)
       const response = await subject.trackUnique({})
 
@@ -103,6 +105,7 @@ describe("`AnalyticDataTrackerService`", () => {
         trackerCacheService,
         axiosInstance
       )
+      subject.setExternalUsageDevice(true)
       axiosMock.onPost(apiUrl).reply(200)
       const response = await subject.track({})
       expect(response).toEqual(undefined)
@@ -118,11 +121,42 @@ describe("`AnalyticDataTrackerService`", () => {
         trackerCacheService,
         axiosInstance
       )
+      subject.setExternalUsageDevice(true)
       axiosMock.onPost(apiUrl).reply(200)
       const response = await subject.track({})
       expect(response).not.toEqual(undefined)
 
       subject.toggleTracking(false)
+      const response2 = await subject.track({})
+      expect(response2).toEqual(undefined)
+    })
+  })
+
+  describe("`externalUsageDevice` method", () => {
+    test("`setExternalUsageDevice` successfully set `externalUsageDevice` flag to `true`", async () => {
+      const subject = new AnalyticDataTrackerService(
+        { ...analyticDataTrackerOptions, trackingEnabled: true },
+        trackerCacheService,
+        axiosInstance
+      )
+      subject.setExternalUsageDevice(true)
+      axiosMock.onPost(apiUrl).reply(200)
+      const response = await subject.track({})
+      expect(response).not.toEqual(undefined)
+    })
+
+    test("`setExternalUsageDevice` successfully set `externalUsageDevice` flag to `false`", async () => {
+      const subject = new AnalyticDataTrackerService(
+        { ...analyticDataTrackerOptions, trackingEnabled: true },
+        trackerCacheService,
+        axiosInstance
+      )
+      subject.setExternalUsageDevice(true)
+      axiosMock.onPost(apiUrl).reply(200)
+      const response = await subject.track({})
+      expect(response).not.toEqual(undefined)
+
+      subject.setExternalUsageDevice(false)
       const response2 = await subject.track({})
       expect(response2).toEqual(undefined)
     })
@@ -135,6 +169,7 @@ describe("`AnalyticDataTrackerService`", () => {
         trackerCacheService,
         axiosInstance
       )
+      subject.setExternalUsageDevice(true)
       axiosMock.onPost(apiUrl).reply(200)
 
       const response = await subject.track({})

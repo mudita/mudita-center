@@ -27,6 +27,9 @@ class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
   toggleTracking(): void {
     return
   }
+  setExternalUsageDevice(): void {
+    return
+  }
   setVisitorMetadata(): void {
     return
   }

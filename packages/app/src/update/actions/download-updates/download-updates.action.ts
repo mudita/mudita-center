@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { tryTrackOsDownload } from "App/analytic-data-tracker/helpers/track-os-download"
+import { trackOsDownload } from "App/analytic-data-tracker/helpers/track-os-download"
 import { AppError } from "App/core/errors"
 import { setStateForDownloadedRelease } from "App/update/actions/base.action"
 import {
@@ -77,14 +77,11 @@ export const downloadUpdates = createAsyncThunk<
           fileName: release.file.name,
         })
 
-        await tryTrackOsDownload(
-          {
-            environment: OsEnvironment.Daily,
-            version: release.version,
-            product: release.product,
-          },
-          state
-        )
+        await trackOsDownload({
+          environment: OsEnvironment.Daily,
+          version: release.version,
+          product: release.product,
+        })
 
         if (isDownloadRequestCanelledByUser(result)) {
           return rejectWithValue(

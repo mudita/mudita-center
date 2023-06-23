@@ -33,6 +33,11 @@ export class AnalyticDataTrackerController {
     this.tracker.toggleTracking(flag)
   }
 
+  @IpcEvent(IpcAnalyticDataTrackerEvent.SetExternalUsageDevice)
+  public setExternalUsageDevice(flag: boolean): void {
+    this.tracker.setExternalUsageDevice(flag)
+  }
+
   @IpcEvent(IpcAnalyticDataTrackerEvent.SetVisitorMetadata)
   public setVisitorMetadata(visitorMetadata: VisitorMetadata): void {
     this.tracker.setVisitorMetadata(visitorMetadata)

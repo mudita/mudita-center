@@ -10,15 +10,13 @@ import {
   DeviceCommunicationError,
 } from "App/device/constants"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import {
-  setDeviceData,
-  setExternalUsageDevice,
-} from "App/device/actions/base.action"
+import { setDeviceData } from "App/device/actions/base.action"
 import { lockedDevice } from "App/device/actions/locked-device.action"
 import { getDeviceInfoRequest } from "App/device-info/requests"
 import { setValue, MetadataKey } from "App/metadata"
 import { trackOsVersion } from "App/analytic-data-tracker/helpers"
-import { externalUsageDevice } from "../requests/external-usage-device.request"
+import { externalUsageDevice } from "App/device/requests/external-usage-device.request"
+import { setExternalUsageDeviceRequest } from "App/analytic-data-tracker/requests/set-external-usage-device.request"
 
 export const loadDeviceData = createAsyncThunk(
   DeviceEvent.Loading,
@@ -60,7 +58,7 @@ export const loadDeviceData = createAsyncThunk(
         data.serialNumber
       )
 
-      dispatch(setExternalUsageDevice(resultExternalUsageDevice))
+      await setExternalUsageDeviceRequest(resultExternalUsageDevice)
       dispatch(setDeviceData(data))
     } catch (error) {
       return rejectWithValue(error)

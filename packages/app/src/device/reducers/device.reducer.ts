@@ -29,7 +29,6 @@ import {
 import {
   setAgreementStatus,
   setCriticalBatteryLevel,
-  setExternalUsageDevice,
 } from "App/device/actions/base.action"
 
 export const initialState: DeviceState = {
@@ -45,7 +44,6 @@ export const initialState: DeviceState = {
   },
   state: ConnectionState.Empty,
   error: null,
-  externalUsageDevice: false,
 }
 
 export const deviceReducer = createReducer<DeviceState>(
@@ -303,9 +301,6 @@ export const deviceReducer = createReducer<DeviceState>(
 
       .addCase(setCriticalBatteryLevel, (state, action) => {
         state.status.criticalBatteryLevel = action.payload
-      })
-      .addCase(setExternalUsageDevice, (state, action) => {
-        state.externalUsageDevice = action.payload
       })
   }
 )
