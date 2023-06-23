@@ -44,7 +44,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
   const [appUpdateStep, setAppUpdateStep] = useState<AppUpdateStep>(
     AppUpdateStep.Available
   )
-  const [openSecondModal, setOpenSecondModal] = useState<boolean>(false)
+  const [appUpdatePrivacyPolicyVisible, setappUpdatePrivacyPolicyVisible] = useState<boolean>(false)
 
   const onCloseModal = () => {
     setOpenSecondModal(true)
