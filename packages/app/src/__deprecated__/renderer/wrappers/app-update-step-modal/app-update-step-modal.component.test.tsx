@@ -75,9 +75,7 @@ describe("Testing modal behavior", () => {
     fireEvent.click(screen.getByTestId("privacy-policy-checkbox"))
     await waitFor(() => {
       expect(screen.getByTestId("privacy-policy-checkbox")).toBeChecked()
-      expect(
-        screen.getByTestId(ModalTestIds.ModalActionButton)
-      ).not.toBeDisabled()
+      expect(screen.getByTestId(ModalTestIds.ModalActionButton)).toBeEnabled()
     })
     fireEvent.click(screen.getByTestId(ModalTestIds.ModalActionButton))
 

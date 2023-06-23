@@ -93,7 +93,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
           onActionButtonClick={handleProcessDownload}
           appLatestVersion={appLatestVersion}
           appCurrentVersion={appCurrentVersion}
-          closeModal={false ? undefined : onCloseModal}
+          closeModal={forced ? undefined : onCloseModal}
           {...props}
         />
       ) : (
