@@ -25,6 +25,7 @@ export const fakeSettings: Settings = {
   language: "en-US",
   neverConnected: true,
   collectingData: false,
+  privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
 }
