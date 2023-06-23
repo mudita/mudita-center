@@ -94,7 +94,7 @@ export default () => (
         <Route path={URL_MAIN.contacts} component={Contacts} exact />
         <Route path={URL_MAIN.phone} component={Calls} />
         <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
-        <Route path={URL_MAIN.settings} component={Settings} exact />
+        <Route path={URL_MAIN.settings} component={BackupContainer} exact />
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
           component={NotificationsContainer}
@@ -102,10 +102,6 @@ export default () => (
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
           component={AudioConversionContainer}
-        />
-        <Route
-          path={`${URL_MAIN.settings}${URL_TABS.backup}`}
-          component={BackupContainer}
         />
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.about}`}

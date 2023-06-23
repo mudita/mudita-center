@@ -33,7 +33,6 @@ export const URL_TABS = {
   connection: "/connection",
   notifications: "/notifications",
   audioConversion: "/audio-conversion",
-  backup: "/backup",
   about: "/about",
 } as const
 
