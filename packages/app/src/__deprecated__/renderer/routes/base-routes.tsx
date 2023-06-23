@@ -12,7 +12,6 @@ import Music from "App/__deprecated__/renderer/modules/music/music.component"
 import News from "App/news/news.container"
 import Overview from "App/overview/overview.container"
 import Contacts from "App/contacts/contacts.container"
-import Settings from "App/settings/settings.container"
 import Tethering from "App/__deprecated__/renderer/modules/tethering/tethering.container"
 import {
   URL_MAIN,
