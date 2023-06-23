@@ -8,7 +8,6 @@ import { Provider } from "react-redux"
 import store from "App/__deprecated__/renderer/store"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ModalsManager from "App/modals-manager/components/modals-manager.component"
-import { CollectingDataModalTestIds } from "App/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 import { AppForcedUpdateFlowTestIds } from "App/settings/components/app-forced-update-flow/app-forced-update-flow-test-ids.enum"
 import { AppUpdateFlowTestIds } from "App/settings/components/app-update-flow/app-update-flow-test-ids.enum"
 import { ContactSupportFlowTestIds } from "App/contact-support/components/contact-support-flow-test-ids.component"
@@ -37,7 +36,6 @@ jest.mock(
 type Props = ComponentProps<typeof ModalsManager>
 
 const defaultProps: Props = {
-  collectingDataModalShow: false,
   appForcedUpdateFlowShow: false,
   appUpdateFlowShow: false,
   contactSupportFlowShow: false,
@@ -63,31 +61,6 @@ describe("`ModalsManager` component", () => {
       const { queryByTestId } = render()
 
       expect(
-        queryByTestId(CollectingDataModalTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(AppForcedUpdateFlowTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(AppUpdateFlowTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(ErrorConnectingModalTestIds.Container)
-      ).not.toBeInTheDocument()
-    })
-  })
-
-  describe("when component is render with proper where `collectingDataModalShow` is set to `true`", () => {
-    test("`CollectingDataModal` is visible", () => {
-      const { queryByTestId } = render({ collectingDataModalShow: true })
-
-      expect(
-        queryByTestId(CollectingDataModalTestIds.Container)
-      ).toBeInTheDocument()
-      expect(
         queryByTestId(AppForcedUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()
       expect(
@@ -110,9 +83,6 @@ describe("`ModalsManager` component", () => {
         queryByTestId(AppForcedUpdateFlowTestIds.Container)
       ).toBeInTheDocument()
       expect(
-        queryByTestId(CollectingDataModalTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
         queryByTestId(AppUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()
       expect(
@@ -131,9 +101,6 @@ describe("`ModalsManager` component", () => {
       expect(queryByTestId(AppUpdateFlowTestIds.Container)).toBeInTheDocument()
       expect(
         queryByTestId(AppForcedUpdateFlowTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(CollectingDataModalTestIds.Container)
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
@@ -158,9 +125,6 @@ describe("`ModalsManager` component", () => {
         queryByTestId(AppForcedUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()
       expect(
-        queryByTestId(CollectingDataModalTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
       ).not.toBeInTheDocument()
     })
@@ -183,9 +147,6 @@ describe("`ModalsManager` component", () => {
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(AppForcedUpdateFlowTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(CollectingDataModalTestIds.Container)
       ).not.toBeInTheDocument()
     })
   })
