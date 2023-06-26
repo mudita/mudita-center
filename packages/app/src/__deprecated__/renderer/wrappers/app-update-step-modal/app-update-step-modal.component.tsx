@@ -44,11 +44,10 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
   const [appUpdateStep, setAppUpdateStep] = useState<AppUpdateStep>(
     AppUpdateStep.Available
   )
-  const [appUpdatePrivacyPolicyVisible, setappUpdatePrivacyPolicyVisible] =
+  const [appUpdateRejectedOpen, setAppUpdateRejectedOpen] =
     useState<boolean>(false)
-
   const onCloseModal = () => {
-    setappUpdatePrivacyPolicyVisible(true)
+    setAppUpdateRejectedOpen(true)
   }
 
   useEffect(() => {
@@ -88,7 +87,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
 
   return (
     <>
-      {!appUpdatePrivacyPolicyVisible ? (
+      {!appUpdateRejectedOpen ? (
         <AppUpdatePrivacyPolicy
           open={appUpdateStep === AppUpdateStep.Available}
           onActionButtonClick={handleProcessDownload}
@@ -99,7 +98,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
         />
       ) : (
         <AppUpdateRejected
-          open={appUpdatePrivacyPolicyVisible}
+          open={appUpdateRejectedOpen}
           closeModal={closeModal}
           onActionButtonClick={handleProcessDownload}
           appLatestVersion={appLatestVersion}
