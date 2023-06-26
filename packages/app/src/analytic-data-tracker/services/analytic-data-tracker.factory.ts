@@ -27,6 +27,9 @@ class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
   toggleTracking(): void {
     return
   }
+  setExternalUsageDevice(): void {
+    return
+  }
   setVisitorMetadata(): void {
     return
   }
@@ -61,7 +64,7 @@ export class AnalyticDataTrackerFactory {
     const appSettings = settingsService.getSettings()
 
     const _id = appSettings.applicationId
-    const trackingEnabled = appSettings.collectingData
+    const trackingEnabled = appSettings.privacyPolicyAccepted
 
     const axiosInstance: AxiosInstance = axios.create({
       httpsAgent: new https.Agent({

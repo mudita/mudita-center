@@ -4,6 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { trackOsDownload } from "App/analytic-data-tracker/helpers/track-os-download"
 import { AppError } from "App/core/errors"
 import { setStateForDownloadedRelease } from "App/update/actions/base.action"
 import {
@@ -21,6 +22,7 @@ import {
   osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { RELEASE_SPACE } from "App/update/constants/release-space.constant"
 
 interface Params {
   releases: OsRelease[]
@@ -73,6 +75,15 @@ export const downloadUpdates = createAsyncThunk<
         const result = await downloadOsUpdateRequest({
           url: release.file.url,
           fileName: release.file.name,
+        })
+
+        const latest = release === releases[releases.length - 1]
+
+        await trackOsDownload({
+          environment: RELEASE_SPACE,
+          version: release.version,
+          product: release.product,
+          latest,
         })
 
         if (isDownloadRequestCanelledByUser(result)) {

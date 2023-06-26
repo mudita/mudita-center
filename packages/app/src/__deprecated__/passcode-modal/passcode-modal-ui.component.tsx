@@ -5,7 +5,6 @@
 
 import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { ModalContent } from "App/settings/components/collecting-data-modal/collecting-data-modal.styled"
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import styled from "styled-components"
 import theme from "App/__deprecated__/renderer/styles/theming/theme"
@@ -20,6 +19,11 @@ import PasscodeLocked from "App/__deprecated__/passcode-modal/components/Passcod
 import { PasscodeModalTestIds } from "App/__deprecated__/passcode-modal/passcode-modal-test-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;

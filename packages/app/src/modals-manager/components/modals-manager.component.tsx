@@ -6,7 +6,6 @@
 import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
-  CollectingDataModalContainer,
   AppForcedUpdateFlowContainer,
   AppUpdateFlowContainer,
 } from "App/settings/components"
@@ -15,7 +14,6 @@ import { UpdateOsInterruptedFlowContainer } from "App/update/components/update-o
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
 
 type Props = {
-  collectingDataModalShow: boolean
   appForcedUpdateFlowShow: boolean
   appUpdateFlowShow: boolean
   contactSupportFlowShow: boolean
@@ -24,7 +22,6 @@ type Props = {
 }
 
 const ModalsManager: FunctionComponent<Props> = ({
-  collectingDataModalShow,
   appForcedUpdateFlowShow,
   appUpdateFlowShow,
   contactSupportFlowShow,
@@ -36,7 +33,6 @@ const ModalsManager: FunctionComponent<Props> = ({
       {deviceInitializationFailedModalShowEnabled && (
         <ErrorConnectingModal open closeModal={hideModals} />
       )}
-      <CollectingDataModalContainer open={collectingDataModalShow} />
       {appForcedUpdateFlowShow && <AppForcedUpdateFlowContainer />}
       {appUpdateFlowShow && <AppUpdateFlowContainer />}
       {contactSupportFlowShow && <ContactSupportFlow />}
