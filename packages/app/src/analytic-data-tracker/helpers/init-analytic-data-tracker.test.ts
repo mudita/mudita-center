@@ -10,7 +10,9 @@ import {
 } from "App/analytic-data-tracker/requests"
 
 jest.mock("App/analytic-data-tracker/requests/set-visitor-metadata.request")
-jest.mock("App/analytic-data-tracker/requests/track-unique.request")
+jest.mock(
+  "App/analytic-data-tracker/requests/track-unique-without-device-check.request"
+)
 
 describe("`initAnalyticDataTracker`", () => {
   test("methods trigger `setVisitorMetadataRequest` and `trackUniqueWithoutDeviceCheckRequest`", async () => {
