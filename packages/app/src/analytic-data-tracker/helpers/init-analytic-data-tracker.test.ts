@@ -6,16 +6,16 @@
 import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers/init-analytic-data-tracker"
 import {
   setVisitorMetadataRequest,
-  trackUniqueRequest,
+  trackUniqueWithoutDeviceCheckRequest,
 } from "App/analytic-data-tracker/requests"
 
 jest.mock("App/analytic-data-tracker/requests/set-visitor-metadata.request")
 jest.mock("App/analytic-data-tracker/requests/track-unique.request")
 
 describe("`initAnalyticDataTracker`", () => {
-  test("methods trigger `setVisitorMetadataRequest` and `trackUniqueRequest`", async () => {
+  test("methods trigger `setVisitorMetadataRequest` and `trackUniqueWithoutDeviceCheckRequest`", async () => {
     await initAnalyticDataTracker()
     expect(setVisitorMetadataRequest).toHaveBeenCalled()
-    expect(trackUniqueRequest).toHaveBeenCalled()
+    expect(trackUniqueWithoutDeviceCheckRequest).toHaveBeenCalled()
   })
 })

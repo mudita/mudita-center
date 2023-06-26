@@ -40,8 +40,14 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     this.trackingEnabled = options.trackingEnabled ?? true
     this.externalUsageDevice = false
   }
-  public async track(event: TrackEvent): Promise<AxiosResponse | undefined> {
-    if (!this.trackingEnabled || !this.externalUsageDevice) {
+  public async track(
+    event: TrackEvent,
+    externalUsageDeviceOnly = true
+  ): Promise<AxiosResponse | undefined> {
+    if (!this.trackingEnabled) {
+      return
+    }
+    if (externalUsageDeviceOnly && !this.externalUsageDevice) {
       return
     }
 
@@ -49,9 +55,14 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   }
 
   public async trackUnique(
-    event: TrackEvent
+    event: TrackEvent,
+    externalUsageDeviceOnly = true
   ): Promise<AxiosResponse | undefined> {
     if (!this.trackingEnabled) {
+      return
+    }
+
+    if (externalUsageDeviceOnly && !this.externalUsageDevice) {
       return
     }
 

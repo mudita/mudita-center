@@ -8,8 +8,14 @@ import { VisitorMetadata } from "App/analytic-data-tracker/services/analytic-dat
 import { TrackEvent } from "App/analytic-data-tracker/types"
 
 export interface AnalyticDataTrackerClass {
-  track(event: TrackEvent): Promise<AxiosResponse | undefined>
-  trackUnique(event: TrackEvent): Promise<AxiosResponse | undefined>
+  track(
+    event: TrackEvent,
+    externalUsageDeviceOnly?: boolean
+  ): Promise<AxiosResponse | undefined>
+  trackUnique(
+    event: TrackEvent,
+    externalUsageDeviceOnly?: boolean
+  ): Promise<AxiosResponse | undefined>
   toggleTracking(flag: boolean): void
   setExternalUsageDevice(flag: boolean): void
   setVisitorMetadata(visitorMetadata: VisitorMetadata): void

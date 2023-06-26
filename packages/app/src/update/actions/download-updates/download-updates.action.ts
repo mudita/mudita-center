@@ -8,7 +8,6 @@ import { trackOsDownload } from "App/analytic-data-tracker/helpers/track-os-down
 import { AppError } from "App/core/errors"
 import { setStateForDownloadedRelease } from "App/update/actions/base.action"
 import {
-  OsEnvironment,
   ReleaseProcessState,
   UpdateError,
   UpdateOsEvent,
@@ -23,6 +22,7 @@ import {
   osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { RELEASE_SPACE } from "App/update/constants/release-space.constant"
 
 interface Params {
   releases: OsRelease[]
@@ -77,10 +77,13 @@ export const downloadUpdates = createAsyncThunk<
           fileName: release.file.name,
         })
 
+        const latest = release === releases[releases.length - 1]
+
         await trackOsDownload({
-          environment: OsEnvironment.Daily,
+          environment: RELEASE_SPACE,
           version: release.version,
           product: release.product,
+          latest,
         })
 
         if (isDownloadRequestCanelledByUser(result)) {

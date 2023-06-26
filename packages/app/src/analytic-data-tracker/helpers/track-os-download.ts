@@ -13,6 +13,7 @@ export interface TrackOsDownloadOptions {
   version: string
   product: Product
   environment: OsEnvironment
+  latest: boolean
 }
 
 const getTrackEventCategory = (
@@ -30,12 +31,20 @@ const getTrackEventCategory = (
   return
 }
 
+const getTrackEventAction = (version: string, latest: boolean): string => {
+  if (latest) {
+    return `latest - ${version}`
+  } else {
+    return version
+  }
+}
+
 export const trackOsDownload = async (
   options: TrackOsDownloadOptions
 ): Promise<void> => {
-  const { version, environment, product } = options
+  const { version, environment, product, latest } = options
 
-  const e_a = version
+  const e_a = getTrackEventAction(version, latest)
   const e_c = getTrackEventCategory(environment, product)
 
   if (e_c === undefined) {

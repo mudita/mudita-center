@@ -17,10 +17,7 @@ import {
   UpdateErrorServiceErrors,
 } from "App/update/constants"
 import { GithubReleasePresenter } from "App/update/presenters"
-
-const releaseSpace =
-  (process.env.FEATURE_TOGGLE_RELEASE_ENVIRONMENT as OsEnvironment) ||
-  OsEnvironment.Production
+import { RELEASE_SPACE } from "App/update/constants/release-space.constant"
 
 export class ReleaseService {
   constructor(private client: ReturnType<typeof createClient>) {}
@@ -106,7 +103,7 @@ export class ReleaseService {
     try {
       const releases = await Promise.all(
         versions.map((version) =>
-          this.getRelease(product, releaseSpace, version, deviceSerialNumber)
+          this.getRelease(product, RELEASE_SPACE, version, deviceSerialNumber)
         )
       )
 
@@ -130,7 +127,7 @@ export class ReleaseService {
     try {
       const release = await this.getRelease(
         product,
-        releaseSpace,
+        RELEASE_SPACE,
         "latest",
         deviceSerialNumber
       )

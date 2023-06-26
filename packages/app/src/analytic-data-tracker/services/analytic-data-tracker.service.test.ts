@@ -76,6 +76,7 @@ describe("`AnalyticDataTrackerService`", () => {
         axiosInstance
       )
 
+      subject.setExternalUsageDevice(true)
       axiosMock.onPost(apiUrl).replyOnce(200)
       const response = await subject.trackUnique({})
 
@@ -92,6 +93,7 @@ describe("`AnalyticDataTrackerService`", () => {
         axiosInstance
       )
 
+      subject.setExternalUsageDevice(true)
       const response = await subject.trackUnique({})
 
       expect(response).toEqual(undefined)
