@@ -142,6 +142,48 @@ exports[`matches snapshot 1`] = `
   white-space: nowrap;
 }
 
+.c4 {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-areas: "Checkbox Actions";
+  grid-template-columns: 1fr 16.4rem;
+  border-bottom: solid 0.1rem #d2d6db;
+  height: 7.2rem;
+  max-height: 7.2rem;
+}
+
+.c5 {
+  grid-area: Checkbox;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c7 {
+  margin-left: 3.2rem;
+  margin-bottom: 0;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  grid-area: Label;
+}
+
+.c1 {
+  border-bottom: solid 0.1rem #d2d6db;
+}
+
+.c3 {
+  margin-left: 3.2rem;
+  margin-bottom: 3.2rem;
+}
+
 .c9 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -244,48 +286,6 @@ exports[`matches snapshot 1`] = `
 
 .c13 {
   width: 8.8rem;
-}
-
-.c4 {
-  display: grid;
-  box-sizing: border-box;
-  grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 16.4rem;
-  border-bottom: solid 0.1rem #d2d6db;
-  height: 7.2rem;
-  max-height: 7.2rem;
-}
-
-.c5 {
-  grid-area: Checkbox;
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-}
-
-.c7 {
-  margin-left: 3.2rem;
-  margin-bottom: 0;
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-  grid-area: Label;
-}
-
-.c1 {
-  border-bottom: solid 0.1rem #d2d6db;
-}
-
-.c3 {
-  margin-left: 3.2rem;
-  margin-bottom: 3.2rem;
 }
 
 .c0 {

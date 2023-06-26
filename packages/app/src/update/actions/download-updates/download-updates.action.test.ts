@@ -24,6 +24,17 @@ import * as downloadOsUpdateRequestModule from "App/update/requests/download-os-
 import * as osUpdateAlreadyDownloadedCheckModule from "App/update/requests/os-update-already-downloaded.request"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
+import { trackOsDownload } from "App/analytic-data-tracker/helpers/track-os-download"
+
+jest.mock("App/analytic-data-tracker/helpers/track-os-download")
+
+beforeEach(() => {
+  ;(trackOsDownload as jest.Mock).mockResolvedValue(undefined)
+})
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 const mockedRelease: OsRelease = {
   date: "2021-02-02",
