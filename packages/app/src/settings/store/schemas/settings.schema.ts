@@ -98,6 +98,10 @@ export const settingsSchema: Schema<Settings> = {
     type: "boolean",
     default: undefined,
   },
+  privacyPolicyAccepted: {
+    type: "boolean",
+    default: false,
+  },
   diagnosticSentTimestamp: {
     type: "number",
     default: 0,

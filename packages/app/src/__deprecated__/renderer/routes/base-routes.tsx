@@ -12,7 +12,6 @@ import Music from "App/__deprecated__/renderer/modules/music/music.component"
 import News from "App/news/news.container"
 import Overview from "App/overview/overview.container"
 import Contacts from "App/contacts/contacts.container"
-import Settings from "App/settings/settings.container"
 import Tethering from "App/__deprecated__/renderer/modules/tethering/tethering.container"
 import {
   URL_MAIN,
@@ -94,7 +93,7 @@ export default () => (
         <Route path={URL_MAIN.contacts} component={Contacts} exact />
         <Route path={URL_MAIN.phone} component={Calls} />
         <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
-        <Route path={URL_MAIN.settings} component={Settings} exact />
+        <Route path={URL_MAIN.settings} component={BackupContainer} exact />
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
           component={NotificationsContainer}
@@ -102,10 +101,6 @@ export default () => (
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
           component={AudioConversionContainer}
-        />
-        <Route
-          path={`${URL_MAIN.settings}${URL_TABS.backup}`}
-          component={BackupContainer}
         />
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.about}`}

@@ -35,6 +35,7 @@ const settings: Omit<
   language: "en-US",
   neverConnected: true,
   collectingData: false,
+  privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
   updateRequired: false,
