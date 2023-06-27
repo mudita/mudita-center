@@ -56,7 +56,7 @@ const theme = {
       primary: grey1,
       primaryHover: black,
       row: white,
-      scroll: grey3,
+      scroll: grey2,
       super: black,
       chartBar: blue4,
       modal: white,
@@ -143,7 +143,7 @@ const theme = {
     buttonSmall: 13.2,
     viewWidth: columnWidth * 12 + gutterWidth * 13,
     menuWidth: columnWidth * 3 + gutterWidth * 3,
-    scrollbar: 0.2,
+    scrollbar: 0.5,
   },
   zIndex: {
     content: 1,
