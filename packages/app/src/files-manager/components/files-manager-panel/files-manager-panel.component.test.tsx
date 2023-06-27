@@ -25,7 +25,6 @@ const defaultProps: FilesManagerPanelProps = {
   disabled: false,
   selectedFiles: [],
   allItemsSelected: false,
-  filesCount: 1,
   deviceType: DeviceType.MuditaPure,
 }
 
