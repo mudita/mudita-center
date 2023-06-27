@@ -32,6 +32,9 @@ const defaultState = {
   device: {
     deviceType: DeviceType.MuditaPure,
   },
+  filesManager: {
+    files: [{}],
+  },
 } as ReduxRootState
 
 const render = (
@@ -57,6 +60,9 @@ describe("When Mudita Harmony connected", () => {
       device: {
         deviceType: DeviceType.MuditaHarmony,
       },
+      filesManager: {
+        files: [{}],
+      },
     } as ReduxRootState)
 
     expect(queryByTestId(FilesManagerPanelTestIds.Wrapper)).toBeInTheDocument()
@@ -68,6 +74,9 @@ describe("When Mudita Pure connected", () => {
     const { queryByTestId } = render(defaultProps, {
       device: {
         deviceType: DeviceType.MuditaPure,
+      },
+      filesManager: {
+        files: [{}],
       },
     } as ReduxRootState)
 
