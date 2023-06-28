@@ -83,6 +83,9 @@ describe("Device type: MuditaPure", () => {
         device: {
           state: ConnectionState.Empty,
         },
+        settings: {
+          privacyPolicyAccepted: true,
+        },
       })
       const {
         meta: { requestId },
@@ -133,6 +136,9 @@ describe("Device type: MuditaPure", () => {
         device: {
           state: ConnectionState.Empty,
         },
+        settings: {
+          privacyPolicyAccepted: true,
+        },
       })
       const {
         meta: { requestId },
@@ -172,6 +178,9 @@ describe("Device type: MuditaHarmony", () => {
         device: {
           state: ConnectionState.Empty,
         },
+        settings: {
+          privacyPolicyAccepted: true,
+        },
       })
       const {
         meta: { requestId },
@@ -210,6 +219,9 @@ describe("Device type: MuditaHarmony", () => {
       const mockStore = createMockStore([thunk])({
         device: {
           state: ConnectionState.Empty,
+        },
+        settings: {
+          privacyPolicyAccepted: true,
         },
       })
       const {

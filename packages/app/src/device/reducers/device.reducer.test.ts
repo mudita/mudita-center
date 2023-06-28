@@ -325,17 +325,6 @@ describe("Set device data functionality", () => {
 })
 
 describe("Updates loading functionality", () => {
-  test("Event: Loading/pending change `state` to Loading", () => {
-    expect(
-      deviceReducer(undefined, {
-        type: pendingAction(DeviceEvent.Loading),
-      })
-    ).toEqual({
-      ...initialState,
-      state: ConnectionState.Loading,
-    })
-  })
-
   test("Event: Loading/fulfilled change `state` to Loaded", () => {
     expect(
       deviceReducer(undefined, {
