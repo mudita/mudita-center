@@ -15,6 +15,5 @@ export interface FilesManagerPanelProps {
   onDeleteClick: () => void
   selectedFiles: string[]
   allItemsSelected: boolean
-  filesCount: number
   deviceType: DeviceType
 }
