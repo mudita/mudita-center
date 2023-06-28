@@ -106,11 +106,6 @@ export const tabElements: TabElement[] = [
     parentUrl: URL_MAIN.settings,
     tabs: [
       {
-        label: messages.connection,
-        url: URL_MAIN.settings,
-        icon: IconType.Connection,
-      },
-      {
         label: messages.notifications,
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
         icon: IconType.Notifications,
@@ -124,7 +119,7 @@ export const tabElements: TabElement[] = [
       },
       {
         label: messages.backup,
-        url: `${URL_MAIN.settings}${URL_TABS.backup}`,
+        url: URL_MAIN.settings,
         icon: IconType.BackupFolder,
       },
       {

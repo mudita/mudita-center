@@ -13,10 +13,21 @@ import { PureDeviceData, HarmonyDeviceData } from "App/device/reducers"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { AppError } from "App/core/errors"
 import { getDeviceInfoRequest } from "App/device-info/requests"
+import { externalUsageDevice } from "App/device/requests/external-usage-device.request"
+import { setExternalUsageDeviceRequest } from "App/analytic-data-tracker/requests/set-external-usage-device.request"
 
 jest.mock("App/device-info/requests")
+jest.mock("App/device/requests/external-usage-device.request")
+jest.mock(
+  "App/analytic-data-tracker/requests/set-external-usage-device.request"
+)
 
 const errorMock = new AppError(DeviceError.Loading, "Device data loading error")
+
+beforeEach(() => {
+  ;(externalUsageDevice as jest.Mock).mockResolvedValue(true)
+  ;(setExternalUsageDeviceRequest as jest.Mock).mockResolvedValue(undefined)
+})
 
 afterEach(() => {
   jest.clearAllMocks()
