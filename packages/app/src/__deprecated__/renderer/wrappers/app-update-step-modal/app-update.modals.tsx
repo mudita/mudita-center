@@ -49,6 +49,9 @@ export interface AppUpdateForcedProps {
 const messages = defineMessages({
   appUpdateTitle: { id: "component.updateModalTitle" },
   availableUpdateMessage: { id: "component.updateAvailableModalMessage" },
+  availableUpdateNoVersionMessage: {
+    id: "component.updateAvailableModalNoVersionMessage",
+  },
   availableUpdateButton: { id: "component.updateAvailableModalButton" },
   availableUpdateCloseButton: {
     id: "component.updateAvailableModalCloseButton",
@@ -57,6 +60,9 @@ const messages = defineMessages({
     id: "component.updateAvailableModalDescription",
   },
   updateForcedModalMessage: { id: "component.updateForcedModalMessage" },
+  updateForcedModalNoVersionMessage: {
+    id: "component.updateForcedModalNoVersionMessage",
+  },
   updateForcedModalVersion: { id: "component.updateForcedModalVersion" },
   updateForcedModalPrivacyPolicy: {
     id: "component.updateForcedPrivacyPolicy",
@@ -90,7 +96,7 @@ const PrivacyPolicyCheckboxWrapper = styled.div`
   display: flex;
 `
 
-const PrivacyPolicyLink = styled.span`
+const PrivacyPolicyLink = styled.a`
   text-decoration: underline;
   cursor: pointer;
   font-size: 1.4rem;
@@ -130,10 +136,14 @@ export const AppUpdateRejected: FunctionComponent<
   >
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}
-      message={{
-        ...messages.availableUpdateMessage,
-        values: { version: appLatestVersion },
-      }}
+      message={
+        appLatestVersion
+          ? {
+              ...messages.availableUpdateMessage,
+              values: { version: appLatestVersion },
+            }
+          : messages.availableUpdateNoVersionMessage
+      }
     />
     <Text
       displayStyle={TextDisplayStyle.Paragraph4}
@@ -151,7 +161,7 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
     (state: ReduxRootState) => state.settings
   )
   const openPrivacyPolicyWindow = () =>
-    ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
+    ipcRenderer.callMain(AboutActions.PolicyOpenBrowser)
   return (
     <ModalDialog
       size={ModalSize.Small}
@@ -168,10 +178,14 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
         </RoundIconWrapper>
         <ModalMainText
           displayStyle={TextDisplayStyle.Headline4}
-          message={{
-            ...messages.updateForcedModalMessage,
-            values: { version: appLatestVersion },
-          }}
+          message={
+            appLatestVersion
+              ? {
+                  ...messages.updateForcedModalMessage,
+                  values: { version: appLatestVersion },
+                }
+              : messages.updateForcedModalNoVersionMessage
+          }
         />
         <Text
           displayStyle={TextDisplayStyle.Paragraph3}
@@ -197,7 +211,7 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
             }
             label="I have read and agree to the "
           />
-          <PrivacyPolicyLink onClick={openPrivacyPolicyWindow}>
+          <PrivacyPolicyLink href={"#"} onClick={openPrivacyPolicyWindow}>
             Privacy Policy
           </PrivacyPolicyLink>
         </PrivacyPolicyCheckboxWrapper>
