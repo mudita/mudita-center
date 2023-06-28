@@ -343,6 +343,10 @@ const createOpenWindowListener = (
   })
 }
 
+ipcMain.answerRenderer(AboutActions.PolicyOpenBrowser, () =>
+  shell.openExternal(process.env.MUDITA_PRIVACY_POLICY_URL || "")
+)
+
 createOpenWindowListener(
   AboutActions.LicenseOpenWindow,
   Mode.License,
