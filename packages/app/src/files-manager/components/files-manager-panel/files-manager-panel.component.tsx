@@ -26,6 +26,8 @@ import ElementWithTooltip from "App/__deprecated__/renderer/components/core/tool
 import styled from "styled-components"
 import { getHarmonyFreeFilesSlotsCount } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
 import { filesSlotsHarmonyLimit as filesSlotsHarmonyMaxLimit } from "App/files-manager/constants/files-slots-harmony-limit.constans"
+import { useSelector } from "react-redux"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 const StyledTooltipPrimaryContent = styled(TooltipPrimaryContent)`
   max-width: 21rem;
@@ -52,13 +54,15 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   resetRows,
   searchValue,
   onSearchValueChange,
-  filesCount,
   deviceType,
 }) => {
   const selectedItemsCount = selectedFiles.length
   const selectionMode = selectedItemsCount > 0
+  const fileCount =
+    useSelector((state: ReduxRootState) => state.filesManager.files)?.length ||
+    0
 
-  const filesSlotsHarmonyLimit = getHarmonyFreeFilesSlotsCount(filesCount)
+  const filesSlotsHarmonyLimit = getHarmonyFreeFilesSlotsCount(fileCount)
 
   const tooManyFiles =
     deviceType === DeviceType.MuditaHarmony && filesSlotsHarmonyLimit < 1
