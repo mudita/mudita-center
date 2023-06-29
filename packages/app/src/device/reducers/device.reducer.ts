@@ -237,6 +237,13 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
+      // Updates loading data state
+      .addCase(pendingAction(DeviceEvent.Loading), (state) => {
+        return {
+          ...state,
+          state: ConnectionState.Loading,
+        }
+      })
       .addCase(fulfilledAction(DeviceEvent.Loading), (state) => {
         return {
           ...state,
