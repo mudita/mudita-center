@@ -5,19 +5,19 @@ WE HEREBY INFORM THAT WE PROCESS YOUR PERSONAL DATA. DETAILS REGARDING THIS CAN 
 
 Who is the controller of your personal data and who can you contact about it?
 
-1. The Controller of your personal data is Mudita sp. z o.o. with its registered office in Warsaw at ul. Jana Czeczota 6, 02-607 Warsaw, entered into the Register of Entrepreneurs held by the Regional Court for the Capital City of Warsaw, 12th Commercial Division of the National Court Register, under KRS [National Court Register Number] 0000467620, NIP [Polish Taxpayer Identification Number] 5252558282, REGON [National Business Registration Number] 146767613, share capital:600.000,00 zł., hereinafter referred to as “Controller or Mudita”.
+1. The Controller of your personal data is Mudita sp. z o.o. with its registered office in Warsaw at ul. Jana Czeczota 6, 02-607 Warsaw, entered into the Register of Entrepreneurs held by the Regional Court for the Capital City of Warsaw, 12th Commercial Division of the National Court Register, under KRS [National Court Register Number] 0000467620, NIP [Polish Taxpayer Identification Number] 5252558282, REGON [National Business Registration Number] 146767613, share capital:600.000,00 PLN, hereinafter referred to as "Controller or Mudita".
 
 2. In cases regarding the protection of your personal data and the exercising your rights you can contact us by e-mail: office@mudita.com or in writing to our address indicated in clause 1.
 For what purposes and on what grounds do we process your personal data?
 
 3. Your personal data is processed for the following purposes:
 the purpose of the processing & legal basis for the processing
-Mudita’s software users:
+Mudita's software users:
 
     - sharing and enabling the use of the offered software - indispensability to perform the agreement (Article 6 (1) (b) of the GDPR)
     - analyze of data provided - your consent (Article 6 (1) (a) of the GDPR)
 
-Mudita’s website and forum users:
+Mudita's website and forum users:
 
     - necessary cookies - our legitimate interest (Article 6 (1) (f) of the GDPR)
     - marketing, functional, analytical cookies or our partners cookies - your consent  (Article 6 (1) (a) of the GDPR)
@@ -37,10 +37,10 @@ questions for us:
 
 general:
 
-    - analytical purposes (e.g. selection of the services to the needs of our clients, optimization of our products / services based on your comments on this topic, optimalization of the service processes based on the process of sales service and after-sales service, including complaint, clients’ satisfaction survey and determining of the quality of our service) -  our legitimate interest (Article 6 (1) (f) of the GDPR)
+    - analytical purposes (e.g. selection of the services to the needs of our clients, optimization of our products / services based on your comments on this topic, optimalization of the service processes based on the process of sales service and after-sales service, including complaint, clients' satisfaction survey and determining of the quality of our service) -  our legitimate interest (Article 6 (1) (f) of the GDPR)
     - possible establishment, investigation or defence against claims (i.e. evidence purposes) - our legitimate interest (Article 6 (1) (f) of the GDPR)
     - storage of accounting documents - our obligation to keep accounting documents under tax law
-    - (Article 6 (1) (c) of the GDPR in conjunction with Article 86 § 1 of the Tax Ordinance Act)
+    - (Article 6 (1) (c) of the GDPR in conjunction with Article 86 paragraph 1 of the Tax Ordinance Act)
 
 Who has access to your personal data?
 
@@ -53,8 +53,8 @@ Who has access to your personal data?
 
 5. Your personal data is processed:
 
-    a) in relation to conclusion and performance of the agreement or providing other services (using Mudita’s website/forum, software users, products sales, necessary cookies) - for the time necessary to perform the contract;
-    b) provided under your consent (cookies files or marketing data) – unless you withdraw your consent or further processing will be pointless;
+    a) in relation to conclusion and performance of the agreement or providing other services (using Mudita's website/forum, software users, products sales, necessary cookies) - for the time necessary to perform the contract;
+    b) provided under your consent (cookies files or marketing data) - unless you withdraw your consent or further processing will be pointless;
     c) related to answering to your inquiries - for the time necessary to perform the obligation and for the time necessary to achieve our goals;
     d) for evidence purposes to establish the existence of claims, their pursuit or defence against them - until the end of the limitation period for possible claims in this respect (this period is determined by the provisions of the Polish Civil Code), and in the case of its use in public legal proceedings until the time when after their final termination, extraordinary appeal measures are not be applicable any more (such period shall be determined by the provisions of the Polish Code of Civil Procedure);
     e) in connection with the storage of accounting documentation - until the expiry of the limitation period for the tax obligation related to the relevant transaction (this period is determined by the provisions of the Tax Ordinance Act);
@@ -99,7 +99,7 @@ Details about settings the rules for the use of cookies, including disabling coo
     - Safari: https://support.apple.com/kb/PH5042?locale=en-GB
 Additional information
 
-10. Controller does not share and has no intention to share client’s personal data with third country or international organisation. Only except may be the United States (based on standard contractual clauses according to Commission Implementing Decision (EU) 2021/914 of 4 June 2021 on standard contractual clauses for the transfer of personal data to third countries pursuant to Regulation (EU) 2016/679 of the European Parliament and of the Council), which results from the fact, that personal data may be uploaded to the servers of applications, software and IT services providers, located in the United States.
+10. Controller does not share and has no intention to share client's personal data with third country or international organisation. Only except may be the United States (based on standard contractual clauses according to Commission Implementing Decision (EU) 2021/914 of 4 June 2021 on standard contractual clauses for the transfer of personal data to third countries pursuant to Regulation (EU) 2016/679 of the European Parliament and of the Council), which results from the fact, that personal data may be uploaded to the servers of applications, software and IT services providers, located in the United States.
 
 
 MUDITA CENTER SOFTWARE - TERMS OF USE
@@ -124,7 +124,7 @@ License terms:
 
 - Upon your acceptance of these Terms, Mudita will grant you a free license to use the Software. When you download an Update, you will similarly acquire a free license to use the Update. This license grants you a non-exclusive, territorially unlimited right to use the Software and/or Updates without limitation to the number of copies installed on computers, provided that you are entitled to use those computers and install software on them. The license includes:
 
-    - storing the Software and/or Updates using the computer’s disk space or on data storage devices,
+    - storing the Software and/or Updates using the computer's disk space or on data storage devices,
 
     - running, displaying, and using the Software and/or Updates on the computer in accordance with their intended purpose.
 
@@ -152,13 +152,13 @@ To the maximum extent permitted by the generally applicable laws that apply to t
 
 Copyright / Third-party services:
 
-Mudita holds all copyrights and licenses for the Software. Certain elements of the Software use or contain software provided by third parties as well as other copyrighted material, which you are entitled to use as part of the Software in accordance with these Terms. The Software may also use certain services provided by third parties. However, before accessing any service, you will be asked to give your permission and accept the terms defined by the service’s provider.
+Mudita holds all copyrights and licenses for the Software. Certain elements of the Software use or contain software provided by third parties as well as other copyrighted material, which you are entitled to use as part of the Software in accordance with these Terms. The Software may also use certain services provided by third parties. However, before accessing any service, you will be asked to give your permission and accept the terms defined by the service's provider.
 
 
 
 Amendments to the Terms:
 
-Mudita reserves the right to amend these Terms under justified circumstances (such as changes to the applicable law, the Software’s functionality, or the nature of Mudita’s business). The updated Terms will always be available in the corresponding tab of the Software as well as on the Mudita  website. Choosing not to uninstall the Software upon receiving information about amendments to the Terms will be deemed to constitute acceptance of the changes.
+Mudita reserves the right to amend these Terms under justified circumstances (such as changes to the applicable law, the Software's functionality, or the nature of Mudita's business). The updated Terms will always be available in the corresponding tab of the Software as well as on the Mudita  website. Choosing not to uninstall the Software upon receiving information about amendments to the Terms will be deemed to constitute acceptance of the changes.
 
 
 
