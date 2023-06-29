@@ -88,6 +88,7 @@ export const settingsReducer = createReducer<SettingsState>(
         state.updateRequired = action.payload.updateRequired
         state.lowestSupportedVersions = action.payload.lowestSupportedVersions
         state.currentVersion = action.payload.currentVersion
+        state.privacyPolicyAccepted = action.payload.privacyPolicyAccepted
       })
 
       .addCase(setLatestVersion, (state, action) => {

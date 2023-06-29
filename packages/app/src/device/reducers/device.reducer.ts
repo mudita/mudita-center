@@ -237,7 +237,6 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
-
       // Updates loading data state
       .addCase(pendingAction(DeviceEvent.Loading), (state) => {
         return {
