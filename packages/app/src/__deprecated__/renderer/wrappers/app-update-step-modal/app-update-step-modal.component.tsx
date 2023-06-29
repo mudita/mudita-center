@@ -100,7 +100,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
         <AppUpdateRejected
           open={appUpdateRejectedOpen}
           closeModal={closeModal}
-          onActionButtonClick={handleProcessDownload}
+          onActionButtonClick={() => setAppUpdateRejectedOpen(false)}
           appLatestVersion={appLatestVersion}
           {...props}
         />
