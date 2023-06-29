@@ -25,13 +25,15 @@ const defaultProps: FilesManagerPanelProps = {
   disabled: false,
   selectedFiles: [],
   allItemsSelected: false,
-  filesCount: 1,
   deviceType: DeviceType.MuditaPure,
 }
 
 const defaultState = {
   device: {
     deviceType: DeviceType.MuditaPure,
+  },
+  filesManager: {
+    files: [{}],
   },
 } as ReduxRootState
 
@@ -58,6 +60,9 @@ describe("When Mudita Harmony connected", () => {
       device: {
         deviceType: DeviceType.MuditaHarmony,
       },
+      filesManager: {
+        files: [{}],
+      },
     } as ReduxRootState)
 
     expect(queryByTestId(FilesManagerPanelTestIds.Wrapper)).toBeInTheDocument()
@@ -69,6 +74,9 @@ describe("When Mudita Pure connected", () => {
     const { queryByTestId } = render(defaultProps, {
       device: {
         deviceType: DeviceType.MuditaPure,
+      },
+      filesManager: {
+        files: [{}],
       },
     } as ReduxRootState)
 
