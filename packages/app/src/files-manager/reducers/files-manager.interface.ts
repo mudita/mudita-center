@@ -12,8 +12,11 @@ export interface FilesManagerState {
   loading: State
   deleting: State
   uploading: State
-  uploadingFileLength: number
+  uploadingFileCount: number
+  deletingFileCount: number
   selectedItems: { rows: string[] }
   error: AppError | null
   uploadBlocked: boolean
+  uploadPendingFiles: string[]
+  duplicatedFiles: string[]
 }

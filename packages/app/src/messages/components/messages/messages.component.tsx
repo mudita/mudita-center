@@ -109,7 +109,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
   selectAllItems,
   resetItems,
   searchMessages,
+  searchMessagesForPreview,
   searchResult,
+  searchPreviewResult,
   state,
 }) => {
   const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
@@ -138,6 +140,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const debouncedContent = useDebounce(content, 1000)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+  const [searchPreviewValue, setSearchPreviewValue] = useState<string>("")
   const [searchValue, setSearchValue] = useState<string>("")
   const [lastSearchQuery, setLastSearchQuery] = useState<string>("")
   const [searchedMessage, setSearchedMessage] = useState<Message | null>(null)
@@ -146,7 +149,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
-    if (searchValue !== "") {
+    if (searchPreviewValue !== "") {
       return
     }
     if (messagesState === MessagesState.SearchResult) {
@@ -154,7 +157,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
     setActiveSearchDropdown(false)
     setSearchedMessage(null)
-  }, [searchValue, messagesState])
+  }, [searchPreviewValue, messagesState])
 
   useEffect(() => {
     messageLayoutNotifications
@@ -372,6 +375,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setDraftMessage(undefined)
     updateFieldState("draftDeleting", false)
     setMessagesState(MessagesState.List)
+    resetItems()
   }
 
   const handleNewMessageClick = (): void => {
@@ -588,6 +592,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     await deleteThreads(deletedThreads)
     resetItems()
     setActiveThread(undefined)
+    setTmpActiveThread(undefined)
     if (messagesState === MessagesState.NewMessage) {
       setActiveThread(mockThread)
     }
@@ -640,12 +645,12 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const handleSearch = (query: string) => {
-    setSearchValue(query)
+    setSearchPreviewValue(query)
 
     if (query.length > 0) {
       setLastSearchQuery(query)
       setActiveSearchDropdown(true)
-      searchMessages({
+      searchMessagesForPreview({
         scope: [DataIndex.Message, DataIndex.Thread],
         query: query,
       })
@@ -659,7 +664,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleSearchEnter = () => {
     setMessagesState(MessagesState.SearchResult)
     setActiveThread(undefined)
-    handleSearchMessage()
+    setSearchValue(searchPreviewValue)
+    handleSearchMessage(searchPreviewValue)
   }
 
   const handleResultClick = (message: Message): void => {
@@ -675,8 +681,12 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
   }
 
-  const handleSearchMessage = () => {
-    searchMessages({ scope: [DataIndex.Message], query: searchValue })
+  const handleSearchMessage = (currentSearchValue = searchValue) => {
+    searchMessages({ scope: [DataIndex.Message], query: currentSearchValue })
+    searchMessagesForPreview({
+      scope: [DataIndex.Message],
+      query: searchPreviewValue,
+    })
   }
   return (
     <>
@@ -708,7 +718,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         templates={templates}
       />
       <MessagesPanel
-        searchValue={searchValue}
+        searchValue={searchPreviewValue}
         onSearchValueChange={handleSearch}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
@@ -716,7 +726,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         allItemsSelected={allItemsSelected}
         toggleAll={handleToggleAllCheckboxes}
         onDeleteClick={handleDeleteThreads}
-        results={searchResult}
+        results={searchPreviewResult}
         onSelect={handleSearchSelect}
         onSearchEnterClick={handleSearchEnter}
         showSearchResults={activeSearchDropdown}

@@ -87,6 +87,11 @@ const notEnoughSpaceError = new AppError(
   "Device updating process failed"
 )
 
+const onboardingNotCompleteError = new AppError(
+  UpdateError.OnboardingNotComplete,
+  "Device updating process failed"
+)
+
 const render = (extraProps?: Partial<UpdateOsFlowProps>) => {
   const props = {
     ...defaultProps,
@@ -321,6 +326,19 @@ describe("update os", () => {
 
       checkModalsVisibility(queryByTestId, [
         UpdateOsFlowTestIds.NotEnoughSpaceModal,
+      ])
+    })
+  })
+
+  describe("when updating failed because of onboarding isn't complete", () => {
+    test("error modal is shown", () => {
+      const { queryByTestId } = render({
+        updateState: State.Failed,
+        error: onboardingNotCompleteError,
+      })
+
+      checkModalsVisibility(queryByTestId, [
+        UpdateOsFlowTestIds.OnboardingNotCompleteModal,
       ])
     })
   })

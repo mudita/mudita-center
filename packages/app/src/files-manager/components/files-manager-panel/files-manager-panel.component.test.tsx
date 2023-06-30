@@ -25,6 +25,8 @@ const defaultProps: FilesManagerPanelProps = {
   disabled: false,
   selectedFiles: [],
   allItemsSelected: false,
+  filesCount: 1,
+  deviceType: DeviceType.MuditaPure,
 }
 
 const defaultState = {
@@ -51,21 +53,19 @@ const render = (
 }
 
 describe("When Mudita Harmony connected", () => {
-  test("don't render component component", () => {
+  test("renders component", () => {
     const { queryByTestId } = render(defaultProps, {
       device: {
         deviceType: DeviceType.MuditaHarmony,
       },
     } as ReduxRootState)
 
-    expect(
-      queryByTestId(FilesManagerPanelTestIds.Wrapper)
-    ).not.toBeInTheDocument()
+    expect(queryByTestId(FilesManagerPanelTestIds.Wrapper)).toBeInTheDocument()
   })
 })
 
 describe("When Mudita Pure connected", () => {
-  test("renders component component", () => {
+  test("renders component", () => {
     const { queryByTestId } = render(defaultProps, {
       device: {
         deviceType: DeviceType.MuditaPure,

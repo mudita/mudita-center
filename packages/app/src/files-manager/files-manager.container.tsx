@@ -14,8 +14,11 @@ import {
   uploadFile,
   resetDeletingState,
   resetUploadingState,
+  setDeletingFileCount,
 } from "App/files-manager/actions"
 import { deleteFiles } from "App/files-manager/actions/delete-files.action"
+import { abortPendingUpload } from "./actions/abort-pending-upload.action"
+import { continuePendingUpload } from "./actions/continue-pending-upload.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   memorySpace: state.device.data?.memorySpace,
@@ -23,7 +26,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   loading: state.filesManager.loading,
   deleting: state.filesManager.deleting,
   uploading: state.filesManager.uploading,
-  uploadingFileLength: state.filesManager.uploadingFileLength,
+  uploadingFileCount: state.filesManager.uploadingFileCount,
+  deletingFileCount: state.filesManager.deletingFileCount,
   deviceType: state.device.deviceType,
   error: state.filesManager.error,
   selectedItems: state.filesManager.selectedItems.rows,
@@ -31,6 +35,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     state.filesManager.selectedItems.rows.length ===
     state.filesManager.files.length,
   uploadBlocked: state.filesManager.uploadBlocked,
+  pendingFilesCount: state.filesManager.uploadPendingFiles.length,
 })
 
 const mapDispatchToProps = {
@@ -42,6 +47,9 @@ const mapDispatchToProps = {
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
+  setDeletingFileCount,
+  abortPendingUpload,
+  continuePendingUpload,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilesManager)

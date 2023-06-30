@@ -11,16 +11,23 @@ import {
   FilesManagerEvent,
   EligibleFormat,
   DeviceDirectory,
+  FilesManagerError,
 } from "App/files-manager/constants"
 import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
+  setDuplicatedFiles,
+  setPendingFilesToUpload,
   setUploadBlocked,
-  setUploadingFileLength,
+  setUploadingFileCount,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
 import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
+import { getHarmonyFreeFilesSlotsCount } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
+import { getDuplicatedFiles } from "App/files-manager/helpers/get-duplicated-files.helper"
+import { getUniqueFiles } from "App/files-manager/helpers/get-unique-files.helper"
+import { AppError } from "App/core/errors/app-error"
 
 export const uploadFile = createAsyncThunk(
   FilesManagerEvent.UploadFiles,
@@ -45,14 +52,56 @@ export const uploadFile = createAsyncThunk(
       return rejectWithValue(filesToUpload.error)
     }
 
-    const filePaths = filesToUpload.data
+    const filePaths = filesToUpload.data ?? []
 
-    if (filePaths?.length === 0) {
+    if (filePaths.length === 0) {
       dispatch(setUploadBlocked(false))
       return
     }
 
-    dispatch(setUploadingFileLength(filePaths.length))
+    const duplicatedFiles = getDuplicatedFiles(
+      state.filesManager.files,
+      filePaths
+    )
+
+    if (duplicatedFiles.length > 0) {
+      const uniqueFiles = getUniqueFiles(state.filesManager.files, filePaths)
+      dispatch(setPendingFilesToUpload(uniqueFiles))
+      dispatch(setDuplicatedFiles(duplicatedFiles))
+      dispatch(setUploadBlocked(false))
+      return rejectWithValue(
+        new AppError(
+          FilesManagerError.UploadDuplicates,
+          "File already exists on your device"
+        )
+      )
+    }
+
+    const harmonyFreeFilesSlotsCount = getHarmonyFreeFilesSlotsCount(
+      state.filesManager.files.length
+    )
+
+    if (
+      state.device.deviceType === DeviceType.MuditaHarmony &&
+      harmonyFreeFilesSlotsCount === 0
+    ) {
+      dispatch(setUploadBlocked(false))
+      return
+    }
+
+    if (
+      state.device.deviceType === DeviceType.MuditaHarmony &&
+      harmonyFreeFilesSlotsCount < filePaths.length
+    ) {
+      dispatch(
+        setPendingFilesToUpload(filePaths.slice(0, harmonyFreeFilesSlotsCount))
+      )
+      dispatch(setUploadingState(State.Pending))
+      dispatch(setUploadBlocked(false))
+      return
+    }
+
+    dispatch(setUploadingFileCount(filePaths.length))
     dispatch(setUploadingState(State.Loading))
     dispatch(setUploadBlocked(false))
 

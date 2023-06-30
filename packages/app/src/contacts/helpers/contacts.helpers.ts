@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { deburr, find, filter, omit } from "lodash"
+import { deburr, find } from "lodash"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { SimpleRecord } from "App/__deprecated__/common/typings"
 import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/messages/is-name-available"
@@ -19,9 +19,17 @@ import {
 import { mapToRawNumber } from "App/messages/helpers"
 
 const lengthy = (input = "") => input.length > 0
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const prepareData = <T = any>(input: T | T[]): T[] =>
+
+const inputPropertyValidator = (input: unknown, key: string): boolean => {
+  return (
+    typeof input === "object" &&
+    input !== null &&
+    key in input &&
+    lengthy(key as keyof typeof input)
+  )
+}
+
+const prepareData = <T = unknown>(input: T | T[]): T[] =>
   Array.isArray(input) ? input : [input]
 
 export const phoneNumberFormatter = (
@@ -38,60 +46,37 @@ export const phoneNumberFormatter = (
   return input
 }
 
-export const contactTypeGuard = (
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-  input: any,
-  inputValidator: (str: string) => boolean = lengthy
-): input is Contact => {
-  const firstNameIsDeclared =
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    "firstName" in input && inputValidator(input.firstName)
-  const lastNameIsDeclared =
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    "lastName" in input && inputValidator(input.lastName)
-  const primaryPhoneNumberIsDeclared =
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    "primaryPhoneNumber" in input && inputValidator(input.primaryPhoneNumber)
-  const secondaryPhoneNumberIsDeclared =
-    "secondaryPhoneNumber" in input &&
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    inputValidator(input.secondaryPhoneNumber)
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const emailIsDeclared = "email" in input && inputValidator(input.email)
+export const contactTypeGuard = (input: unknown): input is Contact => {
+  if (!inputPropertyValidator(input, "firstName")) {
+    return false
+  }
+  if (!inputPropertyValidator(input, "lastName")) {
+    return false
+  }
+  if (!inputPropertyValidator(input, "primaryPhoneNumber")) {
+    return false
+  }
+  if (!inputPropertyValidator(input, "secondaryPhoneNumber")) {
+    return false
+  }
 
-  return (
-    firstNameIsDeclared ||
-    lastNameIsDeclared ||
-    primaryPhoneNumberIsDeclared ||
-    secondaryPhoneNumberIsDeclared ||
-    emailIsDeclared
-  )
+  if (!inputPropertyValidator(input, "email")) {
+    return false
+  }
+
+  return true
 }
 
 export const contactFactory = (
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  input: Record<string, any>,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  guard: (input: any) => boolean = contactTypeGuard,
+  input: Record<string, keyof Contact>,
+  guard: (input: unknown) => boolean = contactTypeGuard,
   numberFormatter: (
     input: SimpleRecord<string>
   ) => SimpleRecord<string> = phoneNumberFormatter
 ): Contact | null => {
   if (guard(input)) {
     return Object.keys(input).reduce((acc: SimpleRecord, key: string) => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const value = input[key]
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const item = value ? numberFormatter({ [key]: value }) : {}
 
       return {
@@ -179,9 +164,7 @@ export const removeContact = (
 export const editContact = (
   state: ContactsState,
   data: BaseContactModel,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  guard: (input: any) => boolean = contactTypeGuard
+  guard: (input: unknown) => boolean = contactTypeGuard
 ): PhoneContacts => {
   if (guard(data)) {
     return {
@@ -322,42 +305,4 @@ export const findContact = (
   }
 
   return undefined
-}
-
-export const findMultipleContacts = (
-  db: Contact[],
-  query: SimpleRecord | ((input: string | number | SimpleRecord) => boolean)
-): ContactID[] | undefined => {
-  const result = filter(db, query)
-
-  if (result.length > 0) {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any
-    return result.map(({ id }: any) => id)
-  }
-
-  return undefined
-}
-
-export const revokeField = (
-  state: ContactsState,
-  query: SimpleRecord,
-  finder = findContact
-): ContactsState => {
-  const userId = finder(state, query, true)
-
-  if (userId && typeof userId === "string") {
-    const queryKey = Object.keys(query)[0]
-    const userData = omit(state.db[userId], queryKey)
-
-    return {
-      ...state,
-      db: {
-        ...state.db,
-        [userId]: userData,
-      } as Record<ContactID, Contact>,
-    }
-  }
-
-  return state
 }

@@ -11,10 +11,9 @@ import {
   DeviceType,
   Endpoint,
   Method,
+  OnboardingState,
   PhoneLockCategory,
 } from "App/device/constants"
-import { GetDeviceInfoResponseBody } from "App/device/types/mudita-os"
-import { DeviceInfo } from "App/device/types/mudita-os/serialport-request.type"
 import { SettingsService } from "App/settings/services"
 import { UpdateErrorServiceErrors } from "App/update/constants"
 import { UpdateOS } from "App/update/dto"
@@ -32,7 +31,7 @@ export class DeviceUpdateService {
   ) {}
 
   public async updateOs(payload: UpdateOS): Promise<ResultObject<boolean>> {
-    const deviceInfoResult = await this.getDeviceInfo()
+    const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
 
     if (!deviceInfoResult.ok || !deviceInfoResult.data) {
       return Result.failed(
@@ -43,30 +42,37 @@ export class DeviceUpdateService {
       )
     }
 
+    if (deviceInfoResult.data.onboardingState === OnboardingState.InProgress) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.OnboardingNotComplete,
+          "Onboarding not complete"
+        )
+      )
+    }
+
     const filePath = join(
       this.settingsService.getByKey("osDownloadLocation") as string,
       payload.fileName
     )
 
-    const targetPath = this.getTargetPath(deviceInfoResult.data)
+    const targetPath = deviceInfoResult.data.updateFilePath
     await this.deviceFileSystem.removeDeviceFile(targetPath)
 
-    if (this.deviceManager.device.deviceType === DeviceType.MuditaPure) {
-      const fileSizeInMB = fs.lstatSync(filePath).size / (1024 * 1024)
-      const freeSpaceResult = await this.deviceInfoService.getDeviceFreeSpace()
+    const fileSizeInMB = fs.lstatSync(filePath).size / (1024 * 1024)
+    const freeSpaceResult = await this.deviceInfoService.getDeviceFreeSpace()
 
-      if (
-        freeSpaceResult.ok &&
-        !isNaN(freeSpaceResult.data) &&
-        freeSpaceResult.data < fileSizeInMB
-      ) {
-        return Result.failed(
-          new AppError(
-            UpdateErrorServiceErrors.NotEnoughSpace,
-            `Cannot upload ${filePath} to device - not enough space`
-          )
+    if (
+      freeSpaceResult.ok &&
+      !isNaN(freeSpaceResult.data) &&
+      freeSpaceResult.data < fileSizeInMB
+    ) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.NotEnoughSpace,
+          `Cannot upload ${filePath} to device - not enough space`
         )
-      }
+      )
     }
 
     const fileResponse = await this.deviceFileSystem.uploadFileLocally({
@@ -118,7 +124,8 @@ export class DeviceUpdateService {
       }
     }
 
-    const deviceInfoAfterUpdateResult = await this.getDeviceInfo()
+    const deviceInfoAfterUpdateResult =
+      await this.deviceInfoService.getDeviceInfo()
 
     if (!deviceInfoAfterUpdateResult.ok || !deviceInfoAfterUpdateResult.data) {
       return Result.failed(
@@ -129,8 +136,8 @@ export class DeviceUpdateService {
       )
     }
 
-    const afterUpdateOsVersion = deviceInfoAfterUpdateResult.data.version
-    const beforeUpdateOsVersion = deviceInfoResult.data.version
+    const afterUpdateOsVersion = deviceInfoAfterUpdateResult.data.osVersion
+    const beforeUpdateOsVersion = deviceInfoResult.data.osVersion
 
     if (beforeUpdateOsVersion === afterUpdateOsVersion) {
       return Result.failed(
@@ -142,31 +149,6 @@ export class DeviceUpdateService {
     }
 
     return Result.success(true)
-  }
-
-  private getTargetPath({ updateFilePath }: DeviceInfo): string {
-    return updateFilePath !== undefined
-      ? updateFilePath
-      : "/sys/user/update.tar"
-  }
-
-  private async getDeviceInfo(): Promise<ResultObject<DeviceInfo>> {
-    const { ok, data, error } =
-      await this.deviceManager.device.request<GetDeviceInfoResponseBody>({
-        endpoint: Endpoint.DeviceInfo,
-        method: Method.Get,
-      })
-
-    if (!ok || data === undefined) {
-      return Result.failed(
-        new AppError(
-          UpdateErrorServiceErrors.CannotGetDeviceInfo,
-          error?.message || "Device info request failed"
-        )
-      )
-    } else {
-      return Result.success(data)
-    }
   }
 
   private async getUnlockDeviceStatus(): Promise<
@@ -189,6 +171,15 @@ export class DeviceUpdateService {
     timeout = 10000,
     callsMax = 60
   ): Promise<ResultObject<boolean>> {
+    if (this.deviceManager.currentDeviceInitializationFailed) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.DeviceInitializationFailed,
+          "The device no initialized successful after restart"
+        )
+      )
+    }
+
     if (index === callsMax) {
       return Result.failed(
         new AppError(
@@ -198,11 +189,11 @@ export class DeviceUpdateService {
       )
     }
 
-    let result: ResultObject<DeviceInfo | RequestResponseStatus>
+    let result: { ok: boolean }
 
     try {
       if (deviceType === DeviceType.MuditaHarmony) {
-        result = await this.getDeviceInfo()
+        result = await this.deviceInfoService.getDeviceInfo()
       } else {
         result = await this.getUnlockDeviceStatus()
       }

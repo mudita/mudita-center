@@ -12,27 +12,34 @@ import {
   resetDeletingState,
   resetUploadingState,
   selectAllItems,
-  setUploadingFileLength,
+  setUploadingFileCount,
   setUploadingState,
   toggleItem,
   uploadFile,
   setUploadBlocked,
+  setDeletingFileCount,
+  setPendingFilesToUpload,
+  setDuplicatedFiles,
 } from "App/files-manager/actions"
 import { changeLocation } from "App/core/actions"
 import { FilesManagerState } from "App/files-manager/reducers/files-manager.interface"
 import { deleteFiles } from "App/files-manager/actions/delete-files.action"
+import { continuePendingUpload } from "../actions/continue-pending-upload.action"
 
 export const initialState: FilesManagerState = {
   files: [],
   loading: State.Initial,
   uploading: State.Initial,
   deleting: State.Initial,
-  uploadingFileLength: 0,
+  uploadingFileCount: 0,
+  deletingFileCount: 0,
   selectedItems: {
     rows: [],
   },
   uploadBlocked: false,
   error: null,
+  uploadPendingFiles: [],
+  duplicatedFiles: [],
 }
 
 export const filesManagerReducer = createReducer<FilesManagerState>(
@@ -80,7 +87,13 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           error: action.payload as AppError,
         }
       })
-
+      .addCase(continuePendingUpload.rejected, (state, action) => {
+        return {
+          ...state,
+          uploading: State.Failed,
+          error: action.payload as AppError,
+        }
+      })
       .addCase(selectAllItems.fulfilled, (state, action) => {
         return {
           ...state,
@@ -139,6 +152,7 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           ...state,
           deleting: State.Initial,
           error: null,
+          deletingFileCount: 0,
         }
       })
       .addCase(resetUploadingState, (state) => {
@@ -146,15 +160,31 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           ...state,
           uploading: State.Initial,
           error: null,
-          uploadingFileLength: 0,
+          uploadingFileCount: 0,
           uploadBlocked: false,
+          duplicatedFiles: [],
         }
       })
-      .addCase(setUploadingFileLength, (state, action) => {
+      .addCase(setUploadingFileCount, (state, action) => {
         return {
           ...state,
-          uploadingFileLength: action.payload,
+          uploadingFileCount: action.payload,
         }
+      })
+      .addCase(setDeletingFileCount, (state, action) => {
+        return {
+          ...state,
+          deletingFileCount: action.payload,
+        }
+      })
+      .addCase(setPendingFilesToUpload, (state, action) => {
+        return {
+          ...state,
+          uploadPendingFiles: action.payload,
+        }
+      })
+      .addCase(setDuplicatedFiles, (state, action) => {
+        state.duplicatedFiles = action.payload
       })
   }
 )

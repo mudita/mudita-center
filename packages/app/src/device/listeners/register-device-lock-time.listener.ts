@@ -6,7 +6,6 @@
 import { ipcRenderer } from "electron-better-ipc"
 import store from "App/__deprecated__/renderer/store"
 import { setLockTime } from "App/device"
-
 import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 import { GetPhoneLockTimeResponseBody } from "App/device/types/mudita-os"
 
@@ -17,7 +16,7 @@ const registerDeviceLockedHandler = (
   void store.dispatch(setLockTime(data))
 }
 
-export const registerDeviceLockedListener = (): (() => void) => {
+export const registerDeviceLockTimeListener = (): (() => void) => {
   ipcRenderer.on(
     DeviceIpcEvent.DeviceLockTimeUpdated,
     registerDeviceLockedHandler

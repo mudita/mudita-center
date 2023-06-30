@@ -12,6 +12,10 @@ import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/
 import { UploadFilesModals } from "App/files-manager/components/upload-files-modals/upload-files-modals.component"
 import { UploadFilesModalProps } from "App/files-manager/components/upload-files-modals/upload-files-modals.interface"
 import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-files-modals/upload-files-modals-test-ids.enum"
+import { Provider } from "react-redux"
+import thunk from "redux-thunk"
+import createMockStore from "redux-mock-store"
+import { initialState as filesManagerInitialState } from "App/files-manager/reducers/files-manager.reducer"
 
 const defaultProps: UploadFilesModalProps = {
   filesLength: 0,
@@ -20,10 +24,24 @@ const defaultProps: UploadFilesModalProps = {
   uploadingFailed: false,
   error: null,
   onCloseUploadingErrorModal: jest.fn(),
+  pendingUpload: false,
+  pendingFilesCount: 0,
+  onAbortPendingUpload: jest.fn(),
+  onContinuePendingUpload: jest.fn(),
 }
 
+const storeMock = createMockStore([thunk])({
+  ...{
+    filesManager: { ...filesManagerInitialState },
+  },
+})
+
 const render = (props: UploadFilesModalProps) => {
-  return renderWithThemeAndIntl(<UploadFilesModals {...props} />)
+  return renderWithThemeAndIntl(
+    <Provider store={storeMock}>
+      <UploadFilesModals {...props} />
+    </Provider>
+  )
 }
 
 beforeEach(() => {

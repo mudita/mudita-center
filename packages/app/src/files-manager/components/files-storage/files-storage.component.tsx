@@ -45,6 +45,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   onSearchValueChange,
   noFoundFiles,
   disableUpload,
+  deviceType,
 }) => {
   return (
     <>
@@ -65,6 +66,8 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
         allItemsSelected={allItemsSelected}
         searchValue={searchValue}
         onSearchValueChange={onSearchValueChange}
+        filesCount={files.length}
+        deviceType={deviceType}
       />
       <FilesStorageList
         data-testid={FilesStorageTestIds.List}

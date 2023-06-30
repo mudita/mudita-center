@@ -33,14 +33,26 @@ import {
   Actions,
   Checkbox,
   FilesListRow,
-  FileIconHarmony,
   FilesListLabels,
   LastEmptyCol,
+  TableWrapper,
+  Ellipsis,
 } from "App/files-manager/components/files-storage-list/files-storage-list.styled"
 import { DeviceType } from "App/device/constants"
 import { VisibleOnDevice } from "App/ui/components"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { Virtuoso } from "react-virtuoso"
+import ElementWithTooltip, {
+  ElementWithTooltipPlace,
+} from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
+import {
+  TooltipContent,
+  TooltipContentType,
+} from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/tooltip-content.style"
+import Text, {
+  TextDisplayStyle,
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 
 const messages = defineMessages({
   title: {
@@ -87,6 +99,26 @@ interface Props {
   onDelete: (ids: string[]) => void
 }
 
+const TruncateText: FunctionComponent<{ text: string }> = ({ text }) => (
+  <TableWrapper>
+    <ElementWithTooltip
+      showIfTextEllipsis
+      place={ElementWithTooltipPlace.TopRight}
+      Element={<Ellipsis>{text}</Ellipsis>}
+    >
+      <TooltipContent type={TooltipContentType.secondary}>
+        <Text
+          displayStyle={TextDisplayStyle.Label}
+          color="primary"
+          element={"p"}
+        >
+          {text}
+        </Text>
+      </TooltipContent>
+    </ElementWithTooltip>
+  </TableWrapper>
+)
+
 const FilesStorageList: FunctionComponent<Props> = ({
   state,
   files = [],
@@ -105,7 +137,10 @@ const FilesStorageList: FunctionComponent<Props> = ({
   const deviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   )
-  const filesManagerActionsEnable = deviceType === DeviceType.MuditaPure
+  const filesManagerActionsEnable =
+    deviceType === DeviceType.MuditaPure ||
+    deviceType === DeviceType.MuditaHarmony
+
   return (
     <FilesStorageContainer {...rest}>
       {state === State.Loaded && files.length > 0 && (
@@ -119,53 +154,58 @@ const FilesStorageList: FunctionComponent<Props> = ({
             <Col />
             <Col>{intl.formatMessage(messages.type)}</Col>
             <Col>{intl.formatMessage(messages.size)}</Col>
-            <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+            <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
               <LastEmptyCol />
             </VisibleOnDevice>
           </FilesListLabels>
-          {files.map((file, i) => {
-            const selected = selectedItems.includes(file.id)
-            const handleCheckboxChange = () => toggleRow(file.id)
-            const handleDelete = () => onDelete([file.id])
-            return (
-              <FilesListRow key={i} data-testid={FilesStorageListTestIds.Row}>
-                <Col>
-                  <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
-                    <Checkbox
-                      checked={selected}
-                      onChange={handleCheckboxChange}
-                      size={Size.Medium}
-                      visible={Boolean(selectedItems.length !== 0)}
-                    />
-                    {selectedItems.length === 0 && (
-                      <FileIcon iconType={IconType.MenuMusic} />
-                    )}
-                  </VisibleOnDevice>
-                  <VisibleOnDevice devices={[DeviceType.MuditaHarmony]}>
-                    <FileIconHarmony iconType={IconType.MenuMusic} />
-                  </VisibleOnDevice>
-                </Col>
-                <Col>{file.name}</Col>
-                <FilesStorageListTypeCol file={file} />
-                <Col>{convertBytes(file.size)}</Col>
-                <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+          <Virtuoso
+            data={files}
+            itemContent={(index, file) => {
+              const selected = selectedItems.includes(file.id)
+              const handleCheckboxChange = () => toggleRow(file.id)
+              const handleDelete = () => onDelete([file.id])
+              return (
+                <FilesListRow
+                  key={index}
+                  data-testid={FilesStorageListTestIds.Row}
+                >
                   <Col>
-                    <Actions>
-                      <Dropdown onOpen={disableScroll} onClose={enableScroll}>
-                        <ButtonComponent
-                          labelMessage={messages.deleteAction}
-                          Icon={IconType.Delete}
-                          onClick={handleDelete}
-                          iconSize={IconSize.Medium}
-                          displayStyle={DisplayStyle.Dropdown}
-                        />
-                      </Dropdown>
-                    </Actions>
+                    <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
+                      <Checkbox
+                        checked={selected}
+                        onChange={handleCheckboxChange}
+                        size={Size.Medium}
+                        visible={Boolean(selectedItems.length !== 0)}
+                      />
+                      {selectedItems.length === 0 && (
+                        <FileIcon iconType={IconType.MenuMusic} />
+                      )}
+                    </VisibleOnDevice>
                   </Col>
-                </VisibleOnDevice>
-              </FilesListRow>
-            )
-          })}
+                  <Col>
+                    <TruncateText text={file.name} />
+                  </Col>
+                  <FilesStorageListTypeCol file={file} />
+                  <Col>{convertBytes(file.size)}</Col>
+                  <VisibleOnDevice devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}>
+                    <Col>
+                      <Actions>
+                        <Dropdown onOpen={disableScroll} onClose={enableScroll}>
+                          <ButtonComponent
+                            labelMessage={messages.deleteAction}
+                            Icon={IconType.Delete}
+                            onClick={handleDelete}
+                            iconSize={IconSize.Medium}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
+                        </Dropdown>
+                      </Actions>
+                    </Col>
+                  </VisibleOnDevice>
+                </FilesListRow>
+              )
+            }}
+          />
         </FilesTable>
       )}
       {state === State.Loading && (

@@ -8,4 +8,5 @@ export enum State {
   Loading,
   Loaded,
   Failed,
+  Pending,
 }

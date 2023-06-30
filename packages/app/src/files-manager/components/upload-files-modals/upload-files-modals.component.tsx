@@ -13,6 +13,8 @@ import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import PendingUploadModal from "App/files-manager/components/pending-upload-modal/pending-upload-modal.component"
+import DuplicatedFilesModal from "App/files-manager/components/duplicated-files-modal/duplicated-files-modal.component"
 
 const messages = defineMessages({
   uploadingModalInfo: { id: "module.filesManager.uploadingModalInfo" },
@@ -40,6 +42,10 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
   uploadingInfo,
   uploadingFailed,
   onCloseUploadingErrorModal,
+  pendingUpload,
+  pendingFilesCount,
+  onAbortPendingUpload,
+  onContinuePendingUpload,
 }) => {
   const errorTitle =
     error?.type === FilesManagerError.NotEnoughSpace
@@ -52,6 +58,13 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
 
   return (
     <>
+      {pendingUpload && (
+        <PendingUploadModal
+          filesCount={pendingFilesCount}
+          onClose={onAbortPendingUpload}
+          onOk={onContinuePendingUpload}
+        />
+      )}
       {uploading && (
         <LoaderModal
           testId={UploadFilesModalsTestIds.LoadingModal}
@@ -70,15 +83,17 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
           testId={UploadFilesModalsTestIds.UploadedPopUp}
         />
       )}
-      {uploadingFailed && (
-        <ErrorModal
-          testId={UploadFilesModalsTestIds.ErrorModal}
-          open={uploadingFailed}
-          title={intl.formatMessage(errorTitle)}
-          subtitle={intl.formatMessage(errorSubtitle)}
-          closeModal={onCloseUploadingErrorModal}
-        />
-      )}
+      {uploadingFailed &&
+        error?.type !== FilesManagerError.UploadDuplicates && (
+          <ErrorModal
+            testId={UploadFilesModalsTestIds.ErrorModal}
+            open={uploadingFailed}
+            title={intl.formatMessage(errorTitle)}
+            subtitle={intl.formatMessage(errorSubtitle)}
+            closeModal={onCloseUploadingErrorModal}
+          />
+        )}
+      <DuplicatedFilesModal />
     </>
   )
 }

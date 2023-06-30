@@ -32,11 +32,7 @@ export const forceUpdate = createAsyncThunk<void, Params>(
       installUpdateResult.type ===
       rejectedAction(UpdateOsEvent.StartOsUpdateProcess)
     ) {
-      const error =
-        installUpdateResult.payload ??
-        new AppError(UpdateError.ForceUpdateError, "Error during installation")
-
-      return rejectWithValue(error)
+      return rejectWithValue(installUpdateResult.payload)
     }
 
     return

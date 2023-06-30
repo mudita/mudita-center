@@ -20,7 +20,7 @@ import { GetPathsInput } from "App/file-system/dto"
 import { uploadFile } from "App/files-manager/actions/upload-file.action"
 import {
   setUploadBlocked,
-  setUploadingFileLength,
+  setUploadingFileCount,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
 
@@ -47,6 +47,14 @@ const successGetPathResponse = new SuccessResult<string[]>(pathsMock)
 const failedGetPathResponse = Result.failed(errorMock)
 const successUploadResponse = new SuccessResult<string[]>(pathsMock)
 const failedUploadResponse = Result.failed(errorMock)
+const initialStore = {
+  device: {
+    deviceType: DeviceType.MuditaPure,
+  },
+  filesManager: {
+    files: [],
+  },
+}
 
 const getFilesPathsResponseMock: GetPathsInput = {
   filters: [
@@ -70,11 +78,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
     })
 
     test("dispatch `setUploadingState` with `State.Loaded` and `getFiles` with provided directory", async () => {
-      const mockStore = createMockStore([thunk])({
-        device: {
-          deviceType: DeviceType.MuditaPure,
-        },
-      })
+      const mockStore = createMockStore([thunk])(initialStore)
 
       const {
         meta: { requestId },
@@ -85,7 +89,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
         setUploadBlocked(true),
-        setUploadingFileLength(2),
+        setUploadingFileCount(2),
         setUploadingState(State.Loading),
         setUploadBlocked(false),
         {
@@ -121,11 +125,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
     })
 
     test("any action is dispatch", async () => {
-      const mockStore = createMockStore([thunk])({
-        device: {
-          deviceType: DeviceType.MuditaPure,
-        },
-      })
+      const mockStore = createMockStore([thunk])(initialStore)
 
       const {
         meta: { requestId },
@@ -158,11 +158,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
     })
 
     test("failed with receive from `uploadFileRequest` error", async () => {
-      const mockStore = createMockStore([thunk])({
-        device: {
-          deviceType: DeviceType.MuditaPure,
-        },
-      })
+      const mockStore = createMockStore([thunk])(initialStore)
 
       const {
         meta: { requestId },
@@ -173,7 +169,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
         setUploadBlocked(true),
-        setUploadingFileLength(2),
+        setUploadingFileCount(2),
         setUploadingState(State.Loading),
         setUploadBlocked(false),
         uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),
@@ -200,11 +196,7 @@ describe("when `getPathRequest` request return Result.failed", () => {
   })
 
   test("failed with receive from `uploadFileRequest` error", async () => {
-    const mockStore = createMockStore([thunk])({
-      device: {
-        deviceType: DeviceType.MuditaPure,
-      },
-    })
+    const mockStore = createMockStore([thunk])(initialStore)
 
     const {
       meta: { requestId },

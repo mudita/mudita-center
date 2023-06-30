@@ -3,21 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Event } from "electron"
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcEmitter } from "App/__deprecated__/common/emitters/ipc-emitter.enum"
+import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 
 export const registerAgreementStatusListener = (
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  listener: (event: any, props: any) => void
+  listener: (event: Event, status: boolean) => void
 ): void => {
-  ipcRenderer.on(IpcEmitter.DeviceAgreementStatus, listener)
+  ipcRenderer.on(DeviceIpcEvent.DeviceAgreementStatus, listener)
 }
 
 export const removeAgreementStatusListener = (
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  listener: (event: any, props: any) => void
+  listener: (event: Event, status: boolean) => void
 ): void => {
-  ipcRenderer.removeListener(IpcEmitter.DeviceAgreementStatus, listener)
+  ipcRenderer.removeListener(DeviceIpcEvent.DeviceAgreementStatus, listener)
 }

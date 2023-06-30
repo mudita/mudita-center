@@ -5,4 +5,5 @@
 
 export enum SearchEvent {
   SearchData = "SEARCH_DATA",
+  SearchDataPreview = "SEARCH_DATA_PREVIEW",
 }

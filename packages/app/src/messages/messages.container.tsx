@@ -47,7 +47,7 @@ import {
 } from "./actions"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { search } from "App/search/actions"
+import { search, searchPreview } from "App/search/actions"
 import { SearchParams } from "App/search/dto"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
@@ -73,6 +73,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   templates: state.templates.data,
   selectedItems: state.messages.selectedItems,
   searchResult: state.messages.data.searchResult,
+  searchPreviewResult: state.messages.data.searchPreviewResult,
   state: state.messages.state,
 })
 
@@ -136,6 +137,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(search(searchParams)),
+  searchMessagesForPreview: (searchParams: SearchParams) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    dispatch(searchPreview(searchParams)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

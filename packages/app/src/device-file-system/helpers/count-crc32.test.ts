@@ -4,6 +4,7 @@
  */
 
 import countCRC32 from "App/device-file-system/helpers/count-crc32"
+import mock from "mock-fs"
 import path from "path"
 import * as fs from "fs"
 
@@ -30,8 +31,21 @@ describe("countCRC32 helper", () => {
   })
 
   describe("when crc of buffer is equal to negative digit", () => {
-    const filePath = path.join(__dirname, "./-1337796450-digit.txt")
-    const buffer = fs.readFileSync(filePath) // -1337796450 as digit crc
+    let filePath: string
+    let buffer: Buffer
+    beforeAll(() => {
+      mock(
+        {
+          "-1337796450-digit.txt": "Hello!\n",
+        },
+        { createCwd: false, createTmp: false }
+      )
+      filePath = path.join(process.cwd(), "-1337796450-digit.txt")
+      buffer = fs.readFileSync(filePath) // 86b258e as hex crc
+    })
+    afterAll(() => {
+      mock.restore()
+    })
 
     test("should return hexadecimal", () => {
       const crc32 = countCRC32(buffer)
@@ -50,8 +64,21 @@ describe("countCRC32 helper", () => {
   })
 
   describe("when length of hex has less than 8 chars", () => {
-    const filePath = path.join(__dirname, "./86b258e-hex.txt")
-    const buffer = fs.readFileSync(filePath) // 86b258e as hex crc
+    let filePath: string
+    let buffer: Buffer
+    beforeAll(() => {
+      mock(
+        {
+          "86b258e-hex.txt": "123456\n",
+        },
+        { createCwd: false, createTmp: false }
+      )
+      filePath = path.join(process.cwd(), "./86b258e-hex.txt")
+      buffer = fs.readFileSync(filePath) // 86b258e as hex crc
+    })
+    afterAll(() => {
+      mock.restore()
+    })
 
     test("should return hexadecimal", () => {
       const crc32 = countCRC32(buffer)

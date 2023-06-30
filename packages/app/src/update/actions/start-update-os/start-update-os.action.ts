@@ -19,9 +19,26 @@ import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
 import { removeDownloadedOsUpdates, startOsUpdate } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { setUpdatingRequest } from "App/device/requests/set-updating.request"
+import {
+  trackOsUpdate,
+  TrackOsUpdateOptions,
+  TrackOsUpdateState,
+} from "App/analytic-data-tracker/helpers"
 
 interface Params {
   releases: OsRelease[]
+}
+
+const getErrorType = (error?: UpdateErrorServiceErrors): UpdateError => {
+  if (error === UpdateErrorServiceErrors.NotEnoughSpace) {
+    return UpdateError.NotEnoughSpace
+  }
+
+  if (error === UpdateErrorServiceErrors.OnboardingNotComplete) {
+    return UpdateError.OnboardingNotComplete
+  }
+
+  return UpdateError.UpdateOsProcess
 }
 
 export const startUpdateOs = createAsyncThunk<
@@ -36,6 +53,13 @@ export const startUpdateOs = createAsyncThunk<
     void setUpdatingRequest(true)
     let state = getState() as RootState & ReduxRootState
     const batteryLevel = state.device.data?.batteryLevel ?? 0
+    const deviceType = state.device.deviceType
+
+    if (deviceType === null) {
+      return rejectWithValue(
+        new AppError(UpdateError.UpdateOsProcess, "deviceType is a null")
+      )
+    }
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
       return rejectWithValue(
@@ -50,6 +74,18 @@ export const startUpdateOs = createAsyncThunk<
 
     for (const release of releases) {
       state = getState() as RootState & ReduxRootState
+
+      const trackOsUpdateOptions: Omit<TrackOsUpdateOptions, "state"> = {
+        deviceType,
+        fromOsVersion: state.device.data?.osVersion,
+        toOsVersion: release.version,
+      }
+
+      void trackOsUpdate({
+        ...trackOsUpdateOptions,
+        state: TrackOsUpdateState.Start,
+      })
+
       dispatch(
         setStateForInstalledRelease({
           state: ReleaseProcessState.InProgress,
@@ -63,16 +99,23 @@ export const startUpdateOs = createAsyncThunk<
         if (!result.ok) {
           void setUpdatingRequest(false)
 
-          const errorType =
-            result.error?.type === UpdateErrorServiceErrors.NotEnoughSpace
-              ? UpdateError.NotEnoughSpace
-              : UpdateError.UpdateOsProcess
+          const errorType = getErrorType(result.error?.type)
+
+          void trackOsUpdate({
+            ...trackOsUpdateOptions,
+            state: TrackOsUpdateState.Fail,
+          })
 
           return rejectWithValue(
             new AppError(errorType, "Device updating process failed")
           )
         }
       }
+
+      void trackOsUpdate({
+        ...trackOsUpdateOptions,
+        state: TrackOsUpdateState.Success,
+      })
 
       dispatch(
         setStateForInstalledRelease({

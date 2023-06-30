@@ -14,11 +14,14 @@ import FilesManager from "App/files-manager/components/files-manager/files-manag
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-files-modals/upload-files-modals-test-ids.enum"
+import { DeleteFilesModalsTestIds } from "App/files-manager/components/delete-files-modals/delete-files-modals-test-ids.enum"
+import { initialState as filesManagerInitialState } from "App/files-manager/reducers/files-manager.reducer"
 
 type Props = ComponentProps<typeof FilesManager>
 const defaultProps: Props = {
   error: null,
-  uploadingFileLength: 0,
+  uploadingFileCount: 0,
+  deletingFileCount: 0,
   memorySpace: {
     reservedSpace: 62914560,
     usedUserSpace: 104857600,
@@ -40,12 +43,17 @@ const defaultProps: Props = {
   resetDeletingState: jest.fn(),
   resetUploadingState: jest.fn(),
   uploadBlocked: false,
+  setDeletingFileCount: jest.fn(),
+  abortPendingUpload: jest.fn(),
+  continuePendingUpload: jest.fn(),
+  pendingFilesCount: 0,
 }
 
 const defaultState = {
   device: {
     deviceType: DeviceType.MuditaPure,
   },
+  filesManager: { ...filesManagerInitialState },
 } as unknown as ReduxRootState
 
 const render = (extraProps?: Partial<Props>, state = defaultState) => {
@@ -68,6 +76,7 @@ describe("Files Manager component", () => {
       device: {
         deviceType: DeviceType.MuditaPure,
       },
+      filesManager: { ...filesManagerInitialState },
     } as ReduxRootState)
     expect(queryByTestId(FilesManagerTestIds.Container)).toBeInTheDocument()
   })
@@ -76,6 +85,7 @@ describe("Files Manager component", () => {
       device: {
         deviceType: DeviceType.MuditaHarmony,
       },
+      filesManager: { ...filesManagerInitialState },
     } as ReduxRootState)
     expect(queryByTestId(FilesManagerTestIds.Container)).toBeInTheDocument()
   })
@@ -89,6 +99,18 @@ describe("Uploading modal", () => {
 
     expect(
       queryByTestId(UploadFilesModalsTestIds.LoadingModal)
+    ).toBeInTheDocument()
+  })
+})
+
+describe("Deleting modal", () => {
+  test("renders LoaderModal if `uploading` is equal to `State.Loading`", () => {
+    const { queryByTestId } = render({
+      deleting: State.Loading,
+    })
+
+    expect(
+      queryByTestId(DeleteFilesModalsTestIds.LoadingModal)
     ).toBeInTheDocument()
   })
 })

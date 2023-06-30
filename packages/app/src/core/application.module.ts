@@ -50,7 +50,6 @@ export class ApplicationModule {
     DeviceInfoModule,
     FileSystemModule,
     IndexStorageModule,
-    DataSyncModule,
     OutboxModule,
     AnalyticDataTrackerModule,
     SettingsModule,
@@ -67,6 +66,7 @@ export class ApplicationModule {
     DeviceModule,
     DeviceManagerModule,
   ]
+  public lateModules: Module[] = [DataSyncModule]
 
   private deviceLogger: DeviceLogger = LoggerFactory.getInstance()
   private index = new IndexFactory().create()
@@ -75,9 +75,15 @@ export class ApplicationModule {
   private eventEmitter = new EventEmitter()
   private fileSystem = new FileSystemService()
 
+  private dataStorageInitializer: DataIndexInitializer
+  private observerInitializer: ObserverInitializer
+  private controllerInitializer: ControllerInitializer
+  private initializeInitializer: InitializeInitializer
+
   private deviceManager = new DeviceManager(
     new DeviceResolverService(this.ipc, this.eventEmitter),
-    this.ipc
+    this.ipc,
+    this.eventEmitter
   )
 
   constructor(private ipc: MainProcessIpc) {
@@ -90,26 +96,32 @@ export class ApplicationModule {
     this.deviceLogger.registerLogger(new PureLogger())
     this.deviceLogger.toggleLogs(enabled)
 
-    const dataStorageInitializer = new DataIndexInitializer(this.index)
-    const observerInitializer = new ObserverInitializer()
-    const controllerInitializer = new ControllerInitializer()
-    const initializeInitializer = new InitializeInitializer()
+    this.dataStorageInitializer = new DataIndexInitializer(this.index)
+    this.observerInitializer = new ObserverInitializer()
+    this.controllerInitializer = new ControllerInitializer()
+    this.initializeInitializer = new InitializeInitializer()
 
-    this.modules.forEach((module) => {
-      const instance = new module(
-        this.index,
-        this.deviceManager,
-        this.keyStorage,
-        this.logger,
-        this.ipc,
-        this.eventEmitter,
-        this.fileSystem
-      )
+    this.modules.forEach(this.initModule)
+  }
 
-      dataStorageInitializer.initialize(instance.models)
-      initializeInitializer.initialize(instance.initializers)
-      observerInitializer.initialize(instance.observers)
-      controllerInitializer.initialize(instance.controllers)
-    })
+  lateInitialization(): void {
+    this.lateModules.forEach(this.initModule)
+  }
+
+  private initModule = (module: Module): void => {
+    const instance = new module(
+      this.index,
+      this.deviceManager,
+      this.keyStorage,
+      this.logger,
+      this.ipc,
+      this.eventEmitter,
+      this.fileSystem
+    )
+
+    this.dataStorageInitializer.initialize(instance.models)
+    this.initializeInitializer.initialize(instance.initializers)
+    this.observerInitializer.initialize(instance.observers)
+    this.controllerInitializer.initialize(instance.controllers)
   }
 }

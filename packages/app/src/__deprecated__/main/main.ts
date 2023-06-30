@@ -99,6 +99,8 @@ const metadataStore: MetadataStore = createMetadataStore()
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 
+const gotTheLock = app.requestSingleInstanceLock()
+
 // Fetch and log all errors
 process.on("uncaughtException", (error) => {
   logger.error(error)
@@ -162,6 +164,7 @@ const createWindow = async () => {
 
   win.on("closed", () => {
     win = null
+    app.exit()
   })
 
   new MetadataInitializer(metadataStore).init()
@@ -171,7 +174,7 @@ const createWindow = async () => {
   const settingsService = createSettingsService()
   settingsService.init()
 
-  new ApplicationModule(ipcMain)
+  const appModules = new ApplicationModule(ipcMain)
 
   registerPureOsDownloadListener(registerDownloadListener)
   registerOsUpdateAlreadyDownloadedCheck()
@@ -219,31 +222,40 @@ const createWindow = async () => {
     shell.openExternal(href)
   })
 
-  if (!productionEnvironment) {
+  if (productionEnvironment) {
+    win.webContents.once("dom-ready", () => {
+      appModules.lateInitialization()
+    })
+  } else {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       win!.webContents.openDevTools()
+      appModules.lateInitialization()
     })
   }
 
   logger.updateMetadata()
 }
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.on("ready", createWindow)
-
-app.on("window-all-closed", () => {
+if (!gotTheLock) {
   app.quit()
-})
+} else {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  app.on("ready", createWindow)
 
-app.on("activate", () => {
-  if (win === null) {
-    void createWindow()
-  }
-})
+  app.on("window-all-closed", () => {
+    app.quit()
+  })
+
+  app.on("activate", () => {
+    if (win === null) {
+      void createWindow()
+    }
+  })
+}
 
 ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   const title = "Mudita Center - Help"

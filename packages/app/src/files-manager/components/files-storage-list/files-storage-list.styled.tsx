@@ -15,7 +15,6 @@ import Table, {
   Row,
   Labels,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 export const FilesTable = styled(Table)`
   flex: 1;
@@ -23,6 +22,7 @@ export const FilesTable = styled(Table)`
   overflow: initial !important;
   --columnsTemplate: 8.8rem 1fr 15.2rem 15.2rem auto;
   --columnsGap: 0;
+  height: 100%;
 `
 export const FirstCol = styled(Col)`
   margin-left: 3.2rem;
@@ -33,13 +33,22 @@ export const LastEmptyCol = styled(Col)`
 export const FileIcon = styled(Avatar)`
   margin-left: 3.2rem;
 `
-export const FileIconHarmony = styled(Avatar)`
-  margin-left: 3.2rem;
-  background-color: ${backgroundColor("row")};
-`
+
 export const FilesStorageContainer = styled.div`
   height: 100%;
   z-index: 0;
+`
+export const TableWrapper = styled.div`
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+`
+export const Ellipsis = styled.div`
+  display: table-cell;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
 `
 
 export const Actions = styled.div`

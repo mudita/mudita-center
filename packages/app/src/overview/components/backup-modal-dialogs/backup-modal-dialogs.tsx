@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useRef } from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
@@ -22,6 +22,11 @@ import {
 } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
+import Tooltip from "App/__deprecated__/renderer/components/core/tooltip/tooltip.component"
+import {
+  TooltipContent,
+  TooltipContentType,
+} from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/tooltip-content.style"
 
 const messages = defineMessages({
   backupModalHeaderTitle: {
@@ -79,6 +84,16 @@ const ModalContent = styled.div`
   p:first-of-type {
     margin-top: 0;
   }
+  p:last-of-type[data-for="file-path-tooltip"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+`
+const StyledTooltip = styled(Tooltip)`
+  word-break: break-all;
+  max-width: 33.2rem;
 `
 
 const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
@@ -234,29 +249,58 @@ export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
   description,
   ...props
 }) => {
+  Tooltip.rebuild()
+  const descRef = useRef<HTMLElement>(null)
+  const isEllipsisActive = ({ current }: React.RefObject<HTMLElement>) => {
+    if (current) {
+      return current.offsetWidth < current.scrollWidth
+    }
+    return false
+  }
   return (
-    <Modal
-      closeButton={false}
-      actionButtonLabel={intl.formatMessage(
-        messages.backupSuccessModalMainButton
-      )}
-      {...props}
-    >
-      <RoundIconWrapper>
-        <Icon type={IconType.CheckCircle} width={3} />
-      </RoundIconWrapper>
-      <ModalMainText
-        displayStyle={TextDisplayStyle.Headline4}
-        message={messages.backupSuccessModalTitle}
-      />
-      <ModalText
-        displayStyle={TextDisplayStyle.Paragraph4}
-        color="secondary"
-        message={messages.backupSuccessModalDescription}
-      />
-      <ModalText displayStyle={TextDisplayStyle.Paragraph3}>
-        {description}
-      </ModalText>
-    </Modal>
+    <>
+      <Modal
+        closeButton={false}
+        actionButtonLabel={intl.formatMessage(
+          messages.backupSuccessModalMainButton
+        )}
+        {...props}
+      >
+        <RoundIconWrapper>
+          <Icon type={IconType.CheckCircle} width={3} />
+        </RoundIconWrapper>
+        <ModalMainText
+          displayStyle={TextDisplayStyle.Headline4}
+          message={messages.backupSuccessModalTitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
+          message={messages.backupSuccessModalDescription}
+        />
+        <ModalText
+          ref={descRef}
+          data-tip
+          data-for="file-path-tooltip"
+          displayStyle={TextDisplayStyle.Paragraph3}
+        >
+          {description}
+        </ModalText>
+      </Modal>
+      <StyledTooltip
+        disable={!isEllipsisActive(descRef)}
+        arrowColor="transparent"
+        backgroundColor="transparent"
+        place="bottom"
+        effect="solid"
+        id="file-path-tooltip"
+      >
+        <TooltipContent type={TooltipContentType.secondary}>
+          <ModalText displayStyle={TextDisplayStyle.Paragraph3}>
+            {description}
+          </ModalText>
+        </TooltipContent>
+      </StyledTooltip>
+    </>
   )
 }

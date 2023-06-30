@@ -28,7 +28,7 @@ export interface PureOverviewProps {
   readonly pureOsBackupLocation: string
   readonly updatingState: State
   readonly caseColour: CaseColor
-  readonly lastBackupDate: Date
+  readonly lastBackupDate: Date | undefined
   readonly backupDeviceState: State
   readonly restoreDeviceState: State
   readonly forceUpdateState: State
@@ -64,4 +64,5 @@ export interface PureOverviewProps {
   readonly clearUpdateState: () => void
   readonly abortDownload: () => void
   forceUpdate: (releases: OsRelease[]) => void
+  readonly backupActionDisabled: boolean
 }

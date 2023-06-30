@@ -154,7 +154,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     closeSidebar()
     setNewContact(defaultContact)
     setShowSearchResults(false)
-    setSearchValue("")
+    setSearchPreviewValue("")
   }
 
   const cancelOrCloseContactHandler = () => {
@@ -172,13 +172,20 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       const { payload } = await delayResponse(addNewContact(contact))
 
       if (payload) {
-        setFormErrors([
-          ...formErrors,
-          {
+        let newError: FormError
+        if (payload.message === "Create contact: Empty primary phone number") {
+          newError = {
+            field: "primaryPhoneNumber",
+            error: "component.formErrorRequiredPrimaryPhone",
+          }
+        } else {
+          newError = {
             field: "primaryPhoneNumber",
             error: "component.formErrorNumberUnique",
-          },
-        ])
+          }
+        }
+
+        setFormErrors([...formErrors, newError])
         await closeModal()
         return
       }
@@ -517,23 +524,23 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   }
 
   const [showSearchResults, setShowSearchResults] = useState<boolean>(false)
+  const [searchPreviewValue, setSearchPreviewValue] = useState<string>("")
   const [searchValue, setSearchValue] = useState<string>("")
 
   const handleContactSelect = (contact: Contact) => {
     setSelectedContact(contact)
     openSidebar(contact)
-    setShowSearchResults(false)
   }
 
   useEffect(() => {
-    if (searchValue === "") {
+    if (searchPreviewValue === "") {
       setShowSearchResults(false)
     }
-  }, [searchValue])
+  }, [searchPreviewValue])
 
   useEffect(() => {
     if (detailsEnabled === true) {
-      setSearchValue("")
+      setSearchPreviewValue("")
     }
   }, [detailsEnabled])
 
@@ -541,10 +548,14 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     setShowSearchResults(true)
     setEditedContact(undefined)
     setNewContact(undefined)
+    setSearchValue(searchPreviewValue)
   }
 
   const results = flatList.filter((item) =>
     contactsFilter(item, searchValue || "")
+  )
+  const resultsPreview = flatList.filter((item) =>
+    contactsFilter(item, searchPreviewValue || "")
   )
 
   const handleExport = async (ids: string[]): Promise<void> => {
@@ -612,8 +623,9 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           editMode={Boolean(editedContact || newContact)}
           onSearchEnterClick={openSearchResults}
           searchValue={searchValue}
-          onSearchValueChange={setSearchValue}
-          results={results}
+          searchPreviewValue={searchPreviewValue}
+          onSearchPreviewValueChange={setSearchPreviewValue}
+          results={resultsPreview}
           showSearchResults={showSearchResults}
           onExport={handleExport}
         />
