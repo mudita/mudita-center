@@ -43,7 +43,6 @@ interface Props {
   diskSpaceCategories: DiskSpaceCategory[]
   usedMemory: number
   totalMemorySpace: number
-  uploading: boolean
 }
 
 const memoryToStackedBarChartData = (
@@ -116,8 +115,4 @@ const FilesSummary: FunctionComponent<Props> = ({
   )
 }
 
-const shouldNotRerender = (_: Props, newProps: Props): boolean => {
-  return newProps.uploading
-}
-
-export default React.memo(FilesSummary, shouldNotRerender)
+export default FilesSummary

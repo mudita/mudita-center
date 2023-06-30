@@ -41,7 +41,6 @@ storiesOf("Views|Files Manager/Files Summary", module).add(
           usedMemory={62914560}
           totalMemorySpace={104857600}
           diskSpaceCategories={fakeData}
-          uploading={false}
         />
       </Container>
     )

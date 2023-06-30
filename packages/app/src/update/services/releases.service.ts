@@ -19,10 +19,6 @@ import {
 import { GithubReleasePresenter } from "App/update/presenters"
 import { RELEASE_SPACE } from "App/update/constants/release-space.constant"
 
-const releaseSpace =
-  (process.env.FEATURE_TOGGLE_RELEASE_ENVIRONMENT as OsEnvironment) ||
-  OsEnvironment.Production
-
 export class ReleaseService {
   constructor(private client: ReturnType<typeof createClient>) {}
 

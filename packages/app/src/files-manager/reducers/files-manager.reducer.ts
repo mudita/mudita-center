@@ -102,13 +102,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           error: action.payload as AppError,
         }
       })
-      .addCase(continuePendingUpload.rejected, (state, action) => {
-        return {
-          ...state,
-          uploading: State.Failed,
-          error: action.payload as AppError,
-        }
-      })
       .addCase(selectAllItems.fulfilled, (state, action) => {
         return {
           ...state,
