@@ -72,9 +72,6 @@ describe("`ModalsManager` component", () => {
       expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
       ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(ErrorConnectingModalTestIds.Container)
-      ).not.toBeInTheDocument()
     })
   })
 
