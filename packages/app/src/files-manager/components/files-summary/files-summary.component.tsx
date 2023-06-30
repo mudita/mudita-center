@@ -23,6 +23,9 @@ import StackedBarChart, {
 } from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
 import { convertBytes } from "App/core/helpers/convert-bytes/convert-bytes"
+import { DiskSpaceCategoryType } from "App/files-manager/constants/files-manager.enum"
+
+const otherCategoryLabel = DiskSpaceCategoryType.OtherSpace
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -62,6 +65,19 @@ const FilesSummary: FunctionComponent<Props> = ({
 }) => {
   const usedMemoryPercent = Math.floor((usedMemory / totalMemorySpace) * 100)
 
+  const otherCategory = React.useMemo(() => {
+    const otherCategory = diskSpaceCategories.find(
+      (category) => category.type === otherCategoryLabel
+    )
+    return otherCategory
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const diskSpaceCategoriesToDisplay = diskSpaceCategories.map((category) =>
+    category.type === otherCategory?.type ? otherCategory : category
+  )
+
   return (
     <FilesSummaryContainer>
       <FilesSummaryHeading
@@ -70,9 +86,11 @@ const FilesSummary: FunctionComponent<Props> = ({
         message={messages.summaryTitle}
       />
       <FilesSummaryWrapper data-testid={FilesSummaryTestIds.Wrapper}>
-        {diskSpaceCategories.map((diskSpaceCategory, index: number) => (
-          <FilesSummaryItem {...diskSpaceCategory} key={index} />
-        ))}
+        {diskSpaceCategoriesToDisplay.map(
+          (diskSpaceCategory, index: number) => (
+            <FilesSummaryItem {...diskSpaceCategory} key={index} />
+          )
+        )}
       </FilesSummaryWrapper>
       <StackedBarChart
         displayStyle={DisplayStyle.Thick}

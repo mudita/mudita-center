@@ -17,4 +17,5 @@ export enum ContactsEvent {
   SelectAllItems = "CONTACTS_SELECT_ALL_ITEMS",
   ResetAllItems = "CONTACTS_RESET_ALL_ITEMS",
   ToggleItem = "CONTACTS_TOGGLE_ITEM",
+  CloseWindow = "CLOSE_WINDOW",
 }

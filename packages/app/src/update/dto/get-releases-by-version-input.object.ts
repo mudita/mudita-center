@@ -8,4 +8,5 @@ import { Product } from "App/update/constants"
 export interface GetReleasesByVersionsInput {
   product: Product
   versions: string[]
+  deviceSerialNumber?: string
 }

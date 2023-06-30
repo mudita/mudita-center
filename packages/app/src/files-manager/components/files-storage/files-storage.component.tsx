@@ -66,7 +66,6 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
         allItemsSelected={allItemsSelected}
         searchValue={searchValue}
         onSearchValueChange={onSearchValueChange}
-        filesCount={files.length}
         deviceType={deviceType}
       />
       <FilesStorageList
@@ -77,6 +76,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
         onDelete={onDeleteClick}
         state={state}
         noFoundFiles={noFoundFiles}
+        hideCheckbox={searchValue !== ""}
       />
     </>
   )

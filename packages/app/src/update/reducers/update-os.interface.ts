@@ -11,16 +11,18 @@ import {
   UpdateError,
 } from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
+import { CheckForUpdateState } from "../constants/check-for-update-state.constant"
 
 export interface UpdateOsState {
   updateOsState: State
-  checkForUpdateState: State
+  checkForUpdateState: CheckForUpdateState
   downloadState: DownloadState
   forceUpdateState: State
   silentCheckForUpdate: SilentCheckForUpdateState
   error: AppError<UpdateError> | null
   needsForceUpdate: boolean
   checkedForForceUpdateNeed: boolean
+  deviceHasBeenDetachedDuringDownload: boolean
   data: {
     allReleases: OsRelease[] | null
     availableReleasesForUpdate: OsRelease[] | null

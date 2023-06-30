@@ -22,6 +22,7 @@ import {
   pendingAction,
   rejectedAction,
 } from "App/__deprecated__/renderer/store"
+import { CheckForUpdateState } from "../constants/check-for-update-state.constant"
 
 const exampleError = new AppError(
   UpdateError.UpdateOsProcess,
@@ -54,6 +55,7 @@ test("empty event returns initial state", () => {
         "downloadedProcessedReleases": null,
         "updateProcessedReleases": null,
       },
+      "deviceHasBeenDetachedDuringDownload": false,
       "downloadState": 0,
       "error": null,
       "forceUpdateState": 0,
@@ -346,7 +348,7 @@ describe("downloadUpdate", () => {
       updateOsReducer(
         {
           ...initialState,
-          checkForUpdateState: State.Loaded,
+          checkForUpdateState: CheckForUpdateState.Loaded,
           error: exampleError,
         },
         {
@@ -566,6 +568,7 @@ describe("closeUpdateFlow", () => {
       )
     ).toEqual({
       ...initialState,
+      checkForUpdateState: CheckForUpdateState.Initial,
       data,
     })
   })
@@ -583,6 +586,7 @@ describe("closeUpdateFlow", () => {
       )
     ).toEqual({
       ...initialState,
+      checkForUpdateState: CheckForUpdateState.Initial,
       silentCheckForUpdate: SilentCheckForUpdateState.Skipped,
     })
   })

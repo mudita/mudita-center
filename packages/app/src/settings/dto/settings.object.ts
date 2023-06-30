@@ -6,7 +6,7 @@
 import { ConversionFormat, Convert } from "App/settings/constants"
 
 export interface Settings {
-  applicationId: string
+  applicationId: string | null
   conversionFormat: ConversionFormat
   convert: Convert
   osBackupLocation: string
@@ -15,6 +15,7 @@ export interface Settings {
   ignoredCrashDumps: string[]
   diagnosticSentTimestamp: number
   collectingData: boolean | undefined
+  privacyPolicyAccepted: boolean
   neverConnected: boolean
   tray: boolean
   nonStandardAudioFilesConversion: boolean

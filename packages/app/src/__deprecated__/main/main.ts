@@ -80,6 +80,7 @@ import {
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
+import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -122,7 +123,7 @@ const installExtensions = async () => {
 }
 
 const productionEnvironment = process.env.NODE_ENV === "production"
-const commonWindowOptions = {
+const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
   fullscreen: false,
   useContentSize: true,
@@ -131,6 +132,7 @@ const commonWindowOptions = {
     webSecurity: false,
     devTools: !productionEnvironment,
   },
+  autoHideMenuBar: true,
 }
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
@@ -194,6 +196,7 @@ const createWindow = async () => {
   registerMetadataAllGetValueListener()
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
+  registerExternalUsageDevice()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
@@ -342,6 +345,10 @@ const createOpenWindowListener = (
   })
 }
 
+ipcMain.answerRenderer(AboutActions.PolicyOpenBrowser, () =>
+  shell.openExternal("https://mudita.com/legal/privacy-policy/webpage/")
+)
+
 createOpenWindowListener(
   AboutActions.LicenseOpenWindow,
   Mode.License,
@@ -413,6 +420,10 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
       )
 
       googleAuthWindow.on("close", () => {
+        void ipcMain.callRenderer(
+          win as BrowserWindow,
+          GoogleAuthActions.CloseWindow
+        )
         googleAuthWindow = null
         killAuthServer()
       })
@@ -473,6 +484,14 @@ ipcMain.answerRenderer(
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         outlookAuthWindow.loadURL(authorizationUrl)
+
+        outlookAuthWindow.on("close", () => {
+          void ipcMain.callRenderer(
+            win as BrowserWindow,
+            OutlookAuthActions.CloseWindow
+          )
+          outlookAuthWindow = null
+        })
 
         const {
           session: { webRequest },

@@ -7,33 +7,58 @@ import { PortInfo } from "serialport"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
+  MuditaKompaktDescriptor,
 } from "../../device/descriptors"
 
 export class PortInfoValidator {
-  static eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
+  static eligibleDevices = [
+    MuditaPureDescriptor,
+    MuditaHarmonyDescriptor,
+    MuditaKompaktDescriptor,
+  ]
 
   static isVendorIdValid(portInfo: Partial<PortInfo>): boolean {
     const id = portInfo.vendorId?.toLowerCase() ?? ""
-    return Boolean(
-      PortInfoValidator.eligibleDevices.find((device) =>
-        device.vendorIds.map((item) => item.toLowerCase()).includes(id)
-      )
+
+    const result = Boolean(
+      PortInfoValidator.eligibleDevices.find((device) => {
+        const vendorIds = device.vendorIds.map((item) =>
+          item.toString().toLowerCase()
+        )
+
+        return vendorIds.includes(id)
+      })
     )
+
+    return result
   }
 
   static isProductIdValid(portInfo: Partial<PortInfo>): boolean {
     const id = portInfo.productId?.toLowerCase() ?? ""
     return Boolean(
       PortInfoValidator.eligibleDevices.find((device) =>
-        device.productIds.map((item) => item.toLowerCase()).includes(id)
+        device.productIds
+          .map((item) => item.toString().toLowerCase())
+          .includes(id)
       )
     )
   }
 
   static isPortInfoMatch(portInfo: Partial<PortInfo>): boolean {
-    return (
-      PortInfoValidator.isVendorIdValid(portInfo) &&
-      PortInfoValidator.isProductIdValid(portInfo)
+    const vendorId = portInfo.vendorId?.toLowerCase() ?? ""
+    const productId = portInfo.productId?.toLowerCase() ?? ""
+
+    return Boolean(
+      PortInfoValidator.eligibleDevices.find(({ vendorIds, productIds }) => {
+        return (
+          vendorIds
+            .map((item) => item.toString().toLowerCase())
+            .includes(vendorId) &&
+          productIds
+            .map((item) => item.toString().toLowerCase())
+            .includes(productId)
+        )
+      })
     )
   }
 }

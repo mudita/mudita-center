@@ -26,7 +26,10 @@ import {
   LoadStorageInfoAction,
   LoadStorageInfoRejectedAction,
 } from "App/device/reducers/device.interface"
-import { setAgreementStatus } from "App/device/actions/base.action"
+import {
+  setAgreementStatus,
+  setCriticalBatteryLevel,
+} from "App/device/actions/base.action"
 
 export const initialState: DeviceState = {
   deviceType: null,
@@ -37,6 +40,7 @@ export const initialState: DeviceState = {
     unlocked: null,
     loaded: false,
     agreementAccepted: true,
+    criticalBatteryLevel: false,
   },
   state: ConnectionState.Empty,
   error: null,
@@ -233,7 +237,6 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
-
       // Updates loading data state
       .addCase(pendingAction(DeviceEvent.Loading), (state) => {
         return {
@@ -293,6 +296,10 @@ export const deviceReducer = createReducer<DeviceState>(
 
       .addCase(setAgreementStatus, (state, action) => {
         state.status.agreementAccepted = action.payload
+      })
+
+      .addCase(setCriticalBatteryLevel, (state, action) => {
+        state.status.criticalBatteryLevel = action.payload
       })
   }
 )

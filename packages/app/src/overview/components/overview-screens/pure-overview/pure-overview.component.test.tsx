@@ -18,6 +18,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 // TODO [mw] add integration tests for update process - scope of the next PR (after all the changes from CP-1681 are done)
 
@@ -65,7 +66,7 @@ const defaultProps: Props = {
   allReleases: [],
   checkForUpdate: jest.fn(),
   updatingState: State.Initial,
-  checkingForUpdateState: State.Initial,
+  checkingForUpdateState: CheckForUpdateState.Initial,
   downloadingState: DownloadState.Initial,
   silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
   clearUpdateState: jest.fn(),

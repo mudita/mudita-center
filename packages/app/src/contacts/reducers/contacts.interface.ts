@@ -7,26 +7,8 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
 
 export type ContactID = string
-export type Contact =
-  | ContactWithPhoneNumber
-  | ContactWithEmail
-  | ContactWithFirstName
-  | ContactWithLastName
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
-export type NewContact = Omit<Contact, "id">
-export type ContactsState = PhoneContacts &
-  Pick<StoreData, "resultState"> & {
-    error: Error | string | null
-    selectedItems: {
-      rows: string[]
-      allItemsSelected: boolean
-    }
-  }
-export type Store = StoreData & StoreSelectors
 
-export interface BaseContactModel {
+export interface Contact {
   id: ContactID
   firstName?: string
   lastName?: string
@@ -42,25 +24,20 @@ export interface BaseContactModel {
   secondAddressLine?: string
 }
 
-export interface ContactWithID extends BaseContactModel {
-  id: ContactID
-}
-
-export interface ContactWithPhoneNumber extends ContactWithID {
-  primaryPhoneNumber: string
-}
-
-export interface ContactWithEmail extends ContactWithID {
-  email: string
-}
-
-export interface ContactWithFirstName extends ContactWithID {
-  firstName: string
-}
-
-export interface ContactWithLastName extends ContactWithID {
-  lastName: string
-}
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
+export type NewContact = Omit<Contact, "id">
+export type ContactsState = PhoneContacts &
+  Pick<StoreData, "resultState"> & {
+    error: Error | string | null
+    selectedItems: {
+      rows: string[]
+      allItemsSelected: boolean
+    }
+    deletedCount: number
+  }
+export type Store = StoreData & StoreSelectors
 
 export interface PhoneContacts {
   collection: ContactID[]

@@ -3,15 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { State } from "App/core/constants"
 import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
 import { SilentCheckForUpdateState } from "App/update/constants"
 import { RejectableThunk } from "App/__deprecated__/renderer/store"
 import { useEffect, useState } from "react"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 interface Params {
   silentCheckForUpdateState: SilentCheckForUpdateState
-  checkingForUpdateState: State
+  checkingForUpdateState: CheckForUpdateState
   checkForUpdate: () => RejectableThunk
   forceUpdateNeeded: boolean
   osVersion: string | undefined
@@ -59,25 +59,24 @@ export const useUpdateFlowState = ({
     if (forceUpdateNeeded) {
       return
     }
-
     if (
+      (silentCheckForUpdateState === SilentCheckForUpdateState.Skipped &&
+        checkingForUpdateState === CheckForUpdateState.Initial) ||
       silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
-      checkingForUpdateState === State.Failed
+      checkingForUpdateState === CheckForUpdateState.Failed ||
+      checkingForUpdateState === CheckForUpdateState.PerformedWithFailure
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
-    }
-
-    if (silentCheckForUpdateState === SilentCheckForUpdateState.Loading) {
+    } else if (
+      silentCheckForUpdateState === SilentCheckForUpdateState.Loading
+    ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.SilentCheckLoading)
-    }
-
-    if (checkingForUpdateState === State.Loading) {
+    } else if (checkingForUpdateState === CheckForUpdateState.Loading) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
-    }
-
-    if (
+    } else if (
       silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
-      checkingForUpdateState === State.Loaded
+      checkingForUpdateState === CheckForUpdateState.Loaded ||
+      checkingForUpdateState === CheckForUpdateState.Performed
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
     }

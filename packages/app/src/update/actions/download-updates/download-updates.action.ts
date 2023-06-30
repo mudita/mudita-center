@@ -4,6 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { trackOsDownload } from "App/analytic-data-tracker/helpers/track-os-download"
 import { AppError } from "App/core/errors"
 import { setStateForDownloadedRelease } from "App/update/actions/base.action"
 import {
@@ -21,6 +22,7 @@ import {
   osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { RELEASE_SPACE } from "App/update/constants/release-space.constant"
 
 interface Params {
   releases: OsRelease[]
@@ -35,8 +37,8 @@ export const downloadUpdates = createAsyncThunk<
 >(
   UpdateOsEvent.DownloadUpdate,
   async ({ releases }, { getState, rejectWithValue, dispatch }) => {
-    const { device } = getState() as RootState & ReduxRootState
-    const batteryLevel = device.data?.batteryLevel ?? 0
+    let state = (await getState()) as RootState & ReduxRootState
+    const batteryLevel = state.device.data?.batteryLevel ?? 0
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
       return rejectWithValue(
@@ -48,6 +50,16 @@ export const downloadUpdates = createAsyncThunk<
     }
 
     for (const release of releases) {
+      state = (await getState()) as RootState & ReduxRootState
+
+      if (state.update.deviceHasBeenDetachedDuringDownload) {
+        return rejectWithValue(
+          new AppError(
+            UpdateError.UnexpectedDownloadError,
+            "Unexpected error while downloading update"
+          )
+        )
+      }
       dispatch(
         setStateForDownloadedRelease({
           state: ReleaseProcessState.InProgress,
@@ -65,6 +77,15 @@ export const downloadUpdates = createAsyncThunk<
           fileName: release.file.name,
         })
 
+        const latest = release === releases[releases.length - 1]
+
+        await trackOsDownload({
+          environment: RELEASE_SPACE,
+          version: release.version,
+          product: release.product,
+          latest,
+        })
+
         if (isDownloadRequestCanelledByUser(result)) {
           return rejectWithValue(
             new AppError(
@@ -75,6 +96,16 @@ export const downloadUpdates = createAsyncThunk<
         }
 
         if (!result.ok) {
+          return rejectWithValue(
+            new AppError(
+              UpdateError.UnexpectedDownloadError,
+              "Unexpected error while downloading update"
+            )
+          )
+        }
+        state = (await getState()) as RootState & ReduxRootState
+
+        if (state.update.deviceHasBeenDetachedDuringDownload) {
           return rejectWithValue(
             new AppError(
               UpdateError.UnexpectedDownloadError,

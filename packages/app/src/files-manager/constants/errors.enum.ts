@@ -9,4 +9,6 @@ export enum FilesManagerError {
   DeleteFiles = "FILES_MANAGER_DELETE_FILES_ERROR",
   NotEnoughSpace = "FILES_MANGER_NOT_ENOUGH_SPACE_ERROR",
   UploadDuplicates = "FILES_MANGER_UPLOAD_DUPLICATES",
+  UnsupportedFileFormat = "FILES_MANGER_UNSUPPORTED_FILE_FORMAT",
+  UnsupportedFileSize = "FILES_MANAGER_UNSUPPORTED_FILE_SIZE_ERROR",
 }

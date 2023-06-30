@@ -3,4 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./collecting-data-modal.container"
+export enum CriticalBatteryLevelModalTestIds {
+  Container = "critical-battery-modal-container",
+}

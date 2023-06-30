@@ -11,10 +11,10 @@ import {
   selectAllItems,
   toggleItem,
   getFiles,
-  uploadFile,
   resetDeletingState,
   resetUploadingState,
   setDeletingFileCount,
+  resetUploadingStateAfterSuccess,
 } from "App/files-manager/actions"
 import { deleteFiles } from "App/files-manager/actions/delete-files.action"
 import { abortPendingUpload } from "./actions/abort-pending-upload.action"
@@ -33,7 +33,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   selectedItems: state.filesManager.selectedItems.rows,
   allItemsSelected:
     state.filesManager.selectedItems.rows.length ===
-    state.filesManager.files.length,
+    (state.filesManager.files?.length ?? 0),
   uploadBlocked: state.filesManager.uploadBlocked,
   pendingFilesCount: state.filesManager.uploadPendingFiles.length,
 })
@@ -43,10 +43,10 @@ const mapDispatchToProps = {
   resetAllItems,
   selectAllItems,
   toggleItem,
-  uploadFile,
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
+  resetUploadingStateAfterSuccess,
   setDeletingFileCount,
   abortPendingUpload,
   continuePendingUpload,

@@ -9,7 +9,7 @@ import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-
 import { TrackEvent } from "App/analytic-data-tracker/types"
 
 export interface AnalyticDataTrackerOptions {
-  _id: string
+  _id: string | null
   siteId: number
   apiUrl: string
   trackingEnabled?: boolean
@@ -23,10 +23,11 @@ export interface VisitorMetadata {
 
 export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   private trackingEnabled: boolean
+  private externalUsageDevice: boolean
   private visitorMetadata: VisitorMetadata = {}
   private readonly siteId: number
   private readonly apiUrl: string
-  private readonly _id: string
+  private readonly _id: string | null
 
   constructor(
     options: AnalyticDataTrackerOptions,
@@ -37,9 +38,16 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     this.siteId = options.siteId
     this.apiUrl = options.apiUrl
     this.trackingEnabled = options.trackingEnabled ?? true
+    this.externalUsageDevice = false
   }
-  public async track(event: TrackEvent): Promise<AxiosResponse | undefined> {
+  public async track(
+    event: TrackEvent,
+    externalUsageDeviceOnly = true
+  ): Promise<AxiosResponse | undefined> {
     if (!this.trackingEnabled) {
+      return
+    }
+    if (externalUsageDeviceOnly && !this.externalUsageDevice) {
       return
     }
 
@@ -47,9 +55,14 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   }
 
   public async trackUnique(
-    event: TrackEvent
+    event: TrackEvent,
+    externalUsageDeviceOnly = true
   ): Promise<AxiosResponse | undefined> {
     if (!this.trackingEnabled) {
+      return
+    }
+
+    if (externalUsageDeviceOnly && !this.externalUsageDevice) {
       return
     }
 
@@ -68,6 +81,10 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
 
   public toggleTracking(flag: boolean): void {
     this.trackingEnabled = flag
+  }
+
+  public setExternalUsageDevice(flag: boolean): void {
+    this.externalUsageDevice = flag
   }
 
   public setVisitorMetadata(visitorMetadata: VisitorMetadata): void {

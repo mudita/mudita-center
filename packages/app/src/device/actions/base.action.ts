@@ -15,6 +15,7 @@ import { GetPhoneLockTimeResponseBody } from "App/device/types/mudita-os"
 export const setDeviceData = createAction<
   Partial<PureDeviceData | HarmonyDeviceData>
 >(DeviceEvent.SetData)
+
 export const setLockTime = createAction<
   GetPhoneLockTimeResponseBody | undefined
 >(DeviceEvent.SetLockTime)
@@ -27,3 +28,6 @@ export const setAgreementStatus = createAction<boolean>(
   DeviceEvent.AgreementStatus
 )
 export const unlockedDevice = createAction(DeviceEvent.Unlocked)
+export const setCriticalBatteryLevel = createAction<boolean>(
+  DeviceEvent.CriticalBatteryLevel
+)

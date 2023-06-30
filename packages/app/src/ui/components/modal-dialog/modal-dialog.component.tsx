@@ -127,7 +127,9 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
             <ButtonWrapper>
               {closeButton && (
                 <CloseButton
-                  actionButton={Boolean(actionButtonLabel)}
+                  actionButton={Boolean(
+                    actionButtonLabel && onActionButtonClick
+                  )}
                   displayStyle={DisplayStyle.Secondary}
                   // AUTO DISABLED - fix me if you like :)
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

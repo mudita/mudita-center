@@ -34,6 +34,6 @@ module.exports = {
   ],
   module: {
     rules: [woff, woff2, tff, eot, tsx(false, production)],
-    noParse: /node_modules\/sql\.js\/dist\/sql-wasm\.js$/,
+    noParse: [/node_modules\/sql\.js\/dist\/sql-wasm\.js$/, /sql.js/],
   },
 }

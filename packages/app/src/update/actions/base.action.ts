@@ -4,13 +4,13 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { State } from "App/core/constants"
 import { ReleaseProcessState, UpdateOsEvent } from "App/update/constants"
+import { CheckForUpdateState } from "../constants/check-for-update-state.constant"
 
 export const closeForceUpdateFlow = createAction(
   UpdateOsEvent.CloseForceUpdateFlow
 )
-export const setCheckForUpdateState = createAction<State>(
+export const setCheckForUpdateState = createAction<CheckForUpdateState>(
   UpdateOsEvent.SetCheckForUpdateState
 )
 export const closeUpdateFlow = createAction(UpdateOsEvent.CloseUpdateFlow)
@@ -24,3 +24,6 @@ export const setStateForInstalledRelease = createAction<{
   version: string
   state: ReleaseProcessState
 }>(UpdateOsEvent.SetStateForInstalledRelease)
+export const setDeviceHasBeenDetachedDuringDownload = createAction<boolean>(
+  UpdateOsEvent.DeviceHasBeenDetachedDuringDownload
+)

@@ -55,6 +55,27 @@ import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-fi
 import { ExportContactFailedModal } from "../export-contact-failed-modal/export-contact-failed-modal.component"
 import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
 import { ExportContactsResult } from "App/contacts/constants"
+import DeleteContactsPopup from "./delete-contacts-popup/delete-contacts-popup.component"
+import { differenceWith, isEqual } from "lodash"
+
+const allPossibleFormErrorCausedByAPI: FormError[] = [
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+  {
+    field: "secondaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorRequiredPrimaryPhone",
+  },
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+]
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -87,6 +108,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   toggleItem,
   selectedItems,
   allItemsSelected,
+  closeImportWindow,
 }) => {
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -169,23 +191,49 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         true
       )
 
-      const { payload } = await delayResponse(addNewContact(contact))
+      const { message, payload } =
+        (await delayResponse(addNewContact(contact))).payload ?? {}
 
-      if (payload) {
-        let newError: FormError
-        if (payload.message === "Create contact: Empty primary phone number") {
-          newError = {
-            field: "primaryPhoneNumber",
-            error: "component.formErrorRequiredPrimaryPhone",
-          }
-        } else {
-          newError = {
+      if (payload || message) {
+        const newError: FormError[] = []
+        if (
+          message === "phone-number-duplicated" &&
+          payload?.primaryPhoneNumberIsDuplicated
+        ) {
+          newError.push({
             field: "primaryPhoneNumber",
             error: "component.formErrorNumberUnique",
-          }
+          })
+        }
+        if (
+          message === "phone-number-duplicated" &&
+          payload?.secondaryPhoneNumberIsDuplicated
+        ) {
+          newError.push({
+            field: "secondaryPhoneNumber",
+            error: "component.formErrorNumberUnique",
+          })
+        }
+        if (message === "Create contact: Empty primary phone number") {
+          newError.push({
+            field: "primaryPhoneNumber",
+            error: "component.formErrorRequiredPrimaryPhone",
+          })
+        }
+        if (newError.length === 0) {
+          newError.push({
+            field: "primaryPhoneNumber",
+            error: "component.formErrorNumberUnique",
+          })
         }
 
-        setFormErrors([...formErrors, newError])
+        const cleanedErrors = differenceWith(
+          formErrors,
+          allPossibleFormErrorCausedByAPI,
+          (a, b) => isEqual(a, b)
+        )
+
+        setFormErrors([...cleanedErrors, ...newError])
         await closeModal()
         return
       }
@@ -386,7 +434,9 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     setImportContactsFlowState(ImportContactsFlowState.Start)
   }
 
-  const closeImportContactsModalFlow = () => {
+  const closeImportContactsModalFlow = async () => {
+    await closeImportWindow(Provider.Google)
+    await closeImportWindow(Provider.Outlook)
     setImportContactsFlowState(undefined)
     setAddedContactsCount(0)
   }
@@ -416,8 +466,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   // Synchronization, step 2a: file select
   // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  const importFromFile = async (inputElement: HTMLInputElement) => {
+  const importFromFile = (inputElement: HTMLInputElement) => {
     const onFileSelect = () => {
       if (inputElement.files) {
         void getContacts({
@@ -427,19 +476,40 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         inputElement.removeEventListener("change", onFileSelect)
       }
     }
+
     inputElement.click()
     inputElement.addEventListener("change", onFileSelect)
+    setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
+  }
+
+  const cancelImportFromFile = () => {
+    setImportContactsFlowState(ImportContactsFlowState.Start)
   }
 
   // Synchronization, step 2b: 3-rd party services
-  const authorizeAtGoogle = () => authorizeAtProvider(Provider.Google)
-  const authorizeAtOutLook = () => authorizeAtProvider(Provider.Outlook)
+  const authorizeAtGoogle = () => {
+    return authorizeAtProvider(Provider.Google)
+  }
+  const authorizeAtOutLook = () => {
+    return authorizeAtProvider(Provider.Outlook)
+  }
 
   const authorizeAtProvider = async (provider: ExternalProvider) => {
     try {
-      await authorize(provider)
-      await getContacts({ type: provider })
+      setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
+      const authorizeResult = await authorize(provider)
+
+      if (authorizeResult.type === "CONTACTS_AUTHORIZE/rejected") {
+        setImportContactsFlowState((prev) => {
+          return prev === ImportContactsFlowState.MethodSelected
+            ? ImportContactsFlowState.Start
+            : prev
+        })
+      } else {
+        await getContacts({ type: provider })
+      }
     } catch {
+      setImportContactsFlowState(ImportContactsFlowState.Start)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
       await showAuthorizaionFailedModal()
@@ -607,6 +677,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           sendContactsToPhone={sendContactsToPhone}
           retryImport={handleImportContacts}
           addedContactsCount={addedContactsCount}
+          onCancelManualImportClick={cancelImportFromFile}
         />
       )}
       <ContactSection>
@@ -698,6 +769,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           </TableWithSidebarWrapper>
         )}
       </ContactSection>
+      <DeleteContactsPopup />
     </>
   )
 }

@@ -64,12 +64,25 @@ export class FileManagerService {
     const noSpaceLeft = results.some(
       (result) => result.error?.type === DeviceFileSystemError.NoSpaceLeft
     )
+    const unsupportedFileSize = results.some(
+      (result) =>
+        result.error?.type === DeviceFileSystemError.UnsupportedFileSize
+    )
 
     if (noSpaceLeft) {
       return Result.failed(
         new AppError(
           FilesManagerError.NotEnoughSpace,
           "Not enough space on your device"
+        )
+      )
+    }
+
+    if (unsupportedFileSize) {
+      return Result.failed(
+        new AppError(
+          FilesManagerError.UnsupportedFileSize,
+          "Unsupported file size"
         )
       )
     }

@@ -60,6 +60,29 @@ class ModalGeneralPage extends Page {
       console.log(error)
     }
   }
+
+  public get updateNotAvailableModal(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="update-os-flow-update-not-available-modal"]')
+  }
+
+  public get closeModalButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="close-modal-button"]')
+  }
+
+  async clickCloseModalButton() {
+    try {
+      await this.closeModalButton.waitForDisplayed({
+        timeout: 6000,
+      })
+      await this.closeModalButton.click()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 export default new ModalGeneralPage()

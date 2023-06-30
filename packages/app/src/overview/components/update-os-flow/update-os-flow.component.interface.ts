@@ -11,12 +11,13 @@ import {
   SilentCheckForUpdateState,
   UpdateError,
 } from "App/update/constants"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 
 export interface UpdateOsFlowProps {
   currentOsVersion: string
   silentCheckForUpdateState: SilentCheckForUpdateState
-  checkForUpdateState: State
+  checkForUpdateState: CheckForUpdateState
   downloadState: DownloadState
   updateState: State
   availableReleasesForUpdate: OsRelease[] | null

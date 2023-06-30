@@ -6,11 +6,11 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
 import {
-  AppUpdateAvailable,
+  AppUpdateRejected,
   AppUpdateDownloaded,
   AppUpdateError,
   AppUpdateProgress,
-  AppUpdateForced,
+  AppUpdatePrivacyPolicy,
 } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update.modals"
 import {
   ModalBackdrop,
@@ -23,7 +23,7 @@ storiesOf("App/Update", module)
       <div>
         <ModalBackdrop />
         <ModalWrapper>
-          <AppUpdateAvailable open />
+          <AppUpdateRejected open />
         </ModalWrapper>
       </div>
     )
@@ -63,7 +63,7 @@ storiesOf("App/Update", module)
       <div>
         <ModalBackdrop />
         <ModalWrapper>
-          <AppUpdateForced
+          <AppUpdatePrivacyPolicy
             appLatestVersion="1.1.6"
             appCurrentVersion="1.0.0"
             open

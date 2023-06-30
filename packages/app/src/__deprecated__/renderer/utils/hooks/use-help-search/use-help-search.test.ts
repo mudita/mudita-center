@@ -33,6 +33,7 @@ export const fakeAppSettings: Settings = {
   language: "en-US",
   neverConnected: true,
   collectingData: undefined,
+  privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
 }
