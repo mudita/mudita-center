@@ -222,7 +222,7 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
             onChange={onPrivacyPolicyCheckboxChange}
             label="I have read and agree to the "
           />
-          <PrivacyPolicyLink href={"#"} onClick={openPrivacyPolicyWindow}>
+          <PrivacyPolicyLink onClick={openPrivacyPolicyWindow}>
             Privacy Policy
           </PrivacyPolicyLink>
         </PrivacyPolicyCheckboxWrapper>
