@@ -69,7 +69,8 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
       state.update.data.downloadedProcessedReleases,
     updatingReleasesProcessStates: state.update.data.updateProcessedReleases,
     areAllReleasesDownloaded: areAllReleasesDownloaded(state),
-    forceUpdateNeeded: state.update.needsForceUpdate,
+    forceUpdateNeeded:
+      state.update.needsForceUpdate && !state.settings.updateRequired,
     forceUpdateState: state.update.forceUpdateState,
     backupActionDisabled:
       state.dataSync.synchronizationProcess ===
