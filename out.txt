@@ -1,0 +1,139 @@
+
+> mudita-center@ develop /Users/lukasz/Documents/GitHub/mudita-center
+> npm run app:develop -- "--stream"
+
+
+> mudita-center@ app:develop /Users/lukasz/Documents/GitHub/mudita-center
+> lerna run --scope @mudita/mudita-center-app develop "--stream"
+
+@mudita/mudita-center-app: > @mudita/mudita-center-app@2.0.1-rc.3 develop /Users/lukasz/Documents/GitHub/mudita-center/packages/app
+@mudita/mudita-center-app: > cross-env START_HOT=1 npm run dev:start:renderer
+@mudita/mudita-center-app: > @mudita/mudita-center-app@2.0.1-rc.3 dev:start:renderer /Users/lukasz/Documents/GitHub/mudita-center/packages/app
+@mudita/mudita-center-app: > webpack serve --config webpack.config.renderer.js
+@mudita/mudita-center-app: =================================================
+@mudita/mudita-center-app: Development mode, no optimization will take place
+@mudita/mudita-center-app: =================================================
+@mudita/mudita-center-app: circular-dependency-plugin: start detecting webpack modules cycles
+@mudita/mudita-center-app: circular-dependency-plugin: end detecting webpack modules cycles
+@mudita/mudita-center-app: > @mudita/mudita-center-app@2.0.1-rc.3 dev:start:main /Users/lukasz/Documents/GitHub/mudita-center/packages/app
+@mudita/mudita-center-app: > nodemon --config electron-nodemon.json
+@mudita/mudita-center-app: [33m[nodemon] 2.0.19[39m
+@mudita/mudita-center-app: [33m[nodemon] to restart at any time, enter `rs`[39m
+@mudita/mudita-center-app: [33m[nodemon] watching path(s): src/**/*[39m
+@mudita/mudita-center-app: [33m[nodemon] watching extensions: ts[39m
+@mudita/mudita-center-app: [32m[nodemon] starting `webpack --config webpack.config.main.js && electron ./dist/main.js`[39m
+@mudita/mudita-center-app: =================================================
+@mudita/mudita-center-app: Development mode, no optimization will take place
+@mudita/mudita-center-app: =================================================
+@mudita/mudita-center-app: circular-dependency-plugin: start detecting webpack modules cycles
+@mudita/mudita-center-app: circular-dependency-plugin: end detecting webpack modules cycles
+@mudita/mudita-center-app: circular-dependency-plugin: start detecting webpack modules cycles
+@mudita/mudita-center-app: circular-dependency-plugin: end detecting webpack modules cycles
+@mudita/mudita-center-app: assets by path static/ 1.56 MiB
+@mudita/mudita-center-app:   assets by path static/*.wasm 1.22 MiB
+@mudita/mudita-center-app:     asset static/sql-wasm-debug.wasm 657 KiB [compared for emit] [from: static/sql-wasm-debug.wasm] [copied]
+@mudita/mudita-center-app:     asset static/sql-wasm.wasm 594 KiB [compared for emit] [from: static/sql-wasm.wasm] [copied]
+@mudita/mudita-center-app:   assets by path static/*.js 349 KiB
+@mudita/mudita-center-app:     asset static/sql-wasm-debug.js 268 KiB [compared for emit] [from: static/sql-wasm-debug.js] [copied]
+@mudita/mudita-center-app:     asset static/sql-wasm.js 81.1 KiB [compared for emit] [from: static/sql-wasm.js] [copied]
+@mudita/mudita-center-app: asset main.js 18.2 MiB [compared for emit] (name: main)
+@mudita/mudita-center-app: asset index.html 238 bytes [compared for emit]
+@mudita/mudita-center-app: runtime modules 1.04 KiB 5 modules
+@mudita/mudita-center-app: modules by path ./node_modules/ 9.61 MiB
+@mudita/mudita-center-app:   javascript modules 9.46 MiB 1323 modules
+@mudita/mudita-center-app:   json modules 148 KiB
+@mudita/mudita-center-app:     modules by path ./node_modules/conf/ 3.07 KiB 2 modules
+@mudita/mudita-center-app:     modules by path ./node_modules/ajv-formats/ 3.07 KiB 2 modules
+@mudita/mudita-center-app:     + 4 modules
+@mudita/mudita-center-app: modules by path ./src/ 6.11 MiB
+@mudita/mudita-center-app:   javascript modules 602 KiB 585 modules
+@mudita/mudita-center-app:   json modules 5.53 MiB
+@mudita/mudita-center-app:     ./src/news/default-news.json 5.47 MiB [optional] [built] [code generated]
+@mudita/mudita-center-app:     ./src/translations.config.json 174 bytes [built] [code generated]
+@mudita/mudita-center-app:     ./src/__deprecated__/renderer/locales/default/en-US.json 60.5 KiB [built] [code generated]
+@mudita/mudita-center-app:     ./src/settings/static/default-app-configuration.json 100 bytes [built] [code generated]
+@mudita/mudita-center-app: + 22 modules
+@mudita/mudita-center-app: WARNING in ./src/settings/services/configuration.service.ts 44:36-72
+@mudita/mudita-center-app: Module not found: Error: Can't resolve '../app-configuration.json' in '/Users/lukasz/Documents/GitHub/mudita-center/packages/app/src/settings/services'
+@mudita/mudita-center-app:  @ ./src/settings/services/index.ts 5:0-40 5:0-40
+@mudita/mudita-center-app:  @ ./src/settings/containers/settings.container.ts 5:0-56 10:26-41
+@mudita/mudita-center-app:  @ ./src/__deprecated__/main/main.ts 45:0-83 120:26-47
+@mudita/mudita-center-app: 1 warning has detailed information that is not shown.
+@mudita/mudita-center-app: Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+@mudita/mudita-center-app: webpack 5.74.0 compiled with 1 warning in 15757 ms
+@mudita/mudita-center-app: [32minfo[39m: Starting the app {"metadata":{}}
+@mudita/mudita-center-app: circular-dependency-plugin: start detecting webpack modules cycles
+@mudita/mudita-center-app: circular-dependency-plugin: end detecting webpack modules cycles
+@mudita/mudita-center-app: assets by path *.otf 795 KiB
+@mudita/mudita-center-app:   asset 35c46160e51354410d34.otf 196 KiB [emitted] [immutable] [from: src/__deprecated__/renderer/fonts/fallback/RobotoCondensed-Light.otf] (auxiliary name: app)
+@mudita/mudita-center-app:   asset 33f83f6f68c8537271b7.otf 193 KiB [emitted] [immutable] [from: src/__deprecated__/renderer/fonts/fallback/RobotoCondensed-Regular.otf] (auxiliary name: app)
+@mudita/mudita-center-app:   asset a9ccaf55426ad399dc12.otf 190 KiB [emitted] [immutable] [from: src/__deprecated__/renderer/fonts/fallback/RobotoCondensed-Bold.otf] (auxiliary name: app)
+@mudita/mudita-center-app:   asset 7dbe19ded7ff46c0763b.otf 73.1 KiB [emitted] [immutable] [from: src/__deprecated__/renderer/fonts/main/GT-Pressura-Bold.otf] (auxiliary name: app)
+@mudita/mudita-center-app:   asset c2113bc6079734d35c72.otf 71.8 KiB [emitted] [immutable] [from: src/__deprecated__/renderer/fonts/main/GT-Pressura-Regular.otf] (auxiliary name: app)
+@mudita/mudita-center-app:   asset 03e9b3554df9981c08d9.otf 71 KiB [emitted] [immutable] [from: src/__deprecated__/renderer/fonts/main/GT-Pressura-Light.otf] (auxiliary name: app)
+@mudita/mudita-center-app: asset app.js 65.5 MiB [emitted] (name: app)
+@mudita/mudita-center-app: asset index.html 237 bytes [emitted]
+@mudita/mudita-center-app: runtime modules 28 KiB 17 modules
+@mudita/mudita-center-app: orphan modules 14.1 KiB [orphan] 7 modules
+@mudita/mudita-center-app: modules by path ./node_modules/ 11 MiB
+@mudita/mudita-center-app:   javascript modules 10.8 MiB 1656 modules
+@mudita/mudita-center-app:   json modules 137 KiB
+@mudita/mudita-center-app:     ./node_modules/winston/package.json 1.73 KiB [built] [code generated]
+@mudita/mudita-center-app:     ./node_modules/mime-db/db.json 135 KiB [built] [code generated]
+@mudita/mudita-center-app: modules by path ./src/ 49.4 MiB (javascript) 795 KiB (asset)
+@mudita/mudita-center-app:   javascript modules 49.4 MiB 1449 modules
+@mudita/mudita-center-app:   asset modules 252 bytes (javascript) 795 KiB (asset) 6 modules
+@mudita/mudita-center-app:   json modules 60.6 KiB
+@mudita/mudita-center-app:     ./src/translations.config.json 174 bytes [built] [code generated]
+@mudita/mudita-center-app:     ./src/__deprecated__/renderer/locales/default/en-US.json 60.5 KiB [built] [code generated]
+@mudita/mudita-center-app: + 18 modules
+@mudita/mudita-center-app: webpack 5.74.0 compiled successfully in 60649 ms
+@mudita/mudita-center-app: No errors found.
+@mudita/mudita-center-app: Not rewriting GET /main.js because the path includes a dot (.) character.
+@mudita/mudita-center-app: [32m[nodemon] clean exit - waiting for changes before restart[39m
+@mudita/mudita-center-app: circular-dependency-plugin: start detecting webpack modules cycles
+@mudita/mudita-center-app: circular-dependency-plugin: end detecting webpack modules cycles
+@mudita/mudita-center-app: assets by status 795 KiB [cached] 6 assets
+@mudita/mudita-center-app: assets by status 65.5 MiB [emitted]
+@mudita/mudita-center-app:   assets by path *.js 65.5 MiB
+@mudita/mudita-center-app:     asset app.js 65.5 MiB [emitted] (name: app)
+@mudita/mudita-center-app:     asset app.19dd1cd51a3be7852d32.hot-update.js 10.1 KiB [emitted] [immutable] [hmr] (name: app)
+@mudita/mudita-center-app:   asset index.html 237 bytes [emitted]
+@mudita/mudita-center-app:   asset app.19dd1cd51a3be7852d32.hot-update.json 27 bytes [emitted] [immutable] [hmr]
+@mudita/mudita-center-app: Entrypoint app 65.5 MiB (795 KiB) = app.js 65.5 MiB app.19dd1cd51a3be7852d32.hot-update.js 10.1 KiB 6 auxiliary assets
+@mudita/mudita-center-app: cached modules 60.4 MiB (javascript) 795 KiB (asset) [cached] 3139 modules
+@mudita/mudita-center-app: runtime modules 28 KiB 17 modules
+@mudita/mudita-center-app: ./src/settings/components/privacy-policy-modal/privacy-policy-modal.component.tsx 4.02 KiB [built] [code generated]
+@mudita/mudita-center-app: webpack 5.74.0 compiled successfully in 2328 ms
+@mudita/mudita-center-app: Type-checking in progress...
+@mudita/mudita-center-app: circular-dependency-plugin: start detecting webpack modules cycles
+@mudita/mudita-center-app: circular-dependency-plugin: end detecting webpack modules cycles
+@mudita/mudita-center-app: assets by status 795 KiB [cached] 6 assets
+@mudita/mudita-center-app: assets by status 65.5 MiB [emitted]
+@mudita/mudita-center-app:   assets by path *.js 65.5 MiB
+@mudita/mudita-center-app:     asset app.js 65.5 MiB [emitted] (name: app)
+@mudita/mudita-center-app:     asset app.56643d0c410ed267afec.hot-update.js 10.1 KiB [emitted] [immutable] [hmr] (name: app)
+@mudita/mudita-center-app:   asset index.html 237 bytes [emitted]
+@mudita/mudita-center-app:   asset app.56643d0c410ed267afec.hot-update.json 27 bytes [emitted] [immutable] [hmr]
+@mudita/mudita-center-app: Entrypoint app 65.5 MiB (795 KiB) = app.js 65.5 MiB app.56643d0c410ed267afec.hot-update.js 10.1 KiB 6 auxiliary assets
+@mudita/mudita-center-app: cached modules 60.4 MiB (javascript) 795 KiB (asset) [cached] 3139 modules
+@mudita/mudita-center-app: runtime modules 28 KiB 17 modules
+@mudita/mudita-center-app: ./src/settings/components/privacy-policy-modal/privacy-policy-modal.component.tsx 4.02 KiB [built] [code generated]
+@mudita/mudita-center-app: webpack 5.74.0 compiled successfully in 1693 ms
+@mudita/mudita-center-app: Type-checking in progress...
+@mudita/mudita-center-app: No errors found.
+@mudita/mudita-center-app: circular-dependency-plugin: start detecting webpack modules cycles
+@mudita/mudita-center-app: circular-dependency-plugin: end detecting webpack modules cycles
+@mudita/mudita-center-app: assets by status 795 KiB [cached] 6 assets
+@mudita/mudita-center-app: assets by status 65.5 MiB [emitted]
+@mudita/mudita-center-app:   assets by path *.js 65.5 MiB
+@mudita/mudita-center-app:     asset app.js 65.5 MiB [emitted] (name: app)
+@mudita/mudita-center-app:     asset app.0474645c63e9158c56d0.hot-update.js 10 KiB [emitted] [immutable] [hmr] (name: app)
+@mudita/mudita-center-app:   asset index.html 237 bytes [emitted]
+@mudita/mudita-center-app:   asset app.0474645c63e9158c56d0.hot-update.json 27 bytes [emitted] [immutable] [hmr]
+@mudita/mudita-center-app: Entrypoint app 65.5 MiB (795 KiB) = app.js 65.5 MiB app.0474645c63e9158c56d0.hot-update.js 10 KiB 6 auxiliary assets
+@mudita/mudita-center-app: cached modules 60.4 MiB (javascript) 795 KiB (asset) [cached] 3139 modules
+@mudita/mudita-center-app: runtime modules 28 KiB 17 modules
+@mudita/mudita-center-app: ./src/settings/components/privacy-policy-modal/privacy-policy-modal.component.tsx 3.98 KiB [built] [code generated]
+@mudita/mudita-center-app: webpack 5.74.0 compiled successfully in 1461 ms
+@mudita/mudita-center-app: No errors found.
