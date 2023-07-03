@@ -191,7 +191,6 @@ export class DeviceManager {
   private deviceInitializationFailedListener = () => {
     this.currentDeviceInitializationFailed = true
   }
-
   private deviceConnectedListener = () => {
     this.currentDeviceInitializationFailed = false
   }

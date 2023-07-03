@@ -335,7 +335,6 @@ describe("Updates loading functionality", () => {
       state: ConnectionState.Loading,
     })
   })
-
   test("Event: Loading/fulfilled change `state` to Loaded", () => {
     expect(
       deviceReducer(undefined, {

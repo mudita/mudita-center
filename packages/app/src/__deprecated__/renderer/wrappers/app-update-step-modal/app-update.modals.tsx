@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useState } from "react"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
@@ -27,9 +27,9 @@ import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-
 import InputCheckboxComponent from "../../components/core/input-checkbox/input-checkbox.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { AboutActions } from "App/__deprecated__/common/enums/about-actions.enum"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { togglePrivacyPolicyAccepted } from "App/settings/actions"
-import { Dispatch, ReduxRootState } from "../../store"
+import { Dispatch } from "../../store"
 import styled from "styled-components"
 import { fontWeight, textColor } from "../../styles/theming/theme-getters"
 
@@ -155,13 +155,27 @@ export const AppUpdateRejected: FunctionComponent<
 
 export const AppUpdatePrivacyPolicy: FunctionComponent<
   ComponentProps<typeof ModalDialog> & AppUpdateForcedProps
-> = ({ appLatestVersion, appCurrentVersion, ...props }) => {
+> = ({
+  appLatestVersion,
+  appCurrentVersion,
+  onActionButtonClick,
+  ...props
+}) => {
   const dispatch = useDispatch<Dispatch>()
-  const { privacyPolicyAccepted } = useSelector(
-    (state: ReduxRootState) => state.settings
-  )
+  const [privacyPolicyCheckboxChecked, setPrivacyPolicyCheckboxChecked] =
+    useState(false)
   const openPrivacyPolicyWindow = () =>
     ipcRenderer.callMain(AboutActions.PolicyOpenBrowser)
+
+  const onPrivacyPolicyCheckboxChange = () => {
+    setPrivacyPolicyCheckboxChecked(!privacyPolicyCheckboxChecked)
+  }
+
+  const handleActionButtonClick = (): void => {
+    void dispatch(togglePrivacyPolicyAccepted(true))
+    onActionButtonClick && onActionButtonClick()
+  }
+
   return (
     <ModalDialog
       size={ModalSize.Small}
@@ -169,7 +183,8 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
       actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
       closeButton={false}
       actionButtonSize={Size.FixedSmall}
-      actionButtonDisabled={!privacyPolicyAccepted}
+      actionButtonDisabled={!privacyPolicyCheckboxChecked}
+      onActionButtonClick={handleActionButtonClick}
       {...props}
     >
       <ModalContentWithoutMargin>
@@ -203,15 +218,11 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
         <PrivacyPolicyCheckboxWrapper>
           <InputCheckboxComponent
             data-testid="privacy-policy-checkbox"
-            checked={privacyPolicyAccepted}
-            onChange={() =>
-              dispatch(
-                togglePrivacyPolicyAccepted(!privacyPolicyAccepted || false)
-              )
-            }
+            checked={privacyPolicyCheckboxChecked}
+            onChange={onPrivacyPolicyCheckboxChange}
             label="I have read and agree to the "
           />
-          <PrivacyPolicyLink href={"#"} onClick={openPrivacyPolicyWindow}>
+          <PrivacyPolicyLink onClick={openPrivacyPolicyWindow}>
             Privacy Policy
           </PrivacyPolicyLink>
         </PrivacyPolicyCheckboxWrapper>
