@@ -347,7 +347,7 @@ const createOpenWindowListener = (
 
 ipcMain.answerRenderer(AboutActions.PolicyOpenBrowser, () =>
   shell.openExternal(
-    `${process.env.MUDITA_CENTER_SERVER_URL}/privacy-policy-url`
+    `${process.env.MUDITA_CENTER_SERVER_URL ?? ""}/privacy-policy-url`
   )
 )
 
