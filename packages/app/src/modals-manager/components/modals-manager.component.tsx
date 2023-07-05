@@ -12,6 +12,9 @@ import {
 import ContactSupportFlow from "App/contact-support/containers/contact-support-flow.container"
 import { UpdateOsInterruptedFlowContainer } from "App/update/components/update-os-interrupted-flow"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
+import { useSelector } from "react-redux"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import PrivacyPolicyModal from "App/settings/components/privacy-policy-modal/privacy-policy-modal.component"
 
 type Props = {
   appForcedUpdateFlowShow: boolean
@@ -28,6 +31,14 @@ const ModalsManager: FunctionComponent<Props> = ({
   deviceInitializationFailedModalShowEnabled,
   hideModals,
 }) => {
+  const { privacyPolicyAccepted } = useSelector(
+    (state: ReduxRootState) => state.settings
+  )
+
+  if (privacyPolicyAccepted === false) {
+    return <PrivacyPolicyModal />
+  }
+
   return (
     <>
       {deviceInitializationFailedModalShowEnabled && (

@@ -22,4 +22,5 @@ export enum SettingsEvent {
   TogglePrivacyPolicyAccepted = "TOGGLE_PRIVACY_POLICY_ACCEPTED",
   CheckUpdateAvailable = "CHECK_UPDATE_AVAILABLE",
   SendDiagnosticData = "SEND_DIAGNOSTIC_DATA",
+  DeleteCollectingData = "DELETE_COLLECTING_DATA",
 }
