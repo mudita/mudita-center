@@ -95,6 +95,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
           appCurrentVersion={appCurrentVersion}
           closeModal={forced ? undefined : onCloseModal}
           {...props}
+          zIndex={1000}
         />
       ) : (
         <AppUpdateRejected
