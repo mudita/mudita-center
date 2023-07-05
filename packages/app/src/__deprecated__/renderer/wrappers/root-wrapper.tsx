@@ -74,8 +74,6 @@ interface Props {
   toggleApplicationUpdateAvailable: (value: boolean) => void
   setLatestVersion: (value: string) => void
   loadSettings: () => void
-  loadDeviceData: () => void
-  connectedAndUnlocked: boolean
   deviceType: DeviceType | null
   setAgreementStatus: (value: boolean) => void
   getCurrentDevice: () => void
@@ -92,8 +90,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   toggleApplicationUpdateAvailable,
   setLatestVersion,
   loadSettings,
-  loadDeviceData,
-  connectedAndUnlocked,
   setConnectionStatus,
   resetUploadingState,
 }) => {
@@ -203,20 +199,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    let interval: NodeJS.Timeout
-
-    if (connectedAndUnlocked) {
-      interval = setInterval(() => loadDeviceData(), 10000)
-    }
-
-    return () => {
-      clearInterval(interval)
-    }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connectedAndUnlocked])
-
-  useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
       toggleApplicationUpdateAvailable(true)
       setLatestVersion(version as string)
@@ -270,13 +252,10 @@ const RootWrapper: FunctionComponent<Props> = ({
 }
 
 const mapStateToProps = (state: ReduxRootState) => ({
-  connectedAndUnlocked:
-    state.device.status.connected && Boolean(state.device.status.unlocked),
   deviceType: state.device.deviceType,
 })
 
 const mapDispatchToProps = {
-  loadDeviceData,
   checkUpdateAvailable,
   toggleApplicationUpdateAvailable,
   setLatestVersion,
