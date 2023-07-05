@@ -24,6 +24,7 @@ import {
   setNonStandardAudioFilesConversion,
   setLowBattery,
 } from "App/settings/actions"
+import { deleteCollectingData } from "App/settings/actions/delete-collecting-data.action"
 
 export const initialState: SettingsState = {
   applicationId: "",
@@ -110,7 +111,9 @@ export const settingsReducer = createReducer<SettingsState>(
       .addCase(togglePrivacyPolicyAccepted.fulfilled, (state, action) => {
         state.privacyPolicyAccepted = action.payload
       })
-
+      .addCase(deleteCollectingData.fulfilled, (state, _) => {
+        state.collectingData = undefined
+      })
       .addCase(setDiagnosticTimestamp.fulfilled, (state, action) => {
         state.diagnosticSentTimestamp = action.payload
       })

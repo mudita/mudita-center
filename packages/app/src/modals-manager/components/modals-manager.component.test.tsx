@@ -5,13 +5,17 @@
 
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
-import store from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ModalsManager from "App/modals-manager/components/modals-manager.component"
 import { AppForcedUpdateFlowTestIds } from "App/settings/components/app-forced-update-flow/app-forced-update-flow-test-ids.enum"
 import { AppUpdateFlowTestIds } from "App/settings/components/app-update-flow/app-update-flow-test-ids.enum"
 import { ContactSupportFlowTestIds } from "App/contact-support/components/contact-support-flow-test-ids.component"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { initialState as updateInitialState } from "App/update/reducers/update-os.reducer"
+import { initialState as contactSupportInitialState } from "App/contact-support/reducers/contact-support.reducer"
 
 jest.mock(
   "App/modals-manager/selectors/device-initialization-failed-modal-show-enabled.selector"
@@ -43,13 +47,33 @@ const defaultProps: Props = {
   hideModals: jest.fn(),
 }
 
-const render = (extraProps?: Partial<Props>) => {
+const defaultState = {
+  update: {
+    ...updateInitialState,
+  },
+  contactSupport: {
+    ...contactSupportInitialState,
+  },
+  settings: {
+    privacyPolicyAccepted: true,
+  },
+} as unknown as ReduxRootState
+
+const render = (
+  extraProps?: Partial<Props>,
+  extraState?: Partial<ReduxRootState>
+) => {
+  const storeMock = createMockStore([thunk])({
+    ...defaultState,
+    ...extraState,
+  })
+
   const props = {
     ...defaultProps,
     ...extraProps,
   }
   return renderWithThemeAndIntl(
-    <Provider store={store}>
+    <Provider store={storeMock}>
       <ModalsManager {...props} />
     </Provider>
   )
