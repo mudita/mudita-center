@@ -34,7 +34,7 @@ import PrivacyPolicyApp from "./privacy-policy-app.component"
 import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { loadDeviceData, setAgreementStatus } from "App/device"
+import { setAgreementStatus } from "App/device"
 import {
   loadSettings,
   setLatestVersion,
