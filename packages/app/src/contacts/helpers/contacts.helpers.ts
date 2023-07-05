@@ -8,7 +8,6 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { SimpleRecord } from "App/__deprecated__/common/typings"
 import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/messages/is-name-available"
 import {
-  BaseContactModel,
   Contact,
   ContactCategory,
   ContactFactorySignature,
@@ -163,7 +162,7 @@ export const removeContact = (
 
 export const editContact = (
   state: ContactsState,
-  data: BaseContactModel,
+  data: Contact,
   guard: (input: unknown) => boolean = contactTypeGuard
 ): PhoneContacts => {
   if (guard(data)) {

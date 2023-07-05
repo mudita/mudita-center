@@ -24,6 +24,17 @@ import * as downloadOsUpdateRequestModule from "App/update/requests/download-os-
 import * as osUpdateAlreadyDownloadedCheckModule from "App/update/requests/os-update-already-downloaded.request"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
+import { trackOsDownload } from "App/analytic-data-tracker/helpers/track-os-download"
+
+jest.mock("App/analytic-data-tracker/helpers/track-os-download")
+
+beforeEach(() => {
+  ;(trackOsDownload as jest.Mock).mockResolvedValue(undefined)
+})
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 const mockedRelease: OsRelease = {
   date: "2021-02-02",
@@ -74,6 +85,9 @@ describe("when battery is lower than 40%", () => {
           batteryLevel: 0.39,
         },
       },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
+      },
     })
 
     const {
@@ -110,6 +124,9 @@ describe("when some of the updates have been downloaded before", () => {
         data: {
           batteryLevel: 0.55,
         },
+      },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
       },
     })
 
@@ -169,6 +186,9 @@ describe("when update downloads successfully", () => {
           batteryLevel: 0.55,
         },
       },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
+      },
     })
 
     const {
@@ -223,6 +243,9 @@ describe("when download is cancelled by user", () => {
           batteryLevel: 0.55,
         },
       },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
+      },
     })
 
     const {
@@ -269,6 +292,9 @@ describe("when download failed", () => {
         data: {
           batteryLevel: 0.55,
         },
+      },
+      update: {
+        deviceHasBeenDetachedDuringDownload: false,
       },
     })
 

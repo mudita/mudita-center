@@ -11,4 +11,5 @@ export enum DeviceFileSystemError {
   FilesRetrieve = "DEVICE_FILES_RETRIEVE_ERROR",
   FileDeleteCommand = "DEVICE_FILE_DELETE_ERROR",
   NoSpaceLeft = "NO_SPACE_LEFT_ON_DEVICE_ERROR",
+  UnsupportedFileSize = "UNSUPPORTED_FILE_SIZE_ERROR",
 }

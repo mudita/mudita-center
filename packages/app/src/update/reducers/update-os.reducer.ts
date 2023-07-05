@@ -20,6 +20,8 @@ import {
   startUpdateOs,
   forceUpdate,
   checkForForceUpdateNeed,
+  setDeviceHasBeenDetachedDuringDownload,
+  handleDeviceDetached,
 } from "App/update/actions"
 
 import {
@@ -40,6 +42,7 @@ export const initialState: UpdateOsState = {
   error: null,
   needsForceUpdate: false,
   checkedForForceUpdateNeed: false,
+  deviceHasBeenDetachedDuringDownload: false,
   data: {
     allReleases: null,
     availableReleasesForUpdate: null,
@@ -51,6 +54,12 @@ export const initialState: UpdateOsState = {
 export const updateOsReducer = createReducer<UpdateOsState>(
   initialState,
   (builder) => {
+    builder.addCase(setDeviceHasBeenDetachedDuringDownload, (state, action) => {
+      return {
+        ...state,
+        deviceHasBeenDetachedDuringDownload: action.payload,
+      }
+    })
     builder.addCase(closeForceUpdateFlow, (state) => {
       return {
         ...state,
@@ -89,9 +98,13 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         downloadState: DownloadState.Initial,
       }
     })
-    builder.addCase(clearStateAndData, () => {
+    builder.addCase(clearStateAndData, (state) => {
       return {
         ...initialState,
+        deviceHasBeenDetachedDuringDownload:
+          state.downloadState === DownloadState.Loading
+            ? state.deviceHasBeenDetachedDuringDownload
+            : initialState.deviceHasBeenDetachedDuringDownload,
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -228,6 +241,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         state.downloadState = DownloadState.Failed
         state.error = action.payload as AppError<UpdateError>
       }
+      state.deviceHasBeenDetachedDuringDownload = false
     })
     builder.addCase(cancelDownload, (state) => {
       state.downloadState = DownloadState.Cancelled
@@ -289,6 +303,17 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(forceUpdate.rejected, (state, action) => {
       state.forceUpdateState = State.Failed
       state.error = action.payload as AppError<UpdateError>
+    })
+    builder.addCase(handleDeviceDetached.fulfilled, (state) => {
+      state.data = {
+        allReleases: null,
+        availableReleasesForUpdate: null,
+        downloadedProcessedReleases: null,
+        updateProcessedReleases: null,
+      }
+      if (state.downloadState === DownloadState.Loading) {
+        state.deviceHasBeenDetachedDuringDownload = true
+      }
     })
   }
 )

@@ -15,6 +15,7 @@ import { PortInfoValidator } from "App/device-manager/validators"
 import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
 import { DeviceServiceEvent } from "App/device"
 import { EventEmitter } from "events"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
@@ -70,6 +71,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceAttached, device)
+    logger.info(`Connected device with serial number: ${device.serialNumber}`)
   }
 
   public removeDevice(path: string): void {
@@ -89,6 +91,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, path)
+    logger.info(`Disconnected device with path: ${path}`)
   }
 
   public setCurrentDevice(path: string): ResultObject<boolean> {
@@ -130,18 +133,31 @@ export class DeviceManager {
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
+    portInfo.productId = portInfo.productId?.toUpperCase()
+    portInfo.vendorId = portInfo.vendorId?.toUpperCase()
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
         const portList = await this.getConnectedDevices()
-        const port = portList.find(
-          ({ productId, vendorId }) =>
-            productId === portInfo.productId && vendorId === portInfo.vendorId
-        )
+
+        const port = portList
+          .map((p) => {
+            return {
+              ...p,
+              productId: p.productId?.toUpperCase(),
+              vendorId: p.vendorId?.toUpperCase(),
+            }
+          })
+          .find(({ productId, vendorId }) => {
+            return (
+              productId === portInfo.productId && vendorId === portInfo.vendorId
+            )
+          })
 
         if (port) {
-          const device = this.deviceResolver.resolve(portInfo, port.path)
+          const device = this.deviceResolver.resolve(port)
 
           if (!device) {
             return

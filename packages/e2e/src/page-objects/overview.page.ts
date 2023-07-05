@@ -16,7 +16,7 @@ class OverviewPage extends Page {
   public get checkingForUpdateLoader(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $("p*=Checking for MuditaOS update...")
+    return $("h4*=Checking for MuditaOS update...")
   }
 
   public get downloadUpdateLoader(): ChainablePromiseElement<

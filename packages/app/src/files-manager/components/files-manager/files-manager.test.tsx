@@ -32,7 +32,6 @@ const defaultProps: Props = {
   uploading: State.Initial,
   deleting: State.Initial,
   getFiles: jest.fn(),
-  uploadFile: jest.fn(),
   deviceType: DeviceType.MuditaPure,
   resetAllItems: jest.fn(),
   selectAllItems: jest.fn(),

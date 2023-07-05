@@ -38,7 +38,6 @@ const defaultProps: ComponentProps<typeof FilesSummary> = {
       size: 4560,
     },
   ],
-  uploading: false,
 }
 
 const render = () => {

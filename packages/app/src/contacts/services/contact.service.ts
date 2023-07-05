@@ -8,6 +8,7 @@ import {
   GetContactResponseBody,
   GetContactsResponseBody,
   CreateContactResponseBody,
+  CreateContactErrorResponseBody,
 } from "App/device/types/mudita-os"
 import { DeviceManager } from "App/device-manager/services"
 import { Contact, ContactID } from "App/contacts/reducers"
@@ -106,6 +107,30 @@ export class ContactService {
       return {
         status: RequestResponseStatus.Ok,
         data: contact,
+      }
+      // error type cannot be typed correctly, response method needs enhancement
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    } else if (response.error?.payload?.status === "phone-number-duplicated") {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const errorPayloadData = (response.error?.payload?.data ?? {
+        duplicateNumbers: [],
+      }) as CreateContactErrorResponseBody
+
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "phone-number-duplicated",
+          data: {
+            primaryPhoneNumberIsDuplicated:
+              errorPayloadData.duplicateNumbers.includes(
+                newContact.primaryPhoneNumber
+              ),
+            secondaryPhoneNumberIsDuplicated:
+              errorPayloadData.duplicateNumbers.includes(
+                newContact.secondaryPhoneNumber ?? ""
+              ),
+          },
+        },
       }
     } else {
       return {

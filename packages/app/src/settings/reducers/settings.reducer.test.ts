@@ -35,6 +35,7 @@ const settings: Omit<
   language: "en-US",
   neverConnected: true,
   collectingData: false,
+  privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
   updateRequired: false,
@@ -44,6 +45,7 @@ const settings: Omit<
     lowestSupportedProductVersion: {
       MuditaHarmony: "1.5.0",
       MuditaPure: "1.0.0",
+      MuditaKompakt: "2.0.0",
     },
   },
 }

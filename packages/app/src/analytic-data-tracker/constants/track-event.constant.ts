@@ -16,4 +16,6 @@ export enum TrackEventCategory {
   CenterUpdateDownload = "Center Update - download",
   CenterUpdateStart = "Center Update - start",
   CenterUpdateFail = "Center Update - fail",
+  PureUpdateDownload = "Pure Update - download",
+  HarmonyUpdateDownload = "Harmony Update - download",
 }

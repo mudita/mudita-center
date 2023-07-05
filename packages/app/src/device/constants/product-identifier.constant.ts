@@ -6,16 +6,17 @@
 export enum ProductID {
   MuditaPure = "0100",
   MuditaHarmony = "0300",
-
-  // TODO: Remove tmp values when pure will be released, https://appnroll.atlassian.net/browse/CP-457
-  MuditaPureNotMtpTemporary = "0102",
-  MuditaPureTemporary = "0622",
+  MuditaKompaktChargeHex = "2006", //0x2006
+  MuditaKompaktTransferHex = "200a", //0x200a
+  MuditaKompaktNoDebugHex = "2012", //0x2012
+  MuditaKompaktChargeDec = "8198", //0x2006
+  MuditaKompaktTransferDec = "8202", //0x200a
+  MuditaKompaktNoDebugDec = "8210", //0x2012
 }
 
 export enum VendorID {
   MuditaPure = "3310",
   MuditaHarmony = "3310",
-
-  // TODO: Remove tmp values when pure will be released, https://appnroll.atlassian.net/browse/CP-457
-  MuditaPureTemporary = "045e",
+  MuditaKompaktHex = "0e8d",
+  MuditaKompaktDec = "3725",
 }

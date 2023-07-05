@@ -80,6 +80,7 @@ import {
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
+import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -195,6 +196,7 @@ const createWindow = async () => {
   registerMetadataAllGetValueListener()
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
+  registerExternalUsageDevice()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
@@ -342,6 +344,12 @@ const createOpenWindowListener = (
     }
   })
 }
+
+ipcMain.answerRenderer(AboutActions.PolicyOpenBrowser, () =>
+  shell.openExternal(
+    `${process.env.MUDITA_CENTER_SERVER_URL ?? ""}/privacy-policy-url`
+  )
+)
 
 createOpenWindowListener(
   AboutActions.LicenseOpenWindow,

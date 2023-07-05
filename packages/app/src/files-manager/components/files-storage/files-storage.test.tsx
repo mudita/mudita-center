@@ -38,6 +38,9 @@ const defaultState = {
   device: {
     deviceType: DeviceType.MuditaPure,
   },
+  filesManager: {
+    files: [{}],
+  },
 } as unknown as ReduxRootState
 
 const render = (extraProps?: Partial<Props>, state = defaultState) => {
@@ -59,6 +62,9 @@ describe("`Files Storage` component", () => {
     const { queryByTestId } = render(undefined, {
       device: {
         deviceType: DeviceType.MuditaPure,
+      },
+      filesManager: {
+        files: [{}],
       },
     } as ReduxRootState)
     expect(queryByTestId(FilesStorageTestIds.Title)).toHaveTextContent(

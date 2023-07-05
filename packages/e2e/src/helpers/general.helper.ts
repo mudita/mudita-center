@@ -18,3 +18,16 @@ export const insertTextToElement = async (
   await element.click()
   await element.setValue(text)
 }
+
+/** Returns date string in format YYYY:MM:DD HH:MM:SS  */
+export function getFullDate() {
+  const d = new Date()
+  const seconds = (d.getSeconds() > 9 ? "" : "0") + d.getSeconds()
+  const minutes = (d.getMinutes() > 9 ? "" : "0") + d.getMinutes()
+  const hours = (d.getHours() > 9 ? "" : "0") + d.getHours()
+  const day = (d.getDate() > 9 ? "" : "0") + d.getDate()
+  const month = (d.getMonth() + 1 > 9 ? "" : "0") + (d.getMonth() + 1)
+  const year = d.getFullYear()
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
