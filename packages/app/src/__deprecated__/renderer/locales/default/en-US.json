@@ -188,7 +188,6 @@
   "component.updateForcedModalMessage": "Update Mudita Center to {version}",
   "component.updateForcedModalNoVersionMessage": "Update Mudita Center",
   "component.updateForcedModalVersion": "Update it to use the full version of the Mudita Center. Your current version: v.{version}",
-  "component.updateForcedNewVersionDescription": "Mudita Center {version} version is available. Please update it",
   "component.updateForcedPrivacyPolicy": "Please accept the Privacy Policy to start updating Mudita Center.",
   "component.updateModalTitle": "Mudita Center",
   "component.updateNotAvailableDescription": "Mudita Center v{version}",
