@@ -30,10 +30,6 @@ window.IntersectionObserver = jest
   .fn()
   .mockImplementation(intersectionObserverMock)
 
-window.IntersectionObserver = jest
-  .fn()
-  .mockImplementation(intersectionObserverMock)
-
 type Props = ComponentProps<typeof Contacts>
 
 jest.mock("electron", () => ({
