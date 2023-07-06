@@ -39,7 +39,7 @@ export const initialState: SettingsState = {
   ignoredCrashDumps: [],
   diagnosticSentTimestamp: 0,
   collectingData: false,
-  privacyPolicyAccepted: false,
+  privacyPolicyAccepted: undefined,
   neverConnected: false,
   tray: false,
   nonStandardAudioFilesConversion: false,
