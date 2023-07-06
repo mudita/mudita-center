@@ -108,6 +108,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
       )}
       <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />
       <AppUpdateError
+        zIndex={1000}
         open={appUpdateStep === AppUpdateStep.Error}
         closeModal={forced ? close : closeModal}
       />
