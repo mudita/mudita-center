@@ -81,7 +81,7 @@ const PrivacyPolicyModal: FunctionComponent = () => {
   return (
     <ModalDialog
       open
-      zIndex={200}
+      zIndex={2000}
       size={ModalSize.Small}
       title={intl.formatMessage(messages.privacyPolicyModalTitle)}
       actionButtonLabel={intl.formatMessage(messages.privacyPolicyModalButton)}
