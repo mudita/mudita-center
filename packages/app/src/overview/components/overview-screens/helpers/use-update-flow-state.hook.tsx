@@ -59,24 +59,21 @@ export const useUpdateFlowState = ({
     if (forceUpdateNeeded) {
       return
     }
-
     if (
+      (silentCheckForUpdateState === SilentCheckForUpdateState.Skipped &&
+        checkingForUpdateState === CheckForUpdateState.Initial) ||
       silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
       checkingForUpdateState === CheckForUpdateState.Failed ||
       checkingForUpdateState === CheckForUpdateState.PerformedWithFailure
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
-    }
-
-    if (silentCheckForUpdateState === SilentCheckForUpdateState.Loading) {
+    } else if (
+      silentCheckForUpdateState === SilentCheckForUpdateState.Loading
+    ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.SilentCheckLoading)
-    }
-
-    if (checkingForUpdateState === CheckForUpdateState.Loading) {
+    } else if (checkingForUpdateState === CheckForUpdateState.Loading) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
-    }
-
-    if (
+    } else if (
       silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
       checkingForUpdateState === CheckForUpdateState.Loaded ||
       checkingForUpdateState === CheckForUpdateState.Performed

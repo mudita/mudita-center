@@ -55,6 +55,7 @@ test("empty event returns initial state", () => {
         "downloadedProcessedReleases": null,
         "updateProcessedReleases": null,
       },
+      "deviceHasBeenDetachedDuringDownload": false,
       "downloadState": 0,
       "error": null,
       "forceUpdateState": 0,
@@ -567,7 +568,7 @@ describe("closeUpdateFlow", () => {
       )
     ).toEqual({
       ...initialState,
-      checkForUpdateState: CheckForUpdateState.Performed,
+      checkForUpdateState: CheckForUpdateState.Initial,
       data,
     })
   })
@@ -585,7 +586,7 @@ describe("closeUpdateFlow", () => {
       )
     ).toEqual({
       ...initialState,
-      checkForUpdateState: CheckForUpdateState.Performed,
+      checkForUpdateState: CheckForUpdateState.Initial,
       silentCheckForUpdate: SilentCheckForUpdateState.Skipped,
     })
   })

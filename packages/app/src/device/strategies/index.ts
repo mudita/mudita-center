@@ -5,3 +5,4 @@
 
 export * from "./harmony.strategy"
 export * from "./pure.strategy"
+export * from "./kompakt.strategy"

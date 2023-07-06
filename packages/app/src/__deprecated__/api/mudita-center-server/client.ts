@@ -20,6 +20,15 @@ export interface getLatestProductionReleaseParams {
   product: Product
   version: "latest" | string
   environment: OsEnvironment
+  deviceSerialNumber?: string
+}
+
+interface ExternalUsageDeviceQueryParams {
+  "serial-number": string
+}
+
+interface ExternalUsageDeviceResponse {
+  externalUsage: boolean
 }
 
 export class Client implements ClientInterface {
@@ -80,6 +89,23 @@ export class Client implements ClientInterface {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error(error)
+    }
+  }
+
+  async getExternalUsageDevice(serialNumber: string): Promise<boolean> {
+    try {
+      const params: ExternalUsageDeviceQueryParams = {
+        "serial-number": serialNumber,
+      }
+
+      const response = await this.httpClient.get<
+        ExternalUsageDeviceQueryParams,
+        AxiosResponse<ExternalUsageDeviceResponse>
+      >(MuditaCenterServerRoutes.ExternalUsageDevice, { params })
+
+      return response.data.externalUsage
+    } catch (_) {
+      return false
     }
   }
 

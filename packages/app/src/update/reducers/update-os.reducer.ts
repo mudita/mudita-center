@@ -20,6 +20,8 @@ import {
   startUpdateOs,
   forceUpdate,
   checkForForceUpdateNeed,
+  setDeviceHasBeenDetachedDuringDownload,
+  handleDeviceDetached,
 } from "App/update/actions"
 
 import {
@@ -40,6 +42,7 @@ export const initialState: UpdateOsState = {
   error: null,
   needsForceUpdate: false,
   checkedForForceUpdateNeed: false,
+  deviceHasBeenDetachedDuringDownload: false,
   data: {
     allReleases: null,
     availableReleasesForUpdate: null,
@@ -51,6 +54,12 @@ export const initialState: UpdateOsState = {
 export const updateOsReducer = createReducer<UpdateOsState>(
   initialState,
   (builder) => {
+    builder.addCase(setDeviceHasBeenDetachedDuringDownload, (state, action) => {
+      return {
+        ...state,
+        deviceHasBeenDetachedDuringDownload: action.payload,
+      }
+    })
     builder.addCase(closeForceUpdateFlow, (state) => {
       return {
         ...state,
@@ -64,24 +73,38 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       }
     })
     builder.addCase(closeUpdateFlow, (state) => {
+      const { PerformedWithFailure, Performed, Initial, Failed } =
+        CheckForUpdateState
+      let silentCheckForUpdate: SilentCheckForUpdateState =
+        state.silentCheckForUpdate
+      let checkForUpdateState: CheckForUpdateState = Initial
+      if (silentCheckForUpdate === SilentCheckForUpdateState.Failed) {
+        silentCheckForUpdate = SilentCheckForUpdateState.Skipped
+      }
+      if (
+        state.checkForUpdateState !== Initial &&
+        state.checkForUpdateState === Failed
+      ) {
+        checkForUpdateState = PerformedWithFailure
+      } else if (state.checkForUpdateState !== Initial) {
+        checkForUpdateState = Performed
+      }
       return {
         ...state,
         error: null,
-        silentCheckForUpdate:
-          state.silentCheckForUpdate === SilentCheckForUpdateState.Failed
-            ? SilentCheckForUpdateState.Skipped
-            : state.silentCheckForUpdate,
-        checkForUpdateState:
-          state.checkForUpdateState === CheckForUpdateState.Failed
-            ? CheckForUpdateState.PerformedWithFailure
-            : CheckForUpdateState.Performed,
+        silentCheckForUpdate,
+        checkForUpdateState,
         updateOsState: State.Initial,
         downloadState: DownloadState.Initial,
       }
     })
-    builder.addCase(clearStateAndData, () => {
+    builder.addCase(clearStateAndData, (state) => {
       return {
         ...initialState,
+        deviceHasBeenDetachedDuringDownload:
+          state.downloadState === DownloadState.Loading
+            ? state.deviceHasBeenDetachedDuringDownload
+            : initialState.deviceHasBeenDetachedDuringDownload,
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -218,6 +241,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         state.downloadState = DownloadState.Failed
         state.error = action.payload as AppError<UpdateError>
       }
+      state.deviceHasBeenDetachedDuringDownload = false
     })
     builder.addCase(cancelDownload, (state) => {
       state.downloadState = DownloadState.Cancelled
@@ -279,6 +303,17 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(forceUpdate.rejected, (state, action) => {
       state.forceUpdateState = State.Failed
       state.error = action.payload as AppError<UpdateError>
+    })
+    builder.addCase(handleDeviceDetached.fulfilled, (state) => {
+      state.data = {
+        allReleases: null,
+        availableReleasesForUpdate: null,
+        downloadedProcessedReleases: null,
+        updateProcessedReleases: null,
+      }
+      if (state.downloadState === DownloadState.Loading) {
+        state.deviceHasBeenDetachedDuringDownload = true
+      }
     })
   }
 )

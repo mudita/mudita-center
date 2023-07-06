@@ -142,7 +142,6 @@ export class PureStrategy implements DeviceStrategy {
   public async request(
     config: GetDeviceFilesRequestConfig
   ): Promise<RequestResponse<GetDeviceFilesResponseBody>>
-
   public async request(
     config: GetMessagesRequestConfig
   ): Promise<RequestResponse<GetMessagesResponseBody>>

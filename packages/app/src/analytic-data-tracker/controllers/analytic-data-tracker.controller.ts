@@ -28,9 +28,24 @@ export class AnalyticDataTrackerController {
     await this.tracker.trackUnique(event)
   }
 
+  @IpcEvent(IpcAnalyticDataTrackerEvent.TrackWithoutDeviceCheck)
+  public async trackWithoutDeviceCheck(event: TrackEvent): Promise<void> {
+    await this.tracker.track(event, false)
+  }
+
+  @IpcEvent(IpcAnalyticDataTrackerEvent.TrackUniqueWithoutDeviceCheck)
+  public async trackUniqueWithoutDeviceCheck(event: TrackEvent): Promise<void> {
+    await this.tracker.trackUnique(event, false)
+  }
+
   @IpcEvent(IpcAnalyticDataTrackerEvent.ToggleTracking)
   public toggleTracking(flag: boolean): void {
     this.tracker.toggleTracking(flag)
+  }
+
+  @IpcEvent(IpcAnalyticDataTrackerEvent.SetExternalUsageDevice)
+  public setExternalUsageDevice(flag: boolean): void {
+    this.tracker.setExternalUsageDevice(flag)
   }
 
   @IpcEvent(IpcAnalyticDataTrackerEvent.SetVisitorMetadata)

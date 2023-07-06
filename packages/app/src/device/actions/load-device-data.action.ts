@@ -15,11 +15,13 @@ import { lockedDevice } from "App/device/actions/locked-device.action"
 import { getDeviceInfoRequest } from "App/device-info/requests"
 import { setValue, MetadataKey } from "App/metadata"
 import { trackOsVersion } from "App/analytic-data-tracker/helpers"
+import { externalUsageDevice } from "App/device/requests/external-usage-device.request"
+import { setExternalUsageDeviceRequest } from "App/analytic-data-tracker/requests/set-external-usage-device.request"
 
 export const loadDeviceData = createAsyncThunk(
   DeviceEvent.Loading,
   async (_, { getState, dispatch, rejectWithValue }) => {
-    const state = getState() as ReduxRootState
+    let state = (await getState()) as ReduxRootState
 
     if (state.device.state === ConnectionState.Loaded) {
       return
@@ -35,7 +37,7 @@ export const loadDeviceData = createAsyncThunk(
 
         return
       }
-
+      state = (await getState()) as ReduxRootState
       if (state.device.deviceType !== null) {
         void trackOsVersion({
           serialNumber: data.serialNumber,
@@ -51,6 +53,12 @@ export const loadDeviceData = createAsyncThunk(
         key: MetadataKey.DeviceType,
         value: state.device.deviceType,
       })
+
+      const resultExternalUsageDevice = state.settings.privacyPolicyAccepted
+        ? await externalUsageDevice(data.serialNumber)
+        : false
+
+      await setExternalUsageDeviceRequest(resultExternalUsageDevice)
       dispatch(setDeviceData(data))
     } catch (error) {
       return rejectWithValue(error)

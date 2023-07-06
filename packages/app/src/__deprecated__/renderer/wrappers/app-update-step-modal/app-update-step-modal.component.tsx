@@ -6,8 +6,8 @@
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { ComponentProps, useEffect, useState } from "react"
 import {
-  AppUpdateForced,
-  AppUpdateAvailable,
+  AppUpdatePrivacyPolicy,
+  AppUpdateRejected,
   AppUpdateError,
   AppUpdateProgress,
 } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update.modals"
@@ -44,6 +44,11 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
   const [appUpdateStep, setAppUpdateStep] = useState<AppUpdateStep>(
     AppUpdateStep.Available
   )
+  const [appUpdateRejectedOpen, setAppUpdateRejectedOpen] =
+    useState<boolean>(false)
+  const onCloseModal = () => {
+    setAppUpdateRejectedOpen(true)
+  }
 
   useEffect(() => {
     const unregister = registerDownloadedAppUpdateListener(() => {
@@ -82,19 +87,21 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
 
   return (
     <>
-      {forced ? (
-        <AppUpdateForced
+      {!appUpdateRejectedOpen ? (
+        <AppUpdatePrivacyPolicy
           open={appUpdateStep === AppUpdateStep.Available}
           onActionButtonClick={handleProcessDownload}
           appLatestVersion={appLatestVersion}
           appCurrentVersion={appCurrentVersion}
+          closeModal={forced ? undefined : onCloseModal}
           {...props}
+          zIndex={1000}
         />
       ) : (
-        <AppUpdateAvailable
-          open={appUpdateStep === AppUpdateStep.Available}
+        <AppUpdateRejected
+          open={appUpdateRejectedOpen}
           closeModal={closeModal}
-          onActionButtonClick={handleProcessDownload}
+          onActionButtonClick={() => setAppUpdateRejectedOpen(false)}
           appLatestVersion={appLatestVersion}
           {...props}
         />

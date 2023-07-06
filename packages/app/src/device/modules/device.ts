@@ -158,12 +158,18 @@ export class Device {
   }
 
   private mountListeners(): void {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceConnected, this.emitConnectionEvent)
     this.on(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(
       DeviceServiceEvent.DeviceInitializationFailed,
       this.emitDeviceInitializationFailedEvent
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.on(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     this.on(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.on(
@@ -179,10 +185,14 @@ export class Device {
   private unmountDeviceListeners(): void {
     this.off(DeviceServiceEvent.DeviceConnected, this.emitConnectionEvent)
     this.off(DeviceServiceEvent.DeviceDisconnected, this.emitDisconnectionEvent)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.off(
       DeviceServiceEvent.DeviceInitializationFailed,
       this.emitDeviceInitializationFailedEvent
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     this.off(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     this.off(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.off(
@@ -206,11 +216,9 @@ export class Device {
   }
 
   private emitDisconnectionEvent = (): void => {
-    if (!this.connecting) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, this.path)
-      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceDisconnected, this.path)
-      this.unmountDeviceListeners()
-    }
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, this.path)
+    this.ipc.sendToRenderers(DeviceIpcEvent.DeviceDisconnected, this.path)
+    this.unmountDeviceListeners()
   }
 
   private emitDeviceInitializationFailedEvent = (): void => {

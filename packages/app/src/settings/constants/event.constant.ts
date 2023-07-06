@@ -19,6 +19,8 @@ export enum SettingsEvent {
   ToggleTethering = "TOGGLE_TETHERING",
   ToggleUpdateAvailable = "TOGGLE_UPDATE_AVAILABLE",
   ToggleCollectionData = "TOGGLE_COLLECTION_DATA",
+  TogglePrivacyPolicyAccepted = "TOGGLE_PRIVACY_POLICY_ACCEPTED",
   CheckUpdateAvailable = "CHECK_UPDATE_AVAILABLE",
   SendDiagnosticData = "SEND_DIAGNOSTIC_DATA",
+  DeleteCollectingData = "DELETE_COLLECTING_DATA",
 }

@@ -6,7 +6,7 @@
 import packageInfo from "../../../package.json"
 import {
   setVisitorMetadataRequest,
-  trackUniqueRequest,
+  trackUniqueWithoutDeviceCheckRequest,
 } from "App/analytic-data-tracker/requests"
 import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
@@ -19,7 +19,7 @@ export const initAnalyticDataTracker = async (): Promise<void> => {
     }`,
   })
 
-  await trackUniqueRequest({
+  await trackUniqueWithoutDeviceCheckRequest({
     e_c: TrackEventCategory.CenterVersion,
     e_a: packageInfo.version,
   })

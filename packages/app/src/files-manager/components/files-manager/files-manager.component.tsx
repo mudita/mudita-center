@@ -26,6 +26,11 @@ import { useLoadingState } from "App/ui"
 import { UploadFilesModals } from "App/files-manager/components/upload-files-modals/upload-files-modals.component"
 import { useFilesFilter } from "App/files-manager/helpers/use-files-filter.hook"
 import { getSpaces } from "App/files-manager/components/files-manager/get-spaces.helper"
+import { useDispatch } from "react-redux"
+import { resetFiles } from "App/files-manager/actions/base.action"
+import { uploadFile } from "App/files-manager/actions"
+import { Dispatch } from "App/__deprecated__/renderer/store"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -38,7 +43,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   deleting,
   files,
   getFiles,
-  uploadFile,
   deviceType,
   resetAllItems,
   selectAllItems,
@@ -59,7 +63,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   continuePendingUpload,
 }) => {
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
-    useFilesFilter({ files })
+    useFilesFilter({ files: files ?? [] })
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
     deletingFailed: false,
     deleting: false,
@@ -78,6 +82,10 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     otherSpace,
     musicSpace,
   } = getSpaces(files, memorySpace)
+  const dispatch = useDispatch()
+  const dispatchThunk = useDispatch<Dispatch>()
+
+  const [uploadActionTrigger, setUploadActionTrigger] = useState<number>()
 
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
 
@@ -90,6 +98,14 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       getFiles(DeviceDirectory.Relaxation)
     }
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetFiles())
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (deviceType) {
@@ -175,8 +191,26 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   }, [states.uploadingInfo])
 
   useEffect(() => {
-    return () => resetUploadingState()
+    return () => {
+      resetUploadingState()
+    }
   }, [resetUploadingState])
+
+  useEffect(() => {
+    if (uploadActionTrigger) {
+      const uploadActionPromise = dispatchThunk(uploadFile())
+
+      //abort on dismount or when a new upload has been triggered
+      return () => {
+        if ("abort" in uploadActionPromise) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+          ;(uploadActionPromise as any).abort()
+        }
+      }
+    }
+    return noop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploadActionTrigger])
 
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
     const elements = {
@@ -191,7 +225,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       [DiskSpaceCategoryType.Music]: {
         ...element,
         size: musicSpace,
-        filesAmount: files.length,
+        filesAmount: files?.length ?? 0,
       },
       [DiskSpaceCategoryType.OtherSpace]: {
         ...element,
@@ -201,11 +235,11 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     return elements[element.type]
   }
 
-  const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
-    (element) => {
+  const diskSpaceCategories: DiskSpaceCategory[] | null =
+    files &&
+    filesSummaryElements.map((element) => {
       return getDiskSpaceCategories(element)
-    }
-  )
+    })
   const openDeleteModal = (ids: string[]) => {
     updateFieldState("deletingInfo", false)
     updateFieldState("uploadingInfo", false)
@@ -239,6 +273,11 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     setDeletingFileCount(0)
     resetDeletingState()
   }
+
+  const handleUploadFiles = () => {
+    setUploadActionTrigger(new Date().getTime())
+  }
+
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
       <UploadFilesModals
@@ -263,12 +302,13 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         onCloseDeletingErrorModal={handleCloseDeletingErrorModal}
         onDelete={handleConfirmFilesDelete}
       />
-      <FilesSummary
-        diskSpaceCategories={diskSpaceCategories}
-        totalMemorySpace={totalMemorySpace}
-        usedMemory={usedMemorySpace}
-        uploading={states.uploading}
-      />
+      {diskSpaceCategories && (
+        <FilesSummary
+          diskSpaceCategories={diskSpaceCategories}
+          totalMemorySpace={totalMemorySpace}
+          usedMemory={usedMemorySpace}
+        />
+      )}
       {deviceType !== null && (
         <FilesStorage
           state={loading}
@@ -280,7 +320,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           toggleItem={toggleItem}
           onDeleteClick={handleDeleteClick}
           onManagerDeleteClick={handleManagerDeleteClick}
-          uploadFiles={uploadFile}
+          uploadFiles={handleUploadFiles}
           searchValue={searchValue}
           onSearchValueChange={handleSearchValueChange}
           noFoundFiles={noFoundFiles}

@@ -32,7 +32,11 @@ export class SettingsService {
   }
 
   updateSettings({ key, value }: SettingsUpdateOption): SettingsValue {
-    this.store.set(key, value)
+    if (value !== undefined) {
+      this.store.set(key, value)
+    } else {
+      this.store.delete(key)
+    }
     return this.store.get(key)
   }
 

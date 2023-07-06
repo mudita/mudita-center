@@ -21,6 +21,7 @@ import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-syn
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"
 import { AppError } from "App/core/errors"
 import CriticalBatteryLevelModal from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
+import ErrorUpdateModal from "App/connecting/components/error-update-modal/error-update-modal"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -164,7 +165,7 @@ const Connecting: FunctionComponent<{
         <ErrorConnectingModal open closeModal={close} />
       )}
       {error === ConnectingError.ForceUpdateCheckFailed && (
-        <ErrorConnectingModal open closeModal={close} />
+        <ErrorUpdateModal open closeModal={close} />
       )}
       <CriticalBatteryLevelModal
         open={criticalBatteryLevelOpenModal}

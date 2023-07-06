@@ -23,6 +23,12 @@ test("isPortInfoMatch function works properly", () => {
   expect(
     PortInfoValidator.isPortInfoMatch({ vendorId: "3310", productId: "0100" })
   ).toBeTruthy()
+  expect(
+    PortInfoValidator.isPortInfoMatch({ vendorId: "3310", productId: "AAAA" })
+  ).toBeFalsy()
+  expect(
+    PortInfoValidator.isPortInfoMatch({ vendorId: "bbbb", productId: "0100" })
+  ).toBeFalsy()
   expect(PortInfoValidator.isPortInfoMatch({ vendorId: "3310" })).toBeFalsy()
   expect(PortInfoValidator.isPortInfoMatch({ productId: "0100" })).toBeFalsy()
   expect(PortInfoValidator.isPortInfoMatch({})).toBeFalsy()

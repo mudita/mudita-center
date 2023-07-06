@@ -56,6 +56,26 @@ import { ExportContactFailedModal } from "../export-contact-failed-modal/export-
 import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
 import { ExportContactsResult } from "App/contacts/constants"
 import DeleteContactsPopup from "./delete-contacts-popup/delete-contacts-popup.component"
+import { differenceWith, isEqual } from "lodash"
+
+const allPossibleFormErrorCausedByAPI: FormError[] = [
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+  {
+    field: "secondaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorRequiredPrimaryPhone",
+  },
+  {
+    field: "primaryPhoneNumber",
+    error: "component.formErrorNumberUnique",
+  },
+]
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -171,23 +191,49 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         true
       )
 
-      const { payload } = await delayResponse(addNewContact(contact))
+      const { message, payload } =
+        (await delayResponse(addNewContact(contact))).payload ?? {}
 
-      if (payload) {
-        let newError: FormError
-        if (payload.message === "Create contact: Empty primary phone number") {
-          newError = {
-            field: "primaryPhoneNumber",
-            error: "component.formErrorRequiredPrimaryPhone",
-          }
-        } else {
-          newError = {
+      if (payload || message) {
+        const newError: FormError[] = []
+        if (
+          message === "phone-number-duplicated" &&
+          payload?.primaryPhoneNumberIsDuplicated
+        ) {
+          newError.push({
             field: "primaryPhoneNumber",
             error: "component.formErrorNumberUnique",
-          }
+          })
+        }
+        if (
+          message === "phone-number-duplicated" &&
+          payload?.secondaryPhoneNumberIsDuplicated
+        ) {
+          newError.push({
+            field: "secondaryPhoneNumber",
+            error: "component.formErrorNumberUnique",
+          })
+        }
+        if (message === "Create contact: Empty primary phone number") {
+          newError.push({
+            field: "primaryPhoneNumber",
+            error: "component.formErrorRequiredPrimaryPhone",
+          })
+        }
+        if (newError.length === 0) {
+          newError.push({
+            field: "primaryPhoneNumber",
+            error: "component.formErrorNumberUnique",
+          })
         }
 
-        setFormErrors([...formErrors, newError])
+        const cleanedErrors = differenceWith(
+          formErrors,
+          allPossibleFormErrorCausedByAPI,
+          (a, b) => isEqual(a, b)
+        )
+
+        setFormErrors([...cleanedErrors, ...newError])
         await closeModal()
         return
       }
