@@ -50,6 +50,7 @@ import {
   LastMessageText,
   WarningIconWrapper,
 } from "App/messages/components/thread-row.styled"
+import { isPhoneNumberValid } from "App/messages/helpers/threads.helpers"
 
 const messages = defineMessages({
   dropdownTogglerTooltipDescription: {
@@ -74,6 +75,7 @@ interface Props
   onToggleReadClick: (threads: Thread[]) => void
   onContactClick: (phoneNumber: Thread["phoneNumber"]) => void
   newConversation: string
+  threadsOffset?: { left: number; top: number }
 }
 
 const ThreadRow: FunctionComponent<Props> = ({
@@ -91,6 +93,7 @@ const ThreadRow: FunctionComponent<Props> = ({
   onToggleReadClick,
   onContactClick,
   newConversation,
+  threadsOffset,
   ...props
 }) => {
   const contactCreated = contact !== undefined
@@ -123,6 +126,7 @@ const ThreadRow: FunctionComponent<Props> = ({
             indeterminate={indeterminate}
             visible={!noneRowsSelected}
             data-testid="checkbox"
+            threadsOffset={threadsOffset}
           />
         )}
         {(noneRowsSelected || newConversationOpen) && (
@@ -220,6 +224,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 onClick={handleContactClick}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid="dropdown-add-to-contacts"
+                disabled={!isPhoneNumberValid(phoneNumber)}
               />
             )}
             <ButtonComponent

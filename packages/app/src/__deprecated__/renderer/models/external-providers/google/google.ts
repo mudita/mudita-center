@@ -190,6 +190,10 @@ const google = createModel<ExternalProvidersModels>({
           unregisterMainListener()
         }
 
+        ipcRenderer.answerMain(GoogleAuthActions.CloseWindow, () => {
+          reject("window closed")
+        })
+
         unregisterMainListener = ipcRenderer.answerMain(
           GoogleAuthActions.GotCredentials,
           processResponse
@@ -318,12 +322,18 @@ const google = createModel<ExternalProvidersModels>({
         throw error
       }
     }
+
+    const closeWindow = async () => {
+      await ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
+    }
+
     return {
       requestWrapper,
       authorize,
       getCalendars,
       getContacts,
       getEvents,
+      closeWindow,
     }
   },
 })

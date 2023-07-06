@@ -21,7 +21,7 @@ describe("Mark conversation as unred/read/unread", () => {
     })
 
     await ModalGeneralPage.clickUpdateAvailableModalCloseButton()
-    await NavigationTabs.messagesTabClick()
+    await NavigationTabs.clickMessagesTab()
   })
   it("Send message to incorrect number and click MARK AS UNREAD button thread details screen", async () => {
     await sendMessage("14710", "Mark as unread test")

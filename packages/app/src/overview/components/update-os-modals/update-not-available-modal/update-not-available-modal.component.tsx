@@ -41,7 +41,7 @@ export const UpdateNotAvailableModal: FunctionComponent<
     actionButtonLabel={intl.formatMessage(messages.updateAvailableButton)}
   >
     <RoundIconWrapper>
-      <Icon type={IconType.Pure} width={3.2} />
+      <Icon type={IconType.Info} width={4.8} />
     </RoundIconWrapper>
     <ModalMainText
       displayStyle={TextDisplayStyle.Headline4}

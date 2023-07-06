@@ -18,12 +18,18 @@ import { ExportContactsResult } from "App/contacts/constants"
 import { VirtualizedContactListItemTestIds } from "App/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
 import { VirtuosoMockContext } from "react-virtuoso"
 import { ContactSearchResultsTestIdsEnum } from "../contact-search-results/contact-search-results-test-ids.enum"
+import { Provider } from "react-redux"
+import store from "App/__deprecated__/renderer/store"
 
 const intersectionObserverMock = () => ({
   observe: () => null,
   disconnect: () => null,
   unobserve: () => null,
 })
+window.IntersectionObserver = jest
+  .fn()
+  .mockImplementation(intersectionObserverMock)
+
 window.IntersectionObserver = jest
   .fn()
   .mockImplementation(intersectionObserverMock)
@@ -172,6 +178,7 @@ const defaultProps: Props = {
   resetAllItems: jest.fn(),
   selectAllItems: jest.fn(),
   toggleItem: jest.fn(),
+  closeImportWindow: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -184,13 +191,15 @@ const renderer = (extraProps?: Partial<Props>) => {
     <VirtuosoMockContext.Provider
       value={{ viewportHeight: 300, itemHeight: 5 }}
     >
-      <Contacts {...props} />
+      <Provider store={store}>
+        <Contacts {...props} />
+      </Provider>
     </VirtuosoMockContext.Provider>
   )
 }
 
 test("changing contact details preview, when the user switching between contacts", async () => {
-  const { getAllByTestId, getByTestId } = renderer({})
+  const { getAllByTestId, getByTestId } = renderer()
 
   fireEvent.click(
     getAllByTestId(VirtualizedContactListItemTestIds.ContactRow)[0]

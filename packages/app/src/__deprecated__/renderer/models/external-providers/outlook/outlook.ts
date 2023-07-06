@@ -122,11 +122,25 @@ const outlook = createModel<ExternalProvidersModels>({
           unregisterMainListener()
         }
 
+        ipcRenderer.answerMain(OutlookAuthActions.CloseWindow, () => {
+          reject("window closed")
+        })
+
         unregisterMainListener = ipcRenderer.answerMain(
           OutlookAuthActions.GotCredentials,
           processResponse
         )
       })
+    }
+
+    type OutlookException = {
+      error: string
+    }
+
+    function isOutlookException(
+      exception: unknown
+    ): exception is OutlookException {
+      return (exception as OutlookException).error !== undefined
     }
 
     const getContacts = async (
@@ -138,8 +152,8 @@ const outlook = createModel<ExternalProvidersModels>({
       const refreshToken = rootState.outlook[OutLookScope.Contacts].refreshToken
       try {
         return await fetchContacts(accessToken)
-      } catch ({ error }) {
-        if (error === "invalid_grant") {
+      } catch (ex) {
+        if (isOutlookException(ex) && ex.error === "invalid_grant") {
           const tokenRequester = new TokenRequester()
           const regeneratedTokens = await tokenRequester.regenerateTokens(
             refreshToken,
@@ -223,11 +237,16 @@ const outlook = createModel<ExternalProvidersModels>({
       return fetchEvents(accessToken, calendarId)
     }
 
+    const closeWindow = async () => {
+      await ipcRenderer.callMain(OutlookAuthActions.CloseWindow)
+    }
+
     return {
       authorize,
       getContacts,
       getCalendars,
       getEvents,
+      closeWindow,
     }
   },
 })

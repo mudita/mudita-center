@@ -31,6 +31,7 @@ import { cancelOsDownload } from "App/update/requests"
 import React, { FunctionComponent, useMemo } from "react"
 import { NotEnoughSpaceModal } from "App/overview/components/update-os-modals/not-enough-space-modal"
 import { OnboardingNotCompleteModal } from "App/overview/components/onboarding-not-complete-modal"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   checkForUpdateState,
@@ -106,12 +107,12 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
     <>
       <CheckingUpdatesModal
         testId={UpdateOsFlowTestIds.CheckForUpdateModal}
-        open={checkForUpdateState === State.Loading}
+        open={checkForUpdateState === CheckForUpdateState.Loading}
       />
       {availableReleasesForUpdate && availableReleasesForUpdate.length > 0 && (
         <UpdateAvailableModal
           testId={UpdateOsFlowTestIds.UpdateAvailableModal}
-          open={checkForUpdateState === State.Loaded}
+          open={checkForUpdateState === CheckForUpdateState.Loaded}
           releases={availableReleasesForUpdate}
           onDownload={downloadUpdates}
           onClose={resetUpdateFlow}
@@ -123,7 +124,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         availableReleasesForUpdate.length === 0) && (
         <UpdateNotAvailableModal
           testId={UpdateOsFlowTestIds.UpdateNotAvailableModal}
-          open={checkForUpdateState === State.Loaded}
+          open={checkForUpdateState === CheckForUpdateState.Loaded}
           version={currentOsVersion}
           onClose={resetUpdateFlow}
         />
@@ -132,7 +133,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       <CheckForUpdateFailedModal
         testId={UpdateOsFlowTestIds.CheckForUpdateFailedModal}
         open={
-          checkForUpdateState === State.Failed ||
+          checkForUpdateState === CheckForUpdateState.Failed ||
           silentCheckForUpdateState === SilentCheckForUpdateState.Failed
         }
         onClose={resetUpdateFlow}

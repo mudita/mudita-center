@@ -21,6 +21,7 @@ import { OsRelease } from "App/update/dto"
 import { Product } from "App/__deprecated__/main/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
+import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
 jest.mock("electron", () => ({
   remote: {
@@ -33,7 +34,7 @@ jest.mock("electron", () => ({
 }))
 
 const defaultProps: UpdateOsFlowProps = {
-  checkForUpdateState: State.Initial,
+  checkForUpdateState: CheckForUpdateState.Initial,
   downloadState: DownloadState.Initial,
   updateState: State.Initial,
   silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
@@ -128,7 +129,7 @@ describe("check for update modals", () => {
   describe("when check for update state is marked as loading", () => {
     test("loading modal should be displayed", () => {
       const { queryByTestId } = render({
-        checkForUpdateState: State.Loading,
+        checkForUpdateState: CheckForUpdateState.Loading,
       })
       checkModalsVisibility(queryByTestId, [
         UpdateOsFlowTestIds.CheckForUpdateModal,
@@ -139,7 +140,7 @@ describe("check for update modals", () => {
   describe("when check for update state is marked as loaded and there is available release to be updated", () => {
     test("update available modal should be displayed", () => {
       const { queryByTestId } = render({
-        checkForUpdateState: State.Loaded,
+        checkForUpdateState: CheckForUpdateState.Loaded,
         availableReleasesForUpdate: [release],
       })
 
@@ -152,7 +153,7 @@ describe("check for update modals", () => {
   describe("when check for update state is marked as loaded and there is no available release to be updated", () => {
     test("update not available modal should be displayed", () => {
       const { queryByTestId } = render({
-        checkForUpdateState: State.Loaded,
+        checkForUpdateState: CheckForUpdateState.Loaded,
         availableReleasesForUpdate: null,
       })
 
@@ -165,7 +166,7 @@ describe("check for update modals", () => {
   describe("when check for update state failed", () => {
     test("check for update failed modal should be displayed", () => {
       const { queryByTestId } = render({
-        checkForUpdateState: State.Failed,
+        checkForUpdateState: CheckForUpdateState.Failed,
         availableReleasesForUpdate: null,
       })
 
@@ -178,7 +179,7 @@ describe("check for update modals", () => {
   describe("when silent check for update state failed", () => {
     test("check for update failed modal should be displayed", () => {
       const { queryByTestId } = render({
-        checkForUpdateState: State.Initial,
+        checkForUpdateState: CheckForUpdateState.Initial,
         silentCheckForUpdateState: SilentCheckForUpdateState.Failed,
         availableReleasesForUpdate: null,
       })

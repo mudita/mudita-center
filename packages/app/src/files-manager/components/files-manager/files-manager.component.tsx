@@ -48,6 +48,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
+  resetUploadingStateAfterSuccess,
   uploadingFileCount,
   deletingFileCount,
   uploadBlocked,
@@ -153,13 +154,17 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   }, [states.deletingInfo])
 
   useEffect(() => {
+    return () => resetDeletingState()
+  }, [resetDeletingState])
+
+  useEffect(() => {
     if (!states.uploadingInfo) {
       return
     }
 
     const hideInfoPopupsTimeout = setTimeout(() => {
       updateFieldState("uploadingInfo", false)
-      resetUploadingState()
+      resetUploadingStateAfterSuccess()
     }, 5000)
 
     return () => {
@@ -168,6 +173,10 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [states.uploadingInfo])
+
+  useEffect(() => {
+    return () => resetUploadingState()
+  }, [resetUploadingState])
 
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
     const elements = {

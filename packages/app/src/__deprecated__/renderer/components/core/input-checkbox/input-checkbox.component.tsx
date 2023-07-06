@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { ComponentProps, useState } from "react"
+import { ComponentProps } from "react"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
@@ -84,6 +84,7 @@ export interface CheckboxTooltipDescription {
 export interface InputCheckboxProps extends InputProps {
   size?: Size
   checkboxTooltipDescription?: CheckboxTooltipDescription
+  threadsOffset?: { left: number; top: number }
 }
 
 const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
@@ -96,9 +97,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
   checkboxTooltipDescription,
   ...props
 }) => {
-  const [checked, setChecked] = useState(props.checked)
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setChecked(event.target.checked)
     if (onChange) {
       onChange(event)
     }
@@ -109,7 +108,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
       return undefined
     }
 
-    if (checked) {
+    if (props.checked && !indeterminate) {
       return checkboxTooltipDescription.uncheckTooltipDescription
     } else {
       return checkboxTooltipDescription.checkTooltipDescription

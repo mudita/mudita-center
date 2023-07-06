@@ -197,6 +197,8 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8"
           color="secondary"
+          data-event="mouseenter"
+          data-event-off="mouseleave focusout"
           data-for="prefix-1"
           data-testid="backup-location"
           data-tip="true"
