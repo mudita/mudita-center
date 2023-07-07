@@ -15,7 +15,7 @@ export interface Settings {
   ignoredCrashDumps: string[]
   diagnosticSentTimestamp: number
   collectingData: boolean | undefined
-  privacyPolicyAccepted: boolean
+  privacyPolicyAccepted: boolean | undefined
   neverConnected: boolean
   tray: boolean
   nonStandardAudioFilesConversion: boolean

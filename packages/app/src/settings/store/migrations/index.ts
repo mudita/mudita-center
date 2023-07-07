@@ -4,3 +4,4 @@
  */
 
 export * from "./001-remove-unused-fields.migration"
+export * from "./002-privacy-policy-accepted.migration"

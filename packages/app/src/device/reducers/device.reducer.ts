@@ -29,6 +29,7 @@ import {
 import {
   setAgreementStatus,
   setCriticalBatteryLevel,
+  unlockedDevice,
 } from "App/device/actions/base.action"
 
 export const initialState: DeviceState = {
@@ -156,12 +157,15 @@ export const deviceReducer = createReducer<DeviceState>(
           },
         }
       })
-      .addCase(DeviceEvent.Unlocked, (state) => {
+      .addCase(unlockedDevice, (state, { payload: agreementAccepted }) => {
         return {
           ...state,
           status: {
             ...state.status,
             unlocked: true,
+            agreementAccepted: agreementAccepted
+              ? agreementAccepted
+              : state.status.agreementAccepted,
           },
           error: null,
         }

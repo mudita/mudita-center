@@ -8,7 +8,10 @@ import { settingsSchema } from "App/settings/store/schemas"
 import project from "../../../package.json"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 
-import { removeUnusedFields } from "App/settings/store/migrations"
+import {
+  privacyPolicyAcceptedMigration,
+  removeUnusedFields,
+} from "App/settings/store/migrations"
 
 export const settingsStore = new Store({
   name: "settings",
@@ -21,5 +24,6 @@ export const settingsStore = new Store({
   clearInvalidConfig: process.env.NODE_ENV === "production",
   migrations: {
     ">=1.4.1": removeUnusedFields,
+    ">=2.0.2": privacyPolicyAcceptedMigration,
   },
 })
