@@ -43,7 +43,6 @@ export const deviceInitializationFailedModalShowEnabledSelector =
         settingsState.loaded &&
         deviceState.state === ConnectionState.Error &&
         // TODO: Move manage an order of the modal displaying to the view component
-        !modalsManagerState.collectingDataModalShow &&
         !modalsManagerState.appForcedUpdateFlowShow &&
         !modalsManagerState.appUpdateFlowShow &&
         !modalsManagerState.contactSupportFlowShow &&
