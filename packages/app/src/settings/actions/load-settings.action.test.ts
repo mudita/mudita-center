@@ -34,7 +34,6 @@ jest.mock("App/backup/actions/load-backup-data.action", () => ({
 
 jest.mock("App/modals-manager/actions", () => ({
   checkAppForcedUpdateFlowToShow: () => jest.fn(),
-  checkCollectingDataModalToShow: () => jest.fn(),
   checkAppUpdateFlowToShow: () => jest.fn(),
 }))
 

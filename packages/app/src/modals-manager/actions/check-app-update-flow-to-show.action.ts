@@ -18,7 +18,6 @@ export const checkAppUpdateFlowToShow = createAsyncThunk<void, undefined>(
     if (
       state.settings.loaded &&
       state.settings.updateAvailable &&
-      !state.modalsManager.collectingDataModalShow &&
       !state.modalsManager.appForcedUpdateFlowShow
     ) {
       dispatch(showModal(ModalStateKey.AppUpdateFlow))
