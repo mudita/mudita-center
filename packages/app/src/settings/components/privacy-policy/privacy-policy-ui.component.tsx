@@ -10,9 +10,12 @@ import { PrivacyPolicyComponentTestIds } from "./privacy-policy-ui.enum"
 import {
   WindowContainer,
   WindowHeader,
-  WindowTitle,
   LightText,
   LightTextNested,
+  BoldText,
+  GridWrapper,
+  GridItem,
+  GridBoldItem,
 } from "App/settings/components/about/shared"
 
 export const PrivacyPolicyUI: FunctionComponent = () => (
@@ -23,248 +26,384 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
     >
       Mudita Center Privacy Policy
     </WindowHeader>
-    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
-      Privacy policy - rules for the processing and protection of personal data
-      in Mudita sp. z o.o.
-    </WindowTitle>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      We hereby inform that we process your personal data. Details regarding
+      this can be found below.
+    </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      For the purpose of the implementation of the requirements of Regulation
-      (EU) 2016/679 of the European Parliament and of the Council of 27 April
-      2016 on the protection of natural persons with regard to the processing of
-      personal data and on the free movement of such data, and repealing
-      Directive 95/46/EC (General Data Protection Regulation), hereinafter
-      {/* AUTO DISABLED - fix me if you like :) */}
-      {/* eslint-disable-next-line react/no-unescaped-entities */}
-      referred to as "GDPR", we inform you about the rules of processing your
-      personal data and about your rights related with it.
+      1. The Controller of your personal data is <b>Mudita sp. z o.o.</b> with
+      its registered office in Warsaw at ul. Jana Czeczota 6, 02-607 Warsaw,
+      entered into the Register of Entrepreneurs held by the Regional Court for
+      the Capital City of Warsaw, 12th Commercial Division of the National Court
+      Register, under KRS [National Court Register Number] 0000467620, NIP
+      [Polish Taxpayer Identification Number] 5252558282, REGON [National
+      Business Registration Number] 146767613, share capital:600.000,00 zł.,
+      hereinafter referred to as “<b>Controller or Mudita</b>”.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      The following rules apply from June 22, 2021.
+      2. In cases regarding the protection of your personal data and the
+      exercising your rights you can contact us by e-mail: office@mudita.com or
+      in writing to our address indicated in clause 1.
     </LightText>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      For what purposes and on what grounds do we process your personal data?
+    </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      1. <b>The controller of your personal data.</b> The controller of your
-      personal data is <b>Mudita sp. z o.o.</b>, Jana Czeczota Street No.6,
-      02-607 Warsaw, Poland, REGON: 146767613, NIP (Tax No.): 5252558282,
-      entered into the entrepreneur register of the National Court Register by
-      the District Court for the Capital City of Warsaw, XII Commercial Division
-      of the National Court Register (KRS) under No.: 0000467620, share capital
-      {/* AUTO DISABLED - fix me if you like :) */}
-      {/* eslint-disable-next-line react/no-unescaped-entities */}
-      (fully paid) PLN 20 000 (hereinafter referred to as "<b>We</b>”, "
-      {/* AUTO DISABLED - fix me if you like :) */}
-      {/* eslint-disable-next-line react/no-unescaped-entities */}
-      <b>Mudita</b>"). Mudita distributes a desktop application called Mudita
-      Center (hereinafter “<b>Center</b>”).
+      3. Your personal data is processed for the following purposes:
     </LightText>
+    <GridWrapper>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}>
+        the purpose of the processing
+      </GridBoldItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}>
+        legal basis for the processing
+      </GridBoldItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}>
+        Mudita&apos;s software users
+      </GridBoldItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}></GridBoldItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        sharing and enabling the use of the offered software
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        indispensability to perform the agreement
+        <br />
+        <br />
+        (Article 6 (1) (b) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        analyze of data provided
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        your consent
+        <br />
+        <br />
+        (Article 6 (1) (a) of the GDPR)
+      </GridItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}>
+        Mudita&apos;s website and forum users
+      </GridBoldItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}></GridBoldItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        necessary cookies
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        our legitimate interest
+        <br />
+        <br />
+        (Article 6 (1) (f) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        marketing, functional, analytical cookies or our partners cookies
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        your consent
+        <br />
+        <br />
+        (Article 6 (1) (a) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        transferring marketing and promotional information including our
+        partners
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        your consent
+        <br />
+        <br />
+        (Article 6 (1) (a) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        performance of the agreement concluded with us (forum users)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        indispensability to perform the agreement
+        <br />
+        <br />
+        (Article 6 (1) (b) of the GDPR)
+      </GridItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}>
+        sales
+      </GridBoldItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}></GridBoldItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        leading to the conclusion of the agreement with us
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        indispensability to perform the agreement
+        <br />
+        <br />
+        (Article 6 (1) (b) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        performance of the agreement concluded with us and handling complaints
+        concerning the agreements concluded with us
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        indispensability to perform the agreement
+        <br />
+        <br />
+        (Article 6 (1) (b) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        performance of additional services
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        our legitimate interest
+        <br />
+        <br />
+        (Article 6 (1) (f) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        transferring marketing and promotional information including our
+        partners
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        our legitimate interest
+        <br />
+        <br />
+        (Article 6 (1) (f) of the GDPR)
+        <br />
+        <br /> or your consent
+        <br />
+        <br />
+        (Article 6 (1) (a) of the GDPR)
+      </GridItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}>
+        questions for us
+      </GridBoldItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}></GridBoldItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        responding to the questions sent via: contact form, forum, email or
+        phone number
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        our legitimate interest
+        <br />
+        <br />
+        (Article 6 (1) (f) of the GDPR)
+      </GridItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}>
+        general
+      </GridBoldItem>
+      <GridBoldItem displayStyle={TextDisplayStyle.Paragraph4}></GridBoldItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        analytical purposes (e.g. selection of the services to the needs of our
+        clients, optimization of our products / services based on your comments
+        on this topic, optimalization of the service processes based on the
+        process of sales service and after-sales service, including complaint,
+        clients&apos; satisfaction survey and determining of the quality of our
+        service)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        our legitimate interest
+        <br />
+        <br />
+        (Article 6 (1) (f) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        possible establishment, investigation or defence against claims (i.e.
+        evidence purposes)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        our legitimate interest
+        <br />
+        <br />
+        (Article 6 (1) (f) of the GDPR)
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        storage of accounting documents
+      </GridItem>
+      <GridItem displayStyle={TextDisplayStyle.Paragraph4}>
+        our obligation to keep accounting documents under tax law
+        <br />
+        <br />
+        (Article 6 (1) (c) of the GDPR in conjunction with Article 86 § 1 of the
+        Tax Ordinance Act)
+      </GridItem>
+    </GridWrapper>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      Who has access to your personal data?
+    </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      2. <b>Contact details</b> Mudita has set one contact point for all
-      personal data issues. If you would like to contact us, please write us an
-      e-mail to: <a href={`mailto:office@mudita.com`}>office@mudita.com</a> or
-      send a letter to: Mudita sp. z o.o., Jana Czeczota Street No. 6, 02-607
-      {/* AUTO DISABLED - fix me if you like :) */}
-      {/* eslint-disable-next-line react/no-unescaped-entities */}
-      Warsaw with the note: "Personal data".
-    </LightText>
-    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      3. <b>Where do we obtain your personal data from?</b> Most of the data we
-      receive directly from you. You provide us this data: a. By sending an
-      e-mail or by contacting us through our profile on social networks, e.g.
-      Facebook, Twitter, etc. b. During a conversation with the Mudita Staff c.
-      By agreement for sending us data about errors that may occur while using
-      Mudita Pure, Mudita Harmony, and Center.
-    </LightText>
-    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      4. <b>What is the scope of data processed?</b> We process your personal
-      database exclusively on your consent (basis of Art. 6 sec. 1 letter. a of
-      the GDPR). With your permission, Mudita will gain access to information
-      concerning the following errors (general errors, crash dumps, warnings,
-      hard faults; Bluetooth data - state, signal power, controls state; VoLTE -
-      network mode, on/off settings, phone call state; power management -
-      average battery voltage level, minimal and maximal voltage, average
-      current from the battery, state of charge; cellular - SIM slot selected,
-      Mobile Network Code and Mobile Country Code) that may occur while using
-      Mudita Pure and the Software. The aim of accessing such information is to
-      fix errors and further develop the Mudita Pure device and the Software.
-      Information accessed this way will be limited to diagnostic data,
-      including the description of the error, type of operating system, version
-      of the Software, and other technical data, as well as data containing the
-      IP address of the computer that was used to check for updates for the
-      Software or the Mudita Pure device. No other data will be accessed by
-      Mudita in connection with your use of the Software.
-    </LightText>
-    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      5. <b>How long do we process your personal data?</b> Until you revoke your
-      consent, but no longer than 3 years.
-    </LightText>
-    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      6. <b>Who is the recipient of your personal data?</b> We do not sell your
-      data. We may share your personal data with our employees and associates if
-      it is related to the aim described in point 4 above. Mudita holds all
-      copyrights and licenses for the Software. Certain elements of the Software
-      use or contain software provided by third parties as well as other
-      copyrighted material, which you are entitled to use as part of the
-      Software in accordance with these Terms. The Software may also use certain
-      services provided by third parties. However, before accessing any service,
-      you will be asked to give your permission and accept the terms defined by
-      the service’s provider.
-    </LightText>
-    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      7. <b>How do we process your personal data?</b> We process personal data
-      in accordance with applicable law, in particular in accordance with GDPR.
-      We have the following rules in mind when we process your personal
-      information:
+      4. We may share your personal data with the following categories of
+      entities:
     </LightText>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      a. <b>Adequacy rule.</b> We process only data that is necessary to achieve
-      a given processing goal. We have carried out an analysis of the
-      fulfillment of this rule for each business process;
+      a) employees and associates,
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      b. <b>Transparency rule.</b> You should have full knowledge of what is
-      happening with your data. This document, in which we try to provide you
-      with complete information about the rules of processing your personal data
-      by us, is its manifestation;
+      b) related undertakings and cooperating entities, including our partners,
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      c. <b>Accuracy rule.</b> We strive to keep your personal data in our
-      systems up-to-date and truthful. If you find that in some area your
-      personal data have not been updated or are incorrect, please contact us at
-      the email address{" "}
-      <a href={`mailto:office@mudita.com`}>office@mudita.com</a>;
+      c) entities supporting our activity, including but not limited to legal,
+      accounting, IT, logistics, marketing terms, etc.
     </LightTextNested>
-    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      d. <b>Integrity and confidentiality rule.</b> We apply the necessary
-      measures to safeguard the confidentiality and integrity of your personal
-      data. We are constantly improving them, along with the changing
-      environment and technological progress. Security includes physical and
-      technological measures restricting access to your data, as well as
-      appropriate measures to prevent loss of your data;
-    </LightTextNested>
-    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      e. <b>Accountability rule.</b> We want to be able to account for each of
-      our actions regarding personal data so that in the event of your inquiry
-      we can give you full and reliable information about what actions we have
-      been carried out on your data.
-    </LightTextNested>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      How long is your personal data stored?
+    </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      8.{" "}
-      <b>
-        What rights do you have regarding the processing of your personal data?
-      </b>{" "}
-      The provisions of law give you a number of rights that you can use at any
-      time. Unless you abuse these rights (e.g. unreasonable daily requests for
-      information), exercising them will be free of charge and should be easy to
-      implement. Your rights include:
+      6. You shall have the right:
     </LightText>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      a. <b>The right to access your personal data.</b> This right means that
-      you can ask us to export from our databases the information we have about
-      you and send it to you in one of the commonly used formats (e.g. XLSX,
-      DOCX, etc.);
+      a) to access to your data and receive a copy of it;
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      b. <b>The right to correct personal data.</b> If you find out that the
-      personal data we process is incorrect, you may ask us to correct it and we
-      will be obliged to do so. In this case, we have the right to ask you for a
-      document or proof of the change;
+      b) to rectify (correct) your data;
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      c. <b>The right to seek restriction of personal data processing.</b> If
-      despite the fact that we adhere to the adequacy principle, that is we
-      process only data that is necessary to achieve a given processing goal,
-      you consider that for a specific purpose we process too wide a catalog of
-      your personal data, you have the right to request that we restrict (limit)
-      the scope of processing. If the request does not oppose the requirements
-      imposed on us by applicable law, or it is not necessary for the
-      performance of the contract, we will accept your request;
+      c) to delete data: if, in your opinion, there are no grounds for us to
+      process your data, you can request us to delete it;
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      d. <b>The right to request the erasure of personal data.</b> This right,
-      also known as the right to be forgotten, means that you can demand that we
-      remove any information that contains your personal information from our
-      systems and any other records. Remember, however, that we will not be able
-      to do so if we are obliged to process your data under provisions of law
-      (for example transaction documents for tax purposes, obligation to ensure
-      the accountability of our activities). In each case, however, we will
-      remove your personal data to the fullest extent possible, and where it is
-      not possible, we will ensure their pseudonymization (which means that the
-      data subject cannot be identified without a corresponding key). Allowing
-      this, your data we need to keep in line with applicable law will be
-      available only to a very limited group of people in our organization;
+      d) to limit data processing: you can request that we limit the processing
+      of your personal data only to their storage or performance of the
+      activities agreed with you, if in your opinion we have incorrect data
+      about you or we process it unreasonably; or you do not want us to delete
+      it because you need it to establish, pursue or defend claims; or for the
+      duration of your objection to data processing;
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      e. <b>The right to personal data portability.</b> In accordance with the
-      GDPR, you can ask us to port the data you provided to us in the course of
-      all our contacts and all cooperation to a separate file, for the purpose
-      of further transfer to another data controller;
+      e) to object to the processing of data: objection due to special situation
+      - you shall have the right to object to the processing of your data on the
+      basis of a legitimate interest for purposes other than direct marketing,
+      as well as when the processing is necessary for us to fulfil a task
+      carried out in the public interest or the exercising public authority
+      entrusted to us, then you should indicate your special situation, which,
+      in your opinion, justifies the our discontinuation of the processing
+      covered by the objection, we will stop processing your data for such
+      purposes, unless we demonstrate that the grounds for processing your data
+      override your rights or that your data is necessary for us to establish,
+      pursue or defend claims;
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
-      f. <b>The right to withdraw consent.</b> If we process your personal data
-      on the basis of your consent, you can revoke this consent at any time.
-      Withdrawal of your consent will not affect the lawfulness of the
-      processing previously performed on the basis of the consent (prior to its
-      withdrawal). However, we would like to inform you that your personal data
-      in the scope of the purpose covered by the revoked consent will cease to
-      be processed for this purpose only. Your personal data subject to consent
-      will be further processed in order to fulfill our obligations under the
-      law, including, in particular, the obligation to account for the
-      correctness of personal data processing, or for the purposes based on our
-      legitimate interest.
+      f) to transfer data;
     </LightTextNested>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
+      g) to lodge a complaint with the supervisory authority: if you think that
+      we process your data unlawfully, you can lodge a complaint to the
+      supervisory authority responsible for overseeing compliance with the
+      provisions on the protection of personal data (the President of the Office
+      for Personal Data Protection);
+    </LightTextNested>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
+      h) to withdraw your consent to the processing of personal data: at any
+      time you shall have the right to withdraw your consent to the processing
+      of your personal data, which we process on the basis of your consent, the
+      withdrawal of consent will not influence the legal compliance of the
+      processing which was performed on the basis of your consent before its
+      withdrawal.
+    </LightTextNested>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      How long is your personal data stored?
+    </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Unless you abuse the rights listed above (e.g. unjustified daily requests
-      for information), using them will be free of charge and should be easy to
-      implement.
+      7. In order to exercise your rights, send a request to the contact details
+      indicated in clause 1. Before exercising your rights you shall remember
+      that we will have to make sure it is you, that is, to appropriately
+      identify you.
+    </LightText>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      Is providing personal data mandatory?
+    </BoldText>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      8. Concluding the agreement with us is voluntary. However, providing
+      personal data in connection with the agreement is a condition for its
+      conclusion and then performance - without providing your personal data, it
+      is not possible to conclude the agreement with us.
+    </LightText>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>Cookies</BoldText>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      9. Cookies are tiny text files that are downloaded to your computer, to
+      improve your experience during using our website. They serve also many
+      functions. They are very important for the proper operation of most
+      websites, including those where we log in to our account. These files
+      identify the computer and the user, they are not malicious programs or
+      associated with any private data.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      You can perform the above-mentioned rights by contacting us at the e-mail
-      address <a href={`mailto:office@mudita.com`}>office@mudita.com</a> or by
-      post on <b>Mudita sp. z o.o.</b>, Jana Czeczota Street No.6, 02-607
-      {/* AUTO DISABLED - fix me if you like :) */}
-      {/* eslint-disable-next-line react/no-unescaped-entities */}
-      Warsaw, with the note "<b>Personal data</b>
-      {/* AUTO DISABLED - fix me if you like :) */}
-      {/* eslint-disable-next-line react/no-unescaped-entities */}
-      ".
+      We use cookies to improve your experience while you navigate through the
+      our websites accordingly to our cookies policy. Out of these cookies, the
+      cookies that are categorized as necessary are stored on your browser as
+      they as essential for the working of basic functionalities of the our
+      websites.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      In all matters related to personal data, you can always write to us,
-      especially when any action or situation you encounter raises your concerns
-      about its legality or if you feel that your rights or freedoms may be
-      violated. In this case, we will answer your questions and concerns and
-      immediately address the issue.
+      We also use marketing, functional, analytical or third-party cookies that
+      help us analyze and understand how you use our websites, to store user
+      preferences and provide them with content and advertisements that are
+      relevant to you. These cookies will only be stored on your browser with
+      your consent to do so. You also have the option to opt-out of these
+      cookies. But opting out of some of these cookies may have an effect on
+      your browsing experience.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      If you believe that in any way we have violated the rules for the
-      processing of your personal data, you have the right to submit a complaint
-      directly to the supervisory authority (
-      <b>
-        from 22 June 2021, it is the President of the Office for Personal Data
-        Protection in Poland
-      </b>
-      ). As part of exercising this right, you should provide a full description
-      of the situation and indicate what action you consider as violating your
-      rights or freedoms. The complaint should be submitted directly to the
-      supervisory authority.
+      You can express your consent or objection to the use of cookies after
+      entering our website. Before granting your consent, you can read the full
+      list and details about cookies that we use on our website.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      9. <b>Is it your obligation to provide your data?</b> You provide your
-      personal data voluntarily. There is no provision that would impose a legal
-      obligation on you to provide it.
+      Details about settings the rules for the use of cookies, including
+      disabling cookies, by the browser are available at the links below:
     </LightText>
+    <ul>
+      <li>
+        <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+          Internet Explorer:{" "}
+          <a
+            href={`https://support.microsoft.com/pl-pl/help/17442/windows-internet-explorer-delete-manage-cookies`}
+          >
+            https://support.microsoft.com/pl-pl/help/17442/windows-internet-explorer-delete-manage-cookies
+          </a>
+        </LightText>
+      </li>
+      <li>
+        <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+          Mozilla Firefox:{" "}
+          <a href={`http://support.mozilla.org/pl/kb/ciasteczka`}>
+            http://support.mozilla.org/pl/kb/ciasteczka
+          </a>
+        </LightText>
+      </li>
+      <li>
+        <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+          Google Chrome:{" "}
+          <a
+            href={`http://support.google.com/chrome/bin/answer.py?hl=pl&answer=95647`}
+          >
+            http://support.google.com/chrome/bin/answer.py?hl=pl&answer=95647
+          </a>
+        </LightText>
+      </li>
+      <li>
+        <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+          Opera:{" "}
+          <a href={`http://help.opera.com/Windows/12.10/pl/cookies.html`}>
+            http://help.opera.com/Windows/12.10/pl/cookies.html
+          </a>
+        </LightText>
+      </li>
+      <li>
+        <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+          Safari:{" "}
+          <a href={`https://support.apple.com/kb/PH5042?locale=en-GB`}>
+            https://support.apple.com/kb/PH5042?locale=en-GB
+          </a>
+        </LightText>
+      </li>
+    </ul>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      Additional information
+    </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      However, if you want to use our services, you must provide data that will
-      allow us to conclude the contract with you, to perform it, to fulfill our
-      legal obligations regarding due tax settlement, and to prepare
-      documentation for the purposes of accountability of our activities.
-    </LightText>
-    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
-      Personal data provided for contact or marketing purposes is necessary for
-      us to allow us to contact you or to carry out marketing activities that
-      you agree to, or at least you do not oppose them. If we will be not
-      provided with it, our communication with you will be either difficult
-      (e.g. if you provide only your telephone number, but no e-mail address),
-      or even impossible (if no contact details will be provided).
+      10. Controller does not share and has no intention to share client&apos;s
+      personal data with third country or international organisation. Only
+      except may be the United States (based on standard contractual clauses
+      according to Commission Implementing Decision (EU) 2021/914 of 4 June 2021
+      on standard contractual clauses for the transfer of personal data to third
+      countries pursuant to Regulation (EU) 2016/679 of the European Parliament
+      and of the Council), which results from the fact, that personal data may
+      be uploaded to the servers of applications, software and IT services
+      providers, located in the United States.
     </LightText>
   </WindowContainer>
 )
