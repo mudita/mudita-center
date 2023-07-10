@@ -23,16 +23,17 @@ import {
   setUploadingFileCount,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
+import { getFiles } from "App/files-manager/actions/get-files.action"
 
 jest.mock("App/file-system/requests")
 jest.mock("App/files-manager/requests")
 
-jest.mock("App/files-manager/actions/get-files.action", () => ({
-  getFiles: jest.fn().mockReturnValue({
-    type: pendingAction("FILES_MANAGER_GET_FILES"),
-    payload: undefined,
-  }),
-}))
+const GET_FILES_MOCK_RESULT = {
+  type: pendingAction("FILES_MANAGER_GET_FILES"),
+  payload: undefined,
+}
+
+jest.mock("App/files-manager/actions/get-files.action")
 
 jest.mock("App/device/actions/load-storage-info.action", () => ({
   loadStorageInfoAction: jest.fn().mockReturnValue({
@@ -71,6 +72,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
     beforeAll(() => {
       ;(getPathsRequest as jest.Mock).mockResolvedValue(successGetPathResponse)
       ;(uploadFilesRequest as jest.Mock).mockReturnValue(successUploadResponse)
+      ;(getFiles as unknown as jest.Mock).mockReturnValue(GET_FILES_MOCK_RESULT)
     })
 
     afterEach(() => {
@@ -92,10 +94,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
         setUploadingFileCount(2),
         setUploadingState(State.Loading),
         setUploadBlocked(false),
-        {
-          type: pendingAction("FILES_MANAGER_GET_FILES"),
-          payload: undefined,
-        },
+        GET_FILES_MOCK_RESULT,
         {
           type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
           payload: undefined,
@@ -151,6 +150,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
     beforeAll(() => {
       ;(getPathsRequest as jest.Mock).mockResolvedValue(successGetPathResponse)
       ;(uploadFilesRequest as jest.Mock).mockReturnValue(failedUploadResponse)
+      ;(getFiles as unknown as jest.Mock).mockReturnValue(GET_FILES_MOCK_RESULT)
     })
 
     afterEach(() => {
@@ -172,6 +172,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
         setUploadingFileCount(2),
         setUploadingState(State.Loading),
         setUploadBlocked(false),
+        GET_FILES_MOCK_RESULT,
         uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),
       ])
 

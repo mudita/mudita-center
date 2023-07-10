@@ -21,7 +21,7 @@ import { setExternalUsageDeviceRequest } from "App/analytic-data-tracker/request
 export const loadDeviceData = createAsyncThunk(
   DeviceEvent.Loading,
   async (_, { getState, dispatch, rejectWithValue }) => {
-    let state = (await getState()) as ReduxRootState
+    const state = getState() as ReduxRootState
 
     if (state.device.state === ConnectionState.Loaded) {
       return
@@ -37,7 +37,7 @@ export const loadDeviceData = createAsyncThunk(
 
         return
       }
-      state = (await getState()) as ReduxRootState
+
       if (state.device.deviceType !== null) {
         void trackOsVersion({
           serialNumber: data.serialNumber,
@@ -54,11 +54,13 @@ export const loadDeviceData = createAsyncThunk(
         value: state.device.deviceType,
       })
 
-      const resultExternalUsageDevice = state.settings.privacyPolicyAccepted
-        ? await externalUsageDevice(data.serialNumber)
-        : false
+      if (data.serialNumber !== state.device.data?.serialNumber) {
+        const resultExternalUsageDevice = state.settings.privacyPolicyAccepted
+          ? await externalUsageDevice(data.serialNumber)
+          : false
 
-      await setExternalUsageDeviceRequest(resultExternalUsageDevice)
+        await setExternalUsageDeviceRequest(resultExternalUsageDevice)
+      }
       dispatch(setDeviceData(data))
     } catch (error) {
       return rejectWithValue(error)
