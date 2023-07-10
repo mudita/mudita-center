@@ -17,18 +17,6 @@ describe("`noModalsShowSelector` selector", () => {
     expect(noModalsShowSelector(state)).toBeTruthy()
   })
 
-  test("when `collectingDataModalShow` property is set to true", () => {
-    const state = {
-      modalsManager: modalsManagerReducer(
-        { ...initialState, collectingDataModalShow: true },
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        {} as any
-      ),
-    } as ReduxRootState
-    expect(noModalsShowSelector(state)).toBeFalsy()
-  })
-
   test("when `appForcedUpdateFlowShow` property is set to true", () => {
     const state = {
       modalsManager: modalsManagerReducer(
@@ -60,7 +48,6 @@ describe("`noModalsShowSelector` selector", () => {
           ...initialState,
           appUpdateFlowShow: true,
           appForcedUpdateFlowShow: true,
-          collectingDataModalShow: true,
         },
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

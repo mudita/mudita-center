@@ -120,37 +120,6 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
     })
   })
 
-  describe("when `updateAvailable` and `loaded` in settings is set to true but `collectingDataModalShow` is set to true", () => {
-    const storeState: Partial<RootState & ReduxRootState> = {
-      settings: {
-        ...settingsInitialState,
-        updateAvailable: true,
-        loaded: true,
-      },
-      modalsManager: {
-        ...modalsManagerInitialState,
-        collectingDataModalShow: true,
-      },
-    }
-
-    test("fire async `checkAppUpdateFlowToShow` no made any side effects", async () => {
-      const store = createMockStore([thunk])(storeState)
-
-      const {
-        meta: { requestId },
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/await-thenable
-      } = await store.dispatch(
-        checkAppUpdateFlowToShow() as unknown as AnyAction
-      )
-
-      expect(store.getActions()).toEqual([
-        checkAppUpdateFlowToShow.pending(requestId, undefined),
-        checkAppUpdateFlowToShow.fulfilled(undefined, requestId, undefined),
-      ])
-    })
-  })
-
   describe("when `updateAvailable` and `loaded` in settings is set to true but `appForcedUpdateFlowShow` is set to true", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
       settings: {
