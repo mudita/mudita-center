@@ -164,8 +164,10 @@ const createWindow = async () => {
     })
   )
 
-  win.webContents.on("before-input-event", (event) => {
-    event.preventDefault()
+  win.webContents.on("before-input-event", (event, input) => {
+    if (input.control && input.key.toLowerCase() === "r") {
+      event.preventDefault()
+    }
   })
 
   win.on("closed", () => {
