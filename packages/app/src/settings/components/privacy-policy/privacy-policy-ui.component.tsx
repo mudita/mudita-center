@@ -26,9 +26,13 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
     >
       Mudita Center Privacy Policy
     </WindowHeader>
-    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       We hereby inform that we process your personal data. Details regarding
       this can be found below.
+    </LightText>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      Who is the controller of your personal data and who can you contact about
+      it?
     </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       1. The Controller of your personal data is <b>Mudita sp. z o.o.</b> with
@@ -242,6 +246,44 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       How long is your personal data stored?
     </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      5. Your personal data is processed:
+    </LightText>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
+      a) in relation to conclusion and performance of the agreement or providing
+      other services (using Mudita’s website/forum, software users, products
+      sales, necessary cookies) - for the time necessary to perform the
+      contract;
+    </LightTextNested>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
+      b) provided under your consent (cookies files or marketing data) - unless
+      you withdraw your consent or further processing will be pointless;
+      contract;
+    </LightTextNested>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
+      c) related to answering to your inquiries - for the time necessary to
+      perform the obligation and for the time necessary to achieve our goals;
+    </LightTextNested>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
+      d) for evidence purposes to establish the existence of claims, their
+      pursuit or defence against them - until the end of the limitation period
+      for possible claims in this respect (this period is determined by the
+      provisions of the Polish Civil Code), and in the case of its use in public
+      legal proceedings until the time when after their final termination,
+      extraordinary appeal measures are not be applicable any more (such period
+      shall be determined by the provisions of the Polish Code of Civil
+      Procedure);
+    </LightTextNested>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
+      e) in connection with the storage of accounting documentation - until the
+      expiry of the limitation period for the tax obligation related to the
+      relevant transaction (this period is determined by the provisions of the
+      Tax Ordinance Act);
+    </LightTextNested>
+    <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
+      What rights do you have in relation to the processing of your personal
+      data?
+    </BoldText>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       6. You shall have the right:
     </LightText>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
@@ -294,7 +336,7 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       withdrawal.
     </LightTextNested>
     <BoldText displayStyle={TextDisplayStyle.Paragraph4}>
-      How long is your personal data stored?
+      How to exercise your personal data rights?
     </BoldText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       7. In order to exercise your rights, send a request to the contact details
