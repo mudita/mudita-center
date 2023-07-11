@@ -164,7 +164,7 @@ const createWindow = async () => {
     })
   )
 
-  win.webContents.on("before-input-event", (event, input) => {
+  win.webContents.on("before-input-event", (event) => {
     event.preventDefault()
   })
 
