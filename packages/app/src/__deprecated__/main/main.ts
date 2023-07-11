@@ -164,6 +164,10 @@ const createWindow = async () => {
     })
   )
 
+  win.webContents.on("before-input-event", (event, input) => {
+    event.preventDefault()
+  })
+
   win.on("closed", () => {
     win = null
     app.exit()
