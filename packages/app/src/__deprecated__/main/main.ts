@@ -95,6 +95,7 @@ let outlookAuthWindow: BrowserWindow | null = null
 const licenseWindow: BrowserWindow | null = null
 const termsWindow: BrowserWindow | null = null
 const policyWindow: BrowserWindow | null = null
+const policyWindowBrowser: BrowserWindow | null = null
 const metadataStore: MetadataStore = createMetadataStore()
 
 // Disables CORS in Electron 9
@@ -351,12 +352,6 @@ const createOpenWindowListener = (
   })
 }
 
-ipcMain.answerRenderer(AboutActions.PolicyOpenBrowser, () =>
-  shell.openExternal(
-    `${process.env.MUDITA_CENTER_SERVER_URL ?? ""}/privacy-policy-url`
-  )
-)
-
 createOpenWindowListener(
   AboutActions.LicenseOpenWindow,
   Mode.License,
@@ -379,6 +374,14 @@ createOpenWindowListener(
   URL_MAIN.privacyPolicy,
   "Mudita Center - Privacy policy",
   policyWindow
+)
+createOpenWindowListener(
+  AboutActions.PolicyOpenBrowser,
+  Mode.PrivacyPolicyBrowser,
+  // `${process.env.MUDITA_CENTER_SERVER_URL ?? ""}/privacy-policy-url`,
+  URL_MAIN.privacyPolicyBrowser,
+  "Mudita Center - Privacy policy",
+  policyWindowBrowser
 )
 
 createOpenWindowListener(

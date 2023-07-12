@@ -21,6 +21,7 @@ export const URL_MAIN = {
   license: "/license",
   termsOfService: "/terms-of-service",
   privacyPolicy: "/privacy-policy",
+  privacyPolicyBrowser: "/privacy-policy-browser",
 } as const
 
 export const URL_TABS = {

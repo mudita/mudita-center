@@ -66,6 +66,7 @@ import {
 } from "App/update/listeners"
 import { setConnectionStatus } from "App/device/actions"
 import { resetUploadingState } from "App/files-manager/actions"
+import PrivacyPolicyPage from "App/settings/components/privacy-policy-page/privacy-policy-page.component"
 
 interface Props {
   history: History
@@ -141,6 +142,10 @@ const RootWrapper: FunctionComponent<Props> = ({
 
     if (mode === Mode.Sar) {
       return <SarApp history={history} />
+    }
+
+    if (mode === Mode.PrivacyPolicyBrowser) {
+      return <PrivacyPolicyPage history={history} />
     }
 
     return <BaseApp history={history} />

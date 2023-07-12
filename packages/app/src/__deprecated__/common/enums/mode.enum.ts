@@ -9,5 +9,6 @@ export enum Mode {
   License = "license",
   TermsOfService = "terms-of-services",
   PrivacyPolicy = "privacy-policy",
+  PrivacyPolicyBrowser = "privacy-policy-browser",
   Sar = "sar",
 }

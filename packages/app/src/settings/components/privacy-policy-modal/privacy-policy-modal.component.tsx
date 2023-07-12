@@ -61,7 +61,7 @@ const PrivacyPolicyModal: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
 
   const openPrivacyPolicyWindow = () =>
-    ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
+    ipcRenderer.callMain(AboutActions.PolicyOpenBrowser)
 
   const handleAgreeButtonClick = (): void => {
     void dispatch(deleteCollectingData())
