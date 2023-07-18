@@ -17,7 +17,7 @@ import {
 import { OsRelease } from "App/update/dto"
 import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
 import { removeDownloadedOsUpdates, startOsUpdate } from "App/update/requests"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { setUpdatingRequest } from "App/device/requests/set-updating.request"
 import {
   trackOsUpdate,

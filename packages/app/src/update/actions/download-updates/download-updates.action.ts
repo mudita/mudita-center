@@ -21,7 +21,7 @@ import {
   downloadOsUpdateRequest,
   osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { RELEASE_SPACE } from "App/update/constants/release-space.constant"
 
 interface Params {
