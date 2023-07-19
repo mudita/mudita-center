@@ -56,7 +56,6 @@ export class ApplicationModule {
     ContactModule,
     MessageModule,
     FilesManagerModule,
-    CrashDumpModule,
     TemplateModule,
     SearchModule,
     UpdateModule,
@@ -66,7 +65,7 @@ export class ApplicationModule {
     DeviceModule,
     DeviceManagerModule,
   ]
-  public lateModules: Module[] = [DataSyncModule]
+  public lateModules: Module[] = [DataSyncModule, CrashDumpModule]
 
   private deviceLogger: DeviceLogger = LoggerFactory.getInstance()
   private index = new IndexFactory().create()
