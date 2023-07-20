@@ -487,6 +487,7 @@ describe("`LoadStorageInfo` functionality", () => {
         },
         "deviceType": null,
         "error": null,
+        "externalUsageDevice": null,
         "state": 2,
         "status": Object {
           "agreementAccepted": true,

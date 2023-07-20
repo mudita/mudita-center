@@ -33,3 +33,7 @@ export const unlockedDevice = createAction<boolean | undefined>(
 export const setCriticalBatteryLevel = createAction<boolean>(
   DeviceEvent.CriticalBatteryLevel
 )
+
+export const setExternalUsageDevice = createAction<boolean>(
+  DeviceEvent.ExternalUsageDevice
+)
