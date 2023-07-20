@@ -17,6 +17,7 @@ const onSaveMock = jest.fn()
 const textMock = "Luke, I'm your father"
 const longTextMock =
   "Duis tincidunt dui ut condimentum sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis neque eget mi posuere porta ut ut felis. Fusce ultrices cursus interdum. Nulla nibh eros, egestas eu felis vel, posuere pretium elit. Nullam vitae luctus eros, eu lobortis augue. Vestibulum in felis pharetra, lacinia nibh vitae, vehicula velit. Quisque massa est, placerat sed urna vitae, eleifend blandit sapien. Donec a efficitur nunc, et euismod tellus."
+const textWithNewLines = "aaaaa\naaaaaaaaaaaa\n\naaaaaaaaa"
 
 const render = (props: TemplateFormProps) => {
   return renderWithThemeAndIntl(<TemplateForm {...props} />)
@@ -171,6 +172,29 @@ describe("`TemplateForm` component", () => {
       await waitFor(() => {
         expect(
           queryByText("[value] module.templates.tooLong")
+        ).toBeInTheDocument()
+      })
+    })
+
+    test("`onSave` triggers error if text contains new line character", async () => {
+      const { getByTestId, queryByText } = await renderWithWaitForm({
+        onClose: onCloseMock,
+        onSave: onSaveMock,
+        error: null,
+        template: undefined,
+        saving: false,
+      })
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+
+      expect(
+        queryByText("[value] module.templates.newLine")
+      ).not.toBeInTheDocument()
+      fireEvent.change(textField, {
+        target: { value: textWithNewLines },
+      })
+      await waitFor(() => {
+        expect(
+          queryByText("[value] module.templates.newLine")
         ).toBeInTheDocument()
       })
     })

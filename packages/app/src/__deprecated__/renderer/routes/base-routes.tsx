@@ -41,6 +41,7 @@ import RecoveryMode from "App/__deprecated__/recovery-mode/recovery-mode.contain
 import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "App/templates/template.container"
+import { Templates } from "App/templates/components/templates/templates.component"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -80,7 +81,7 @@ export default () => (
         <Route path={URL_MAIN.messages} component={Messages} exact />
         <Route
           path={`${URL_MAIN.messages}${URL_TABS.templates}`}
-          component={TemplatesContainer}
+          component={Templates}
         />
         <Route path={URL_MAIN.music} component={Music} exact />
         <Route
