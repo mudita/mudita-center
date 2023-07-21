@@ -47,8 +47,10 @@
     "postinstall": "npm run fonts:download && npm run news:download && npm run app-configuration:download",
     "prerelease": "npm run translations:overwrite && npm run build",
     "prestart": "npm run build",
-    "predist:prod": "npm run translations:sync",
-    "predist:prod:all": "npm run translations:sync",
+    "predist:dev": "node scripts/set-build-year.js",
+    "predist:dev:all": "node scripts/set-build-year.js",
+    "predist:prod": "node scripts/set-build-year.js && npm run translations:sync",
+    "predist:prod:all": "node scripts/set-build-year.js && npm run translations:sync",
     "posttranslations:sync": "npm run translations:sort",
     "posttranslations:sort": "prettier --write src/**/*.json",
     "posttest:coverage": "prettier --write ./jest.coverage.json"
@@ -56,7 +58,7 @@
   "build": {
     "productName": "Mudita Center",
     "appId": "com.mudita.center",
-    "copyright": "Copyright (c) 2017-2021, Mudita sp. z o.o. All rights reserved.",
+    "copyright": "Copyright (c) 2017-${env.BUILD_YEAR}, Mudita sp. z o.o. All rights reserved.",
     "mac": {
       "category": "public.app-category.utilities",
       "icon": "./icons/mac/icon.icns",
