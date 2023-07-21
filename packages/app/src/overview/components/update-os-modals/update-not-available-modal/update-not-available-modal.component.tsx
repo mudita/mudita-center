@@ -30,7 +30,7 @@ const messages = defineMessages({
 
 export const UpdateNotAvailableModal: FunctionComponent<
   UpdateNotAvailableModalProps
-> = ({ version, open, onClose, testId }) => (
+> = ({ version, open, onClose, testId, ...rest }) => (
   <OSUpdateModal
     open={open}
     testId={testId}
@@ -39,6 +39,7 @@ export const UpdateNotAvailableModal: FunctionComponent<
     closeModal={onClose}
     onClose={onClose}
     actionButtonLabel={intl.formatMessage(messages.updateAvailableButton)}
+    {...rest}
   >
     <RoundIconWrapper>
       <Icon type={IconType.Info} width={4.8} />

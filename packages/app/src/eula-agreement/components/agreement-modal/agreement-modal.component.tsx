@@ -17,8 +17,7 @@ import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/mod
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import { zIndex } from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import theme from "App/__deprecated__/renderer/styles/theming/theme"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 const messages = defineMessages({
   title: {
@@ -34,8 +33,8 @@ export const AgreementModal: FunctionComponent<AgreementModalProps> = ({
 }) => {
   return (
     <ModalDialog
+      layer={ModalLayers.EULA}
       open={open}
-      zIndex={zIndex("agreementModal")({ theme })}
       size={ModalSize.Small}
       title={intl.formatMessage(messages.title)}
       closeButton={false}

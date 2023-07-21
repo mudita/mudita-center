@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface DevUpdateModalProps {
+import { ModalDialogProps } from "App/ui"
+
+export interface DevUpdateModalProps extends ModalDialogProps {
   action: () => void
   install: boolean
   version: string

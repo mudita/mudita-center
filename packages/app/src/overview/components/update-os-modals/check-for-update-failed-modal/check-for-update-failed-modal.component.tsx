@@ -28,33 +28,36 @@ const messages = defineMessages({
   },
 })
 
-export const CheckForUpdateFailedModal: FunctionComponent<CheckForUpdateFailedModalProps> =
-  ({
-    onContactSupport,
-    onTryAgain,
-    onClose,
-    open,
-    testId,
-  }: CheckForUpdateFailedModalProps) => {
-    return (
-      <ErrorModal
-        testId={testId}
-        open={open}
-        closeButton
-        closeable
-        closeModal={onClose}
-        title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-        subtitle={intl.formatMessage(messages.checkForUpdateFailedTitle)}
-        body={intl.formatMessage(messages.checkForUpdateFailedDescription)}
-        onCloseButton={onContactSupport}
-        closeButtonLabel={intl.formatMessage(
-          messages.checkForUpdateFailedSupportButton
-        )}
-        onActionButtonClick={onTryAgain}
-        actionButtonLabel={intl.formatMessage(
-          messages.checkForUpdateFailedTryAgainButton
-        )}
-        actionButtonSize={Size.FixedSmall}
-      />
-    )
-  }
+export const CheckForUpdateFailedModal: FunctionComponent<
+  CheckForUpdateFailedModalProps
+> = ({
+  onContactSupport,
+  onTryAgain,
+  onClose,
+  open,
+  testId,
+  ...rest
+}: CheckForUpdateFailedModalProps) => {
+  return (
+    <ErrorModal
+      testId={testId}
+      open={open}
+      closeButton
+      closeable
+      closeModal={onClose}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      subtitle={intl.formatMessage(messages.checkForUpdateFailedTitle)}
+      body={intl.formatMessage(messages.checkForUpdateFailedDescription)}
+      onCloseButton={onContactSupport}
+      closeButtonLabel={intl.formatMessage(
+        messages.checkForUpdateFailedSupportButton
+      )}
+      onActionButtonClick={onTryAgain}
+      actionButtonLabel={intl.formatMessage(
+        messages.checkForUpdateFailedTryAgainButton
+      )}
+      actionButtonSize={Size.FixedSmall}
+      {...rest}
+    />
+  )
+}
