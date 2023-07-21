@@ -60,10 +60,20 @@ export const contactsReducer = createReducer<ContactsState>(
           const contacts = Object.keys(action.payload.contacts).map(
             (key) => action.payload.contacts[key]
           )
-
+          const contactsDb = contactDatabaseFactory(contacts)
+          const rows = state.selectedItems.rows.filter((row) =>
+            contactsDb.collection.includes(row)
+          )
+          const selectedItems = {
+            rows,
+            allItemsSelected: contactsDb.collection.every((row) =>
+              rows.includes(row)
+            ),
+          }
           return {
             ...state,
-            ...contactDatabaseFactory(contacts),
+            ...contactsDb,
+            selectedItems,
             resultState: ResultState.Loaded,
             error: null,
           }
