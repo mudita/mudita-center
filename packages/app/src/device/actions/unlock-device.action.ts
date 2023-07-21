@@ -12,27 +12,28 @@ import { AppError } from "App/core/errors"
 // DEPRECATED
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
-export const unlockDevice = createAsyncThunk<boolean, number[]>(
-  DeviceEvent.Unlock,
-  async (code, { rejectWithValue, dispatch, getState }) => {
-    const data = await unlockDeviceRequest(code)
+export const unlockDevice = createAsyncThunk<
+  boolean,
+  number[],
+  { state: ReduxRootState }
+>(DeviceEvent.Unlock, async (code, { rejectWithValue, dispatch, getState }) => {
+  const data = await unlockDeviceRequest(code)
 
-    const state = getState() as ReduxRootState
+  const state = getState()
 
-    if (!data.ok) {
-      return rejectWithValue(
-        new AppError(
-          DeviceError.Unlocking,
-          "Something went wrong during unlocking",
-          data
-        )
+  if (!data.ok) {
+    return rejectWithValue(
+      new AppError(
+        DeviceError.Unlocking,
+        "Something went wrong during unlocking",
+        data
       )
-    }
-
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    void dispatch(connectDevice(state.device.deviceType!))
-
-    return Boolean(data.data)
+    )
   }
-)
+
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  void dispatch(connectDevice(state.device.deviceType!))
+
+  return Boolean(data.data)
+})

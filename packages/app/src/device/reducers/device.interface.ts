@@ -54,6 +54,7 @@ export interface DeviceState {
     criticalBatteryLevel: boolean
   }
   error: Error | string | null
+  externalUsageDevice: boolean | null
 }
 
 export interface OsVersionPayload {

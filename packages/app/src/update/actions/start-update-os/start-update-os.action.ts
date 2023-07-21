@@ -17,7 +17,7 @@ import {
 import { OsRelease } from "App/update/dto"
 import { isBatteryLevelEnoughForUpdate } from "App/update/helpers"
 import { removeDownloadedOsUpdates, startOsUpdate } from "App/update/requests"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { setUpdatingRequest } from "App/device/requests/set-updating.request"
 import {
   trackOsUpdate,
@@ -45,13 +45,14 @@ export const startUpdateOs = createAsyncThunk<
   void,
   Params,
   {
+    state: ReduxRootState
     rejectValue: AppError<UpdateError>
   }
 >(
   UpdateOsEvent.StartOsUpdateProcess,
   async ({ releases }, { dispatch, rejectWithValue, getState }) => {
     void setUpdatingRequest(true)
-    let state = (await getState()) as RootState & ReduxRootState
+    let state = getState()
     const batteryLevel = state.device.data?.batteryLevel ?? 0
     const deviceType = state.device.deviceType
 
@@ -73,7 +74,7 @@ export const startUpdateOs = createAsyncThunk<
     await dispatch(removeFile(DiagnosticsFilePath.UPDATER_LOG))
 
     for (const release of releases) {
-      state = (await getState()) as RootState & ReduxRootState
+      state = getState()
 
       const trackOsUpdateOptions: Omit<TrackOsUpdateOptions, "state"> = {
         deviceType,
