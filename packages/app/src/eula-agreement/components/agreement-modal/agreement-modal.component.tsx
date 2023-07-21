@@ -33,7 +33,7 @@ export const AgreementModal: FunctionComponent<AgreementModalProps> = ({
 }) => {
   return (
     <ModalDialog
-      layer={ModalLayers.layerEULA}
+      layer={ModalLayers.EULA}
       open={open}
       size={ModalSize.Small}
       title={intl.formatMessage(messages.title)}

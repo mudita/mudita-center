@@ -4,12 +4,12 @@
  */
 
 export enum ModalLayers {
-  layerDefault = 5,
-  layerCrashDump,
-  layerUpdateOS,
-  layerPasscode,
-  layerEULA,
-  layerErrorConnecting,
-  layerUpdateApp,
-  layerPrivacyPolicy,
+  Default = 5,
+  CrashDump,
+  UpdateOS,
+  Passcode,
+  EULA,
+  ErrorConnecting,
+  UpdateApp,
+  PrivacyPolicy,
 }

@@ -136,7 +136,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
       onNotAllowedKeyDown={onNotAllowedKeyDown}
       leftTime={leftTime}
       canBeClosed={canBeClosed}
-      layer={ModalLayers.layerPasscode}
+      layer={ModalLayers.Passcode}
       {...rest}
     />
   )

@@ -58,7 +58,7 @@ const ErrorConnectingModal: FunctionComponent<
       )}
       onCloseButton={onClose}
       onClose={onClose}
-      layer={ModalLayers.layerErrorConnecting}
+      layer={ModalLayers.ErrorConnecting}
       {...props}
     >
       <ModalContent>
