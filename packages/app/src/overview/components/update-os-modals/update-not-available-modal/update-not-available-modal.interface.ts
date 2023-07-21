@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface UpdateNotAvailableModalProps {
+import { ModalDialogProps } from "App/ui"
+
+export interface UpdateNotAvailableModalProps extends ModalDialogProps {
   version: string
   open: boolean
   onClose: () => void

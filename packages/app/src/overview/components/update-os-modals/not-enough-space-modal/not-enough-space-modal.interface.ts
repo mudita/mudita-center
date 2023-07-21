@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface NotEnoughSpaceModalProps {
+import { ModalDialogProps } from "App/ui"
+
+export interface NotEnoughSpaceModalProps extends ModalDialogProps {
   open: boolean
   onClose: () => void
   testId?: string

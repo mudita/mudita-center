@@ -33,6 +33,7 @@ import { withTheme } from "styled-components"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { ModalDialogProps } from "App/ui/components/modal-dialog"
 import { getModalDialogStyle } from "App/ui/components/modal-dialog/get-modal-dialog-style.helper"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
   ({
@@ -42,7 +43,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
     titleOrder = TitleOrder.TitleFirst,
     title,
     subtitle,
-    zIndex,
+    layer = ModalLayers.modalLayer1,
     closeModal,
     onCloseButton,
     closeButton = true,
@@ -86,7 +87,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
         isOpen={open}
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        style={getModalDialogStyle({ zIndex, size, theme })}
+        style={getModalDialogStyle({ zIndex: layer, size, theme })}
         shouldCloseOnOverlayClick={false}
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

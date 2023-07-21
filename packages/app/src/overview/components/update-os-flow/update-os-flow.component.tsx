@@ -32,6 +32,7 @@ import React, { FunctionComponent, useMemo } from "react"
 import { NotEnoughSpaceModal } from "App/overview/components/update-os-modals/not-enough-space-modal"
 import { OnboardingNotCompleteModal } from "App/overview/components/onboarding-not-complete-modal"
 import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   checkForUpdateState,
@@ -53,6 +54,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   tryAgainCheckForUpdate,
   areAllReleasesDownloaded,
   deviceType,
+  layer = ModalLayers.modalLayer3,
 }) => {
   const {
     devRelease,
@@ -106,11 +108,13 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   return (
     <>
       <CheckingUpdatesModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.CheckForUpdateModal}
         open={checkForUpdateState === CheckForUpdateState.Loading}
       />
       {availableReleasesForUpdate && availableReleasesForUpdate.length > 0 && (
         <UpdateAvailableModal
+          layer={layer}
           testId={UpdateOsFlowTestIds.UpdateAvailableModal}
           open={checkForUpdateState === CheckForUpdateState.Loaded}
           releases={availableReleasesForUpdate}
@@ -123,6 +127,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       {(!availableReleasesForUpdate ||
         availableReleasesForUpdate.length === 0) && (
         <UpdateNotAvailableModal
+          layer={layer}
           testId={UpdateOsFlowTestIds.UpdateNotAvailableModal}
           open={checkForUpdateState === CheckForUpdateState.Loaded}
           version={currentOsVersion}
@@ -131,6 +136,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       )}
 
       <CheckForUpdateFailedModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.CheckForUpdateFailedModal}
         open={
           checkForUpdateState === CheckForUpdateState.Failed ||
@@ -144,6 +150,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       {downloadingReleasesProcessStates &&
         currentlyDownloadedReleaseIndex >= 0 && (
           <DownloadingUpdateModal
+            layer={layer}
             testId={UpdateOsFlowTestIds.DownloadingUpdateModal}
             open={downloadState === DownloadState.Loading}
             percent={downloadProgress?.percent ?? 0}
@@ -160,12 +167,14 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         )}
 
       <DownloadingUpdateInterruptedModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.DownloadingCancelledModal}
         open={downloadState === DownloadState.Cancelled}
         onClose={resetUpdateFlow}
         alreadyDownloadedReleases={alreadyDownloadedReleases}
       />
       <DownloadingUpdateFailedModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.DownloadingInterruptedModal}
         open={
           downloadState === DownloadState.Failed &&
@@ -176,6 +185,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         onContactSupport={openContactSupportFlow}
       />
       <DownloadingUpdateFinishedModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.DownloadingFinishedModal}
         open={downloadState === DownloadState.Loaded && !devRelease}
         onClose={resetUpdateFlow}
@@ -185,6 +195,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
 
       {updatingReleasesProcessStates && currentlyInstalledReleaseIndex >= 0 && (
         <UpdatingSpinnerModal
+          layer={layer}
           testId={UpdateOsFlowTestIds.UpdateInProgressModal}
           open={updateState === State.Loading}
           progressParams={{
@@ -198,11 +209,13 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       )}
 
       <UpdatingSuccessModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.UpdateSuccessModal}
         open={updateState === State.Loaded}
         onClose={resetUpdateFlow}
       />
       <UpdatingFailureWithHelpModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.UpdateFailedModal}
         open={
           updateState === State.Failed &&
@@ -216,6 +229,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       />
 
       <TooLowBatteryModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.TooLowBatteryModal}
         open={error?.type === UpdateError.TooLowBattery}
         deviceType={deviceType}
@@ -223,6 +237,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       />
 
       <NotEnoughSpaceModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.NotEnoughSpaceModal}
         open={error?.type === UpdateError.NotEnoughSpace}
         onClose={resetUpdateFlow}
@@ -230,6 +245,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       />
 
       <OnboardingNotCompleteModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.OnboardingNotCompleteModal}
         open={error?.type === UpdateError.OnboardingNotComplete}
         onClose={resetUpdateFlow}
@@ -237,6 +253,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
 
       {devRelease && (
         <DevUpdateModal
+          layer={layer}
           testId={UpdateOsFlowTestIds.DevUpdate}
           open={canShowDownloadVersion || canShowInstallVersion}
           install={canShowInstallVersion}

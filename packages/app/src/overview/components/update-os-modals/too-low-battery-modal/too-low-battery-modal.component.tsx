@@ -39,6 +39,7 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
   onClose,
   open,
   testId,
+  ...rest
 }) => {
   return (
     <OSUpdateModal
@@ -50,6 +51,7 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
       closeButtonLabel={intl.formatMessage(
         messages.updatingFlatBatteryActionButton
       )}
+      {...rest}
     >
       <RoundIconWrapper>
         <Icon type={IconType.NoBattery} width={3.2} />

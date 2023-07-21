@@ -10,8 +10,10 @@ import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { AppError } from "App/core/errors"
+import { ModalDialogProps } from "App/ui"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
-interface Props {
+interface Props extends Omit<ModalDialogProps, "close" | "open"> {
   openModal: boolean
   close: () => void
   leftTime?: number
@@ -43,6 +45,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
   leftTime,
   unlockDevice,
   getUnlockStatus,
+  ...rest
 }) => {
   const initValue = ["", "", "", ""]
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
@@ -133,6 +136,8 @@ const PasscodeModal: FunctionComponent<Props> = ({
       onNotAllowedKeyDown={onNotAllowedKeyDown}
       leftTime={leftTime}
       canBeClosed={canBeClosed}
+      layer={ModalLayers.modalLayer4}
+      {...rest}
     />
   )
 }

@@ -22,6 +22,7 @@ export const DevUpdateModal: FunctionComponent<DevUpdateModalProps> = ({
   open,
   onClose,
   testId,
+  ...rest
 }) => {
   const textDate = new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -36,6 +37,7 @@ export const DevUpdateModal: FunctionComponent<DevUpdateModalProps> = ({
       actionButtonLabel={install ? "Install now" : "Download now"}
       onActionButtonClick={action}
       closeModal={onClose}
+      {...rest}
     >
       <RoundIconWrapper>
         <Icon type={IconType.Pure} width={3.2} />

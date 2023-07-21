@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface UpdatingSpinnerModalProps {
+import { ModalDialogProps } from "App/ui"
+
+export interface UpdatingSpinnerModalProps
+  extends Omit<ModalDialogProps, "title"> {
   open: boolean
   testId?: string
   progressParams?: {

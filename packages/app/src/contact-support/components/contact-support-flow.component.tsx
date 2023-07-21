@@ -13,10 +13,7 @@ import { SendTicketState } from "App/contact-support/reducers"
 import { SendTicketPayload } from "App/contact-support/actions/send-ticket.action"
 
 interface Props
-  extends Pick<
-    ComponentProps<typeof ContactSupportModal>,
-    "files"
-  > {
+  extends Pick<ComponentProps<typeof ContactSupportModal>, "files"> {
   state: SendTicketState | null
   sendTicket: (payload: SendTicketPayload) => void
   closeContactSupportFlow: () => void

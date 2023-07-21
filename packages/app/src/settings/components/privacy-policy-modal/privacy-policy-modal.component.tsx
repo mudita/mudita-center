@@ -29,6 +29,7 @@ import { togglePrivacyPolicyAccepted } from "App/settings/actions"
 import { Dispatch, ReduxRootState } from "App/__deprecated__/renderer/store"
 import { deleteCollectingData } from "App/settings/actions/delete-collecting-data.action"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 const messages = defineMessages({
   privacyPolicyModalTitle: { id: "module.settings.privacyPolicyModalTitle" },
@@ -81,7 +82,7 @@ const PrivacyPolicyModal: FunctionComponent = () => {
   return (
     <ModalDialog
       open
-      zIndex={2000}
+      layer={ModalLayers.modalLayer8}
       size={ModalSize.Small}
       title={intl.formatMessage(messages.privacyPolicyModalTitle)}
       actionButtonLabel={intl.formatMessage(messages.privacyPolicyModalButton)}

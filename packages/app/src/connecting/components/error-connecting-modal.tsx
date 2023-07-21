@@ -17,6 +17,7 @@ import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/mod
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 const messages = defineMessages({
   errorConnectingModalHeaderTitle: {
@@ -57,7 +58,7 @@ const ErrorConnectingModal: FunctionComponent<
       )}
       onCloseButton={onClose}
       onClose={onClose}
-      zIndex={100}
+      layer={ModalLayers.modalLayer6}
       {...props}
     >
       <ModalContent>
