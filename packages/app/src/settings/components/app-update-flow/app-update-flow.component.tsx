@@ -22,7 +22,7 @@ export const AppUpdateFlow: FunctionComponent<Props> = ({
 }) => {
   return (
     <AppUpdateStepModal
-      layer={ModalLayers.modalLayer7}
+      layer={ModalLayers.layerUpdateApp}
       appCurrentVersion={appCurrentVersion}
       appLatestVersion={appLatestVersion}
       closeModal={closeModal}

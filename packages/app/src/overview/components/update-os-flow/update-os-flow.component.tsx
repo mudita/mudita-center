@@ -54,7 +54,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   tryAgainCheckForUpdate,
   areAllReleasesDownloaded,
   deviceType,
-  layer = ModalLayers.modalLayer3,
+  layer = ModalLayers.layerUpdateOS,
 }) => {
   const {
     devRelease,

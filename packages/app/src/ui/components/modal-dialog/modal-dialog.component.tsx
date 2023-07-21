@@ -43,7 +43,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
     titleOrder = TitleOrder.TitleFirst,
     title,
     subtitle,
-    layer = ModalLayers.modalLayer1,
+    layer = ModalLayers.layerDefault,
     closeModal,
     onCloseButton,
     closeButton = true,

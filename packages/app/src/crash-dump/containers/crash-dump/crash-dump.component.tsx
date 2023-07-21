@@ -54,7 +54,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   downloadCrashDump,
   ignoreCrashDump,
   resetCrashDump,
-  layer = ModalLayers.modalLayer2,
+  layer = ModalLayers.layerCrashDump,
 }) => {
   const [openInfo, setOpenInfo] = useState<boolean>(false)
 

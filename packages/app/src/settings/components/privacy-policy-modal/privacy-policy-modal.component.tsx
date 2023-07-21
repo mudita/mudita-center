@@ -82,7 +82,7 @@ const PrivacyPolicyModal: FunctionComponent = () => {
   return (
     <ModalDialog
       open
-      layer={ModalLayers.modalLayer8}
+      layer={ModalLayers.layerPrivacyPolicy}
       size={ModalSize.Small}
       title={intl.formatMessage(messages.privacyPolicyModalTitle)}
       actionButtonLabel={intl.formatMessage(messages.privacyPolicyModalButton)}
