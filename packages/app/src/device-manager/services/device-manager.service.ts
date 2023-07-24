@@ -53,6 +53,8 @@ export class DeviceManager {
   public async addDevice(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
 
+    logger.info(`DeviceManager addDevice: device: ${!device}`)
+
     if (!device) {
       throw new AppError(
         DeviceManagerError.CannotInitializeDeviceObject,
@@ -61,6 +63,8 @@ export class DeviceManager {
     }
 
     this.devicesMap.set(device.path, device)
+
+    logger.info(`DeviceManager addDevice: !this.currentDevice: ${!this.currentDevice}`)
 
     if (!this.currentDevice) {
       this.currentDevice = device
@@ -118,6 +122,8 @@ export class DeviceManager {
 
   public async getConnectedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
+
+    logger.info(`portList: ${portList.length}`)
 
     return (
       portList
