@@ -6,35 +6,9 @@
 import { connect } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Templates } from "App/templates/components"
-import {
-  createTemplate,
-  deleteTemplates,
-  updateTemplate,
-  updateTemplateOrder,
-  resetAllItems,
-  selectAllItems,
-  toggleItem,
-} from "App/templates/actions"
-import { templatesListSelector } from "App/templates/selectors"
 
-const mapStateToProps = (state: ReduxRootState) => ({
-  templates: templatesListSelector(state),
-  loading: state.templates.loading,
-  loaded: state.templates.loaded,
-  error: state.templates.error,
-  selectedItems: state.templates.selectedItems.rows,
-  allItemsSelected:
-    state.templates.selectedItems.rows.length === state.templates.data.length,
-})
+const mapStateToProps = (state: ReduxRootState) => ({})
 
-const mapDispatchToProps = {
-  createTemplate,
-  deleteTemplates,
-  updateTemplate,
-  updateTemplateOrder,
-  resetAllItems,
-  selectAllItems,
-  toggleItem,
-}
+const mapDispatchToProps = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Templates)

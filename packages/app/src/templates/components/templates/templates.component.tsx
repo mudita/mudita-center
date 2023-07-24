@@ -22,22 +22,31 @@ import { CreatingTemplateModals } from "App/templates/components/creating-templa
 import { DropResult } from "react-beautiful-dnd"
 import { reorder } from "App/templates/helpers/templates-order.helpers"
 import { OrderingTemplateModals } from "App/templates/components/ordering-template-modals"
-
-export const Templates: FunctionComponent<TemplatesProps> = ({
-  templates,
-  loading,
-  loaded,
-  error,
+import { useDispatch, useSelector } from "react-redux"
+import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
+import { templatesListSelector } from "App/templates/selectors"
+import {
   createTemplate,
   deleteTemplates,
   updateTemplate,
   updateTemplateOrder,
   resetAllItems,
   selectAllItems,
-  toggleItem,
-  selectedItems,
-  allItemsSelected,
-}) => {
+} from "App/templates/actions"
+
+export const Templates = () => {
+  const {
+    loading,
+    loaded,
+    error,
+    selectedItems: { rows: selectedItems },
+    data,
+  } = useSelector((state: ReduxRootState) => state.templates)
+  const allItemsSelected = data.length === selectAllItems.length
+  const templates = useSelector(templatesListSelector)
+
+  const dispatch = useDispatch<TmpDispatch>()
+
   const { states, updateFieldState, resetState } =
     useLoadingState<TemplateServiceState>({
       creating: false,
@@ -109,7 +118,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleCloseDeleteModal = () => {
     updateFieldState("deletingConfirmation", false)
     setDeletedTemplates([])
-    resetAllItems()
+    dispatch(resetAllItems())
   }
 
   const handleOpenDeleteModal = (ids: string[]) => {
@@ -120,8 +129,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleDeleteButton = async () => {
     updateFieldState("deleting", true)
     updateFieldState("deletingConfirmation", false)
-    resetAllItems()
-    await deleteTemplates(deletedTemplates)
+    dispatch(resetAllItems())
+    await dispatch(deleteTemplates(deletedTemplates))
   }
 
   const handleDeleteSelected = () => {
@@ -131,7 +140,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleCloseDeletingErrorModal = () => {
     updateFieldState("deleting", false)
     setDeletedTemplates([])
-    resetAllItems()
+    dispatch(resetAllItems())
   }
 
   // Updating functionality
@@ -139,7 +148,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     const template = templates.find((template) => template.id === id)
     setEditedTemplate(template)
     setTemplateFormOpenState(true)
-    resetAllItems()
+    dispatch(resetAllItems())
   }
 
   const handleUpdateTemplate = async (template: NewTemplate) => {
@@ -150,16 +159,18 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     updateFieldState("updating", true)
     setTemplateFormOpenState(false)
 
-    const data = await updateTemplate({
-      ...template,
-      id: editedTemplate.id,
-      lastUsedAt: editedTemplate.lastUsedAt,
-      order: editedTemplate.order,
-    })
+    const data = await dispatch(
+      updateTemplate({
+        ...template,
+        id: editedTemplate.id,
+        lastUsedAt: editedTemplate.lastUsedAt,
+        order: editedTemplate.order,
+      })
+    )
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (data.payload.type !== TemplateError.UpdateTemplate) {
+    if (data.payload && data.payload.type !== TemplateError.UpdateTemplate) {
       setEditedTemplate(undefined)
     }
   }
@@ -183,7 +194,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     setTemplateFormOpenState(false)
     const lastTemplateOrder = templates[templates.length - 1]?.order
     const newTemplateOrder = lastTemplateOrder ? lastTemplateOrder + 1 : 1
-    await createTemplate({ ...template, order: newTemplateOrder })
+    await dispatch(createTemplate({ ...template, order: newTemplateOrder }))
   }
 
   const handleCloseCreatingErrorModal = () => {
@@ -201,7 +212,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     list.splice(result.destination.index, 0, removed)
     setTemplatesList(list)
     const updatedTemplates = reorder(list)
-    void updateTemplateOrder(updatedTemplates)
+    void dispatch(updateTemplateOrder(updatedTemplates))
   }
   return (
     <>
@@ -211,7 +222,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
         selectedTemplates={selectedItems}
         allItemsSelected={allItemsSelected}
         toggleAll={selectAllItems}
-        resetRows={resetAllItems}
+        resetRows={() => dispatch(resetAllItems())}
         onDeleteClick={handleDeleteSelected}
       />
       <TemplatesSection>
@@ -222,7 +233,6 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
           onDragEnd={onDragEnd}
           templateFormOpen={templateFormOpen}
           active={editedTemplate}
-          toggleRow={toggleItem}
           selectedItems={selectedItems}
         />
         {templateFormOpen && (
