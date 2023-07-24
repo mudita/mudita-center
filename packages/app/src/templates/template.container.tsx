@@ -17,8 +17,24 @@ import {
 } from "App/templates/actions"
 import { templatesListSelector } from "App/templates/selectors"
 
-const mapStateToProps = (state: ReduxRootState) => ({})
+const mapStateToProps = (state: ReduxRootState) => ({
+  templates: templatesListSelector(state),
+  loading: state.templates.loading,
+  loaded: state.templates.loaded,
+  error: state.templates.error,
+  selectedItems: state.templates.selectedItems.rows,
+  allItemsSelected:
+    state.templates.selectedItems.rows.length === state.templates.data.length,
+})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  createTemplate,
+  deleteTemplates,
+  updateTemplate,
+  updateTemplateOrder,
+  resetAllItems,
+  selectAllItems,
+  toggleItem,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Templates)

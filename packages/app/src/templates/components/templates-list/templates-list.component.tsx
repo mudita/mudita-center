@@ -29,9 +29,6 @@ import {
   DraggableProvided,
 } from "react-beautiful-dnd"
 import { Feature, flags } from "App/feature-flags"
-import { toggleItem } from "App/templates/actions"
-import { useDispatch } from "react-redux"
-import { TmpDispatch } from "App/__deprecated__/renderer/store"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
@@ -45,6 +42,7 @@ const messages = defineMessages({
 
 export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   templates,
+  toggleRow,
   selectedItems,
   deleteTemplates,
   updateTemplate,
@@ -53,7 +51,6 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   active,
 }) => {
   const noneRowsSelected = selectedItems.length === 0
-  const dispatch = useDispatch<TmpDispatch>()
 
   return (
     <>
@@ -78,8 +75,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 {templates.length > 0 ? (
                   templates.map((template, index) => {
                     const selected = selectedItems.includes(template.id)
-                    const handleCheckboxChange = () =>
-                      dispatch(toggleItem(template.id))
+                    const handleCheckboxChange = () => toggleRow(template.id)
 
                     return (
                       <Draggable
@@ -159,8 +155,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
           {templates.length > 0 ? (
             templates.map((template) => {
               const selected = selectedItems.includes(template.id)
-              const handleCheckboxChange = () =>
-                dispatch(toggleItem(template.id))
+              const handleCheckboxChange = () => toggleRow(template.id)
 
               return (
                 <Row
