@@ -866,6 +866,7 @@
   "module.templates.temporary": "New template",
   "module.templates.text": "Template...",
   "module.templates.tooLong": "The template is too long",
+  "module.templates.newLine": "The template contains new line character",
   "module.templates.unsavedTemplate": "unsaved",
   "module.templates.updatingModalErrorSubtitle": "Updating failed",
   "module.templates.updatingModalErrorTitle": "Updating Template",
