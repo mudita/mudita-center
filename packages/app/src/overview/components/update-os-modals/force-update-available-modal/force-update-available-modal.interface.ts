@@ -4,8 +4,11 @@
  */
 
 import { AboutUpdatesSectionProps } from "App/overview/components/update-os-modals/update-available-modal/about-updates-section.component"
+import { ModalDialog } from "App/ui"
+import { ComponentProps } from "react"
 
-export interface ForceUpdateAvailableModalProps {
+export interface ForceUpdateAvailableModalProps
+  extends ComponentProps<typeof ModalDialog> {
   onUpdate: () => void
   open: boolean
   releases: AboutUpdatesSectionProps["releases"]
