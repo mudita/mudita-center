@@ -7,6 +7,7 @@ export enum ModalLayers {
   Default = 5,
   CrashDump,
   UpdateOS,
+  ContactSupport,
   Passcode,
   EULA,
   ErrorConnecting,
