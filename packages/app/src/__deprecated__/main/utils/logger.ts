@@ -51,9 +51,12 @@ const createDailyRotateFileTransport = (
         .map(([key, value]) => (value ? `${key}: ${value}` : ""))
         .filter((item) => item)
         .join("\n")}`
+
+      const shortMessage = message.toString().slice(0, 50000)
+
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      return `${paddedProcess} [${timestamp}] ${paddedLevel} ${message} ${metadata}`
+      return `${paddedProcess} [${timestamp}] ${paddedLevel} ${shortMessage} ${metadata}`
     })
   )
   // AUTO DISABLED - fix me if you like :)
