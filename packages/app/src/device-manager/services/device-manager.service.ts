@@ -51,6 +51,10 @@ export class DeviceManager {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
+    if (this.currentDevice) {
+      return
+    }
+
     const device = await this.initializeDevice(port)
 
     logger.info(`DeviceManager addDevice: device: ${!device}`)
@@ -64,7 +68,9 @@ export class DeviceManager {
 
     this.devicesMap.set(device.path, device)
 
-    logger.info(`DeviceManager addDevice: !this.currentDevice: ${!this.currentDevice}`)
+    logger.info(
+      `DeviceManager addDevice: !this.currentDevice: ${!this.currentDevice}`
+    )
 
     if (!this.currentDevice) {
       this.currentDevice = device

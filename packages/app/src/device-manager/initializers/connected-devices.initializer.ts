@@ -14,10 +14,9 @@ export class ConnectedDeviceInitializer implements Initializer {
   ) {}
 
   public async initialize(): Promise<void> {
-    const devices = await this.deviceManager.getConnectedDevices()
-
-    devices.forEach((device) => {
-      void this.deviceManager.addDevice(device)
-    })
+    // const devices = await this.deviceManager.getConnectedDevices()
+    // devices.forEach((device) => {
+    //   void this.deviceManager.addDevice(device)
+    // })
   }
 }
