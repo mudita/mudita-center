@@ -104,7 +104,7 @@ export const uploadFile = createAsyncThunk<
       harmonyFreeFilesSlotsCount === 0
     ) {
       dispatch(setUploadBlocked(false))
-      return rejectWithValue(filesToUpload.error)
+      return
     }
 
     if (
