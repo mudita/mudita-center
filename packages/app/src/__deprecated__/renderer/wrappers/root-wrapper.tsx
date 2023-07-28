@@ -208,12 +208,10 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     if (deviceType) {
       if (deviceType === DeviceType.MuditaHarmony) {
-        dispatch(getFiles(DeviceDirectory.Relaxation))
+        void dispatch(getFiles(DeviceDirectory.Relaxation))
       }
     }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceType])
+  }, [deviceType, dispatch])
 
   useEffect(() => {
     let interval: NodeJS.Timeout
