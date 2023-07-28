@@ -4,7 +4,7 @@
  */
 
 import { DeviceType } from "App/device/constants"
-import { connect, useDispatch } from "react-redux"
+import { connect } from "react-redux"
 import { History } from "history"
 import React, { useCallback, useEffect } from "react"
 import { IntlProvider } from "react-intl"
