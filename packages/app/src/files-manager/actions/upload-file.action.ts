@@ -37,11 +37,6 @@ export const uploadFile = createAsyncThunk<
 >(
   FilesManagerEvent.UploadFiles,
   async (_, { getState, dispatch, rejectWithValue }) => {
-    let state = getState()
-
-    if (state.device.deviceType === null) {
-      return rejectWithValue("device Type isn't set")
-    }
     dispatch(setUploadBlocked(true))
     const filesToUpload = await getPathsRequest({
       filters: [
@@ -52,6 +47,16 @@ export const uploadFile = createAsyncThunk<
       ],
       properties: ["openFile", "multiSelections"],
     })
+
+    const state = getState()
+
+    if (state.device.deviceType === null) {
+      return rejectWithValue("device Type isn't set")
+    }
+
+    if (state.filesManager.files === null) {
+      return rejectWithValue("files are not yet loaded")
+    }
 
     if (!filesToUpload.ok || !filesToUpload.data) {
       return rejectWithValue(filesToUpload.error)
@@ -93,7 +98,6 @@ export const uploadFile = createAsyncThunk<
         )
       )
     }
-    state = getState()
 
     const harmonyFreeFilesSlotsCount = getHarmonyFreeFilesSlotsCount(
       state.filesManager.files?.length ?? 0

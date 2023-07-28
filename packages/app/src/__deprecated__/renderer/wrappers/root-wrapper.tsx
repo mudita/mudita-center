@@ -33,7 +33,7 @@ import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
 import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
-import { Dispatch, ReduxRootState } from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { loadDeviceData, setAgreementStatus } from "App/device"
 import {
   loadSettings,
@@ -65,8 +65,7 @@ import {
   registerDownloadCancelOnDeviceDetachedListener,
 } from "App/update/listeners"
 import { setConnectionStatus } from "App/device/actions"
-import { getFiles, resetUploadingState } from "App/files-manager/actions"
-import { DeviceDirectory } from "App/files-manager/constants"
+import { resetUploadingState } from "App/files-manager/actions"
 
 interface Props {
   history: History
@@ -97,9 +96,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   connectedAndUnlocked,
   setConnectionStatus,
   resetUploadingState,
-  deviceType,
 }) => {
-  const dispatch = useDispatch<Dispatch>()
   const onAgreementStatusChangeListener = useCallback(
     (value) => {
       setAgreementStatus(value)
@@ -204,14 +201,6 @@ const RootWrapper: FunctionComponent<Props> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    if (deviceType) {
-      if (deviceType === DeviceType.MuditaHarmony) {
-        void dispatch(getFiles(DeviceDirectory.Relaxation))
-      }
-    }
-  }, [deviceType, dispatch])
 
   useEffect(() => {
     let interval: NodeJS.Timeout
