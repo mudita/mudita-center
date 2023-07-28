@@ -4,7 +4,7 @@
  */
 
 import { DeviceType } from "App/device/constants"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import { History } from "history"
 import React, { useCallback, useEffect } from "react"
 import { IntlProvider } from "react-intl"
@@ -33,7 +33,7 @@ import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
 import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
-import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { Dispatch, ReduxRootState } from "App/__deprecated__/renderer/store"
 import { loadDeviceData, setAgreementStatus } from "App/device"
 import {
   loadSettings,
@@ -65,7 +65,8 @@ import {
   registerDownloadCancelOnDeviceDetachedListener,
 } from "App/update/listeners"
 import { setConnectionStatus } from "App/device/actions"
-import { resetUploadingState } from "App/files-manager/actions"
+import { getFiles, resetUploadingState } from "App/files-manager/actions"
+import { DeviceDirectory } from "App/files-manager/constants"
 
 interface Props {
   history: History
@@ -96,7 +97,9 @@ const RootWrapper: FunctionComponent<Props> = ({
   connectedAndUnlocked,
   setConnectionStatus,
   resetUploadingState,
+  deviceType,
 }) => {
+  const dispatch = useDispatch<Dispatch>()
   const onAgreementStatusChangeListener = useCallback(
     (value) => {
       setAgreementStatus(value)
@@ -201,6 +204,16 @@ const RootWrapper: FunctionComponent<Props> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (deviceType) {
+      if (deviceType === DeviceType.MuditaHarmony) {
+        dispatch(getFiles(DeviceDirectory.Relaxation))
+      }
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deviceType])
 
   useEffect(() => {
     let interval: NodeJS.Timeout

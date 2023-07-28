@@ -30,10 +30,14 @@ import { getUniqueFiles } from "App/files-manager/helpers/get-unique-files.helpe
 import { AppError } from "App/core/errors/app-error"
 import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
 
-export const uploadFile = createAsyncThunk(
+export const uploadFile = createAsyncThunk<
+  void,
+  void,
+  { state: ReduxRootState }
+>(
   FilesManagerEvent.UploadFiles,
   async (_, { getState, dispatch, rejectWithValue }) => {
-    const state = getState() as ReduxRootState
+    let state = getState()
 
     if (state.device.deviceType === null) {
       return rejectWithValue("device Type isn't set")
@@ -89,6 +93,7 @@ export const uploadFile = createAsyncThunk(
         )
       )
     }
+    state = getState()
 
     const harmonyFreeFilesSlotsCount = getHarmonyFreeFilesSlotsCount(
       state.filesManager.files?.length ?? 0
@@ -99,7 +104,7 @@ export const uploadFile = createAsyncThunk(
       harmonyFreeFilesSlotsCount === 0
     ) {
       dispatch(setUploadBlocked(false))
-      return
+      return rejectWithValue(filesToUpload.error)
     }
 
     if (
