@@ -29,34 +29,35 @@ const messages = defineMessages({
   },
 })
 
-export const DownloadingUpdateFailedModal: FunctionComponent<DownloadingUpdateFailedModalProps> =
-  ({
-    open,
-    onContactSupport,
-    onGoToHelp,
-    onClose,
-    testId,
-  }: DownloadingUpdateFailedModalProps) => {
-    return (
-      <ErrorModal
-        testId={testId}
-        open={open}
-        closeButton
-        closeable
-        closeModal={onClose}
-        title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-        subtitle={intl.formatMessage(messages.downloadingFailedMessage)}
-        body={intl.formatMessage(messages.downloadingFailedDescription)}
-        onCloseButton={onContactSupport}
-        closeButtonLabel={intl.formatMessage(
-          messages.downloadingFailedContactSupport
-        )}
-        onActionButtonClick={onGoToHelp}
-        actionButtonLabel={intl.formatMessage(
-          messages.downloadingFailedGoToHelp
-        )}
-        onClose={onClose}
-        actionButtonSize={Size.FixedSmall}
-      />
-    )
-  }
+export const DownloadingUpdateFailedModal: FunctionComponent<
+  DownloadingUpdateFailedModalProps
+> = ({
+  open,
+  onContactSupport,
+  onGoToHelp,
+  onClose,
+  testId,
+  ...rest
+}: DownloadingUpdateFailedModalProps) => {
+  return (
+    <ErrorModal
+      testId={testId}
+      open={open}
+      closeButton
+      closeable
+      closeModal={onClose}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      subtitle={intl.formatMessage(messages.downloadingFailedMessage)}
+      body={intl.formatMessage(messages.downloadingFailedDescription)}
+      onCloseButton={onContactSupport}
+      closeButtonLabel={intl.formatMessage(
+        messages.downloadingFailedContactSupport
+      )}
+      onActionButtonClick={onGoToHelp}
+      actionButtonLabel={intl.formatMessage(messages.downloadingFailedGoToHelp)}
+      onClose={onClose}
+      actionButtonSize={Size.FixedSmall}
+      {...rest}
+    />
+  )
+}

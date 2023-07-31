@@ -40,13 +40,18 @@ const messages = defineMessages({
 
 export const ForceUpdateAvailableModal: FunctionComponent<
   ForceUpdateAvailableModalProps
-> = ({ open, releases, onUpdate, testId }) => {
+> = ({ open, releases, onUpdate, testId, layer }) => {
   const handleButtonClick = (_event: unknown) => {
     onUpdate()
   }
 
   return (
-    <OSUpdateModal open={open} testId={testId} size={ModalSize.Medium}>
+    <OSUpdateModal
+      layer={layer}
+      open={open}
+      testId={testId}
+      size={ModalSize.Medium}
+    >
       <RoundIconWrapper>
         <Icon type={IconType.Info} width={4.8} />
       </RoundIconWrapper>

@@ -10,12 +10,17 @@ import { startUpdateOs } from "App/update/actions/start-update-os/start-update-o
 import { UpdateError, UpdateOsEvent } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import { rejectedAction } from "App/__deprecated__/renderer/store/helpers/action.helper"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 interface Params {
   releases: OsRelease[]
 }
 
-export const forceUpdate = createAsyncThunk<void, Params>(
+export const forceUpdate = createAsyncThunk<
+  void,
+  Params,
+  { state: ReduxRootState }
+>(
   UpdateOsEvent.StartOsForceUpdateProcess,
   async ({ releases }, { dispatch, rejectWithValue }) => {
     const downloadUpdate = await dispatch(downloadUpdates({ releases }))

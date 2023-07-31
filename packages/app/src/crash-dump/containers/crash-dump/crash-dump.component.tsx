@@ -22,6 +22,7 @@ import {
 } from "App/crash-dump/actions"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 const messages = defineMessages({
   crashDumpModalErrorTitle: {
@@ -53,6 +54,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   downloadCrashDump,
   ignoreCrashDump,
   resetCrashDump,
+  layer = ModalLayers.CrashDump,
 }) => {
   const [openInfo, setOpenInfo] = useState<boolean>(false)
 
@@ -92,6 +94,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
     <>
       {failed && (
         <ErrorModal
+          layer={layer}
           open={failed}
           testId={CrashDumpTestingIds.Failed}
           title={intl.formatMessage(messages.crashDumpModalErrorTitle)}
@@ -101,6 +104,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
       )}
       {sending && (
         <LoaderModal
+          layer={layer}
           open={sending}
           testId={CrashDumpTestingIds.Loading}
           title={intl.formatMessage(messages.crashDumpModalSendingTitle)}
@@ -109,6 +113,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
       )}
       {sended && (
         <SuccessModal
+          layer={layer}
           open={sended}
           testId={CrashDumpTestingIds.Success}
           title={intl.formatMessage(messages.crashDumpModalSuccessTitle)}
@@ -118,6 +123,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
       )}
       {openInfo && (
         <CrashDumpModal
+          layer={layer}
           open={openInfo}
           deviceType={deviceType}
           onClose={handleClosCrashDumpModal}

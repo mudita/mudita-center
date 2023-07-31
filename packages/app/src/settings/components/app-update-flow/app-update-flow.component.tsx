@@ -7,6 +7,7 @@ import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import AppUpdateStepModal from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 import { AppUpdateFlowTestIds } from "App/settings/components/app-update-flow/app-update-flow-test-ids.enum"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 interface Props {
   appCurrentVersion?: string
@@ -21,6 +22,7 @@ export const AppUpdateFlow: FunctionComponent<Props> = ({
 }) => {
   return (
     <AppUpdateStepModal
+      layer={ModalLayers.UpdateApp}
       appCurrentVersion={appCurrentVersion}
       appLatestVersion={appLatestVersion}
       closeModal={closeModal}

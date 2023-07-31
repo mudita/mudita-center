@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface CheckingUpdatesModalProps {
+import { ModalDialogProps } from "App/ui"
+
+export interface CheckingUpdatesModalProps
+  extends Omit<ModalDialogProps, "title" | "className"> {
   open: boolean
   testId?: string
 }

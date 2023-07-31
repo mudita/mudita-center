@@ -17,6 +17,7 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { NotEnoughSpaceModal } from "App/overview/components/update-os-modals/not-enough-space-modal"
 import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { OnboardingNotCompleteModal } from "App/overview/components/onboarding-not-complete-modal"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 const UpdatingForceModalFlow: FunctionComponent<
   UpdatingForceModalFlowProps
@@ -31,6 +32,7 @@ const UpdatingForceModalFlow: FunctionComponent<
   forceUpdateState,
   closeForceUpdateFlow,
   deviceType,
+  layer = ModalLayers.UpdateOS,
 }) => {
   const [forceUpdateShowModal, setForceUpdateShowModal] =
     useState<boolean>(false)
@@ -84,10 +86,12 @@ const UpdatingForceModalFlow: FunctionComponent<
         open={forceUpdateShowModal}
         releases={availableReleasesForUpdate ?? []}
         onUpdate={startForceUpdate}
+        layer={layer}
       />
 
       {availableReleasesForUpdate && availableReleasesForUpdate.length > 0 && (
         <UpdatingSpinnerModal
+          layer={layer}
           testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
           open={showLoadingModal}
           progressParams={
@@ -112,6 +116,7 @@ const UpdatingForceModalFlow: FunctionComponent<
       )}
 
       <UpdatingFailureWithHelpModal
+        layer={layer}
         testId={UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal}
         open={
           showErrorModal &&
@@ -125,6 +130,7 @@ const UpdatingForceModalFlow: FunctionComponent<
       />
 
       <TooLowBatteryModal
+        layer={layer}
         testId={UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal}
         open={showErrorModal && error?.type === UpdateError.TooLowBattery}
         deviceType={deviceType}
@@ -132,6 +138,7 @@ const UpdatingForceModalFlow: FunctionComponent<
       />
 
       <NotEnoughSpaceModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.NotEnoughSpaceModal}
         open={showErrorModal && error?.type === UpdateError.NotEnoughSpace}
         onClose={onCloseErrorModal}
@@ -139,6 +146,7 @@ const UpdatingForceModalFlow: FunctionComponent<
       />
 
       <OnboardingNotCompleteModal
+        layer={layer}
         testId={UpdateOsFlowTestIds.OnboardingNotCompleteModal}
         open={
           showErrorModal && error?.type === UpdateError.OnboardingNotComplete
@@ -147,6 +155,7 @@ const UpdatingForceModalFlow: FunctionComponent<
       />
 
       <UpdatingSuccessModal
+        layer={layer}
         testId={UpdatingForceModalFlowTestIds.UpdatingSuccessModal}
         open={showSuccessModal}
         onClose={onCloseSuccessModal}

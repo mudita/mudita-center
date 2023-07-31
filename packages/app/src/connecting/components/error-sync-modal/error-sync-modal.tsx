@@ -9,10 +9,10 @@ import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/mo
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
-import React, { ComponentProps } from "react"
+import React from "react"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import { ModalDialog } from "App/ui/components/modal-dialog"
+import { ModalDialog, ModalDialogProps } from "App/ui/components/modal-dialog"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
@@ -42,7 +42,7 @@ const ModalContent = styled.div`
     margin-top: 0;
   }
 `
-interface Props extends ComponentProps<typeof ModalDialog> {
+interface Props extends ModalDialogProps {
   onRetry: () => void
 }
 
@@ -56,7 +56,6 @@ const ErrorSyncModal: FunctionComponent<Props> = ({ onRetry, ...props }) => {
       actionButtonLabel={intl.formatMessage(messages.errorSyncModalButton)}
       onActionButtonClick={onRetry}
       closeButton={false}
-      zIndex={100}
       {...props}
     >
       <ModalContent>

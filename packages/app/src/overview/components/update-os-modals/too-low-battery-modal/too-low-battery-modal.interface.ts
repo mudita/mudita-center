@@ -4,8 +4,9 @@
  */
 
 import { DeviceType } from "App/device/constants"
+import { ModalDialogProps } from "App/ui"
 
-export interface TooLowBatteryModalProps {
+export interface TooLowBatteryModalProps extends ModalDialogProps {
   deviceType: DeviceType
   open: boolean
   onClose: () => void
