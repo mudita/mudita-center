@@ -56,7 +56,7 @@
   "build": {
     "productName": "Mudita Center",
     "appId": "com.mudita.center",
-    "copyright": "Copyright (c) 2017-2021, Mudita sp. z o.o. All rights reserved.",
+    "copyright": "Copyright (c) 2017-2023, Mudita sp. z o.o. All rights reserved.",
     "mac": {
       "category": "public.app-category.utilities",
       "icon": "./icons/mac/icon.icns",
