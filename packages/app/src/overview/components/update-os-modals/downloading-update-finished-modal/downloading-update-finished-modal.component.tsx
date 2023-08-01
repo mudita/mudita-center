@@ -32,7 +32,7 @@ const messages = defineMessages({
 
 export const DownloadingUpdateFinishedModal: FunctionComponent<
   DownloadingUpdateFinishedModalProps
-> = ({ onOsUpdate, open, onClose, testId, downloadedReleases }) => {
+> = ({ onOsUpdate, open, onClose, testId, downloadedReleases, ...rest }) => {
   const handleUpdateButtonClick = (): void => {
     onOsUpdate()
   }
@@ -52,6 +52,7 @@ export const DownloadingUpdateFinishedModal: FunctionComponent<
       closeButtonLabel={intl.formatMessage(
         messages.downloadCompletedCloseButton
       )}
+      {...rest}
     >
       <RoundIconWrapper>
         <Icon type={IconType.Info} width={4.8} />

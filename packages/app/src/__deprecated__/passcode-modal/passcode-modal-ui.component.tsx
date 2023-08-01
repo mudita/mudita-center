@@ -5,10 +5,8 @@
 
 import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { ModalDialog } from "App/ui/components/modal-dialog"
+import { ModalDialog, ModalDialogProps } from "App/ui/components/modal-dialog"
 import styled from "styled-components"
-import theme from "App/__deprecated__/renderer/styles/theming/theme"
-import { zIndex } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Icon, {
   IconSize,
 } from "App/__deprecated__/renderer/components/core/icon/icon.component"
@@ -52,7 +50,8 @@ export const PasscodeModalContent = styled(ModalContent)`
   height: clamp(28rem, 60vh, 46.4rem);
 `
 
-export interface PasscodeModalProps {
+export interface PasscodeModalProps
+  extends Omit<ModalDialogProps, "close" | "open"> {
   openModal: boolean
   close: () => void
   values: string[]
@@ -95,7 +94,6 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       closeButton={false}
       closeModal={canBeClosed ? close : undefined}
       title={muditaLogo}
-      zIndex={zIndex("passCodeModal")({ theme })}
     >
       <PasscodeModalContent>
         <span></span>

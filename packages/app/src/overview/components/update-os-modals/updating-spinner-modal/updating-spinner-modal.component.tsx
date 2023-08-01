@@ -26,25 +26,27 @@ const messages = defineMessages({
   },
 })
 
-export const UpdatingSpinnerModal: FunctionComponent<UpdatingSpinnerModalProps> =
-  ({ open, testId, progressParams }) => {
-    return (
-      <LoaderModal
-        testId={testId}
-        open={open}
-        title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-        subtitle={intl.formatMessage(messages.updatingProgressTitle)}
-        body={intl.formatMessage(messages.updatingProgressDescription)}
-      >
-        {progressParams && (
-          <UpdateProgressText
-            processText={intl.formatMessage(messages.updatingReleaseInfo, {
-              value: progressParams.currentlyUpdatingReleaseVersion,
-            })}
-            currentIndex={progressParams.currentlyUpdatingReleaseOrder}
-            totalSize={progressParams.updatedReleasesSize}
-          />
-        )}
-      </LoaderModal>
-    )
-  }
+export const UpdatingSpinnerModal: FunctionComponent<
+  UpdatingSpinnerModalProps
+> = ({ open, testId, progressParams, ...rest }) => {
+  return (
+    <LoaderModal
+      testId={testId}
+      open={open}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      subtitle={intl.formatMessage(messages.updatingProgressTitle)}
+      body={intl.formatMessage(messages.updatingProgressDescription)}
+      {...rest}
+    >
+      {progressParams && (
+        <UpdateProgressText
+          processText={intl.formatMessage(messages.updatingReleaseInfo, {
+            value: progressParams.currentlyUpdatingReleaseVersion,
+          })}
+          currentIndex={progressParams.currentlyUpdatingReleaseOrder}
+          totalSize={progressParams.updatedReleasesSize}
+        />
+      )}
+    </LoaderModal>
+  )
+}

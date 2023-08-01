@@ -5,12 +5,14 @@
 
 import { DeviceType } from "App/device/constants"
 import { CrashDump } from "App/crash-dump/dto"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 export interface CrashDumpContainerProps {
   hasCrashDump: boolean
   sending: boolean
   sended: boolean
   failed: boolean
+  layer?: ModalLayers
   deviceType: DeviceType | null
   downloadCrashDump: (payload: CrashDump) => void
   ignoreCrashDump: () => void

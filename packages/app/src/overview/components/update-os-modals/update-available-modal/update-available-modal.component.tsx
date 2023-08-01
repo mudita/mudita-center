@@ -55,6 +55,7 @@ export const UpdateAvailableModal: FunctionComponent<
   areAllReleasesDownloaded,
   onUpdate,
   testId,
+  ...rest
 }) => {
   const handleButtonClick = (_event: unknown) => {
     if (areAllReleasesDownloaded) {
@@ -71,6 +72,7 @@ export const UpdateAvailableModal: FunctionComponent<
       closeable
       closeModal={onClose}
       size={ModalSize.Medium}
+      {...rest}
     >
       <RoundIconWrapper>
         <Icon type={IconType.Info} width={4.8} />
