@@ -7,21 +7,22 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
 import { clearStateAndData } from "App/update/actions/base.action"
 import { UpdateOsEvent } from "App/update/constants"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
-export const handleDeviceAttached = createAsyncThunk<void, void>(
-  UpdateOsEvent.HandleDeviceAttached,
-  (_, { dispatch, getState }) => {
-    const { update, backup } = getState() as RootState & ReduxRootState
+export const handleDeviceAttached = createAsyncThunk<
+  void,
+  void,
+  { state: ReduxRootState }
+>(UpdateOsEvent.HandleDeviceAttached, (_, { dispatch, getState }) => {
+  const { update, backup } = getState()
 
-    if (
-      update.updateOsState === State.Loading ||
-      backup.restoringState === State.Loading ||
-      backup.backingUpState === State.Loading
-    ) {
-      return
-    }
-
-    dispatch(clearStateAndData())
+  if (
+    update.updateOsState === State.Loading ||
+    backup.restoringState === State.Loading ||
+    backup.backingUpState === State.Loading
+  ) {
+    return
   }
-)
+
+  dispatch(clearStateAndData())
+})
