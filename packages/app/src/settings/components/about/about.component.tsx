@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import AboutUI from "App/settings/components/about/about-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
@@ -13,18 +13,23 @@ interface Props {
   latestVersion?: string
   currentVersion?: string
   updateAvailable?: boolean
+  toggleApplicationUpdateAvailable: (appUpdateAvailable: boolean) => void
+  checkingForUpdate: boolean
   checkUpdateAvailable: () => void
-  toggleUpdateAvailable: (appUpdateAvailable: boolean) => void
 }
 
 export const About: FunctionComponent<Props> = ({
   latestVersion,
   currentVersion,
   updateAvailable,
+  checkingForUpdate,
+  toggleApplicationUpdateAvailable,
   checkUpdateAvailable,
-  toggleUpdateAvailable,
 }) => {
-  const [checking, setChecking] = useState(false)
+  const [appUpdateNotAvailableShow, setAppUpdateNotAvailableShow] =
+    useState(false)
+  const [appUpdateFailedShow, setAppUpdateFailedShow] = useState(false)
+
   const openLicenseWindow = () =>
     ipcRenderer.callMain(AboutActions.LicenseOpenWindow)
   const openTermsOfServiceWindow = () =>
@@ -33,13 +38,21 @@ export const About: FunctionComponent<Props> = ({
     ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
 
   const hideAppUpdateNotAvailable = () => {
-    setChecking(false)
+    setAppUpdateNotAvailableShow(false)
   }
 
+  const hideAppUpdateFailed = () => {
+    setAppUpdateFailedShow(false)
+  }
+
+  useEffect(() => {
+    setAppUpdateNotAvailableShow(updateAvailable === false)
+  }, [updateAvailable])
+
   const handleAppUpdateAvailableCheck = (): void => {
-    setChecking(true)
     if (!window.navigator.onLine) {
-      toggleUpdateAvailable(false)
+      toggleApplicationUpdateAvailable(false)
+      setAppUpdateFailedShow(true)
     } else {
       checkUpdateAvailable()
     }
@@ -54,8 +67,11 @@ export const About: FunctionComponent<Props> = ({
       appCurrentVersion={currentVersion}
       appUpdateAvailable={updateAvailable}
       onAppUpdateAvailableCheck={handleAppUpdateAvailableCheck}
-      appUpdateNotAvailableShow={checking && updateAvailable === false}
+      appUpdateNotAvailableShow={appUpdateNotAvailableShow}
       hideAppUpdateNotAvailable={hideAppUpdateNotAvailable}
+      checkingForUpdate={checkingForUpdate}
+      appUpdateFailedShow={appUpdateFailedShow}
+      hideAppUpdateFailed={hideAppUpdateFailed}
     />
   )
 }
