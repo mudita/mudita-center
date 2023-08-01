@@ -20,13 +20,14 @@ const messages = defineMessages({
 
 export const CheckingUpdatesModal: FunctionComponent<
   CheckingUpdatesModalProps
-> = ({ open, testId }) => {
+> = ({ open, testId, ...rest }) => {
   return (
     <LoaderModal
       testId={testId}
       open={open}
       title={intl.formatMessage(messages.muditaOsUpdateTitle)}
       subtitle={intl.formatMessage(messages.checkingForUpdatesMessage)}
+      {...rest}
     />
   )
 }

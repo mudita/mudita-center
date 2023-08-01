@@ -21,7 +21,7 @@ import {
   downloadOsUpdateRequest,
   osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { RELEASE_SPACE } from "App/update/constants/release-space.constant"
 
 interface Params {
@@ -32,12 +32,13 @@ export const downloadUpdates = createAsyncThunk<
   void,
   Params,
   {
+    state: ReduxRootState
     rejectValue: AppError<UpdateError>
   }
 >(
   UpdateOsEvent.DownloadUpdate,
   async ({ releases }, { getState, rejectWithValue, dispatch }) => {
-    let state = (await getState()) as RootState & ReduxRootState
+    let state = getState()
     const batteryLevel = state.device.data?.batteryLevel ?? 0
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
@@ -50,7 +51,7 @@ export const downloadUpdates = createAsyncThunk<
     }
 
     for (const release of releases) {
-      state = (await getState()) as RootState & ReduxRootState
+      state = getState()
 
       if (state.update.deviceHasBeenDetachedDuringDownload) {
         return rejectWithValue(
@@ -103,7 +104,7 @@ export const downloadUpdates = createAsyncThunk<
             )
           )
         }
-        state = (await getState()) as RootState & ReduxRootState
+        state = getState()
 
         if (state.update.deviceHasBeenDetachedDuringDownload) {
           return rejectWithValue(

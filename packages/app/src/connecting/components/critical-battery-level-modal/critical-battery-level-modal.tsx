@@ -52,7 +52,6 @@ const CriticalBatteryLevelModal: FunctionComponent<
       closeButtonLabel={intl.formatMessage(
         messages.criticalBatteryLevelModalButton
       )}
-      zIndex={100}
       {...props}
     >
       <ModalContent>

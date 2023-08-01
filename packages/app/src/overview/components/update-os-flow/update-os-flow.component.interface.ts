@@ -6,6 +6,7 @@
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 import {
   DownloadState,
   SilentCheckForUpdateState,
@@ -34,4 +35,5 @@ export interface UpdateOsFlowProps {
   openContactSupportFlow: () => void
   openHelpView: () => void
   tryAgainCheckForUpdate: () => void
+  layer?: ModalLayers
 }

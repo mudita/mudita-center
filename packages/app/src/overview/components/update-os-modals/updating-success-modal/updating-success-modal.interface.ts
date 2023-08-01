@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface UpdatingSuccessModalProps {
+import { ModalDialogProps } from "App/ui"
+
+export interface UpdatingSuccessModalProps extends ModalDialogProps {
   open: boolean
   onClose: () => void
   testId?: string

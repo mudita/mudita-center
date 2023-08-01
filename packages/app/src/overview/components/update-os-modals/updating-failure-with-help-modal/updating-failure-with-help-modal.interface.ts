@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface UpdatingFailureWithHelpModalProps {
+import { ModalDialogProps } from "App/ui"
+
+export interface UpdatingFailureWithHelpModalProps
+  extends Omit<ModalDialogProps, "title" | "className"> {
   open: boolean
   onClose: () => void
   onContact: () => void
