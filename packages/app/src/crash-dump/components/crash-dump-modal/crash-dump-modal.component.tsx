@@ -8,7 +8,7 @@ import { defineMessages } from "react-intl"
 import { DeviceType } from "App/device/constants"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { ModalDialog } from "App/ui/components/modal-dialog"
+import { ModalDialog, ModalDialogProps } from "App/ui/components/modal-dialog"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
@@ -36,7 +36,7 @@ import {
 } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
-export interface CrashDumpProps {
+export interface CrashDumpProps extends Omit<ModalDialogProps, "className"> {
   open: boolean
   deviceType: DeviceType
   onClose: () => void
@@ -68,6 +68,7 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
   deviceType,
   onClose,
   onSubmit = noop,
+  ...rest
 }) => {
   const {
     register,
@@ -93,6 +94,7 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
       open={open}
       closeModal={handleCloseModal}
       closeButton={false}
+      {...rest}
     >
       <ContentWrapper data-testid={CrashDumpModalTestingIds.Content}>
         <IconWrapper>

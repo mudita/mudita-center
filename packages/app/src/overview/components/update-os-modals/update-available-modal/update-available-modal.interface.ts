@@ -4,8 +4,9 @@
  */
 
 import { AboutUpdatesSectionProps } from "App/overview/components/update-os-modals/update-available-modal/about-updates-section.component"
+import { ModalDialogProps } from "App/ui"
 
-export interface UpdateAvailableModalProps {
+export interface UpdateAvailableModalProps extends ModalDialogProps {
   onDownload: () => void
   onClose: () => void
   onUpdate: () => void

@@ -38,49 +38,52 @@ const messages = defineMessages({
   },
 })
 
-export const DownloadingUpdateModal: FunctionComponent<DownloadingUpdateModalProps> =
-  ({
-    percent,
-    open,
-    onCancel,
-    testId,
-    currentlyDownloadingReleaseVersion,
-    currentlyDownloadingReleaseOrder,
-    downloadedReleasesSize,
-  }) => {
-    return (
-      <OSUpdateModal
-        testId={testId}
-        open={open}
-        closeButton
-        closeButtonLabel={intl.formatMessage(messages.downloadingUpdateButton)}
-        onCloseButton={onCancel}
-      >
-        <RoundIconWrapper>
-          <Icon type={IconType.Download} width={3.2} />
-        </RoundIconWrapper>
-        <ModalMainText
-          displayStyle={TextDisplayStyle.Headline4}
-          message={messages.downloadingUpdateMessage}
-        />
-        <Submessage
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
-          message={messages.downloadingUpdateSubmessage}
-        />
-        <DownloadBar>
-          <span style={{ width: `${percent}%` }} />
-        </DownloadBar>
-        <Pergentage displayStyle={TextDisplayStyle.Paragraph4} color="primary">
-          {percent}%
-        </Pergentage>
-        <DownloadProgressText
-          processText={intl.formatMessage(messages.downloadingReleaseInfo, {
-            value: currentlyDownloadingReleaseVersion,
-          })}
-          currentIndex={currentlyDownloadingReleaseOrder}
-          totalSize={downloadedReleasesSize}
-        />
-      </OSUpdateModal>
-    )
-  }
+export const DownloadingUpdateModal: FunctionComponent<
+  DownloadingUpdateModalProps
+> = ({
+  percent,
+  open,
+  onCancel,
+  testId,
+  currentlyDownloadingReleaseVersion,
+  currentlyDownloadingReleaseOrder,
+  downloadedReleasesSize,
+  ...rest
+}) => {
+  return (
+    <OSUpdateModal
+      testId={testId}
+      open={open}
+      closeButton
+      closeButtonLabel={intl.formatMessage(messages.downloadingUpdateButton)}
+      onCloseButton={onCancel}
+      {...rest}
+    >
+      <RoundIconWrapper>
+        <Icon type={IconType.Download} width={3.2} />
+      </RoundIconWrapper>
+      <ModalMainText
+        displayStyle={TextDisplayStyle.Headline4}
+        message={messages.downloadingUpdateMessage}
+      />
+      <Submessage
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
+        message={messages.downloadingUpdateSubmessage}
+      />
+      <DownloadBar>
+        <span style={{ width: `${percent}%` }} />
+      </DownloadBar>
+      <Pergentage displayStyle={TextDisplayStyle.Paragraph4} color="primary">
+        {percent}%
+      </Pergentage>
+      <DownloadProgressText
+        processText={intl.formatMessage(messages.downloadingReleaseInfo, {
+          value: currentlyDownloadingReleaseVersion,
+        })}
+        currentIndex={currentlyDownloadingReleaseOrder}
+        totalSize={downloadedReleasesSize}
+      />
+    </OSUpdateModal>
+  )
+}

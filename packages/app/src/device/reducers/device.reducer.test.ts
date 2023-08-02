@@ -335,7 +335,6 @@ describe("Updates loading functionality", () => {
       state: ConnectionState.Loading,
     })
   })
-
   test("Event: Loading/fulfilled change `state` to Loaded", () => {
     expect(
       deviceReducer(undefined, {
@@ -488,6 +487,7 @@ describe("`LoadStorageInfo` functionality", () => {
         },
         "deviceType": null,
         "error": null,
+        "externalUsageDevice": null,
         "state": 2,
         "status": Object {
           "agreementAccepted": true,

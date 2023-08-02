@@ -4,10 +4,10 @@
  */
 
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import React, { ComponentProps, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
-  AppUpdateForced,
-  AppUpdateAvailable,
+  AppUpdatePrivacyPolicy,
+  AppUpdateRejected,
   AppUpdateError,
   AppUpdateProgress,
 } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update.modals"
@@ -15,13 +15,13 @@ import registerDownloadedAppUpdateListener from "App/__deprecated__/main/functio
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 import installAppUpdateRequest from "App/__deprecated__/renderer/requests/install-app-update.request"
 import downloadAppUpdateRequest from "App/__deprecated__/renderer/requests/download-app-update.request"
-import { ModalDialog } from "App/ui/components/modal-dialog"
+import { ModalDialogProps } from "App/ui/components/modal-dialog"
 import {
   trackCenterUpdate,
   TrackCenterUpdateState,
 } from "App/analytic-data-tracker/helpers"
 
-interface Props extends Partial<ComponentProps<typeof ModalDialog>> {
+interface Props extends Partial<ModalDialogProps> {
   closeModal?: () => void
   appLatestVersion?: string
   appCurrentVersion?: string
@@ -44,6 +44,11 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
   const [appUpdateStep, setAppUpdateStep] = useState<AppUpdateStep>(
     AppUpdateStep.Available
   )
+  const [appUpdateRejectedOpen, setAppUpdateRejectedOpen] =
+    useState<boolean>(false)
+  const onCloseModal = () => {
+    setAppUpdateRejectedOpen(true)
+  }
 
   useEffect(() => {
     const unregister = registerDownloadedAppUpdateListener(() => {
@@ -82,27 +87,32 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
 
   return (
     <>
-      {forced ? (
-        <AppUpdateForced
+      {!appUpdateRejectedOpen ? (
+        <AppUpdatePrivacyPolicy
           open={appUpdateStep === AppUpdateStep.Available}
           onActionButtonClick={handleProcessDownload}
           appLatestVersion={appLatestVersion}
           appCurrentVersion={appCurrentVersion}
+          closeModal={forced ? undefined : onCloseModal}
           {...props}
         />
       ) : (
-        <AppUpdateAvailable
-          open={appUpdateStep === AppUpdateStep.Available}
+        <AppUpdateRejected
+          open={appUpdateRejectedOpen}
           closeModal={closeModal}
-          onActionButtonClick={handleProcessDownload}
+          onActionButtonClick={() => setAppUpdateRejectedOpen(false)}
           appLatestVersion={appLatestVersion}
           {...props}
         />
       )}
-      <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />
+      <AppUpdateProgress
+        open={appUpdateStep === AppUpdateStep.Updating}
+        {...props}
+      />
       <AppUpdateError
         open={appUpdateStep === AppUpdateStep.Error}
         closeModal={forced ? close : closeModal}
+        {...props}
       />
     </>
   )

@@ -27,7 +27,7 @@ import {
   TextArea,
 } from "App/templates/components/template-form/template-form.styled"
 import { TemplateFormTestIds } from "App/templates/components/template-form/template-form-ids.enum"
-import { byteLengthValidator } from "App/templates/components/template-form/byte-length.validator"
+import { templateValidator } from "App/templates/components/template-form/byte-length.validator"
 
 const messages = defineMessages({
   editTitle: { id: "module.templates.editTitle" },
@@ -80,6 +80,12 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
     onSave(data)
   })
 
+  const onKeyDownIgnoreEnter = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault()
+    }
+  }
+
   return (
     <TemplateDetailsWrapper
       show
@@ -90,7 +96,7 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
       <Form onSubmit={handleSave}>
         <Content>
           <TextArea
-            {...register("text", byteLengthValidator())}
+            {...register("text", templateValidator())}
             data-testid={TemplateFormTestIds.TextFiled}
             type="textarea"
             defaultHeight="100%"
@@ -99,6 +105,7 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
+            onKeyDown={onKeyDownIgnoreEnter}
           />
         </Content>
 

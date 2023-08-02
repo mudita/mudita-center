@@ -137,7 +137,7 @@ const BaseApp: FunctionComponent<Props> = ({
 }
 
 const isDeviceRestarting = (state: RootState & ReduxRootState): boolean => {
-  if (!state.device.status.unlocked) {
+  if (!state.device.status.unlocked && state.device.status.loaded) {
     return false
   }
 

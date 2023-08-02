@@ -7,7 +7,6 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 
 export enum ModalStateKey {
-  CollectingDataModal = "collectingDataModalShow",
   AppForcedUpdateFlow = "appForcedUpdateFlowShow",
   AppUpdateFlow = "appUpdateFlowShow",
   ContactSupportFlow = "contactSupportFlowShow",
@@ -15,7 +14,6 @@ export enum ModalStateKey {
 }
 
 export interface ModalsManagerState extends Record<ModalStateKey, boolean> {
-  collectingDataModalShow: boolean
   appForcedUpdateFlowShow: boolean
   appUpdateFlowShow: boolean
   contactSupportFlowShow: boolean

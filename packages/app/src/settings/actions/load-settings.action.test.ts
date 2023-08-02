@@ -34,7 +34,6 @@ jest.mock("App/backup/actions/load-backup-data.action", () => ({
 
 jest.mock("App/modals-manager/actions", () => ({
   checkAppForcedUpdateFlowToShow: () => jest.fn(),
-  checkCollectingDataModalToShow: () => jest.fn(),
   checkAppUpdateFlowToShow: () => jest.fn(),
 }))
 
@@ -63,6 +62,7 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
     {
       type: SettingsEvent.SetSettings,
       payload: {
+        checkingForUpdate: false,
         collectingData: false,
         currentVersion: `${packageInfo.version}`,
         lowestSupportedVersions: {

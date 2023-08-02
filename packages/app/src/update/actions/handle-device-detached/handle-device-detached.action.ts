@@ -4,17 +4,21 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { setExternalUsageDeviceRequest } from "App/analytic-data-tracker/requests/set-external-usage-device.request"
 import { DownloadState, UpdateOsEvent } from "App/update/constants"
 import { cancelOsDownload } from "App/update/requests"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
-export const handleDeviceDetached = createAsyncThunk<void, void>(
-  UpdateOsEvent.HandleDeviceDetached,
-  async (_, { getState }) => {
-    const { update } = (await getState()) as RootState & ReduxRootState
+export const handleDeviceDetached = createAsyncThunk<
+  void,
+  void,
+  { state: ReduxRootState }
+>(UpdateOsEvent.HandleDeviceDetached, async (_, { getState }) => {
+  const { update } = getState()
 
-    if (update.downloadState === DownloadState.Loading) {
-      cancelOsDownload(true)
-    }
+  if (update.downloadState === DownloadState.Loading) {
+    cancelOsDownload(true)
   }
-)
+
+  await setExternalUsageDeviceRequest(false)
+})

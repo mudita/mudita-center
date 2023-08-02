@@ -35,7 +35,7 @@ const messages = defineMessages({
 
 export const OnboardingNotCompleteModal: FunctionComponent<
   OnboardingNotCompleteModalProps
-> = ({ onClose, open, testId }) => {
+> = ({ onClose, open, testId, ...rest }) => {
   return (
     <OSUpdateModal
       testId={testId}
@@ -46,6 +46,7 @@ export const OnboardingNotCompleteModal: FunctionComponent<
       closeButtonLabel={intl.formatMessage(
         messages.updatingOnboardingNotCompleteActionButton
       )}
+      {...rest}
     >
       <RoundIconWrapper>
         <Icon type={IconType.ThinFail} width={3.2} />

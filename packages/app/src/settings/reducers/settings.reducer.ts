@@ -18,11 +18,14 @@ import {
   toggleTethering,
   toggleApplicationUpdateAvailable,
   toggleCollectionData,
+  togglePrivacyPolicyAccepted,
   setConversionFormat,
   setConvert,
   setNonStandardAudioFilesConversion,
   setLowBattery,
+  setCheckingForUpdate,
 } from "App/settings/actions"
+import { deleteCollectingData } from "App/settings/actions/delete-collecting-data.action"
 
 export const initialState: SettingsState = {
   applicationId: "",
@@ -37,6 +40,7 @@ export const initialState: SettingsState = {
   ignoredCrashDumps: [],
   diagnosticSentTimestamp: 0,
   collectingData: false,
+  privacyPolicyAccepted: undefined,
   neverConnected: false,
   tray: false,
   nonStandardAudioFilesConversion: false,
@@ -50,6 +54,7 @@ export const initialState: SettingsState = {
   updateAvailable: undefined,
   loaded: false,
   loading: false,
+  checkingForUpdate: false,
 }
 
 export const settingsReducer = createReducer<SettingsState>(
@@ -86,6 +91,8 @@ export const settingsReducer = createReducer<SettingsState>(
         state.updateRequired = action.payload.updateRequired
         state.lowestSupportedVersions = action.payload.lowestSupportedVersions
         state.currentVersion = action.payload.currentVersion
+        state.privacyPolicyAccepted = action.payload.privacyPolicyAccepted
+        state.checkingForUpdate = action.payload.checkingForUpdate
       })
 
       .addCase(setLatestVersion, (state, action) => {
@@ -104,6 +111,12 @@ export const settingsReducer = createReducer<SettingsState>(
         state.collectingData = action.payload
       })
 
+      .addCase(togglePrivacyPolicyAccepted.fulfilled, (state, action) => {
+        state.privacyPolicyAccepted = action.payload
+      })
+      .addCase(deleteCollectingData.fulfilled, (state, _) => {
+        state.collectingData = undefined
+      })
       .addCase(setDiagnosticTimestamp.fulfilled, (state, action) => {
         state.diagnosticSentTimestamp = action.payload
       })
@@ -141,6 +154,10 @@ export const settingsReducer = createReducer<SettingsState>(
 
       .addCase(setIncomingCalls.fulfilled, (state, action) => {
         state.incomingCalls = action.payload
+      })
+
+      .addCase(setCheckingForUpdate, (state, action) => {
+        state.checkingForUpdate = action.payload
       })
   }
 )

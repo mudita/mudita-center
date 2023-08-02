@@ -29,6 +29,8 @@ import {
 import {
   setAgreementStatus,
   setCriticalBatteryLevel,
+  setExternalUsageDevice,
+  unlockedDevice,
 } from "App/device/actions/base.action"
 
 export const initialState: DeviceState = {
@@ -44,6 +46,7 @@ export const initialState: DeviceState = {
   },
   state: ConnectionState.Empty,
   error: null,
+  externalUsageDevice: null,
 }
 
 export const deviceReducer = createReducer<DeviceState>(
@@ -69,6 +72,7 @@ export const deviceReducer = createReducer<DeviceState>(
             loaded: false,
           },
           error: null,
+          externalUsageDevice: null,
         }
       })
       .addCase(
@@ -106,6 +110,7 @@ export const deviceReducer = createReducer<DeviceState>(
           ...state,
           state: ConnectionState.Loading,
           error: null,
+          externalUsageDevice: null,
         }
       })
       .addCase(fulfilledAction(DeviceEvent.Disconnected), (state) => {
@@ -156,12 +161,15 @@ export const deviceReducer = createReducer<DeviceState>(
           },
         }
       })
-      .addCase(DeviceEvent.Unlocked, (state) => {
+      .addCase(unlockedDevice, (state, { payload: agreementAccepted }) => {
         return {
           ...state,
           status: {
             ...state.status,
             unlocked: true,
+            agreementAccepted: agreementAccepted
+              ? agreementAccepted
+              : state.status.agreementAccepted,
           },
           error: null,
         }
@@ -237,7 +245,6 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
-
       // Updates loading data state
       .addCase(pendingAction(DeviceEvent.Loading), (state) => {
         return {
@@ -301,6 +308,9 @@ export const deviceReducer = createReducer<DeviceState>(
 
       .addCase(setCriticalBatteryLevel, (state, action) => {
         state.status.criticalBatteryLevel = action.payload
+      })
+      .addCase(setExternalUsageDevice, (state, action) => {
+        state.externalUsageDevice = action.payload
       })
   }
 )

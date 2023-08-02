@@ -51,7 +51,6 @@ const ErrorUpdateModal: FunctionComponent<
       actionButtonSize={Size.FixedMedium}
       onCloseButton={onClose}
       onClose={onClose}
-      zIndex={100}
       {...props}
     >
       <ModalContent>

@@ -305,13 +305,13 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.error = action.payload as AppError<UpdateError>
     })
     builder.addCase(handleDeviceDetached.fulfilled, (state) => {
-      state.data = {
-        allReleases: null,
-        availableReleasesForUpdate: null,
-        downloadedProcessedReleases: null,
-        updateProcessedReleases: null,
-      }
       if (state.downloadState === DownloadState.Loading) {
+        state.data = {
+          allReleases: null,
+          availableReleasesForUpdate: null,
+          downloadedProcessedReleases: null,
+          updateProcessedReleases: null,
+        }
         state.deviceHasBeenDetachedDuringDownload = true
       }
     })

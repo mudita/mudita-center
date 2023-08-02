@@ -72,12 +72,12 @@ export const continuePendingUpload = createAsyncThunk(
       directory,
       filePaths,
     })
+    void dispatch(getFiles(directory))
 
     if (!result.ok) {
       return rejectWithValue(result.error)
     }
 
-    void dispatch(getFiles(directory))
     void dispatch(loadStorageInfoAction())
     dispatch(setUploadingState(State.Loaded))
 

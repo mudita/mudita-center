@@ -28,41 +28,43 @@ const messages = defineMessages({
   },
 })
 
-export const DownloadingUpdateInterruptedModal: FunctionComponent<DownloadingUpdateInterruptedModalProps> =
-  ({ open, onClose, testId, alreadyDownloadedReleases }) => {
-    const formattedVersionsText = useMemo(
-      () =>
-        alreadyDownloadedReleases
-          .map((release) => `MuditaOS v${release.version}`)
-          .join(" / "),
-      [alreadyDownloadedReleases]
-    )
+export const DownloadingUpdateInterruptedModal: FunctionComponent<
+  DownloadingUpdateInterruptedModalProps
+> = ({ open, onClose, testId, alreadyDownloadedReleases, ...rest }) => {
+  const formattedVersionsText = useMemo(
+    () =>
+      alreadyDownloadedReleases
+        .map((release) => `MuditaOS v${release.version}`)
+        .join(" / "),
+    [alreadyDownloadedReleases]
+  )
 
-    return (
-      <ErrorModal
-        testId={testId}
-        open={open}
-        closeButton={false}
-        actionButtonLabel={intl.formatMessage(
-          messages.downloadingAbortedCloseButton
-        )}
-        onActionButtonClick={onClose}
-        closeModal={onClose}
-        title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-        subtitle={intl.formatMessage(messages.downloadingAbortedSubtitle)}
-        body={
-          formattedVersionsText.length > 0
-            ? {
-                ...messages.downloadingAbortedBody,
-                values: {
-                  versionsAmount: formattedVersionsText.length,
-                  data: formattedVersionsText,
-                  ...textFormatters,
-                },
-              }
-            : undefined
-        }
-        subbody={intl.formatMessage(messages.downloadingAbortedInstruction)}
-      />
-    )
-  }
+  return (
+    <ErrorModal
+      testId={testId}
+      open={open}
+      closeButton={false}
+      actionButtonLabel={intl.formatMessage(
+        messages.downloadingAbortedCloseButton
+      )}
+      onActionButtonClick={onClose}
+      closeModal={onClose}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      subtitle={intl.formatMessage(messages.downloadingAbortedSubtitle)}
+      body={
+        formattedVersionsText.length > 0
+          ? {
+              ...messages.downloadingAbortedBody,
+              values: {
+                versionsAmount: formattedVersionsText.length,
+                data: formattedVersionsText,
+                ...textFormatters,
+              },
+            }
+          : undefined
+      }
+      subbody={intl.formatMessage(messages.downloadingAbortedInstruction)}
+      {...rest}
+    />
+  )
+}

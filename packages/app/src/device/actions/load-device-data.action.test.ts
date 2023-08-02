@@ -8,15 +8,26 @@ import thunk from "redux-thunk"
 import { Result } from "App/core/builder"
 import { AnyAction } from "@reduxjs/toolkit"
 import { ConnectionState, DeviceError } from "App/device/constants"
-import { loadDeviceData } from "App/device/actions"
+import { loadDeviceData, setExternalUsageDevice } from "App/device/actions"
 import { PureDeviceData, HarmonyDeviceData } from "App/device/reducers"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { AppError } from "App/core/errors"
 import { getDeviceInfoRequest } from "App/device-info/requests"
+import { externalUsageDevice } from "App/device/requests/external-usage-device.request"
+import { setExternalUsageDeviceRequest } from "App/analytic-data-tracker/requests/set-external-usage-device.request"
 
 jest.mock("App/device-info/requests")
+jest.mock("App/device/requests/external-usage-device.request")
+jest.mock(
+  "App/analytic-data-tracker/requests/set-external-usage-device.request"
+)
 
 const errorMock = new AppError(DeviceError.Loading, "Device data loading error")
+
+beforeEach(() => {
+  ;(externalUsageDevice as jest.Mock).mockResolvedValue(true)
+  ;(setExternalUsageDeviceRequest as jest.Mock).mockResolvedValue(undefined)
+})
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -72,6 +83,9 @@ describe("Device type: MuditaPure", () => {
         device: {
           state: ConnectionState.Empty,
         },
+        settings: {
+          privacyPolicyAccepted: true,
+        },
       })
       const {
         meta: { requestId },
@@ -81,6 +95,7 @@ describe("Device type: MuditaPure", () => {
 
       expect(mockStore.getActions()).toEqual([
         loadDeviceData.pending(requestId),
+        setExternalUsageDevice(true),
         {
           type: "DEVICE_SET_DATA",
           payload: {
@@ -122,6 +137,9 @@ describe("Device type: MuditaPure", () => {
         device: {
           state: ConnectionState.Empty,
         },
+        settings: {
+          privacyPolicyAccepted: true,
+        },
       })
       const {
         meta: { requestId },
@@ -161,6 +179,9 @@ describe("Device type: MuditaHarmony", () => {
         device: {
           state: ConnectionState.Empty,
         },
+        settings: {
+          privacyPolicyAccepted: true,
+        },
       })
       const {
         meta: { requestId },
@@ -170,6 +191,7 @@ describe("Device type: MuditaHarmony", () => {
 
       expect(mockStore.getActions()).toEqual([
         loadDeviceData.pending(requestId),
+        setExternalUsageDevice(true),
         {
           type: "DEVICE_SET_DATA",
           payload: {
@@ -199,6 +221,9 @@ describe("Device type: MuditaHarmony", () => {
       const mockStore = createMockStore([thunk])({
         device: {
           state: ConnectionState.Empty,
+        },
+        settings: {
+          privacyPolicyAccepted: true,
         },
       })
       const {

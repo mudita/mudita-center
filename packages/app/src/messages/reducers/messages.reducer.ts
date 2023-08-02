@@ -383,8 +383,14 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(
         fulfilledAction(DataSyncEvent.ReadAllIndexes),
         (state, action: ReadAllIndexesAction) => {
+          const selectedItems = {
+            rows: state.selectedItems.rows.filter((row) =>
+              Object.keys(action.payload.messages).includes(row)
+            ),
+          }
           return {
             ...state,
+            selectedItems,
             data: {
               ...state.data,
               threadMap: action.payload.threads,

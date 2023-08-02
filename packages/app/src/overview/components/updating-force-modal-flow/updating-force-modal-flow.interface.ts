@@ -6,6 +6,7 @@
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DeviceType } from "App/device"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 import { UpdateError } from "App/update/constants"
 import { OsRelease, ProcessedRelease } from "App/update/dto"
 
@@ -20,4 +21,5 @@ export interface UpdatingForceModalFlowProps {
   openHelpView: () => void
   openContactSupportFlow: () => void
   closeForceUpdateFlow: () => void
+  layer?: ModalLayers
 }

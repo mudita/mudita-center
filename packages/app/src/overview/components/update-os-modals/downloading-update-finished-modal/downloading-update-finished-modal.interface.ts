@@ -3,11 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ModalDialogProps } from "App/ui"
+
 interface Release {
   version: string
 }
 
-export interface DownloadingUpdateFinishedModalProps {
+export interface DownloadingUpdateFinishedModalProps extends ModalDialogProps {
   onOsUpdate: () => void
   open: boolean
   onClose: () => void

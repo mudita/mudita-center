@@ -6,16 +6,17 @@
 import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
-  CollectingDataModalContainer,
   AppForcedUpdateFlowContainer,
   AppUpdateFlowContainer,
 } from "App/settings/components"
 import ContactSupportFlow from "App/contact-support/containers/contact-support-flow.container"
 import { UpdateOsInterruptedFlowContainer } from "App/update/components/update-os-interrupted-flow"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
+import { useSelector } from "react-redux"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import PrivacyPolicyModal from "App/settings/components/privacy-policy-modal/privacy-policy-modal.component"
 
 type Props = {
-  collectingDataModalShow: boolean
   appForcedUpdateFlowShow: boolean
   appUpdateFlowShow: boolean
   contactSupportFlowShow: boolean
@@ -24,19 +25,25 @@ type Props = {
 }
 
 const ModalsManager: FunctionComponent<Props> = ({
-  collectingDataModalShow,
   appForcedUpdateFlowShow,
   appUpdateFlowShow,
   contactSupportFlowShow,
   deviceInitializationFailedModalShowEnabled,
   hideModals,
 }) => {
+  const { privacyPolicyAccepted } = useSelector(
+    (state: ReduxRootState) => state.settings
+  )
+
+  if (privacyPolicyAccepted === false) {
+    return <PrivacyPolicyModal />
+  }
+
   return (
     <>
       {deviceInitializationFailedModalShowEnabled && (
         <ErrorConnectingModal open closeModal={hideModals} />
       )}
-      <CollectingDataModalContainer open={collectingDataModalShow} />
       {appForcedUpdateFlowShow && <AppForcedUpdateFlowContainer />}
       {appUpdateFlowShow && <AppUpdateFlowContainer />}
       {contactSupportFlowShow && <ContactSupportFlow />}

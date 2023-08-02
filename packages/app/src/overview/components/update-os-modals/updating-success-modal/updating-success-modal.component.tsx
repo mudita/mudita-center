@@ -25,7 +25,7 @@ const messages = defineMessages({
 
 export const UpdatingSuccessModal: FunctionComponent<
   UpdatingSuccessModalProps
-> = ({ open, onClose, testId }) => (
+> = ({ open, onClose, testId, ...rest }) => (
   <OSUpdateModal
     testId={testId}
     open={open}
@@ -33,6 +33,7 @@ export const UpdatingSuccessModal: FunctionComponent<
     closeButton
     onClose={onClose}
     closeModal={onClose}
+    {...rest}
   >
     <RoundIconWrapper>
       <Icon type={IconType.CheckCircle} width={3} />

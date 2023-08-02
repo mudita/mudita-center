@@ -16,10 +16,12 @@ import {
   DeviceEvent,
 } from "App/device/constants"
 import { connectDeviceRequest } from "App/device/requests"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const connectDevice = createAsyncThunk<
   DeviceType | undefined,
-  DeviceType
+  DeviceType,
+  { state: ReduxRootState }
 >(DeviceEvent.Connected, async (payload, { dispatch, rejectWithValue }) => {
   const data = await connectDeviceRequest()
 

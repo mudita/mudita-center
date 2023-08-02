@@ -10,7 +10,6 @@ import { getSettings } from "App/settings/requests"
 import { loadBackupData } from "App/backup/actions/load-backup-data.action"
 import {
   checkAppForcedUpdateFlowToShow,
-  checkCollectingDataModalToShow,
   checkAppUpdateFlowToShow,
 } from "App/modals-manager/actions"
 import { setSettings } from "App/settings/actions/set-settings.action"
@@ -47,6 +46,7 @@ export const loadSettings = createAsyncThunk<void, void>(
         ...settings,
         updateRequired,
         currentVersion: packageInfo.version,
+        checkingForUpdate: false,
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: configuration.centerVersion,
           lowestSupportedProductVersion: configuration.productVersions,
@@ -56,7 +56,6 @@ export const loadSettings = createAsyncThunk<void, void>(
     void dispatch(loadBackupData())
     void dispatch(checkAppUpdateFlowToShow())
     void dispatch(checkAppForcedUpdateFlowToShow())
-    void dispatch(checkCollectingDataModalToShow())
 
     return
   }

@@ -224,29 +224,27 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   return (
     <>
-      {!forceUpdateNeeded && (
-        <UpdateOsFlow
-          deviceType={DeviceType.MuditaPure}
-          currentOsVersion={osVersion}
-          silentCheckForUpdateState={silentCheckForUpdateState}
-          checkForUpdateState={checkingForUpdateState}
-          availableReleasesForUpdate={availableReleasesForUpdate}
-          areAllReleasesDownloaded={areAllReleasesDownloaded}
-          downloadState={downloadingState}
-          tryAgainCheckForUpdate={tryAgainPureUpdate}
-          clearUpdateOsFlow={clearUpdateState}
-          downloadUpdates={downloadReleases}
-          abortDownloading={abortDownload}
-          updateState={updatingState}
-          updateOs={updateReleases}
-          openContactSupportFlow={openContactSupportFlow}
-          allReleases={allReleases}
-          openHelpView={goToHelp}
-          error={updateOsError}
-          downloadingReleasesProcessStates={downloadingReleasesProcessStates}
-          updatingReleasesProcessStates={updatingReleasesProcessStates}
-        />
-      )}
+      <UpdateOsFlow
+        deviceType={DeviceType.MuditaPure}
+        currentOsVersion={osVersion}
+        silentCheckForUpdateState={silentCheckForUpdateState}
+        checkForUpdateState={checkingForUpdateState}
+        availableReleasesForUpdate={availableReleasesForUpdate}
+        areAllReleasesDownloaded={areAllReleasesDownloaded}
+        downloadState={downloadingState}
+        tryAgainCheckForUpdate={tryAgainPureUpdate}
+        clearUpdateOsFlow={clearUpdateState}
+        downloadUpdates={downloadReleases}
+        abortDownloading={abortDownload}
+        updateState={updatingState}
+        updateOs={updateReleases}
+        openContactSupportFlow={openContactSupportFlow}
+        allReleases={allReleases}
+        openHelpView={goToHelp}
+        error={updateOsError}
+        downloadingReleasesProcessStates={downloadingReleasesProcessStates}
+        updatingReleasesProcessStates={updatingReleasesProcessStates}
+      />
 
       {flags.get(Feature.ForceUpdate) && (
         <UpdatingForceModalFlow

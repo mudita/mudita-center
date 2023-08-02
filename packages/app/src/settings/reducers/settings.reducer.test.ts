@@ -35,6 +35,7 @@ const settings: Omit<
   language: "en-US",
   neverConnected: true,
   collectingData: false,
+  privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
   updateRequired: false,
@@ -47,6 +48,7 @@ const settings: Omit<
       MuditaKompakt: "2.0.0",
     },
   },
+  checkingForUpdate: false,
 }
 
 test("empty event returns initial state", () => {

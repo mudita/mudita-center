@@ -6,11 +6,14 @@
 import { RegisterOptions } from "react-hook-form/dist/types"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 
-export const byteLengthValidator = (): RegisterOptions => ({
+export const templateValidator = (): RegisterOptions => ({
   required: intl.formatMessage({ id: "module.templates.required" }),
   validate: (value: string): string | undefined => {
     if (new Blob([value]).size > 469) {
       return intl.formatMessage({ id: "module.templates.tooLong" })
+    }
+    if (value.includes("\n")) {
+      return intl.formatMessage({ id: "module.templates.newLine" })
     }
     return
   },

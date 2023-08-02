@@ -34,7 +34,7 @@ const messages = defineMessages({
 
 export const NotEnoughSpaceModal: FunctionComponent<
   NotEnoughSpaceModalProps
-> = ({ onClose, open, testId, fileSize }) => {
+> = ({ onClose, open, testId, fileSize, ...rest }) => {
   return (
     <OSUpdateModal
       testId={testId}
@@ -45,6 +45,7 @@ export const NotEnoughSpaceModal: FunctionComponent<
       closeButtonLabel={intl.formatMessage(
         messages.updatingNotEnoughSpaceActionButton
       )}
+      {...rest}
     >
       <RoundIconWrapper>
         <Icon type={IconType.ThinFail} width={3.2} />
