@@ -23,6 +23,7 @@ import {
   setConvert,
   setNonStandardAudioFilesConversion,
   setLowBattery,
+  setCheckingForUpdate,
 } from "App/settings/actions"
 import { deleteCollectingData } from "App/settings/actions/delete-collecting-data.action"
 
@@ -53,6 +54,7 @@ export const initialState: SettingsState = {
   updateAvailable: undefined,
   loaded: false,
   loading: false,
+  checkingForUpdate: false,
 }
 
 export const settingsReducer = createReducer<SettingsState>(
@@ -90,6 +92,7 @@ export const settingsReducer = createReducer<SettingsState>(
         state.lowestSupportedVersions = action.payload.lowestSupportedVersions
         state.currentVersion = action.payload.currentVersion
         state.privacyPolicyAccepted = action.payload.privacyPolicyAccepted
+        state.checkingForUpdate = action.payload.checkingForUpdate
       })
 
       .addCase(setLatestVersion, (state, action) => {
@@ -151,6 +154,10 @@ export const settingsReducer = createReducer<SettingsState>(
 
       .addCase(setIncomingCalls.fulfilled, (state, action) => {
         state.incomingCalls = action.payload
+      })
+
+      .addCase(setCheckingForUpdate, (state, action) => {
+        state.checkingForUpdate = action.payload
       })
   }
 )
