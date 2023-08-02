@@ -5,7 +5,9 @@
 
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { useState } from "react"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { PasswordFieldTestIds } from "App/ui/components/password-field/password-field-test-ids.enum"
 import {
   FieldWrapper,
@@ -21,6 +23,7 @@ interface PasswordFieldProps {
   label: {
     id: string
   }
+  relativeError?: boolean
 }
 
 export const PasswordField: FunctionComponent<PasswordFieldProps> = ({
