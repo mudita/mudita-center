@@ -16,6 +16,7 @@ import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
 import { DeviceServiceEvent } from "App/device"
 import { EventEmitter } from "events"
 import logger from "App/__deprecated__/main/utils/logger"
+import { Mutex } from "async-mutex"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
@@ -50,31 +51,25 @@ export class DeviceManager {
     return Array.from(this.devicesMap.values())
   }
 
-  private addDeviceMutex = Promise.resolve()
+  private mutex = new Mutex()
 
   public async addDevice(port: PortInfo): Promise<void> {
-    this.addDeviceMutex.then((): Promise<void> => {
-      // return new Promise((resolve) => this.addDeviceTaks(port))
-      return this.addDeviceTaks(port)
-      // // resolve(await this.addDeviceTaks(port))
-      // void (async () => {
-      //   resolve(await this.addDeviceTaks(port))
-      // })()
+    await this.mutex.runExclusive(async () => {
+      await this.addDeviceTaks(port)
     })
-
-    return this.addDeviceMutex
   }
 
   public async addDeviceTaks(port: PortInfo): Promise<void> {
     const date = new Date()
-    console.log("start 1 addDeviceTaks ", date.toISOString())
-    await new Promise((resolve) => setTimeout(resolve, 5000))
-    console.log("start 2 addDeviceTaks ", date.toISOString())
+    logger.info(`start 1 addDeviceTaks ${date.toISOString()}`)
+
     if (this.currentDevice) {
       return
     }
 
     const device = await this.initializeDevice(port)
+
+    logger.info(`start 2 addDeviceTaks ${date.toISOString()}`)
 
     logger.info(`DeviceManager addDevice: device: ${!device}`)
 
