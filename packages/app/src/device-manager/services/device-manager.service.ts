@@ -50,7 +50,26 @@ export class DeviceManager {
     return Array.from(this.devicesMap.values())
   }
 
+  private addDeviceMutex = Promise.resolve()
+
   public async addDevice(port: PortInfo): Promise<void> {
+    this.addDeviceMutex.then(async () => {
+      // return new Promise((resolve) => this.addDeviceTaks(port))
+      return await this.addDeviceTaks(port)
+      // // resolve(await this.addDeviceTaks(port))
+      // void (async () => {
+      //   resolve(await this.addDeviceTaks(port))
+      // })()
+    })
+
+    return this.addDeviceMutex
+  }
+
+  public async addDeviceTaks(port: PortInfo): Promise<void> {
+    const date = new Date()
+    console.log("start 1 addDeviceTaks ", date.toISOString())
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+    console.log("start 2 addDeviceTaks ", date.toISOString())
     if (this.currentDevice) {
       return
     }

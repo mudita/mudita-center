@@ -7,7 +7,7 @@ import { Observer } from "App/core/types"
 import { DeviceManager } from "App/device-manager/services"
 import logger from "App/__deprecated__/main/utils/logger"
 import { PortInfoValidator } from "App/device-manager/validators"
-const outboxTime = 20000
+const outboxTime = 3000
 
 export class UsbDeviceAttachObserver implements Observer {
   constructor(private deviceManager: DeviceManager) {}
