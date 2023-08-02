@@ -548,7 +548,6 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
           </InputError>
         )}
       </TextareaWrapper>
-      <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
       {relativeError && (
         <InputError relative={relativeError} visible={Boolean(errorMessage)}>
           {errorMessage}
