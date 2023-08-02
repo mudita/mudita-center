@@ -23,4 +23,5 @@ export enum SettingsEvent {
   CheckUpdateAvailable = "CHECK_UPDATE_AVAILABLE",
   SendDiagnosticData = "SEND_DIAGNOSTIC_DATA",
   DeleteCollectingData = "DELETE_COLLECTING_DATA",
+  SetCheckingForUpdate = "SET_CHECKING_FOR_UPDATE",
 }

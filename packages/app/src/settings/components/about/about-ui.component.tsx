@@ -25,6 +25,9 @@ import styled from "styled-components"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 import { borderColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { AppUpdateNotAvailable } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update.modals"
+import { UpdateFailedModal } from "App/settings/components/about/update-failed-modal.component"
+import { AboutLoaderModal } from "App/settings/components/about/about-loader.component"
+import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -63,6 +66,9 @@ interface Props {
   appUpdateNotAvailableShow?: boolean
   onAppUpdateAvailableCheck: () => void
   hideAppUpdateNotAvailable: () => void
+  checkingForUpdate: boolean
+  appUpdateFailedShow: boolean
+  hideAppUpdateFailed: () => void
 }
 
 const AboutUI: FunctionComponent<Props> = ({
@@ -75,113 +81,146 @@ const AboutUI: FunctionComponent<Props> = ({
   appUpdateAvailable,
   onAppUpdateAvailableCheck,
   hideAppUpdateNotAvailable,
-}) => (
-  <>
-    <AppUpdateNotAvailable
-      appCurrentVersion={appCurrentVersion}
-      open={appUpdateNotAvailableShow}
-      closeModal={hideAppUpdateNotAvailable}
-    />
-    <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-      <VersionTableRow>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
-            <FormattedMessage
-              id="module.settings.aboutInstalledVersion"
-              values={{ version: appCurrentVersion }}
-            />
-          </SettingsLabel>
-        </Data>
-        {appUpdateAvailable ? (
-          <ActionContainer>
-            <AvailableUpdate
-              displayStyle={TextDisplayStyle.Label}
-              color="secondary"
-            >
+  checkingForUpdate,
+  appUpdateFailedShow,
+  hideAppUpdateFailed,
+}) => {
+  return (
+    <>
+      <UpdateFailedModal
+        open={appUpdateFailedShow}
+        closeModal={hideAppUpdateFailed}
+        layer={ModalLayers.UpdateApp}
+      />
+      <AboutLoaderModal
+        open={checkingForUpdate}
+        layer={ModalLayers.UpdateApp}
+      />
+      <AppUpdateNotAvailable
+        appCurrentVersion={appCurrentVersion}
+        open={appUpdateNotAvailableShow && window.navigator.onLine}
+        closeModal={hideAppUpdateNotAvailable}
+        layer={ModalLayers.UpdateApp}
+      />
+      <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
+        <VersionTableRow>
+          <Data>
+            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
               <FormattedMessage
-                id="module.settings.aboutAvailableVersion"
-                values={{ version: appLatestVersion }}
+                id="module.settings.aboutInstalledVersion"
+                values={{ version: appCurrentVersion }}
               />
-            </AvailableUpdate>
+            </SettingsLabel>
+          </Data>
+          {!window.navigator.onLine && (
+            <ActionContainer>
+              <AvailableUpdate
+                displayStyle={TextDisplayStyle.Label}
+                color="secondary"
+              >
+                <FormattedMessage id="module.overview.systemUpdateCheckFailed" />
+              </AvailableUpdate>
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.overview.systemCheckForUpdates",
+                }}
+                data-testid={AboutTestIds.UpdateButton}
+                onClick={onAppUpdateAvailableCheck}
+              />
+            </ActionContainer>
+          )}
+          {appUpdateAvailable && window.navigator.onLine && (
+            <ActionContainer>
+              <AvailableUpdate
+                displayStyle={TextDisplayStyle.Label}
+                color="secondary"
+              >
+                <FormattedMessage
+                  id="module.settings.aboutAvailableVersion"
+                  values={{ version: appLatestVersion }}
+                />
+              </AvailableUpdate>
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.settings.aboutAppUpdateAction",
+                }}
+                onClick={onAppUpdateAvailableCheck}
+                data-testid={AboutTestIds.UpdateButton}
+              />
+            </ActionContainer>
+          )}
+          {!appUpdateAvailable && window.navigator.onLine && (
+            <ActionContainer>
+              <AvailableUpdate
+                displayStyle={TextDisplayStyle.Label}
+                color="secondary"
+              >
+                <FormattedMessage id="module.overview.systemUpdateUpToDate" />
+              </AvailableUpdate>
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.overview.systemCheckForUpdates",
+                }}
+                data-testid={AboutTestIds.UpdateButton}
+                onClick={onAppUpdateAvailableCheck}
+              />
+            </ActionContainer>
+          )}
+        </VersionTableRow>
+        <SettingsTableRow>
+          <Data>
+            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
+              <FormattedMessage id="module.settings.aboutTermsOfService" />
+            </SettingsLabel>
+          </Data>
+          <ActionsWrapper>
             <ButtonComponent
+              data-testid={AboutTestIds.TermsOfServiceButton}
+              displayStyle={DisplayStyle.ActionLink}
               labelMessage={{
-                id: "module.settings.aboutAppUpdateAction",
+                id: "module.settings.aboutLearnMore",
               }}
-              onClick={onAppUpdateAvailableCheck}
-              data-testid={AboutTestIds.UpdateButton}
+              onClick={openTermsOfService}
             />
-          </ActionContainer>
-        ) : (
-          <ActionContainer>
-            <AvailableUpdate
-              displayStyle={TextDisplayStyle.Label}
-              color="secondary"
-            >
-              <FormattedMessage id="module.overview.systemUpdateUpToDate" />
-            </AvailableUpdate>
+          </ActionsWrapper>
+        </SettingsTableRow>
+        <SettingsTableRow>
+          <Data>
+            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
+              <FormattedMessage id="module.settings.aboutPrivacyPolicy" />
+            </SettingsLabel>
+          </Data>
+          <ActionsWrapper>
             <ButtonComponent
+              data-testid={AboutTestIds.PrivacyPolicyButton}
+              displayStyle={DisplayStyle.ActionLink}
               labelMessage={{
-                id: "module.overview.systemCheckForUpdates",
+                id: "module.settings.aboutLearnMore",
               }}
-              data-testid={AboutTestIds.UpdateButton}
-              onClick={onAppUpdateAvailableCheck}
+              onClick={openPrivacyPolicy}
             />
-          </ActionContainer>
-        )}
-      </VersionTableRow>
-      <SettingsTableRow>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
-            <FormattedMessage id="module.settings.aboutTermsOfService" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <ButtonComponent
-            data-testid={AboutTestIds.TermsOfServiceButton}
-            displayStyle={DisplayStyle.ActionLink}
-            labelMessage={{
-              id: "module.settings.aboutLearnMore",
-            }}
-            onClick={openTermsOfService}
-          />
-        </ActionsWrapper>
-      </SettingsTableRow>
-      <SettingsTableRow>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
-            <FormattedMessage id="module.settings.aboutPrivacyPolicy" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <ButtonComponent
-            data-testid={AboutTestIds.PrivacyPolicyButton}
-            displayStyle={DisplayStyle.ActionLink}
-            labelMessage={{
-              id: "module.settings.aboutLearnMore",
-            }}
-            onClick={openPrivacyPolicy}
-          />
-        </ActionsWrapper>
-      </SettingsTableRow>
-      <SettingsTableRow data-testid={AboutTestIds.TableRow}>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
-            <FormattedMessage id="module.settings.aboutLicense" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <ButtonComponent
-            data-testid={AboutTestIds.LicenseButton}
-            displayStyle={DisplayStyle.ActionLink}
-            labelMessage={{
-              id: "module.settings.aboutLearnMore",
-            }}
-            onClick={openLicense}
-          />
-        </ActionsWrapper>
-      </SettingsTableRow>
-    </SettingsWrapper>
-  </>
-)
+          </ActionsWrapper>
+        </SettingsTableRow>
+        <SettingsTableRow data-testid={AboutTestIds.TableRow}>
+          <Data>
+            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
+              <FormattedMessage id="module.settings.aboutLicense" />
+            </SettingsLabel>
+          </Data>
+          <ActionsWrapper>
+            <ButtonComponent
+              data-testid={AboutTestIds.LicenseButton}
+              displayStyle={DisplayStyle.ActionLink}
+              labelMessage={{
+                id: "module.settings.aboutLearnMore",
+              }}
+              onClick={openLicense}
+            />
+          </ActionsWrapper>
+        </SettingsTableRow>
+      </SettingsWrapper>
+    </>
+  )
+}
 
 export default AboutUI

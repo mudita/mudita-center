@@ -30,14 +30,13 @@ import { getUniqueFiles } from "App/files-manager/helpers/get-unique-files.helpe
 import { AppError } from "App/core/errors/app-error"
 import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
 
-export const uploadFile = createAsyncThunk(
+export const uploadFile = createAsyncThunk<
+  void,
+  void,
+  { state: ReduxRootState }
+>(
   FilesManagerEvent.UploadFiles,
   async (_, { getState, dispatch, rejectWithValue }) => {
-    const state = getState() as ReduxRootState
-
-    if (state.device.deviceType === null) {
-      return rejectWithValue("device Type isn't set")
-    }
     dispatch(setUploadBlocked(true))
     const filesToUpload = await getPathsRequest({
       filters: [
@@ -48,6 +47,16 @@ export const uploadFile = createAsyncThunk(
       ],
       properties: ["openFile", "multiSelections"],
     })
+
+    const state = getState()
+
+    if (state.device.deviceType === null) {
+      return rejectWithValue("device Type isn't set")
+    }
+
+    if (state.filesManager.files === null) {
+      return rejectWithValue("files are not yet loaded")
+    }
 
     if (!filesToUpload.ok || !filesToUpload.data) {
       return rejectWithValue(filesToUpload.error)
