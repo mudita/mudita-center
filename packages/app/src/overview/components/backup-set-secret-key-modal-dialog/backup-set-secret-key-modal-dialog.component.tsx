@@ -143,6 +143,7 @@ export const BackupSetSecretKeyModal: FunctionComponent<
           label={messages.backupSetSecretKeyModalInputLabel}
           errorMessage={errors[FieldKeys.SecretKey]?.message}
           {...register(FieldKeys.SecretKey, backupSecretKeyValidator)}
+          relativeError
           data-testid={BackupSetSecretKeyModalTestIds.FirstInput}
         />
         <PasswordField

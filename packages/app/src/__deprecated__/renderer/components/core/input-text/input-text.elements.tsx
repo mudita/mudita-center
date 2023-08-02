@@ -63,10 +63,17 @@ const errorStyles = css`
   border-color: ${borderColor("error")};
 `
 
-export const InputError = styled(Text)<{ visible: boolean }>`
-  position: absolute;
-  left: 0;
-  top: 100%;
+export const InputError = styled(Text)<{
+  visible: boolean
+  relative?: boolean
+}>`
+  ${({ relative }) =>
+    !relative &&
+    css`
+      position: absolute;
+      left: 0;
+      top: 100%;
+    `}
   width: 100%;
   margin-top: 0.4rem;
   color: ${textColor("error")};
@@ -378,6 +385,7 @@ export const InputText: FunctionComponent<InputProps> = ({
   errorMessage,
   focusable,
   initialTransparentBorder = false,
+  relativeError,
   ...rest
 }) => {
   const standardInput = (
@@ -405,21 +413,32 @@ export const InputText: FunctionComponent<InputProps> = ({
   )
 
   return (
-    <InputWrapper
-      className={className}
-      outlined={outlined}
-      condensed={condensed}
-      disabled={disabled}
-      readOnly={readOnly}
-      error={Boolean(errorMessage)}
-      focusable={focusable}
-      inputType={rest.type}
-      initialTransparentBorder={initialTransparentBorder}
-    >
-      {outlined ? outlinedInput : standardInput}
-      <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
-      <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
-    </InputWrapper>
+    <>
+      <InputWrapper
+        className={className}
+        outlined={outlined}
+        condensed={condensed}
+        disabled={disabled}
+        readOnly={readOnly}
+        error={Boolean(errorMessage)}
+        focusable={focusable}
+        inputType={rest.type}
+        initialTransparentBorder={initialTransparentBorder}
+      >
+        {outlined ? outlinedInput : standardInput}
+        <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
+        {!relativeError && (
+          <InputError visible={Boolean(errorMessage)}>
+            {errorMessage}
+          </InputError>
+        )}
+      </InputWrapper>
+      {relativeError && (
+        <InputError relative={relativeError} visible={Boolean(errorMessage)}>
+          {errorMessage}
+        </InputError>
+      )}
+    </>
   )
 }
 
@@ -439,6 +458,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   errorMessage,
   focusable,
   defaultHeight,
+  relativeError,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -511,18 +531,30 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   )
 
   return (
-    <TextareaWrapper
-      className={className}
-      disabled={disabled}
-      readOnly={readOnly}
-      outlined={outlined}
-      error={Boolean(errorMessage)}
-      focusable={focusable}
-    >
-      {outlined ? standardTextarea : inputLikeTextarea}
-      <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
+    <>
+      <TextareaWrapper
+        className={className}
+        disabled={disabled}
+        readOnly={readOnly}
+        outlined={outlined}
+        error={Boolean(errorMessage)}
+        focusable={focusable}
+      >
+        {outlined ? standardTextarea : inputLikeTextarea}
+        <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
+        {!relativeError && (
+          <InputError visible={Boolean(errorMessage)}>
+            {errorMessage}
+          </InputError>
+        )}
+      </TextareaWrapper>
       <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
-    </TextareaWrapper>
+      {relativeError && (
+        <InputError relative={relativeError} visible={Boolean(errorMessage)}>
+          {errorMessage}
+        </InputError>
+      )}
+    </>
   )
 }
 
