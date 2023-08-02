@@ -16,6 +16,9 @@ storiesOf("Settings/About", module).add("About", () => (
       openPrivacyPolicy={noop}
       hideAppUpdateNotAvailable={noop}
       onAppUpdateAvailableCheck={noop}
+      checkingForUpdate={false}
+      appUpdateFailedShow={false}
+      hideAppUpdateFailed={noop}
     />
   </div>
 ))

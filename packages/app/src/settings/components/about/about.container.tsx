@@ -16,6 +16,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     latestVersion: state.settings.latestVersion,
     currentVersion: state.settings.currentVersion,
     updateAvailable: state.settings.updateAvailable,
+    checkingForUpdate: state.settings.checkingForUpdate,
   }
 }
 

@@ -40,6 +40,7 @@ import {
   setLatestVersion,
   toggleApplicationUpdateAvailable,
   checkUpdateAvailable,
+  setCheckingForUpdate,
 } from "App/settings/actions"
 import {
   registerDataSyncListener,
@@ -81,6 +82,7 @@ interface Props {
   getCurrentDevice: () => void
   setConnectionStatus: (status: boolean) => void
   resetUploadingState: () => void
+  setCheckingForUpdate: (value: boolean) => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -96,6 +98,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   connectedAndUnlocked,
   setConnectionStatus,
   resetUploadingState,
+  setCheckingForUpdate,
 }) => {
   const onAgreementStatusChangeListener = useCallback(
     (value) => {
@@ -218,6 +221,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
+      setCheckingForUpdate(false)
       toggleApplicationUpdateAvailable(true)
       setLatestVersion(version as string)
     })
@@ -228,6 +232,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     const unregister = registerNotAvailableAppUpdateListener(() => {
       toggleApplicationUpdateAvailable(false)
+      setCheckingForUpdate(false)
     })
 
     return () => unregister()
@@ -285,6 +290,7 @@ const mapDispatchToProps = {
   getCurrentDevice,
   setConnectionStatus,
   resetUploadingState,
+  setCheckingForUpdate,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)
