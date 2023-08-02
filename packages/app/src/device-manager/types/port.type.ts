@@ -5,4 +5,5 @@
 
 import { PortInfo as SerialPortInfo } from "serialport"
 
-export type PortInfo = Omit<SerialPortInfo, "path">
+// export type PortInfo = Omit<SerialPortInfo, "path">
+export type PortInfo = Partial<SerialPortInfo>

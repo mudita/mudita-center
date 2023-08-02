@@ -53,9 +53,9 @@ export class DeviceManager {
   private addDeviceMutex = Promise.resolve()
 
   public async addDevice(port: PortInfo): Promise<void> {
-    this.addDeviceMutex.then(async () => {
+    this.addDeviceMutex.then((): Promise<void> => {
       // return new Promise((resolve) => this.addDeviceTaks(port))
-      return await this.addDeviceTaks(port)
+      return this.addDeviceTaks(port)
       // // resolve(await this.addDeviceTaks(port))
       // void (async () => {
       //   resolve(await this.addDeviceTaks(port))
@@ -167,26 +167,48 @@ export class DeviceManager {
     portInfo.productId = portInfo.productId?.toUpperCase()
     portInfo.vendorId = portInfo.vendorId?.toUpperCase()
 
+    // // AUTO DISABLED - fix me if you like :)
+    // // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
+    // return new Promise(async (resolve) => {
+    //   for (let i = 0; i < retryLimit; i++) {
+    //     const portList = await this.getConnectedDevices()
+
+    //     const port = portList
+    //       .map((p) => {
+    //         return {
+    //           ...p,
+    //           productId: p.productId?.toUpperCase(),
+    //           vendorId: p.vendorId?.toUpperCase(),
+    //         }
+    //       })
+    //       .find(({ productId, vendorId }) => {
+    //         return (
+    //           productId === portInfo.productId && vendorId === portInfo.vendorId
+    //         )
+    //       })
+
+    const alreadyInitializedDevices = Array.from(this.devicesMap.keys())
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
         const portList = await this.getConnectedDevices()
+        const port = portList.find(
+          ({ productId, vendorId, path }) =>
+            productId === portInfo.productId &&
+            vendorId === portInfo.vendorId &&
+            ((!portInfo.path && !alreadyInitializedDevices.includes(path)) ||
+              path === portInfo.path)
+        )
 
-        const port = portList
-          .map((p) => {
-            return {
-              ...p,
-              productId: p.productId?.toUpperCase(),
-              vendorId: p.vendorId?.toUpperCase(),
-            }
-          })
-          .find(({ productId, vendorId }) => {
-            return (
-              productId === portInfo.productId && vendorId === portInfo.vendorId
-            )
-          })
+        console.log(
+          "initializeDevice",
+          portList.map((i) => ({ path: i.path }))
+        )
+        console.log("initializeDevice", port?.path, (portInfo as any).path)
 
+        console.log("initializeDevice", alreadyInitializedDevices)
         if (port) {
           const device = this.deviceResolver.resolve(port)
 
