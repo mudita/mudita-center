@@ -61,5 +61,8 @@ packages/app/src/__deprecated__/renderer/fonts/main/**/*
 # Fetched news
 packages/app/src/news/default-news.json
 
+# Fetched help items
+packages/app/src/help/default-help.json
+
 # Fetched appplication configuration
 packages/app/src/settings/static/app-configuration.json
