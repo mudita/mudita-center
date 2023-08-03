@@ -114,14 +114,8 @@ export class PureStrategy implements DeviceStrategy {
   }
 
   public async disconnect(): Promise<boolean> {
-    // const response = await this.adapter.disconnect()
-
-    // this.unmountDeviceUnlockedListener()
-    // this.unmountDisconnectionListener()
-    // this.unmountInitializationFailedListener()
     this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnectedAndBlock)
 
-    // return Boolean(response.data)
     return true
   }
 

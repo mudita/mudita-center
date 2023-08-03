@@ -18,20 +18,12 @@ export class DeviceDisconnectedObserver implements Observer {
     this.eventEmitter.on(
       DeviceServiceEvent.DeviceDisconnected,
       (path: string) => {
-        console.log(`=======================`)
-        console.log(`==== DeviceDisconnectedObserver DeviceDisconnected ===`)
-        console.log(`=======================`)
         this.deviceManager.removeDevice(path)
       }
     )
     this.eventEmitter.on(
       DeviceServiceEvent.DeviceDisconnectedAndBlock,
       (path: string) => {
-        console.log(`=======================`)
-        console.log(
-          `==== DeviceDisconnectedObserver DeviceDisconnectedAndBlock ===`
-        )
-        console.log(`=======================`)
         this.deviceManager.disconnectDevice(path)
       }
     )

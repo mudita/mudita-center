@@ -13,10 +13,5 @@ export class ConnectedDeviceInitializer implements Initializer {
     private ipc: MainProcessIpc
   ) {}
 
-  public async initialize(): Promise<void> {
-    // const devices = await this.deviceManager.getConnectedDevices()
-    // devices.forEach((device) => {
-    //   void this.deviceManager.addDevice(device)
-    // })
-  }
+  public async initialize(): Promise<void> {}
 }

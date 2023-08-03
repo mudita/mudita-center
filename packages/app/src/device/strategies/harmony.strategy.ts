@@ -43,20 +43,8 @@ export class HarmonyStrategy implements DeviceStrategy {
   }
 
   public async disconnect(): Promise<boolean> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
-    // const response = await this.adapter.disconnect()
-
-    // this.unmountDisconnectionListener()
-    // this.unmountInitializationFailedListener()
-    console.log(`======================`)
-    console.log(`==== disconnect - harmony ======`)
-    console.log(`======================`)
-
     this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnectedAndBlock)
 
-    // return Boolean(response.data)
     return true
   }
 
@@ -112,9 +100,6 @@ export class HarmonyStrategy implements DeviceStrategy {
 
   private mountDisconnectionListener(): void {
     this.onCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
-      console.log(`======================`)
-      console.log(`==== harmony - mountDisconnectionListener ======`)
-      console.log(`======================`)
       this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
     })
   }

@@ -21,10 +21,6 @@ export class DeviceController {
 
   @IpcEvent(IpcDeviceEvent.Disconnect)
   public async disconnectDevice(): Promise<ResultObject<boolean>> {
-    console.log(`===================`)
-    console.log(`=== DeviceController disconnectDevice ====`)
-    console.log(`===================`)
-
     return this.deviceService.disconnect()
   }
 

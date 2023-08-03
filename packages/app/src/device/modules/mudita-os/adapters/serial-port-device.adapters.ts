@@ -63,7 +63,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     })
 
     this.serialPort.on("close", () => {
-      console.log(`======== SerialPortDeviceAdapter serialPort close==========`)
       this.emitCloseEvent(Result.success(`Device ${path} disconnected`))
     })
   }

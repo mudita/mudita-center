@@ -60,18 +60,11 @@ export class DeviceManager {
   }
 
   public async addDeviceTaks(port: PortInfo): Promise<void> {
-    // const date = new Date()
-    // logger.info(`start 1 addDeviceTaks ${date.toISOString()}`)
-
     if (this.currentDevice) {
       return
     }
 
     const device = await this.initializeDevice(port)
-
-    // logger.info(`start 2 addDeviceTaks ${date.toISOString()}`)
-
-    // logger.info(`DeviceManager addDevice: device: ${!device}`)
 
     if (!device) {
       throw new AppError(
@@ -81,10 +74,6 @@ export class DeviceManager {
     }
 
     this.devicesMap.set(device.path, device)
-
-    logger.info(
-      `DeviceManager addDevice: !this.currentDevice: ${!this.currentDevice}`
-    )
 
     if (!this.currentDevice) {
       this.currentDevice = device
@@ -103,8 +92,6 @@ export class DeviceManager {
   }
 
   public removeDevice(path: string): void {
-    console.log(`========== removeDevice ================`)
-
     this.devicesMap.delete(path)
 
     if (this.currentDevice?.path === path) {
@@ -148,9 +135,6 @@ export class DeviceManager {
 
   public async getConnectedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
-
-    // logger.info(`portList: ${portList.length}`)
-
     return (
       portList
         // AUTO DISABLED - fix me if you like :)
@@ -168,26 +152,6 @@ export class DeviceManager {
     portInfo.productId = portInfo.productId?.toUpperCase()
     portInfo.vendorId = portInfo.vendorId?.toUpperCase()
 
-    // // AUTO DISABLED - fix me if you like :)
-    // // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
-    // return new Promise(async (resolve) => {
-    //   for (let i = 0; i < retryLimit; i++) {
-    //     const portList = await this.getConnectedDevices()
-
-    //     const port = portList
-    //       .map((p) => {
-    //         return {
-    //           ...p,
-    //           productId: p.productId?.toUpperCase(),
-    //           vendorId: p.vendorId?.toUpperCase(),
-    //         }
-    //       })
-    //       .find(({ productId, vendorId }) => {
-    //         return (
-    //           productId === portInfo.productId && vendorId === portInfo.vendorId
-    //         )
-    //       })
-
     const alreadyInitializedDevices = Array.from(this.devicesMap.keys())
 
     // AUTO DISABLED - fix me if you like :)
@@ -203,13 +167,6 @@ export class DeviceManager {
               path === portInfo.path)
         )
 
-        console.log(
-          "initializeDevice",
-          portList.map((i) => ({ path: i.path }))
-        )
-        console.log("initializeDevice", port?.path, (portInfo as any).path)
-
-        console.log("initializeDevice", alreadyInitializedDevices)
         if (port) {
           const device = this.deviceResolver.resolve(port)
 

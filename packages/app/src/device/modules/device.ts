@@ -74,13 +74,7 @@ export class Device {
   }
 
   public async disconnect(): Promise<ResultObject<boolean>> {
-    console.log(`======= device - disconnect 1 ==========`)
     const response = await this.strategy.disconnect()
-    console.log(`======= device - disconnect 2 ==========`)
-
-    // this.unmountDeviceListeners()
-    console.log(`======= device - disconnect 3 ==========`)
-
     if (response) {
       return Result.success(true)
     } else {
