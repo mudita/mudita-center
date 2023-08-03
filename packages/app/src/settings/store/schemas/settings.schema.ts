@@ -84,7 +84,7 @@ export const settingsSchema: Schema<Settings> = {
   },
   osDownloadLocation: {
     type: "string",
-    default: path.join(getAppPath(), "pure", "os", "downloads"),
+    default: path.join(getAppPath(), "os", "downloads"),
   },
   language: {
     type: "string",
