@@ -16,9 +16,7 @@ import { normalizeHelpData } from "../../app/src/__deprecated__/renderer/utils/c
     const jsonPath = path.join("src", "help", "default-help.json")
 
     const url = `${process.env.MUDITA_CENTER_SERVER_URL}/help`
-    const { data } = await axios.get(url, {
-      params: { limit: 6 },
-    })
+    const { data } = await axios.get(url)
     const helpData = normalizeHelpData(data, "en-US")
 
     await fs.writeJson(path.resolve(jsonPath), helpData)
