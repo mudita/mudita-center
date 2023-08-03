@@ -60,8 +60,8 @@ export class DeviceManager {
   }
 
   public async addDeviceTaks(port: PortInfo): Promise<void> {
-    const date = new Date()
-    logger.info(`start 1 addDeviceTaks ${date.toISOString()}`)
+    // const date = new Date()
+    // logger.info(`start 1 addDeviceTaks ${date.toISOString()}`)
 
     if (this.currentDevice) {
       return
@@ -69,9 +69,9 @@ export class DeviceManager {
 
     const device = await this.initializeDevice(port)
 
-    logger.info(`start 2 addDeviceTaks ${date.toISOString()}`)
+    // logger.info(`start 2 addDeviceTaks ${date.toISOString()}`)
 
-    logger.info(`DeviceManager addDevice: device: ${!device}`)
+    // logger.info(`DeviceManager addDevice: device: ${!device}`)
 
     if (!device) {
       throw new AppError(
@@ -98,7 +98,13 @@ export class DeviceManager {
     logger.info(`Connected device with serial number: ${device.serialNumber}`)
   }
 
+  public disconnectDevice(path: string): void {
+    console.log(`========== disconnectDevice ================`)
+  }
+
   public removeDevice(path: string): void {
+    console.log(`========== removeDevice ================`)
+
     this.devicesMap.delete(path)
 
     if (this.currentDevice?.path === path) {
@@ -143,7 +149,7 @@ export class DeviceManager {
   public async getConnectedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
 
-    logger.info(`portList: ${portList.length}`)
+    // logger.info(`portList: ${portList.length}`)
 
     return (
       portList

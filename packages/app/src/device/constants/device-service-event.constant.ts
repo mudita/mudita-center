@@ -6,6 +6,7 @@
 export enum DeviceServiceEvent {
   DeviceConnected = "device-service-connected",
   DeviceDisconnected = "device-service-disconnected",
+  DeviceDisconnectedAndBlock = "device-service-disconnected-and-block",
   DeviceInitializationFailed = "device-service-initialization-failed",
   DeviceUnlocked = "device-service-unlocked",
   DeviceLocked = "device-service-locked",

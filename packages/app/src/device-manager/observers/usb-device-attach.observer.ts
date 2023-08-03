@@ -17,11 +17,11 @@ export class UsbDeviceAttachObserver implements Observer {
   }
 
   private async watchConnectedDevices(): Promise<void> {
-    logger.info("UsbDeviceAttachObserver watchConnectedDevices")
+    // logger.info("UsbDeviceAttachObserver watchConnectedDevices")
     const devices = await this.deviceManager.getConnectedDevices()
-    logger.info(
-      `UsbDeviceAttachObserver watchConnectedDevices devices.length: ${devices.length}`
-    )
+    // logger.info(
+    //   `UsbDeviceAttachObserver watchConnectedDevices devices.length: ${devices.length}`
+    // )
 
     devices.forEach((device) => {
       const portInfo = {
