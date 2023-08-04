@@ -52,6 +52,7 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         return {
           ...state,
           loading: State.Loading,
+          error: null,
         }
       })
       .addCase(getFiles.fulfilled, (state, action) => {
@@ -59,7 +60,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           ...state,
           loading: State.Loaded,
           files: action.payload,
-          error: null,
         }
       })
       .addCase(getFiles.rejected, (state, action) => {
