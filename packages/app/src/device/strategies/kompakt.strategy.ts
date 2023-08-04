@@ -51,11 +51,7 @@ export class KompaktStrategy implements DeviceStrategy {
 
     return response
   }
-  async disconnect(): Promise<boolean> {
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnectedAndBlock)
 
-    return true
-  }
   public async request(
     config: GetDeviceInfoRequestConfig
   ): Promise<RequestResponse<GetDeviceInfoResponseBody>>

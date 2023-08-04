@@ -73,19 +73,19 @@ export class Device {
     }
   }
 
-  public async disconnect(): Promise<ResultObject<boolean>> {
-    const response = await this.strategy.disconnect()
-    if (response) {
-      return Result.success(true)
-    } else {
-      return Result.failed(
-        new AppError(
-          DeviceCommunicationError.DisconnectionFailed,
-          `Cannot disconnect device ${this.path}`
-        )
-      )
-    }
-  }
+  // public async disconnect(): Promise<ResultObject<boolean>> {
+  //   const response = await this.strategy.disconnect()
+  //   if (response) {
+  //     return Result.success(true)
+  //   } else {
+  //     return Result.failed(
+  //       new AppError(
+  //         DeviceCommunicationError.DisconnectionFailed,
+  //         `Cannot disconnect device ${this.path}`
+  //       )
+  //     )
+  //   }
+  // }
 
   public async request<ResponseType = unknown>(
     config: RequestConfig<unknown>

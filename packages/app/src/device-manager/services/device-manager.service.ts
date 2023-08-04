@@ -87,10 +87,6 @@ export class DeviceManager {
     logger.info(`Connected device with serial number: ${device.serialNumber}`)
   }
 
-  public disconnectDevice(path: string): void {
-    console.log(`========== disconnectDevice ================`)
-  }
-
   public removeDevice(path: string): void {
     this.devicesMap.delete(path)
 

@@ -16,7 +16,7 @@ import {
   PureDeviceData,
   ConnectedFulfilledAction,
   ConnectedRejectedAction,
-  DisconnectedRejectedAction,
+  // DisconnectedRejectedAction,
   SetDeviceDataAction,
   LoadDataRejectAction,
   SetPhoneLockTimeAction,
@@ -120,21 +120,21 @@ export const deviceReducer = createReducer<DeviceState>(
           error: null,
         }
       })
-      .addCase(
-        rejectedAction(DeviceEvent.Disconnected),
-        (state, action: DisconnectedRejectedAction) => {
-          return {
-            ...state,
-            status: {
-              ...state.status,
-              connected: false,
-              connecting: false,
-            },
-            state: ConnectionState.Error,
-            error: action.payload,
-          }
-        }
-      )
+      // .addCase(
+      //   rejectedAction(DeviceEvent.Disconnected),
+      //   (state, action: DisconnectedRejectedAction) => {
+      //     return {
+      //       ...state,
+      //       status: {
+      //         ...state.status,
+      //         connected: false,
+      //         connecting: false,
+      //       },
+      //       state: ConnectionState.Error,
+      //       error: action.payload,
+      //     }
+      //   }
+      // )
       .addCase(
         fulfilledAction(DeviceEvent.SetConnectionState),
         (state, action: SetConnectionStateAction) => {

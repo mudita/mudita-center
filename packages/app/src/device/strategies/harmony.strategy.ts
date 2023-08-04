@@ -42,12 +42,6 @@ export class HarmonyStrategy implements DeviceStrategy {
     return response
   }
 
-  public async disconnect(): Promise<boolean> {
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnectedAndBlock)
-
-    return true
-  }
-
   public request(
     config: GetDeviceInfoRequestConfig
   ): Promise<RequestResponse<GetDeviceInfoResponseBody>>

@@ -113,12 +113,6 @@ export class PureStrategy implements DeviceStrategy {
     return response
   }
 
-  public async disconnect(): Promise<boolean> {
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnectedAndBlock)
-
-    return true
-  }
-
   public async request(
     config: GetSecurityRequestConfig
   ): Promise<RequestResponse>
