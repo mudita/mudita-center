@@ -20,3 +20,4 @@ export enum Endpoint {
   // api version (mocked)
   ApiVersion = 1000,
 }
+

@@ -93,6 +93,7 @@ export class Device {
   public async request<ResponseType = unknown>(
     config: RequestConfig<unknown>
   ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
+    //console.log("Device request")
     const response = (await this.strategy.request(config)) as RequestResponse<
       ResponseType,
       unknown

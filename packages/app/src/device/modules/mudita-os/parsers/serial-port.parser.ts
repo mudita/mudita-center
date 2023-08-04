@@ -6,8 +6,9 @@
 import { TextEncoder } from "util"
 import { RequestPayload, Response } from "App/device/types/mudita-os"
 import { PacketType } from "App/device/modules/mudita-os/constants"
+import { SerialPortParserBase } from "App/device/modules/mudita-os/parsers/serial-port-base.parser"
 
-export class SerialPortParser {
+export class SerialPortParser extends SerialPortParserBase {
   private dataRaw = Buffer.alloc(0)
   private dataSizeToRead = -1
   private needMoreData = false
@@ -18,7 +19,6 @@ export class SerialPortParser {
     }
 
     const endpoint = data[0]
-
     if (
       !(endpoint === PacketType.Endpoint || endpoint === PacketType.RawData)
     ) {
@@ -27,15 +27,14 @@ export class SerialPortParser {
 
     this.dataRaw = Buffer.alloc(0)
 
-    const size = Number(data.slice(1, 10))
+    const size = Number(data.subarray(1, 10))
 
     if (isNaN(size) || size === 0) {
       throw new Error(`Can't parse data size as number`)
     }
 
     this.dataSizeToRead = size
-
-    return this.readPayload(data.slice(10))
+    return this.readPayload(data.subarray(10))
   }
 
   private readPayload(buffer: Buffer): undefined | Response {
@@ -55,7 +54,7 @@ export class SerialPortParser {
     }
   }
 
-  static createValidRequest(payload: RequestPayload<unknown>): string {
+  public createRequest(payload: RequestPayload<unknown>): string {
     const encoder = new TextEncoder()
 
     let requestStr = "#"
@@ -67,34 +66,5 @@ export class SerialPortParser {
     requestStr += payloadAsString
 
     return requestStr
-  }
-
-  static createValidRequestKompakt(payload: RequestPayload<unknown>): string {
-    const encoder = new TextEncoder()
-    //?000000058000000000{"endpoint":1,"method”:1,"offset”:0,"limit":1,"uuid":5092}
-
-    const prefix = "?"
-
-    const { endpoint, method, offset, limit, uuid, ...body } = payload
-
-    const headerAsString = JSON.stringify({
-      endpoint,
-      method,
-      offset,
-      limit,
-      uuid,
-    })
-    const headerLength = String(encoder.encode(headerAsString).length).padStart(
-      9,
-      "0"
-    )
-
-    const bodyAsString = JSON.stringify(body)
-    const bodyLength = String(encoder.encode(bodyAsString).length).padStart(
-      9,
-      "0"
-    )
-
-    return `${prefix}${headerLength}${bodyLength}${headerAsString}${bodyAsString}`
   }
 }

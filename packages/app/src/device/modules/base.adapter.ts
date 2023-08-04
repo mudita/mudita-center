@@ -22,7 +22,7 @@ import {
 export abstract class BaseAdapter {
   protected serialPort: SerialPort
   protected eventEmitter = new EventEmitter()
-  protected parser = new SerialPortParser()
+
   protected requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
   constructor(public path: string) {
@@ -36,27 +36,6 @@ export abstract class BaseAdapter {
       } else {
         this.emitConnectionEvent(Result.success(`Device ${path} connected`))
       }
-    })
-
-    this.serialPort.on("data", (event) => {
-      try {
-        const data = this.parser.parse(event)
-
-        if (data !== undefined) {
-          this.emitDataReceivedEvent(data)
-        }
-      } catch (error) {
-        this.emitDataReceivedEvent(
-          new AppError(
-            DeviceError.DataReceiving,
-            (error as Error).message || "Data receiving failed"
-          )
-        )
-      }
-    })
-
-    this.serialPort.on("close", () => {
-      this.emitCloseEvent(Result.success(`Device ${path} disconnected`))
     })
   }
 
@@ -100,7 +79,9 @@ export abstract class BaseAdapter {
   }
 
   @log("==== serial port: data received ====", LogConfig.Args)
-  protected emitDataReceivedEvent(data: Response | AppError): void {
+  protected emitDataReceivedEvent<ResponseType = unknown>(
+    data: Response<ResponseType> | AppError
+  ): void {
     this.eventEmitter.emit(DeviceCommunicationEvent.DataReceived, data)
   }
 

@@ -11,6 +11,7 @@ import { BaseAdapter } from "App/device/modules/base.adapter"
 import {
   GetDeviceInfoResponseBody,
   GetDeviceInfoRequestConfig,
+  Response,
 } from "App/device/types/mudita-os"
 import {
   BatteryState,
@@ -23,6 +24,8 @@ import {
   DeviceCommunicationEvent,
   DeviceServiceEvent,
 } from "App/device/constants"
+import { ResultObject } from "App/core/builder"
+import { KompaktBody } from "../modules/mudita-os/parsers"
 
 export class KompaktStrategy implements DeviceStrategy {
   private eventEmitter = new EventEmitter()
@@ -67,12 +70,29 @@ export class KompaktStrategy implements DeviceStrategy {
   // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
     //right now we have mocked result from endpoint, should be changed when endpoint is ready during task CP-1668
+    //console.log("KompaktStrategy request")
+    const response = await this.adapter.request(config)
+    const castedResponse = response as unknown as ResultObject<
+      Response<unknown>
+    >
+    const data2 = castedResponse.data as Response<KompaktBody>
+
+    //return ResponsePresenter.toResponseObject(response)
+
+    const simCard = data2.body?.simCards[0]
+
     return {
       data: {
+        serialNumber: data2.body?.serialNumber,
+        batterylevel: data2.body?.batteryCapacity,
+        batteryState: data2.body?.batteryState,
+        version: data2.body?.version,
+        signalStrength: simCard?.signalStrength,
+        networkOperatorName: simCard?.networkOperatorName,
+        networkStatus: simCard?.networkStatus,
+
         accessTechnology: "255",
         backupFilePath: "/user/temp/backup.tar",
-        batteryLevel: "12",
-        batteryState: BatteryState.Charging,
         caseColour: "black",
         currentRTCTime: "1686307333",
         deviceSpaceTotal: "14951",
@@ -80,13 +100,8 @@ export class KompaktStrategy implements DeviceStrategy {
         gitBranch: "HEAD",
         gitRevision: "4cd97006",
         mtpPath: "/user/media/app/music_player",
-        version: "1.6.0",
         selectedSim: SIM.None,
-        signalStrength: SignalStrength.Five,
-        networkOperatorName: "",
-        networkStatus: NetworkStatus.NotRegistered,
         recoveryStatusFilePath: "/user/temp/recovery_status.json",
-        serialNumber: "27131961421012",
         syncFilePath: "/user/temp/sync.tar",
         systemReservedSpace: "2048",
         trayState: Tray.Out,

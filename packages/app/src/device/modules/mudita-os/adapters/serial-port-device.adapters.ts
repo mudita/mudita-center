@@ -22,8 +22,44 @@ import { timeout } from "App/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "App/device/modules/base.adapter"
 
 export class SerialPortDeviceAdapter extends BaseAdapter {
+  protected parser = new SerialPortParser()
+
   constructor(public path: string) {
     super(path)
+    this.serialPort = new SerialPort(path, (error) => {
+      console.log("BaseAdapter error", error)
+      if (error) {
+        const appError = new AppError(DeviceError.Initialization, error.message)
+        this.emitInitializationFailedEvent(Result.failed(appError))
+
+        // workaround to trigger a device (USB) restart side effect after an initialization error
+        void this.getSerialPortList()
+      } else {
+        this.emitConnectionEvent(Result.success(`Device ${path} connected`))
+      }
+    })
+
+    this.serialPort.on("data", (event) => {
+      console.log("serialPort on event", event)
+      try {
+        const data = this.parser.parse(event)
+        
+        if (data !== undefined) {
+          this.emitDataReceivedEvent(data)
+        }
+      } catch (error) {
+        this.emitDataReceivedEvent(
+          new AppError(
+            DeviceError.DataReceiving,
+            (error as Error).message || "Data receiving failed"
+          )
+        )
+      }
+    })
+
+    this.serialPort.on("close", () => {
+      this.emitCloseEvent(Result.success(`Device ${path} disconnected`))
+    })
   }
 
   public async request(
@@ -120,7 +156,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected mapPayloadToRequest(payload: RequestPayload<any>): string {
-    return SerialPortParser.createValidRequest(payload)
+    return this.parser.createRequest(payload)
   }
 
   // AUTO DISABLED - fix me if you like :)
@@ -129,9 +165,9 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     const request = this.mapPayloadToRequest(payload)
     //#000000037{"endpoint":1,"method":1,"uuid":9995}
     //?000000058000000000{"endpoint":1,"method”:1,"offset”:0,"limit":1,"uuid":5092}{}
-    if (payload.endpoint === 1) {
-      console.log("portWrite request", request)
-    }
+    // if (payload.endpoint === 1) {
+    //   console.log("portWrite request", request)
+    // }
     port.write(request)
   }
 }
