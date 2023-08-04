@@ -7,6 +7,7 @@ import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import { checkUpdateAvailable } from "./check-update-available.action"
+import { setCheckingForUpdate } from "./set-checking-for-update-action"
 import checkAppUpdateRequest from "App/__deprecated__/renderer/requests/check-app-update.request"
 
 jest.mock("App/__deprecated__/renderer/requests/check-app-update.request")
@@ -24,6 +25,7 @@ test("`checkUpdateAvailable` action dispatch SettingsEvent.CheckUpdateAvailable 
 
   expect(mockStore.getActions()).toEqual([
     checkUpdateAvailable.pending(requestId),
+    setCheckingForUpdate(true),
     checkUpdateAvailable.fulfilled(undefined, requestId, undefined),
   ])
   expect(checkAppUpdateRequest).toHaveBeenCalled()
