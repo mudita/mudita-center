@@ -34,6 +34,7 @@ export interface InputProps
   inputRef?: Ref<HTMLInputElement>
   type: "text" | "email" | "password" | "search" | "tel" | "url"
   initialTransparentBorder?: boolean
+  relativeError?: boolean
 }
 
 export interface TextareaProps
@@ -42,6 +43,7 @@ export interface TextareaProps
   maxRows?: number
   inputRef?: Ref<HTMLTextAreaElement>
   type: "textarea"
+  relativeError?: boolean
 }
 export interface InputPasscodeProps
   extends TextareaHTMLAttributes<HTMLInputElement>,
