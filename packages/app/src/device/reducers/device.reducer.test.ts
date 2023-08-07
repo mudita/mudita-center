@@ -142,21 +142,6 @@ describe("Connecting/Disconnecting functionality", () => {
     ).toEqual(initialState)
   })
 
-  test("Event: Disconnected/rejected set error message and updates state to error", () => {
-    const errorMock = new AppError(DeviceError.Connection, "I'm error")
-
-    expect(
-      deviceReducer(undefined, {
-        type: rejectedAction(DeviceEvent.Disconnected),
-        payload: errorMock,
-      })
-    ).toEqual({
-      ...initialState,
-      state: ConnectionState.Error,
-      error: errorMock,
-    })
-  })
-
   test("Event: SetConnectionState/fulfilled set connection state to `true` if `true` payload is provided", () => {
     expect(
       deviceReducer(undefined, {

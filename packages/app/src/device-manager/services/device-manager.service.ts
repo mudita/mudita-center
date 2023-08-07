@@ -16,6 +16,7 @@ import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
 import { DeviceServiceEvent } from "App/device"
 import { EventEmitter } from "events"
 import logger from "App/__deprecated__/main/utils/logger"
+import { Mutex } from "async-mutex"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
@@ -50,7 +51,19 @@ export class DeviceManager {
     return Array.from(this.devicesMap.values())
   }
 
+  private mutex = new Mutex()
+
   public async addDevice(port: PortInfo): Promise<void> {
+    await this.mutex.runExclusive(async () => {
+      await this.addDeviceTaks(port)
+    })
+  }
+
+  public async addDeviceTaks(port: PortInfo): Promise<void> {
+    if (this.currentDevice) {
+      return
+    }
+
     const device = await this.initializeDevice(port)
 
     if (!device) {
@@ -118,7 +131,6 @@ export class DeviceManager {
 
   public async getConnectedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
-
     return (
       portList
         // AUTO DISABLED - fix me if you like :)
@@ -136,25 +148,20 @@ export class DeviceManager {
     portInfo.productId = portInfo.productId?.toUpperCase()
     portInfo.vendorId = portInfo.vendorId?.toUpperCase()
 
+    const alreadyInitializedDevices = Array.from(this.devicesMap.keys())
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
         const portList = await this.getConnectedDevices()
-
-        const port = portList
-          .map((p) => {
-            return {
-              ...p,
-              productId: p.productId?.toUpperCase(),
-              vendorId: p.vendorId?.toUpperCase(),
-            }
-          })
-          .find(({ productId, vendorId }) => {
-            return (
-              productId === portInfo.productId && vendorId === portInfo.vendorId
-            )
-          })
+        const port = portList.find(
+          ({ productId, vendorId, path }) =>
+            productId === portInfo.productId &&
+            vendorId === portInfo.vendorId &&
+            ((!portInfo.path && !alreadyInitializedDevices.includes(path)) ||
+              path === portInfo.path)
+        )
 
         if (port) {
           const device = this.deviceResolver.resolve(port)
