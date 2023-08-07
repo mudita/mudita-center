@@ -6,7 +6,7 @@
 import { Observer } from "App/core/types"
 import { DeviceManager } from "App/device-manager/services"
 import { PortInfoValidator } from "App/device-manager/validators"
-const outboxTime = 3000
+const intervalTime = 3000
 
 export class UsbDeviceAttachObserver implements Observer {
   constructor(private deviceManager: DeviceManager) {}
@@ -33,7 +33,7 @@ export class UsbDeviceAttachObserver implements Observer {
         void (async () => {
           resolve(await this.watchConnectedDevices())
         })()
-      }, outboxTime)
+      }, intervalTime)
     })
   }
 }
