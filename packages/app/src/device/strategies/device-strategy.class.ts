@@ -19,9 +19,6 @@ export interface DeviceStrategy {
   connect(): Promise<RequestResponse<GetDeviceInfoResponseBody>>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  disconnect(): Promise<boolean>
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   request(config: RequestConfig<any>): Promise<RequestResponse>
   on(
     eventName: DeviceServiceEvent,

@@ -19,11 +19,6 @@ export class DeviceController {
     return this.deviceService.connect()
   }
 
-  @IpcEvent(IpcDeviceEvent.Disconnect)
-  public async disconnectDevice(): Promise<ResultObject<boolean>> {
-    return this.deviceService.disconnect()
-  }
-
   @IpcEvent(IpcDeviceEvent.Unlock)
   public async unlockDevice(code: string): Promise<ResultObject<boolean>> {
     return this.deviceService.unlock(code)

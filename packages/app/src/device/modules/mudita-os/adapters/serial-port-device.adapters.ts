@@ -18,6 +18,7 @@ import {
 } from "App/device/types/mudita-os"
 import { timeout } from "App/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "App/device/modules/base.adapter"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export class SerialPortDeviceAdapter extends BaseAdapter {
   protected parser = new SerialPortParser()

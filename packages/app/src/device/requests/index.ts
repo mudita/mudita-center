@@ -5,6 +5,5 @@
 
 export * from "./connect-device.request"
 export * from "./device-lock-time.request"
-export * from "./disconnect-device.request"
 export * from "./unlock-device-status.request"
 export * from "./unlock-device.request"
