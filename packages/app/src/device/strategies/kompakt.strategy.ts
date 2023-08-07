@@ -67,20 +67,17 @@ export class KompaktStrategy implements DeviceStrategy {
   // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
     const response = await this.adapter.request(config)
-    const castedResponse = response as unknown as ResultObject<
-      Response<unknown>
-    >
-    const data2 = castedResponse.data as Response<BodyKompakt>
+    const data = response.data as Response<BodyKompakt>
 
-    const simCard = data2.body?.simCards[0]
+    const simCard = data.body?.simCards[0]
 
     return {
       data: {
         //from device
-        serialNumber: data2.body?.serialNumber,
-        batteryLevel: data2.body?.batteryCapacity,
-        batteryState: data2.body?.batteryState,
-        version: data2.body?.version,
+        serialNumber: data.body?.serialNumber,
+        batteryLevel: data.body?.batteryCapacity,
+        batteryState: data.body?.batteryState,
+        version: data.body?.version,
         signalStrength: simCard?.signalStrength,
         networkOperatorName: simCard?.networkOperatorName,
         networkStatus: simCard?.networkStatus,

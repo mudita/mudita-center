@@ -16,7 +16,7 @@ export const KompaktOverview: FunctionComponent<KompaktOverviewProps> = ({
 }) => {
   return (
     <div>
-      <p>batteryLevel: {batteryLevel}</p>
+      <p>batteryLevel: {batteryLevel * 100}%</p>
       <p>caseColour: {caseColour}</p>
       <p>networkName: {networkName}</p>
       <p>networkLevel: {networkLevel}</p>
