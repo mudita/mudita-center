@@ -25,19 +25,19 @@ describe("battery icon returns correct component", () => {
       dataTestId: "icon-VeryLowBattery",
     },
     {
-      batteryLevel: 0.21,
+      batteryLevel: 0.31,
       dataTestId: "icon-LowBattery",
     },
     {
-      batteryLevel: 0.41,
+      batteryLevel: 0.51,
       dataTestId: "icon-MediumBattery",
     },
     {
-      batteryLevel: 0.61,
+      batteryLevel: 0.71,
       dataTestId: "icon-HighBattery",
     },
     {
-      batteryLevel: 0.9,
+      batteryLevel: 0.91,
       dataTestId: "icon-VeryHighBattery",
     },
   ]
