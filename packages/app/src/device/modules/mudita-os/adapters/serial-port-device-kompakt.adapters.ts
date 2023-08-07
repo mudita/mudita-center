@@ -18,7 +18,7 @@ import {
 } from "App/device/types/mudita-os"
 import { timeout } from "App/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "App/device/modules/base.adapter"
-import { KompaktBody } from "App/device/modules/mudita-os/parsers/serial-port-kompakt.parser"
+import { BodyKompakt } from "App/device/types/kompakt/body-kompakt.type"
 
 export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
   protected parser = new SerialPortParserKompakt()
@@ -30,10 +30,8 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
       try {
         const data = this.parser.parse(event)
 
-        console.log("SerialPortDeviceKompaktAdapter constructor data", data)
-
         if (data !== undefined) {
-          this.emitDataReceivedEvent<KompaktBody>(data)
+          this.emitDataReceivedEvent<BodyKompakt>(data)
         }
       } catch (error) {
         this.emitDataReceivedEvent(
@@ -54,7 +52,7 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
     config: RequestConfig
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<ResultObject<Response<KompaktBody>>> {
+  ): Promise<ResultObject<Response<BodyKompakt>>> {
     //console.log("SerialPortDeviceKompaktAdapter request")
     if (this.serialPort === undefined) {
       return Result.failed(
@@ -75,14 +73,8 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
   protected writeRequest(
     port: SerialPort,
     config: RequestConfig
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<ResultObject<Response<KompaktBody>>> {
-    //console.log("SerialPortDeviceKompaktAdapter writeRequest")
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new Promise<ResultObject<Response<KompaktBody>>>((resolve) => {
-      //console.log("SerialPortDeviceKompaktAdapter writeRequest2")
+  ): Promise<ResultObject<Response<BodyKompakt>>> {
+    return new Promise<ResultObject<Response<BodyKompakt>>>((resolve) => {
       const uuid = this.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
 
@@ -97,10 +89,7 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
   protected deviceRequest(
     port: SerialPort,
     { options = {}, ...payload }: RequestPayload
-  ): // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<KompaktBody>>> {
-    //console.log("SerialPortDeviceKompaktAdapter deviceRequest port", port)
+  ): Promise<ResultObject<Response<BodyKompakt>>> {
     const connectionTimeOut =
       options?.connectionTimeOut ?? CONNECTION_TIME_OUT_MS
     return new Promise((resolve) => {
@@ -120,40 +109,19 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
         )
       })
 
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // const listener = (response: any) => {
-      //   console.log("deviceRequest listener response", response)
-      //   if (
-      //     // AUTO DISABLED - fix me if you like :)
-      //     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      //     response.uuid === payload.uuid ||
-      //     // AUTO DISABLED - fix me if you like :)
-      //     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      //     response.status === ResponseStatus.ParserError
-      //   ) {
-      //     this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
-      //     cancel()
-      //     resolve(Result.success(response))
-      //   }
-      // }
-
-      const listener = async (response: Response<KompaktBody>) => {
-        //const response = await parseData(event)
-        console.log("listener response", response)
-
-        //if (response.uuid === String(uuid)) {
-        this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
-        resolve({
-          data: response,
-          error: undefined,
-          ok: true,
-        } as ResultObject<Response<KompaktBody>>)
-        //}
+      const listener = (response: Response<BodyKompakt>) => {
+        if (response.uuid === payload.uuid) {
+          this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
+          cancel()
+          resolve({
+            data: response,
+            error: undefined,
+            ok: true,
+          } as ResultObject<Response<BodyKompakt>>)
+        }
       }
 
       this.eventEmitter.on(DeviceCommunicationEvent.DataReceived, listener)
-
       this.portWrite(port, payload)
     })
   }
@@ -168,11 +136,7 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected portWrite(port: SerialPort, payload: RequestPayload<any>): void {
-    const temp = this.mapPayloadToRequest(payload)
-    console.log("portWrite temp", temp)
-    const request =
-      '?000000058000000000{"endpoint":1,"method":1,"offset":0,"limit":1,"uuid":5092}' //this.mapPayloadToRequest(payload)
-    console.log("portWrite request", request)
+    const request = this.mapPayloadToRequest(payload)
     port.write(request)
   }
 }

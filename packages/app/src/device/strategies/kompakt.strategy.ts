@@ -14,10 +14,7 @@ import {
   Response,
 } from "App/device/types/mudita-os"
 import {
-  BatteryState,
   SIM,
-  SignalStrength,
-  NetworkStatus,
   Tray,
   Method,
   Endpoint,
@@ -25,7 +22,7 @@ import {
   DeviceServiceEvent,
 } from "App/device/constants"
 import { ResultObject } from "App/core/builder"
-import { KompaktBody } from "../modules/mudita-os/parsers"
+import { BodyKompakt } from "App/device/types/kompakt/body-kompakt.type"
 
 export class KompaktStrategy implements DeviceStrategy {
   private eventEmitter = new EventEmitter()
@@ -69,28 +66,26 @@ export class KompaktStrategy implements DeviceStrategy {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
-    //right now we have mocked result from endpoint, should be changed when endpoint is ready during task CP-1668
-    //console.log("KompaktStrategy request")
     const response = await this.adapter.request(config)
     const castedResponse = response as unknown as ResultObject<
       Response<unknown>
     >
-    const data2 = castedResponse.data as Response<KompaktBody>
-
-    //return ResponsePresenter.toResponseObject(response)
+    const data2 = castedResponse.data as Response<BodyKompakt>
 
     const simCard = data2.body?.simCards[0]
 
     return {
       data: {
+        //from device
         serialNumber: data2.body?.serialNumber,
-        batterylevel: data2.body?.batteryCapacity,
+        batteryLevel: data2.body?.batteryCapacity,
         batteryState: data2.body?.batteryState,
         version: data2.body?.version,
         signalStrength: simCard?.signalStrength,
         networkOperatorName: simCard?.networkOperatorName,
         networkStatus: simCard?.networkStatus,
 
+        //mocked
         accessTechnology: "255",
         backupFilePath: "/user/temp/backup.tar",
         caseColour: "black",

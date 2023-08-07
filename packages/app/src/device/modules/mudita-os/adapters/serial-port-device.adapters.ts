@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort, { PortInfo } from "serialport"
-import { EventEmitter } from "events"
-import PQueue from "p-queue"
+import SerialPort from "serialport"
 import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
@@ -40,10 +38,9 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     })
 
     this.serialPort.on("data", (event) => {
-      console.log("serialPort on event", event)
       try {
         const data = this.parser.parse(event)
-        
+
         if (data !== undefined) {
           this.emitDataReceivedEvent(data)
         }
@@ -76,8 +73,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
         { status: ResponseStatus.ConnectionError }
       )
     } else {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return this.writeRequest(this.serialPort, config)
     }
   }
@@ -96,9 +91,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
 
       void this.requestsQueue.add(async () => {
         const response = await this.deviceRequest(port, payload)
-        if (config.endpoint === 1) {
-          console.log("writeRequest response", response)
-        }
         resolve(response)
       })
     })
@@ -163,11 +155,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected portWrite(port: SerialPort, payload: RequestPayload<any>): void {
     const request = this.mapPayloadToRequest(payload)
-    //#000000037{"endpoint":1,"method":1,"uuid":9995}
-    //?000000058000000000{"endpoint":1,"method”:1,"offset”:0,"limit":1,"uuid":5092}{}
-    // if (payload.endpoint === 1) {
-    //   console.log("portWrite request", request)
-    // }
     port.write(request)
   }
 }

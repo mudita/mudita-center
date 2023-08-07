@@ -24,7 +24,7 @@ export class DeviceInfoService {
   private async getDeviceInfoRequest<TResult>(): Promise<
     ResultObject<TResult, DeviceCommunicationError>
   > {
-    const result = await this.deviceManager.device.request<TResult>({
+    const result = this.deviceManager.device.request<TResult>({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
@@ -34,6 +34,7 @@ export class DeviceInfoService {
   public async getDeviceInfo(): Promise<ResultObject<DeviceInfo, string>> {
     try {
       const response = await this.getDeviceInfoRequest<DeviceInfoRaw>()
+      console.log("getDeviceInfo response", response)
 
       if (!response.ok) {
         return response

@@ -39,7 +39,6 @@ export class DeviceResolverService {
         .map((item) => item.toString().toLowerCase())
         .includes(id)
     )
-    //const descriptor = MuditaKompaktDescriptor
 
     if (!descriptor) {
       return

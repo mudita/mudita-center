@@ -9,10 +9,8 @@ import PQueue from "p-queue"
 import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { CONNECTION_TIME_OUT_MS } from "App/device/constants"
-import { DeviceCommunicationEvent, ResponseStatus } from "App/device/constants"
+import { DeviceCommunicationEvent } from "App/device/constants"
 import { DeviceError } from "App/device/modules/mudita-os/constants"
-import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
 import {
   RequestConfig,
   Response,
@@ -119,8 +117,6 @@ export abstract class BaseAdapter {
     return Math.floor(Math.random() * 10000)
   }
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected abstract mapPayloadToRequest(payload: unknown): string
 
   protected abstract portWrite(
