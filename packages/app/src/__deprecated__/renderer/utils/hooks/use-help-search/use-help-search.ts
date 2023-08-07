@@ -8,7 +8,6 @@ import { QuestionAndAnswer } from "App/help/components/help.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import debounce from "lodash/debounce"
-import { getDefaultHelpItems } from "App/__deprecated__/main/store/default-help-items"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -35,7 +34,8 @@ export const useHelpSearch = (
       if (storeData) {
         setData(storeData)
       } else {
-        const defaultHelpItems = getDefaultHelpItems()
+        const defaultHelpItems =
+          require("App/help/default-help.json") as QuestionAndAnswer
         setData(defaultHelpItems)
         if (saveToStore) {
           await saveToStore(defaultHelpItems)

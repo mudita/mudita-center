@@ -43,6 +43,7 @@ const settings: Omit<
       MuditaKompakt: "2.0.0",
     },
   },
+  checkingForUpdate: false,
 }
 
 const mockStore = createMockStore([thunk])()
