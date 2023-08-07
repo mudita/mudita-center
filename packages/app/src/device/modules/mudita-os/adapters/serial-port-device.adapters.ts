@@ -20,6 +20,7 @@ import {
 } from "App/device/types/mudita-os"
 import { timeout } from "App/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "App/device/modules/base.adapter"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export class SerialPortDeviceAdapter extends BaseAdapter {
   private serialPort: SerialPort
@@ -33,6 +34,8 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     this.serialPort = new SerialPort(path, (error) => {
       if (error) {
         const appError = new AppError(DeviceError.Initialization, error.message)
+        logger.info(`==== serial port: DEVICE_INITIALIZATION_ERROR ====`)
+        logger.info(error.message)
         this.emitInitializationFailedEvent(Result.failed(appError))
 
         // workaround to trigger a device (USB) restart side effect after an initialization error

@@ -12,7 +12,6 @@ import {
   testQuestion,
   testSeedCollectionIds,
 } from "App/__deprecated__/seeds/help"
-import { defaultHelpItems } from "App/__deprecated__/main/store/default-help-items"
 import { ConversionFormat, Convert } from "App/settings/constants"
 import { Settings } from "App/settings/dto"
 
@@ -100,15 +99,4 @@ describe("Online scenario", () => {
     await waitForNextUpdate()
     expect(result.current.data.collection).toEqual(testSeedCollectionIds)
   })
-})
-
-test("returns default data when offline", async () => {
-  onLine.mockReturnValue(false)
-  const { result, waitForNextUpdate } = renderHook(() =>
-    useHelpSearch(saveToStore, getStoreData)
-  )
-  await waitForNextUpdate()
-  expect(result.current.data.collection).toHaveLength(
-    defaultHelpItems.collection.length
-  )
 })

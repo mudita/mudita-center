@@ -15,7 +15,6 @@ import {
   UsbDeviceAttachObserver,
   DeviceDisconnectedObserver,
 } from "App/device-manager/observers"
-import { ConnectedDeviceInitializer } from "App/device-manager/initializers"
 import { DeviceManagerController } from "App/device-manager/controllers"
 import { DeviceInitializationFailedObserver } from "App/device-manager/observers/device-initialization-failed.observer"
 
@@ -51,15 +50,12 @@ export class DeviceManagerModule extends BaseModule {
         this.deviceManager,
         this.eventEmitter
       )
-    const connectedDeviceInitializer = new ConnectedDeviceInitializer(
-      this.deviceManager,
-      this.ipc
-    )
+
     const deviceManagerController = new DeviceManagerController(
       this.deviceManager
     )
 
-    this.initializers = [connectedDeviceInitializer]
+    this.initializers = []
     this.observers = [
       usbDeviceAttachObserver,
       deviceDisconnectedObserver,
