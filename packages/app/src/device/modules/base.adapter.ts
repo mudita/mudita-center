@@ -111,7 +111,9 @@ export abstract class BaseAdapter {
   protected abstract deviceRequest(
     port: SerialPort,
     { options = {}, ...payload }: RequestPayload
-  ): Promise<ResultObject<Response<any>>>
+  ): // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Promise<ResultObject<Response<any>>>
 
   protected getNewUUID(): number {
     return Math.floor(Math.random() * 10000)

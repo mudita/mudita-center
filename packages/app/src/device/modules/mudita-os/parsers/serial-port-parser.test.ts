@@ -8,18 +8,19 @@ import { RequestPayload } from "App/device/types/mudita-os"
 
 //CP-1668-TODO
 
-// describe("`Parser.createValidRequest`", () => {
-//   test("`payload` created properly ", () => {
-//     const payload: RequestPayload = {
-//       endpoint: 1,
-//       method: 1,
-//       uuid: 0,
-//     }
-//     expect(SerialPortParser.createValidRequest(payload)).toEqual(
-//       '#000000034{"endpoint":1,"method":1,"uuid":0}'
-//     )
-//   })
-// })
+describe("`Parser.createValidRequest`", () => {
+  const parser = new SerialPortParser()
+  test("`payload` created properly ", () => {
+    const payload: RequestPayload = {
+      endpoint: 1,
+      method: 1,
+      uuid: 0,
+    }
+    expect(parser.createRequest(payload)).toEqual(
+      '#000000034{"endpoint":1,"method":1,"uuid":0}'
+    )
+  })
+})
 
 describe("`Parser.parse`", () => {
   describe("when data is packed in single packet", () => {

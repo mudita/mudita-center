@@ -49,8 +49,6 @@ export const loadDeviceData = createAsyncThunk<
         osVersion: data.osVersion,
         deviceType: state.device.deviceType,
       })
-      console.log("loadDeviceData data", data)
-      dispatch(setDeviceData(data))
     }
 
     void setValue({

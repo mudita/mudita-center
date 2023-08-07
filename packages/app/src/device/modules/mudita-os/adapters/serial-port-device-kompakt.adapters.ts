@@ -26,9 +26,9 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
   constructor(public path: string) {
     super(path)
 
-    this.serialPort.on("data", (event) => {
+    this.serialPort.on("data", (buffer: Buffer) => {
       try {
-        const data = this.parser.parse(event)
+        const data = this.parser.parse(buffer)
 
         if (data !== undefined) {
           this.emitDataReceivedEvent<BodyKompakt>(data)
@@ -113,11 +113,12 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
         if (response.uuid === payload.uuid) {
           this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
           cancel()
-          resolve({
-            data: response,
-            error: undefined,
-            ok: true,
-          } as ResultObject<Response<BodyKompakt>>)
+          const result = response.error
+            ? Result.failed(
+                new AppError(DeviceError.RequestFailed, response.error.message)
+              )
+            : Result.success(response)
+          resolve(result)
         }
       }
 

@@ -12,7 +12,7 @@ import { BodyKompakt } from "App/device/types/kompakt/body-kompakt.type"
 import { PrefixKompakt } from "App/device/constants/prefix-kompakt.constant"
 
 export class SerialPortParserKompakt extends SerialPortParserBase {
-  public parse(data: Buffer): Response<BodyKompakt> | undefined {
+  public parse(data: Buffer): Response<BodyKompakt> {
     try {
       const prefix = String.fromCharCode(data[0])
 
@@ -31,33 +31,31 @@ export class SerialPortParserKompakt extends SerialPortParserBase {
 
         return this.mapToResponse(header, payload)
       } else {
-        //throw incorrect data type
+        throw new Error("Invalid or unknown data type")
       }
     } catch (ex) {
-      //CP-1668-TODO-ERROR-HANDLING
-      console.log("ex", ex)
+      throw new Error("Could not parse the response")
     }
-    return undefined
   }
 
   private parsePayload(buffer: Buffer): PayloadKompakt {
     const payloadrSingleLine = buffer.toString().split("\n").join()
     const payloadDecoded = Buffer.from(payloadrSingleLine, "base64").toString()
-    return JSON.parse(payloadDecoded)
+    return JSON.parse(payloadDecoded) as PayloadKompakt
   }
 
   private mapToResponse(
     { status, uuid, ...headerRest }: HeaderKompakt,
-    payload: PayloadKompakt
+    { message, ...kompaktRest }: PayloadKompakt
   ): Response<BodyKompakt> {
     return {
-      status: status,
+      status,
       body: {
-        ...payload,
+        ...kompaktRest,
         ...headerRest,
       },
-      error: undefined,
-      uuid: uuid,
+      error: message !== undefined ? { message } : undefined,
+      uuid,
     } as Response<BodyKompakt>
   }
 

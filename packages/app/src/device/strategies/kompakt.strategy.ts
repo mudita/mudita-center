@@ -11,18 +11,14 @@ import { BaseAdapter } from "App/device/modules/base.adapter"
 import {
   GetDeviceInfoResponseBody,
   GetDeviceInfoRequestConfig,
-  Response,
 } from "App/device/types/mudita-os"
 import {
-  SIM,
-  Tray,
   Method,
   Endpoint,
   DeviceCommunicationEvent,
   DeviceServiceEvent,
 } from "App/device/constants"
-import { ResultObject } from "App/core/builder"
-import { BodyKompakt } from "App/device/types/kompakt/body-kompakt.type"
+import { ResponseKompaktPresenter } from "App/device/modules/mudita-os/presenters"
 
 export class KompaktStrategy implements DeviceStrategy {
   private eventEmitter = new EventEmitter()
@@ -67,43 +63,8 @@ export class KompaktStrategy implements DeviceStrategy {
   // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
     const response = await this.adapter.request(config)
-    const data = response.data as Response<BodyKompakt>
 
-    const simCard = data.body?.simCards[0]
-
-    //CP-1668-TODO
-    //Changes in model cause right now we will have more sim cards?
-    return {
-      data: {
-        //from device
-        serialNumber: data.body?.serialNumber,
-        batteryLevel: data.body?.batteryCapacity,
-        batteryState: data.body?.batteryState,
-        version: data.body?.version,
-        signalStrength: simCard?.signalStrength,
-        networkOperatorName: simCard?.networkOperatorName,
-        networkStatus: simCard?.networkStatus,
-
-        //mocked
-        accessTechnology: "255",
-        backupFilePath: "/user/temp/backup.tar",
-        caseColour: "black",
-        currentRTCTime: "1686307333",
-        deviceSpaceTotal: "14951",
-        deviceToken: "RIQLcvFFgl8ibFcHwBO3Ev0YTa2vxfbI",
-        gitBranch: "HEAD",
-        gitRevision: "4cd97006",
-        mtpPath: "/user/media/app/music_player",
-        selectedSim: SIM.None,
-        recoveryStatusFilePath: "/user/temp/recovery_status.json",
-        syncFilePath: "/user/temp/sync.tar",
-        systemReservedSpace: "2048",
-        trayState: Tray.Out,
-        updateFilePath: "/user/temp/update.tar",
-        usedUserSpace: "438",
-      },
-      status: RequestResponseStatus.Ok,
-    }
+    return ResponseKompaktPresenter.toResponseObject(response)
   }
   on(
     eventName: DeviceServiceEvent,
