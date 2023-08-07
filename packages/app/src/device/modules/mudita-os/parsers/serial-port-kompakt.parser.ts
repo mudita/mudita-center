@@ -34,6 +34,7 @@ export class SerialPortParserKompakt extends SerialPortParserBase {
         //throw incorrect data type
       }
     } catch (ex) {
+      //CP-1668-TODO-ERROR-HANDLING
       console.log("ex", ex)
     }
     return undefined

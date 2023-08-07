@@ -71,6 +71,8 @@ export class KompaktStrategy implements DeviceStrategy {
 
     const simCard = data.body?.simCards[0]
 
+    //CP-1668-TODO
+    //Changes in model cause right now we will have more sim cards?
     return {
       data: {
         //from device
