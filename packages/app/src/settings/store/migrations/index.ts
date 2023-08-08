@@ -5,3 +5,4 @@
 
 export * from "./001-remove-unused-fields.migration"
 export * from "./002-privacy-policy-accepted.migration"
+export * from "./003-os-download-location.migration"
