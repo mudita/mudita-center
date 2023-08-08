@@ -31,13 +31,14 @@ export class FileUploadCommand extends BaseCommand {
 
     try {
       const fileSize = await this.fileSystemService.getFileSize(filePath)
-      if (fileSize >= maxFileSize)
+      if (fileSize >= maxFileSize) {
         return Result.failed(
           new AppError(
             DeviceFileSystemError.UnsupportedFileSize,
             `Uploading file: file ${filePath} is too large`
           )
         )
+      }
       data = await this.fileSystemService.readFile(filePath)
     } catch (err) {
       return Result.failed(

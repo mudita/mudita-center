@@ -27,6 +27,7 @@ const deviceManager = {
 
 const fileSystemService = {
   readFile: jest.fn(),
+  getFileSize: jest.fn(),
 } as unknown as FileSystemService
 
 const subject = new FileUploadCommand(deviceManager, fileSystemService)

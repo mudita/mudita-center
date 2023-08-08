@@ -54,6 +54,8 @@ export class FileSystemService {
     return fs.readFileSync(filePath)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getFileSize(filePath: string): Promise<number> {
     return fs.statSync(filePath).size
   }
