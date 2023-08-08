@@ -27,21 +27,19 @@ export class FileUploadCommand extends BaseCommand {
     filePath: string
   ): Promise<ResultObject<undefined>> {
     let data: Buffer | Uint8Array
+    const maxFileSize = 2000000000
 
     try {
-      data = await this.fileSystemService.readFile(filePath)
-    } catch (err) {
-      const error = err as { code?: string }
-
-      if (error.code === "ERR_FS_FILE_TOO_LARGE") {
+      const fileSize = await this.fileSystemService.getFileSize(filePath)
+      if (fileSize >= maxFileSize)
         return Result.failed(
           new AppError(
             DeviceFileSystemError.UnsupportedFileSize,
             `Uploading file: file ${filePath} is too large`
           )
         )
-      }
-
+      data = await this.fileSystemService.readFile(filePath)
+    } catch (err) {
       return Result.failed(
         new AppError(
           DeviceFileSystemError.FileUploadUnreadable,
