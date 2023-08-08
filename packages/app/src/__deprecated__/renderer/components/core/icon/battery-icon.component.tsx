@@ -29,15 +29,15 @@ const getInteractiveBatteryIcon = (
       return <Icon type={IconType.ChargingBattery} {...rest} />
     case batteryLevel === 1 && deviceType === DeviceType.MuditaPure:
       return <Icon type={IconType.FullBattery} {...rest} />
-    case batteryLevel > 0.8:
+    case batteryLevel > 0.9:
       return <Icon type={IconType.VeryHighBattery} {...rest} />
-    case batteryLevel > 0.6:
+    case batteryLevel > 0.7:
       return <Icon type={IconType.HighBattery} {...rest} />
-    case batteryLevel > 0.4:
+    case batteryLevel > 0.5:
       return <Icon type={IconType.MediumBattery} {...rest} />
-    case batteryLevel > 0.2:
+    case batteryLevel > 0.3:
       return <Icon type={IconType.LowBattery} {...rest} />
-    case batteryLevel > 0:
+    case batteryLevel >= 0.1:
       return <Icon type={IconType.VeryLowBattery} {...rest} />
     default:
       return <Icon type={IconType.NoBattery} {...rest} />

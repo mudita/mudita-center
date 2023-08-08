@@ -42,19 +42,6 @@ export class HarmonyStrategy implements DeviceStrategy {
     return response
   }
 
-  public async disconnect(): Promise<boolean> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-
-    const response = await this.adapter.disconnect()
-
-    this.unmountDisconnectionListener()
-    this.unmountInitializationFailedListener()
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
-
-    return Boolean(response.data)
-  }
-
   public request(
     config: GetDeviceInfoRequestConfig
   ): Promise<RequestResponse<GetDeviceInfoResponseBody>>
