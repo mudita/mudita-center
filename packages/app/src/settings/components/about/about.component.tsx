@@ -13,7 +13,6 @@ interface Props {
   latestVersion?: string
   currentVersion?: string
   updateAvailable?: boolean
-  toggleApplicationUpdateAvailable: (appUpdateAvailable: boolean) => void
   checkingForUpdate: boolean
   checkUpdateAvailable: () => void
 }
@@ -23,7 +22,6 @@ export const About: FunctionComponent<Props> = ({
   currentVersion,
   updateAvailable,
   checkingForUpdate,
-  toggleApplicationUpdateAvailable,
   checkUpdateAvailable,
 }) => {
   const [appUpdateNotAvailableShow, setAppUpdateNotAvailableShow] =
@@ -51,7 +49,6 @@ export const About: FunctionComponent<Props> = ({
 
   const handleAppUpdateAvailableCheck = (): void => {
     if (!window.navigator.onLine) {
-      toggleApplicationUpdateAvailable(false)
       setAppUpdateFailedShow(true)
     } else {
       checkUpdateAvailable()
