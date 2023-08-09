@@ -28,6 +28,7 @@ import { AppUpdateNotAvailable } from "App/__deprecated__/renderer/wrappers/app-
 import { UpdateFailedModal } from "App/settings/components/about/update-failed-modal.component"
 import { AboutLoaderModal } from "App/settings/components/about/about-loader.component"
 import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
+import { useOnlineChecker } from "App/settings/hooks/use-online-checker"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -85,6 +86,8 @@ const AboutUI: FunctionComponent<Props> = ({
   appUpdateFailedShow,
   hideAppUpdateFailed,
 }) => {
+  const online = useOnlineChecker()
+
   return (
     <>
       <UpdateFailedModal
@@ -98,7 +101,7 @@ const AboutUI: FunctionComponent<Props> = ({
       />
       <AppUpdateNotAvailable
         appCurrentVersion={appCurrentVersion}
-        open={appUpdateNotAvailableShow && window.navigator.onLine}
+        open={appUpdateNotAvailableShow && online}
         closeModal={hideAppUpdateNotAvailable}
         layer={ModalLayers.UpdateApp}
       />
@@ -112,7 +115,7 @@ const AboutUI: FunctionComponent<Props> = ({
               />
             </SettingsLabel>
           </Data>
-          {!window.navigator.onLine && (
+          {!online && (
             <ActionContainer>
               <AvailableUpdate
                 displayStyle={TextDisplayStyle.Label}
@@ -129,7 +132,7 @@ const AboutUI: FunctionComponent<Props> = ({
               />
             </ActionContainer>
           )}
-          {appUpdateAvailable && window.navigator.onLine && (
+          {appUpdateAvailable && online && (
             <ActionContainer>
               <AvailableUpdate
                 displayStyle={TextDisplayStyle.Label}
@@ -149,7 +152,7 @@ const AboutUI: FunctionComponent<Props> = ({
               />
             </ActionContainer>
           )}
-          {!appUpdateAvailable && window.navigator.onLine && (
+          {!appUpdateAvailable && online && (
             <ActionContainer>
               <AvailableUpdate
                 displayStyle={TextDisplayStyle.Label}
