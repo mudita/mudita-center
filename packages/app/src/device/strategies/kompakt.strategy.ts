@@ -56,6 +56,8 @@ export class KompaktStrategy implements DeviceStrategy {
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
     const response = await this.adapter.request(config)
 
+    this.emitUnlockEvent()
+
     return ResponseKompaktPresenter.toResponseObject(response)
   }
   on(
@@ -87,28 +89,14 @@ export class KompaktStrategy implements DeviceStrategy {
     this.adapter.off(eventName, listener)
   }
 
-  private mountDeviceUnlockedListener(): void {
-    throw new Error("Method not implemented.")
-  }
-
   private unmountDeviceUnlockedListener(): void {
     clearInterval(this.lockedInterval)
-  }
-
-  private getUnlockedStatusRequest(): Promise<RequestResponse> {
-    throw new Error("Method not implemented.")
   }
 
   private mountDisconnectionListener(): void {
     this.onCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
       this.unmountDeviceUnlockedListener()
-    })
-  }
-
-  private unmountDisconnectionListener(): void {
-    this.offCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
     })
   }
 
@@ -121,12 +109,7 @@ export class KompaktStrategy implements DeviceStrategy {
     )
   }
 
-  private unmountInitializationFailedListener(): void {
-    this.offCommunicationEvent(
-      DeviceCommunicationEvent.InitializationFailed,
-      () => {
-        this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
-      }
-    )
+  private emitUnlockEvent(): void {
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
   }
 }

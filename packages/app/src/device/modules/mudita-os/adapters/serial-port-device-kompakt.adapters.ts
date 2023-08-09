@@ -53,7 +53,6 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<ResultObject<Response<BodyKompakt>>> {
-    //console.log("SerialPortDeviceKompaktAdapter request")
     if (this.serialPort === undefined) {
       return Result.failed(
         new AppError(

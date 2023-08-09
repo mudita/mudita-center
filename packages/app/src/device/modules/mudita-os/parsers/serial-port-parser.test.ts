@@ -6,8 +6,6 @@
 import { SerialPortParser } from "./serial-port.parser"
 import { RequestPayload } from "App/device/types/mudita-os"
 
-//CP-1668-TODO
-
 describe("`Parser.createValidRequest`", () => {
   const parser = new SerialPortParser()
   test("`payload` created properly ", () => {

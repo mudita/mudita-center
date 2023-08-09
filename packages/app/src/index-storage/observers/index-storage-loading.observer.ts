@@ -14,6 +14,7 @@ import { MetadataKey } from "App/metadata/constants"
 import { IndexStorageService } from "App/index-storage/services"
 import { IpcEvent } from "App/data-sync/constants"
 import { DeviceManager } from "App/device-manager/services"
+import { DeviceType } from "App/device"
 
 export class IndexStorageLoadingObserver implements Observer {
   private invoked = false
@@ -56,7 +57,12 @@ export class IndexStorageLoadingObserver implements Observer {
       )
       this.keyStorage.setValue(MetadataKey.DeviceToken, result.data.deviceToken)
 
-      const restored = await this.indexStorageService.loadIndex()
+      //CP-1668 - when connecting Kompact there is no need to read indexes :)
+      const restored =
+        this.deviceManager.currentDevice?.deviceType ===
+        DeviceType.MuditaKompakt
+          ? true
+          : await this.indexStorageService.loadIndex()
 
       if (restored) {
         // AUTO DISABLED - fix me if you like :)

@@ -29,18 +29,21 @@ export class SerialPortParserKompakt extends SerialPortParserBase {
         const header = JSON.parse(headerBuffer.toString()) as HeaderKompakt
         const payload = this.parsePayload(payloadBuffer)
 
-        return this.mapToResponse(header, payload)
+        const result = this.mapToResponse(header, payload)
+        return result
       } else {
         throw new Error("Invalid or unknown data type")
       }
     } catch (ex) {
-      throw new Error("Could not parse the response")
+      throw new Error("Could not parse the response - ")
     }
   }
 
   private parsePayload(buffer: Buffer): PayloadKompakt {
     const payloadrSingleLine = buffer.toString().split("\n").join()
+    //console.log("parsePayload payloadrSingleLine", payloadrSingleLine)
     const payloadDecoded = Buffer.from(payloadrSingleLine, "base64").toString()
+    //console.log("parsePayload payloadDecoded", payloadDecoded)
     return JSON.parse(payloadDecoded) as PayloadKompakt
   }
 
@@ -50,6 +53,8 @@ export class SerialPortParserKompakt extends SerialPortParserBase {
   ): Response<BodyKompakt> {
     return {
       status,
+      //CP-1668-TODO
+      //should i put there whole header? I don't think this data is necessary in higher layer
       body: {
         ...kompaktRest,
         ...headerRest,
@@ -59,10 +64,17 @@ export class SerialPortParserKompakt extends SerialPortParserBase {
     } as Response<BodyKompakt>
   }
 
-  public createRequest(payload: RequestPayload<unknown>): string {
+  public createRequest(payload: RequestPayload): string {
     const encoder = new TextEncoder()
 
-    const { endpoint, method, offset = 0, limit = 1, uuid, ...body } = payload
+    const {
+      endpoint,
+      method,
+      offset = 0,
+      limit = 1,
+      uuid,
+      ...payloadRest
+    } = payload
 
     const headerAsString = JSON.stringify({
       endpoint,
@@ -76,7 +88,8 @@ export class SerialPortParserKompakt extends SerialPortParserBase {
       "0"
     )
 
-    const bodyAsString = JSON.stringify(body)
+    const { body, ...rest } = payloadRest
+    const bodyAsString = JSON.stringify({ ...body, ...rest })
     const bodyLength = String(encoder.encode(bodyAsString).length).padStart(
       9,
       "0"
