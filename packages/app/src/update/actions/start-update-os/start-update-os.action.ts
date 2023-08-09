@@ -83,10 +83,13 @@ export const startUpdateOs = createAsyncThunk<
         toOsVersion: release.version,
       }
 
-      void trackOsUpdate({
-        ...trackOsUpdateOptions,
-        state: TrackOsUpdateState.Start,
-      })
+      void trackOsUpdate(
+        {
+          ...trackOsUpdateOptions,
+          state: TrackOsUpdateState.Start,
+        },
+        externalUsageDevice ?? false
+      )
 
       dispatch(
         setStateForInstalledRelease({

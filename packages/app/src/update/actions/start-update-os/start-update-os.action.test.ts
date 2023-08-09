@@ -237,12 +237,15 @@ describe("when all updating os requests return success status", () => {
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
 
-    expect(trackOsUpdate).toHaveBeenCalledWith({
-      deviceType: DeviceType.MuditaPure,
-      fromOsVersion: "1.0.0",
-      toOsVersion: "1.1.0",
-      state: TrackOsUpdateState.Success,
-    })
+    expect(trackOsUpdate).toHaveBeenCalledWith(
+      {
+        deviceType: DeviceType.MuditaPure,
+        fromOsVersion: "1.0.0",
+        toOsVersion: "1.1.0",
+        state: TrackOsUpdateState.Success,
+      },
+      false
+    )
   })
 })
 
@@ -304,11 +307,14 @@ describe("when updating os request return failure status", () => {
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await mockStore.dispatch(startUpdateOs(params) as unknown as AnyAction)
 
-    expect(trackOsUpdate).toHaveBeenCalledWith({
-      deviceType: DeviceType.MuditaPure,
-      fromOsVersion: "1.0.0",
-      toOsVersion: "1.1.0",
-      state: TrackOsUpdateState.Fail,
-    })
+    expect(trackOsUpdate).toHaveBeenCalledWith(
+      {
+        deviceType: DeviceType.MuditaPure,
+        fromOsVersion: "1.0.0",
+        toOsVersion: "1.1.0",
+        state: TrackOsUpdateState.Fail,
+      },
+      false
+    )
   })
 })

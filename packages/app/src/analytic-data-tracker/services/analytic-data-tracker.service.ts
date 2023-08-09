@@ -58,8 +58,6 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
       return
     }
 
-    event.e_c = "LK - " + event.e_c
-
     return this.trackRequest(event)
   }
 

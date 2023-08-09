@@ -64,7 +64,7 @@ export const loadDeviceData = createAsyncThunk<
       state.device.externalUsageDevice === null
     ) {
       const resultExternalUsageDevice = state.settings.privacyPolicyAccepted
-        ? await externalUsageDevice(data.serialNumber + "0")
+        ? await externalUsageDevice(data.serialNumber)
         : false
 
       await setExternalUsageDeviceRequest(resultExternalUsageDevice)
