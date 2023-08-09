@@ -79,7 +79,6 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
 
       void this.requestsQueue.add(async () => {
         const response = await this.deviceRequest(port, payload)
-        console.log("writeRequest response", response)
         resolve(response)
       })
     })
