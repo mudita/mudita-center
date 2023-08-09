@@ -44,12 +44,21 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     event: TrackEvent,
     externalUsageDeviceOnly = true
   ): Promise<AxiosResponse | undefined> {
+    console.log(
+      this.trackingEnabled,
+      externalUsageDeviceOnly,
+      this.externalUsageDevice,
+      event.e_c
+    )
+
     if (!this.trackingEnabled) {
       return
     }
     if (externalUsageDeviceOnly && !this.externalUsageDevice) {
       return
     }
+
+    event.e_c = "LK - " + event.e_c
 
     return this.trackRequest(event)
   }

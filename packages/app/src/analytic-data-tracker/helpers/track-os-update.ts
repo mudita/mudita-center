@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { trackRequest } from "App/analytic-data-tracker/requests"
+import {
+  trackRequest,
+  trackWithoutDeviceCheckRequest,
+} from "App/analytic-data-tracker/requests"
 import { HarmonyDeviceData, PureDeviceData } from "App/device"
 import { DeviceType } from "App/device/constants"
 import { TrackEvent } from "App/analytic-data-tracker/types"
@@ -47,7 +50,8 @@ const getHarmonyTrackEventCategoryByState = (
 }
 
 export const trackOsUpdate = async (
-  options: TrackOsUpdateOptions
+  options: TrackOsUpdateOptions,
+  externalUsageDevice?: boolean
 ): Promise<void> => {
   const { fromOsVersion, toOsVersion, state, deviceType } = options
   let event: TrackEvent = {
@@ -69,5 +73,9 @@ export const trackOsUpdate = async (
     }
   }
 
-  await trackRequest(event)
+  if (externalUsageDevice === true) {
+    await trackWithoutDeviceCheckRequest(event)
+  } else {
+    await trackRequest(event)
+  }
 }
