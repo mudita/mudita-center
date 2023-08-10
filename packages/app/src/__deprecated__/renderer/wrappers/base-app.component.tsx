@@ -136,6 +136,22 @@ const BaseApp: FunctionComponent<Props> = ({
   )
 }
 
+const isDeviceRestarting = (state: RootState & ReduxRootState): boolean => {
+  if (!state.device.status.unlocked) {
+    return false
+  }
+
+  if (state.backup.backingUpState === State.Loading) {
+    return true
+  }
+
+  if (state.backup.restoringState === State.Loading) {
+    return true
+  }
+
+  return false
+}
+
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     deviceFeaturesVisible:
@@ -153,7 +169,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     deviceLocked:
       state.device.status.connected && !state.device.status.unlocked,
     deviceUpdating: state.update.updateOsState === State.Loading,
-    deviceRestarting: state.device.status.restarting,
+    deviceRestarting:
+      isDeviceRestarting(state) || state.device.status.restarting,
     osVersion: state.device.data?.osVersion,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
     checkingForOsForceUpdate:

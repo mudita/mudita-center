@@ -10,7 +10,6 @@ import { createBackupRequest } from "App/backup/requests/create-backup.request"
 import { loadBackupData } from "App/backup/actions/load-backup-data.action"
 import { AppError } from "App/core/errors"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { setRestarting } from "App/device/actions/base.action"
 
 export const startBackupDevice = createAsyncThunk<
   undefined,
@@ -39,13 +38,11 @@ export const startBackupDevice = createAsyncThunk<
       .replace(/\./g, "")
       .replace(/-/g, "")
       .replace(/:/g, "")}`
-    dispatch(setRestarting(true))
     const downloadDeviceBackupResponse = await createBackupRequest({
       key,
       fileBase,
       cwd: pureOsBackupDesktopFileDir,
     })
-    dispatch(setRestarting(false))
 
     if (!downloadDeviceBackupResponse.ok) {
       return rejectWithValue(downloadDeviceBackupResponse.error)
