@@ -24,10 +24,6 @@ export class DeviceService {
     return this.deviceManager.device.connect()
   }
 
-  public async disconnect(): Promise<ResultObject<boolean>> {
-    return this.deviceManager.device.disconnect()
-  }
-
   public async unlock(code: string): Promise<ResultObject<boolean>> {
     const response = await this.deviceManager.device.request({
       endpoint: Endpoint.Security,

@@ -4,3 +4,4 @@
  */
 
 export * from "./serial-port.parser"
+export * from "./serial-port-kompakt.parser"

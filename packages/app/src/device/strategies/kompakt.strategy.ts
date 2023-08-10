@@ -13,16 +13,12 @@ import {
   GetDeviceInfoRequestConfig,
 } from "App/device/types/mudita-os"
 import {
-  BatteryState,
-  SIM,
-  SignalStrength,
-  NetworkStatus,
-  Tray,
   Method,
   Endpoint,
   DeviceCommunicationEvent,
   DeviceServiceEvent,
 } from "App/device/constants"
+import { ResponseKompaktPresenter } from "App/device/modules/mudita-os/presenters"
 
 export class KompaktStrategy implements DeviceStrategy {
   private eventEmitter = new EventEmitter()
@@ -51,50 +47,26 @@ export class KompaktStrategy implements DeviceStrategy {
 
     return response
   }
-  async disconnect(): Promise<boolean> {
-    const response = await this.adapter.disconnect()
 
-    this.unmountDisconnectionListener()
-    this.unmountInitializationFailedListener()
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
-
-    return Boolean(response.data)
-  }
   public async request(
     config: GetDeviceInfoRequestConfig
   ): Promise<RequestResponse<GetDeviceInfoResponseBody>>
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
-    //right now we have mocked result from endpoint, should be changed when endpoint is ready during task CP-1668
-    return {
-      data: {
-        accessTechnology: "255",
-        backupFilePath: "/user/temp/backup.tar",
-        batteryLevel: "12",
-        batteryState: BatteryState.Charging,
-        caseColour: "black",
-        currentRTCTime: "1686307333",
-        deviceSpaceTotal: "14951",
-        deviceToken: "RIQLcvFFgl8ibFcHwBO3Ev0YTa2vxfbI",
-        gitBranch: "HEAD",
-        gitRevision: "4cd97006",
-        mtpPath: "/user/media/app/music_player",
-        version: "1.6.0",
-        selectedSim: SIM.None,
-        signalStrength: SignalStrength.Five,
-        networkOperatorName: "",
-        networkStatus: NetworkStatus.NotRegistered,
-        recoveryStatusFilePath: "/user/temp/recovery_status.json",
-        serialNumber: "27131961421012",
-        syncFilePath: "/user/temp/sync.tar",
-        systemReservedSpace: "2048",
-        trayState: Tray.Out,
-        updateFilePath: "/user/temp/update.tar",
-        usedUserSpace: "438",
-      },
+    let result = {
       status: RequestResponseStatus.Ok,
+      data: undefined,
+      error: undefined,
+    } as RequestResponse
+    //CP-1668 - this condition until Kompakt has limited endpoint support, currently only device info endpoint (10.08.2023)
+    if ([Endpoint.DeviceInfo].includes(config.endpoint)) {
+      const response = await this.adapter.request(config)
+      result = ResponseKompaktPresenter.toResponseObject(response)
     }
+
+    this.emitUnlockEvent()
+    return result
   }
   on(
     eventName: DeviceServiceEvent,
@@ -125,28 +97,14 @@ export class KompaktStrategy implements DeviceStrategy {
     this.adapter.off(eventName, listener)
   }
 
-  private mountDeviceUnlockedListener(): void {
-    throw new Error("Method not implemented.")
-  }
-
   private unmountDeviceUnlockedListener(): void {
     clearInterval(this.lockedInterval)
-  }
-
-  private getUnlockedStatusRequest(): Promise<RequestResponse> {
-    throw new Error("Method not implemented.")
   }
 
   private mountDisconnectionListener(): void {
     this.onCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
       this.unmountDeviceUnlockedListener()
-    })
-  }
-
-  private unmountDisconnectionListener(): void {
-    this.offCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
     })
   }
 
@@ -159,12 +117,7 @@ export class KompaktStrategy implements DeviceStrategy {
     )
   }
 
-  private unmountInitializationFailedListener(): void {
-    this.offCommunicationEvent(
-      DeviceCommunicationEvent.InitializationFailed,
-      () => {
-        this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
-      }
-    )
+  private emitUnlockEvent(): void {
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
   }
 }

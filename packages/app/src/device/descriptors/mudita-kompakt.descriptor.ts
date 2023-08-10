@@ -10,7 +10,7 @@ import {
   DeviceType,
 } from "App/device/constants"
 import { KompaktStrategy } from "App/device/strategies"
-import { SerialPortDeviceAdapter } from "App/device/modules/mudita-os/adapters"
+import { SerialPortDeviceKompaktAdapter } from "App/device/modules/mudita-os/adapters"
 
 export class MuditaKompaktDescriptor {
   static manufacturer = Manufacture.Mudita
@@ -24,6 +24,6 @@ export class MuditaKompaktDescriptor {
     ProductID.MuditaKompaktNoDebugHex,
   ]
   static vendorIds = [VendorID.MuditaKompaktDec, VendorID.MuditaKompaktHex]
-  static adapter = SerialPortDeviceAdapter
+  static adapter = SerialPortDeviceKompaktAdapter
   static strategy = KompaktStrategy
 }

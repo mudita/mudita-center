@@ -11,6 +11,7 @@ import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import {
   privacyPolicyAcceptedMigration,
   removeUnusedFields,
+  osDownloadLocationMigration,
 } from "App/settings/store/migrations"
 
 export const settingsStore = new Store({
@@ -25,5 +26,6 @@ export const settingsStore = new Store({
   migrations: {
     ">=1.4.1": removeUnusedFields,
     ">=2.0.2": privacyPolicyAcceptedMigration,
+    ">=2.1.0": osDownloadLocationMigration,
   },
 })

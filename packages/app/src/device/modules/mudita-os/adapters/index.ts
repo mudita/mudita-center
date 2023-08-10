@@ -4,3 +4,4 @@
  */
 
 export * from "./serial-port-device.adapters"
+export * from "./serial-port-device-kompakt.adapters"

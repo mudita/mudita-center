@@ -5,3 +5,4 @@
 
 export * from "App/overview/components/overview-screens/pure-overview"
 export * from "App/overview/components/overview-screens/harmony-overview"
+export * from "App/overview/components/overview-screens/kompakt-overview"

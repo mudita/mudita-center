@@ -15,13 +15,16 @@ import {
   KompaktStrategy,
 } from "App/device/strategies"
 import { SerialPortDeviceAdapter } from "App/device/modules/mudita-os/adapters/serial-port-device.adapters"
+import { SerialPortDeviceKompaktAdapter } from "App/device/modules/mudita-os/adapters/serial-port-device-kompakt.adapters"
 
 export interface DeviceDescriptor {
   manufacturer: Manufacture
   deviceType: DeviceType
   productIds: ProductID[]
   vendorIds: VendorID[]
-  adapter: typeof SerialPortDeviceAdapter
+  adapter:
+    | typeof SerialPortDeviceAdapter
+    | typeof SerialPortDeviceKompaktAdapter
   strategy:
     | typeof PureStrategy
     | typeof HarmonyStrategy
