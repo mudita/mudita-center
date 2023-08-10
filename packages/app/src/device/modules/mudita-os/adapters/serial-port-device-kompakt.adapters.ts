@@ -10,7 +10,7 @@ import { AppError } from "App/core/errors"
 import { CONNECTION_TIME_OUT_MS } from "App/device/constants"
 import { DeviceCommunicationEvent, ResponseStatus } from "App/device/constants"
 import { DeviceError } from "App/device/modules/mudita-os/constants"
-import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
+import { SerialPortParserKompakt } from "App/device/modules/mudita-os/parsers"
 import {
   RequestConfig,
   Response,
@@ -18,19 +18,20 @@ import {
 } from "App/device/types/mudita-os"
 import { timeout } from "App/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "App/device/modules/base.adapter"
+import { BodyKompakt } from "App/device/types/kompakt/body-kompakt.type"
 
-export class SerialPortDeviceAdapter extends BaseAdapter {
-  protected parser = new SerialPortParser()
+export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
+  protected parser = new SerialPortParserKompakt()
 
   constructor(public path: string) {
     super(path)
 
-    this.serialPort.on("data", (event) => {
+    this.serialPort.on("data", (buffer: Buffer) => {
       try {
-        const data = this.parser.parse(event)
+        const data = this.parser.parse(buffer)
 
         if (data !== undefined) {
-          this.emitDataReceivedEvent(data)
+          this.emitDataReceivedEvent<BodyKompakt>(data)
         }
       } catch (error) {
         this.emitDataReceivedEvent(
@@ -51,7 +52,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     config: RequestConfig
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<ResultObject<Response<any>>> {
+  ): Promise<ResultObject<Response<BodyKompakt>>> {
     if (this.serialPort === undefined) {
       return Result.failed(
         new AppError(
@@ -61,19 +62,18 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
         { status: ResponseStatus.ConnectionError }
       )
     } else {
-      return this.writeRequest(this.serialPort, config)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      const result = this.writeRequest(this.serialPort, config)
+      return result
     }
   }
 
   protected writeRequest(
     port: SerialPort,
     config: RequestConfig
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<ResultObject<Response<any>>> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new Promise<ResultObject<Response<any>>>((resolve) => {
+  ): Promise<ResultObject<Response<BodyKompakt>>> {
+    return new Promise<ResultObject<Response<BodyKompakt>>>((resolve) => {
       const uuid = this.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
 
@@ -87,9 +87,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
   protected deviceRequest(
     port: SerialPort,
     { options = {}, ...payload }: RequestPayload
-  ): // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>> {
+  ): Promise<ResultObject<Response<BodyKompakt>>> {
     const connectionTimeOut =
       options?.connectionTimeOut ?? CONNECTION_TIME_OUT_MS
     return new Promise((resolve) => {
@@ -109,25 +107,20 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
         )
       })
 
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const listener = (response: any) => {
-        if (
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          response.uuid === payload.uuid ||
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          response.status === ResponseStatus.ParserError
-        ) {
+      const listener = (response: Response<BodyKompakt>) => {
+        if (response.uuid === payload.uuid) {
           this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
           cancel()
-          resolve(Result.success(response))
+          const result = response.error
+            ? Result.failed(
+                new AppError(DeviceError.RequestFailed, response.error.message)
+              )
+            : Result.success(response)
+          resolve(result)
         }
       }
 
       this.eventEmitter.on(DeviceCommunicationEvent.DataReceived, listener)
-
       this.portWrite(port, payload)
     })
   }

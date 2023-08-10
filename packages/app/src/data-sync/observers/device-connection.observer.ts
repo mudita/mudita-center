@@ -74,7 +74,7 @@ export class DeviceConnectionObserver implements Observer {
 
             const { serialNumber, deviceToken, version } =
               data as GetDeviceInfoResponseBody
-            const baseVersion = version.split("-")[0]
+            const baseVersion = String(version).split("-")[0]
 
             if (corruptedPureOSVersions.some((v) => v === baseVersion)) {
               this.ipc.sendToRenderers(IpcEvent.DataSkipped)

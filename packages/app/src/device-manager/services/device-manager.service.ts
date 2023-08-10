@@ -157,8 +157,8 @@ export class DeviceManager {
         const portList = await this.getConnectedDevices()
         const port = portList.find(
           ({ productId, vendorId, path }) =>
-            productId === portInfo.productId &&
-            vendorId === portInfo.vendorId &&
+            productId?.toUpperCase() === portInfo.productId &&
+            vendorId?.toUpperCase() === portInfo.vendorId &&
             ((!portInfo.path && !alreadyInitializedDevices.includes(path)) ||
               path === portInfo.path)
         )

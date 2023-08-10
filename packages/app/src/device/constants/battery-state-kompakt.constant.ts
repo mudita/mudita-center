@@ -3,5 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./serial-port.parser"
-export * from "./serial-port-kompakt.parser"
+export enum BatteryStateKompakt {
+  UNKNOWN = 1,
+  CHARGING = 2,
+  DISCHARGING = 3,
+  NOT_CHARGING = 4,
+  FULL = 5,
+}
