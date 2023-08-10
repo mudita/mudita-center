@@ -55,7 +55,7 @@ export const startUpdateOs = createAsyncThunk<
     let state = getState()
     const batteryLevel = state.device.data?.batteryLevel ?? 0
     const deviceType = state.device.deviceType
-    const externalUsageDevice = state.device.externalUsageDevice
+    const externalUsageDevice = state.device.externalUsageDevice ?? false
 
     if (deviceType === null) {
       return rejectWithValue(
@@ -88,7 +88,7 @@ export const startUpdateOs = createAsyncThunk<
           ...trackOsUpdateOptions,
           state: TrackOsUpdateState.Start,
         },
-        externalUsageDevice ?? false
+        externalUsageDevice
       )
 
       dispatch(
@@ -111,7 +111,7 @@ export const startUpdateOs = createAsyncThunk<
               ...trackOsUpdateOptions,
               state: TrackOsUpdateState.Fail,
             },
-            externalUsageDevice ?? false
+            externalUsageDevice
           )
 
           return rejectWithValue(
@@ -125,7 +125,7 @@ export const startUpdateOs = createAsyncThunk<
           ...trackOsUpdateOptions,
           state: TrackOsUpdateState.Success,
         },
-        externalUsageDevice ?? false
+        externalUsageDevice
       )
 
       dispatch(
