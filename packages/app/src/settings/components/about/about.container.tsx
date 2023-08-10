@@ -6,10 +6,7 @@
 import { connect } from "react-redux"
 import { About } from "App/settings/components/about/about.component"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import {
-  toggleApplicationUpdateAvailable,
-  checkUpdateAvailable,
-} from "App/settings/actions"
+import { checkUpdateAvailable } from "App/settings/actions"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
@@ -21,7 +18,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = {
-  toggleApplicationUpdateAvailable,
   checkUpdateAvailable,
 }
 

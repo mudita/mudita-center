@@ -9,6 +9,7 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import {
   PureOverview,
   HarmonyOverview,
+  KompaktOverview,
 } from "App/overview/components/overview-screens"
 
 type PureOverviewProps = ComponentProps<typeof PureOverview>
@@ -22,6 +23,8 @@ const Screen: FunctionComponent<Props> = (props) => {
       return <PureOverview {...props} />
     case DeviceType.MuditaHarmony:
       return <HarmonyOverview {...props} />
+    case DeviceType.MuditaKompakt:
+      return <KompaktOverview />
     default:
       return <></>
   }

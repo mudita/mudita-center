@@ -7,7 +7,6 @@ export const ControllerPrefix = "device"
 
 export enum IpcDeviceEvent {
   Connect = "connect",
-  Disconnect = "disconnect",
   Unlock = "unlock",
   UnlockStatus = "unlock-status",
   LockTime = "lock-time",
@@ -16,7 +15,6 @@ export enum IpcDeviceEvent {
 
 export enum IpcDeviceRequest {
   Connect = "device-connect",
-  Disconnect = "device-disconnect",
   Unlock = "device-unlock",
   UnlockStatus = "device-unlock-status",
   LockTime = "device-lock-time",

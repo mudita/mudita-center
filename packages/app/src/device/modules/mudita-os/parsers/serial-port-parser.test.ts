@@ -7,13 +7,14 @@ import { SerialPortParser } from "./serial-port.parser"
 import { RequestPayload } from "App/device/types/mudita-os"
 
 describe("`Parser.createValidRequest`", () => {
+  const parser = new SerialPortParser()
   test("`payload` created properly ", () => {
     const payload: RequestPayload = {
       endpoint: 1,
       method: 1,
       uuid: 0,
     }
-    expect(SerialPortParser.createValidRequest(payload)).toEqual(
+    expect(parser.createRequest(payload)).toEqual(
       '#000000034{"endpoint":1,"method":1,"uuid":0}'
     )
   })

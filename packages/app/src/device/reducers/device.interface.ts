@@ -12,6 +12,21 @@ import { ConnectionState } from "App/device/constants"
 import { AppError } from "App/core/errors"
 import StorageInfo from "App/__deprecated__/common/interfaces/storage-info.interface"
 
+export interface KompaktDeviceData {
+  networkName: string
+  networkLevel: string
+  osVersion: string
+  batteryLevel: number
+  simCards: SimCard[]
+  serialNumber: string
+  memorySpace: {
+    reservedSpace: number
+    usedUserSpace: number
+    total: number
+  }
+  caseColour: CaseColor
+}
+
 export interface PureDeviceData {
   networkName: string
   networkLevel: string
@@ -43,7 +58,7 @@ export interface HarmonyDeviceData {
 
 export interface DeviceState {
   deviceType: DeviceType | null
-  data: Partial<PureDeviceData | HarmonyDeviceData> | null
+  data: Partial<PureDeviceData | HarmonyDeviceData | KompaktDeviceData> | null
   state: ConnectionState
   status: {
     connecting: boolean

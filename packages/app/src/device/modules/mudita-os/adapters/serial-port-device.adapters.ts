@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort, { PortInfo } from "serialport"
-import { EventEmitter } from "events"
-import PQueue from "p-queue"
+import SerialPort from "serialport"
 import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
@@ -22,25 +20,10 @@ import { timeout } from "App/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "App/device/modules/base.adapter"
 
 export class SerialPortDeviceAdapter extends BaseAdapter {
-  private serialPort: SerialPort
-  private eventEmitter = new EventEmitter()
-  private parser = new SerialPortParser()
-  private requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
+  protected parser = new SerialPortParser()
 
   constructor(public path: string) {
     super(path)
-
-    this.serialPort = new SerialPort(path, (error) => {
-      if (error) {
-        const appError = new AppError(DeviceError.Initialization, error.message)
-        this.emitInitializationFailedEvent(Result.failed(appError))
-
-        // workaround to trigger a device (USB) restart side effect after an initialization error
-        void this.getSerialPortList()
-      } else {
-        this.emitConnectionEvent(Result.success(`Device ${path} connected`))
-      }
-    })
 
     this.serialPort.on("data", (event) => {
       try {
@@ -64,27 +47,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     })
   }
 
-  @log("==== serial port: disconnect ====")
-  public disconnect(): Promise<ResultObject<boolean>> {
-    return new Promise((resolve) => {
-      if (this.serialPort === undefined) {
-        resolve(Result.success(true))
-      } else {
-        this.serialPort.close((error) => {
-          if (error) {
-            resolve(
-              Result.failed(
-                new AppError(DeviceError.Disconnection, error.message)
-              )
-            )
-          } else {
-            resolve(Result.success(true))
-          }
-        })
-      }
-    })
-  }
-
   public async request(
     config: RequestConfig
     // AUTO DISABLED - fix me if you like :)
@@ -99,21 +61,11 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
         { status: ResponseStatus.ConnectionError }
       )
     } else {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return this.writeRequest(this.serialPort, config)
     }
   }
 
-  public on(eventName: DeviceCommunicationEvent, listener: () => void): void {
-    this.eventEmitter.on(eventName, listener)
-  }
-
-  public off(eventName: DeviceCommunicationEvent, listener: () => void): void {
-    this.eventEmitter.off(eventName, listener)
-  }
-
-  private writeRequest(
+  protected writeRequest(
     port: SerialPort,
     config: RequestConfig
     // AUTO DISABLED - fix me if you like :)
@@ -126,12 +78,13 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
       const payload: RequestPayload = { ...config, uuid }
 
       void this.requestsQueue.add(async () => {
-        resolve(await this.deviceRequest(port, payload))
+        const response = await this.deviceRequest(port, payload)
+        resolve(response)
       })
     })
   }
 
-  private deviceRequest(
+  protected deviceRequest(
     port: SerialPort,
     { options = {}, ...payload }: RequestPayload
   ): // AUTO DISABLED - fix me if you like :)
@@ -179,45 +132,17 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     })
   }
 
-  private getNewUUID(): number {
-    return Math.floor(Math.random() * 10000)
-  }
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private portWrite(port: SerialPort, payload: RequestPayload<any>): void {
-    port.write(this.mapPayloadToRequest(payload))
-  }
-
-  @log("==== serial port: connect event ====", LogConfig.Args)
-  private emitConnectionEvent(data: ResultObject<string>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.Connected, data)
-  }
-
-  @log("==== serial port: connection failed event ====", LogConfig.Args)
-  private emitInitializationFailedEvent(data: ResultObject<AppError>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.InitializationFailed, data)
-  }
-
-  @log("==== serial port: data received ====", LogConfig.Args)
-  private emitDataReceivedEvent(data: Response | AppError): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.DataReceived, data)
-  }
-
-  @log("==== serial port: connection closed ====", LogConfig.Args)
-  private emitCloseEvent(data: ResultObject<string>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.Disconnected, data)
-  }
-
   @log("==== serial port: create valid request ====", LogConfig.Args)
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private mapPayloadToRequest(payload: RequestPayload<any>): string {
-    return SerialPortParser.createValidRequest(payload)
+  protected mapPayloadToRequest(payload: RequestPayload<any>): string {
+    return this.parser.createRequest(payload)
   }
 
-  @log("==== serial port: list ====")
-  private getSerialPortList(): Promise<PortInfo[]> {
-    return SerialPort.list()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected portWrite(port: SerialPort, payload: RequestPayload<any>): void {
+    const request = this.mapPayloadToRequest(payload)
+    port.write(request)
   }
 }

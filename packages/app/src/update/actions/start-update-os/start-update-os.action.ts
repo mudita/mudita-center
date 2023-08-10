@@ -57,6 +57,7 @@ export const startUpdateOs = createAsyncThunk<
     let state = getState()
     const batteryLevel = state.device.data?.batteryLevel ?? 0
     const deviceType = state.device.deviceType
+    const externalUsageDevice = state.device.externalUsageDevice ?? false
 
     if (deviceType === null) {
       return rejectWithValue(
@@ -84,10 +85,13 @@ export const startUpdateOs = createAsyncThunk<
         toOsVersion: release.version,
       }
 
-      void trackOsUpdate({
-        ...trackOsUpdateOptions,
-        state: TrackOsUpdateState.Start,
-      })
+      void trackOsUpdate(
+        {
+          ...trackOsUpdateOptions,
+          state: TrackOsUpdateState.Start,
+        },
+        externalUsageDevice
+      )
 
       dispatch(
         setStateForInstalledRelease({
@@ -108,10 +112,13 @@ export const startUpdateOs = createAsyncThunk<
 
           const errorType = getErrorType(result.error?.type)
 
-          void trackOsUpdate({
-            ...trackOsUpdateOptions,
-            state: TrackOsUpdateState.Fail,
-          })
+          void trackOsUpdate(
+            {
+              ...trackOsUpdateOptions,
+              state: TrackOsUpdateState.Fail,
+            },
+            externalUsageDevice
+          )
 
           return rejectWithValue(
             new AppError(errorType, "Device updating process failed")
@@ -119,10 +126,13 @@ export const startUpdateOs = createAsyncThunk<
         }
       }
 
-      void trackOsUpdate({
-        ...trackOsUpdateOptions,
-        state: TrackOsUpdateState.Success,
-      })
+      void trackOsUpdate(
+        {
+          ...trackOsUpdateOptions,
+          state: TrackOsUpdateState.Success,
+        },
+        externalUsageDevice
+      )
 
       dispatch(
         setStateForInstalledRelease({

@@ -50,6 +50,7 @@ export const loadDeviceData = createAsyncThunk<
         deviceType: state.device.deviceType,
       })
     }
+
     void setValue({
       key: MetadataKey.DeviceOsVersion,
       value: data.osVersion ?? null,

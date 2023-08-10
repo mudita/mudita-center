@@ -4,3 +4,4 @@
  */
 
 export * from "./response.presenter"
+export * from "./response-kompakt.presenter"
