@@ -10,7 +10,7 @@ export enum ResponseStatus {
   NoContent = 204,
   BadRequest = 400,
   NotFound = 404,
-  PhoneLocked = 403, //Forbidden
+  PhoneLocked = 403,
   NotAcceptable = 406,
   Conflict = 409,
   InternalServerError = 500,

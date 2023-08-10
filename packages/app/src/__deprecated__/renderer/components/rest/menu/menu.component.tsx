@@ -131,8 +131,9 @@ const Menu: FunctionComponent<Properties> = ({
       {syncState !== undefined &&
         (syncState === SynchronizationState.Loading ||
           syncState === SynchronizationState.Cache ||
-          synchronizationProcess ===
-            SynchronizationProcessState.InProgress) && (
+          synchronizationProcess === SynchronizationProcessState.InProgress) &&
+        //CP-1668 - this condition until Kompakt has limited endpoint support, currently only device info endpoint (10.08.2023)
+        deviceType !== DeviceType.MuditaKompakt && (
           <SyncProgressWrapper data-testid={MenuGroupTestIds.Sync}>
             <LoaderWrapper>
               <Loader type={LoaderType.Spinner} size={1.5} />

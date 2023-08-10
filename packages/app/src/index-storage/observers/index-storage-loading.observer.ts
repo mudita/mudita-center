@@ -43,7 +43,6 @@ export class IndexStorageLoadingObserver implements Observer {
           method: Method.Get,
         })
 
-      // const { data } = await getDeviceInfoRequest(this.deviceService)
       if (!result.ok) {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable

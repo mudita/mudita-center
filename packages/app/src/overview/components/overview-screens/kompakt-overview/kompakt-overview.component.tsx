@@ -4,25 +4,31 @@
  */
 
 import React from "react"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { useSelector } from "react-redux"
+import { KompaktDeviceData } from "App/device/reducers"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { KompaktOverviewProps } from "App/overview/components/overview-screens/kompakt-overview/kompakt-overview.component.interface"
 
-export const KompaktOverview: FunctionComponent<KompaktOverviewProps> = ({
-  batteryLevel = 0,
-  caseColour,
-  networkName,
-  networkLevel,
-  serialNumber,
-  osVersion,
-}) => {
+export const KompaktOverview: FunctionComponent = () => {
+  const {
+    batteryLevel,
+    caseColour,
+    networkLevel,
+    networkName,
+    serialNumber,
+    osVersion,
+  } = useSelector(
+    (state: ReduxRootState) => state.device.data as KompaktDeviceData
+  )
+
   return (
     <div>
-      <p>batteryLevel: {batteryLevel * 100}%</p>
-      <p>caseColour: {caseColour}</p>
-      <p>networkName: {networkName}</p>
-      <p>networkLevel: {networkLevel}</p>
-      <p>serialNumber: {serialNumber}</p>
-      <p>osVersion: {osVersion}</p>
+      <h3>batteryLevel: {batteryLevel * 100}%</h3>
+      <h3>caseColour: {caseColour}</h3>
+      <h3>networkName: {networkName}</h3>
+      <h3>networkLevel: {networkLevel}</h3>
+      <h3>serialNumber: {serialNumber}</h3>
+      <h3>osVersion: {osVersion}</h3>
     </div>
   )
 }

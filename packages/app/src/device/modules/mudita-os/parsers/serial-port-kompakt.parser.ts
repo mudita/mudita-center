@@ -41,9 +41,7 @@ export class SerialPortParserKompakt extends SerialPortParserBase {
 
   private parsePayload(buffer: Buffer): PayloadKompakt {
     const payloadrSingleLine = buffer.toString().split("\n").join()
-    //console.log("parsePayload payloadrSingleLine", payloadrSingleLine)
     const payloadDecoded = Buffer.from(payloadrSingleLine, "base64").toString()
-    //console.log("parsePayload payloadDecoded", payloadDecoded)
     return JSON.parse(payloadDecoded) as PayloadKompakt
   }
 
@@ -53,8 +51,6 @@ export class SerialPortParserKompakt extends SerialPortParserBase {
   ): Response<BodyKompakt> {
     return {
       status,
-      //CP-1668-TODO
-      //should i put there whole header? I don't think this data is necessary in higher layer
       body: {
         ...kompaktRest,
         ...headerRest,

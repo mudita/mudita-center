@@ -24,7 +24,7 @@ const Screen: FunctionComponent<Props> = (props) => {
     case DeviceType.MuditaHarmony:
       return <HarmonyOverview {...props} />
     case DeviceType.MuditaKompakt:
-      return <KompaktOverview {...props} />
+      return <KompaktOverview />
     default:
       return <></>
   }

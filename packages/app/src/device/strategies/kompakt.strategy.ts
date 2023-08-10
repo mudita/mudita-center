@@ -54,11 +54,19 @@ export class KompaktStrategy implements DeviceStrategy {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   async request(config: RequestConfig<any>): Promise<RequestResponse> {
-    const response = await this.adapter.request(config)
+    let result = {
+      status: RequestResponseStatus.Ok,
+      data: undefined,
+      error: undefined,
+    } as RequestResponse
+    //CP-1668 - this condition until Kompakt has limited endpoint support, currently only device info endpoint (10.08.2023)
+    if ([Endpoint.DeviceInfo].includes(config.endpoint)) {
+      const response = await this.adapter.request(config)
+      result = ResponseKompaktPresenter.toResponseObject(response)
+    }
 
     this.emitUnlockEvent()
-
-    return ResponseKompaktPresenter.toResponseObject(response)
+    return result
   }
   on(
     eventName: DeviceServiceEvent,
