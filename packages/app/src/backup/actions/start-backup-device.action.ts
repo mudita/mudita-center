@@ -9,12 +9,17 @@ import { CreateBackup } from "App/backup/dto"
 import { createBackupRequest } from "App/backup/requests/create-backup.request"
 import { loadBackupData } from "App/backup/actions/load-backup-data.action"
 import { AppError } from "App/core/errors"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { setRestarting } from "App/device/actions/base.action"
 
-export const startBackupDevice = createAsyncThunk<undefined, CreateBackup>(
+export const startBackupDevice = createAsyncThunk<
+  undefined,
+  CreateBackup,
+  { state: ReduxRootState }
+>(
   BackupEvent.CreateBackup,
   async ({ key }, { getState, dispatch, rejectWithValue }) => {
-    const state = getState() as RootState & ReduxRootState
+    const state = getState()
     const pureOsBackupDesktopFileDir = state.settings.osBackupLocation
 
     if (
@@ -34,12 +39,13 @@ export const startBackupDevice = createAsyncThunk<undefined, CreateBackup>(
       .replace(/\./g, "")
       .replace(/-/g, "")
       .replace(/:/g, "")}`
-
+    dispatch(setRestarting(true))
     const downloadDeviceBackupResponse = await createBackupRequest({
       key,
       fileBase,
       cwd: pureOsBackupDesktopFileDir,
     })
+    dispatch(setRestarting(false))
 
     if (!downloadDeviceBackupResponse.ok) {
       return rejectWithValue(downloadDeviceBackupResponse.error)

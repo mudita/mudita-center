@@ -20,10 +20,12 @@ export enum IpcReleaseRequest {
 
 export enum IpcDeviceUpdateEvent {
   UpdateOS = "update-os",
+  CheckUpdate = "check-update",
   RemoveDownloadedOsUpdates = "remove-downloaded-os-updates",
 }
 
 export enum IpcDeviceUpdateRequest {
   UpdateOS = "device-update-update-os",
+  CheckUpdate = "device-update-check-update",
   RemoveDownloadedOsUpdates = "device-update-remove-downloaded-os-updates",
 }
