@@ -327,48 +327,6 @@ describe("Method: updateOs", () => {
     })
   })
 
-  test("Returns `Result.failed` if version from device endpoint after update is equal to version before update", async () => {
-    deviceManager.device.request = jest
-      .fn()
-      .mockResolvedValueOnce(Result.success(undefined))
-
-    deviceFileSystem.uploadFileLocally = jest
-      .fn()
-      .mockResolvedValueOnce(Result.success(true))
-    jest
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
-      .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceRestart")
-      .mockResolvedValueOnce(Result.success(true))
-    jest
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
-      .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceUnlocked")
-      .mockResolvedValueOnce(Result.success(true))
-
-    const result = await subject.updateOs(payloadMock)
-
-    expect(result).toEqual(
-      Result.failed(
-        new AppError(
-          UpdateErrorServiceErrors.VersionDoesntChanged,
-          "The version OS isn't changed"
-        )
-      )
-    )
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(settingsService.getByKey).toHaveBeenLastCalledWith(
-      "osDownloadLocation"
-    )
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: normalize("/some/path/update.tar"),
-      targetPath: normalize("/sys/user/update.tar"),
-    })
-  })
-
   test("Returns `Result.success` if version from device endpoint after update changed", async () => {
     deviceManager.device.request = jest
       .fn()
@@ -415,5 +373,51 @@ describe("Method: updateOs", () => {
       filePath: normalize("/some/path/update.tar"),
       targetPath: normalize("/sys/user/update.tar"),
     })
+  })
+})
+
+describe("Method: checkUpdate", () => {
+  test("Returns `Result.failed` update was not performed before", async () => {
+    const result = await subject.checkUpdate()
+
+    expect(result).toEqual(
+      Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.VersionDoesntChanged,
+          "The version OS isn't changed"
+        )
+      )
+    )
+  })
+  test("Returns `Result.failed` if version from device endpoint after update is equal to version before update", async () => {
+    deviceManager.device.request = jest
+      .fn()
+      .mockResolvedValueOnce(Result.success(undefined))
+
+    deviceFileSystem.uploadFileLocally = jest
+      .fn()
+      .mockResolvedValueOnce(Result.success(true))
+    jest
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
+      .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceRestart")
+      .mockResolvedValueOnce(Result.success(true))
+    jest
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method, @typescript-eslint/no-explicit-any
+      .spyOn(DeviceUpdateService.prototype as any, "waitUntilDeviceUnlocked")
+      .mockResolvedValueOnce(Result.success(true))
+
+    await subject.updateOs(payloadMock)
+    const result = await subject.checkUpdate()
+
+    expect(result).toEqual(
+      Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.VersionDoesntChanged,
+          "The version OS isn't changed"
+        )
+      )
+    )
   })
 })
