@@ -37,7 +37,7 @@ describe("battery icon returns correct component", () => {
       dataTestId: "icon-HighBattery",
     },
     {
-      batteryLevel: 0.91,
+      batteryLevel: 0.96,
       dataTestId: "icon-VeryHighBattery",
     },
   ]
