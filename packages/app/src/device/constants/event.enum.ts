@@ -31,4 +31,6 @@ export enum DeviceEvent {
   CriticalBatteryLevel = "CRITICAL_BATTERY_LEVEL",
 
   ExternalUsageDevice = "EXTERNAL_USAGE_DEVICE",
+
+  Restarting = "DEVICE_RESTARTING",
 }

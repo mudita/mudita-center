@@ -30,6 +30,8 @@ export class DeviceUpdateService {
     private deviceInfoService: DeviceInfoService
   ) {}
 
+  private beforeUpdateOsVersion: string | null = null
+
   public async updateOs(payload: UpdateOS): Promise<ResultObject<boolean>> {
     const deviceInfoResult = await this.deviceInfoService.getDeviceInfo()
 
@@ -50,6 +52,7 @@ export class DeviceUpdateService {
         )
       )
     }
+    this.beforeUpdateOsVersion = deviceInfoResult.data.osVersion
 
     const filePath = join(
       this.settingsService.getByKey("osDownloadLocation") as string,
@@ -116,6 +119,19 @@ export class DeviceUpdateService {
       return deviceRestartResponse
     }
 
+    return Result.success(true)
+  }
+
+  public async checkUpdate(): Promise<ResultObject<boolean>> {
+    if (this.beforeUpdateOsVersion === null) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.VersionDoesntChanged,
+          "The version OS isn't changed"
+        )
+      )
+    }
+
     if (this.deviceManager.device.deviceType === DeviceType.MuditaPure) {
       const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
 
@@ -137,9 +153,8 @@ export class DeviceUpdateService {
     }
 
     const afterUpdateOsVersion = deviceInfoAfterUpdateResult.data.osVersion
-    const beforeUpdateOsVersion = deviceInfoResult.data.osVersion
 
-    if (beforeUpdateOsVersion === afterUpdateOsVersion) {
+    if (this.beforeUpdateOsVersion === afterUpdateOsVersion) {
       return Result.failed(
         new AppError(
           UpdateErrorServiceErrors.VersionDoesntChanged,

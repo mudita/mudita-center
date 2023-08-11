@@ -67,6 +67,7 @@ export interface DeviceState {
     loaded: boolean
     agreementAccepted: boolean
     criticalBatteryLevel: boolean
+    restarting: boolean
   }
   error: Error | string | null
   externalUsageDevice: boolean | null

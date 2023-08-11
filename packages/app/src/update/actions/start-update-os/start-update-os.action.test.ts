@@ -16,6 +16,7 @@ import {
 } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 import * as startOsUpdateRequestModule from "App/update/requests/start-os-update.request"
+import * as checkUpdateRequestModule from "App/update/requests/checkUpdate.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import createMockStore from "redux-mock-store"
@@ -26,7 +27,7 @@ import {
   trackOsUpdate,
   TrackOsUpdateState,
 } from "App/analytic-data-tracker/helpers"
-import { DeviceType } from "App/device"
+import { DeviceType, setRestarting } from "App/device"
 
 jest.mock("App/update/requests/remove-downloaded-os-updates.request")
 jest.mock("App/device/requests/set-updating.request")
@@ -182,6 +183,9 @@ describe("when all updating os requests return success status", () => {
 
   test("action is fulfilled", async () => {
     jest
+      .spyOn(checkUpdateRequestModule, "checkUpdate")
+      .mockResolvedValue(Result.success(true))
+    jest
       .spyOn(startOsUpdateRequestModule, "startOsUpdate")
       .mockResolvedValue(Result.success(true))
     const {
@@ -200,6 +204,8 @@ describe("when all updating os requests return success status", () => {
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
+      setRestarting(true),
+      setRestarting(false),
       getParamsForSettingIntallingRelaseStateAction(
         "1.1.0",
         ReleaseProcessState.Done
@@ -208,6 +214,8 @@ describe("when all updating os requests return success status", () => {
         "1.2.0",
         ReleaseProcessState.InProgress
       ),
+      setRestarting(true),
+      setRestarting(false),
       getParamsForSettingIntallingRelaseStateAction(
         "1.2.0",
         ReleaseProcessState.Done
@@ -217,6 +225,9 @@ describe("when all updating os requests return success status", () => {
   })
 
   test("clearing downloaded os should be requested", async () => {
+    jest
+      .spyOn(checkUpdateRequestModule, "checkUpdate")
+      .mockResolvedValue(Result.success(true))
     jest
       .spyOn(startOsUpdateRequestModule, "startOsUpdate")
       .mockResolvedValue(Result.success(true))
@@ -229,6 +240,9 @@ describe("when all updating os requests return success status", () => {
   })
 
   test("`trackOsUpdate` should be called", async () => {
+    jest
+      .spyOn(checkUpdateRequestModule, "checkUpdate")
+      .mockResolvedValue(Result.success(true))
     jest
       .spyOn(startOsUpdateRequestModule, "startOsUpdate")
       .mockResolvedValue(Result.success(true))
@@ -290,6 +304,8 @@ describe("when updating os request return failure status", () => {
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
+      setRestarting(true),
+      setRestarting(false),
       startUpdateOs.rejected(testError, requestId, params, error),
     ])
   })

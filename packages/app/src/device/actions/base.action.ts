@@ -37,3 +37,5 @@ export const setCriticalBatteryLevel = createAction<boolean>(
 export const setExternalUsageDevice = createAction<boolean>(
   DeviceEvent.ExternalUsageDevice
 )
+
+export const setRestarting = createAction<boolean>(DeviceEvent.Restarting)

@@ -480,6 +480,7 @@ describe("`LoadStorageInfo` functionality", () => {
           "connecting": false,
           "criticalBatteryLevel": false,
           "loaded": false,
+          "restarting": false,
           "unlocked": null,
         },
       }

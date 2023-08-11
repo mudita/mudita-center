@@ -27,6 +27,11 @@ export class DeviceUpdateController {
     return this.deviceUpdateService.updateOs(payload)
   }
 
+  @IpcEvent(IpcDeviceUpdateEvent.CheckUpdate)
+  public async checkUpdate(): Promise<ResultObject<boolean>> {
+    return this.deviceUpdateService.checkUpdate()
+  }
+
   @IpcEvent(IpcDeviceUpdateEvent.RemoveDownloadedOsUpdates)
   public async removeDownloadedOsUpdates(): Promise<void> {
     return this.deviceUpdateFilesService.removeDownloadedOsUpdates()
