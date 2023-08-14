@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useState } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ActionsWrapper } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
@@ -86,25 +86,41 @@ const AboutUI: FunctionComponent<Props> = ({
   appUpdateFailedShow,
   hideAppUpdateFailed,
 }) => {
+  const [updateCheck, setUpdateCheck] = useState(false)
   const online = useOnlineChecker()
+
+  const appUpdateAvailableCheckHandler = () => {
+    setUpdateCheck(true)
+    onAppUpdateAvailableCheck()
+  }
+  const hideAppUpdateNotAvailableHandler = () => {
+    setUpdateCheck(false)
+    hideAppUpdateNotAvailable()
+  }
+  const hideAppUpdateFailedHandler = () => {
+    setUpdateCheck(false)
+    hideAppUpdateFailed()
+  }
 
   return (
     <>
       <UpdateFailedModal
         open={appUpdateFailedShow}
-        closeModal={hideAppUpdateFailed}
+        closeModal={hideAppUpdateFailedHandler}
         layer={ModalLayers.UpdateApp}
       />
       <AboutLoaderModal
         open={checkingForUpdate}
         layer={ModalLayers.UpdateApp}
       />
-      <AppUpdateNotAvailable
-        appCurrentVersion={appCurrentVersion}
-        open={appUpdateNotAvailableShow && online}
-        closeModal={hideAppUpdateNotAvailable}
-        layer={ModalLayers.UpdateApp}
-      />
+      {updateCheck && (
+        <AppUpdateNotAvailable
+          appCurrentVersion={appCurrentVersion}
+          open={appUpdateNotAvailableShow && online}
+          closeModal={hideAppUpdateNotAvailableHandler}
+          layer={ModalLayers.UpdateApp}
+        />
+      )}
       <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
         <VersionTableRow>
           <Data>
@@ -128,7 +144,7 @@ const AboutUI: FunctionComponent<Props> = ({
                   id: "module.overview.systemCheckForUpdates",
                 }}
                 data-testid={AboutTestIds.UpdateButton}
-                onClick={onAppUpdateAvailableCheck}
+                onClick={appUpdateAvailableCheckHandler}
               />
             </ActionContainer>
           )}
@@ -147,7 +163,7 @@ const AboutUI: FunctionComponent<Props> = ({
                 labelMessage={{
                   id: "module.settings.aboutAppUpdateAction",
                 }}
-                onClick={onAppUpdateAvailableCheck}
+                onClick={appUpdateAvailableCheckHandler}
                 data-testid={AboutTestIds.UpdateButton}
               />
             </ActionContainer>
@@ -165,7 +181,7 @@ const AboutUI: FunctionComponent<Props> = ({
                   id: "module.overview.systemCheckForUpdates",
                 }}
                 data-testid={AboutTestIds.UpdateButton}
-                onClick={onAppUpdateAvailableCheck}
+                onClick={appUpdateAvailableCheckHandler}
               />
             </ActionContainer>
           )}
