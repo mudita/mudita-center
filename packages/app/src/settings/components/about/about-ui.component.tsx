@@ -29,7 +29,6 @@ import { UpdateFailedModal } from "App/settings/components/about/update-failed-m
 import { AboutLoaderModal } from "App/settings/components/about/about-loader.component"
 import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 import { useOnlineChecker } from "App/settings/hooks/use-online-checker"
-import logger from "App/__deprecated__/main/utils/logger"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -102,11 +101,6 @@ const AboutUI: FunctionComponent<Props> = ({
     setUpdateCheck(false)
     hideAppUpdateFailed()
   }
-
-  logger.info(
-    `AboutUI: updateCheck = ${updateCheck}, appUpdateFailedShow - ${appUpdateFailedShow}, checkingForUpdate - ${checkingForUpdate}, appUpdateNotAvailableShow - ${appUpdateNotAvailableShow}, online - ${online}`
-  )
-  // console.log(updateCheck)
 
   return (
     <>
