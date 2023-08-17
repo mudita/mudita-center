@@ -149,7 +149,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
       return <BaseApp history={history} />
     },
-    [mode]
+    [mode, history]
   )
 
   const handleAppUpdateAvailableCheck = (): void => {
