@@ -56,8 +56,9 @@ export class MessagePresenter {
   ): Message {
     const { messageBody, messageID, messageType, createdAt, threadID, number } =
       pureMessage
+
     return {
-      phoneNumber: number,
+      phoneNumber: number?.replace(/[\s]/g, ""),
       id: String(messageID),
       date: new Date(createdAt * 1000),
       content: messageBody,
