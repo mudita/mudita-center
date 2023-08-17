@@ -55,7 +55,7 @@ describe("`getReceiversSelector` selector", () => {
     expect(getReceiversSelector(state)).toEqual([
       {
         identification: 0,
-        phoneNumber: "+48 755 853 216",
+        phoneNumber: "+48755853216",
       },
     ])
   })
@@ -117,7 +117,7 @@ describe("`getReceiversSelector` selector", () => {
         firstName: "Sławomir",
         identification: 0,
         lastName: "Borewicz",
-        phoneNumber: "+48 755 853 216",
+        phoneNumber: "+48755853216",
       },
     ])
   })
@@ -148,7 +148,7 @@ describe("`getReceiversSelector` selector", () => {
         firstName: "Oswald",
         identification: 0,
         lastName: "Bednar",
-        phoneNumber: "+48 755 853 216",
+        phoneNumber: "+48755853216",
       },
     ])
   })
