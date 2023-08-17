@@ -69,7 +69,7 @@ export const sortMessages = (messages: Message[]): Message[] => {
 
 export const mapThreadsToReceivers = (threads: Thread[]): Receiver[] => {
   return threads.map(({ phoneNumber }) => ({
-    phoneNumber,
+    phoneNumber: phoneNumber.replace(/[\s]/g, ""),
     identification: ReceiverIdentification.unknown,
   }))
 }
@@ -96,6 +96,17 @@ export const isPhoneNumberValid = (phoneNumber: string): boolean => {
 export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
   return contacts
     .filter(isContactWithAnyNumber)
+    .map((contact) => {
+      return {
+        ...contact,
+        primaryPhoneNumber: contact.primaryPhoneNumber
+          ? contact.primaryPhoneNumber.replace(/[\s]/g, "")
+          : "",
+        secondaryPhoneNumber: contact.secondaryPhoneNumber
+          ? contact.secondaryPhoneNumber.replace(/[\s]/g, "")
+          : "",
+      }
+    })
     .map(
       ({
         primaryPhoneNumber = "",
