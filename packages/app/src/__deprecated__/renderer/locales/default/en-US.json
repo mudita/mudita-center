@@ -180,7 +180,7 @@
   "component.updateDownloadedModalDescription": "Do you want to update app now or during next launch?",
   "component.updateDownloadedModalMessage": "Update is ready to install",
   "component.updateDownloadedModalWarning": "Note that update process will require app {osxPlatform, select, false {restart} true {quit}}.\nMake sure you saved all data you're currently working on.",
-  "component.updateErrorModalDescription": "Please restart the app or update it manually.",
+  "component.updateErrorModalDescription": "Please download the latest Mudita Center version from {link}",
   "component.updateErrorModalMessage": "Error",
   "component.updateForcedModalButton": "Download",
   "component.updateForcedModalCurrentVersion": "Your current version: v.{version}",

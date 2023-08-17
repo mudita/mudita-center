@@ -26,12 +26,12 @@ import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import InputCheckboxComponent from "../../components/core/input-checkbox/input-checkbox.component"
 import { ipcRenderer } from "electron-better-ipc"
-import { AboutActions } from "App/__deprecated__/common/enums/about-actions.enum"
 import { useDispatch } from "react-redux"
 import { togglePrivacyPolicyAccepted } from "App/settings/actions"
 import { Dispatch } from "../../store"
 import styled from "styled-components"
 import { fontWeight, textColor } from "../../styles/theming/theme-getters"
+import { BrowserActions } from "App/__deprecated__/common/enums/browser-actions.enum"
 
 export interface AppUpdateAvailableProps {
   appLatestVersion?: string
@@ -96,7 +96,7 @@ const PrivacyPolicyCheckboxWrapper = styled.div`
   display: flex;
 `
 
-const PrivacyPolicyLink = styled.a`
+const StyledLink = styled.a`
   text-decoration: underline;
   cursor: pointer;
   font-size: 1.4rem;
@@ -165,7 +165,7 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
   const [privacyPolicyCheckboxChecked, setPrivacyPolicyCheckboxChecked] =
     useState(false)
   const openPrivacyPolicyWindow = () =>
-    ipcRenderer.callMain(AboutActions.PolicyOpenBrowser)
+    ipcRenderer.callMain(BrowserActions.PolicyOpenBrowser)
 
   const onPrivacyPolicyCheckboxChange = () => {
     setPrivacyPolicyCheckboxChecked(!privacyPolicyCheckboxChecked)
@@ -222,9 +222,9 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
             onChange={onPrivacyPolicyCheckboxChange}
             label="I have read and agree to the "
           />
-          <PrivacyPolicyLink onClick={openPrivacyPolicyWindow}>
+          <StyledLink onClick={openPrivacyPolicyWindow}>
             Privacy Policy
-          </PrivacyPolicyLink>
+          </StyledLink>
         </PrivacyPolicyCheckboxWrapper>
       </ModalContentWithoutMargin>
     </ModalDialog>
@@ -233,22 +233,33 @@ export const AppUpdatePrivacyPolicy: FunctionComponent<
 
 export const AppUpdateError: FunctionComponent<
   ComponentProps<typeof ModalDialog>
-> = (props) => (
-  <AppUpdateModal
-    testId={AppUpdateStepModalTestIds.AppUpdateErrorModal}
-    {...props}
-  >
-    <Text
-      displayStyle={TextDisplayStyle.Headline4}
-      message={messages.errorUpdateMessage}
-    />
-    <Text
-      displayStyle={TextDisplayStyle.Paragraph4}
-      color="secondary"
-      message={messages.errorUpdateDescription}
-    />
-  </AppUpdateModal>
-)
+> = (props) => {
+  const openMuditaWebPage = () =>
+    ipcRenderer.callMain(BrowserActions.UpdateOpenBrowser)
+  return (
+    <AppUpdateModal
+      testId={AppUpdateStepModalTestIds.AppUpdateErrorModal}
+      {...props}
+    >
+      <Text
+        displayStyle={TextDisplayStyle.Headline4}
+        message={messages.errorUpdateMessage}
+      />
+      <Text
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
+        message={{
+          ...messages.errorUpdateDescription,
+          values: {
+            link: (
+              <StyledLink onClick={openMuditaWebPage}>mudita.com</StyledLink>
+            ),
+          },
+        }}
+      />
+    </AppUpdateModal>
+  )
+}
 
 export const AppUpdateDownloaded: FunctionComponent<
   ComponentProps<typeof ModalDialog>
