@@ -132,7 +132,6 @@ const commonWindowOptions: BrowserWindowConstructorOptions = {
     webSecurity: false,
     devTools: !productionEnvironment,
   },
-  autoHideMenuBar: true,
 }
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
@@ -163,6 +162,7 @@ const createWindow = async () => {
       title,
     })
   )
+  win.setMenuBarVisibility(false)
 
   win.webContents.on("before-input-event", (event, input) => {
     if ((input.control || input.meta) && input.key.toLowerCase() === "r") {
