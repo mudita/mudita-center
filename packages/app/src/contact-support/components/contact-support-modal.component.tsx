@@ -178,6 +178,7 @@ const ContactSupportModal: FunctionComponent<Props> = ({
       <Form onSubmit={sendEmail}>
         <FormInputLabel label={messages.emailLabel} />
         <InputComponent
+          disabled={sending}
           outlined
           condensed
           type={"text"}
@@ -188,6 +189,7 @@ const ContactSupportModal: FunctionComponent<Props> = ({
         />
         <FormInputLabel optional label={messages.messageLabel} />
         <DescriptionInput
+          disabled={sending}
           type="textarea"
           maxRows={3}
           label={intl.formatMessage(messages.descriptionPlaceholder)}
