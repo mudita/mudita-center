@@ -65,7 +65,6 @@ export interface Contact {
   favourite: boolean
   id: number
   numbers: string[]
-  //TODO-should this be optional?
   numbersIDs?: string[]
   priName: string
   email: string
