@@ -15,5 +15,5 @@ export interface Message {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/ban-types
   readonly description?: object | string
-  readonly values?: Record<string, PrimitiveType | Chunks>
+  readonly values?: Record<string, PrimitiveType | React.ReactNode | Chunks>
 }

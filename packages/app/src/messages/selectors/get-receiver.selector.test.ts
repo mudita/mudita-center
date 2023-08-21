@@ -54,7 +54,7 @@ describe("`getReceiverSelector` selector", () => {
     } as RootState & ReduxRootState
     expect(getReceiverSelector("+48 755 853 216")(state)).toEqual({
       identification: 0,
-      phoneNumber: "+48 755 853 216",
+      phoneNumber: "+48755853216",
     })
   })
 })
