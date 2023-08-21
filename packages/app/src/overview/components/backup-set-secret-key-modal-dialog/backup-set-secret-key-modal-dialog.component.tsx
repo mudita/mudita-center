@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useEffect } from "react"
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
@@ -118,14 +118,21 @@ export const BackupSetSecretKeyModal: FunctionComponent<
     watch,
     handleSubmit,
     formState: { errors },
+    trigger,
   } = useForm<BackupSetSecretKeyFieldValues>({
     mode: "onChange",
   })
-  const fields = watch()
+  const password = watch(FieldKeys.SecretKey)
 
   const handleSubmitClick = handleSubmit((data) => {
     onSecretKeySet(data.secretKey)
   })
+
+  useEffect(() => {
+    if (password) {
+      trigger(FieldKeys.ConfirmationSecretKey)
+    }
+  }, [password, trigger])
 
   return (
     <Modal
@@ -156,7 +163,7 @@ export const BackupSetSecretKeyModal: FunctionComponent<
               message: intl.formatMessage(messages.backupSecretKeyRequired),
             },
             validate: (value): string | undefined => {
-              if (value === fields[FieldKeys.SecretKey]) {
+              if (value === password) {
                 return
               }
 
