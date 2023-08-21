@@ -69,6 +69,7 @@ import { Mode } from "App/__deprecated__/common/enums/mode.enum"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { AboutActions } from "App/__deprecated__/common/enums/about-actions.enum"
 import { PureSystemActions } from "App/__deprecated__/common/enums/pure-system-actions.enum"
+import { BrowserActions } from "App/__deprecated__/common/enums/browser-actions.enum"
 import {
   createMetadataStore,
   MetadataStore,
@@ -353,10 +354,13 @@ const createOpenWindowListener = (
   })
 }
 
-ipcMain.answerRenderer(AboutActions.PolicyOpenBrowser, () =>
+ipcMain.answerRenderer(BrowserActions.PolicyOpenBrowser, () =>
   shell.openExternal(
     `${process.env.MUDITA_CENTER_SERVER_URL ?? ""}/privacy-policy-url`
   )
+)
+ipcMain.answerRenderer(BrowserActions.UpdateOpenBrowser, () =>
+  shell.openExternal("https://mudita.com")
 )
 
 createOpenWindowListener(
