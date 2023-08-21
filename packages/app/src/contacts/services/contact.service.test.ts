@@ -33,7 +33,8 @@ const pureContact: PureContact = {
   altName: "Boligłowa",
   blocked: false,
   favourite: true,
-  numbers: ["500400300"],
+  numbers: ["+48500400300"],
+  numbersIDs: ["1"],
   priName: "Alek",
   email: "",
 }
@@ -48,7 +49,8 @@ const contact: Contact = {
   id: "19",
   lastName: "Boligłowa",
   note: "",
-  primaryPhoneNumber: "500400300",
+  numbersIDs: ["1"],
+  primaryPhoneNumber: "+48500400300",
   secondAddressLine: "02600 Warsaw",
   secondaryPhoneNumber: "",
 }
@@ -67,11 +69,15 @@ describe("`ContactService`", () => {
     test("map data and returns success when `device.request` returns success", async () => {
       deviceManager.device.request = jest
         .fn()
-        .mockReturnValue(Result.success(pureContact))
+        .mockResolvedValueOnce(Result.success(pureContact))
+        .mockResolvedValueOnce(
+          Result.success({ numberID: "1", number: "+48500400300" })
+        )
+
       const response = await subject.getContact("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceManager.device.request).toHaveBeenCalledTimes(2)
       expect(response.status).toEqual(RequestResponseStatus.Ok)
       expect(response.data).toEqual(contact)
     })

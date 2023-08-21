@@ -4,12 +4,13 @@
  */
 
 import { Thread } from "App/messages/dto"
+import { Thread as PureThread } from "App/device/types/mudita-os/serialport-request.type"
 import { DeviceManager } from "App/device-manager/services"
 import {
   GetThreadsRequestConfig,
   PaginationBody,
-  GetThreadResponseBody,
   GetThreadsResponseBody,
+  PhoneNumberResponse,
 } from "App/device/types/mudita-os"
 import {
   Endpoint,
@@ -23,6 +24,7 @@ import {
 import { ThreadPresenter } from "App/messages/presenters"
 import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import { ThreadRepository } from "App/messages/repositories"
+import { getPhoneNumberRequest } from "App/utils/services/utils"
 
 export interface GetThreadsResponse {
   data: Thread[]
@@ -67,12 +69,21 @@ export class ThreadService {
     if (response.ok && response.data) {
       const data = response.data
 
+      const phoneNumbersPromises = data.entries.map(({ numberID }) => {
+        return getPhoneNumberRequest(this.deviceManager, numberID ?? "")
+      })
+      const phoneNumbers = await Promise.all(phoneNumbersPromises)
+      const threadsWithPhoneNumber = this.enrichThreadsWithPhoneNumber(
+        data.entries,
+        phoneNumbers
+      )
+
       return {
         status: RequestResponseStatus.Ok,
         data: {
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/unbound-method
-          data: data.entries.map(ThreadPresenter.mapToThread),
+          data: threadsWithPhoneNumber.map(ThreadPresenter.mapToThread),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
         },
@@ -83,6 +94,21 @@ export class ThreadService {
         error: { message: "Get threads: Something went wrong" },
       }
     }
+  }
+
+  private enrichThreadsWithPhoneNumber = (
+    threads: PureThread[],
+    phoneNumberResponses: PhoneNumberResponse[]
+  ) => {
+    return threads.map((t) => {
+      if (t.numberID) {
+        const number = phoneNumberResponses.find(({ numberID }) => {
+          return String(numberID) === t.numberID
+        })
+        return { ...t, number: number?.number } as PureThread
+      }
+      return t
+    })
   }
 
   // Target method is getThreadRequest. This is workaround to handle no implemented `getThread` API
@@ -151,34 +177,6 @@ export class ThreadService {
       },
       threads
     )
-  }
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // the method is commented until os part will be implemented as CP-1232
-  private async getThreadRequest(id: string): Promise<RequestResponse<Thread>> {
-    const response =
-      await this.deviceManager.device.request<GetThreadResponseBody>({
-        endpoint: Endpoint.Messages,
-        method: Method.Get,
-        body: {
-          category: PureMessagesCategory.thread,
-          threadID: Number(id),
-        },
-      })
-
-    if (response.ok && response.data) {
-      return {
-        status: RequestResponseStatus.Ok,
-        data: ThreadPresenter.mapToThread(response.data),
-      }
-    } else {
-      return {
-        status: RequestResponseStatus.Error,
-        error: { message: "Get thread: Something went wrong" },
-      }
-    }
   }
 
   public async toggleThreadsReadStatus(

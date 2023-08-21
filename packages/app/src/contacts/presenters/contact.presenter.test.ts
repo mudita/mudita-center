@@ -14,6 +14,7 @@ const pureContact: PureContact = {
   blocked: false,
   favourite: true,
   numbers: ["500400300"],
+  numbersIDs: ["1"],
   priName: "Alek",
   email: "",
 }
@@ -31,6 +32,7 @@ const contact: Contact = {
   primaryPhoneNumber: "500400300",
   secondAddressLine: "02600 Warsaw",
   secondaryPhoneNumber: "",
+  numbersIDs: ["1"],
 }
 
 describe("`ContactPresenter`", () => {

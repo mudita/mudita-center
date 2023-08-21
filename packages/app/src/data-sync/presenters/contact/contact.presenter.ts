@@ -123,8 +123,10 @@ export class ContactPresenter {
         const [primaryPhoneNumber = "", secondaryPhoneNumber = ""] =
           contactNumber.map((number) => number.number_user)
         const address = contactAddress?.address
-        const firstAddressLine = address.substr(0, address.indexOf("\n"))
-        const secondAddressLine = address.substr(address.indexOf("\n") + 1)
+
+        const firstAddressLine = address.substring(0, address.indexOf("\n"))
+        const secondAddressLine = address.substring(address.indexOf("\n") + 1)
+        const numbersIDs: string[] = contactNumber.map(({ _id }) => _id)
 
         const contactObject: ContactObject = {
           primaryPhoneNumber,
@@ -137,6 +139,7 @@ export class ContactPresenter {
           note: contactAddress?.note,
           email: contactAddress?.mail,
           favourite: this.contactFavored(contactGroups, contactGroup),
+          numbersIDs,
         }
 
         return contactObject

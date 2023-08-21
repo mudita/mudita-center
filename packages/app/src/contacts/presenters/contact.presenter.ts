@@ -16,10 +16,11 @@ export class ContactPresenter {
       altName,
       priName,
       numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
+      numbersIDs,
     } = pureContact
 
-    const firstAddressLine = address.substr(0, address.indexOf("\n"))
-    const secondAddressLine = address.substr(address.indexOf("\n") + 1)
+    const firstAddressLine = address.substring(0, address.indexOf("\n"))
+    const secondAddressLine = address.substring(address.indexOf("\n") + 1)
 
     return {
       blocked,
@@ -36,6 +37,7 @@ export class ContactPresenter {
       ice: false,
       note: "",
       email: "",
+      numbersIDs,
     }
   }
 
@@ -47,12 +49,14 @@ export class ContactPresenter {
       lastName = "",
       primaryPhoneNumber,
       secondaryPhoneNumber,
+      numbers = [],
+      numbersIDs = [],
       firstAddressLine,
       secondAddressLine,
       email,
       id,
     } = contact
-    const numbers = []
+
     if (primaryPhoneNumber) {
       numbers.push(primaryPhoneNumber)
     }
@@ -64,6 +68,7 @@ export class ContactPresenter {
       id: Number(id),
       blocked,
       favourite,
+      numbersIDs,
       email: email || "",
       numbers: numbers,
       priName: firstName,

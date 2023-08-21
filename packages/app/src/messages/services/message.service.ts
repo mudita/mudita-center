@@ -33,6 +33,7 @@ import { MessageRepository } from "App/messages/repositories"
 import { ThreadService } from "App/messages/services/thread.service"
 import { DeviceManager } from "App/device-manager/services"
 import { mapToRawNumber, splitMessageByBytesSize } from "App/messages/helpers"
+import { getPhoneNumberRequest } from "App/utils/services/utils"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
@@ -188,36 +189,39 @@ export class MessageService {
     const data = result.data
 
     if (MessageService.isAcceptablePureMessageType(data)) {
-      if (newMessage.threadId === undefined) {
-        // `getThreads` instead of `getThread` because Post Message doesn't return properly threadID when a thread is new
-        const threadsResponse = await this.threadService.getThreads({
-          limit: 1,
-          offset: 0,
-        })
-        const threadId = threadsResponse.data?.data[0]?.id
+      const threadsResponse = await this.threadService.getThreads({
+        limit: 1,
+        offset: 0,
+      })
+      const threadData = threadsResponse.data?.data[0]
+      const threadId = threadData?.id
 
-        if (!threadId) {
-          return {
-            status: RequestResponseStatus.Error,
-          }
-        }
-
+      if (!threadId) {
         return {
-          status: RequestResponseStatus.Ok,
-          data: {
-            message: { ...MessagePresenter.mapToMessage(data), threadId },
-            thread: threadsResponse.data?.data[0],
-          },
+          status: RequestResponseStatus.Error,
         }
       }
+
+      const phoneNumber = await getPhoneNumberRequest(
+        this.deviceManager,
+        threadData?.numberID ?? ""
+      )
+
+      const thread = threadData
+        ? { ...threadData, phoneNumber: phoneNumber.number }
+        : undefined
 
       return {
         status: RequestResponseStatus.Ok,
         data: {
           message: {
-            ...MessagePresenter.mapToMessage(data),
-            threadId: newMessage.threadId,
+            ...MessagePresenter.mapToMessage({
+              ...data,
+              number: phoneNumber.number,
+            }),
+            threadId,
           },
+          thread,
         },
       }
     }

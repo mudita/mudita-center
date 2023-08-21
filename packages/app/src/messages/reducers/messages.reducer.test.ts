@@ -31,6 +31,7 @@ import { AppError } from "App/core/errors"
 const thread: Thread = {
   id: "1",
   phoneNumber: "+48 755 853 216",
+  numberID: "1",
   lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -270,6 +271,7 @@ describe("Delete Threads data functionality", () => {
     const toDeleteThread: Thread = {
       id: "2",
       phoneNumber: "+48 755 853 216",
+      numberID: "1",
       lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -678,6 +680,7 @@ describe("Checkboxes manage", () => {
   const secondThread: Thread = {
     id: "2",
     phoneNumber: "+48 444 853 216",
+    numberID: "1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet: "Exercitationem vel quasi doloremque.",
     unread: true,

@@ -16,6 +16,7 @@ export class ThreadPresenter {
       threadID,
       number = "",
       messageType,
+      numberID,
     } = pureThread
     return {
       messageSnippet: ThreadPresenter.buildMessageSnippet(pureThread),
@@ -26,6 +27,7 @@ export class ThreadPresenter {
       messageType: ThreadPresenter.getMessageType(Number(messageType)),
       contactId: undefined,
       contactName: undefined,
+      numberID,
     }
   }
 

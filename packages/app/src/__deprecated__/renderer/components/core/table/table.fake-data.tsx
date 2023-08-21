@@ -79,6 +79,7 @@ const createThread = (): Thread => {
   return {
     id: threadId,
     phoneNumber: threadId,
+    numberID: threadId,
     unread: faker.datatype.boolean(),
     lastUpdatedAt: faker.date.past(),
     messageSnippet: faker.lorem.paragraphs(random(1, 3)),

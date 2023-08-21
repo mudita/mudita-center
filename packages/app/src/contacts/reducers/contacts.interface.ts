@@ -14,6 +14,8 @@ export interface Contact {
   lastName?: string
   primaryPhoneNumber?: string
   secondaryPhoneNumber?: string
+  numbers?: string[]
+  numbersIDs?: string[]
   favourite?: boolean
   blocked?: boolean
   ice?: boolean

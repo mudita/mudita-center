@@ -18,6 +18,8 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { Contact as PureContact } from "App/device/types/mudita-os"
+import { getPhoneNumberRequest } from "App/utils/services/utils"
 
 export class ContactService {
   constructor(
@@ -35,10 +37,23 @@ export class ContactService {
         },
       })
 
+    const contact = response.data as PureContact
+    const phoneNumberIds = contact?.numbersIDs ?? []
+
+    const phoneNumberPromises = phoneNumberIds.map(() => {
+      return getPhoneNumberRequest(this.deviceManager, phoneNumberIds[0])
+    })
+
+    const phoneNumbersResponses = await Promise.all(phoneNumberPromises)
+    const phoneNumbers = phoneNumbersResponses.map(({ number }) => number)
+
     if (response.ok && response.data) {
       return {
         status: RequestResponseStatus.Ok,
-        data: ContactPresenter.mapToContact(response.data),
+        data: ContactPresenter.mapToContact({
+          ...response.data,
+          numbers: phoneNumbers,
+        }),
       }
     } else {
       return {

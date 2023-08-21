@@ -65,6 +65,8 @@ export interface Contact {
   favourite: boolean
   id: number
   numbers: string[]
+  //TODO-should this be optional?
+  numbersIDs?: string[]
   priName: string
   email: string
 }
@@ -327,6 +329,7 @@ export interface Thread {
   messageType: number
   number: string
   threadID: number
+  numberID: string
 }
 
 export interface Template {
@@ -571,4 +574,15 @@ export interface StartDeviceUpdateRequestBody
   }> {
   endpoint: Endpoint.Update
   method: Method.Post
+}
+
+export interface PhoneNumberResponse {
+  numberID: number
+  number: string
+}
+
+export interface GetPhoneNumberResponseBody
+  extends RequestConfig<PhoneNumberResponse> {
+  endpoint: Endpoint.PhoneNumber
+  method: Method.Get
 }

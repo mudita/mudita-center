@@ -16,6 +16,7 @@ export enum Endpoint {
   CallLog = 9,
   Security = 13,
   Outbox = 14,
+  PhoneNumber = 15,
 
   // api version (mocked)
   ApiVersion = 1000,

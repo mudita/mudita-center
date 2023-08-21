@@ -40,7 +40,8 @@ const pureThread: PureThread = {
   messageSnippet:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   messageType: 1,
-  number: "+48500600700",
+  number: "",
+  numberID: "1",
   threadID: 1,
 }
 
@@ -62,6 +63,7 @@ const errorResponse: ResultObject<{ entries: PureThread[] }> = Result.failed(
 const thread: Thread = {
   id: "1",
   phoneNumber: "+48 755 853 216",
+  numberID: "1",
   lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -122,7 +124,8 @@ describe("`ThreadService`", () => {
               "lastUpdatedAt": 2021-03-30T07:32:38.000Z,
               "messageSnippet": "Draft: Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
               "messageType": "INBOX",
-              "phoneNumber": "+48500600700",
+              "numberID": "1",
+              "phoneNumber": "",
               "unread": true,
             },
           ],
@@ -212,6 +215,7 @@ describe("`ThreadService`", () => {
                 "lastUpdatedAt": 2020-06-01T13:53:27.087Z,
                 "messageSnippet": "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
                 "messageType": "INBOX",
+                "numberID": "1",
                 "phoneNumber": "+48 755 853 216",
                 "unread": true,
               },

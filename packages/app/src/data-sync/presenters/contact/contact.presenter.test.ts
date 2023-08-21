@@ -119,6 +119,7 @@ describe("when contact does not have any defined phone number", () => {
           "id": "4",
           "lastName": "Paucek",
           "note": "",
+          "numbersIDs": Array [],
           "primaryPhoneNumber": "",
           "secondAddressLine": "Munich",
           "secondaryPhoneNumber": "",
@@ -196,6 +197,9 @@ describe("when contact is connected to name or phone number entity with id 0", (
           "id": "6",
           "lastName": "Kowalski",
           "note": "",
+          "numbersIDs": Array [
+            "7",
+          ],
           "primaryPhoneNumber": "777",
           "secondAddressLine": "Munich",
           "secondaryPhoneNumber": "",
@@ -259,6 +263,9 @@ describe("When contact isn't belongs to any group", () => {
           "id": "4",
           "lastName": "Paucek",
           "note": "",
+          "numbersIDs": Array [
+            "5",
+          ],
           "primaryPhoneNumber": "+91898402777",
           "secondAddressLine": "Kochmouth",
           "secondaryPhoneNumber": "",
@@ -322,6 +329,9 @@ describe("When contact isn't belongs to `Favourites` group", () => {
           "id": "4",
           "lastName": "Paucek",
           "note": "",
+          "numbersIDs": Array [
+            "5",
+          ],
           "primaryPhoneNumber": "+91898402777",
           "secondAddressLine": "Kochmouth",
           "secondaryPhoneNumber": "",
@@ -374,6 +384,9 @@ describe("When `contacts` table doesn't support `contact_groups` & `contact_matc
           "id": "4",
           "lastName": "Paucek",
           "note": "",
+          "numbersIDs": Array [
+            "5",
+          ],
           "primaryPhoneNumber": "+91898402777",
           "secondAddressLine": "Kochmouth",
           "secondaryPhoneNumber": "",

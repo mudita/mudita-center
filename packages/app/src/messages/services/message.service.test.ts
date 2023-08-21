@@ -91,6 +91,16 @@ const message: Message = {
   messageType: MessageTypeFromDTO.INBOX,
 }
 
+const thread = {
+  id: "1",
+  phoneNumber: "+48500600700",
+  numberID: "1",
+  lastUpdatedAt: new Date(),
+  messageSnippet: "123",
+  unread: false,
+  messageType: MessageType.INBOX,
+}
+
 const newMessageWithThreadId: NewMessage = {
   content: pureMessage.messageBody,
   phoneNumber: pureMessage.number,
@@ -166,12 +176,22 @@ describe("`MessageService`", () => {
       test("the `deviceManager.device.request` is called once", async () => {
         deviceManager.device.request = jest
           .fn()
-          .mockReturnValue(Result.success(pureMessage))
+          .mockResolvedValueOnce(Result.success(pureMessage))
+          .mockResolvedValueOnce(
+            Result.success({ numberID: "1", number: "+48500600700" })
+          )
+
+        threadService.getThreads = jest.fn().mockReturnValue({
+          data: {
+            data: [thread],
+          },
+        })
+
         const response = await subject.createMessage(newMessageWithThreadId)
         expect(response.status).toEqual(RequestResponseStatus.Ok)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledTimes(1)
+        expect(deviceManager.device.request).toHaveBeenCalledTimes(2)
       })
     })
 
@@ -179,7 +199,20 @@ describe("`MessageService`", () => {
       test("the `deviceManager.device.request` is called more than once", async () => {
         deviceManager.device.request = jest
           .fn()
-          .mockReturnValue(Result.success(pureMessage))
+          .mockResolvedValueOnce(Result.success(pureMessage))
+          .mockResolvedValueOnce(
+            Result.success({ numberID: "1", number: "+48500600700" })
+          )
+          .mockResolvedValueOnce(Result.success(pureMessage))
+          .mockResolvedValueOnce(
+            Result.success({ numberID: "1", number: "+48500600700" })
+          )
+        threadService.getThreads = jest.fn().mockReturnValue({
+          data: {
+            data: [thread],
+          },
+        })
+
         const newLongMessageWithThreadId: NewMessage = {
           ...newMessageWithThreadId,
           content: "x".repeat(500),
@@ -188,32 +221,13 @@ describe("`MessageService`", () => {
         expect(response.status).toEqual(RequestResponseStatus.Ok)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledTimes(2)
+        expect(deviceManager.device.request).toHaveBeenCalledTimes(4)
       })
     })
 
     describe("when every part of the message is sent successfully", () => {
       describe("when `deviceManager.device.request` returns success with acceptable pure message type", () => {
-        test("return in response just message when threadId is known", async () => {
-          deviceManager.device.request = jest
-            .fn()
-            .mockReturnValue(Result.success(pureMessage))
-          const response = await subject.createMessage(
-            newLongMessageWithThreadId
-          )
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/unbound-method
-          expect(deviceManager.device.request).toHaveBeenCalled()
-          expect(response.status).toEqual(RequestResponseStatus.Ok)
-
-          assert(response.data?.messageParts)
-          for (const part of response.data.messageParts) {
-            expect(part.message).not.toBeUndefined()
-            expect(part.thread).toBeUndefined()
-          }
-        })
-
-        test("return in response message and thread when threadId isn't known", async () => {
+        test("return in response message and thread", async () => {
           deviceManager.device.request = jest
             .fn()
             .mockReturnValue(Result.success(pureMessage))
@@ -422,14 +436,23 @@ describe("`MessageService`", () => {
           phoneNumber: "+48500600700",
           messageType: MessageType.INBOX,
         })
+        threadService.getThreads = jest.fn().mockReturnValueOnce({
+          data: {
+            data: [thread],
+          },
+        })
+
         deviceManager.device.request = jest
           .fn()
-          .mockResolvedValue(Result.success(pureMessage))
+          .mockResolvedValueOnce(Result.success(pureMessage))
+          .mockResolvedValueOnce(
+            Result.success({ numberID: "1", number: "+48500600700" })
+          )
 
         const result = await subject.resendMessage(messageId)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenLastCalledWith({
+        expect(deviceManager.device.request).toHaveBeenCalledWith({
           body: {
             number: "+48500600700",
             messageBody:
@@ -438,6 +461,15 @@ describe("`MessageService`", () => {
           },
           endpoint: Endpoint.Messages,
           method: Method.Post,
+        })
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        expect(deviceManager.device.request).toHaveBeenCalledWith({
+          body: {
+            numberID: 1,
+          },
+          endpoint: Endpoint.PhoneNumber,
+          method: Method.Get,
         })
 
         expect(result).toEqual({
@@ -454,7 +486,7 @@ describe("`MessageService`", () => {
                   threadId: "1",
                   messageType: "OUTBOX",
                 },
-                thread: undefined,
+                thread,
               },
             ],
           },
