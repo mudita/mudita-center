@@ -130,7 +130,7 @@ export const BackupSetSecretKeyModal: FunctionComponent<
 
   useEffect(() => {
     if (password) {
-      trigger(FieldKeys.ConfirmationSecretKey)
+      void trigger(FieldKeys.ConfirmationSecretKey)
     }
   }, [password, trigger])
 
