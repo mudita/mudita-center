@@ -163,7 +163,7 @@ const createWindow = async () => {
       title,
     })
   )
-  win.setMenuBarVisibility(false)
+  win.removeMenu()
 
   win.webContents.on("before-input-event", (event, input) => {
     if ((input.control || input.meta) && input.key.toLowerCase() === "r") {
@@ -277,6 +277,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         title,
       })
     )
+    helpWindow.removeMenu()
 
     helpWindow.on("closed", () => {
       removeDownloadHelpHandler()
@@ -317,13 +318,14 @@ const createOpenWindowListener = (
     if (newWindow === null) {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-      newWindow = await new BrowserWindow(
+      newWindow = new BrowserWindow(
         getWindowOptions({
           width: DEFAULT_WINDOWS_SIZE.width,
           height: DEFAULT_WINDOWS_SIZE.height,
           title,
         })
       )
+      newWindow.removeMenu()
 
       newWindow.on("closed", () => {
         newWindow = null
@@ -430,6 +432,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           title,
         })
       )
+      googleAuthWindow.removeMenu()
 
       googleAuthWindow.on("close", () => {
         void ipcMain.callRenderer(
@@ -492,6 +495,7 @@ ipcMain.answerRenderer(
             title,
           })
         )
+        outlookAuthWindow.removeMenu()
 
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
