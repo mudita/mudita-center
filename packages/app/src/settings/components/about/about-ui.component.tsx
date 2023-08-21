@@ -29,7 +29,6 @@ import { UpdateFailedModal } from "App/settings/components/about/update-failed-m
 import { AboutLoaderModal } from "App/settings/components/about/about-loader.component"
 import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 import { useOnlineChecker } from "App/settings/hooks/use-online-checker"
-import logger from "App/__deprecated__/main/utils/logger"
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 
 const AvailableUpdate = styled(Text)`
@@ -110,16 +109,10 @@ const AboutUI: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerErrorAppUpdateListener(() => {
-      logger.info(`AboutUI error`)
-
       setUpdateCheck(false)
     })
     return () => unregister()
   }, [])
-
-  logger.info(
-    `showUpToDateModal: ${showUpToDateModal}, updateCheck: ${updateCheck}, appUpdateFailedShow: ${appUpdateFailedShow}, checkingForUpdate: ${checkingForUpdate}, appUpdateNotAvailableShow: ${appUpdateNotAvailableShow}, online: ${online}`
-  )
 
   return (
     <>

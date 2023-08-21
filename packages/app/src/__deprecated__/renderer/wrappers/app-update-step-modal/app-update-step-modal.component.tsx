@@ -20,7 +20,7 @@ import {
   trackCenterUpdate,
   TrackCenterUpdateState,
 } from "App/analytic-data-tracker/helpers"
-import logger from "App/__deprecated__/main/utils/logger"
+
 interface Props extends Partial<ModalDialogProps> {
   closeModal?: () => void
   appLatestVersion?: string
@@ -65,8 +65,6 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerErrorAppUpdateListener(() => {
-      logger.info(`app-update-step-modal error`)
-
       void trackCenterUpdate({
         fromCenterVersion: appCurrentVersion,
         toCenterVersion: appLatestVersion,

@@ -14,6 +14,9 @@ import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/
 import { flags } from "App/feature-flags"
 
 jest.mock("App/feature-flags")
+jest.mock(
+  "App/__deprecated__/main/functions/register-error-app-update-listener"
+)
 
 type Props = ComponentProps<typeof AboutUI>
 const defaultProps: Props = {
