@@ -40,8 +40,8 @@ export class ContactService {
     const contact = response.data as PureContact
     const phoneNumberIds = contact?.numbersIDs ?? []
 
-    const phoneNumberPromises = phoneNumberIds.map(() => {
-      return getPhoneNumberRequest(this.deviceManager, phoneNumberIds[0])
+    const phoneNumberPromises = phoneNumberIds.map((id) => {
+      return getPhoneNumberRequest(this.deviceManager, id)
     })
 
     const phoneNumbersResponses = await Promise.all(phoneNumberPromises)
@@ -61,30 +61,6 @@ export class ContactService {
       return {
         status: RequestResponseStatus.Error,
         error: { message: "Get contact: Something went wrong" },
-      }
-    }
-  }
-
-  public async getContacts(): Promise<RequestResponse<Contact[]>> {
-    const response =
-      await this.deviceManager.device.request<GetContactsResponseBody>({
-        endpoint: Endpoint.Contacts,
-        method: Method.Get,
-      })
-
-    if (response.ok && response.data) {
-      return {
-        status: RequestResponseStatus.Ok,
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/unbound-method
-        data: response.data.entries.map((pureContact) =>
-          ContactPresenter.mapToContact(pureContact)
-        ),
-      }
-    } else {
-      return {
-        status: RequestResponseStatus.Error,
-        error: { message: "Get contacts: Something went wrong" },
       }
     }
   }

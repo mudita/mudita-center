@@ -9,7 +9,7 @@ import { Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
 
 export class ThreadPresenter {
-  static mapToThread(pureThread: PureThread, number: string = ""): Thread {
+  static mapToThread(pureThread: PureThread, number = ""): Thread {
     const { isUnread, lastUpdatedAt, threadID, messageType } = pureThread
 
     return {

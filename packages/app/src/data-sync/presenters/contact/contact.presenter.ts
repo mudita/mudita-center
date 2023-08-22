@@ -126,7 +126,6 @@ export class ContactPresenter {
 
         const firstAddressLine = address.substring(0, address.indexOf("\n"))
         const secondAddressLine = address.substring(address.indexOf("\n") + 1)
-        const numbersIDs: string[] = contactNumber.map(({ _id }) => _id)
 
         const contactObject: ContactObject = {
           primaryPhoneNumber,

@@ -13,7 +13,7 @@ const pureContact: PureContact = {
   altName: "Boligłowa",
   blocked: false,
   favourite: true,
-  numbersIDs: ["1"],
+  numbersIDs: [],
   numbers: ["500400300"],
   priName: "Alek",
   email: "",
@@ -36,7 +36,7 @@ const contact: Contact = {
 
 describe("`ContactPresenter`", () => {
   test("`deserialize` record properly", () => {
-    const result = ContactPresenter.mapToContact(pureContact)
+    const result = ContactPresenter.mapToContact(pureContact, ["500400300"])
     expect(result).toEqual(contact)
   })
 
@@ -53,6 +53,7 @@ describe("`ContactPresenter`", () => {
     expect(result).toEqual({
       ...pureContact,
       email: "user@example.com",
+      numbersIDs: [],
     })
   })
 })

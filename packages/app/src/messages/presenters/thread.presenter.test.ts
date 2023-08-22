@@ -34,7 +34,7 @@ const thread: Thread = {
 
 describe("`ThreadPresenter`", () => {
   test("`mapToThreads` record properly", () => {
-    const result = ThreadPresenter.mapToThread(pureThread)
+    const result = ThreadPresenter.mapToThread(pureThread, "+48500600700")
     expect(result).toEqual(thread)
   })
 })

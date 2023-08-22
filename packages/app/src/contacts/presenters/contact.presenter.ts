@@ -56,7 +56,7 @@ export class ContactPresenter {
       secondaryPhoneNumber,
     } = contact
 
-    let numbers = []
+    const numbers = []
     if (primaryPhoneNumber) {
       numbers.push(primaryPhoneNumber)
     }

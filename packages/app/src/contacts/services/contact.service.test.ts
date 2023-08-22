@@ -35,8 +35,8 @@ const pureContact: PureContact = {
   favourite: true,
   priName: "Alek",
   email: "",
-  numbersIDs: [],
-  numbers: ["+48500400300"],
+  numbersIDs: ["1"],
+  numbers: [],
 }
 
 const contact: Contact = {
@@ -84,29 +84,6 @@ describe("`ContactService`", () => {
     test("returns error  when `device.request` returns error", async () => {
       deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getContact("1")
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Error)
-    })
-  })
-
-  describe("`getContacts` method", () => {
-    test("map data and returns success when `device.request` returns success", async () => {
-      deviceManager.device.request = jest
-        .fn()
-        .mockReturnValue(Result.success({ entries: [pureContact] }))
-      const response = await subject.getContacts()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Ok)
-      expect(response.data).toEqual([contact])
-    })
-
-    test("returns error when `device.request` returns error", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
-      const response = await subject.getContacts()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceManager.device.request).toHaveBeenCalled()
