@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ActionsWrapper } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
@@ -29,6 +29,7 @@ import { UpdateFailedModal } from "App/settings/components/about/update-failed-m
 import { AboutLoaderModal } from "App/settings/components/about/about-loader.component"
 import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
 import { useOnlineChecker } from "App/settings/hooks/use-online-checker"
+import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -99,8 +100,19 @@ const AboutUI: FunctionComponent<Props> = ({
   }
   const hideAppUpdateFailedHandler = () => {
     setUpdateCheck(false)
+    hideAppUpdateNotAvailable()
     hideAppUpdateFailed()
   }
+
+  const showUpToDateModal =
+    updateCheck && !appUpdateFailedShow && !checkingForUpdate
+
+  useEffect(() => {
+    const unregister = registerErrorAppUpdateListener(() => {
+      setUpdateCheck(false)
+    })
+    return () => unregister()
+  }, [])
 
   return (
     <>
@@ -113,7 +125,7 @@ const AboutUI: FunctionComponent<Props> = ({
         open={checkingForUpdate}
         layer={ModalLayers.UpdateApp}
       />
-      {updateCheck && (
+      {showUpToDateModal && (
         <AppUpdateNotAvailable
           appCurrentVersion={appCurrentVersion}
           open={appUpdateNotAvailableShow && online}
