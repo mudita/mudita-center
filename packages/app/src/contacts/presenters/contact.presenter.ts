@@ -52,7 +52,17 @@ export class ContactPresenter {
       secondAddressLine,
       email,
       id,
+      primaryPhoneNumber,
+      secondaryPhoneNumber,
     } = contact
+
+    let numbers = []
+    if (primaryPhoneNumber) {
+      numbers.push(primaryPhoneNumber)
+    }
+    if (secondaryPhoneNumber) {
+      numbers.push(secondaryPhoneNumber)
+    }
 
     return {
       id: Number(id),
@@ -63,6 +73,7 @@ export class ContactPresenter {
       altName: lastName,
       address: [firstAddressLine, secondAddressLine].join("\n").trim(),
       numbersIDs: [],
+      numbers,
     }
   }
 }

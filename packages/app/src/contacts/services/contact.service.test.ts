@@ -36,6 +36,7 @@ const pureContact: PureContact = {
   priName: "Alek",
   email: "",
   numbersIDs: [],
+  numbers: ["+48500400300"],
 }
 
 const contact: Contact = {

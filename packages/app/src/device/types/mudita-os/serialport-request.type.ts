@@ -65,6 +65,7 @@ export interface Contact {
   favourite: boolean
   id: number
   numbersIDs: string[]
+  numbers: string[]
   priName: string
   email: string
 }

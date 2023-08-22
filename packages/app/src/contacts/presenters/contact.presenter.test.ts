@@ -14,6 +14,7 @@ const pureContact: PureContact = {
   blocked: false,
   favourite: true,
   numbersIDs: ["1"],
+  numbers: ["500400300"],
   priName: "Alek",
   email: "",
 }
