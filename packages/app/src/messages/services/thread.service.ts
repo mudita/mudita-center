@@ -22,7 +22,7 @@ import {
 import { ThreadPresenter } from "App/messages/presenters"
 import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import { ThreadRepository } from "App/messages/repositories"
-import { getPhoneNumberRequest } from "App/utils/services/utils"
+import { getPhoneNumberRequest } from "App/common/requests/phone-number.request"
 
 export interface GetThreadsResponse {
   data: Thread[]

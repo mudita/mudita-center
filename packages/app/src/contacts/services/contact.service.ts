@@ -19,7 +19,7 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { PureContact } from "App/device/types/mudita-os"
-import { getPhoneNumberRequest } from "App/utils/services/utils"
+import { getPhoneNumberRequest } from "App/common/requests/phone-number.request"
 
 export class ContactService {
   constructor(
