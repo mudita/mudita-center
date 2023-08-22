@@ -12,7 +12,7 @@ import {
 } from "App/device/constants"
 import {
   GetMessagesRequestConfig as PureGetMessagesBody,
-  Message as PureMessage,
+  PureMessage,
   PaginationBody,
   GetMessageResponseBody,
   GetMessagesResponseBody,
@@ -33,7 +33,6 @@ import { MessageRepository } from "App/messages/repositories"
 import { ThreadService } from "App/messages/services/thread.service"
 import { DeviceManager } from "App/device-manager/services"
 import { mapToRawNumber, splitMessageByBytesSize } from "App/messages/helpers"
-import { getPhoneNumberRequest } from "App/utils/services/utils"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]

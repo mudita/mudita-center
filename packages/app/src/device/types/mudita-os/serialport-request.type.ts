@@ -58,7 +58,7 @@ export interface GetBackupDeviceStatusResponseBody {
 }
 
 // Contact types
-export interface Contact {
+export interface PureContact {
   address: string
   altName: string
   blocked: boolean
@@ -70,7 +70,7 @@ export interface Contact {
   email: string
 }
 
-export type NewContact = Omit<Contact, "id">
+export type NewContact = Omit<PureContact, "id">
 
 export interface GetContactsRequestConfig extends RequestConfig {
   endpoint: Endpoint.Contacts
@@ -78,7 +78,7 @@ export interface GetContactsRequestConfig extends RequestConfig {
 }
 
 export interface GetContactsResponseBody {
-  entries: Contact[]
+  entries: PureContact[]
   totalCount: number
 }
 
@@ -90,25 +90,25 @@ export interface GetContactRequestConfig
   method: Method.Get
 }
 
-export type GetContactResponseBody = Contact
+export type GetContactResponseBody = PureContact
 
-export interface CreateContactRequestConfig extends RequestConfig<Contact> {
+export interface CreateContactRequestConfig extends RequestConfig<PureContact> {
   endpoint: Endpoint.Contacts
   method: Method.Post
 }
 
-export type CreateContactResponseBody = Contact
+export type CreateContactResponseBody = PureContact
 
 export interface CreateContactErrorResponseBody {
   duplicateNumbers: string[]
 }
 
-export interface UpdateContactRequestConfig extends RequestConfig<Contact> {
+export interface UpdateContactRequestConfig extends RequestConfig<PureContact> {
   endpoint: Endpoint.Contacts
   method: Method.Put
 }
 
-export type UpdateContactResponseBody = Contact
+export type UpdateContactResponseBody = PureContact
 
 export interface DeleteContactRequestConfig
   extends RequestConfig<{ id: number }> {
@@ -309,7 +309,7 @@ export interface RemoveFileSystemRequestConfig
 }
 
 // Message types
-export interface Message {
+export interface PureMessage {
   contactID: number
   messageBody: string
   messageID: number
@@ -319,7 +319,7 @@ export interface Message {
   number: string
 }
 
-export interface Thread {
+export interface PureThread {
   contactID: number
   isUnread: boolean
   lastUpdatedAt: number
@@ -349,7 +349,7 @@ export interface GetMessagesRequestConfig
 }
 
 export interface GetMessagesResponseBody {
-  entries: Message[]
+  entries: PureMessage[]
   totalCount: number
   nextPage?: PaginationBody
 }
@@ -365,7 +365,7 @@ export interface GetThreadsRequestConfig
 }
 
 export interface GetThreadsResponseBody {
-  entries: Thread[]
+  entries: PureThread[]
   totalCount: number
   nextPage?: PaginationBody
 }
@@ -395,7 +395,7 @@ export interface GetMessageRequestConfig
   method: Method.Get
 }
 
-export type GetMessageResponseBody = Message
+export type GetMessageResponseBody = PureMessage
 
 export interface GetThreadRequestConfig
   extends RequestConfig<{
@@ -406,7 +406,7 @@ export interface GetThreadRequestConfig
   method: Method.Get
 }
 
-export type GetThreadResponseBody = Thread
+export type GetThreadResponseBody = PureThread
 
 export interface GetTemplateRequestConfig
   extends RequestConfig<{
@@ -417,7 +417,7 @@ export interface GetTemplateRequestConfig
   method: Method.Get
 }
 
-export type GetTemplateResponseBody = Message
+export type GetTemplateResponseBody = PureMessage
 
 export interface CreateMessageRequestConfig
   extends RequestConfig<{
@@ -430,7 +430,7 @@ export interface CreateMessageRequestConfig
   method: Method.Post
 }
 
-export type CreateMessageResponseBody = Message
+export type CreateMessageResponseBody = PureMessage
 
 export interface CreateTemplateRequestConfig
   extends RequestConfig<{

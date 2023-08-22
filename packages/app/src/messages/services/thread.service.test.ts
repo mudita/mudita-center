@@ -6,7 +6,7 @@
 import { ResultObject, Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { DeviceCommunicationError } from "App/device/constants"
-import { Thread as PureThread } from "App/device/types/mudita-os"
+import { PureThread } from "App/device/types/mudita-os"
 import {
   RequestResponseStatus,
   SuccessRequestResponse,

@@ -10,7 +10,7 @@ import { ContactService } from "App/contacts/services/contact.service"
 import { ContactRepository } from "App/contacts/repositories"
 import { DeviceManager } from "App/device-manager/services/device-manager.service"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { Contact as PureContact } from "App/device/types/mudita-os"
+import { PureContact } from "App/device/types/mudita-os"
 import { Contact } from "App/contacts/reducers"
 
 const contactRepository = {

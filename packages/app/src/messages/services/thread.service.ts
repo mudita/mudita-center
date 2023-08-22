@@ -4,13 +4,11 @@
  */
 
 import { Thread } from "App/messages/dto"
-import { Thread as PureThread } from "App/device/types/mudita-os/serialport-request.type"
 import { DeviceManager } from "App/device-manager/services"
 import {
   GetThreadsRequestConfig,
   PaginationBody,
   GetThreadsResponseBody,
-  PhoneNumberResponse,
 } from "App/device/types/mudita-os"
 import {
   Endpoint,

@@ -4,7 +4,7 @@
  */
 
 import { Result } from "App/core/builder"
-import { Message as PureMessage } from "App/device/types/mudita-os"
+import { PureMessage } from "App/device/types/mudita-os"
 import {
   Endpoint,
   Method,

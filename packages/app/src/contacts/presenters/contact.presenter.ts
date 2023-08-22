@@ -4,7 +4,7 @@
  */
 
 import { Contact } from "App/contacts/reducers"
-import { Contact as PureContact } from "App/device/types/mudita-os"
+import { PureContact } from "App/device/types/mudita-os"
 
 export class ContactPresenter {
   static mapToContact(

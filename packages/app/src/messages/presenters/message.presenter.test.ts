@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Message as PureMessage } from "App/device/types/mudita-os"
+import { PureMessage } from "App/device/types/mudita-os"
 import { MessageType as PureMessageType } from "App/device/constants"
 import {
   AcceptablePureMessageType,

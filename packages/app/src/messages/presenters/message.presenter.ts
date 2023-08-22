@@ -4,7 +4,7 @@
  */
 
 import {
-  Message as PureMessage,
+  PureMessage,
   CreateMessageRequestConfig,
   UpdateMessageRequestConfig,
 } from "App/device/types/mudita-os"
