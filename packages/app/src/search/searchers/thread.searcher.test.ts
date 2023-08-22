@@ -20,7 +20,6 @@ const threadMock: Thread = {
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   unread: true,
   phoneNumber: "123123123",
-  numberID: "1",
   messageType: MessageType.INBOX,
   contactId: undefined,
   contactName: undefined,

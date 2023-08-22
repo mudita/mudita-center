@@ -63,7 +63,6 @@ const contactsModalMessages = defineMessages({
 const mockThread: Thread = {
   id: "tmpId",
   phoneNumber: "New Conversation",
-  numberID: "1",
   lastUpdatedAt: new Date(),
   messageSnippet: "",
   unread: false,

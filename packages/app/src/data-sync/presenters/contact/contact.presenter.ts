@@ -139,7 +139,6 @@ export class ContactPresenter {
           note: contactAddress?.note,
           email: contactAddress?.mail,
           favourite: this.contactFavored(contactGroups, contactGroup),
-          numbersIDs,
         }
 
         return contactObject

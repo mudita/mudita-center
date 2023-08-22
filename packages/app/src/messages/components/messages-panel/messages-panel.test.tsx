@@ -17,7 +17,6 @@ const threads: Thread[] = [
   {
     id: "1",
     phoneNumber: "+71 195 069 214",
-    numberID: "1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -29,7 +28,6 @@ const threads: Thread[] = [
   {
     id: "2",
     phoneNumber: "+46 333 060 911",
-    numberID: "2",
     lastUpdatedAt: new Date("2020-05-17T19:58:05.136Z"),
     messageSnippet:
       "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",

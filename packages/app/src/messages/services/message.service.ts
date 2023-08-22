@@ -193,23 +193,13 @@ export class MessageService {
         limit: 1,
         offset: 0,
       })
-      const threadData = threadsResponse.data?.data[0]
-      const threadId = threadData?.id
+      const thread = threadsResponse.data?.data[0]
 
-      if (!threadId) {
+      if (!thread?.id) {
         return {
           status: RequestResponseStatus.Error,
         }
       }
-
-      const phoneNumber = await getPhoneNumberRequest(
-        this.deviceManager,
-        threadData?.numberID ?? ""
-      )
-
-      const thread = threadData
-        ? { ...threadData, phoneNumber: phoneNumber.number }
-        : undefined
 
       return {
         status: RequestResponseStatus.Ok,
@@ -217,9 +207,9 @@ export class MessageService {
           message: {
             ...MessagePresenter.mapToMessage({
               ...data,
-              number: phoneNumber.number,
+              number: thread.phoneNumber,
             }),
-            threadId,
+            threadId: thread.id,
           },
           thread,
         },

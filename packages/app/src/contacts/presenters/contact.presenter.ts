@@ -7,7 +7,10 @@ import { Contact } from "App/contacts/reducers"
 import { Contact as PureContact } from "App/device/types/mudita-os"
 
 export class ContactPresenter {
-  static mapToContact(pureContact: PureContact): Contact {
+  static mapToContact(
+    pureContact: PureContact,
+    numbers: string[] = []
+  ): Contact {
     const {
       id,
       blocked,
@@ -15,9 +18,8 @@ export class ContactPresenter {
       address = "",
       altName,
       priName,
-      numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
-      numbersIDs,
     } = pureContact
+    const [primaryPhoneNumber = "", secondaryPhoneNumber = ""] = numbers
 
     const firstAddressLine = address.substring(0, address.indexOf("\n"))
     const secondAddressLine = address.substring(address.indexOf("\n") + 1)
@@ -37,7 +39,6 @@ export class ContactPresenter {
       ice: false,
       note: "",
       email: "",
-      numbersIDs,
     }
   }
 
@@ -47,33 +48,21 @@ export class ContactPresenter {
       favourite = false,
       firstName = "",
       lastName = "",
-      primaryPhoneNumber,
-      secondaryPhoneNumber,
-      numbers = [],
-      numbersIDs = [],
       firstAddressLine,
       secondAddressLine,
       email,
       id,
     } = contact
 
-    if (primaryPhoneNumber) {
-      numbers.push(primaryPhoneNumber)
-    }
-    if (secondaryPhoneNumber) {
-      numbers.push(secondaryPhoneNumber)
-    }
-
     return {
       id: Number(id),
       blocked,
       favourite,
-      numbersIDs,
       email: email || "",
-      numbers: numbers,
       priName: firstName,
       altName: lastName,
       address: [firstAddressLine, secondAddressLine].join("\n").trim(),
+      numbersIDs: [],
     }
   }
 }

@@ -64,8 +64,7 @@ export interface Contact {
   blocked: boolean
   favourite: boolean
   id: number
-  numbers: string[]
-  numbersIDs?: string[]
+  numbersIDs: string[]
   priName: string
   email: string
 }
@@ -326,7 +325,6 @@ export interface Thread {
   messageCount: number
   messageSnippet: string
   messageType: number
-  number: string
   threadID: number
   numberID: string
 }

@@ -94,7 +94,6 @@ const firstThread: Thread = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   phoneNumber: contact.primaryPhoneNumber!,
-  numberID: "1",
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -109,7 +108,6 @@ const secondThread: Thread = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   phoneNumber: unknownContact.primaryPhoneNumber!,
-  numberID: "2",
   unread: false,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -122,7 +120,6 @@ const secondThread: Thread = {
 const incomingThread: Thread = {
   id: "3",
   phoneNumber: unknownReceiver.phoneNumber,
-  numberID: "3",
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:

@@ -73,17 +73,18 @@ export class ThreadService {
         return getPhoneNumberRequest(this.deviceManager, numberID ?? "")
       })
       const phoneNumbers = await Promise.all(phoneNumbersPromises)
-      const threadsWithPhoneNumber = this.enrichThreadsWithPhoneNumber(
-        data.entries,
-        phoneNumbers
-      )
 
       return {
         status: RequestResponseStatus.Ok,
         data: {
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/unbound-method
-          data: threadsWithPhoneNumber.map(ThreadPresenter.mapToThread),
+          data: data.entries.map((thread) => {
+            const phoneNumber = phoneNumbers.find(
+              ({ numberID }) => String(numberID) === thread.numberID
+            )
+            return ThreadPresenter.mapToThread(thread, phoneNumber?.number)
+          }),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
         },
@@ -94,21 +95,6 @@ export class ThreadService {
         error: { message: "Get threads: Something went wrong" },
       }
     }
-  }
-
-  private enrichThreadsWithPhoneNumber = (
-    threads: PureThread[],
-    phoneNumberResponses: PhoneNumberResponse[]
-  ) => {
-    return threads.map((t) => {
-      if (t.numberID) {
-        const number = phoneNumberResponses.find(({ numberID }) => {
-          return String(numberID) === t.numberID
-        })
-        return { ...t, number: number?.number } as PureThread
-      }
-      return t
-    })
   }
 
   // Target method is getThreadRequest. This is workaround to handle no implemented `getThread` API

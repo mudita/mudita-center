@@ -9,15 +9,8 @@ import { Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
 
 export class ThreadPresenter {
-  static mapToThread(pureThread: PureThread): Thread {
-    const {
-      isUnread,
-      lastUpdatedAt,
-      threadID,
-      number = "",
-      messageType,
-      numberID,
-    } = pureThread
+  static mapToThread(pureThread: PureThread, number: string = ""): Thread {
+    const { isUnread, lastUpdatedAt, threadID, messageType } = pureThread
 
     return {
       messageSnippet: ThreadPresenter.buildMessageSnippet(pureThread),
@@ -28,7 +21,6 @@ export class ThreadPresenter {
       messageType: ThreadPresenter.getMessageType(Number(messageType)),
       contactId: undefined,
       contactName: undefined,
-      numberID,
     }
   }
 

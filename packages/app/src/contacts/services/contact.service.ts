@@ -50,10 +50,12 @@ export class ContactService {
     if (response.ok && response.data) {
       return {
         status: RequestResponseStatus.Ok,
-        data: ContactPresenter.mapToContact({
-          ...response.data,
-          numbers: phoneNumbers,
-        }),
+        data: ContactPresenter.mapToContact(
+          {
+            ...response.data,
+          },
+          phoneNumbers
+        ),
       }
     } else {
       return {
@@ -75,7 +77,9 @@ export class ContactService {
         status: RequestResponseStatus.Ok,
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        data: response.data.entries.map(ContactPresenter.mapToContact),
+        data: response.data.entries.map((pureContact) =>
+          ContactPresenter.mapToContact(pureContact)
+        ),
       }
     } else {
       return {
