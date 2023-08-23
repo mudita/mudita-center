@@ -137,13 +137,9 @@ export class ContactService {
     // it's workaround to handle badly response from API when edited contact isn't exist
     const isContactValidResponse = await this.isContactValid(contact)
 
-    console.log("editContact1")
-
     if (isContactValidResponse.status === RequestResponseStatus.Error) {
       return isContactValidResponse
     }
-
-    console.log("editContact2")
 
     const { ok, data } = await this.deviceManager.device.request({
       endpoint: Endpoint.Contacts,
@@ -151,15 +147,11 @@ export class ContactService {
       body: ContactPresenter.mapToPureContact(contact),
     })
 
-    console.log("editContact3")
-
     if (ok) {
-      console.log("editContact4")
       this.contactRepository.update(contact, true)
 
       return { status: RequestResponseStatus.Ok, data: contact }
     } else {
-      console.log("editContact5")
       return {
         status: RequestResponseStatus.Error,
         error: { message: "Edit contact: Something went wrong", data },
