@@ -574,13 +574,15 @@ export interface StartDeviceUpdateRequestBody
   method: Method.Post
 }
 
-export interface PhoneNumberResponse {
+export type PhoneNumbersResponse = PhoneNumber[]
+
+export interface PhoneNumber {
   numberID: number
   number: string
 }
 
 export interface GetPhoneNumberResponseBody
-  extends RequestConfig<PhoneNumberResponse> {
+  extends RequestConfig<PhoneNumbersResponse> {
   endpoint: Endpoint.PhoneNumber
   method: Method.Get
 }

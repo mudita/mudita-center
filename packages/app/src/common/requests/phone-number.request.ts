@@ -5,22 +5,26 @@
 
 import {
   GetPhoneNumberResponseBody,
-  PhoneNumberResponse,
+  PhoneNumbersResponse,
 } from "App/device/types/mudita-os"
 import { Endpoint, Method } from "App/device/constants"
 import { DeviceManager } from "App/device-manager/services"
 
-export const getPhoneNumberRequest = async (
+export const getPhoneNumbersRequest = async (
   deviceManager: DeviceManager,
-  phoneNumberId: string
-): Promise<PhoneNumberResponse> => {
+  phoneNumberIds: string[]
+): Promise<PhoneNumbersResponse> => {
+  const phoneNumberIdsNumbers = phoneNumberIds.map((phoneNumberId) =>
+    Number(phoneNumberId)
+  )
   const phoneNumberResponse =
     await deviceManager.device.request<GetPhoneNumberResponseBody>({
       endpoint: Endpoint.PhoneNumber,
       method: Method.Get,
       body: {
-        numberID: Number(phoneNumberId),
+        numberIDs: phoneNumberIdsNumbers,
       },
     })
-  return phoneNumberResponse.data as PhoneNumberResponse
+
+  return phoneNumberResponse.data as PhoneNumbersResponse
 }

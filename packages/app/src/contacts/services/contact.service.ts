@@ -6,7 +6,6 @@
 import { Endpoint, Method } from "App/device/constants"
 import {
   GetContactResponseBody,
-  GetContactsResponseBody,
   CreateContactResponseBody,
   CreateContactErrorResponseBody,
 } from "App/device/types/mudita-os"
@@ -18,8 +17,7 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { PureContact } from "App/device/types/mudita-os"
-import { getPhoneNumberRequest } from "App/common/requests/phone-number.request"
+import { getPhoneNumbersRequest } from "App/common/requests/phone-number.request"
 
 export class ContactService {
   constructor(
@@ -28,7 +26,7 @@ export class ContactService {
   ) {}
 
   public async getContact(id: string): Promise<RequestResponse<Contact>> {
-    const response =
+    const { ok, data } =
       await this.deviceManager.device.request<GetContactResponseBody>({
         endpoint: Endpoint.Contacts,
         method: Method.Get,
@@ -36,23 +34,21 @@ export class ContactService {
           id: Number(id),
         },
       })
+    if (ok && data) {
+      const phoneNumberIds = data.numbersIDs
 
-    const contact = response.data as PureContact
-    const phoneNumberIds = contact?.numbersIDs ?? []
+      const phoneNumbersResponses = await getPhoneNumbersRequest(
+        this.deviceManager,
+        phoneNumberIds
+      )
 
-    const phoneNumberPromises = phoneNumberIds.map((id) => {
-      return getPhoneNumberRequest(this.deviceManager, id)
-    })
+      const phoneNumbers = phoneNumbersResponses.map(({ number }) => number)
 
-    const phoneNumbersResponses = await Promise.all(phoneNumberPromises)
-    const phoneNumbers = phoneNumbersResponses.map(({ number }) => number)
-
-    if (response.ok && response.data) {
       return {
         status: RequestResponseStatus.Ok,
         data: ContactPresenter.mapToContact(
           {
-            ...response.data,
+            ...data,
           },
           phoneNumbers
         ),
@@ -141,9 +137,13 @@ export class ContactService {
     // it's workaround to handle badly response from API when edited contact isn't exist
     const isContactValidResponse = await this.isContactValid(contact)
 
+    console.log("editContact1")
+
     if (isContactValidResponse.status === RequestResponseStatus.Error) {
       return isContactValidResponse
     }
+
+    console.log("editContact2")
 
     const { ok, data } = await this.deviceManager.device.request({
       endpoint: Endpoint.Contacts,
@@ -151,11 +151,15 @@ export class ContactService {
       body: ContactPresenter.mapToPureContact(contact),
     })
 
+    console.log("editContact3")
+
     if (ok) {
+      console.log("editContact4")
       this.contactRepository.update(contact, true)
 
       return { status: RequestResponseStatus.Ok, data: contact }
     } else {
+      console.log("editContact5")
       return {
         status: RequestResponseStatus.Error,
         error: { message: "Edit contact: Something went wrong", data },

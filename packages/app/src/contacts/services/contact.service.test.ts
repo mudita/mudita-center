@@ -70,7 +70,7 @@ describe("`ContactService`", () => {
         .fn()
         .mockResolvedValueOnce(Result.success(pureContact))
         .mockResolvedValueOnce(
-          Result.success({ numberID: "1", number: "+48500400300" })
+          Result.success([{ numberID: "1", number: "+48500400300" }])
         )
 
       const response = await subject.getContact("1")
@@ -124,7 +124,11 @@ describe("`ContactService`", () => {
     test("returns success and `repository.update` is called when `device.request` and `isContactValid` returns success", async () => {
       deviceManager.device.request = jest
         .fn()
-        .mockReturnValue(Result.success(pureContact))
+        .mockReturnValueOnce(Result.success(pureContact))
+        .mockReturnValueOnce(
+          Result.success([{ numberID: "1", number: "+48500400300" }])
+        )
+        .mockReturnValueOnce(Result.success(pureContact))
 
       const response = await subject.editContact(contact)
       // AUTO DISABLED - fix me if you like :)

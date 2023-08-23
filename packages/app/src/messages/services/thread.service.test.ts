@@ -44,7 +44,7 @@ const pureThread: PureThread = {
   threadID: 1,
 }
 
-const mappedPureThread = ThreadPresenter.mapToThread(pureThread)
+const mappedPureThread = ThreadPresenter.mapToThread(pureThread, "+48500400300")
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -106,7 +106,10 @@ describe("`ThreadService`", () => {
     test("map data and returns success when `deviceManager.device.request` returns success", async () => {
       deviceManager.device.request = jest
         .fn()
-        .mockReturnValue(getThreadsSuccessResponse)
+        .mockReturnValueOnce(getThreadsSuccessResponse)
+        .mockReturnValueOnce(
+          Result.success([{ numberID: "1", number: "+48500400300" }])
+        )
       const response = await subject.getThreads({ limit: 1, offset: 0 })
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -122,7 +125,7 @@ describe("`ThreadService`", () => {
               "lastUpdatedAt": 2021-03-30T07:32:38.000Z,
               "messageSnippet": "Draft: Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
               "messageType": "INBOX",
-              "phoneNumber": "",
+              "phoneNumber": "+48500400300",
               "unread": true,
             },
           ],
@@ -240,7 +243,10 @@ describe("`ThreadService`", () => {
       test("removes thread from the repository and returns success response", async () => {
         deviceManager.device.request = jest
           .fn()
-          .mockReturnValue(getThreadsSuccessResponse)
+          .mockReturnValueOnce(getThreadsSuccessResponse)
+          .mockReturnValueOnce(
+            Result.success([{ numberID: "1", number: "+48500400300" }])
+          )
         const response = await subject.refreshThread("6666")
 
         // AUTO DISABLED - fix me if you like :)
@@ -259,7 +265,10 @@ describe("`ThreadService`", () => {
       test("updates the thread and returns success response", async () => {
         deviceManager.device.request = jest
           .fn()
-          .mockReturnValue(getThreadsSuccessResponse)
+          .mockReturnValueOnce(getThreadsSuccessResponse)
+          .mockReturnValueOnce(
+            Result.success([{ numberID: "1", number: "+48500400300" }])
+          )
         const response = await subject.refreshThread("1")
 
         // AUTO DISABLED - fix me if you like :)

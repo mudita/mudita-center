@@ -22,7 +22,7 @@ import {
 import { ThreadPresenter } from "App/messages/presenters"
 import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import { ThreadRepository } from "App/messages/repositories"
-import { getPhoneNumberRequest } from "App/common/requests/phone-number.request"
+import { getPhoneNumbersRequest } from "App/common/requests/phone-number.request"
 
 export interface GetThreadsResponse {
   data: Thread[]
@@ -57,20 +57,19 @@ export class ThreadService {
       ...pagination,
     }
 
-    const response =
+    const { ok, data } =
       await this.deviceManager.device.request<GetThreadsResponseBody>({
         body,
         endpoint: Endpoint.Messages,
         method: Method.Get,
       })
 
-    if (response.ok && response.data) {
-      const data = response.data
-
-      const phoneNumbersPromises = data.entries.map(({ numberID }) => {
-        return getPhoneNumberRequest(this.deviceManager, numberID ?? "")
-      })
-      const phoneNumbers = await Promise.all(phoneNumbersPromises)
+    if (ok && data) {
+      const phoneNumberIds = data.entries.map(({ numberID }) => numberID)
+      const phoneNumbers = await getPhoneNumbersRequest(
+        this.deviceManager,
+        phoneNumberIds
+      )
 
       return {
         status: RequestResponseStatus.Ok,
