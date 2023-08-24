@@ -37,12 +37,12 @@ export class ContactService {
     if (ok && data) {
       const phoneNumberIds = data.numbersIDs
 
-      const phoneNumbersResponses = await getPhoneNumbersRequest(
+      const phoneNumbersResponse = await getPhoneNumbersRequest(
         this.deviceManager,
         phoneNumberIds
       )
 
-      const phoneNumbers = phoneNumbersResponses.map(({ number }) => number)
+      const phoneNumbers = phoneNumbersResponse.map(({ number }) => number)
 
       return {
         status: RequestResponseStatus.Ok,
