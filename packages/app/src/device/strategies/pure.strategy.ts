@@ -5,78 +5,78 @@
 
 import { EventEmitter } from "events"
 import {
+  DeviceCommunicationEvent,
+  DeviceServiceEvent,
   Endpoint,
   Method,
-  DeviceServiceEvent,
-  DeviceCommunicationEvent,
   PhoneLockCategory,
 } from "App/device/constants"
 import {
-  GetPhoneLockTimeResponseBody,
-  RequestConfig,
-  StartRestoreRequestConfig,
-  RemoveFileSystemRequestConfig,
-  GetSecurityRequestConfig,
-  GetPhoneLockStatusRequestConfig,
-  GetPhoneLockTimeRequestConfig,
-  UnlockDeviceRequestConfig,
-  GetDeviceInfoRequestConfig,
-  GetDeviceInfoResponseBody,
-  GetDeviceFilesRequestConfig,
-  GetDeviceFilesResponseBody,
-  GetMessagesRequestConfig,
-  GetMessagesResponseBody,
-  GetMessageRequestConfig,
-  GetMessageResponseBody,
-  GetThreadsRequestConfig,
-  GetThreadsResponseBody,
-  GetThreadRequestConfig,
-  GetThreadResponseBody,
-  CreateMessageRequestConfig,
-  CreateMessageResponseBody,
-  UpdateMessageRequestConfig,
-  DeleteMessageRequestConfig,
-  DeleteThreadRequestConfig,
-  UpdateThreadReadUnreadStateRequestConfig,
-  GetTemplateRequestConfig,
-  GetTemplateResponseBody,
-  GetTemplatesRequestConfig,
-  GetTemplatesResponseBody,
-  CreateTemplateRequestConfig,
-  CreateTemplateResponseBody,
-  UpdateTemplateRequestConfig,
-  UpdateTemplateOrderRequestConfig,
-  DeleteTemplateRequestConfig,
-  GetContactsRequestConfig,
-  GetContactsResponseBody,
-  GetContactRequestConfig,
-  GetContactResponseBody,
   CreateContactRequestConfig,
   CreateContactResponseBody,
-  UpdateContactRequestConfig,
-  UpdateContactResponseBody,
+  CreateMessageRequestConfig,
+  CreateMessageResponseBody,
+  CreateTemplateRequestConfig,
+  CreateTemplateResponseBody,
   DeleteContactRequestConfig,
   DeleteContactResponseBody,
-  StartDeviceUpdateRequestBody,
+  DeleteEntriesRequestConfig,
+  DeleteMessageRequestConfig,
+  DeleteTemplateRequestConfig,
+  DeleteThreadRequestConfig,
+  DownloadFileSystemRequestConfig,
+  DownloadFileSystemResponseBody,
+  GetBackupDeviceStatusRequestConfig,
+  GetBackupDeviceStatusResponseBody,
+  GetContactRequestConfig,
+  GetContactResponseBody,
+  GetContactsRequestConfig,
+  GetContactsResponseBody,
+  GetDeviceFilesRequestConfig,
+  GetDeviceFilesResponseBody,
+  GetDeviceInfoRequestConfig,
+  GetDeviceInfoResponseBody,
+  GetEntriesRequestConfig,
+  GetEntriesResponseBody,
   GetFileSystemDirectoryRequestConfig,
   GetFileSystemDirectoryResponseBody,
   GetFileSystemRequestConfig,
   GetFileSystemResponseBody,
-  DownloadFileSystemRequestConfig,
-  DownloadFileSystemResponseBody,
-  SendFileSystemRequestConfig,
-  SendFileSystemResponseBody,
-  PutFileSystemRequestConfig,
-  PutFileSystemResponseBody,
-  StartBackupRequestConfig,
-  StartBackupResponseBody,
-  GetBackupDeviceStatusRequestConfig,
-  GetBackupDeviceStatusResponseBody,
+  GetMessageRequestConfig,
+  GetMessageResponseBody,
+  GetMessagesRequestConfig,
+  GetMessagesResponseBody,
+  GetPhoneLockStatusRequestConfig,
+  GetPhoneLockTimeRequestConfig,
+  GetPhoneLockTimeResponseBody,
   GetRestoreDeviceStatusRequestConfig,
   GetRestoreDeviceStatusResponseBody,
-  GetEntriesRequestConfig,
-  GetEntriesResponseBody,
-  DeleteEntriesRequestConfig,
+  GetSecurityRequestConfig,
+  GetTemplateRequestConfig,
+  GetTemplateResponseBody,
+  GetTemplatesRequestConfig,
+  GetTemplatesResponseBody,
+  GetThreadRequestConfig,
+  GetThreadResponseBody,
+  GetThreadsRequestConfig,
+  GetThreadsResponseBody,
+  PutFileSystemRequestConfig,
+  PutFileSystemResponseBody,
+  RemoveFileSystemRequestConfig,
+  RequestConfig,
+  SendFileSystemRequestConfig,
+  SendFileSystemResponseBody,
+  StartBackupRequestConfig,
+  StartBackupResponseBody,
+  StartDeviceUpdateRequestBody,
+  StartRestoreRequestConfig,
+  UnlockDeviceRequestConfig,
+  UpdateContactRequestConfig,
+  UpdateContactResponseBody,
+  UpdateMessageRequestConfig,
+  UpdateTemplateOrderRequestConfig,
+  UpdateTemplateRequestConfig,
+  UpdateThreadReadUnreadStateRequestConfig,
 } from "App/device/types/mudita-os"
 import {
   RequestResponse,
@@ -283,37 +283,44 @@ export class PureStrategy implements DeviceStrategy {
     config: RequestConfig<any>,
     response: RequestResponse<unknown>
   ): void {
-    if (
-      config.endpoint === Endpoint.Security &&
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      (config.body.category === PhoneLockCategory.Status ||
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        config.body.category === PhoneLockCategory.Time) &&
-      response.status !== RequestResponseStatus.Ok
+    this.handleDeviceOnboardingStatusEvent(config, response)
+    this.handleDeviceUnlockedEvent(config, response)
+  }
+
+  private handleDeviceOnboardingStatusEvent(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config: RequestConfig<any>,
+    response: RequestResponse<unknown>
+  ): void {
+    if (config.endpoint !== Endpoint.Security) {
+      return
+    }
+
+    if (response.status === RequestResponseStatus.OnboardingNotFinished) {
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingNotFinished)
+    } else if (
+      response.status === RequestResponseStatus.PhoneLocked ||
+      response.status === RequestResponseStatus.Ok
     ) {
-      return
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingFinished)
     }
+  }
 
+  private handleDeviceUnlockedEvent(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config: RequestConfig<any>,
+    response: RequestResponse<unknown>
+  ): void {
     if (!this.isEndpointSecure(config)) {
-      return
-    }
-
-    if (response.status === RequestResponseStatus.Error) {
       return
     }
 
     if (response.status === RequestResponseStatus.PhoneLocked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked)
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
     } else if (response.status === RequestResponseStatus.Ok) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
-    } else if (response.status === RequestResponseStatus.EulaNotAccepted) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementNotAccepted)
-    } else {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
     }
   }
 

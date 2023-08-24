@@ -15,13 +15,13 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 export const EULAAgreement: FunctionComponent<EULAAgreementProps> = ({
   children,
 }) => {
-  const agreementAccepted = useSelector(
-    (state: ReduxRootState) => state.device.status.agreementAccepted
+  const onboardingFinished = useSelector(
+    (state: ReduxRootState) => state.device.status.onboardingFinished
   )
 
   return (
     <>
-      <AgreementModal open={!agreementAccepted} />
+      <AgreementModal open={!onboardingFinished} />
       {children}
     </>
   )

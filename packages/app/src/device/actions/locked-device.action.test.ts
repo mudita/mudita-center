@@ -8,13 +8,18 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { DeviceCommunicationError, DeviceType } from "App/device/constants"
-import { lockedDevice } from "./locked-device.action"
+import {
+  DeviceCommunicationError,
+  DeviceError,
+  DeviceType,
+} from "App/device/constants"
+import { lockedDevice } from "App/device"
 import { unlockDeviceStatusRequest } from "App/device/requests/unlock-device-status.request"
 import { deviceLockTimeRequest } from "App/device/requests/device-lock-time.request"
 import { flags } from "App/feature-flags"
 import { DeviceEvent } from "App/device"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 
 jest.mock("App/feature-flags")
 jest.mock("App/device/requests/device-lock-time.request")
@@ -130,12 +135,16 @@ describe("Device: MuditaPure", () => {
       )
     })
 
-    test("fire async `lockedDevice` calls `setAgreementStatus` action", async () => {
+    test("fire async `lockedDevice` calls `setOnboardingStatus` action", async () => {
+      const errorMock = new AppError(
+        DeviceError.Locking,
+        "`Onboarding` not finished"
+      )
       ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
         Result.failed(
           new AppError(
-            DeviceCommunicationError.DeviceAgreementNotAccepted,
-            "Oups, eula not accepted!"
+            DeviceCommunicationError.DeviceOnboardingNotFinished,
+            "Oups, onboarding not finished!"
           )
         )
       )
@@ -149,14 +158,10 @@ describe("Device: MuditaPure", () => {
       expect(mockStore.getActions()).toEqual([
         lockedDevice.pending(requestId),
         {
-          type: DeviceEvent.AgreementStatus,
+          type: DeviceEvent.OnboardingStatus,
           payload: false,
         },
-        {
-          type: DeviceEvent.SetLockTime,
-          payload: undefined,
-        },
-        lockedDevice.fulfilled(undefined, requestId, undefined),
+        lockedDevice.rejected(testError, requestId, undefined, errorMock),
       ])
 
       expect(deviceLockTimeRequest).toHaveBeenCalled()

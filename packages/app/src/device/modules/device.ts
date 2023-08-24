@@ -23,8 +23,8 @@ import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 
 export class Device {
   public connecting = true
-  public locked = false
-  public agreementAccepted = false
+  public locked: null | boolean = null
+  public onboardingFinished = false
   public serialNumber = ""
 
   constructor(
@@ -52,11 +52,13 @@ export class Device {
           response
         )
       )
-    } else if (response.status === RequestResponseStatus.EulaNotAccepted) {
+    } else if (
+      response.status === RequestResponseStatus.OnboardingNotFinished
+    ) {
       return Result.failed(
         new AppError(
-          DeviceCommunicationError.DeviceAgreementNotAccepted,
-          `Device ${this.path} EULA isn't accepted`,
+          DeviceCommunicationError.DeviceOnboardingNotFinished,
+          `Device ${this.path} onboarding not finished`,
           response
         )
       )
@@ -89,11 +91,13 @@ export class Device {
           response
         )
       )
-    } else if (response.status === RequestResponseStatus.EulaNotAccepted) {
+    } else if (
+      response.status === RequestResponseStatus.OnboardingNotFinished
+    ) {
       return Result.failed(
         new AppError(
-          DeviceCommunicationError.DeviceAgreementNotAccepted,
-          `Device ${this.path} EULA isn't accepted`,
+          DeviceCommunicationError.DeviceOnboardingNotFinished,
+          `Device ${this.path} onboarding not finished`,
           response
         )
       )
@@ -156,12 +160,12 @@ export class Device {
     this.on(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     this.on(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.on(
-      DeviceServiceEvent.DeviceAgreementAccepted,
-      this.emitAgreementAcceptedEvent
+      DeviceServiceEvent.DeviceOnboardingFinished,
+      this.emitOnboardingFinishedEvent
     )
     this.on(
-      DeviceServiceEvent.DeviceAgreementNotAccepted,
-      this.emitAgreementNotAcceptedEvent
+      DeviceServiceEvent.DeviceOnboardingNotFinished,
+      this.emitOnboardingNotFinishedEvent
     )
   }
 
@@ -179,12 +183,12 @@ export class Device {
     this.off(DeviceServiceEvent.DeviceLocked, this.emitLockedEvent)
     this.off(DeviceServiceEvent.DeviceUnlocked, this.emitUnlockedEvent)
     this.off(
-      DeviceServiceEvent.DeviceAgreementAccepted,
-      this.emitAgreementAcceptedEvent
+      DeviceServiceEvent.DeviceOnboardingFinished,
+      this.emitOnboardingFinishedEvent
     )
     this.off(
-      DeviceServiceEvent.DeviceAgreementNotAccepted,
-      this.emitAgreementNotAcceptedEvent
+      DeviceServiceEvent.DeviceOnboardingNotFinished,
+      this.emitOnboardingNotFinishedEvent
     )
   }
 
@@ -217,7 +221,11 @@ export class Device {
   }
 
   private emitLockedEvent = (): void => {
-    if (!this.locked) {
+    if (!this.onboardingFinished) {
+      return
+    }
+
+    if (this.locked !== true) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked, this)
       this.ipc.sendToRenderers(DeviceIpcEvent.DeviceLocked, this)
       this.locked = true
@@ -225,27 +233,36 @@ export class Device {
   }
 
   private emitUnlockedEvent = (): void => {
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
-    this.ipc.sendToRenderers(DeviceIpcEvent.DeviceUnlocked, this)
-    this.locked = false
-  }
+    if (!this.onboardingFinished) {
+      return
+    }
 
-  private emitAgreementAcceptedEvent = (): void => {
-    if (!this.locked) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted, true)
-      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceAgreementStatus, true)
-      this.agreementAccepted = true
+    if (this.locked !== false) {
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceUnlocked, this)
+      this.locked = false
     }
   }
 
-  private emitAgreementNotAcceptedEvent = (): void => {
-    if (this.locked) {
-      this.eventEmitter.emit(
-        DeviceServiceEvent.DeviceAgreementNotAccepted,
-        false
-      )
-      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceAgreementStatus, false)
-      this.agreementAccepted = false
+  private emitOnboardingFinishedEvent = (): void => {
+    if (this.locked !== null) {
+      return
+    }
+
+    if (!this.onboardingFinished) {
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceOnboardingStatus, true)
+      this.onboardingFinished = true
+    }
+  }
+
+  private emitOnboardingNotFinishedEvent = (): void => {
+    if (this.locked !== null) {
+      return
+    }
+
+    if (this.onboardingFinished) {
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceOnboardingStatus, false)
+      this.onboardingFinished = false
     }
   }
 }
