@@ -16,29 +16,11 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - name: Setup
-        run: npm install
-        env:
-          PHRASE_API_KEY: ${{ vars.PHRASE_API_KEY }}
-          PHRASE_API_URL: ${{ vars.PHRASE_API_URL }}
-          PHRASE_API_KEY_DEV: ${{ vars.PHRASE_API_KEY_DEV }}
-          MUDITA_CENTER_SERVER_URL: ${{ vars.MUDITA_CENTER_SERVER_URL }}
-          ROLLBAR_TOKEN: ${{ vars.ROLLBAR_TOKEN }}
-          GITHUB_ACCESS_TOKEN: ${{ vars.MC_GITHUB_ACCESS_TOKEN }}
-          LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ vars.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
-          FONTS_DIRECTORY_URL: ${{ vars.FONTS_DIRECTORY_URL }}
-          FRESHDESK_API_URL: ${{ vars.FRESHDESK_API_URL }}
-          FRESHDESK_API_TOKEN: ${{ vars.FRESHDESK_API_TOKEN }}
-          ANALYTICS_API_URL: ${{ vars.ANALYTICS_API_URL }}
-          ANALYTICS_API_SITE_ID: ${{ vars.ANALYTICS_API_SITE_ID }}
-          FEATURE_TOGGLE_ENVIRONMENT: ${{ vars.FEATURE_TOGGLE_ENVIRONMENT }}
-          STATIC_CONFIGURATION_FILE_PATH: ${{ vars.STATIC_CONFIGURATION_FILE_PATH }}
-          DEV_REDUX_LOGGER_ENABLED: ${{ vars.DEV_REDUX_LOGGER_ENABLED }}
-          DEV_DEVICE_LOGGER_ENABLED: ${{ vars.DEV_DEVICE_LOGGER_ENABLED }}
-          FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ vars.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
-          MUDITA_CENTER_PRERELEASE_ENABLED: ${{ vars.MUDITA_CENTER_PRERELEASE_ENABLED }}
       - name: Build
-        run: npm run dist:prod:all -- --stream
+        run: |
+          npm ci
+          npm run bootstrap:local
+          npm run dist:prod:all -- --stream
         env:
           PHRASE_API_KEY: ${{ vars.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ vars.PHRASE_API_URL }}
