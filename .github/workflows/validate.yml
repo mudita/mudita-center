@@ -24,6 +24,7 @@ jobs:
       - name: Build
         run: |
           npm run setup
+          npm rebuild
           npm run dist:prod:all -- --stream
         env:
           PHRASE_API_KEY: ${{ vars.PHRASE_API_KEY }}
