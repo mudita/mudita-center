@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Build
         run: |
-          npm setup
+          npm run setup
           npm run dist:prod:all -- --stream
         env:
           PHRASE_API_KEY: ${{ vars.PHRASE_API_KEY }}
