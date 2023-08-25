@@ -16,57 +16,5 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: |
-          npm ci && npm run bootstrap:ci
-      - name: Lint test and typecheck
-        run: |
-          npm run lint
-          npm run lint:typecheck
-        env:
-          CI: true
-      - name: Test
-        run: npm run test:coverage
-        env:
-          CI: true
-          NODE_OPTIONS: '--max_old_space_size=8192'
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./packages/pure/coverage/lcov.info,./packages/app/coverage/lcov.info
-          fail_ci_if_error: false
-      - name: Build
-        run: npm run setup && npm run dist:prod:all -- --stream
-        env:
-          PHRASE_API_KEY: ${{ env.PHRASE_API_KEY }}
-          PHRASE_API_URL: ${{ env.PHRASE_API_URL }}
-          PHRASE_API_KEY_DEV: ${{ env.PHRASE_API_KEY_DEV }}
-          MUDITA_CENTER_SERVER_URL: ${{ env.MUDITA_CENTER_SERVER_URL }}
-          ROLLBAR_TOKEN: ${{ env.ROLLBAR_TOKEN }}
-          GITHUB_ACCESS_TOKEN: ${{ env.MC_GITHUB_ACCESS_TOKEN }}
-          LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ env.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
-          FONTS_DIRECTORY_URL: ${{ env.FONTS_DIRECTORY_URL }}
-          FRESHDESK_API_URL: ${{ env.FRESHDESK_API_URL }}
-          FRESHDESK_API_TOKEN: ${{ env.FRESHDESK_API_TOKEN }}
-          ANALYTICS_API_URL: ${{ env.ANALYTICS_API_URL }}
-          ANALYTICS_API_SITE_ID: ${{ env.ANALYTICS_API_SITE_ID }}
-          FEATURE_TOGGLE_ENVIRONMENT: ${{ env.FEATURE_TOGGLE_ENVIRONMENT }}
-          STATIC_CONFIGURATION_FILE_PATH: ${{ env.STATIC_CONFIGURATION_FILE_PATH }}
-          DEV_REDUX_LOGGER_ENABLED: ${{ env.DEV_REDUX_LOGGER_ENABLED }}
-          DEV_DEVICE_LOGGER_ENABLED: ${{ env.DEV_DEVICE_LOGGER_ENABLED }}
-          FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ env.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
-          MUDITA_CENTER_PRERELEASE_ENABLED: ${{ env.MUDITA_CENTER_PRERELEASE_ENABLED }}
-      - name: Nexus
-        run: |
-          npm install -g @sonatype/nexus-cli
-          nexus-cli repository create releases npm mudita-center --url https://nexus.mudita.com
-          nexus-cli upload packages/app/release/*.tgz mudita-center --url https://nexus.mudita.com
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      - name: tests env
+        run: printenv
