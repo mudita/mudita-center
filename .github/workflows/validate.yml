@@ -44,7 +44,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ vars.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ vars.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ vars.MUDITA_CENTER_PRERELEASE_ENABLED }}
-          NODE_OPTIONS: "--max-old-space-size=8192"
+          NODE_OPTIONS: "--max-old-space-size=4096"
       - name: Nexus
         run: |
           npm install -g @sonatype/nexus-cli
