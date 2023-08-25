@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - name: ENV TEST
+      - name: test env
         run: printenv
         env:
           PHRASE_API_KEY: ${{ env.PHRASE_API_KEY }}
@@ -37,3 +37,5 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ env.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ env.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ env.MUDITA_CENTER_PRERELEASE_ENABLED }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
