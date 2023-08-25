@@ -42,7 +42,7 @@ jobs:
           files: ./packages/pure/coverage/lcov.info,./packages/app/coverage/lcov.info
           fail_ci_if_error: false
       - name: Build
-        run: npm run dist:prod:all -- --stream
+        run: npm run setup && npm run dist:prod:all -- --stream
         env:
           PHRASE_API_KEY: ${{ env.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ env.PHRASE_API_URL }}
