@@ -16,8 +16,33 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - name: test env
-        run: printenv
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: |
+          npm ci && npm run bootstrap:ci
+      - name: Lint test and typecheck
+        run: |
+          npm run lint
+          npm run lint:typecheck
+        env:
+          CI: true
+      - name: Test
+        run: npm run test:coverage
+        env:
+          CI: true
+          NODE_OPTIONS: '--max_old_space_size=8192'
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/pure/coverage/lcov.info,./packages/app/coverage/lcov.info
+          fail_ci_if_error: false
+      - name: Build
+        run: npm run setup && npm run dist:prod:all -- --stream
         env:
           PHRASE_API_KEY: ${{ vars.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ vars.PHRASE_API_URL }}
@@ -37,3 +62,11 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ vars.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ vars.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ vars.MUDITA_CENTER_PRERELEASE_ENABLED }}
+      - name: Nexus
+        run: |
+          npm install -g @sonatype/nexus-cli
+          nexus-cli repository create releases npm mudita-center --url https://nexus.mudita.com
+          nexus-cli upload packages/app/release/*.tgz mudita-center --url https://nexus.mudita.com
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
