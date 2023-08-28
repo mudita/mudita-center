@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Build
         run: |
-          npm run ci
+          npm ci
           npm run bootstrap:ci
           npm run dist:prod:all -- --stream
         env:
