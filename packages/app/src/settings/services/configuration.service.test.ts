@@ -71,6 +71,8 @@ describe("When API return failed status code", () => {
     axiosMock.onGet("http://localhost/v2-app-configuration").replyOnce(500, {
       error: "Luke, I'm your error",
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const appConfiguration = require("../static/app-configuration.json")
     const subject = new ConfigurationService()
     const result = await subject.getConfiguration()
