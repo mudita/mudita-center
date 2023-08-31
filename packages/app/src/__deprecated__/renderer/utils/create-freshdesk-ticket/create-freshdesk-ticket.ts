@@ -4,12 +4,10 @@
  */
 
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import mockCreateFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
 import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 
 const url = process.env.FRESHDESK_API_URL
 const token = process.env.FRESHDESK_API_TOKEN
-const env = process.env.NODE_ENV
 
 const createFreshdeskTicket = async ({
   type,
@@ -59,9 +57,5 @@ const createFreshdeskTicket = async ({
 }
 
 export default (() => {
-  if (env === "production") {
-    return createFreshdeskTicket
-  } else {
-    return mockCreateFreshdeskTicket
-  }
+  return createFreshdeskTicket
 })()
