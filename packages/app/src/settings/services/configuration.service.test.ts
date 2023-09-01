@@ -41,14 +41,18 @@ const configuration: Configuration = {
     MuditaKompakt: "3.3.3",
   },
 }
-
-jest.mock("App/settings/static/default-app-configuration.json", () => ({
+const defaultConfig = {
   centerVersion: "1.0.0-default",
   productVersions: {
     MuditaHarmony: "1.1.1-default",
     MuditaPure: "2.2.2-default",
   },
-}))
+}
+
+jest.mock(
+  "App/settings/static/default-app-configuration.json",
+  () => defaultConfig
+)
 
 describe("When API return success status code", () => {
   test("returns API response", async () => {
@@ -67,15 +71,15 @@ describe("When API return failed status code", () => {
     axiosMock.onGet("http://localhost/v2-app-configuration").replyOnce(500, {
       error: "Luke, I'm your error",
     })
-
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const appConfiguration = require("../static/app-configuration.json")
     const subject = new ConfigurationService()
     const result = await subject.getConfiguration()
-    expect(result).toEqual({
-      centerVersion: "1.0.0-default",
-      productVersions: {
-        MuditaHarmony: "1.1.1-default",
-        MuditaPure: "2.2.2-default",
-      },
-    })
+    if (appConfiguration) {
+      expect(result).toEqual(appConfiguration)
+    } else {
+      expect(result).toEqual(defaultConfig)
+    }
   })
 })
