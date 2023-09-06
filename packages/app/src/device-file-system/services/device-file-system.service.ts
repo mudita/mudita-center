@@ -54,7 +54,9 @@ export class DeviceFileSystemService {
         return Result.failed(new AppError("", ""))
       }
     }
-    if (isCrashDump && !data.length) return Result.failed(new AppError("", ""))
+    if (isCrashDump && !data.length) {
+      return Result.failed(new AppError("", ""))
+    }
 
     return Result.success(data)
   }

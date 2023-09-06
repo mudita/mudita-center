@@ -114,9 +114,9 @@ describe("Crash Dump Observer: observe", () => {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           crashDumpService.downloadDeviceCrashDumpFiles
         ).toHaveBeenCalledTimes(0)
 
@@ -185,9 +185,9 @@ describe("Crash Dump Observer: observe", () => {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           crashDumpService.downloadDeviceCrashDumpFiles
         ).toHaveBeenCalledTimes(0)
 
@@ -253,9 +253,9 @@ describe("Crash Dump Observer: observe", () => {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           crashDumpService.downloadDeviceCrashDumpFiles
         ).toHaveBeenCalledTimes(0)
 
@@ -272,9 +272,9 @@ describe("Crash Dump Observer: observe", () => {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(1)
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           crashDumpService.downloadDeviceCrashDumpFiles
         ).toHaveBeenCalledTimes(1)
         // AUTO DISABLED - fix me if you like :)
