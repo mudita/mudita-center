@@ -16,6 +16,7 @@ import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import { SuccessModal } from "App/ui/components/success-modal/success-modal.component"
 import {
+  sendCrashDumpData,
   downloadCrashDump,
   ignoreCrashDump,
   resetCrashDump,
@@ -55,6 +56,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   ignoreCrashDump,
   resetCrashDump,
   layer = ModalLayers.CrashDump,
+  sendCrashDumpData,
 }) => {
   const [openInfo, setOpenInfo] = useState<boolean>(false)
 
@@ -78,7 +80,8 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   }
 
   const handleDownloadCrashDump = (data: CrashDumpDto) => {
-    downloadCrashDump(data)
+    sendCrashDumpData(data)
+    // downloadCrashDump(data)
     setOpenInfo(false)
   }
 
@@ -151,6 +154,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
 })
 
 const mapDispatchToProps = {
+  sendCrashDumpData,
   downloadCrashDump,
   ignoreCrashDump,
   resetCrashDump,

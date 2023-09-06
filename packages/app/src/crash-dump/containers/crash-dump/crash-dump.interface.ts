@@ -17,4 +17,5 @@ export interface CrashDumpContainerProps {
   downloadCrashDump: (payload: CrashDump) => void
   ignoreCrashDump: () => void
   resetCrashDump: () => void
+  sendCrashDumpData: (payload: CrashDump) => void
 }

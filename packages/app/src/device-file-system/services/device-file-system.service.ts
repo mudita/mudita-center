@@ -34,6 +34,29 @@ export class DeviceFileSystemService {
     options: DownloadDeviceFileLocallyOptions
   ): Promise<ResultObject<string[]>> {
     const data: string[] = []
+    const isCrashDump = path.basename(options.cwd) === "crash-dumps"
+    if (isCrashDump) {
+      console.log("downloadDeviceFilesLocally")
+      console.log(
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+      )
+      console.log(
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+      )
+      console.log(
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+      )
+      console.log(filePaths)
+      console.log(
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+      )
+      console.log(
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+      )
+      console.log(
+        "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+      )
+    }
 
     if (!fs.existsSync(options.cwd)) {
       fs.mkdirSync(options.cwd, {
@@ -42,17 +65,49 @@ export class DeviceFileSystemService {
     }
 
     for (let i = 0; i < filePaths.length; i++) {
+      if (isCrashDump) {
+        console.log("downloadDeviceFilesLocally")
+        console.log(
+          "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        )
+        console.log(
+          "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        )
+        console.log(
+          "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        )
+        console.log(i)
+        console.log(filePaths[i])
+        console.log(
+          "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        )
+        console.log(
+          "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        )
+        console.log(
+          "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        )
+      }
       const response = await this.downloadDeviceFileLocally(
         filePaths[i],
         options
       )
+      if (isCrashDump) {
+        console.log("downloadDeviceFilesLocally")
+        console.log(response)
+      }
 
       if (response.ok && response.data) {
         data.push(...response.data)
-      } else {
+      } else if (!isCrashDump) {
         return Result.failed(new AppError("", ""))
       }
     }
+    if (isCrashDump) {
+      console.log("downloadDeviceFilesLocally")
+      console.log(data)
+    }
+    if (isCrashDump && !data.length) return Result.failed(new AppError("", ""))
 
     return Result.success(data)
   }
@@ -78,7 +133,7 @@ export class DeviceFileSystemService {
 
   public async downloadFile(filePath: string): Promise<ResultObject<Buffer>> {
     try {
-      const { ok, data } =
+      const { ok, data, error } =
         await this.deviceManager.device.request<GetFileSystemResponseBody>({
           endpoint: Endpoint.FileSystem,
           method: Method.Get,
@@ -86,6 +141,7 @@ export class DeviceFileSystemService {
             fileName: filePath,
           },
         })
+      console.log(data, ok, error, filePath)
 
       if (!ok || data === undefined) {
         return Result.failed(
@@ -97,11 +153,43 @@ export class DeviceFileSystemService {
       }
 
       const { rxID, fileSize, chunkSize } = data
+      // console.log("before")
+      // if (!fileSize)
+      //   return Result.failed(new AppError("", "FileSize is 0 bytes"))
+      // console.log("after")
       const chunkLength = fileSize > chunkSize ? fileSize / chunkSize : 1
+      console.log("downloadEncodedFile from downloadFile")
+      try {
+        const downloadFileResponse = await this.downloadEncodedFile(
+          rxID,
+          chunkLength
+        )
+      } catch (e) {
+        console.log(
+          "--------------------------------------------------------------------------------------------"
+        )
+        console.log(
+          "--------------------------------------------------------------------------------------------"
+        )
+        console.log(e)
+        console.log(
+          "--------------------------------------------------------------------------------------------"
+        )
+        console.log(
+          "--------------------------------------------------------------------------------------------"
+        )
+      }
       const downloadFileResponse = await this.downloadEncodedFile(
         rxID,
         chunkLength
       )
+      console.log(
+        downloadFileResponse.error,
+        (downloadFileResponse as any).data["fileCrc32"],
+        downloadFileResponse.ok,
+        filePath
+      )
+      console.log(downloadFileResponse.data !== undefined)
 
       if (
         downloadFileResponse.ok &&
@@ -240,6 +328,26 @@ export class DeviceFileSystemService {
     options: DownloadDeviceFileLocallyOptions
   ): Promise<ResultObject<string[]>> {
     const { data: result, ok } = await this.downloadFile(filePath)
+    console.log("DownloadDeviceFileLocally")
+    console.log(
+      "==================================================================================================================================="
+    )
+    console.log(
+      "==================================================================================================================================="
+    )
+    console.log(
+      "==================================================================================================================================="
+    )
+    console.log(result)
+    console.log(
+      "==================================================================================================================================="
+    )
+    console.log(
+      "==================================================================================================================================="
+    )
+    console.log(
+      "==================================================================================================================================="
+    )
 
     if (!ok || result === undefined) {
       return Result.failed(new AppError("", ""))

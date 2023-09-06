@@ -38,17 +38,33 @@ export class CrashDumpObserver implements Observer {
 
       this.invoked = true
 
-      const crashDumps = await this.crashDumpService.getDeviceCrashDumpFiles()
+      const { data: crashDumps } =
+        await this.crashDumpService.getDeviceCrashDumpFiles()
       const settings = this.settingsService.getSettings()
-      const crashDumpsIgnored = crashDumps.data?.every((file) =>
+      const crashDumpsIgnored = crashDumps?.every((file) =>
         settings.ignoredCrashDumps.includes(file)
       )
+      const { data: downloadedCrashDumps, status } =
+        await this.crashDumpService.downloadDeviceCrashDumpFiles()
+      console.log(downloadedCrashDumps, status)
+      console.log(downloadedCrashDumps, status)
+      console.log(downloadedCrashDumps, status)
+      console.log(downloadedCrashDumps, status)
+      console.log(downloadedCrashDumps, status)
+      console.log(downloadedCrashDumps, status)
+      console.log(downloadedCrashDumps, status)
+      console.log(downloadedCrashDumps, status)
+      console.log(downloadedCrashDumps, status)
 
-      if (crashDumps && !crashDumpsIgnored) {
-        this.ipc.sendToRenderers(
-          IpcCrashDumpRenderedEvent.CrashDumpExists,
-          crashDumps.data
-        )
+      if (
+        crashDumps?.length &&
+        !crashDumpsIgnored &&
+        downloadedCrashDumps?.length
+      ) {
+        this.ipc.sendToRenderers(IpcCrashDumpRenderedEvent.CrashDumpExists, {
+          crashDumps,
+          downloadedCrashDumps,
+        })
       }
     })
 

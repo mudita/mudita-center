@@ -43,7 +43,6 @@ export const sendCrashDumpData = createAsyncThunk<undefined, CrashDump>(
     }
 
     const files = await downloadingLogs()
-
     const buffer = await archiveFiles({ files })
 
     if (buffer === undefined) {
