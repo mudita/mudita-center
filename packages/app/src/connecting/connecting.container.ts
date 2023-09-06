@@ -50,6 +50,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     state.update.forceUpdateState === State.Loading ||
     state.update.updateOsState === State.Loading
   ),
+  checkedForForceUpdateNeed: state.update.checkedForForceUpdateNeed,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Connecting)

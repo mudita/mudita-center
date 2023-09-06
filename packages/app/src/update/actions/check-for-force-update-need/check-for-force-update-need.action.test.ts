@@ -10,6 +10,7 @@ import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { AnyAction } from "redux"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
+import { State } from "App/core/constants"
 
 jest.mock(
   "App/update/actions/check-for-update/check-for-update.action",
@@ -31,6 +32,9 @@ test("action returns false for not fully loaded data", async () => {
   const mockStore = createMockStore([thunk])({
     device: {},
     settings: {},
+    update: {
+      checkedForForceUpdateNeed: false,
+    },
   })
 
   const {
@@ -62,6 +66,9 @@ test("action returns false for having os version equal or higher than the lowest
           [DeviceType.MuditaHarmony]: "1.6.0",
         },
       },
+    },
+    update: {
+      forceUpdateState: State.Loading,
     },
   })
 
@@ -95,6 +102,9 @@ describe("when os version is lower than the lowest supported os version", () => 
             [DeviceType.MuditaHarmony]: "1.6.0",
           },
         },
+      },
+      update: {
+        forceUpdateState: State.Initial,
       },
     })
 

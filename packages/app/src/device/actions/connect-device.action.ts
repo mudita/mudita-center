@@ -17,6 +17,7 @@ import {
 } from "App/device/constants"
 import { connectDeviceRequest } from "App/device/requests"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { checkForForceUpdateNeed } from "App/update/actions/check-for-force-update-need/check-for-force-update-need.action"
 
 export const connectDevice = createAsyncThunk<
   DeviceType | undefined,
@@ -30,6 +31,7 @@ export const connectDevice = createAsyncThunk<
       void dispatch(lockedDevice())
       void dispatch(setConnectionStatus(true))
       void dispatch(loadDeviceData())
+      void dispatch(checkForForceUpdateNeed())
 
       return payload
     } else {
@@ -42,6 +44,7 @@ export const connectDevice = createAsyncThunk<
   void dispatch(unlockedDevice())
   void dispatch(setConnectionStatus(true))
   void dispatch(loadDeviceData())
+  void dispatch(checkForForceUpdateNeed())
 
   return payload
 })
