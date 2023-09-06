@@ -52,7 +52,6 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   sended,
   failed,
   deviceType,
-  downloadCrashDump,
   ignoreCrashDump,
   resetCrashDump,
   layer = ModalLayers.CrashDump,
@@ -81,7 +80,6 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
 
   const handleDownloadCrashDump = (data: CrashDumpDto) => {
     sendCrashDumpData(data)
-    // downloadCrashDump(data)
     setOpenInfo(false)
   }
 

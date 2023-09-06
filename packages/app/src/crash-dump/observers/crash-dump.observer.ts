@@ -45,7 +45,7 @@ export class CrashDumpObserver implements Observer {
       const crashDumpsIgnored = crashDumps?.every((file) =>
         settings.ignoredCrashDumps.includes(file)
       )
-      const { data: downloadedCrashDumps, status } =
+      const { data: downloadedCrashDumps } =
         await this.crashDumpService.downloadDeviceCrashDumpFiles()
 
       if (
