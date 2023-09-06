@@ -594,6 +594,7 @@
   "module.overview.backupModalHeaderTitle": "Create backup",
   "module.overview.backupModalTitle": "Would you like to back up your Mudita Pure?",
   "module.overview.backupNoSpaceFailureModalDescription": "The device storage is full. To create a backup you need {size} of storage space. Delete unused files to allow storage space and try again.",
+  "module.overview.backupNoSpaceFailureWithoutDetailsModalDescription": "The device storage is almost full. To create a backup delete unused files to allow storage space and try again.",
   "module.overview.backupRestoreAction": "Restore last backup",
   "module.overview.backupRestoreBackupModalBody": "Restored files will replace the current files",
   "module.overview.backupRestoreBackupModalTitle": "Restore last backup",
