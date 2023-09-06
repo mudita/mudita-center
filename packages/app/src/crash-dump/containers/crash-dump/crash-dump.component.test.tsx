@@ -34,14 +34,14 @@ const initialStateMock = {
   },
 } as unknown as ReduxRootState
 
-const downloadCrashDumpMock = jest.fn()
+const sendCrashDumpMock = jest.fn()
 const ignoreCrashDumpMock = jest.fn()
 const resetCrashDump = jest.fn()
 
 jest.mock("App/crash-dump/actions", () => ({
-  downloadCrashDump: () => downloadCrashDumpMock,
   ignoreCrashDump: () => ignoreCrashDumpMock,
   resetCrashDump: () => resetCrashDump,
+  sendCrashDumpData: () => sendCrashDumpMock,
 }))
 
 beforeEach(() => {
@@ -368,7 +368,7 @@ test("close `CrashDumpModal` modal if user clicked on `close` button and calls `
   ).not.toBeInTheDocument()
 })
 
-test("calls `downloadCrashDump` action if user click on `send` button", async () => {
+test("calls `sendCrashDumpData` action if user click on `send` button", async () => {
   render({
     ...initialStateMock,
     crashDump: {
@@ -382,10 +382,10 @@ test("calls `downloadCrashDump` action if user click on `send` button", async ()
 
   const actionButton = screen.getByTestId(CrashDumpModalTestingIds.Submit)
 
-  expect(downloadCrashDumpMock).not.toHaveBeenCalled()
+  expect(sendCrashDumpMock).not.toHaveBeenCalled()
 
   fireEvent.click(actionButton)
   await waitFor(() => {
-    expect(downloadCrashDumpMock).toHaveBeenCalled()
+    expect(sendCrashDumpMock).toHaveBeenCalled()
   })
 })
