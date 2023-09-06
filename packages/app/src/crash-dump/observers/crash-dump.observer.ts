@@ -10,6 +10,7 @@ import { SettingsService } from "App/settings/services"
 import { CrashDumpService } from "App/crash-dump/services"
 import { MainProcessIpc } from "electron-better-ipc"
 import { IpcCrashDumpRenderedEvent } from "App/crash-dump/constants"
+import { ModelEvent } from "App/core/constants"
 
 export class CrashDumpObserver implements Observer {
   private invoked = false
@@ -29,7 +30,7 @@ export class CrashDumpObserver implements Observer {
   private registerListener(): void {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.eventEmitter.on(DeviceServiceEvent.DeviceUnlocked, async () => {
+    this.eventEmitter.on(ModelEvent.Loaded, async () => {
       this.disconnected = false
 
       if (this.invoked || this.disconnected) {
@@ -46,15 +47,6 @@ export class CrashDumpObserver implements Observer {
       )
       const { data: downloadedCrashDumps, status } =
         await this.crashDumpService.downloadDeviceCrashDumpFiles()
-      console.log(downloadedCrashDumps, status)
-      console.log(downloadedCrashDumps, status)
-      console.log(downloadedCrashDumps, status)
-      console.log(downloadedCrashDumps, status)
-      console.log(downloadedCrashDumps, status)
-      console.log(downloadedCrashDumps, status)
-      console.log(downloadedCrashDumps, status)
-      console.log(downloadedCrashDumps, status)
-      console.log(downloadedCrashDumps, status)
 
       if (
         crashDumps?.length &&

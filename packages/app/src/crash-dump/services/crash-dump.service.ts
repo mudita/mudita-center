@@ -35,26 +35,6 @@ export class CrashDumpService {
     fileList: DiagnosticsFileList
   ): Promise<RequestResponse<string[]>> {
     const files = await this.getDeviceFiles(fileList)
-    console.log("downloadDeviceFilesLocally")
-    console.log(
-      "-------------------------------------------------------------------------------------------"
-    )
-    console.log(
-      "-------------------------------------------------------------------------------------------"
-    )
-    console.log(
-      "-------------------------------------------------------------------------------------------"
-    )
-    console.log(files)
-    console.log(
-      "-------------------------------------------------------------------------------------------"
-    )
-    console.log(
-      "-------------------------------------------------------------------------------------------"
-    )
-    console.log(
-      "-------------------------------------------------------------------------------------------"
-    )
 
     if (files.status !== RequestResponseStatus.Ok || !files.data) {
       return {
