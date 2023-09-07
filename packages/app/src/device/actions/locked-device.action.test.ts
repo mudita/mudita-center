@@ -134,7 +134,7 @@ describe("Device: MuditaPure", () => {
       ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
         Result.failed(
           new AppError(
-            DeviceCommunicationError.DeviceAgreementNotAccepted,
+            DeviceCommunicationError.DeviceOnboardingNotFinished,
             "Oups, eula not accepted!"
           )
         )
@@ -149,7 +149,7 @@ describe("Device: MuditaPure", () => {
       expect(mockStore.getActions()).toEqual([
         lockedDevice.pending(requestId),
         {
-          type: DeviceEvent.AgreementStatus,
+          type: DeviceEvent.OnboardingStatus,
           payload: false,
         },
         {

@@ -12,9 +12,9 @@ import { IpcRendererEvent } from "electron"
 
 const deviceUnlockedHandler = (
   _: IpcRendererEvent,
-  { agreementAccepted }: Device
+  { onboardingFinished }: Device
 ): void => {
-  void store.dispatch(unlockedDevice(agreementAccepted))
+  void store.dispatch(unlockedDevice(onboardingFinished))
 }
 
 export const registerDeviceUnlockedListener = (): (() => void) => {

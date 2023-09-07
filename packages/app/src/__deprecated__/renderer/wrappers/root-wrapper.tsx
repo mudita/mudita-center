@@ -34,7 +34,7 @@ import PrivacyPolicyApp from "./privacy-policy-app.component"
 import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { loadDeviceData, setAgreementStatus } from "App/device"
+import { loadDeviceData, setOnboardingStatus } from "App/device"
 import {
   loadSettings,
   setLatestVersion,
@@ -78,7 +78,7 @@ interface Props {
   loadDeviceData: () => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
-  setAgreementStatus: (value: boolean) => void
+  setOnboardingStatus: (value: boolean) => void
   getCurrentDevice: () => void
   setConnectionStatus: (status: boolean) => void
   resetUploadingState: () => void
@@ -87,7 +87,7 @@ interface Props {
 
 const RootWrapper: FunctionComponent<Props> = ({
   history,
-  setAgreementStatus,
+  setOnboardingStatus,
   getCurrentDevice,
   // TODO remove legacy staff
   checkUpdateAvailable,
@@ -102,9 +102,9 @@ const RootWrapper: FunctionComponent<Props> = ({
 }) => {
   const onAgreementStatusChangeListener = useCallback(
     (value) => {
-      setAgreementStatus(value)
+      setOnboardingStatus(value)
     },
-    [setAgreementStatus]
+    [setOnboardingStatus]
   )
 
   useApplicationListener(onAgreementStatusChangeListener)
@@ -289,7 +289,7 @@ const mapDispatchToProps = {
   toggleApplicationUpdateAvailable,
   setLatestVersion,
   loadSettings,
-  setAgreementStatus,
+  setOnboardingStatus,
   getCurrentDevice,
   setConnectionStatus,
   resetUploadingState,

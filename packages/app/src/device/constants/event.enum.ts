@@ -27,7 +27,7 @@ export enum DeviceEvent {
   SetOsVersionData = "DEVICE_SET_OS_VERSION_DATA",
 
   LoadStorageInfo = "DEVICE_LOAD_STORAGE_INFO",
-  AgreementStatus = "DEVICE_AGREEMENT_STATUS",
+  OnboardingStatus = "DEVICE_ONBOARDING_STATUS",
   CriticalBatteryLevel = "CRITICAL_BATTERY_LEVEL",
 
   ExternalUsageDevice = "EXTERNAL_USAGE_DEVICE",

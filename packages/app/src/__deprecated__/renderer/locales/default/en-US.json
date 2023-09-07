@@ -398,7 +398,7 @@
   "module.dial": "Dial",
   "module.error": "Error",
   "module.errorBody": "We're sorry, authentication cannot be performed at this time.",
-  "module.eula.modalDescription": "To continue please accept the MuditaOS license agreement on your device.",
+  "module.eula.modalDescription": "To continue please accept the MuditaOS license\nagreement on your device and complete the onboarding process.",
   "module.eula.modalTitle": "Agreement is not accepted",
   "module.filesManager": "File manager",
   "module.filesManager.deleteButton": "Delete",

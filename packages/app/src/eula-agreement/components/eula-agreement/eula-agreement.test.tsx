@@ -16,7 +16,7 @@ import { ReduxRootState } from "App/__deprecated__/renderer/store"
 const defaultState = {
   device: {
     status: {
-      agreementAccepted: false,
+      onboardingFinished: false,
     },
   } as unknown as DeviceState,
 } as unknown as ReduxRootState
@@ -47,7 +47,7 @@ test("Renders only child element if `agreementAccepted` flag in device state equ
       ...defaultState.device,
       status: {
         ...defaultState.device.status,
-        agreementAccepted: true,
+        onboardingFinished: true,
       },
     },
   })
@@ -63,7 +63,7 @@ test("Renders child element and `AgreementModal` if `agreementAccepted` flag in 
       ...defaultState.device,
       status: {
         ...defaultState.device.status,
-        agreementAccepted: false,
+        onboardingFinished: false,
       },
     },
   })

@@ -511,11 +511,11 @@ describe("Agreement status functionality", () => {
           ...initialState,
           status: {
             ...initialState.status,
-            agreementAccepted: true,
+            onboardingFinished: true,
           },
         },
         {
-          type: DeviceEvent.AgreementStatus,
+          type: DeviceEvent.OnboardingStatus,
           payload: false,
         }
       )

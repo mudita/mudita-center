@@ -306,14 +306,16 @@ export class PureStrategy implements DeviceStrategy {
 
     if (response.status === RequestResponseStatus.PhoneLocked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked)
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingFinished)
     } else if (response.status === RequestResponseStatus.Ok) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
-    } else if (response.status === RequestResponseStatus.EulaNotAccepted) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementNotAccepted)
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingFinished)
+    } else if (
+      response.status === RequestResponseStatus.OnboardingNotFinished
+    ) {
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingNotFinished)
     } else {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingFinished)
     }
   }
 

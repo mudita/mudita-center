@@ -26,7 +26,7 @@ import {
   LoadStorageInfoRejectedAction,
 } from "App/device/reducers/device.interface"
 import {
-  setAgreementStatus,
+  setOnboardingStatus,
   setCriticalBatteryLevel,
   setExternalUsageDevice,
   setRestarting,
@@ -41,7 +41,7 @@ export const initialState: DeviceState = {
     connected: false,
     unlocked: null,
     loaded: false,
-    agreementAccepted: true,
+    onboardingFinished: true,
     criticalBatteryLevel: false,
     restarting: false,
   },
@@ -147,15 +147,15 @@ export const deviceReducer = createReducer<DeviceState>(
           },
         }
       })
-      .addCase(unlockedDevice, (state, { payload: agreementAccepted }) => {
+      .addCase(unlockedDevice, (state, { payload: onboardingFinished }) => {
         return {
           ...state,
           status: {
             ...state.status,
             unlocked: true,
-            agreementAccepted: agreementAccepted
-              ? agreementAccepted
-              : state.status.agreementAccepted,
+            onboardingFinished: onboardingFinished
+              ? onboardingFinished
+              : state.status.onboardingFinished,
           },
           error: null,
         }
@@ -288,8 +288,8 @@ export const deviceReducer = createReducer<DeviceState>(
         }
       )
 
-      .addCase(setAgreementStatus, (state, action) => {
-        state.status.agreementAccepted = action.payload
+      .addCase(setOnboardingStatus, (state, action) => {
+        state.status.onboardingFinished = action.payload
       })
 
       .addCase(setCriticalBatteryLevel, (state, action) => {

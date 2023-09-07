@@ -10,11 +10,11 @@ import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 export const registerAgreementStatusListener = (
   listener: (event: Event, status: boolean) => void
 ): void => {
-  ipcRenderer.on(DeviceIpcEvent.DeviceAgreementStatus, listener)
+  ipcRenderer.on(DeviceIpcEvent.DeviceOnboardingStatus, listener)
 }
 
 export const removeAgreementStatusListener = (
   listener: (event: Event, status: boolean) => void
 ): void => {
-  ipcRenderer.removeListener(DeviceIpcEvent.DeviceAgreementStatus, listener)
+  ipcRenderer.removeListener(DeviceIpcEvent.DeviceOnboardingStatus, listener)
 }
