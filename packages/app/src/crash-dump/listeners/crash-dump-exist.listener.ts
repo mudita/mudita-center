@@ -9,9 +9,7 @@ import { IpcCrashDumpRenderedEvent } from "App/crash-dump/constants"
 import { setCrashDump, setDownloadedCrashDump } from "App/crash-dump/actions"
 
 const setCrashDumpData = (
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  _: any,
+  _: Electron.IpcRendererEvent,
   data: { crashDumps: string[]; downloadedCrashDumps: string[] }
 ) => {
   const { crashDumps, downloadedCrashDumps } = data
