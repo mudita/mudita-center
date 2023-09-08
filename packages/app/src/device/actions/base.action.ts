@@ -27,9 +27,7 @@ export const setInitState = createAction(DeviceEvent.SetInitState)
 export const setOnboardingStatus = createAction<boolean>(
   DeviceEvent.OnboardingStatus
 )
-export const unlockedDevice = createAction<boolean | undefined>(
-  DeviceEvent.Unlocked
-)
+export const unlockedDevice = createAction(DeviceEvent.Unlocked)
 export const setCriticalBatteryLevel = createAction<boolean>(
   DeviceEvent.CriticalBatteryLevel
 )

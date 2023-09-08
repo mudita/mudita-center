@@ -138,6 +138,11 @@ export const deviceReducer = createReducer<DeviceState>(
 
       // Lock/Unlock functionality
       .addCase(fulfilledAction(DeviceEvent.Locked), (state) => {
+        //it makes problem
+        // if (!state.status.onboardingFinished) {
+        //   return
+        // }
+
         return {
           ...state,
           status: {
@@ -147,15 +152,12 @@ export const deviceReducer = createReducer<DeviceState>(
           },
         }
       })
-      .addCase(unlockedDevice, (state, { payload: onboardingFinished }) => {
+      .addCase(unlockedDevice, (state) => {
         return {
           ...state,
           status: {
             ...state.status,
             unlocked: true,
-            onboardingFinished: onboardingFinished
-              ? onboardingFinished
-              : state.status.onboardingFinished,
           },
           error: null,
         }

@@ -23,7 +23,7 @@ import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 
 export class Device {
   public connecting = true
-  public locked = false
+  public locked: null | boolean = null
   public onboardingFinished = false
   public serialNumber = ""
 
@@ -221,7 +221,11 @@ export class Device {
   }
 
   private emitLockedEvent = (): void => {
-    if (!this.locked) {
+    if (!this.onboardingFinished) {
+      return
+    }
+
+    if (this.locked !== true) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked, this)
       this.ipc.sendToRenderers(DeviceIpcEvent.DeviceLocked, this)
       this.locked = true
@@ -229,9 +233,15 @@ export class Device {
   }
 
   private emitUnlockedEvent = (): void => {
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
-    this.ipc.sendToRenderers(DeviceIpcEvent.DeviceUnlocked, this)
-    this.locked = false
+    if (!this.onboardingFinished) {
+      return
+    }
+
+    if (this.locked !== false) {
+      this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
+      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceUnlocked, this)
+      this.locked = false
+    }
   }
 
   private emitOnboardingFinishedEvent = (): void => {
@@ -246,11 +256,11 @@ export class Device {
   }
 
   private emitOnboardingNotFinishedEvent = (): void => {
-    if (this.locked) {
-      this.eventEmitter.emit(
-        DeviceServiceEvent.DeviceOnboardingNotFinished,
-        false
-      )
+    if (this.locked !== null) {
+      return
+    }
+
+    if (this.onboardingFinished) {
       this.ipc.sendToRenderers(DeviceIpcEvent.DeviceOnboardingStatus, false)
       this.onboardingFinished = false
     }
