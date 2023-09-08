@@ -10,7 +10,6 @@ import { checkForUpdate } from "App/update/actions/check-for-update/check-for-up
 import { CheckForUpdateMode, UpdateOsEvent } from "App/update/constants"
 import { versionFormatter } from "App/update/helpers"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { State } from "App/core/constants"
 
 export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
   UpdateOsEvent.CheckForForceUpdate,

@@ -10,7 +10,6 @@ import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { AnyAction } from "redux"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { State } from "App/core/constants"
 
 jest.mock(
   "App/update/actions/check-for-update/check-for-update.action",

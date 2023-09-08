@@ -136,10 +136,6 @@ describe("Device: MuditaPure", () => {
     })
 
     test("fire async `lockedDevice` calls `setOnboardingStatus` action", async () => {
-      const errorMock = new AppError(
-        DeviceError.Locking,
-        "`Onboarding` not finished"
-      )
       ;(unlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce(
         Result.failed(
           new AppError(
@@ -161,7 +157,8 @@ describe("Device: MuditaPure", () => {
           type: DeviceEvent.OnboardingStatus,
           payload: false,
         },
-        lockedDevice.rejected(testError, requestId, undefined, errorMock),
+        { type: DeviceEvent.SetLockTime, payload: undefined },
+        lockedDevice.fulfilled(undefined, requestId, undefined),
       ])
 
       expect(deviceLockTimeRequest).toHaveBeenCalled()
