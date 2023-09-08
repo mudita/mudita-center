@@ -138,9 +138,9 @@ export const deviceReducer = createReducer<DeviceState>(
 
       // Lock/Unlock functionality
       .addCase(fulfilledAction(DeviceEvent.Locked), (state) => {
-        if (!state.status.onboardingFinished) {
-          return
-        }
+        // if (!state.status.onboardingFinished) {
+        //   return
+        // }
 
         return {
           ...state,

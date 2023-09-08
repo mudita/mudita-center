@@ -19,24 +19,14 @@ export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
       return false
     }
 
-    const { device, settings, update } = getState() as RootState &
-      ReduxRootState
-
-    if (update.checkedForForceUpdateNeed) {
-      return false
-    }
+    const { device, settings } = getState() as RootState & ReduxRootState
 
     const osVersion = versionFormatter(device.data?.osVersion ?? "")
     const lowestSupportedProductVersion =
       settings.lowestSupportedVersions?.lowestSupportedProductVersion
     const deviceType = device.deviceType
 
-    if (
-      !osVersion ||
-      !lowestSupportedProductVersion ||
-      !deviceType ||
-      update.forceUpdateState !== State.Initial
-    ) {
+    if (!osVersion || !lowestSupportedProductVersion || !deviceType) {
       return false
     }
 

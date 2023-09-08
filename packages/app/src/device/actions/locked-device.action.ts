@@ -43,9 +43,9 @@ export const lockedDevice = createAsyncThunk(
           DeviceCommunicationError.DeviceOnboardingNotFinished
       ) {
         dispatch(setOnboardingStatus(false))
-        return rejectWithValue(
-          new AppError(DeviceError.Locking, "`Onboarding` not finished")
-        )
+        // return rejectWithValue(
+        //   new AppError(DeviceError.Locking, "`Onboarding` not finished")
+        // )
       }
 
       if (

@@ -39,7 +39,6 @@ const defaultProps: Props = {
   checkingForOsForceUpdate: false,
   forceOsUpdateFailed: false,
   criticalBatteryLevel: false,
-  checkedForForceUpdateNeed: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {

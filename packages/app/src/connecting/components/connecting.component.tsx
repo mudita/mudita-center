@@ -39,7 +39,6 @@ const Connecting: FunctionComponent<{
   passcodeModalCloseable: boolean
   criticalBatteryLevel: boolean
   onboardingFinished: boolean
-  checkedForForceUpdateNeed: boolean
 }> = ({
   loaded,
   deviceType,
@@ -56,7 +55,6 @@ const Connecting: FunctionComponent<{
   passcodeModalCloseable,
   criticalBatteryLevel,
   onboardingFinished,
-  checkedForForceUpdateNeed,
 }) => {
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
@@ -87,8 +85,7 @@ const Connecting: FunctionComponent<{
         loaded &&
         syncInitialized &&
         !checkingForOsForceUpdate &&
-        !forceOsUpdateFailed &&
-        checkedForForceUpdateNeed
+        !forceOsUpdateFailed
       ) {
         history.push(URL_OVERVIEW.root)
       }
@@ -119,7 +116,6 @@ const Connecting: FunctionComponent<{
     criticalBatteryLevel,
     onboardingFinished,
     history,
-    checkedForForceUpdateNeed,
   ])
 
   useEffect(() => {
