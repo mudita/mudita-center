@@ -28,24 +28,31 @@ export const lockedDevice = createAsyncThunk(
     const state = getState() as ReduxRootState
 
     if (state.device.deviceType === null) {
-      new AppError(DeviceError.Locking, "`deviceType` is a null")
+      return rejectWithValue(
+        new AppError(DeviceError.Locking, "`deviceType` is a null")
+      )
     }
 
     if (state.device.deviceType === DeviceType.MuditaPure) {
       const unlocked = await unlockDeviceStatusRequest()
       const lockTime = await deviceLockTimeRequest()
 
-      if (!unlocked.ok) {
-        if (
-          unlocked.error.type ===
+      if (
+        !unlocked.ok &&
+        unlocked.error.type ===
           DeviceCommunicationError.DeviceOnboardingNotFinished
-        ) {
-          dispatch(setOnboardingStatus(false))
-        } else if (
-          unlocked.error.type === DeviceCommunicationError.BatteryCriticalLevel
-        ) {
-          dispatch(setCriticalBatteryLevel(true))
-        }
+      ) {
+        dispatch(setOnboardingStatus(false))
+        // return rejectWithValue(
+        //   new AppError(DeviceError.Locking, "`Onboarding` not finished")
+        // )
+      }
+
+      if (
+        !unlocked.ok &&
+        unlocked.error.type === DeviceCommunicationError.BatteryCriticalLevel
+      ) {
+        dispatch(setCriticalBatteryLevel(true))
       }
 
       if (!lockTime.ok || !lockTime.data?.phoneLockTime) {
