@@ -8,18 +8,13 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import {
-  DeviceCommunicationError,
-  DeviceError,
-  DeviceType,
-} from "App/device/constants"
+import { DeviceCommunicationError, DeviceType } from "App/device/constants"
 import { lockedDevice } from "App/device"
 import { unlockDeviceStatusRequest } from "App/device/requests/unlock-device-status.request"
 import { deviceLockTimeRequest } from "App/device/requests/device-lock-time.request"
 import { flags } from "App/feature-flags"
 import { DeviceEvent } from "App/device"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { testError } from "App/__deprecated__/renderer/store/constants"
 
 jest.mock("App/feature-flags")
 jest.mock("App/device/requests/device-lock-time.request")
