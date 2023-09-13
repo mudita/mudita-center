@@ -4,7 +4,7 @@
  */
 
 import { DeviceType } from "App/device/constants"
-import React, { ChangeEvent, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { State } from "App/core/constants"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
