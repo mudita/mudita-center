@@ -76,14 +76,13 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
       setUploadBlocked(true),
       setUploadingFileCount(2),
       setUploadingState(State.Loading),
-      setUploadBlocked(false),
       GET_FILES_MOCK_RESULT,
       {
         type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
         payload: undefined,
       },
-
       setUploadingState(State.Loaded),
+      setUploadBlocked(false),
       uploadFile.fulfilled(undefined, requestId, pathsMock),
     ])
 
@@ -144,7 +143,6 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
         setUploadBlocked(true),
         setUploadingFileCount(2),
         setUploadingState(State.Loading),
-        setUploadBlocked(false),
         GET_FILES_MOCK_RESULT,
 
         uploadFile.rejected(testError, requestId, pathsMock, { ...errorMock }),
