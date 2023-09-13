@@ -17,7 +17,7 @@ export const getFiles = createAsyncThunk<File[], DeviceDirectory>(
   async (payload, { rejectWithValue }) => {
     const result = await getFilesRequest({
       directory: payload,
-      filter: { extensions: Object.values(EligibleFormat) },
+      filter: { extensions: EligibleFormat },
     })
 
     if (!result.ok || !result.data) {

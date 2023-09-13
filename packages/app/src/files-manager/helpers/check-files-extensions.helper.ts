@@ -7,7 +7,7 @@ import { EligibleFormat } from "App/files-manager/constants/eligible-format.cons
 
 export const checkFilesExtensions = (filesPaths: string[]): boolean => {
   return filesPaths.every((filePath) => {
-    return (Object.values(EligibleFormat) as string[]).includes(
+    return EligibleFormat.includes(
       (filePath.split(".").pop() ?? "").toLocaleLowerCase()
     )
   })
