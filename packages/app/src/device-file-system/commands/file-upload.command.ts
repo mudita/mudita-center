@@ -28,6 +28,14 @@ export class FileUploadCommand extends BaseCommand {
   ): Promise<ResultObject<undefined>> {
     let data: Buffer | Uint8Array
     const maxFileSize = 2000000000
+    if (!this.deviceManager.currentDevice) {
+      return Result.failed(
+        new AppError(
+          DeviceFileSystemError.FileUploadRequest,
+          "Uploading file: Something went wrong in init sending request"
+        )
+      )
+    }
 
     try {
       const fileSize = await this.fileSystemService.getFileSize(filePath)
@@ -98,6 +106,14 @@ export class FileUploadCommand extends BaseCommand {
     chunkNo = 1
   ): Promise<ResultObject<undefined>> {
     try {
+      if (!this.deviceManager.currentDevice) {
+        return Result.failed(
+          new AppError(
+            DeviceFileSystemError.FileUploadChunk,
+            "Uploading file: Something went wrong in sent chunk file"
+          )
+        )
+      }
       const sliceStart = (chunkNo - 1) * chunkSize
       const sliceEnd = sliceStart + chunkSize
       const chunkedBuffer = buffer.slice(sliceStart, sliceEnd)
