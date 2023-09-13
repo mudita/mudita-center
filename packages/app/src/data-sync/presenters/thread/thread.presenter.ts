@@ -90,7 +90,7 @@ export class ThreadPresenter {
           contactName: contact
             ? [contact?.name_primary, contact?.name_alternative].join(" ")
             : "",
-          phoneNumber: contactNumber?.number_user,
+          phoneNumber: contactNumber?.number_user?.replace(/[\s]/g, ""),
           lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: sms ? this.buildMessageSnippet(sms) : "",
           unread: Number(thread.read) !== 0,

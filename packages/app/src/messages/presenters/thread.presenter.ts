@@ -17,11 +17,12 @@ export class ThreadPresenter {
       number = "",
       messageType,
     } = pureThread
+
     return {
       messageSnippet: ThreadPresenter.buildMessageSnippet(pureThread),
       unread: isUnread,
       id: String(threadID),
-      phoneNumber: String(number),
+      phoneNumber: String(number)?.replace(/[\s]/g, ""),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
       messageType: ThreadPresenter.getMessageType(Number(messageType)),
       contactId: undefined,

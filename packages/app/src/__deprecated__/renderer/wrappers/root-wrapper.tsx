@@ -6,7 +6,7 @@
 import { DeviceType } from "App/device/constants"
 import { connect } from "react-redux"
 import { History } from "history"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import { IntlProvider } from "react-intl"
 import localeEn from "App/__deprecated__/renderer/locales/default/en-US.json"
 import { ThemeProvider } from "styled-components"
@@ -115,39 +115,42 @@ const RootWrapper: FunctionComponent<Props> = ({
   const getStoreData = async (key?: string) =>
     await ipcRenderer.callMain(HelpActions.GetStore, key)
 
-  const RenderRoutes = () => {
-    if (mode === Mode.ServerError) {
-      return <ErrorApp history={history} />
-    }
+  const RenderRoutes = useMemo(
+    () => () => {
+      if (mode === Mode.ServerError) {
+        return <ErrorApp history={history} />
+      }
 
-    if (mode === Mode.Help) {
-      return (
-        <HelpApp
-          history={history}
-          saveToStore={saveToStore}
-          getStoreData={getStoreData}
-        />
-      )
-    }
+      if (mode === Mode.Help) {
+        return (
+          <HelpApp
+            history={history}
+            saveToStore={saveToStore}
+            getStoreData={getStoreData}
+          />
+        )
+      }
 
-    if (mode === Mode.License) {
-      return <LicenseApp history={history} />
-    }
+      if (mode === Mode.License) {
+        return <LicenseApp history={history} />
+      }
 
-    if (mode === Mode.TermsOfService) {
-      return <TermsOfServiceApp history={history} />
-    }
+      if (mode === Mode.TermsOfService) {
+        return <TermsOfServiceApp history={history} />
+      }
 
-    if (mode === Mode.PrivacyPolicy) {
-      return <PrivacyPolicyApp history={history} />
-    }
+      if (mode === Mode.PrivacyPolicy) {
+        return <PrivacyPolicyApp history={history} />
+      }
 
-    if (mode === Mode.Sar) {
-      return <SarApp history={history} />
-    }
+      if (mode === Mode.Sar) {
+        return <SarApp history={history} />
+      }
 
-    return <BaseApp history={history} />
-  }
+      return <BaseApp history={history} />
+    },
+    [mode, history]
+  )
 
   const handleAppUpdateAvailableCheck = (): void => {
     if (!window.navigator.onLine) {
