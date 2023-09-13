@@ -35,6 +35,8 @@ const messages = defineMessages({
 export const NotEnoughSpaceModal: FunctionComponent<
   NotEnoughSpaceModalProps
 > = ({ onClose, open, testId, fileSize, ...rest }) => {
+  const requirerSize = Math.ceil(fileSize / 1000000) * 3
+
   return (
     <OSUpdateModal
       testId={testId}
@@ -58,7 +60,7 @@ export const NotEnoughSpaceModal: FunctionComponent<
         color="secondary"
       >
         {intl.formatMessage(messages.updatingNotEnoughSpaceDescription, {
-          value: Math.ceil(fileSize / 1000000),
+          value: requirerSize,
         })}
       </DescriptionText>
     </OSUpdateModal>

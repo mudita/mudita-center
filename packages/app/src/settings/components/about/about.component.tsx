@@ -45,7 +45,7 @@ export const About: FunctionComponent<Props> = ({
 
   useEffect(() => {
     setAppUpdateNotAvailableShow(updateAvailable === false)
-  }, [updateAvailable])
+  }, [updateAvailable, checkingForUpdate])
 
   const handleAppUpdateAvailableCheck = (): void => {
     if (!window.navigator.onLine) {
