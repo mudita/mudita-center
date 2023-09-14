@@ -181,8 +181,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleCreateTemplate = async (template: NewTemplate) => {
     updateFieldState("creating", true)
     setTemplateFormOpenState(false)
-    const lastTemplateOrder = templates[templates.length - 1]?.order
-    const newTemplateOrder = lastTemplateOrder ? lastTemplateOrder + 1 : 1
+    const newTemplateOrder = templates.length > 0 ? templates[0].order : 1
     await createTemplate({ ...template, order: newTemplateOrder })
   }
 
@@ -203,6 +202,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     const updatedTemplates = reorder(list)
     void updateTemplateOrder(updatedTemplates)
   }
+
   return (
     <>
       <TemplatesPanel
