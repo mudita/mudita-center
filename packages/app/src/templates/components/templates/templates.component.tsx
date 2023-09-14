@@ -202,8 +202,6 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     const updatedTemplates = reorder(list)
     void updateTemplateOrder(updatedTemplates)
   }
-  console.log("templatesList", templatesList)
-  console.log("templates", templates)
 
   return (
     <>
