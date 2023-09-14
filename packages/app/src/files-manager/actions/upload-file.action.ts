@@ -9,11 +9,9 @@ import { State } from "App/core/constants/state.constant"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import {
   FilesManagerEvent,
-  EligibleFormat,
   DeviceDirectory,
   FilesManagerError,
 } from "App/files-manager/constants"
-import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
@@ -32,21 +30,12 @@ import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
 
 export const uploadFile = createAsyncThunk<
   void,
-  void,
+  string[],
   { state: ReduxRootState }
 >(
   FilesManagerEvent.UploadFiles,
-  async (_, { getState, dispatch, rejectWithValue }) => {
+  async (filePaths, { getState, dispatch, rejectWithValue }) => {
     dispatch(setUploadBlocked(true))
-    const filesToUpload = await getPathsRequest({
-      filters: [
-        {
-          name: "Audio",
-          extensions: Object.values(EligibleFormat),
-        },
-      ],
-      properties: ["openFile", "multiSelections"],
-    })
 
     const state = getState()
 
@@ -58,15 +47,9 @@ export const uploadFile = createAsyncThunk<
       return rejectWithValue("files are not yet loaded")
     }
 
-    if (!filesToUpload.ok || !filesToUpload.data) {
-      return rejectWithValue(filesToUpload.error)
-    }
-
-    const filePaths = filesToUpload.data ?? []
-
-    if (filePaths.length === 0) {
+    if (!filePaths || !filePaths.length) {
       dispatch(setUploadBlocked(false))
-      return
+      return rejectWithValue("no files to upload")
     }
 
     const allFilesSupported = checkFilesExtensions(filePaths)
@@ -125,7 +108,6 @@ export const uploadFile = createAsyncThunk<
 
     dispatch(setUploadingFileCount(filePaths.length))
     dispatch(setUploadingState(State.Loading))
-    dispatch(setUploadBlocked(false))
 
     const directory =
       state.device.deviceType === DeviceType.MuditaHarmony
@@ -145,6 +127,7 @@ export const uploadFile = createAsyncThunk<
 
     void dispatch(loadStorageInfoAction())
     dispatch(setUploadingState(State.Loaded))
+    dispatch(setUploadBlocked(false))
 
     return
   }
