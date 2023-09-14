@@ -189,18 +189,20 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     updateFieldState("creating", false)
   }
 
-  const onDragEnd = (result: DropResult) => {
-    updateFieldState("updatingOrder", true)
-    if (!result.destination) {
-      return
-    }
+  const onDragEnd = ({ source, destination }: DropResult) => {
+    if (source.index !== destination?.index) {
+      updateFieldState("updatingOrder", true)
+      if (!destination) {
+        return
+      }
 
-    const list = Array.from(templatesList)
-    const [removed] = list.splice(result.source.index, 1)
-    list.splice(result.destination.index, 0, removed)
-    setTemplatesList(list)
-    const updatedTemplates = reorder(list)
-    void updateTemplateOrder(updatedTemplates)
+      const list = Array.from(templatesList)
+      const [removed] = list.splice(source.index, 1)
+      list.splice(destination.index, 0, removed)
+      setTemplatesList(list)
+      const updatedTemplates = reorder(list)
+      void updateTemplateOrder(updatedTemplates)
+    }
   }
 
   return (
