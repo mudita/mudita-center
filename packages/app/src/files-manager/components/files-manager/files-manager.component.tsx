@@ -18,7 +18,7 @@ import { FilesManagerTestIds } from "App/files-manager/components/files-manager/
 import {
   DeviceDirectory,
   DiskSpaceCategoryType,
-  EligibleFormat,
+  eligibleFormat,
   filesSummaryElements,
 } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
@@ -323,7 +323,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       <input
         ref={fileInputRef}
         type="file"
-        accept={EligibleFormat.map((format) => `audio/${format}`).join(",")}
+        accept={eligibleFormat.map((format) => `audio/${format}`).join(",")}
         hidden
         multiple
         onChange={onFileInputChange}

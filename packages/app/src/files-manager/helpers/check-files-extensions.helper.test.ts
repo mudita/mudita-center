@@ -4,9 +4,9 @@
  */
 
 import { checkFilesExtensions } from "App/files-manager/helpers/check-files-extensions.helper"
-import { EligibleFormat } from "App/files-manager/constants/eligible-format.constant"
+import { eligibleFormat } from "App/files-manager/constants/eligible-format.constant"
 
-const supportedFiles = EligibleFormat.map((extension) => `file.${extension}`)
+const supportedFiles = eligibleFormat.map((extension) => `file.${extension}`)
 
 describe("`checkFilesExtensions` helper", () => {
   test("all correct extensions", () => {

@@ -3,4 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const EligibleFormat = ["mp3", "wav", "flac"]
+export const eligibleFormat = ["mp3", "wav", "flac"]

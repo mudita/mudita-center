@@ -35,9 +35,7 @@ export const uploadFile = createAsyncThunk<
 >(
   FilesManagerEvent.UploadFiles,
   async (filePaths, { getState, dispatch, rejectWithValue }) => {
-    console.log("upload file action")
     dispatch(setUploadBlocked(true))
-    console.log("upload file action 2")
 
     const state = getState()
 
