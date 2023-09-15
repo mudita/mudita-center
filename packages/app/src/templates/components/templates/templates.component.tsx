@@ -181,8 +181,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleCreateTemplate = async (template: NewTemplate) => {
     updateFieldState("creating", true)
     setTemplateFormOpenState(false)
-    const newTemplateOrder = templates.length > 0 ? templates[0].order : 1
-    await createTemplate({ ...template, order: newTemplateOrder })
+    await createTemplate(template)
   }
 
   const handleCloseCreatingErrorModal = () => {
