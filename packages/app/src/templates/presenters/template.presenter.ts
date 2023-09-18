@@ -4,7 +4,7 @@
  */
 
 import {
-  Template as PureTemplate,
+  PureTemplate,
   UpdateTemplateRequestConfig,
   CreateTemplateRequestConfig,
   UpdateTemplateOrderRequestConfig,
