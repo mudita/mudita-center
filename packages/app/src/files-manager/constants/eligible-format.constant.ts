@@ -3,4 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const eligibleFormat = ["mp3", "wav", "flac"]
+export enum EligibleFormat {
+  MP3 = "mp3",
+  WAV = "wav",
+  FLAC = "flac",
+}

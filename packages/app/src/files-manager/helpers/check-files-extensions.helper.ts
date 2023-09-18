@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { eligibleFormat } from "App/files-manager/constants/eligible-format.constant"
+import { EligibleFormat } from "App/files-manager/constants/eligible-format.constant"
 
 export const checkFilesExtensions = (filesPaths: string[]): boolean => {
   return filesPaths.every((filePath) => {
-    return eligibleFormat.includes(
+    return (Object.values(EligibleFormat) as string[]).includes(
       (filePath.split(".").pop() ?? "").toLocaleLowerCase()
     )
   })
