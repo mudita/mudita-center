@@ -22,6 +22,7 @@ import styled from "styled-components"
 import { fontWeight } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { PendingUploadModalProps } from "App/files-manager/components/pending-upload-modal/pending-upload-modal.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { getModalButtonsSize } from "App/__deprecated__/renderer/components/core/modal/modal.helpers"
 
 const messages = defineMessages({
   pendingUploadModalTitle: {
@@ -39,11 +40,13 @@ const messages = defineMessages({
   pendingUploadModalActionButton: {
     id: "module.filesManager.pendingUploadModalActionButton",
   },
+  pendingUploadModalAbortButton: {
+    id: "module.filesManager.pendingUploadModalAbortButtonText",
+  },
 })
 
 const PendingUploadDetailText = styled(Text)`
   font-weight: ${fontWeight("default")};
-  width: 25rem;
 `
 
 const PendingUploadModal: FunctionComponent<PendingUploadModalProps> = ({
@@ -57,7 +60,7 @@ const PendingUploadModal: FunctionComponent<PendingUploadModalProps> = ({
       size={ModalSize.Small}
       title={intl.formatMessage(messages.pendingUploadModalTitle)}
       open
-      closeButton={false}
+      closeButton={true}
       actionButtonLabel={intl.formatMessage(
         messages.pendingUploadModalActionButton
       )}
@@ -67,6 +70,13 @@ const PendingUploadModal: FunctionComponent<PendingUploadModalProps> = ({
       closeModal={() => {
         onClose()
       }}
+      onCloseButton={() => {
+        onClose()
+      }}
+      closeButtonLabel={intl.formatMessage(
+        messages.pendingUploadModalAbortButton
+      )}
+      actionButtonSize={getModalButtonsSize(ModalSize.Small)}
       {...props}
     >
       <ModalContent>
