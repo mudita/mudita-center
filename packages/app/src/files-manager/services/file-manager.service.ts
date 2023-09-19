@@ -54,10 +54,13 @@ export class FileManagerService {
     directory,
     filePaths,
   }: UploadFilesInput): Promise<ResultObject<string[] | undefined>> {
-    for await (const filePath of filePaths) {
+    for (const filePath of filePaths) {
       try {
-        const result = await this.fileUploadCommand.exec(directory, filePath)
-        if (result.error?.type === DeviceFileSystemError.NoSpaceLeft) {
+        const { error, ok } = await this.fileUploadCommand.exec(
+          directory,
+          filePath
+        )
+        if (error?.type === DeviceFileSystemError.NoSpaceLeft) {
           return Result.failed(
             new AppError(
               FilesManagerError.NotEnoughSpace,
@@ -65,7 +68,7 @@ export class FileManagerService {
             )
           )
         }
-        if (result.error?.type === DeviceFileSystemError.UnsupportedFileSize) {
+        if (error?.type === DeviceFileSystemError.UnsupportedFileSize) {
           return Result.failed(
             new AppError(
               FilesManagerError.UnsupportedFileSize,
@@ -73,7 +76,7 @@ export class FileManagerService {
             )
           )
         }
-        if (!result.ok) {
+        if (!ok) {
           return Result.failed(
             new AppError(FilesManagerError.UploadFiles, "Upload failed")
           )
@@ -91,9 +94,9 @@ export class FileManagerService {
   public async deleteFiles(
     filePaths: string[]
   ): Promise<ResultObject<string[] | undefined>> {
-    for await (const filePath of filePaths) {
-      const result = await this.fileDeleteCommand.exec(filePath)
-      if (!result.ok) {
+    for (const filePath of filePaths) {
+      const { ok } = await this.fileDeleteCommand.exec(filePath)
+      if (!ok) {
         return Result.failed(
           new AppError(FilesManagerError.DeleteFiles, "Delete failed")
         )
