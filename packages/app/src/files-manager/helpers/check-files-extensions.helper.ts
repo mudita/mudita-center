@@ -5,10 +5,19 @@
 
 import { eligibleFormat } from "App/files-manager/constants/eligible-format.constant"
 
-export const checkFilesExtensions = (filesPaths: string[]): boolean => {
-  return filesPaths.every((filePath) => {
+export const checkFilesExtensions = (
+  filesPaths: string[]
+): [string[], string[]] => {
+  const validFiles = filesPaths.filter((filePath) => {
     return eligibleFormat.includes(
       (filePath.split(".").pop() ?? "").toLocaleLowerCase()
     )
   })
+  const invalidFiles = filesPaths.filter((filePath) => {
+    return !eligibleFormat.includes(
+      (filePath.split(".").pop() ?? "").toLocaleLowerCase()
+    )
+  })
+
+  return [validFiles, invalidFiles]
 }
