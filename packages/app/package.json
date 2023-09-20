@@ -1,6 +1,6 @@
 {
   "name": "@mudita/mudita-center-app",
-  "version": "2.2.0-rc.7",
+  "version": "2.2.0-rc.8",
   "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
