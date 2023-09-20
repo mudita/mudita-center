@@ -76,7 +76,7 @@ export const InvalidFilesModal: FunctionComponent = ({ ...props }) => {
     <ModalDialog
       size={ModalSize.Small}
       title={intl.formatMessage(messages.title)}
-      open
+      open={!!invalidFiles.length}
       closeButton
       onCloseButton={() => {
         dispatch(resetUploadingState())

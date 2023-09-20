@@ -18,7 +18,11 @@ describe("`checkFilesExtensions` helper", () => {
   })
 
   test("at least one unsupported extension", () => {
-    const unsupportedFiles = [...supportedFiles, "file.unsupported"]
-    expect(checkFilesExtensions(unsupportedFiles)).toBeFalsy()
+    const unsupportedFiles = ["file.unsupported"]
+    const allFiles = [...supportedFiles, ...unsupportedFiles]
+    expect(checkFilesExtensions(allFiles)).toEqual([
+      supportedFiles,
+      unsupportedFiles,
+    ])
   })
 })
