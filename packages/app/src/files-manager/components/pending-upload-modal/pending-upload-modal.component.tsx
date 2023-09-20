@@ -60,7 +60,7 @@ const PendingUploadModal: FunctionComponent<PendingUploadModalProps> = ({
       size={ModalSize.Small}
       title={intl.formatMessage(messages.pendingUploadModalTitle)}
       open
-      closeButton={true}
+      closeButton
       actionButtonLabel={intl.formatMessage(
         messages.pendingUploadModalActionButton
       )}
