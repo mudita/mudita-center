@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: mac-mini
+    runs-on: macOS
 
     steps:
       - name: Checkout code
