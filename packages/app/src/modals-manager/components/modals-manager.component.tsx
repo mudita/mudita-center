@@ -29,7 +29,6 @@ const ModalsManager: FunctionComponent<Props> = ({
   appUpdateFlowShow,
   contactSupportFlowShow,
   deviceInitializationFailedModalShowEnabled,
-  hideModals,
 }) => {
   const { privacyPolicyAccepted } = useSelector(
     (state: ReduxRootState) => state.settings
@@ -41,9 +40,6 @@ const ModalsManager: FunctionComponent<Props> = ({
 
   return (
     <>
-      {deviceInitializationFailedModalShowEnabled && (
-        <ErrorConnectingModal open closeModal={hideModals} />
-      )}
       {appForcedUpdateFlowShow && <AppForcedUpdateFlowContainer />}
       {appUpdateFlowShow && <AppUpdateFlowContainer />}
       {contactSupportFlowShow && <ContactSupportFlow />}
