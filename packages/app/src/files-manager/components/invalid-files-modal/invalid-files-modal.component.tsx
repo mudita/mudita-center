@@ -36,9 +36,6 @@ const messages = defineMessages({
   filesInfo: {
     id: "module.filesManager.invalidFiledModalFilesInfo",
   },
-  uploadInfo: {
-    id: "module.filesManager.invalidFiledModalUploadInfo",
-  },
   helpInfo: {
     id: "module.filesManager.invalidFiledModalHelpInfo",
   },
@@ -54,16 +51,6 @@ const StyledLink = styled.a`
 const StyledModalContent = styled(ModalContent)`
   p {
     text-align: left;
-  }
-  p:nth-of-type(2) {
-    &::before {
-      display: contents;
-      content: " ";
-    }
-  }
-  p:not(:last-of-type) {
-    display: contents;
-    margin-top: 0;
   }
 `
 
@@ -91,11 +78,6 @@ export const InvalidFilesModal: FunctionComponent = ({ ...props }) => {
           displayStyle={TextDisplayStyle.Paragraph4}
           color="secondary"
           message={messages.filesInfo}
-        />
-        <Text
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
-          message={messages.uploadInfo}
         />
         <Text
           displayStyle={TextDisplayStyle.Paragraph4}
