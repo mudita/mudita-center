@@ -53,7 +53,7 @@ export const uploadFile = createAsyncThunk<
       return rejectWithValue("no files to upload")
     }
 
-    const [validFiles, invalidFiles] = checkFilesExtensions(filePaths)
+    const { validFiles, invalidFiles } = checkFilesExtensions(filePaths)
 
     if (!validFiles.length && invalidFiles.length) {
       dispatch(setUploadBlocked(false))
