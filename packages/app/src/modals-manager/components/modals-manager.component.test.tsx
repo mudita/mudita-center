@@ -43,7 +43,6 @@ const defaultProps: Props = {
   appForcedUpdateFlowShow: false,
   appUpdateFlowShow: false,
   contactSupportFlowShow: false,
-  deviceInitializationFailedModalShowEnabled: false,
   hideModals: jest.fn(),
 }
 
@@ -150,27 +149,6 @@ describe("`ModalsManager` component", () => {
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
-      ).not.toBeInTheDocument()
-    })
-  })
-
-  describe("when component is render with proper where `deviceInitializationFailedModalShowEnabled` is set to `true`", () => {
-    test("`ErrorConnectingModal` is visible", () => {
-      const { queryByTestId } = render({
-        deviceInitializationFailedModalShowEnabled: true,
-      })
-
-      expect(
-        queryByTestId(ErrorConnectingModalTestIds.Container)
-      ).toBeInTheDocument()
-      expect(
-        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(AppUpdateFlowTestIds.Container)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(AppForcedUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()
     })
   })

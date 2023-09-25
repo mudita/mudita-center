@@ -4,20 +4,30 @@
  */
 
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { intl } from "App/__deprecated__/renderer/utils/intl"
-import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import React, { ComponentProps } from "react"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import { ModalDialog } from "App/ui/components/modal-dialog"
+import {
+  ModalContent,
+  ModalDialog,
+  RoundIconWrapper,
+} from "App/ui/components/modal-dialog"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
+import {
+  fontWeight,
+  textColor,
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 
 const messages = defineMessages({
   errorConnectingModalHeaderTitle: {
@@ -33,20 +43,23 @@ const messages = defineMessages({
     id: "module.connecting.errorConnectingDescription",
   },
 })
-
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p:first-of-type {
-    margin-top: 0;
+const StyledLink = styled.a`
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: ${fontWeight("default")};
+  color: ${textColor("action")};
+`
+const StyledModalContent = styled(ModalContent)`
+  p {
+    text-align: left;
   }
 `
 
 const ErrorConnectingModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = ({ onClose, ...props }) => {
+  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
   return (
     <ModalDialog
       testId={ErrorConnectingModalTestIds.Container}
@@ -61,19 +74,35 @@ const ErrorConnectingModal: FunctionComponent<
       layer={ModalLayers.ErrorConnecting}
       {...props}
     >
-      <ModalContent>
+      <StyledModalContent>
         <RoundIconWrapper>
           <Icon type={IconType.ThinFail} width={3.2} />
         </RoundIconWrapper>
-        <ModalText
-          displayStyle={TextDisplayStyle.Headline4}
-          message={messages.errorConnectingModalTitle}
-        />
-        <ModalText
+        <Text
           displayStyle={TextDisplayStyle.Paragraph4}
-          message={messages.errorConnectingDescription}
+          color="secondary"
+          message={{
+            ...messages.errorConnectingModalTitle,
+            values: {
+              ...textFormatters,
+            },
+          }}
         />
-      </ModalContent>
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
+          message={{
+            ...messages.errorConnectingDescription,
+            values: {
+              link: (
+                <StyledLink onClick={openHelpWindow}>
+                  connection help page.
+                </StyledLink>
+              ),
+            },
+          }}
+        />
+      </StyledModalContent>
     </ModalDialog>
   )
 }

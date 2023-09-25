@@ -20,6 +20,7 @@ import {
   ModalContentWithoutMargin,
   RoundIconWrapper,
   ModalMainText,
+  ModalLink,
 } from "App/ui/components/modal-dialog"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
@@ -30,7 +31,6 @@ import { useDispatch } from "react-redux"
 import { togglePrivacyPolicyAccepted } from "App/settings/actions"
 import { Dispatch } from "../../store"
 import styled from "styled-components"
-import { fontWeight, textColor } from "../../styles/theming/theme-getters"
 import { BrowserActions } from "App/__deprecated__/common/enums/browser-actions.enum"
 
 export interface AppUpdateAvailableProps {
@@ -95,13 +95,8 @@ const messages = defineMessages({
 const PrivacyPolicyCheckboxWrapper = styled.div`
   display: flex;
 `
-
-const StyledLink = styled.a`
-  text-decoration: underline;
-  cursor: pointer;
+const StyledLink = styled(ModalLink)`
   font-size: 1.4rem;
-  font-weight: ${fontWeight("default")};
-  color: ${textColor("action")};
 `
 
 const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
@@ -251,9 +246,7 @@ export const AppUpdateError: FunctionComponent<
         message={{
           ...messages.errorUpdateDescription,
           values: {
-            link: (
-              <StyledLink onClick={openMuditaWebPage}>mudita.com</StyledLink>
-            ),
+            link: <ModalLink onClick={openMuditaWebPage}>mudita.com</ModalLink>,
           },
         }}
       />
