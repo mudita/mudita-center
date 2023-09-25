@@ -329,7 +329,7 @@ export interface Thread {
   threadID: number
 }
 
-export interface Template {
+export interface PureTemplate {
   templateID: number
   lastUsedAt: number
   templateBody: string
@@ -380,7 +380,7 @@ export interface GetTemplatesRequestConfig
 }
 
 export interface GetTemplatesResponseBody {
-  entries: Template[]
+  entries: PureTemplate[]
   totalCount: number
   nextPage?: PaginationBody
 }

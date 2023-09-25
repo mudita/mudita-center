@@ -863,7 +863,6 @@
   "module.templates.emptyTemplate": "Empty template",
   "module.templates.modalTitle": "Use Template",
   "module.templates.newButton": "New template",
-  "module.templates.newLine": "The template contains new line character",
   "module.templates.newTemplate": "new",
   "module.templates.newTitle": "New template",
   "module.templates.orderError": "Reordering was not successful",
