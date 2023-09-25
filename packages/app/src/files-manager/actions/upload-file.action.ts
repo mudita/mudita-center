@@ -16,6 +16,7 @@ import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
   setDuplicatedFiles,
+  setInvalidFiles,
   setPendingFilesToUpload,
   setUploadBlocked,
   setUploadingFileCount,
@@ -52,9 +53,9 @@ export const uploadFile = createAsyncThunk<
       return rejectWithValue("no files to upload")
     }
 
-    const allFilesSupported = checkFilesExtensions(filePaths)
+    const { validFiles, invalidFiles } = checkFilesExtensions(filePaths)
 
-    if (!allFilesSupported) {
+    if (!validFiles.length && invalidFiles.length) {
       dispatch(setUploadBlocked(false))
       return rejectWithValue(
         new AppError(
@@ -66,11 +67,11 @@ export const uploadFile = createAsyncThunk<
 
     const duplicatedFiles = getDuplicatedFiles(
       state.filesManager.files,
-      filePaths
+      validFiles
     )
 
     if (duplicatedFiles.length > 0) {
-      const uniqueFiles = getUniqueFiles(state.filesManager.files, filePaths)
+      const uniqueFiles = getUniqueFiles(state.filesManager.files, validFiles)
       dispatch(setPendingFilesToUpload(uniqueFiles))
       dispatch(setDuplicatedFiles(duplicatedFiles))
       dispatch(setUploadBlocked(false))
@@ -96,17 +97,17 @@ export const uploadFile = createAsyncThunk<
 
     if (
       state.device.deviceType === DeviceType.MuditaHarmony &&
-      harmonyFreeFilesSlotsCount < filePaths.length
+      harmonyFreeFilesSlotsCount < validFiles.length
     ) {
       dispatch(
-        setPendingFilesToUpload(filePaths.slice(0, harmonyFreeFilesSlotsCount))
+        setPendingFilesToUpload(validFiles.slice(0, harmonyFreeFilesSlotsCount))
       )
       dispatch(setUploadingState(State.Pending))
       dispatch(setUploadBlocked(false))
       return
     }
 
-    dispatch(setUploadingFileCount(filePaths.length))
+    dispatch(setUploadingFileCount(validFiles.length))
     dispatch(setUploadingState(State.Loading))
 
     const directory =
@@ -116,7 +117,7 @@ export const uploadFile = createAsyncThunk<
 
     const result = await uploadFilesRequest({
       directory,
-      filePaths,
+      filePaths: validFiles,
     })
 
     void dispatch(getFiles(directory))
@@ -128,6 +129,9 @@ export const uploadFile = createAsyncThunk<
     void dispatch(loadStorageInfoAction())
     dispatch(setUploadingState(State.Loaded))
     dispatch(setUploadBlocked(false))
+    if (invalidFiles.length) {
+      dispatch(setInvalidFiles(invalidFiles))
+    }
 
     return
   }
