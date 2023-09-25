@@ -49,6 +49,7 @@ import { CreateMessageDataResponse } from "App/messages/services"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { search, searchPreview } from "App/search/actions"
 import { SearchParams } from "App/search/dto"
+import { templatesListSelector } from "App/templates/selectors"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   error: state.messages.error,
@@ -70,7 +71,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     NotificationResourceType.Message,
     NotificationMethod.Layout
   )(state),
-  templates: state.templates.data,
+  templates: templatesListSelector(state),
   selectedItems: state.messages.selectedItems,
   searchResult: state.messages.data.searchResult,
   searchPreviewResult: state.messages.data.searchPreviewResult,

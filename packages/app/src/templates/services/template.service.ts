@@ -5,12 +5,11 @@
 
 import { NewTemplate, Template } from "App/templates/dto"
 import { DeviceManager } from "App/device-manager/services"
+import { Endpoint, Method, MessagesCategory } from "App/device/constants"
 import {
-  Endpoint,
-  Method,
-  MessagesCategory as PureMessagesCategory,
-} from "App/device/constants"
-import { CreateTemplateResponseBody } from "App/device/types/mudita-os"
+  CreateTemplateResponseBody,
+  PureTemplate,
+} from "App/device/types/mudita-os"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -31,32 +30,40 @@ export class TemplateService {
   public async createTemplate(
     template: NewTemplate
   ): Promise<RequestResponse<Template>> {
-    const response =
+    const createResponse =
       await this.deviceManager.device.request<CreateTemplateResponseBody>({
         endpoint: Endpoint.Messages,
         method: Method.Post,
         body: TemplatePresenter.mapToPureNewTemplateBody(template),
       })
 
-    if (response.ok && response.data) {
-      const templateData = TemplatePresenter.mapToTemplate({
-        ...response.data,
-        templateBody: template.text,
-        order: response.data.templateID,
-        lastUsedAt: 0,
-      })
+    if (createResponse.ok && createResponse.data) {
+      const getResponse = await this.deviceManager.device.request<PureTemplate>(
+        {
+          endpoint: Endpoint.Messages,
+          method: Method.Get,
+          body: {
+            templateID: createResponse.data.templateID,
+            category: MessagesCategory.template,
+          },
+        }
+      )
 
-      this.templateRepository.create(templateData)
+      if (getResponse.ok && getResponse.data) {
+        const templateData = TemplatePresenter.mapToTemplate(getResponse.data)
 
-      return {
-        status: RequestResponseStatus.Ok,
-        data: templateData,
+        this.templateRepository.create(templateData)
+
+        return {
+          status: RequestResponseStatus.Ok,
+          data: templateData,
+        }
       }
-    } else {
-      return {
-        status: RequestResponseStatus.Error,
-        error: { message: "Create template: Something went wrong" },
-      }
+    }
+
+    return {
+      status: RequestResponseStatus.Error,
+      error: { message: "Create template: Something went wrong" },
     }
   }
 
@@ -68,7 +75,7 @@ export class TemplateService {
         endpoint: Endpoint.Messages,
         method: Method.Delete,
         body: {
-          category: PureMessagesCategory.template,
+          category: MessagesCategory.template,
           templateID: Number(id),
         },
       })
