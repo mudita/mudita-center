@@ -362,23 +362,8 @@ export class PureStrategy implements DeviceStrategy {
     })
   }
 
-  private unmountDisconnectionListener(): void {
-    this.offCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
-    })
-  }
-
   private mountInitializationFailedListener(): void {
     this.onCommunicationEvent(
-      DeviceCommunicationEvent.InitializationFailed,
-      () => {
-        this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
-      }
-    )
-  }
-
-  private unmountInitializationFailedListener(): void {
-    this.offCommunicationEvent(
       DeviceCommunicationEvent.InitializationFailed,
       () => {
         this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
