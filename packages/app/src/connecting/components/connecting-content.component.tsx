@@ -13,6 +13,8 @@ import Loader from "App/__deprecated__/renderer/components/core/loader/loader.co
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import styled from "styled-components"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { useSelector } from "react-redux"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export const Container = styled.section`
   display: grid;
@@ -47,6 +49,7 @@ interface Props {
 }
 
 const ConnectingContent: FunctionComponent<Props> = ({ longerConnection }) => {
+  const { initialized } = useSelector((state: ReduxRootState) => state.dataSync)
   return (
     <Container>
       <main>
@@ -56,9 +59,10 @@ const ConnectingContent: FunctionComponent<Props> = ({ longerConnection }) => {
         <Text
           displayStyle={TextDisplayStyle.Headline3}
           message={{
-            id: longerConnection
-              ? "module.onboarding.connectingLongMessage"
-              : "module.onboarding.connectingMessage",
+            id:
+              longerConnection && initialized
+                ? "module.onboarding.connectingLongMessage"
+                : "module.onboarding.connectingMessage",
           }}
         />
       </main>
