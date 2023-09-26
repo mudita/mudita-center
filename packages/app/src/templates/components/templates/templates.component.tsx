@@ -181,28 +181,29 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleCreateTemplate = async (template: NewTemplate) => {
     updateFieldState("creating", true)
     setTemplateFormOpenState(false)
-    const lastTemplateOrder = templates[templates.length - 1]?.order
-    const newTemplateOrder = lastTemplateOrder ? lastTemplateOrder + 1 : 1
-    await createTemplate({ ...template, order: newTemplateOrder })
+    await createTemplate(template)
   }
 
   const handleCloseCreatingErrorModal = () => {
     updateFieldState("creating", false)
   }
 
-  const onDragEnd = (result: DropResult) => {
-    updateFieldState("updatingOrder", true)
-    if (!result.destination) {
-      return
-    }
+  const onDragEnd = ({ source, destination }: DropResult) => {
+    if (source.index !== destination?.index) {
+      updateFieldState("updatingOrder", true)
+      if (!destination) {
+        return
+      }
 
-    const list = Array.from(templatesList)
-    const [removed] = list.splice(result.source.index, 1)
-    list.splice(result.destination.index, 0, removed)
-    setTemplatesList(list)
-    const updatedTemplates = reorder(list)
-    void updateTemplateOrder(updatedTemplates)
+      const list = Array.from(templatesList)
+      const [removed] = list.splice(source.index, 1)
+      list.splice(destination.index, 0, removed)
+      setTemplatesList(list)
+      const updatedTemplates = reorder(list)
+      void updateTemplateOrder(updatedTemplates)
+    }
   }
+
   return (
     <>
       <TemplatesPanel

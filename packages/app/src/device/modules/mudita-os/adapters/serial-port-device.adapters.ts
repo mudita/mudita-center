@@ -7,7 +7,7 @@ import SerialPort from "serialport"
 import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { CONNECTION_TIME_OUT_MS } from "App/device/constants"
+import { CONNECTION_TIME_OUT_MS, Endpoint } from "App/device/constants"
 import { DeviceCommunicationEvent, ResponseStatus } from "App/device/constants"
 import { DeviceError } from "App/device/modules/mudita-os/constants"
 import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
@@ -77,10 +77,15 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
       const uuid = this.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
 
-      void this.requestsQueue.add(async () => {
-        const response = await this.deviceRequest(port, payload)
-        resolve(response)
-      })
+      void this.requestsQueue.add(
+        async () => {
+          const response = await this.deviceRequest(port, payload)
+          resolve(response)
+        },
+        {
+          priority: payload.endpoint === Endpoint.Security ? 1 : 0,
+        }
+      )
     })
   }
 
