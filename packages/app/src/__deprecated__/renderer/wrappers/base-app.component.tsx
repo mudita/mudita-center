@@ -113,6 +113,7 @@ const BaseApp: FunctionComponent<Props> = ({
     deviceRestarting,
     deviceLocked,
     checkingForOsForceUpdate,
+    initializationFailed,
   ])
 
   useEffect(() => {
@@ -161,7 +162,7 @@ const isDeviceRestarting = (state: RootState & ReduxRootState): boolean => {
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    initializationFailed: !state.dataSync.initialized,
+    initializationFailed: state.device.initializationFailed,
     deviceFeaturesVisible:
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||

@@ -33,4 +33,6 @@ export enum DeviceEvent {
   ExternalUsageDevice = "EXTERNAL_USAGE_DEVICE",
 
   Restarting = "DEVICE_RESTARTING",
+
+  InitializationFailed = "DEVICE_SET_INITIALIZATION_FAILED",
 }

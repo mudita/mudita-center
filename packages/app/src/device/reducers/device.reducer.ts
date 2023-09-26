@@ -29,6 +29,7 @@ import {
   setAgreementStatus,
   setCriticalBatteryLevel,
   setExternalUsageDevice,
+  setInitializationFailed,
   setRestarting,
   unlockedDevice,
 } from "App/device/actions/base.action"
@@ -48,6 +49,7 @@ export const initialState: DeviceState = {
   state: ConnectionState.Empty,
   error: null,
   externalUsageDevice: null,
+  initializationFailed: false,
 }
 
 export const deviceReducer = createReducer<DeviceState>(
@@ -88,6 +90,7 @@ export const deviceReducer = createReducer<DeviceState>(
               connecting: false,
             },
             error: null,
+            initializationFailed: false,
           }
         }
       )
@@ -112,6 +115,7 @@ export const deviceReducer = createReducer<DeviceState>(
           state: ConnectionState.Loading,
           error: null,
           externalUsageDevice: null,
+          initializationFailed: false,
         }
       })
       .addCase(fulfilledAction(DeviceEvent.Disconnected), (state) => {
@@ -119,6 +123,7 @@ export const deviceReducer = createReducer<DeviceState>(
           ...state,
           state: ConnectionState.Empty,
           error: null,
+          initializationFailed: false,
         }
       })
       .addCase(
@@ -236,6 +241,7 @@ export const deviceReducer = createReducer<DeviceState>(
         return {
           ...state,
           state: ConnectionState.Loading,
+          initializationFailed: false,
         }
       })
       .addCase(fulfilledAction(DeviceEvent.Loading), (state) => {
@@ -300,6 +306,9 @@ export const deviceReducer = createReducer<DeviceState>(
       })
       .addCase(setRestarting, (state, action) => {
         state.status.restarting = action.payload
+      })
+      .addCase(setInitializationFailed, (state, action) => {
+        state.initializationFailed = action.payload
       })
   }
 )

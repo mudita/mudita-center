@@ -39,3 +39,7 @@ export const setExternalUsageDevice = createAction<boolean>(
 )
 
 export const setRestarting = createAction<boolean>(DeviceEvent.Restarting)
+
+export const setInitializationFailed = createAction<boolean>(
+  DeviceEvent.InitializationFailed
+)
