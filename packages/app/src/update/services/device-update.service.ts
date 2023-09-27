@@ -63,12 +63,13 @@ export class DeviceUpdateService {
     await this.deviceFileSystem.removeDeviceFile(targetPath)
 
     const fileSizeInMB = fs.lstatSync(filePath).size / (1024 * 1024)
+    const requirerSizeInMB = fileSizeInMB * 3
     const freeSpaceResult = await this.deviceInfoService.getDeviceFreeSpace()
 
     if (
       freeSpaceResult.ok &&
       !isNaN(freeSpaceResult.data) &&
-      freeSpaceResult.data < fileSizeInMB
+      freeSpaceResult.data < requirerSizeInMB
     ) {
       return Result.failed(
         new AppError(

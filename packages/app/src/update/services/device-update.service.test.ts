@@ -77,7 +77,7 @@ beforeEach(() => {
   } as unknown as DeviceFileSystemService
 
   deviceInfoService = {
-    getDeviceFreeSpace: jest.fn().mockReturnValue({ ok: true, data: 2 }),
+    getDeviceFreeSpace: jest.fn().mockReturnValue({ ok: true, data: 3 }),
     getDeviceInfo: jest
       .fn()
       .mockReturnValue(Result.success(deviceInfoResponseMock)),
