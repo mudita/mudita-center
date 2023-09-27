@@ -30,13 +30,16 @@ export const mockAutoupdate = (win: BrowserWindow): void => {
   })
 }
 
+const token = process.env.GITHUB_ACCESS_TOKEN
+const repo = process.env.RELEASES_REPOSITORY_NAME
+
 export default (win: BrowserWindow): void => {
   autoUpdater.setFeedURL({
+    token,
+    repo,
     private: true,
     provider: "github",
-    token: process.env.GITHUB_ACCESS_TOKEN,
     owner: "Mudita",
-    repo: "mudita-center",
   })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false
