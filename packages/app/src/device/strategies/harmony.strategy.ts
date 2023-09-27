@@ -89,7 +89,7 @@ export class HarmonyStrategy implements DeviceStrategy {
 
   private emitUnlockEvent(): void {
     this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceAgreementAccepted)
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingFinished)
   }
 
   private mountDisconnectionListener(): void {

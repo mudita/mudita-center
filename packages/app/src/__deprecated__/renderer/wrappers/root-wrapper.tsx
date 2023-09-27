@@ -6,7 +6,7 @@
 import { DeviceType } from "App/device/constants"
 import { connect } from "react-redux"
 import { History } from "history"
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, { useEffect, useMemo } from "react"
 import { IntlProvider } from "react-intl"
 import localeEn from "App/__deprecated__/renderer/locales/default/en-US.json"
 import { ThemeProvider } from "styled-components"
@@ -34,7 +34,7 @@ import PrivacyPolicyApp from "./privacy-policy-app.component"
 import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { loadDeviceData, setAgreementStatus } from "App/device"
+import { loadDeviceData } from "App/device"
 import {
   loadSettings,
   setLatestVersion,
@@ -50,7 +50,6 @@ import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers"
 import { registerOutboxNotificationListener } from "App/notification/listeners"
 import { registerCrashDumpExistListener } from "App/crash-dump/listeners"
 import { EULAAgreement } from "App/eula-agreement/components"
-import { useApplicationListener } from "App/application/hooks"
 import { getCurrentDevice } from "App/device-manager/actions"
 import {
   registerCurrentDeviceChangedListener,
@@ -60,6 +59,8 @@ import {
   registerDeviceUnlockedListener,
   registerDeviceLockTimeListener,
   registerDeviceInitializationFailedListener,
+  registerDeviceLockedListener,
+  registerDeviceOnboardingStatusListener,
 } from "App/device/listeners"
 import {
   registerClearingUpdateStateOnDeviceAttachedListener,
@@ -78,7 +79,6 @@ interface Props {
   loadDeviceData: () => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
-  setAgreementStatus: (value: boolean) => void
   getCurrentDevice: () => void
   setConnectionStatus: (status: boolean) => void
   resetUploadingState: () => void
@@ -87,7 +87,6 @@ interface Props {
 
 const RootWrapper: FunctionComponent<Props> = ({
   history,
-  setAgreementStatus,
   getCurrentDevice,
   // TODO remove legacy staff
   checkUpdateAvailable,
@@ -100,15 +99,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   resetUploadingState,
   setCheckingForUpdate,
 }) => {
-  const onAgreementStatusChangeListener = useCallback(
-    (value) => {
-      setAgreementStatus(value)
-    },
-    [setAgreementStatus]
-  )
-
-  useApplicationListener(onAgreementStatusChangeListener)
-
   const mode = new URLSearchParams(window.location.search).get("mode")
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
@@ -174,6 +164,9 @@ const RootWrapper: FunctionComponent<Props> = ({
     const dataCache = registerCacheDataListener()
     const outboxNotifications = registerOutboxNotificationListener()
     const deviceUnlocked = registerDeviceUnlockedListener()
+    const deviceLocked = registerDeviceLockedListener()
+    const deviceOnboardingStatusListener =
+      registerDeviceOnboardingStatusListener()
     const deviceInitializationFailedListener =
       registerDeviceInitializationFailedListener()
     const deviceLockTimeListener = registerDeviceLockTimeListener()
@@ -192,6 +185,8 @@ const RootWrapper: FunctionComponent<Props> = ({
       dataCache()
       outboxNotifications()
       deviceUnlocked()
+      deviceLocked()
+      deviceOnboardingStatusListener()
       deviceInitializationFailedListener()
       deviceLockTimeListener()
       crashDump()
@@ -289,7 +284,6 @@ const mapDispatchToProps = {
   toggleApplicationUpdateAvailable,
   setLatestVersion,
   loadSettings,
-  setAgreementStatus,
   getCurrentDevice,
   setConnectionStatus,
   resetUploadingState,
