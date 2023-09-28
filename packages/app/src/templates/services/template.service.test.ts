@@ -12,7 +12,7 @@ import {
   ErrorRequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { NewTemplate, Template } from "App/templates/dto"
+import { Template } from "App/templates/dto"
 
 const templateRepository = {
   create: jest.fn(),
@@ -32,9 +32,11 @@ const errorResponse: ErrorRequestResponse = {
   status: RequestResponseStatus.Error,
 }
 
-const newTemplate: NewTemplate = {
+const newTemplate: Template = {
   text: "Hello world",
   order: 1,
+  id: "1",
+  lastUsedAt: "1",
 }
 
 const template: Template = {
@@ -69,7 +71,7 @@ describe("`TemplateService`", () => {
       const response = await subject.createTemplate(newTemplate)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenLastCalledWith({
+      expect(deviceManager.device.request).toHaveBeenNthCalledWith(1, {
         endpoint: Endpoint.Messages,
         method: Method.Post,
         body: {

@@ -8,12 +8,15 @@ import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
 import AboutUI from "./about-ui.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { AboutTestIds } from "./about.enum"
+import { AboutTestIds } from "App/settings/components/about/about.enum"
 import { fireEvent, screen } from "@testing-library/dom"
 import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 import { flags } from "App/feature-flags"
 
 jest.mock("App/feature-flags")
+jest.mock(
+  "App/__deprecated__/main/functions/register-error-app-update-listener"
+)
 
 type Props = ComponentProps<typeof AboutUI>
 const defaultProps: Props = {
@@ -55,11 +58,13 @@ test("renders at least one table row", () => {
 })
 
 test("Opens update modal properly when app update is not available", () => {
-  renderer({
+  const { getByTestId } = renderer({
     appLatestVersion: "0.20.2",
     appCurrentVersion: "0.20.2",
     appUpdateNotAvailableShow: true,
   })
+
+  getByTestId(AboutTestIds.UpdateButton).click()
 
   expect(
     screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)

@@ -59,6 +59,9 @@ const messages = defineMessages({
   backupNoSpaceFailureModalDescription: {
     id: "module.overview.backupNoSpaceFailureModalDescription",
   },
+  backupNoSpaceFailureWithoutDetailsModalDescription: {
+    id: "module.overview.backupNoSpaceFailureWithoutDetailsModalDescription",
+  },
   backupFailureModalSecondaryButton: {
     id: "module.overview.backupFailureModalSecondaryButton",
   },
@@ -207,6 +210,15 @@ interface NoSpaceBackupFailureModalProps
 export const NoSpaceBackupFailureModal: FunctionComponent<
   NoSpaceBackupFailureModalProps
 > = ({ size, secondaryActionButtonClick, onClose, ...props }) => {
+  const sizeInBytes = convertBytes(size)
+
+  const errorMessage = isNaN(size)
+    ? messages.backupNoSpaceFailureWithoutDetailsModalDescription
+    : {
+        ...messages.backupNoSpaceFailureModalDescription,
+        values: { size: sizeInBytes },
+      }
+
   const handleOnClose = (): void => {
     if (onClose) {
       onClose()
@@ -232,10 +244,7 @@ export const NoSpaceBackupFailureModal: FunctionComponent<
       <ModalText
         displayStyle={TextDisplayStyle.Paragraph4}
         color="secondary"
-        message={{
-          ...messages.backupNoSpaceFailureModalDescription,
-          values: { size: convertBytes(size) },
-        }}
+        message={errorMessage}
       />
     </Modal>
   )

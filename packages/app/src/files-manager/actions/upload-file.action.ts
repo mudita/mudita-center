@@ -9,15 +9,14 @@ import { State } from "App/core/constants/state.constant"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import {
   FilesManagerEvent,
-  EligibleFormat,
   DeviceDirectory,
   FilesManagerError,
 } from "App/files-manager/constants"
-import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
   setDuplicatedFiles,
+  setInvalidFiles,
   setPendingFilesToUpload,
   setUploadBlocked,
   setUploadingFileCount,
@@ -32,21 +31,12 @@ import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
 
 export const uploadFile = createAsyncThunk<
   void,
-  void,
+  string[],
   { state: ReduxRootState }
 >(
   FilesManagerEvent.UploadFiles,
-  async (_, { getState, dispatch, rejectWithValue }) => {
+  async (filePaths, { getState, dispatch, rejectWithValue }) => {
     dispatch(setUploadBlocked(true))
-    const filesToUpload = await getPathsRequest({
-      filters: [
-        {
-          name: "Audio",
-          extensions: Object.values(EligibleFormat),
-        },
-      ],
-      properties: ["openFile", "multiSelections"],
-    })
 
     const state = getState()
 
@@ -58,20 +48,14 @@ export const uploadFile = createAsyncThunk<
       return rejectWithValue("files are not yet loaded")
     }
 
-    if (!filesToUpload.ok || !filesToUpload.data) {
-      return rejectWithValue(filesToUpload.error)
-    }
-
-    const filePaths = filesToUpload.data ?? []
-
-    if (filePaths.length === 0) {
+    if (!filePaths || !filePaths.length) {
       dispatch(setUploadBlocked(false))
-      return
+      return rejectWithValue("no files to upload")
     }
 
-    const allFilesSupported = checkFilesExtensions(filePaths)
+    const { validFiles, invalidFiles } = checkFilesExtensions(filePaths)
 
-    if (!allFilesSupported) {
+    if (!validFiles.length && invalidFiles.length) {
       dispatch(setUploadBlocked(false))
       return rejectWithValue(
         new AppError(
@@ -83,11 +67,11 @@ export const uploadFile = createAsyncThunk<
 
     const duplicatedFiles = getDuplicatedFiles(
       state.filesManager.files,
-      filePaths
+      validFiles
     )
 
     if (duplicatedFiles.length > 0) {
-      const uniqueFiles = getUniqueFiles(state.filesManager.files, filePaths)
+      const uniqueFiles = getUniqueFiles(state.filesManager.files, validFiles)
       dispatch(setPendingFilesToUpload(uniqueFiles))
       dispatch(setDuplicatedFiles(duplicatedFiles))
       dispatch(setUploadBlocked(false))
@@ -113,19 +97,18 @@ export const uploadFile = createAsyncThunk<
 
     if (
       state.device.deviceType === DeviceType.MuditaHarmony &&
-      harmonyFreeFilesSlotsCount < filePaths.length
+      harmonyFreeFilesSlotsCount < validFiles.length
     ) {
       dispatch(
-        setPendingFilesToUpload(filePaths.slice(0, harmonyFreeFilesSlotsCount))
+        setPendingFilesToUpload(validFiles.slice(0, harmonyFreeFilesSlotsCount))
       )
       dispatch(setUploadingState(State.Pending))
       dispatch(setUploadBlocked(false))
       return
     }
 
-    dispatch(setUploadingFileCount(filePaths.length))
+    dispatch(setUploadingFileCount(validFiles.length))
     dispatch(setUploadingState(State.Loading))
-    dispatch(setUploadBlocked(false))
 
     const directory =
       state.device.deviceType === DeviceType.MuditaHarmony
@@ -134,7 +117,7 @@ export const uploadFile = createAsyncThunk<
 
     const result = await uploadFilesRequest({
       directory,
-      filePaths,
+      filePaths: validFiles,
     })
 
     void dispatch(getFiles(directory))
@@ -145,6 +128,10 @@ export const uploadFile = createAsyncThunk<
 
     void dispatch(loadStorageInfoAction())
     dispatch(setUploadingState(State.Loaded))
+    dispatch(setUploadBlocked(false))
+    if (invalidFiles.length) {
+      dispatch(setInvalidFiles(invalidFiles))
+    }
 
     return
   }
