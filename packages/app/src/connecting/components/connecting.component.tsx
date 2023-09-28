@@ -38,6 +38,7 @@ const Connecting: FunctionComponent<{
   updateAllIndexes: () => Promise<void>
   passcodeModalCloseable: boolean
   criticalBatteryLevel: boolean
+  onboardingFinished: boolean
 }> = ({
   loaded,
   deviceType,
@@ -53,6 +54,7 @@ const Connecting: FunctionComponent<{
   checkingForOsForceUpdate,
   passcodeModalCloseable,
   criticalBatteryLevel,
+  onboardingFinished,
 }) => {
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
@@ -66,11 +68,15 @@ const Connecting: FunctionComponent<{
     if (deviceType === DeviceType.MuditaHarmony) {
       return
     }
+    if (!onboardingFinished) {
+      return
+    }
+
     const timeout = setTimeout(() => {
       setLongerConnection(true)
     }, 6000)
     return () => clearTimeout(timeout)
-  }, [deviceType])
+  }, [deviceType, onboardingFinished])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -86,11 +92,16 @@ const Connecting: FunctionComponent<{
     }, 500)
 
     // TODO: how to avoid window jumping by loading setting async action
-    if (unlocked === false && noModalsVisible && criticalBatteryLevel) {
+    if (!onboardingFinished) {
+      setPasscodeOpenModal(false)
+    } else if (unlocked === false && noModalsVisible && criticalBatteryLevel) {
       setPasscodeOpenModal(false)
       setCriticalBatteryLevelOpenModal(true)
     } else if (unlocked === false && noModalsVisible && !criticalBatteryLevel) {
       setPasscodeOpenModal(true)
+      setCriticalBatteryLevelOpenModal(false)
+    } else {
+      setPasscodeOpenModal(false)
       setCriticalBatteryLevelOpenModal(false)
     }
 
@@ -103,11 +114,12 @@ const Connecting: FunctionComponent<{
     checkingForOsForceUpdate,
     forceOsUpdateFailed,
     criticalBatteryLevel,
+    onboardingFinished,
     history,
   ])
 
   useEffect(() => {
-    if (unlocked !== null) {
+    if (unlocked !== null || !onboardingFinished) {
       return
     }
 
@@ -123,7 +135,7 @@ const Connecting: FunctionComponent<{
       mounted = false
       clearTimeout(timeout)
     }
-  }, [unlocked])
+  }, [unlocked, onboardingFinished])
 
   useEffect(() => {
     if (unlocked && syncState === SynchronizationState.Error) {

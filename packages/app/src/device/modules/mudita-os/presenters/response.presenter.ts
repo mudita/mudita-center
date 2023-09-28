@@ -70,7 +70,7 @@ export class ResponsePresenter {
     ) {
       return {
         error,
-        status: RequestResponseStatus.EulaNotAccepted,
+        status: RequestResponseStatus.OnboardingNotFinished,
       }
     } else if (
       status === ResponseStatus.NotAccepted &&
