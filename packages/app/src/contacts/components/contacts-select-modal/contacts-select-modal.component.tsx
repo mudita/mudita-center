@@ -7,7 +7,6 @@ import { ContactInputSearch } from "App/contacts/components/contact-input-search
 import { ContactSimpleList } from "App/contacts/components/contact-simple-list"
 import { ContactsSelectModalProps } from "App/contacts/components/contacts-select-modal/contacts-select-modal.interface"
 import { Contact } from "App/contacts/dto"
-import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
 import {
   contactHashSelector,
   favouriteContactHashSelector,
@@ -18,6 +17,8 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { filterContacts } from "App/messages/helpers/messages.helpers"
+import { sortByLastNameAscending } from "App/utils/sort-by-last-name"
 
 export const ContactSelectModal: FunctionComponent<
   ContactsSelectModalProps
@@ -39,7 +40,7 @@ export const ContactSelectModal: FunctionComponent<
 
   useEffect(() => {
     setResults(
-      contacts.flat().filter((item) => contactsFilter(item, searchQuery || ""))
+      filterContacts(contacts.flat().sort(sortByLastNameAscending), searchQuery)
     )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
