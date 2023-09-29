@@ -7,7 +7,6 @@ import { autoUpdater } from "electron-updater"
 import { ipcMain } from "electron-better-ipc"
 import { BrowserWindow } from "electron"
 import logger from "App/__deprecated__/main/utils/logger"
-import { Feature, flags } from "App/feature-flags"
 
 export enum AppUpdateEvent {
   Available = "app-update-available",
@@ -31,17 +30,19 @@ export const mockAutoupdate = (win: BrowserWindow): void => {
   })
 }
 
+const token = process.env.GITHUB_ACCESS_TOKEN
+const repo = process.env.RELEASES_REPOSITORY_NAME
+
 export default (win: BrowserWindow): void => {
   autoUpdater.setFeedURL({
+    token,
+    repo,
     private: true,
     provider: "github",
-    token: process.env.GITHUB_ACCESS_TOKEN,
     owner: "Mudita",
-    repo: "mudita-center",
   })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false
-  autoUpdater.allowPrerelease = flags.get(Feature.MuditaCenterPrereleaseEnabled)
   autoUpdater.autoInstallOnAppQuit = false
 
   autoUpdater.on("update-available", ({ version }) => {

@@ -65,7 +65,7 @@ export interface DeviceState {
     connected: boolean
     unlocked: boolean | null
     loaded: boolean
-    agreementAccepted: boolean
+    onboardingFinished: boolean
     criticalBatteryLevel: boolean
     restarting: boolean
   }

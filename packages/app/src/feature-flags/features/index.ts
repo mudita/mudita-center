@@ -6,8 +6,6 @@
 import { EnvironmentConfig } from "App/feature-flags/types"
 import { Feature, Environment } from "App/feature-flags/constants"
 
-const muditaCenterPrereleaseEnabled =
-  process.env.MUDITA_CENTER_PRERELEASE_ENABLED === "1"
 const loggerEnabled = process.env.DEV_DEVICE_LOGGER_ENABLED !== "0"
 
 export const features: EnvironmentConfig = {
@@ -29,11 +27,6 @@ export const features: EnvironmentConfig = {
   [Feature.DeveloperModeEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: true,
-  },
-  [Feature.MuditaCenterPrereleaseEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: muditaCenterPrereleaseEnabled,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {

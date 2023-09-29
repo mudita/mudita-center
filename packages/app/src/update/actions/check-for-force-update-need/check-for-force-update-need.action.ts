@@ -17,6 +17,7 @@ export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
     if (!flags.get(Feature.ForceUpdate)) {
       return false
     }
+
     const { device, settings } = getState() as RootState & ReduxRootState
 
     const osVersion = versionFormatter(device.data?.osVersion ?? "")

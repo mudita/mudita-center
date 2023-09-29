@@ -16,7 +16,7 @@ import { ReduxRootState } from "App/__deprecated__/renderer/store"
 const defaultState = {
   device: {
     status: {
-      agreementAccepted: false,
+      onboardingFinished: false,
     },
   } as unknown as DeviceState,
 } as unknown as ReduxRootState
@@ -40,14 +40,14 @@ const render = (extraState?: Partial<ReduxRootState>) => {
   )
 }
 
-test("Renders only child element if `agreementAccepted` flag in device state equal to `true`", () => {
+test("Renders only child element if `onboardingFinished` flag in device state equal to `true`", () => {
   const { queryByTestId, getByText } = render({
     ...defaultState,
     device: {
       ...defaultState.device,
       status: {
         ...defaultState.device.status,
-        agreementAccepted: true,
+        onboardingFinished: true,
       },
     },
   })
@@ -56,14 +56,14 @@ test("Renders only child element if `agreementAccepted` flag in device state equ
   expect(queryByTestId(AgreementModalIds.Modal)).not.toBeInTheDocument()
 })
 
-test("Renders child element and `AgreementModal` if `agreementAccepted` flag in device state equal to `false`", () => {
+test("Renders child element and `AgreementModal` if `onboardingFinished` flag in device state equal to `false`", () => {
   const { queryByTestId, getByText } = render({
     ...defaultState,
     device: {
       ...defaultState.device,
       status: {
         ...defaultState.device.status,
-        agreementAccepted: false,
+        onboardingFinished: false,
       },
     },
   })

@@ -1,1 +1,2774 @@
-{"collection":["3gHVtYGoa4SOixNHTxnSlJ","5JSK4d3iUXoWNOGjj1lTTF","24oHmzMGKaqoWKKFjX3mJT","DwCnLFElFKxV8yz7HjqKT","60AtHCFNpdJ7jA26bC55ju","m9GNSfDdpvSeQbqgXVHQ6","7laaEbQCtg7hfQjZIqO7Lv","3El0ssG9bX6jxvDDckWQiP","5z0tuCdYhnnQrRyAsNoAHT","kZ3ZB95I8tCX0lZYQTRZr","1Cr7VOps6vyYUgw2VwDJSU","RxG8PskOtkWQ00aCL4JJ7","6rTLyyR6Khdu6d4GGpcbon","68ZLLjHM25XQKu9pRLUtPR","GSBqsntyLST2hANzSdMh1","1OzihaTKRPEfPk3NPyRhku","4kQ3BfvtPxoM1ErBSoXlMW","2W0Yh5enrN1SqWGkvGkvf2","3UzcSgFRo8CjfMUTycu3KB","5D42R98KntZbQUTcrhizxs","4Kj1OMtlPJSTs27TkS9ELG","1oCmuEnSQyYHsSvew1g0vm"],"items":{"3gHVtYGoa4SOixNHTxnSlJ":{"id":"3gHVtYGoa4SOixNHTxnSlJ","question":"OS update failed","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Make sure you didn’t any of the following during the update:","marks":[],"data":{}}],"data":{}},{"nodeType":"unordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"use your Mudita Pure,","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"unplug your Mudita Pure from the computer,","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"turn off your Mudita Pure,","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"close the Mudita Center app.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Still not working? Contact our Support ","marks":[],"data":{}},{"nodeType":"hyperlink","content":[{"nodeType":"text","value":"support@mudita.com","marks":[{"type":"underline"}],"data":{}}],"data":{"uri":"mailto:support@mudita.com"}},{"nodeType":"text","value":" ","marks":[],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"5JSK4d3iUXoWNOGjj1lTTF":{"id":"5JSK4d3iUXoWNOGjj1lTTF","question":"How to delete all contacts?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Contacts” section inside the “YOUR PURE” section.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Select a contact you want to delete.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"On the top bar above click on the check box (near inscription 1 Contact selected) by using the search bar.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Once all contacts are selected, click “Delete” in the search bar and confirm the action.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"All selected contacts will be deleted.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"24oHmzMGKaqoWKKFjX3mJT":{"id":"24oHmzMGKaqoWKKFjX3mJT","question":"How to export my Contacts to the file? ","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Contacts” section inside the “YOUR PURE” section.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Select the contacts you want to export.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click the “Export” icon at the top bar.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Choose the file you want your contacts exported to. ","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You will be able to see the confirmation that contacts have been exported to the file.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"DwCnLFElFKxV8yz7HjqKT":{"id":"DwCnLFElFKxV8yz7HjqKT","question":"How to update Mudita Center?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Run Mudita Center on your computer and make sure you have an Internet connection.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"If an update is available, Mudita Center will show you the relevant information with an option to update the software.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click the “update now” button and follow the instructions.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"To check for an update manually, head into Settings > About > Check for Updates.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"After a successful update, Mudita Center will restart.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set, after the app reopens & you’re able to use the latest version.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"60AtHCFNpdJ7jA26bC55ju":{"id":"60AtHCFNpdJ7jA26bC55ju","question":"Forgot passcode?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Resetting your passcode is only available through a factory reset of your Mudita Pure.","marks":[],"data":{}}],"data":{}}]}},"m9GNSfDdpvSeQbqgXVHQ6":{"id":"m9GNSfDdpvSeQbqgXVHQ6","question":"How to update Harmony OS?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Harmony to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Overview” section inside Mudita Center.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"In the sub-section showing your MuditaOS version, you will you will see a notification about whether there is a new software update available for your Mudita Harmony.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click the “Download Now” button and follow the instructions.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"After a successful update, your Harmony will automatically restart. After that, you will be able to see your MuditaOS version in the “Overview” section.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Note: Remember to not unplug your device from the computer during the update process","marks":[{"type":"bold"}],"data":{}},{"nodeType":"text","value":". ","marks":[],"data":{}}],"data":{}}]}},"7laaEbQCtg7hfQjZIqO7Lv":{"id":"7laaEbQCtg7hfQjZIqO7Lv","question":"How to check my phone's serial number?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Overview” section inside Mudita Center.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Under the photo of your Pure, just below the ","marks":[],"data":{}},{"nodeType":"text","value":"Disconnect ","marks":[{"type":"bold"}],"data":{}},{"nodeType":"text","value":"button you will see a clickable ‘About your Pure’ text.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Once inside, in the About your Pure section you will see your Serial number as well as additional information about SAR","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"3El0ssG9bX6jxvDDckWQiP":{"id":"3El0ssG9bX6jxvDDckWQiP","question":"How to send a message using Mudita Center?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Messages” section inside Mudita Center.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"On the right side of the search bar you will see a button.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Search for your desired contact or jump into an existing conversation.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set!","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"5z0tuCdYhnnQrRyAsNoAHT":{"id":"5z0tuCdYhnnQrRyAsNoAHT","question":"Where can I find the backup file to restore Pure?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Settings” section inside Mudita Center.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":" In the sub-section titled “Backup” navigate to ","marks":[],"data":{}},{"nodeType":"text","value":"Backup Location","marks":[{"type":"bold"}],"data":{}},{"nodeType":"text","value":", you will see the exact file path.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Follow the path on your PC in order to find the correct folder.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set!","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"kZ3ZB95I8tCX0lZYQTRZr":{"id":"kZ3ZB95I8tCX0lZYQTRZr","question":"How to change the backup’s hard drive location?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Settings” section inside Mudita Center.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"In the sub-section named \"Backup\" there will be an option visible to change the hard drive location.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click Change Location and select the desired folder.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set!","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"1Cr7VOps6vyYUgw2VwDJSU":{"id":"1Cr7VOps6vyYUgw2VwDJSU","question":"How to backup your Mudita Pure?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Overview” section inside Mudita Center.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"In the sub-section titled “Backup” you will see an option to either create your first backup file or retrieve a previously created backup file.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click twice and create a password in order to start creating the backup. This password is unique for each restoring process and cannot be restored.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set!","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"RxG8PskOtkWQ00aCL4JJ7":{"id":"RxG8PskOtkWQ00aCL4JJ7","question":"How to restore my Pure’s backup through Mudita Center?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Overview” section inside Mudita Center.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"In the sub-section titled “Backup” there will be an option visible to retrieve or create your first backup file.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click and select the file you want to restore.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click Restore, enter the password you created when creating the backup file, and wait for the process to complete.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"6rTLyyR6Khdu6d4GGpcbon":{"id":"6rTLyyR6Khdu6d4GGpcbon","question":"How to import my iCloud contacts to Mudita Pure?","answer":{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[{"type":"bold"}],"value":"Note: Please note there is no direct option to sync Pure contacts with iCloud, there is an import from a file. ","nodeType":"text"}],"nodeType":"paragraph"},{"data":{},"content":[{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Go to the “Contacts” section inside the “YOUR PURE” section.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Click on the “Import” button.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Click “Import from ICS file”, it will direct you to the system modal which allows you to choose a file from your computer. Make sure that you have exported your iCloud contact into an ICS file.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Once the file is chosen to import, you will be able to see the list of the contacts (you can choose contacts to import).","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Click the confirmation button to start the import process.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"After the process is finished successfully you will be able to view the contacts in Mudita Center and on Mudita Pure","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"}],"nodeType":"ordered-list"},{"data":{},"content":[{"data":{},"marks":[],"value":"","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"document"}},"68ZLLjHM25XQKu9pRLUtPR":{"id":"68ZLLjHM25XQKu9pRLUtPR","question":"How to update MuditaOS in Mudita Pure?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your machine and recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Overview” section inside Mudita Center.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"In the sub-section showing your MuditaOS version, you will be notified whether your phone needs updating with an “Update is available” prompt.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click the “Download Now” button and follow the instructions.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"After a successful update, your Pure will automatically restart. After that, you will be able to see your MuditaOS version in the “Overview” section.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Note: Remember to not use nor unplug your Pure from the computer during the update process","marks":[{"type":"bold"}],"data":{}},{"nodeType":"text","value":". ","marks":[],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"GSBqsntyLST2hANzSdMh1":{"id":"GSBqsntyLST2hANzSdMh1","question":"How to connect my Mudita Harmony to Center?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Open the Mudita Center app.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Harmony to your desktop computer with a dedicated USB cable and make sure that Mudita Center recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"1OzihaTKRPEfPk3NPyRhku":{"id":"1OzihaTKRPEfPk3NPyRhku","question":"How to delete a message inside Mudita Center?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You currently cannot directly delete messages in the Mudita Center.\nPlease locate the desired message on your Mudita Pure and remove it from there.\nNaturally, once connected, Mudita Center will reflect the changes.","marks":[],"data":{}}],"data":{}}]}},"4kQ3BfvtPxoM1ErBSoXlMW":{"id":"4kQ3BfvtPxoM1ErBSoXlMW","question":"How to import my Google contacts to Mudita Pure?","answer":{"data":{},"content":[{"data":{},"content":[{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Go to the “Contacts” section inside the “YOUR PURE” section.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Click on “Import”.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"You will see several options to import contacts.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Select the “Continue with Google” method, it will bring you to the next modal with authorization (it means you need to log in to your Google account). ","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"Now you can choose which contacts you want to import and follow the instructions.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"},{"data":{},"content":[{"data":{},"content":[{"data":{},"marks":[],"value":"After the process is finished successfully you will be able to view the contacts in Mudita Center and on Mudita Pure.","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"list-item"}],"nodeType":"ordered-list"},{"data":{},"content":[{"data":{},"marks":[],"value":"","nodeType":"text"}],"nodeType":"paragraph"}],"nodeType":"document"}},"2W0Yh5enrN1SqWGkvGkvf2":{"id":"2W0Yh5enrN1SqWGkvGkvf2","question":"I can’t see the section YOUR PURE, how can I open it?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Make sure that Mudita Center is running and it recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Check the categories on the left bar; below “Mudita News” you will be able to see a few categories under the “YOUR PURE” section.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"3UzcSgFRo8CjfMUTycu3KB":{"id":"3UzcSgFRo8CjfMUTycu3KB","question":"How to connect my Pure to Mudita Center?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Open the Mudita Center app.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Connect your Mudita Pure to your desktop computer with a dedicated USB cable and make sure that Mudita Center recognizes your device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"You’re all set.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"5D42R98KntZbQUTcrhizxs":{"id":"5D42R98KntZbQUTcrhizxs","question":"How to import my Mudita Pure from the .vcf file?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Go to the “Contacts” section inside the “YOUR PURE” section.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click on the “Import” button.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click “Import from VCF file”, it will direct you to the system modal which allows you to choose a file from your computer. ","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Once the file is chosen to import, you will be able to see the list of the contacts (you can choose contacts to import).","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Click the confirmation button to start the import process.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"After the process is finished successfully you will be able to view the contacts in Mudita Center and on Mudita Pure.","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"4Kj1OMtlPJSTs27TkS9ELG":{"id":"4Kj1OMtlPJSTs27TkS9ELG","question":"What to do when Mudita Center does not recognise my device?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"ordered-list","content":[{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Remove the USB cable from your Mudita device and your computer.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Inspect the USB port and cable for damages or dirt.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Restart your Mudita device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Make sure you’re using the cable that came with your Mudita device.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Make sure the cable plug goes all the way into the port.","marks":[],"data":{}}],"data":{}}],"data":{}},{"nodeType":"list-item","content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Unlock your Mudita device's screen (if applicable).","marks":[],"data":{}}],"data":{}}],"data":{}}],"data":{}},{"nodeType":"paragraph","content":[{"nodeType":"text","value":"","marks":[],"data":{}}],"data":{}}]}},"1oCmuEnSQyYHsSvew1g0vm":{"id":"1oCmuEnSQyYHsSvew1g0vm","question":"How to contact support?","answer":{"nodeType":"document","data":{},"content":[{"nodeType":"paragraph","content":[{"nodeType":"text","value":"Please reach out to ","marks":[],"data":{}},{"nodeType":"hyperlink","content":[{"nodeType":"text","value":"support@mudita.com","marks":[{"type":"underline"}],"data":{}}],"data":{"uri":"mailto:support@mudita.com"}},{"nodeType":"text","value":" for assistance.","marks":[],"data":{}}],"data":{}}]}}},"nextSyncToken":"w7Ese3kdwpMbMhhgw7QAUsKiw6bCiw_ClnfDrRLCuFDDkMO5YcKMJQ_CvcKUecOnMHjCjsOGw5HDu1Fdwrs7E8KjYGgHwqPCscOJw6EYKQ7Cvw9XMAYXEXwzEsO7w6jDscKMw47ChMKIYcKnVjfCgG7CuB4eJDzCoDs7w4_DhcKmwqpuCSnCnCRIcFRYTT4rw4ZuwpNIBDt9fcOvFA"}
+{
+  "collection": [
+    "6rTLyyR6Khdu6d4GGpcbon",
+    "5D42R98KntZbQUTcrhizxs",
+    "4igDlwh9GW7L6PsgjVHyxw",
+    "3uLZU88v7L2oUZHsaYAQTs",
+    "41R11zxpX0tYVubr52CIxM",
+    "3gHVtYGoa4SOixNHTxnSlJ",
+    "5JSK4d3iUXoWNOGjj1lTTF",
+    "24oHmzMGKaqoWKKFjX3mJT",
+    "DwCnLFElFKxV8yz7HjqKT",
+    "60AtHCFNpdJ7jA26bC55ju",
+    "m9GNSfDdpvSeQbqgXVHQ6",
+    "7laaEbQCtg7hfQjZIqO7Lv",
+    "3El0ssG9bX6jxvDDckWQiP",
+    "5z0tuCdYhnnQrRyAsNoAHT",
+    "kZ3ZB95I8tCX0lZYQTRZr",
+    "1Cr7VOps6vyYUgw2VwDJSU",
+    "RxG8PskOtkWQ00aCL4JJ7",
+    "68ZLLjHM25XQKu9pRLUtPR",
+    "GSBqsntyLST2hANzSdMh1",
+    "1OzihaTKRPEfPk3NPyRhku",
+    "4kQ3BfvtPxoM1ErBSoXlMW",
+    "2W0Yh5enrN1SqWGkvGkvf2",
+    "3UzcSgFRo8CjfMUTycu3KB",
+    "4Kj1OMtlPJSTs27TkS9ELG",
+    "1oCmuEnSQyYHsSvew1g0vm"
+  ],
+  "items": {
+    "6rTLyyR6Khdu6d4GGpcbon": {
+      "id": "6rTLyyR6Khdu6d4GGpcbon",
+      "question": " How to import my iCloud contacts into Mudita Pure by using .vcf file?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Note: Please note there is no direct option to sync Pure contacts with iCloud, there is an import from a file. ",
+                "marks": [{ "type": "bold" }],
+                "data": {}
+              }
+            ]
+          },
+          {
+            "nodeType": "ordered-list",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Contacts” section inside the “YOUR PURE” section.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click on the “Import” button.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click “Import from VCF file”, it will direct you to the system modal which allows you to choose a file from your computer. Make sure that you have exported your iCloud contact into a VCF file.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Once the file is chosen to import, you will be able to see the list of the contacts (you can choose contacts to import).",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click the confirmation button to start the import process.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "After the process is finished successfully you will be able to view the contacts in Mudita Center and on Mudita Pure",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ]
+          }
+        ]
+      }
+    },
+    "5D42R98KntZbQUTcrhizxs": {
+      "id": "5D42R98KntZbQUTcrhizxs",
+      "question": "How to import my contacts from the .vcf file to Mudita Pure?",
+      "answer": {
+        "data": {},
+        "content": [
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Go to the “Contacts” section inside the “YOUR PURE” section.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Click on the “Import” button.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Click “Import from VCF file”, it will direct you to the system modal which allows you to choose a file from your computer. ",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Once the file is chosen to import, you will be able to see the list of the contacts (you can choose contacts to import).",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Click the confirmation button to start the import process.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "After the process is finished successfully you will be able to view the contacts in Mudita Center and on Mudita Pure.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              }
+            ],
+            "nodeType": "ordered-list"
+          },
+          {
+            "data": {},
+            "content": [
+              { "data": {}, "marks": [], "value": "", "nodeType": "text" }
+            ],
+            "nodeType": "paragraph"
+          }
+        ],
+        "nodeType": "document"
+      }
+    },
+    "4igDlwh9GW7L6PsgjVHyxw": {
+      "id": "4igDlwh9GW7L6PsgjVHyxw",
+      "question": "How to import my Outlook contacts to Mudita Pure?",
+      "answer": {
+        "data": {},
+        "content": [
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "marks": [],
+                "value": "1. Go to the “Contacts” section inside the “YOUR PURE” section.\n2. Click on “Import”.\n3. You will see several options to import contacts.\n4. Select the “Continue with Outlook” method, it will bring you to the next modal with authorization (it means you need to log in to your Outlook account). \n5. Now you can choose which contacts you want to import and follow the instructions.\n6. After the process is finished successfully you will be able to view the contacts in Mudita Center and on Mudita Pure.",
+                "nodeType": "text"
+              }
+            ],
+            "nodeType": "paragraph"
+          }
+        ],
+        "nodeType": "document"
+      }
+    },
+    "3uLZU88v7L2oUZHsaYAQTs": {
+      "id": "3uLZU88v7L2oUZHsaYAQTs",
+      "question": "How to upload music files to my Harmony or Pure?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Harmony or Pure to your computer with a USB C cable",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Open Mudita Center and ",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "hyperlink",
+                        "data": {
+                          "uri": "https://support.mudita.com/en/support/solutions/articles/77000512487-connecting-a-mudita-pure-or-harmony-to-mudita-center"
+                        },
+                        "content": [
+                          {
+                            "nodeType": "text",
+                            "value": "make sure your device is connected",
+                            "marks": [],
+                            "data": {}
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click “",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "File Manager",
+                        "marks": [{ "type": "bold" }],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "”",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click  “",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "Upload",
+                        "marks": [{ "type": "bold" }],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "”",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "In the window that opens, you can browse and select your audio files (mp3, wav and FLAC) to upload*",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Confirm the selection",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "When the files finish uploading, you will see them listed in Mudita Center, ",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "Mudita Pure in the Music app and ",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "Mudita Harmony in the Relaxation app.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "     *Harmony supports up to a maximum of 100 audio files",
+                "marks": [],
+                "data": {}
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "41R11zxpX0tYVubr52CIxM": {
+      "id": "41R11zxpX0tYVubr52CIxM",
+      "question": "How to delete music files from my Mudita Harmony or Pure?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "data": {},
+            "content": [
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Harmony or Pure to your computer with a  USB C cable",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Open Mudita Center and make ",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "hyperlink",
+                        "data": {
+                          "uri": "https://support.mudita.com/en/support/solutions/articles/77000512487-connecting-a-mudita-pure-or-harmony-to-mudita-center"
+                        },
+                        "content": [
+                          {
+                            "nodeType": "text",
+                            "value": "sure your device is connected",
+                            "marks": [],
+                            "data": {}
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click “",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "File Manager",
+                        "marks": [{ "type": "bold" }],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "”",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click “",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "…",
+                        "marks": [{ "type": "bold" }],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "” on the file you want to delete*",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "To confirm the process click button „delete”",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "list-item",
+                "data": {},
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click “",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "Delete",
+                        "marks": [{ "type": "bold" }],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "” again to confirm\n\n*You can delete multiple files at once by selecting them with the checkbox and clicking “",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "Delete",
+                        "marks": [{ "type": "bold" }],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "”",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "unordered-list",
+                    "data": {},
+                    "content": [
+                      {
+                        "nodeType": "list-item",
+                        "data": {},
+                        "content": [
+                          {
+                            "nodeType": "paragraph",
+                            "data": {},
+                            "content": [
+                              {
+                                "nodeType": "text",
+                                "value": "On the top bar above, click the checkbox (near the word 1 file selected) using the search bar.",
+                                "marks": [],
+                                "data": {}
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "list-item",
+                        "data": {},
+                        "content": [
+                          {
+                            "nodeType": "paragraph",
+                            "data": {},
+                            "content": [
+                              {
+                                "nodeType": "text",
+                                "value": "Once all files are selected, click \"Delete\" in the search bar and confirm the action.",
+                                "marks": [],
+                                "data": {}
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "paragraph",
+            "data": {},
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ]
+          }
+        ]
+      }
+    },
+    "3gHVtYGoa4SOixNHTxnSlJ": {
+      "id": "3gHVtYGoa4SOixNHTxnSlJ",
+      "question": "OS update failed",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "paragraph",
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Make sure you didn’t any of the following during the update:",
+                "marks": [],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "unordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "use your Mudita Pure,",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "unplug your Mudita Pure from the computer,",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "turn off your Mudita Pure,",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "close the Mudita Center app.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Still not working? Contact our Support ",
+                "marks": [],
+                "data": {}
+              },
+              {
+                "nodeType": "hyperlink",
+                "content": [
+                  {
+                    "nodeType": "text",
+                    "value": "support@mudita.com",
+                    "marks": [{ "type": "underline" }],
+                    "data": {}
+                  }
+                ],
+                "data": { "uri": "mailto:support@mudita.com" }
+              },
+              { "nodeType": "text", "value": " ", "marks": [], "data": {} }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "5JSK4d3iUXoWNOGjj1lTTF": {
+      "id": "5JSK4d3iUXoWNOGjj1lTTF",
+      "question": "How to delete all contacts?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Contacts” section inside the “YOUR PURE” section.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Select a contact you want to delete.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "On the top bar above click on the check box (near inscription 1 Contact selected) by using the search bar.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Once all contacts are selected, click “Delete” in the search bar and confirm the action.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "All selected contacts will be deleted.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "24oHmzMGKaqoWKKFjX3mJT": {
+      "id": "24oHmzMGKaqoWKKFjX3mJT",
+      "question": "How to export my Contacts to the file? ",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Contacts” section inside the “YOUR PURE” section.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Select the contacts you want to export.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click the “Export” icon at the top bar.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Choose the file you want your contacts exported to. ",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You will be able to see the confirmation that contacts have been exported to the file.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "DwCnLFElFKxV8yz7HjqKT": {
+      "id": "DwCnLFElFKxV8yz7HjqKT",
+      "question": "How to update Mudita Center?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Run Mudita Center on your computer and make sure you have an Internet connection.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "If an update is available, Mudita Center will show you the relevant information with an option to update the software.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click the “update now” button and follow the instructions.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "To check for an update manually, head into Settings > About > Check for Updates.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "After a successful update, Mudita Center will restart.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set, after the app reopens & you’re able to use the latest version.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "60AtHCFNpdJ7jA26bC55ju": {
+      "id": "60AtHCFNpdJ7jA26bC55ju",
+      "question": "Forgot passcode?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "paragraph",
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Resetting your passcode is only available through a factory reset of your Mudita Pure.",
+                "marks": [],
+                "data": {}
+              }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "m9GNSfDdpvSeQbqgXVHQ6": {
+      "id": "m9GNSfDdpvSeQbqgXVHQ6",
+      "question": "How to update Harmony OS?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Harmony to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Overview” section inside Mudita Center.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "In the sub-section showing your MuditaOS version, you will you will see a notification about whether there is a new software update available for your Mudita Harmony.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click the “Download Now” button and follow the instructions.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "After a successful update, your Harmony will automatically restart. After that, you will be able to see your MuditaOS version in the “Overview” section.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Note: Remember to not unplug your device from the computer during the update process",
+                "marks": [{ "type": "bold" }],
+                "data": {}
+              },
+              { "nodeType": "text", "value": ". ", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "7laaEbQCtg7hfQjZIqO7Lv": {
+      "id": "7laaEbQCtg7hfQjZIqO7Lv",
+      "question": "How to check my phone's serial number?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Overview” section inside Mudita Center.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Under the photo of your Pure, just below the ",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "Disconnect ",
+                        "marks": [{ "type": "bold" }],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "button you will see a clickable ‘About your Pure’ text.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Once inside, in the About your Pure section you will see your Serial number as well as additional information about SAR",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "3El0ssG9bX6jxvDDckWQiP": {
+      "id": "3El0ssG9bX6jxvDDckWQiP",
+      "question": "How to send a message using Mudita Center?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Messages” section inside Mudita Center.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "On the right side of the search bar you will see a button.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Search for your desired contact or jump into an existing conversation.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set!",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "5z0tuCdYhnnQrRyAsNoAHT": {
+      "id": "5z0tuCdYhnnQrRyAsNoAHT",
+      "question": "Where can I find the backup file to restore Pure?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Settings” section inside Mudita Center.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": " In the sub-section titled “Backup” navigate to ",
+                        "marks": [],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": "Backup Location",
+                        "marks": [{ "type": "bold" }],
+                        "data": {}
+                      },
+                      {
+                        "nodeType": "text",
+                        "value": ", you will see the exact file path.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Follow the path on your PC in order to find the correct folder.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set!",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "kZ3ZB95I8tCX0lZYQTRZr": {
+      "id": "kZ3ZB95I8tCX0lZYQTRZr",
+      "question": "How to change the backup’s hard drive location?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Settings” section inside Mudita Center.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "In the sub-section named \"Backup\" there will be an option visible to change the hard drive location.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click Change Location and select the desired folder.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set!",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "1Cr7VOps6vyYUgw2VwDJSU": {
+      "id": "1Cr7VOps6vyYUgw2VwDJSU",
+      "question": "How to backup your Mudita Pure?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Overview” section inside Mudita Center.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "In the sub-section titled “Backup” you will see an option to either create your first backup file or retrieve a previously created backup file.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click twice and create a password in order to start creating the backup. This password is unique for each restoring process and cannot be restored.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set!",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "RxG8PskOtkWQ00aCL4JJ7": {
+      "id": "RxG8PskOtkWQ00aCL4JJ7",
+      "question": "How to restore my Pure’s backup through Mudita Center?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your computer and recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Overview” section inside Mudita Center.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "In the sub-section titled “Backup” there will be an option visible to retrieve or create your first backup file.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click and select the file you want to restore.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click Restore, enter the password you created when creating the backup file, and wait for the process to complete.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "68ZLLjHM25XQKu9pRLUtPR": {
+      "id": "68ZLLjHM25XQKu9pRLUtPR",
+      "question": "How to update MuditaOS in Mudita Pure?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Pure to your computer with a dedicated USB cable and make sure that Mudita Center runs on your machine and recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Go to the “Overview” section inside Mudita Center.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "In the sub-section showing your MuditaOS version, you will be notified whether your phone needs updating with an “Update is available” prompt.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Click the “Download Now” button and follow the instructions.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "After a successful update, your Pure will automatically restart. After that, you will be able to see your MuditaOS version in the “Overview” section.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Note: Remember to not use nor unplug your Pure from the computer during the update process",
+                "marks": [{ "type": "bold" }],
+                "data": {}
+              },
+              { "nodeType": "text", "value": ". ", "marks": [], "data": {} }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "GSBqsntyLST2hANzSdMh1": {
+      "id": "GSBqsntyLST2hANzSdMh1",
+      "question": "How to connect my Mudita Harmony to Center?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Open the Mudita Center app.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Harmony to your desktop computer with a dedicated USB cable and make sure that Mudita Center recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "1OzihaTKRPEfPk3NPyRhku": {
+      "id": "1OzihaTKRPEfPk3NPyRhku",
+      "question": "How to delete a message inside Mudita Center?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "paragraph",
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "You currently cannot directly delete messages in the Mudita Center.\nPlease locate the desired message on your Mudita Pure and remove it from there.\nNaturally, once connected, Mudita Center will reflect the changes.",
+                "marks": [],
+                "data": {}
+              }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "4kQ3BfvtPxoM1ErBSoXlMW": {
+      "id": "4kQ3BfvtPxoM1ErBSoXlMW",
+      "question": "How to import my Google contacts to Mudita Pure?",
+      "answer": {
+        "data": {},
+        "content": [
+          {
+            "data": {},
+            "content": [
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Go to the “Contacts” section inside the “YOUR PURE” section.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Click on “Import”.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "You will see several options to import contacts.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Select the “Continue with Google” method, it will bring you to the next modal with authorization (it means you need to log in to your Google account). ",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "Now you can choose which contacts you want to import and follow the instructions.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              },
+              {
+                "data": {},
+                "content": [
+                  {
+                    "data": {},
+                    "content": [
+                      {
+                        "data": {},
+                        "marks": [],
+                        "value": "After the process is finished successfully you will be able to view the contacts in Mudita Center and on Mudita Pure.",
+                        "nodeType": "text"
+                      }
+                    ],
+                    "nodeType": "paragraph"
+                  }
+                ],
+                "nodeType": "list-item"
+              }
+            ],
+            "nodeType": "ordered-list"
+          },
+          {
+            "data": {},
+            "content": [
+              { "data": {}, "marks": [], "value": "", "nodeType": "text" }
+            ],
+            "nodeType": "paragraph"
+          }
+        ],
+        "nodeType": "document"
+      }
+    },
+    "2W0Yh5enrN1SqWGkvGkvf2": {
+      "id": "2W0Yh5enrN1SqWGkvGkvf2",
+      "question": "I can’t see the section YOUR PURE, how can I open it?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Make sure that Mudita Center is running and it recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Check the categories on the left bar; below “Mudita News” you will be able to see a few categories under the “YOUR PURE” section.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "3UzcSgFRo8CjfMUTycu3KB": {
+      "id": "3UzcSgFRo8CjfMUTycu3KB",
+      "question": "How to connect my Pure to Mudita Center?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Open the Mudita Center app.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Connect your Mudita Pure to your desktop computer with a dedicated USB cable and make sure that Mudita Center recognizes your device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "You’re all set.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "4Kj1OMtlPJSTs27TkS9ELG": {
+      "id": "4Kj1OMtlPJSTs27TkS9ELG",
+      "question": "What to do when Mudita Center does not recognise my device?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "ordered-list",
+            "content": [
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Remove the USB cable from your Mudita device and your computer.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Inspect the USB port and cable for damages or dirt.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Restart your Mudita device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Make sure you’re using the cable that came with your Mudita device.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Make sure the cable plug goes all the way into the port.",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              },
+              {
+                "nodeType": "list-item",
+                "content": [
+                  {
+                    "nodeType": "paragraph",
+                    "content": [
+                      {
+                        "nodeType": "text",
+                        "value": "Unlock your Mudita device's screen (if applicable).",
+                        "marks": [],
+                        "data": {}
+                      }
+                    ],
+                    "data": {}
+                  }
+                ],
+                "data": {}
+              }
+            ],
+            "data": {}
+          },
+          {
+            "nodeType": "paragraph",
+            "content": [
+              { "nodeType": "text", "value": "", "marks": [], "data": {} }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    },
+    "1oCmuEnSQyYHsSvew1g0vm": {
+      "id": "1oCmuEnSQyYHsSvew1g0vm",
+      "question": "How to contact support?",
+      "answer": {
+        "nodeType": "document",
+        "data": {},
+        "content": [
+          {
+            "nodeType": "paragraph",
+            "content": [
+              {
+                "nodeType": "text",
+                "value": "Please reach out to ",
+                "marks": [],
+                "data": {}
+              },
+              {
+                "nodeType": "hyperlink",
+                "content": [
+                  {
+                    "nodeType": "text",
+                    "value": "support@mudita.com",
+                    "marks": [{ "type": "underline" }],
+                    "data": {}
+                  }
+                ],
+                "data": { "uri": "mailto:support@mudita.com" }
+              },
+              {
+                "nodeType": "text",
+                "value": " for assistance.",
+                "marks": [],
+                "data": {}
+              }
+            ],
+            "data": {}
+          }
+        ]
+      }
+    }
+  },
+  "nextSyncToken": "w7Ese3kdwpMbMhhgw7QAUsKiw6bCiw_ClnfDrRLCuFDDkMO5YcKMJQ_CvcKUecOnMHjCjsOGw5HDu1Fdwrs7E8KjYGgHwqDCtMOvdsOJwocvKyxbRmUuQ27CgsKFwr1PUw9ywqjCu8OSwq4wf8Kowo7Du8O8wrfCkcKWw4BTRjonwpvDrx0hJAnDiAPDjCXDmFsxwpvDi2TDs0LCgMKqw49_w7Ee"
+}

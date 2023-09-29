@@ -12,7 +12,7 @@ import {
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import {
-  setAgreementStatus,
+  setOnboardingStatus,
   setDeviceData,
   setInitState,
   setLockTime,
@@ -136,22 +136,22 @@ describe("Action: setInitState", () => {
   })
 })
 
-describe("Action: setAgreementStatus", () => {
-  test("fire action with `AgreementStatus` type with provided payload", () => {
-    mockStore.dispatch(setAgreementStatus(true))
+describe("Action: setOnboardingStatus", () => {
+  test("fire action with `OnboardingStatus` type with provided payload", () => {
+    mockStore.dispatch(setOnboardingStatus(true))
     expect(mockStore.getActions()).toEqual([
       {
-        type: DeviceEvent.AgreementStatus,
+        type: DeviceEvent.OnboardingStatus,
         payload: true,
       },
     ])
 
     mockStore.clearActions()
 
-    mockStore.dispatch(setAgreementStatus(false))
+    mockStore.dispatch(setOnboardingStatus(false))
     expect(mockStore.getActions()).toEqual([
       {
-        type: DeviceEvent.AgreementStatus,
+        type: DeviceEvent.OnboardingStatus,
         payload: false,
       },
     ])

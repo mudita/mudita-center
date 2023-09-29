@@ -476,11 +476,11 @@ describe("`LoadStorageInfo` functionality", () => {
         "initializationFailed": false,
         "state": 2,
         "status": Object {
-          "agreementAccepted": true,
           "connected": false,
           "connecting": false,
           "criticalBatteryLevel": false,
           "loaded": false,
+          "onboardingFinished": true,
           "restarting": false,
           "unlocked": null,
         },
@@ -505,18 +505,18 @@ describe("`LoadStorageInfo` functionality", () => {
 })
 
 describe("Agreement status functionality", () => {
-  test("Event: AgreementStatus changing `statue.agreementAccepted` state with provided payload", () => {
+  test("Event: OnboardingStatus changing `statue.onboardingFinished` state with provided payload", () => {
     expect(
       deviceReducer(
         {
           ...initialState,
           status: {
             ...initialState.status,
-            agreementAccepted: true,
+            onboardingFinished: true,
           },
         },
         {
-          type: DeviceEvent.AgreementStatus,
+          type: DeviceEvent.OnboardingStatus,
           payload: false,
         }
       )
@@ -524,7 +524,7 @@ describe("Agreement status functionality", () => {
       ...initialState,
       status: {
         ...initialState.status,
-        agreementAccepted: false,
+        onboardingFinished: false,
       },
     })
   })

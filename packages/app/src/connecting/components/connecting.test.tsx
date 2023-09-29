@@ -22,6 +22,7 @@ jest.mock("App/connecting/requests/register-first-phone-connection")
 type Props = ComponentProps<typeof Connecting>
 
 const defaultProps: Props = {
+  onboardingFinished: true,
   loaded: false,
   passcodeModalCloseable: true,
   deviceType: DeviceType.MuditaPure,
