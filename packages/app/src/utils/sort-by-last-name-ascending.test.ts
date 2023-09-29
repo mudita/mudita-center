@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { sortByLastNameAscending } from "App/utils/sort-by-last-name"
+import { sortByLastNameAscending } from "App/utils/sort-by-last-name-ascending"
 
 const people = [
   { name: "John", lastName: "Januszkowski" },

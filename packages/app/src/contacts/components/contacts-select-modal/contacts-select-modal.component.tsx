@@ -17,8 +17,8 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { filterContacts } from "App/messages/helpers/messages.helpers"
-import { sortByLastNameAscending } from "App/utils/sort-by-last-name"
+import { filterContacts } from "App/contacts/helpers/filter-contacts/filter-contacts"
+import { sortByLastNameAscending } from "App/utils/sort-by-last-name-ascending"
 
 export const ContactSelectModal: FunctionComponent<
   ContactsSelectModalProps

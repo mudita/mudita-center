@@ -56,7 +56,7 @@ import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/app
 import { ExportContactsResult } from "App/contacts/constants"
 import DeleteContactsPopup from "./delete-contacts-popup/delete-contacts-popup.component"
 import { differenceWith, isEqual } from "lodash"
-import { filterContacts } from "App/messages/helpers/messages.helpers"
+import { filterContacts } from "App/contacts/helpers/filter-contacts/filter-contacts"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {

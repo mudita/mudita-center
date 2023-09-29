@@ -11,7 +11,7 @@ import {
 } from "App/contacts/reducers/contacts.interface"
 import { contactsStateSelector } from "App/contacts/selectors/contacts-state.selector"
 import { getContacts } from "App/contacts/helpers/contacts.helpers"
-import { sortByLastNameAscending } from "App/utils/sort-by-last-name"
+import { sortByLastNameAscending } from "App/utils/sort-by-last-name-ascending"
 
 export const contactsSelector = createSelector<
   ReduxRootState,
