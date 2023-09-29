@@ -4,7 +4,7 @@
  */
 
 export enum DeviceIpcEvent {
-  DeviceAgreementStatus = "device-agreement-status",
+  DeviceOnboardingStatus = "device-onboarding-status",
   DeviceConnected = "device-connected",
   DeviceDisconnected = "device-disconnected",
   DeviceInitializationFailed = "device-initialization-failed",
