@@ -23,7 +23,6 @@ import {
   rejectedAction,
   fulfilledAction,
 } from "App/__deprecated__/renderer/store/helpers"
-import { Feature, flags } from "App/feature-flags"
 import {
   selectAllItems,
   resetAllItems,
@@ -195,7 +194,7 @@ export const templateReducer = createReducer<TemplateState>(
           return {
             ...state,
             error: null,
-            data: flags.get(Feature.OrderTemplate) ? orderedList : updatedList,
+            data: orderedList,
             loaded: true,
             loading: false,
           }

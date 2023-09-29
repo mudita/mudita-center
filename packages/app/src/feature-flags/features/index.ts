@@ -119,11 +119,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.OrderTemplate]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.AlphaProduction]: true,
-  },
   [Feature.AlphaRelaseWarning]: {
     [Environment.Development]: false,
     [Environment.Production]: false,
