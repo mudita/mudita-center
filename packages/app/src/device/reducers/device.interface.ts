@@ -71,7 +71,6 @@ export interface DeviceState {
   }
   error: Error | string | null
   externalUsageDevice: boolean | null
-  initializationFailed: boolean
 }
 
 export interface OsVersionPayload {

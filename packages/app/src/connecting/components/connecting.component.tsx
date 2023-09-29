@@ -22,6 +22,8 @@ import { ConnectingError } from "App/connecting/components/connecting-error.enum
 import { AppError } from "App/core/errors"
 import CriticalBatteryLevelModal from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
 import ErrorUpdateModal from "App/connecting/components/error-update-modal/error-update-modal"
+import { useDispatch } from "react-redux"
+import { setInitializationFailed } from "App/data-sync/actions"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -56,6 +58,7 @@ const Connecting: FunctionComponent<{
   criticalBatteryLevel,
   onboardingFinished,
 }) => {
+  const dispatch = useDispatch()
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
   const [passcodeOpenModal, setPasscodeOpenModal] = useState(false)
@@ -126,6 +129,7 @@ const Connecting: FunctionComponent<{
     let mounted = true
     const timeout = setTimeout(() => {
       if (mounted) {
+        dispatch(setInitializationFailed(false))
         setError(ConnectingError.Connecting)
       }
       // the value is a little higher than API timeoutMs
@@ -135,7 +139,7 @@ const Connecting: FunctionComponent<{
       mounted = false
       clearTimeout(timeout)
     }
-  }, [unlocked, onboardingFinished])
+  }, [unlocked, onboardingFinished, dispatch])
 
   useEffect(() => {
     if (unlocked && syncState === SynchronizationState.Error) {

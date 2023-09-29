@@ -12,4 +12,5 @@ export enum DataSyncEvent {
   SetCacheState = "DATA_SYNC_SET_CACHE_STATE",
   SetLoadedState = "DATA_SYNC_SET_LOADED_STATE",
   SetErrorState = "DATA_SYNC_SET_ERROR_STATE",
+  SetInitializationFailed = "DATA_SYNC_SET_INITIALIZATION_FAILED",
 }

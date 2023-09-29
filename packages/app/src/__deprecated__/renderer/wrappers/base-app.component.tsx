@@ -96,13 +96,18 @@ const BaseApp: FunctionComponent<Props> = ({
     }
 
     if (
-      deviceConnecting ||
-      deviceLocked ||
-      checkingForOsForceUpdate ||
-      initializationFailed
+      (deviceConnecting ||
+        deviceLocked ||
+        checkingForOsForceUpdate ||
+        initializationFailed) &&
+      history.location.pathname !== URL_ONBOARDING.connecting
     ) {
       history.push(URL_ONBOARDING.connecting)
-    } else if (!deviceFeaturesVisible) {
+    } else if (
+      !deviceFeaturesVisible &&
+      !initializationFailed &&
+      history.location.pathname !== URL_ONBOARDING.welcome
+    ) {
       history.push(URL_ONBOARDING.welcome)
     }
     // AUTO DISABLED - fix me if you like :)
@@ -113,7 +118,6 @@ const BaseApp: FunctionComponent<Props> = ({
     deviceRestarting,
     deviceLocked,
     checkingForOsForceUpdate,
-    initializationFailed,
   ])
 
   useEffect(() => {
@@ -162,7 +166,7 @@ const isDeviceRestarting = (state: RootState & ReduxRootState): boolean => {
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    initializationFailed: state.device.initializationFailed,
+    initializationFailed: state.dataSync.initializationFailed,
     deviceFeaturesVisible:
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||

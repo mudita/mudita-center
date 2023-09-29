@@ -17,9 +17,11 @@ import {
   pendingAction,
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
+import { setInitializationFailed } from "../actions"
 
 export const initialState: DataSyncState = {
   initialized: false,
+  initializationFailed: false,
   state: SynchronizationState.Empty,
   synchronizationProcess: SynchronizationProcessState.Done,
   error: null,
@@ -28,9 +30,15 @@ export const dataSyncReducer = createReducer<DataSyncState>(
   initialState,
   (builder) => {
     builder
-      .addCase(DataSyncEvent.SetDataSyncInitState, () => {
-        return initialState
-      })
+      .addCase(
+        DataSyncEvent.SetDataSyncInitState,
+        ({ initializationFailed }) => {
+          return {
+            ...initialState,
+            initializationFailed: initializationFailed && initializationFailed,
+          }
+        }
+      )
       .addCase(DataSyncEvent.SetDataSyncInitialized, (state) => {
         return {
           ...state,
@@ -98,5 +106,8 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           }
         }
       )
+      .addCase(setInitializationFailed, (state, action) => {
+        state.initializationFailed = action.payload
+      })
   }
 )
