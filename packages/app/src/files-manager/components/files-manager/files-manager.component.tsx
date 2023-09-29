@@ -62,7 +62,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   abortPendingUpload,
   continuePendingUpload,
 }) => {
-  const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files: files ?? [] })
@@ -142,12 +141,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     } else if (uploading === State.Loaded) {
       updateFieldState("uploading", false)
       updateFieldState("deletingInfo", false)
-      if (uploadingFileCount) {
-        updateFieldState("uploadingInfo", true)
-      }
-    } else if (uploading === State.Pending) {
-      updateFieldState("uploadingInfo", false)
-      clearTimeout(uploadTimeoutRef.current || undefined)
+      updateFieldState("uploadingInfo", true)
     } else if (uploading === State.Failed) {
       updateFieldState("uploading", false)
       updateFieldState("uploadingFailed", true)
@@ -182,13 +176,13 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       return
     }
 
-    uploadTimeoutRef.current = setTimeout(() => {
+    const hideInfoPopupsTimeout = setTimeout(() => {
       updateFieldState("uploadingInfo", false)
       resetUploadingStateAfterSuccess()
     }, 5000)
 
     return () => {
-      clearTimeout(uploadTimeoutRef.current || undefined)
+      clearTimeout(hideInfoPopupsTimeout)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
