@@ -9,6 +9,6 @@ export enum DeviceServiceEvent {
   DeviceInitializationFailed = "device-service-initialization-failed",
   DeviceUnlocked = "device-service-unlocked",
   DeviceLocked = "device-service-locked",
-  DeviceAgreementNotAccepted = "device-service-agreement-not-accepted",
-  DeviceAgreementAccepted = "device-service-agreement-accepted",
+  DeviceOnboardingNotFinished = "device-service-onboarding-not-finished",
+  DeviceOnboardingFinished = "device-service-onboarding-finished",
 }
