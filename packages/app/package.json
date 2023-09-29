@@ -213,7 +213,7 @@
     "devtron": "^1.4.0",
     "dotenv": "^16.0.2",
     "elasticlunr": "^0.9.5",
-    "electron": "^8.5.5",
+    "electron": "^9.0.0",
     "electron-better-ipc": "^2.0.1",
     "electron-builder": "^23.3.3",
     "electron-debug": "^3.2.0",
@@ -316,8 +316,8 @@
   "dependencies": {
     "mock-fs": "^5.2.0",
     "react-virtuoso": "^2.18.0",
-    "serialport": "^10.1.0",
-    "usb": "^1.9.2"
+    "serialport": "9.2.0",
+    "usb": "^1.6.5"
   },
   "engines": {
     "node": "14.17.3",
