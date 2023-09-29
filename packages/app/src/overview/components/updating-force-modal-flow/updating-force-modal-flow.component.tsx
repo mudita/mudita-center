@@ -41,7 +41,12 @@ const UpdatingForceModalFlow: FunctionComponent<
   const [showLoadingModal, setShowLoadingModal] = useState<boolean>(false)
 
   useEffect(() => {
-    if (forceUpdateState === State.Initial && enabled) {
+    if (
+      forceUpdateState === State.Initial &&
+      enabled &&
+      availableReleasesForUpdate !== null &&
+      availableReleasesForUpdate.length > 0
+    ) {
       setForceUpdateShowModal(true)
     } else if (forceUpdateState === State.Loading) {
       setShowErrorModal(false)
@@ -55,8 +60,12 @@ const UpdatingForceModalFlow: FunctionComponent<
       setShowErrorModal(true)
       setForceUpdateShowModal(false)
       setShowLoadingModal(false)
+    } else {
+      setForceUpdateShowModal(false)
+      setShowErrorModal(false)
+      setShowLoadingModal(false)
     }
-  }, [forceUpdateState, enabled])
+  }, [forceUpdateState, enabled, availableReleasesForUpdate])
 
   const currentlyInstalledReleaseIndex = useMemo(() => {
     return (updatingReleasesProcessStates ?? []).findIndex(
