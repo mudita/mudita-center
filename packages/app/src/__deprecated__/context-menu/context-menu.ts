@@ -4,8 +4,8 @@
  */
 
 import { getCurrentWindow, Menu, MenuItem } from "@electron/remote"
-import { ContextMenuItem } from "App/context-menu/context-menu.interface"
-import { AppHotkeys } from "App/hotkeys/hotkeys.types"
+import { ContextMenuItem } from "App/__deprecated__/context-menu/context-menu.interface"
+import { AppHotkeys } from "App/__deprecated__/hotkeys/hotkeys.types"
 
 interface DevModeProps {
   isEnabled?: () => boolean

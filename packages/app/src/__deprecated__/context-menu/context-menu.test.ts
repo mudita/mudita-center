@@ -4,7 +4,7 @@
  */
 
 import { fireEvent } from "@testing-library/react"
-import ContextMenu from "App/context-menu/context-menu"
+import ContextMenu from "App/__deprecated__/context-menu/context-menu"
 
 const menuPopupMock = jest.fn()
 const menuAppendMock = jest.fn()
