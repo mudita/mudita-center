@@ -9,7 +9,7 @@ import { log } from "App/core/decorators/log.decorator"
 import { DeviceResolverService } from "App/device-manager/services/device-resolver.service"
 import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
-import { Device } from "App/device/modules/device"
+import { Device, getDevicePropertiesFromDevice } from "App/device/modules/device"
 import { PortInfo } from "App/device-manager/types"
 import { PortInfoValidator } from "App/device-manager/validators"
 import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
@@ -79,7 +79,7 @@ export class DeviceManager {
       this.currentDevice = device
       this.ipc.sendToRenderers(
         ListenerEvent.CurrentDeviceChanged,
-        this.currentDevice
+        getDevicePropertiesFromDevice(this.currentDevice)
       )
     }
 
@@ -99,7 +99,7 @@ export class DeviceManager {
 
       this.ipc.sendToRenderers(
         ListenerEvent.CurrentDeviceChanged,
-        this.currentDevice
+        this.currentDevice ? getDevicePropertiesFromDevice(this.currentDevice) : undefined
       )
     }
 
@@ -123,7 +123,7 @@ export class DeviceManager {
 
     this.ipc.sendToRenderers(
       ListenerEvent.CurrentDeviceChanged,
-      this.currentDevice
+      getDevicePropertiesFromDevice(this.currentDevice)
     )
 
     return Result.success(true)

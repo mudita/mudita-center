@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ListenerEvent } from "App/device-manager/constants"
-import { Device } from "App/device/modules/device"
+import { DeviceProperties } from "App/device/modules/device"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-empty-function
-const deviceAttachedHandler = (_: any, _data: Device): void => {}
+const deviceAttachedHandler = (_: any, _data: DeviceProperties): void => {}
 
 export const registerDeviceAttachedListener = (): (() => void) => {
   ipcRenderer.on(ListenerEvent.DeviceAttached, deviceAttachedHandler)
