@@ -66,3 +66,6 @@ packages/app/src/help/default-help.json
 
 # Fetched appplication configuration
 packages/app/src/settings/static/app-configuration.json
+
+# Fetched wasm sql lib
+packages/app/static/sql-wasm*
