@@ -45,6 +45,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           state: SynchronizationState.Loaded,
           initialized: true,
           error: null,
+          initializationFailed: false,
         }
       })
       .addCase(pendingAction(DataSyncEvent.UpdateAllIndexes), (state) => {
@@ -61,6 +62,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           synchronizationProcess: SynchronizationProcessState.Done,
           initialized: true,
           error: null,
+          initializationFailed: false,
         }
       })
       .addCase(
@@ -86,6 +88,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           ...state,
           state: SynchronizationState.Cache,
           initialized: true,
+          initializationFailed: false,
         }
       })
       .addCase(DataSyncEvent.SetLoadedState, (state) => {
