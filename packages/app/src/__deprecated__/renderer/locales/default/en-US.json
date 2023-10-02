@@ -428,7 +428,7 @@
   "module.filesManager.pendingUploadModalAbortButtonText": "Abort",
   "module.filesManager.pendingUploadModalActionButton": "Ok",
   "module.filesManager.pendingUploadModalHeader": "Files uploading",
-  "module.filesManager.pendingUploadModalTextDetailsInfo": "The file limit has almost been reached. You can upload only {count} {count, plural, one {file}  other {files}}",
+  "module.filesManager.pendingUploadModalTextDetailsInfo": "The first {count, plural, one {file} other {# files}} will be uploaded to the device.",
   "module.filesManager.pendingUploadModalTextInfo": "Mudita Center cannot load all files.\nThe number of selected files exceeds the limit.",
   "module.filesManager.pendingUploadModalTitle": "Upload files",
   "module.filesManager.selectionNumber": "{num, plural, =-1 {All Files} one {# File} other {# Files}} selected",
