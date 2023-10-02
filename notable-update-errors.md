@@ -1,5 +1,26 @@
 # Notable update errors
 
+## [v22]
+
+- (node:72183) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+- [75475:1002/094716.038183:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Unsupported URL scheme"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+- Error sending from webFrameMain:  Error: Failed to serialize arguments
+  @mudita/mudita-center-app:     at n.send (node:electron/js2c/browser_init:165:417)
+  @mudita/mudita-center-app:     at b.send (node:electron/js2c/browser_init:161:2494)
+  @mudita/mudita-center-app:     at ipc.sendToRenderers (webpack://@mudita/mudita-center-app/./node_modules/electron-better-ipc/source/main.js?:112:30)
+  @mudita/mudita-center-app:     at Device.emitUnlockedEvent (webpack://@mudita/mudita-center-app/./src/device/modules/device.ts?:84:18)
+  @mudita/mudita-center-app:     at EventEmitter.emit (node:events:526:28)
+  @mudita/mudita-center-app:     at PureStrategy.handleDeviceUnlockedEvent (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:95:25)
+  @mudita/mudita-center-app:     at PureStrategy.checkResponseStatus (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:70:10)
+  @mudita/mudita-center-app:     at PureStrategy.request (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:44:10)
+  @mudita/mudita-center-app:     at async PureStrategy.connect (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:30:22)
+  @mudita/mudita-center-app:     at async Device.connect (webpack://@mudita/mudita-center-app/./src/device/modules/device.ts?:109:22)
+  @mudita/mudita-center-app: info: ==== serial port: create valid request ==== {"metadata":{"muditaCenterVersion"
+
+### [v22] - New
+
+- N/A
+
 ## [v21]
 
 - (node:72183) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
