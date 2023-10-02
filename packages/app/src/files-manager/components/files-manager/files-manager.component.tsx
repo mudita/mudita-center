@@ -62,7 +62,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   abortPendingUpload,
   continuePendingUpload,
 }) => {
-  const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files: files ?? [] })

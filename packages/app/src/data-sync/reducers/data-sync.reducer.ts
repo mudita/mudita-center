@@ -35,7 +35,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
         ({ initializationFailed }) => {
           return {
             ...initialState,
-            initializationFailed: initializationFailed && initializationFailed,
+            initializationFailed,
           }
         }
       )

@@ -94,20 +94,20 @@ const BaseApp: FunctionComponent<Props> = ({
     if (deviceRestarting) {
       return
     }
-
-    if (
+    const pushConnectingCondition =
       (deviceConnecting ||
         deviceLocked ||
         checkingForOsForceUpdate ||
         initializationFailed) &&
       history.location.pathname !== URL_ONBOARDING.connecting
-    ) {
-      history.push(URL_ONBOARDING.connecting)
-    } else if (
+    const pushWelcomeCondition =
       !deviceFeaturesVisible &&
       !initializationFailed &&
       history.location.pathname !== URL_ONBOARDING.welcome
-    ) {
+
+    if (pushConnectingCondition) {
+      history.push(URL_ONBOARDING.connecting)
+    } else if (pushWelcomeCondition) {
       history.push(URL_ONBOARDING.welcome)
     }
     // AUTO DISABLED - fix me if you like :)
