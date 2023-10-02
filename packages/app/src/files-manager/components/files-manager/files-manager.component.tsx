@@ -147,7 +147,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       }
     } else if (uploading === State.Pending) {
       updateFieldState("uploadingInfo", false)
-      clearTimeout(uploadTimeoutRef.current || undefined)
+      clearTimeout(uploadTimeoutRef.current)
     } else if (uploading === State.Failed) {
       updateFieldState("uploading", false)
       updateFieldState("uploadingFailed", true)
@@ -188,7 +188,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     }, 5000)
 
     return () => {
-      clearTimeout(uploadTimeoutRef.current || undefined)
+      clearTimeout(uploadTimeoutRef.current)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
