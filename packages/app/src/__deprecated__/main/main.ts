@@ -231,13 +231,12 @@ const createWindow = async () => {
     mockAutoupdate(win)
   }
 
-  // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
-  //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
-  win.webContents.on("new-window", (event, href) => {
-    event.preventDefault()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    shell.openExternal(href)
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url)
+    return {
+      action: "allow",
+      overrideBrowserWindowOptions: {},
+    }
   })
 
   if (productionEnvironment) {
@@ -358,13 +357,13 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
-      // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
-      //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
-      newWindow.webContents.on("new-window", (event, href) => {
-        event.preventDefault()
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        shell.openExternal(href)
+
+      newWindow.webContents.setWindowOpenHandler(({ url }) => {
+        shell.openExternal(url)
+        return {
+          action: "allow",
+          overrideBrowserWindowOptions: {},
+        }
       })
     } else {
       newWindow.show()

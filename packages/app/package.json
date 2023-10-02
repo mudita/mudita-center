@@ -214,7 +214,7 @@
     "devtron": "^1.4.0",
     "dotenv": "^16.0.2",
     "elasticlunr": "^0.9.5",
-    "electron": "^21.0.0",
+    "electron": "^22.0.0",
     "electron-better-ipc": "^2.0.1",
     "electron-builder": "^23.3.3",
     "electron-debug": "^3.2.0",
@@ -322,7 +322,7 @@
     "usb": "1.9.2"
   },
   "engines": {
-    "node": "16.16.0",
-    "npm": "8.11.0"
+    "node": "16.17.1",
+    "npm": "8.15.0"
   }
 }
