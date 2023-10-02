@@ -81,12 +81,11 @@ const checkModalsVisibility = (
   })
 }
 
-describe("when force update mode is enabled, force update state is set to initial and availableReleasesForUpdate is not empty", () => {
+describe("when force update mode is enabled and force update state is set to initial", () => {
   test("only info modal should be shown", () => {
     const { queryByTestId } = render({
       enabled: true,
       forceUpdateState: State.Initial,
-      availableReleasesForUpdate: [release],
     })
     checkModalsVisibility(
       queryByTestId,
@@ -157,7 +156,6 @@ describe("testing whole flow", () => {
     const { queryByTestId, rerender } = render({
       enabled: true,
       forceUpdateState: State.Initial,
-      availableReleasesForUpdate: [release],
     })
     checkModalsVisibility(
       queryByTestId,
@@ -190,7 +188,6 @@ describe("testing whole flow", () => {
     const { queryByTestId, rerender } = render({
       enabled: true,
       forceUpdateState: State.Initial,
-      availableReleasesForUpdate: [release],
     })
     checkModalsVisibility(
       queryByTestId,
