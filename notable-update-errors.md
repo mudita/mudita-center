@@ -17,14 +17,6 @@
   @mudita/mudita-center-app:     at async PureStrategy.connect (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:30:22)
   @mudita/mudita-center-app:     at async Device.connect (webpack://@mudita/mudita-center-app/./src/device/modules/device.ts?:109:22)
   @mudita/mudita-center-app: info: ==== serial port: create valid request ==== {"metadata":{"muditaCenterVersion"
-- (node:74176) UnhandledPromiseRejectionWarning: TypeError: Cannot read properties of undefined (reading 'apply')
-  @mudita/mudita-center-app:     at e.stackAlloc (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:176:500)
-  @mudita/mudita-center-app:     at Object.e.onRuntimeInitialized (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:75:210)
-  @mudita/mudita-center-app:     at a (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:178:432)
-  @mudita/mudita-center-app:     at dd (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:179:317)
-  @mudita/mudita-center-app:     at cd (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:177:340)
-  @mudita/mudita-center-app:     at a (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:165:215)
-  @mudita/mudita-center-app:     at b (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:165:235)
 
 ### [v20] - New
 
@@ -47,14 +39,6 @@
   @mudita/mudita-center-app:     at async PureStrategy.connect (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:30:22)
   @mudita/mudita-center-app:     at async Device.connect (webpack://@mudita/mudita-center-app/./src/device/modules/device.ts?:109:22)
   @mudita/mudita-center-app: info: ==== serial port: create valid request ==== {"metadata":{"muditaCenterVersion"
-- (node:74176) UnhandledPromiseRejectionWarning: TypeError: Cannot read properties of undefined (reading 'apply')
-  @mudita/mudita-center-app:     at e.stackAlloc (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:176:500)
-  @mudita/mudita-center-app:     at Object.e.onRuntimeInitialized (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:75:210)
-  @mudita/mudita-center-app:     at a (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:178:432)
-  @mudita/mudita-center-app:     at dd (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:179:317)
-  @mudita/mudita-center-app:     at cd (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:177:340)
-  @mudita/mudita-center-app:     at a (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:165:215)
-  @mudita/mudita-center-app:     at b (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:165:235)
 
 ### [v19] - New
 
@@ -76,14 +60,6 @@
   @mudita/mudita-center-app:     at async PureStrategy.connect (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:30:22)
   @mudita/mudita-center-app:     at async Device.connect (webpack://@mudita/mudita-center-app/./src/device/modules/device.ts?:109:22)
   @mudita/mudita-center-app: info: ==== serial port: create valid request ==== {"metadata":{"muditaCenterVersion"
-- (node:74176) UnhandledPromiseRejectionWarning: TypeError: Cannot read properties of undefined (reading 'apply')
-  @mudita/mudita-center-app:     at e.stackAlloc (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:176:500)
-  @mudita/mudita-center-app:     at Object.e.onRuntimeInitialized (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:75:210)
-  @mudita/mudita-center-app:     at a (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:178:432)
-  @mudita/mudita-center-app:     at dd (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:179:317)
-  @mudita/mudita-center-app:     at cd (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:177:340)
-  @mudita/mudita-center-app:     at a (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:165:215)
-  @mudita/mudita-center-app:     at b (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:165:235)
 
 ### [v18] - New
 - @mudita/mudita-center-app: objc[75483]: Class WebSwapCGLLayer is implemented in both /System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebCore.framework/Versions/A/Frameworks/libANGLE-shared.dylib (0x7ffb49f00378) and /Users/danielkarski/projects/mudita-center/packages/app/node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/libGLESv2.dylib (0x11162f9c8). One of the two will be used. Which one is undefined.
@@ -108,14 +84,6 @@
   @mudita/mudita-center-app:     at async PureStrategy.connect (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:30:22)
   @mudita/mudita-center-app:     at async Device.connect (webpack://@mudita/mudita-center-app/./src/device/modules/device.ts?:109:22)
   @mudita/mudita-center-app: info: ==== serial port: create valid request ==== {"metadata":{"muditaCenterVersion"
-- (node:74176) UnhandledPromiseRejectionWarning: TypeError: Cannot read properties of undefined (reading 'apply')
-   @mudita/mudita-center-app:     at e.stackAlloc (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:176:500)
-   @mudita/mudita-center-app:     at Object.e.onRuntimeInitialized (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:75:210)
-   @mudita/mudita-center-app:     at a (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:178:432)
-   @mudita/mudita-center-app:     at dd (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:179:317)
-   @mudita/mudita-center-app:     at cd (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:177:340)
-   @mudita/mudita-center-app:     at a (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:165:215)
-   @mudita/mudita-center-app:     at b (webpack://@mudita/mudita-center-app/./node_modules/sql.js/dist/sql-wasm.js?:165:235)
 - (node:74176) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
 
 ## [to v8]
