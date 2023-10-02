@@ -19,7 +19,6 @@ import { modalsManagerReducer } from "App/modals-manager/reducers"
 import { settingsReducer } from "App/settings/reducers"
 import { checkUpdateAvailable } from "App/settings/actions/check-update-available.action"
 import { updateOsReducer } from "App/update/reducers"
-import { dataSyncReducer } from "App/data-sync/reducers"
 
 jest.mock("App/settings/actions/check-update-available.action")
 
@@ -110,7 +109,6 @@ const store = init({
       modalsManager: modalsManagerReducer,
       settings: settingsReducer,
       update: updateOsReducer,
-      dataSync: dataSyncReducer,
     },
   },
 }) as Store

@@ -49,7 +49,6 @@ interface Props {
   osVersion: string | undefined
   checkingForOsForceUpdate: boolean
   shouldCheckForForceUpdateNeed: boolean
-  initializationFailed: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -69,7 +68,6 @@ const BaseApp: FunctionComponent<Props> = ({
   osVersion,
   checkingForOsForceUpdate,
   shouldCheckForForceUpdateNeed,
-  initializationFailed,
 }) => {
   useRouterListener(history, {
     [URL_MAIN.contacts]: [],
@@ -95,12 +93,7 @@ const BaseApp: FunctionComponent<Props> = ({
       return
     }
 
-    if (
-      deviceConnecting ||
-      deviceLocked ||
-      checkingForOsForceUpdate ||
-      initializationFailed
-    ) {
+    if (deviceConnecting || deviceLocked || checkingForOsForceUpdate) {
       history.push(URL_ONBOARDING.connecting)
     } else if (!deviceFeaturesVisible) {
       history.push(URL_ONBOARDING.welcome)
@@ -161,7 +154,6 @@ const isDeviceRestarting = (state: RootState & ReduxRootState): boolean => {
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    initializationFailed: !state.dataSync.initialized,
     deviceFeaturesVisible:
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||
