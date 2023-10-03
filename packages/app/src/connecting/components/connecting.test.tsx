@@ -14,8 +14,6 @@ import { SynchronizationState } from "App/data-sync/reducers"
 import { DeviceType } from "App/device/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { CriticalBatteryLevelModalTestIds } from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal-test-ids.enum"
-import { Provider } from "react-redux"
-import store from "App/__deprecated__/renderer/store"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 jest.mock("App/device-manager/listeners")
@@ -53,11 +51,7 @@ const render = (extraProps?: Partial<Props>) => {
     ...defaultProps,
     ...extraProps,
   }
-  const outcome = renderWithThemeAndIntl(
-    <Provider store={store}>
-      <Connecting {...props} />
-    </Provider>
-  )
+  const outcome = renderWithThemeAndIntl(<Connecting {...props} />)
   return {
     ...outcome,
   }
