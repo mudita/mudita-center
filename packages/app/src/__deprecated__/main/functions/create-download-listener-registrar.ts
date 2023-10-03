@@ -3,6 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { BrowserWindow, DownloadItem } from "electron"
+import { Event } from "electron/main"
+import { ipcMain } from "electron-better-ipc"
+import path from "path"
 import {
   DownloadChannel,
   DownloadFinished,
@@ -12,9 +16,6 @@ import {
   DownloadStatus,
 } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 import transferProgress from "App/__deprecated__/renderer/utils/transfer-progress"
-import { BrowserWindow, DownloadItem } from "electron"
-import { ipcMain } from "electron-better-ipc"
-import path from "path"
 
 const registeredChannels: string[] = []
 
