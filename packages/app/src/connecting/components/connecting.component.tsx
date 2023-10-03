@@ -129,7 +129,7 @@ const Connecting: FunctionComponent<{
         setError(ConnectingError.Connecting)
       }
       // the value is a little higher than API timeoutMs
-    }, CONNECTION_TIME_OUT_MS + 5000)
+    }, 2 * CONNECTION_TIME_OUT_MS)
 
     return () => {
       mounted = false
