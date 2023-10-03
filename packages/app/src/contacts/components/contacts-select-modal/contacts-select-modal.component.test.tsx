@@ -125,10 +125,6 @@ const onPhoneNumberSelect = jest.fn()
 const onContactSelect = jest.fn()
 const onClose = jest.fn()
 
-beforeAll(() => {
-  mockAllIsIntersecting(true)
-})
-
 describe("Functionality: open/close", () => {
   test("Modal is closed when `open` field is equal to `false`", () => {
     const { queryByTestId } = render({
@@ -276,6 +272,8 @@ describe("Functionality: contacts list", () => {
         withPhoneNumberOnly: false,
       })
 
+      mockAllIsIntersecting(true)
+
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const contactListProps = contactSimpleListSpy.mock
@@ -284,31 +282,6 @@ describe("Functionality: contacts list", () => {
       expect(contactListProps.contacts.flat().length).toEqual(5)
       expect(contactListProps.contacts.flat()).toMatchInlineSnapshot(`
         Array [
-          Object {
-            "email": "example@mudita.com",
-            "firstAddressLine": "4929 Pine Garden Lane",
-            "firstName": "John",
-            "id": "1",
-            "lastName": "Doe",
-            "note": "",
-            "primaryPhoneNumber": "123 456 789",
-            "secondAddressLine": "Atlanta, GA, 30339, USA",
-            "secondaryPhoneNumber": "32 123 44 55",
-          },
-          Object {
-            "blocked": false,
-            "email": "example@mudita.com",
-            "favourite": false,
-            "firstAddressLine": "Malczewskiego 3, Warszawa",
-            "firstName": "Sławomir",
-            "ice": false,
-            "id": "2",
-            "lastName": "Borewicz",
-            "note": "sapiente rem dignissimos sunt",
-            "primaryPhoneNumber": "+71 195 069 214",
-            "secondAddressLine": "",
-            "secondaryPhoneNumber": "",
-          },
           Object {
             "blocked": false,
             "email": "",
@@ -336,6 +309,31 @@ describe("Functionality: contacts list", () => {
             "primaryPhoneNumber": "911",
             "secondAddressLine": "",
             "secondaryPhoneNumber": "",
+          },
+          Object {
+            "blocked": false,
+            "email": "example@mudita.com",
+            "favourite": false,
+            "firstAddressLine": "Malczewskiego 3, Warszawa",
+            "firstName": "Sławomir",
+            "ice": false,
+            "id": "2",
+            "lastName": "Borewicz",
+            "note": "sapiente rem dignissimos sunt",
+            "primaryPhoneNumber": "+71 195 069 214",
+            "secondAddressLine": "",
+            "secondaryPhoneNumber": "",
+          },
+          Object {
+            "email": "example@mudita.com",
+            "firstAddressLine": "4929 Pine Garden Lane",
+            "firstName": "John",
+            "id": "1",
+            "lastName": "Doe",
+            "note": "",
+            "primaryPhoneNumber": "123 456 789",
+            "secondAddressLine": "Atlanta, GA, 30339, USA",
+            "secondaryPhoneNumber": "32 123 44 55",
           },
           Object {
             "blocked": false,
@@ -377,31 +375,6 @@ describe("Functionality: contacts list", () => {
       expect(contactListProps.contacts.flat()).toMatchInlineSnapshot(`
         Array [
           Object {
-            "email": "example@mudita.com",
-            "firstAddressLine": "4929 Pine Garden Lane",
-            "firstName": "John",
-            "id": "1",
-            "lastName": "Doe",
-            "note": "",
-            "primaryPhoneNumber": "123 456 789",
-            "secondAddressLine": "Atlanta, GA, 30339, USA",
-            "secondaryPhoneNumber": "32 123 44 55",
-          },
-          Object {
-            "blocked": false,
-            "email": "example@mudita.com",
-            "favourite": false,
-            "firstAddressLine": "Malczewskiego 3, Warszawa",
-            "firstName": "Sławomir",
-            "ice": false,
-            "id": "2",
-            "lastName": "Borewicz",
-            "note": "sapiente rem dignissimos sunt",
-            "primaryPhoneNumber": "+71 195 069 214",
-            "secondAddressLine": "",
-            "secondaryPhoneNumber": "",
-          },
-          Object {
             "blocked": false,
             "email": "",
             "favourite": false,
@@ -428,6 +401,31 @@ describe("Functionality: contacts list", () => {
             "primaryPhoneNumber": "911",
             "secondAddressLine": "",
             "secondaryPhoneNumber": "",
+          },
+          Object {
+            "blocked": false,
+            "email": "example@mudita.com",
+            "favourite": false,
+            "firstAddressLine": "Malczewskiego 3, Warszawa",
+            "firstName": "Sławomir",
+            "ice": false,
+            "id": "2",
+            "lastName": "Borewicz",
+            "note": "sapiente rem dignissimos sunt",
+            "primaryPhoneNumber": "+71 195 069 214",
+            "secondAddressLine": "",
+            "secondaryPhoneNumber": "",
+          },
+          Object {
+            "email": "example@mudita.com",
+            "firstAddressLine": "4929 Pine Garden Lane",
+            "firstName": "John",
+            "id": "1",
+            "lastName": "Doe",
+            "note": "",
+            "primaryPhoneNumber": "123 456 789",
+            "secondAddressLine": "Atlanta, GA, 30339, USA",
+            "secondaryPhoneNumber": "32 123 44 55",
           },
         ]
       `)

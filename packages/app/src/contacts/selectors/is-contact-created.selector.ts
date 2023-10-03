@@ -6,13 +6,13 @@
 import { createSelector, OutputSelector } from "reselect"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact } from "App/contacts/reducers"
-import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
+import { contactsSelector } from "App/contacts/selectors/contacts.selector"
 
 export const isContactCreatedSelector = (
   id: string
 ): OutputSelector<ReduxRootState, boolean, (res: Contact[]) => boolean> => {
   return createSelector<ReduxRootState, Contact[], boolean>(
-    flatListSelector,
+    contactsSelector,
     (contacts) => {
       return contacts.some((contact) => contact.id === id)
     }

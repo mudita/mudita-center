@@ -5,7 +5,7 @@
 
 import { FavouriteContactsHashTable } from "App/contacts/data-structures"
 import { Contact } from "App/contacts/dto"
-import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
+import { contactsSelector } from "App/contacts/selectors/contacts.selector"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { createSelector, OutputSelector } from "reselect"
 
@@ -17,7 +17,7 @@ export const favouriteContactHashSelector = (
   (res: Contact[]) => FavouriteContactsHashTable
 > => {
   return createSelector<ReduxRootState, Contact[], FavouriteContactsHashTable>(
-    flatListSelector,
+    contactsSelector,
     (stateContacts) => {
       const contacts = withPhoneNumberOnly
         ? stateContacts.filter(
