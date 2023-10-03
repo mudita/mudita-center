@@ -82,7 +82,7 @@ export class DeviceManager {
       this.currentDevice = device
       this.ipc.sendToRenderers(
         ListenerEvent.CurrentDeviceChanged,
-        getDevicePropertiesFromDevice(this.currentDevice)
+        this.device.toSerializableObject()
       )
     }
 
