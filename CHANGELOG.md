@@ -12,7 +12,7 @@ straightforward as possible.
 
 ## [2.2.3] - 2023-05-10
 
-### Changed
+### Fixed
 
 - Fixed issue with breaking connection when deleting large number of contacts
 - Improved search results preview when searching for contact in Contacts tab and Messages tab
