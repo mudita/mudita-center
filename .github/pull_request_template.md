@@ -11,6 +11,7 @@ Jira: [CP-XXX]
 
 - [ ] change went through the QA process
 - [ ] translations are updated in dedicated application
+- [ ] [CHANGELOG.md](./CHANGELOG.md) is updated
 
 <details>
 <summary><b>Screenshots</b></summary>
