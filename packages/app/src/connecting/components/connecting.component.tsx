@@ -123,17 +123,13 @@ const Connecting: FunctionComponent<{
       return
     }
 
-    let mounted = true
     const timeout = setTimeout(() => {
-      if (mounted) {
-        setError(ConnectingError.Connecting)
-      }
+      setError(ConnectingError.Connecting)
       // the value is a little higher than API timeoutMs
-    }, 2 * CONNECTION_TIME_OUT_MS)
+    }, CONNECTION_TIME_OUT_MS + 5000)
 
     return () => {
-      mounted = false
-      clearTimeout(timeout)
+      if (timeout) clearTimeout(timeout)
     }
   }, [unlocked, onboardingFinished])
 
@@ -173,9 +169,7 @@ const Connecting: FunctionComponent<{
       {error === ConnectingError.Sync && (
         <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
       )}
-      {error === ConnectingError.Connecting && (
-        <ErrorConnectingModal open closeModal={close} />
-      )}
+      {error === ConnectingError.Connecting && <ErrorConnectingModal open />}
       {error === ConnectingError.ForceUpdateCheckFailed && (
         <ErrorUpdateModal open closeModal={close} />
       )}
