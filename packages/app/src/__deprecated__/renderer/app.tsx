@@ -6,7 +6,7 @@
 import translationConfig from "App/translations.config.json"
 import App from "App/__deprecated__/renderer/app.component"
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
-import store from "App/__deprecated__/renderer/store"
+// import store from "App/__deprecated__/renderer/store"
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import Modal from "react-modal"
@@ -30,5 +30,5 @@ Modal.setAppElement("#app")
 ReactDOM.render(<App />, mainElement)
 
 // Setup modal service
-modalService.bindStore(store)
+// modalService.bindStore(store)
 modalService.setDefaultLocale(translationConfig.defaultLanguage)

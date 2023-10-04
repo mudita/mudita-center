@@ -152,9 +152,9 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
-  if (!productionEnvironment) {
-    await installExtensions()
-  }
+  // if (!productionEnvironment) {
+  //   await installExtensions()
+  // }
 
   const title = "Mudita Center"
 
