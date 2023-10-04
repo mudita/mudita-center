@@ -40,7 +40,7 @@ export interface ContactsProps {
   toggleItem: (id: string) => void
   onSpeedDialSettingsSave: (contacts?: Contact[]) => void
   getContact: (id: ContactID) => Contact
-  flatList: Contact[]
+  contacts: Contact[]
   speedDialChosenList: number[]
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
