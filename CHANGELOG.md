@@ -19,9 +19,7 @@ straightforward as possible.
 - Added normalization of news' texts
 - Fixed issues with creating device backup and changing device
 - Fixed Mudita Center not stopping files upload after disconnecting the device
-- Added mechanism to filter unsupported files from user selected files to upload
 - Added possibility to stop file upload if user selected more files than can be uploaded to Mudita Harmony
-- Changed import contacts modal text to more intuitive one
 
 ## [2.2.2] - 2023-09-28
 
