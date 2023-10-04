@@ -4,11 +4,7 @@
  */
 
 import styled from "styled-components"
-import {
-  backgroundColor,
-  fontWeight,
-  textColor,
-} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
 export const ModalContentWithoutMargin = styled.div`
@@ -54,10 +50,4 @@ export const RoundIconWrapper = styled.div`
 
 export const ModalMainText = styled(Text)`
   margin-bottom: 0.8rem;
-`
-export const ModalLink = styled.a`
-  text-decoration: underline;
-  cursor: pointer;
-  font-weight: ${fontWeight("default")};
-  color: ${textColor("action")};
 `
