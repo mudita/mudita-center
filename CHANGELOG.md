@@ -10,12 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
-## [2.2.2] - 2023-09-28
-
-### Changed
-
-- Improved handling of the onboarding process when connecting the phone to the Center app for the first time.
-
 ## [2.2.3] - 2023-05-10
 
 ### Changed
@@ -24,3 +18,13 @@ straightforward as possible.
 - Improved search results preview when searching for contact in Contacts tab and Messages tab
 - Added normalization of news' texts
 - Fixed issues with creating device backup and changing device
+- Fixed Mudita Center not stopping files upload after disconnecting the device
+- Added mechanism to filter unsupported files from user selected files to upload
+- Added possibility to stop file upload if user selected more files than can be uploaded to Mudita Harmony
+- Changed import contacts modal text to more intuitive one
+
+## [2.2.2] - 2023-09-28
+
+### Changed
+
+- Improved handling of the onboarding process when connecting the phone to the Center app for the first time.
