@@ -15,3 +15,12 @@ straightforward as possible.
 ### Changed
 
 - Improved handling of the onboarding process when connecting the phone to the Center app for the first time.
+
+## [2.2.3] - 2023-05-10
+
+### Changed
+
+- Fixed issue with breaking connection when deleting large number of contacts
+- Improved search results preview when searching for contact in Contacts tab and Messages tab
+- Added normalization of news' texts
+- Fixed issues with creating device backup and changing device
