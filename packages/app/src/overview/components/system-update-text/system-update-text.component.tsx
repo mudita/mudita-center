@@ -31,7 +31,7 @@ export const SystemUpdateText: FunctionComponent<SystemUpdateTextProps> = ({
   checkForUpdatePerformed,
   checkForUpdateFailed,
 }) => {
-  if (checkForUpdateFailed) {
+  if (checkForUpdateFailed && !updateAvailable) {
     return (
       <AvailableUpdateText>
         <FormattedMessage {...messages.systemUpdateCheckFailed} />
