@@ -19,5 +19,4 @@ export interface FilesManagerState {
   uploadBlocked: boolean
   uploadPendingFiles: string[]
   duplicatedFiles: string[]
-  invalidFiles: string[]
 }

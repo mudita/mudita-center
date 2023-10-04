@@ -207,7 +207,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           Array.from(fileInputRef.current?.files).map((file) => file.path)
         )
       )
-      fileInputRef.current.value = ""
     }
   }
 
