@@ -17,9 +17,9 @@ jobs:
           node-version: 14.17.3
       - name: Run Setup
         run: npm run setup
-      - name: Install sanitize
+      - name: Install sanitize npm module
         run: npm install sanitize-filename
-      - name: TEMP Copy electron-builder
+      - name: Copy electron-builder environemnt file
         run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
       - name: Build App
         env:
@@ -42,7 +42,7 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ vars.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ vars.MUDITA_CENTER_PRERELEASE_ENABLED }}
         run: cd packages/app/ && npm run dist:prod:all
-      - name: Push App to nexus registry
+      - name: Push artifacts to nexus registry
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -51,4 +51,13 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/Mudita-Center.exe
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/Mudita-Center.dmg
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/Mudita-Center.zip
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/Mudita-Center.zip.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/Mudita-Center.exe.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/Mudita-Center.AppImage.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/Mudita-Center.dmg.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/latest-linux.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/latest-mac.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/latest.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$APP_VERSION/builder-debug.yml
           
