@@ -12,11 +12,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.3
-
-      - name: Install dependencies
-        run: npm install
+      - name: Run Setup
+        run: npm run setup
+      - name: Install sanitize
+        run: npm install sanitize-filename
+      - name: Check envs
+        run: printenv
+      - name: [TEMP] Copy envs
+        run: cp ~/env .env
+      - name: [TEMP] Copy electron-builder
+        run: cp ~/electron-builder.env packages/app/electron-builder.env
+      - name: Build App
+        run: cd packages/app/ && npm run npm dist:prod:all
