@@ -3,7 +3,7 @@ name: Automatic Quality Checks with Artifacts to nexus
 on:
   push:
     branches:
-      - nexus-poc
+      - nexus-poc-disable
 
 jobs:
   validate:
