@@ -90,7 +90,7 @@ const contactTwo: Contact = {
   secondAddressLine: "",
 }
 
-const contacts: Contact[] = [
+const contactsData: Contact[] = [
   {
     id: "0",
     firstName: "Sławomir",
@@ -168,7 +168,7 @@ const defaultProps: Props = {
       contacts: [contactOne, contactTwo],
     },
   ],
-  flatList: [],
+  contacts: [],
   selectedItems: [],
   allRowsSelected: false,
   resetAllItems: jest.fn(),
@@ -231,11 +231,24 @@ test("changing contact details preview, when the user switching between contacts
 })
 
 test("first name and second name in search shows correct result", () => {
-  const { queryByTestId, getByTestId } = renderer({ flatList: contacts })
+  const { queryByTestId, getByTestId } = renderer({ contacts: contactsData })
   const input = queryByTestId(
     ContactInputSelectTestIds.Input
   ) as HTMLInputElement
   fireEvent.change(input, { target: { value: "Oswald Bednar" } })
+
+  console.log(
+    "getByTestId(InputSearchTestIds.List).childNodes",
+    getByTestId(InputSearchTestIds.List).childNodes
+  )
+  console.log(
+    "getByTestId(InputSearchTestIds.List).childNodes.length",
+    getByTestId(InputSearchTestIds.List).childNodes.length
+  )
+
+  console.log(getByTestId(InputSearchTestIds.List).childNodes[0])
+  console.log(getByTestId(InputSearchTestIds.List).childNodes[1])
+
   expect(getByTestId(InputSearchTestIds.List).childNodes).toHaveLength(4)
 })
 
@@ -338,7 +351,7 @@ describe("contact export", () => {
 describe("search preview", () => {
   test("preview list should be independent of search results", () => {
     const { queryByTestId, getByTestId, queryAllByTestId } = renderer({
-      flatList: [contactOne, contactTwo],
+      contacts: [contactOne, contactTwo],
     })
     const input = queryByTestId(
       ContactInputSelectTestIds.Input

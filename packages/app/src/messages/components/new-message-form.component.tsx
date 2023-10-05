@@ -12,7 +12,7 @@ import { phoneNumberRegexp } from "App/__deprecated__/renderer/utils/form-valida
 import NewMessageFormSidebar from "App/messages/components/new-message-form-sidebar/new-message-form-sidebar.component"
 import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Receiver } from "App/messages/reducers/messages.interface"
-import uniqBy from "lodash/uniqBy"
+import { filterReceivers } from "App/messages/helpers/messages.helpers"
 
 export const isReceiverMatching = (
   receiver: Receiver,
@@ -58,7 +58,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
   onAttachTemplateClick,
   ...props
 }) => {
-  const [searchValue, setSearchValue] = useState("")
+  const [searchValue, setSearchValue] = useState<string>("")
 
   const handleSearchValueChange = (value: string): void => {
     setSearchValue(value)
@@ -86,14 +86,11 @@ const NewMessageForm: FunctionComponent<Props> = ({
     }
   }
 
-  const results = uniqBy(
-    receivers.filter((item) => isReceiverMatching(item, searchValue || "")),
-    "contactId"
-  )
+  const filteredReceivers = filterReceivers(receivers, searchValue)
 
   return (
     <NewMessageFormSidebar
-      results={results}
+      results={filteredReceivers}
       searchValue={searchValue}
       onSearchValueChange={handleSearchValueChange}
       onSearchEnterClick={handleSearchEnterClick}

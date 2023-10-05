@@ -51,12 +51,12 @@ import ImportContactsFlow, {
 } from "App/contacts/components/import-contacts-flow/import-contacts-flow.component"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
-import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
 import { ExportContactFailedModal } from "../export-contact-failed-modal/export-contact-failed-modal.component"
 import { applyValidationRulesToImportedContacts } from "App/contacts/helpers/apply-validation-rules-to-imported-contacts/apply-validation-rules-to-imported-contacts"
 import { ExportContactsResult } from "App/contacts/constants"
 import DeleteContactsPopup from "./delete-contacts-popup/delete-contacts-popup.component"
 import { differenceWith, isEqual } from "lodash"
+import { filterContacts } from "App/contacts/helpers/filter-contacts/filter-contacts"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {
@@ -90,7 +90,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   resultState,
   getContact,
   contactList = [],
-  flatList,
+  contacts,
   speedDialChosenList,
   isThreadOpened,
   loadContacts,
@@ -113,7 +113,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const history = useHistory()
   const searchParams = useURLSearchParams()
   const phoneNumber = searchParams.get("phoneNumber") || ""
-  const activeContact = findContactByPhoneNumber(flatList, phoneNumber)
+  const activeContact = findContactByPhoneNumber(contacts, phoneNumber)
   const initNewContact =
     phoneNumber !== "" && activeContact === undefined
       ? { ...defaultContact, primaryPhoneNumber: phoneNumber }
@@ -133,7 +133,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   useEffect(() => {
     if (editedContact) {
-      const newData = flatList.find(
+      const newData = contacts.find(
         (contact) => contact.id === editedContact.id
       )
 
@@ -164,7 +164,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flatList])
+  }, [contacts])
 
   const closeModal = () => modalService.closeModal()
 
@@ -308,7 +308,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
 
   const openDeleteModal = (id: string) => {
-    const contact = flatList.find((contact) => contact.id === id)
+    const contact = contacts.find((contact) => contact.id === id)
     const handleDelete = async () => {
       resetAllItems()
       void modalService.openModal(
@@ -621,16 +621,14 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     setSearchValue(searchPreviewValue)
   }
 
-  const results = flatList.filter((item) =>
-    contactsFilter(item, searchValue || "")
-  )
-  const resultsPreview = flatList.filter((item) =>
-    contactsFilter(item, searchPreviewValue || "")
-  )
+  const results = filterContacts(contacts, searchValue || "")
+  const resultsPreview = filterContacts(contacts, searchPreviewValue || "")
 
   const handleExport = async (ids: string[]): Promise<void> => {
-    const contacts = flatList.filter((contact) => ids.includes(contact.id))
-    const exportResult = await exportContacts(contacts)
+    const contactsToExport = contacts.filter((contact) =>
+      ids.includes(contact.id)
+    )
+    const exportResult = await exportContacts(contactsToExport)
 
     switch (exportResult) {
       case ExportContactsResult.Ok:
@@ -682,7 +680,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       )}
       <ContactSection>
         <ContactPanel
-          contactsList={flatList}
+          contactsList={contacts}
           onContactSelect={handleContactSelect}
           onManageButtonClick={handleImportContacts}
           onNewButtonClick={handleAddingContact}
