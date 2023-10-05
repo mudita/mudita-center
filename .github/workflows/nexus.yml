@@ -22,9 +22,9 @@ jobs:
         run: npm install sanitize-filename
       - name: Check envs
         run: printenv
-      - name: [TEMP] Copy envs
+      - name: TEMP Copy envs
         run: cp ~/env .env
-      - name: [TEMP] Copy electron-builder
+      - name: TEMP Copy electron-builder
         run: cp ~/electron-builder.env packages/app/electron-builder.env
       - name: Build App
         run: cd packages/app/ && npm run npm dist:prod:all
