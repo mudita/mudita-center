@@ -6,9 +6,8 @@ on:
       - nexus-poc
 
 jobs:
-  build:
+  Build and Push:
     runs-on: macOS
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -47,4 +46,4 @@ jobs:
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-        run: curl -v -u $NEXUS_USERNAME:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/Mudita-Center.exe
+        run: printenv && curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/Mudita-Center.exe
