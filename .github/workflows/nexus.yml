@@ -6,7 +6,7 @@ on:
       - nexus-poc
 
 jobs:
-  Build and Push:
+  build:
     runs-on: macOS
     steps:
       - name: Checkout code
