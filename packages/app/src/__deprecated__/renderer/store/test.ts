@@ -23,26 +23,28 @@ export const store = configureStore({
   reducer: {
     news: newsReducer,
     device: deviceReducer,
-    // backup: backupReducer,
-    // crashDump: crashDumpReducer,
-    // messages: messagesReducer,
-    // contacts: contactsReducer,
-    // dataSync: dataSyncReducer,
-    // modalsManager: modalsManagerReducer,
-    // contactSupport: contactSupportReducer,
-    // filesManager: filesManagerReducer,
-    // notification: notificationReducer,
-    // templates: templateReducer,
-    // settings: settingsReducer,
-    // update: updateOsReducer,
+    backup: backupReducer,
+    crashDump: crashDumpReducer,
+    messages: messagesReducer,
+    contacts: contactsReducer,
+    dataSync: dataSyncReducer,
+    modalsManager: modalsManagerReducer,
+    contactSupport: contactSupportReducer,
+    filesManager: filesManagerReducer,
+    notification: notificationReducer,
+    templates: templateReducer,
+    settings: settingsReducer,
+    update: updateOsReducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware({
-      thunk: true,
-      immutableCheck: true,
-      serializableCheck: true,
-      actionCreatorCheck: true,
-    })
+    // console.log(getDefaultMiddleware())
+    return getDefaultMiddleware()
+    // return getDefaultMiddleware({
+    //   thunk: true,
+    //   immutableCheck: true,
+    //   serializableCheck: true,
+    //   actionCreatorCheck: true,
+    // })
   },
 })
 

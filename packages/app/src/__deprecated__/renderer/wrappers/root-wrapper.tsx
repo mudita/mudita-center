@@ -21,9 +21,9 @@ import HelpApp from "App/__deprecated__/renderer/wrappers/help-app.component"
 import ErrorApp from "App/__deprecated__/renderer/wrappers/error-app.component"
 import BaseApp from "App/__deprecated__/renderer/wrappers/base-app.component"
 import { Mode } from "App/__deprecated__/common/enums/mode.enum"
-// import { ipcRenderer } from "electron-better-ipc"
-// import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
-// import { QuestionAndAnswer } from "App/help/components/help.component"
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
+import { QuestionAndAnswer } from "App/help/components/help.component"
 // import registerAppContextMenu from "App/__deprecated__/renderer/register-app-context-menu"
 // import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 // import registerAvailableAppUpdateListener from "App/__deprecated__/main/functions/register-avaible-app-update-listener"
@@ -106,44 +106,44 @@ const RootWrapper: FunctionComponent<Props> = ({
   // const getStoreData = async (key?: string) =>
   //   await ipcRenderer.callMain(HelpActions.GetStore, key)
 
-  // const RenderRoutes = useMemo(
-  //   () => () => {
-  //     if (mode === Mode.ServerError) {
-  //       return <ErrorApp history={history} />
-  //     }
+  const RenderRoutes = useMemo(
+    () => () => {
+      if (mode === Mode.ServerError) {
+        return <ErrorApp history={history} />
+      }
 
-  //     if (mode === Mode.Help) {
-  //       return (
-  //         <HelpApp
-  //           history={history}
-  //           saveToStore={() => Promise.resolve()}
-  //           getStoreData={() => Promise.resolve()}
-  //           // saveToStore={saveToStore}
-  //           // getStoreData={getStoreData}
-  //         />
-  //       )
-  //     }
+      if (mode === Mode.Help) {
+        return (
+          <HelpApp
+            history={history}
+            saveToStore={() => Promise.resolve()}
+            getStoreData={() => Promise.resolve()}
+            // saveToStore={saveToStore}
+            // getStoreData={getStoreData}
+          />
+        )
+      }
 
-  //     if (mode === Mode.License) {
-  //       return <LicenseApp history={history} />
-  //     }
+      if (mode === Mode.License) {
+        return <LicenseApp history={history} />
+      }
 
-  //     if (mode === Mode.TermsOfService) {
-  //       return <TermsOfServiceApp history={history} />
-  //     }
+      if (mode === Mode.TermsOfService) {
+        return <TermsOfServiceApp history={history} />
+      }
 
-  //     if (mode === Mode.PrivacyPolicy) {
-  //       return <PrivacyPolicyApp history={history} />
-  //     }
+      if (mode === Mode.PrivacyPolicy) {
+        return <PrivacyPolicyApp history={history} />
+      }
 
-  //     if (mode === Mode.Sar) {
-  //       return <SarApp history={history} />
-  //     }
+      if (mode === Mode.Sar) {
+        return <SarApp history={history} />
+      }
 
-  //     return <BaseApp history={history} />
-  //   },
-  //   [mode, history]
-  // )
+      return <BaseApp history={history} />
+    },
+    [mode, history]
+  )
 
   // const handleAppUpdateAvailableCheck = (): void => {
   //   if (!window.navigator.onLine) {
@@ -267,67 +267,30 @@ const RootWrapper: FunctionComponent<Props> = ({
           <EULAAgreement>
             <Normalize />
             <GlobalStyle />
-            {/* <RenderRoutes /> */}
-            <div>test 2</div>
+            <RenderRoutes />
           </EULAAgreement>
         </ModalProvider>
       </IntlProvider>
     </ThemeProvider>
-    // <ThemeProvider theme={theme}>
-    //   <IntlProvider
-    //     defaultLocale={translationConfig.defaultLanguage}
-    //     locale={translationConfig.defaultLanguage}
-    //     messages={localeEn}
-    //   >
-    //     <ModalProvider service={modalService}>
-    //       <EULAAgreement>
-    //         <Normalize />
-    //         <GlobalStyle />
-    // {/* <RenderRoutes /> */}
-    // <>test 2</>
-    //       </EULAAgreement>
-    //     </ModalProvider>
-    //   </IntlProvider>
-    // </ThemeProvider>
   )
 }
 
 const mapStateToProps = (state: ReduxRootState) => ({
-  connectedAndUnlocked: false,
-  deviceType: null,
-  // connectedAndUnlocked:
-  //   state.device.status.connected && Boolean(state.device.status.unlocked),
-  // deviceType: state.device.deviceType,
+  connectedAndUnlocked:
+    state.device.status.connected && Boolean(state.device.status.unlocked),
+  deviceType: state.device.deviceType,
 })
 
 const mapDispatchToProps = {
-  // loadDeviceData,
-  // checkUpdateAvailable,
-  // toggleApplicationUpdateAvailable,
-  // setLatestVersion,
-  // loadSettings,
-  // getCurrentDevice,
+  loadDeviceData,
+  checkUpdateAvailable,
+  toggleApplicationUpdateAvailable,
+  setLatestVersion,
+  loadSettings,
+  getCurrentDevice,
   setConnectionStatus,
   resetUploadingState,
-  // setCheckingForUpdate,
+  setCheckingForUpdate,
 }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)
-
-// export const TestXXX = () => {
-//   console.log("asdfasdfas")
-//   return <div>asdasdasd</div>
-// }
-
-export default ({ history }: { history: History }) => {
-  // export default () => {
-  // console.log("asdfasdfas")
-  // return <>asdasdasd</>
-  return (
-    <RootWrapper
-      deviceType={null}
-      connectedAndUnlocked={false}
-      history={history}
-    />
-  )
-}
+export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)

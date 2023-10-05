@@ -31,10 +31,10 @@ const config: InitConfig<RootModel> = {
   models,
   plugins: [selectPlugin()],
   redux: {
-    // reducers: reducers,
-    reducers: {
-      news: newsReducer,
-    },
+    reducers: reducers,
+    // reducers: {
+    //   news: newsReducer,
+    // },
     middlewares,
   },
 }

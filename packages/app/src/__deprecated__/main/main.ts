@@ -138,7 +138,7 @@ const commonWindowOptions: BrowserWindowConstructorOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
-    devTools: !productionEnvironment,
+    // devTools: !productionEnvironment,
     // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
     //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
     contextIsolation: false,
