@@ -58,7 +58,7 @@ const StyledModalContent = styled(ModalContent)`
 
 const ErrorConnectingModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
-> = ({ onClose, ...props }) => {
+> = (props) => {
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
   return (
     <ModalDialog

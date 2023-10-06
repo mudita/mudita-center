@@ -130,7 +130,9 @@ const Connecting: FunctionComponent<{
     }, CONNECTION_TIME_OUT_MS + 5000)
 
     return () => {
-      if (timeout) clearTimeout(timeout)
+      if (timeout) {
+        clearTimeout(timeout)
+      }
     }
   }, [unlocked, onboardingFinished])
 
