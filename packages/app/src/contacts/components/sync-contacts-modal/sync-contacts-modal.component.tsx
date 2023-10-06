@@ -19,11 +19,16 @@ import {
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { defineMessages } from "react-intl"
 import GoogleButton from "react-google-button"
-import { ModalDialog, ModalLink } from "App/ui/components/modal-dialog"
+import {
+  ModalContent,
+  ModalDialog,
+  ModalLink,
+} from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import InputFileSelect from "App/contacts/components/sync-contacts-modal/input-file-select"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
+import { BrowserActions } from "App/__deprecated__/common/enums/browser-actions.enum"
 
 const messages = defineMessages({
   title: {
@@ -76,7 +81,8 @@ const SyncContactsModal: FunctionComponent<Props> = ({
     }
   }
 
-  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
+  const openHelpWindow = () =>
+    ipcRenderer.callMain(BrowserActions.AppleOpenBrowser)
 
   return (
     <ModalDialog
@@ -86,61 +92,63 @@ const SyncContactsModal: FunctionComponent<Props> = ({
       onClose={onClose}
       {...props}
     >
-      <Text
-        displayStyle={TextDisplayStyle.Paragraph2}
-        message={messages.text}
-      />
-      <Text
-        displayStyle={TextDisplayStyle.Paragraph2}
-        message={{
-          ...messages.helpText,
-          values: {
-            link: (...chunks: ReactNode[]) => (
-              <ModalLink onClick={openHelpWindow}>{chunks}</ModalLink>
-            ),
-          },
-        }}
-      />
-      <ButtonsContainer>
-        <ButtonWrapper>
-          <GoogleButton
-            onClick={() => {
-              onGoogleButtonClick()
-            }}
-            type="dark"
-            label={intl.formatMessage(messages.googleButtonText)}
-            data-testid={SyncContactsModalTestIds.GoogleButton}
-            disabled={disabledOtherMethod}
-          />
-
-          <SyncButton
-            labelMessage={messages.outlookButtonText}
-            Icon={IconType.Outlook}
-            onClick={onOutlookButtonClick}
-            data-testid={SyncContactsModalTestIds.OutlookButton}
-            disabled={disabledOtherMethod}
-          />
-          {onAppleButtonClick && (
-            <SyncButton
-              labelMessage={messages.appleButtonText}
-              Icon={IconType.Apple}
-              onClick={onAppleButtonClick}
+      <ModalContent>
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph2}
+          message={messages.text}
+        />
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph2}
+          message={{
+            ...messages.helpText,
+            values: {
+              link: (...chunks: ReactNode[]) => (
+                <ModalLink onClick={openHelpWindow}>{chunks}</ModalLink>
+              ),
+            },
+          }}
+        />
+        <ButtonsContainer>
+          <ButtonWrapper>
+            <GoogleButton
+              onClick={() => {
+                onGoogleButtonClick()
+              }}
+              type="dark"
+              label={intl.formatMessage(messages.googleButtonText)}
+              data-testid={SyncContactsModalTestIds.GoogleButton}
               disabled={disabledOtherMethod}
             />
-          )}
-          <SyncButton
-            labelMessage={messages.manualImportText}
-            Icon={IconType.Upload}
-            onClick={handleManualImportClick}
-            disabled={disabledOtherMethod}
-          />
-          <InputFileSelect
-            ref={fileInputRef}
-            onManualImportClick={onManualImportClick}
-            onCancelManualImportClick={onCancelManualImportClick}
-          />
-        </ButtonWrapper>
-      </ButtonsContainer>
+
+            <SyncButton
+              labelMessage={messages.outlookButtonText}
+              Icon={IconType.Outlook}
+              onClick={onOutlookButtonClick}
+              data-testid={SyncContactsModalTestIds.OutlookButton}
+              disabled={disabledOtherMethod}
+            />
+            {onAppleButtonClick && (
+              <SyncButton
+                labelMessage={messages.appleButtonText}
+                Icon={IconType.Apple}
+                onClick={onAppleButtonClick}
+                disabled={disabledOtherMethod}
+              />
+            )}
+            <SyncButton
+              labelMessage={messages.manualImportText}
+              Icon={IconType.DownloadWhite}
+              onClick={handleManualImportClick}
+              disabled={disabledOtherMethod}
+            />
+            <InputFileSelect
+              ref={fileInputRef}
+              onManualImportClick={onManualImportClick}
+              onCancelManualImportClick={onCancelManualImportClick}
+            />
+          </ButtonWrapper>
+        </ButtonsContainer>
+      </ModalContent>
     </ModalDialog>
   )
 }

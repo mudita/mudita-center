@@ -10,6 +10,7 @@ import { getInvalidFiles } from "App/files-manager/selectors/get-invalid-files.s
 import {
   ModalContent,
   ModalDialog,
+  ModalLink,
   RoundIconWrapper,
 } from "App/ui/components/modal-dialog"
 import React from "react"
@@ -21,17 +22,16 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { resetUploadingState } from "App/files-manager/actions"
-import styled from "styled-components"
-import {
-  fontWeight,
-  textColor,
-} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
+import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 
 const messages = defineMessages({
   title: {
     id: "module.filesManager.invalidFiledModalTitle",
+  },
+  headline: {
+    id: "module.filesManager.invalidFiledModalHeadline",
   },
   filesInfo: {
     id: "module.filesManager.invalidFiledModalFilesInfo",
@@ -39,20 +39,10 @@ const messages = defineMessages({
   helpInfo: {
     id: "module.filesManager.invalidFiledModalHelpInfo",
   },
+  button: {
+    id: "module.filesManager.invalidFiledModalButton",
+  },
 })
-
-const StyledLink = styled.a`
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 1.4rem;
-  font-weight: ${fontWeight("default")};
-  color: ${textColor("action")};
-`
-const StyledModalContent = styled(ModalContent)`
-  p {
-    text-align: left;
-  }
-`
 
 export const InvalidFilesModal: FunctionComponent = ({ ...props }) => {
   const invalidFiles = useSelector(getInvalidFiles)
@@ -64,34 +54,39 @@ export const InvalidFilesModal: FunctionComponent = ({ ...props }) => {
       size={ModalSize.Small}
       title={intl.formatMessage(messages.title)}
       open={!!invalidFiles.length}
-      closeButton
-      onCloseButton={() => {
+      closeButton={false}
+      actionButtonSize={Size.FixedSmall}
+      actionButtonLabel={intl.formatMessage(messages.button)}
+      onActionButtonClick={() => {
         dispatch(resetUploadingState())
       }}
       {...props}
     >
-      <StyledModalContent>
+      <ModalContent>
         <RoundIconWrapper>
-          <Icon type={IconType.Info} width={3.2} />
+          <Icon type={IconType.Exclamation} width={4.8} />
         </RoundIconWrapper>
         <Text
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
+          displayStyle={TextDisplayStyle.Headline4}
+          color="primary"
+          message={messages.headline}
+        />
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph3}
+          color="info"
           message={messages.filesInfo}
         />
         <Text
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
+          displayStyle={TextDisplayStyle.Paragraph3}
+          color="info"
           message={{
             ...messages.helpInfo,
             values: {
-              link: (
-                <StyledLink onClick={openHelpWindow}>help pages</StyledLink>
-              ),
+              link: <ModalLink onClick={openHelpWindow}>help pages</ModalLink>,
             },
           }}
         />
-      </StyledModalContent>
+      </ModalContent>
     </ModalDialog>
   )
 }
