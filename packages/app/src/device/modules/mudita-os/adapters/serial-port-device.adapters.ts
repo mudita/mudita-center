@@ -76,9 +76,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     return new Promise<ResultObject<Response<any>>>((resolve) => {
       const uuid = this.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
-      if (payload.endpoint === Endpoint.Security) {
-        console.log("security")
-      }
 
       void this.requestsQueue.add(
         async () => {
