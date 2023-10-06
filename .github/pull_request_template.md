@@ -1,12 +1,8 @@
 JIRA Reference: [CP-XXX]
 
-### :soccer: Goals ️
+### :memo: Description ️
 
--
-
-### :mag: Testing Details
-
--
+- 
 
 ### :muscle: Checklist before requesting a review - nice to have
 
