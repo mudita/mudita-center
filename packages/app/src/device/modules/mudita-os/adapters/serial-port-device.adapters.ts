@@ -76,6 +76,9 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     return new Promise<ResultObject<Response<any>>>((resolve) => {
       const uuid = this.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
+      if (payload.endpoint === Endpoint.Security) {
+        console.log("security")
+      }
 
       void this.requestsQueue.add(
         async () => {
@@ -99,20 +102,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
       options?.connectionTimeOut ?? CONNECTION_TIME_OUT_MS
     return new Promise((resolve) => {
       const [promise, cancel] = timeout(connectionTimeOut)
-      void promise.then(() => {
-        resolve(
-          Result.failed(
-            new AppError(
-              DeviceError.TimeOut,
-              `Cannot receive response from ${this.path}`
-            ),
-            {
-              status: ResponseStatus.Timeout,
-              ...payload,
-            }
-          )
-        )
-      })
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -132,6 +121,21 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
       }
 
       this.eventEmitter.on(DeviceCommunicationEvent.DataReceived, listener)
+      void promise.then(() => {
+        this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
+        resolve(
+          Result.failed(
+            new AppError(
+              DeviceError.TimeOut,
+              `Cannot receive response from ${this.path}`
+            ),
+            {
+              status: ResponseStatus.Timeout,
+              ...payload,
+            }
+          )
+        )
+      })
 
       this.portWrite(port, payload)
     })
