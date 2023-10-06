@@ -13,11 +13,13 @@ import { registerCurrentDeviceChangedListener } from "App/device-manager/listene
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const deviceAttachedHandler = (_: any, _data: string): void => {
   void store.dispatch(handleDeviceAttached())
-  if (
-    !ipcRenderer.listeners(ListenerEvent.CurrentDeviceChanged).length &&
-    !(store.getState() as unknown as ReduxRootState).dataSync
-      .initializationFailed
-  ) {
+  const noCurrentDeviceListenersRegistered = !ipcRenderer.listeners(
+    ListenerEvent.CurrentDeviceChanged
+  ).length
+  const { initializationFailed } = (
+    store.getState() as unknown as ReduxRootState
+  ).dataSync
+  if (noCurrentDeviceListenersRegistered && !initializationFailed) {
     registerCurrentDeviceChangedListener()
   }
 }

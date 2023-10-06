@@ -31,10 +31,5 @@ export const registerCurrentDeviceChangedListener = (): (() => void) => {
     currentDeviceChangedHandler
   )
 
-  return () => {
-    ipcRenderer.off(
-      ListenerEvent.CurrentDeviceChanged,
-      currentDeviceChangedHandler
-    )
-  }
+  return () => offCurrentDeviceChangedListener()
 }

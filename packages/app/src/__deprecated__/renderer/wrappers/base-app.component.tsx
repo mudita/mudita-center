@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect } from "react"
-import { connect } from "react-redux"
+import { connect, useSelector } from "react-redux"
 import { Router } from "react-router"
 import { History } from "history"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -49,7 +49,6 @@ interface Props {
   osVersion: string | undefined
   checkingForOsForceUpdate: boolean
   shouldCheckForForceUpdateNeed: boolean
-  initializationFailed: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -69,8 +68,10 @@ const BaseApp: FunctionComponent<Props> = ({
   osVersion,
   checkingForOsForceUpdate,
   shouldCheckForForceUpdateNeed,
-  initializationFailed,
 }) => {
+  const { initializationFailed } = useSelector(
+    (state: ReduxRootState) => state.dataSync
+  )
   useRouterListener(history, {
     [URL_MAIN.contacts]: [],
     [URL_MAIN.phone]: [],
@@ -95,10 +96,7 @@ const BaseApp: FunctionComponent<Props> = ({
       return
     }
     const pushConnectingCondition =
-      (deviceConnecting ||
-        deviceLocked ||
-        checkingForOsForceUpdate ||
-        initializationFailed) &&
+      (deviceConnecting || deviceLocked || checkingForOsForceUpdate) &&
       history.location.pathname !== URL_ONBOARDING.connecting
     const pushWelcomeCondition =
       !deviceFeaturesVisible &&
@@ -166,7 +164,6 @@ const isDeviceRestarting = (state: RootState & ReduxRootState): boolean => {
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    initializationFailed: state.dataSync.initializationFailed,
     deviceFeaturesVisible:
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||
