@@ -10,7 +10,6 @@ import { checkForUpdate } from "App/update/actions/check-for-update/check-for-up
 import { CheckForUpdateMode, UpdateOsEvent } from "App/update/constants"
 import { versionFormatter } from "App/update/helpers"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { ConnectionState } from "App/device/constants"
 
 export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
   UpdateOsEvent.CheckForForceUpdate,
@@ -20,10 +19,6 @@ export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
     }
 
     const { device, settings } = getState() as RootState & ReduxRootState
-
-    if (device.state === ConnectionState.Loading) {
-      return false
-    }
 
     const osVersion = versionFormatter(device.data?.osVersion ?? "")
     const lowestSupportedProductVersion =
