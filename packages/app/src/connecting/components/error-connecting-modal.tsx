@@ -66,11 +66,7 @@ const ErrorConnectingModal: FunctionComponent<
       size={ModalSize.Small}
       title={intl.formatMessage(messages.errorConnectingModalHeaderTitle)}
       actionButtonSize={Size.FixedMedium}
-      closeButtonLabel={intl.formatMessage(
-        messages.errorConnectingModalSecondaryButton
-      )}
-      onCloseButton={onClose}
-      onClose={onClose}
+      closeButton={false}
       layer={ModalLayers.ErrorConnecting}
       {...props}
     >
