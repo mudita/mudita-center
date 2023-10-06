@@ -113,6 +113,7 @@ export const VirtualizedContactListItem: FunctionComponent<
         selected={selected}
         active={isActive}
         data-testid={testId}
+        key={contact.id}
       >
         <Col>
           <Checkbox
