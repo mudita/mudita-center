@@ -96,12 +96,11 @@ const BaseApp: FunctionComponent<Props> = ({
       return
     }
     const pushConnectingCondition =
-      (deviceConnecting || deviceLocked || checkingForOsForceUpdate) &&
-      history.location.pathname !== URL_ONBOARDING.connecting
-    const pushWelcomeCondition =
-      !deviceFeaturesVisible &&
-      !initializationFailed &&
-      history.location.pathname !== URL_ONBOARDING.welcome
+      deviceConnecting ||
+      deviceLocked ||
+      checkingForOsForceUpdate ||
+      initializationFailed
+    const pushWelcomeCondition = !deviceFeaturesVisible
 
     if (pushConnectingCondition) {
       history.push(URL_ONBOARDING.connecting)
