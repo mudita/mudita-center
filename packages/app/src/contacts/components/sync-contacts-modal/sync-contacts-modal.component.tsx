@@ -27,7 +27,6 @@ import {
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import InputFileSelect from "App/contacts/components/sync-contacts-modal/input-file-select"
 import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { BrowserActions } from "App/__deprecated__/common/enums/browser-actions.enum"
 
 const messages = defineMessages({
