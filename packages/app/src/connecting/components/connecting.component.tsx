@@ -22,6 +22,7 @@ import { ConnectingError } from "App/connecting/components/connecting-error.enum
 import { AppError } from "App/core/errors"
 import CriticalBatteryLevelModal from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
 import ErrorUpdateModal from "App/connecting/components/error-update-modal/error-update-modal"
+import { offCurrentDeviceChangedListener } from "App/device-manager/listeners"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -123,17 +124,15 @@ const Connecting: FunctionComponent<{
       return
     }
 
-    let mounted = true
     const timeout = setTimeout(() => {
-      if (mounted) {
-        setError(ConnectingError.Connecting)
-      }
+      setError(ConnectingError.Connecting)
       // the value is a little higher than API timeoutMs
     }, CONNECTION_TIME_OUT_MS + 5000)
 
     return () => {
-      mounted = false
-      clearTimeout(timeout)
+      if (timeout) {
+        clearTimeout(timeout)
+      }
     }
   }, [unlocked, onboardingFinished])
 
@@ -162,6 +161,10 @@ const Connecting: FunctionComponent<{
     setCriticalBatteryLevelOpenModal(false)
     history.push(URL_MAIN.news)
   }
+  const onCloseErrorConnectingModal = () => {
+    offCurrentDeviceChangedListener()
+    close()
+  }
 
   const onRetry = () => {
     setError(null)
@@ -174,7 +177,7 @@ const Connecting: FunctionComponent<{
         <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
       )}
       {error === ConnectingError.Connecting && (
-        <ErrorConnectingModal open closeModal={close} />
+        <ErrorConnectingModal open closeModal={onCloseErrorConnectingModal} />
       )}
       {error === ConnectingError.ForceUpdateCheckFailed && (
         <ErrorUpdateModal open closeModal={close} />

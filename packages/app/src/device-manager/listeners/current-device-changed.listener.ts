@@ -18,16 +18,18 @@ const currentDeviceChangedHandler = (_: any, data: Device): void => {
   void store.dispatch(connectDevice(data.deviceType))
 }
 
+export const offCurrentDeviceChangedListener = (): void => {
+  ipcRenderer.off(
+    ListenerEvent.CurrentDeviceChanged,
+    currentDeviceChangedHandler
+  )
+}
+
 export const registerCurrentDeviceChangedListener = (): (() => void) => {
   ipcRenderer.on(
     ListenerEvent.CurrentDeviceChanged,
     currentDeviceChangedHandler
   )
 
-  return () => {
-    ipcRenderer.off(
-      ListenerEvent.CurrentDeviceChanged,
-      currentDeviceChangedHandler
-    )
-  }
+  return () => offCurrentDeviceChangedListener()
 }
