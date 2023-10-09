@@ -91,6 +91,20 @@ const ErrorConnectingModal: FunctionComponent<
             },
           }}
         />
+        <Text
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
+          message={{
+            ...messages.errorConnectingDescription,
+            values: {
+              link: (
+                <ModalLink onClick={openHelpWindow}>
+                  connection help page.
+                </ModalLink>
+              ),
+            },
+          }}
+        />
       </ModalContent>
     </ModalDialog>
   )

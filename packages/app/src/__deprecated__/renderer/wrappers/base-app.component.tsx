@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect } from "react"
-import { connect } from "react-redux"
+import { connect, useSelector } from "react-redux"
 import { Router } from "react-router"
 import { History } from "history"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -69,6 +69,9 @@ const BaseApp: FunctionComponent<Props> = ({
   checkingForOsForceUpdate,
   shouldCheckForForceUpdateNeed,
 }) => {
+  const { initializationFailed } = useSelector(
+    (state: ReduxRootState) => state.dataSync
+  )
   useRouterListener(history, {
     [URL_MAIN.contacts]: [],
     [URL_MAIN.phone]: [],
@@ -92,10 +95,16 @@ const BaseApp: FunctionComponent<Props> = ({
     if (deviceRestarting) {
       return
     }
+    const pushConnectingCondition =
+      deviceConnecting ||
+      deviceLocked ||
+      checkingForOsForceUpdate ||
+      initializationFailed
+    const pushWelcomeCondition = !deviceFeaturesVisible
 
-    if (deviceConnecting || deviceLocked || checkingForOsForceUpdate) {
+    if (pushConnectingCondition) {
       history.push(URL_ONBOARDING.connecting)
-    } else if (!deviceFeaturesVisible) {
+    } else if (pushWelcomeCondition) {
       history.push(URL_ONBOARDING.welcome)
     }
     // AUTO DISABLED - fix me if you like :)
