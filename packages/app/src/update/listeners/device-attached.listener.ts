@@ -5,13 +5,23 @@
 
 import { ListenerEvent } from "App/device-manager/constants"
 import { handleDeviceAttached } from "App/update/actions"
-import store from "App/__deprecated__/renderer/store"
+import store, { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { ipcRenderer } from "electron-better-ipc"
+import { registerCurrentDeviceChangedListener } from "App/device-manager/listeners"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const deviceAttachedHandler = (_: any, _data: string): void => {
   void store.dispatch(handleDeviceAttached())
+  const noCurrentDeviceListenersRegistered = !ipcRenderer.listeners(
+    ListenerEvent.CurrentDeviceChanged
+  ).length
+  const { initializationFailed } = (
+    store.getState() as unknown as ReduxRootState
+  ).dataSync
+  if (noCurrentDeviceListenersRegistered && !initializationFailed) {
+    registerCurrentDeviceChangedListener()
+  }
 }
 
 export const registerClearingUpdateStateOnDeviceAttachedListener =

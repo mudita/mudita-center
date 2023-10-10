@@ -4,7 +4,7 @@
  */
 
 import { DeviceType } from "App/device/constants"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import { History } from "history"
 import React, { useEffect, useMemo } from "react"
 import { IntlProvider } from "react-intl"
@@ -68,6 +68,7 @@ import {
 } from "App/update/listeners"
 import { setConnectionStatus } from "App/device/actions"
 import { resetUploadingState } from "App/files-manager/actions"
+import { setInitializationFailed } from "App/data-sync/actions"
 
 interface Props {
   history: History
@@ -99,6 +100,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   resetUploadingState,
   setCheckingForUpdate,
 }) => {
+  const dispatch = useDispatch()
   const mode = new URLSearchParams(window.location.search).get("mode")
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
@@ -153,6 +155,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   const onDeviceDetachHandler = () => {
     void resetUploadingState()
     void setConnectionStatus(false)
+    void dispatch(setInitializationFailed(false))
   }
 
   useEffect(() => {

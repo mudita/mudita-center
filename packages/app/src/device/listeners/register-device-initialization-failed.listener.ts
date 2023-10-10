@@ -5,13 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import store from "App/__deprecated__/renderer/store"
-import { ModalStateKey, showModal } from "App/modals-manager"
 import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
+import { setInitializationFailed } from "App/data-sync/actions"
 
 const deviceInitializationFailedHandler = (): void => {
-  void store.dispatch(
-    showModal(ModalStateKey.DeviceInitializationFailedModalShow)
-  )
+  void store.dispatch(setInitializationFailed(true))
 }
 
 export const registerDeviceInitializationFailedListener = (): (() => void) => {

@@ -54,6 +54,7 @@ export const deviceReducer = createReducer<DeviceState>(
   initialState,
   (builder) => {
     builder
+
       // SetInitState functionality
       .addCase(DeviceEvent.SetInitState, () => {
         return {
@@ -76,6 +77,7 @@ export const deviceReducer = createReducer<DeviceState>(
           externalUsageDevice: null,
         }
       })
+
       .addCase(
         fulfilledAction(DeviceEvent.Connected),
         (state, action: ConnectedFulfilledAction) => {
@@ -91,6 +93,7 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
+
       .addCase(
         rejectedAction(DeviceEvent.Connected),
         (state, action: ConnectedRejectedAction) => {
@@ -106,6 +109,7 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
+
       .addCase(pendingAction(DeviceEvent.Disconnected), (state) => {
         return {
           ...state,
@@ -114,6 +118,7 @@ export const deviceReducer = createReducer<DeviceState>(
           externalUsageDevice: null,
         }
       })
+
       .addCase(fulfilledAction(DeviceEvent.Disconnected), (state) => {
         return {
           ...state,
@@ -121,6 +126,7 @@ export const deviceReducer = createReducer<DeviceState>(
           error: null,
         }
       })
+
       .addCase(
         fulfilledAction(DeviceEvent.SetConnectionState),
         (state, action: SetConnectionStateAction) => {
@@ -147,6 +153,7 @@ export const deviceReducer = createReducer<DeviceState>(
           },
         }
       })
+
       .addCase(unlockedDevice, (state) => {
         return {
           ...state,
@@ -157,6 +164,7 @@ export const deviceReducer = createReducer<DeviceState>(
           error: null,
         }
       })
+
       .addCase(
         DeviceEvent.SetLockTime,
         (state, action: SetPhoneLockTimeAction) => {
@@ -173,12 +181,17 @@ export const deviceReducer = createReducer<DeviceState>(
 
       // Passing data from the connecting device to state
       .addCase(DeviceEvent.SetData, (state, action: SetDeviceDataAction) => {
+        const newData =
+          action.payload === null
+            ? null
+            : {
+                ...(state.data ?? {}),
+                ...action.payload,
+              }
+
         return {
           ...state,
-          data: {
-            ...(state.data ?? {}),
-            ...action.payload,
-          },
+          data: newData,
           error: null,
         }
       })
@@ -228,6 +241,7 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
+
       // Updates loading data state
       .addCase(pendingAction(DeviceEvent.Loading), (state) => {
         return {
@@ -235,6 +249,7 @@ export const deviceReducer = createReducer<DeviceState>(
           state: ConnectionState.Loading,
         }
       })
+
       .addCase(fulfilledAction(DeviceEvent.Loading), (state) => {
         return {
           ...state,
@@ -246,6 +261,7 @@ export const deviceReducer = createReducer<DeviceState>(
           error: null,
         }
       })
+
       .addCase(
         rejectedAction(DeviceEvent.Loading),
         (state, action: LoadDataRejectAction) => {
@@ -274,6 +290,7 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
+
       .addCase(
         rejectedAction(DeviceEvent.LoadStorageInfo),
         (state, action: LoadStorageInfoRejectedAction) => {
@@ -284,17 +301,17 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
-
       .addCase(setOnboardingStatus, (state, action) => {
         state.status.onboardingFinished = action.payload
       })
-
       .addCase(setCriticalBatteryLevel, (state, action) => {
         state.status.criticalBatteryLevel = action.payload
       })
+
       .addCase(setExternalUsageDevice, (state, action) => {
         state.externalUsageDevice = action.payload
       })
+
       .addCase(setRestarting, (state, action) => {
         state.status.restarting = action.payload
       })
