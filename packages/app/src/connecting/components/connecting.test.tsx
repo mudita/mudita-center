@@ -18,7 +18,12 @@ import { Provider } from "react-redux"
 import store from "App/__deprecated__/renderer/store"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
-
+jest.mock("App/device-manager/listeners")
+jest.mock("react-router", () => ({
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+}))
 type Props = ComponentProps<typeof Connecting>
 
 const defaultProps: Props = {

@@ -6,4 +6,5 @@
 export enum BrowserActions {
   PolicyOpenBrowser = "policy-open-browser",
   UpdateOpenBrowser = "update-open-browser",
+  AppleOpenBrowser = "apple-open-browser",
 }

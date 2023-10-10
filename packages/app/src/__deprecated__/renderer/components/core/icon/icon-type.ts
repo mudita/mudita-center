@@ -127,4 +127,5 @@ export enum IconType {
   Warning,
   MarkAsUnread,
   Conversation,
+  Exclamation,
 }
