@@ -10,15 +10,25 @@ const supportedFiles = eligibleFormat.map((extension) => `file.${extension}`)
 
 describe("`checkFilesExtensions` helper", () => {
   test("all correct extensions", () => {
-    expect(checkFilesExtensions(supportedFiles)).toBeTruthy()
+    expect(checkFilesExtensions(supportedFiles)).toEqual({
+      validFiles: supportedFiles,
+      invalidFiles: [],
+    })
   })
 
   test("empty files array", () => {
-    expect(checkFilesExtensions([])).toBeTruthy()
+    expect(checkFilesExtensions([])).toEqual({
+      validFiles: [],
+      invalidFiles: [],
+    })
   })
 
   test("at least one unsupported extension", () => {
-    const unsupportedFiles = [...supportedFiles, "file.unsupported"]
-    expect(checkFilesExtensions(unsupportedFiles)).toBeFalsy()
+    const unsupportedFiles = ["file.unsupported"]
+    const allFiles = [...supportedFiles, ...unsupportedFiles]
+    expect(checkFilesExtensions(allFiles)).toEqual({
+      validFiles: supportedFiles,
+      invalidFiles: unsupportedFiles,
+    })
   })
 })

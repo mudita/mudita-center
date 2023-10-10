@@ -5,13 +5,13 @@
 
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { initialState } from "App/contacts/reducers"
-import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
+import { contactsSelector } from "App/contacts/selectors/contacts.selector"
 
-describe("`flatListSelector` selector", () => {
+describe("`contactsSelector` selector", () => {
   test("when initial state is set selector returns empty array", () => {
     const state = {
       contacts: initialState,
     } as ReduxRootState
-    expect(flatListSelector(state)).toEqual([])
+    expect(contactsSelector(state)).toEqual([])
   })
 })

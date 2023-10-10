@@ -55,11 +55,11 @@ export class DeviceManager {
 
   public async addDevice(port: PortInfo): Promise<void> {
     await this.mutex.runExclusive(async () => {
-      await this.addDeviceTaks(port)
+      await this.addDeviceTask(port)
     })
   }
 
-  public async addDeviceTaks(port: PortInfo): Promise<void> {
+  public async addDeviceTask(port: PortInfo): Promise<void> {
     if (this.currentDevice) {
       return
     }
@@ -93,14 +93,13 @@ export class DeviceManager {
     if (this.currentDevice?.path === path) {
       if (this.devicesMap.size > 0) {
         this.currentDevice = this.devicesMap.values().next().value as Device
+        this.ipc.sendToRenderers(
+          ListenerEvent.CurrentDeviceChanged,
+          this.currentDevice
+        )
       } else {
         this.currentDevice = undefined
       }
-
-      this.ipc.sendToRenderers(
-        ListenerEvent.CurrentDeviceChanged,
-        this.currentDevice
-      )
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, path)

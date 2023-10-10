@@ -7,7 +7,7 @@ import SerialPort from "serialport"
 import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { CONNECTION_TIME_OUT_MS } from "App/device/constants"
+import { CONNECTION_TIME_OUT_MS, Endpoint } from "App/device/constants"
 import { DeviceCommunicationEvent, ResponseStatus } from "App/device/constants"
 import { DeviceError } from "App/device/modules/mudita-os/constants"
 import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
@@ -77,10 +77,15 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
       const uuid = this.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
 
-      void this.requestsQueue.add(async () => {
-        const response = await this.deviceRequest(port, payload)
-        resolve(response)
-      })
+      void this.requestsQueue.add(
+        async () => {
+          const response = await this.deviceRequest(port, payload)
+          resolve(response)
+        },
+        {
+          priority: payload.endpoint === Endpoint.Security ? 1 : 0,
+        }
+      )
     })
   }
 
@@ -94,20 +99,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
       options?.connectionTimeOut ?? CONNECTION_TIME_OUT_MS
     return new Promise((resolve) => {
       const [promise, cancel] = timeout(connectionTimeOut)
-      void promise.then(() => {
-        resolve(
-          Result.failed(
-            new AppError(
-              DeviceError.TimeOut,
-              `Cannot receive response from ${this.path}`
-            ),
-            {
-              status: ResponseStatus.Timeout,
-              ...payload,
-            }
-          )
-        )
-      })
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -127,6 +118,21 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
       }
 
       this.eventEmitter.on(DeviceCommunicationEvent.DataReceived, listener)
+      void promise.then(() => {
+        this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
+        resolve(
+          Result.failed(
+            new AppError(
+              DeviceError.TimeOut,
+              `Cannot receive response from ${this.path}`
+            ),
+            {
+              status: ResponseStatus.Timeout,
+              ...payload,
+            }
+          )
+        )
+      })
 
       this.portWrite(port, payload)
     })
