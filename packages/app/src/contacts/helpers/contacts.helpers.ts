@@ -281,7 +281,7 @@ export const getSortedContactList = ({
   return labeledContacts
 }
 
-export const getContacts = ({ collection, db }: PhoneContacts): Contact[] => {
+export const getFlatList = ({ collection, db }: PhoneContacts): Contact[] => {
   return collection.map((item) => db[item])
 }
 
@@ -298,7 +298,7 @@ export const findContact = (
   phone: Contact[] | PhoneContacts,
   query: SimpleRecord,
   idOnly = false,
-  formatter = getContacts
+  formatter = getFlatList
 ): ContactID | Contact | undefined => {
   const db = Array.isArray(phone) ? phone : formatter(phone)
   const result = find(db, query) as Contact

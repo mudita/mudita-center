@@ -15,7 +15,6 @@ import {
   mapThreadsToReceivers,
 } from "App/messages/helpers/threads.helpers"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
-import { sortByLastNameAscending } from "App/utils/sort-by-last-name-ascending"
 
 export const getReceiversSelector = createSelector<
   RootState & ReduxRootState,
@@ -34,6 +33,5 @@ export const getReceiversSelector = createSelector<
   )
   const threadReceivers = mapThreadsToReceivers(uniqueThreadsReceivers)
   const contactReceivers = mapContactsToReceivers(contacts)
-
-  return [...contactReceivers, ...threadReceivers].sort(sortByLastNameAscending)
+  return [...contactReceivers, ...threadReceivers]
 })

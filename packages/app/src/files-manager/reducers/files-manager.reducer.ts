@@ -22,7 +22,6 @@ import {
   setDuplicatedFiles,
   resetUploadingStateAfterSuccess,
   resetFiles,
-  setInvalidFiles,
 } from "App/files-manager/actions"
 import { changeLocation } from "App/core/actions"
 import { FilesManagerState } from "App/files-manager/reducers/files-manager.interface"
@@ -43,7 +42,6 @@ export const initialState: FilesManagerState = {
   error: null,
   uploadPendingFiles: [],
   duplicatedFiles: [],
-  invalidFiles: [],
 }
 
 export const filesManagerReducer = createReducer<FilesManagerState>(
@@ -175,7 +173,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           uploadingFileCount: 0,
           uploadBlocked: false,
           duplicatedFiles: [],
-          invalidFiles: [],
         }
       })
       .addCase(resetUploadingStateAfterSuccess, (state) => {
@@ -205,9 +202,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
       })
       .addCase(setDuplicatedFiles, (state, action) => {
         state.duplicatedFiles = action.payload
-      })
-      .addCase(setInvalidFiles, (state, action) => {
-        state.invalidFiles = action.payload
       })
       .addCase(resetFiles, (state, _) => {
         state.files = null

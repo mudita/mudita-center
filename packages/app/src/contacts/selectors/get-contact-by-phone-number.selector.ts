@@ -6,7 +6,7 @@
 import { createSelector, OutputSelector } from "reselect"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact } from "App/contacts/reducers"
-import { contactsSelector } from "App/contacts/selectors/contacts.selector"
+import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 export const getContactByPhoneNumberSelector = (
@@ -17,7 +17,7 @@ export const getContactByPhoneNumberSelector = (
   (res: Contact[]) => Contact | undefined
 > => {
   return createSelector<ReduxRootState, Contact[], Contact | undefined>(
-    contactsSelector,
+    flatListSelector,
     (contacts) => {
       return contacts.find((contact) =>
         isContactMatchingPhoneNumber(contact, phoneNumber)

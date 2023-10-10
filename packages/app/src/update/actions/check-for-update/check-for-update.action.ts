@@ -22,7 +22,6 @@ import {
   osUpdateAlreadyDownloadedCheck,
 } from "App/update/requests"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { ConnectionState } from "App/device/constants"
 
 interface Params {
   deviceType: DeviceType
@@ -50,14 +49,8 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
   async ({ deviceType }, { rejectWithValue, getState }) => {
     const state = getState() as RootState & ReduxRootState
 
-    if (state.device.state === ConnectionState.Loading) {
-      return {
-        allReleases: [],
-        availableReleasesForUpdate: [],
-      }
-    }
     const osVersion = versionFormatter(state.device.data?.osVersion || "")
-
+    
     const product =
       deviceType === DeviceType.MuditaPure
         ? Product.PurePhone
@@ -112,7 +105,7 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
     const mandatoryReleasesToInstall = await getReleasesByVersions({
       product,
       versions: mandatoryVersionsToInstall,
-      deviceSerialNumber: state.device.data?.serialNumber,
+      deviceSerialNumber: state.device.data?.serialNumber
     })
 
     if (!mandatoryReleasesToInstall.ok || !mandatoryReleasesToInstall.data) {

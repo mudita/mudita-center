@@ -118,7 +118,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   editContact,
   onSave = noop,
   onClose = noop,
-  contacts = [],
+  flatList = [],
 }) => {
   const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
   const speedDialList = Array.from({ length: 9 })
@@ -130,7 +130,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
         (contact) => contact[1].speedDial === speedDial
       )
 
-      const globalStateItem = contacts.find(
+      const globalStateItem = flatList.find(
         (contact) => contact.speedDial === speedDial
       )
 
@@ -146,7 +146,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
     DropdownPosition[]
   >([])
 
-  const availableContacts = contacts.filter(
+  const availableContacts = flatList.filter(
     (item: Contact) =>
       item.id !== "0" &&
       (Boolean(item.firstName) || Boolean(item.lastName)) &&

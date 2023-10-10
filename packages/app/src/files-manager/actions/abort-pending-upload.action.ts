@@ -15,6 +15,6 @@ export const abortPendingUpload = createAsyncThunk(
   FilesManagerEvent.AbortPendingUpload,
   (_, { dispatch }) => {
     dispatch(setPendingFilesToUpload([]))
-    dispatch(setUploadingState(State.Initial))
+    dispatch(setUploadingState(State.Loaded))
   }
 )

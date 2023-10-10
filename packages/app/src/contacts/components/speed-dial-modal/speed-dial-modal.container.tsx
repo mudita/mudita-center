@@ -5,13 +5,13 @@
 
 import { connect } from "react-redux"
 
-import { getContacts } from "App/contacts/helpers/contacts.helpers"
+import { getFlatList } from "App/contacts/helpers/contacts.helpers"
 
 import View from "./speed-dial-modal.component"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 
 export interface SpeedDialProps {
-  contacts: Contact[]
+  flatList: Contact[]
   editContact: (id: ContactID, data: Contact) => Contact
   onClose: () => void
   onSave: () => void
@@ -20,7 +20,7 @@ export interface SpeedDialProps {
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
 const mapState = ({ contacts }: any, ownProps: any) => ({
-  contacts: getContacts(contacts),
+  flatList: getFlatList(contacts),
   ...ownProps,
 })
 

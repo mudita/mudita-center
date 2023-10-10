@@ -24,7 +24,7 @@ import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import { contactsSeed } from "App/__deprecated__/seeds/contacts"
 import {
   createFullName,
-  getContacts,
+  getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
 } from "App/contacts/helpers/contacts.helpers"
@@ -45,7 +45,7 @@ const getContact = (id: ContactID) => contactsSeed.db[id]
 const labeledContactList: any = getSortedContactList(contactsSeed)
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const contacts: any = getContacts(contactsSeed)
+const flatList: any = getFlatList(contactsSeed)
 const speedDialChosenList: number[] = getSpeedDialChosenList(contactsSeed)
 const isThreadOpened = () => true
 
@@ -68,7 +68,7 @@ const ContactsComponent = ({
     getContact={getContact as any}
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    contacts={contacts}
+    flatList={flatList}
     contactList={contactList}
     speedDialChosenList={speedDialChosenList}
     onManageButtonClick={dummyPromise(action("Manage contact"))}
@@ -251,7 +251,7 @@ storiesOf("Views|Contacts/Modals", module)
           onClose={action("Close")}
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          contacts={contacts}
+          flatList={flatList}
         />
       </ModalWrapper>
       <ModalBackdrop />
