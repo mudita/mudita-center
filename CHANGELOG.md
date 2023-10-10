@@ -20,6 +20,10 @@ straightforward as possible.
 - Fixed issues with creating device backup and changing device
 - Fixed Mudita Center not stopping files upload after disconnecting the device
 - Added possibility to stop file upload if user selected more files than can be uploaded to Mudita Harmony
+- Fixed connection issues
+- Changed connection error flow to be more user friendly
+- Added possibility to upload only supported files in scenarios when selected fils included unsupported ones instead of terminating the flow
+- Changed text in contacts import flow for a more intuitive one
 
 ## [2.2.2] - 2023-09-28
 
