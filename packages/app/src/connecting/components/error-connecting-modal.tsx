@@ -9,7 +9,7 @@ import Icon from "App/__deprecated__/renderer/components/core/icon/icon.componen
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, ReactNode } from "react"
 import { defineMessages } from "react-intl"
 import {
   ModalContent,
@@ -83,10 +83,8 @@ const ErrorConnectingModal: FunctionComponent<
           message={{
             ...messages.errorConnectingDescription,
             values: {
-              link: (
-                <ModalLink onClick={openHelpWindow}>
-                  connection help page.
-                </ModalLink>
+              link: (...chunks: ReactNode[]) => (
+                <ModalLink onClick={openHelpWindow}>{chunks}</ModalLink>
               ),
             },
           }}

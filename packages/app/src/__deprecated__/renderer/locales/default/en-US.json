@@ -261,7 +261,7 @@
   "module.connecting.criticalBatteryLevelModalDescription": "Charge your Pure, then disconnect and reconnect your phone to use Mudita Center.",
   "module.connecting.criticalBatteryLevelModalHeaderTitle": "MuditaOS",
   "module.connecting.criticalBatteryLevelModalTitle": "The battery in your Pure is flat.",
-  "module.connecting.errorConnectingDescription": "If you still have problems connecting to your device, have a look at our {link}",
+  "module.connecting.errorConnectingDescription": "If you still have problems connecting to your device, have a look at our <link>help pages.</link>",
   "module.connecting.errorConnectingModalHeaderTitle": "Error",
   "module.connecting.errorConnectingModalHeaderSubTitle": "We couldn't connect to your device",
   "module.connecting.errorConnectingModalSecondaryButton": "Cancel",
