@@ -3,27 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useRef, ComponentProps, ReactNode } from "react"
+import React, { useRef, ComponentProps } from "react"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import Text, {
-  TextDisplayStyle,
-} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   ButtonsContainer,
   ButtonWrapper,
+  ModalText,
   SyncButton,
 } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { defineMessages } from "react-intl"
 import GoogleButton from "react-google-button"
-import { ModalDialog, ModalLink } from "App/ui/components/modal-dialog"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import InputFileSelect from "App/contacts/components/sync-contacts-modal/input-file-select"
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 
 const messages = defineMessages({
   title: {
@@ -31,9 +28,6 @@ const messages = defineMessages({
   },
   text: {
     id: "module.contacts.syncModalText",
-  },
-  helpText: {
-    id: "module.contacts.syncModalHelpText",
   },
   googleButtonText: {
     id: "module.contacts.googleButtonText",
@@ -76,8 +70,6 @@ const SyncContactsModal: FunctionComponent<Props> = ({
     }
   }
 
-  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
-
   return (
     <ModalDialog
       size={ModalSize.Small}
@@ -86,20 +78,9 @@ const SyncContactsModal: FunctionComponent<Props> = ({
       onClose={onClose}
       {...props}
     >
-      <Text
+      <ModalText
         displayStyle={TextDisplayStyle.Paragraph2}
         message={messages.text}
-      />
-      <Text
-        displayStyle={TextDisplayStyle.Paragraph2}
-        message={{
-          ...messages.helpText,
-          values: {
-            link: (...chunks: ReactNode[]) => (
-              <ModalLink onClick={openHelpWindow}>{chunks}</ModalLink>
-            ),
-          },
-        }}
       />
       <ButtonsContainer>
         <ButtonWrapper>

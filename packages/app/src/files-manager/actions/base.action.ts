@@ -43,7 +43,3 @@ export const setDuplicatedFiles = createAction<string[]>(
   FilesManagerEvent.SetDuplicatedFiles
 )
 export const resetFiles = createAction(FilesManagerEvent.ResetFiles)
-
-export const setInvalidFiles = createAction<string[]>(
-  FilesManagerEvent.SetInvalidFiles
-)

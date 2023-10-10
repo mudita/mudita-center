@@ -10,13 +10,12 @@ import {
   ContactsState,
 } from "App/contacts/reducers/contacts.interface"
 import { contactsStateSelector } from "App/contacts/selectors/contacts-state.selector"
-import { getContacts } from "App/contacts/helpers/contacts.helpers"
-import { sortByLastNameAscending } from "App/utils/sort-by-last-name-ascending"
+import { getFlatList } from "App/contacts/helpers/contacts.helpers"
 
-export const contactsSelector = createSelector<
+export const flatListSelector = createSelector<
   ReduxRootState,
   ContactsState,
   Contact[]
 >(contactsStateSelector, (state) => {
-  return getContacts(state).sort(sortByLastNameAscending)
+  return getFlatList(state)
 })

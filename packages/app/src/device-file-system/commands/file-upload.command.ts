@@ -28,6 +28,7 @@ export class FileUploadCommand extends BaseCommand {
   ): Promise<ResultObject<undefined>> {
     let data: Buffer | Uint8Array
     const maxFileSize = 2000000000
+
     try {
       const fileSize = await this.fileSystemService.getFileSize(filePath)
       if (fileSize >= maxFileSize) {
@@ -110,9 +111,6 @@ export class FileUploadCommand extends BaseCommand {
           txID,
           chunkNo,
           data: chunkedBuffer.toString("base64"),
-        },
-        options: {
-          connectionTimeOut: 5000,
         },
       })
 

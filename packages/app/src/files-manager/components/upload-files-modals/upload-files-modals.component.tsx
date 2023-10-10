@@ -17,7 +17,6 @@ import PendingUploadModal from "App/files-manager/components/pending-upload-moda
 import DuplicatedFilesModal from "App/files-manager/components/duplicated-files-modal/duplicated-files-modal.component"
 import UnsupportedFileFormatModal from "App/files-manager/components/unsupported-file-format-modal/unsupported-file-format-modal.component"
 import UnsupportedFileSizeModal from "App/files-manager/components/unsupported-file-size-modal/unsupported-file-size-modal.component"
-import { InvalidFilesModal } from "../invalid-files-modal/invalid-files-modal.component"
 
 const messages = defineMessages({
   uploadingModalInfo: { id: "module.filesManager.uploadingModalInfo" },
@@ -101,7 +100,6 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
       <DuplicatedFilesModal />
       <UnsupportedFileFormatModal />
       <UnsupportedFileSizeModal />
-      <InvalidFilesModal />
     </>
   )
 }

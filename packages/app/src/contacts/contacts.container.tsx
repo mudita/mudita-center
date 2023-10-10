@@ -25,7 +25,7 @@ import {
 import externalProvidersStore from "App/__deprecated__/renderer/store/external-providers"
 import {
   contactDatabaseFactory,
-  getContacts,
+  getFlatList,
 } from "App/contacts/helpers/contacts.helpers"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.interface"
@@ -36,7 +36,7 @@ import { importContact } from "App/contacts/actions/import-contact.action"
 import { addNewContactsToState } from "App/contacts/actions/base.action"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { speedDialChosenListSelector } from "App/contacts/selectors/speed-dial-chosen-list.selector"
-import { contactsSelector } from "App/contacts/selectors/contacts.selector"
+import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { authorize } from "App/contacts/actions/authorize.action"
 import { closeWindow } from "App/contacts/actions/close-window.action"
@@ -53,7 +53,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     allItemsSelected: state.contacts.selectedItems.allItemsSelected,
     resultState: contacts.resultState,
     contactList: contactsList,
-    contacts: contactsSelector(state),
+    flatList: flatListSelector(state),
     speedDialChosenList: speedDialChosenListSelector(state),
     getContact: (id: string) => getContactSelector(id)(state),
     isThreadOpened: (phoneNumber: string) =>
@@ -81,7 +81,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/await-thenable
             (await externalProvidersStore.dispatch.google.getContacts()) as unknown as Contact[]
-          return getContacts(contactDatabaseFactory(contacts))
+          return getFlatList(contactDatabaseFactory(contacts))
         case Provider.Apple:
           return
         case Provider.Outlook:
@@ -89,7 +89,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/await-thenable
             (await externalProvidersStore.dispatch.outlook.getContacts()) as unknown as Contact[]
-          return getContacts(contactDatabaseFactory(contacts))
+          return getFlatList(contactDatabaseFactory(contacts))
       }
     },
     addNewContact: async (

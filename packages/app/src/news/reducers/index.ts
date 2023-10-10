@@ -5,4 +5,3 @@
 
 export * from "./news.interface"
 export * from "./news.reducer"
-export * from "./news.helper"
