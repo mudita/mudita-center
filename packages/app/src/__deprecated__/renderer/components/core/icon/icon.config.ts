@@ -125,6 +125,7 @@ import Cloud from "App/__deprecated__/renderer/svg/cloud.svg"
 import Warning from "App/__deprecated__/renderer/svg/warning.svg"
 import MarkAsUnread from "App/__deprecated__/renderer/svg/mark-as-unread.svg"
 import Conversation from "App/__deprecated__/renderer/svg/conversation.svg"
+import Exclamation from "App/__deprecated__/renderer/svg/exclamation.svg"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -492,6 +493,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.Conversation]: Conversation,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.Exclamation]: Exclamation,
 }
 
 export const getIconType = (
