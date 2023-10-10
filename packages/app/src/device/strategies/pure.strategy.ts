@@ -92,7 +92,6 @@ export class PureStrategy implements DeviceStrategy {
 
   constructor(private adapter: BaseAdapter) {
     EventEmitter.defaultMaxListeners = 15
-    this.mountDeviceUnlockedListener()
     this.mountDisconnectionListener()
     this.mountInitializationFailedListener()
   }
@@ -107,6 +106,7 @@ export class PureStrategy implements DeviceStrategy {
       response.status === RequestResponseStatus.Ok ||
       response.status === RequestResponseStatus.PhoneLocked
     ) {
+      this.mountDeviceUnlockedListener()
       this.eventEmitter.emit(DeviceServiceEvent.DeviceConnected)
     }
 

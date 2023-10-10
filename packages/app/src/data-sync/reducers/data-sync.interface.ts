@@ -23,6 +23,7 @@ export enum SynchronizationProcessState {
 
 export interface DataSyncState {
   initialized: boolean
+  initializationFailed: boolean
   state: SynchronizationState
   synchronizationProcess: SynchronizationProcessState
   error: Error | string | null
