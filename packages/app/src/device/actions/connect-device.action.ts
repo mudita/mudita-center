@@ -24,25 +24,25 @@ export const connectDevice = createAsyncThunk<
   DeviceType,
   { state: RootState }
 >(DeviceEvent.Connected, async (payload, { dispatch, rejectWithValue }) => {
-  // const data = await connectDeviceRequest()
+  const data = await connectDeviceRequest()
 
-  // if (!data.ok) {
-  //   if (data.error?.type === DeviceCommunicationError.DeviceLocked) {
-  //     void dispatch(lockedDevice())
-  //     void dispatch(setConnectionStatus(true))
-  //     void dispatch(loadDeviceData())
+  if (!data.ok) {
+    if (data.error?.type === DeviceCommunicationError.DeviceLocked) {
+      void dispatch(lockedDevice())
+      void dispatch(setConnectionStatus(true))
+      void dispatch(loadDeviceData())
 
-  //     return payload
-  //   } else {
-  //     return rejectWithValue(
-  //       new AppError(DeviceError.Connection, "Cannot connected to device", data)
-  //     )
-  //   }
-  // }
+      return payload
+    } else {
+      return rejectWithValue(
+        new AppError(DeviceError.Connection, "Cannot connected to device", data)
+      )
+    }
+  }
 
-  // void dispatch(unlockedDevice())
-  // void dispatch(setConnectionStatus(true))
-  // void dispatch(loadDeviceData())
+  void dispatch(unlockedDevice())
+  void dispatch(setConnectionStatus(true))
+  void dispatch(loadDeviceData())
 
   return payload
 })

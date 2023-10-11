@@ -1,6 +1,6 @@
 {
   "name": "@mudita/mudita-center-app",
-  "version": "2.2.2",
+  "version": "26.2.2-deps.2",
   "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
@@ -309,7 +309,7 @@
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "^5.3.3",
-    "webpack-dev-server": "^4.11.0",
+    "webpack-dev-server": "^4.15.1",
     "webpack-hot-middleware": "^2.25.2",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1",

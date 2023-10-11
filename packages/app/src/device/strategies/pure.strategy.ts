@@ -316,7 +316,6 @@ export class PureStrategy implements DeviceStrategy {
     if (!this.isEndpointSecure(config)) {
       return
     }
-    console.log("handleDeviceUnlockedEvent", response.status)
     if (response.status === RequestResponseStatus.PhoneLocked) {
       this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked)
     } else if (response.status === RequestResponseStatus.Ok) {

@@ -116,10 +116,8 @@ const RootWrapper: FunctionComponent<Props> = ({
         return (
           <HelpApp
             history={history}
-            saveToStore={() => Promise.resolve()}
-            getStoreData={() => Promise.resolve()}
-            // saveToStore={saveToStore}
-            // getStoreData={getStoreData}
+            saveToStore={saveToStore}
+            getStoreData={getStoreData}
           />
         )
       }
