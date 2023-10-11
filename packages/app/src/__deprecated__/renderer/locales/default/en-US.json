@@ -395,7 +395,7 @@
   "module.contacts.synchronizingModalBody": "This might take a few minutes, please wait.",
   "module.contacts.synchronizingModalTitle": "Synchronising contacts…",
   "module.contacts.syncModalHelpText": "For Apple Devices, you'll need to <link>create a vCard (VFC file)</link>, then import it.",
-  "module.contacts.syncModalText": "To start importing contacts to and from your Google or Outlook accounts, simply log in to your account.",
+  "module.contacts.syncModalText": "To start importing contacts from your Google or Outlook accounts, simply log in to your account.",
   "module.contacts.syncModalTitle": "Import contacts",
   "module.contacts.unblock": "Unblock",
   "module.contacts.unblockTooltipDescription": "Unblock contact",
