@@ -3,84 +3,125 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+// AUTO DISABLED - fix me if you like :)
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
 import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
-import { SilentCheckForUpdateState } from "App/update/constants"
-import { RejectableThunk } from "App/__deprecated__/renderer/store"
+import {
+  CheckForUpdateMode,
+  SilentCheckForUpdateState,
+} from "App/update/constants"
+import {
+  ReduxRootState,
+  RejectableThunk,
+  TmpDispatch,
+} from "App/__deprecated__/renderer/store"
 import { useEffect, useState } from "react"
 import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
+import { useDispatch, useSelector } from "react-redux"
+import { checkForUpdate } from "App/update/actions"
+import { DeviceType } from "App/device"
+import { areAllReleasesDownloaded } from "App/update/selectors"
 
-interface Params {
-  silentCheckForUpdateState: SilentCheckForUpdateState
-  checkingForUpdateState: CheckForUpdateState
-  checkForUpdate: () => RejectableThunk
-  forceUpdateNeeded: boolean
-  osVersion: string | undefined
+interface Props {
+  deviceType: DeviceType
 }
 
 interface Result {
   checkForUpdateLocalState: CheckForUpdateLocalState | undefined
 }
 
-export const useUpdateFlowState = ({
-  checkingForUpdateState,
-  silentCheckForUpdateState,
-  forceUpdateNeeded,
-  checkForUpdate,
-  osVersion,
-}: Params): Result => {
+export const useUpdateFlowState = ({ deviceType }: Props): Result => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const dispatch = useDispatch<TmpDispatch>()
   const [checkForUpdateLocalState, setCheckForUpdateLocalState] =
     useState<CheckForUpdateLocalState>()
   const [silentCheckForUpdatePromise, setSilentCheckForUpdatePromise] =
     useState<RejectableThunk>()
+  const {
+    data,
+    checkForUpdateState,
+    error,
+    silentCheckForUpdate,
+    needsForceUpdate,
+  } = useSelector((state: ReduxRootState) => state.update)
+  const osVersion = useSelector(
+    (state: ReduxRootState) => state.device.data?.osVersion || ""
+  )
+  const allDownloaded = useSelector(areAllReleasesDownloaded)
+
+  const { availableReleasesForUpdate } = data
+  const silentCheck = () =>
+    dispatch(
+      checkForUpdate({ deviceType, mode: CheckForUpdateMode.SilentCheck })
+    )
 
   useEffect(() => {
     if (
-      silentCheckForUpdateState === SilentCheckForUpdateState.Initial &&
-      !forceUpdateNeeded &&
+      silentCheckForUpdate === SilentCheckForUpdateState.Initial &&
+      !needsForceUpdate &&
       osVersion
     ) {
-      const actionResult = checkForUpdate()
+      const actionResult = silentCheck()
       setSilentCheckForUpdatePromise(actionResult)
     }
 
     return () => {
       if (
         silentCheckForUpdatePromise &&
-        silentCheckForUpdateState === SilentCheckForUpdateState.Loading
+        silentCheckForUpdate === SilentCheckForUpdateState.Loading
       ) {
         silentCheckForUpdatePromise.abort()
         setSilentCheckForUpdatePromise(undefined)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [silentCheckForUpdateState, forceUpdateNeeded, osVersion])
+  }, [silentCheckForUpdate, needsForceUpdate, osVersion])
 
   useEffect(() => {
-    if (forceUpdateNeeded) {
+    if (needsForceUpdate) {
       return
     }
     if (
-      (silentCheckForUpdateState === SilentCheckForUpdateState.Skipped &&
-        checkingForUpdateState === CheckForUpdateState.Initial) ||
-      silentCheckForUpdateState === SilentCheckForUpdateState.Failed ||
-      checkingForUpdateState === CheckForUpdateState.Failed ||
-      checkingForUpdateState === CheckForUpdateState.PerformedWithFailure
+      silentCheckForUpdate === SilentCheckForUpdateState.Loading ||
+      checkForUpdateState === CheckForUpdateState.Loading ||
+      (checkForUpdateState === CheckForUpdateState.Initial &&
+        silentCheckForUpdate === SilentCheckForUpdateState.Initial)
+    ) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
+    } else if (allDownloaded) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Install)
+    } else if ((availableReleasesForUpdate || []).length > 0) {
+      setCheckForUpdateLocalState(CheckForUpdateLocalState.Download)
+    } else if (
+      error ||
+      [
+        CheckForUpdateState.PerformedWithFailure,
+        CheckForUpdateState.Failed,
+      ].includes(checkForUpdateState) ||
+      (checkForUpdateState === CheckForUpdateState.Initial &&
+        [
+          SilentCheckForUpdateState.Skipped,
+          SilentCheckForUpdateState.Failed,
+        ].includes(silentCheckForUpdate))
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Failed)
     } else if (
-      silentCheckForUpdateState === SilentCheckForUpdateState.Loading
-    ) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.SilentCheckLoading)
-    } else if (checkingForUpdateState === CheckForUpdateState.Loading) {
-      setCheckForUpdateLocalState(CheckForUpdateLocalState.Loading)
-    } else if (
-      silentCheckForUpdateState === SilentCheckForUpdateState.Loaded ||
-      checkingForUpdateState === CheckForUpdateState.Loaded ||
-      checkingForUpdateState === CheckForUpdateState.Performed
+      [CheckForUpdateState.Loaded, CheckForUpdateState.Performed].includes(
+        checkForUpdateState
+      ) ||
+      SilentCheckForUpdateState.Loaded === silentCheckForUpdate
     ) {
       setCheckForUpdateLocalState(CheckForUpdateLocalState.Loaded)
     }
-  }, [silentCheckForUpdateState, checkingForUpdateState, forceUpdateNeeded])
+  }, [
+    silentCheckForUpdate,
+    checkForUpdateState,
+    needsForceUpdate,
+    allDownloaded,
+    availableReleasesForUpdate,
+    error,
+  ])
   return {
     checkForUpdateLocalState,
   }

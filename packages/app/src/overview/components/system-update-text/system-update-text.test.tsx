@@ -7,21 +7,48 @@ import { SystemUpdateText } from "App/overview/components/system-update-text/sys
 import { SystemUpdateTextProps } from "App/overview/components/system-update-text/system-update-text.interface"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
+import { Provider } from "react-redux"
+import store, { ReduxRootState } from "App/__deprecated__/renderer/store"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { initialState as update } from "App/update/reducers"
+import { OsRelease } from "App/update/dto"
+import { OsReleaseType, Product } from "App/update/constants"
 
 const defaultProps: SystemUpdateTextProps = {
   checkForUpdateFailed: false,
   checkForUpdateInProgress: false,
   checkForUpdatePerformed: false,
-  updateAvailable: false,
   updateDownloaded: false,
 }
 
-const render = (extraProps?: Partial<SystemUpdateTextProps>) => {
+const mockedRelease: OsRelease = {
+  date: "2021-02-02",
+  file: {
+    name: "test file",
+    size: 123,
+    url: "some-url",
+  },
+  product: Product.PurePhone,
+  type: OsReleaseType.Daily,
+  version: "1.1.0",
+  mandatoryVersions: [],
+}
+
+const render = (
+  extraProps?: Partial<SystemUpdateTextProps>,
+  state?: Partial<ReduxRootState>
+) => {
   const props = {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<SystemUpdateText {...props} />)
+
+  return renderWithThemeAndIntl(
+    <Provider store={state ? createMockStore([thunk])(state) : store}>
+      <SystemUpdateText {...props} />
+    </Provider>
+  )
 }
 
 test("renders nothing for update in progress state", () => {
@@ -45,7 +72,6 @@ test("renders update check failed", () => {
 test("renders update downloaded info", () => {
   const { queryByText } = render({
     checkForUpdatePerformed: true,
-    updateAvailable: true,
     updateDownloaded: true,
   })
 
@@ -55,11 +81,21 @@ test("renders update downloaded info", () => {
 })
 
 test("renders update available info", () => {
-  const { queryByText } = render({
-    checkForUpdatePerformed: true,
-    updateAvailable: true,
-    updateDownloaded: false,
-  })
+  const { queryByText } = render(
+    {
+      checkForUpdatePerformed: true,
+      updateDownloaded: false,
+    },
+    {
+      update: {
+        ...update,
+        data: {
+          ...update.data,
+          availableReleasesForUpdate: [mockedRelease],
+        },
+      },
+    }
+  )
 
   expect(
     queryByText("[value] module.overview.systemUpdateAvailable")
@@ -69,7 +105,6 @@ test("renders update available info", () => {
 test("renders system up to date info", () => {
   const { queryByText } = render({
     checkForUpdatePerformed: true,
-    updateAvailable: false,
     updateDownloaded: false,
     checkForUpdateFailed: false,
     checkForUpdateInProgress: false,
