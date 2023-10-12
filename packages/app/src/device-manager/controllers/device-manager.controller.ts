@@ -12,23 +12,26 @@ import {
   IpcDeviceManagerEvent,
 } from "App/device-manager/constants"
 import { Device } from "App/device/modules/device"
+import logger from "App/__deprecated__/main/utils/logger"
 
 @Controller(ControllerPrefix)
 export class DeviceManagerController {
   constructor(private deviceManager: DeviceManager) {}
 
   @IpcEvent(IpcDeviceManagerEvent.GetCurrentDevice)
-  public getCurrentDevice(): ResultObject<Device> {
+  public getCurrentDevice() {
     try {
-      return Result.success(this.deviceManager.device)
+      return Result.success(this.deviceManager.device.toSerializableObject())
     } catch (error) {
       return Result.failed(error as AppError)
     }
   }
 
   @IpcEvent(IpcDeviceManagerEvent.GetDevices)
-  public getDevices(): ResultObject<Device[]> {
-    return Result.success(this.deviceManager.devices)
+  public getDevices() {
+    return Result.success(
+      this.deviceManager.devices.map((item) => item.toSerializableObject())
+    )
   }
 
   @IpcEvent(IpcDeviceManagerEvent.SetCurrentDevice)
