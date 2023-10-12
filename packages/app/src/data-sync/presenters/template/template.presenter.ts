@@ -8,7 +8,6 @@ import {
   TemplateInput,
   TemplateEntity,
 } from "App/data-sync/types"
-import { Feature, flags } from "App/feature-flags"
 
 export class TemplatePresenter {
   public findRecords<Type extends { _id: string }>(
@@ -39,18 +38,12 @@ export class TemplatePresenter {
 
     return templates
       .map((template) => {
-        return flags.get(Feature.OrderTemplate)
-          ? {
-              id: template._id,
-              text: template.text,
-              lastUsedAt: template.lastUsageTimestamp,
-              order: Number(template.rowOrder),
-            }
-          : {
-              id: template._id,
-              text: template.text,
-              lastUsedAt: template.lastUsageTimestamp,
-            }
+        return {
+          id: template._id,
+          text: template.text,
+          lastUsedAt: template.lastUsageTimestamp,
+          order: Number(template.rowOrder),
+        }
       })
       .filter((thread) => typeof thread !== "undefined") as TemplateObject[]
   }

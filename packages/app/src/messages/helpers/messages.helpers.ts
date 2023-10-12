@@ -5,6 +5,9 @@
 
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { TextEncoder } from "util"
+import { Receiver } from "App/messages/reducers/messages.interface"
+import { filterRecordsByPhrase } from "App/utils/filter-records-by-phrase"
+import { checkFullName } from "App/utils/check-full-name"
 
 export type ContactsCollection = Record<string, Contact>
 export type Getter = (
@@ -66,4 +69,16 @@ export const splitMessageByBytesSize = (
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getStringSizeInBytes = (content: string) => {
   return new TextEncoder().encode(content).length
+}
+
+export const filterReceivers = (
+  receivers: Receiver[],
+  searchPhrase: string
+): Receiver[] => {
+  return filterRecordsByPhrase(
+    receivers,
+    searchPhrase,
+    ["phoneNumber", "firstName", "lastName"],
+    [checkFullName]
+  )
 }

@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.2.3] - 2023-05-10
+
+### Fixed
+
+- Fixed issue with breaking connection when deleting a large number of contacts
+- Improved search results preview when searching for contacts in Contacts and Messages section
+- Fixed issues with creating device backup and changing device
+- Fixed an issue in which Mudita Center did not stop file transfer when the device was disconnected
+- Added possibility to stop file upload if the user selected more files than can be uploaded to Mudita Harmony
+- Added the possibility to upload only supported files in scenarios when selected files included unsupported ones instead of terminating the flow
+- The formatting of headlines in News section articles has been improved
+- Changed connection error flow to be more user-friendly
+- Changed text in contacts import flow for a more intuitive one
+
 ## [2.2.2] - 2023-09-28
 
 ### Changed

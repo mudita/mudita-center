@@ -363,6 +363,12 @@ ipcMain.answerRenderer(BrowserActions.UpdateOpenBrowser, () =>
   shell.openExternal("https://mudita.com")
 )
 
+ipcMain.answerRenderer(BrowserActions.AppleOpenBrowser, () =>
+  shell.openExternal(
+    "https://support.apple.com/en-al/guide/contacts/adrbdcfd32e6/mac#:~:text=In%20the%20Contacts%20app%20on,vcf)%20only."
+  )
+)
+
 createOpenWindowListener(
   AboutActions.LicenseOpenWindow,
   Mode.License,
