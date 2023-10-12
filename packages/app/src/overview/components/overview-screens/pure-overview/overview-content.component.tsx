@@ -22,11 +22,6 @@ interface OverviewContentProps {
   readonly memorySpace: MemorySpace
   readonly networkName: string
   readonly networkLevel: number | undefined
-  readonly pureOsAvailable: boolean
-  readonly pureOsDownloaded: boolean
-  readonly checkForUpdatePerformed: boolean
-  readonly checkForUpdateInProgress: boolean
-  readonly checkForUpdateFailed: boolean
   readonly osVersion: string
   readonly caseColour: CaseColor | undefined
   readonly lastBackupDate: Date | undefined
@@ -50,11 +45,6 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
-  pureOsAvailable,
-  pureOsDownloaded,
-  checkForUpdatePerformed,
-  checkForUpdateInProgress,
-  checkForUpdateFailed,
   toggleDevMode,
   osVersion,
   caseColour,
@@ -79,11 +69,7 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
       networkLevel={networkLevel}
     />
     <SystemInfo
-      updateDownloaded={pureOsDownloaded}
-      updateAvailable={pureOsAvailable}
-      checkForUpdatePerformed={checkForUpdatePerformed}
-      checkForUpdateInProgress={checkForUpdateInProgress}
-      checkForUpdateFailed={checkForUpdateFailed}
+      deviceType={DeviceType.MuditaPure}
       osVersion={osVersion}
       onUpdateCheck={onUpdateCheck}
       onDownload={onUpdateDownload}

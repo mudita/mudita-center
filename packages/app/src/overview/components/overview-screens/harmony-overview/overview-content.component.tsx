@@ -19,14 +19,8 @@ interface OverviewProps {
   readonly onUpdateInstall: () => void
   readonly toggleDevMode?: () => void
   readonly disconnectDevice: () => void
-  readonly checkForUpdateInProgress: boolean
   readonly osVersion: string
   readonly batteryLevel: number
-  readonly pureOsAvailable: boolean
-  readonly pureOsDownloaded: boolean
-  readonly checkForUpdatePerformed: boolean
-  readonly checkForUpdateFailed: boolean
-  readonly deviceType: DeviceType
   readonly serialNumber: string | undefined
 }
 
@@ -36,35 +30,28 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
-  pureOsAvailable,
-  pureOsDownloaded,
   toggleDevMode,
   osVersion,
-  deviceType,
   serialNumber,
-  checkForUpdateInProgress,
-  checkForUpdatePerformed,
-  checkForUpdateFailed,
 }) => {
   return (
     <OverviewWrapper>
       <DeviceInfo
-        deviceType={deviceType}
+        deviceType={DeviceType.MuditaHarmony}
         onClick={toggleDevMode}
         onDisconnect={disconnectDevice}
         serialNumber={serialNumber}
       />
-      <StatusInfo deviceType={deviceType} batteryLevel={batteryLevel} />
+      <StatusInfo
+        deviceType={DeviceType.MuditaHarmony}
+        batteryLevel={batteryLevel}
+      />
       <SystemInfo
-        updateDownloaded={pureOsDownloaded}
-        updateAvailable={pureOsAvailable}
+        deviceType={DeviceType.MuditaHarmony}
         osVersion={osVersion}
         onUpdateCheck={onUpdateCheck}
         onDownload={onUpdateDownload}
         onUpdate={onUpdateInstall}
-        checkForUpdateInProgress={checkForUpdateInProgress}
-        checkForUpdatePerformed={checkForUpdatePerformed}
-        checkForUpdateFailed={checkForUpdateFailed}
       />
     </OverviewWrapper>
   )

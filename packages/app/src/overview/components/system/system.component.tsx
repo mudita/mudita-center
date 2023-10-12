@@ -20,6 +20,9 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
+import { DeviceType } from "App/device"
+import { useUpdateFlowState } from "../overview-screens/helpers/use-update-flow-state.hook"
+import { CheckForUpdateLocalState } from "../overview-screens/constants/overview.enum"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
@@ -43,29 +46,31 @@ const messages = defineMessages({
 })
 
 interface Props {
+  deviceType: DeviceType
   osVersion?: string
   onUpdateCheck?: () => void
   onUpdate?: () => void
   onDownload?: () => void
-  updateAvailable: boolean
-  updateDownloaded: boolean
-  checkForUpdateInProgress: boolean
-  checkForUpdatePerformed: boolean
-  checkForUpdateFailed: boolean
 }
 
 const System: FunctionComponent<Props> = ({
+  deviceType,
   osVersion = "",
-  updateAvailable,
-  updateDownloaded,
-  checkForUpdateInProgress,
-  checkForUpdatePerformed,
-  checkForUpdateFailed,
   onUpdateCheck = noop,
   onUpdate = noop,
   onDownload = noop,
   ...props
 }) => {
+  const { checkForUpdateLocalState } = useUpdateFlowState({
+    deviceType: deviceType,
+  })
+  const { Failed, Loaded, Loading, Download, Install } =
+    CheckForUpdateLocalState
+  const checkForUpdateInProgress = checkForUpdateLocalState === Loading
+  const checkForUpdatePerformed = checkForUpdateLocalState === Loaded
+  const checkForUpdateFailed = checkForUpdateLocalState === Failed
+  const updateAvailable = checkForUpdateLocalState === Download
+  const updateDownloaded = checkForUpdateLocalState === Install
   return (
     <Card {...props}>
       <CardHeader>
@@ -89,26 +94,23 @@ const System: FunctionComponent<Props> = ({
             checkForUpdateFailed={checkForUpdateFailed}
             checkForUpdateInProgress={checkForUpdateInProgress}
             checkForUpdatePerformed={checkForUpdatePerformed}
-            updateAvailable={updateAvailable}
             updateDownloaded={updateDownloaded}
           />
         </CardContent>
         <CardAction filled>
           {updateAvailable ? (
-            updateDownloaded ? (
-              <CardActionButton
-                active
-                labelMessage={messages.systemUpdateAction}
-                onClick={onUpdate}
-              />
-            ) : (
-              <CardActionButton
-                active
-                labelMessage={messages.systemDownloadAction}
-                onClick={onDownload}
-                data-testid={SystemTestIds.DownloadButton}
-              />
-            )
+            <CardActionButton
+              active
+              labelMessage={messages.systemDownloadAction}
+              onClick={onDownload}
+              data-testid={SystemTestIds.DownloadButton}
+            />
+          ) : updateDownloaded ? (
+            <CardActionButton
+              active
+              labelMessage={messages.systemUpdateAction}
+              onClick={onUpdate}
+            />
           ) : (
             <CardActionButton
               active={!checkForUpdateInProgress}
