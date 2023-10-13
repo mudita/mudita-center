@@ -22,7 +22,6 @@ import React from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { DeviceType } from "App/device"
 import { useUpdateFlowState } from "../overview-screens/helpers/use-update-flow-state.hook"
-import { CheckForUpdateLocalState } from "../overview-screens/constants/overview.enum"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
