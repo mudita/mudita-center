@@ -61,16 +61,15 @@ const System: FunctionComponent<Props> = ({
   onDownload = noop,
   ...props
 }) => {
-  const { checkForUpdateLocalState } = useUpdateFlowState({
+  const {
+    checkForUpdateInProgress,
+    checkForUpdatePerformed,
+    checkForUpdateFailed,
+    updateAvailable,
+    updateDownloaded,
+  } = useUpdateFlowState({
     deviceType: deviceType,
   })
-  const { Failed, Loaded, Loading, Download, Install } =
-    CheckForUpdateLocalState
-  const checkForUpdateInProgress = checkForUpdateLocalState === Loading
-  const checkForUpdatePerformed = checkForUpdateLocalState === Loaded
-  const checkForUpdateFailed = checkForUpdateLocalState === Failed
-  const updateAvailable = checkForUpdateLocalState === Download
-  const updateDownloaded = checkForUpdateLocalState === Install
   return (
     <Card {...props}>
       <CardHeader>
