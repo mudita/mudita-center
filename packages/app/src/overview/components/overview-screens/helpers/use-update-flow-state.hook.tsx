@@ -27,7 +27,11 @@ interface Props {
 }
 
 interface Result {
-  checkForUpdateLocalState: CheckForUpdateLocalState | undefined
+  checkForUpdateInProgress: boolean
+  checkForUpdatePerformed: boolean
+  checkForUpdateFailed: boolean
+  updateAvailable: boolean
+  updateDownloaded: boolean
 }
 
 export const useUpdateFlowState = ({ deviceType }: Props): Result => {
@@ -35,7 +39,7 @@ export const useUpdateFlowState = ({ deviceType }: Props): Result => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<TmpDispatch>()
   const [checkForUpdateLocalState, setCheckForUpdateLocalState] =
-    useState<CheckForUpdateLocalState>()
+    useState<CheckForUpdateLocalState>(CheckForUpdateLocalState.Initial)
   const [silentCheckForUpdatePromise, setSilentCheckForUpdatePromise] =
     useState<RejectableThunk>()
   const {
@@ -123,6 +127,15 @@ export const useUpdateFlowState = ({ deviceType }: Props): Result => {
     error,
   ])
   return {
-    checkForUpdateLocalState,
+    checkForUpdateInProgress:
+      checkForUpdateLocalState === CheckForUpdateLocalState.Loading,
+    checkForUpdatePerformed:
+      checkForUpdateLocalState === CheckForUpdateLocalState.Loaded,
+    checkForUpdateFailed:
+      checkForUpdateLocalState === CheckForUpdateLocalState.Failed,
+    updateAvailable:
+      checkForUpdateLocalState === CheckForUpdateLocalState.Download,
+    updateDownloaded:
+      checkForUpdateLocalState === CheckForUpdateLocalState.Install,
   }
 }

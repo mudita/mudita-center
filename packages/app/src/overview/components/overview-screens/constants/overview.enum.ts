@@ -4,9 +4,10 @@
  */
 
 export enum CheckForUpdateLocalState {
-  Loading,
-  Failed,
-  Loaded,
-  Download,
-  Install,
+  Initial = "initial",
+  Loading = "loading",
+  Failed = "failed",
+  Loaded = "loaded",
+  Download = "downloaded",
+  Install = "install",
 }

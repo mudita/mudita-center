@@ -99,55 +99,100 @@ export function renderHookWithProviders<Result, Props>(
 }
 type TestCaseSilent = [
   testedState: SilentCheckForUpdateState,
-  expectedState: CheckForUpdateLocalState
+  expectedState: ReturnType<typeof useUpdateFlowState>,
+  stateEnum: CheckForUpdateLocalState
 ]
 type TestCaseNormal = [
   testedState: CheckForUpdateState,
-  expectedState: CheckForUpdateLocalState
+  expectedState: ReturnType<typeof useUpdateFlowState>,
+  stateEnum: CheckForUpdateLocalState
 ]
 type TestCaseBoth = [
   firstTestedState: CheckForUpdateState,
   secondTestedState: SilentCheckForUpdateState,
-  expectedState: CheckForUpdateLocalState
+  expectedState: ReturnType<typeof useUpdateFlowState>,
+  stateEnum: CheckForUpdateLocalState
 ]
 
 const defaultParams = { deviceType: DeviceType.MuditaPure }
+const defaultResult = {
+  checkForUpdateInProgress: false,
+  checkForUpdatePerformed: false,
+  checkForUpdateFailed: false,
+  updateAvailable: false,
+  updateDownloaded: false,
+}
 
 const silentCheckTestCases: TestCaseSilent[] = [
-  [SilentCheckForUpdateState.Failed, CheckForUpdateLocalState.Failed],
-  [SilentCheckForUpdateState.Loading, CheckForUpdateLocalState.Loading],
-  [SilentCheckForUpdateState.Loaded, CheckForUpdateLocalState.Loaded],
+  [
+    SilentCheckForUpdateState.Failed,
+    { ...defaultResult, checkForUpdateFailed: true },
+    CheckForUpdateLocalState.Failed,
+  ],
+  [
+    SilentCheckForUpdateState.Loading,
+    { ...defaultResult, checkForUpdateInProgress: true },
+    CheckForUpdateLocalState.Loading,
+  ],
+  [
+    SilentCheckForUpdateState.Loaded,
+    { ...defaultResult, checkForUpdatePerformed: true },
+    CheckForUpdateLocalState.Loaded,
+  ],
 ]
 
 const checkForUpdateTestCases: TestCaseNormal[] = [
-  [CheckForUpdateState.Failed, CheckForUpdateLocalState.Failed],
-  [CheckForUpdateState.Loading, CheckForUpdateLocalState.Loading],
-  [CheckForUpdateState.Loaded, CheckForUpdateLocalState.Loaded],
-  [CheckForUpdateState.PerformedWithFailure, CheckForUpdateLocalState.Failed],
-  [CheckForUpdateState.Performed, CheckForUpdateLocalState.Loaded],
+  [
+    CheckForUpdateState.Failed,
+    { ...defaultResult, checkForUpdateFailed: true },
+    CheckForUpdateLocalState.Failed,
+  ],
+  [
+    CheckForUpdateState.Loading,
+    { ...defaultResult, checkForUpdateInProgress: true },
+    CheckForUpdateLocalState.Loading,
+  ],
+  [
+    CheckForUpdateState.Loaded,
+    { ...defaultResult, checkForUpdatePerformed: true },
+    CheckForUpdateLocalState.Loaded,
+  ],
+  [
+    CheckForUpdateState.PerformedWithFailure,
+    { ...defaultResult, checkForUpdateFailed: true },
+    CheckForUpdateLocalState.Failed,
+  ],
+  [
+    CheckForUpdateState.Performed,
+    { ...defaultResult, checkForUpdatePerformed: true },
+    CheckForUpdateLocalState.Loaded,
+  ],
 ]
 
 const bothStatusesTestCases: TestCaseBoth[] = [
   [
     CheckForUpdateState.Initial,
     SilentCheckForUpdateState.Initial,
+    { ...defaultResult, checkForUpdateInProgress: true },
     CheckForUpdateLocalState.Loading,
   ],
   [
     CheckForUpdateState.Initial,
     SilentCheckForUpdateState.Skipped,
+    { ...defaultResult, checkForUpdateFailed: true },
     CheckForUpdateLocalState.Failed,
   ],
   [
     CheckForUpdateState.Initial,
     SilentCheckForUpdateState.Failed,
+    { ...defaultResult, checkForUpdateFailed: true },
     CheckForUpdateLocalState.Failed,
   ],
 ]
 describe.each(silentCheckTestCases)(
   "when value for silentCheckForUpdateState equals to %p",
-  (param, expectedResult) => {
-    test(`checkForUpdateLocalState should equal to ${expectedResult}`, () => {
+  (param, expectedResult, stateEnum) => {
+    test(`checkForUpdateLocalState should equal to ${stateEnum}`, () => {
       const { result } = renderHookWithProviders(
         () =>
           useUpdateFlowState({
@@ -163,15 +208,15 @@ describe.each(silentCheckTestCases)(
         }
       )
 
-      expect(result.current.checkForUpdateLocalState).toEqual(expectedResult)
+      expect(result.current).toEqual(expectedResult)
     })
   }
 )
 
 describe.each(checkForUpdateTestCases)(
   "when value for checkingForUpdateState equals to %p",
-  (param, expectedResult) => {
-    test(`checkForUpdateLocalState should equal to ${expectedResult}`, () => {
+  (param, expectedResult, stateEnum) => {
+    test(`checkForUpdateLocalState should equal to ${stateEnum}`, () => {
       const { result } = renderHookWithProviders(
         () =>
           useUpdateFlowState({
@@ -187,15 +232,15 @@ describe.each(checkForUpdateTestCases)(
         }
       )
 
-      expect(result.current.checkForUpdateLocalState).toEqual(expectedResult)
+      expect(result.current).toEqual(expectedResult)
     })
   }
 )
 
 describe.each(bothStatusesTestCases)(
   "when value for silentCheckForUpdateState equals to %p",
-  (firstParam, secondParam, expectedResult) => {
-    test(`checkForUpdateLocalState should equal to ${expectedResult}`, () => {
+  (firstParam, secondParam, expectedResult, stateEnum) => {
+    test(`checkForUpdateLocalState should equal to ${stateEnum}`, () => {
       const { result } = renderHookWithProviders(
         () =>
           useUpdateFlowState({
@@ -212,7 +257,7 @@ describe.each(bothStatusesTestCases)(
         }
       )
 
-      expect(result.current.checkForUpdateLocalState).toEqual(expectedResult)
+      expect(result.current).toEqual(expectedResult)
     })
   }
 )
@@ -240,9 +285,7 @@ describe("when all releases were downloaded", () => {
       }
     )
 
-    expect(result.current.checkForUpdateLocalState).toEqual(
-      CheckForUpdateLocalState.Install
-    )
+    expect(result.current).toEqual({ ...defaultResult, updateDownloaded: true })
   })
 })
 
@@ -267,9 +310,7 @@ describe("when there are new releases to download", () => {
       }
     )
 
-    expect(result.current.checkForUpdateLocalState).toEqual(
-      CheckForUpdateLocalState.Download
-    )
+    expect(result.current).toEqual({ ...defaultResult, updateAvailable: true })
   })
 })
 
@@ -282,9 +323,10 @@ describe("when silentCheckForUpdateState is set as initial", () => {
       { store: mockStore }
     )
 
-    expect(result.current.checkForUpdateLocalState).toEqual(
-      CheckForUpdateLocalState.Loading
-    )
+    expect(result.current).toEqual({
+      ...defaultResult,
+      checkForUpdateInProgress: true,
+    })
     expect(mockStore.getActions()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -310,9 +352,10 @@ describe("when silentCheckForUpdateState is not set as initial", () => {
       { store: mockStore }
     )
 
-    expect(result.current.checkForUpdateLocalState).toEqual(
-      CheckForUpdateLocalState.Loading
-    )
+    expect(result.current).toEqual({
+      ...defaultResult,
+      checkForUpdateInProgress: true,
+    })
     expect(mockStore.getActions()).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -341,9 +384,10 @@ describe("when os version is not specified", () => {
       { store: mockStore }
     )
 
-    expect(result.current.checkForUpdateLocalState).toEqual(
-      CheckForUpdateLocalState.Loading
-    )
+    expect(result.current).toEqual({
+      ...defaultResult,
+      checkForUpdateInProgress: true,
+    })
     expect(mockStore.getActions()).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -434,7 +478,7 @@ describe("when force update is needed", () => {
       { store: mockStore }
     )
 
-    expect(result.current.checkForUpdateLocalState).toEqual(undefined)
+    expect(result.current).toEqual(defaultResult)
     expect(mockStore.getActions()).not.toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -460,6 +504,6 @@ describe("when force update is needed", () => {
       }
     )
 
-    expect(result.current.checkForUpdateLocalState).toEqual(undefined)
+    expect(result.current).toEqual(defaultResult)
   })
 })
