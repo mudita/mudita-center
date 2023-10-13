@@ -8,10 +8,6 @@ import { AvailableUpdateText } from "App/overview/components/system-update-text/
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { useSelector } from "react-redux"
-import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { DownloadState } from "App/update/constants"
-import { State } from "App/core/constants"
 
 const messages = defineMessages({
   systemUpdateDownloaded: {
@@ -29,49 +25,47 @@ const messages = defineMessages({
 })
 
 export const SystemUpdateText: FunctionComponent<SystemUpdateTextProps> = ({
-  checkForUpdateFailed,
+  updateAvailable,
+  updateDownloaded,
   checkForUpdateInProgress,
   checkForUpdatePerformed,
-  updateDownloaded,
+  checkForUpdateFailed,
 }) => {
-  const { data, updateOsState, downloadState } = useSelector(
-    (state: ReduxRootState) => state.update
-  )
-  const { availableReleasesForUpdate } = data
-  if (
-    checkForUpdateInProgress ||
-    updateOsState === State.Loading ||
-    downloadState === DownloadState.Loading
-  ) {
-    return null
-  }
   if (checkForUpdateFailed) {
     return (
       <AvailableUpdateText>
         <FormattedMessage {...messages.systemUpdateCheckFailed} />
       </AvailableUpdateText>
     )
-  } else if (updateDownloaded) {
+  }
+
+  if (checkForUpdateInProgress) {
+    return null
+  }
+
+  if (!checkForUpdatePerformed) {
+    return null
+  }
+
+  if (updateAvailable && updateDownloaded) {
     return (
       <AvailableUpdateText>
         <FormattedMessage {...messages.systemUpdateDownloaded} />
       </AvailableUpdateText>
     )
-  } else if (availableReleasesForUpdate?.length) {
+  }
+
+  if (updateAvailable && !updateDownloaded) {
     return (
       <AvailableUpdateText>
-        <FormattedMessage
-          {...messages.systemUpdateAvailable}
-          values={{ version: availableReleasesForUpdate[0].version }}
-        />
-      </AvailableUpdateText>
-    )
-  } else if (checkForUpdatePerformed) {
-    return (
-      <AvailableUpdateText>
-        <FormattedMessage {...messages.systemUpdateUpToDate} />
+        <FormattedMessage {...messages.systemUpdateAvailable} />
       </AvailableUpdateText>
     )
   }
-  return null
+
+  return (
+    <AvailableUpdateText>
+      <FormattedMessage {...messages.systemUpdateUpToDate} />
+    </AvailableUpdateText>
+  )
 }

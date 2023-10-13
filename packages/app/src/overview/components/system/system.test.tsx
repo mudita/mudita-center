@@ -4,99 +4,30 @@
  */
 
 import "@testing-library/jest-dom/extend-expect"
-import thunk from "redux-thunk"
 import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import System from "App/overview/components/system/system.component"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { CaseColor, DeviceType, PureDeviceData } from "App/device"
-import { Provider } from "react-redux"
-import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import createMockStore from "redux-mock-store"
-import { OsRelease } from "App/update/dto"
-import { initialState as update } from "App/update/reducers"
-import { initialState as device } from "App/device/reducers/device.reducer"
-import {
-  OsReleaseType,
-  Product,
-  ReleaseProcessState,
-  SilentCheckForUpdateState,
-} from "App/update/constants"
 
 type Props = ComponentProps<typeof System>
 
 const defaultProps: Props = {
-  deviceType: DeviceType.MuditaPure,
   osVersion: "1.0.0",
+  checkForUpdateInProgress: false,
+  checkForUpdatePerformed: true,
+  checkForUpdateFailed: false,
+  updateAvailable: false,
+  updateDownloaded: false,
 }
 
-const pureDeviceMock: PureDeviceData = {
-  networkName: "Network",
-  networkLevel: "5",
-  osVersion: "0.75.1",
-  batteryLevel: 0.99,
-  simCards: [
-    {
-      slot: 1,
-      active: true,
-      number: 12345678,
-      network: "",
-      networkLevel: 0.75,
-    },
-  ],
-  serialNumber: "303",
-  phoneLockTime: 1630703219,
-  memorySpace: {
-    reservedSpace: 124,
-    usedUserSpace: 1021,
-    total: 16000000000,
-  },
-  caseColour: CaseColor.Gray,
-  backupFilePath: "path/to/directory/fileBase.tar",
-}
-
-const mockedRelease: OsRelease = {
-  date: "2021-02-02",
-  file: {
-    name: "test file",
-    size: 123,
-    url: "some-url",
-  },
-  product: Product.PurePhone,
-  type: OsReleaseType.Daily,
-  version: "1.1.0",
-  mandatoryVersions: [],
-}
-
-const defaultState = {
-  update,
-  device: {
-    ...device,
-    data: pureDeviceMock,
-  },
-} as ReduxRootState
-
-const render = (
-  extraState?: Partial<ReduxRootState>,
-  extraProps?: Partial<Props>
-) => {
-  const storeMock = createMockStore([thunk])({
-    ...defaultState,
-    ...extraState,
-  })
-
+const render = (extraProps?: Partial<Props>) => {
   const props = {
     ...defaultProps,
     ...extraProps,
   }
-
-  return renderWithThemeAndIntl(
-    <Provider store={storeMock}>
-      <System {...props} />
-    </Provider>
-  )
+  return renderWithThemeAndIntl(<System {...props} />)
 }
 
 test("renders os version properly", () => {
@@ -108,14 +39,8 @@ test("renders os version properly", () => {
 
 test("renders available update info properly", () => {
   const { getByText } = render({
-    update: {
-      ...update,
-      silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
-      data: {
-        ...update.data,
-        availableReleasesForUpdate: [mockedRelease],
-      },
-    },
+    updateAvailable: true,
+    checkForUpdatePerformed: true,
   })
   expect(
     getByText(
@@ -126,10 +51,8 @@ test("renders available update info properly", () => {
 
 test("renders You're up to date info properly", () => {
   const { getByText } = render({
-    update: {
-      ...update,
-      silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
-    },
+    updateAvailable: false,
+    checkForUpdatePerformed: true,
   })
   expect(
     getByText(
@@ -146,23 +69,17 @@ test("renders 'check for updates' button properly", () => {
 })
 
 test("renders 'update now' button properly", () => {
-  const { queryByRole } = render({
-    update: {
-      ...update,
-      silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
-      data: {
-        ...update.data,
-        availableReleasesForUpdate: [mockedRelease],
-      },
-    },
-  })
+  const { queryByRole } = render({ updateAvailable: true })
   expect(queryByRole("button")).toHaveTextContent(
     intl.formatMessage({ id: "module.overview.systemDownloadAction" })
   )
 })
 
 test("does not render any label when check for update was not performed", () => {
-  const { queryByText } = render({})
+  const { queryByText } = render({
+    updateAvailable: true,
+    checkForUpdatePerformed: false,
+  })
   expect(
     queryByText(
       intl.formatMessage({ id: "module.overview.systemUpdateAvailable" })
@@ -180,7 +97,11 @@ test("does not render any label when check for update was not performed", () => 
   ).not.toBeInTheDocument()
 })
 test("does not render any label when check for update is in progress", () => {
-  const { queryByText } = render({})
+  const { queryByText } = render({
+    updateAvailable: true,
+    checkForUpdatePerformed: true,
+    checkForUpdateInProgress: true,
+  })
   expect(
     queryByText(
       intl.formatMessage({ id: "module.overview.systemUpdateAvailable" })
@@ -200,17 +121,10 @@ test("does not render any label when check for update is in progress", () => {
 
 test("checks for update after button click", () => {
   const onUpdateCheck = jest.fn()
-  const props = { onUpdateCheck }
 
-  const { getByRole } = render(
-    {
-      update: {
-        ...update,
-        silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
-      },
-    },
-    props
-  )
+  const { getByRole } = render({
+    onUpdateCheck,
+  })
 
   fireEvent.click(getByRole("button"))
 
@@ -219,20 +133,11 @@ test("checks for update after button click", () => {
 
 test("triggers download after button click", () => {
   const onDownload = jest.fn()
-  const props = { onDownload }
-  const { getByRole } = render(
-    {
-      update: {
-        ...update,
-        silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
-        data: {
-          ...update.data,
-          availableReleasesForUpdate: [mockedRelease],
-        },
-      },
-    },
-    props
-  )
+
+  const { getByRole } = render({
+    updateAvailable: true,
+    onDownload,
+  })
 
   fireEvent.click(getByRole("button"))
 
@@ -241,23 +146,12 @@ test("triggers download after button click", () => {
 
 test("triggers update after button click", () => {
   const onUpdate = jest.fn()
-  const props = { onUpdate }
 
-  const { getByRole } = render(
-    {
-      update: {
-        ...update,
-        silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
-        data: {
-          ...update.data,
-          downloadedProcessedReleases: [
-            { release: mockedRelease, state: ReleaseProcessState.Done },
-          ],
-        },
-      },
-    },
-    props
-  )
+  const { getByRole } = render({
+    updateAvailable: true,
+    updateDownloaded: true,
+    onUpdate,
+  })
 
   fireEvent.click(getByRole("button"))
 

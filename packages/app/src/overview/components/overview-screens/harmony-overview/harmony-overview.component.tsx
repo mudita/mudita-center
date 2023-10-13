@@ -5,8 +5,10 @@
 
 import { DeviceType } from "App/device/constants"
 import { Feature, flags } from "App/feature-flags"
+import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
 import { HarmonyOverviewProps } from "App/overview/components/overview-screens/harmony-overview/harmony-overview.component.interface"
 import OverviewContent from "App/overview/components/overview-screens/harmony-overview/overview-content.component"
+import { useUpdateFlowState } from "App/overview/components/overview-screens/helpers/use-update-flow-state.hook"
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { CheckForUpdateMode } from "App/update/constants"
@@ -45,6 +47,15 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   forceUpdateState,
   closeForceUpdateFlow,
 }) => {
+  const { checkForUpdateLocalState } = useUpdateFlowState({
+    checkingForUpdateState,
+    silentCheckForUpdateState,
+    checkForUpdate: () =>
+      checkForUpdate(DeviceType.MuditaHarmony, CheckForUpdateMode.SilentCheck),
+    forceUpdateNeeded,
+    osVersion,
+  })
+
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
   }
@@ -127,9 +138,22 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       )}
 
       <OverviewContent
+        deviceType={DeviceType.MuditaHarmony}
         batteryLevel={batteryLevel}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
+        pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
+        checkForUpdateFailed={
+          checkForUpdateLocalState === CheckForUpdateLocalState.Failed
+        }
+        checkForUpdateInProgress={
+          checkForUpdateLocalState ===
+          CheckForUpdateLocalState.SilentCheckLoading
+        }
+        checkForUpdatePerformed={
+          checkForUpdateLocalState === CheckForUpdateLocalState.Loaded
+        }
+        pureOsDownloaded={areAllReleasesDownloaded}
         onUpdateCheck={checkForHarmonyUpdate}
         onUpdateInstall={() => updateReleases()}
         onUpdateDownload={openCheckForUpdateModal}
