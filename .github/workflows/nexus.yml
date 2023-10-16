@@ -17,10 +17,14 @@ jobs:
           node-version: 14.17.3
       - name: check envs
         run: |
-          export log=$(git log --merges)
-          git log --merges
+          MERGE_BASE=$(git merge-base $GITHUB_HEAD_REF $GITHUB_BASE_REF)
+          MERGED_BRANCH=$(git rev-parse --abbrev-ref $MERGE_BASE)
+          echo "Nazwa źródłowego brancha po merge: $MERGED_BRANCH"
           printenv
           exit 1
+        env:
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_BASE_REF: ${{ github.base_ref }}
       - name: Run Setup
         run: npm run setup
       - name: Install sanitize npm module
