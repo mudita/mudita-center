@@ -17,7 +17,7 @@ jobs:
           node-version: 14.17.3
       - name: check envs
         run: |
-          git branch --contains $merge_commit_hash
+          git log --merges --first-parent --pretty=format:"%s" -1
           exit 1
       - name: Run Setup
         run: npm run setup
