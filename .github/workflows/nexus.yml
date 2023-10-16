@@ -21,7 +21,7 @@ jobs:
           if [[ ${{ github.ref }} == 'refs/heads/nexus-poc' ]]; then
             BRANCH_NAME="${ GITHUB_REF#refs/heads/develop}" >> $GITHUB_ENV
             echo "VERSION=dev.${{ github.run_number }}" >> $GITHUB_ENV
-          elif [[ ${{ github.ref }} =~ ^refs/heads/CP- ]]; then
+          elif [[ ${{ github.ref }} =~ '^refs/heads/CP-' ]]; then
             BRANCH_NAME="${{ GITHUB_REF#refs/heads/CP- }}" >> $GITHUB_ENV
             echo "VERSION=feature-${branch_name}.${{ github.run_number }}-${branch_name}" >> $GITHUB_ENV
           fi
