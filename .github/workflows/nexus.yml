@@ -25,6 +25,8 @@ jobs:
             BRANCH_NAME="${{ github.ref }}" >> $GITHUB_ENV
             echo "VERSION=feature-${branch_name}.${{ github.run_number }}-${branch_name}" >> $GITHUB_ENV
           fi
+          echo ${{ env.BRANCH_NAME }}"
+          exit 1
         shell: bash
       - name: Run Setup
         run: npm run setup
