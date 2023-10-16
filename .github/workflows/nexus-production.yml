@@ -42,10 +42,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
-        run: |
-          printenv
-          exit 1
-          cd packages/app/ && npm run dist:prod:all
+        run: cd packages/app/ && npm run dist:prod:all
       - name: Push artifacts to nexus registry
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
