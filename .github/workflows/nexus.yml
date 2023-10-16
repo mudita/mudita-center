@@ -17,8 +17,8 @@ jobs:
           node-version: 14.17.3
       - name: check envs
         run: |
-          export source=$(git branch --contains HEAD^2 --merge)
-          git branch --contains HEAD^2 --merge
+          export log=$(git log --merges)
+          git log --merges
           printenv
           exit 1
       - name: Run Setup
