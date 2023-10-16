@@ -10,7 +10,7 @@ jobs:
     runs-on: macOS
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.5.0
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -19,6 +19,11 @@ jobs:
         run: |
           export HEAD_REF=${{ github.head_ref }}
           export BASE_REF=${{ github.base_ref }}
+          export merge_commit_hash=$(git log --merges --pretty=format:"%H" -1)
+          if [ -n "$merge_commit_hash" ]; then
+            export source_branch=$(git branch --contains $merge_commit_hash | grep -v 'develop' | grep -oP "(?<=feature-branch-).*")
+          fi
+          echo "Source branch is: $source_branch"
           printenv
           exit 1
       - name: Run Setup
