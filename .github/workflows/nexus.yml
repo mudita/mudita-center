@@ -15,6 +15,17 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.3
+      - name: Set build version
+        id: set_version
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/nexus-poc' ]]; then
+            BRANCH_NAME="${{ github.ref#refs/heads/develop }}" >> $GITHUB_ENV
+            echo "VERSION=dev.${{ github.run_number }}" >> $GITHUB_ENV
+          elif [[ ${{ github.ref }} =~ ^refs/heads/CP- ]]; then
+            BRANCH_NAME="${{ github.ref#refs/heads/CP- }}" >> $GITHUB_ENV
+            echo "VERSION=feature-${branch_name}.${{ github.run_number }}-${branch_name}" >> $GITHUB_ENV
+          fi
+        shell: bash
       - name: Run Setup
         run: npm run setup
       - name: Install sanitize npm module
@@ -48,15 +59,15 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/Mudita-Center.exe
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/Mudita-Center.AppImage
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/Mudita-Center.dmg
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/Mudita-Center.zip
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/Mudita-Center.zip.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/Mudita-Center.exe.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/Mudita-Center.dmg.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/latest-linux.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/latest-mac.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/latest.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-dev.${{ github.run_number }}/builder-debug.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.exe
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.AppImage
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.dmg
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/development/$APP_VERSION-$VERSION/Mudita-Center.zip
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.zip.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.exe.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.dmg.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/latest-linux.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/latest-mac.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/latest.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/builder-debug.yml
           
