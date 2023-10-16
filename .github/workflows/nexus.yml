@@ -24,7 +24,7 @@ jobs:
           if [[ -z $SOURCE_BRANCH ]]; then
              export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           else
-             export BRANCH_NAME=$OURCE_BRANCH
+             export BRANCH_NAME=$SOURCE_BRANCH
           fi
           printenv
           exit 1
