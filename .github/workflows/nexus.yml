@@ -15,19 +15,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.3
-      - name: Set build version
-        id: set_version
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/nexus-poc' ]]; then
-            export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-            export "VERSION=dev.${{ github.run_number }}"
-          elif [[ ${{ github.ref }} == "refs/heads/CP-"* ]]; then
-            export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-            echo "VERSION=feature-${branch_name}.${{ github.run_number }}-${branch_name}" >> $GITHUB_ENV
-          fi
-          printenv
-          exit 1
-        shell: bash
       - name: Run Setup
         run: npm run setup
       - name: Install sanitize npm module
@@ -60,6 +47,13 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
+          if [[ ${{ github.ref }} == 'refs/heads/nexus-poc' ]]; then
+            export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+            export "VERSION=dev.${{ github.run_number }}"
+          elif [[ ${{ github.ref }} == "refs/heads/CP-"* ]]; then
+            export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+            export "VERSION=feature-${branch_name}.${{ github.run_number }}-${branch_name}"
+          fi
           export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.exe
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.AppImage
