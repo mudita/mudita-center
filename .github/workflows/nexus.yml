@@ -19,13 +19,13 @@ jobs:
         id: set_version
         run: |
           if [[ ${{ github.ref }} == 'refs/heads/nexus-poc' ]]; then
-            BRANCH_NAME="${{ github.ref }}" >> $GITHUB_ENV
+            export BRANCH_NAME="${{ github.ref }}"
             echo "VERSION=dev.${{ github.run_number }}" >> $GITHUB_ENV
           elif [[ ${{ github.ref }} == "refs/heads/CP-"* ]]; then
-            BRANCH_NAME="${{ github.ref }}" >> $GITHUB_ENV
+            export BRANCH_NAME="${{ github.ref }}"
             echo "VERSION=feature-${branch_name}.${{ github.run_number }}-${branch_name}" >> $GITHUB_ENV
           fi
-          echo "${{ env.BRANCH_NAME }}"
+          echo $BRANCH_NAME
           exit 1
         shell: bash
       - name: Run Setup
