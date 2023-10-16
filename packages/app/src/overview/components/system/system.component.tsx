@@ -92,7 +92,6 @@ const System: FunctionComponent<Props> = ({
             checkForUpdateFailed={checkForUpdateFailed}
             checkForUpdateInProgress={checkForUpdateInProgress}
             checkForUpdatePerformed={checkForUpdatePerformed}
-            updateDownloaded={updateDownloaded}
           />
         </CardContent>
         <CardAction filled>

@@ -19,7 +19,6 @@ const defaultProps: SystemUpdateTextProps = {
   checkForUpdateFailed: false,
   checkForUpdateInProgress: false,
   checkForUpdatePerformed: false,
-  updateDownloaded: false,
 }
 
 const mockedRelease: OsRelease = {
@@ -69,22 +68,10 @@ test("renders update check failed", () => {
   ).toBeInTheDocument()
 })
 
-test("renders update downloaded info", () => {
-  const { queryByText } = render({
-    checkForUpdatePerformed: true,
-    updateDownloaded: true,
-  })
-
-  expect(
-    queryByText("[value] module.overview.systemUpdateDownloaded")
-  ).toBeInTheDocument()
-})
-
 test("renders update available info", () => {
   const { queryByText } = render(
     {
       checkForUpdatePerformed: true,
-      updateDownloaded: false,
     },
     {
       update: {
@@ -105,7 +92,6 @@ test("renders update available info", () => {
 test("renders system up to date info", () => {
   const { queryByText } = render({
     checkForUpdatePerformed: true,
-    updateDownloaded: false,
     checkForUpdateFailed: false,
     checkForUpdateInProgress: false,
   })
