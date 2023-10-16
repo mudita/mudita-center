@@ -22,7 +22,7 @@ jobs:
             export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
             echo "VERSION=dev.${{ github.run_number }}" >> $GITHUB_ENV
           elif [[ ${{ github.ref }} == "refs/heads/CP-"* ]]; then
-            export BRANCH_NAME="${{ github.ref }}"
+            export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
             echo "VERSION=feature-${branch_name}.${{ github.run_number }}-${branch_name}" >> $GITHUB_ENV
           fi
           printenv
@@ -59,7 +59,6 @@ jobs:
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-          BRANCH_NAME: ${{ env.BRANCH_NAME }}
         run: |
           export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION-$VERSION/Mudita-Center.exe
