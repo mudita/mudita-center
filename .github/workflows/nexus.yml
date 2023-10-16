@@ -18,6 +18,17 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.3
+      - name: check envs
+        run: |
+          export SOURCE_BRANCH=${{ github.head_ref }}
+          if [[ -z $SOURCE_BRANCH ]]; then
+             export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          else
+             export BRANCH_NAME=$OURCE_BRANCH
+          fi
+          printenv
+          exit 1
+        shell: bash
       - name: Run Setup
         run: npm run setup
       - name: Install sanitize npm module
