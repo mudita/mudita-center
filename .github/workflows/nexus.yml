@@ -17,8 +17,12 @@ jobs:
           node-version: 14.17.3
       - name: check envs
         run: |
-          export SOURCE_BRANCH=$(git log --merges --first-parent --pretty=%s -1)
-          printenv
+          source_branch=""
+          merge_commit_hash=$(git log --merges --pretty=format:"%H" -1)
+          if [ -n "$merge_commit_hash" ]; then
+            source_branch=$(git branch --contains $merge_commit_hash | grep -v 'develop' | grep -oP "(?<=feature-branch-).*")
+          fi
+          echo "Source branch is: $source_branch"
           exit 1
       - name: Run Setup
         run: npm run setup
