@@ -19,7 +19,7 @@ jobs:
         id: set_version
         run: |
           if [[ ${{ github.ref }} == 'refs/heads/nexus-poc' ]]; then
-            BRANCH_NAME="${ GITHUB_REF#refs/heads/develop}" >> $GITHUB_ENV
+            BRANCH_NAME="${{ github.ref }}" >> $GITHUB_ENV
             echo "VERSION=dev.${{ github.run_number }}" >> $GITHUB_ENV
           elif [[ ${{ github.ref }} == "refs/heads/CP-"* ]]; then
             BRANCH_NAME="${{ github.ref }}" >> $GITHUB_ENV
