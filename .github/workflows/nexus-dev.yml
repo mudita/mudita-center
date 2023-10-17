@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - nexus
-#  pull_request:
-#    types:
-#      - closed
+  pull_request:
+    types:
+      - closed
 
 jobs:
   build:
