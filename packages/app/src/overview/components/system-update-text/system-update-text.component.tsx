@@ -55,7 +55,11 @@ export const SystemUpdateText: FunctionComponent<SystemUpdateTextProps> = ({
       <AvailableUpdateText>
         <FormattedMessage
           {...messages.systemUpdateAvailable}
-          values={{ version: availableReleasesForUpdate[0].version }}
+          values={{
+            version:
+              availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+                .version,
+          }}
         />
       </AvailableUpdateText>
     )
