@@ -11,26 +11,10 @@ on:
 jobs:
   build:
     runs-on: macOS
-#    environment: development
+    environment: development
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: env test
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-        run: |
-          export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.head_ref }}
-          if [[ -z $SOURCE_BRANCH ]]; then
-             export BRANCH_NAME=development
-             export "VERSION=-dev.${{ github.run_number }}"
-          else
-             export BRANCH_NAME=$SOURCE_BRANCH
-             export "VERSION=.${{ github.run_number }}"
-          fi
-          printenv
-          exit 1
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -67,21 +51,14 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
+          export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.head_ref }}
           if [[ -z $SOURCE_BRANCH ]]; then
              export BRANCH_NAME=development
-             if [[ $BRANCH_NAME == "develop" ]]; then
-                export "VERSION=-dev.${{ github.run_number }}"
-             else
-               export "VERSION=.${{ github.run_number }}"
-             fi
+             export "VERSION=-dev.${{ github.run_number }}"
           else
              export BRANCH_NAME=$SOURCE_BRANCH
-             if [[ $BRANCH_NAME == "development" ]]; then
-                export "VERSION=-dev.${{ github.run_number }}"
-             else
-               export "VERSION=.${{ github.run_number }}"
-             fi
+             export "VERSION=.${{ github.run_number }}"
           fi
           export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$BRANCH_NAME/$APP_VERSION$VERSION/Mudita-Center.exe
