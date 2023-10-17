@@ -6,13 +6,7 @@
 export const ControllerPrefix = "backup"
 
 export enum IpcBackupEvent {
-  LoadBackups = "load-backups",
-  CreateBackup = "create-backup",
-  RestoreBackup = "restore-backup",
-}
-
-export enum IpcBackupRequest {
-  LoadBackups = "backup-load-backups",
-  CreateBackup = "backup-create-backup",
-  RestoreBackup = "backup-restore-backup",
+  LoadBackups = "backup_load-backups",
+  CreateBackup = "backup_create-backup",
+  RestoreBackup = "backup_restore-backup",
 }

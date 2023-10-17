@@ -16,6 +16,7 @@ export const getCrashDump = createAsyncThunk<RequestResponseStatus | undefined>(
   async (_, { dispatch, rejectWithValue, getState }) => {
     const state = getState() as ReduxRootState
 
+    console.log("getCrashDump", state)
     if (state.crashDump.data.files.length) {
       return
     }

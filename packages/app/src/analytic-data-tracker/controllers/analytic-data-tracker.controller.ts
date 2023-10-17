@@ -3,18 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
-import {
-  ControllerPrefix,
-  IpcAnalyticDataTrackerEvent,
-} from "App/analytic-data-tracker/constants"
+import { IpcEvent } from "App/core/decorators"
+import { IpcAnalyticDataTrackerEvent } from "App/analytic-data-tracker/constants"
 import {
   AnalyticDataTrackerClass,
   VisitorMetadata,
 } from "App/analytic-data-tracker/services"
 import { TrackEvent } from "App/analytic-data-tracker/types"
 
-@Controller(ControllerPrefix)
 export class AnalyticDataTrackerController {
   constructor(private tracker: AnalyticDataTrackerClass) {}
 

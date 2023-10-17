@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcDataSyncRequest } from "App/data-sync/constants"
+import { IpcDataSyncEvent } from "App/data-sync/constants"
 import { indexAllRequest } from "App/data-sync/requests/index-all.request"
 
 describe("`indexAllRequest`", () => {
@@ -12,7 +12,7 @@ describe("`indexAllRequest`", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     ;(ipcRenderer as any).__rendererCalls = {
-      [IpcDataSyncRequest.IndexAll]: undefined,
+      [IpcDataSyncEvent.IndexAll]: undefined,
     }
     const response = await indexAllRequest()
     expect(response).toBeUndefined()

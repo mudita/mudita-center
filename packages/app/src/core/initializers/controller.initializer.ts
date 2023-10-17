@@ -12,12 +12,6 @@ export class ControllerInitializer {
     controllers.forEach((controller) => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const prefix = Reflect.getMetadata(
-        ReflectKey.Prefix,
-        controller.constructor
-      )
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const events: EventDefinition[] = Reflect.getMetadata(
         ReflectKey.Event,
         controller.constructor
@@ -26,11 +20,15 @@ export class ControllerInitializer {
       events.forEach((event) => {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/require-await
-        ipcMain.answerRenderer(`${prefix}-${event.name}`, async (data) => {
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
-          return (controller as Record<string, any>)[event.methodName](data)
-        })
+        ipcMain.answerRenderer(
+          //prefix ? `${prefix}-${event.name}` : event.name,
+          event.name,
+          (data) => {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+            return (controller as Record<string, any>)[event.methodName](data)
+          }
+        )
       })
     })
   }

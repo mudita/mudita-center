@@ -4,11 +4,11 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcThreadRequest } from "App/messages/constants/controller.constant"
+import { IpcThreadEvent } from "App/messages/constants/controller.constant"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
 export const deleteThreadsRequest = async (
   threadIds: string[]
 ): Promise<RequestResponse<string[]>> => {
-  return await ipcRenderer.callMain(IpcThreadRequest.DeleteThreads, threadIds)
+  return await ipcRenderer.callMain(IpcThreadEvent.DeleteThreads, threadIds)
 }
