@@ -268,7 +268,7 @@ if (!gotTheLock) {
 }
 
 ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
-  const title = "CP-101-test - Help"
+  const title = "Mudita Center - Help"
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
@@ -373,7 +373,7 @@ createOpenWindowListener(
   AboutActions.LicenseOpenWindow,
   Mode.License,
   URL_MAIN.license,
-  "CP-101-test - License",
+  "Mudita Center - License",
   licenseWindow
 )
 
@@ -381,7 +381,7 @@ createOpenWindowListener(
   AboutActions.TermsOpenWindow,
   Mode.TermsOfService,
   URL_MAIN.termsOfService,
-  "CP-101-test - Terms of service",
+  "Mudita Center - Terms of service",
   termsWindow
 )
 
@@ -389,7 +389,7 @@ createOpenWindowListener(
   AboutActions.PolicyOpenWindow,
   Mode.PrivacyPolicy,
   URL_MAIN.privacyPolicy,
-  "CP-101-test - Privacy policy",
+  "Mudita Center - Privacy policy",
   policyWindow
 )
 
@@ -397,7 +397,7 @@ createOpenWindowListener(
   PureSystemActions.SarOpenWindow,
   Mode.Sar,
   URL_OVERVIEW.sar,
-  "CP-101-test - SAR information",
+  "Mudita Center - SAR information",
   policyWindow
 )
 
@@ -416,7 +416,7 @@ const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
 }
 
 ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
-  const title = "CP-101-test - Google Auth"
+  const title = "Mudita Center - Google Auth"
   if (process.env.MUDITA_CENTER_SERVER_URL) {
     const cb = (data: string) => {
       // AUTO DISABLED - fix me if you like :)
@@ -488,7 +488,7 @@ ipcMain.answerRenderer(
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
   async (data: { authorizationUrl: string; scope: string }) => {
-    const title = "CP-101-test - Outlook Auth"
+    const title = "Mudita Center - Outlook Auth"
     const { authorizationUrl, scope } = data
     if (clientId) {
       if (outlookAuthWindow === null) {
