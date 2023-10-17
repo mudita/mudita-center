@@ -3,7 +3,7 @@ name: Build and push artifacts to nexus
 on:
   push:
     branches:
-      - nexus
+      - develop
   pull_request:
     types:
       - closed
