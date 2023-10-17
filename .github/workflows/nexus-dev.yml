@@ -23,6 +23,7 @@ jobs:
              export "VERSION=.${{ github.run_number }}"
           fi
           printenv
+          echo ok
           exit 1
         shell: bash
       - name: Checkout code
