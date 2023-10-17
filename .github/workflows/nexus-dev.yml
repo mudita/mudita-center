@@ -3,10 +3,10 @@ name: Build and push artifacts to nexus
 on:
   push:
     branches:
-      - develop
-  pull_request:
-    types:
-      - closed
+      - nexus
+#  pull_request:
+#    types:
+#      - closed
 
 jobs:
   build:
@@ -15,6 +15,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: env test
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          export SOURCE_BRANCH=${{ github.head_ref }}
+          if [[ -z $SOURCE_BRANCH ]]; then
+             export BRANCH_NAME=development
+             if [[ $BRANCH_NAME == "develop" ]]; then
+                export "VERSION=-dev.${{ github.run_number }}"
+             else
+               export "VERSION=.${{ github.run_number }}"
+             fi
+          else
+             export BRANCH_NAME=$SOURCE_BRANCH
+             if [[ $BRANCH_NAME == "development" ]]; then
+                export "VERSION=-dev.${{ github.run_number }}"
+             else
+               export "VERSION=.${{ github.run_number }}"
+             fi
+          fi
+          printenv
+          exit 1
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
