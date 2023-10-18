@@ -14,16 +14,11 @@ import { Router } from "react-router"
 import history from "App/__deprecated__/renderer/routes/history"
 import { data } from "App/__deprecated__/seeds/help"
 
-jest.mock(
-  "electron",
-  jest.fn().mockImplementation(() => ({
-    remote: {
-      dialog: {
-        showOpenDialog: jest.fn(),
-      },
-    },
-  }))
-)
+jest.mock("@electron/remote", () => ({
+  dialog: {
+    showOpenDialog: jest.fn(),
+  },
+}))
 
 type Props = ComponentProps<typeof Help>
 

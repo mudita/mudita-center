@@ -23,14 +23,12 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import React from "react"
 import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
-jest.mock("electron", () => ({
-  remote: {
-    Menu: () => ({
-      popup: jest.fn(),
-      append: jest.fn(),
-    }),
-    MenuItem: () => jest.fn(),
-  },
+jest.mock("@electron/remote", () => ({
+  Menu: () => ({
+    popup: jest.fn(),
+    append: jest.fn(),
+  }),
+  MenuItem: () => jest.fn(),
 }))
 
 const defaultProps: UpdateOsFlowProps = {
