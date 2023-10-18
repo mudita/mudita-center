@@ -12,11 +12,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup Node.js
+      - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.3
-      - name: Run Setup
+      - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file
         run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
