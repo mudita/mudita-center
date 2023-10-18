@@ -11,8 +11,6 @@ import { Feature, flags } from "App/feature-flags"
 import BackupDeviceFlow, {
   BackupDeviceFlowState,
 } from "App/overview/components/backup-device-flow/backup-device-flow.component"
-import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
-import { useUpdateFlowState } from "App/overview/components/overview-screens/helpers/use-update-flow-state.hook"
 import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
 import { PureOverviewProps } from "App/overview/components/overview-screens/pure-overview/pure-overview.interface"
 import RestoreDeviceFlow, {
@@ -85,14 +83,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-  const { checkForUpdateLocalState } = useUpdateFlowState({
-    checkingForUpdateState,
-    silentCheckForUpdateState,
-    checkForUpdate: () =>
-      checkForUpdate(DeviceType.MuditaPure, CheckForUpdateMode.SilentCheck),
-    forceUpdateNeeded,
-    osVersion,
-  })
 
   useEffect(() => {
     let progressSimulator: NodeJS.Timeout
@@ -292,18 +282,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         memorySpace={memorySpace}
         networkName={networkName}
         networkLevel={networkLevel}
-        pureOsAvailable={(availableReleasesForUpdate ?? []).length > 0}
-        pureOsDownloaded={areAllReleasesDownloaded}
-        checkForUpdateFailed={
-          checkForUpdateLocalState === CheckForUpdateLocalState.Failed
-        }
-        checkForUpdateInProgress={
-          checkForUpdateLocalState ===
-          CheckForUpdateLocalState.SilentCheckLoading
-        }
-        checkForUpdatePerformed={
-          checkForUpdateLocalState === CheckForUpdateLocalState.Loaded
-        }
         onUpdateCheck={checkForPureUpdate}
         onUpdateInstall={() => updateReleases()}
         onUpdateDownload={openCheckForUpdateModal}
