@@ -11,16 +11,11 @@ import ModalsManager from "App/modals-manager/containers/modals-manager.containe
 import { AppForcedUpdateFlowTestIds } from "App/settings/components/app-forced-update-flow/app-forced-update-flow-test-ids.enum"
 import { AppUpdateFlowTestIds } from "App/settings/components/app-update-flow/app-update-flow-test-ids.enum"
 
-jest.mock(
-  "electron",
-  jest.fn().mockImplementation(() => ({
-    remote: {
-      dialog: {
-        showOpenDialog: jest.fn(),
-      },
-    },
-  }))
-)
+jest.mock("@electron/remote", () => ({
+  dialog: {
+    showOpenDialog: jest.fn(),
+  },
+}))
 
 type Props = ComponentProps<typeof ModalsManager>
 
