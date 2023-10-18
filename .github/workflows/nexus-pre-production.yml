@@ -3,13 +3,12 @@ name: Build and push artifacts to nexus
 on:
   push:
     branches:
-      - main
-
+      - v*
 jobs:
   build:
     if: github.ref_type == 'tag'
     runs-on: macOS
-    environment: production
+    environment: pre-production
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -49,7 +48,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export ENVIVORMENT_CATALOG_NAME=production
+          export ENVIVORMENT_CATALOG_NAME=pre-production
           export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.exe
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
