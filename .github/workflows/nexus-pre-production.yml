@@ -18,8 +18,6 @@ jobs:
           node-version: 14.17.3
       - name: Run Setup
         run: npm run setup
-      - name: Install sanitize npm module
-        run: npm install sanitize-filename
       - name: Copy electron-builder environment file
         run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
       - name: Build App
