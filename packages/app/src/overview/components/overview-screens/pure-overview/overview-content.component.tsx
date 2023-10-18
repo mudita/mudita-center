@@ -18,27 +18,22 @@ import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 
 interface OverviewContentProps {
-  readonly batteryLevel: number
-  readonly memorySpace: MemorySpace
-  readonly networkName: string
-  readonly networkLevel: number | undefined
-  readonly pureOsAvailable: boolean
-  readonly pureOsDownloaded: boolean
-  readonly checkForUpdatePerformed: boolean
-  readonly checkForUpdateInProgress: boolean
-  readonly checkForUpdateFailed: boolean
-  readonly osVersion: string
-  readonly caseColour: CaseColor | undefined
-  readonly lastBackupDate: Date | undefined
-  readonly serialNumber: string | undefined
-  readonly disconnectDevice: () => void
-  readonly onBackupCreate: () => void
-  readonly onBackupRestore: () => void
-  readonly onUpdateCheck: () => void
-  readonly onUpdateDownload: () => void
-  readonly onUpdateInstall: () => void
-  readonly toggleDevMode?: () => void
-  readonly backupActionDisabled: boolean
+  batteryLevel: number
+  memorySpace: MemorySpace
+  networkName: string
+  networkLevel: number | undefined
+  osVersion: string
+  caseColour: CaseColor | undefined
+  lastBackupDate: Date | undefined
+  serialNumber: string | undefined
+  disconnectDevice: () => void
+  onBackupCreate: () => void
+  onBackupRestore: () => void
+  onUpdateCheck: () => void
+  onUpdateDownload: () => void
+  onUpdateInstall: () => void
+  toggleDevMode?: () => void
+  backupActionDisabled: boolean
 }
 
 const OverviewContent: FunctionComponent<OverviewContentProps> = ({
@@ -50,11 +45,6 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
-  pureOsAvailable,
-  pureOsDownloaded,
-  checkForUpdatePerformed,
-  checkForUpdateInProgress,
-  checkForUpdateFailed,
   toggleDevMode,
   osVersion,
   caseColour,
@@ -79,11 +69,7 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
       networkLevel={networkLevel}
     />
     <SystemInfo
-      updateDownloaded={pureOsDownloaded}
-      updateAvailable={pureOsAvailable}
-      checkForUpdatePerformed={checkForUpdatePerformed}
-      checkForUpdateInProgress={checkForUpdateInProgress}
-      checkForUpdateFailed={checkForUpdateFailed}
+      deviceType={DeviceType.MuditaPure}
       osVersion={osVersion}
       onUpdateCheck={onUpdateCheck}
       onDownload={onUpdateDownload}
