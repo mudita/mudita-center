@@ -47,7 +47,6 @@ import {
 export class ApplicationModule {
   public modules: Module[] = [
     DeviceInfoModule,
-    //FileSystemModule,
     IndexStorageModule,
     OutboxModule,
     AnalyticDataTrackerModule,

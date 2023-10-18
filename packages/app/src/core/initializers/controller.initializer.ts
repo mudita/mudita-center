@@ -20,15 +20,11 @@ export class ControllerInitializer {
       events.forEach((event) => {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/require-await
-        ipcMain.answerRenderer(
-          //prefix ? `${prefix}-${event.name}` : event.name,
-          event.name,
-          (data) => {
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
-            return (controller as Record<string, any>)[event.methodName](data)
-          }
-        )
+        ipcMain.answerRenderer(event.name, (data) => {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+          return (controller as Record<string, any>)[event.methodName](data)
+        })
       })
     })
   }
