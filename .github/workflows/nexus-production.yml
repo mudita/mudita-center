@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    if: github.ref_type == 'tag'
     runs-on: macOS
     environment: production
     steps:
