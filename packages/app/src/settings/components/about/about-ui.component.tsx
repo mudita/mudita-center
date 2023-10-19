@@ -141,6 +141,8 @@ const AboutUI: FunctionComponent<Props> = ({
   }, [])
   useEffect(() => {
     onAppUpdateAvailableCheck()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleProcessDownload = () => {
