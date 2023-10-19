@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcFilesManagerRequest } from "App/files-manager/constants"
+import { IpcFilesManagerEvent } from "App/files-manager/constants"
 import { File, GetFilesInput } from "App/files-manager/dto"
 
 export const getFilesRequest = async (
   input: GetFilesInput
 ): Promise<ResultObject<File[] | undefined>> => {
-  return ipcRenderer.callMain(IpcFilesManagerRequest.GetFiles, input)
+  return ipcRenderer.callMain(IpcFilesManagerEvent.GetFiles, input)
 }

@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcMessageRequest } from "App/messages/constants/controller.constant"
+import { IpcMessageEvent } from "App/messages/constants/controller.constant"
 import { Message } from "App/messages/dto"
 
 export const updateMessageRequest = (
   message: Message
 ): Promise<ResultObject<unknown>> => {
-  return ipcRenderer.callMain(IpcMessageRequest.UpdateMessage, message)
+  return ipcRenderer.callMain(IpcMessageEvent.UpdateMessage, message)
 }
