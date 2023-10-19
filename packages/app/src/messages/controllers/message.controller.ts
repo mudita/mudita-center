@@ -4,19 +4,15 @@
  */
 
 import { ResultObject } from "App/core/builder"
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { RequestResponse } from "App/core/types/request-response.interface"
 import {
   CreateMessageDataResponse,
   MessageService,
 } from "App/messages/services"
-import {
-  IpcMessageEvent,
-  MessageControllerPrefix,
-} from "App/messages/constants/controller.constant"
+import { IpcMessageEvent } from "App/messages/constants/controller.constant"
 import { NewMessage, Message } from "App/messages/dto"
 
-@Controller(MessageControllerPrefix)
 export class MessageController {
   constructor(private messageService: MessageService) {}
 

@@ -5,14 +5,14 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcDeviceFileSystemRequest } from "App/device-file-system/constants"
+import { IpcDeviceFileSystemEvent } from "App/device-file-system/constants"
 import { DeviceFile } from "App/device-file-system/dto"
 
 export const downloadDeviceFiles = async (
   filePaths: string[]
 ): Promise<ResultObject<DeviceFile[]>> => {
   return ipcRenderer.callMain(
-    IpcDeviceFileSystemRequest.DownloadDeviceFiles,
+    IpcDeviceFileSystemEvent.DownloadDeviceFiles,
     filePaths
   )
 }

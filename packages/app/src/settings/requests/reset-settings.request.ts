@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { Settings } from "App/settings/dto"
-import { IpcSettingsRequest } from "App/settings/constants"
+import { IpcSettingsEvent } from "App/settings/constants"
 
 export const resetSettings = (): Promise<Settings> =>
-  ipcRenderer.callMain(IpcSettingsRequest.Reset)
+  ipcRenderer.callMain(IpcSettingsEvent.Reset)

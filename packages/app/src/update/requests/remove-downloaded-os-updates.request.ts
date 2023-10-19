@@ -4,8 +4,8 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcDeviceUpdateRequest } from "App/update/constants"
+import { IpcDeviceUpdateEvent } from "App/update/constants"
 
 export const removeDownloadedOsUpdates = (): Promise<void> => {
-  return ipcRenderer.callMain(IpcDeviceUpdateRequest.RemoveDownloadedOsUpdates)
+  return ipcRenderer.callMain(IpcDeviceUpdateEvent.RemoveDownloadedOsUpdates)
 }

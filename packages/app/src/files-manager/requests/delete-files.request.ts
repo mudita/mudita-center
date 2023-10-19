@@ -5,10 +5,10 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcFilesManagerRequest } from "App/files-manager/constants"
+import { IpcFilesManagerEvent } from "App/files-manager/constants"
 
 export const deleteFilesRequest = async (
   paths: string[]
 ): Promise<ResultObject<string[] | undefined>> => {
-  return ipcRenderer.callMain(IpcFilesManagerRequest.DeleteFiles, paths)
+  return ipcRenderer.callMain(IpcFilesManagerEvent.DeleteFiles, paths)
 }

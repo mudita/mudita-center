@@ -3,24 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const ControllerPrefix = "analytic-data-tracker"
-
 export enum IpcAnalyticDataTrackerEvent {
-  Track = "track",
-  TrackUnique = "track-unique",
-  TrackWithoutDeviceCheck = "track-without-device-check",
-  TrackUniqueWithoutDeviceCheck = "track-unique-without-device-check",
-  ToggleTracking = "toggle-tracking",
-  SetExternalUsageDevice = "set-external-usage-device",
-  SetVisitorMetadata = "set-visitor-metadata",
-}
-
-export enum IpcAnalyticDataTrackerRequest {
-  Track = "analytic-data-tracker-track",
-  TrackUnique = "analytic-data-tracker-track-unique",
-  TrackWithoutDeviceCheck = "analytic-data-tracker-track-without-device-check",
-  TrackUniqueWithoutDeviceCheck = "analytic-data-tracker-track-unique-without-device-check",
-  ToggleTracking = "analytic-data-tracker-toggle-tracking",
-  SetExternalUsageDevice = "analytic-data-tracker-set-external-usage-device",
-  SetVisitorMetadata = "analytic-data-tracker-set-visitor-metadata",
+  Track = "analytic_track",
+  TrackUnique = "analytic_track-unique",
+  TrackWithoutDeviceCheck = "analytic_track-without-device-check",
+  TrackUniqueWithoutDeviceCheck = "analytic_track-unique-without-device-check",
+  ToggleTracking = "analytic_toggle-tracking",
+  SetExternalUsageDevice = "analytic_set-external-usage-device",
+  SetVisitorMetadata = "analytic_set-visitor-metadata",
 }

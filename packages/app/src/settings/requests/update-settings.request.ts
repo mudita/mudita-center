@@ -5,9 +5,9 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { Settings, SettingsUpdateOption } from "App/settings/dto"
-import { IpcSettingsRequest } from "App/settings/constants"
+import { IpcSettingsEvent } from "App/settings/constants"
 
 export const updateSettings = (
   option: SettingsUpdateOption
 ): Promise<Partial<Settings>> =>
-  ipcRenderer.callMain(IpcSettingsRequest.Update, option)
+  ipcRenderer.callMain(IpcSettingsEvent.Update, option)
