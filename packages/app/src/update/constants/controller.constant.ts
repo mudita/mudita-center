@@ -3,29 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const DeviceUpdateControllerPrefix = "device-update"
-export const ReleaseControllerPrefix = "release"
-
 export enum IpcReleaseEvent {
-  GetAllReleases = "get-all-releases",
-  GetLatestRelease = "get-latest-release",
-  GetReleasesByVersions = "get-releases-by-versions",
-}
-
-export enum IpcReleaseRequest {
-  GetAllReleases = "release-get-all-releases",
-  GetLatestRelease = "release-get-latest-release",
-  GetReleasesByVersions = "release-get-releases-by-versions",
+  GetAllReleases = "os-release_get-all-releases",
+  GetLatestRelease = "os-release_get-latest-release",
+  GetReleasesByVersions = "os-release_get-releases-by-versions",
 }
 
 export enum IpcDeviceUpdateEvent {
-  UpdateOS = "update-os",
-  CheckUpdate = "check-update",
-  RemoveDownloadedOsUpdates = "remove-downloaded-os-updates",
-}
-
-export enum IpcDeviceUpdateRequest {
-  UpdateOS = "device-update-update-os",
-  CheckUpdate = "device-update-check-update",
-  RemoveDownloadedOsUpdates = "device-update-remove-downloaded-os-updates",
+  UpdateOS = "device-update_update-os",
+  CheckUpdate = "device-update_check-update",
+  RemoveDownloadedOsUpdates = "device-update_remove-downloaded-os-updates",
 }

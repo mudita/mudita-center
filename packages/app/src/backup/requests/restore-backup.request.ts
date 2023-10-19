@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { BackupError, IpcBackupRequest } from "App/backup/constants"
+import { BackupError, IpcBackupEvent } from "App/backup/constants"
 import { RestoreDeviceBackup } from "App/backup/types"
 
 export const restoreBackupRequest = async (
   options: RestoreDeviceBackup
 ): Promise<ResultObject<boolean, BackupError>> => {
-  return ipcRenderer.callMain(IpcBackupRequest.RestoreBackup, options)
+  return ipcRenderer.callMain(IpcBackupEvent.RestoreBackup, options)
 }

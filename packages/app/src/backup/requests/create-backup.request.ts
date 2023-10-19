@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcBackupRequest } from "App/backup/constants"
+import { IpcBackupEvent } from "App/backup/constants"
 import { CreateDeviceBackup } from "App/backup/types"
 
 export const createBackupRequest = async (
   options: CreateDeviceBackup
 ): Promise<ResultObject<string[]>> => {
-  return ipcRenderer.callMain(IpcBackupRequest.CreateBackup, options)
+  return ipcRenderer.callMain(IpcBackupEvent.CreateBackup, options)
 }

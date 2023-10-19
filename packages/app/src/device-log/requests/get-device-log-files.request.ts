@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcDeviceLogRequest } from "App/device-log/constants"
+import { IpcDeviceLogEvent } from "App/device-log/constants"
 import { DeviceFilesOption } from "App/device-file-system/types"
 import { DeviceFile } from "App/device-file-system/dto"
 
 export const getDeviceLogFiles = async (
   options?: DeviceFilesOption
 ): Promise<ResultObject<DeviceFile[]>> =>
-  ipcRenderer.callMain(IpcDeviceLogRequest.GetLog, options)
+  ipcRenderer.callMain(IpcDeviceLogEvent.GetLog, options)

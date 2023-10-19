@@ -4,13 +4,13 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcAnalyticDataTrackerRequest } from "App/analytic-data-tracker/constants"
+import { IpcAnalyticDataTrackerEvent } from "App/analytic-data-tracker/constants"
 
 export const setExternalUsageDeviceRequest = async (
   flag: boolean
 ): Promise<void> => {
   return ipcRenderer.callMain(
-    IpcAnalyticDataTrackerRequest.SetExternalUsageDevice,
+    IpcAnalyticDataTrackerEvent.SetExternalUsageDevice,
     flag
   )
 }

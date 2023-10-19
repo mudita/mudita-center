@@ -3,20 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const ControllerPrefix = "device"
-
 export enum IpcDeviceEvent {
-  Connect = "connect",
-  Unlock = "unlock",
-  UnlockStatus = "unlock-status",
-  LockTime = "lock-time",
-  SetUpdating = "set-updating",
-}
-
-export enum IpcDeviceRequest {
-  Connect = "device-connect",
-  Unlock = "device-unlock",
-  UnlockStatus = "device-unlock-status",
-  LockTime = "device-lock-time",
-  SetUpdating = "device-set-updating",
+  Connect = "device_connect",
+  Unlock = "device_unlock",
+  UnlockStatus = "device_unlock-status",
+  LockTime = "device_lock-time",
+  SetUpdating = "device_set-updating",
 }
