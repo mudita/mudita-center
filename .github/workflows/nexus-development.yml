@@ -89,7 +89,7 @@ jobs:
             ./packages/app/release/latest.ym
             ./packages/app/release/builder-debug.yml
         tag_name: $GITTAG
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
         draft: true
       - name: Upload Assets
         id: upload_assets
