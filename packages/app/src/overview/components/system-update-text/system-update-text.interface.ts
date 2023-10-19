@@ -4,7 +4,6 @@
  */
 
 export interface SystemUpdateTextProps {
-  updateDownloaded: boolean
   checkForUpdateInProgress: boolean
   checkForUpdatePerformed: boolean
   checkForUpdateFailed: boolean

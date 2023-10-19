@@ -32,7 +32,6 @@ export const SystemUpdateText: FunctionComponent<SystemUpdateTextProps> = ({
   checkForUpdateFailed,
   checkForUpdateInProgress,
   checkForUpdatePerformed,
-  updateDownloaded,
 }) => {
   const { data, updateOsState, downloadState } = useSelector(
     (state: ReduxRootState) => state.update
@@ -51,18 +50,16 @@ export const SystemUpdateText: FunctionComponent<SystemUpdateTextProps> = ({
         <FormattedMessage {...messages.systemUpdateCheckFailed} />
       </AvailableUpdateText>
     )
-  } else if (updateDownloaded) {
-    return (
-      <AvailableUpdateText>
-        <FormattedMessage {...messages.systemUpdateDownloaded} />
-      </AvailableUpdateText>
-    )
   } else if (availableReleasesForUpdate?.length) {
     return (
       <AvailableUpdateText>
         <FormattedMessage
           {...messages.systemUpdateAvailable}
-          values={{ version: availableReleasesForUpdate[0].version }}
+          values={{
+            version:
+              availableReleasesForUpdate[availableReleasesForUpdate.length - 1]
+                .version,
+          }}
         />
       </AvailableUpdateText>
     )
