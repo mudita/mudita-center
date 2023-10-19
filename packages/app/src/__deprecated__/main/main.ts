@@ -24,11 +24,7 @@ import registerCopyFileListener from "App/__deprecated__/main/functions/register
 import registerWriteGzipListener from "App/__deprecated__/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/__deprecated__/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/__deprecated__/main/functions/register-archive-files-listener"
-import registerReadFileListener from "App/file-system/listeners/read-file.listener"
 import createDownloadListenerRegistrar from "App/__deprecated__/main/functions/create-download-listener-registrar"
-import registerEncryptFileListener from "App/file-system/listeners/encrypt-file.listener"
-import registerDecryptFileListener from "App/file-system/listeners/decrypt-file.listener"
-import registerUnlinkFileListener from "App/file-system/listeners/unlink-file.listener"
 import {
   registerDownloadHelpHandler,
   removeDownloadHelpHandler,
@@ -196,10 +192,6 @@ const createWindow = async () => {
   registerRmdirListener()
   registerWriteGzipListener()
   registerArchiveFilesListener()
-  registerEncryptFileListener()
-  registerReadFileListener()
-  registerUnlinkFileListener()
-  registerDecryptFileListener()
   registerMetadataAllGetValueListener()
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
