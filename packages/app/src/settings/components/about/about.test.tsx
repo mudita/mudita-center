@@ -66,6 +66,7 @@ test("Opens update modal properly when app update is not available", async () =>
     appLatestVersion: "0.20.2",
     appCurrentVersion: "0.20.2",
     appUpdateNotAvailableShow: true,
+    appUpdateAvailable: false,
   })
 
   const button = getByTestId(AboutTestIds.UpdateButton)
