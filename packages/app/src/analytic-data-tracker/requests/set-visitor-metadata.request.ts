@@ -4,14 +4,14 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcAnalyticDataTrackerRequest } from "App/analytic-data-tracker/constants"
+import { IpcAnalyticDataTrackerEvent } from "App/analytic-data-tracker/constants"
 import { VisitorMetadata } from "App/analytic-data-tracker/services"
 
 export const setVisitorMetadataRequest = async (
   visitorMetadata: VisitorMetadata
 ): Promise<void> => {
   return ipcRenderer.callMain(
-    IpcAnalyticDataTrackerRequest.SetVisitorMetadata,
+    IpcAnalyticDataTrackerEvent.SetVisitorMetadata,
     visitorMetadata
   )
 }
