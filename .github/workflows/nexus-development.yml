@@ -86,7 +86,7 @@ jobs:
             ./packages/app/release/Mudita-Center.dmg.blockmap
             ./packages/app/release/latest-linux.yml
             ./packages/app/release/latest-mac.yml
-            ./packages/app/release/latest.ym
+            ./packages/app/release/latest.yml
             ./packages/app/release/builder-debug.yml
           tag_name: $GITTAG
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
@@ -96,14 +96,15 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Assets
-          path: ./packages/app/release/Mudita-Center.exe
-          path: ./packages/app/release/Mudita-Center.AppImage
-          path: ./packages/app/release/Mudita-Center.dmg
-          path: ./packages/app/release/Mudita-Center.zip
-          path: ./packages/app/release/Mudita-Center.zip.blockmap
-          path: ./packages/app/release/Mudita-Center.exe.blockmap
-          path: ./packages/app/release/Mudita-Center.dmg.blockmap
-          path: ./packages/app/release/latest-linux.yml
-          path: ./packages/app/release/latest-mac.yml
-          path: ./packages/app/release/latest.ym
-          path: ./packages/app/release/builder-debug.yml
+          path: |
+            ./packages/app/release/Mudita-Center.exe
+            ./packages/app/release/Mudita-Center.AppImage
+            ./packages/app/release/Mudita-Center.dmg
+            ./packages/app/release/Mudita-Center.zip
+            ./packages/app/release/Mudita-Center.zip.blockmap
+            ./packages/app/release/Mudita-Center.exe.blockmap
+            ./packages/app/release/Mudita-Center.dmg.blockmap
+            ./packages/app/release/latest-linux.yml
+            ./packages/app/release/latest-mac.yml
+            ./packages/app/release/latest.yml
+            ./packages/app/release/builder-debug.yml
