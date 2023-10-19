@@ -72,6 +72,9 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug.yml
+      - name: Get tag name
+        id: tag
+        run: echo ::set-output name=TAG_NAME::$GITTAG
       - name: Create Draft Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -88,7 +91,7 @@ jobs:
             ./packages/app/release/latest-mac.yml
             ./packages/app/release/latest.yml
             ./packages/app/release/builder-debug.yml
-          tag_name: $GITTAG
+          tag_name: ${{ steps.tag.outputs.TAG_NAME }}
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
       - name: Upload Assets
