@@ -76,38 +76,5 @@ jobs:
         id: tag
         run: echo ::set-output name=TAG_NAME::$GITTAG
       - name: Create Draft Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ./packages/app/release/Mudita-Center.exe
-            ./packages/app/release/Mudita-Center.AppImage
-            ./packages/app/release/Mudita-Center.dmg
-            ./packages/app/release/Mudita-Center.zip
-            ./packages/app/release/Mudita-Center.zip.blockmap
-            ./packages/app/release/Mudita-Center.exe.blockmap
-            ./packages/app/release/Mudita-Center.dmg.blockmap
-            ./packages/app/release/latest-linux.yml
-            ./packages/app/release/latest-mac.yml
-            ./packages/app/release/latest.yml
-            ./packages/app/release/builder-debug.yml
-          tag_name: ${{ steps.tag.outputs.TAG_NAME }}
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          draft: true
-      - name: Upload Assets
-        id: upload_assets
-        uses: actions/upload-artifact@v2
-        with:
-          name: Assets
-          path: |
-            ./packages/app/release/Mudita-Center.exe
-            ./packages/app/release/Mudita-Center.AppImage
-            ./packages/app/release/Mudita-Center.dmg
-            ./packages/app/release/Mudita-Center.zip
-            ./packages/app/release/Mudita-Center.zip.blockmap
-            ./packages/app/release/Mudita-Center.exe.blockmap
-            ./packages/app/release/Mudita-Center.dmg.blockmap
-            ./packages/app/release/latest-linux.yml
-            ./packages/app/release/latest-mac.yml
-            ./packages/app/release/latest.yml
-            ./packages/app/release/builder-debug.yml
+        run: |
+          gh release create "$GITTAG" ./packages/app/release/Mudita-Center.exe ./packages/app/release/Mudita-Center.AppImage ./packages/app/release/Mudita-Center.dmg ./packages/app/release/Mudita-Center.zip ./packages/app/release/Mudita-Center.zip.blockmap ./packages/app/release/Mudita-Center.exe.blockmap ./packages/app/release/Mudita-Center.dmg.blockmap ./packages/app/release/latest-linux.yml ./packages/app/release/latest-mac.yml ./packages/app/release/latest.yml ./packages/app/release/builder-debug.yml --title "$GITTAG" --notes "Release $GITTAG" --draft
