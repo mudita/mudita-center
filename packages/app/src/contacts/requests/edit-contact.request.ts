@@ -4,10 +4,12 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcContactRequest } from "App/contacts/constants"
+import { IpcContactEvent } from "App/contacts/constants"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
-export const editContactRequest = (contact: Contact): Promise<RequestResponse<Contact>> => {
-  return ipcRenderer.callMain(IpcContactRequest.EditContact, contact)
+export const editContactRequest = (
+  contact: Contact
+): Promise<RequestResponse<Contact>> => {
+  return ipcRenderer.callMain(IpcContactEvent.EditContact, contact)
 }

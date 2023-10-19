@@ -3,14 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { ResultObject } from "App/core/builder"
 import { DeviceService } from "App/device/services"
 import { PhoneLockTime } from "App/device/dto"
-import { ControllerPrefix, IpcDeviceEvent } from "App/device/constants"
+import { IpcDeviceEvent } from "App/device/constants"
 import { DeviceInfo } from "App/device/types/mudita-os"
 
-@Controller(ControllerPrefix)
 export class DeviceController {
   constructor(private deviceService: DeviceService) {}
 

@@ -3,14 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { ResultObject } from "App/core/builder"
 import { Backup } from "App/backup/dto"
-import {
-  BackupError,
-  ControllerPrefix,
-  IpcBackupEvent,
-} from "App/backup/constants"
+import { BackupError, IpcBackupEvent } from "App/backup/constants"
 import {
   BackupCreateService,
   BackupRestoreService,
@@ -18,7 +14,6 @@ import {
 } from "App/backup/services"
 import { CreateDeviceBackup, RestoreDeviceBackup } from "App/backup/types"
 
-@Controller(ControllerPrefix)
 export class BackupController {
   constructor(
     private backupCreateService: BackupCreateService,
