@@ -59,8 +59,10 @@ jobs:
              export "BUILD_VERSION=.${{ github.run_number }}"
           fi
           export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
-          git tag "$APP_VERSION$BUILD_VERSION"
-          git push origin "$APP_VERSION$BUILD_VERSION"
+          export showversion=$APP_VERSION$BUILD_VERSION
+          printenv
+          git tag $APP_VERSION$BUILD_VERSION
+          git push origin $APP_VERSION$BUILD_VERSION
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.exe
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.dmg
