@@ -30,8 +30,6 @@ const defaultProps: Props = {
   appUpdateAvailable: true,
   appUpdateNotAvailableShow: false,
   checkingForUpdate: false,
-  appUpdateFailedShow: false,
-  hideAppUpdateFailed: noop,
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
