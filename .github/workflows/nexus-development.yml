@@ -89,7 +89,7 @@ jobs:
             ./packages/app/release/latest.yml
             ./packages/app/release/builder-debug.yml
           tag_name: ${{ env.GITTAG }}
-          token: "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"
+          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
       - name: Upload Assets
         id: upload_assets
