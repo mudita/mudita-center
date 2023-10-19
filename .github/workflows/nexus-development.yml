@@ -88,9 +88,9 @@ jobs:
             ./packages/app/release/latest-mac.yml
             ./packages/app/release/latest.ym
             ./packages/app/release/builder-debug.yml
-        tag_name: {{ env.$GITTAG }}
-        token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-        draft: true
+          tag_name: $GITTAG
+          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          draft: true
       - name: Upload Assets
         id: upload_assets
         uses: actions/upload-artifact@v2
