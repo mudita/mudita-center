@@ -5,14 +5,14 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcDeviceFileSystemRequest } from "App/device-file-system/constants"
+import { IpcDeviceFileSystemEvent } from "App/device-file-system/constants"
 import { UploadFile } from "App/device-file-system/dto"
 
 export const uploadDeviceFile = async (
   payload: UploadFile
 ): Promise<ResultObject<boolean>> => {
   return ipcRenderer.callMain(
-    IpcDeviceFileSystemRequest.UploadFileToDevice,
+    IpcDeviceFileSystemEvent.UploadFileToDevice,
     payload
   )
 }

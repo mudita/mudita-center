@@ -3,20 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { RequestResponse } from "App/core/types"
 import { SettingsService } from "App/settings/services"
-import { ControllerPrefix, IpcCrashDumpEvent } from "App/crash-dump/constants"
+import { IpcCrashDumpEvent } from "App/crash-dump/constants"
 import { CrashDumpService } from "App/crash-dump/services"
 
-@Controller(ControllerPrefix)
 export class CrashDumpController {
   constructor(
     private crashDumpService: CrashDumpService,
     private settingsService: SettingsService
   ) {}
 
-  @IpcEvent(IpcCrashDumpEvent.DownloadFiles)
+  @IpcEvent(IpcCrashDumpEvent.DownloadCrashDump)
   public async downloadFile(): Promise<RequestResponse<string[]>> {
     const result = await this.crashDumpService.downloadDeviceCrashDumpFiles()
     this.settingsService.updateSettings({
