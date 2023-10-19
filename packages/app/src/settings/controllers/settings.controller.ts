@@ -3,16 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
-import {
-  SettingsControllerPrefix,
-  IpcSettingsEvent,
-} from "App/settings/constants"
+import { IpcEvent } from "App/core/decorators"
+import { IpcSettingsEvent } from "App/settings/constants"
 import { Settings, SettingsUpdateOption } from "App/settings/dto"
 import { SettingsService } from "App/settings/services"
 import { SettingsValue } from "App/settings/types"
 
-@Controller(SettingsControllerPrefix)
 export class SettingsController {
   constructor(private settingsService: SettingsService) {}
 

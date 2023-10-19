@@ -22,7 +22,6 @@ import {
 } from "App/files-manager/actions/base.action"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 
-jest.mock("App/file-system/requests")
 jest.mock("App/files-manager/requests")
 
 const GET_FILES_MOCK_RESULT = {

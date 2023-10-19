@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcThreadRequest } from "App/messages/constants/controller.constant"
+import { IpcThreadEvent } from "App/messages/constants/controller.constant"
 import { RequestResponse } from "App/core/types/request-response.interface"
 import { Thread } from "App/messages/dto"
 
@@ -12,7 +12,7 @@ export const toggleThreadsReadStatusRequest = async (
   threads: Thread[]
 ): Promise<RequestResponse<Thread[]>> => {
   return await ipcRenderer.callMain(
-    IpcThreadRequest.ToggleThreadsReadStatus,
+    IpcThreadEvent.ToggleThreadsReadStatus,
     threads
   )
 }

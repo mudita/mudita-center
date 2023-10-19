@@ -5,14 +5,14 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcReleaseRequest, Product } from "App/update/constants"
+import { IpcReleaseEvent, Product } from "App/update/constants"
 import { OsRelease } from "App/update/dto"
 
 export const getAllReleasesRequest = async (
   product: Product,
   deviceSerialNumber?: string
 ): Promise<ResultObject<OsRelease[]>> => {
-  return ipcRenderer.callMain(IpcReleaseRequest.GetAllReleases, {
+  return ipcRenderer.callMain(IpcReleaseEvent.GetAllReleases, {
     product,
     deviceSerialNumber,
   })

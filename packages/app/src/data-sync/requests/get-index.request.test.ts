@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcDataSyncRequest, DataIndex } from "App/data-sync/constants"
+import { IpcDataSyncEvent, DataIndex } from "App/data-sync/constants"
 import { getIndexRequest } from "App/data-sync/requests"
 import { SerialisedIndexData } from "elasticlunr"
 
@@ -24,7 +24,7 @@ describe("`getIndexRequest`", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     ;(ipcRenderer as any).__rendererCalls = {
-      [IpcDataSyncRequest.GetIndex]: getIndexResponse,
+      [IpcDataSyncEvent.GetIndex]: getIndexResponse,
     }
     const response = await getIndexRequest(DataIndex.Contact)
     expect(response).toEqual(getIndexResponse)
