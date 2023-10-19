@@ -3,16 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { ResultObject } from "App/core/builder"
-import {
-  ControllerPrefix,
-  IpcFilesManagerEvent,
-} from "App/files-manager/constants"
+import { IpcFilesManagerEvent } from "App/files-manager/constants"
 import { File, UploadFilesInput, GetFilesInput } from "App/files-manager/dto"
 import { FileManagerService } from "App/files-manager/services"
 
-@Controller(ControllerPrefix)
 export class FilesManagerController {
   constructor(private fileManagerService: FileManagerService) {}
 

@@ -6,10 +6,10 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
 import { SearchParams, SearchResult } from "App/search/dto"
-import { IpcSearchRequest } from "App/search/constants"
+import { IpcSearchEvent } from "App/search/constants"
 
 export const searchRequest = async (
   data: SearchParams
 ): Promise<ResultObject<SearchResult | undefined>> => {
-  return ipcRenderer.callMain(IpcSearchRequest.SearchData, data)
+  return ipcRenderer.callMain(IpcSearchEvent.SearchData, data)
 }
