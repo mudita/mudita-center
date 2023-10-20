@@ -3,10 +3,10 @@ name: Build and push artifacts to nexus
 on:
   push:
     branches:
+      - stage
       - v*
 jobs:
   build:
-    if: github.ref_type == 'tag'
     runs-on: macOS
     environment: pre-production
     steps:
