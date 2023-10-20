@@ -92,7 +92,7 @@ jobs:
             ./packages/app/release/latest.yml
             ./packages/app/release/builder-debug.yml
           tag_name: ${{ env.GITTAG }}
-          name: Mudita Center
+          name: Mudita Center v${{ env.GITTAG }}
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
       - name: Push artifacts to github
