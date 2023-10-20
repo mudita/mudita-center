@@ -85,7 +85,10 @@ test("Opens update modal properly when app update is not available", async () =>
 test("Calls AppUpdateAvailableCheck when clicked", async () => {
   jest.spyOn(flags, "get").mockReturnValueOnce(true)
   const onAppUpdateAvailableCheck = jest.fn()
-  const { getByTestId } = renderer({ onAppUpdateAvailableCheck })
+  const { getByTestId } = renderer({
+    onAppUpdateAvailableCheck,
+    appUpdateAvailable: false,
+  })
   const button = getByTestId(AboutTestIds.UpdateButton)
   await waitFor(() => {
     expect(button).toBeEnabled()
