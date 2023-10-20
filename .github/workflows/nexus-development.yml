@@ -58,7 +58,7 @@ jobs:
              export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
              export "BUILD_VERSION=.${{ github.run_number }}"
           fi
-          export GITTAG=$APP_VERSION$BUILD_VERSION
+          echo "GITTAG=$APP_VERSION$BUILD_VERSION" >> $GITHUB_ENV
           git tag "$GITTAG"
           git push origin "$GITTAG"
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.exe
