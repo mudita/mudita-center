@@ -72,10 +72,11 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug.yml
+      - name: Check envs
+        run: printenv
       - name: Create draft release
         id: create_release
         uses: softprops/action-gh-release@v1
-        run: printenv
         with:
           files: |
             ./packages/app/release/Mudita-Center.exe
