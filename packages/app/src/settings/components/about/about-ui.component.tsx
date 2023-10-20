@@ -109,40 +109,38 @@ const AboutUI: FunctionComponent<Props> = ({
   checkingForUpdate,
 }) => {
   const dispatch = useDispatch()
+  const [updateCheck, setUpdateCheck] = useState(false)
   const { appUpdateFlowShow } = useSelector(
     (state: ReduxRootState) => state.modalsManager
   )
   const [failed, setFailed] = useState(false)
   const [failedModalOpen, setFailedModalOpen] = useState(false)
-  const [firstRender, setFirstRender] = useState(true)
 
   const appUpdateAvailableCheckHandler = () => {
+    setUpdateCheck(true)
     setFailed(false)
-    setFirstRender(false)
     onAppUpdateAvailableCheck()
   }
   const hideAppUpdateNotAvailableHandler = () => {
+    setUpdateCheck(false)
     setFailed(false)
     hideAppUpdateNotAvailable()
   }
   const hideAppUpdateFailedHandler = () => {
+    setUpdateCheck(false)
     setFailedModalOpen(false)
     hideAppUpdateNotAvailable()
   }
 
-  const showUpToDateModal = !failed && !checkingForUpdate
+  const showUpToDateModal = !failed && !checkingForUpdate && updateCheck
 
   useEffect(() => {
     const unregister = registerErrorAppUpdateListener(() => {
+      setUpdateCheck(false)
       setFailed(true)
       setFailedModalOpen(true)
     })
     return () => unregister()
-  }, [])
-  useEffect(() => {
-    onAppUpdateAvailableCheck()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleProcessDownload = () => {
@@ -157,18 +155,18 @@ const AboutUI: FunctionComponent<Props> = ({
   return (
     <>
       <UpdateFailedModal
-        open={failedModalOpen && !firstRender}
+        open={failedModalOpen}
         closeModal={hideAppUpdateFailedHandler}
         layer={ModalLayers.UpdateApp}
       />
       <AboutLoaderModal
-        open={checkingForUpdate && !firstRender}
+        open={checkingForUpdate}
         layer={ModalLayers.UpdateApp}
       />
       {showUpToDateModal && (
         <AppUpdateNotAvailable
           appCurrentVersion={appCurrentVersion}
-          open={appUpdateNotAvailableShow && !failed && !firstRender}
+          open={appUpdateNotAvailableShow && !failed}
           closeModal={hideAppUpdateNotAvailableHandler}
           layer={ModalLayers.UpdateApp}
         />
