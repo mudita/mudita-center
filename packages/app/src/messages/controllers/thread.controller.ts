@@ -3,16 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { RequestResponse } from "App/core/types/request-response.interface"
 import { ThreadService } from "App/messages/services"
-import {
-  IpcThreadEvent,
-  ThreadControllerPrefix,
-} from "App/messages/constants/controller.constant"
+import { IpcThreadEvent } from "App/messages/constants/controller.constant"
 import { Thread } from "App/messages/dto"
 
-@Controller(ThreadControllerPrefix)
 export class ThreadController {
   constructor(private threadService: ThreadService) {}
 

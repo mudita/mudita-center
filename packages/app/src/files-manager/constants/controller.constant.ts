@@ -3,16 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const ControllerPrefix = "files-manager"
-
 export enum IpcFilesManagerEvent {
-  GetFiles = "get-files",
-  UploadFiles = "upload-files",
-  DeleteFiles = "delete-files",
-}
-
-export enum IpcFilesManagerRequest {
-  GetFiles = "files-manager-get-files",
-  UploadFiles = "files-manager-upload-files",
-  DeleteFiles = "files-manager-delete-files",
+  GetFiles = "files-manager_get-files",
+  UploadFiles = "files-manager_upload-files",
+  DeleteFiles = "files-manager_delete-files",
 }
