@@ -1,40 +1,98 @@
 {
-  "extends": "@mudita",
+  "env": {
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "sourceType": "module"
   },
   "root": true,
-  "plugins": ["license-header", "unused-imports"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "unused-imports",
+    "license-header",
+    "jest",
+    "jest-dom",
+    "jsx-a11y",
+    "testing-library"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier",
+    "plugin:jsx-a11y/recommended",
+    "plugin:jest/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react"
+  ],
   "rules": {
-    "@typescript-eslint/no-unsafe-assignment": "warn",
-    "@typescript-eslint/no-unsafe-member-access": "warn",
-    "no-async-promise-executor": "warn",
-    "@typescript-eslint/no-misused-promises": "warn",
-    "@typescript-eslint/no-unsafe-call": "warn",
-    "@typescript-eslint/require-await": "warn",
-    "@typescript-eslint/await-thenable": "warn",
-    "@typescript-eslint/restrict-template-expressions": "warn",
-    "@typescript-eslint/restrict-plus-operands": "warn",
-    "@typescript-eslint/no-floating-promises": "warn",
-    "@typescript-eslint/ban-ts-comment": "warn",
-    "@typescript-eslint/ban-types": "warn",
-    "@typescript-eslint/no-unsafe-return": "warn",
-    "jsx-a11y/no-noninteractive-element-interactions": "warn",
-    "jsx-a11y/click-events-have-key-events": "warn",
-    "jsx-a11y/no-autofocus": "warn",
-    "react/no-unescaped-entities": "warn",
-    "@typescript-eslint/unbound-method": "warn",
-    "react-hooks/rules-of-hooks": "warn",
-    "no-prototype-builtins": "warn",
-    "jest-dom/prefer-in-document": "warn",
-    "jest-dom/prefer-enabled-disabled": "warn",
-    "@typescript-eslint/prefer-regexp-exec": "warn",
+    //    "@typescript-eslint/no-var-requires": "off",
+    //    "@typescript-eslint/no-unsafe-argument": "off",
+    //    "@typescript-eslint/no-unsafe-assignment": "warn",
+    //    "@typescript-eslint/no-unsafe-member-access": "warn",
+    //    "@typescript-eslint/no-misused-promises": "warn",
+    //    "@typescript-eslint/no-unsafe-call": "warn",
+    //    "@typescript-eslint/require-await": "warn",
+    //    "@typescript-eslint/await-thenable": "warn",
+    //    "@typescript-eslint/restrict-template-expressions": "warn",
+    //    "@typescript-eslint/restrict-plus-operands": "warn",
+    //    "@typescript-eslint/no-floating-promises": "warn",
+    //    "@typescript-eslint/ban-ts-comment": "warn",
+    //    "@typescript-eslint/ban-types": "warn",
+    //    "@typescript-eslint/no-unsafe-return": "warn",
+    //    "@typescript-eslint/unbound-method": "warn",
+    //    "@typescript-eslint/no-redundant-type-constituents": "off",
+    //    "@typescript-eslint/no-unsafe-enum-comparison": "off",
+    //    "@typescript-eslint/no-duplicate-enum-values": "off",
+    //    "@typescript-eslint/prefer-as-const": "off",
+    //    "@typescript-eslint/no-base-to-string": "off",
+    //    "@typescript-eslint/prefer-regexp-exec": "warn",
+    //    "@typescript-eslint/no-unused-vars": "off",
+    //    "react/display-name": "off",
+    //    "react/prop-types": "off",
+    //    "react/jsx-boolean-value": "off",
+    //    "react/no-unescaped-entities": "warn",
+    //    "react-hooks/rules-of-hooks": "warn",
+    //    "curly": "off",
+    //    "no-async-promise-executor": "warn",
+    //    "no-prototype-builtins": "warn",
+
     "license-header/header": ["error", "../../resources/license-header.js"],
-    "@typescript-eslint/no-unused-vars": [
+
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-vars": [
       "error",
-      { "argsIgnorePattern": "^_" }
+      {
+        "argsIgnorePattern": "^_"
+      }
     ],
-    "unused-imports/no-unused-imports": "error"
+    "unused-imports/no-unused-imports": "error",
+
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
+
+    //    "jest-dom/prefer-in-document": "warn",
+    //    "jest-dom/prefer-enabled-disabled": "warn",
+
+    //    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    //    "jsx-a11y/click-events-have-key-events": "warn",
+    //    "jsx-a11y/no-autofocus": "warn",
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "jest": {
+      "version": "detect"
+    }
   },
   "ignorePatterns": ["auth-server.test.ts"]
 }
