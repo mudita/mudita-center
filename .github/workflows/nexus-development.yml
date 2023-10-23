@@ -62,7 +62,7 @@ jobs:
           export GITTAG="$APP_VERSION$BUILD_VERSION"
           git tag "$GITTAG"
           git push origin "$GITTAG"
-          git clone https://github.com/mudita/mudita-center-internal-releases.git
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
           cd mudita-center-internal-releases
           git tag "$GITTAG"
           git push origin "$GITTAG"
