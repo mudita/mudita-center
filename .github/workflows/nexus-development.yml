@@ -62,6 +62,9 @@ jobs:
           export GITTAG="$APP_VERSION$BUILD_VERSION"
           git tag "$GITTAG"
           git push origin "$GITTAG"
+          git clone  mudita/mudita-center-internal-releases
+          cd mudita-center-internal-releases
+          git tag "$GITTAG"
           git push mudita/mudita-center-internal-releases "$GITTAG"
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.exe
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.AppImage
