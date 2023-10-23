@@ -69,6 +69,9 @@ import {
 import { setConnectionStatus } from "App/device/actions"
 import { resetUploadingState } from "App/files-manager/actions"
 import { setInitializationFailed } from "App/data-sync/actions"
+import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
+import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
+import logger from "App/__deprecated__/main/utils/logger"
 
 interface Props {
   history: History
@@ -145,11 +148,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   )
 
   const handleAppUpdateAvailableCheck = (): void => {
-    if (!window.navigator.onLine) {
-      toggleApplicationUpdateAvailable(false)
-    } else {
-      checkUpdateAvailable()
-    }
+    checkUpdateAvailable()
   }
 
   const onDeviceDetachHandler = () => {
@@ -221,7 +220,15 @@ const RootWrapper: FunctionComponent<Props> = ({
   }, [connectedAndUnlocked])
 
   useEffect(() => {
+    const unregister = registerErrorAppUpdateListener(() => {
+      dispatch(setCheckingForUpdateFailed(true))
+    })
+    return () => unregister()
+  })
+
+  useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
+      dispatch(setCheckingForUpdateFailed(false))
       setCheckingForUpdate(false)
       toggleApplicationUpdateAvailable(true)
       setLatestVersion(version as string)

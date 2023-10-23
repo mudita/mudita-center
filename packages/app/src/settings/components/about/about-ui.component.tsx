@@ -27,13 +27,14 @@ import { AppUpdateNotAvailable } from "App/__deprecated__/renderer/wrappers/app-
 import { UpdateFailedModal } from "App/settings/components/about/update-failed-modal.component"
 import { AboutLoaderModal } from "App/settings/components/about/about-loader.component"
 import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
-import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 import { defineMessages, FormattedMessage } from "react-intl"
 import UpdateButtonComponent from "App/__deprecated__/renderer/components/rest/news/update-button/update-button.component"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { useDispatch, useSelector } from "react-redux"
 import { ModalStateKey, showModal } from "App/modals-manager"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
+import logger from "App/__deprecated__/main/utils/logger"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -110,44 +111,34 @@ const AboutUI: FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const [updateCheck, setUpdateCheck] = useState(false)
+  const { checkingForUpdateFailed } = useSelector(
+    (state: ReduxRootState) => state.settings
+  )
   const { appUpdateFlowShow } = useSelector(
     (state: ReduxRootState) => state.modalsManager
   )
-  const [failed, setFailed] = useState(false)
-  const [failedModalOpen, setFailedModalOpen] = useState(false)
-
   const appUpdateAvailableCheckHandler = () => {
+    dispatch(setCheckingForUpdateFailed(false))
     setUpdateCheck(true)
-    setFailed(false)
     onAppUpdateAvailableCheck()
   }
   const hideAppUpdateNotAvailableHandler = () => {
     setUpdateCheck(false)
-    setFailed(false)
     hideAppUpdateNotAvailable()
   }
   const hideAppUpdateFailedHandler = () => {
     setUpdateCheck(false)
-    setFailedModalOpen(false)
     hideAppUpdateNotAvailable()
   }
 
-  const showUpToDateModal = !failed && !checkingForUpdate && updateCheck
-
-  useEffect(() => {
-    const unregister = registerErrorAppUpdateListener(() => {
-      setUpdateCheck(false)
-      setFailed(true)
-      setFailedModalOpen(true)
-    })
-    return () => unregister()
-  }, [])
+  const showUpToDateModal =
+    !checkingForUpdateFailed && !checkingForUpdate && updateCheck
 
   const handleProcessDownload = () => {
     void dispatch(showModal(ModalStateKey.AppUpdateFlow))
   }
 
-  const badgeText = failed
+  const badgeText = checkingForUpdateFailed
     ? messages.updateFailedBadge
     : appUpdateAvailable
     ? messages.updateAvailableBadge
@@ -155,7 +146,7 @@ const AboutUI: FunctionComponent<Props> = ({
   return (
     <>
       <UpdateFailedModal
-        open={failedModalOpen}
+        open={checkingForUpdateFailed && updateCheck}
         closeModal={hideAppUpdateFailedHandler}
         layer={ModalLayers.UpdateApp}
       />
@@ -166,7 +157,7 @@ const AboutUI: FunctionComponent<Props> = ({
       {showUpToDateModal && (
         <AppUpdateNotAvailable
           appCurrentVersion={appCurrentVersion}
-          open={appUpdateNotAvailableShow && !failed}
+          open={appUpdateNotAvailableShow && !checkingForUpdateFailed}
           closeModal={hideAppUpdateNotAvailableHandler}
           layer={ModalLayers.UpdateApp}
         />
