@@ -15,30 +15,34 @@ import { readRestoreDeviceDataState } from "App/backup/actions"
 export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
   DeviceEvent.SetConnectionState,
   (payload, { getState, dispatch }) => {
-    // const state = getState() as ReduxRootState
+    const state = getState() as ReduxRootState
 
-    // if (!payload) {
-    //   dispatch(setDataSyncInitState())
-    // }
+    if (!payload) {
+      dispatch(setDataSyncInitState())
+    }
 
-    // if (state.update.updateOsState === State.Loading) {
-    //   return payload
-    // }
+    if (state.update.updateOsState === State.Loading) {
+      return payload
+    }
 
-    // if (state.backup.restoringState === State.Loading) {
-    //   return payload
-    // }
+    if (state.backup.restoringState === State.Loading) {
+      return payload
+    }
 
-    // if (state.backup.backingUpState === State.Loading) {
-    //   return payload
-    // }
+    if (state.backup.backingUpState === State.Loading) {
+      return payload
+    }
 
-    // if (!payload || state.backup.restoringState === State.Failed || state.backup.backingUpState === State.Failed) {
-    //   dispatch(setInitState())
-    //   dispatch(readRestoreDeviceDataState())
-    //   void setValue({ key: MetadataKey.DeviceOsVersion, value: null })
-    //   void setValue({ key: MetadataKey.DeviceType, value: null })
-    // }
+    if (
+      !payload ||
+      state.backup.restoringState === State.Failed ||
+      state.backup.backingUpState === State.Failed
+    ) {
+      dispatch(setInitState())
+      dispatch(readRestoreDeviceDataState())
+      void setValue({ key: MetadataKey.DeviceOsVersion, value: null })
+      void setValue({ key: MetadataKey.DeviceType, value: null })
+    }
 
     return payload
   }
