@@ -71,7 +71,6 @@ import { resetUploadingState } from "App/files-manager/actions"
 import { setInitializationFailed } from "App/data-sync/actions"
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
-import logger from "App/__deprecated__/main/utils/logger"
 
 interface Props {
   history: History
@@ -146,10 +145,6 @@ const RootWrapper: FunctionComponent<Props> = ({
     },
     [mode, history]
   )
-
-  const handleAppUpdateAvailableCheck = (): void => {
-    checkUpdateAvailable()
-  }
 
   const onDeviceDetachHandler = () => {
     void resetUploadingState()
@@ -249,7 +244,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     loadSettings()
     if (!mode) {
-      handleAppUpdateAvailableCheck()
+      checkUpdateAvailable()
     }
 
     const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)

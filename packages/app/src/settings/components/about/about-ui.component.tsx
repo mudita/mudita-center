@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ActionsWrapper } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
@@ -34,7 +34,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { ModalStateKey, showModal } from "App/modals-manager"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
-import logger from "App/__deprecated__/main/utils/logger"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
