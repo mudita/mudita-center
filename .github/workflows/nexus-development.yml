@@ -77,7 +77,7 @@ jobs:
           cd mudita-center-internal-releases
           git tag "$GITTAG"
           git push origin "$GITTAG"
-      - name: Create draft release on internal repository
+      - name: Create draft release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
@@ -98,7 +98,7 @@ jobs:
           repository: mudita/mudita-center-internal-releases
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
-      - name: Push artifacts to github
+      - name: Push artifacts to GitHub
         id: upload_assets
         uses: actions/upload-artifact@v2
         with:
