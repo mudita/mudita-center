@@ -99,7 +99,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   resetUploadingState,
   setCheckingForUpdate,
 }) => {
-  console.log("root-wrapper elo")
   const mode = new URLSearchParams(window.location.search).get("mode")
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
