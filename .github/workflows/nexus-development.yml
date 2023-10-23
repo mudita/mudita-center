@@ -51,7 +51,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus" ]]; then
+          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-internal" ]]; then
              export ENVIVORMENT_CATALOG_NAME=development
              export "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
@@ -91,7 +91,7 @@ jobs:
             ./packages/app/release/builder-debug.yml
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repo: mudita/mudita-center-internal-releases
+          repository: mudita/mudita-center-internal-releases
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
       - name: Push artifacts to github
