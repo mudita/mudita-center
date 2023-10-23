@@ -62,4 +62,40 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/latest.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/builder-debug.yml
-
+      - name: Create draft release on internal repository
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./packages/app/release/Mudita-Center.exe
+            ./packages/app/release/Mudita-Center.AppImage
+            ./packages/app/release/Mudita-Center.dmg
+            ./packages/app/release/Mudita-Center.zip
+            ./packages/app/release/Mudita-Center.zip.blockmap
+            ./packages/app/release/Mudita-Center.exe.blockmap
+            ./packages/app/release/Mudita-Center.dmg.blockmap
+            ./packages/app/release/latest-linux.yml
+            ./packages/app/release/latest-mac.yml
+            ./packages/app/release/latest.yml
+            ./packages/app/release/builder-debug.yml
+          name: Mudita Center ${{ env.GITTAG }}
+          tag_name: ${{ env.GITTAG }}
+          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          draft: true
+      - name: Push artifacts to github
+        id: upload_assets
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-assets
+          path: |
+            ./packages/app/release/Mudita-Center.exe
+            ./packages/app/release/Mudita-Center.AppImage
+            ./packages/app/release/Mudita-Center.dmg
+            ./packages/app/release/Mudita-Center.zip
+            ./packages/app/release/Mudita-Center.zip.blockmap
+            ./packages/app/release/Mudita-Center.exe.blockmap
+            ./packages/app/release/Mudita-Center.dmg.blockmap
+            ./packages/app/release/latest-linux.yml
+            ./packages/app/release/latest-mac.yml
+            ./packages/app/release/latest.yml
+            ./packages/app/release/builder-debug.yml
