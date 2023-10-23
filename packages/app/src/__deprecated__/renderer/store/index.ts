@@ -19,7 +19,6 @@ import { helpSeed } from "App/__deprecated__/seeds/help"
 import { notesSeed } from "App/__deprecated__/seeds/notes"
 
 import { reducers, combinedReducers } from "./reducers"
-import { newsReducer } from "App/news/reducers/news.reducer"
 
 const middlewares: Middleware[] = [thunk]
 
@@ -32,9 +31,6 @@ const config: InitConfig<RootModel> = {
   plugins: [selectPlugin()],
   redux: {
     reducers: reducers,
-    // reducers: {
-    //   news: newsReducer,
-    // },
     middlewares,
   },
 }

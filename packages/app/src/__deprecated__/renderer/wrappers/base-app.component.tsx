@@ -69,8 +69,6 @@ const BaseApp: FunctionComponent<Props> = ({
   checkingForOsForceUpdate,
   shouldCheckForForceUpdateNeed,
 }) => {
-  console.log("base app elo")
-
   useRouterListener(history, {
     [URL_MAIN.contacts]: [],
     [URL_MAIN.phone]: [],
