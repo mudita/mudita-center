@@ -2,11 +2,12 @@ name: Build and push artifacts to nexus
 
 on:
   push:
-    branches:
-      - stage
-      - v*
+    tags:
+      - "*"
+
 jobs:
   build:
+    if: startsWith(github.event.base_ref, 'refs/heads/v')
     runs-on: macOS
     environment: pre-production
     steps:
