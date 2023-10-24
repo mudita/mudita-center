@@ -63,14 +63,6 @@ const YOUR_PURE_BUTTONS = [
     viewKey: View.Music,
   },
   {
-    button: views.calendar,
-    icon: IconType.Calendar,
-    testId: MenuGroupTestIds.Calendar,
-    hidden: !flags.get(Feature.CalendarTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Calendar,
-  },
-  {
     button: views.meditation,
     icon: IconType.MenuMeditation,
     testId: MenuGroupTestIds.Meditation,
@@ -117,7 +109,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
 ]
 
 interface Item {
-  button: typeof views[View]
+  button: (typeof views)[View]
   icon: IconType
   testId?: MenuGroupTestIds
   hidden?: boolean
