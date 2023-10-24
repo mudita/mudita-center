@@ -63,6 +63,10 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/latest.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/builder-debug.yml
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
+          cd mudita-center-internal-releases
+          git tag "$GITTAG"
+          git push origin "$GITTAG"
       - name: Create draft release on internal repository
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -81,6 +85,7 @@ jobs:
             ./packages/app/release/builder-debug.yml
           name: Mudita Center ${{ env.GITTAG }}
           tag_name: ${{ env.GITTAG }}
+          repository: mudita/mudita-center-internal-releases
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
       - name: Push artifacts to github
