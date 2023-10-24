@@ -26,11 +26,16 @@ jest.mock("electron-better-ipc", () => ({
   },
 }))
 
-jest.mock("@electron/remote", () => ({
-  dialog: {
-    showOpenDialog: jest.fn(),
-  },
-}))
+jest.mock(
+  "@electron/remote",
+  jest.fn().mockImplementation(() => ({
+    remote: {
+      dialog: {
+        showOpenDialog: jest.fn(),
+      },
+    },
+  }))
+)
 
 type Props = ComponentProps<typeof ModalsManager>
 

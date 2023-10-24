@@ -4,4 +4,3 @@
  */
 
 export * from "./use-download-progress/use-download-progress"
-export * from "./use-dev-os-update/use-dev-os-update"
