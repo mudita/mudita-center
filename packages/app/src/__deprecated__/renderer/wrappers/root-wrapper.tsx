@@ -217,6 +217,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     const unregister = registerErrorAppUpdateListener(() => {
       dispatch(setCheckingForUpdateFailed(true))
+      setCheckingForUpdate(false)
     })
     return () => unregister()
   })

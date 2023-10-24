@@ -137,15 +137,15 @@ const AboutUI: FunctionComponent<Props> = ({
     void dispatch(showModal(ModalStateKey.AppUpdateFlow))
   }
 
-  const badgeText = checkingForUpdateFailed
-    ? messages.updateFailedBadge
-    : appUpdateAvailable
+  const badgeText = appUpdateAvailable
     ? messages.updateAvailableBadge
+    : checkingForUpdateFailed
+    ? messages.updateFailedBadge
     : messages.upToDateBadge
   return (
     <>
       <UpdateFailedModal
-        open={checkingForUpdateFailed && updateCheck}
+        open={checkingForUpdateFailed && updateCheck && !appUpdateAvailable}
         closeModal={hideAppUpdateFailedHandler}
         layer={ModalLayers.UpdateApp}
       />
