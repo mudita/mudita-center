@@ -6,9 +6,17 @@
 import "@testing-library/jest-dom"
 import React from "react"
 import InputText from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
-import { Icon } from "App/__deprecated__/renderer/components/core/input-text/input-text.stories"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { InputTextTestIds } from "./input-text-test-ids.enum"
+
+export const Icon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14">
+    <g fill="#000" fillRule="evenodd">
+      <path d="M5.306 10.148A4.857 4.857 0 01.444 5.296 4.857 4.857 0 015.306.444a4.857 4.857 0 014.86 4.852 4.857 4.857 0 01-4.86 4.852zm0-1.167A3.69 3.69 0 009 5.296 3.69 3.69 0 005.306 1.61 3.69 3.69 0 001.61 5.296 3.69 3.69 0 005.306 8.98z" />
+      <path d="M8.568 8.137l4.32 4.313a.61.61 0 010 .862.612.612 0 01-.863 0L7.703 9a.61.61 0 010-.863.612.612 0 01.865 0z" />
+    </g>
+  </svg>
+)
 
 test("renders standard input properly", () => {
   const { getByRole, getByLabelText } = renderWithThemeAndIntl(
