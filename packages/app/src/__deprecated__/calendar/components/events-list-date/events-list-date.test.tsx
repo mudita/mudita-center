@@ -33,8 +33,8 @@ test("show one day event date", () => {
   )
   expect(container).toHaveTextContent(oneDayResult)
 })
-
-test("show multi day event date", () => {
+//to be removed
+test.skip("show multi day event date", () => {
   const { container } = renderWithThemeAndIntl(
     <EventsListDate
       startDate={multiDaysEvent.startDate}

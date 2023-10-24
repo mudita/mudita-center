@@ -171,9 +171,6 @@ describe("Device Lock Time Observer: observe", () => {
         deviceService
       )
     })
-    afterEach(() => {
-      jest.clearAllMocks()
-    })
 
     test("`unlockTime` has been called", () => {
       // AUTO DISABLED - fix me if you like :)
