@@ -18,7 +18,6 @@ import registerPureOsDownloadListener from "App/__deprecated__/main/functions/re
 import registerNewsListener from "App/__deprecated__/main/functions/register-news-listener/register-news-listener"
 import registerAppLogsListeners from "App/__deprecated__/main/functions/register-app-logs-listener"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
-import registerEventsExportListener from "App/__deprecated__/calendar/backend/export-events"
 import registerWriteFileListener from "App/__deprecated__/main/functions/register-write-file-listener"
 import registerCopyFileListener from "App/__deprecated__/main/functions/register-copy-file-listener"
 import registerWriteGzipListener from "App/__deprecated__/main/functions/register-write-gzip-listener"
@@ -204,7 +203,6 @@ const createWindow = async () => {
   registerNewsListener()
   registerAppLogsListeners()
   registerContactsExportListener()
-  registerEventsExportListener()
   registerWriteFileListener()
   registerCopyFileListener()
   registerRmdirListener()

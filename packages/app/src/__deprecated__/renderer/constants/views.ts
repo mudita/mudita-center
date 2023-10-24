@@ -43,7 +43,6 @@ export enum View {
   Phone = "phone",
   Contacts = "contacts",
   Music = "music",
-  Calendar = "calendar",
   Tools = "tools",
   Meditation = "meditation",
   FilesManager = "filesManager",
@@ -101,10 +100,6 @@ export const views: Views = {
   [View.Music]: {
     label: messages.music,
     url: URL_MAIN.music,
-  },
-  [View.Calendar]: {
-    label: messages.calendar,
-    url: URL_MAIN.calendar,
   },
   [View.Tools]: {
     label: messages.tools,
