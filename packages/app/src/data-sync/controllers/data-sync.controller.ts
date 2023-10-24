@@ -3,17 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { IndexStorage } from "App/index-storage/types"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
-import {
-  ControllerPrefix,
-  IpcDataSyncEvent,
-  DataIndex,
-} from "App/data-sync/constants"
+import { IpcDataSyncEvent, DataIndex } from "App/data-sync/constants"
 import { SerialisedIndexData } from "elasticlunr"
 
-@Controller(ControllerPrefix)
 export class DataSyncController {
   constructor(
     private index: IndexStorage,
