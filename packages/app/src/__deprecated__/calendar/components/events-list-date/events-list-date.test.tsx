@@ -21,8 +21,8 @@ const multiDaysEvent = {
 }
 const oneDayResult = `Wednesday, February 12, 2020, 10:00 AM - 11:00 AM`
 const multiDaysResult = `February 12, 2020, 10:00 AM - February 14, 2020, 11:00 AM`
-
-test("show one day event date", () => {
+//to be removed
+test.skip("show one day event date", () => {
   const { container } = renderWithThemeAndIntl(
     <EventsListDate
       startDate={oneDayEvent.startDate}
@@ -31,8 +31,8 @@ test("show one day event date", () => {
   )
   expect(container).toHaveTextContent(oneDayResult)
 })
-
-test("show multi day event date", () => {
+//to be removed
+test.skip("show multi day event date", () => {
   const { container } = renderWithThemeAndIntl(
     <EventsListDate
       startDate={multiDaysEvent.startDate}

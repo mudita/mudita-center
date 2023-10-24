@@ -24,8 +24,8 @@ import { Mode } from "App/__deprecated__/common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "App/help/components/help.component"
-import registerAppContextMenu from "App/__deprecated__/renderer/register-app-context-menu"
-import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
+// import registerAppContextMenu from "App/__deprecated__/renderer/register-app-context-menu"
+// import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import registerAvailableAppUpdateListener from "App/__deprecated__/main/functions/register-avaible-app-update-listener"
 import registerNotAvailableAppUpdateListener from "App/__deprecated__/main/functions/register-not-avaible-app-update-listener"
 import LicenseApp from "./license-app.component"
@@ -246,8 +246,8 @@ const RootWrapper: FunctionComponent<Props> = ({
     // Remove this condition to get devMode on production
     if (devModeEnabled) {
       // Register context menu
-      registerAppContextMenu(appContextMenu)
-      appContextMenu.init()
+      // registerAppContextMenu(appContextMenu) // to be removed
+      // appContextMenu.init()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps

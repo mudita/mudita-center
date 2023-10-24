@@ -8,7 +8,6 @@ import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/upda
 import { UpdateOsFlowProps } from "App/overview/components/update-os-flow/update-os-flow.component.interface"
 import { CheckForUpdateFailedModal } from "App/overview/components/update-os-modals/check-for-update-failed-modal"
 import { CheckingUpdatesModal } from "App/overview/components/update-os-modals/checking-updates-modal"
-import { DevUpdateModal } from "App/overview/components/update-os-modals/dev-update-modal"
 import { DownloadingUpdateFailedModal } from "App/overview/components/update-os-modals/downloading-update-failed-modal"
 import { DownloadingUpdateFinishedModal } from "App/overview/components/update-os-modals/downloading-update-finished-modal"
 import { DownloadingUpdateInterruptedModal } from "App/overview/components/update-os-modals/downloading-update-interrupted-modal"
@@ -19,10 +18,9 @@ import { UpdateNotAvailableModal } from "App/overview/components/update-os-modal
 import { UpdatingFailureWithHelpModal } from "App/overview/components/update-os-modals/updating-failure-with-help-modal"
 import { UpdatingSpinnerModal } from "App/overview/components/update-os-modals/updating-spinner-modal"
 import { UpdatingSuccessModal } from "App/overview/components/update-os-modals/updating-success-modal"
-import { useDevUpdate, useDownloadProgress } from "App/overview/hooks"
+import { useDownloadProgress } from "App/overview/hooks"
 import {
   DownloadState,
-  OsReleaseType,
   ReleaseProcessState,
   SilentCheckForUpdateState,
   UpdateError,
@@ -56,30 +54,30 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   deviceType,
   layer = ModalLayers.UpdateOS,
 }) => {
-  const {
-    devRelease,
-    downloadDevUpdate,
-    startDevUpdate,
-    closeDevModal,
-    canShowDownloadVersion,
-    canShowInstallVersion,
-  } = useDevUpdate({
-    allReleases,
-    downloadUpdates,
-    updateOs,
-    clearUpdateOsFlow,
-    downloadState,
-    updateState,
-  })
+  // const {
+  //   devRelease,
+  //   downloadDevUpdate,
+  //   startDevUpdate,
+  //   closeDevModal,
+  //   canShowDownloadVersion,
+  //   canShowInstallVersion,
+  // } = useDevUpdate({
+  //   allReleases,
+  //   downloadUpdates,
+  //   updateOs,
+  //   clearUpdateOsFlow,
+  //   downloadState,
+  //   updateState,
+  // })
 
   const { downloadProgress, resetDownloadProgress } = useDownloadProgress()
 
   const resetUpdateFlow = () => {
     clearUpdateOsFlow()
     resetDownloadProgress()
-    if (devRelease) {
-      closeDevModal()
-    }
+    // if (devRelease) {
+    //   closeDevModal()
+    // }
   }
 
   const onOsDownloadCancel = () => {
@@ -187,7 +185,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
       <DownloadingUpdateFinishedModal
         layer={layer}
         testId={UpdateOsFlowTestIds.DownloadingFinishedModal}
-        open={downloadState === DownloadState.Loaded && !devRelease}
+        open={downloadState === DownloadState.Loaded}
         onClose={resetUpdateFlow}
         onOsUpdate={updateOs}
         downloadedReleases={alreadyDownloadedReleases}
@@ -251,7 +249,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         onClose={resetUpdateFlow}
       />
 
-      {devRelease && (
+      {/* {devRelease && (
         <DevUpdateModal
           layer={layer}
           testId={UpdateOsFlowTestIds.DevUpdate}
@@ -266,7 +264,7 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
           action={canShowDownloadVersion ? downloadDevUpdate : startDevUpdate}
           onClose={resetUpdateFlow}
         />
-      )}
+      )} */}
     </>
   )
 }
