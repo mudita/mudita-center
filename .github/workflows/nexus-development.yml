@@ -96,7 +96,7 @@ jobs:
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-internal-releases
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          draft: true
+          prerelease: true
       - name: Push artifacts to GitHub
         id: upload_assets
         uses: actions/upload-artifact@v2
