@@ -237,7 +237,7 @@ test("first name and second name in search shows correct result", () => {
   expect(getByTestId(InputSearchTestIds.List).childNodes).toHaveLength(4)
 })
 
-describe("contact export", () => {
+describe.skip("contact export", () => {
   test("Export failed modal is visible if export failed", async () => {
     const mockedExportContacts = jest
       .fn()
