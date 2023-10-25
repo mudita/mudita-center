@@ -5,9 +5,9 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcDeviceRequest } from "App/device/constants"
+import { IpcDeviceEvent } from "App/device/constants"
 import { Device } from "App/device/modules/device"
 
 export const connectDeviceRequest = async (): Promise<ResultObject<Device>> => {
-  return ipcRenderer.callMain(IpcDeviceRequest.Connect)
+  return ipcRenderer.callMain(IpcDeviceEvent.Connect)
 }

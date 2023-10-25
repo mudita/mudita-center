@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ActionsWrapper } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import {
@@ -28,8 +27,13 @@ import { AppUpdateNotAvailable } from "App/__deprecated__/renderer/wrappers/app-
 import { UpdateFailedModal } from "App/settings/components/about/update-failed-modal.component"
 import { AboutLoaderModal } from "App/settings/components/about/about-loader.component"
 import { ModalLayers } from "App/modals-manager/constants/modal-layers.enum"
-import { useOnlineChecker } from "App/settings/hooks/use-online-checker"
-import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
+import { defineMessages, FormattedMessage } from "react-intl"
+import UpdateButtonComponent from "App/__deprecated__/renderer/components/rest/news/update-button/update-button.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { useDispatch, useSelector } from "react-redux"
+import { ModalStateKey, showModal } from "App/modals-manager"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -57,6 +61,27 @@ const ActionContainer = styled.div`
   align-items: center;
   margin-right: 3rem;
 `
+const StyledUpdateButton = styled(UpdateButtonComponent)`
+  min-width: 17.6rem;
+`
+
+const messages = defineMessages({
+  updateCheckButton: {
+    id: "module.overview.systemCheckForUpdates",
+  },
+  updateAvailableButton: {
+    id: "module.settings.aboutAppUpdateAction",
+  },
+  updateAvailableBadge: {
+    id: "module.settings.aboutAvailableVersion",
+  },
+  updateFailedBadge: {
+    id: "module.overview.systemUpdateCheckFailed",
+  },
+  upToDateBadge: {
+    id: "module.overview.systemUpdateUpToDate",
+  },
+})
 
 interface Props {
   openLicense: () => void
@@ -69,8 +94,6 @@ interface Props {
   onAppUpdateAvailableCheck: () => void
   hideAppUpdateNotAvailable: () => void
   checkingForUpdate: boolean
-  appUpdateFailedShow: boolean
-  hideAppUpdateFailed: () => void
 }
 
 const AboutUI: FunctionComponent<Props> = ({
@@ -84,13 +107,17 @@ const AboutUI: FunctionComponent<Props> = ({
   onAppUpdateAvailableCheck,
   hideAppUpdateNotAvailable,
   checkingForUpdate,
-  appUpdateFailedShow,
-  hideAppUpdateFailed,
 }) => {
+  const dispatch = useDispatch()
   const [updateCheck, setUpdateCheck] = useState(false)
-  const online = useOnlineChecker()
-
+  const { checkingForUpdateFailed } = useSelector(
+    (state: ReduxRootState) => state.settings
+  )
+  const { appUpdateFlowShow } = useSelector(
+    (state: ReduxRootState) => state.modalsManager
+  )
   const appUpdateAvailableCheckHandler = () => {
+    dispatch(setCheckingForUpdateFailed(false))
     setUpdateCheck(true)
     onAppUpdateAvailableCheck()
   }
@@ -101,23 +128,24 @@ const AboutUI: FunctionComponent<Props> = ({
   const hideAppUpdateFailedHandler = () => {
     setUpdateCheck(false)
     hideAppUpdateNotAvailable()
-    hideAppUpdateFailed()
   }
 
   const showUpToDateModal =
-    updateCheck && !appUpdateFailedShow && !checkingForUpdate
+    !checkingForUpdateFailed && !checkingForUpdate && updateCheck
 
-  useEffect(() => {
-    const unregister = registerErrorAppUpdateListener(() => {
-      setUpdateCheck(false)
-    })
-    return () => unregister()
-  }, [])
+  const handleProcessDownload = () => {
+    void dispatch(showModal(ModalStateKey.AppUpdateFlow))
+  }
 
+  const badgeText = appUpdateAvailable
+    ? messages.updateAvailableBadge
+    : checkingForUpdateFailed
+    ? messages.updateFailedBadge
+    : messages.upToDateBadge
   return (
     <>
       <UpdateFailedModal
-        open={appUpdateFailedShow}
+        open={checkingForUpdateFailed && updateCheck && !appUpdateAvailable}
         closeModal={hideAppUpdateFailedHandler}
         layer={ModalLayers.UpdateApp}
       />
@@ -128,7 +156,7 @@ const AboutUI: FunctionComponent<Props> = ({
       {showUpToDateModal && (
         <AppUpdateNotAvailable
           appCurrentVersion={appCurrentVersion}
-          open={appUpdateNotAvailableShow && online}
+          open={appUpdateNotAvailableShow && !checkingForUpdateFailed}
           closeModal={hideAppUpdateNotAvailableHandler}
           layer={ModalLayers.UpdateApp}
         />
@@ -143,60 +171,34 @@ const AboutUI: FunctionComponent<Props> = ({
               />
             </SettingsLabel>
           </Data>
-          {!online && (
-            <ActionContainer>
-              <AvailableUpdate
-                displayStyle={TextDisplayStyle.Label}
-                color="secondary"
-              >
-                <FormattedMessage id="module.overview.systemUpdateCheckFailed" />
-              </AvailableUpdate>
-              <ButtonComponent
-                labelMessage={{
-                  id: "module.overview.systemCheckForUpdates",
-                }}
-                data-testid={AboutTestIds.UpdateButton}
-                onClick={appUpdateAvailableCheckHandler}
-              />
-            </ActionContainer>
-          )}
-          {appUpdateAvailable && online && (
-            <ActionContainer>
-              <AvailableUpdate
-                displayStyle={TextDisplayStyle.Label}
-                color="secondary"
-              >
+          <ActionContainer>
+            <AvailableUpdate
+              displayStyle={TextDisplayStyle.Label}
+              color="secondary"
+            >
+              {!checkingForUpdate && !appUpdateFlowShow && (
                 <FormattedMessage
-                  id="module.settings.aboutAvailableVersion"
+                  {...badgeText}
                   values={{ version: appLatestVersion }}
                 />
-              </AvailableUpdate>
-              <ButtonComponent
-                labelMessage={{
-                  id: "module.settings.aboutAppUpdateAction",
-                }}
-                onClick={appUpdateAvailableCheckHandler}
-                data-testid={AboutTestIds.UpdateButton}
-              />
-            </ActionContainer>
-          )}
-          {!appUpdateAvailable && online && (
-            <ActionContainer>
-              <AvailableUpdate
-                displayStyle={TextDisplayStyle.Label}
-                color="secondary"
-              >
-                <FormattedMessage id="module.overview.systemUpdateUpToDate" />
-              </AvailableUpdate>
-              <ButtonComponent
-                labelMessage={{
-                  id: "module.overview.systemCheckForUpdates",
-                }}
-                data-testid={AboutTestIds.UpdateButton}
-                onClick={appUpdateAvailableCheckHandler}
-              />
-            </ActionContainer>
-          )}
+              )}
+            </AvailableUpdate>
+            <StyledUpdateButton
+              displayStyle={DisplayStyle.Primary}
+              updating={checkingForUpdate}
+              label={intl.formatMessage(
+                appUpdateAvailable
+                  ? messages.updateAvailableButton
+                  : messages.updateCheckButton
+              )}
+              data-testid={AboutTestIds.UpdateButton}
+              onClick={
+                appUpdateAvailable
+                  ? handleProcessDownload
+                  : appUpdateAvailableCheckHandler
+              }
+            />
+          </ActionContainer>
         </VersionTableRow>
         <SettingsTableRow>
           <Data>

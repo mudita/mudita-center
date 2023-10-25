@@ -3,18 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { Feature, flags } from "App/feature-flags"
 import { ResultObject, Result } from "App/core/builder"
-import {
-  ReleaseControllerPrefix,
-  IpcReleaseEvent,
-  Product,
-} from "App/update/constants"
+import { IpcReleaseEvent, Product } from "App/update/constants"
 import { GetReleasesByVersionsInput, OsRelease } from "App/update/dto"
 import { ReleaseService } from "App/update/services"
 
-@Controller(ReleaseControllerPrefix)
 export class ReleasesController {
   constructor(private releaseService: ReleaseService) {}
 

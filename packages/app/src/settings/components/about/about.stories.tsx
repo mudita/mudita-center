@@ -17,8 +17,6 @@ storiesOf("Settings/About", module).add("About", () => (
       hideAppUpdateNotAvailable={noop}
       onAppUpdateAvailableCheck={noop}
       checkingForUpdate={false}
-      appUpdateFailedShow={false}
-      hideAppUpdateFailed={noop}
     />
   </div>
 ))

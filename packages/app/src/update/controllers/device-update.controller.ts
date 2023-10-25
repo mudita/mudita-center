@@ -3,19 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { ResultObject } from "App/core/builder"
 import { UpdateOS } from "App/update/dto"
 import {
   DeviceUpdateFilesService,
   DeviceUpdateService,
 } from "App/update/services"
-import {
-  DeviceUpdateControllerPrefix,
-  IpcDeviceUpdateEvent,
-} from "App/update/constants"
+import { IpcDeviceUpdateEvent } from "App/update/constants"
 
-@Controller(DeviceUpdateControllerPrefix)
 export class DeviceUpdateController {
   constructor(
     private deviceUpdateService: DeviceUpdateService,

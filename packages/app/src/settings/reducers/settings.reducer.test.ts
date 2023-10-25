@@ -49,6 +49,7 @@ const settings: Omit<
     },
   },
   checkingForUpdate: false,
+  checkingForUpdateFailed: false,
 }
 
 test("empty event returns initial state", () => {

@@ -5,10 +5,10 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { RequestResponse } from "App/core/types/request-response.interface"
-import { IpcCrashDumpRequest } from "App/crash-dump/constants"
+import { IpcCrashDumpEvent } from "App/crash-dump/constants"
 
 export const ignoreCrashDumpRequest = async (
   url: string
 ): Promise<RequestResponse<void>> => {
-  return ipcRenderer.callMain(IpcCrashDumpRequest.Ignore, url)
+  return ipcRenderer.callMain(IpcCrashDumpEvent.Ignore, url)
 }
