@@ -64,7 +64,8 @@ export class AnalyticDataTrackerFactory {
     const appSettings = settingsService.getSettings()
 
     const _id = appSettings.applicationId
-    const trackingEnabled = appSettings.privacyPolicyAccepted
+    const trackingEnabled =
+      appSettings.privacyPolicyAccepted && process.env.ANALYTICS_ENABLED === "1"
 
     const axiosInstance: AxiosInstance = axios.create({
       httpsAgent: new https.Agent({
