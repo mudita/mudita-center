@@ -64,6 +64,17 @@ export class Device implements DeviceProperties {
     this.mountListeners()
   }
 
+  public toSerializableObject(): DeviceProperties {
+    return {
+      path: this.path,
+      deviceType: this.deviceType,
+      connecting: this.connecting,
+      locked: this.locked,
+      onboardingFinished: this.onboardingFinished,
+      serialNumber: this.serialNumber,
+    }
+  }
+
   public async connect(): Promise<ResultObject<DeviceInfo>> {
     const response = await this.strategy.connect()
 
@@ -253,8 +264,14 @@ export class Device implements DeviceProperties {
     }
 
     if (this.locked !== true) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked, this)
-      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceLocked, this)
+      this.eventEmitter.emit(
+        DeviceServiceEvent.DeviceLocked,
+        this.toSerializableObject()
+      )
+      this.ipc.sendToRenderers(
+        DeviceIpcEvent.DeviceLocked,
+        this.toSerializableObject()
+      )
       this.locked = true
     }
   }
@@ -265,8 +282,14 @@ export class Device implements DeviceProperties {
     }
 
     if (this.locked !== false) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
-      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceUnlocked, this)
+      this.eventEmitter.emit(
+        DeviceServiceEvent.DeviceUnlocked,
+        this.toSerializableObject()
+      )
+      this.ipc.sendToRenderers(
+        DeviceIpcEvent.DeviceUnlocked,
+        this.toSerializableObject()
+      )
       this.locked = false
     }
   }

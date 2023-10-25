@@ -10,7 +10,8 @@ import NetworkStatusChecker from "App/__deprecated__/renderer/components/core/ne
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  updateOnlineStatus: () => dispatch.networkStatus.updateOnlineStatus(),
+  // updateOnlineStatus: () => dispatch.networkStatus.updateOnlineStatus(),
+  updateOnlineStatus: () => {},
 })
 
 export default connect(null, mapDispatchToProps)(NetworkStatusChecker)
