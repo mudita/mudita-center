@@ -4,11 +4,8 @@
  */
 
 import { ResultObject } from "App/core/builder"
-import { Controller, IpcEvent } from "App/core/decorators"
-import {
-  ControllerPrefix,
-  IpcDeviceFileSystemEvent,
-} from "App/device-file-system/constants"
+import { IpcEvent } from "App/core/decorators"
+import { IpcDeviceFileSystemEvent } from "App/device-file-system/constants"
 import { DeviceFileSystemService } from "App/device-file-system/services"
 import {
   UploadFile,
@@ -16,7 +13,6 @@ import {
   DeviceFile,
 } from "App/device-file-system/dto"
 
-@Controller(ControllerPrefix)
 export class DeviceFileSystemController {
   constructor(private deviceFileSystemService: DeviceFileSystemService) {}
 

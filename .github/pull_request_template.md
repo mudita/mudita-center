@@ -2,7 +2,7 @@ JIRA Reference: [CP-XXX]
 
 ### :memo: Description ️
 
-- 
+-
 
 ### :muscle: Checklist before requesting a review - nice to have
 

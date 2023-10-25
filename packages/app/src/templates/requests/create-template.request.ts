@@ -4,12 +4,12 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcTemplateRequest } from "App/templates/constants"
+import { IpcTemplateEvent } from "App/templates/constants"
 import { Template, NewTemplate } from "App/templates/dto"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
 export const createTemplateRequest = async (
   template: NewTemplate
 ): Promise<RequestResponse<Template>> => {
-  return ipcRenderer.callMain(IpcTemplateRequest.CreateTemplate, template)
+  return ipcRenderer.callMain(IpcTemplateEvent.CreateTemplate, template)
 }

@@ -4,8 +4,8 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcAnalyticDataTrackerRequest } from "App/analytic-data-tracker/constants"
+import { IpcAnalyticDataTrackerEvent } from "App/analytic-data-tracker/constants"
 
 export const toggleTrackingRequest = async (flag: boolean): Promise<void> => {
-  return ipcRenderer.callMain(IpcAnalyticDataTrackerRequest.ToggleTracking, flag)
+  return ipcRenderer.callMain(IpcAnalyticDataTrackerEvent.ToggleTracking, flag)
 }

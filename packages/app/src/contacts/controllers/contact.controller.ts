@@ -3,13 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { ContactService } from "App/contacts/services"
 import { RequestResponse } from "App/core/types/request-response.interface"
-import { ControllerPrefix, IpcContactEvent } from "App/contacts/constants"
+import { IpcContactEvent } from "App/contacts/constants"
 import { Contact, ContactID } from "App/contacts/reducers"
 
-@Controller(ControllerPrefix)
 export class ContactController {
   constructor(private contactService: ContactService) {}
 
