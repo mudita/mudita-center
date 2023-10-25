@@ -17,11 +17,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.3
-      - name: Setup depedencies
-        run: npm run setup
-      - name: Copy electron-builder environment file
-        run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
-      - name: Build App
+      - name: Setup env
         env:
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
@@ -45,6 +41,12 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
         run: |
           printenv > .env
+      - name: Setup depedencies
+        run: npm run setup
+      - name: Copy electron-builder environment file
+        run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
+      - name: Build App
+        run: |
           cd packages/app/ && npm run dist:prod:all
       - name: Push artifacts to nexus registry
         env:
