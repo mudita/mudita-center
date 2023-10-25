@@ -10,6 +10,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.2.4] - 2023-10-26
+
+Here we write upgrading notes for brands. It's a team effort to make them as
+straightforward as possible.
+
+### Fixed
+
+- Secondary phone number disappears after deleting it
+
+### Changed
+
+- Enhance of update badge status for Mudita Center
+- Enhance of update badge status for OS
+
 ## [2.2.3] - 2023-05-10
 
 ### Fixed
