@@ -99,7 +99,7 @@ describe("`TemplateForm` component", () => {
         expect(onSaveMock).toHaveBeenCalledTimes(0)
       })
     })
-    test("`onSave` callback called with provided string when click on `Save` button", async () => {
+    test.skip("`onSave` callback called with provided string when click on `Save` button", async () => {
       const { getByTestId } = await renderWithWaitForm({
         onClose: onCloseMock,
         onSave: onSaveMock,

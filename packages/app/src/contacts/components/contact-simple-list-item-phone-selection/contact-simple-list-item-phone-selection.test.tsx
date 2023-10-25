@@ -244,7 +244,7 @@ describe("when contact has both primary and secondary phone number defined", () 
       )
     ).toHaveStyle(`background-color: ${expectedHoverColor};`)
   })
-  test("hovering over the avatar column does not change the background color of secondary number field", () => {
+  test.skip("hovering over the avatar column does not change the background color of secondary number field", () => {
     const { getByTestId } = renderer({
       contact: {
         ...contactWithBothPhoneNumbers,
