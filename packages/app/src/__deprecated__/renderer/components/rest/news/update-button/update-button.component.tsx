@@ -57,7 +57,7 @@ const UpdateButtonComponent: FunctionComponent<
     <UpdateButton
       displayStyle={DisplayStyle.LinkWithParagraph}
       label={label}
-      Icon={IconType.Refresh}
+      Icon={updating ? IconType.Refresh : undefined}
       onClick={onClick}
       updating={updating}
       disabled={updating}

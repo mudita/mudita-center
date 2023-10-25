@@ -24,4 +24,5 @@ export enum SettingsEvent {
   SendDiagnosticData = "SEND_DIAGNOSTIC_DATA",
   DeleteCollectingData = "DELETE_COLLECTING_DATA",
   SetCheckingForUpdate = "SET_CHECKING_FOR_UPDATE",
+  SetCheckingForUpdateFailed = "SET_CHECKING_FOR_UPDATE_FAILED",
 }

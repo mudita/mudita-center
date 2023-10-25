@@ -44,6 +44,7 @@ const settings: Omit<
     },
   },
   checkingForUpdate: false,
+  checkingForUpdateFailed: false,
 }
 
 const mockStore = createMockStore([thunk])()

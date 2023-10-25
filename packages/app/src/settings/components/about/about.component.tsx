@@ -26,7 +26,6 @@ export const About: FunctionComponent<Props> = ({
 }) => {
   const [appUpdateNotAvailableShow, setAppUpdateNotAvailableShow] =
     useState(false)
-  const [appUpdateFailedShow, setAppUpdateFailedShow] = useState(false)
 
   const openLicenseWindow = () =>
     ipcRenderer.callMain(AboutActions.LicenseOpenWindow)
@@ -39,20 +38,12 @@ export const About: FunctionComponent<Props> = ({
     setAppUpdateNotAvailableShow(false)
   }
 
-  const hideAppUpdateFailed = () => {
-    setAppUpdateFailedShow(false)
-  }
-
   useEffect(() => {
     setAppUpdateNotAvailableShow(updateAvailable === false)
   }, [updateAvailable, checkingForUpdate])
 
   const handleAppUpdateAvailableCheck = (): void => {
-    if (!window.navigator.onLine) {
-      setAppUpdateFailedShow(true)
-    } else {
-      checkUpdateAvailable()
-    }
+    checkUpdateAvailable()
   }
 
   return (
@@ -67,8 +58,6 @@ export const About: FunctionComponent<Props> = ({
       appUpdateNotAvailableShow={appUpdateNotAvailableShow}
       hideAppUpdateNotAvailable={hideAppUpdateNotAvailable}
       checkingForUpdate={checkingForUpdate}
-      appUpdateFailedShow={appUpdateFailedShow}
-      hideAppUpdateFailed={hideAppUpdateFailed}
     />
   )
 }

@@ -9,9 +9,11 @@ import React, { ComponentProps } from "react"
 import AboutUI from "./about-ui.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { AboutTestIds } from "App/settings/components/about/about.enum"
-import { fireEvent, screen } from "@testing-library/dom"
+import { screen, waitFor } from "@testing-library/dom"
 import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 import { flags } from "App/feature-flags"
+import store from "App/__deprecated__/renderer/store"
+import { Provider } from "react-redux"
 
 jest.mock("App/feature-flags")
 jest.mock(
@@ -30,8 +32,6 @@ const defaultProps: Props = {
   appUpdateAvailable: true,
   appUpdateNotAvailableShow: false,
   checkingForUpdate: false,
-  appUpdateFailedShow: false,
-  hideAppUpdateFailed: noop,
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -39,7 +39,11 @@ const renderer = (extraProps?: Partial<Props>) => {
     ...defaultProps,
     ...extraProps,
   }
-  const outcome = renderWithThemeAndIntl(<AboutUI {...props} />)
+  const outcome = renderWithThemeAndIntl(
+    <Provider store={store}>
+      <AboutUI {...props} />
+    </Provider>
+  )
   return {
     ...outcome,
   }
@@ -57,24 +61,40 @@ test("renders at least one table row", () => {
   )
 })
 
-test("Opens update modal properly when app update is not available", () => {
+test("Opens update modal properly when app update is not available", async () => {
   const { getByTestId } = renderer({
     appLatestVersion: "0.20.2",
     appCurrentVersion: "0.20.2",
     appUpdateNotAvailableShow: true,
+    appUpdateAvailable: false,
   })
 
-  getByTestId(AboutTestIds.UpdateButton).click()
+  const button = getByTestId(AboutTestIds.UpdateButton)
+  await waitFor(() => {
+    expect(button).toBeEnabled()
+  })
+  button.click()
 
-  expect(
-    screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
-  ).toBeInTheDocument()
+  await waitFor(() => {
+    expect(
+      screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
+    ).toBeInTheDocument()
+  })
 })
 
-test("Calls AppUpdateAvailableCheck when clicked", () => {
+test("Calls AppUpdateAvailableCheck when clicked", async () => {
   jest.spyOn(flags, "get").mockReturnValueOnce(true)
   const onAppUpdateAvailableCheck = jest.fn()
-  const { queryByTestId } = renderer({ onAppUpdateAvailableCheck })
-  fireEvent.click(queryByTestId(AboutTestIds.UpdateButton) as HTMLElement)
-  expect(onAppUpdateAvailableCheck).toHaveBeenCalledTimes(1)
+  const { getByTestId } = renderer({
+    onAppUpdateAvailableCheck,
+    appUpdateAvailable: false,
+  })
+  const button = getByTestId(AboutTestIds.UpdateButton)
+  await waitFor(() => {
+    expect(button).toBeEnabled()
+  })
+  button.click()
+  await waitFor(() => {
+    expect(onAppUpdateAvailableCheck).toHaveBeenCalledTimes(1)
+  })
 })
