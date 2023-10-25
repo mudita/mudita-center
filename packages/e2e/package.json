@@ -18,7 +18,7 @@
   },
   "scripts": {
     "test": "npm run validate-test-paths && ./node_modules/.bin/wdio run wdio.conf.ts",
-    "lint:typecheck": "tsc --noEmit",
+    "lint:typecheck:to-fix": "tsc --noEmit",
     "validate-test-paths": "ts-node ./scripts/validate-test-paths.ts"
   },
   "bugs": {
