@@ -9,7 +9,8 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import Image from "App/__deprecated__/renderer/components/core/image/image.component"
 import PureGrayImage from "App/__deprecated__/renderer/images/pure-gray-front.png"
 import PureBlackImage from "App/__deprecated__/renderer/images/pure-black-front.png"
-import HarmonyImage from "App/__deprecated__/renderer/images/harmony-render.png"
+import HarmonyGreyImage from "App/__deprecated__/renderer/images/harmony-gray-render.png"
+import HarmonyBlackImage from "App/__deprecated__/renderer/images/harmony-black-render.png"
 import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 
 interface DeviceImageProps {
@@ -33,11 +34,17 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <Image src={PureBlackImage} data-testid={DeviceTestIds.PureBlack} />
         )
-      ) : (
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        <Image src={HarmonyImage} />
-      )}
+      ) : deviceType === DeviceType.MuditaHarmony ? (
+        caseColour === CaseColor.Gray ? (
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          <Image src={HarmonyGreyImage} />
+        ) : (
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          <Image src={HarmonyBlackImage} />
+        )
+      ) : null}
     </>
   )
 }
