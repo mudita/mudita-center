@@ -232,6 +232,8 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.downloadState = DownloadState.Loading
     })
     builder.addCase(downloadUpdates.fulfilled, (state) => {
+      state.checkForUpdateState = CheckForUpdateState.Initial
+      state.silentCheckForUpdate = SilentCheckForUpdateState.Loaded
       state.downloadState = DownloadState.Loaded
     })
     builder.addCase(downloadUpdates.rejected, (state, action) => {
@@ -255,7 +257,6 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         })
       )
       state.error = null
-      state.checkForUpdateState = CheckForUpdateState.Initial
       state.downloadState = DownloadState.Initial
       state.updateOsState = State.Loading
     })
