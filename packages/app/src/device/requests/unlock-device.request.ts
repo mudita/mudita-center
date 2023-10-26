@@ -5,10 +5,10 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
-import { IpcDeviceRequest } from "App/device/constants"
+import { IpcDeviceEvent } from "App/device/constants"
 
 export const unlockDeviceRequest = async (
   code: number[]
 ): Promise<ResultObject<boolean>> => {
-  return ipcRenderer.callMain(IpcDeviceRequest.Unlock, code)
+  return ipcRenderer.callMain(IpcDeviceEvent.Unlock, code)
 }

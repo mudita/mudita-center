@@ -3,13 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Controller, IpcEvent } from "App/core/decorators"
+import { IpcEvent } from "App/core/decorators"
 import { TemplateService } from "App/templates/services"
 import { RequestResponse } from "App/core/types/request-response.interface"
-import { ControllerPrefix, IpcTemplateEvent } from "App/templates/constants"
+import { IpcTemplateEvent } from "App/templates/constants"
 import { NewTemplate, Template } from "App/templates/dto"
 
-@Controller(ControllerPrefix)
 export class TemplateController {
   constructor(private templateService: TemplateService) {}
 

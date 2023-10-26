@@ -47,6 +47,7 @@ export const loadSettings = createAsyncThunk<void, void>(
         updateRequired,
         currentVersion: packageInfo.version,
         checkingForUpdate: false,
+        checkingForUpdateFailed: false,
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: configuration.centerVersion,
           lowestSupportedProductVersion: configuration.productVersions,

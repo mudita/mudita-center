@@ -6,12 +6,12 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
 import {
-  IpcDeviceUpdateRequest,
   UpdateErrorServiceErrors,
+  IpcDeviceUpdateEvent,
 } from "App/update/constants"
 
 export const checkUpdate = async (): Promise<
   ResultObject<boolean, UpdateErrorServiceErrors>
 > => {
-  return ipcRenderer.callMain(IpcDeviceUpdateRequest.CheckUpdate)
+  return ipcRenderer.callMain(IpcDeviceUpdateEvent.CheckUpdate)
 }
