@@ -44,6 +44,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   forceUpdate,
   forceUpdateState,
   closeForceUpdateFlow,
+  caseColor,
 }) => {
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
@@ -134,6 +135,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         onUpdateInstall={() => updateReleases()}
         onUpdateDownload={openCheckForUpdateModal}
         serialNumber={serialNumber}
+        caseColor={caseColor}
       />
     </>
   )

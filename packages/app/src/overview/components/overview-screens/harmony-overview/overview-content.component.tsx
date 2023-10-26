@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { DeviceType } from "App/device/constants"
+import { CaseColor, DeviceType } from "App/device/constants"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   DeviceInfo,
@@ -14,14 +14,15 @@ import {
 } from "App/overview/components/overview/overview.styles"
 
 interface OverviewProps {
-  readonly onUpdateCheck: () => void
-  readonly onUpdateDownload: () => void
-  readonly onUpdateInstall: () => void
-  readonly toggleDevMode?: () => void
-  readonly disconnectDevice: () => void
-  readonly osVersion: string
-  readonly batteryLevel: number
-  readonly serialNumber: string | undefined
+  onUpdateCheck: () => void
+  onUpdateDownload: () => void
+  onUpdateInstall: () => void
+  toggleDevMode?: () => void
+  disconnectDevice: () => void
+  osVersion: string
+  batteryLevel: number
+  serialNumber: string | undefined
+  caseColor?: CaseColor
 }
 
 const OverviewContent: FunctionComponent<OverviewProps> = ({
@@ -33,6 +34,7 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   toggleDevMode,
   osVersion,
   serialNumber,
+  caseColor,
 }) => {
   return (
     <OverviewWrapper>
@@ -41,6 +43,7 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
         onClick={toggleDevMode}
         onDisconnect={disconnectDevice}
         serialNumber={serialNumber}
+        caseColour={caseColor}
       />
       <StatusInfo
         deviceType={DeviceType.MuditaHarmony}

@@ -5,7 +5,7 @@
 
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
-import { DeviceType } from "App/device/constants"
+import { CaseColor, DeviceType } from "App/device/constants"
 import {
   CheckForUpdateMode,
   DownloadState,
@@ -45,4 +45,5 @@ export interface HarmonyOverviewProps {
   readonly abortDownload: () => void
   readonly forceUpdate: (releases: OsRelease[]) => void
   readonly closeForceUpdateFlow: () => void
+  caseColor?: CaseColor
 }

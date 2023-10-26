@@ -49,6 +49,7 @@ export interface HarmonyDeviceData {
   osVersion: string
   batteryLevel: number
   serialNumber: string
+  caseColour: CaseColor
   memorySpace: {
     reservedSpace: number
     usedUserSpace: number

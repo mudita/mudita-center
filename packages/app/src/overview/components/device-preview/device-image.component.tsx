@@ -38,7 +38,7 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
         caseColour === CaseColor.Gray ? (
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          <Image src={HarmonyGreyImage} />
+          <Image src={HarmonyBlackImage} />
         ) : (
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

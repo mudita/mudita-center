@@ -49,7 +49,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     serialNumber: state.device.data?.serialNumber,
     networkName: (state.device.data as PureDeviceData)?.networkName,
     networkLevel: Number((state.device.data as PureDeviceData)?.networkLevel),
-    caseColour: (state.device.data as PureDeviceData)?.caseColour,
+    caseColor: state.device.data?.caseColour,
     pureOsBackupLocation: state.settings.osBackupLocation,
     backupDeviceState: state.backup.backingUpState,
     backupError: state.backup.error,
