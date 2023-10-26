@@ -367,7 +367,6 @@ describe("downloadUpdate", () => {
           { release: mockedRelease, state: ReleaseProcessState.Initial },
         ],
       },
-      checkForUpdateState: State.Loaded,
       downloadState: DownloadState.Loading,
       error: null,
     })
