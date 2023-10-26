@@ -300,6 +300,7 @@ describe("Set device data functionality", () => {
         osVersion: "0.75.1",
         batteryLevel: 0.99,
         serialNumber: "303",
+        caseColour: CaseColor.Black,
         memorySpace: {
           reservedSpace: 124,
           usedUserSpace: 1021,
