@@ -335,7 +335,6 @@ describe("checkForUpdate", () => {
         )
       ).toEqual({
         ...initialState,
-        silentCheckForUpdate: SilentCheckForUpdateState.Initial,
         error: null,
       })
     })
@@ -368,7 +367,7 @@ describe("downloadUpdate", () => {
           { release: mockedRelease, state: ReleaseProcessState.Initial },
         ],
       },
-      checkForUpdateState: State.Initial,
+      checkForUpdateState: State.Loaded,
       downloadState: DownloadState.Loading,
       error: null,
     })
@@ -386,6 +385,7 @@ describe("downloadUpdate", () => {
       )
     ).toEqual({
       ...initialState,
+      silentCheckForUpdate: SilentCheckForUpdateState.Loaded,
       downloadState: DownloadState.Loaded,
     })
   })
