@@ -24,6 +24,7 @@ jobs:
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
           RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
@@ -100,7 +101,7 @@ jobs:
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-internal-releases
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          prerelease: true
+          draft: true
       - name: Push artifacts to GitHub
         id: upload_assets
         uses: actions/upload-artifact@v2
