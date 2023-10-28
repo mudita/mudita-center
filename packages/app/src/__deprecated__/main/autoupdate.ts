@@ -32,6 +32,7 @@ export const mockAutoupdate = (win: BrowserWindow): void => {
 
 const token = process.env.GITHUB_ACCESS_TOKEN
 const repo = process.env.RELEASES_REPOSITORY_NAME
+const prereleaseEnabled = process.env.PRERELEASES_ENABLED === "1"
 
 export default (win: BrowserWindow): void => {
   autoUpdater.setFeedURL({
@@ -42,6 +43,7 @@ export default (win: BrowserWindow): void => {
     owner: "Mudita",
   })
   autoUpdater.logger = logger
+  autoUpdater.allowPrerelease = prereleaseEnabled
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = false
 
