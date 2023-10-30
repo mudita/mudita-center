@@ -68,16 +68,10 @@ jobs:
           export GITTAG="$APP_VERSION$BUILD_VERSION"
           git tag "$GITTAG"
           git push origin "$GITTAG"
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.exe
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.AppImage
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.dmg
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.zip
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.zip.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.exe.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.dmg.blockmap
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-linux.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-mac.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug.yml
           git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
           cd mudita-center-internal-releases
@@ -88,16 +82,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./packages/app/release/Mudita-Center.exe
             ./packages/app/release/Mudita-Center.AppImage
-            ./packages/app/release/Mudita-Center.dmg
             ./packages/app/release/Mudita-Center.zip
             ./packages/app/release/Mudita-Center.zip.blockmap
-            ./packages/app/release/Mudita-Center.exe.blockmap
-            ./packages/app/release/Mudita-Center.dmg.blockmap
             ./packages/app/release/latest-linux.yml
-            ./packages/app/release/latest-mac.yml
-            ./packages/app/release/latest.yml
             ./packages/app/release/builder-debug.yml
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
@@ -110,14 +98,8 @@ jobs:
         with:
           name: release-assets
           path: |
-            ./packages/app/release/Mudita-Center.exe
             ./packages/app/release/Mudita-Center.AppImage
-            ./packages/app/release/Mudita-Center.dmg
             ./packages/app/release/Mudita-Center.zip
             ./packages/app/release/Mudita-Center.zip.blockmap
-            ./packages/app/release/Mudita-Center.exe.blockmap
-            ./packages/app/release/Mudita-Center.dmg.blockmap
             ./packages/app/release/latest-linux.yml
-            ./packages/app/release/latest-mac.yml
-            ./packages/app/release/latest.yml
             ./packages/app/release/builder-debug.yml
