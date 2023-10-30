@@ -8,7 +8,7 @@ on:
       - nexus*
 jobs:
   build:
-    runs-on: Linux
+    runs-on: Windows
     environment: development
     steps:
       - name: Checkout code
