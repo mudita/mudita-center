@@ -47,12 +47,16 @@ export const MessagesPanel: FunctionComponent<MessagesPanelProps> = ({
   showSearchResults = false,
   showSearchResultsList = false,
   results,
+  testId,
 }) => {
   const selectedItemsCount = selectedIds.length
   const selectionMode = selectedItemsCount > 0
 
   return (
-    <MessageFiltersWrapper showSearchResults={showSearchResultsList}>
+    <MessageFiltersWrapper
+      data-testid={testId}
+      showSearchResults={showSearchResultsList}
+    >
       {selectionMode ? (
         <MessagesSelectionManager
           selectedItemsNumber={selectedItemsCount}

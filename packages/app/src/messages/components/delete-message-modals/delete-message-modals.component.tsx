@@ -37,7 +37,7 @@ const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
   onCloseDeletingErrorModal,
 }) => {
   return (
-    <>
+    <div data-testid="message-delete-modals">
       {deletingConfirmation && (
         <DeleteConfirmationModal
           testId={DeleteMessageModalsTestIds.DeleteMessageConfirmation}
@@ -50,10 +50,11 @@ const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
           actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
         />
       )}
+      <div data-testid="deletingInfo">{deletingInfo ? "true" : "false"}</div>
       {deletingInfo && (
         <InfoPopup
-          message={messages.deletedMessageInfo}
           testId={DeleteMessageModalsTestIds.SuccessMessageDelete}
+          message={messages.deletedMessageInfo}
         />
       )}
       {deleting && error !== null && (
@@ -65,7 +66,7 @@ const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
           closeModal={onCloseDeletingErrorModal}
         />
       )}
-    </>
+    </div>
   )
 }
 

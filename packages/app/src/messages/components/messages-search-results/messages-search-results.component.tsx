@@ -96,6 +96,7 @@ interface MessagesSearchResultProps extends Pick<Settings, "language"> {
   removeMessage: (messageId: string) => void
   resendMessage?: (messageId: string) => void
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
+  testId?: string
 }
 
 const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
@@ -107,6 +108,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
   removeMessage = noop,
   resendMessage = noop,
   getContactByPhoneNumber,
+  testId,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
 
@@ -121,7 +123,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
   )
 
   return (
-    <>
+    <div data-testid={testId}>
       <SearchResultQueryWrapper>
         <SearchTitle displayStyle={TextDisplayStyle.Headline4}>
           {intl.formatMessage(messages.searchResultsTitle, {
@@ -248,7 +250,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
           />
         )}
       </Threads>
-    </>
+    </div>
   )
 }
 

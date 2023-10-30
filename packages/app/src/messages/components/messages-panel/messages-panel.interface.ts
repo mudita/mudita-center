@@ -21,4 +21,5 @@ export interface MessagesPanelProps {
   showSearchResults?: boolean
   showSearchResultsList?: boolean
   results: SearchResult
+  testId?: string
 }

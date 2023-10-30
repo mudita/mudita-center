@@ -76,8 +76,8 @@ export const DeleteThreadModals: FunctionComponent<DeleteThreadModalProps> = ({
       )}
       {deletingInfo && (
         <InfoPopup
-          message={getDeletedThreadText(deletedThreads.length)}
           testId={DeleteThreadModalsTestIds.DeletedPopUp}
+          message={getDeletedThreadText(deletedThreads.length)}
         />
       )}
       {deleting && !error && (
