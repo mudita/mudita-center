@@ -252,7 +252,7 @@
     "react-tooltip": "^4.2.21",
     "react-viewport-list": "^6.0.1",
     "react-virtualized": "^9.22.3",
-    "react-virtuoso": "^2.18.0",
+    "react-virtuoso": "^4.6.2",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.4",
@@ -284,7 +284,6 @@
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.15.1",
-    "webpack-hot-middleware": "^2.25.2",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1",
     "winston-transport-rollbar-3": "^3.2.0"
