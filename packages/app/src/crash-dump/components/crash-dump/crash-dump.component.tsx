@@ -11,7 +11,7 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { CrashDump as CrashDumpDto } from "App/crash-dump/dto"
 import { CrashDumpContainerProps } from "App/crash-dump/components/crash-dump/crash-dump.interface"
 import { CrashDumpTestingIds } from "App/crash-dump/components/crash-dump/crash-dump-testing-ids.enum"
-import { CrashDumpModal } from "App/crash-dump/components"
+import { CrashDumpModal } from "App/crash-dump/components/crash-dump-modal"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import { SuccessModal } from "App/ui/components/success-modal/success-modal.component"
