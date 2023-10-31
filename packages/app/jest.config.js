@@ -51,4 +51,5 @@ module.exports = {
       statements: 75,
     },
   },
+  "testEnvironment": "node"
 }
