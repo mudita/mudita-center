@@ -8,5 +8,6 @@ module.exports = {
   testPathIgnorePatterns: [
     ...jestConfig.testPathIgnorePatterns,
     "components",
-  ]
+  ],
+  testEnvironment: "node"
 }

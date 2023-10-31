@@ -5,4 +5,5 @@ module.exports = {
   testMatch: [
     "**/components/**/?(*.)+(test|spec).[jt]s?(x)",
   ],
+  testEnvironment: "jsdom"
 }
