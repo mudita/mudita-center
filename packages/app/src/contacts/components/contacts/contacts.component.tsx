@@ -44,7 +44,6 @@ import {
   FileService,
   NewContactResponse,
 } from "App/contacts/components/contacts/contacts.interface"
-// import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
 import ImportContactsFlow, {
   ImportContactsFlowState,
@@ -397,34 +396,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     void modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
-  // Synchronization, dev mode: toggle contacts saving failure
-  // const [syncShouldFail, setSyncFailure] = useState(false)
-
-  // useEffect(() => {
-  //   const unregisterItem = appContextMenu.registerItem("Contacts", {
-  //     labelCreator: () =>
-  //       `${syncShouldFail ? "Disable" : "Enable"} saving failure`,
-  //     click: () => setSyncFailure((prevState) => !prevState),
-  //   })
-  //   // AUTO DISABLED - fix me if you like :)
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  //   return () => unregisterItem()
-  // }, [syncShouldFail])
-
-  // // Synchronization, dev mode: toggle contacts importing failure
-  // const [parseShouldFail, setParseFailure] = useState(false)
-
-  // useEffect(() => {
-  //   const unregisterItem = appContextMenu.registerItem("Contacts", {
-  //     labelCreator: () =>
-  //       `${parseShouldFail ? "Disable" : "Enable"} parsing failure`,
-  //     click: () => setParseFailure((prevState) => !prevState),
-  //   })
-  //   // AUTO DISABLED - fix me if you like :)
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  //   return () => unregisterItem()
-  // }, [parseShouldFail])
-
   const [importContactsFlowState, setImportContactsFlowState] =
     useState<ImportContactsFlowState>()
   const [importedContacts, setImportedContacts] = useState<NewContact[]>([])
@@ -530,10 +501,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       // eslint-disable-next-line @typescript-eslint/await-thenable
       await showDownloadingLoader()
 
-      // if (parseShouldFail) {
-      //   handleError()
-      //   return
-      // }
       const importedContacts =
         service.type === "files"
           ? await mapVCFsToContacts(service.data)
