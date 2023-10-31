@@ -16,7 +16,7 @@ jobs:
       - name: test
         run:
           $env:APP_VERSION=$(cat packages/app/package.json | jq -r .version)
-          echo $APP_VERSION
+          $env:APP_VERSION
           exit 1
       - name: Setup node
         uses: actions/setup-node@v2
