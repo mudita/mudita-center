@@ -11,8 +11,6 @@ import {
   ControllerPrefix,
   IpcDeviceManagerEvent,
 } from "App/device-manager/constants"
-import { Device } from "App/device/modules/device"
-import logger from "App/__deprecated__/main/utils/logger"
 
 @Controller(ControllerPrefix)
 export class DeviceManagerController {
