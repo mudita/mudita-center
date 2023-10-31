@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { renderHook } from "@testing-library/react-hooks"
+import { renderHook } from "@testing-library/react"
 import useDynamicProgressValue from "App/__deprecated__/renderer/utils/hooks/use-dynamic-progress-value.hook"
 import { act } from "react-dom/test-utils"
 

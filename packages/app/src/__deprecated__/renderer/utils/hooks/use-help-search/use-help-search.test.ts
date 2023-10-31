@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { act, renderHook } from "@testing-library/react-hooks"
+import { act, renderHook } from "@testing-library/react"
 import { useHelpSearch } from "App/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
