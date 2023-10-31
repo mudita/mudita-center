@@ -5,7 +5,7 @@
 
 import React from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import RecoveryModeUI from "App/__deprecated__/recovery-mode/recovery-mode-ui.component"
+import RecoveryModeUI from "App/__deprecated__/recovery-mode/components/recovery-mode-ui.component"
 
 const defaultProps = {
   onSupportButtonClick: jest.fn(),

@@ -23,7 +23,7 @@ import {
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "App/__deprecated__/renderer/utils/contentful/normalize-help-data"
-import ModalsManager from "App/modals-manager/containers/modals-manager.container"
+import ModalsManager from "App/modals-manager/components/modals-manager.container"
 import { fontWeight } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { defineMessages } from "react-intl"

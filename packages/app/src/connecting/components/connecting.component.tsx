@@ -15,7 +15,7 @@ import {
 import ConnectingContent from "App/connecting/components/connecting-content.component"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import PasscodeModal from "App/__deprecated__/passcode-modal/passcode-modal.component"
+import PasscodeModal from "App/__deprecated__/passcode-modal/components/passcode-modal.component"
 import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"

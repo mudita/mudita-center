@@ -37,7 +37,7 @@ import {
   BackupContainer,
   AudioConversionContainer,
 } from "App/settings/components"
-import RecoveryMode from "App/__deprecated__/recovery-mode/recovery-mode.container"
+import RecoveryMode from "App/__deprecated__/recovery-mode/components/recovery-mode.container"
 import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "App/templates/template.container"

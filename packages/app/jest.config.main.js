@@ -11,7 +11,9 @@ module.exports = {
     "actions",
     "<rootDir>/src/contact-support",
     "<rootDir>/src/__deprecated__/renderer",
-    "<rootDir>/src/contacts/helpers"
+    "<rootDir>/src/contacts/helpers",
+    "<rootDir>/src/analytic-data-tracker/helpers",
+    "<rootDir>/src/context-menu"
   ],
   testEnvironment: "node"
 }
