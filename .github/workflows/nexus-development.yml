@@ -58,23 +58,23 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          SET APP_VERSION=`cat packages/app/package.json | jq -r .version`
-          SET SOURCE_BRANCH=${{ github.ref_name }}
-          if ($env:SOURCE_BRANCH -eq "develop" -or $env:SOURCE_BRANCH -eq "nexus-runner") {
-            SET ENVIVORMENT_CATALOG_NAME = "development"
-            SET BUILD_VERSION = "-dev.${{ github.run_number }}"
+          $APP_VERSION = Get-Content -Raw -Path packages/app/package.json | ConvertFrom-Json | Select-Object -ExpandProperty version
+          $SOURCE_BRANCH = $env:GITHUB_REF
+          if ($SOURCE_BRANCH -eq "refs/heads/develop" -or $SOURCE_BRANCH -eq "refs/heads/nexus-runner") {
+              $ENVIRONMENT_CATALOG_NAME = "development"
+              $BUILD_VERSION = "-dev.${env:GITHUB_RUN_NUMBER}"
           } else {
-            SET ENVIVORMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
-            SET BUILD_VERSION = ".${{ github.run_number }}"
+              $ENVIRONMENT_CATALOG_NAME = "feature-branch/$($env:GITHUB_REF)"
+              $BUILD_VERSION = ".$($env:GITHUB_RUN_NUMBER)"
           }
-          "GITTAG=$APP_VERSION$BUILD_VERSION" >> $env:GITHUB_ENV
-          SET GITTAG="$APP_VERSION$BUILD_VERSION"
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$env:ENVIVORMENT_CATALOG_NAME/$env:APP_VERSION/Mudita-Center.exe
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$env:ENVIVORMENT_CATALOG_NAME/$env:APP_VERSION/Mudita-Center.zip
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$env:ENVIVORMENT_CATALOG_NAME/$env:APP_VERSION/Mudita-Center.zip.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$env:ENVIVORMENT_CATALOG_NAME/$env:APP_VERSION/Mudita-Center.exe.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$env:ENVIVORMENT_CATALOG_NAME/$env:APP_VERSION/latest.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$env:ENVIVORMENT_CATALOG_NAME/$env:APP_VERSION/builder-debug.yml
+          $GITTAG = "$APP_VERSION$BUILD_VERSION"
+          $NEXUS_URL = "https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION"
+          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  "$NEXUS_URL/Mudita-Center.exe"
+          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  "$NEXUS_URL/Mudita-Center.zip"
+          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  "$NEXUS_URL/Mudita-Center.zip.blockmap"
+          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap  "$NEXUS_URL/Mudita-Center.exe.blockmap"
+          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  "$NEXUS_URL/latest.yml"
+          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  "$NEXUS_URL/builder-debug.yml"
 #          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
 #          cd mudita-center-internal-releases
 #          git tag "$GITTAG"
