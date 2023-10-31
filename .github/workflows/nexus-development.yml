@@ -48,11 +48,9 @@ jobs:
         run: npm run setup
       - name: Copy electron-builder environment file
         run: |
-#          cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
           copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
       - name: Build App
         run: |
-#          export NODE_OPTIONS=--max_old_space_size=4096
           SET NODE_OPTIONS=--max_old_space_size=4096
           cd packages/app/
           npm run dist:prod:all
@@ -61,23 +59,17 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
+          SET APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          SET SOURCE_BRANCH=${{ github.ref_name }}
           if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-runner" ]]; then
-#             export ENVIVORMENT_CATALOG_NAME=development
              SET ENVIVORMENT_CATALOG_NAME=development
-#             export "BUILD_VERSION=-dev.${{ github.run_number }}"
              SET "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
-             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-             export "BUILD_VERSION=.${{ github.run_number }}"
+             SET "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+             SET "BUILD_VERSION=.${{ github.run_number }}"
           fi
-#          echo "GITTAG=$APP_VERSION$BUILD_VERSION" >> $GITHUB_ENV
           "GITTAG=$APP_VERSION$BUILD_VERSION" >> $env:GITHUB_ENV
-#          export GITTAG="$APP_VERSION$BUILD_VERSION"
           SET GITTAG="$APP_VERSION$BUILD_VERSION"
-#          git tag "$GITTAG"
-#          git push origin "$GITTAG"
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.exe
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip.blockmap
