@@ -58,7 +58,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-runner" ]] || ; then
+          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-runner" ]]; then
              export ENVIVORMENT_CATALOG_NAME=development
              export "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
