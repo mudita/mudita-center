@@ -69,12 +69,7 @@ jobs:
           }
           $GITTAG = "$APP_VERSION$BUILD_VERSION"
           $NEXUS_URL = "https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION"
-          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  "$NEXUS_URL/Mudita-Center.exe"
-          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  "$NEXUS_URL/Mudita-Center.zip"
-          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  "$NEXUS_URL/Mudita-Center.zip.blockmap"
-          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap  "$NEXUS_URL/Mudita-Center.exe.blockmap"
-          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  "$NEXUS_URL/latest.yml"
-          curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  "$NEXUS_URL/builder-debug.yml"
+          echo "curl -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  $NEXUS_URL/Mudita-Center.exe"
 #          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
 #          cd mudita-center-internal-releases
 #          git tag "$GITTAG"
