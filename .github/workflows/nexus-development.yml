@@ -13,12 +13,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: test
-        run:
-          $env:APP_VERSION = (Get-Content -Path "packages/app/package.json" | ConvertFrom-Json).version)
-          echo "Wartość zmiennej APP_VERSION: $env:APP_VERSION"
-          Write-Output "Wartość zmiennej APP_VERSION: $env:APP_VERSION"
-          exit 1
       - name: Setup node
         uses: actions/setup-node@v2
         with:
@@ -64,46 +58,20 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          $APP_VERSION=$(cat packages/app/package.json | jq -r .version)
-          $SOURCE_BRANCH = $env:GITHUB_REF
-          if ($SOURCE_BRANCH -eq "refs/heads/develop" -or $SOURCE_BRANCH -eq "refs/heads/nexus-runner") {
-              $ENVIRONMENT_CATALOG_NAME = "development"
-              $BUILD_VERSION = "-dev.${$env:GITHUB_RUN_NUMBER}"
+          $env:APP_VERSION = (Get-Content -Path "packages/app/package.json" | ConvertFrom-Json).version
+          $env:SOURCE_BRANCH = $env:GITHUB_REF
+          if ($env:SOURCE_BRANCH -eq "refs/heads/develop" -or $env:SOURCE_BRANCH -eq "refs/heads/nexus-runner") {
+              $env:ENVIRONMENT_CATALOG_NAME = "development"
+              $env:BUILD_VERSION = "-dev.${$env:GITHUB_RUN_NUMBER}"
           } else {
-              $ENVIRONMENT_CATALOG_NAME = "feature-branch/$($env:GITHUB_REF)"
-              $BUILD_VERSION = ".$($env:GITHUB_RUN_NUMBER)"
+              $env:ENVIRONMENT_CATALOG_NAME = "feature-branch/$($env:GITHUB_REF)"
+              $env:BUILD_VERSION = ".$($env:GITHUB_RUN_NUMBER)"
           }
-          $GITTAG = "$APP_VERSION$BUILD_VERSION"
-          $NEXUS_URL = "https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe "$NEXUS_URL/Mudita-Center.exe"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip "$NEXUS_URL/Mudita-Center.zip"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap "$NEXUS_URL/Mudita-Center.zip.blockmap"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap "$NEXUS_URL/Mudita-Center.exe.blockmap"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml "$NEXUS_URL/latest.yml"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml "$NEXUS_URL/builder-debug.yml"
-#          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
-#          cd mudita-center-internal-releases
-#          git tag "$GITTAG"
-#          git push origin "$GITTAG"
-#      - name: Create draft release
-#        id: create_release
-#        uses: softprops/action-gh-release@v1
-#        with:
-#          files: |
-#            ./packages/app/release/Mudita-Center.AppImage
-#            ./packages/app/release/latest-linux.yml
-#            ./packages/app/release/builder-debug.yml
-#          tag_name: ${{ env.GITTAG }}
-#          name: Mudita Center v${{ env.GITTAG }}
-#          repository: mudita/mudita-center-internal-releases
-#          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-#          draft: true
-#      - name: Push artifacts to GitHub
-#        id: upload_assets
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: release-assets
-#          path: |
-#            ./packages/app/release/Mudita-Center.AppImage
-#            ./packages/app/release/latest-linux.yml
-#            ./packages/app/release/builder-debug.yml
+          $GITTAG = "$env:APP_VERSION$env:BUILD_VERSION"
+          $env:NEXUS_URL = "https://nexus.mudita.com/repository/mudita-center/releases/$env:ENVIRONMENT_CATALOG_NAME/$env:APP_VERSION"
+          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe "$env:NEXUS_URL/Mudita-Center.exe"
+          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip "$env:NEXUS_URL/Mudita-Center.zip"
+          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap "$env:NEXUS_URL/Mudita-Center.zip.blockmap"
+          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe.blockmap "$env:NEXUS_URL/Mudita-Center.exe.blockmap"
+          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml "$env:NEXUS_URL/latest.yml"
+          C:\ProgramData\chocolatey\bin\curl.exe -v -u $env:NEXUS_USERNAME:$env:NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml "$env:NEXUS_URL/builder-debug.yml"
