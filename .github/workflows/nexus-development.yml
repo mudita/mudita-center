@@ -16,7 +16,7 @@ jobs:
       - name: test
         run:
           $env:APP_VERSION = (Get-Content -Path "packages/app/package.json" | ConvertFrom-Json).version
-          Write-Output "Wartość zmiennej APP_VERSION: $env:APP_VERSION"
+          echo "Wartość zmiennej APP_VERSION: $env:APP_VERSION"
           exit 1
       - name: Setup node
         uses: actions/setup-node@v2
