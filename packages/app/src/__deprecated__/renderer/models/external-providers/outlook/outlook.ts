@@ -23,7 +23,9 @@ import {
   redirectUrl,
 } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.constants"
 import {
+  fetchCalendars,
   fetchContacts,
+  fetchEvents,
   getOutlookEndpoint,
 } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.helpers"
 
@@ -170,6 +172,71 @@ const outlook = createModel<ExternalProvidersModels>({
       }
     }
 
+    const getCalendars = async (
+      _: undefined,
+      rootState: ExternalProvidersState
+    ) => {
+      logger.info("Getting Outlook calendars")
+
+      let accessToken = rootState.outlook[OutLookScope.Calendars].accessToken
+      const refreshToken =
+        rootState.outlook[OutLookScope.Calendars].refreshToken
+
+      if (!accessToken) {
+        await authorize(OutLookScope.Calendars, rootState)
+        accessToken = rootState.outlook[OutLookScope.Calendars].accessToken
+      }
+
+      try {
+        return await fetchCalendars(accessToken)
+      } catch (error) {
+        if (error === "invalid_grant") {
+          const tokenRequester = new TokenRequester()
+          const regeneratedTokens = await tokenRequester.regenerateTokens(
+            refreshToken,
+            OutLookScope.Calendars
+          )
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+          dispatch.outlook.setAuthData({
+            scope: OutLookScope.Calendars,
+            data: regeneratedTokens,
+          })
+          return await fetchCalendars(regeneratedTokens.accessToken)
+        } else {
+          logger.error(
+            `Outlook Client: fetch calendar request fail. Data: ${JSON.stringify(
+              error
+            )}`
+          )
+
+          try {
+            logger.info("Reauthorizing Outlook account")
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+            await dispatch.outlook.authorize(OutLookScope.Calendars)
+            return await fetchCalendars(accessToken)
+          } catch (authorizeError) {
+            logger.error(
+              `Outlook Client: authorize fail. Data: ${JSON.stringify(
+                authorizeError
+              )}`
+            )
+            throw authorizeError
+          }
+        }
+      }
+    }
+
+    const getEvents = async (
+      calendarId: string,
+      rootState: ExternalProvidersState
+    ) => {
+      const accessToken = rootState.outlook[OutLookScope.Calendars].accessToken
+
+      return fetchEvents(accessToken, calendarId)
+    }
+
     const closeWindow = async () => {
       await ipcRenderer.callMain(OutlookAuthActions.CloseWindow)
     }
@@ -177,6 +244,8 @@ const outlook = createModel<ExternalProvidersModels>({
     return {
       authorize,
       getContacts,
+      getCalendars,
+      getEvents,
       closeWindow,
     }
   },

@@ -10,6 +10,7 @@ export const URL_MAIN = {
   phone: "/phone",
   contacts: "/contacts",
   music: "/music",
+  calendar: "/calendar",
   tools: "/tools",
   meditation: "/meditation",
   filesManager: "/files-manager",

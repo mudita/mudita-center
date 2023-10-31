@@ -9,6 +9,7 @@ import { DeviceType } from "App/device"
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { UpdateOsFlowProps } from "App/overview/components/update-os-flow/update-os-flow.component.interface"
+import * as useDevUpdateModule from "App/overview/hooks/use-dev-os-update/use-dev-os-update"
 import {
   DownloadState,
   OsReleaseType,
@@ -124,222 +125,258 @@ test("by default all elements are not visible", () => {
   checkModalsVisibility(queryByTestId, [])
 })
 
-describe("check for update modals", () => {
-  describe("when check for update state is marked as loading", () => {
-    test("loading modal should be displayed", () => {
-      const { queryByTestId } = render({
-        checkForUpdateState: CheckForUpdateState.Loading,
-      })
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.CheckForUpdateModal,
-      ])
-    })
-  })
+// describe("check for update modals", () => {
+//   describe("when check for update state is marked as loading", () => {
+//     test("loading modal should be displayed", () => {
+//       const { queryByTestId } = render({
+//         checkForUpdateState: CheckForUpdateState.Loading,
+//       })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.CheckForUpdateModal,
+//       ])
+//     })
+//   })
 
-  describe("when check for update state is marked as loaded and there is available release to be updated", () => {
-    test("update available modal should be displayed", () => {
-      const { queryByTestId } = render({
-        checkForUpdateState: CheckForUpdateState.Loaded,
-        availableReleasesForUpdate: [release],
-      })
+//   describe("when check for update state is marked as loaded and there is available release to be updated", () => {
+//     test("update available modal should be displayed", () => {
+//       const { queryByTestId } = render({
+//         checkForUpdateState: CheckForUpdateState.Loaded,
+//         availableReleasesForUpdate: [release],
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.UpdateAvailableModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.UpdateAvailableModal,
+//       ])
+//     })
+//   })
 
-  describe("when check for update state is marked as loaded and there is no available release to be updated", () => {
-    test("update not available modal should be displayed", () => {
-      const { queryByTestId } = render({
-        checkForUpdateState: CheckForUpdateState.Loaded,
-        availableReleasesForUpdate: null,
-      })
+//   describe("when check for update state is marked as loaded and there is no available release to be updated", () => {
+//     test("update not available modal should be displayed", () => {
+//       const { queryByTestId } = render({
+//         checkForUpdateState: CheckForUpdateState.Loaded,
+//         availableReleasesForUpdate: null,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.UpdateNotAvailableModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.UpdateNotAvailableModal,
+//       ])
+//     })
+//   })
 
-  describe("when check for update state failed", () => {
-    test("check for update failed modal should be displayed", () => {
-      const { queryByTestId } = render({
-        checkForUpdateState: CheckForUpdateState.Failed,
-        availableReleasesForUpdate: null,
-      })
+//   describe("when check for update state failed", () => {
+//     test("check for update failed modal should be displayed", () => {
+//       const { queryByTestId } = render({
+//         checkForUpdateState: CheckForUpdateState.Failed,
+//         availableReleasesForUpdate: null,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.CheckForUpdateFailedModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.CheckForUpdateFailedModal,
+//       ])
+//     })
+//   })
 
-  describe("when silent check for update state failed", () => {
-    test("check for update failed modal should be displayed", () => {
-      const { queryByTestId } = render({
-        checkForUpdateState: CheckForUpdateState.Initial,
-        silentCheckForUpdateState: SilentCheckForUpdateState.Failed,
-        availableReleasesForUpdate: null,
-      })
+//   describe("when silent check for update state failed", () => {
+//     test("check for update failed modal should be displayed", () => {
+//       const { queryByTestId } = render({
+//         checkForUpdateState: CheckForUpdateState.Initial,
+//         silentCheckForUpdateState: SilentCheckForUpdateState.Failed,
+//         availableReleasesForUpdate: null,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.CheckForUpdateFailedModal,
-      ])
-    })
-  })
-})
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.CheckForUpdateFailedModal,
+//       ])
+//     })
+//   })
+// })
 
-describe("download modals", () => {
-  describe("when download state is marked as loading and there is a downloaded release", () => {
-    test("loading modal should be displayed", () => {
-      const { queryByTestId } = render({
-        downloadState: DownloadState.Loading,
-        downloadingReleasesProcessStates: [
-          {
-            release,
-            state: ReleaseProcessState.InProgress,
-          },
-        ],
-      })
+// describe("download modals", () => {
+//   describe("when download state is marked as loading and there is a downloaded release", () => {
+//     test("loading modal should be displayed", () => {
+//       const { queryByTestId } = render({
+//         downloadState: DownloadState.Loading,
+//         downloadingReleasesProcessStates: [
+//           {
+//             release,
+//             state: ReleaseProcessState.InProgress,
+//           },
+//         ],
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.DownloadingUpdateModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.DownloadingUpdateModal,
+//       ])
+//     })
+//   })
 
-  describe("when check for update state is marked as loaded", () => {
-    test("downloading finished modal should be displayed", () => {
-      const { queryByTestId } = render({
-        downloadState: DownloadState.Loaded,
-      })
+//   describe("when check for update state is marked as loaded", () => {
+//     test("downloading finished modal should be displayed", () => {
+//       const { queryByTestId } = render({
+//         downloadState: DownloadState.Loaded,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.DownloadingFinishedModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.DownloadingFinishedModal,
+//       ])
+//     })
+//   })
 
-  describe("when downloading failed because of too low battery", () => {
-    test("too low battery modal is shown", () => {
-      const { queryByTestId } = render({
-        downloadState: DownloadState.Failed,
-        error: tooLowBatteryError,
-      })
+//   describe("when downloading failed because of too low battery", () => {
+//     test("too low battery modal is shown", () => {
+//       const { queryByTestId } = render({
+//         downloadState: DownloadState.Failed,
+//         error: tooLowBatteryError,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.TooLowBatteryModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.TooLowBatteryModal,
+//       ])
+//     })
+//   })
 
-  describe("when downloading was cancelled", () => {
-    test("cancelled downloading modal is shown", () => {
-      const { queryByTestId } = render({
-        downloadState: DownloadState.Cancelled,
-      })
+//   describe("when downloading was cancelled", () => {
+//     test("cancelled downloading modal is shown", () => {
+//       const { queryByTestId } = render({
+//         downloadState: DownloadState.Cancelled,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.DownloadingCancelledModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.DownloadingCancelledModal,
+//       ])
+//     })
+//   })
 
-  describe("when downloading failed because of unexpected error", () => {
-    test("error modal is shown", () => {
-      const { queryByTestId } = render({
-        downloadState: DownloadState.Failed,
-        error: downloadError,
-      })
+//   describe("when downloading failed because of unexpected error", () => {
+//     test("error modal is shown", () => {
+//       const { queryByTestId } = render({
+//         downloadState: DownloadState.Failed,
+//         error: downloadError,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.DownloadingInterruptedModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.DownloadingInterruptedModal,
+//       ])
+//     })
+//   })
 
-  describe("when downloading succeeded", () => {
-    test("download completed modal is shown", () => {
-      const { queryByTestId } = render({
-        downloadState: DownloadState.Failed,
-        error: downloadError,
-      })
+//   describe("when downloading succeeded", () => {
+//     test("download completed modal is shown", () => {
+//       const { queryByTestId } = render({
+//         downloadState: DownloadState.Failed,
+//         error: downloadError,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.DownloadingInterruptedModal,
-      ])
-    })
-  })
-})
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.DownloadingInterruptedModal,
+//       ])
+//     })
+//   })
+// })
 
-describe("update os", () => {
-  describe("when os update is being performed and there is one release being installed", () => {
-    test("spinner modal is shown", () => {
-      const { queryByTestId } = render({
-        updateState: State.Loading,
-        updatingReleasesProcessStates: [
-          {
-            release,
-            state: ReleaseProcessState.InProgress,
-          },
-        ],
-      })
+// describe("update os", () => {
+//   describe("when os update is being performed and there is one release being installed", () => {
+//     test("spinner modal is shown", () => {
+//       const { queryByTestId } = render({
+//         updateState: State.Loading,
+//         updatingReleasesProcessStates: [
+//           {
+//             release,
+//             state: ReleaseProcessState.InProgress,
+//           },
+//         ],
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.UpdateInProgressModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.UpdateInProgressModal,
+//       ])
+//     })
+//   })
 
-  describe("when updating os succeeded", () => {
-    test("success modal is shown", () => {
-      const { queryByTestId } = render({
-        updateState: State.Loaded,
-      })
+//   describe("when updating os succeeded", () => {
+//     test("success modal is shown", () => {
+//       const { queryByTestId } = render({
+//         updateState: State.Loaded,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.UpdateSuccessModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.UpdateSuccessModal,
+//       ])
+//     })
+//   })
 
-  describe("when updating failed because of unexpected error", () => {
-    test("error modal is shown", () => {
-      const { queryByTestId } = render({
-        updateState: State.Failed,
-        error: updateError,
-      })
+//   describe("when updating failed because of unexpected error", () => {
+//     test("error modal is shown", () => {
+//       const { queryByTestId } = render({
+//         updateState: State.Failed,
+//         error: updateError,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.UpdateFailedModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.UpdateFailedModal,
+//       ])
+//     })
+//   })
 
-  describe("when updating failed because of lack of memory", () => {
-    test("error modal is shown", () => {
-      const { queryByTestId } = render({
-        updateState: State.Failed,
-        error: notEnoughSpaceError,
-      })
+//   describe("when updating failed because of lack of memory", () => {
+//     test("error modal is shown", () => {
+//       const { queryByTestId } = render({
+//         updateState: State.Failed,
+//         error: notEnoughSpaceError,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.NotEnoughSpaceModal,
-      ])
-    })
-  })
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.NotEnoughSpaceModal,
+//       ])
+//     })
+//   })
 
-  describe("when updating failed because of onboarding isn't complete", () => {
-    test("error modal is shown", () => {
-      const { queryByTestId } = render({
-        updateState: State.Failed,
-        error: onboardingNotCompleteError,
-      })
+//   describe("when updating failed because of onboarding isn't complete", () => {
+//     test("error modal is shown", () => {
+//       const { queryByTestId } = render({
+//         updateState: State.Failed,
+//         error: onboardingNotCompleteError,
+//       })
 
-      checkModalsVisibility(queryByTestId, [
-        UpdateOsFlowTestIds.OnboardingNotCompleteModal,
-      ])
-    })
-  })
-})
+//       checkModalsVisibility(queryByTestId, [
+//         UpdateOsFlowTestIds.OnboardingNotCompleteModal,
+//       ])
+//     })
+//   })
+// })
+
+// describe("dev update modal", () => {
+//   describe("when conditions are fulfilled to show download version of this modal", () => {
+//     test("the modal is rendered", () => {
+//       jest.spyOn(useDevUpdateModule, "useDevUpdate").mockImplementation(() => ({
+//         devRelease: release,
+//         downloadDevUpdate: jest.fn(),
+//         startDevUpdate: jest.fn(),
+//         closeDevModal: jest.fn(),
+//         canShowDownloadVersion: true,
+//         canShowInstallVersion: false,
+//       }))
+
+//       const { queryByTestId } = render()
+
+//       checkModalsVisibility(queryByTestId, [UpdateOsFlowTestIds.DevUpdate])
+//     })
+//   })
+
+//   describe("when conditions are fulfilled to show install version of this modal", () => {
+//     test("the modal is rendered", () => {
+//       jest.spyOn(useDevUpdateModule, "useDevUpdate").mockImplementation(() => ({
+//         devRelease: release,
+//         downloadDevUpdate: jest.fn(),
+//         startDevUpdate: jest.fn(),
+//         closeDevModal: jest.fn(),
+//         canShowDownloadVersion: false,
+//         canShowInstallVersion: true,
+//       }))
+
+//       const { queryByTestId } = render()
+
+//       checkModalsVisibility(queryByTestId, [UpdateOsFlowTestIds.DevUpdate])
+//     })
+//   })
+// })

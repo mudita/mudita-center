@@ -18,11 +18,17 @@ import {
   ExternalProvidersState,
   RequestWrapperPayload,
 } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import { mapContact } from "App/__deprecated__/renderer/models/external-providers/google/google.helpers"
+import moment from "moment"
+import {
+  mapCalendars,
+  mapContact,
+  mapEvents,
+} from "App/__deprecated__/renderer/models/external-providers/google/google.helpers"
 import axios, { AxiosResponse } from "axios"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { createModel } from "@rematch/core"
 import { ExternalProvidersModels } from "App/__deprecated__/renderer/models/external-providers/external-providers.models"
+import { Calendar } from "App/__deprecated__/calendar/store/calendar.interfaces"
 import { RootState } from "App/__deprecated__/renderer/store/external-providers"
 
 export const googleEndpoints = {
@@ -192,6 +198,29 @@ const google = createModel<ExternalProvidersModels>({
       })
     }
 
+    const getCalendars = async (
+      _: undefined,
+      rootState: ExternalProvidersState
+    ): Promise<Calendar[]> => {
+      logger.info("Getting Google calendars")
+
+      const { data } = await requestWrapper<GoogleCalendarsSuccess>(
+        {
+          scope: Scope.Calendar,
+          axiosProps: {
+            url: `${googleEndpoints.calendars}/users/me/calendarList`,
+          },
+        },
+        rootState
+      )
+
+      if (!data?.items) {
+        throw new Error("No calendars found")
+      }
+
+      return mapCalendars(data.items)
+    }
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getContacts = async (_: undefined, rootState: any) => {
@@ -236,6 +265,61 @@ const google = createModel<ExternalProvidersModels>({
       })
     }
 
+    const getEvents = async (
+      calendarId: string,
+      rootState: ExternalProvidersState
+    ) => {
+      logger.info("Getting Google events")
+
+      const request = (pageToken?: string) => {
+        const params = new URLSearchParams({
+          timeMin: moment().startOf("day").toISOString(),
+          timeMax: moment().add(1, "year").endOf("year").toISOString(),
+          maxResults: "1000",
+          ...(pageToken ? { pageToken } : {}),
+        })
+
+        return requestWrapper<GoogleEventsSuccess>(
+          {
+            scope: Scope.Calendar,
+            axiosProps: {
+              url: `${
+                googleEndpoints.calendars
+              }/calendars/${calendarId}/events?${params.toString()}`,
+            },
+          },
+          rootState
+        )
+      }
+
+      if (!calendarId) {
+        throw new Error("No calendar is selected")
+      }
+
+      try {
+        const { data } = await request()
+
+        let nextPageToken = data.nextPageToken
+        let events: GoogleEvent[] = data.items
+
+        while (nextPageToken) {
+          const { data } = await request(nextPageToken)
+
+          events = [...events, ...data.items]
+          nextPageToken = data.nextPageToken
+        }
+
+        return mapEvents(events, calendarId)
+      } catch (error) {
+        logger.error(
+          `Google Client: get events request fail. Data: ${JSON.stringify(
+            error
+          )}`
+        )
+        throw error
+      }
+    }
+
     const closeWindow = async () => {
       await ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
     }
@@ -243,7 +327,9 @@ const google = createModel<ExternalProvidersModels>({
     return {
       requestWrapper,
       authorize,
+      getCalendars,
       getContacts,
+      getEvents,
       closeWindow,
     }
   },
