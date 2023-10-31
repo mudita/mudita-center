@@ -13,7 +13,7 @@ module.exports = {
     "<rootDir>/src/__deprecated__/renderer",
     "<rootDir>/src/contacts/helpers",
     "<rootDir>/src/analytic-data-tracker/helpers",
-    "<rootDir>/src/context-menu"
+    "<rootDir>/src/__deprecated__/context-menu"
   ],
   testEnvironment: "node"
 }
