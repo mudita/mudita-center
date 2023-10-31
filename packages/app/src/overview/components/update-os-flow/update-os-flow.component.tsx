@@ -54,30 +54,11 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
   deviceType,
   layer = ModalLayers.UpdateOS,
 }) => {
-  // const {
-  //   devRelease,
-  //   downloadDevUpdate,
-  //   startDevUpdate,
-  //   closeDevModal,
-  //   canShowDownloadVersion,
-  //   canShowInstallVersion,
-  // } = useDevUpdate({
-  //   allReleases,
-  //   downloadUpdates,
-  //   updateOs,
-  //   clearUpdateOsFlow,
-  //   downloadState,
-  //   updateState,
-  // })
-
   const { downloadProgress, resetDownloadProgress } = useDownloadProgress()
 
   const resetUpdateFlow = () => {
     clearUpdateOsFlow()
     resetDownloadProgress()
-    // if (devRelease) {
-    //   closeDevModal()
-    // }
   }
 
   const onOsDownloadCancel = () => {
@@ -248,23 +229,6 @@ export const UpdateOsFlow: FunctionComponent<UpdateOsFlowProps> = ({
         open={error?.type === UpdateError.OnboardingNotComplete}
         onClose={resetUpdateFlow}
       />
-
-      {/* {devRelease && (
-        <DevUpdateModal
-          layer={layer}
-          testId={UpdateOsFlowTestIds.DevUpdate}
-          open={canShowDownloadVersion || canShowInstallVersion}
-          install={canShowInstallVersion}
-          date={devRelease.date}
-          prerelease={
-            devRelease.type === OsReleaseType.Candidate ||
-            devRelease.type === OsReleaseType.Daily
-          }
-          version={devRelease.version}
-          action={canShowDownloadVersion ? downloadDevUpdate : startDevUpdate}
-          onClose={resetUpdateFlow}
-        />
-      )} */}
     </>
   )
 }
