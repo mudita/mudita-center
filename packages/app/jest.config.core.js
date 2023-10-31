@@ -17,7 +17,9 @@ module.exports = {
   globals: {
     __PATH_PREFIX__: "",
   },
-  testURL: "http://localhost",
+  testEnvironmentOptions: {
+    url: "http://localhost",
+  },
   setupFiles: ["<rootDir>/test-envs.js"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   roots: ["<rootDir>/src"],
