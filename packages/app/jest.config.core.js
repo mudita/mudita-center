@@ -51,5 +51,9 @@ module.exports = {
       lines: 75,
       statements: 75,
     },
-  }
+  },
+  snapshotFormat: {
+    escapeString: true,
+    printBasicPrototype: true,
+  },
 }
