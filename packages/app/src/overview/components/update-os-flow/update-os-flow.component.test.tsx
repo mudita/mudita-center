@@ -118,7 +118,7 @@ const checkModalsVisibility = (
   })
 }
 
-test.only("by default all elements are not visible", () => {
+test("by default all elements are not visible", () => {
   const { queryByTestId } = render()
 
   checkModalsVisibility(queryByTestId, [])
