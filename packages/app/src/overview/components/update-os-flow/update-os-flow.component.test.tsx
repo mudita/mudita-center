@@ -22,7 +22,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import React from "react"
 import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
 
-jest.mock("@electron/remote", () => ({
+jest.mock("electron", () => ({
   remote: {
     Menu: () => ({
       popup: jest.fn(),
@@ -118,7 +118,7 @@ const checkModalsVisibility = (
   })
 }
 
-test.only("by default all elements are not visible", () => {
+test("by default all elements are not visible", () => {
   const { queryByTestId } = render()
 
   checkModalsVisibility(queryByTestId, [])
