@@ -17,7 +17,8 @@ test("return the incremented progress value in the next render", async () => {
   await act(waitForNextUpdate)
   expect(result.current).toBe(2)
 })
-
+// src/__deprecated__/renderer/utils/hooks/use-dynamic-progress-value.hook.test.tsx:64:71
+// src/crash-dump/components/crash-dump-modal/crash-dump-modal.component.tsx:67:7)
 test("new props don't have an impact on the smooth incrementing value", async () => {
   const { result, waitForNextUpdate, rerender } = renderHook<number, number>(
     (props = 0) => useDynamicProgressValue(props)
@@ -61,7 +62,7 @@ test("incremental progress value does not back down", async () => {
   expect(result.current).toBe(3)
 })
 
-test("incremental progress value does not increase beyond the limit", async (done) => {
+test("incremental progress value does not increase beyond the limit", async () => {
   const { result, waitForNextUpdate } = renderHook(() =>
     useDynamicProgressValue(0, { limitValue: 3 })
   )
@@ -73,10 +74,9 @@ test("incremental progress value does not increase beyond the limit", async (don
 
   try {
     await act(async () => await waitForNextUpdate({ timeout: 500 }))
-    done(new Error("unexpected re rendering has occurred"))
+    new Error("unexpected re rendering has occurred")
   } catch {
     expect(result.current).not.toBe(4)
     expect(result.current).toBe(3)
-    done()
   }
 })
