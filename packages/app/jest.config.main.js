@@ -8,6 +8,7 @@ module.exports = {
   testPathIgnorePatterns: [
     ...jestConfig.testPathIgnorePatterns,
     "components",
+    "<rootDir>/src/contact-support"
   ],
   testEnvironment: "node"
 }
