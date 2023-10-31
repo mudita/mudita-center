@@ -47,8 +47,7 @@ jobs:
         run: npm run setup
       - name: Copy electron-builder environment file
         run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
-        # comment to push
-        # run: copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
+#        run: copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
       - name: Build App
         run: |
           export NODE_OPTIONS=--max_old_space_size=4096
