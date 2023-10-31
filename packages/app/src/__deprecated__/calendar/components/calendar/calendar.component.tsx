@@ -122,7 +122,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
     inputElement.addEventListener("change", onFileSelect)
   }
 
-  const openSelectVendorModal = () => {
+  const openSelectVendorModal = (): void => {
     resetProvider()
 
     try {
@@ -138,7 +138,6 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
       logger.error(
         `Calendar: selection vendor throw error. Data: ${JSON.stringify(error)}`
       )
-      return error
     }
   }
 
@@ -152,7 +151,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
     )
   }
 
-  const synchronizeEvents = async (calendar: Calendar) => {
+  const synchronizeEvents = async (calendar: Calendar): Promise<void> => {
     try {
       void openSynchronizingLoaderModal()
       const newEvents = await delayResponse(loadEvents(calendar))
@@ -162,7 +161,6 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
       logger.error(
         `Calendar: synchronize throw error. Data: ${JSON.stringify(error)}`
       )
-      return error
     }
   }
 
