@@ -72,7 +72,7 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-linux.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/env
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./env  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/env
 #          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
 #          cd mudita-center-internal-releases
 #          git tag "$GITTAG"
