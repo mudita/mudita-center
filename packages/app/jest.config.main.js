@@ -5,4 +5,8 @@ module.exports = {
   testMatch: [
     "**/?(*.)+(test|spec).[jt]s?(x)",
   ],
+  testPathIgnorePatterns: [
+    ...jestConfig.testPathIgnorePatterns,
+    "components",
+  ]
 }
