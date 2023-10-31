@@ -40,9 +40,9 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
+        shell: cmd
         run: |
           #printenv > .env
-          cmd
           SET > .env
       - name: Setup depedencies
         run: npm run setup
