@@ -58,11 +58,11 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          $APP_VERSION = Get-Content -Raw -Path packages/app/package.json | ConvertFrom-Json | Select-Object -ExpandProperty version
+          $APP_VERSION=$(cat packages/app/package.json | jq -r .version)
           $SOURCE_BRANCH = $env:GITHUB_REF
           if ($SOURCE_BRANCH -eq "refs/heads/develop" -or $SOURCE_BRANCH -eq "refs/heads/nexus-runner") {
               $ENVIRONMENT_CATALOG_NAME = "development"
-              $BUILD_VERSION = "-dev.${env:GITHUB_RUN_NUMBER}"
+              $BUILD_VERSION = "-dev.${$env:GITHUB_RUN_NUMBER}"
           } else {
               $ENVIRONMENT_CATALOG_NAME = "feature-branch/$($env:GITHUB_REF)"
               $BUILD_VERSION = ".$($env:GITHUB_RUN_NUMBER)"
