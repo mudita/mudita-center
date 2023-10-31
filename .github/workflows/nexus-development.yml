@@ -8,7 +8,7 @@ on:
       - nexus*
 jobs:
   build:
-    runs-on: Windows
+    runs-on: Linux
     environment: development
     steps:
       - name: Checkout code
@@ -41,14 +41,14 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
         run: |
-          #printenv > .env
-          SET > .env
+          printenv > .env
+          printenv > env
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file
-        #run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
+        run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
         # comment to push
-        run: copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
+        # run: copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
       - name: Build App
         run: |
           export NODE_OPTIONS=--max_old_space_size=4096
@@ -69,34 +69,36 @@ jobs:
           fi
           echo "GITTAG=$APP_VERSION$BUILD_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION$BUILD_VERSION"
-          git tag "$GITTAG"
-          git push origin "$GITTAG"
+#          git tag "$GITTAG"
+#          git push origin "$GITTAG"
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-linux.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
-          cd mudita-center-internal-releases
-          git tag "$GITTAG"
-          git push origin "$GITTAG"
-      - name: Create draft release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ./packages/app/release/Mudita-Center.AppImage
-            ./packages/app/release/latest-linux.yml
-            ./packages/app/release/builder-debug.yml
-          tag_name: ${{ env.GITTAG }}
-          name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-internal-releases
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          draft: true
-      - name: Push artifacts to GitHub
-        id: upload_assets
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-assets
-          path: |
-            ./packages/app/release/Mudita-Center.AppImage
-            ./packages/app/release/latest-linux.yml
-            ./packages/app/release/builder-debug.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./env  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/env
+#          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
+#          cd mudita-center-internal-releases
+#          git tag "$GITTAG"
+#          git push origin "$GITTAG"
+#      - name: Create draft release
+#        id: create_release
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          files: |
+#            ./packages/app/release/Mudita-Center.AppImage
+#            ./packages/app/release/latest-linux.yml
+#            ./packages/app/release/builder-debug.yml
+#          tag_name: ${{ env.GITTAG }}
+#          name: Mudita Center v${{ env.GITTAG }}
+#          repository: mudita/mudita-center-internal-releases
+#          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+#          draft: true
+#      - name: Push artifacts to GitHub
+#        id: upload_assets
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: release-assets
+#          path: |
+#            ./packages/app/release/Mudita-Center.AppImage
+#            ./packages/app/release/latest-linux.yml
+#            ./packages/app/release/builder-debug.yml
