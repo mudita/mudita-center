@@ -7,7 +7,7 @@ export default class PQueue {
   constructor() {
     return this;
   }
-  add(fn: any) {
+  add(fn: () => void) {
     return fn();
   }
   pause() {}
