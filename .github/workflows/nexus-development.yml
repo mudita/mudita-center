@@ -62,7 +62,9 @@ jobs:
           export SOURCE_BRANCH=${{ github.ref_name }}
           if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-runner" ]]; then
              export ENVIVORMENT_CATALOG_NAME=development
+             SET ENVIVORMENT_CATALOG_NAME=development
              export "BUILD_VERSION=-dev.${{ github.run_number }}"
+             SET "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
              export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
              export "BUILD_VERSION=.${{ github.run_number }}"
