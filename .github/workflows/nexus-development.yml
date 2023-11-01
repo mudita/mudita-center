@@ -61,8 +61,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          $env:SOURCE_BRANCH = $env:GITHUB_REF
-          if ($env:SOURCE_BRANCH -eq "refs/heads/develop" -or $env:SOURCE_BRANCH -eq "refs/heads/nexus-runner") {
+          if ($env:GITHUB_REF -eq "refs/heads/develop" -or $env:GITHUB_REF -eq "refs/heads/nexus-runner") {
               $env:ENVIRONMENT_CATALOG_NAME = "development"
               $env:BUILD_VERSION = "-dev.${$env:GITHUB_RUN_NUMBER}"
           } else {
