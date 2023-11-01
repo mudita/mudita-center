@@ -71,7 +71,7 @@ jobs:
           }
           $GITTAG = "$($env:APP_VERSION)$($env:BUILD_VERSION)"
           $NEXUS_URL = "https://nexus.mudita.com/repository/mudita-center/releases/$($ENVIRONMENT_CATALOG_NAME)/$($APP_VERSION)"
-          echo "C:\ProgramData\chocolatey\bin\curl.exe -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe $($env:NEXUS_URL)/Mudita-Center.exe"
+          echo "C:\ProgramData\chocolatey\bin\curl.exe -v -u $($NEXUS_USERNAME):$($NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.exe $($env:NEXUS_URL)/Mudita-Center.exe"
           C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.exe "$($env:NEXUS_URL)/Mudita-Center.exe"
           C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.zip "$($env:NEXUS_URL)/Mudita-Center.zip"
           C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.zip.blockmap "$($env:NEXUS_URL)/Mudita-Center.zip.blockmap"
