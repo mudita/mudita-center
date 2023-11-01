@@ -43,6 +43,7 @@ jobs:
         shell: cmd
         run: |
           SET > .env
+          jq -r -j .version packages/app/package.json > packages/app/version
       - name: Get Version
         run: $env:APP_VERSION = Get-Content -Path "packages/app/version"
       - name: Setup depedencies
