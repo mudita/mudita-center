@@ -61,7 +61,7 @@ jobs:
         run: |
           $NEXUS_USERNAME = $env:NEXUS_USERNAME
           $NEXUS_PASSWORD = $env:NEXUS_PASSWORD
-          APP_VERSION = Get-Content -Path "packages/app/version"
+          $APP_VERSION = Get-Content -Path "packages/app/version"
           if ($env:GITHUB_REF -eq "refs/heads/develop" -or $env:GITHUB_REF -eq "refs/heads/nexus-runner") {
               $ENVIRONMENT_CATALOG_NAME = "development"
               $BUILD_VERSION = "-dev.${$env:GITHUB_RUN_NUMBER}"
