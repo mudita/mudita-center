@@ -44,8 +44,6 @@ jobs:
         run: |
           SET > .env
           jq -r -j .version packages/app/package.json > packages/app/version
-      - name: Get Version
-        run: $env:APP_VERSION = Get-Content -Path "packages/app/version"
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file
@@ -61,16 +59,19 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
+          $NEXUS_USERNAME = $env:NEXUS_USERNAME
+          $NEXUS_PASSWORD = $env:NEXUS_PASSWORD
+          APP_VERSION = Get-Content -Path "packages/app/version"
           if ($env:GITHUB_REF -eq "refs/heads/develop" -or $env:GITHUB_REF -eq "refs/heads/nexus-runner") {
-              $env:ENVIRONMENT_CATALOG_NAME = "development"
-              $env:BUILD_VERSION = "-dev.${$env:GITHUB_RUN_NUMBER}"
+              $ENVIRONMENT_CATALOG_NAME = "development"
+              $BUILD_VERSION = "-dev.${$env:GITHUB_RUN_NUMBER}"
           } else {
               $env:ENVIRONMENT_CATALOG_NAME = "feature-branch/$($env:GITHUB_REF)"
               $env:BUILD_VERSION = ".$($env:GITHUB_RUN_NUMBER)"
           }
           $GITTAG = "$($env:APP_VERSION)$($env:BUILD_VERSION)"
-          $env:NEXUS_URL = "https://nexus.mudita.com/repository/mudita-center/releases/$($env:ENVIRONMENT_CATALOG_NAME)/$($env:APP_VERSION)"
-          echo "C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.exe $($env:NEXUS_URL)/Mudita-Center.exe"
+          $NEXUS_URL = "https://nexus.mudita.com/repository/mudita-center/releases/$($ENVIRONMENT_CATALOG_NAME)/$($APP_VERSION)"
+          echo "C:\ProgramData\chocolatey\bin\curl.exe -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe $($env:NEXUS_URL)/Mudita-Center.exe"
           C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.exe "$($env:NEXUS_URL)/Mudita-Center.exe"
           C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.zip "$($env:NEXUS_URL)/Mudita-Center.zip"
           C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.zip.blockmap "$($env:NEXUS_URL)/Mudita-Center.zip.blockmap"
