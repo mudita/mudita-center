@@ -43,6 +43,7 @@ jobs:
         shell: cmd
         run: |
           SET > .env
+          $env:APP_VERSION = Get-Content -Path "packages/app/version"
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file
@@ -58,7 +59,6 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          $env:APP_VERSION = (Get-Content -Path "packages/app/package.json" | ConvertFrom-Json).version
           $env:SOURCE_BRANCH = $env:GITHUB_REF
           if ($env:SOURCE_BRANCH -eq "refs/heads/develop" -or $env:SOURCE_BRANCH -eq "refs/heads/nexus-runner") {
               $env:ENVIRONMENT_CATALOG_NAME = "development"
