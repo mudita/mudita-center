@@ -43,7 +43,8 @@ jobs:
         shell: cmd
         run: |
           SET > .env
-          $env:APP_VERSION = Get-Content -Path "packages/app/version"
+      - name: Get Version
+        run: $env:APP_VERSION = Get-Content -Path "packages/app/version"
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file
