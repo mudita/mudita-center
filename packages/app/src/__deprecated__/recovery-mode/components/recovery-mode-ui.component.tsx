@@ -18,7 +18,7 @@ import {
   Support,
   SupportText,
   TextWrapper,
-} from "App/__deprecated__/recovery-mode/recovery-mode.styled"
+} from "App/__deprecated__/recovery-mode/components/recovery-mode.styled"
 import { Title } from "App/__deprecated__/renderer/components/core/text/title-text.styled"
 import Text, {
   TextDisplayStyle,

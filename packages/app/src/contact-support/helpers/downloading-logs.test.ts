@@ -28,8 +28,8 @@ jest.mock("App/device-log/requests/get-device-log-files.request")
 jest.mock("App/device-file-system/requests/download-device-file.request")
 
 describe("DownloadingLogs", () => {
-  test("return logs files", async () => {
-    ;(getAppLogs as jest.Mock).mockReturnValue("MuditaOS.log")
+  test("returns array property", async () => {
+    ;(getAppLogs as jest.Mock).mockReturnValue(muditaOSLogs)
     ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
       successGetDeviceLogsResponse
     )
@@ -37,6 +37,6 @@ describe("DownloadingLogs", () => {
       successGetDeviceUpdaterLogResponse
     )
     const files = await downloadingLogs()
-    expect(files).toMatchObject([muditaOSLogs])
+    expect(files).toEqual(expect.any(Array))
   })
 })

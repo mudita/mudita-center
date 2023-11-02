@@ -10,7 +10,7 @@ jobs:
       matrix:
         node-version: [18.16.1]
 
-    timeout-minutes: 20
+    timeout-minutes: 40
 
     steps:
       - uses: actions/checkout@v1

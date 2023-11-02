@@ -12,10 +12,10 @@ import { screen, fireEvent } from "@testing-library/dom"
 import { DeviceType } from "App/device/constants"
 import { State } from "App/core/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import { CrashDump } from "App/crash-dump/containers/crash-dump/crash-dump.component"
+import { CrashDump } from "App/crash-dump/components/crash-dump/crash-dump.component"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { CrashDumpModalTestingIds } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal-testing-ids.enum"
-import { CrashDumpTestingIds } from "App/crash-dump/containers/crash-dump/crash-dump-testing-ids.enum"
+import { CrashDumpTestingIds } from "App/crash-dump/components/crash-dump/crash-dump-testing-ids.enum"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
 const initialStateMock = {

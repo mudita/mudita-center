@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./actions"
-export * from "./components"
-export * from "./reducers"
+export const v4 = () => {
+  return undefined;
+}
