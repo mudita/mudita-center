@@ -8,7 +8,7 @@ import App from "App/__deprecated__/renderer/app.component"
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
 import store from "App/__deprecated__/renderer/store"
 import * as React from "react"
-import * as ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 import Modal from "react-modal"
 
 try {
@@ -26,8 +26,9 @@ const mainElement = document.createElement("div")
 mainElement.id = "app"
 document.body.appendChild(mainElement)
 Modal.setAppElement("#app")
+const root = createRoot(mainElement)
 
-ReactDOM.render(<App />, mainElement)
+root.render(<App />)
 
 // Setup modal service
 modalService.bindStore(store)
