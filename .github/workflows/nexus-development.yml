@@ -177,7 +177,7 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug-mac.yml
           git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
           cd mudita-center-internal-releases
-          git tag "$GITTAG"
+          git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Create draft release
         if: matrix.os == 'Windows'
