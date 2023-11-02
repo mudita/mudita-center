@@ -68,7 +68,8 @@ jobs:
               $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
               $BUILD_VERSION = ".${{ github.run_number }}"
           }
-          $GITTAG = "$($env:APP_VERSION)$($env:BUILD_VERSION)"
+          echo "GITTAG=$($APP_VERSION)$($BUILD_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          $GITTAG = "$($APP_VERSION)$($BUILD_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
           $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force  
           $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)  
@@ -76,3 +77,31 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/latest.yml -InFile ./packages/app/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/builder-debug.yml -InFile ./packages/app/release/builder-debug.yml -Method Put -Credential $AUTH
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
+          cd mudita-center-internal-releases
+          git tag "$GITTAG"
+          git push origin "$GITTAG"
+      - name: Create draft release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./packages/app/release/Mudita-Center.exe
+            ./packages/app/release/Mudita-Center.exe.blockmap
+            ./packages/app/release/latest.yml
+            ./packages/app/release/builder-debug.yml
+          tag_name: ${{ env.GITTAG }}
+          name: Mudita Center v${{ env.GITTAG }}
+          repository: mudita/mudita-center-internal-releases
+          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          draft: true
+      - name: Push artifacts to GitHub
+        id: upload_assets
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-assets
+          path: |
+            ./packages/app/release/Mudita-Center.exe
+            ./packages/app/release/Mudita-Center.exe.blockmap
+            ./packages/app/release/latest.yml
+            ./packages/app/release/builder-debug.yml
