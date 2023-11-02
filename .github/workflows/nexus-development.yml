@@ -11,16 +11,6 @@ jobs:
     runs-on: Windows
     environment: development
     steps:
-      - name: Check CURL
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-        run: |
-          $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
-          $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force  
-          $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)  
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/package.json -InFile ./packages/app/package.json -Method Put -Credential $AUTH  
-          exit 1
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Setup node
@@ -79,10 +69,12 @@ jobs:
           }
           $GITTAG = "$($env:APP_VERSION)$($env:BUILD_VERSION)"
           $NEXUS_URL = "https://nexus.mudita.com/repository/mudita-center/releases/$($ENVIRONMENT_CATALOG_NAME)/$($APP_VERSION)"
-          echo "C:\ProgramData\chocolatey\bin\curl.exe -v -u $($NEXUS_USERNAME):$($NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.exe $($env:NEXUS_URL)/Mudita-Center.exe"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.exe "$($env:NEXUS_URL)/Mudita-Center.exe"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.zip "$($env:NEXUS_URL)/Mudita-Center.zip"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.zip.blockmap "$($env:NEXUS_URL)/Mudita-Center.zip.blockmap"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/Mudita-Center.exe.blockmap "$($env:NEXUS_URL)/Mudita-Center.exe.blockmap"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/latest.yml "$($env:NEXUS_URL)/latest.yml"
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/release/builder-debug.yml "$($env:NEXUS_URL)/builder-debug.yml"
+          $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
+          $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force  
+          $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)  
+          Invoke-WebRequest -Uri ${$NEXUS_URL}/Mudita-Center.exe -InFile ./packages/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri ${$NEXUS_URL}/Mudita-Center.zip -InFile ./packages/app/release/Mudita-Center.zip -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri ${$NEXUS_URL}/Mudita-Center.zip.blockmap -InFile ./packages/app/release/Mudita-Center.zip.blockmap -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri ${$NEXUS_URL}/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri ${$NEXUS_URL}/latest.yml -InFile ./packages/app/release/Mudita-Center.latest.yml -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri ${$NEXUS_URL}/builder-debug.yml -InFile ./packages/app/release/builder-debug.yml -Method Put -Credential $AUTH
