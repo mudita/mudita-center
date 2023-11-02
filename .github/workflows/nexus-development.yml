@@ -190,7 +190,7 @@ jobs:
           draft: true
       - name: Push Windows artifacts to github
         if: matrix.os == 'Windows'
-        id: upload_assets
+        id: upload_assets_windows
         uses: actions/upload-artifact@v2
         with:
           tag_name: ${{ env.GITTAG }}
@@ -203,7 +203,7 @@ jobs:
             ./packages/app/release/latest.yml
       - name: Push macOS artifacts to github
         if: matrix.os == 'macOS'
-        id: upload_assets
+        id: upload_assets_macos
         uses: actions/upload-artifact@v2
         with:
           tag_name: ${{ env.GITTAG }}
@@ -218,7 +218,7 @@ jobs:
             ./packages/app/release/latest-mac.yml
       - name: Push Linux artifacts to github
         if: matrix.os == 'Linux'
-        id: upload_assets
+        id: upload_assets_linux
         uses: actions/upload-artifact@v2
         with:
           tag_name: ${{ env.GITTAG }}
