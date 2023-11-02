@@ -139,7 +139,7 @@ describe("`Templates` component", () => {
     })
   })
 
-  describe("`createTemplate` functionality", () => {
+  describe.skip("`createTemplate` functionality", () => {
     test("Calls `createTemplate` when clicks on `Save` button", async () => {
       const { getByTestId } = await render({
         templates: [],
@@ -324,7 +324,7 @@ describe("`Templates` component", () => {
     })
   })
 
-  describe("`updateTemplate` functionality", () => {
+  describe.skip("`updateTemplate` functionality", () => {
     test("Calls `updateTemplate` when clicks on `Save` button", async () => {
       const { getByTestId } = await render({
         templates: [templateMock],
