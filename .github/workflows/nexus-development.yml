@@ -60,12 +60,13 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           $APP_VERSION = Get-Content -Path "packages/app/version"
-          if ($env:GITHUB_REF -eq "refs/heads/develop" -or $env:GITHUB_REF -eq "refs/heads/nexus-runner") {
+          $SOURCE_BRANCH = "${{ github.ref_name }}"
+          if ($SOURCE_BRANCH -eq "develop" -or $SOURCE_BRANCH -eq "nexus-runner") {
               $ENVIRONMENT_CATALOG_NAME = "development"
-              $BUILD_VERSION = "-dev.${$env:GITHUB_RUN_NUMBER}"
+              $BUILD_VERSION = "-dev.${{ github.run_number }}"
           } else {
-              $env:ENVIRONMENT_CATALOG_NAME = "feature-branch/$($env:GITHUB_REF)"
-              $env:BUILD_VERSION = ".$($env:GITHUB_RUN_NUMBER)"
+              $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
+              $BUILD_VERSION = ".${{ github.run_number }}"
           }
           $GITTAG = "$($env:APP_VERSION)$($env:BUILD_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
@@ -73,5 +74,5 @@ jobs:
           $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)  
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.exe -InFile ./packages/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest.yml -InFile ./packages/app/release/Mudita-Center.latest.yml -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest.yml -InFile ./packages/app/release/Mudita-Center/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug.yml -InFile ./packages/app/release/builder-debug.yml -Method Put -Credential $AUTH
