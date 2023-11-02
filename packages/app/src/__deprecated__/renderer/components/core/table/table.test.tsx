@@ -7,7 +7,7 @@ import React from "react"
 import {
   Checkbox,
   Files,
-} from "App/__deprecated__/renderer/components/core/table/table.stories"
+} from "App/__deprecated__/renderer/components/core/table/table-grouped.stories"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import {
   Col,

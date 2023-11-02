@@ -7,10 +7,13 @@ import { button, withKnobs } from "@storybook/addon-knobs"
 import React, { useState } from "react"
 import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { searchIcon } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
 import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
-import { css } from "styled-components"
+import {
+  storyContainerStyles,
+  textAreaContainerStyles,
+} from "App/__deprecated__/renderer/components/core/input-text/input-text-shared.stories"
+import { RowsView } from "App/__deprecated__/renderer/components/core/table/table-parts.stories"
 
 export const Icon: FunctionComponent = () => (
   <svg width="14" height="14" viewBox="0 0 14 14">
@@ -21,24 +24,13 @@ export const Icon: FunctionComponent = () => (
   </svg>
 )
 
-const storyContainerStyles = css`
-  main > * {
-    width: 20rem;
-  }
-`
-
-const textAreaContainerStyles = css`
-  ${storyContainerStyles};
-  align-items: flex-start;
-`
-
 export default {
   title: 'Components|Core/Text input',
   decorators: [withKnobs],
   excludeStories: ['Icon'],
 };
 
-export const Default = () => (
+export const TextInputView = () => (
     <>
       <StoryContainer title="Themes" customStyle={storyContainerStyles}>
         <Story title="Default">
@@ -117,7 +109,11 @@ export const Default = () => (
     </>
   );
 
-export const Outlined = () => (
+TextInputView.story = {
+  name: "Text Input view",
+}
+
+export const OutlinedView = () => (
     <>
       <StoryContainer title="Themes" customStyle={storyContainerStyles}>
         <Story title="Default">
@@ -208,119 +204,9 @@ export const Outlined = () => (
     </>
   );
 
-export default {
-  title: 'Components|Core/Text input/Passcode',
-  excludeStories: ['Icon'],
-};
-
-export const _Default = () => (
-  <>
-    <StoryContainer title="Themes">
-      <Story title="Default">
-        <InputComponent type="passcode" />
-      </Story>
-    </StoryContainer>
-    <StoryContainer title="Modifiers">
-      <Story title="Disabled with value">
-        <InputComponent type="passcode" disabled defaultValue="3" />
-      </Story>
-      <Story title="With error">
-        <InputComponent defaultValue="3" type="passcode" error />
-      </Story>
-    </StoryContainer>
-  </>
-);
-
-export default {
-  title: 'Components|Core/Text input/Text area',
-  excludeStories: ['Icon'],
-};
-
-export const __Default = () => (
-    <>
-      <StoryContainer title="Themes" customStyle={textAreaContainerStyles}>
-        <Story title="Default">
-          <InputComponent type="textarea" label="Message" />
-        </Story>
-      </StoryContainer>
-      <StoryContainer title="Modifiers" customStyle={textAreaContainerStyles}>
-        <Story title="With label">
-          <InputComponent type="textarea" label="Message" />
-        </Story>
-        <Story title="With value">
-          <InputComponent
-            defaultValue={
-              "Curabitur ac lectus.\n\nAliquet quam id dui posuere blandit."
-            }
-            type="textarea"
-            label="Message"
-          />
-        </Story>
-        <Story title="With error">
-          <InputComponent
-            type="textarea"
-            label="Message"
-            defaultValue={
-              "Curabitur ac lectus.\n\nAliquet quam id dui posuere blandit."
-            }
-            errorMessage="Text is too long"
-          />
-        </Story>
-        <Story title="Disabled with value">
-          <InputComponent
-            type="textarea"
-            label="Message"
-            defaultValue={
-              "Curabitur ac lectus.\n\nAliquet quam id dui posuere blandit."
-            }
-            disabled
-          />
-        </Story>
-        <Story title="With rows limit set to 3">
-          <InputComponent
-            type="textarea"
-            label="Message"
-            defaultValue={
-              "Curabitur ac lectus.\n\nAliquet quam id dui posuere blandit."
-            }
-            maxRows={3}
-          />
-        </Story>
-      </StoryContainer>
-      <StoryContainer title="Customizations">
-        <Story title="With leading icon">
-          <InputComponent
-            type="textarea"
-            leadingIcons={[<Icon key={1} />]}
-            label="Message"
-          />
-        </Story>
-        <Story title="With trailing icon">
-          <InputComponent
-            type="textarea"
-            trailingIcons={[<Icon key={1} />]}
-            label="Message"
-          />
-        </Story>
-        <Story title={"With leading \n and trailing icons"}>
-          <InputComponent
-            type="textarea"
-            leadingIcons={[<Icon key={1} />]}
-            trailingIcons={[<Icon key={1} />]}
-            label="Message"
-          />
-        </Story>
-        <Story title={"With multiple leading \n and trailing icons"}>
-          <InputComponent
-            type="textarea"
-            leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
-            trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
-            label="Message"
-          />
-        </Story>
-      </StoryContainer>
-    </>
-  );
+OutlinedView.story = {
+  name: "Outlined view",
+}
 
 export const InputLike = () => (
     <>
@@ -467,20 +353,6 @@ export const Interactive = () => {
     )
   };
 
-export default {
-  title: 'Components|Core/Text input/Search',
-  excludeStories: ['Icon'],
+Interactive.story = {
+  name: 'Interactive',
 };
-
-export const ___Default = () => (
-  <StoryContainer customStyle={storyContainerStyles}>
-    <Story>
-      <InputComponent
-        type="search"
-        leadingIcons={[searchIcon]}
-        outlined
-        condensed
-      />
-    </Story>
-  </StoryContainer>
-);
