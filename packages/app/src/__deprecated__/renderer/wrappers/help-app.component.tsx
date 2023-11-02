@@ -13,6 +13,7 @@ import Help from "App/help/help.container"
 import { renderAnswer } from "App/help/helpers/render-answer"
 import { useHelpSearch } from "App/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import ContextMenu from "App/__deprecated__/context-menu/context-menu"
+import Answer from "App/help/components/answer/answer.component"
 
 interface Props {
   history: History
@@ -36,9 +37,6 @@ const HelpApp: FunctionComponent<Props> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInputValue])
-  const AnswerComponent = (
-    props: RouteComponentProps<{ questionId: string }>
-  ) => renderAnswer(data, props)
 
   useEffect(() => {
     const helpContextMenu = new ContextMenu()
@@ -51,7 +49,10 @@ const HelpApp: FunctionComponent<Props> = ({
   return (
     <Router history={history}>
       <Switch>
-        <Route path={`${URL_MAIN.help}/:questionId`}>{AnswerComponent}</Route>
+        <Route
+          path={`${URL_MAIN.help}/:questionId`}
+          render={(props) => renderAnswer(data, props)}
+        />
         <Route path={URL_MAIN.help}>
           <Help
             list={data}

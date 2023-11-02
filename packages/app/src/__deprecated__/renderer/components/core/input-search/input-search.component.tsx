@@ -51,9 +51,8 @@ const messages = defineMessages({
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
-  transition: transform ${transitionTime("faster")}
+  transition: transform, ${transitionTime("faster")},
     ${transitionTimingFunction("smooth")};
-
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
 `
 
@@ -306,7 +305,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
 
   const resetSearchValue = () => onSearchValueChange("")
 
-  const handleSelect = (item: typeof items[number]) => {
+  const handleSelect = (item: (typeof items)[number]) => {
     onSelect(item)
     setActiveItemIndex(-1)
   }
