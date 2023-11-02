@@ -9,14 +9,13 @@ const { resolve } = require("../webpack/common")
 
 module.exports = {
   stories: ["../**/*.stories.tsx"],
+
   addons: [
     "@storybook/addon-actions",
     "@storybook/addon-knobs",
     "@storybook/addon-links",
   ],
-  core: {
-    builder: "webpack5",
-  },
+
   webpackFinal: async (config) => {
     config.plugins.push(new NodePolyfillPlugin())
 
@@ -30,7 +29,7 @@ module.exports = {
         return {
           ...rule,
           test: /\.(ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
-        }
+        };
       }
 
       return rule
@@ -60,4 +59,13 @@ module.exports = {
 
     return config
   },
+
+  framework: {
+    name: "@storybook/react-webpack5",
+    options: {}
+  },
+
+  docs: {
+    autodocs: true
+  }
 }
