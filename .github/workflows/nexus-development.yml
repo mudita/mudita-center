@@ -81,6 +81,8 @@ jobs:
           cd mudita-center-internal-releases
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
+          Write-host "${{ env.GITTAG }}"
+          Write-host "$GITTAG"
       - name: Create draft release
         id: create_release
         uses: softprops/action-gh-release@v1
