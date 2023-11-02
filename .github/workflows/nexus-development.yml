@@ -221,7 +221,6 @@ jobs:
         id: upload_assets
         uses: actions/upload-artifact@v2
         with:
-          name: release-assets
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-internal-releases
