@@ -115,11 +115,12 @@ jobs:
           $GITTAG = "$($APP_VERSION)$($BUILD_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
           $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force  
-          $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)  
+          $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
+          copy ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-win.yml
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/Mudita-Center.exe -InFile ./packages/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/latest.yml -InFile ./packages/app/release/latest.yml -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/builder-debug.yml -InFile ./packages/app/release/builder-debug.yml -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/builder-debug-win.yml -InFile ./packages/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
           C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
           cd mudita-center-internal-releases
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
@@ -143,9 +144,10 @@ jobs:
           export GITTAG="$APP_VERSION$BUILD_VERSION"
           git tag "$GITTAG"
           git push origin "$GITTAG"
+          cp ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-linux.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-linux.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug-linux.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug-linux.yml
           git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
           cd mudita-center-internal-releases
           git tag "$GITTAG" 2>&1 || true
@@ -169,12 +171,13 @@ jobs:
           export GITTAG="$APP_VERSION$BUILD_VERSION"
           git tag "$GITTAG"
           git push origin "$GITTAG"
+          cp ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.dmg
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.zip
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.zip.blockmap
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.dmg.blockmap
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-mac.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug-mac.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug-mac.yml
           git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
           cd mudita-center-internal-releases
           git tag "$GITTAG" 2>&1 || true
@@ -189,10 +192,11 @@ jobs:
           repository: mudita/mudita-center-internal-releases
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
-          path: |
+          files: |
             ./packages/app/release/Mudita-Center.exe
             ./packages/app/release/Mudita-Center.exe.blockmap
             ./packages/app/release/latest.yml
+            ./packages/app/release/builder-debug-win.yml
       - name: Create draft release with Linux files
         if: matrix.os == 'Linux'
         id: create_release_linux
@@ -203,10 +207,11 @@ jobs:
           repository: mudita/mudita-center-internal-releases
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
-          path: |
+          files: |
             ./packages/app/release/Mudita-Center.AppImage
             ./packages/app/release/latest-linux.yml
-      - name: Create draft release with Linux files
+            ./packages/app/release/builder-debug-linux.yml
+      - name: Create draft release with Mac files
         if: matrix.os == 'macOS'
         id: create_release_macos
         uses: softprops/action-gh-release@v1
@@ -216,9 +221,10 @@ jobs:
           repository: mudita/mudita-center-internal-releases
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
-          path: |
+          files: |
             ./packages/app/release/Mudita-Center.dmg
             ./packages/app/release/Mudita-Center.zip
             ./packages/app/release/Mudita-Center.zip.blockmap
             ./packages/app/release/Mudita-Center.dmg.blockmap
             ./packages/app/release/latest-mac.yml
+            ./packages/app/release/builder-debug-mac.yml
