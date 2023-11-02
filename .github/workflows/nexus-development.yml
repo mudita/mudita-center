@@ -193,10 +193,7 @@ jobs:
         id: upload_assets_windows
         uses: actions/upload-artifact@v2
         with:
-          tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-internal-releases
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           path: |
             ./packages/app/release/Mudita-Center.exe
             ./packages/app/release/Mudita-Center.exe.blockmap
@@ -206,10 +203,7 @@ jobs:
         id: upload_assets_macos
         uses: actions/upload-artifact@v2
         with:
-          tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-internal-releases
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           path: |
             ./packages/app/release/Mudita-Center.dmg
             ./packages/app/release/Mudita-Center.zip
@@ -221,10 +215,7 @@ jobs:
         id: upload_assets_linux
         uses: actions/upload-artifact@v2
         with:
-          tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-internal-releases
-          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           path: |
             ./packages/app/release/Mudita-Center.AppImage
             ./packages/app/release/latest-linux.yml
