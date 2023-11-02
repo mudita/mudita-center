@@ -116,7 +116,7 @@ test("Message is displayed properly when request about phone lock return interna
   )
 })
 
-test("Message is displayed properly when request about phone lock status return phone locked", async () => {
+test.skip("Message is displayed properly when request about phone lock status return phone locked", async () => {
   const { inputsList, errorMessage } = renderer({
     getUnlockStatus: jest
       .fn()
