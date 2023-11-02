@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import TextEditor, {
   SaveStatus,
@@ -27,132 +21,169 @@ const storyStyles = css`
 
 const defaultText = templates[0].content
 
-storiesOf("Components|Core/TextEditor", module)
-  .add("Preview mode", () => (
-    <Story customStyle={storyStyles}>
-      <TextEditor
-        temporaryText={defaultText}
-        keepTemporaryText={noop}
-        onChangesReject={noop}
-        onChangesSave={noop}
-        statsInfo={`${defaultText.length} characters`}
-      />
-    </Story>
-  ))
-  .add("Edit mode", () => (
-    <Story customStyle={storyStyles}>
-      <TextEditor
-        temporaryText={defaultText}
-        keepTemporaryText={noop}
-        onChangesReject={noop}
-        onChangesSave={noop}
-        statsInfo={`${defaultText.length} characters`}
-        status={{ editMode: true }}
-      />
-    </Story>
-  ))
-  .add("Edit mode: text changed", () => (
-    <Story customStyle={storyStyles}>
-      <TextEditor
-        temporaryText={defaultText}
-        keepTemporaryText={noop}
-        onChangesReject={noop}
-        onChangesSave={noop}
-        statsInfo={`${defaultText.length} characters`}
-        status={{ editMode: true, textChanged: true }}
-      />
-    </Story>
-  ))
-  .add("Edit mode: autosaving changes", () => (
-    <Story customStyle={storyStyles}>
-      <TextEditor
-        temporaryText={defaultText}
-        keepTemporaryText={noop}
-        onChangesReject={noop}
-        onChangesSave={noop}
-        statsInfo={`${defaultText.length} characters`}
-        status={{
-          editMode: true,
-          autosave: SaveStatus.Saving,
-          textChanged: true,
-        }}
-      />
-    </Story>
-  ))
-  .add("Edit mode: autosaved changes", () => (
-    <Story customStyle={storyStyles}>
-      <TextEditor
-        temporaryText={defaultText}
-        keepTemporaryText={noop}
-        onChangesReject={noop}
-        onChangesSave={noop}
-        statsInfo={`${defaultText.length} characters`}
-        status={{
-          editMode: true,
-          autosave: SaveStatus.Saved,
-          textChanged: true,
-        }}
-      />
-    </Story>
-  ))
-  .add("Edit mode: saving to phone", () => (
-    <Story customStyle={storyStyles}>
-      <TextEditor
-        temporaryText={defaultText}
-        keepTemporaryText={noop}
-        onChangesReject={noop}
-        onChangesSave={noop}
-        statsInfo={`${defaultText.length} characters`}
-        status={{
-          editMode: true,
-          autosave: SaveStatus.Saved,
-          save: SaveStatus.Saving,
-          textChanged: true,
-        }}
-      />
-    </Story>
-  ))
-  .add("Interactive (no real saving)", () => {
-    // External data (store like) imitation
-    const [note, setNote] = useState(templates[0])
+export default {
+  title: "Components|Core/TextEditor",
+}
 
-    const fakeSave = (newNote: Text) => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          setNote(newNote)
-          resolve(undefined)
-        }, 1500)
-      })
-    }
+export const PreviewMode = () => (
+  <Story customStyle={storyStyles}>
+    <TextEditor
+      temporaryText={defaultText}
+      keepTemporaryText={noop}
+      onChangesReject={noop}
+      onChangesSave={noop}
+      statsInfo={`${defaultText.length} characters`}
+    />
+  </Story>
+)
 
-    const {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      temporaryText,
-      keepTemporaryText,
-      rejectChanges,
-      saveChanges,
-      status,
-      enableEditMode,
-      disableEditMode,
-    } = useTextEditor(note, fakeSave)
+PreviewMode.story = {
+  name: "Preview mode",
+}
 
-    return (
-      <Story customStyle={storyStyles}>
-        <TextEditor
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          temporaryText={temporaryText}
-          keepTemporaryText={keepTemporaryText}
-          onChangesReject={rejectChanges}
-          onChangesSave={saveChanges}
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
-          statsInfo={`${temporaryText.length} characters`}
-          status={status}
-          enableEditMode={enableEditMode}
-          disableEditMode={disableEditMode}
-        />
-      </Story>
-    )
-  })
+export const EditMode = () => (
+  <Story customStyle={storyStyles}>
+    <TextEditor
+      temporaryText={defaultText}
+      keepTemporaryText={noop}
+      onChangesReject={noop}
+      onChangesSave={noop}
+      statsInfo={`${defaultText.length} characters`}
+      status={{ editMode: true }}
+    />
+  </Story>
+)
+
+EditMode.story = {
+  name: "Edit mode",
+}
+
+export const EditModeTextChanged = () => (
+  <Story customStyle={storyStyles}>
+    <TextEditor
+      temporaryText={defaultText}
+      keepTemporaryText={noop}
+      onChangesReject={noop}
+      onChangesSave={noop}
+      statsInfo={`${defaultText.length} characters`}
+      status={{ editMode: true, textChanged: true }}
+    />
+  </Story>
+)
+
+EditModeTextChanged.story = {
+  name: "Edit mode: text changed",
+}
+
+export const EditModeAutosavingChanges = () => (
+  <Story customStyle={storyStyles}>
+    <TextEditor
+      temporaryText={defaultText}
+      keepTemporaryText={noop}
+      onChangesReject={noop}
+      onChangesSave={noop}
+      statsInfo={`${defaultText.length} characters`}
+      status={{
+        editMode: true,
+        autosave: SaveStatus.Saving,
+        textChanged: true,
+      }}
+    />
+  </Story>
+)
+
+EditModeAutosavingChanges.story = {
+  name: "Edit mode: autosaving changes",
+}
+
+export const EditModeAutosavedChanges = () => (
+  <Story customStyle={storyStyles}>
+    <TextEditor
+      temporaryText={defaultText}
+      keepTemporaryText={noop}
+      onChangesReject={noop}
+      onChangesSave={noop}
+      statsInfo={`${defaultText.length} characters`}
+      status={{
+        editMode: true,
+        autosave: SaveStatus.Saved,
+        textChanged: true,
+      }}
+    />
+  </Story>
+)
+
+EditModeAutosavedChanges.story = {
+  name: "Edit mode: autosaved changes",
+}
+
+export const EditModeSavingToPhone = () => (
+  <Story customStyle={storyStyles}>
+    <TextEditor
+      temporaryText={defaultText}
+      keepTemporaryText={noop}
+      onChangesReject={noop}
+      onChangesSave={noop}
+      statsInfo={`${defaultText.length} characters`}
+      status={{
+        editMode: true,
+        autosave: SaveStatus.Saved,
+        save: SaveStatus.Saving,
+        textChanged: true,
+      }}
+    />
+  </Story>
+)
+
+EditModeSavingToPhone.story = {
+  name: "Edit mode: saving to phone",
+}
+
+export const InteractiveNoRealSaving = () => {
+  // External data (store like) imitation
+  const [note, setNote] = useState(templates[0])
+
+  const fakeSave = (newNote: Text) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        setNote(newNote)
+        resolve(undefined)
+      }, 1500)
+    })
+  }
+
+  const {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    temporaryText,
+    keepTemporaryText,
+    rejectChanges,
+    saveChanges,
+    status,
+    enableEditMode,
+    disableEditMode,
+  } = useTextEditor(note, fakeSave)
+
+  return (
+    <Story customStyle={storyStyles}>
+      <TextEditor
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        temporaryText={temporaryText}
+        keepTemporaryText={keepTemporaryText}
+        onChangesReject={rejectChanges}
+        onChangesSave={saveChanges}
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
+        statsInfo={`${temporaryText.length} characters`}
+        status={status}
+        enableEditMode={enableEditMode}
+        disableEditMode={disableEditMode}
+      />
+    </Story>
+  )
+}
+
+InteractiveNoRealSaving.story = {
+  name: "Interactive (no real saving)",
+}

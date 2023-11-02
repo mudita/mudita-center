@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { Router } from "react-router"
 import Menu from "App/__deprecated__/renderer/components/rest/menu/menu.component"
@@ -14,7 +8,11 @@ const Container = styled.div`
   width: 31.5rem;
 `
 
-storiesOf("Components/Menu", module).add("Menu", () => {
+export default {
+  title: "Components/Menu",
+}
+
+export const _Menu = () => {
   return (
     <Router history={history}>
       <Container>
@@ -22,4 +20,4 @@ storiesOf("Components/Menu", module).add("Menu", () => {
       </Container>
     </Router>
   )
-})
+}

@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import styled, { css } from "styled-components"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
@@ -32,8 +26,11 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-storiesOf("Views/Calendar/Main view", module)
-  .add("With events", () => {
+export default {
+  title: 'Views/Calendar/Main view',
+};
+
+export const WithEvents = () => {
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
     return (
       <Wrapper>
@@ -45,8 +42,13 @@ storiesOf("Views/Calendar/Main view", module)
         />
       </Wrapper>
     )
-  })
-  .add("No events", () => {
+  };
+
+WithEvents.story = {
+  name: 'With events',
+};
+
+export const NoEvents = () => {
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
     return (
       <Wrapper>
@@ -58,8 +60,17 @@ storiesOf("Views/Calendar/Main view", module)
         />
       </Wrapper>
     )
-  })
-storiesOf("Views/Calendar/Modals", module).add("All", () => (
+  };
+
+NoEvents.story = {
+  name: 'No events',
+};
+
+export default {
+  title: 'Views/Calendar/Modals',
+};
+
+export const All = () => (
   <StoryContainer
     title="Sync modals"
     customStyle={css`
@@ -95,4 +106,4 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => (
       <ExportErrorModal />
     </Story>
   </StoryContainer>
-))
+);

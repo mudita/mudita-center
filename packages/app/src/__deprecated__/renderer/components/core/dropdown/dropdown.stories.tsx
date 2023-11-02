@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DropdownButton } from "App/__deprecated__/renderer/components/core/dropdown/dropdown-button.styled"
@@ -14,7 +8,11 @@ import StoryContainer from "App/__deprecated__/renderer/components/storybook/sto
 import Story from "../../storybook/story.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
-storiesOf("Components|Core/Dropdown", module).add("Default", () => (
+export default {
+  title: "Components|Core/Dropdown",
+}
+
+export const Default = () => (
   <StoryContainer>
     <Story title="Aligned to the left">
       <Dropdown
@@ -64,4 +62,4 @@ storiesOf("Components|Core/Dropdown", module).add("Default", () => (
       </Dropdown>
     </Story>
   </StoryContainer>
-))
+)

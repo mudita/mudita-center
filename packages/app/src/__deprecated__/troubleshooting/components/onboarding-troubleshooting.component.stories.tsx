@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import OnboardingTroubleshooting from "App/__deprecated__/troubleshooting/components/onboarding-troubleshooting.component"
@@ -16,7 +15,11 @@ const Wrapper = styled.div`
   justify-items: stretch;
 `
 
-storiesOf("Components/Troubleshooting", module).add("Troubleshooting", () => {
+export default {
+  title: "Components/Troubleshooting",
+}
+
+export const Troubleshooting = () => {
   return (
     <Wrapper>
       <OnboardingTroubleshooting
@@ -25,4 +28,4 @@ storiesOf("Components/Troubleshooting", module).add("Troubleshooting", () => {
       />
     </Wrapper>
   )
-})
+}

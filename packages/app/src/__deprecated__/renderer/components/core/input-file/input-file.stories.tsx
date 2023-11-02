@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import InputFile from "App/__deprecated__/renderer/components/core/input-file/input-file.component"
 import { action } from "@storybook/addon-actions"
@@ -19,7 +13,11 @@ const storyStyles = css`
   }
 `
 
-storiesOf("Components|Core/InputFile", module).add("Default", () => (
+export default {
+  title: "Components|Core/InputFile",
+}
+
+export const Default = () => (
   <>
     <StoryContainer title="Types" customStyle={storyStyles}>
       <Story title="Single file">
@@ -58,4 +56,4 @@ storiesOf("Components|Core/InputFile", module).add("Default", () => (
       </Story>
     </StoryContainer>
   </>
-))
+)

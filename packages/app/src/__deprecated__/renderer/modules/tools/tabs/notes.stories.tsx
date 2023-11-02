@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { storiesOf } from "@storybook/react"
 import { notesSeed } from "App/__deprecated__/seeds/notes"
 import Notes from "App/__deprecated__/renderer/modules/tools/tabs/notes.component"
 import AppViewStory from "App/__deprecated__/renderer/components/rest/storybook/app-view.component"
@@ -19,14 +18,18 @@ const commonProps = {
   createNewNote: action("create new note"),
 }
 
-storiesOf("Views|Tools/Notes", module)
-  .add("Default", () => (
-    <AppViewStory>
-      <Notes notes={notesSeed.notes} {...commonProps} />
-    </AppViewStory>
-  ))
-  .add("Empty", () => (
-    <AppViewStory>
-      <Notes notes={[]} {...commonProps} />
-    </AppViewStory>
-  ))
+export default {
+  title: "Views|Tools/Notes",
+}
+
+export const Default = () => (
+  <AppViewStory>
+    <Notes notes={notesSeed.notes} {...commonProps} />
+  </AppViewStory>
+)
+
+export const Empty = () => (
+  <AppViewStory>
+    <Notes notes={[]} {...commonProps} />
+  </AppViewStory>
+)

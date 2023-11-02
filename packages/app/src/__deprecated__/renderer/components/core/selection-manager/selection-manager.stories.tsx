@@ -4,7 +4,6 @@
  */
 
 import { action } from "@storybook/addon-actions"
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
@@ -47,7 +46,12 @@ const CustomSelectionManager = styled(SelectionManager)`
   grid-template-columns: 4.2rem 1fr auto;
 `
 
-storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
+export default {
+  title: "Components|Core/Selection Manager",
+  excludeStories: ["deleteButton", "exportButton"],
+}
+
+export const Default = () => {
   return (
     <>
       <StoryContainer title="States" column customStyle={storyStyles}>
@@ -119,4 +123,4 @@ storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
       </StoryContainer>
     </>
   )
-})
+}

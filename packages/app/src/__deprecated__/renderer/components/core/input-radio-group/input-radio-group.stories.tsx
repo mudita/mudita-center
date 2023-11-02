@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import InputRadioGroup from "App/__deprecated__/renderer/components/core/input-radio-group/input-radio-group.component"
 import styled from "styled-components"
@@ -40,7 +34,11 @@ const ColumnRadioGroup = styled(InputRadioGroup)`
   flex-direction: column;
 `
 
-storiesOf("Components|Core/InputRadioGroup ", module).add("Default", () => (
+export default {
+  title: "Components|Core/InputRadioGroup ",
+}
+
+export const Default = () => (
   <>
     <Story title="Horizontal">
       <InputRadioGroup data={radioGroup} radioGroupName={"radiogroupname"} />
@@ -49,4 +47,4 @@ storiesOf("Components|Core/InputRadioGroup ", module).add("Default", () => (
       <ColumnRadioGroup data={radioGroup} radioGroupName={"radiogroupname"} />
     </Story>
   </>
-))
+)

@@ -5,7 +5,6 @@
 
 import React from "react"
 import moment from "moment"
-import { storiesOf } from "@storybook/react"
 
 import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
@@ -13,7 +12,11 @@ import Story from "App/__deprecated__/renderer/components/storybook/story.compon
 import Nav from "App/__deprecated__/renderer/components/rest/meditation/nav/meditation-nav.component"
 import { DateFormatItems } from "App/__deprecated__/renderer/components/rest/meditation/nav/meditation-nav.helpers"
 
-storiesOf("Components/Rest/Meditation", module).add("Navigation", () => (
+export default {
+  title: "Components/Rest/Meditation",
+}
+
+export const Navigation = () => (
   <>
     <StoryContainer>
       <Story title="With date passed as string">
@@ -50,4 +53,4 @@ storiesOf("Components/Rest/Meditation", module).add("Navigation", () => (
       </Story>
     </StoryContainer>
   </>
-))
+)

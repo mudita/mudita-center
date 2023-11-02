@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import FilesSummaryItem from "App/files-manager/components/files-summary-item/files-summary-item.component"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
@@ -18,10 +12,22 @@ const fakeData: DiskSpaceCategory = {
   size: 62914560,
 }
 
-storiesOf("Views|Files Manager/FilesSummaryItem", module)
-  .add("FilesSummaryItem", () => {
-    return <FilesSummaryItem {...fakeData} />
-  })
-  .add("FilesSummaryItem with filesAmount", () => {
-    return <FilesSummaryItem {...fakeData} filesAmount={6} />
-  })
+export default {
+  title: "Views|Files Manager/FilesSummaryItem",
+}
+
+export const _FilesSummaryItem = () => {
+  return <FilesSummaryItem {...fakeData} />
+}
+
+_FilesSummaryItem.story = {
+  name: "FilesSummaryItem",
+}
+
+export const FilesSummaryItemWithFilesAmount = () => {
+  return <FilesSummaryItem {...fakeData} filesAmount={6} />
+}
+
+FilesSummaryItemWithFilesAmount.story = {
+  name: "FilesSummaryItem with filesAmount",
+}

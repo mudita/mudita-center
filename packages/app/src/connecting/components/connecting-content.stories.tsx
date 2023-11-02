@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ConnectingContent from "App/connecting/components/connecting-content.component"
@@ -16,21 +15,22 @@ const Wrapper = styled.div`
   justify-items: stretch;
 `
 
-storiesOf("Components/Connecting", module)
-  .add("Connecting", () => {
-    return (
-      <Wrapper>
-        <ConnectingContent
-          longerConnection={false}
-          onCancel={action("Cancel")}
-        />
-      </Wrapper>
-    )
-  })
-  .add("Longer Connecting", () => {
-    return (
-      <Wrapper>
-        <ConnectingContent longerConnection onCancel={action("Cancel")} />
-      </Wrapper>
-    )
-  })
+export default {
+  title: "Components/Connecting",
+}
+
+export const Connecting = () => {
+  return (
+    <Wrapper>
+      <ConnectingContent longerConnection={false} onCancel={action("Cancel")} />
+    </Wrapper>
+  )
+}
+
+export const LongerConnecting = () => {
+  return (
+    <Wrapper>
+      <ConnectingContent longerConnection onCancel={action("Cancel")} />
+    </Wrapper>
+  )
+}

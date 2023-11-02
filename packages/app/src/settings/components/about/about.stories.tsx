@@ -1,14 +1,12 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React from "react"
 import AboutUI from "./about-ui.component"
 
-storiesOf("Settings/About", module).add("About", () => (
+export default {
+  title: "Settings/About",
+}
+
+export const About = () => (
   <div style={{ maxWidth: "63rem" }}>
     <AboutUI
       openLicense={noop}
@@ -21,4 +19,4 @@ storiesOf("Settings/About", module).add("About", () => (
       hideAppUpdateFailed={noop}
     />
   </div>
-))
+)

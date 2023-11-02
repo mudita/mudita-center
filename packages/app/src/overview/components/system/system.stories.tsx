@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import System from "App/overview/components/system/system.component"
 import { action } from "@storybook/addon-actions"
@@ -18,7 +12,11 @@ const storyStyle = css`
   }
 `
 
-storiesOf("Views|Overview/System", module).add("System", () => {
+export default {
+  title: "Views|Overview/System",
+}
+
+export const _System = () => {
   return (
     <StoryContainer column>
       <Story title="New update available" customStyle={storyStyle}>
@@ -78,4 +76,4 @@ storiesOf("Views|Overview/System", module).add("System", () => {
       </Story>
     </StoryContainer>
   )
-})
+}

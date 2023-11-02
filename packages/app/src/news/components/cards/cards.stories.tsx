@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import styled from "styled-components"
 import Cards from "App/news/components/cards/cards.component"
@@ -16,10 +10,14 @@ const Container = styled.div`
   align-items: center;
 `
 
-storiesOf("News/Cards", module).add("Cards", () => {
+export default {
+  title: "News/Cards",
+}
+
+export const _Cards = () => {
   return (
     <Container>
       <Cards newsItems={mockedNewsItems} />
     </Container>
   )
-})
+}

@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import Text, { TextDisplayStyle } from "./text.component"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
@@ -59,7 +53,11 @@ const ClickableWrapper = styled(
   align-self: flex-start;
 `
 
-storiesOf("Theme/Text", module).add("Text", () => {
+export default {
+  title: "Theme/Text",
+}
+
+export const _Text = () => {
   return (
     <>
       <Text displayStyle={TextDisplayStyle.Headline1}>TYPOGRAPHY</Text>
@@ -168,4 +166,4 @@ storiesOf("Theme/Text", module).add("Text", () => {
       </ClickableWrapper>
     </>
   )
-})
+}

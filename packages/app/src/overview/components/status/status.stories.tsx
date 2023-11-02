@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import { DeviceType } from "App/device/constants"
 import Status from "App/overview/components/status/status.component"
@@ -17,32 +11,36 @@ const storyStyle = css`
   }
 `
 
-storiesOf("Views|Overview/Status ", module)
-  .add("Status Pure", () => {
-    return (
-      <StoryContainer column>
-        <Story title="Status card" customStyle={storyStyle}>
-          <Status
-            deviceType={DeviceType.MuditaPure}
-            batteryLevel={0.75}
-            network={"Play"}
-            networkLevel={0.75}
-          />
-        </Story>
-      </StoryContainer>
-    )
-  })
-  .add("Status Harmony", () => {
-    return (
-      <StoryContainer column>
-        <Story title="Status card" customStyle={storyStyle}>
-          <Status
-            deviceType={DeviceType.MuditaHarmony}
-            batteryLevel={0.75}
-            network={"Play"}
-            networkLevel={0.75}
-          />
-        </Story>
-      </StoryContainer>
-    )
-  })
+export default {
+  title: "Views|Overview/Status ",
+}
+
+export const StatusPure = () => {
+  return (
+    <StoryContainer column>
+      <Story title="Status card" customStyle={storyStyle}>
+        <Status
+          deviceType={DeviceType.MuditaPure}
+          batteryLevel={0.75}
+          network={"Play"}
+          networkLevel={0.75}
+        />
+      </Story>
+    </StoryContainer>
+  )
+}
+
+export const StatusHarmony = () => {
+  return (
+    <StoryContainer column>
+      <Story title="Status card" customStyle={storyStyle}>
+        <Status
+          deviceType={DeviceType.MuditaHarmony}
+          batteryLevel={0.75}
+          network={"Play"}
+          networkLevel={0.75}
+        />
+      </Story>
+    </StoryContainer>
+  )
+}

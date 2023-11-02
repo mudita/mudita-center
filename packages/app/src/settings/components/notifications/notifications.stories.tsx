@@ -1,13 +1,11 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import NotificationsUI from "App/settings/components/notifications/notifications-ui.component"
 
-storiesOf("Settings/Notifications", module).add("Notifications", () => (
+export default {
+  title: "Settings/Notifications",
+}
+
+export const Notifications = () => (
   <div style={{ maxWidth: "63rem" }}>
     <NotificationsUI
       incomingCalls={false}
@@ -20,4 +18,4 @@ storiesOf("Settings/Notifications", module).add("Notifications", () => (
       setOsUpdates={jest.fn()}
     />
   </div>
-))
+)

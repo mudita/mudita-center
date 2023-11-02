@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { MemoryRouter } from "react-router"
 import styled from "styled-components"
@@ -20,23 +14,35 @@ const Container = styled.div`
   width: 70.4rem;
 `
 
-storiesOf("Components|Core/Header", module)
-  .addDecorator((story) => (
-    <MemoryRouter initialEntries={["/phone"]}>{story()}</MemoryRouter>
-  ))
-  .add("Without button", () => {
+export default {
+  title: 'Components|Core/Header',
+
+  decorators: [(story) => (
+      <MemoryRouter initialEntries={["/phone"]}>{story()}</MemoryRouter>
+    )],
+};
+
+export const WithoutButton = () => {
     return (
       <Container>
         <Header middleComponent={<Tabs currentLocation={"/phone"} />} />
       </Container>
     )
-  })
+  };
 
-storiesOf("Components|Core/Header/With button", module)
-  .addDecorator((story) => (
-    <MemoryRouter initialEntries={["/news"]}>{story()}</MemoryRouter>
-  ))
-  .add("News", () => {
+WithoutButton.story = {
+  name: 'Without button',
+};
+
+export default {
+  title: 'Components|Core/Header/With button',
+
+  decorators: [(story) => (
+      <MemoryRouter initialEntries={["/news"]}>{story()}</MemoryRouter>
+    )],
+};
+
+export const News = () => {
     return (
       <Container>
         <Header
@@ -54,4 +60,4 @@ storiesOf("Components|Core/Header/With button", module)
         />
       </Container>
     )
-  })
+  };

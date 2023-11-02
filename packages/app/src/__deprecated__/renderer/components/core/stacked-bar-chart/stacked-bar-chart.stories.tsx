@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import StackedBarChart, {
   DisplayStyle,
@@ -24,7 +18,11 @@ const stackedBarChartStyles = css`
   }
 `
 
-storiesOf("Components|Core/StackedBarChart", module).add("Default", () => {
+export default {
+  title: "Components|Core/StackedBarChart",
+}
+
+export const Default = () => {
   return (
     <>
       <StoryContainer title="Types" customStyle={stackedBarChartStyles}>
@@ -80,4 +78,4 @@ storiesOf("Components|Core/StackedBarChart", module).add("Default", () => {
       </StoryContainer>
     </>
   )
-})
+}

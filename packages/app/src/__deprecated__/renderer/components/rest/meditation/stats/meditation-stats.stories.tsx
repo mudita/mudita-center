@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import MeditationStats from "App/__deprecated__/renderer/components/rest/meditation/stats/meditation-stats.component"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
@@ -13,7 +7,11 @@ import {
 } from "App/__mocks__/meditation-stats.mock"
 import { ChartType } from "App/__deprecated__/renderer/components/rest/meditation/stats/meditation-stats.enum"
 
-storiesOf("Components/Rest/Meditation", module).add("Stats", () => {
+export default {
+  title: "Components/Rest/Meditation",
+}
+
+export const Stats = () => {
   return (
     <>
       <Story title="Weekly">
@@ -39,4 +37,4 @@ storiesOf("Components/Rest/Meditation", module).add("Stats", () => {
       </Story>
     </>
   )
-})
+}

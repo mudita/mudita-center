@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import styled from "styled-components"
 
@@ -41,7 +35,11 @@ const requireAll = (requireContext: any) => {
 
 const allSvgs = requireAll(require.context("..", true, /.svg$/))
 
-storiesOf("Assets/Svg", module).add("Svg", () => {
+export default {
+  title: "Assets/Svg",
+}
+
+export const _Svg = () => {
   return (
     <div style={{ fontSize: "16px" }}>
       {allSvgs.map((svg, index) => {
@@ -54,4 +52,4 @@ storiesOf("Assets/Svg", module).add("Svg", () => {
       })}
     </div>
   )
-})
+}

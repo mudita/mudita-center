@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { storiesOf } from "@storybook/react"
 import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
 import Story from "../../storybook/story.component"
 import { css } from "styled-components"
@@ -44,7 +43,7 @@ export const advancedItems = [
   { name: "Cabbage", value: "cabbage", type: "vegetable", icon: "🥬" },
 ]
 
-export type AdvancedItem = typeof advancedItems[number]
+export type AdvancedItem = (typeof advancedItems)[number]
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -74,7 +73,20 @@ export const renderCustomListItem: RenderListItem<AdvancedItem, any> = ({
 const props = undefined
 const searchString = ""
 
-storiesOf("Components|Core/List", module).add("Default", () => (
+export default {
+  title: "Components|Core/List",
+
+  excludeStories: [
+    "basicItems",
+    "advancedItems",
+    "AdvancedItem",
+    "getItemName",
+    "isItemMatching",
+    "renderCustomListItem",
+  ],
+}
+
+export const Default = () => (
   <>
     <StoryContainer title="Default" customStyle={storyContainerStyles}>
       <Story title="Default">
@@ -103,4 +115,4 @@ storiesOf("Components|Core/List", module).add("Default", () => (
       </Story>
     </StoryContainer>
   </>
-))
+)

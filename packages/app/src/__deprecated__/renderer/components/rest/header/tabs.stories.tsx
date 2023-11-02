@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { Router } from "react-router"
 import Tabs from "App/__deprecated__/renderer/components/rest/header/tabs.component"
@@ -14,7 +8,11 @@ const Container = styled.div`
   width: 35rem;
 `
 
-storiesOf("Components/Tabs", module).add("Phone view", () => {
+export default {
+  title: "Components/Tabs",
+}
+
+export const PhoneView = () => {
   return (
     <Router history={history}>
       <Container>
@@ -22,4 +20,8 @@ storiesOf("Components/Tabs", module).add("Phone view", () => {
       </Container>
     </Router>
   )
-})
+}
+
+PhoneView.story = {
+  name: "Phone view",
+}

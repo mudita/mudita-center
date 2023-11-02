@@ -4,7 +4,6 @@
  */
 
 import { action } from "@storybook/addon-actions"
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import InputCheckbox from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import Table, {
@@ -103,8 +102,12 @@ const fullPageStoryStyles = css`
   justify-content: initial;
 `
 
-storiesOf("Components|Core/Table/Parts", module)
-  .add("Labels", () => (
+export default {
+  title: 'Components|Core/Table/Parts',
+  excludeStories: ['Checkbox', 'Contacts', 'SelectableContacts', 'Files', 'SelectableFiles'],
+};
+
+export const _Labels = () => (
     <>
       <Story title="Column labels" customStyle={partsStoryStyles}>
         <Files>
@@ -125,8 +128,9 @@ storiesOf("Components|Core/Table/Parts", module)
         </Files>
       </Story>
     </>
-  ))
-  .add("Rows", () => (
+  );
+
+export const Rows = () => (
     <>
       <StoryContainer
         title="Sizes"
@@ -273,8 +277,9 @@ storiesOf("Components|Core/Table/Parts", module)
         </Story>
       </StoryContainer>
     </>
-  ))
-  .add("Sidebar", () => {
+  );
+
+export const _Sidebar = () => {
     const HeaderLeft = () => (
       <CustomSidebarTitle displayStyle={TextDisplayStyle.Headline4}>
         Sidebar title
@@ -353,15 +358,20 @@ storiesOf("Components|Core/Table/Parts", module)
         </Story>
       </>
     )
-  })
+  };
 
-storiesOf("Components|Core/Table/Empty states", module)
-  .add("Loading", () => (
+export default {
+  title: 'Components|Core/Table/Empty states',
+  excludeStories: ['Checkbox', 'Contacts', 'SelectableContacts', 'Files', 'SelectableFiles'],
+};
+
+export const Loading = () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <LoadingState />
     </Story>
-  ))
-  .add("Empty", () => (
+  );
+
+export const Empty = () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <EmptyState
         title={{ id: "module.contacts.emptyListTitle" }}
@@ -370,10 +380,14 @@ storiesOf("Components|Core/Table/Empty states", module)
         }}
       />
     </Story>
-  ))
+  );
 
-storiesOf("Components|Core/Table/Basic", module)
-  .add("Default", () => (
+export default {
+  title: 'Components|Core/Table/Basic',
+  excludeStories: ['Checkbox', 'Contacts', 'SelectableContacts', 'Files', 'SelectableFiles'],
+};
+
+export const Default = () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <Contacts>
         <Labels>
@@ -392,8 +406,9 @@ storiesOf("Components|Core/Table/Basic", module)
         })}
       </Contacts>
     </Story>
-  ))
-  .add("Without labels", () => (
+  );
+
+export const WithoutLabels = () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <Contacts>
         {basicRows.map((row, index) => {
@@ -408,8 +423,13 @@ storiesOf("Components|Core/Table/Basic", module)
         })}
       </Contacts>
     </Story>
-  ))
-  .add("With columns hidden", () => (
+  );
+
+WithoutLabels.story = {
+  name: 'Without labels',
+};
+
+export const WithColumnsHidden = () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <Contacts hideableColumnsIndexes={[1]} hideColumns>
         <Labels>
@@ -428,8 +448,13 @@ storiesOf("Components|Core/Table/Basic", module)
         })}
       </Contacts>
     </Story>
-  ))
-  .add("With sidebar", () => {
+  );
+
+WithColumnsHidden.story = {
+  name: 'With columns hidden',
+};
+
+export const WithSidebar = () => {
     const { openSidebar, closeSidebar, sidebarOpened, activeRow } =
       useTableSidebar<typeof basicRows[number]>()
 
@@ -470,8 +495,13 @@ storiesOf("Components|Core/Table/Basic", module)
         </TableWithSidebarWrapper>
       </Story>
     )
-  })
-  .add("With selectable rows", () => {
+  };
+
+WithSidebar.story = {
+  name: 'With sidebar',
+};
+
+export const WithSelectableRows = () => {
     const { getRowStatus, toggleRow } = useTableSelect(basicRows)
     return (
       <Story customStyle={fullPageStoryStyles} transparentMode>
@@ -503,10 +533,18 @@ storiesOf("Components|Core/Table/Basic", module)
         </SelectableContacts>
       </Story>
     )
-  })
+  };
 
-storiesOf("Components|Core/Table/Nested", module)
-  .add("Default", () => {
+WithSelectableRows.story = {
+  name: 'With selectable rows',
+};
+
+export default {
+  title: 'Components|Core/Table/Nested',
+  excludeStories: ['Checkbox', 'Contacts', 'SelectableContacts', 'Files', 'SelectableFiles'],
+};
+
+export const _Default = () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const SingleRow = ({ data, ...rest }: any) => (
@@ -549,8 +587,9 @@ storiesOf("Components|Core/Table/Nested", module)
         </Files>
       </Story>
     )
-  })
-  .add("Without labels", () => {
+  };
+
+export const _WithoutLabels = () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const SingleRow = ({ data, ...rest }: any) => (
@@ -588,8 +627,13 @@ storiesOf("Components|Core/Table/Nested", module)
         </Files>
       </Story>
     )
-  })
-  .add("With columns hidden", () => {
+  };
+
+_WithoutLabels.story = {
+  name: 'Without labels',
+};
+
+export const _WithColumnsHidden = () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const SingleRow = ({ data, ...rest }: any) => (
@@ -632,8 +676,13 @@ storiesOf("Components|Core/Table/Nested", module)
         </Files>
       </Story>
     )
-  })
-  .add("With selectable rows", () => {
+  };
+
+_WithColumnsHidden.story = {
+  name: 'With columns hidden',
+};
+
+export const _WithSelectableRows = () => {
     const {
       toggleRow,
       toggleAll,
@@ -704,10 +753,18 @@ storiesOf("Components|Core/Table/Nested", module)
         </SelectableFiles>
       </Story>
     )
-  })
+  };
 
-storiesOf("Components|Core/Table/Grouped", module)
-  .add("Default", () => (
+_WithSelectableRows.story = {
+  name: 'With selectable rows',
+};
+
+export default {
+  title: 'Components|Core/Table/Grouped',
+  excludeStories: ['Checkbox', 'Contacts', 'SelectableContacts', 'Files', 'SelectableFiles'],
+};
+
+export const __Default = () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <Contacts>
         {Object.keys(labeledRows).map((group) => (
@@ -733,8 +790,9 @@ storiesOf("Components|Core/Table/Grouped", module)
         ))}
       </Contacts>
     </Story>
-  ))
-  .add("With hidden columns", () => (
+  );
+
+export const WithHiddenColumns = () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <Contacts hideableColumnsIndexes={[1]} hideColumns>
         {Object.keys(labeledRows).map((group) => (
@@ -760,8 +818,13 @@ storiesOf("Components|Core/Table/Grouped", module)
         ))}
       </Contacts>
     </Story>
-  ))
-  .add("With sidebar", () => {
+  );
+
+WithHiddenColumns.story = {
+  name: 'With hidden columns',
+};
+
+export const _WithSidebar = () => {
     const { openSidebar, closeSidebar, sidebarOpened, activeRow } =
       useTableSidebar<typeof labeledRows[number][number]>()
 
@@ -827,8 +890,13 @@ storiesOf("Components|Core/Table/Grouped", module)
         </TableWithSidebarWrapper>
       </Story>
     )
-  })
-  .add("With selectable rows", () => {
+  };
+
+_WithSidebar.story = {
+  name: 'With sidebar',
+};
+
+export const __WithSelectableRows = () => {
     const { toggleRow, getRowStatus } = useTableSelect(nestedRows)
     return (
       <Story customStyle={fullPageStoryStyles} transparentMode>
@@ -869,4 +937,8 @@ storiesOf("Components|Core/Table/Grouped", module)
         </SelectableContacts>
       </Story>
     )
-  })
+  };
+
+__WithSelectableRows.story = {
+  name: 'With selectable rows',
+};

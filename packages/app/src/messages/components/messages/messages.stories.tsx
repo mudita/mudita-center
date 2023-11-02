@@ -6,7 +6,6 @@
 import { PaginationBody } from "App/device/types/mudita-os"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { action } from "@storybook/addon-actions"
-import { storiesOf } from "@storybook/react"
 import {
   Contact,
   ContactCategory,
@@ -137,7 +136,12 @@ const loadData = (): Promise<PayloadAction<PaginationBody | undefined>> =>
 const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
 const isContactCreatedByPhoneNumber = () => true
 
-storiesOf("Views|Messages", module).add("Messages", () => (
+export default {
+  title: "Views|Messages",
+  excludeStories: ["attachContactFlatListData", "attachContactListData"],
+}
+
+export const _Messages = () => (
   <Router history={history}>
     <div style={{ maxWidth: "97.5rem" }}>
       <Messages
@@ -177,4 +181,4 @@ storiesOf("Views|Messages", module).add("Messages", () => (
       />
     </div>
   </Router>
-))
+)

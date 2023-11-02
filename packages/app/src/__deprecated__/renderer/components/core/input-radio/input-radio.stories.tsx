@@ -1,15 +1,13 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import InputRadio from "App/__deprecated__/renderer/components/core/input-radio/input-radio.component"
 import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
 import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 
-storiesOf("Components|Core/InputRadio", module).add("Default", () => (
+export default {
+  title: "Components|Core/InputRadio",
+}
+
+export const Default = () => (
   <>
     <StoryContainer title="States">
       <Story title="Unchecked (default)">
@@ -28,4 +26,4 @@ storiesOf("Components|Core/InputRadio", module).add("Default", () => (
       </Story>
     </StoryContainer>
   </>
-))
+)

@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import { calls } from "App/__deprecated__/renderer/components/core/table/table.fake-data"
 import React from "react"
 import Calls from "App/__deprecated__/renderer/modules/phone/tabs/calls.component"
@@ -15,7 +9,11 @@ const isContactCreated = () => true
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getContact = (contactId: string) => ({} as Contact)
 
-storiesOf("Views/Calls", module).add("Calls", () => (
+export default {
+  title: "Views/Calls",
+}
+
+export const _Calls = () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Calls
       isContactCreated={isContactCreated}
@@ -24,4 +22,4 @@ storiesOf("Views/Calls", module).add("Calls", () => (
       calls={calls}
     />
   </div>
-))
+)

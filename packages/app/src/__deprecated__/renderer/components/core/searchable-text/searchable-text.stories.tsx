@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { storiesOf } from "@storybook/react"
 import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
 import Story from "../../storybook/story.component"
 import { css } from "styled-components"
@@ -19,7 +18,11 @@ const storyContainerStyles = css`
 const text = "Searchable Text"
 const search = text.substr(0, 3)
 
-storiesOf("Components|Core/Searchable Text", module).add("Default", () => (
+export default {
+  title: "Components|Core/Searchable Text",
+}
+
+export const Default = () => (
   <>
     <StoryContainer title="Default" customStyle={storyContainerStyles}>
       <Story title="With no search">
@@ -34,4 +37,4 @@ storiesOf("Components|Core/Searchable Text", module).add("Default", () => (
       </Story>
     </StoryContainer>
   </>
-))
+)

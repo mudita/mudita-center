@@ -4,7 +4,6 @@
  */
 
 import { button, withKnobs } from "@storybook/addon-knobs"
-import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -33,9 +32,13 @@ const textAreaContainerStyles = css`
   align-items: flex-start;
 `
 
-storiesOf("Components|Core/Text input", module)
-  .addDecorator(withKnobs)
-  .add("Default", () => (
+export default {
+  title: 'Components|Core/Text input',
+  decorators: [withKnobs],
+  excludeStories: ['Icon'],
+};
+
+export const Default = () => (
     <>
       <StoryContainer title="Themes" customStyle={storyContainerStyles}>
         <Story title="Default">
@@ -112,8 +115,9 @@ storiesOf("Components|Core/Text input", module)
         </Story>
       </StoryContainer>
     </>
-  ))
-  .add("Outlined", () => (
+  );
+
+export const Outlined = () => (
     <>
       <StoryContainer title="Themes" customStyle={storyContainerStyles}>
         <Story title="Default">
@@ -202,9 +206,14 @@ storiesOf("Components|Core/Text input", module)
         </Story>
       </StoryContainer>
     </>
-  ))
+  );
 
-storiesOf("Components|Core/Text input/Passcode", module).add("Default", () => (
+export default {
+  title: 'Components|Core/Text input/Passcode',
+  excludeStories: ['Icon'],
+};
+
+export const _Default = () => (
   <>
     <StoryContainer title="Themes">
       <Story title="Default">
@@ -220,10 +229,14 @@ storiesOf("Components|Core/Text input/Passcode", module).add("Default", () => (
       </Story>
     </StoryContainer>
   </>
-))
+);
 
-storiesOf("Components|Core/Text input/Text area", module)
-  .add("Default", () => (
+export default {
+  title: 'Components|Core/Text input/Text area',
+  excludeStories: ['Icon'],
+};
+
+export const __Default = () => (
     <>
       <StoryContainer title="Themes" customStyle={textAreaContainerStyles}>
         <Story title="Default">
@@ -307,8 +320,9 @@ storiesOf("Components|Core/Text input/Text area", module)
         </Story>
       </StoryContainer>
     </>
-  ))
-  .add("Input-like", () => (
+  );
+
+export const InputLike = () => (
     <>
       <StoryContainer title="Themes" customStyle={textAreaContainerStyles}>
         <Story title="Default">
@@ -400,8 +414,13 @@ storiesOf("Components|Core/Text input/Text area", module)
         </Story>
       </StoryContainer>
     </>
-  ))
-  .add("Interactive", () => {
+  );
+
+InputLike.story = {
+  name: 'Input-like',
+};
+
+export const Interactive = () => {
     const [value, setValue] = useState("Lorem\nipsum\ndolor\nsit\namet\nsit")
     const [maxRows, setMaxRows] = useState(5)
 
@@ -446,9 +465,14 @@ storiesOf("Components|Core/Text input/Text area", module)
         </Story>
       </StoryContainer>
     )
-  })
+  };
 
-storiesOf("Components|Core/Text input/Search", module).add("Default", () => (
+export default {
+  title: 'Components|Core/Text input/Search',
+  excludeStories: ['Icon'],
+};
+
+export const ___Default = () => (
   <StoryContainer customStyle={storyContainerStyles}>
     <Story>
       <InputComponent
@@ -459,4 +483,4 @@ storiesOf("Components|Core/Text input/Search", module).add("Default", () => (
       />
     </Story>
   </StoryContainer>
-))
+);

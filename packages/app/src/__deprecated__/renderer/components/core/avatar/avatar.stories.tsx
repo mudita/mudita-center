@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import Avatar, {
   AvatarSize,
@@ -16,7 +10,11 @@ const avatarUser = {
   lastName: "Doe",
 }
 
-storiesOf("Components|Core/Avatar", module).add("Default", () => (
+export default {
+  title: "Components|Core/Avatar",
+}
+
+export const Default = () => (
   <>
     <StoryContainer title="Sizes">
       <Story title="Small">
@@ -49,4 +47,4 @@ storiesOf("Components|Core/Avatar", module).add("Default", () => (
       </Story>
     </StoryContainer>
   </>
-))
+)

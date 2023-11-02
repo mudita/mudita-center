@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import React from "react"
 import { Router } from "react-router"
 import history from "App/__deprecated__/renderer/routes/history"
@@ -14,7 +8,12 @@ import RecoveryModeUI from "App/__deprecated__/recovery-mode/components/recovery
 const Wrapper = styled.div`
   max-width: 97.5rem;
 `
-storiesOf("Views/Recovery Mode", module).add("Main view", () => {
+
+export default {
+  title: "Views/Recovery Mode",
+}
+
+export const MainView = () => {
   return (
     <Wrapper>
       <Router history={history}>
@@ -28,4 +27,8 @@ storiesOf("Views/Recovery Mode", module).add("Main view", () => {
       </Router>
     </Wrapper>
   )
-})
+}
+
+MainView.story = {
+  name: "Main view",
+}

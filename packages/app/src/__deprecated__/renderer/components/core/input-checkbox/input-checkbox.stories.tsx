@@ -1,9 +1,3 @@
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
-import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import InputCheckbox, {
   CheckboxTooltipDescription,
@@ -17,7 +11,11 @@ const checkboxTooltipDescription: CheckboxTooltipDescription = {
   checkTooltipDescription: { id: "Uncheck input" },
 }
 
-storiesOf("Components|Core/InputCheckbox", module).add("Default", () => (
+export default {
+  title: "Components|Core/InputCheckbox",
+}
+
+export const Default = () => (
   <>
     <StoryContainer title="Sizes">
       <Story title="Large (default)">
@@ -66,4 +64,4 @@ storiesOf("Components|Core/InputCheckbox", module).add("Default", () => (
       </Story>
     </StoryContainer>
   </>
-))
+)

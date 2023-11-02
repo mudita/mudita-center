@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { storiesOf } from "@storybook/react"
 import Contacts, {
   messages,
 } from "App/contacts/components/contacts/contacts.component"
@@ -100,27 +99,37 @@ const ContactsComponent = ({
   />
 )
 
-storiesOf("Views|Phone", module)
-  .add("Loading", () => (
+export default {
+  title: 'Views|Phone',
+};
+
+export const _Loading = () => (
     <ContactsWrapper>
       <ContactsComponent resultState={ResultState.Loading} />
     </ContactsWrapper>
-  ))
-  .add("Empty", () => (
+  );
+
+export const _Empty = () => (
     <ContactsWrapper>
       <ContactsComponent contactList={[]} />
     </ContactsWrapper>
-  ))
-  .add("Loaded", () => (
+  );
+
+export const _Loaded = () => (
     <ContactsWrapper>
       <ContactsComponent resultState={ResultState.Loaded} />
     </ContactsWrapper>
-  ))
-  .add("No search results", () => (
+  );
+
+export const NoSearchResults = () => (
     <ContactsWrapper>
       <ContactsComponent resultState={ResultState.Loaded} contactList={[]} />
     </ContactsWrapper>
-  ))
+  );
+
+NoSearchResults.story = {
+  name: 'No search results',
+};
 
 const singleContact = ({
   favourite = false,
@@ -143,8 +152,11 @@ const singleContact = ({
   ice: true,
 })
 
-storiesOf("Views|Phone/Contact details/Existing", module)
-  .add("Default", () => (
+export default {
+  title: 'Views|Phone/Contact details/Existing',
+};
+
+export const Default = () => (
     <ContactDetails
       contact={singleContact()}
       onEdit={action("Edit contact")}
@@ -158,8 +170,9 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onClose={action("Close sidebar")}
       isThreadOpened={isThreadOpened}
     />
-  ))
-  .add("Favourite, speed dial", () => (
+  );
+
+export const FavouriteSpeedDial = () => (
     <ContactDetails
       contact={singleContact({ favourite: true, speedDial: 3 })}
       onEdit={action("Edit contact")}
@@ -173,8 +186,13 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onClose={action("Close sidebar")}
       isThreadOpened={isThreadOpened}
     />
-  ))
-  .add("Favourite only", () => (
+  );
+
+FavouriteSpeedDial.story = {
+  name: 'Favourite, speed dial',
+};
+
+export const FavouriteOnly = () => (
     <ContactDetails
       contact={singleContact({ favourite: true })}
       onEdit={action("Edit contact")}
@@ -188,8 +206,13 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onClose={action("Close sidebar")}
       isThreadOpened={isThreadOpened}
     />
-  ))
-  .add("Speed dial only", () => (
+  );
+
+FavouriteOnly.story = {
+  name: 'Favourite only',
+};
+
+export const SpeedDialOnly = () => (
     <ContactDetails
       contact={singleContact({ speedDial: 3 })}
       onEdit={action("Edit contact")}
@@ -203,8 +226,13 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onClose={action("Close sidebar")}
       isThreadOpened={isThreadOpened}
     />
-  ))
-  .add("Blocked", () => (
+  );
+
+SpeedDialOnly.story = {
+  name: 'Speed dial only',
+};
+
+export const Blocked = () => (
     <ContactDetails
       contact={singleContact({ blocked: true })}
       onEdit={action("Edit contact")}
@@ -218,9 +246,13 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onClose={action("Close sidebar")}
       isThreadOpened={isThreadOpened}
     />
-  ))
+  );
 
-storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
+export default {
+  title: 'Views|Phone/Contact details/Edit',
+};
+
+export const _Default = () => (
   <ContactEdit
     speedDialChosenList={speedDialChosenList}
     contact={singleContact()}
@@ -228,19 +260,26 @@ storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
     onSave={action("Save")}
     onSpeedDialSettingsOpen={action("Open speed dial settings")}
   />
-))
+);
 
-storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
+export default {
+  title: 'Views|Phone/Contact details/New',
+};
+
+export const __Default = () => (
   <ContactEdit
     speedDialChosenList={speedDialChosenList}
     onCancel={action("Cancel")}
     onSave={action("Save")}
     onSpeedDialSettingsOpen={action("Open speed dial settings")}
   />
-))
+);
 
-storiesOf("Views|Contacts/Modals", module)
-  .add("Speed dial settings", () => (
+export default {
+  title: 'Views|Contacts/Modals',
+};
+
+export const SpeedDialSettings = () => (
     <>
       <ModalWrapper>
         <SpeedDialModal
@@ -256,8 +295,13 @@ storiesOf("Views|Contacts/Modals", module)
       </ModalWrapper>
       <ModalBackdrop />
     </>
-  ))
-  .add("Delete contact", () => (
+  );
+
+SpeedDialSettings.story = {
+  name: 'Speed dial settings',
+};
+
+export const DeleteContact = () => (
     <>
       <ModalWrapper>
         <DeleteModal
@@ -277,4 +321,8 @@ storiesOf("Views|Contacts/Modals", module)
       </ModalWrapper>
       <ModalBackdrop />
     </>
-  ))
+  );
+
+DeleteContact.story = {
+  name: 'Delete contact',
+};
