@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom"
 import React from "react"
 import { MemoryRouter } from "react-router-dom"
 import Tabs from "App/__deprecated__/renderer/components/rest/header/tabs.component"

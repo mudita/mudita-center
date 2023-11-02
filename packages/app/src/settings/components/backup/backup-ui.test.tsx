@@ -4,7 +4,6 @@
  */
 
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import "@testing-library/jest-dom"
 import React from "react"
 import BackupUI from "App/settings/components/backup/backup-ui.component"
 

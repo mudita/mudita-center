@@ -16,7 +16,6 @@ import {
   constructWrapper,
   renderWithThemeAndIntl,
 } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import "@testing-library/jest-dom/extend-expect"
 import Messages from "App/messages/components/messages/messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { fireEvent, waitFor } from "@testing-library/dom"

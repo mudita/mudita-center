@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom"
 import React from "react"
 import InputText from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { Icon } from "App/__deprecated__/renderer/components/core/input-text/input-text.stories"

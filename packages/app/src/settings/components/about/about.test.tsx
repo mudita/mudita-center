@@ -4,7 +4,6 @@
  */
 
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
 import AboutUI from "./about-ui.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
