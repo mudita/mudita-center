@@ -79,7 +79,6 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)$($BUILD_VERSION)/builder-debug.yml -InFile ./packages/app/release/builder-debug.yml -Method Put -Credential $AUTH
           git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
           cd mudita-center-internal-releases
-          pwd
           git tag "$GITTAG"
           git push origin "$GITTAG"
       - name: Create draft release
