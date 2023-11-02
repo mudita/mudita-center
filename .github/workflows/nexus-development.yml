@@ -16,10 +16,12 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          $headers = @{
-            Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:NEXUS_USERNAME:$env:NEXUS_PASSWORD"))
-          }
-          Invoke-RestMethod -Uri "https://nexus.mudita.com/repository/mudita-center/package.json" -Method Put -Headers $headers -InFile "./packages/app/package.json" -Verbose
+          $URI = New-Object System.Uri("https://nexus.mudita.com/repository/mudita-center/package.json")  
+          $SOURCE = "./packages/app/package.json"  
+          $AF_USER = "$env:NEXUS_USERNAME"
+          $AF_PWD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force  
+          $CREDS = New-Object System.Management.Automation.PSCredential ($AF_USER, $AF_PWD)  
+          Invoke-WebRequest -Uri $URI -InFile $SOURCE -Method Put -Credential $CREDS  
           exit 1
       - name: Checkout code
         uses: actions/checkout@v2
