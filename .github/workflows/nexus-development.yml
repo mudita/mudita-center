@@ -11,13 +11,12 @@ jobs:
     runs-on: Windows
     environment: development
     steps:
-      - name: Variables check
+      - name: Check CURL
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          Write-Host $env:NEXUS_USERNAME
-          Write-Host $env:NEXUS_PASSWORD
+          C:\ProgramData\chocolatey\bin\curl.exe -v -u $($env:NEXUS_USERNAME):$($env:NEXUS_PASSWORD) --upload-file ./packages/app/package.json "https://nexus.mudita.com/repository/mudita-center/package.json"
           exit 1
       - name: Checkout code
         uses: actions/checkout@v2
