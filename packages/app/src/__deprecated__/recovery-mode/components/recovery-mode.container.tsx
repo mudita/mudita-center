@@ -5,7 +5,7 @@
 
 import { TmpDispatch } from "App/__deprecated__/renderer/store"
 import { connect } from "react-redux"
-import RecoveryMode from "App/__deprecated__/recovery-mode/recovery-mode.component"
+import RecoveryMode from "App/__deprecated__/recovery-mode/components/recovery-mode.component"
 import { ModalStateKey, showModal } from "App/modals-manager"
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({

@@ -21,7 +21,7 @@ import {
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
 import { useRouterListener } from "App/core/hooks"
-import ModalsManager from "App/modals-manager/containers/modals-manager.container"
+import ModalsManager from "App/modals-manager/components/modals-manager.container"
 import { getConnectedDevice } from "App/device/actions"
 import { sendDiagnosticData } from "App/settings/actions"
 import { State } from "App/core/constants"

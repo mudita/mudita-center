@@ -61,7 +61,7 @@ test("incremental progress value does not back down", async () => {
   expect(result.current).toBe(3)
 })
 
-test("incremental progress value does not increase beyond the limit", async (done) => {
+test("incremental progress value does not increase beyond the limit", async () => {
   const { result, waitForNextUpdate } = renderHook(() =>
     useDynamicProgressValue(0, { limitValue: 3 })
   )
@@ -73,10 +73,9 @@ test("incremental progress value does not increase beyond the limit", async (don
 
   try {
     await act(async () => await waitForNextUpdate({ timeout: 500 }))
-    done(new Error("unexpected re rendering has occurred"))
+    new Error("unexpected re rendering has occurred")
   } catch {
     expect(result.current).not.toBe(4)
     expect(result.current).toBe(3)
-    done()
   }
 })

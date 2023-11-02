@@ -11,7 +11,7 @@ import { textColor } from "App/__deprecated__/renderer/styles/theming/theme-gett
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import { PasscodeModalTestIds } from "../passcode-modal-test-ids.enum"
+import { PasscodeModalTestIds } from "./passcode-modal-test-ids.enum"
 
 const InputContainer = styled.div`
   width: 100%;
