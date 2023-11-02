@@ -46,7 +46,7 @@ const Form: FunctionComponent<Props> = ({ validator }) => {
         data-testid={FormTestIds.Input}
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        errorMessage={errors.validator?.message}
+        errorMessage={errors.validator?.message?.toString()}
         {...register("validator", validator)}
       />
     </form>
