@@ -11,6 +11,14 @@ jobs:
     runs-on: Windows
     environment: development
     steps:
+      - name: Variables check
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          Write-Host $env:NEXUS_USERNAME
+          Write-Host $env:NEXUS_PASSWORD
+          exit 1
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Setup node
@@ -59,8 +67,6 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          $NEXUS_USERNAME = $env:NEXUS_USERNAME
-          $NEXUS_PASSWORD = $env:NEXUS_PASSWORD
           $APP_VERSION = Get-Content -Path "packages/app/version"
           if ($env:GITHUB_REF -eq "refs/heads/develop" -or $env:GITHUB_REF -eq "refs/heads/nexus-runner") {
               $ENVIRONMENT_CATALOG_NAME = "development"
