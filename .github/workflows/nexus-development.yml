@@ -8,7 +8,10 @@ on:
       - nexus-*
 jobs:
   build:
-    runs-on: Windows
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [Linux, Windows, macOS]
     environment: development
     steps:
       - name: Checkout code
@@ -17,7 +20,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.3
-      - name: Setup Env
+      - name: Setup Env for Windows
         env:
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
@@ -41,19 +44,34 @@ jobs:
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
         shell: cmd
+        if: matrix.os == 'Windows'
         run: |
           SET > .env
           jq -r -j .version packages/app/package.json > packages/app/version
+        if: matrix.os != 'Windows'
+        run:
+          printenv > .env
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file
+        if: matrix.os == 'Windows'
         run: |
           copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
+        if: matrix.os != 'Windows'
+        run: |
+          cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
       - name: Build App
+        if: matrix.os == 'Windows'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           cd packages/app/
           npm run dist:prod:all
+        if: matrix.os != 'Windows'
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=4096"
+          cd packages/app/
+          npm run dist:prod:all
+          exit 1
       - name: Push artifacts to nexus registry
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
