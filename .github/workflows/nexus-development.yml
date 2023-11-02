@@ -151,7 +151,7 @@ jobs:
           cd mudita-center-internal-releases
           git tag "$GITTAG"
           git push origin "$GITTAG"
-      - name: Push artifacts to nexus registry from Linux
+      - name: Push artifacts to nexus registry from macOS
         if: matrix.os == 'macOS'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
