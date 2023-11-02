@@ -17,8 +17,7 @@ test("return the incremented progress value in the next render", async () => {
   await act(waitForNextUpdate)
   expect(result.current).toBe(2)
 })
-// src/__deprecated__/renderer/utils/hooks/use-dynamic-progress-value.hook.test.tsx:64:71
-// src/crash-dump/components/crash-dump-modal/crash-dump-modal.component.tsx:67:7)
+
 test("new props don't have an impact on the smooth incrementing value", async () => {
   const { result, waitForNextUpdate, rerender } = renderHook<number, number>(
     (props = 0) => useDynamicProgressValue(props)
