@@ -16,7 +16,10 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          C:\ProgramData\chocolatey\bin\curl.exe -v -u "$env:NEXUS_USERNAME":"$env:NEXUS_PASSWORD" --upload-file ./packages/app/package.json "https://nexus.mudita.com/repository/mudita-center/package.json"
+          $headers = @{
+            Authorization = "Basic " + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("$env:NEXUS_USERNAME:$env:NEXUS_PASSWORD"))
+          }
+          Invoke-RestMethod -Uri "https://nexus.mudita.com/repository/mudita-center/package.json" -Method Put -Headers $headers -InFile "./packages/app/package.json" -Verbose
           exit 1
       - name: Checkout code
         uses: actions/checkout@v2
