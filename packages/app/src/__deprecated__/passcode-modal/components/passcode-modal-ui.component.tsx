@@ -12,9 +12,9 @@ import Icon, {
 } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { PasscodeInputs } from "./components/passcode-inputs.component"
+import { PasscodeInputs } from "./passcode-inputs.component"
 import PasscodeLocked from "App/__deprecated__/passcode-modal/components/PasscodeLocked/passcode-locked.component"
-import { PasscodeModalTestIds } from "App/__deprecated__/passcode-modal/passcode-modal-test-ids.enum"
+import { PasscodeModalTestIds } from "App/__deprecated__/passcode-modal/components/passcode-modal-test-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`

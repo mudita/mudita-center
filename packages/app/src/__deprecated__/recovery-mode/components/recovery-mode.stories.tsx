@@ -9,7 +9,7 @@ import { Router } from "react-router"
 import history from "App/__deprecated__/renderer/routes/history"
 import styled from "styled-components"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import RecoveryModeUI from "App/__deprecated__/recovery-mode/recovery-mode-ui.component"
+import RecoveryModeUI from "App/__deprecated__/recovery-mode/components/recovery-mode-ui.component"
 
 const Wrapper = styled.div`
   max-width: 97.5rem;

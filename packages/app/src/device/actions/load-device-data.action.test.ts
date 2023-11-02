@@ -16,6 +16,8 @@ import { getDeviceInfoRequest } from "App/device-info/requests"
 import { externalUsageDevice } from "App/device/requests/external-usage-device.request"
 import { setExternalUsageDeviceRequest } from "App/analytic-data-tracker/requests/set-external-usage-device.request"
 
+jest.mock("App/metadata/requests/set-value.request")
+jest.mock("App/analytic-data-tracker/requests/track-unique.request")
 jest.mock("App/device-info/requests")
 jest.mock("App/device/requests/external-usage-device.request")
 jest.mock(

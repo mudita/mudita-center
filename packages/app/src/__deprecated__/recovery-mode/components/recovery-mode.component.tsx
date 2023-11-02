@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import RecoveryModeUI from "App/__deprecated__/recovery-mode/recovery-mode-ui.component"
+import RecoveryModeUI from "App/__deprecated__/recovery-mode/components/recovery-mode-ui.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 

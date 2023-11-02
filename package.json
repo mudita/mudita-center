@@ -13,7 +13,7 @@
     "lint": "lerna run lint --",
     "lint:fix": "lerna run lint:fix",
     "lint:typecheck": "lerna run lint:typecheck",
-    "test:coverage": "lerna run test:coverage --",
+    "test:coverage": "lerna run test:coverage --stream",
     "prerelease": "npm run app:prerelease",
     "storybook:serve": "npm run app:storybook:serve --",
     "storybook:build": "npm run app:storybook:build --",
