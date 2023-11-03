@@ -60,7 +60,7 @@ jobs:
               $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
               $BUILD_VERSION = ".${{ github.run_number }}"
           }
-          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
+          C:\ProgramData\chocolatey\lib\sed\tools\sed.exe -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
         env:
