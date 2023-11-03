@@ -4,7 +4,6 @@
  */
 
 import React, { ComponentProps } from "react"
-import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Router } from "react-router"
 import { Provider } from "react-redux"
 import createMockStore from "redux-mock-store"
@@ -19,89 +18,33 @@ import {
 import "@testing-library/jest-dom/extend-expect"
 import Messages from "App/messages/components/messages/messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
-import { fireEvent, waitFor, findByTestId } from "@testing-library/dom"
-import { act } from "@testing-library/react"
+import { fireEvent } from "@testing-library/dom"
 import {
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel/messages-panel-test-ids.enum"
-import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
-import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
 import { MessageType, ResultState } from "App/messages/constants"
-import { Thread, Message } from "App/messages/dto"
-import { flags } from "App/feature-flags"
-import { NewMessageFormSidebarTestIds } from "App/messages/components/new-message-form-sidebar/new-message-form-sidebar-test-ids.enum"
+import { Thread } from "App/messages/dto"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
-import * as ContactSelectModalModule from "App/contacts/components/contacts-select-modal/contacts-select-modal.component"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { CreateMessageDataResponse } from "App/messages/services"
 import { State } from "App/core/constants"
 import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
-import { Notification } from "App/notification/types"
-import {
-  NotificationType,
-  NotificationMethod,
-  NotificationResourceType,
-} from "App/notification/constants"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
 import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals-test-ids.enum"
-import * as AppUI from "App/ui"
-import { DeleteThreadModalsTestIds } from "App/messages/components/delete-thread-modals/delete-thread-modals-test-ids.enum"
-
-// jest.mock("App/ui", () => ({
-//   useLoadingState: () => {
-//     return {
-//       states: {
-//         messageDeleting: true,
-//         messageDeletingInfo: true,
-//       },
-//       updateFieldState: jest.fn(),
-//       resetState: jest.fn(),
-//     }
-//   },
-// }))
-
-const mockUseLoadingState = AppUI.useLoadingState as jest.MockedFunction<
-  typeof AppUI.useLoadingState
->
-
-jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
-  flags: {
-    get: () => true,
-  },
-}))
+import reactVirtualized, { AutoSizerProps, AutoSizer } from "react-virtualized"
 
 jest.mock("react-virtualized", () => {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const ReactVirtualized = jest.requireActual("react-virtualized")
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  const ReactVirtualized: typeof reactVirtualized =
+    jest.requireActual("react-virtualized")
   return {
     ...ReactVirtualized,
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    AutoSizer: ({ children }: any) => children({ height: 1000, width: 1000 }),
+    AutoSizer: ({ children }: AutoSizerProps) =>
+      children({ height: 1000, width: 1000 }) as AutoSizer,
   }
 })
-
-// jest.mock("App/src/ui/hooks/loading-state.hook", () => ({
-//   useLoadingState: () => {
-//     return {
-//       states: {
-//         messageDeleting: true,
-//         messageDeletingInfo: true,
-//       },
-//       updateFieldState: jest.fn(),
-//       resetState: jest.fn(),
-//     }
-//   },
-// }))
 
 const contact: Contact = {
   id: "1",
@@ -122,19 +65,12 @@ const contactsMap: Record<string, Contact> = {
   2: unknownContact,
 }
 
-const unknownReceiver: Receiver = {
-  phoneNumber: "20000000",
-  identification: ReceiverIdentification.unknown,
-}
-
 const firstThreadId = "1"
 const secondThreadId = "2"
 
 const firstThread: Thread = {
   id: firstThreadId,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  phoneNumber: contact.primaryPhoneNumber!,
+  phoneNumber: contact.primaryPhoneNumber ?? "",
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -146,9 +82,7 @@ const firstThread: Thread = {
 
 const secondThread: Thread = {
   id: secondThreadId,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  phoneNumber: unknownContact.primaryPhoneNumber!,
+  phoneNumber: unknownContact.primaryPhoneNumber ?? "",
   unread: false,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -158,30 +92,12 @@ const secondThread: Thread = {
   contactName: undefined,
 }
 
-const incomingThread: Thread = {
-  id: "3",
-  phoneNumber: unknownReceiver.phoneNumber,
-  unread: true,
-  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
-  messageSnippet:
-    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-  messageType: MessageType.INBOX,
-  contactId: undefined,
-  contactName: undefined,
-}
-
 const receiver: Receiver = {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  phoneNumber: contact.primaryPhoneNumber!,
+  phoneNumber: contact.primaryPhoneNumber ?? "",
   firstName: contact.firstName,
   lastName: contact.lastName,
   identification: ReceiverIdentification.unknown,
 }
-
-const addNewMessageResponse = {
-  payload: { messageParts: [{ thread: firstThread }] },
-} as PayloadAction<CreateMessageDataResponse>
 
 beforeAll(() => {
   mockAllIsIntersecting(true)
@@ -223,30 +139,7 @@ const defaultProps: Props = {
   state: State.Initial,
 }
 
-const propsWithSingleThread: Partial<Props> = {
-  threadsState: ResultState.Loaded,
-  threads: [firstThread],
-  receivers: [receiver],
-  loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
-  getReceiver: jest.fn().mockReturnValue(receiver),
-  getContactByPhoneNumber: jest.fn(),
-  addNewMessage: jest.fn(),
-  getContact: jest.fn(),
-  isContactCreatedByPhoneNumber: jest.fn(),
-  getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([
-    {
-      content: "Test Message #1",
-      date: new Date("1970-01-01T00:06:31.000Z"),
-      id: "1",
-      messageType: "INBOX",
-      phoneNumber: "123 456 789",
-      threadId: "1",
-    },
-  ]),
-}
-
 type callback = (outcome: RenderResult) => void
-
 type RenderProps = Partial<Props> & { callbacks?: callback[] }
 
 const renderer = (
@@ -293,39 +186,6 @@ const renderer = (
       )
     },
   }
-}
-
-const setThreadDetailsState = ({ queryAllByTestId }: RenderResult): void => {
-  const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
-  fireEvent.click(tableRow)
-}
-
-const setMockContent = ({ queryByTestId }: RenderResult): void => {
-  const input = queryByTestId(
-    ThreadDetailsTextAreaTestIds.Input
-  ) as HTMLInputElement
-  fireEvent.change(input, { target: { value: "mock" } })
-}
-
-const putReceiverNumber = ({ queryByTestId }: RenderResult): void => {
-  const input = queryByTestId(
-    ReceiverInputSelectTestIds.Input
-  ) as HTMLInputElement
-  fireEvent.change(input, { target: { value: firstThread.phoneNumber } })
-}
-
-const putNewReceiverNumber = ({ queryByTestId }: RenderResult): void => {
-  const input = queryByTestId(
-    ReceiverInputSelectTestIds.Input
-  ) as HTMLInputElement
-  fireEvent.change(input, { target: { value: unknownReceiver.phoneNumber } })
-}
-
-const setNewMessageState = ({ queryByTestId }: RenderResult): void => {
-  const button = queryByTestId(
-    MessagePanelTestIds.NewMessageButton
-  ) as HTMLElement
-  fireEvent.click(button)
 }
 
 afterEach(() => {
@@ -446,7 +306,7 @@ describe("Messages component", () => {
 
     //how to test useEffect with timeouts?
     describe("timeouts", () => {
-      test("delete message", async () => {
+      test("delete message and verify info modals", () => {
         jest.useFakeTimers()
 
         const { queryByTestId, queryAllByTestId, rerender } = renderer({
@@ -502,22 +362,12 @@ describe("Messages component", () => {
         jest.useRealTimers()
       })
 
-      test("delete thread", () => {
+      test("delete thread and verify info modals", () => {
         jest.useFakeTimers()
 
         const { queryByTestId, queryAllByTestId, rerender, baseElement } =
           renderer({
             threads: [firstThread, secondThread],
-            // getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([
-            //   {
-            //     content: "Test Message #1",
-            //     date: new Date("1970-01-01T00:06:31.000Z"),
-            //     id: "1",
-            //     messageType: "INBOX",
-            //     phoneNumber: "123 456 789",
-            //     threadId: "1",
-            //   },
-            // ]),
           })
 
         const threadOptions = queryAllByTestId("thread-row-toggler")[0]
@@ -529,20 +379,18 @@ describe("Messages component", () => {
         const confirmDelete = queryByTestId(ModalTestIds.ModalActionButton)
         confirmDelete && fireEvent.click(confirmDelete)
 
-        jest.advanceTimersByTime(8000)
         rerender({ state: State.Loaded, threads: [secondThread] })
+        jest.advanceTimersByTime(3000)
         console.log(prettyDOM(baseElement))
-
-        //expect(confirmDelete).toBeInTheDocument()
 
         expect(
           queryByTestId("deleting-thread-modals-info-popup")
         ).toBeInTheDocument()
 
-        // jest.advanceTimersByTime(3000)
-        // expect(
-        //   queryByTestId("deleting-thread-modals-info-popup")
-        // ).not.toBeInTheDocument()
+        jest.advanceTimersByTime(3000)
+        expect(
+          queryByTestId("deleting-thread-modals-info-popup")
+        ).not.toBeInTheDocument()
 
         jest.runOnlyPendingTimers()
         jest.useRealTimers()
@@ -563,64 +411,5 @@ describe("Messages component", () => {
         queryByTestId(MessagesTestIds.ThreadDetails)
       ).not.toBeInTheDocument()
     })
-  })
-
-  //---------------------------------------------------------------------------
-  //---------------------------------------------------------------------------
-
-  test("Render MessagesPanel", () => {
-    const { queryByTestId } = renderer()
-    expect(queryByTestId(MessagesTestIds.MessagesPanel)).toBeInTheDocument()
-  })
-
-  test("Render with filled search input and visible search results", () => {
-    const searchText = "Test test"
-    const { queryByTestId } = renderer()
-    const input = queryByTestId(InputSearchTestIds.Input) as HTMLInputElement
-    fireEvent.change(input, { target: { value: searchText } })
-    fireEvent.keyDown(input, {
-      key: "Enter",
-      code: "Enter",
-      keyCode: 13,
-      charCode: 13,
-    })
-
-    expect(
-      queryByTestId(MessagesTestIds.MessagesSearchResults)
-    ).toBeInTheDocument()
-  })
-
-  test("Render EmptyThreadListState", () => {
-    const { queryByTestId } = renderer({ threads: [] })
-    expect(
-      queryByTestId(MessagesTestIds.EmptyThreadListState)
-    ).toBeInTheDocument()
-  })
-
-  test("Render ThreadList", () => {
-    const { queryByTestId } = renderer({ threads: [firstThread] })
-    expect(queryByTestId(MessagesTestIds.ThreadList)).toBeInTheDocument()
-  })
-
-  test("Render ThreadDetails", () => {
-    const extraProps: Partial<Props> = {
-      ...propsWithSingleThread,
-    }
-    const { queryAllByTestId, queryByTestId } = renderer(extraProps)
-    const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
-    fireEvent.click(tableRow)
-    expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
-  })
-
-  test("Render NewMessageForm", () => {
-    const extraProps: Partial<Props> = {
-      ...propsWithSingleThread,
-    }
-    const { queryByTestId } = renderer(extraProps)
-    const button = queryByTestId(
-      MessagePanelTestIds.NewMessageButton
-    ) as HTMLElement
-    fireEvent.click(button)
-    expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
   })
 })

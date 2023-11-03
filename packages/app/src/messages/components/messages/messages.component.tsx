@@ -40,7 +40,6 @@ import { Template } from "App/templates/dto"
 import { Contact } from "App/contacts/dto"
 import { ContactAttachmentPresenter } from "App/contacts/presenters"
 import { useLoadingState } from "App/ui"
-import { Feature, flags } from "App/feature-flags"
 import MessagesSearchResults from "App/messages/components/messages-search-results/messages-search-results.component"
 import { DataIndex } from "App/index-storage/constants"
 import { State } from "App/core/constants"
@@ -99,7 +98,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   removeLayoutNotification,
   currentlyDeletingMessageId,
   resendMessage,
-  updateMessage,
   templates,
   error,
   selectedItems,
@@ -760,7 +758,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onCloseDeletingErrorModal={hideDeleteMessageErrorModal}
         onDelete={handleDeleteMessage}
       />
-      <>states.threadDeleting: {states.threadDeleting ? "true" : "false"}</>
     </>
   )
 }
