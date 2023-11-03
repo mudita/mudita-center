@@ -249,7 +249,7 @@
     "react-viewport-list": "^6.0.1",
     "react-virtualized": "^9.22.3",
     "react-virtuoso": "^2.18.0",
-    "redux": "^4.2.0",
+    "redux": "4.2.1",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.4.1",
