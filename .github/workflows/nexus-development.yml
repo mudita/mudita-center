@@ -83,7 +83,7 @@ jobs:
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
             export "BUILD_VERSION=.${{ github.run_number }}"
           fi
-          sed -i '' "s/\"version\": \".*\"/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/version
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/"packages/app/version
       - name: Setup Env for Linux
         if: matrix.os == 'Linux'
         env:
@@ -119,7 +119,7 @@ jobs:
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
             export "BUILD_VERSION=.${{ github.run_number }}"
           fi
-          sed -i "s/\"version\": \".*\"/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
+          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file for Windows
