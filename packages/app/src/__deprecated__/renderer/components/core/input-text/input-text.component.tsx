@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React from "react"
 import {
   InputText,
   TextArea,
@@ -14,7 +14,6 @@ import {
   InputPasscodeProps,
   TextareaProps,
 } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 
 const isTextareaProps = (
   props: InputComponentProps
@@ -28,18 +27,16 @@ const isInputPasscodeProps = (
   return props.type === "passcode"
 }
 
-export const InputComponent: FunctionComponent<InputComponentProps> = (
-  props
-) => {
+const ForwardedInput = React.forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  InputComponentProps
+>((props) => {
   if (isTextareaProps(props)) {
     return <TextArea {...props} />
   } else if (isInputPasscodeProps(props)) {
     return <InputPasscode {...props} />
   }
   return <InputText {...props} />
-}
+})
 
-export default React.forwardRef<
-  HTMLInputElement & HTMLTextAreaElement,
-  ComponentProps<typeof InputComponent>
->((props, ref) => <InputComponent {...props} inputRef={ref} />)
+export default ForwardedInput
