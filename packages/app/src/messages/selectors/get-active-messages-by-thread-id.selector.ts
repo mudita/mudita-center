@@ -21,11 +21,6 @@ export const getActiveMessagesByThreadIdSelector = (
   return createSelector<ReduxRootState, MessagesState, Message[]>(
     messagesStateSelector,
     ({ data: { messageIdsInThreadMap, messageMap } }) => {
-      console.log("getActiveMessagesByThreadIdSelector", {
-        messageIdsInThreadMap,
-        messageMap,
-      })
-
       const messageIds = messageIdsInThreadMap[threadId] ?? []
       const messages = messageIds
         .map((messageId) => messageMap[messageId])
