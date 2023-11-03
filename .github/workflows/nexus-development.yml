@@ -48,6 +48,16 @@ jobs:
         run: |
           SET > .env
           jq -r -j .version packages/app/package.json > packages/app/version
+          $APP_VERSION = Get-Content -Path "packages/app/version"
+          $SOURCE_BRANCH = "${{ github.ref_name }}"
+          if ($SOURCE_BRANCH -eq "develop" -or $SOURCE_BRANCH -eq "nexus-runner") {
+              $ENVIRONMENT_CATALOG_NAME = "development"
+              $BUILD_VERSION = "-dev.${{ github.run_number }}"
+          } else {
+              $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
+              $BUILD_VERSION = ".${{ github.run_number }}"
+          }
+          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
         env:
