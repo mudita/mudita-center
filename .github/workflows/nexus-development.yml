@@ -49,7 +49,7 @@ jobs:
           SET > .env
           jq -r -j .version packages/app/package.json > packages/app/version
       - name: Setup Env for Mac
-        if: matrix.os != 'Windows'
+        if: matrix.os == 'macOS'
         env:
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
@@ -85,7 +85,7 @@ jobs:
           fi
           sed -i '' 's/"version": "[0-9.]*"/"version": "$APP_VERSION$BUILD_VERSION"/' packages/app/package.json
       - name: Setup Env for Linux
-        if: matrix.os = 'Linux'
+        if: matrix.os == 'Linux'
         env:
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
