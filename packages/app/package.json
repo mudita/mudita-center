@@ -135,7 +135,7 @@
     "@electron/remote": "^2.0.11",
     "@faker-js/faker": "^7.5.0",
     "@mudita/stylelint-config": "^1.0.4",
-    "@reduxjs/toolkit": "^1.9.6",
+    "@reduxjs/toolkit": "1.9.7",
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
     "@seznam/compose-react-refs": "1.0.4",
