@@ -36,8 +36,11 @@ export const authFactory = (
 
 export const tokenIsValid = (data: Auth, provider: AuthProviders): boolean => {
   if (provider in data) {
-    const validityValue = data[provider][AuthKeys.Valid] || 0
-    return validityValue > Date.now()
+    const validityValue = data[provider][AuthKeys.Valid]
+
+    if (typeof validityValue === 'number' && validityValue > Date.now()) {
+      return true;
+    }
   }
 
   return false
