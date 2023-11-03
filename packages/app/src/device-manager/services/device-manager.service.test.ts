@@ -15,13 +15,15 @@ import { DeviceManagerError } from "App/device-manager/constants"
 import { DeviceManager } from "App/device-manager/services/device-manager.service"
 import { DeviceResolverService } from "App/device-manager/services/device-resolver.service"
 
-jest.spyOn(global, "setTimeout").mockImplementation(
+jest
+  .spyOn(global, "setTimeout")
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (callback: (args: void) => void, _ms?: number | undefined): any => {
-    callback()
-  }
-)
+  .mockImplementation((...args: unknown[]): any => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(args as any)[0]()
+  })
 
 const eventEmitter = new EventEmitter()
 const deviceMockOne = DeviceFactory.create(
