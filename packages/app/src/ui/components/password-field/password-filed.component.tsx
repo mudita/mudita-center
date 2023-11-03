@@ -26,12 +26,10 @@ interface PasswordFieldProps {
   relativeError?: boolean
 }
 
-export const PasswordField: FunctionComponent<PasswordFieldProps> = ({
-  label,
-  errorMessage,
-  showPassword = true,
-  ...props
-}) => {
+export const PasswordField = React.forwardRef<
+  HTMLInputElement,
+  PasswordFieldProps
+>(({ label, errorMessage, showPassword = true, ...props }, ref) => {
   const [visible, setVisible] = useState<boolean>(false)
 
   const handleToggleInputType = () => {
@@ -45,6 +43,7 @@ export const PasswordField: FunctionComponent<PasswordFieldProps> = ({
         type={visible ? "text" : "password"}
         errorMessage={errorMessage}
         label={intl.formatMessage(label)}
+        ref={ref}
         {...props}
       />
       {showPassword && (
@@ -65,4 +64,4 @@ export const PasswordField: FunctionComponent<PasswordFieldProps> = ({
       )}
     </FieldWrapper>
   )
-}
+})

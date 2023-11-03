@@ -5,9 +5,9 @@
 
 import React from "react"
 import InputText from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
-import { Icon } from "App/__deprecated__/renderer/components/core/input-text/input-text.stories"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { InputTextTestIds } from "./input-text-test-ids.enum"
+import Icon from "../icon/icon.component"
 
 test("renders standard input properly", () => {
   const { getByRole, getByLabelText } = renderWithThemeAndIntl(
