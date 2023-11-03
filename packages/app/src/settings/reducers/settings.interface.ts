@@ -20,4 +20,5 @@ export interface SettingsState extends Settings {
   updateRequired: boolean
   updateAvailable: boolean | undefined
   checkingForUpdate: boolean
+  checkingForUpdateFailed: boolean
 }

@@ -1,4 +1,4 @@
-name: Build and push artifacts to nexus
+name: Build & deploy to development
 
 on:
   push:
@@ -16,22 +16,21 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.3
-      - name: Setup depedencies
-        run: npm run setup
-      - name: Copy electron-builder environment file
-        run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
-      - name: Build App
+      - name: Setup Env
         env:
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
           MUDITA_CENTER_SERVER_URL: ${{ secrets.MUDITA_CENTER_SERVER_URL }}
           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
+          RELEASES_REPOSITORY_NAME: ${{ secrets.RELEASES_REPOSITORY_NAME }}
+          PRERELEASES_ENABLED: ${{ secrets.PRERELEASES_ENABLED }}
           GITHUB_ACCESS_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           LOGIN_MICROSOFT_ONLINE_CLIENT_ID: ${{ secrets.LOGIN_MICROSOFT_ONLINE_CLIENT_ID }}
           FONTS_DIRECTORY_URL: ${{ secrets.FONTS_DIRECTORY_URL }}
           FRESHDESK_API_URL: ${{ secrets.FRESHDESK_API_URL }}
           FRESHDESK_API_TOKEN: ${{ secrets.FRESHDESK_API_TOKEN }}
+          ANALYTICS_ENABLED: ${{ secrets.ANALYTICS_ENABLED }}
           ANALYTICS_API_URL: ${{ secrets.ANALYTICS_API_URL }}
           ANALYTICS_API_SITE_ID: ${{ secrets.ANALYTICS_API_SITE_ID }}
           FEATURE_TOGGLE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_ENVIRONMENT }}
@@ -42,21 +41,31 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
         run: |
           printenv > .env
+      - name: Setup depedencies
+        run: npm run setup
+      - name: Copy electron-builder environment file
+        run: cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
+      - name: Build App
+        run: |
           cd packages/app/ && npm run dist:prod:all
       - name: Push artifacts to nexus registry
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export "BUILD_VERSION=-dev.${{ github.run_number }}"
           if [[ $SOURCE_BRANCH == "develop" ]]; then
              export ENVIVORMENT_CATALOG_NAME=development
+             export "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
              export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+             export "BUILD_VERSION=.${{ github.run_number }}"
           fi
-          export APP_VERSION=`echo -n v && cat packages/app/package.json | jq -r .version`
+          echo "GITTAG=$APP_VERSION$BUILD_VERSION" >> $GITHUB_ENV
+          export GITTAG="$APP_VERSION$BUILD_VERSION"
+          git tag "$GITTAG"
+          git push origin "$GITTAG"
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.exe  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.exe
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/Mudita-Center.dmg
@@ -68,4 +77,45 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/latest.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION$BUILD_VERSION/builder-debug.yml
-
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
+          cd mudita-center-internal-releases
+          git tag "$GITTAG"
+          git push origin "$GITTAG"
+      - name: Create draft release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./packages/app/release/Mudita-Center.exe
+            ./packages/app/release/Mudita-Center.AppImage
+            ./packages/app/release/Mudita-Center.dmg
+            ./packages/app/release/Mudita-Center.zip
+            ./packages/app/release/Mudita-Center.zip.blockmap
+            ./packages/app/release/Mudita-Center.exe.blockmap
+            ./packages/app/release/Mudita-Center.dmg.blockmap
+            ./packages/app/release/latest-linux.yml
+            ./packages/app/release/latest-mac.yml
+            ./packages/app/release/latest.yml
+            ./packages/app/release/builder-debug.yml
+          tag_name: ${{ env.GITTAG }}
+          name: Mudita Center v${{ env.GITTAG }}
+          repository: mudita/mudita-center-internal-releases
+          token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          draft: true
+      - name: Push artifacts to GitHub
+        id: upload_assets
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-assets
+          path: |
+            ./packages/app/release/Mudita-Center.exe
+            ./packages/app/release/Mudita-Center.AppImage
+            ./packages/app/release/Mudita-Center.dmg
+            ./packages/app/release/Mudita-Center.zip
+            ./packages/app/release/Mudita-Center.zip.blockmap
+            ./packages/app/release/Mudita-Center.exe.blockmap
+            ./packages/app/release/Mudita-Center.dmg.blockmap
+            ./packages/app/release/latest-linux.yml
+            ./packages/app/release/latest-mac.yml
+            ./packages/app/release/latest.yml
+            ./packages/app/release/builder-debug.yml

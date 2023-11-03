@@ -26,6 +26,7 @@ import {
   setCheckingForUpdate,
 } from "App/settings/actions"
 import { deleteCollectingData } from "App/settings/actions/delete-collecting-data.action"
+import { setCheckingForUpdateFailed } from "../actions/set-checking-for-update-failed.action"
 
 export const initialState: SettingsState = {
   applicationId: "",
@@ -55,6 +56,7 @@ export const initialState: SettingsState = {
   loaded: false,
   loading: false,
   checkingForUpdate: false,
+  checkingForUpdateFailed: false,
 }
 
 export const settingsReducer = createReducer<SettingsState>(
@@ -158,6 +160,9 @@ export const settingsReducer = createReducer<SettingsState>(
 
       .addCase(setCheckingForUpdate, (state, action) => {
         state.checkingForUpdate = action.payload
+      })
+      .addCase(setCheckingForUpdateFailed, (state, action) => {
+        state.checkingForUpdateFailed = action.payload
       })
   }
 )
