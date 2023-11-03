@@ -83,9 +83,7 @@ jobs:
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
             export "BUILD_VERSION=.${{ github.run_number }}"
           fi
-          echo "GITTAG=$APP_VERSION$BUILD_VERSION" >> $GITHUB_ENV
-          export GITTAG="$APP_VERSION$BUILD_VERSION"
-          sed -i 's/"version": "[0-9.]*"/"version": "$GITTAG"/' packages/app/package.json
+          sed -i 's/"version": "[0-9.]*"/"version": "$APP_VERSION$BUILD_VERSION"/' packages/app/package.json
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file for Windows
