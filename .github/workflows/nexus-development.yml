@@ -48,6 +48,9 @@ jobs:
         run: |
           SET > .env
           jq -r -j .version packages/app/package.json > packages/app/version
+      - name: Changing app version in packages.json for Windows
+        if: matrix.os == 'Windows'
+        run: |
           $APP_VERSION = Get-Content -Path "packages/app/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           if ($SOURCE_BRANCH -eq "develop" -or $SOURCE_BRANCH -eq "nexus-runner") {
