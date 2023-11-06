@@ -33,7 +33,11 @@ export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
       return payload
     }
 
-    if (!payload || state.backup.restoringState === State.Failed || state.backup.backingUpState === State.Failed) {
+    if (
+      !payload ||
+      state.backup.restoringState === State.Failed ||
+      state.backup.backingUpState === State.Failed
+    ) {
       dispatch(setInitState())
       dispatch(readRestoreDeviceDataState())
       void setValue({ key: MetadataKey.DeviceOsVersion, value: null })

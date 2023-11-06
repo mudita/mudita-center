@@ -14,16 +14,11 @@ import { SettingsTogglerTestIds } from "App/settings/components/settings-toggler
 import { Provider } from "react-redux"
 import store from "App/__deprecated__/renderer/store"
 
-jest.mock(
-  "electron",
-  jest.fn().mockImplementation(() => ({
-    remote: {
-      dialog: {
-        showOpenDialog: jest.fn(),
-      },
-    },
-  }))
-)
+jest.mock("@electron/remote", () => ({
+  dialog: {
+    showOpenDialog: jest.fn(),
+  },
+}))
 
 const renderer = (props = {}) =>
   renderWithThemeAndIntl(

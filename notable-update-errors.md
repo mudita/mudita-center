@@ -1,5 +1,35 @@
 # Notable update errors
 
+## [v26]
+
+- [75475:1002/094716.038183:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Unsupported URL scheme"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+- Error sending from webFrameMain:  Error: Failed to serialize arguments
+  @mudita/mudita-center-app:     at n.send (node:electron/js2c/browser_init:165:417)
+  @mudita/mudita-center-app:     at b.send (node:electron/js2c/browser_init:161:2494)
+  @mudita/mudita-center-app:     at ipc.sendToRenderers (webpack://@mudita/mudita-center-app/./node_modules/electron-better-ipc/source/main.js?:112:30)
+  @mudita/mudita-center-app:     at Device.emitUnlockedEvent (webpack://@mudita/mudita-center-app/./src/device/modules/device.ts?:84:18)
+  @mudita/mudita-center-app:     at EventEmitter.emit (node:events:526:28)
+  @mudita/mudita-center-app:     at PureStrategy.handleDeviceUnlockedEvent (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:95:25)
+  @mudita/mudita-center-app:     at PureStrategy.checkResponseStatus (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:70:10)
+  @mudita/mudita-center-app:     at PureStrategy.request (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:44:10)
+  @mudita/mudita-center-app:     at async PureStrategy.connect (webpack://@mudita/mudita-center-app/./src/device/strategies/pure.strategy.ts?:30:22)
+  @mudita/mudita-center-app:     at async Device.connect (webpack://@mudita/mudita-center-app/./src/device/modules/device.ts?:109:22)
+  @mudita/mudita-center-app: info: ==== serial port: create valid request ==== {"metadata":{"muditaCenterVersion"
+
+### [v26] - New
+
+- **CRITICAL ERROR** (update blocked): Uncaught TypeError: features.isDesktopCapturerEnabled is not a function
+  at eval (module-names.js:45:27)
+  at ./node_modules/@electron/remote/dist/src/common/module-names.js (app.js:18759:1)
+  at __webpack_require__ (app.js:34591:33)
+  at fn (app.js:34830:21)
+  at eval (remote.js:7:24)
+  at ./node_modules/@electron/remote/dist/src/renderer/remote.js (app.js:18803:1)
+  at __webpack_require__ (app.js:34591:33)
+  at fn (app.js:34830:21)
+  at eval (index.js:15:14)
+  at ./node_modules/@electron/remote/dist/src/renderer/index.js (app.js:18792:1)
+
 ## [v25]
 
 - [75475:1002/094716.038183:ERROR:CONSOLE(1)] "Request Network.loadNetworkResource failed. {"code":-32602,"message":"Unsupported URL scheme"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)

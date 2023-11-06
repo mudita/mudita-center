@@ -7,20 +7,15 @@ import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import store from "App/__deprecated__/renderer/store"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import ModalsManager from "App/modals-manager/containers/modals-manager.container"
+import ModalsManager from "App/modals-manager/components/modals-manager.container"
 import { AppForcedUpdateFlowTestIds } from "App/settings/components/app-forced-update-flow/app-forced-update-flow-test-ids.enum"
 import { AppUpdateFlowTestIds } from "App/settings/components/app-update-flow/app-update-flow-test-ids.enum"
 
-jest.mock(
-  "electron",
-  jest.fn().mockImplementation(() => ({
-    remote: {
-      dialog: {
-        showOpenDialog: jest.fn(),
-      },
-    },
-  }))
-)
+jest.mock("@electron/remote", () => ({
+  dialog: {
+    showOpenDialog: jest.fn(),
+  },
+}))
 
 type Props = ComponentProps<typeof ModalsManager>
 
