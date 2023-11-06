@@ -47,7 +47,6 @@ jobs:
         shell: cmd
         run: |
           SET > .env
-          jq -r -j .version packages/app/package.json > packages/app/version
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
         env:
@@ -169,6 +168,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
+          jq -r -j .version packages/app/package.json > packages/app/version
           $APP_VERSION = Get-Content -Path "packages/app/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           if ($SOURCE_BRANCH -eq "develop" -or $SOURCE_BRANCH -eq "nexus-windows-debug") {
@@ -198,7 +198,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || $SOURCE_BRANCH == "nexus-windows-debug"; then
+          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-windows-debug" ]]; then
             export ENVIVORMENT_CATALOG_NAME=development
           else
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
@@ -223,7 +223,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || $SOURCE_BRANCH == "nexus-windows-debug"; then
+          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-windows-debug" ]]; then
             export ENVIVORMENT_CATALOG_NAME=development
           else
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
