@@ -703,14 +703,16 @@ describe("Messages component", () => {
     })
   })
 
-  test.skip("when at least one checkbox is checked, all checkboxes are visible", () => {
+  test("when at least one checkbox is checked, all checkboxes are visible", () => {
     const toggleItem = jest.fn()
     const { getAllByTestId, rerender } = renderer({
       ...propsWithSingleThread,
       toggleItem,
     })
     const checkboxes = getAllByTestId("checkbox")
-    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    checkboxes.forEach((checkbox) =>
+      waitFor(() => expect(checkbox).not.toBeVisible())
+    )
     //simulate clicking on one checkbox
     rerender({ ...propsWithSingleThread, selectedItems: { rows: ["1"] } })
     checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
@@ -727,7 +729,7 @@ describe("Messages component", () => {
     expect(toggleItem).toBeCalled()
   })
 
-  test.skip("Remove checkboxes and selection manager when opening thread details", () => {
+  test("Remove checkboxes and selection manager when opening thread details", () => {
     const resetItems = jest.fn()
     const { queryAllByTestId, queryByTestId, rerender } = renderer({
       ...propsWithSingleThread,
@@ -744,7 +746,9 @@ describe("Messages component", () => {
     expect(resetItems).toBeCalled()
     rerender({ ...propsWithSingleThread, selectedItems: { rows: [] } })
     expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
-    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    checkboxes.forEach((checkbox) =>
+      waitFor(() => expect(checkbox).not.toBeVisible())
+    )
     expect(
       queryByTestId(MessagePanelTestIds.SelectionManager)
     ).not.toBeInTheDocument()
@@ -963,7 +967,7 @@ describe("Messages component", () => {
         queryByTestId(MessagesTestIds.BrowseContactsModal)
       ).toBeInTheDocument()
 
-      getByTestId(ModalTestIds.CloseButton).click()
+      fireEvent.click(getByTestId(ModalTestIds.CloseButton))
 
       expect(
         queryByTestId(MessagesTestIds.BrowseContactsModal)

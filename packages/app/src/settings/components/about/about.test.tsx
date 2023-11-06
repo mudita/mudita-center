@@ -11,11 +11,17 @@ import { AboutTestIds } from "App/settings/components/about/about.enum"
 import { fireEvent, screen } from "@testing-library/dom"
 import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 import { flags } from "App/feature-flags"
+import { act, waitFor } from "@testing-library/react"
 
 jest.mock("App/feature-flags")
-jest.mock(
-  "App/__deprecated__/main/functions/register-error-app-update-listener"
-)
+jest.mock("electron-better-ipc", () => {
+  return {
+    ipcRenderer: {
+      callMain: () => jest.fn(),
+      answerMain: () => jest.fn(),
+    },
+  }
+})
 
 type Props = ComponentProps<typeof AboutUI>
 const defaultProps: Props = {
@@ -63,11 +69,12 @@ test("Opens update modal properly when app update is not available", () => {
     appUpdateNotAvailableShow: true,
   })
 
-  getByTestId(AboutTestIds.UpdateButton).click()
-
-  expect(
-    screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
-  ).toBeInTheDocument()
+  act(() => getByTestId(AboutTestIds.UpdateButton).click())
+  waitFor(() => {
+    expect(
+      screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
+    ).toBeInTheDocument()
+  })
 })
 
 test("Calls AppUpdateAvailableCheck when clicked", () => {

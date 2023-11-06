@@ -1,4 +1,7 @@
 /**
+ * @jest-environment jsdom
+ */
+/**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
@@ -81,7 +84,10 @@ describe("`useFilesFilter` hook", () => {
 
   test("`noFoundFiles` is true when `searchValue` isn't match", () => {
     const { result } = renderHook(() =>
-      useFilesFilter({ ...defaultState, searchValue: "Luke, you can't find me" })
+      useFilesFilter({
+        ...defaultState,
+        searchValue: "Luke, you can't find me",
+      })
     )
     expect(result.current.noFoundFiles).toBeTruthy()
   })

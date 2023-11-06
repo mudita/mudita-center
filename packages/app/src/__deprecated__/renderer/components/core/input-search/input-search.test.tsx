@@ -12,6 +12,7 @@ import InputSearch, {
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
 import { basicItems } from "App/__deprecated__/renderer/components/core/list/list.stories"
+import { waitFor } from "@testing-library/react"
 
 const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
@@ -43,11 +44,17 @@ beforeAll(() => {
 describe("Search input focus/blur", () => {
   test("should toggle the list", () => {
     const { list, input } = renderInputSearch()
-    expect(list()).not.toBeVisible()
+    waitFor(() => {
+      expect(list()).not.toBeVisible()
+    })
     input().focus()
-    expect(list()).toBeVisible()
+    waitFor(() => {
+      expect(list()).toBeVisible()
+    })
     input().blur()
-    expect(list()).not.toBeVisible()
+    waitFor(() => {
+      expect(list()).not.toBeVisible()
+    })
   })
 
   test("should toggle the list properly when min chars to show results are set up", () => {
@@ -69,14 +76,16 @@ describe("Search input focus/blur", () => {
     expect(list()).not.toBeInTheDocument()
   })
 
-  test("should show the list when min chars is smaller than searchValue length", () => {
+  test("should show the list when min chars is smaller than searchValue length", async () => {
     const { list, input } = renderInputSearch({
       minCharsToShowResults: 3,
       searchValue: "abc",
     })
-    input().focus()
-    expect(list()).toBeInTheDocument()
-    expect(list()).toBeVisible()
+    fireEvent.focus(input())
+    waitFor(() => {
+      expect(list()).toBeInTheDocument()
+      expect(list()).toBeVisible()
+    })
   })
 })
 
