@@ -61,7 +61,7 @@ jobs:
               $BUILD_VERSION = ".${{ github.run_number }}"
           }
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
-            $_ -replace '"version": ".*",' , "`"version"`: `"$APP_VERSION`$BUILD_VERSION`","
+            $_ -replace '"version": ".*",' , "`"version`: `"$APP_VERSION`$BUILD_VERSION`","
           } | Set-Content -Path 'packages/app/package.json'
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
