@@ -47,6 +47,7 @@ jobs:
         shell: cmd
         run: |
           SET > .env
+          jq -r -j .version packages/app/package.json > packages/app/version
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
         env:
