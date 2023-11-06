@@ -5,7 +5,6 @@ on:
     branches:
       - develop
       - CP-*
-      - nexus-*
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -105,7 +104,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-windows-debug" ]] ; then
+          if [[ $SOURCE_BRANCH == "develop" ]]; then
             export ENVIVORMENT_CATALOG_NAME=development
             export "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
@@ -118,7 +117,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-windows-debug" ]] ; then
+          if [[ $SOURCE_BRANCH == "develop" ]]; then
             export ENVIVORMENT_CATALOG_NAME=development
             export "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
@@ -130,7 +129,7 @@ jobs:
         if: matrix.os == 'Windows'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          if ($SOURCE_BRANCH -eq "develop" -or $SOURCE_BRANCH -eq "nexus-windows-debug") {
+          if ($SOURCE_BRANCH -eq "develop") {
               $ENVIRONMENT_CATALOG_NAME = "development"
               $BUILD_VERSION = "-dev.${{ github.run_number }}"
           } else {
@@ -172,7 +171,7 @@ jobs:
           jq -r -j .version packages/app/package.json > packages/app/version
           $APP_VERSION = Get-Content -Path "packages/app/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          if ($SOURCE_BRANCH -eq "develop" -or $SOURCE_BRANCH -eq "nexus-windows-debug") {
+          if ($SOURCE_BRANCH -eq "develop") {
               $ENVIRONMENT_CATALOG_NAME = "development"
           } else {
               $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
@@ -199,7 +198,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-windows-debug" ]]; then
+          if [[ $SOURCE_BRANCH == "develop" ]]; then
             export ENVIVORMENT_CATALOG_NAME=development
           else
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
@@ -224,7 +223,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-windows-debug" ]]; then
+          if [[ $SOURCE_BRANCH == "develop" ]]; then
             export ENVIVORMENT_CATALOG_NAME=development
           else
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
