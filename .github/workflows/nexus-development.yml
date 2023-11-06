@@ -100,16 +100,6 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
         run: |
           printenv > .env
-      - name: Setup depedencies
-        run: npm run setup
-      - name: Copy electron-builder environment file for Windows
-        if: matrix.os == 'Windows'
-        run: |
-          copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
-      - name: Copy electron-builder environment file for Linux/Mac
-        if: matrix.os != 'Windows'
-        run: |
-          cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
       - name: Changing app version in packages.json for Linux
         if: matrix.os == 'Linux'
         run: |
@@ -151,6 +141,16 @@ jobs:
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
           } | Set-Content -Path 'packages/app/package.json'
+      - name: Setup depedencies
+        run: npm run setup
+      - name: Copy electron-builder environment file for Windows
+        if: matrix.os == 'Windows'
+        run: |
+          copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
+      - name: Copy electron-builder environment file for Linux/Mac
+        if: matrix.os != 'Windows'
+        run: |
+          cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
       - name: Build App for Windows
         if: matrix.os == 'Windows'
         run: |
