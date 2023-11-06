@@ -48,7 +48,7 @@ jobs:
         run: |
           SET > .env
           jq -r -j .version packages/app/package.json > packages/app/version
-      - name: Changing app version in packages.json for Windows
+      - name: Changing app version in packages.json for Windows 
         if: matrix.os == 'Windows'
         run: |
           $APP_VERSION = Get-Content -Path "packages/app/version"
