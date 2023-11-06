@@ -51,7 +51,6 @@ jobs:
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
         run: |
-          $APP_VERSION = Get-Content -Path "packages/app/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           if ($SOURCE_BRANCH -eq "develop" -or $SOURCE_BRANCH -eq "nexus-windows-debug") {
               $ENVIRONMENT_CATALOG_NAME = "development"
@@ -63,6 +62,7 @@ jobs:
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION$BUILD_VERSION`","
           } | Set-Content -Path 'packages/app/package.json'
+          $APP_VERSION = (Get-Content -Path "packages/app/version") + $BUILD_VERSION
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
         env:
