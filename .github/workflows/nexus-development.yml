@@ -147,10 +147,10 @@ jobs:
               $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
               $BUILD_VERSION = ".${{ github.run_number }}"
           }
-          (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
-            $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION$BUILD_VERSION`","
-          } | Set-Content -Path 'packages/app/package.json'
           $APP_VERSION = (Get-Content -Path "packages/app/version") + $BUILD_VERSION
+          (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
+            $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
+          } | Set-Content -Path 'packages/app/package.json'
       - name: Build App for Windows
         if: matrix.os == 'Windows'
         run: |
