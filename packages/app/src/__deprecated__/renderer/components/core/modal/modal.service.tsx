@@ -200,6 +200,7 @@ export class ModalService {
   private mountModal = () => {
     this.modalElement = document.createElement("div")
     document.body.appendChild(this.modalElement)
+    this.modalRoot = createRoot(this.modalElement)
   }
 
   private mountBackdrop = () => {
@@ -215,6 +216,7 @@ export class ModalService {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.modalElement!.remove()
+    this.modalRoot = null
   }
 
   private unMountBackdrop = () => {
@@ -222,7 +224,6 @@ export class ModalService {
 
     if (this.backdropElement) {
       this.backdropElement.remove()
-      this.backdropRoot = null
       this.eventListeners.forEach(({ type, element, event }) => {
         element.removeEventListener(type, event)
       })

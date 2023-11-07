@@ -26,7 +26,7 @@ import {
   textColor,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { InputProps } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
-import composeRefs from "@seznam/compose-react-refs/composeRefs"
+import useMergedRef from "@react-hook/merged-ref"
 import {
   ItemValue,
   List,
@@ -445,7 +445,10 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
         onKeyDown={onKeyDown}
-        inputRef={composeRefs(selectRef, inputRef)}
+        inputRef={useMergedRef(
+          selectRef,
+          inputRef as React.Ref<HTMLInputElement>
+        )}
         readOnly={!searchable}
         focusable
       />
