@@ -109,7 +109,7 @@ jobs:
             export "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-            export "BUILD_VERSION=.${{ github.run_number }}"
+            export "BUILD_VERSION=-dev.${{ github.run_number }}"
           fi
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Changing app version in packages.json for Mac
@@ -122,7 +122,7 @@ jobs:
             export "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
             export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-            export "BUILD_VERSION=.${{ github.run_number }}"
+            export "BUILD_VERSION=-dev.${{ github.run_number }}"
           fi
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Changing app version in packages.json for Windows
@@ -134,7 +134,7 @@ jobs:
               $BUILD_VERSION = "-dev.${{ github.run_number }}"
           } else {
               $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
-              $BUILD_VERSION = ".${{ github.run_number }}"
+              $BUILD_VERSION = "-dev.${{ github.run_number }}"
           }
           $APP_VERSION = (Get-Content -Path "packages/app/version") + $BUILD_VERSION
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
