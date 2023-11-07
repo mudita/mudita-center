@@ -616,7 +616,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   return (
     <>
       <MessagesPanel
-        testId={MessagesTestIds.MessagesPanel}
+        data-testid={MessagesTestIds.MessagesPanel}
         searchValue={searchPreviewValue}
         onSearchValueChange={handleSearch}
         onNewMessageClick={handleNewMessageClick}
@@ -633,7 +633,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
       {messagesState === MessagesState.SearchResult ? (
         <MessagesSearchResults
-          testId={MessagesTestIds.MessagesSearchResults}
+          data-testid={MessagesTestIds.MessagesSearchResults}
           results={searchResult.message ? searchResult.message : []}
           resultsState={threadsState}
           searchValue={searchValue}
