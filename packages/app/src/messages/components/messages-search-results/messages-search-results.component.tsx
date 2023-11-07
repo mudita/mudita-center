@@ -96,7 +96,6 @@ interface MessagesSearchResultProps extends Pick<Settings, "language"> {
   removeMessage: (messageId: string) => void
   resendMessage?: (messageId: string) => void
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
-  "data-testid"?: string
 }
 
 const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
