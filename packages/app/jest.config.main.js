@@ -2,7 +2,7 @@ const jestConfig = require("./jest.config.core")
 
 module.exports = {
   ...jestConfig,
-  testMatch: ["**/?(*.)+(test|spec).[jt]s?(x)"],
+  testMatch: ["<rootDir>/src/**/*(*.)+(spec|test).[tj]s?(x)"],
   testPathIgnorePatterns: [
     ...jestConfig.testPathIgnorePatterns,
     "components",

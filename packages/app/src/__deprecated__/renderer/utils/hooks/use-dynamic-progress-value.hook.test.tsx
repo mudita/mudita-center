@@ -29,8 +29,8 @@ test("new props don't have an impact on the smooth incrementing value", async ()
 
   rerender(15)
 
+  expect(result.current).not.toBe(15)
   await waitFor(() => {
-    expect(result.current).not.toBe(15)
     expect(result.current).toBe(2)
   })
 })

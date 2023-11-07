@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { fireEvent, waitFor } from "@testing-library/dom"
+import { fireEvent, waitFor } from "@testing-library/react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import ContactEdit from "App/contacts/components/contact-edit/contact-edit.component"
