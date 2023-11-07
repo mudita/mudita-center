@@ -29,7 +29,7 @@ import {
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import styled, { css } from "styled-components"
-import useMergedRef from "@react-hook/merged-ref"
+import composeRefs from "@seznam/compose-react-refs"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import CloseImage from "App/__deprecated__/renderer/images/close.png"
 import { InputTextTestIds } from "./input-text-test-ids.enum"
@@ -504,10 +504,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const standardTextarea = (
     <TextAreaInput
       {...rest}
-      ref={useMergedRef(
-        textareaRef,
-        inputRef as React.Ref<HTMLTextAreaElement>
-      )}
+      ref={composeRefs(textareaRef, inputRef)}
       value={value}
       defaultValue={defaultValue}
       disabled={disabled}
@@ -521,10 +518,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
     <LabeledInputWrapper>
       <TextAreaInput
         {...rest}
-        ref={useMergedRef(
-          textareaRef,
-          inputRef as React.Ref<HTMLTextAreaElement>
-        )}
+        ref={composeRefs(textareaRef, inputRef)}
         value={value}
         defaultValue={defaultValue}
         disabled={disabled}
