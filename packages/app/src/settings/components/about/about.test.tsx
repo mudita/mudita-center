@@ -62,7 +62,7 @@ test("renders at least one table row", () => {
   )
 })
 
-test("Opens update modal properly when app update is not available", () => {
+test("Opens update modal properly when app update is not available", async () => {
   const { getByTestId } = renderer({
     appLatestVersion: "0.20.2",
     appCurrentVersion: "0.20.2",
@@ -70,7 +70,7 @@ test("Opens update modal properly when app update is not available", () => {
   })
 
   act(() => getByTestId(AboutTestIds.UpdateButton).click())
-  waitFor(() => {
+  await waitFor(() => {
     expect(
       screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
     ).toBeInTheDocument()

@@ -27,17 +27,17 @@ const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
   }
 }
 
-test("select input focus/blur toggles the list", () => {
+test("select input focus/blur toggles the list", async () => {
   const { list, input } = renderInputSelect()
-  waitFor(() => {
+  await waitFor(() => {
     expect(list()).not.toBeVisible()
   })
   input().focus()
-  waitFor(() => {
+  await waitFor(() => {
     expect(list()).toBeVisible()
   })
   input().blur()
-  waitFor(() => {
+  await waitFor(() => {
     expect(list()).not.toBeVisible()
   })
 })

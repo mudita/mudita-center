@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { useState } from "react"
 import Icon, {
   IconSize,

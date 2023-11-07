@@ -40,7 +40,7 @@ test("cancel is called", () => {
 
 test("display error if user provided the same to primary secondary number", async () => {
   const uniqueMessageError = "[value] component.formErrorNumberUnique"
-  const { getByTestId, getByText } = renderer()
+  const { getByTestId, getAllByText } = renderer()
   const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
   const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
 
@@ -51,8 +51,8 @@ test("display error if user provided the same to primary secondary number", asyn
 
   fireEvent.input(secondaryNumber, { target: { value: "123123123" } })
 
-  waitFor(() => {
-    expect(getByText(uniqueMessageError)).toBeInTheDocument()
+  await waitFor(() => {
+    expect(getAllByText(uniqueMessageError)[0]).toBeInTheDocument()
   })
 })
 

@@ -42,17 +42,17 @@ beforeAll(() => {
 })
 
 describe("Search input focus/blur", () => {
-  test("should toggle the list", () => {
+  test("should toggle the list", async () => {
     const { list, input } = renderInputSearch()
-    waitFor(() => {
+    await waitFor(() => {
       expect(list()).not.toBeVisible()
     })
     input().focus()
-    waitFor(() => {
+    await waitFor(() => {
       expect(list()).toBeVisible()
     })
     input().blur()
-    waitFor(() => {
+    await waitFor(() => {
       expect(list()).not.toBeVisible()
     })
   })
@@ -72,7 +72,7 @@ describe("Search input focus/blur", () => {
       minCharsToShowResults: 3,
       searchValue: "ab",
     })
-    input().focus()
+    fireEvent.focus(input())
     expect(list()).not.toBeInTheDocument()
   })
 
@@ -81,8 +81,11 @@ describe("Search input focus/blur", () => {
       minCharsToShowResults: 3,
       searchValue: "abc",
     })
-    fireEvent.focus(input())
-    waitFor(() => {
+    await waitFor(() => {
+      expect(list()).not.toBeVisible()
+    })
+    input().focus()
+    await waitFor(() => {
       expect(list()).toBeInTheDocument()
       expect(list()).toBeVisible()
     })

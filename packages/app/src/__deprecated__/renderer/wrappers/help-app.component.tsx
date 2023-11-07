@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { Route, RouteComponentProps, Router, Switch } from "react-router"
+import { Route, Router, Switch } from "react-router"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import { History } from "history"
 import { QuestionAndAnswer } from "App/help/components/help.component"
@@ -13,7 +13,6 @@ import Help from "App/help/help.container"
 import { renderAnswer } from "App/help/helpers/render-answer"
 import { useHelpSearch } from "App/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import ContextMenu from "App/__deprecated__/context-menu/context-menu"
-import Answer from "App/help/components/answer/answer.component"
 
 interface Props {
   history: History

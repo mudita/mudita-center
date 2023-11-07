@@ -32,11 +32,15 @@ const isInputPasscodeProps = (
   return props.type === "passcode"
 }
 const isTextareaRef = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ref: React.ForwardedRef<any>
 ): ref is React.ForwardedRef<HTMLTextAreaElement> => {
   return true
 }
 const isInputRef = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ref: React.ForwardedRef<any>
 ): ref is React.ForwardedRef<HTMLInputElement> => {
   return true
