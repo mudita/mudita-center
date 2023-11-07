@@ -10,7 +10,6 @@ export enum Feature {
   MessagesForwardEnabled = "messages-forward-enabled",
   MessagesThreadCallsEnabled = "messages-thread-calls-enabled",
   MessagesCallFromThreadEnabled = "messages-call-from-thread-enabled",
-  MessagesDraftStatus = "messages-draft-status",
   ContactForwardEnabled = "contact-forward-enabled",
   ContactBlockingEnabled = "contact-blocking-enabled",
   ContactPhoneFieldIconsEnabled = "contact-phone-field-icons-enabled",
