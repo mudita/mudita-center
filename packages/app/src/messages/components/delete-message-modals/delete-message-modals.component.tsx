@@ -37,7 +37,7 @@ const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
   onCloseDeletingErrorModal,
 }) => {
   return (
-    <div data-testid="message-delete-modals">
+    <div data-testid={DeleteMessageModalsTestIds.DeleteMessageModalsContainer}>
       {deletingConfirmation && (
         <DeleteConfirmationModal
           testId={DeleteMessageModalsTestIds.DeleteMessageConfirmation}
