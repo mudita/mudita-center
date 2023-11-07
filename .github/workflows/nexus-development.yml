@@ -47,21 +47,6 @@ jobs:
         run: |
           SET > .env
           jq -r -j .version packages/app/package.json > packages/app/version
-      - name: Changing app version in packages.json for Windows
-        if: matrix.os == 'Windows'
-        run: |
-          $APP_VERSION = Get-Content -Path "packages/app/version"
-          $SOURCE_BRANCH = "${{ github.ref_name }}"
-          if ($SOURCE_BRANCH -eq "develop") {
-              $ENVIRONMENT_CATALOG_NAME = "development"
-              $BUILD_VERSION = "-dev.${{ github.run_number }}"
-          } else {
-              $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
-              $BUILD_VERSION = ".${{ github.run_number }}"
-          }
-          (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
-            $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION$BUILD_VERSION`","
-          } | Set-Content -Path 'packages/app/package.json'
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
         env:
@@ -88,16 +73,6 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
         run: |
           printenv > .env
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
-          export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-runner" ]] ; then
-            export ENVIVORMENT_CATALOG_NAME=development
-            export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          else
-            export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-            export "BUILD_VERSION=.${{ github.run_number }}"
-          fi
-          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Setup Env for Linux
         if: matrix.os == 'Linux'
         env:
@@ -124,9 +99,12 @@ jobs:
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
         run: |
           printenv > .env
+      - name: Changing app version in packages.json for Linux
+        if: matrix.os == 'Linux'
+        run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]] || [[ $SOURCE_BRANCH == "nexus-runner" ]] ; then
+          if [[ $SOURCE_BRANCH == "develop" ]]; then
             export ENVIVORMENT_CATALOG_NAME=development
             export "BUILD_VERSION=-dev.${{ github.run_number }}"
           else
@@ -134,6 +112,34 @@ jobs:
             export "BUILD_VERSION=.${{ github.run_number }}"
           fi
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
+      - name: Changing app version in packages.json for Mac
+        if: matrix.os == 'macOS'
+        run: |
+          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export SOURCE_BRANCH=${{ github.ref_name }}
+          if [[ $SOURCE_BRANCH == "develop" ]]; then
+            export ENVIVORMENT_CATALOG_NAME=development
+            export "BUILD_VERSION=-dev.${{ github.run_number }}"
+          else
+            export "ENVIVORMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
+            export "BUILD_VERSION=.${{ github.run_number }}"
+          fi
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
+      - name: Changing app version in packages.json for Windows
+        if: matrix.os == 'Windows'
+        run: |
+          $SOURCE_BRANCH = "${{ github.ref_name }}"
+          if ($SOURCE_BRANCH -eq "develop") {
+              $ENVIRONMENT_CATALOG_NAME = "development"
+              $BUILD_VERSION = "-dev.${{ github.run_number }}"
+          } else {
+              $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
+              $BUILD_VERSION = ".${{ github.run_number }}"
+          }
+          $APP_VERSION = (Get-Content -Path "packages/app/version") + $BUILD_VERSION
+          (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
+            $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
+          } | Set-Content -Path 'packages/app/package.json'
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file for Windows
@@ -162,6 +168,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
+          jq -r -j .version packages/app/package.json > packages/app/version
           $APP_VERSION = Get-Content -Path "packages/app/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           if ($SOURCE_BRANCH -eq "develop") {
