@@ -159,7 +159,6 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         currentlyDeletingMessageId={null}
         deleteMessage={noop}
         resendMessage={jest.fn()}
-        getThreadDraftMessageSelector={jest.fn()}
         updateMessage={jest.fn()}
         templates={[]}
         error={null}
