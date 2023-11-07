@@ -141,7 +141,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   searchMessagesForPreview: (searchParams: SearchParams) =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    dispatch(searchPreview(searchParams)),
+    dispatch(searchPreview(searchParams)), //blabla
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
