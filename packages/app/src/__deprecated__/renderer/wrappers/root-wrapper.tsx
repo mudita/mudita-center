@@ -75,35 +75,26 @@ import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-fo
 interface Props {
   history: History
   // TODO remove legacy staff
-  checkUpdateAvailable: () => void
-  toggleApplicationUpdateAvailable: (value: boolean) => void
-  setLatestVersion: (value: string) => void
-  loadSettings: () => void
   loadDeviceData: () => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
   getCurrentDevice: () => void
   setConnectionStatus: (status: boolean) => void
   resetUploadingState: () => void
-  setCheckingForUpdate: (value: boolean) => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
   history,
   getCurrentDevice,
   // TODO remove legacy staff
-  checkUpdateAvailable,
-  toggleApplicationUpdateAvailable,
-  setLatestVersion,
-  loadSettings,
   loadDeviceData,
   connectedAndUnlocked,
   setConnectionStatus,
   resetUploadingState,
-  setCheckingForUpdate,
 }) => {
   const dispatch = useDispatch()
   const mode = new URLSearchParams(window.location.search).get("mode")
+  console.log("mode: ", mode)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
   const getStoreData = async (key?: string) =>
@@ -244,6 +235,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     loadSettings()
+    console.log("mode: ", mode)
     if (!mode) {
       checkUpdateAvailable()
     }
@@ -286,14 +278,9 @@ const mapStateToProps = (state: ReduxRootState) => ({
 
 const mapDispatchToProps = {
   loadDeviceData,
-  checkUpdateAvailable,
-  toggleApplicationUpdateAvailable,
-  setLatestVersion,
-  loadSettings,
   getCurrentDevice,
   setConnectionStatus,
   resetUploadingState,
-  setCheckingForUpdate,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)

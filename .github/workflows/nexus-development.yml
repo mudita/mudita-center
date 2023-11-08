@@ -14,11 +14,11 @@ jobs:
     environment: development
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.17.3
+          node-version: 18.16.1
       - name: Setup Env for Windows
         if: matrix.os == 'Windows'
         env:
@@ -179,7 +179,7 @@ jobs:
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
-          $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force  
+          $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force
           $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
           copy ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-win.yml
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./packages/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
