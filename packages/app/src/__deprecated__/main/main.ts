@@ -109,22 +109,6 @@ process.on("uncaughtException", (error) => {
   // TODO: Add contact support modal
 })
 
-const installExtensions = async () => {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const installer = require("electron-devtools-installer")
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  // FIXME: electron v9 throw error, you can read more in https://github.com/zalmoxisus/redux-devtools-extension/issues/767
-  // const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
-  const extensions: string[] = []
-
-  return Promise.all(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(logger.error)
-}
-
 const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
@@ -133,7 +117,6 @@ const commonWindowOptions: BrowserWindowConstructorOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
-    // devTools: !productionEnvironment,
     // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
     //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
     contextIsolation: false,
@@ -147,10 +130,6 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
-  // if (!productionEnvironment) {
-  //   await installExtensions()
-  // }
-
   const title = "Mudita Center"
 
   // AUTO DISABLED - fix me if you like :)
