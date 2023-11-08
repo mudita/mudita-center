@@ -335,7 +335,7 @@ describe("Form Validators", () => {
       const { findByTestId, queryByText } = render(defaultProps)
       fireEvent.change(await findByTestId(FormTestIds.Input), {
         target: {
-          value: "dupa",
+          value: "aaa",
         },
       })
       await waitFor(() => {
