@@ -11,6 +11,7 @@ import { setCheckingForUpdate } from "App/settings/actions/set-checking-for-upda
 export const checkUpdateAvailable = createAsyncThunk<void, void>(
   SettingsEvent.CheckUpdateAvailable,
   async (_, { dispatch }) => {
+    console.log("buu: ", )
     dispatch(setCheckingForUpdate(true))
     await checkAppUpdateRequest()
   }
