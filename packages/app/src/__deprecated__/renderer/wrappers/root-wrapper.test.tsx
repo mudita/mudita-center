@@ -19,8 +19,10 @@ import { modalsManagerReducer } from "App/modals-manager/reducers"
 import { settingsReducer } from "App/settings/reducers"
 import { checkUpdateAvailable } from "App/settings/actions/check-update-available.action"
 import { updateOsReducer } from "App/update/reducers"
+import { dataSyncReducer } from "App/data-sync/reducers"
 
 jest.mock("App/settings/actions/check-update-available.action")
+// jest.mock("App/settings/actions/load-settings.action")
 
 jest.mock("@electron/remote", () => ({
   Menu: () => ({
@@ -80,9 +82,9 @@ jest.mock("App/__deprecated__/renderer/requests/check-app-update.request")
 
 type Props = ComponentProps<typeof RootWrapper>
 
-const defaultProps: Props = {
+const defaultProps = {
   history,
-}
+} as Props
 
 const store = init({
   models: { networkStatus },
@@ -95,6 +97,7 @@ const store = init({
       modalsManager: modalsManagerReducer,
       settings: settingsReducer,
       update: updateOsReducer,
+      dataSync: dataSyncReducer,
     },
   },
 }) as Store
@@ -115,20 +118,28 @@ const render = (extraProps?: Partial<Props>) => {
   }
 }
 
-test("checkAppUpdateRequest isn't call when online is set to false ", async () => {
-  const online = jest.spyOn(window.navigator, "onLine", "get")
-  online.mockReturnValue(false)
+test("checkAppUpdateRequest isn't call when online is set to true ", async () => {
+  const mockURLSearchParams = {
+    get: jest.fn().mockReturnValue(true),
+  } as unknown as URLSearchParams;
+
+  const spy = jest.spyOn(window, "URLSearchParams").mockImplementation(() => mockURLSearchParams);
 
   render()
 
   await waitFor(() => {
     expect(checkUpdateAvailable).not.toHaveBeenCalled()
   })
+
+  spy.mockRestore();
 })
 
-test("appUpdateAvailable is to false when online is set to false", async () => {
-  const online = jest.spyOn(window.navigator, "onLine", "get")
-  online.mockReturnValue(false)
+test("appUpdateAvailable is to false when online is set to true", async () => {
+  const mockURLSearchParams = {
+    get: jest.fn().mockReturnValue(true),
+  } as unknown as URLSearchParams;
+
+  const spy = jest.spyOn(window, "URLSearchParams").mockImplementation(() => mockURLSearchParams);
 
   const { store } = render()
 
@@ -137,4 +148,6 @@ test("appUpdateAvailable is to false when online is set to false", async () => {
       (store.getState() as unknown as ReduxRootState).settings.updateAvailable
     ).toBeFalsy()
   })
+
+  spy.mockRestore();
 })
