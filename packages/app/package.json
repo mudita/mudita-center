@@ -31,7 +31,6 @@
     "dist:prod:all": "npm run dist:prod --",
     "TEST COMMANDS": "=========================================================",
     "test": "cross-env TZ=UTC jest --config=jest.config.js",
-    "test:coverage": "npm run test",
     "test:watch": "npm test -- --watch",
     "STORYBOOK COMMANDS": "====================================================",
     "storybook:serve": "storybook dev -p 6006",
