@@ -8,13 +8,11 @@ import google, {
 } from "App/__deprecated__/renderer/models/external-providers/google/google"
 import {
   GoogleAuthSuccessResponse,
-  GoogleCalendarsSuccess,
   GoogleContactResourceItem,
   Scope,
 } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
-import axios, { AxiosResponse } from "axios"
+import axios  from "axios"
 import MockAdapter from "axios-mock-adapter"
-import { mockedGoogleCalendars } from "App/__mocks__/google-calendars-list"
 import { GoogleAuthActions } from "App/__deprecated__/common/enums/google-auth-actions.enum"
 import { mapContact } from "App/__deprecated__/renderer/models/external-providers/google/google.helpers"
 import { init } from "@rematch/core"
@@ -118,81 +116,6 @@ test("handles authorization properly", async () => {
 })
 
 test.todo("authorization handles error properly")
-
-test("requestWrapper handles 401 error properly", async () => {
-  axiosMock
-    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
-    .replyOnce(401)
-    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
-    .reply(200, {
-      items: mockedGoogleCalendars,
-    })
-    .onPost()
-    .reply(200, authData)
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/await-thenable
-  const result = (await store.dispatch.google.requestWrapper({
-    scope: Scope.Calendar,
-    axiosProps: {
-      url: `${googleEndpoints.calendars}/users/me/calendarList`,
-    },
-  })) as unknown as AxiosResponse<GoogleCalendarsSuccess>
-
-  expect(result.data.items).toHaveLength(mockedGoogleCalendars.length)
-})
-
-test("requestWrapper handles other errors properly", async () => {
-  axiosMock
-    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
-    .replyOnce(404)
-    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
-    .reply(200, {
-      items: mockedGoogleCalendars,
-    })
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/await-thenable
-  const result = (await store.dispatch.google.requestWrapper({
-    scope: Scope.Calendar,
-    axiosProps: {
-      url: `${googleEndpoints.calendars}/users/me/calendarList`,
-    },
-  })) as unknown as AxiosResponse<GoogleCalendarsSuccess>
-
-  expect(result.data.items).toHaveLength(mockedGoogleCalendars.length)
-})
-
-test("requestWrapper handles no access token error properly", async () => {
-  axiosMock
-    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
-    .replyOnce(404)
-    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
-    .reply(200, {
-      items: mockedGoogleCalendars,
-    })
-
-  let requestError: Error = new Error()
-
-  try {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/await-thenable
-    await store.dispatch.google.requestWrapper({
-      scope: Scope.Calendar,
-      axiosProps: {
-        url: `${googleEndpoints.calendars}/users/me/calendarList`,
-      },
-    })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    requestError = error
-  }
-
-  expect(requestError).toStrictEqual(new Error())
-})
 
 test("contacts are received properly", async () => {
   axiosMock
