@@ -20,7 +20,6 @@ import {
   URL_TABS,
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
-import Calendar from "App/__deprecated__/calendar/calendar.container"
 import Playlist from "App/__deprecated__/renderer/modules/music/tabs/playlist.component"
 import Calls from "App/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
 import Dial from "App/__deprecated__/renderer/modules/phone/tabs/dial.component"
@@ -88,7 +87,6 @@ export default () => (
           component={Playlist}
         />
         <Route path={URL_MAIN.news} component={News} />
-        <Route path={URL_MAIN.calendar} component={Calendar} />
         <Route path={URL_OVERVIEW.root} component={Overview} exact />
         <Route path={URL_MAIN.contacts} component={Contacts} exact />
         <Route path={URL_MAIN.phone} component={Calls} />
