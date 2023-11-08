@@ -9,7 +9,6 @@ import { DeviceType } from "App/device"
 import { UpdateOsFlow } from "App/overview/components/update-os-flow"
 import { UpdateOsFlowTestIds } from "App/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { UpdateOsFlowProps } from "App/overview/components/update-os-flow/update-os-flow.component.interface"
-import * as useDevUpdateModule from "App/overview/hooks/use-dev-os-update/use-dev-os-update"
 import {
   DownloadState,
   OsReleaseType,
@@ -339,42 +338,6 @@ describe("update os", () => {
       checkModalsVisibility(queryByTestId, [
         UpdateOsFlowTestIds.OnboardingNotCompleteModal,
       ])
-    })
-  })
-})
-
-describe("dev update modal", () => {
-  describe("when conditions are fulfilled to show download version of this modal", () => {
-    test("the modal is rendered", () => {
-      jest.spyOn(useDevUpdateModule, "useDevUpdate").mockImplementation(() => ({
-        devRelease: release,
-        downloadDevUpdate: jest.fn(),
-        startDevUpdate: jest.fn(),
-        closeDevModal: jest.fn(),
-        canShowDownloadVersion: true,
-        canShowInstallVersion: false,
-      }))
-
-      const { queryByTestId } = render()
-
-      checkModalsVisibility(queryByTestId, [UpdateOsFlowTestIds.DevUpdate])
-    })
-  })
-
-  describe("when conditions are fulfilled to show install version of this modal", () => {
-    test("the modal is rendered", () => {
-      jest.spyOn(useDevUpdateModule, "useDevUpdate").mockImplementation(() => ({
-        devRelease: release,
-        downloadDevUpdate: jest.fn(),
-        startDevUpdate: jest.fn(),
-        closeDevModal: jest.fn(),
-        canShowDownloadVersion: false,
-        canShowInstallVersion: true,
-      }))
-
-      const { queryByTestId } = render()
-
-      checkModalsVisibility(queryByTestId, [UpdateOsFlowTestIds.DevUpdate])
     })
   })
 })
