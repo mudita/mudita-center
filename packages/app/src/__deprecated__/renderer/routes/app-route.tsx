@@ -6,6 +6,7 @@
 import React, { ComponentType } from "react"
 import { Route, RouteComponentProps, RouteProps } from "react-router"
 import LayoutDesktopWrapper from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
+import { FunctionComponent } from "../types/function-component.interface"
 
 interface AppRouteProps extends Omit<RouteProps, "component"> {
   layout?: ComponentType
@@ -16,14 +17,14 @@ interface AppRouteProps extends Omit<RouteProps, "component"> {
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const AppRoute = ({
+const AppRoute: FunctionComponent<AppRouteProps> = ({
   layout: Layout = LayoutDesktopWrapper,
   component: Component,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   path,
   ...rest
-}: AppRouteProps) => {
+}) => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const routeRenderer = (props: RouteComponentProps<any>) => (

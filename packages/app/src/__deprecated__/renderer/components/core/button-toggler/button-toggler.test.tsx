@@ -4,7 +4,6 @@
  */
 
 import { fireEvent } from "@testing-library/dom"
-import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import ButtonToggler, {
   ButtonTogglerItem,

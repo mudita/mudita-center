@@ -4,7 +4,6 @@
  */
 
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
 import AboutUI from "./about-ui.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
@@ -12,11 +11,17 @@ import { AboutTestIds } from "App/settings/components/about/about.enum"
 import { fireEvent, screen } from "@testing-library/dom"
 import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 import { flags } from "App/feature-flags"
+import { act, waitFor } from "@testing-library/react"
 
 jest.mock("App/feature-flags")
-jest.mock(
-  "App/__deprecated__/main/functions/register-error-app-update-listener"
-)
+jest.mock("electron-better-ipc", () => {
+  return {
+    ipcRenderer: {
+      callMain: () => jest.fn(),
+      answerMain: () => jest.fn(),
+    },
+  }
+})
 
 type Props = ComponentProps<typeof AboutUI>
 const defaultProps: Props = {
@@ -57,18 +62,19 @@ test("renders at least one table row", () => {
   )
 })
 
-test("Opens update modal properly when app update is not available", () => {
+test("Opens update modal properly when app update is not available", async () => {
   const { getByTestId } = renderer({
     appLatestVersion: "0.20.2",
     appCurrentVersion: "0.20.2",
     appUpdateNotAvailableShow: true,
   })
 
-  getByTestId(AboutTestIds.UpdateButton).click()
-
-  expect(
-    screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
-  ).toBeInTheDocument()
+  act(() => getByTestId(AboutTestIds.UpdateButton).click())
+  await waitFor(() => {
+    expect(
+      screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
+    ).toBeInTheDocument()
+  })
 })
 
 test("Calls AppUpdateAvailableCheck when clicked", () => {

@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom/extend-expect"
 import { getRowChildren } from "App/__deprecated__/renderer/components/core/table/table.helpers"
 
 const nestedRows = [

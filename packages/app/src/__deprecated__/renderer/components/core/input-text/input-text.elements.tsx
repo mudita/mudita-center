@@ -79,7 +79,7 @@ export const InputError = styled(Text)<{
   color: ${textColor("error")};
   opacity: 0;
   visibility: hidden;
-  transition: all ${transitionTime("quick")}
+  transition: all, ${transitionTime("quick")},
     ${transitionTimingFunction("smooth")};
   ${getTextStyles(TextDisplayStyle.Paragraph3)};
 

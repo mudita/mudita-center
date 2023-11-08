@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { hot } from "react-hot-loader"
 
 import history from "App/__deprecated__/renderer/routes/history"
 import store from "App/__deprecated__/renderer/store"
@@ -16,4 +15,4 @@ const App = () => (
   </Provider>
 )
 
-export default hot(module)(App)
+export default App
