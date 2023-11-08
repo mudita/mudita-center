@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import InputSelect, {
   InputSelectProps,
@@ -12,6 +11,7 @@ import InputSelect, {
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
 import { basicItems } from "App/__deprecated__/renderer/components/core/list/list.stories"
+import { waitFor } from "@testing-library/react"
 
 const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
@@ -27,13 +27,19 @@ const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
   }
 }
 
-test("select input focus/blur toggles the list", () => {
+test("select input focus/blur toggles the list", async () => {
   const { list, input } = renderInputSelect()
-  expect(list()).not.toBeVisible()
+  await waitFor(() => {
+    expect(list()).not.toBeVisible()
+  })
   input().focus()
-  expect(list()).toBeVisible()
+  await waitFor(() => {
+    expect(list()).toBeVisible()
+  })
   input().blur()
-  expect(list()).not.toBeVisible()
+  await waitFor(() => {
+    expect(list()).not.toBeVisible()
+  })
 })
 
 test("select input focus/blur toggles the list properly when min chars to show results are set up", () => {

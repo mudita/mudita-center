@@ -11,7 +11,7 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import styled from "styled-components"
-import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import InputText from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { searchIcon } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
 import {
@@ -21,7 +21,9 @@ import {
   zIndex,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "App/__deprecated__/renderer/utils/contentful/normalize-help-data"
 import ModalsManager from "App/modals-manager/components/modals-manager.container"
 import { fontWeight } from "App/__deprecated__/renderer/styles/theming/theme-getters"
@@ -78,7 +80,7 @@ const Question = styled(Link)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background-color ${transitionTime("veryQuick")}
+  transition: background-color, ${transitionTime("veryQuick")},
     ${transitionTimingFunction("smooth")};
   &:hover {
     background-color: ${backgroundColor("minor")};
@@ -93,13 +95,13 @@ const NormalHeading = styled(Text)`
   font-weight: ${fontWeight("default")};
 `
 
-const textFormatters = {
-  b: (str: string) => (
-    <NormalHeading displayStyle={TextDisplayStyle.Headline3} element={"span"}>
-      {str}
-    </NormalHeading>
-  ),
-}
+// const textFormatters = {
+//   b: (str: string) => (
+//     <NormalHeading displayStyle={TextDisplayStyle.Headline3} element={"span"}>
+//       {str}
+//     </NormalHeading>
+//   ),
+// }
 
 const Help: FunctionComponent<Props> = ({
   list: { collection = [], items },
@@ -168,7 +170,11 @@ const Help: FunctionComponent<Props> = ({
                   <Text displayStyle={TextDisplayStyle.Paragraph1}>
                     {items[id].question}
                   </Text>
-                  <ArrowIcon type={IconType.ArrowDown} height={1.2} width={1.2} />
+                  <ArrowIcon
+                    type={IconType.ArrowDown}
+                    height={1.2}
+                    width={1.2}
+                  />
                 </Question>
               )
             })}

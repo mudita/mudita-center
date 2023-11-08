@@ -92,7 +92,7 @@ const renderListItem: RenderListItem<Item<Message & Thread>> = ({
     <MessageListItem {...props}>
       <MessageListItemGroupWrapper>
         <MessageListItemGroupName displayStyle={TextDisplayStyle.Label}>
-          {item.data}
+          {item.data.contactName}
         </MessageListItemGroupName>
       </MessageListItemGroupWrapper>
     </MessageListItem>

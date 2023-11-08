@@ -39,20 +39,6 @@ jest.mock("electron", () => ({
   },
 }))
 
-jest.mock(
-  "electron-better-ipc",
-  () => {
-    const mockIpcRenderer = {
-      callMain: jest.fn(),
-      answerMain: () => jest.fn(),
-      on: jest.fn(),
-      removeListener: jest.fn(),
-    }
-    return { ipcRenderer: mockIpcRenderer }
-  },
-  { virtual: true }
-)
-
 jest.mock("App/__deprecated__/renderer/requests/connect-device.request", () =>
   jest.fn().mockReturnValue({
     status: "ok",
