@@ -11,6 +11,7 @@ import { notesSeed } from "App/__deprecated__/seeds/notes"
 import { NoteCallback } from "App/__deprecated__/renderer/models/notes/notes"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { SortOrder } from "App/__deprecated__/common/enums/sort-order.enum"
+import { waitFor } from "@testing-library/react"
 import fn = jest.fn
 
 const renderer = (props = {}) => {
@@ -60,7 +61,7 @@ test("shows selection manager and search element when at least one element is ch
   expect(queryByTestId(NotesTestIds.SearchElement)).not.toBeInTheDocument()
 })
 
-test("shows sidebar to add a new note", () => {
+test("shows sidebar to add a new note", async () => {
   const { getByTestId } = renderer()
 
   expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
@@ -69,9 +70,11 @@ test("shows sidebar to add a new note", () => {
 
   getByTestId(NotesTestIds.NewNoteButton).click()
 
-  expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
-    "margin-right: 0rem"
-  )
+  await waitFor(() => {
+    expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
+      "margin-right: 0rem"
+    )
+  })
 })
 
 test("sort order changes from descending to ascending", () => {

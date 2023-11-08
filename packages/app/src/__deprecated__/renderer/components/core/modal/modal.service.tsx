@@ -16,7 +16,6 @@
   In this, rather unlikely, scenario, the service should be refactored.
 */
 import React, { createContext, ReactElement, useContext } from "react"
-import ReactDOM from "react-dom"
 import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
@@ -30,6 +29,7 @@ import { Store } from "App/__deprecated__/renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "App/__deprecated__/renderer/styles/theming/theme"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { createRoot, Root } from "react-dom/client"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -60,6 +60,8 @@ export class ModalService {
   private backdropClosingAllowed = true
   private eventListeners: EventListeners[] = []
   private modalsQueue: ReactElement[] = []
+  private backdropRoot: Root | null = null
+  private modalRoot: Root | null = null
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -198,11 +200,13 @@ export class ModalService {
   private mountModal = () => {
     this.modalElement = document.createElement("div")
     document.body.appendChild(this.modalElement)
+    this.modalRoot = createRoot(this.modalElement)
   }
 
   private mountBackdrop = () => {
     if (!this.backdropOpened) {
       this.backdropElement = document.createElement("div")
+      this.backdropRoot = createRoot(this.backdropElement)
       document.body.appendChild(this.backdropElement)
     }
   }
@@ -212,6 +216,7 @@ export class ModalService {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.modalElement!.remove()
+    this.modalRoot = null
   }
 
   private unMountBackdrop = () => {
@@ -226,8 +231,8 @@ export class ModalService {
   }
 
   private renderModal = (modal: ReactElement) => {
-    if (this.store && this.defaultLocale) {
-      ReactDOM.render(
+    if (this.store && this.defaultLocale && this.modalRoot) {
+      this.modalRoot.render(
         <Provider store={this.store}>
           <ModalProvider service={this}>
             <ThemeProvider theme={theme}>
@@ -242,21 +247,21 @@ export class ModalService {
               </IntlProvider>
             </ThemeProvider>
           </ModalProvider>
-        </Provider>,
-        this.modalElement
+        </Provider>
       )
       this.modalOpened = true
     }
   }
 
   private renderBackdrop = () => {
-    ReactDOM.render(
-      <ThemeProvider theme={theme}>
-        <ModalBackdrop />
-      </ThemeProvider>,
-      this.backdropElement
-    )
-    this.backdropOpened = true
+    if (this.backdropRoot) {
+      this.backdropRoot.render(
+        <ThemeProvider theme={theme}>
+          <ModalBackdrop />
+        </ThemeProvider>
+      )
+      this.backdropOpened = true
+    }
   }
 }
 

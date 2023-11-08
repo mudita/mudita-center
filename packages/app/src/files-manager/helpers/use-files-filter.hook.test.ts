@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { act, renderHook } from "@testing-library/react-hooks"
+import { act, renderHook } from "@testing-library/react"
 import {
   InitialFilesFilterState,
   useFilesFilter,
@@ -81,7 +81,10 @@ describe("`useFilesFilter` hook", () => {
 
   test("`noFoundFiles` is true when `searchValue` isn't match", () => {
     const { result } = renderHook(() =>
-      useFilesFilter({ ...defaultState, searchValue: "Luke, you can't find me" })
+      useFilesFilter({
+        ...defaultState,
+        searchValue: "Luke, you can't find me",
+      })
     )
     expect(result.current.noFoundFiles).toBeTruthy()
   })

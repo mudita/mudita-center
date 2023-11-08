@@ -17,15 +17,17 @@ import thunk from "redux-thunk"
 import { initialState as updateInitialState } from "App/update/reducers/update-os.reducer"
 import { initialState as contactSupportInitialState } from "App/contact-support/reducers/contact-support.reducer"
 
+jest.mock("electron-better-ipc", () => {
+  return {
+    ipcRenderer: {
+      callMain: () => jest.fn(),
+      answerMain: () => jest.fn(),
+    },
+  }
+})
 jest.mock(
   "App/modals-manager/selectors/device-initialization-failed-modal-show-enabled.selector"
 )
-jest.mock("electron-better-ipc", () => ({
-  ipcRenderer: {
-    answerMain: jest.fn(),
-  },
-}))
-
 jest.mock("@electron/remote", () => ({
   dialog: {
     showOpenDialog: jest.fn(),

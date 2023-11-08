@@ -84,7 +84,7 @@ export const List = styled.ul<{
   transform: translateY(-0.8rem);
   opacity: 0;
   visibility: hidden;
-  transition: all ${transitionTime("veryQuick")}
+  transition: all, ${transitionTime("veryQuick")},
     ${transitionTimingFunction("smooth")};
   overflow: auto;
   border: solid 0.1rem ${borderColor("secondary")};

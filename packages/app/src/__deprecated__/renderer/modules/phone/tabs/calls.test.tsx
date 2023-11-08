@@ -134,10 +134,10 @@ test("delete call button has correct content", () => {
   )
 })
 
-test("details are shown on click", () => {
-  const { queryByTestId, getAllByTestId } = renderer()
+test("details are shown on click", async () => {
+  const { queryByTestId, getAllByTestId, findByTestId } = renderer()
 
   expect(queryByTestId(CallsTableTestIds.CallDetails)).not.toBeInTheDocument()
   getAllByTestId(CallsTableTestIds.CallerName)[0].click()
-  expect(queryByTestId(CallsTableTestIds.CallDetails)).toBeInTheDocument()
+  expect(await findByTestId(CallsTableTestIds.CallDetails)).toBeInTheDocument()
 })
