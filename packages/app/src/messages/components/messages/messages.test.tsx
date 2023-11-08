@@ -9,7 +9,7 @@ import { Provider } from "react-redux"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { RenderOptions, RenderResult, prettyDOM } from "@testing-library/react"
+import { RenderOptions, RenderResult } from "@testing-library/react"
 import { createMemoryHistory } from "history"
 import {
   constructWrapper,
@@ -33,15 +33,16 @@ import { State } from "App/core/constants"
 import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
 import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals-test-ids.enum"
-import reactVirtualized, { AutoSizerProps, AutoSizer } from "react-virtualized"
+import reactVirtualized from "react-virtualized"
 
 jest.mock("react-virtualized", () => {
   const ReactVirtualized: typeof reactVirtualized =
     jest.requireActual("react-virtualized")
   return {
     ...ReactVirtualized,
-    AutoSizer: ({ children }: AutoSizerProps) =>
-      children({ height: 1000, width: 1000 }) as AutoSizer,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    AutoSizer: ({ children }: any) => children({ height: 1000, width: 1000 }),
   }
 })
 
@@ -380,7 +381,6 @@ describe("Messages component", () => {
 
         rerender({ state: State.Loaded, threads: [secondThread] })
         jest.advanceTimersByTime(3000)
-        console.log(prettyDOM(baseElement))
 
         expect(
           queryByTestId("deleting-thread-modals-info-popup")
