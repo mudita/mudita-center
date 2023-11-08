@@ -95,14 +95,6 @@ const NormalHeading = styled(Text)`
   font-weight: ${fontWeight("default")};
 `
 
-// const textFormatters = {
-//   b: (str: string) => (
-//     <NormalHeading displayStyle={TextDisplayStyle.Headline3} element={"span"}>
-//       {str}
-//     </NormalHeading>
-//   ),
-// }
-
 const Help: FunctionComponent<Props> = ({
   list: { collection = [], items },
   searchQuestion,

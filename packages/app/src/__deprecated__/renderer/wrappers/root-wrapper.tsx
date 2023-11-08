@@ -94,7 +94,6 @@ const RootWrapper: FunctionComponent<Props> = ({
 }) => {
   const dispatch = useDispatch()
   const mode = new URLSearchParams(window.location.search).get("mode")
-  console.log("mode: ", mode)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
   const getStoreData = async (key?: string) =>
@@ -235,7 +234,6 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     loadSettings()
-    console.log("mode: ", mode)
     if (!mode) {
       checkUpdateAvailable()
     }
