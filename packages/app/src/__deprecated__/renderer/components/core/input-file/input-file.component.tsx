@@ -40,7 +40,6 @@ const Message = styled(Text)<{ dragging?: boolean }>`
     cursor: pointer;
   }
 `
-
 const livingBorder = keyframes`
   0% {
     background-position: 0 0, 100% 100%, 0 100%, 100% 0;
@@ -71,7 +70,7 @@ const Border = styled.div<{ draggingOver?: boolean }>`
   background-position: 0 0, 100% 100%, 0 100%, 100% 0;
   animation: ${livingBorder} 10s infinite linear;
   animation-play-state: paused;
-  transition: opacity ${transitionTime("quick")}
+  transition: opacity, ${transitionTime("quick")},
     ${transitionTimingFunction("smooth")};
 
   ${({ draggingOver }) =>
@@ -218,7 +217,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
           name: file.name,
           extensions,
           ...textFormatters,
-        }) as string
+        })
       )
     }
 
@@ -241,7 +240,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
             precision: 2,
           }),
           ...textFormatters,
-        }) as string
+        })
       )
     }
     return sizeValid

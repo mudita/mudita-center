@@ -4,7 +4,6 @@
  */
 
 import { fireEvent } from "@testing-library/dom"
-import "@testing-library/jest-dom"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
 import MessageBubble from "App/messages/components/message-bubble/message-bubble.component"
 import { MessageType } from "App/messages/constants"
