@@ -5,7 +5,6 @@
 
 import React from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import "@testing-library/jest-dom/extend-expect"
 import { SettingsToggler } from "App/settings/components/settings-toggler/settings-toggler.component"
 import { fireEvent } from "@testing-library/dom"
 import { SettingsTogglerTestIds } from "App/settings/components/settings-toggler/settings-toggler-test-ids.enum"

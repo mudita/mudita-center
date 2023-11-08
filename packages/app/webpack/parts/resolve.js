@@ -14,8 +14,7 @@ module.exports = (production) => {
 
   if (!production) {
     resolveConfig.alias = {
-      ...resolveConfig.alias,
-      "react-dom": "@hot-loader/react-dom",
+      ...resolveConfig.alias
     }
   }
 

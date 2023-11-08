@@ -70,7 +70,7 @@ export const secondParam = (contact: Contact, search: string): string => {
     "secondAddressLine",
   ]
   for (const key of query) {
-    const param: typeof contact[keyof typeof contact] =
+    const param: (typeof contact)[keyof typeof contact] =
       contact === undefined ? undefined : contact[key]
     if (
       param !== undefined &&

@@ -13,6 +13,7 @@ import {
   InputComponentProps,
   InputPasscodeProps,
   TextareaProps,
+  InputProps,
 } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
 
 const isTextareaProps = (
@@ -21,22 +22,42 @@ const isTextareaProps = (
   return props.type === "textarea"
 }
 
+const isInputProps = (props: InputComponentProps): props is InputProps => {
+  return true
+}
+
 const isInputPasscodeProps = (
   props: InputComponentProps
 ): props is InputPasscodeProps => {
   return props.type === "passcode"
 }
+const isTextareaRef = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ref: React.ForwardedRef<any>
+): ref is React.ForwardedRef<HTMLTextAreaElement> => {
+  return true
+}
+const isInputRef = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ref: React.ForwardedRef<any>
+): ref is React.ForwardedRef<HTMLInputElement> => {
+  return true
+}
 
 const ForwardedInput = React.forwardRef<
   HTMLInputElement | HTMLTextAreaElement,
   InputComponentProps
->((props) => {
-  if (isTextareaProps(props)) {
-    return <TextArea {...props} />
-  } else if (isInputPasscodeProps(props)) {
-    return <InputPasscode {...props} />
+>((props, ref) => {
+  if (isTextareaProps(props) && isTextareaRef(ref)) {
+    return <TextArea {...props} inputRef={ref} />
+  } else if (isInputPasscodeProps(props) && isInputRef(ref)) {
+    return <InputPasscode {...props} inputRef={ref} />
+  } else if (isInputProps(props) && isInputRef(ref)) {
+    return <InputText {...props} inputRef={ref} />
   }
-  return <InputText {...props} />
+  return null
 })
 
 export default ForwardedInput

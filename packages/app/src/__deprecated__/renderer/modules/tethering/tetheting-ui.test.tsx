@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom"
 import React, { ComponentProps } from "react"
 import { Router } from "react-router"
 import history from "App/__deprecated__/renderer/routes/history"

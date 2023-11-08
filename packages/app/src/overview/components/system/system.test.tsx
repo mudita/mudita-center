@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
