@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom/extend-expect"
 import thunk from "redux-thunk"
 import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/dom"

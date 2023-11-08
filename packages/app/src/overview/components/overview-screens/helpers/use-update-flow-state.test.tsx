@@ -3,8 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-
-import {RenderHookResult, waitFor, RenderOptions, renderHook } from "@testing-library/react"
+import {
+  RenderHookResult,
+  waitFor,
+  RenderOptions,
+  renderHook,
+} from "@testing-library/react"
 import { CaseColor, DeviceType, PureDeviceData } from "App/device"
 import { CheckForUpdateLocalState } from "App/overview/components/overview-screens/constants/overview.enum"
 import { useUpdateFlowState } from "App/overview/components/overview-screens/helpers/use-update-flow-state.hook"
@@ -19,12 +23,11 @@ import React from "react"
 import { Provider } from "react-redux"
 import createMockStore, { MockStore } from "redux-mock-store"
 import thunk from "redux-thunk"
-import type { PreloadedState } from "@reduxjs/toolkit"
+import type { AnyAction, PreloadedState } from "@reduxjs/toolkit"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { initialState as update } from "App/update/reducers"
 import { initialState as device } from "App/device/reducers/device.reducer"
 import { OsRelease } from "App/update/dto"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 
 const mockedRelease: OsRelease = {
   date: "2021-02-02",
@@ -84,14 +87,15 @@ export function renderHookWithProviders<Result, Props>(
     store = createMockStore([thunk])({ ...defaultState, ...preloadedState }),
     ...renderOptions
   }: ExtendedRenderOptions = {}
-): { store: MockStore } & RenderHookResult<Props, Result> {
-  const wrapper: FunctionComponent = ({ children }) => {
-    return <Provider store={store}>{children}</Provider>
-  }
-
+): RenderHookResult<Result, Props> & { store: MockStore<unknown, AnyAction> | undefined } {
   return {
     store,
-    ...renderHook(render, { ...renderOptions, wrapper: wrapper }),
+    ...renderHook(render, {
+      ...renderOptions,
+      wrapper: ({ children }) => {
+        return <Provider store={store}>{children}</Provider>
+      },
+    }),
   }
 }
 type TestCaseSilent = [
