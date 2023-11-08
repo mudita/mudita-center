@@ -36,17 +36,6 @@ const registerAppContextMenu = (menu: ContextMenu) => {
   ])
 
   menu.registerItems("Contacts", contactsContextMenu)
-
-  menu.registerItems("Calendar", [
-    {
-      label: "Load default events",
-      click: () => store.dispatch.calendar._devLoadDefaultEvents(),
-    },
-    {
-      label: "Clear all events",
-      click: () => store.dispatch.calendar._devClearAllEvents(),
-    },
-  ])
 }
 
 export default registerAppContextMenu

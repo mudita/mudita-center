@@ -11,11 +11,7 @@ import {
   mapFreq,
   mapWkst,
 } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.helpers"
-import {
-  OutlookCalendar,
-  OutlookEvent,
-  OutLookScope,
-} from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+import { OutLookScope } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
 
 const scope = "offline_access, https://graph.microsoft.com/contacts.read"
 

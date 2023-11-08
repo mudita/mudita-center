@@ -5,10 +5,8 @@
 
 import {
   Days,
-  OutlookCalendar,
   OutlookContactResource,
   OutlookContactResourceItem,
-  OutlookEvent,
   OutlookFreq,
   OutLookScope,
 } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
@@ -16,10 +14,7 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import axios from "axios"
 import { baseGraphUrl } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.constants"
 import { ContactBuilder } from "App/__deprecated__/renderer/models/external-providers/outlook/contact-builder"
-import { Provider } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import { ByWeekday, Frequency, RRule, WeekdayStr } from "rrule"
-import moment from "moment"
-import logger from "App/__deprecated__/main/utils/logger"
+import { ByWeekday, Frequency, WeekdayStr } from "rrule"
 
 export const getOutlookEndpoint = (scope: OutLookScope): string => {
   switch (scope) {

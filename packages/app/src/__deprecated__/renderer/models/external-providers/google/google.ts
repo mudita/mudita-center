@@ -6,11 +6,8 @@
 import {
   GoogleAuthFailedResponse,
   GoogleAuthSuccessResponse,
-  GoogleCalendarsSuccess,
   GoogleContactResourceItem,
   GoogleContacts,
-  GoogleEvent,
-  GoogleEventsSuccess,
   GoogleProviderState,
   Scope,
 } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
@@ -21,7 +18,6 @@ import {
   ExternalProvidersState,
   RequestWrapperPayload,
 } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import moment from "moment"
 import { mapContact } from "App/__deprecated__/renderer/models/external-providers/google/google.helpers"
 import axios, { AxiosResponse } from "axios"
 import { noop } from "App/__deprecated__/renderer/utils/noop"

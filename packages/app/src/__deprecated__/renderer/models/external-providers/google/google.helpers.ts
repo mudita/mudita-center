@@ -3,19 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  GoogleCalendar,
-  GoogleContactResourceItem,
-  GoogleEvent,
-} from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
-import { defineMessages } from "react-intl"
+import { GoogleContactResourceItem } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-
-const messages = defineMessages({
-  unnamedEvent: {
-    id: "module.calendar.unnamedEvent",
-  },
-})
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
