@@ -98,8 +98,7 @@ const termsWindow: BrowserWindow | null = null
 const policyWindow: BrowserWindow | null = null
 const metadataStore: MetadataStore = createMetadataStore()
 
-// Disables CORS in Electron 9
-app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
+app.commandLine.appendSwitch('disable-features', 'BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights');
 
 const gotTheLock = app.requestSingleInstanceLock()
 
