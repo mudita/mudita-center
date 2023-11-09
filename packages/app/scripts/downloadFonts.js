@@ -3,7 +3,7 @@ const fs = require("fs-extra")
 const path = require("path")
 
 require("dotenv").config({
-  path: path.join(__dirname, "../../../.env.development"),
+  path: path.join(__dirname, "../../../.env"),
 })
 
 /**
