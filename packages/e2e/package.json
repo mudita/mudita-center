@@ -33,7 +33,7 @@
     "@wdio/mocha-framework": "^7.16.13",
     "@wdio/reporter": "^7.16.14",
     "@wdio/spec-reporter": "^7.16.14",
-    "chromedriver": "^80.0.2",
+    "chromedriver": "^116.0.0",
     "dotenv": "^14.3.0",
     "semver": "^7.3.5",
     "serialport": "^10.1.0",
@@ -43,7 +43,8 @@
     "util": "^0.12.4",
     "wdio-chromedriver-service": "^7.2.6",
     "wdio-json-reporter": "^3.0.0",
-    "wdio-wait-for": "^2.2.1"
+    "wdio-wait-for": "^2.2.1",
+    "node-gyp": "^10.0.1"
   },
   "engines": {
     "node": "18.16.1",
