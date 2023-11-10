@@ -10,12 +10,7 @@ import store from "App/__deprecated__/renderer/store"
 import * as React from "react"
 import { createRoot } from "react-dom/client"
 import Modal from "react-modal"
-
-try {
-  require("./fonts/main/style.css")
-} catch (e) {
-  require("./fonts/fallback/style.css")
-}
+require("./fonts/main/style.css")
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call

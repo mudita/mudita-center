@@ -133,12 +133,29 @@ npm version CURRENT_VERSION + 1
 
 ## Troubleshooting common errors
 
+
 ### Font during development is slightly different from what I see in official app
 
 That's because we're using `GT Pressura` font that can't be open-sourced, so we can't publish it in our repository.
 Instead, for development purpose outside the Mudita company, we're using a `Roboto Condensed` font from Google which is quite similar.
 
 More info about managing fonts [can be found here](packages/app/src/__deprecated__/renderer/fonts/README.md).
+
+### During `npm run setup` there's an issue with `node-gyp` and `python`
+
+Make sure you have proper Python version installed (3.10).
+
+Example on how to install it on macOS using Homebrew:
+
+1. ```shell
+   brew install python@3.10
+   ```
+2. ```shell
+   export PYTHON=/opt/homebrew/bin/python3.10
+   ```
+3. ```shell
+   source ~/.zshrc
+   ```
 
 ### The module was compiled against a different Node.js version
 
