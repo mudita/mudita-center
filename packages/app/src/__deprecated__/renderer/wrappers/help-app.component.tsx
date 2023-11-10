@@ -25,6 +25,8 @@ interface Props {
   getStoreData?: (key?: string) => Promise<any>
 }
 
+const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
+
 const HelpApp: FunctionComponent<Props> = ({
   history,
   saveToStore,
@@ -39,8 +41,6 @@ const HelpApp: FunctionComponent<Props> = ({
   }, [searchInputValue])
 
   useEffect(() => {
-    const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
-
     if (devModeEnabled) {
       const helpContextMenu = new ContextMenu()
       helpContextMenu.init()
