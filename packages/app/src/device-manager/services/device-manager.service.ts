@@ -25,6 +25,8 @@ export class DeviceManager {
   public currentDevice: Device | undefined
   public devicesMap = new Map<string, Device>()
   public currentDeviceInitializationFailed = false
+  private lastSerialNumber = ""
+  private lastProductId = ""
 
   // The `updating` property is a tmp solution to skip sync process
   // The tech debt will be fixed as part ot tech task
@@ -66,6 +68,13 @@ export class DeviceManager {
     if (this.currentDevice) {
       return
     }
+    if (this.updating) {
+      if (!+this.lastSerialNumber && port.productId !== this.lastProductId) {
+        return
+      } else if (this.lastSerialNumber !== port.serialNumber) {
+        return
+      }
+    }
 
     const device = await this.initializeDevice(port)
 
@@ -80,6 +89,8 @@ export class DeviceManager {
 
     if (!this.currentDevice) {
       this.currentDevice = device
+      this.lastProductId = port.productId || ""
+      this.lastSerialNumber = device.serialNumber
       this.ipc.sendToRenderers(
         ListenerEvent.CurrentDeviceChanged,
         this.device.toSerializableObject()
@@ -90,26 +101,37 @@ export class DeviceManager {
     logger.info(`Connected device with serial number: ${device.serialNumber}`)
   }
 
-  public removeDevice(path: string): void {
+  public removeDevice(path: string, productId: string): void {
     this.devicesMap.delete(path)
 
     if (this.currentDevice?.path === path) {
       if (this.devicesMap.size > 0) {
         this.currentDevice = this.devicesMap.values().next().value as Device
+        this.lastProductId = this.updating ? this.lastProductId : productId
+        this.lastSerialNumber = this.updating
+          ? !+this.lastSerialNumber
+            ? this.currentDevice.serialNumber
+            : this.lastSerialNumber
+          : this.currentDevice.serialNumber
         this.ipc.sendToRenderers(
           ListenerEvent.CurrentDeviceChanged,
-          this.currentDevice ? getDevicePropertiesFromDevice(this.currentDevice) : undefined
+          this.currentDevice
+            ? getDevicePropertiesFromDevice(this.currentDevice)
+            : undefined
         )
       } else {
         this.currentDevice = undefined
       }
     }
 
-    this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, path)
+    this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, { path, productId })
     logger.info(`Disconnected device with path: ${path}`)
   }
 
-  public setCurrentDevice(path: string): ResultObject<boolean> {
+  public setCurrentDevice(
+    path: string,
+    productId: string
+  ): ResultObject<boolean> {
     const newCurrentDevice = this.devicesMap.get(path)
 
     if (!newCurrentDevice) {
@@ -122,6 +144,12 @@ export class DeviceManager {
     }
 
     this.currentDevice = newCurrentDevice
+    this.lastProductId = this.updating ? this.lastProductId : productId
+    this.lastSerialNumber = this.updating
+      ? !+this.lastSerialNumber
+        ? this.currentDevice.serialNumber
+        : this.lastSerialNumber
+      : this.currentDevice.serialNumber
 
     this.ipc.sendToRenderers(
       ListenerEvent.CurrentDeviceChanged,

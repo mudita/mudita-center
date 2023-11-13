@@ -29,6 +29,7 @@ const eventEmitter = new EventEmitter()
 const deviceMockOne = DeviceFactory.create(
   "/dev/123",
   DeviceType.MuditaPure,
+  "0100",
   class Adapter {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -51,6 +52,7 @@ const deviceMockOne = DeviceFactory.create(
 const deviceMockTwo = DeviceFactory.create(
   "/dev/321",
   DeviceType.MuditaHarmony,
+  "0300",
   class Adapter {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -161,7 +163,7 @@ describe("Method: removeDevice", () => {
     expect(subject.device).toEqual(deviceMockOne)
     expect(subject.devices).toEqual([deviceMockOne])
 
-    subject.removeDevice(deviceMockOne.path)
+    subject.removeDevice(deviceMockOne.path, deviceMockOne.productId)
 
     expect(() => subject.device).toThrow(
       new AppError(
@@ -181,7 +183,7 @@ describe("Method: removeDevice", () => {
     expect(subject.device).toEqual(deviceMockOne)
     expect(subject.devices).toEqual([deviceMockOne, deviceMockTwo])
 
-    subject.removeDevice(deviceMockOne.path)
+    subject.removeDevice(deviceMockOne.path, deviceMockOne.productId)
 
     expect(subject.device).toEqual(deviceMockTwo)
     expect(subject.devices).toEqual([deviceMockTwo])
@@ -196,9 +198,9 @@ describe("Method: setCurrentDevice", () => {
     subject.currentDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
-    expect(subject.setCurrentDevice(deviceMockTwo.path)).toEqual(
-      Result.success(true)
-    )
+    expect(
+      subject.setCurrentDevice(deviceMockTwo.path, deviceMockTwo.productId)
+    ).toEqual(Result.success(true))
     expect(subject.device).toEqual(deviceMockTwo)
   })
 
@@ -209,7 +211,9 @@ describe("Method: setCurrentDevice", () => {
     subject.currentDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
-    expect(subject.setCurrentDevice("/dev/0000")).toEqual(
+    expect(
+      subject.setCurrentDevice("/dev/0000", deviceMockOne.productId)
+    ).toEqual(
       Result.failed(
         new AppError(
           DeviceManagerError.CannotFindDevice,

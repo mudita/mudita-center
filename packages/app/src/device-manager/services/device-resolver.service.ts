@@ -47,6 +47,7 @@ export class DeviceResolverService {
     const newDevice = DeviceFactory.create(
       path,
       descriptor.deviceType,
+      id,
       descriptor.adapter,
       descriptor.strategy,
       this.ipc,

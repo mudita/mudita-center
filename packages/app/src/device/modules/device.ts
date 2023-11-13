@@ -28,6 +28,7 @@ export interface DeviceProperties {
   locked: null | boolean
   onboardingFinished: boolean
   serialNumber: string
+  productId: string
 }
 
 export const getDevicePropertiesFromDevice = ({
@@ -37,6 +38,7 @@ export const getDevicePropertiesFromDevice = ({
   locked,
   onboardingFinished,
   serialNumber,
+  productId,
 }: Device): DeviceProperties => {
   return {
     path,
@@ -45,6 +47,7 @@ export const getDevicePropertiesFromDevice = ({
     locked,
     onboardingFinished,
     serialNumber,
+    productId,
   }
 }
 
@@ -57,6 +60,7 @@ export class Device implements DeviceProperties {
   constructor(
     public path: string,
     public deviceType: DeviceType,
+    public productId: string,
     private strategy: DeviceStrategy,
     private ipc: MainProcessIpc,
     private eventEmitter: EventEmitter
@@ -68,6 +72,7 @@ export class Device implements DeviceProperties {
     return {
       path: this.path,
       deviceType: this.deviceType,
+      productId: this.productId,
       connecting: this.connecting,
       locked: this.locked,
       onboardingFinished: this.onboardingFinished,
@@ -241,20 +246,23 @@ export class Device implements DeviceProperties {
   }
 
   private emitDisconnectionEvent = (): void => {
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, this.path)
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected, {
+      path: this.path,
+      productId: this.productId,
+    })
     this.ipc.sendToRenderers(DeviceIpcEvent.DeviceDisconnected, this.path)
     this.unmountDeviceListeners()
   }
 
   private emitDeviceInitializationFailedEvent = (): void => {
-    this.eventEmitter.emit(
-      DeviceServiceEvent.DeviceInitializationFailed,
-      this.path
-    )
-    this.ipc.sendToRenderers(
-      DeviceIpcEvent.DeviceInitializationFailed,
-      this.path
-    )
+    this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed, {
+      path: this.path,
+      productId: this.productId,
+    })
+    this.ipc.sendToRenderers(DeviceIpcEvent.DeviceInitializationFailed, {
+      path: this.path,
+      productId: this.productId,
+    })
     this.unmountDeviceListeners()
   }
 

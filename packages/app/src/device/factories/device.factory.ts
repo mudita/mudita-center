@@ -13,6 +13,7 @@ export class DeviceFactory {
   static create(
     path: string,
     deviceType: DeviceType,
+    productId: string,
     Adapter: DeviceDescriptor["adapter"],
     Strategy: DeviceDescriptor["strategy"],
     ipc: MainProcessIpc,
@@ -21,6 +22,7 @@ export class DeviceFactory {
     return new Device(
       path,
       deviceType,
+      productId,
       new Strategy(new Adapter(path)),
       ipc,
       eventEmitter

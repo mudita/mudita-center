@@ -15,6 +15,7 @@ export enum UpdateErrorServiceErrors {
   CannotGetDeviceInfo = "CANNOT_GET_DEVICE_INFO_ERROR",
   RequestLimitExceeded = "REQUEST_LIMIT_EXCEEDED",
   DeviceInitializationFailed = "DEVICE_INITIALIZATION_FAILED",
+  UpdateVersionLowerOrEqual = "UPDATE_VERSION_LOWER_LOWER_OR_EQUAL",
 }
 
 export enum UpdateError {

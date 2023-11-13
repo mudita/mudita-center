@@ -21,6 +21,7 @@ import { join } from "path"
 import { DeviceManager } from "App/device-manager/services"
 import * as fs from "fs"
 import { DeviceInfoService } from "App/device-info/services"
+import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
 
 export class DeviceUpdateService {
   constructor(
@@ -53,6 +54,19 @@ export class DeviceUpdateService {
       )
     }
     this.beforeUpdateOsVersion = deviceInfoResult.data.osVersion
+    if (
+      isVersionGreaterOrEqual(
+        this.beforeUpdateOsVersion,
+        payload.fileName.split("-")[1]
+      )
+    ) {
+      return Result.failed(
+        new AppError(
+          UpdateErrorServiceErrors.UpdateVersionLowerOrEqual,
+          "Pending update version is lower or equal than the one installed"
+        )
+      )
+    }
 
     const filePath = join(
       this.settingsService.getByKey("osDownloadLocation") as string,
