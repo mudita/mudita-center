@@ -112,7 +112,7 @@ process.on("uncaughtException", (error) => {
 const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
-  fullscreen: false,
+  fullscreen: true,
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
