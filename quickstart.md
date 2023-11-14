@@ -67,32 +67,19 @@ Using Developer mode you can:
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default, you can run the following to package it for your current platform:
 
 ```bash
-npm run dist:dev
-```
-
-or
-
-```bash
-npm run dist:prod
+npm run dist
 ```
 
 This will create an installer for your platform in the `releases` folder.
-
-You can also build the app for all platforms (Windows, macOS, Linux) by using the `npm run dist:dev:all` or `npm run dist:prod:all` command.
 
 You can also make builds for a specific platform (or multiple platforms) by using [the CLI options](https://www.electron.build/cli).
 
 For example, building for Windows and Linux:
 
 ```bash
-npm run dist:dev -- -wl
+npm run dist -- -wl
 ```
 
-or
-
-```bash
-npm run dist:prod -- -wl
-```
 
 ### Feature toggle environment separation
 
@@ -101,13 +88,13 @@ Also you are able to distribute an application with in specific predefined envir
 To run distribution with feature toggle environment use the next formula:
 
 ```bash
-FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run dist:*
+FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run dist
 ```
 
 For example:
 
 ```bash
-FEATURE_TOGGLE_ENVIRONMENT=development npm run dist:dev
+FEATURE_TOGGLE_ENVIRONMENT=development npm run dist
 ```
 
 Will distribute an application with development set of feature toggles
