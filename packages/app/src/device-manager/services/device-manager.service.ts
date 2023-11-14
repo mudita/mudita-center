@@ -69,7 +69,10 @@ export class DeviceManager {
       return
     }
     if (this.updating) {
-      if (!+this.lastSerialNumber && port.productId !== this.lastProductId) {
+      if (
+        !Number(this.lastSerialNumber) &&
+        port.productId !== this.lastProductId
+      ) {
         return
       } else if (this.lastSerialNumber !== port.serialNumber) {
         return
@@ -109,7 +112,7 @@ export class DeviceManager {
         this.currentDevice = this.devicesMap.values().next().value as Device
         this.lastProductId = this.updating ? this.lastProductId : productId
         this.lastSerialNumber = this.updating
-          ? !+this.lastSerialNumber
+          ? !Number(this.lastSerialNumber)
             ? this.currentDevice.serialNumber
             : this.lastSerialNumber
           : this.currentDevice.serialNumber
@@ -146,7 +149,7 @@ export class DeviceManager {
     this.currentDevice = newCurrentDevice
     this.lastProductId = this.updating ? this.lastProductId : productId
     this.lastSerialNumber = this.updating
-      ? !+this.lastSerialNumber
+      ? !Number(this.lastSerialNumber)
         ? this.currentDevice.serialNumber
         : this.lastSerialNumber
       : this.currentDevice.serialNumber

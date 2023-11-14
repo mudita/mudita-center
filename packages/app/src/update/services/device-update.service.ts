@@ -54,12 +54,8 @@ export class DeviceUpdateService {
       )
     }
     this.beforeUpdateOsVersion = deviceInfoResult.data.osVersion
-    if (
-      isVersionGreaterOrEqual(
-        this.beforeUpdateOsVersion,
-        payload.fileName.split("-")[1]
-      )
-    ) {
+    const targetVersion = payload.fileName.split("-")[1]
+    if (isVersionGreaterOrEqual(this.beforeUpdateOsVersion, targetVersion)) {
       return Result.failed(
         new AppError(
           UpdateErrorServiceErrors.UpdateVersionLowerOrEqual,

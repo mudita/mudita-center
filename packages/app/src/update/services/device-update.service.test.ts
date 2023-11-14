@@ -30,7 +30,7 @@ let subject: DeviceUpdateService
 let deviceInfoService: DeviceInfoService
 
 const payloadMock: UpdateOS = {
-  fileName: normalize("/update.tar"),
+  fileName: normalize("/device-1.5.0-update.tar"),
 }
 
 const deviceInfoResponseMock: DeviceInfo = {
@@ -112,7 +112,7 @@ describe("Method: updateOs", () => {
           new AppError(
             UpdateErrorServiceErrors.NotEnoughSpace,
             `Cannot upload ${normalize(
-              "/some/path/update.tar"
+              "/some/path/device-1.5.0-update.tar"
             )} to device - not enough space`
           )
         )
@@ -140,7 +140,7 @@ describe("Method: updateOs", () => {
           new AppError(
             UpdateErrorServiceErrors.NotEnoughSpace,
             `Cannot upload ${normalize(
-              "/some/path/update.tar"
+              "/some/path/device-1.5.0-update.tar"
             )} to device - not enough space`
           )
         )
@@ -234,7 +234,9 @@ describe("Method: updateOs", () => {
       Result.failed(
         new AppError(
           UpdateErrorServiceErrors.UpdateFileUpload,
-          `Cannot upload ${normalize("/some/path/update.tar")} to device`
+          `Cannot upload ${normalize(
+            "/some/path/device-1.5.0-update.tar"
+          )} to device`
         )
       )
     )
@@ -246,7 +248,7 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: normalize("/some/path/update.tar"),
+      filePath: normalize("/some/path/device-1.5.0-update.tar"),
       targetPath: normalize("/sys/user/update.tar"),
     })
   })
@@ -278,7 +280,7 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: normalize("/some/path/update.tar"),
+      filePath: normalize("/some/path/device-1.5.0-update.tar"),
       targetPath: normalize("/sys/user/update.tar"),
     })
   })
@@ -322,7 +324,7 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: normalize("/some/path/update.tar"),
+      filePath: normalize("/some/path/device-1.5.0-update.tar"),
       targetPath: normalize("/sys/user/update.tar"),
     })
   })
@@ -370,7 +372,7 @@ describe("Method: updateOs", () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceFileSystem.uploadFileLocally).toHaveBeenLastCalledWith({
-      filePath: normalize("/some/path/update.tar"),
+      filePath: normalize("/some/path/device-1.5.0-update.tar"),
       targetPath: normalize("/sys/user/update.tar"),
     })
   })
