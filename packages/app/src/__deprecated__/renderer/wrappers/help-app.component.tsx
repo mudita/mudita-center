@@ -13,6 +13,7 @@ import Help from "App/help/help.container"
 import { renderAnswer } from "App/help/helpers/render-answer"
 import { useHelpSearch } from "App/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import ContextMenu from "App/__deprecated__/context-menu/context-menu"
+import { Feature, flags } from "App/feature-flags"
 
 interface Props {
   history: History
@@ -23,6 +24,8 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getStoreData?: (key?: string) => Promise<any>
 }
+
+const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
 
 const HelpApp: FunctionComponent<Props> = ({
   history,
@@ -38,11 +41,10 @@ const HelpApp: FunctionComponent<Props> = ({
   }, [searchInputValue])
 
   useEffect(() => {
-    const helpContextMenu = new ContextMenu()
-
-    // TODO: Add options for context menu
-
-    helpContextMenu.init()
+    if (devModeEnabled) {
+      const helpContextMenu = new ContextMenu()
+      helpContextMenu.init()
+    }
   }, [])
 
   return (

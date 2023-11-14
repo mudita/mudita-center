@@ -213,7 +213,7 @@ const createWindow = async () => {
   win.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url)
     return {
-      action: "allow",
+      action: "deny",
       overrideBrowserWindowOptions: {},
     }
   })
