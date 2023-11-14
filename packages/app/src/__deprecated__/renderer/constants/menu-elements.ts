@@ -77,14 +77,6 @@ const YOUR_PURE_BUTTONS = [
     visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
     viewKey: View.FilesManager,
   },
-  {
-    button: views.recoveryMode,
-    icon: IconType.MuditaLogo,
-    testId: MenuGroupTestIds.Backup,
-    hidden: !flags.get(Feature.RecoveryModeTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.RecoveryMode,
-  },
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [
