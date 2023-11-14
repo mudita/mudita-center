@@ -3,31 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
-import { Col } from "App/__deprecated__/renderer/components/core/table/table.component"
-import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
-  TemplatesEmptyState,
-  Row,
   Table,
-  TemplateIcon,
-  IconWrapper,
-  Checkbox,
-  TemplateText,
-  TemplateTextColumn,
+  TemplatesEmptyState,
 } from "App/templates/components/templates-list/templates-list.styled"
-import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
-import { TemplateOptions } from "App/templates/components/template-options"
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DraggableProvided,
-} from "react-beautiful-dnd"
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd"
+import TemplatesListItem from "App/templates/components/templates-list-item/templates-list-item"
+import { reorder } from "App/templates/helpers/templates-order.helpers"
+import { templatesListSelector } from "App/templates/selectors"
+import { Dispatch, ReduxRootState } from "App/__deprecated__/renderer/store"
+import { updateTemplateOrder } from "App/templates/actions"
+import { Template } from "App/templates/dto"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
@@ -40,94 +31,74 @@ const messages = defineMessages({
 })
 
 export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
-  templates,
-  toggleRow,
-  selectedItems,
+  selectedTemplateIds,
   deleteTemplates,
   updateTemplate,
-  onDragEnd,
+  templateReordered,
   templateFormOpen,
-  active,
+  activeTemplate,
 }) => {
-  const noneRowsSelected = selectedItems.length === 0
+  const dispatch = useDispatch<Dispatch>()
+  const templates = useSelector(templatesListSelector)
+  const loading = useSelector(
+    (state: ReduxRootState) => state.templates.loading
+  )
+  const noneTemplateSelected = selectedTemplateIds.length === 0
+
+  const [localTemplates, setLocalTemplates] = useState<Template[]>(templates)
+
+  useEffect(() => {
+    if (loading) {
+      return
+    }
+    setLocalTemplates(templates)
+  }, [templates, loading])
+
+  const onDragEnd = ({ source, destination }: DropResult) => {
+    if (source.index !== destination?.index) {
+      if (!destination) {
+        return
+      }
+      templateReordered()
+
+      const list = [...localTemplates]
+      const [removed] = list.splice(source.index, 1)
+      list.splice(destination.index, 0, removed)
+      const updatedTemplates = reorder(list)
+      setLocalTemplates(updatedTemplates)
+      // Delaying the invocation of updateTemplateOrder after drag-and-drop operation
+      // helps control the component's re-rendering, eliminating subtle flickering.
+      setTimeout(() => dispatch(updateTemplateOrder(updatedTemplates)))
+    }
+  }
 
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable" type="COLUMN">
-          {/* AUTO DISABLED - fix me if you like :) */}
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          {(provided: any) => (
+          {(provided) => (
             <Table
               role="list"
               hideColumns={templateFormOpen}
               hideableColumnsIndexes={[3]}
               mouseLock={templateFormOpen}
-              // AUTO DISABLED - fix me if you like :)
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
               {...provided.droppableProps}
-              // AUTO DISABLED - fix me if you like :)
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
               ref={provided.innerRef}
             >
-              {templates.length > 0 ? (
-                templates.map((template, index) => {
-                  const selected = selectedItems.includes(template.id)
-                  const handleCheckboxChange = () => toggleRow(template.id)
-
+              {localTemplates.length > 0 ? (
+                localTemplates.map((template, index) => {
+                  const selected = selectedTemplateIds.includes(template.id)
                   return (
-                    <Draggable
-                      key={template.id}
-                      draggableId={template.id}
+                    <TemplatesListItem
                       index={index}
-                    >
-                      {(provided: DraggableProvided) => (
-                        <Row
-                          key={template.id}
-                          role="listitem"
-                          ref={provided.innerRef}
-                          active={active?.id === template.id}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <Col />
-                          <Col>
-                            <Checkbox
-                              checked={selected}
-                              onChange={handleCheckboxChange}
-                              size={Size.Large}
-                              visible={!noneRowsSelected}
-                              data-testid="template-checkbox"
-                            />
-                            {noneRowsSelected && (
-                              <IconWrapper>
-                                <TemplateIcon
-                                  type={IconType.Template}
-                                  width={3}
-                                  height={3}
-                                />
-                              </IconWrapper>
-                            )}
-                          </Col>
-                          <TemplateTextColumn
-                            onClick={() => updateTemplate(template.id)}
-                          >
-                            <TemplateText
-                              displayStyle={TextDisplayStyle.Paragraph1}
-                            >
-                              {template.text}
-                            </TemplateText>
-                          </TemplateTextColumn>
-                          <Col>
-                            <TemplateOptions
-                              templateId={template.id}
-                              onDelete={deleteTemplates}
-                              onUpdate={updateTemplate}
-                            />
-                          </Col>
-                        </Row>
-                      )}
-                    </Draggable>
+                      key={template.id}
+                      active={activeTemplate?.id === template.id}
+                      selected={selected}
+                      template={template}
+                      noneRowsSelected={noneTemplateSelected}
+                      deleteTemplates={deleteTemplates}
+                      updateTemplate={updateTemplate}
+                    />
                   )
                 })
               ) : (
@@ -136,8 +107,6 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                   description={messages.emptyStateDescription}
                 />
               )}
-              {/* AUTO DISABLED - fix me if you like :) */}
-              {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
               {provided.placeholder}
             </Table>
           )}
