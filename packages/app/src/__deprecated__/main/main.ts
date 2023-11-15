@@ -115,6 +115,7 @@ const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
   fullscreen: false,
+  fullscreenable: true,
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
