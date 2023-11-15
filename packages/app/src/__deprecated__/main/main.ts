@@ -130,6 +130,19 @@ const getWindowOptions = (
   ...commonWindowOptions,
 })
 
+const installElectronDevToolExtensions = async () => {
+  try {
+    await installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+      loadExtensionOptions: {
+        allowFileAccess: true,
+      },
+    })
+    console.info(`[INFO] Successfully added devtools extensions`)
+  } catch (err) {
+    console.warn("[WARN] An error occurred while trying to add devtools extensions:\n", err)
+  }
+}
+
 const createWindow = async () => {
   const title = "Mudita Center"
 
@@ -202,6 +215,7 @@ const createWindow = async () => {
     )
     autoupdate(win)
   } else {
+    await installElectronDevToolExtensions()
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -229,6 +243,13 @@ const createWindow = async () => {
       win!.webContents.openDevTools()
       appModules.lateInitialization()
     })
+
+    win.webContents.once("dom-ready", () => {
+      win!.webContents.once("devtools-opened", () => {
+        win!.focus()
+      })
+      win!.webContents.openDevTools()
+    })
   }
 
   logger.updateMetadata()
@@ -248,17 +269,6 @@ if (!gotTheLock) {
   app.on("activate", () => {
     if (win === null) {
       void createWindow()
-    }
-  })
-
-  app.whenReady().then(async () => {
-    try {
-      await installExtension(REDUX_DEVTOOLS)
-      console.log("Installed Redux DevTools")
-      await installExtension(REACT_DEVELOPER_TOOLS)
-      console.log("Installed React DevTools")
-    } catch (error) {
-      console.warn("Extension not installed", error)
     }
   })
 }
