@@ -18,6 +18,7 @@ import { templateReducer } from "App/templates/reducers"
 import { newsReducer } from "App/news/reducers"
 import { settingsReducer } from "App/settings/reducers"
 import { updateOsReducer } from "App/update/reducers"
+import { genericSlice } from "App/api-demo/store/slice"
 
 export const reducers = {
   device: deviceReducer,
@@ -34,6 +35,7 @@ export const reducers = {
   news: newsReducer,
   settings: settingsReducer,
   update: updateOsReducer,
+  generic: genericSlice.reducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

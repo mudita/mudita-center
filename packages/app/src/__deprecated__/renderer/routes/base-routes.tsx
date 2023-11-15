@@ -38,11 +38,13 @@ import {
 import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "App/templates/template.container"
+import { OverviewDemo } from "App/api-demo/overview-demo"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => (
   <Switch>
+    <Redirect from={URL_ONBOARDING.welcome} to={URL_MAIN.overviewDemo} />
     <Redirect exact from={URL_MAIN.root} to={URL_MAIN.news} />
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
@@ -101,6 +103,7 @@ export default () => (
           path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
           component={VoiceRecorder}
         />
+        <Route path={URL_MAIN.overviewDemo} component={OverviewDemo}/>
       </LayoutDesktopWrapper>
     </Route>
 
