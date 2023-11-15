@@ -77,6 +77,7 @@ import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
 import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
+import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from "electron-devtools-installer"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -131,6 +132,19 @@ const getWindowOptions = (
   ...extendedWindowOptions,
   ...commonWindowOptions,
 })
+
+const installElectronDevToolExtensions = async () => {
+  try {
+    await installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+      loadExtensionOptions: {
+        allowFileAccess: true,
+      },
+    })
+    console.info(`[INFO] Successfully added devtools extensions`)
+  } catch (err) {
+    console.warn("[WARN] An error occurred while trying to add devtools extensions:\n", err)
+  }
+}
 
 const createWindow = async () => {
   const title = "Mudita Center"
@@ -204,6 +218,7 @@ const createWindow = async () => {
     )
     autoupdate(win)
   } else {
+    await installElectronDevToolExtensions()
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -230,6 +245,13 @@ const createWindow = async () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       win!.webContents.openDevTools()
       appModules.lateInitialization()
+    })
+
+    win.webContents.once("dom-ready", () => {
+      win!.webContents.once("devtools-opened", () => {
+        win!.focus()
+      })
+      win!.webContents.openDevTools()
     })
   }
 
