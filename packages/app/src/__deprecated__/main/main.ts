@@ -99,8 +99,10 @@ const termsWindow: BrowserWindow | null = null
 const policyWindow: BrowserWindow | null = null
 const metadataStore: MetadataStore = createMetadataStore()
 
-// Disables CORS in Electron 9
-app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
+// Disabling browser security features
+// to address CORS issue between local and remote servers.
+// To be handled as part of ticket https://appnroll.atlassian.net/browse/CP-2242
+app.commandLine.appendSwitch('disable-features', 'BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights');
 
 const gotTheLock = app.requestSingleInstanceLock()
 
@@ -114,6 +116,7 @@ const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
   fullscreen: false,
+  fullscreenable: true,
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
@@ -483,9 +486,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           break
       }
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`)
+      void (await googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`))
     } else {
       googleAuthWindow.show()
     }

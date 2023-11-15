@@ -42,10 +42,6 @@ export const URL_ONBOARDING = {
   troubleshooting: "/onboarding/troubleshooting",
 } as const
 
-export const URL_RECOVERY_MODE = {
-  root: "/recovery-mode",
-} as const
-
 export const URL_OVERVIEW = {
   root: "/overview",
   pureSystem: "/overview/pure-system",
