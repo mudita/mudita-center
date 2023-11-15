@@ -77,6 +77,7 @@ import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
 import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
+import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from "electron-devtools-installer"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -247,6 +248,17 @@ if (!gotTheLock) {
   app.on("activate", () => {
     if (win === null) {
       void createWindow()
+    }
+  })
+
+  app.whenReady().then(async () => {
+    try {
+      await installExtension(REDUX_DEVTOOLS)
+      console.log("Installed Redux DevTools")
+      await installExtension(REACT_DEVELOPER_TOOLS)
+      console.log("Installed React DevTools")
+    } catch (error) {
+      console.warn("Extension not installed", error)
     }
   })
 }
