@@ -10,6 +10,7 @@ import React, {
   useRef,
   useState,
   useLayoutEffect,
+  useEffect,
 } from "react"
 import _uniqueId from "lodash/uniqueId"
 import { TooltipProps } from "react-tooltip"
@@ -156,7 +157,14 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
     }
   }, [ref, showIfTextEllipsis])
 
-  const showTooltip = (showIfTextEllipsis && isEllipsis) || !showIfTextEllipsis
+  const [showTooltip, setShowTooltip] = useState(
+    (showIfTextEllipsis && isEllipsis) || !showIfTextEllipsis
+  )
+
+  useEffect(() => {
+    setShowTooltip((showIfTextEllipsis && isEllipsis) || !showIfTextEllipsis)
+  }, [showIfTextEllipsis, isEllipsis])
+
   return (
     <>
       {React.cloneElement(Element, {
