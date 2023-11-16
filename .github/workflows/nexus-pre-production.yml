@@ -114,8 +114,6 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./packages/app/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./packages/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
-          cd mudita-center-internal-releases
       - name: Push artifacts to nexus registry from Linux
         if: matrix.os == 'Linux'
         env:
@@ -130,8 +128,6 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
-          cd mudita-center-internal-releases
       - name: Push artifacts to nexus registry from macOS
         if: matrix.os == 'macOS'
         env:
@@ -149,8 +145,6 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIVORMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
-          cd mudita-center-internal-releases
       - name: Create draft release with Windows files
         if: matrix.os == 'Windows'
         id: create_release_windows
