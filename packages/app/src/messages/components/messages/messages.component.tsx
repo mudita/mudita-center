@@ -144,6 +144,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
+    const thread = threads.find(({ id }) => id === activeThread?.id)
+    if (thread) {
+      setActiveThread(thread)
+    }
+  }, [threads])
+
+  useEffect(() => {
     if (searchPreviewValue !== "") {
       return
     }
