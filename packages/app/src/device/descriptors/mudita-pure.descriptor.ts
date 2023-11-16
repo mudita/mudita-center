@@ -16,7 +16,7 @@ export class MuditaPureDescriptor {
   static manufacturer = Manufacture.Mudita
   static deviceType = DeviceType.MuditaPure
   //static productIds = [ProductID.MuditaPureDeprecated, ProductID.MuditaPure]
-  static productIds = [ProductID.MuditaPure]
+  static productIds = [ProductID.MuditaPureDeprecated]
   static vendorIds = [VendorID.MuditaPure]
   static adapter = SerialPortDeviceAdapter
   static strategy = PureStrategy

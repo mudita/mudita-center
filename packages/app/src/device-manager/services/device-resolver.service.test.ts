@@ -12,7 +12,7 @@ const eventEmitter = new EventEmitter()
 const subject = new DeviceResolverService(ipcMain, eventEmitter)
 
 describe("Pure descriptor", () => {
-  test.each([ProductID.MuditaPure])(
+  test.each([ProductID.MuditaPureDeprecated])(
     "returns Device with MuditaPure device type if %s productID has been provided",
     (productId) => {
       expect(
