@@ -1,7 +1,7 @@
 {
   "centerVersion": "2.2.2",
   "productVersions": {
-    "MuditaPure": "1.8.0",
+    "MuditaPure": "1.10.0-rc.2",
     "MuditaHarmony": "2.0.0"
   }
 }
