@@ -134,6 +134,7 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
   }
 
   useLayoutEffect(() => {
+    console.log("useLayoutEffect: ", )
     const trigger = () => {
       const text = ref.current as HTMLDivElement
       const isEllipsisActive = text && text.offsetWidth < text.scrollWidth
@@ -157,6 +158,8 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
   }, [ref, showIfTextEllipsis])
 
   const showTooltip = (showIfTextEllipsis && isEllipsis) || !showIfTextEllipsis
+  console.log("showTooltip: ", showTooltip)
+  console.log("showTooltip: ", { showTooltip, showIfTextEllipsis, isEllipsis })
   return (
     <>
       {React.cloneElement(Element, {
