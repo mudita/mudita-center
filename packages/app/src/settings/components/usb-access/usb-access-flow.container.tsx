@@ -16,6 +16,7 @@ import CantConnectWithoutUSBPortAccessModal from "App/settings/components/usb-ac
 import { AnyAction } from "redux"
 import { addUserToSerialPortGroup } from "App/machine/requests/add-user-to-serial-port-group.request"
 import { setSettings } from "App/settings/actions/set-settings.action"
+import logger from "App/__deprecated__/main/utils/logger"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -51,7 +52,9 @@ const USBAccessFlowContainer = () => {
         }}
         layer={ModalLayers.LinuxSerialPortGroup}
         onActionButtonClick={async () => {
+          logger.info(`before addUserToSerialPortGroup`)
           await addUserToSerialPortGroup()
+          logger.info(`after addUserToSerialPortGroup`)
           setSettings({ usbAccessRestart: true })
           setAccessState(USBAccessState.granted)
         }}

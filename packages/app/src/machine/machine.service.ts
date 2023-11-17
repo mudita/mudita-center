@@ -18,6 +18,7 @@ import {
 import { DeviceManager } from "App/device-manager/services"
 import { exec } from "child_process"
 import sudoPrompt from "sudo-prompt"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export class MachineService {
   private serialPortGroup: string | undefined = undefined
@@ -69,11 +70,13 @@ export class MachineService {
           `usermod -aG ${this.serialPortGroup} $USER`,
           (_, stdout) => {
             if (stdout) {
+              logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
               resolve()
             }
           }
         )
       }
+      logger.info(`addUserToSerialPortGroup reject`)
       reject()
     })
   }
