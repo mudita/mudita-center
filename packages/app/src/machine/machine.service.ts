@@ -17,7 +17,7 @@ import {
 } from "App/device/types/mudita-os"
 import { DeviceManager } from "App/device-manager/services"
 import { exec } from "child_process"
-import sudoPrompt from "sudo-prompt"
+import sudoPrompt from "@vscode/sudo-prompt"
 import logger from "App/__deprecated__/main/utils/logger"
 
 export class MachineService {
@@ -99,18 +99,17 @@ export class MachineService {
         `addUserToSerialPortGroup this.serialPortGroup ${this.serialPortGroup}`
       )
       if (this.serialPortGroup) {
-        sudoPrompt.exec(
-          `usermod -aG dialout $USER`,
-          (error, stdout, stderr) => {
-            logger.info(`addUserToSerialPortGroup resolved error ${error}`)
-            logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
-            logger.info(`addUserToSerialPortGroup resolved stderr ${stderr}`)
-            if (stdout) {
-              //logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
-              resolve()
-            }
+        const command = `usermod -aG ${this.serialPortGroup} $USER`
+        logger.info(`addUserToSerialPortGroup command ${command}`)
+        sudoPrompt.exec(command, (error, stdout, stderr) => {
+          logger.info(`addUserToSerialPortGroup resolved error ${error}`)
+          logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
+          logger.info(`addUserToSerialPortGroup resolved stderr ${stderr}`)
+          if (stdout) {
+            //logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
+            resolve()
           }
-        )
+        })
       }
       logger.info(`addUserToSerialPortGroup reject`)
       reject()
