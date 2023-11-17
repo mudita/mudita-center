@@ -39,9 +39,15 @@ export class MachineService {
 
   public async isUserInSerialPortGroup(): Promise<boolean> {
     const userGroups = await this.getUserGroups()
+    logger.info(`isUserInSerialPortGroup userGroups ${userGroups}`)
 
     const serialPortGroups = ["dialout", "uucp"]
     const group = serialPortGroups.find((spGroup) => {
+      logger.info(
+        `isUserInSerialPortGroup spGroup ${spGroup} userGroups.includes(spGroup) ${userGroups.includes(
+          spGroup
+        )}`
+      )
       return userGroups.includes(spGroup)
     })
 
