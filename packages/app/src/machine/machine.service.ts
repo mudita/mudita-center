@@ -39,10 +39,24 @@ export class MachineService {
 
   public async isUserInSerialPortGroup(): Promise<boolean> {
     const userGroups = await this.getUserGroups()
-    this.serialPortGroup = await this.getGroupsAssignedToSerialPort()
-    logger.info(`isUserInSerialPortGroup userGroups ${userGroups}`)
+    const serialPortGroup = await this.getGroupsAssignedToSerialPort()
 
-    const isInGroup = userGroups.includes(this.serialPortGroup)
+    const isDialout = serialPortGroup.includes("dialout")
+    const isUUCP = serialPortGroup.includes("uucp")
+
+    logger.info(
+      `isUserInSerialPortGroup userGroups ${userGroups} serialPortGroup ${serialPortGroup}`
+    )
+
+    let group = ""
+    if (isDialout) {
+      group = "dialout"
+    } else if (isUUCP) {
+      group = "uucp"
+    }
+
+    this.serialPortGroup = group
+    const isInGroup = group !== "" ? userGroups.includes(group) : false
 
     logger.info(
       `isUserInSerialPortGroup this.serialPortGroup ${this.serialPortGroup} isInGroup ${isInGroup}`
