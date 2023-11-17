@@ -11,6 +11,8 @@ import { loadBackupData } from "App/backup/actions/load-backup-data.action"
 import {
   checkAppForcedUpdateFlowToShow,
   checkAppUpdateFlowToShow,
+  checkAppInSudoModeModalToShow,
+  checkAppRequiresSerialPortGroup,
 } from "App/modals-manager/actions"
 import { setSettings } from "App/settings/actions/set-settings.action"
 import logger from "App/__deprecated__/main/utils/logger"
@@ -23,6 +25,8 @@ export const loadSettings = createAsyncThunk<void, void>(
     let updateRequired = false
     const settings = await getSettings()
     const configuration = await getConfiguration()
+
+    console.log("loadSettings settings", settings)
 
     try {
       updateRequired = isVersionGreater(
@@ -41,7 +45,7 @@ export const loadSettings = createAsyncThunk<void, void>(
 
     settings.collectingData ? logger.enableRollbar() : logger.disableRollbar()
 
-    dispatch(
+    void dispatch(
       setSettings({
         ...settings,
         updateRequired,
@@ -54,9 +58,12 @@ export const loadSettings = createAsyncThunk<void, void>(
         },
       })
     )
+
     void dispatch(loadBackupData())
     void dispatch(checkAppUpdateFlowToShow())
     void dispatch(checkAppForcedUpdateFlowToShow())
+    void dispatch(checkAppInSudoModeModalToShow())
+    void dispatch(checkAppRequiresSerialPortGroup())
 
     return
   }

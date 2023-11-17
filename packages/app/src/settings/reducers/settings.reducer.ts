@@ -57,6 +57,7 @@ export const initialState: SettingsState = {
   loading: false,
   checkingForUpdate: false,
   checkingForUpdateFailed: false,
+  usbAccessRestart: false,
 }
 
 export const settingsReducer = createReducer<SettingsState>(
@@ -68,33 +69,12 @@ export const settingsReducer = createReducer<SettingsState>(
         state.loading = true
       })
       .addCase(setSettings, (state, action) => {
-        state.loaded = true
-        state.loading = false
-
-        state.autostart = action.payload.autostart
-        state.tethering = action.payload.tethering
-        state.incomingCalls = action.payload.incomingCalls
-        state.incomingMessages = action.payload.incomingMessages
-        state.lowBattery = action.payload.lowBattery
-        state.osUpdates = action.payload.osUpdates
-        state.nonStandardAudioFilesConversion =
-          action.payload.nonStandardAudioFilesConversion
-        state.convert = action.payload.convert
-        state.conversionFormat = action.payload.conversionFormat
-        state.tray = action.payload.tray
-        state.osBackupLocation = action.payload.osBackupLocation
-        state.osDownloadLocation = action.payload.osDownloadLocation
-        state.language = action.payload.language
-        state.neverConnected = action.payload.neverConnected
-        state.collectingData = action.payload.collectingData
-        state.diagnosticSentTimestamp = action.payload.diagnosticSentTimestamp
-        state.applicationId = action.payload.applicationId
-        state.ignoredCrashDumps = action.payload.ignoredCrashDumps
-        state.updateRequired = action.payload.updateRequired
-        state.lowestSupportedVersions = action.payload.lowestSupportedVersions
-        state.currentVersion = action.payload.currentVersion
-        state.privacyPolicyAccepted = action.payload.privacyPolicyAccepted
-        state.checkingForUpdate = action.payload.checkingForUpdate
+        return {
+          ...state,
+          ...action.payload,
+          loaded: true,
+          loading: false,
+        }
       })
 
       .addCase(setLatestVersion, (state, action) => {

@@ -50,6 +50,7 @@ const settings: Omit<
   },
   checkingForUpdate: false,
   checkingForUpdateFailed: false,
+  usbAccessRestart: false,
 }
 
 test("empty event returns initial state", () => {

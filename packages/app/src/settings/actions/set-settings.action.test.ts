@@ -45,6 +45,7 @@ const settings: Omit<
   },
   checkingForUpdate: false,
   checkingForUpdateFailed: false,
+  usbAccessRestart: false,
 }
 
 const mockStore = createMockStore([thunk])()

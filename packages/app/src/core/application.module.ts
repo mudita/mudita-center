@@ -43,6 +43,7 @@ import {
   DeviceManager,
   DeviceResolverService,
 } from "App/device-manager/services"
+import { MachineModule } from "App/machine/machine.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -62,6 +63,7 @@ export class ApplicationModule {
     DeviceLogModule,
     DeviceModule,
     DeviceManagerModule,
+    MachineModule,
   ]
   public lateModules: Module[] = [DataSyncModule, CrashDumpModule]
 
