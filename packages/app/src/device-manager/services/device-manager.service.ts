@@ -87,7 +87,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceAttached)
-    logger.info(`Connected device with serial number: ${device.serialNumber}`)
+    //logger.info(`Connected device with serial number: ${device.serialNumber}`)
   }
 
   public removeDevice(path: string): void {
@@ -108,7 +108,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, path)
-    logger.info(`Disconnected device with path: ${path}`)
+    //logger.info(`Disconnected device with path: ${path}`)
   }
 
   public setCurrentDevice(path: string): ResultObject<boolean> {
