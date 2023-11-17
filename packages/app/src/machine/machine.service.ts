@@ -46,6 +46,11 @@ export class MachineService {
     })
 
     this.serialPortGroup = group
+
+    logger.info(
+      `isUserInSerialPortGroup this.serialPortGroup ${this.serialPortGroup} group ${group}`
+    )
+
     return group !== undefined
   }
 
@@ -65,6 +70,9 @@ export class MachineService {
 
   public async addUserToSerialPortGroup(): Promise<void> {
     return new Promise((resolve, reject) => {
+      logger.info(
+        `addUserToSerialPortGroup this.serialPortGroup ${this.serialPortGroup}`
+      )
       if (this.serialPortGroup) {
         sudoPrompt.exec(
           `usermod -aG ${this.serialPortGroup} $USER`,

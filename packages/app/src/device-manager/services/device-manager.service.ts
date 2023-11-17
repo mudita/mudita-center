@@ -98,7 +98,9 @@ export class DeviceManager {
         this.currentDevice = this.devicesMap.values().next().value as Device
         this.ipc.sendToRenderers(
           ListenerEvent.CurrentDeviceChanged,
-          this.currentDevice ? getDevicePropertiesFromDevice(this.currentDevice) : undefined
+          this.currentDevice
+            ? getDevicePropertiesFromDevice(this.currentDevice)
+            : undefined
         )
       } else {
         this.currentDevice = undefined
@@ -181,7 +183,7 @@ export class DeviceManager {
     })
   }
 
-  @log("==== device manager: list ====")
+  //@log("==== device manager: list ====")
   private getSerialPortList(): Promise<SerialPortInfo[]> {
     return SerialPort.list()
   }
