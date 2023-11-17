@@ -100,11 +100,11 @@ export class MachineService {
       )
       if (this.serialPortGroup) {
         sudoPrompt.exec(
-          `usermod -aG ${this.serialPortGroup} $USER`,
+          `usermod -aG dialout $USER`,
           (error, stdout, stderr) => {
             logger.info(`addUserToSerialPortGroup resolved error ${error}`)
             logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
-            logger.info(`addUserToSerialPortGroup resolved stdout ${stderr}`)
+            logger.info(`addUserToSerialPortGroup resolved stderr ${stderr}`)
             if (stdout) {
               //logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
               resolve()
