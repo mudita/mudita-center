@@ -38,7 +38,7 @@ export class MachineService {
   }
 
   public async isUserInSerialPortGroup(): Promise<boolean> {
-    const userGroups = await this.getUserGroups()
+    const userGroups = await this.getGroupsAssignedToSerialPort()
     logger.info(`isUserInSerialPortGroup userGroups ${userGroups}`)
 
     const serialPortGroups = ["dialout", "uucp"]
@@ -58,6 +58,20 @@ export class MachineService {
     )
 
     return group !== undefined
+  }
+
+  private async getGroupsAssignedToSerialPort(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      exec("ls -l /dev/ttyACM0", (error, stdout, stderr) => {
+        if (error) {
+          reject(`${error.name} - ${error.message}`)
+        } else if (stderr) {
+          reject(stderr)
+        } else {
+          resolve(stdout)
+        }
+      })
+    })
   }
 
   private async getUserGroups(): Promise<string> {
