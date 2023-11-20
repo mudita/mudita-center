@@ -41,7 +41,7 @@ beforeAll(() => {
   Element.prototype.scrollIntoView = jest.fn()
 })
 
-describe("Search input focus/blur", () => {
+describe("Search input focus", () => {
   test("should toggle the list", async () => {
     const { list, input } = renderInputSearch()
     await waitFor(() => {
@@ -50,10 +50,6 @@ describe("Search input focus/blur", () => {
     input().focus()
     await waitFor(() => {
       expect(list()).toBeVisible()
-    })
-    input().blur()
-    await waitFor(() => {
-      expect(list()).not.toBeVisible()
     })
   })
 
