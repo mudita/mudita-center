@@ -123,7 +123,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
     draftDeleting: false,
   })
   // TODO [CP-1401] move component logic to custom hook
-
   const history = useHistory()
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
