@@ -122,9 +122,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
     browseContact: false,
     draftDeleting: false,
   })
-
-  console.log("Messages render threads", threads)
-
   // TODO [CP-1401] move component logic to custom hook
 
   const history = useHistory()
@@ -395,8 +392,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (messageType === MessageType.OUTBOX) {
       setContent("")
     }
-    setActiveThread(undefined)
-    console.log("handleAddNewMessage end")
   }
 
   // event with the dynamically receiver when `phoneNumber` can't be set before
