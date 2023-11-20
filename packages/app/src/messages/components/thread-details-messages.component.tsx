@@ -61,24 +61,18 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
   const scrollToBottom = () => {
     wrapperRef.current?.scrollIntoView({
-      behavior: "smooth",
+      behavior: "auto",
       block: "end",
     })
   }
 
   useEffect(() => {
-    const cond1 = prevMessages.messages.length < messages.length
-    const cond2 =
+    if (
+      prevMessages.messages.length <= messages.length &&
       messages[messages.length - 1]?.messageType === MessageType.QUEUED
-    console.log("ThreadDetailsMessages cond1", cond1)
-    console.log("ThreadDetailsMessages cond2", cond2)
-    if (cond1 && cond2) {
-      console.log("ThreadDetailsMessages worky")
+    ) {
       scrollToBottom()
-    } else {
-      console.log("ThreadDetailsMessages no worky")
     }
-
     return () => {
       prevMessages.messages = messages
     }
