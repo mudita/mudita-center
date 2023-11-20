@@ -42,100 +42,102 @@ interface Props extends Pick<Settings, "language"> {
   toggleItem: (id: string) => void
 }
 
-const ThreadList: FunctionComponent<Props> = ({
-  activeThread,
-  threads,
-  onThreadClick = noop,
-  onDeleteClick,
-  onToggleReadStatus,
-  language,
-  getContactByPhoneNumber,
-  onContactClick,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadMoreRows,
-  newConversation,
-  selectedItems,
-  toggleItem,
-  ...props
-}) => {
-  const threadsRef = React.useRef<HTMLDivElement>(null)
-  const scrollOffset = React.useRef<number>(0)
+const ThreadList: FunctionComponent<Props> = React.memo(
+  ({
+    activeThread,
+    threads,
+    onThreadClick = noop,
+    onDeleteClick,
+    onToggleReadStatus,
+    language,
+    getContactByPhoneNumber,
+    onContactClick,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    loadMoreRows,
+    newConversation,
+    selectedItems,
+    toggleItem,
+    ...props
+  }) => {
+    const threadsRef = React.useRef<HTMLDivElement>(null)
+    const scrollOffset = React.useRef<number>(0)
 
-  const sidebarOpened = Boolean(activeThread)
-  const noneRowsSelected = selectedItems.rows.length <= 0
+    const sidebarOpened = Boolean(activeThread)
+    const noneRowsSelected = selectedItems.rows.length <= 0
 
-  const renderRow = ({ index, style }: ListRowProps) => {
-    const thread = threads[index]
-    if (thread === undefined) {
-      return <ThreadPlaceholderRow key={index} style={style} />
-    } else {
-      const { id, phoneNumber } = thread
-      const active = activeThread?.id === id
-      const contact = getContactByPhoneNumber(phoneNumber)
-      const indeterminate = false
-      const selectedRow = selectedItems.rows.includes(thread.id)
+    const renderRow = ({ index, style }: ListRowProps) => {
+      const thread = threads[index]
+      if (thread === undefined) {
+        return <ThreadPlaceholderRow key={index} style={style} />
+      } else {
+        const { id, phoneNumber } = thread
+        const active = activeThread?.id === id
+        const contact = getContactByPhoneNumber(phoneNumber)
+        const indeterminate = false
+        const selectedRow = selectedItems.rows.includes(thread.id)
 
-      const threadsRect = threadsRef.current?.getBoundingClientRect()
-      const threadsOffset = threadsRect
-        ? {
-            left: threadsRect.left,
-            top: threadsRect.top - scrollOffset.current,
-          }
-        : undefined
+        const threadsRect = threadsRef.current?.getBoundingClientRect()
+        const threadsOffset = threadsRect
+          ? {
+              left: threadsRect.left,
+              top: threadsRect.top - scrollOffset.current,
+            }
+          : undefined
 
-      return (
-        <ThreadRow
-          key={phoneNumber}
-          active={active}
-          selected={selectedRow}
-          indeterminate={indeterminate}
-          sidebarOpened={sidebarOpened}
-          noneRowsSelected={noneRowsSelected}
-          contact={contact}
-          language={language}
-          onCheckboxChange={() => toggleItem(thread.id)}
-          onRowClick={onThreadClick}
-          onDeleteClick={onDeleteClick}
-          onToggleReadClick={onToggleReadStatus}
-          onContactClick={onContactClick}
-          thread={thread}
-          style={style}
-          newConversation={newConversation}
-          threadsOffset={threadsOffset}
-        />
-      )
+        return (
+          <ThreadRow
+            key={phoneNumber}
+            active={active}
+            selected={selectedRow}
+            indeterminate={indeterminate}
+            sidebarOpened={sidebarOpened}
+            noneRowsSelected={noneRowsSelected}
+            contact={contact}
+            language={language}
+            onCheckboxChange={() => toggleItem(thread.id)}
+            onRowClick={onThreadClick}
+            onDeleteClick={onDeleteClick}
+            onToggleReadClick={onToggleReadStatus}
+            onContactClick={onContactClick}
+            thread={thread}
+            style={style}
+            newConversation={newConversation}
+            threadsOffset={threadsOffset}
+          />
+        )
+      }
     }
-  }
 
-  return (
-    <Threads
-      scrollable={false}
-      hideableColumnsIndexes={[2, 3, 4]}
-      hideColumns={sidebarOpened}
-      {...props}
-      ref={threadsRef}
-    >
-      <AutoSizer>
-        {({ width, height }) => {
-          return (
-            <List
-              height={height}
-              width={width}
-              rowRenderer={renderRow}
-              rowHeight={80}
-              rowCount={threads.length}
-              containerStyle={listContainerStyle}
-              style={ListStyle}
-              onScroll={({ scrollTop }) => {
-                scrollOffset.current = scrollTop
-              }}
-            />
-          )
-        }}
-      </AutoSizer>
-    </Threads>
-  )
-}
+    return (
+      <Threads
+        scrollable={false}
+        hideableColumnsIndexes={[2, 3, 4]}
+        hideColumns={sidebarOpened}
+        {...props}
+        ref={threadsRef}
+      >
+        <AutoSizer>
+          {({ width, height }) => {
+            return (
+              <List
+                height={height}
+                width={width}
+                rowRenderer={renderRow}
+                rowHeight={80}
+                rowCount={threads.length}
+                containerStyle={listContainerStyle}
+                style={ListStyle}
+                onScroll={({ scrollTop }) => {
+                  scrollOffset.current = scrollTop
+                }}
+              />
+            )
+          }}
+        </AutoSizer>
+      </Threads>
+    )
+  }
+)
 
 export default ThreadList
