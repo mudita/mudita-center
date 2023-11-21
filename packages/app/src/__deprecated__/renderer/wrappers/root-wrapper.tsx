@@ -149,7 +149,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   const onDeviceDetachHandler = () => {
     void resetUploadingState()
     void setConnectionStatus(false)
-    void dispatch(setInitializationFailed(false))
   }
 
   useEffect(() => {
