@@ -43,7 +43,6 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
   filesLength,
   uploading,
   uploadingInfo,
-  uploadingFailed,
   onCloseUploadingErrorModal,
   pendingUpload,
   pendingFilesCount,
@@ -86,13 +85,13 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
           testId={UploadFilesModalsTestIds.UploadedPopUp}
         />
       )}
-      {uploadingFailed &&
-        error?.type !== FilesManagerError.UploadDuplicates &&
-        error?.type !== FilesManagerError.UnsupportedFileFormat &&
-        error?.type !== FilesManagerError.UnsupportedFileSize && (
+      {error &&
+        error.type !== FilesManagerError.UploadDuplicates &&
+        error.type !== FilesManagerError.UnsupportedFileFormat &&
+        error.type !== FilesManagerError.UnsupportedFileSize && (
           <ErrorModal
             testId={UploadFilesModalsTestIds.ErrorModal}
-            open={uploadingFailed}
+            open
             title={intl.formatMessage(errorTitle)}
             subtitle={intl.formatMessage(errorSubtitle)}
             closeModal={onCloseUploadingErrorModal}
