@@ -42,7 +42,7 @@ const ModalsManager: FunctionComponent<Props> = ({
   return (
     <>
       {deviceInitializationFailedModalShowEnabled && (
-        <ErrorConnectingModal open closeModal={hideModals} />
+        <ErrorConnectingModal open closeModal={hideModals} onClose={hideModals} />
       )}
       {appForcedUpdateFlowShow && <AppForcedUpdateFlowContainer />}
       {appUpdateFlowShow && <AppUpdateFlowContainer />}

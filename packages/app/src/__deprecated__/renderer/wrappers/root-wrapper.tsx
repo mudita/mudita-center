@@ -68,7 +68,6 @@ import {
 } from "App/update/listeners"
 import { setConnectionStatus } from "App/device/actions"
 import { resetUploadingState } from "App/files-manager/actions"
-import { setInitializationFailed } from "App/data-sync/actions"
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
 
@@ -149,7 +148,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   const onDeviceDetachHandler = () => {
     void resetUploadingState()
     void setConnectionStatus(false)
-    void dispatch(setInitializationFailed(false))
   }
 
   useEffect(() => {

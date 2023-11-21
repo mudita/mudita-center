@@ -45,7 +45,7 @@ const messages = defineMessages({
 
 const ErrorConnectingModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
-> = ({ closeModal, ...props }) => {
+> = ({ closeModal, onClose, ...props }) => {
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
   return (
     <ModalDialog
@@ -59,7 +59,7 @@ const ErrorConnectingModal: FunctionComponent<
         messages.errorConnectingModalSecondaryButton
       )}
       onActionButtonClick={closeModal}
-      onClose={closeModal}
+      onClose={onClose}
       closeModal={closeModal}
       {...props}
     >
