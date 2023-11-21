@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { BrowserWindow } from "electron"
 import fs from "fs-extra"
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
@@ -30,11 +31,12 @@ const getFileName = (contacts: Contact[]) => {
   })}.vcf`
 }
 
-const registerContactsExportListener = (): void => {
+const registerContactsExportListener = (win: BrowserWindow): void => {
   ipcMain.answerRenderer<Contact[], Promise<ExportContactsResult>>(
     IpcRequest.ExportContacts,
     async (contacts) => {
-      const { canceled, filePath } = await dialog.showSaveDialog({
+      //
+      const { canceled, filePath } = await dialog.showSaveDialog(win, {
         title: intl.formatMessage(messages.dialogTitle, {
           count: contacts.length,
         }),

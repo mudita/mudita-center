@@ -194,7 +194,7 @@ const createWindow = async () => {
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
-  registerContactsExportListener()
+  registerContactsExportListener(win)
   registerWriteFileListener()
   registerCopyFileListener()
   registerRmdirListener()
