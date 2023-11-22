@@ -10,7 +10,6 @@ export interface UploadFilesModalProps {
   filesLength: number
   uploading: boolean
   uploadingInfo: boolean
-  uploadingFailed: boolean
   onCloseUploadingErrorModal: () => void
   pendingUpload: boolean
   pendingFilesCount: number
