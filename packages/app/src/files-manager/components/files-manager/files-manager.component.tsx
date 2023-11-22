@@ -18,7 +18,6 @@ import { FilesManagerTestIds } from "App/files-manager/components/files-manager/
 import {
   DeviceDirectory,
   DiskSpaceCategoryType,
-  eligibleFormat,
   filesSummaryElements,
 } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
@@ -31,6 +30,7 @@ import { useDispatch } from "react-redux"
 import { resetFiles } from "App/files-manager/actions/base.action"
 import { uploadFile } from "App/files-manager/actions"
 import { Dispatch } from "App/__deprecated__/renderer/store"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -63,7 +63,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   continuePendingUpload,
 }) => {
   const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files: files ?? [] })
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
@@ -85,6 +84,8 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   } = getSpaces(files, memorySpace)
   const dispatch = useDispatch()
   const dispatchThunk = useDispatch<Dispatch>()
+
+  const [uploadActionTrigger, setUploadActionTrigger] = useState<number>()
 
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
   const downloadFiles = () => {
@@ -197,16 +198,21 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     }
   }, [resetUploadingState])
 
-  const onFileInputChange = () => {
-    if (fileInputRef.current?.files?.length) {
-      void dispatchThunk(
-        uploadFile(
-          Array.from(fileInputRef.current?.files).map((file) => file.path)
-        )
-      )
-      fileInputRef.current.value = ""
+  useEffect(() => {
+    if (uploadActionTrigger) {
+      const uploadActionPromise = dispatchThunk(uploadFile())
+
+      //abort on dismount or when a new upload has been triggered
+      return () => {
+        if ("abort" in uploadActionPromise) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+          ;(uploadActionPromise as any).abort()
+        }
+      }
     }
-  }
+    return noop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploadActionTrigger])
 
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
     const elements = {
@@ -270,7 +276,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   }
 
   const handleUploadFiles = () => {
-    fileInputRef.current?.click()
+    setUploadActionTrigger(new Date().getTime())
   }
 
   return (
@@ -322,14 +328,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           deviceType={deviceType}
         />
       )}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept={eligibleFormat.map((format) => `audio/${format}`).join(",")}
-        hidden
-        multiple
-        onChange={onFileInputChange}
-      />
     </FilesManagerContainer>
   )
 }
