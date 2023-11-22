@@ -77,6 +77,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     ) {
       scrollToBottom()
     }
+
     return () => {
       prevMessages.messages = messages
     }
