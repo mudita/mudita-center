@@ -49,6 +49,7 @@ const registerContactsExportListener = (): void => {
           properties: ["createDirectory", "showOverwriteConfirmation"],
           filters: [{ name: "vcf", extensions: ["vcf"] }],
         })
+        focusedWin.focus()
 
         if (canceled) {
           return ExportContactsResult.Cancelled
