@@ -35,6 +35,7 @@ export const VirtualizedContactList: FunctionComponent<
   const groupCounts = componentContactList.map((item) => item.contacts.length)
   const groups = componentContactList.map((item) => item.category)
   const contacts = componentContactList.flatMap((item) => item.contacts)
+  console.log(groupCounts, groups, contacts)
 
   useEffect(() => {
     if (selectedContact) {
@@ -56,6 +57,7 @@ export const VirtualizedContactList: FunctionComponent<
       <GroupedVirtuoso
         ref={virtuoso}
         groupCounts={groupCounts}
+        increaseViewportBy={{ top: 8000, bottom: 3000 }}
         groupContent={(index) => {
           return <VirtualizedContactListGroupItem category={groups[index]} />
         }}
