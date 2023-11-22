@@ -67,8 +67,12 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   }
 
   useEffect(() => {
+    scrollToBottom()
+  }, [])
+
+  useEffect(() => {
     if (
-      prevMessages.messages.length <= messages.length &&
+      prevMessages.messages.length < messages.length &&
       messages[messages.length - 1]?.messageType === MessageType.QUEUED
     ) {
       scrollToBottom()
