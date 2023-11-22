@@ -21,7 +21,6 @@ const defaultProps: UploadFilesModalProps = {
   filesLength: 0,
   uploading: false,
   uploadingInfo: false,
-  uploadingFailed: false,
   error: null,
   onCloseUploadingErrorModal: jest.fn(),
   pendingUpload: false,
@@ -107,10 +106,10 @@ describe("Component: `UploadFilesModals`", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("displays error modal if `uploadingFailed` is equal to `true`", () => {
+  test("displays error modal if there is an error defined", () => {
     const { queryByTestId } = render({
       ...defaultProps,
-      uploadingFailed: true,
+      error: new AppError(FilesManagerError.NotEnoughSpace, "test error"),
     })
 
     expect(
@@ -125,10 +124,9 @@ describe("Component: `UploadFilesModals`", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("displays error modal with `NoSpaceLeft` error if `uploadingFailed` is equal to `true` and error type is equal to `FilesManagerError.NotEnoughSpace`", () => {
+  test("displays error modal with `NoSpaceLeft` error if error type is equal to `FilesManagerError.NotEnoughSpace`", () => {
     const { queryByTestId, queryByText } = render({
       ...defaultProps,
-      uploadingFailed: true,
       error: new AppError(
         FilesManagerError.NotEnoughSpace,
         "Not enough space on your device"
@@ -158,7 +156,10 @@ describe("Component: `UploadFilesModals`", () => {
   test("triggers `onCloseUploadingErrorModal` action when clicks on `close` button", () => {
     const { getByTestId } = render({
       ...defaultProps,
-      uploadingFailed: true,
+      error: new AppError(
+        FilesManagerError.NotEnoughSpace,
+        "Not enough space on your device"
+      ),
     })
 
     const closeModalButton = getByTestId(ModalTestIds.CloseButton)

@@ -73,7 +73,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     deletingInfo: false,
     uploading: false,
     uploadingInfo: false,
-    uploadingFailed: false,
   })
   const [toDeleteFileIds, setToDeleteFileIds] = useState<string[]>([])
   const {
@@ -136,7 +135,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   useEffect(() => {
     if (uploading === State.Initial) {
       updateFieldState("uploadingInfo", false)
-      updateFieldState("uploadingFailed", false)
     } else if (uploading === State.Loading) {
       updateFieldState("uploading", true)
     } else if (uploading === State.Loaded) {
@@ -150,7 +148,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       clearTimeout(uploadTimeoutRef.current || undefined)
     } else if (uploading === State.Failed) {
       updateFieldState("uploading", false)
-      updateFieldState("uploadingFailed", true)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -255,7 +252,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     openDeleteModal(selectedItems)
   }
   const handleCloseUploadingErrorModal = () => {
-    updateFieldState("uploadingFailed", false)
     resetUploadingState()
   }
   const handleCloseDeletingConfirmationModal = () => {
@@ -284,7 +280,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         filesLength={uploadingFileCount}
         uploading={states.uploading}
         uploadingInfo={states.uploadingInfo}
-        uploadingFailed={states.uploadingFailed}
         onCloseUploadingErrorModal={handleCloseUploadingErrorModal}
         pendingFilesCount={pendingFilesCount}
         pendingUpload={uploading === State.Pending}
