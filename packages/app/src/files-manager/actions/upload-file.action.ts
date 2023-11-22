@@ -8,10 +8,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { State } from "App/core/constants/state.constant"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import {
-  FilesManagerEvent,
   DeviceDirectory,
+  eligibleFormat,
   FilesManagerError,
+  FilesManagerEvent,
 } from "App/files-manager/constants"
+import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
@@ -31,12 +33,21 @@ import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
 
 export const uploadFile = createAsyncThunk<
   void,
-  string[],
+  void,
   { state: ReduxRootState }
 >(
   FilesManagerEvent.UploadFiles,
-  async (filePaths, { getState, dispatch, rejectWithValue }) => {
+  async (_, { getState, dispatch, rejectWithValue }) => {
     dispatch(setUploadBlocked(true))
+    const filesToUpload = await getPathsRequest({
+      filters: [
+        {
+          name: "Audio",
+          extensions: eligibleFormat,
+        },
+      ],
+      properties: ["openFile", "multiSelections"],
+    })
 
     const state = getState()
 
@@ -48,12 +59,14 @@ export const uploadFile = createAsyncThunk<
       return rejectWithValue("files are not yet loaded")
     }
 
-    if (!filePaths || !filePaths.length) {
+    if (!filesToUpload.ok || !filesToUpload.data) {
       dispatch(setUploadBlocked(false))
       return rejectWithValue("no files to upload")
     }
 
-    const { validFiles, invalidFiles } = checkFilesExtensions(filePaths)
+    const { validFiles, invalidFiles } = checkFilesExtensions(
+      filesToUpload.data
+    )
 
     if (!validFiles.length && invalidFiles.length) {
       dispatch(setUploadBlocked(false))
