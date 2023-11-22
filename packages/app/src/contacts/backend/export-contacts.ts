@@ -37,6 +37,7 @@ const registerContactsExportListener = (): void => {
     async (contacts) => {
       //
       const focusedWin = BrowserWindow.getFocusedWindow()
+      //focusedWin.setAlwaysOnTop(false);
       if (focusedWin) {
         const { canceled, filePath } = await dialog.showSaveDialog(focusedWin, {
           title: intl.formatMessage(messages.dialogTitle, {
@@ -50,6 +51,7 @@ const registerContactsExportListener = (): void => {
           filters: [{ name: "vcf", extensions: ["vcf"] }],
         })
         focusedWin.focus()
+        //focusedWin.setAlwaysOnTop(true);
 
         if (canceled) {
           return ExportContactsResult.Cancelled
