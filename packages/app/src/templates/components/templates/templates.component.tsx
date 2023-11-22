@@ -38,6 +38,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   selectedItems,
   allItemsSelected,
 }) => {
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>()
   const { states, updateFieldState, resetState } =
     useLoadingState<TemplateServiceState>({
       creating: false,
@@ -57,6 +58,10 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const [templatesList, setTemplatesList] = useState<Template[]>(templates)
   const panelButtonDisabled =
     templateFormOpen || states.creating || states.updating
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutRef.current)
+  }, [])
 
   useEffect(() => {
     if (!loading) {
@@ -200,7 +205,11 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       list.splice(destination.index, 0, removed)
       setTemplatesList(list)
       const updatedTemplates = reorder(list)
-      void updateTemplateOrder(updatedTemplates)
+      // Delaying the invocation of updateTemplateOrder after drag-and-drop operation
+      // helps control the component's re-rendering, eliminating subtle flickering.
+      timeoutRef.current = setTimeout(
+        () => void updateTemplateOrder(updatedTemplates)
+      )
     }
   }
 
