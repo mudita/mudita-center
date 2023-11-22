@@ -31,35 +31,41 @@ const getFileName = (contacts: Contact[]) => {
   })}.vcf`
 }
 
-const registerContactsExportListener = (win: BrowserWindow): void => {
+const registerContactsExportListener = (): void => {
   ipcMain.answerRenderer<Contact[], Promise<ExportContactsResult>>(
     IpcRequest.ExportContacts,
     async (contacts) => {
       //
-      const { canceled, filePath } = await dialog.showSaveDialog(win, {
-        title: intl.formatMessage(messages.dialogTitle, {
-          count: contacts.length,
-        }),
-        defaultPath: path.join(app.getPath("documents"), getFileName(contacts)),
-        properties: ["createDirectory", "showOverwriteConfirmation"],
-        filters: [{ name: "vcf", extensions: ["vcf"] }],
-      })
+      const focusedWin = BrowserWindow.getFocusedWindow()
+      if (focusedWin) {
+        const { canceled, filePath } = await dialog.showSaveDialog(focusedWin, {
+          title: intl.formatMessage(messages.dialogTitle, {
+            count: contacts.length,
+          }),
+          defaultPath: path.join(
+            app.getPath("documents"),
+            getFileName(contacts)
+          ),
+          properties: ["createDirectory", "showOverwriteConfirmation"],
+          filters: [{ name: "vcf", extensions: ["vcf"] }],
+        })
 
-      if (canceled) {
-        return ExportContactsResult.Cancelled
-      }
-      try {
-        if (!canceled && filePath) {
-          await fs.writeFile(
-            filePath,
-            mapContactsToVCardStrings(contacts),
-            "utf-8"
-          )
-          shell.showItemInFolder(filePath)
-          return ExportContactsResult.Ok
+        if (canceled) {
+          return ExportContactsResult.Cancelled
         }
-      } catch (error) {
-        logger.error(`Export contacts error. Data: ${JSON.stringify(error)}`)
+        try {
+          if (!canceled && filePath) {
+            await fs.writeFile(
+              filePath,
+              mapContactsToVCardStrings(contacts),
+              "utf-8"
+            )
+            shell.showItemInFolder(filePath)
+            return ExportContactsResult.Ok
+          }
+        } catch (error) {
+          logger.error(`Export contacts error. Data: ${JSON.stringify(error)}`)
+        }
       }
       return ExportContactsResult.Failed
     }
