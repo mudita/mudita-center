@@ -38,6 +38,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   templateFormOpen,
   activeTemplate,
 }) => {
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>()
   const dispatch = useDispatch<Dispatch>()
   const templates = useSelector(templatesListSelector)
   const loading = useSelector(
@@ -46,6 +47,10 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   const noneTemplateSelected = selectedTemplateIds.length === 0
 
   const [localTemplates, setLocalTemplates] = useState<Template[]>(templates)
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutRef.current)
+  }, [])
 
   useEffect(() => {
     if (loading) {
@@ -68,7 +73,9 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       setLocalTemplates(updatedTemplates)
       // Delaying the invocation of updateTemplateOrder after drag-and-drop operation
       // helps control the component's re-rendering, eliminating subtle flickering.
-      setTimeout(() => dispatch(updateTemplateOrder(updatedTemplates)))
+      timeoutRef.current = setTimeout(
+        () => void updateTemplateOrder(updatedTemplates)
+      )
     }
   }
 

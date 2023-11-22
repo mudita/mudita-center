@@ -77,6 +77,7 @@ import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
 import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
+import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from "electron-devtools-installer"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -98,8 +99,10 @@ const termsWindow: BrowserWindow | null = null
 const policyWindow: BrowserWindow | null = null
 const metadataStore: MetadataStore = createMetadataStore()
 
-// Disables CORS in Electron 9
-app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
+// Disabling browser security features
+// to address CORS issue between local and remote servers.
+// To be handled as part of ticket https://appnroll.atlassian.net/browse/CP-2242
+app.commandLine.appendSwitch('disable-features', 'BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights');
 
 const gotTheLock = app.requestSingleInstanceLock()
 
@@ -113,6 +116,7 @@ const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
   fullscreen: false,
+  fullscreenable: true,
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
@@ -128,6 +132,19 @@ const getWindowOptions = (
   ...extendedWindowOptions,
   ...commonWindowOptions,
 })
+
+const installElectronDevToolExtensions = async () => {
+  try {
+    await installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+      loadExtensionOptions: {
+        allowFileAccess: true,
+      },
+    })
+    console.info(`[INFO] Successfully added devtools extensions`)
+  } catch (err) {
+    console.warn("[WARN] An error occurred while trying to add devtools extensions:\n", err)
+  }
+}
 
 const createWindow = async () => {
   const title = "Mudita Center"
@@ -201,6 +218,7 @@ const createWindow = async () => {
     )
     autoupdate(win)
   } else {
+    await installElectronDevToolExtensions()
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -227,6 +245,13 @@ const createWindow = async () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       win!.webContents.openDevTools()
       appModules.lateInitialization()
+    })
+
+    win.webContents.once("dom-ready", () => {
+      win!.webContents.once("devtools-opened", () => {
+        win!.focus()
+      })
+      win!.webContents.openDevTools()
     })
   }
 
@@ -461,9 +486,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           break
       }
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`)
+      void (await googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`))
     } else {
       googleAuthWindow.show()
     }
