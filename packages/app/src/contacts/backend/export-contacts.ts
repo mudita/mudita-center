@@ -31,44 +31,38 @@ const getFileName = (contacts: Contact[]) => {
   })}.vcf`
 }
 
-const registerContactsExportListener = (): void => {
+const registerContactsExportListener = (win: BrowserWindow): void => {
   ipcMain.answerRenderer<Contact[], Promise<ExportContactsResult>>(
     IpcRequest.ExportContacts,
     async (contacts) => {
       //
-      const focusedWin = BrowserWindow.getFocusedWindow()
-      //focusedWin.setAlwaysOnTop(false);
-      if (focusedWin) {
-        const { canceled, filePath } = await dialog.showSaveDialog(focusedWin, {
-          title: intl.formatMessage(messages.dialogTitle, {
-            count: contacts.length,
-          }),
-          defaultPath: path.join(
-            app.getPath("documents"),
-            getFileName(contacts)
-          ),
-          properties: ["createDirectory", "showOverwriteConfirmation"],
-          filters: [{ name: "vcf", extensions: ["vcf"] }],
-        })
-        focusedWin.focus()
-        //focusedWin.setAlwaysOnTop(true);
 
-        if (canceled) {
-          return ExportContactsResult.Cancelled
+      win.setAlwaysOnTop(false)
+      const { canceled, filePath } = await dialog.showSaveDialog(win, {
+        title: intl.formatMessage(messages.dialogTitle, {
+          count: contacts.length,
+        }),
+        defaultPath: path.join(app.getPath("documents"), getFileName(contacts)),
+        properties: ["createDirectory", "showOverwriteConfirmation"],
+        filters: [{ name: "vcf", extensions: ["vcf"] }],
+      })
+      win.setAlwaysOnTop(true)
+
+      if (canceled) {
+        return ExportContactsResult.Cancelled
+      }
+      try {
+        if (!canceled && filePath) {
+          await fs.writeFile(
+            filePath,
+            mapContactsToVCardStrings(contacts),
+            "utf-8"
+          )
+          shell.showItemInFolder(filePath)
+          return ExportContactsResult.Ok
         }
-        try {
-          if (!canceled && filePath) {
-            await fs.writeFile(
-              filePath,
-              mapContactsToVCardStrings(contacts),
-              "utf-8"
-            )
-            shell.showItemInFolder(filePath)
-            return ExportContactsResult.Ok
-          }
-        } catch (error) {
-          logger.error(`Export contacts error. Data: ${JSON.stringify(error)}`)
-        }
+      } catch (error) {
+        logger.error(`Export contacts error. Data: ${JSON.stringify(error)}`)
       }
       return ExportContactsResult.Failed
     }
