@@ -36,9 +36,9 @@ const registerContactsExportListener = (win: BrowserWindow): void => {
     IpcRequest.ExportContacts,
     async (contacts) => {
 
-      win.focus();
+      const focusedWindows = BrowserWindow.getFocusedWindow() || win
 
-      const { canceled, filePath } = await dialog.showSaveDialog(win, {
+      const { canceled, filePath } = await dialog.showSaveDialog(focusedWindows, {
         title: intl.formatMessage(messages.dialogTitle, {
           count: contacts.length,
         }),
