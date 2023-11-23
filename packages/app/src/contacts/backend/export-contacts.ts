@@ -35,9 +35,9 @@ const registerContactsExportListener = (win: BrowserWindow): void => {
   ipcMain.answerRenderer<Contact[], Promise<ExportContactsResult>>(
     IpcRequest.ExportContacts,
     async (contacts) => {
-      //
 
-      win.setAlwaysOnTop(false)
+      win.focus();
+
       const { canceled, filePath } = await dialog.showSaveDialog(win, {
         title: intl.formatMessage(messages.dialogTitle, {
           count: contacts.length,
@@ -46,7 +46,6 @@ const registerContactsExportListener = (win: BrowserWindow): void => {
         properties: ["createDirectory", "showOverwriteConfirmation"],
         filters: [{ name: "vcf", extensions: ["vcf"] }],
       })
-      win.setAlwaysOnTop(true)
 
       if (canceled) {
         return ExportContactsResult.Cancelled
