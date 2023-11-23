@@ -77,7 +77,10 @@ import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
 import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
-import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from "electron-devtools-installer"
+import installExtension, {
+  REDUX_DEVTOOLS,
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -102,7 +105,10 @@ const metadataStore: MetadataStore = createMetadataStore()
 // Disabling browser security features
 // to address CORS issue between local and remote servers.
 // To be handled as part of ticket https://appnroll.atlassian.net/browse/CP-2242
-app.commandLine.appendSwitch('disable-features', 'BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights');
+app.commandLine.appendSwitch(
+  "disable-features",
+  "BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights"
+)
 
 const gotTheLock = app.requestSingleInstanceLock()
 
@@ -129,8 +135,8 @@ const commonWindowOptions: BrowserWindowConstructorOptions = {
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
 ) => ({
-  ...extendedWindowOptions,
   ...commonWindowOptions,
+  ...extendedWindowOptions,
 })
 
 const installElectronDevToolExtensions = async () => {
@@ -142,7 +148,10 @@ const installElectronDevToolExtensions = async () => {
     })
     console.info(`[INFO] Successfully added devtools extensions`)
   } catch (err) {
-    console.warn("[WARN] An error occurred while trying to add devtools extensions:\n", err)
+    console.warn(
+      "[WARN] An error occurred while trying to add devtools extensions:\n",
+      err
+    )
   }
 }
 
@@ -452,9 +461,10 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         getWindowOptions({
           width: GOOGLE_AUTH_WINDOW_SIZE.width,
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
-          titleBarStyle:
-            process.env.NODE_ENV === "development" ? "default" : "hidden",
           title,
+          webPreferences: {
+            nodeIntegration: true,
+          },
         })
       )
       googleAuthWindow.removeMenu()
@@ -513,8 +523,6 @@ ipcMain.answerRenderer(
           getWindowOptions({
             width: 600,
             height: 600,
-            titleBarStyle:
-              process.env.NODE_ENV === "development" ? "default" : "hidden",
             title,
           })
         )
