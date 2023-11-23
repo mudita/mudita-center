@@ -174,6 +174,7 @@ const Connecting: FunctionComponent<{
     setPasscodeOpenModal(false)
     setCriticalBatteryLevelOpenModal(false)
     void dispatch(setInitState())
+    history.push(URL_ONBOARDING.root)
   }
 
   const onRetry = () => {
