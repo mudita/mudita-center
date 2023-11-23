@@ -25,12 +25,12 @@ export class UsbDeviceAttachObserver implements Observer {
     )
 
     detachedDevicePaths.forEach((detachedDevicePath) => {
-      void this.deviceManager.removeDevice(detachedDevicePath)
+      void this.deviceManager.removeActiveDevice(detachedDevicePath)
     })
 
     attachedDevices.forEach((attachedDevice) => {
       if (!this.previousAttachedDevicePaths.has(attachedDevice.path)) {
-        void this.deviceManager.addDevice(attachedDevice)
+        void this.deviceManager.initializeActiveDevice(attachedDevice)
       }
     })
 

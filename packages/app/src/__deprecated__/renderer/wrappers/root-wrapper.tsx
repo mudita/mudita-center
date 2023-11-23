@@ -51,19 +51,14 @@ import { registerOutboxNotificationListener } from "App/notification/listeners"
 import { registerCrashDumpExistListener } from "App/crash-dump/listeners"
 import { EULAAgreement } from "App/eula-agreement/components"
 import { getCurrentDevice } from "App/device-manager/actions"
-import {
-  registerActiveDeviceChangedListener,
-  registerDeviceDetachedListener,
-} from "App/device-manager/listeners"
+import { registerActiveDeviceChangedListener } from "App/device-manager/listeners"
 import {
   registerDeviceUnlockedListener,
   registerDeviceLockTimeListener,
   registerDeviceLockedListener,
   registerDeviceOnboardingStatusListener,
 } from "App/device/listeners"
-import { registerDownloadCancelOnDeviceDetachedListener } from "App/update/listeners"
-import { setConnectionStatus } from "App/device/actions"
-import { resetUploadingState } from "App/files-manager/actions"
+import { registerActiveDeviceDetachedListener } from "App/update/listeners"
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
 
@@ -78,8 +73,6 @@ interface Props {
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
   getCurrentDevice: () => void
-  setConnectionStatus: (status: boolean) => void
-  resetUploadingState: () => void
   setCheckingForUpdate: (value: boolean) => void
 }
 
@@ -93,8 +86,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadSettings,
   loadDeviceData,
   connectedAndUnlocked,
-  setConnectionStatus,
-  resetUploadingState,
   setCheckingForUpdate,
 }) => {
   const dispatch = useDispatch()
@@ -141,11 +132,6 @@ const RootWrapper: FunctionComponent<Props> = ({
     [mode, history]
   )
 
-  const onDeviceDetachHandler = () => {
-    void resetUploadingState()
-    void setConnectionStatus(false)
-  }
-
   useEffect(() => {
     void initAnalyticDataTracker()
   }, [])
@@ -161,11 +147,7 @@ const RootWrapper: FunctionComponent<Props> = ({
     const deviceLockTimeListener = registerDeviceLockTimeListener()
     const crashDump = registerCrashDumpExistListener()
     const activeDeviceChangedListener = registerActiveDeviceChangedListener()
-    const deviceDetachedListener = registerDeviceDetachedListener(
-      onDeviceDetachHandler
-    )
-    const downloadCancelOnDeviceDetachedListener =
-      registerDownloadCancelOnDeviceDetachedListener()
+    const activeDeviceDetachedListener = registerActiveDeviceDetachedListener()
 
     return () => {
       dataSync()
@@ -177,8 +159,7 @@ const RootWrapper: FunctionComponent<Props> = ({
       deviceLockTimeListener()
       crashDump()
       activeDeviceChangedListener()
-      deviceDetachedListener()
-      downloadCancelOnDeviceDetachedListener()
+      activeDeviceDetachedListener()
     }
   })
 
@@ -279,8 +260,6 @@ const mapDispatchToProps = {
   setLatestVersion,
   loadSettings,
   getCurrentDevice,
-  setConnectionStatus,
-  resetUploadingState,
   setCheckingForUpdate,
 }
 

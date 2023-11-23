@@ -8,11 +8,7 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { log } from "App/core/decorators/log.decorator"
 import { DeviceResolverService } from "App/device-manager/services/device-resolver.service"
 import { AppError } from "App/core/errors"
-import { Result, ResultObject } from "App/core/builder"
-import {
-  Device,
-  getDevicePropertiesFromDevice,
-} from "App/device/modules/device"
+import { Device } from "App/device/modules/device"
 import { PortInfo } from "App/device-manager/types"
 import { PortInfoValidator } from "App/device-manager/validators"
 import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
@@ -23,7 +19,6 @@ import { Mutex } from "async-mutex"
 
 export class DeviceManager {
   public activeDevice: Device | undefined
-  public devicesMap = new Map<string, Device>()
   public activeDeviceInitializationFailed = false
 
   // The `updating` property is a tmp solution to skip sync process
@@ -50,19 +45,15 @@ export class DeviceManager {
     return this.activeDevice
   }
 
-  get devices(): Device[] {
-    return Array.from(this.devicesMap.values())
-  }
-
   private mutex = new Mutex()
 
-  public async addDevice(port: PortInfo): Promise<void> {
+  public async initializeActiveDevice(port: PortInfo): Promise<void> {
     await this.mutex.runExclusive(async () => {
-      await this.addDeviceTask(port)
+      await this.initializeActiveDeviceTask(port)
     })
   }
 
-  public async addDeviceTask(port: PortInfo): Promise<void> {
+  private async initializeActiveDeviceTask(port: PortInfo): Promise<void> {
     if (this.activeDevice) {
       return
     }
@@ -76,59 +67,20 @@ export class DeviceManager {
       )
     }
 
-    this.devicesMap.set(device.path, device)
-
-    if (!this.activeDevice) {
-      this.activeDevice = device
-      this.ipc.sendToRenderers(
-        ListenerEvent.ActiveDeviceChanged,
-        this.device.toSerializableObject()
-      )
-    }
-
-    this.ipc.sendToRenderers(ListenerEvent.DeviceAttached)
+    this.activeDevice = device
+    this.ipc.sendToRenderers(
+      ListenerEvent.ActiveDeviceChanged,
+      this.device.toSerializableObject()
+    )
     logger.info(`Connected device with serial number: ${device.serialNumber}`)
   }
 
-  public removeDevice(path: string): void {
-    this.devicesMap.delete(path)
-
+  public removeActiveDevice(path: string): void {
     if (this.activeDevice?.path === path) {
-      if (this.devicesMap.size > 0) {
-        this.activeDevice = this.devicesMap.values().next().value as Device
-        this.ipc.sendToRenderers(
-          ListenerEvent.ActiveDeviceChanged,
-          this.activeDevice ? getDevicePropertiesFromDevice(this.activeDevice) : undefined
-        )
-      } else {
-        this.activeDevice = undefined
-      }
+      this.activeDevice = undefined
+      this.ipc.sendToRenderers(ListenerEvent.ActiveDeviceDetached, path)
+      logger.info(`Disconnected device with path: ${path}`)
     }
-
-    this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, path)
-    logger.info(`Disconnected device with path: ${path}`)
-  }
-
-  public setActiveDevice(path: string): ResultObject<boolean> {
-    const newActiveDevice = this.devicesMap.get(path)
-
-    if (!newActiveDevice) {
-      return Result.failed(
-        new AppError(
-          DeviceManagerError.CannotFindDevice,
-          `Device ${path} can't be found`
-        )
-      )
-    }
-
-    this.activeDevice = newActiveDevice
-
-    this.ipc.sendToRenderers(
-      ListenerEvent.ActiveDeviceChanged,
-      getDevicePropertiesFromDevice(this.activeDevice)
-    )
-
-    return Result.success(true)
   }
 
   public async getAttachedDevices(): Promise<SerialPortInfo[]> {
@@ -150,8 +102,6 @@ export class DeviceManager {
     portInfo.productId = portInfo.productId?.toUpperCase()
     portInfo.vendorId = portInfo.vendorId?.toUpperCase()
 
-    const alreadyInitializedDevices = Array.from(this.devicesMap.keys())
-
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise(async (resolve) => {
@@ -161,8 +111,7 @@ export class DeviceManager {
           ({ productId, vendorId, path }) =>
             productId?.toUpperCase() === portInfo.productId &&
             vendorId?.toUpperCase() === portInfo.vendorId &&
-            ((!portInfo.path && !alreadyInitializedDevices.includes(path)) ||
-              path === portInfo.path)
+            (!portInfo.path || path === portInfo.path)
         )
 
         if (port) {

@@ -18,7 +18,7 @@ export class DeviceDisconnectedObserver implements Observer {
     this.eventEmitter.on(
       DeviceServiceEvent.DeviceDisconnected,
       (path: string) => {
-        this.deviceManager.removeDevice(path)
+        this.deviceManager.removeActiveDevice(path)
       }
     )
   }

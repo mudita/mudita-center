@@ -10,13 +10,13 @@ import { cancelOsDownload } from "App/update/requests"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { setDeviceData } from "App/device/actions/base.action"
 import { State } from "App/core/constants"
-import { clearStateAndData } from "App/update/actions"
+import { clearStateAndData } from "App/update/actions/base.action"
 
-export const handleDeviceDetached = createAsyncThunk<
+export const handleActiveDeviceDetached = createAsyncThunk<
   void,
   void,
   { state: ReduxRootState }
->(UpdateOsEvent.HandleDeviceDetached, async (_, { dispatch, getState }) => {
+>(UpdateOsEvent.HandleActiveDeviceDetached, async (_, { dispatch, getState }) => {
   const { update, backup } = getState()
 
   dispatch(setDeviceData(null))
