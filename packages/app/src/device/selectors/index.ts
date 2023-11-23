@@ -5,4 +5,6 @@
 
 export * from "./device-state.selector"
 export * from "./device-type.selector"
+export * from "./get-device-state.selector"
 export * from "./get-left-time.selector"
+export * from "./is-connection-error-state.selector"

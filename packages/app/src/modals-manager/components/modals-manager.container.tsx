@@ -7,13 +7,10 @@ import { connect } from "react-redux"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import ModalsManager from "App/modals-manager/components/modals-manager.component"
 import { hideModals } from "App/modals-manager"
-import { deviceInitializationFailedModalShowEnabledSelector } from "App/modals-manager/selectors"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     ...state.modalsManager,
-    deviceInitializationFailedModalShowEnabled:
-      deviceInitializationFailedModalShowEnabledSelector(state),
   }
 }
 
