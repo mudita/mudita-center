@@ -44,9 +44,15 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
   closeModal,
   error,
 }) => {
-  const [state, setState] = useState<RestoreDeviceFlowState>(openState)
+  const [state, setState] = useState<RestoreDeviceFlowState>()
   const [activeBackup, setActiveBackup] = useState<Backup>()
   const [forceFormReset, setForceFormReset] = useState<boolean>(false)
+
+  useEffect(() => {
+    if(state !== RestoreDeviceFlowState.SecretKeySetting){
+      setState(openState)
+    }
+  }, [state, openState])
 
   const onResetCompleted = () => {
     setForceFormReset(false)
@@ -65,8 +71,9 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
     setActiveBackup(backup)
   }
 
-  const startBackupDeviceButtonClick = (key = ""): void => {
+  const startRestoreDeviceButtonClick = (key = ""): void => {
     if (activeBackup) {
+      setState(RestoreDeviceFlowState.Running)
       onStartRestoreDeviceButtonClick({ backup: activeBackup, key })
     }
   }
@@ -97,7 +104,7 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
       <RestoreConfirmSecretKeyModal
         testId={RestoreDeviceFlowTestIds.RestoreSecretKeySetting}
         open={RestoreDeviceFlowState.SecretKeySetting === state}
-        onSecretKeySet={startBackupDeviceButtonClick}
+        onSecretKeySet={startRestoreDeviceButtonClick}
         closeModal={closeModal}
         forceFormReset={forceFormReset}
         onResetCompleted={onResetCompleted}
