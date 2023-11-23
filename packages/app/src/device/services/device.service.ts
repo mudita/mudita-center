@@ -16,11 +16,20 @@ import {
   GetPhoneLockTimeResponseBody,
 } from "App/device/types/mudita-os"
 import { DeviceManager } from "App/device-manager/services"
+import { AppError } from "App/core/errors"
 
 export class DeviceService {
   constructor(private deviceManager: DeviceManager) {}
 
   public async connect(): Promise<ResultObject<DeviceInfo>> {
+    if (this.deviceManager.activeDeviceInitializationFailed) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.DeviceInitializationFailed,
+          `Device Initialization Failed`
+        )
+      )
+    }
     return this.deviceManager.device.connect()
   }
 

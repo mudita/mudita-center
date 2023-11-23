@@ -78,6 +78,7 @@ export class DeviceManager {
   public removeActiveDevice(path: string): void {
     if (this.activeDevice?.path === path) {
       this.activeDevice = undefined
+      this.activeDeviceInitializationFailed = false
       this.ipc.sendToRenderers(ListenerEvent.ActiveDeviceDisconnected, path)
       logger.info(`Disconnected device with path: ${path}`)
     }

@@ -9,4 +9,5 @@ export enum DeviceCommunicationError {
   RequestFailed = "REQUEST_FAILED_ERROR",
   DisconnectionFailed = "DEVICE_DISCONNECT_FAILED",
   BatteryCriticalLevel = "BATTERY_CRITICAL_LEVEL",
+  DeviceInitializationFailed = "DEVICE_INITIALIZATION_FAILED",
 }
