@@ -131,7 +131,7 @@ export class DeviceManager {
     return Result.success(true)
   }
 
-  public async getConnectedDevices(): Promise<SerialPortInfo[]> {
+  public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
     return (
       portList
@@ -156,7 +156,7 @@ export class DeviceManager {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
-        const portList = await this.getConnectedDevices()
+        const portList = await this.getAttachedDevices()
         const port = portList.find(
           ({ productId, vendorId, path }) =>
             productId?.toUpperCase() === portInfo.productId &&
