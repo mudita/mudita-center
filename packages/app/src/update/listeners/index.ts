@@ -4,4 +4,3 @@
  */
 
 export * from "./device-detached.listener"
-export * from "./device-attached.listener"

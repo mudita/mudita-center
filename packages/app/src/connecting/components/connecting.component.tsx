@@ -22,10 +22,6 @@ import { ConnectingError } from "App/connecting/components/connecting-error.enum
 import { AppError } from "App/core/errors"
 import CriticalBatteryLevelModal from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
 import ErrorUpdateModal from "App/connecting/components/error-update-modal/error-update-modal"
-import { offCurrentDeviceChangedListener } from "App/device-manager/listeners"
-import { useDispatch, useSelector } from "react-redux"
-import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { setInitializationFailed } from "App/data-sync/actions"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -60,10 +56,6 @@ const Connecting: FunctionComponent<{
   criticalBatteryLevel,
   onboardingFinished,
 }) => {
-  const dispatch = useDispatch()
-  const { initializationFailed } = useSelector(
-    (state: ReduxRootState) => state.dataSync
-  )
   const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
   const [passcodeOpenModal, setPasscodeOpenModal] = useState(false)
@@ -155,12 +147,6 @@ const Connecting: FunctionComponent<{
     }
   }, [unlocked, forceOsUpdateFailed])
 
-  useEffect(() => {
-    if (initializationFailed) {
-      setError(ConnectingError.Connecting)
-    }
-  }, [initializationFailed])
-
   const onCancel = () => {
     // TODO: do some logic to connect to the phone, add cancelling logic
     // This redirect is only for testing purposes
@@ -175,9 +161,7 @@ const Connecting: FunctionComponent<{
     history.push(URL_MAIN.news)
   }
   const onCloseErrorConnectingModal = () => {
-    offCurrentDeviceChangedListener()
     close()
-    void dispatch(setInitializationFailed(false))
   }
 
   const onRetry = () => {

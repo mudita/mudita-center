@@ -58,14 +58,10 @@ import {
 import {
   registerDeviceUnlockedListener,
   registerDeviceLockTimeListener,
-  registerDeviceInitializationFailedListener,
   registerDeviceLockedListener,
   registerDeviceOnboardingStatusListener,
 } from "App/device/listeners"
-import {
-  registerClearingUpdateStateOnDeviceAttachedListener,
-  registerDownloadCancelOnDeviceDetachedListener,
-} from "App/update/listeners"
+import { registerDownloadCancelOnDeviceDetachedListener } from "App/update/listeners"
 import { setConnectionStatus } from "App/device/actions"
 import { resetUploadingState } from "App/files-manager/actions"
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
@@ -162,8 +158,6 @@ const RootWrapper: FunctionComponent<Props> = ({
     const deviceLocked = registerDeviceLockedListener()
     const deviceOnboardingStatusListener =
       registerDeviceOnboardingStatusListener()
-    const deviceInitializationFailedListener =
-      registerDeviceInitializationFailedListener()
     const deviceLockTimeListener = registerDeviceLockTimeListener()
     const crashDump = registerCrashDumpExistListener()
     const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
@@ -172,8 +166,6 @@ const RootWrapper: FunctionComponent<Props> = ({
     )
     const downloadCancelOnDeviceDetachedListener =
       registerDownloadCancelOnDeviceDetachedListener()
-    const clearingUpdateStateOnDeviceAttachedListener =
-      registerClearingUpdateStateOnDeviceAttachedListener()
 
     return () => {
       dataSync()
@@ -182,13 +174,11 @@ const RootWrapper: FunctionComponent<Props> = ({
       deviceUnlocked()
       deviceLocked()
       deviceOnboardingStatusListener()
-      deviceInitializationFailedListener()
       deviceLockTimeListener()
       crashDump()
       currentDeviceChangedListener()
       deviceDetachedListener()
       downloadCancelOnDeviceDetachedListener()
-      clearingUpdateStateOnDeviceAttachedListener()
     }
   })
 
