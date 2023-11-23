@@ -37,7 +37,7 @@ const registerContactsExportListener = (win: BrowserWindow): void => {
     async (contacts) => {
 
       const focusedWindows = BrowserWindow.getFocusedWindow() || win
-
+      focusedWindows.focus()
       const { canceled, filePath } = await dialog.showSaveDialog(focusedWindows, {
         title: intl.formatMessage(messages.dialogTitle, {
           count: contacts.length,
