@@ -15,7 +15,7 @@ import { SerialPortDeviceAdapter } from "App/device/modules/mudita-os/adapters"
 export class MuditaPureDescriptor {
   static manufacturer = Manufacture.Mudita
   static deviceType = DeviceType.MuditaPure
-  static productIds = [ProductID.MuditaPure]
+  static productIds = [ProductID.MuditaPureDeprecated, ProductID.MuditaPure]
   static vendorIds = [VendorID.MuditaPure]
   static adapter = SerialPortDeviceAdapter
   static strategy = PureStrategy
