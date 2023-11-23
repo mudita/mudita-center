@@ -6,5 +6,5 @@
 export enum ListenerEvent {
   DeviceAttached = "device-attached",
   DeviceDetached = "device-detached",
-  CurrentDeviceChanged = "current-device-changed",
+  ActiveDeviceChanged = "active-device-changed",
 }

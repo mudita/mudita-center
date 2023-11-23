@@ -187,7 +187,7 @@ export class DeviceUpdateService {
     timeout = 10000,
     callsMax = 60
   ): Promise<ResultObject<boolean>> {
-    if (this.deviceManager.currentDeviceInitializationFailed) {
+    if (this.deviceManager.activeDeviceInitializationFailed) {
       return Result.failed(
         new AppError(
           UpdateErrorServiceErrors.DeviceInitializationFailed,

@@ -184,7 +184,7 @@ describe("Method: updateOs", () => {
       deviceFileSystem.uploadFileLocally = jest
         .fn()
         .mockResolvedValueOnce(Result.success(true))
-      deviceManager.currentDeviceInitializationFailed = true
+      deviceManager.activeDeviceInitializationFailed = true
 
       const result = await subject.updateOs(payloadMock)
 

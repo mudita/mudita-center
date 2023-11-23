@@ -52,7 +52,7 @@ import { registerCrashDumpExistListener } from "App/crash-dump/listeners"
 import { EULAAgreement } from "App/eula-agreement/components"
 import { getCurrentDevice } from "App/device-manager/actions"
 import {
-  registerCurrentDeviceChangedListener,
+  registerActiveDeviceChangedListener,
   registerDeviceDetachedListener,
 } from "App/device-manager/listeners"
 import {
@@ -160,7 +160,7 @@ const RootWrapper: FunctionComponent<Props> = ({
       registerDeviceOnboardingStatusListener()
     const deviceLockTimeListener = registerDeviceLockTimeListener()
     const crashDump = registerCrashDumpExistListener()
-    const currentDeviceChangedListener = registerCurrentDeviceChangedListener()
+    const activeDeviceChangedListener = registerActiveDeviceChangedListener()
     const deviceDetachedListener = registerDeviceDetachedListener(
       onDeviceDetachHandler
     )
@@ -176,7 +176,7 @@ const RootWrapper: FunctionComponent<Props> = ({
       deviceOnboardingStatusListener()
       deviceLockTimeListener()
       crashDump()
-      currentDeviceChangedListener()
+      activeDeviceChangedListener()
       deviceDetachedListener()
       downloadCancelOnDeviceDetachedListener()
     }

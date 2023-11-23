@@ -22,9 +22,9 @@ import logger from "App/__deprecated__/main/utils/logger"
 import { Mutex } from "async-mutex"
 
 export class DeviceManager {
-  public currentDevice: Device | undefined
+  public activeDevice: Device | undefined
   public devicesMap = new Map<string, Device>()
-  public currentDeviceInitializationFailed = false
+  public activeDeviceInitializationFailed = false
 
   // The `updating` property is a tmp solution to skip sync process
   // The tech debt will be fixed as part ot tech task
@@ -40,14 +40,14 @@ export class DeviceManager {
   }
 
   get device(): Device {
-    if (!this.currentDevice) {
+    if (!this.activeDevice) {
       throw new AppError(
-        DeviceManagerError.NoCurrentDevice,
-        "Current device is undefined"
+        DeviceManagerError.NoActiveDevice,
+        "Active device is undefined"
       )
     }
 
-    return this.currentDevice
+    return this.activeDevice
   }
 
   get devices(): Device[] {
@@ -63,7 +63,7 @@ export class DeviceManager {
   }
 
   public async addDeviceTask(port: PortInfo): Promise<void> {
-    if (this.currentDevice) {
+    if (this.activeDevice) {
       return
     }
 
@@ -78,10 +78,10 @@ export class DeviceManager {
 
     this.devicesMap.set(device.path, device)
 
-    if (!this.currentDevice) {
-      this.currentDevice = device
+    if (!this.activeDevice) {
+      this.activeDevice = device
       this.ipc.sendToRenderers(
-        ListenerEvent.CurrentDeviceChanged,
+        ListenerEvent.ActiveDeviceChanged,
         this.device.toSerializableObject()
       )
     }
@@ -93,15 +93,15 @@ export class DeviceManager {
   public removeDevice(path: string): void {
     this.devicesMap.delete(path)
 
-    if (this.currentDevice?.path === path) {
+    if (this.activeDevice?.path === path) {
       if (this.devicesMap.size > 0) {
-        this.currentDevice = this.devicesMap.values().next().value as Device
+        this.activeDevice = this.devicesMap.values().next().value as Device
         this.ipc.sendToRenderers(
-          ListenerEvent.CurrentDeviceChanged,
-          this.currentDevice ? getDevicePropertiesFromDevice(this.currentDevice) : undefined
+          ListenerEvent.ActiveDeviceChanged,
+          this.activeDevice ? getDevicePropertiesFromDevice(this.activeDevice) : undefined
         )
       } else {
-        this.currentDevice = undefined
+        this.activeDevice = undefined
       }
     }
 
@@ -109,10 +109,10 @@ export class DeviceManager {
     logger.info(`Disconnected device with path: ${path}`)
   }
 
-  public setCurrentDevice(path: string): ResultObject<boolean> {
-    const newCurrentDevice = this.devicesMap.get(path)
+  public setActiveDevice(path: string): ResultObject<boolean> {
+    const newActiveDevice = this.devicesMap.get(path)
 
-    if (!newCurrentDevice) {
+    if (!newActiveDevice) {
       return Result.failed(
         new AppError(
           DeviceManagerError.CannotFindDevice,
@@ -121,11 +121,11 @@ export class DeviceManager {
       )
     }
 
-    this.currentDevice = newCurrentDevice
+    this.activeDevice = newActiveDevice
 
     this.ipc.sendToRenderers(
-      ListenerEvent.CurrentDeviceChanged,
-      getDevicePropertiesFromDevice(this.currentDevice)
+      ListenerEvent.ActiveDeviceChanged,
+      getDevicePropertiesFromDevice(this.activeDevice)
     )
 
     return Result.success(true)
@@ -198,9 +198,9 @@ export class DeviceManager {
   }
 
   private deviceInitializationFailedListener = () => {
-    this.currentDeviceInitializationFailed = true
+    this.activeDeviceInitializationFailed = true
   }
   private deviceConnectedListener = () => {
-    this.currentDeviceInitializationFailed = false
+    this.activeDeviceInitializationFailed = false
   }
 }

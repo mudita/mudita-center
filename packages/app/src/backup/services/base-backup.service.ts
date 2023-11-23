@@ -95,7 +95,7 @@ export class BaseBackupService {
   }
 
   private async waitUntilDeviceResponse(index = 0): Promise<boolean> {
-    if (this.deviceManager.currentDeviceInitializationFailed) {
+    if (this.deviceManager.activeDeviceInitializationFailed) {
       return false
     }
 

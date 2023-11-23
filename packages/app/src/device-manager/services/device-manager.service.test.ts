@@ -91,7 +91,7 @@ describe("Method: addDevice", () => {
 
     expect(() => subject.device).toThrow(
       new AppError(
-        DeviceManagerError.NoCurrentDevice,
+        DeviceManagerError.NoActiveDevice,
         "Current device is undefined"
       )
     )
@@ -122,7 +122,7 @@ describe("Method: addDevice", () => {
 
     expect(() => subject.device).toThrow(
       new AppError(
-        DeviceManagerError.NoCurrentDevice,
+        DeviceManagerError.NoActiveDevice,
         "Current device is undefined"
       )
     )
@@ -144,7 +144,7 @@ describe("Method: addDevice", () => {
 
     expect(() => subject.device).toThrow(
       new AppError(
-        DeviceManagerError.NoCurrentDevice,
+        DeviceManagerError.NoActiveDevice,
         "Current device is undefined"
       )
     )
@@ -156,7 +156,7 @@ describe("Method: removeDevice", () => {
   test("Executing method removes device from device map and current device", () => {
     const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
-    subject.currentDevice = deviceMockOne
+    subject.activeDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
     expect(subject.devices).toEqual([deviceMockOne])
@@ -165,7 +165,7 @@ describe("Method: removeDevice", () => {
 
     expect(() => subject.device).toThrow(
       new AppError(
-        DeviceManagerError.NoCurrentDevice,
+        DeviceManagerError.NoActiveDevice,
         "Current device is undefined"
       )
     )
@@ -176,7 +176,7 @@ describe("Method: removeDevice", () => {
     const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
-    subject.currentDevice = deviceMockOne
+    subject.activeDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
     expect(subject.devices).toEqual([deviceMockOne, deviceMockTwo])
@@ -193,10 +193,10 @@ describe("Method: setCurrentDevice", () => {
     const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
-    subject.currentDevice = deviceMockOne
+    subject.activeDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
-    expect(subject.setCurrentDevice(deviceMockTwo.path)).toEqual(
+    expect(subject.setActiveDevice(deviceMockTwo.path)).toEqual(
       Result.success(true)
     )
     expect(subject.device).toEqual(deviceMockTwo)
@@ -206,10 +206,10 @@ describe("Method: setCurrentDevice", () => {
     const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
-    subject.currentDevice = deviceMockOne
+    subject.activeDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
-    expect(subject.setCurrentDevice("/dev/0000")).toEqual(
+    expect(subject.setActiveDevice("/dev/0000")).toEqual(
       Result.failed(
         new AppError(
           DeviceManagerError.CannotFindDevice,

@@ -9,7 +9,7 @@ import { ListenerEvent } from "App/device-manager/constants"
 import { connectDevice } from "App/device/actions"
 import { DeviceProperties } from "App/device/modules/device"
 
-const currentDeviceChangedHandler = (
+const activeDeviceChangedHandler = (
   _: unknown,
   data: DeviceProperties
 ): void => {
@@ -19,16 +19,16 @@ const currentDeviceChangedHandler = (
   void store.dispatch(connectDevice(data.deviceType))
 }
 
-export const registerCurrentDeviceChangedListener = (): (() => void) => {
+export const registerActiveDeviceChangedListener = (): (() => void) => {
   ipcRenderer.on(
-    ListenerEvent.CurrentDeviceChanged,
-    currentDeviceChangedHandler
+    ListenerEvent.ActiveDeviceChanged,
+    activeDeviceChangedHandler
   )
 
   return () => {
     ipcRenderer.off(
-      ListenerEvent.CurrentDeviceChanged,
-      currentDeviceChangedHandler
+      ListenerEvent.ActiveDeviceChanged,
+      activeDeviceChangedHandler
     )
   }
 }
