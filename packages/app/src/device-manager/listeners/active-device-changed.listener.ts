@@ -21,13 +21,13 @@ const activeDeviceChangedHandler = (
 
 export const registerActiveDeviceChangedListener = (): (() => void) => {
   ipcRenderer.on(
-    ListenerEvent.ActiveDeviceChanged,
+    ListenerEvent.ActiveDeviceConnected,
     activeDeviceChangedHandler
   )
 
   return () => {
     ipcRenderer.off(
-      ListenerEvent.ActiveDeviceChanged,
+      ListenerEvent.ActiveDeviceConnected,
       activeDeviceChangedHandler
     )
   }

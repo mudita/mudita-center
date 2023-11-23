@@ -24,6 +24,6 @@ export const setStateForInstalledRelease = createAction<{
   version: string
   state: ReleaseProcessState
 }>(UpdateOsEvent.SetStateForInstalledRelease)
-export const setDeviceHasBeenDetachedDuringDownload = createAction<boolean>(
-  UpdateOsEvent.DeviceHasBeenDetachedDuringDownload
+export const setDeviceHasBeenDisconnectedDuringDownload = createAction<boolean>(
+  UpdateOsEvent.DeviceHasBeenDisconnectedDuringDownload
 )

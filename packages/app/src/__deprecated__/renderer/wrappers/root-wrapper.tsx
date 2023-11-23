@@ -58,7 +58,7 @@ import {
   registerDeviceLockedListener,
   registerDeviceOnboardingStatusListener,
 } from "App/device/listeners"
-import { registerActiveDeviceDetachedListener } from "App/update/listeners"
+import { registerActiveDeviceDisconnectedListener } from "App/update/listeners"
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
 
@@ -147,7 +147,8 @@ const RootWrapper: FunctionComponent<Props> = ({
     const deviceLockTimeListener = registerDeviceLockTimeListener()
     const crashDump = registerCrashDumpExistListener()
     const activeDeviceChangedListener = registerActiveDeviceChangedListener()
-    const activeDeviceDetachedListener = registerActiveDeviceDetachedListener()
+    const activeDeviceDisconnectedListener =
+      registerActiveDeviceDisconnectedListener()
 
     return () => {
       dataSync()
@@ -159,7 +160,7 @@ const RootWrapper: FunctionComponent<Props> = ({
       deviceLockTimeListener()
       crashDump()
       activeDeviceChangedListener()
-      activeDeviceDetachedListener()
+      activeDeviceDisconnectedListener()
     }
   })
 

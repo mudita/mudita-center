@@ -20,8 +20,8 @@ import {
   startUpdateOs,
   forceUpdate,
   checkForForceUpdateNeed,
-  setDeviceHasBeenDetachedDuringDownload,
-  handleActiveDeviceDetached,
+  setDeviceHasBeenDisconnectedDuringDownload,
+  handleActiveDeviceDisconnected,
 } from "App/update/actions"
 
 import {
@@ -42,7 +42,7 @@ export const initialState: UpdateOsState = {
   error: null,
   needsForceUpdate: false,
   checkedForForceUpdateNeed: false,
-  deviceHasBeenDetachedDuringDownload: false,
+  deviceHasBeenDisconnectedDuringDownload: false,
   data: {
     allReleases: null,
     availableReleasesForUpdate: null,
@@ -54,12 +54,15 @@ export const initialState: UpdateOsState = {
 export const updateOsReducer = createReducer<UpdateOsState>(
   initialState,
   (builder) => {
-    builder.addCase(setDeviceHasBeenDetachedDuringDownload, (state, action) => {
-      return {
-        ...state,
-        deviceHasBeenDetachedDuringDownload: action.payload,
+    builder.addCase(
+      setDeviceHasBeenDisconnectedDuringDownload,
+      (state, action) => {
+        return {
+          ...state,
+          deviceHasBeenDisconnectedDuringDownload: action.payload,
+        }
       }
-    })
+    )
     builder.addCase(closeForceUpdateFlow, (state) => {
       return {
         ...state,
@@ -101,10 +104,10 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(clearStateAndData, (state) => {
       return {
         ...initialState,
-        deviceHasBeenDetachedDuringDownload:
+        deviceHasBeenDisconnectedDuringDownload:
           state.downloadState === DownloadState.Loading
-            ? state.deviceHasBeenDetachedDuringDownload
-            : initialState.deviceHasBeenDetachedDuringDownload,
+            ? state.deviceHasBeenDisconnectedDuringDownload
+            : initialState.deviceHasBeenDisconnectedDuringDownload,
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -243,7 +246,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         state.downloadState = DownloadState.Failed
         state.error = action.payload as AppError<UpdateError>
       }
-      state.deviceHasBeenDetachedDuringDownload = false
+      state.deviceHasBeenDisconnectedDuringDownload = false
     })
     builder.addCase(cancelDownload, (state) => {
       state.downloadState = DownloadState.Cancelled
@@ -305,7 +308,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.forceUpdateState = State.Failed
       state.error = action.payload as AppError<UpdateError>
     })
-    builder.addCase(handleActiveDeviceDetached.fulfilled, (state) => {
+    builder.addCase(handleActiveDeviceDisconnected.fulfilled, (state) => {
       if (state.downloadState === DownloadState.Loading) {
         state.data = {
           allReleases: null,
@@ -313,7 +316,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
           downloadedProcessedReleases: null,
           updateProcessedReleases: null,
         }
-        state.deviceHasBeenDetachedDuringDownload = true
+        state.deviceHasBeenDisconnectedDuringDownload = true
       }
     })
   }

@@ -22,7 +22,7 @@ export interface UpdateOsState {
   error: AppError<UpdateError> | null
   needsForceUpdate: boolean
   checkedForForceUpdateNeed: boolean
-  deviceHasBeenDetachedDuringDownload: boolean
+  deviceHasBeenDisconnectedDuringDownload: boolean
   data: {
     allReleases: OsRelease[] | null
     availableReleasesForUpdate: OsRelease[] | null

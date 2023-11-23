@@ -86,7 +86,7 @@ describe("when battery is lower than 40%", () => {
         },
       },
       update: {
-        deviceHasBeenDetachedDuringDownload: false,
+        deviceHasBeenDisconnectedDuringDownload: false,
       },
     })
 
@@ -126,7 +126,7 @@ describe("when some of the updates have been downloaded before", () => {
         },
       },
       update: {
-        deviceHasBeenDetachedDuringDownload: false,
+        deviceHasBeenDisconnectedDuringDownload: false,
       },
     })
 
@@ -187,7 +187,7 @@ describe("when update downloads successfully", () => {
         },
       },
       update: {
-        deviceHasBeenDetachedDuringDownload: false,
+        deviceHasBeenDisconnectedDuringDownload: false,
       },
     })
 
@@ -244,7 +244,7 @@ describe("when download is cancelled by user", () => {
         },
       },
       update: {
-        deviceHasBeenDetachedDuringDownload: false,
+        deviceHasBeenDisconnectedDuringDownload: false,
       },
     })
 
@@ -294,7 +294,7 @@ describe("when download failed", () => {
         },
       },
       update: {
-        deviceHasBeenDetachedDuringDownload: false,
+        deviceHasBeenDisconnectedDuringDownload: false,
       },
     })
 

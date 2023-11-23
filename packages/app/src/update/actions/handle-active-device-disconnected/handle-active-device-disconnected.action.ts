@@ -12,27 +12,30 @@ import { setDeviceData } from "App/device/actions/base.action"
 import { State } from "App/core/constants"
 import { clearStateAndData } from "App/update/actions/base.action"
 
-export const handleActiveDeviceDetached = createAsyncThunk<
+export const handleActiveDeviceDisconnected = createAsyncThunk<
   void,
   void,
   { state: ReduxRootState }
->(UpdateOsEvent.HandleActiveDeviceDetached, async (_, { dispatch, getState }) => {
-  const { update, backup } = getState()
+>(
+  UpdateOsEvent.HandleActiveDeviceDisconnected,
+  async (_, { dispatch, getState }) => {
+    const { update, backup } = getState()
 
-  dispatch(setDeviceData(null))
+    dispatch(setDeviceData(null))
 
-  if (update.downloadState === DownloadState.Loading) {
-    cancelOsDownload(true)
+    if (update.downloadState === DownloadState.Loading) {
+      cancelOsDownload(true)
+    }
+
+    await setExternalUsageDeviceRequest(false)
+
+    const restarting =
+      update.updateOsState === State.Loading ||
+      backup.restoringState === State.Loading ||
+      backup.backingUpState === State.Loading
+
+    if (!restarting) {
+      dispatch(clearStateAndData())
+    }
   }
-
-  await setExternalUsageDeviceRequest(false)
-
-  const restarting =
-    update.updateOsState === State.Loading ||
-    backup.restoringState === State.Loading ||
-    backup.backingUpState === State.Loading
-
-  if (!restarting) {
-    dispatch(clearStateAndData())
-  }
-})
+)

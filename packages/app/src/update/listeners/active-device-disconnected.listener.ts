@@ -6,21 +6,26 @@
 import { ipcRenderer } from "electron-better-ipc"
 import store from "App/__deprecated__/renderer/store"
 import { ListenerEvent } from "App/device-manager/constants"
-import { handleActiveDeviceDetached } from "App/update/actions"
+import { handleActiveDeviceDisconnected } from "App/update/actions"
 import { resetUploadingState } from "App/files-manager/actions"
 import { setConnectionStatus } from "App/device"
 
-const activeDeviceDetachedHandler = (_: unknown, _data: string): void => {
+const activeDeviceDisconnectedHandler = (_: unknown, _data: string): void => {
   void store.dispatch(resetUploadingState())
   void store.dispatch(setConnectionStatus(false))
-  void store.dispatch(handleActiveDeviceDetached())
+  void store.dispatch(handleActiveDeviceDisconnected())
 }
 
-export const registerActiveDeviceDetachedListener =
-  (): (() => void) => {
-    ipcRenderer.on(ListenerEvent.ActiveDeviceDetached, activeDeviceDetachedHandler)
+export const registerActiveDeviceDisconnectedListener = (): (() => void) => {
+  ipcRenderer.on(
+    ListenerEvent.ActiveDeviceDisconnected,
+    activeDeviceDisconnectedHandler
+  )
 
-    return () => {
-      ipcRenderer.off(ListenerEvent.ActiveDeviceDetached, activeDeviceDetachedHandler)
-    }
+  return () => {
+    ipcRenderer.off(
+      ListenerEvent.ActiveDeviceDisconnected,
+      activeDeviceDisconnectedHandler
+    )
   }
+}

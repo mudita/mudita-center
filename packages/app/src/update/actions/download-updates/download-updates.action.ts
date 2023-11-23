@@ -53,7 +53,7 @@ export const downloadUpdates = createAsyncThunk<
     for (const release of releases) {
       state = getState()
 
-      if (state.update.deviceHasBeenDetachedDuringDownload) {
+      if (state.update.deviceHasBeenDisconnectedDuringDownload) {
         return rejectWithValue(
           new AppError(
             UpdateError.UnexpectedDownloadError,
@@ -106,7 +106,7 @@ export const downloadUpdates = createAsyncThunk<
         }
         state = getState()
 
-        if (state.update.deviceHasBeenDetachedDuringDownload) {
+        if (state.update.deviceHasBeenDisconnectedDuringDownload) {
           return rejectWithValue(
             new AppError(
               UpdateError.UnexpectedDownloadError,

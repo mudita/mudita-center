@@ -69,7 +69,7 @@ export class DeviceManager {
 
     this.activeDevice = device
     this.ipc.sendToRenderers(
-      ListenerEvent.ActiveDeviceChanged,
+      ListenerEvent.ActiveDeviceConnected,
       this.device.toSerializableObject()
     )
     logger.info(`Connected device with serial number: ${device.serialNumber}`)
@@ -78,7 +78,7 @@ export class DeviceManager {
   public removeActiveDevice(path: string): void {
     if (this.activeDevice?.path === path) {
       this.activeDevice = undefined
-      this.ipc.sendToRenderers(ListenerEvent.ActiveDeviceDetached, path)
+      this.ipc.sendToRenderers(ListenerEvent.ActiveDeviceDisconnected, path)
       logger.info(`Disconnected device with path: ${path}`)
     }
   }

@@ -13,9 +13,9 @@ export enum UpdateOsEvent {
   ClearStateAndData = "CLEAR_STATE_AND_DATA",
   SetStateForDownloadedRelease = "SET_STATE_FOR_DOWNLOADED_RELEASE",
   SetStateForInstalledRelease = "SET_STATE_FOR_INSTALLED_RELEASE",
-  HandleActiveDeviceDetached = "HANDLE_ACTIVE_DEVICE_DETACHED",
+  HandleActiveDeviceDisconnected = "HANDLE_ACTIVE_DEVICE_DISCONNECTED",
   CheckForForceUpdate = "CHECK_FOR_FORCE_UPDATE",
   StartOsForceUpdateProcess = "START_OS_FORCE_UPDATE_PROCESS",
   CloseForceUpdateFlow = "CLOSE_FORCE_UPDATE_FLOW",
-  DeviceHasBeenDetachedDuringDownload = "DEVICE_HAS_BEEN_DETACHED_DURING_DOWNLOAD",
+  DeviceHasBeenDisconnectedDuringDownload = "DEVICE_HAS_BEEN_DETACHED_DURING_DOWNLOAD",
 }
