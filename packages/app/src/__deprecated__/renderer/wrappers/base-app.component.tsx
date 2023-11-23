@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect } from "react"
-import { connect } from "react-redux"
+import { connect, useSelector } from "react-redux"
 import { Router } from "react-router"
 import { History } from "history"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -31,6 +31,7 @@ import modalService from "App/__deprecated__/renderer/components/core/modal/moda
 import { checkForForceUpdateNeed } from "App/update/actions/check-for-force-update-need/check-for-force-update-need.action"
 import { getDeviceLatestVersion } from "App/settings/selectors"
 import { CheckForUpdateState } from "App/update/constants/check-for-update-state.constant"
+import { isConnectionErrorStateSelector } from "App/device/selectors/is-connection-error-state.selector"
 
 interface Props {
   getConnectedDevice: () => void
@@ -69,6 +70,7 @@ const BaseApp: FunctionComponent<Props> = ({
   checkingForOsForceUpdate,
   shouldCheckForForceUpdateNeed,
 }) => {
+  const connectionError = useSelector(isConnectionErrorStateSelector)
   useRouterListener(history, {
     [URL_MAIN.contacts]: [],
     [URL_MAIN.phone]: [],
@@ -93,7 +95,10 @@ const BaseApp: FunctionComponent<Props> = ({
       return
     }
     const pushConnectingCondition =
-      deviceConnecting || deviceLocked || checkingForOsForceUpdate
+      deviceConnecting ||
+      deviceLocked ||
+      checkingForOsForceUpdate ||
+      connectionError
     const pushWelcomeCondition = !deviceFeaturesVisible
 
     if (pushConnectingCondition) {
@@ -109,6 +114,7 @@ const BaseApp: FunctionComponent<Props> = ({
     deviceRestarting,
     deviceLocked,
     checkingForOsForceUpdate,
+    connectionError,
   ])
 
   useEffect(() => {

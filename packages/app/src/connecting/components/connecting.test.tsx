@@ -4,6 +4,9 @@
  */
 
 import React, { ComponentProps } from "react"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { Provider } from "react-redux"
 import { act } from "@testing-library/react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Connecting from "App/connecting/components/connecting.component"
@@ -11,9 +14,10 @@ import { ErrorConnectingModalTestIds } from "App/connecting/components/error-con
 import { PasscodeModalTestIds } from "App/__deprecated__/passcode-modal/components/passcode-modal-test-ids.enum"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { SynchronizationState } from "App/data-sync/reducers"
-import { DeviceType } from "App/device/constants"
+import { ConnectionState, DeviceType } from "App/device/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { CriticalBatteryLevelModalTestIds } from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal-test-ids.enum"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 jest.mock("App/device-manager/listeners")
@@ -46,13 +50,30 @@ const defaultProps: Props = {
   criticalBatteryLevel: false,
 }
 
-const render = (extraProps?: Partial<Props>) => {
+const defaultState = {
+  device: {
+    state: ConnectionState.Loaded
+  },
+} as unknown as ReduxRootState
+
+const render = (extraProps?: Partial<Props>, extraState?: ReduxRootState) => {
   const props = {
     ...defaultProps,
     ...extraProps,
   }
 
-  const outcome = renderWithThemeAndIntl(<Connecting {...props} />)
+  const state = {
+    ...defaultState,
+    ...extraState
+  }
+
+  const store = createMockStore([thunk])(state)
+
+  const outcome = renderWithThemeAndIntl(
+    <Provider store={store}>
+      <Connecting {...props} />
+    </Provider>
+  )
   return {
     ...outcome,
   }
