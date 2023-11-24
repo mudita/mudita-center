@@ -10,10 +10,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
-## [2.2.4] - 2023-10-26
+## [2.2.5] - 2023-11-23
 
-Here we write upgrading notes for brands. It's a team effort to make them as
-straightforward as possible.
+### Changed
+
+- Improved the connection between Mudita Pure and Mudita Center after disabling MTP
+
+### Fixed
+
+- Outlook import shows Mudita Center as verified publisher
+
+## [2.2.4] - 2023-10-26
 
 ### Fixed
 

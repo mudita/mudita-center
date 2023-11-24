@@ -19,8 +19,6 @@ import { useLoadingState } from "App/ui"
 import { DeletingTemplateModals } from "App/templates/components/deleting-template-modals"
 import { UpdatingTemplateModals } from "App/templates/components/updating-template-modals"
 import { CreatingTemplateModals } from "App/templates/components/creating-template-modals"
-import { DropResult } from "react-beautiful-dnd"
-import { reorder } from "App/templates/helpers/templates-order.helpers"
 import { OrderingTemplateModals } from "App/templates/components/ordering-template-modals"
 
 export const Templates: FunctionComponent<TemplatesProps> = ({
@@ -31,14 +29,11 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   createTemplate,
   deleteTemplates,
   updateTemplate,
-  updateTemplateOrder,
   resetAllItems,
   selectAllItems,
-  toggleItem,
   selectedItems,
   allItemsSelected,
 }) => {
-  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>()
   const { states, updateFieldState, resetState } =
     useLoadingState<TemplateServiceState>({
       creating: false,
@@ -55,21 +50,9 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const [editedTemplate, setEditedTemplate] = useState<Template | undefined>()
   const [templateFormOpen, setTemplateFormOpenState] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])
-  const [templatesList, setTemplatesList] = useState<Template[]>(templates)
+
   const panelButtonDisabled =
     templateFormOpen || states.creating || states.updating
-
-  useEffect(() => {
-    return () => clearTimeout(timeoutRef.current)
-  }, [])
-
-  useEffect(() => {
-    if (!loading) {
-      setTemplatesList(templates)
-    }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templates])
 
   useEffect(() => {
     if (!loaded || error) {
@@ -193,24 +176,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     updateFieldState("creating", false)
   }
 
-  const onDragEnd = ({ source, destination }: DropResult) => {
-    if (source.index !== destination?.index) {
-      updateFieldState("updatingOrder", true)
-      if (!destination) {
-        return
-      }
-
-      const list = Array.from(templatesList)
-      const [removed] = list.splice(source.index, 1)
-      list.splice(destination.index, 0, removed)
-      setTemplatesList(list)
-      const updatedTemplates = reorder(list)
-      // Delaying the invocation of updateTemplateOrder after drag-and-drop operation
-      // helps control the component's re-rendering, eliminating subtle flickering.
-      timeoutRef.current = setTimeout(
-        () => void updateTemplateOrder(updatedTemplates)
-      )
-    }
+  const handleTemplateReorderedAction = () => {
+    updateFieldState("updatingOrder", true)
   }
 
   return (
@@ -226,14 +193,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       />
       <TemplatesSection>
         <TemplatesList
-          templates={loading ? templatesList : templates}
           deleteTemplates={handleOpenDeleteModal}
           updateTemplate={handleOpenUpdateTemplate}
-          onDragEnd={onDragEnd}
+          templateReordered={handleTemplateReorderedAction}
           templateFormOpen={templateFormOpen}
-          active={editedTemplate}
-          toggleRow={toggleItem}
-          selectedItems={selectedItems}
+          activeTemplate={editedTemplate}
+          selectedTemplateIds={selectedItems}
         />
         {templateFormOpen && (
           <TemplateForm
