@@ -16,6 +16,10 @@ straightforward as possible.
 
 - Improved the connection between Mudita Pure and Mudita Center after disabling MTP
 
+### Fixed
+
+- Outlook import shows Mudita Center as verified publisher
+
 ## [2.2.4] - 2023-10-26
 
 ### Fixed
