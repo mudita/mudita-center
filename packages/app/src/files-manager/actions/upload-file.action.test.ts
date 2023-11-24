@@ -40,7 +40,6 @@ jest.mock("App/device/actions/load-storage-info.action", () => ({
   }),
 }))
 
-
 const pathsMock = ["/path/file-1.mp3", "/path/file-2.wav"]
 const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
 const successGetPathResponse = new SuccessResult<string[]>(pathsMock)
@@ -76,7 +75,7 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
     } = await mockStore.dispatch(uploadFile() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
-      uploadFile.pending(requestId, ),
+      uploadFile.pending(requestId),
       setUploadBlocked(true),
       setUploadingFileCount(2),
       setUploadingState(State.Loading),
@@ -87,7 +86,7 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
       },
       setUploadingState(State.Loaded),
       setUploadBlocked(false),
-      uploadFile.fulfilled(undefined, requestId, ),
+      uploadFile.fulfilled(undefined, requestId),
     ])
 
     expect(uploadFilesRequest).toHaveBeenLastCalledWith({
@@ -98,7 +97,9 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
 
   describe("when `uploadFileRequest` request return Result.success with empty files list", () => {
     beforeAll(() => {
-      ;(getPathsRequest as jest.Mock).mockResolvedValue(new SuccessResult<string[]>([]))
+      ;(getPathsRequest as jest.Mock).mockResolvedValue(
+        new SuccessResult<string[]>([])
+      )
     })
     afterEach(() => {
       jest.resetAllMocks()
@@ -117,7 +118,7 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
         uploadFile.pending(requestId),
         setUploadBlocked(true),
         setUploadBlocked(false),
-        uploadFile.fulfilled(undefined, requestId, ),
+        uploadFile.fulfilled(undefined, requestId),
       ])
 
       expect(uploadFilesRequest).not.toHaveBeenCalled()
@@ -142,9 +143,7 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
         meta: { requestId },
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
-      } = await mockStore.dispatch(
-        uploadFile() as unknown as AnyAction
-      )
+      } = await mockStore.dispatch(uploadFile() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
