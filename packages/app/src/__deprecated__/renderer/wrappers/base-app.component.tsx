@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { connect, useSelector } from "react-redux"
 import { Router } from "react-router"
 import { History } from "history"
@@ -91,22 +91,44 @@ const BaseApp: FunctionComponent<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lowestSupportedOsVersion, osVersion, shouldCheckForForceUpdateNeed])
 
+  const firstRender = useRef<boolean>(true)
+
+  // Attention: If you're reading this code and wondering what's going on, you're not alone.
+  // It's a bit like deciphering hieroglyphs, even for me. Please, be understanding, this is an artistic expression.
+  // Changes are coming soon, but for now, you'll have to play the role of a code detective. Good luck!
   useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>
+
+    const redirect = () => {
+      const pushConnectingCondition =
+        deviceConnecting ||
+        deviceLocked ||
+        checkingForOsForceUpdate ||
+        initializationFailed
+      const pushWelcomeCondition = !deviceFeaturesVisible
+
+      if (pushConnectingCondition) {
+        history.push(URL_ONBOARDING.connecting)
+      } else if (pushWelcomeCondition) {
+        history.push(URL_ONBOARDING.welcome)
+      }
+    }
+
     if (deviceRestarting) {
       return
+    } else if (firstRender.current) {
+      firstRender.current = false
+      redirect()
+    } else if (
+      history.location.pathname === URL_ONBOARDING.welcome ||
+      !initializationFailed
+    ) {
+      timeout = setTimeout(() => {
+        redirect()
+      }, 500)
     }
-    const pushConnectingCondition =
-      deviceConnecting ||
-      deviceLocked ||
-      checkingForOsForceUpdate ||
-      initializationFailed
-    const pushWelcomeCondition = !deviceFeaturesVisible
+    return () => clearTimeout(timeout)
 
-    if (pushConnectingCondition) {
-      history.push(URL_ONBOARDING.connecting)
-    } else if (pushWelcomeCondition) {
-      history.push(URL_ONBOARDING.welcome)
-    }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -115,6 +137,7 @@ const BaseApp: FunctionComponent<Props> = ({
     deviceRestarting,
     deviceLocked,
     checkingForOsForceUpdate,
+    initializationFailed,
   ])
 
   useEffect(() => {
