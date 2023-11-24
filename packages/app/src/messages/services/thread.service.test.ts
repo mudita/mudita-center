@@ -14,7 +14,6 @@ import { ThreadPresenter } from "App/messages/presenters"
 import { ThreadRepository } from "App/messages/repositories"
 import { Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
-import { waitFor } from "@testing-library/react"
 
 const deviceManager = {
   device: {
@@ -75,10 +74,8 @@ describe("`ThreadService`", () => {
       const response = await subject.getThread("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      await waitFor(() => {
-        expect(void deviceManager.device.request).toHaveBeenCalled()
-        expect(response.status).toEqual(RequestResponseStatus.Ok)
-      })
+      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
     test("returns error  when `deviceManager.device.request` returns error", async () => {
