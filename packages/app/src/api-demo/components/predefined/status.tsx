@@ -1,15 +1,16 @@
+import { APIFC } from "App/api-demo/models/api-fc"
 import React, { FunctionComponent } from "react"
 
-interface Field {
-
-}
+interface Field {}
 
 interface DeviceStatusProperties {
   fields?: Field[]
 }
 
-export const DeviceStatus: FunctionComponent<DeviceStatusProperties> = ({}) => {
-  return <div>
-    <h1>Status</h1>
-  </div>
+export const DeviceStatus: APIFC<DeviceStatusProperties> = ({}) => {
+  return (
+    <div>
+      <h1>Status</h1>
+    </div>
+  )
 }

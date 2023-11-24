@@ -3,6 +3,8 @@ import { generateOverviewLayout } from "../output/overview-output"
 import { overviewConfig } from "../input/input-config"
 import { overviewData } from "../input/input-data"
 
+console.log(generateOverviewLayout(overviewConfig))
+
 const initialState = {
   layout: generateOverviewLayout(overviewConfig),
   data: overviewData,
@@ -13,4 +15,3 @@ export const genericSlice = createSlice({
   initialState,
   reducers: {},
 })
-

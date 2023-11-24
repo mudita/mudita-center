@@ -6,13 +6,31 @@ export type Exact<T> = {
   [P in keyof T]: T[P]
 }
 
-type ComponentPropsByName<C extends keyof Components> = C extends string ? {
-  component: C,
-  parameters?: Exact<Omit<ComponentProps<Components[C]>, "children" | "data">>,
-  childrenKeys?: string[],
-} : never
+export type ComponentPropsByName<C extends keyof Components> = Pick<
+  ComponentProps<Components[C]>,
+  "parameters"
+> & {
+  component: C
+  // parameters?: Exact<
+  //   Omit<ComponentProps<Components[C]>, "children" | "data" | "className">
+  // >
+  // parameters?: Exact<Pick<ComponentProps<Components[C]>, "parameters">>
+  childrenKeys?: string[]
+}
 
-type Component<K extends keyof Components = keyof Components> = ComponentPropsByName<K>
+// export type ComponentPropsByName<C extends keyof Components> = C extends string
+//   ? Pick<ComponentProps<Components[C]>, "parameters"> & {
+//       component: C
+//       // parameters?: Exact<
+//       //   Omit<ComponentProps<Components[C]>, "children" | "data" | "className">
+//       // >
+//       // parameters?: Exact<Pick<ComponentProps<Components[C]>, "parameters">>
+//       childrenKeys?: string[]
+//     }
+//   : never
+
+type Component<K extends keyof Components = keyof Components> =
+  ComponentPropsByName<K>
 
 export type View = {
   main: Component
@@ -21,9 +39,11 @@ export type View = {
 
 type ViewGenerator<Config> = (config: Config) => View
 
-export const generateOverviewLayout: ViewGenerator<OverviewConfig> = (config) => {
+export const generateOverviewLayout: ViewGenerator<OverviewConfig> = (
+  config
+) => {
   return {
-    "main": {
+    main: {
       component: "grid",
       parameters: {
         layout: {
@@ -36,7 +56,7 @@ export const generateOverviewLayout: ViewGenerator<OverviewConfig> = (config) =>
       },
       childrenKeys: ["summary", "status"],
     },
-    "summary": {
+    summary: {
       component: "grid-item",
       parameters: {
         placement: {
@@ -50,9 +70,12 @@ export const generateOverviewLayout: ViewGenerator<OverviewConfig> = (config) =>
     },
     "about-button": {
       component: "device-about-button",
-      parameters: {},
+      parameters: {
+        buttonLabel: "asdf",
+        modalContent: "2134234",
+      },
     },
-    "status": {
+    status: {
       component: "grid-item",
       parameters: {
         placement: {
@@ -67,6 +90,28 @@ export const generateOverviewLayout: ViewGenerator<OverviewConfig> = (config) =>
     "device-status": {
       component: "block-box",
       parameters: {},
+      childrenKeys: ["battery-status", "imei1", "imei2"],
+    },
+    "battery-status": {
+      component: "icon-text-row",
+      parameters: {
+        icon: "asd",
+        text: "text - asads",
+      },
+    },
+    imei1: {
+      component: "icon-text-row",
+      parameters: {
+        icon: "asd",
+        text: "text - asads",
+      },
+    },
+    imei2: {
+      component: "icon-text-row",
+      parameters: {
+        icon: "asd",
+        text: "text - asads",
+      },
     },
   }
 }
