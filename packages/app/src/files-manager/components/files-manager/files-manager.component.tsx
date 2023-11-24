@@ -198,6 +198,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     }
   }, [resetUploadingState])
 
+  // TODO: https://appnroll.atlassian.net/browse/CP-2300
   useEffect(() => {
     if (uploadActionTrigger) {
       const uploadActionPromise = dispatchThunk(uploadFile())
