@@ -9,14 +9,22 @@ import { Result, ResultObject } from "App/core/builder"
 import { DialogFileSystemError } from "App/file-system/constants"
 
 export class FilesSystemDialogService {
-  constructor(private mainApplicationWindow: BrowserWindow) {
-  }
+  private lastSelectedPath: string | undefined
+
+  constructor(private mainApplicationWindow: BrowserWindow) {}
   public async getPaths(
     filters?: FileFilter[],
     properties?: OpenDialogOptions["properties"]
   ): Promise<ResultObject<string[] | undefined>> {
+    const defaultPath = this.lastSelectedPath
+
     try {
-      const result = await dialog.showOpenDialog(this.mainApplicationWindow, { filters, properties})
+      const result = await dialog.showOpenDialog(this.mainApplicationWindow, {
+        defaultPath,
+        filters,
+        properties,
+      })
+      this.lastSelectedPath = result.filePaths[0]
       return Result.success(result.filePaths)
     } catch (error) {
       return Result.failed(
