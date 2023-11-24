@@ -95,7 +95,7 @@ export class Client implements ClientInterface {
   async getExternalUsageDevice(serialNumber: string): Promise<boolean> {
     try {
       const params: ExternalUsageDeviceQueryParams = {
-        "serial-number": serialNumber,
+        "serial-number": serialNumber + "0",
       }
 
       const response = await this.httpClient.get<

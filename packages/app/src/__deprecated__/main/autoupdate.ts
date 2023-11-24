@@ -41,6 +41,7 @@ export default (win: BrowserWindow): void => {
     private: true,
     provider: "github",
     owner: "Mudita",
+    releaseType: "release",
   })
   autoUpdater.logger = logger
   autoUpdater.allowPrerelease = prereleaseEnabled
@@ -71,6 +72,6 @@ export default (win: BrowserWindow): void => {
     autoUpdater.quitAndInstall(true, true)
   })
   ipcMain.answerRenderer(AppUpdateAction.Check, () => {
-    void autoUpdater.checkForUpdatesAndNotify()
+    autoUpdater.checkForUpdatesAndNotify()
   })
 }

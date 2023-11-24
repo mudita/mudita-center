@@ -7,6 +7,7 @@ import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
 import { AnalyticDataTrackerClass } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
 import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-cache.service"
 import { TrackEvent } from "App/analytic-data-tracker/types"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export interface AnalyticDataTrackerOptions {
   _id: string | null
@@ -99,8 +100,10 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
       _id: this._id,
       ...this.visitorMetadata,
       ...event,
+      e_c: "JARO-TESTUJE-" + event.e_c,
     }
 
+    logger.info(`trackRequest params.e_c ${params.e_c}`)
     return this.httpClient.post(this.apiUrl, undefined, {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
