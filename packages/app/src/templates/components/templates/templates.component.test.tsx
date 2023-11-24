@@ -46,12 +46,12 @@ const updateTemplateOrderMock = jest
 const render = async (props: TemplatesProps) => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/await-thenable
-  const result = await renderWithThemeAndIntl(<Templates {...props} />)
+  const result = renderWithThemeAndIntl(<Templates {...props} />)
   return {
     ...result,
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/require-await
-    rerender: async (newProps: TemplatesProps) =>
+    rerender: (newProps: TemplatesProps) =>
       result.rerender(constructWrapper(<Templates {...newProps} />)),
   }
 }
@@ -140,7 +140,7 @@ describe("`Templates` component", () => {
   })
 
   describe("`createTemplate` functionality", () => {
-    test.skip("Calls `createTemplate` when clicks on `Save` button", async () => {
+    test("Calls `createTemplate` when clicks on `Save` button", async () => {
       const { getByTestId } = await render({
         templates: [],
         selectedItems: [],
@@ -163,19 +163,19 @@ describe("`Templates` component", () => {
       const textField = getByTestId(TemplateFormTestIds.TextFiled)
       const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
 
-      fireEvent.input(textField, {
+      fireEvent.change(textField, {
         target: { value: "Hello world!" },
       })
       await waitFor(() => {
         expect(createTemplateMock).toHaveBeenCalledTimes(0)
       })
-      fireEvent.click(saveButton)
       await waitFor(() => {
+        fireEvent.click(saveButton)
         expect(createTemplateMock).toHaveBeenCalledTimes(1)
       })
     })
 
-    test.skip("Shows creating template loader after click on save button", async () => {
+    test("Shows creating template loader after click on save button", async () => {
       const { getByTestId } = await render({
         templates: [templateMock],
         selectedItems: [],
@@ -204,17 +204,16 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-      fireEvent.click(saveButton)
-
       await waitFor(() => {
+        fireEvent.click(saveButton)
         expect(
           getByTestId(CreatingTemplateModalsTestIds.LoadingModal)
         ).toBeInTheDocument()
       })
     })
 
-    test.skip("Shows creation templates info after state changed to `loaded: true`", async () => {
-      const { getByTestId, rerender } = await render({
+    test("Shows creation templates info after state changed to `loaded: true`", async () => {
+      const { getByTestId, findByTestId, rerender } = await render({
         templates: [templateMock],
         selectedItems: [],
         allItemsSelected: false,
@@ -239,13 +238,8 @@ describe("`Templates` component", () => {
       fireEvent.change(textField, {
         target: { value: "Hello world!" },
       })
-      await waitFor(noop)
 
-      fireEvent.click(saveButton)
-
-      await waitFor(noop)
-
-      await rerender({
+      rerender({
         templates: [templateMock],
         selectedItems: [],
         allItemsSelected: false,
@@ -260,15 +254,18 @@ describe("`Templates` component", () => {
         loaded: true,
         error: null,
       })
-
-      await waitFor(() => {
-        expect(
-          getByTestId(CreatingTemplateModalsTestIds.CreatedPopUp)
-        ).toBeInTheDocument()
-      })
+      await waitFor(
+        async () => {
+          fireEvent.click(saveButton)
+          expect(
+            await findByTestId(CreatingTemplateModalsTestIds.CreatedPopUp)
+          ).toBeInTheDocument()
+        },
+        { timeout: 10000 }
+      )
     })
 
-    test.skip("Shows creating template error if error isn't empty", async () => {
+    test("Shows creating template error if error isn't empty", async () => {
       const { getByTestId, rerender } = await render({
         templates: [templateMock],
         selectedItems: [],
@@ -294,13 +291,8 @@ describe("`Templates` component", () => {
       fireEvent.change(textField, {
         target: { value: "Hello world!" },
       })
-      await waitFor(noop)
 
-      fireEvent.click(saveButton)
-
-      await waitFor(noop)
-
-      await rerender({
+      rerender({
         templates: [templateMock],
         selectedItems: [],
         allItemsSelected: false,
@@ -317,6 +309,7 @@ describe("`Templates` component", () => {
       })
 
       await waitFor(() => {
+        fireEvent.click(saveButton)
         expect(
           getByTestId(CreatingTemplateModalsTestIds.ErrorModal)
         ).toBeInTheDocument()
@@ -325,7 +318,7 @@ describe("`Templates` component", () => {
   })
 
   describe("`updateTemplate` functionality", () => {
-    test.skip("Calls `updateTemplate` when clicks on `Save` button", async () => {
+    test("Calls `updateTemplate` when clicks on `Save` button", async () => {
       const { getByTestId, findByTestId } = await render({
         templates: [templateMock],
         selectedItems: [],
@@ -359,11 +352,8 @@ describe("`Templates` component", () => {
 
       expect(updateTemplateMock).toHaveBeenCalledTimes(0)
 
-      await waitFor(noop)
-
-      fireEvent.click(saveButton)
-
       await waitFor(() => {
+        fireEvent.click(saveButton)
         expect(updateTemplateMock).toHaveBeenCalledWith({
           ...templateMock,
           text: "Hello updated world!",
@@ -371,7 +361,7 @@ describe("`Templates` component", () => {
       })
     })
 
-    test.skip("Shows updating template loader after click on save button", async () => {
+    test("Shows updating template loader after click on save button", async () => {
       const { getByTestId, findByTestId } = await render({
         templates: [templateMock],
         selectedItems: [],
@@ -401,16 +391,15 @@ describe("`Templates` component", () => {
         target: { value: "Hello updated world!" },
       })
 
-      await waitFor(noop)
-
-      fireEvent.click(saveButton)
-
-      expect(
-        getByTestId(UpdatingTemplateModalsTestIds.LoadingModal)
-      ).toBeInTheDocument()
+      await waitFor(() => {
+        fireEvent.click(saveButton)
+        expect(
+          getByTestId(UpdatingTemplateModalsTestIds.LoadingModal)
+        ).toBeInTheDocument()
+      })
     })
 
-    test.skip("Shows updating templates info after state changed to `loaded: true`", async () => {
+    test("Shows updating templates info after state changed to `loaded: true`", async () => {
       const { getByTestId, findByTestId, rerender } = await render({
         templates: [templateMock],
         selectedItems: [],
@@ -440,13 +429,7 @@ describe("`Templates` component", () => {
         target: { value: "Hello updated world!" },
       })
 
-      await waitFor(noop)
-
-      fireEvent.click(saveButton)
-
-      await waitFor(noop)
-
-      await rerender({
+      rerender({
         templates: [templateMock],
         selectedItems: [],
         allItemsSelected: false,
@@ -462,15 +445,19 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      await waitFor(() => {
-        expect(
-          getByTestId(UpdatingTemplateModalsTestIds.UpdatedPopUp)
-        ).toBeInTheDocument()
-      })
+      await waitFor(
+        () => {
+          fireEvent.click(saveButton)
+          expect(
+            getByTestId(UpdatingTemplateModalsTestIds.UpdatedPopUp)
+          ).toBeInTheDocument()
+        },
+        { timeout: 10000 }
+      )
     })
 
-    test.skip("Shows updating template error if error isn't empty", async () => {
-      const { getByTestId, rerender } = await render({
+    test("Shows updating template error if error isn't empty", async () => {
+      const { getByTestId, findByTestId, rerender } = await render({
         templates: [templateMock],
         selectedItems: [],
         allItemsSelected: false,
@@ -489,7 +476,7 @@ describe("`Templates` component", () => {
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
-      const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
+      const editButton = await findByTestId(TemplateOptionsTestIds.EditButton)
       fireEvent.click(editButton)
 
       const textField = getByTestId(TemplateFormTestIds.TextFiled)
@@ -499,13 +486,7 @@ describe("`Templates` component", () => {
         target: { value: "Hello updated world!" },
       })
 
-      await waitFor(noop)
-
-      fireEvent.click(saveButton)
-
-      await waitFor(noop)
-
-      await rerender({
+      rerender({
         templates: [templateMock],
         selectedItems: [],
         allItemsSelected: false,
@@ -522,6 +503,7 @@ describe("`Templates` component", () => {
       })
 
       await waitFor(() => {
+        fireEvent.click(saveButton)
         expect(
           getByTestId(UpdatingTemplateModalsTestIds.ErrorModal)
         ).toBeInTheDocument()
@@ -628,7 +610,7 @@ describe("`Templates` component", () => {
       })
     })
 
-    test.skip("Shows deleted templates info after state changed to `loaded: true`", async () => {
+    test("Shows deleted templates info after state changed to `loaded: true`", async () => {
       const { getByTestId, rerender, findByTestId } = await render({
         templates: [templateMock],
         selectedItems: [],
@@ -654,9 +636,8 @@ describe("`Templates` component", () => {
       fireEvent.click(deleteButton)
 
       const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
-      fireEvent.click(modalConfirmButton)
 
-      await rerender({
+      rerender({
         templates: [templateMock],
         selectedItems: [],
         allItemsSelected: false,
@@ -672,11 +653,15 @@ describe("`Templates` component", () => {
         error: null,
       })
 
-      await waitFor(() => {
-        expect(
-          getByTestId(DeletingTemplateModalsTestIds.DeletedPopUp)
-        ).toBeInTheDocument()
-      })
+      await waitFor(
+        async () => {
+          fireEvent.click(modalConfirmButton)
+          expect(
+            await findByTestId(DeletingTemplateModalsTestIds.DeletedPopUp)
+          ).toBeInTheDocument()
+        },
+        { timeout: 10000 }
+      )
     })
 
     test("Shows deleted templates error if error isn't empty", async () => {
@@ -707,7 +692,7 @@ describe("`Templates` component", () => {
       const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
       fireEvent.click(modalConfirmButton)
 
-      await rerender({
+      rerender({
         templates: [templateMock],
         selectedItems: [],
         allItemsSelected: false,

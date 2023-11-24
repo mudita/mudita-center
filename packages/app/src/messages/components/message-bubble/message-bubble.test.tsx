@@ -42,7 +42,7 @@ const renderer = (extraProps?: {}) => {
   }
 }
 
-test.skip("by default dropdown is not visible", () => {
+test("by default dropdown is not visible", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(MessageBubbleTestIds.Dropdown)).not.toBeVisible()
 })

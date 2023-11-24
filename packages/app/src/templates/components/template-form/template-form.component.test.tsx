@@ -99,7 +99,7 @@ describe("`TemplateForm` component", () => {
         expect(onSaveMock).toHaveBeenCalledTimes(0)
       })
     })
-    test.skip("`onSave` callback called with provided string when click on `Save` button", async () => {
+    test("`onSave` callback called with provided string when click on `Save` button", async () => {
       const { getByTestId } = await renderWithWaitForm({
         onClose: onCloseMock,
         onSave: onSaveMock,
@@ -116,9 +116,9 @@ describe("`TemplateForm` component", () => {
       await waitFor(() => {
         expect(onSaveMock).toHaveBeenCalledTimes(0)
       })
-      fireEvent.click(saveButton)
 
       await waitFor(() => {
+        fireEvent.click(saveButton)
         expect(onSaveMock).toHaveBeenCalledWith({ text: textMock })
       })
     })

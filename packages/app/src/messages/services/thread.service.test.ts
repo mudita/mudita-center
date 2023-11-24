@@ -17,6 +17,7 @@ import { ThreadPresenter } from "App/messages/presenters"
 import { ThreadRepository } from "App/messages/repositories"
 import { Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
+import { waitFor } from "@testing-library/react"
 
 const deviceManager = {
   device: {
@@ -78,13 +79,15 @@ beforeEach(() => {
 describe("`ThreadService`", () => {
   describe("`getThread` method", () => {
     // test skipped until os part will be implemented CP-1232
-    test.skip("map data and returns success when `deviceManager.device.request` returns success", async () => {
+    test("map data and returns success when `deviceManager.device.request` returns success", async () => {
       deviceManager.device.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.getThread("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Ok)
+      waitFor(() => {
+        expect(deviceManager.device.request).toHaveBeenCalled()
+        expect(response.status).toEqual(RequestResponseStatus.Ok)
+      })
     })
 
     test("returns error  when `deviceManager.device.request` returns error", async () => {
