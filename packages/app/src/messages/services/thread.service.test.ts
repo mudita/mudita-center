@@ -7,10 +7,7 @@ import { ResultObject, Result } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { DeviceCommunicationError } from "App/device/constants"
 import { Thread as PureThread } from "App/device/types/mudita-os"
-import {
-  RequestResponseStatus,
-  SuccessRequestResponse,
-} from "App/core/types/request-response.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { ThreadService } from "App/messages/services/thread.service"
 import { DeviceManager } from "App/device-manager/services"
 import { ThreadPresenter } from "App/messages/presenters"
@@ -79,7 +76,7 @@ describe("`ThreadService`", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       await waitFor(() => {
-        expect(deviceManager.device.request).toHaveBeenCalled()
+        expect(void deviceManager.device.request).toHaveBeenCalled()
         expect(response.status).toEqual(RequestResponseStatus.Ok)
       })
     })
