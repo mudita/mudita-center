@@ -1,14 +1,15 @@
+import { APIFC } from "App/api-demo/models/api-fc"
 import React, { FunctionComponent } from "react"
 
 interface DeviceAboutButtonProperties {
-  data?: {
-    buttonLabel: string
-    modalContent: string
-  }
+  buttonLabel?: string
+  modalContent?: string
 }
 
-export const DeviceAboutButton: FunctionComponent<DeviceAboutButtonProperties> = ({ data }) => {
-  const { buttonLabel, modalContent } = data || {}
+export const DeviceAboutButton: APIFC<DeviceAboutButtonProperties> = ({
+  parameters,
+}) => {
+  const { buttonLabel, modalContent } = parameters
   const openModal = () => {
     alert(modalContent)
   }
