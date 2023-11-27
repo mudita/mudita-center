@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PortInfo } from "serialport"
+import { Device } from "usb"
 
 export interface DeviceServiceClass {
   startInMSC(): Promise<void>
-  getDevice(): Promise<PortInfo>
+  getDevice(): Promise<Device>
 }

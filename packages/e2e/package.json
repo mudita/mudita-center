@@ -41,7 +41,9 @@
     "util": "^0.12.5",
     "wdio-chromedriver-service": "^8.1.1",
     "wdio-wait-for": "^3.0.9",
-    "node-gyp": "^10.0.1"
+    "node-gyp": "^10.0.1",
+    "@types/usb": "^2.0.5",
+    "usb": "^1.9.2"
   },
   "engines": {
     "node": "18.16.1",

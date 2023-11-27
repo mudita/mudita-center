@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort, { PortInfo } from "serialport"
+import { Device } from "usb"
+import SerialPort from "serialport"
 import { SerialPortAdapterClass } from "./serial-port-adapter.class"
 import { SerialPortParser } from "../../pure/parsers"
 import { Response } from "../../pure/types"
-
 export class SerialPortAdapter implements SerialPortAdapterClass {
-  public async request(device: PortInfo, payload: any): Promise<Response> {
+  public async request(device: Device, payload: any): Promise<Response> {
     const serialPort = new SerialPort(device.path)
 
     const request = SerialPortParser.createValidRequest({
@@ -24,7 +24,7 @@ export class SerialPortAdapter implements SerialPortAdapterClass {
     return new SerialPortParser().parseData(result)
   }
 
-  public async requests(device: PortInfo, payloads: any[]): Promise<Response[]> {
+  public async requests(device: Device, payloads: any[]): Promise<Response[]> {
     const serialPort = new SerialPort(device.path)
 
     const requests = payloads.map((payload) =>
