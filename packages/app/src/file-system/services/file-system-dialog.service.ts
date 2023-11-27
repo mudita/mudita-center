@@ -9,7 +9,7 @@ import { Result, ResultObject } from "App/core/builder"
 import { DialogFileSystemError } from "App/file-system/constants"
 
 export class FilesSystemDialogService {
-  private lastSelectedPath: string | undefined
+  private lastSelectedPath: string = ""
 
   constructor(private mainApplicationWindow: BrowserWindow) {}
   public async getPaths(
