@@ -27,7 +27,6 @@ import {
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { InputProps } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
 import composeRefs from "@seznam/compose-react-refs"
-import composeRefs from "@seznam/compose-react-refs"
 import {
   ItemValue,
   List,
@@ -53,7 +52,6 @@ const messages = defineMessages({
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
-  transition: transform, ${transitionTime("faster")},
   transition: transform, ${transitionTime("faster")},
     ${transitionTimingFunction("smooth")};
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
@@ -311,6 +309,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   const resetSearchValue = () => onSearchValueChange("")
 
   const handleSelect = (item: (typeof items)[number]) => {
+    setFocus(false)
     onSelect(item)
     setActiveItemIndex(-1)
   }
@@ -444,7 +443,11 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }, [activeItemIndex])
 
   return (
-    <SelectInputWrapper ref={wrapperRef} className={className} listStyles={listStyles}>
+    <SelectInputWrapper
+      ref={wrapperRef}
+      className={className}
+      listStyles={listStyles}
+    >
       <InputText
         data-testid={InputSearchTestIds.Input}
         {...rest}
