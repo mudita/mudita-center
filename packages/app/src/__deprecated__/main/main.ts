@@ -197,7 +197,7 @@ const createWindow = async () => {
   const settingsService = createSettingsService()
   settingsService.init()
 
-  const appModules = new ApplicationModule(ipcMain)
+  const appModules = new ApplicationModule(ipcMain, win)
 
   registerPureOsDownloadListener(registerDownloadListener)
   registerOsUpdateAlreadyDownloadedCheck()
