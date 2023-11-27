@@ -15,6 +15,7 @@ import { Product } from "App/__deprecated__/main/constants"
 import axios, { AxiosInstance, AxiosResponse } from "axios"
 import { EntryCollection, SyncCollection } from "contentful"
 import https from "https"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export interface getLatestProductionReleaseParams {
   product: Product
@@ -97,11 +98,16 @@ export class Client implements ClientInterface {
       const params: ExternalUsageDeviceQueryParams = {
         "serial-number": serialNumber + "0",
       }
-
+      logger.info(
+        `getExternalUsageDevice run serial-number: ${params["serial-number"]}`
+      )
       const response = await this.httpClient.get<
         ExternalUsageDeviceQueryParams,
         AxiosResponse<ExternalUsageDeviceResponse>
       >(MuditaCenterServerRoutes.ExternalUsageDevice, { params })
+      logger.info(
+        `getExternalUsageDevice result: ${response.data.externalUsage}`
+      )
 
       return response.data.externalUsage
     } catch (_) {
