@@ -443,7 +443,11 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }, [activeItemIndex])
 
   return (
-    <SelectInputWrapper ref={wrapperRef} className={className} listStyles={listStyles}>
+    <SelectInputWrapper
+      ref={wrapperRef}
+      className={className}
+      listStyles={listStyles}
+    >
       <InputText
         data-testid={InputSearchTestIds.Input}
         {...rest}

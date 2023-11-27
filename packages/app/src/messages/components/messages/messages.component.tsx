@@ -467,7 +467,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const getThreads = (): Thread[] => {
-    if (tmpActiveThread !== undefined) {
+    const isTmpActiveThreadInThreads = threads.some(({ phoneNumber }) => {
+      return tmpActiveThread?.phoneNumber === phoneNumber
+    })
+
+    if (tmpActiveThread !== undefined && !isTmpActiveThreadInThreads) {
       return [tmpActiveThread, ...threads]
     } else {
       return threads

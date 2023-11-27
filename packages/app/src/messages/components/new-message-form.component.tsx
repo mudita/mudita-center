@@ -20,7 +20,7 @@ export const isReceiverMatching = (
 ): boolean => {
   const query: (keyof Receiver)[] = ["firstName", "lastName", "phoneNumber"]
   for (const key of query) {
-    const param: typeof receiver[keyof typeof receiver] = receiver[key]
+    const param: (typeof receiver)[keyof typeof receiver] = receiver[key]
     if (
       param !== undefined &&
       typeof param === "string" &&
