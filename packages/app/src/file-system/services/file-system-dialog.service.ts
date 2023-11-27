@@ -16,15 +16,14 @@ export class FilesSystemDialogService {
     filters?: FileFilter[],
     properties?: OpenDialogOptions["properties"]
   ): Promise<ResultObject<string[] | undefined>> {
+    const defaultPath = this.lastSelectedPath
+
     try {
-      const openDialogOptions = this.getOpenDialogOptions({
+      const result = await dialog.showOpenDialog(this.mainApplicationWindow, {
+        defaultPath,
         filters,
         properties,
       })
-      const result = await dialog.showOpenDialog(
-        this.mainApplicationWindow,
-        openDialogOptions
-      )
       this.lastSelectedPath = result.filePaths[0]
       return Result.success(result.filePaths)
     } catch (error) {
@@ -34,18 +33,6 @@ export class FilesSystemDialogService {
           error ? (error as Error).message : "Something went wrong"
         )
       )
-    }
-  }
-
-  private getOpenDialogOptions(options: OpenDialogOptions): OpenDialogOptions {
-    if (this.lastSelectedPath === undefined) {
-      return options
-    } else {
-      const defaultPath = this.lastSelectedPath
-      return {
-        ...options,
-        defaultPath,
-      }
     }
   }
 }
