@@ -19,8 +19,6 @@ import { useLoadingState } from "App/ui"
 import { DeletingTemplateModals } from "App/templates/components/deleting-template-modals"
 import { UpdatingTemplateModals } from "App/templates/components/updating-template-modals"
 import { CreatingTemplateModals } from "App/templates/components/creating-template-modals"
-import { DropResult } from "react-beautiful-dnd"
-import { reorder } from "App/templates/helpers/templates-order.helpers"
 import { OrderingTemplateModals } from "App/templates/components/ordering-template-modals"
 
 export const Templates: FunctionComponent<TemplatesProps> = ({
@@ -31,10 +29,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   createTemplate,
   deleteTemplates,
   updateTemplate,
-  updateTemplateOrder,
   resetAllItems,
   selectAllItems,
-  toggleItem,
   selectedItems,
   allItemsSelected,
 }) => {
@@ -55,7 +51,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const [editedTemplate, setEditedTemplate] = useState<Template | undefined>()
   const [templateFormOpen, setTemplateFormOpenState] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])
-  const [templatesList, setTemplatesList] = useState<Template[]>(templates)
+
   const panelButtonDisabled =
     templateFormOpen || states.creating || states.updating
 
@@ -226,14 +222,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       />
       <TemplatesSection>
         <TemplatesList
-          templates={loading ? templatesList : templates}
           deleteTemplates={handleOpenDeleteModal}
           updateTemplate={handleOpenUpdateTemplate}
-          onDragEnd={onDragEnd}
+          templateReordered={handleTemplateReorderedAction}
           templateFormOpen={templateFormOpen}
-          active={editedTemplate}
-          toggleRow={toggleItem}
-          selectedItems={selectedItems}
+          activeTemplate={editedTemplate}
+          selectedTemplateIds={selectedItems}
         />
         {templateFormOpen && (
           <TemplateForm

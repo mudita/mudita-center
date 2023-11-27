@@ -88,6 +88,11 @@ require("dotenv").config()
 //  You can read more in https://github.com/electron/remote#migrating-from-remote
 require("@electron/remote/main").initialize()
 
+// FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+//  There is almost always a better way to accomplish your task than using this module.
+//  You can read more in https://github.com/electron/remote#migrating-from-remote
+require("@electron/remote/main").initialize()
+
 logger.info("Starting the app")
 
 let win: BrowserWindow | null
@@ -117,10 +122,14 @@ const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
   fullscreen: false,
   fullscreenable: true,
+  fullscreenable: true,
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
+    //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
+    contextIsolation: false,
     // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
     //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
     contextIsolation: false,
@@ -129,6 +138,7 @@ const commonWindowOptions: BrowserWindowConstructorOptions = {
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
 ) => ({
+  ...commonWindowOptions,
   ...extendedWindowOptions,
   ...commonWindowOptions,
 })
@@ -164,6 +174,10 @@ const createWindow = async () => {
       title,
     })
   )
+  // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+  //  There is almost always a better way to accomplish your task than using this module.
+  //  You can read more in https://github.com/electron/remote#migrating-from-remote
+  require("@electron/remote/main").enable(win.webContents)
   // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
   //  There is almost always a better way to accomplish your task than using this module.
   //  You can read more in https://github.com/electron/remote#migrating-from-remote
@@ -219,6 +233,7 @@ const createWindow = async () => {
     autoupdate(win)
   } else {
     await installElectronDevToolExtensions()
+    await installElectronDevToolExtensions()
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -226,6 +241,12 @@ const createWindow = async () => {
     mockAutoupdate(win)
   }
 
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url)
+    return {
+      action: "deny",
+      overrideBrowserWindowOptions: {},
+    }
   win.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url)
     return {
@@ -245,6 +266,13 @@ const createWindow = async () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       win!.webContents.openDevTools()
       appModules.lateInitialization()
+    })
+
+    win.webContents.once("dom-ready", () => {
+      win!.webContents.once("devtools-opened", () => {
+        win!.focus()
+      })
+      win!.webContents.openDevTools()
     })
 
     win.webContents.once("dom-ready", () => {
@@ -286,6 +314,10 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         title,
       })
     )
+    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+    //  There is almost always a better way to accomplish your task than using this module.
+    //  You can read more in https://github.com/electron/remote#migrating-from-remote
+    require("@electron/remote/main").enable(helpWindow.webContents)
     // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
     //  There is almost always a better way to accomplish your task than using this module.
     //  You can read more in https://github.com/electron/remote#migrating-from-remote
@@ -342,6 +374,10 @@ const createOpenWindowListener = (
       //  There is almost always a better way to accomplish your task than using this module.
       //  You can read more in https://github.com/electron/remote#migrating-from-remote
       require("@electron/remote/main").enable(newWindow.webContents)
+      // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+      //  There is almost always a better way to accomplish your task than using this module.
+      //  You can read more in https://github.com/electron/remote#migrating-from-remote
+      require("@electron/remote/main").enable(newWindow.webContents)
       newWindow.removeMenu()
 
       newWindow.on("closed", () => {
@@ -359,6 +395,13 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
+
+      newWindow.webContents.setWindowOpenHandler(({ url }) => {
+        shell.openExternal(url)
+        return {
+          action: "allow",
+          overrideBrowserWindowOptions: {},
+        }
 
       newWindow.webContents.setWindowOpenHandler(({ url }) => {
         shell.openExternal(url)
@@ -452,9 +495,10 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         getWindowOptions({
           width: GOOGLE_AUTH_WINDOW_SIZE.width,
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
-          titleBarStyle:
-            process.env.NODE_ENV === "development" ? "default" : "hidden",
           title,
+          webPreferences: {
+            nodeIntegration: true,
+          },
         })
       )
       googleAuthWindow.removeMenu()
@@ -487,6 +531,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
       }
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
       void (await googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`))
+      void (await googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`))
     } else {
       googleAuthWindow.show()
     }
@@ -513,8 +558,6 @@ ipcMain.answerRenderer(
           getWindowOptions({
             width: 600,
             height: 600,
-            titleBarStyle:
-              process.env.NODE_ENV === "development" ? "default" : "hidden",
             title,
           })
         )

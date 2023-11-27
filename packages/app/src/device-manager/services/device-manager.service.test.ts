@@ -82,7 +82,7 @@ describe("Method: addDevice", () => {
       .spyOn(DeviceManager.prototype as any, "getSerialPortList")
       .mockReturnValueOnce([
         {
-          productId: ProductID.MuditaPure,
+          productId: ProductID.MuditaPureDeprecated,
           vendorId: VendorID.MuditaPure,
         },
       ])
@@ -113,7 +113,7 @@ describe("Method: addDevice", () => {
       .spyOn(DeviceManager.prototype as any, "getSerialPortList")
       .mockReturnValueOnce([
         {
-          productId: ProductID.MuditaPure,
+          productId: ProductID.MuditaPureDeprecated,
           vendorId: VendorID.MuditaPure,
         },
       ])

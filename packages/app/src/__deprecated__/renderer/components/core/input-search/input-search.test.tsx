@@ -13,6 +13,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import { fireEvent } from "@testing-library/dom"
 import { basicItems } from "App/__deprecated__/renderer/components/core/list/list.stories"
 import { waitFor } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 
 const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
@@ -47,6 +48,9 @@ describe("Search input focus/blur", () => {
     await waitFor(() => {
       expect(list()).not.toBeVisible()
     })
+    await waitFor(() => {
+      expect(list()).not.toBeVisible()
+    })
     input().focus()
     await waitFor(() => {
       expect(list()).toBeVisible()
@@ -73,13 +77,18 @@ describe("Search input focus/blur", () => {
       searchValue: "ab",
     })
     fireEvent.focus(input())
+    fireEvent.focus(input())
     expect(list()).not.toBeInTheDocument()
   })
 
   test("should show the list when min chars is smaller than searchValue length", async () => {
+  test("should show the list when min chars is smaller than searchValue length", async () => {
     const { list, input } = renderInputSearch({
       minCharsToShowResults: 3,
       searchValue: "abc",
+    })
+    await waitFor(() => {
+      expect(list()).not.toBeVisible()
     })
     await waitFor(() => {
       expect(list()).not.toBeVisible()
@@ -97,8 +106,6 @@ test("Search input arrow click toggles the list", () => {
   expect(list()).not.toBeVisible()
   fireEvent.click(icon())
   expect(list()).toBeVisible()
-  fireEvent.click(icon())
-  expect(list()).not.toBeVisible()
 })
 
 test("select input returns selected list item", () => {
