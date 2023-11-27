@@ -150,13 +150,7 @@ describe("`Templates` component", () => {
 
   describe("`createTemplate` functionality", () => {
     test.skip("Calls `createTemplate` when clicks on `Save` button", async () => {
-      const { getByTestId } = await render({
-        templates: [],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
+      const { getByTestId } = render({
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -181,21 +175,19 @@ describe("`Templates` component", () => {
     })
 
     test.skip("Shows creating template loader after click on save button", async () => {
-      const { getByTestId } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId } = render(
+        {
+          templates: [templateMock],
+          createTemplate: createTemplateMock,
+          deleteTemplates: deleteTemplatesMock,
+          updateTemplate: updateTemplateMock,
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as unknown as ReduxRootState
+      )
 
       const openFormButton = getByTestId(TemplatesPanelTestIds.Button)
       fireEvent.click(openFormButton)
@@ -219,21 +211,19 @@ describe("`Templates` component", () => {
     })
 
     test.skip("Shows creation templates info after state changed to `loaded: true`", async () => {
-      const { getByTestId, rerender } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, rerender } = render(
+        {
+          templates: [templateMock],
+          createTemplate: createTemplateMock,
+          deleteTemplates: deleteTemplatesMock,
+          updateTemplate: updateTemplateMock,
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as unknown as ReduxRootState
+      )
 
       const openFormButton = getByTestId(TemplatesPanelTestIds.Button)
       fireEvent.click(openFormButton)
@@ -250,7 +240,7 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -267,21 +257,19 @@ describe("`Templates` component", () => {
     })
 
     test.skip("Shows creating template error if error isn't empty", async () => {
-      const { getByTestId, rerender } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, rerender } = render(
+        {
+          templates: [templateMock],
+          createTemplate: createTemplateMock,
+          deleteTemplates: deleteTemplatesMock,
+          updateTemplate: updateTemplateMock,
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as unknown as ReduxRootState
+      )
 
       const openFormButton = getByTestId(TemplatesPanelTestIds.Button)
       fireEvent.click(openFormButton)
@@ -298,7 +286,7 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         allItemsSelected: false,
         createTemplate: createTemplateMock,
@@ -319,31 +307,25 @@ describe("`Templates` component", () => {
 
   describe("`updateTemplate` functionality", () => {
     test.skip("Calls `updateTemplate` when clicks on `Save` button", async () => {
-      const { getByTestId, findByTestId } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
-
-      const dropdownButton = await findByTestId(
-        TemplateOptionsTestIds.DropdownToggler
+      const { getByTestId, findByTestId } = render(
+        {
+          templates: [templateMock],
+          createTemplate: createTemplateMock,
+          deleteTemplates: deleteTemplatesMock,
+          updateTemplate: updateTemplateMock,
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as unknown as ReduxRootState
       )
+
       const dropdownButton = await findByTestId(
         TemplateOptionsTestIds.DropdownToggler
       )
       dropdownButton?.click()
 
-      const editButton = await findByTestId(TemplateOptionsTestIds.EditButton)
       const editButton = await findByTestId(TemplateOptionsTestIds.EditButton)
       fireEvent.click(editButton)
 
@@ -369,26 +351,23 @@ describe("`Templates` component", () => {
     })
 
     test.skip("Shows updating template loader after click on save button", async () => {
-      const { getByTestId, findByTestId } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, findByTestId } = render(
+        {
+          templates: [templateMock],
+          createTemplate: createTemplateMock,
+          deleteTemplates: deleteTemplatesMock,
+          updateTemplate: updateTemplateMock,
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as unknown as ReduxRootState
+      )
 
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
-      const editButton = await findByTestId(TemplateOptionsTestIds.EditButton)
       const editButton = await findByTestId(TemplateOptionsTestIds.EditButton)
       fireEvent.click(editButton)
 
@@ -403,35 +382,29 @@ describe("`Templates` component", () => {
 
       fireEvent.click(saveButton)
 
-      expect(
-        getByTestId(UpdatingTemplateModalsTestIds.LoadingModal)
-      ).toBeInTheDocument()
       expect(
         getByTestId(UpdatingTemplateModalsTestIds.LoadingModal)
       ).toBeInTheDocument()
     })
 
     test.skip("Shows updating templates info after state changed to `loaded: true`", async () => {
-      const { getByTestId, findByTestId, rerender } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, findByTestId, rerender } = render(
+        {
+          templates: [templateMock],
+          createTemplate: createTemplateMock,
+          deleteTemplates: deleteTemplatesMock,
+          updateTemplate: updateTemplateMock,
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as unknown as ReduxRootState
+      )
 
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
-      const editButton = await findByTestId(TemplateOptionsTestIds.EditButton)
       const editButton = await findByTestId(TemplateOptionsTestIds.EditButton)
       fireEvent.click(editButton)
 
@@ -448,7 +421,7 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -465,21 +438,19 @@ describe("`Templates` component", () => {
     })
 
     test.skip("Shows updating template error if error isn't empty", async () => {
-      const { getByTestId, rerender } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, rerender } = render(
+        {
+          templates: [templateMock],
+          createTemplate: createTemplateMock,
+          deleteTemplates: deleteTemplatesMock,
+          updateTemplate: updateTemplateMock,
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as unknown as ReduxRootState
+      )
 
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
@@ -500,7 +471,7 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -520,28 +491,22 @@ describe("`Templates` component", () => {
 
   describe("`deleteTemplates` functionality", () => {
     test("Clicking on dropdown delete opens delete confirmation modal", async () => {
-      const { getByTestId, findByTestId } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: true,
-        error: null,
-      })
+      const { getByTestId, findByTestId } = render(
+        {
+          templates: [templateMock],
+          loading: false,
+          loaded: true,
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as ReduxRootState
+      )
 
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
-      const deleteButton = await findByTestId(
-        TemplateOptionsTestIds.DeleteButton
-      )
       const deleteButton = await findByTestId(
         TemplateOptionsTestIds.DeleteButton
       )
@@ -553,28 +518,20 @@ describe("`Templates` component", () => {
     })
 
     test("Clicking on confirmation delete triggers `deleteTemplates` action", async () => {
-      const { getByTestId, findByTestId } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, findByTestId } = render(
+        {
+          templates: [templateMock],
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as ReduxRootState
+      )
 
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
-      const deleteButton = await findByTestId(
-        TemplateOptionsTestIds.DeleteButton
-      )
       const deleteButton = await findByTestId(
         TemplateOptionsTestIds.DeleteButton
       )
@@ -589,28 +546,20 @@ describe("`Templates` component", () => {
     })
 
     test("Shows deleted templates loader after click on delete confirmation button", async () => {
-      const { getByTestId, findByTestId } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, findByTestId } = render(
+        {
+          templates: [templateMock],
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as ReduxRootState
+      )
 
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
-      const deleteButton = await findByTestId(
-        TemplateOptionsTestIds.DeleteButton
-      )
       const deleteButton = await findByTestId(
         TemplateOptionsTestIds.DeleteButton
       )
@@ -627,28 +576,20 @@ describe("`Templates` component", () => {
     })
 
     test.skip("Shows deleted templates info after state changed to `loaded: true`", async () => {
-      const { getByTestId, rerender, findByTestId } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, rerender, findByTestId } = render(
+        {
+          templates: [templateMock],
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as ReduxRootState
+      )
 
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
 
-      const deleteButton = await findByTestId(
-        TemplateOptionsTestIds.DeleteButton
-      )
       const deleteButton = await findByTestId(
         TemplateOptionsTestIds.DeleteButton
       )
@@ -657,7 +598,7 @@ describe("`Templates` component", () => {
       const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
       fireEvent.click(modalConfirmButton)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -674,21 +615,16 @@ describe("`Templates` component", () => {
     })
 
     test("Shows deleted templates error if error isn't empty", async () => {
-      const { getByTestId, findByTestId, rerender } = await render({
-        templates: [templateMock],
-        selectedItems: [],
-        allItemsSelected: false,
-        resetAllItems: jest.fn(),
-        selectAllItems: jest.fn(),
-        toggleItem: jest.fn(),
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        updateTemplate: updateTemplateMock,
-        updateTemplateOrder: updateTemplateOrderMock,
-        loading: false,
-        loaded: false,
-        error: null,
-      })
+      const { getByTestId, findByTestId, rerender } = render(
+        {
+          templates: [templateMock],
+        },
+        {
+          templates: {
+            data: [templateMock],
+          },
+        } as ReduxRootState
+      )
 
       const dropdownButton = getByTestId(TemplateOptionsTestIds.DropdownToggler)
       dropdownButton?.click()
@@ -701,7 +637,7 @@ describe("`Templates` component", () => {
       const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
       fireEvent.click(modalConfirmButton)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,

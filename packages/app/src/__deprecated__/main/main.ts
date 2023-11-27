@@ -77,7 +77,10 @@ import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
 import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
-import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from "electron-devtools-installer"
+import installExtension, {
+  REDUX_DEVTOOLS,
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -102,7 +105,10 @@ const metadataStore: MetadataStore = createMetadataStore()
 // Disabling browser security features
 // to address CORS issue between local and remote servers.
 // To be handled as part of ticket https://appnroll.atlassian.net/browse/CP-2242
-app.commandLine.appendSwitch('disable-features', 'BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights');
+app.commandLine.appendSwitch(
+  "disable-features",
+  "BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights"
+)
 
 const gotTheLock = app.requestSingleInstanceLock()
 
@@ -117,14 +123,10 @@ const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
   fullscreen: false,
   fullscreenable: true,
-  fullscreenable: true,
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
-    // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
-    //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
-    contextIsolation: false,
     // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
     //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
     contextIsolation: false,
@@ -135,7 +137,6 @@ const getWindowOptions = (
 ) => ({
   ...commonWindowOptions,
   ...extendedWindowOptions,
-  ...commonWindowOptions,
 })
 
 const installElectronDevToolExtensions = async () => {
@@ -147,7 +148,10 @@ const installElectronDevToolExtensions = async () => {
     })
     console.info(`[INFO] Successfully added devtools extensions`)
   } catch (err) {
-    console.warn("[WARN] An error occurred while trying to add devtools extensions:\n", err)
+    console.warn(
+      "[WARN] An error occurred while trying to add devtools extensions:\n",
+      err
+    )
   }
 }
 
@@ -169,10 +173,6 @@ const createWindow = async () => {
       title,
     })
   )
-  // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-  //  There is almost always a better way to accomplish your task than using this module.
-  //  You can read more in https://github.com/electron/remote#migrating-from-remote
-  require("@electron/remote/main").enable(win.webContents)
   // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
   //  There is almost always a better way to accomplish your task than using this module.
   //  You can read more in https://github.com/electron/remote#migrating-from-remote
@@ -241,12 +241,6 @@ const createWindow = async () => {
       action: "deny",
       overrideBrowserWindowOptions: {},
     }
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url)
-    return {
-      action: "deny",
-      overrideBrowserWindowOptions: {},
-    }
   })
 
   if (productionEnvironment) {
@@ -260,13 +254,6 @@ const createWindow = async () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       win!.webContents.openDevTools()
       appModules.lateInitialization()
-    })
-
-    win.webContents.once("dom-ready", () => {
-      win!.webContents.once("devtools-opened", () => {
-        win!.focus()
-      })
-      win!.webContents.openDevTools()
     })
 
     win.webContents.once("dom-ready", () => {
@@ -308,10 +295,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         title,
       })
     )
-    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-    //  There is almost always a better way to accomplish your task than using this module.
-    //  You can read more in https://github.com/electron/remote#migrating-from-remote
-    require("@electron/remote/main").enable(helpWindow.webContents)
     // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
     //  There is almost always a better way to accomplish your task than using this module.
     //  You can read more in https://github.com/electron/remote#migrating-from-remote
@@ -368,10 +351,6 @@ const createOpenWindowListener = (
       //  There is almost always a better way to accomplish your task than using this module.
       //  You can read more in https://github.com/electron/remote#migrating-from-remote
       require("@electron/remote/main").enable(newWindow.webContents)
-      // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-      //  There is almost always a better way to accomplish your task than using this module.
-      //  You can read more in https://github.com/electron/remote#migrating-from-remote
-      require("@electron/remote/main").enable(newWindow.webContents)
       newWindow.removeMenu()
 
       newWindow.on("closed", () => {
@@ -389,13 +368,6 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
-
-      newWindow.webContents.setWindowOpenHandler(({ url }) => {
-        shell.openExternal(url)
-        return {
-          action: "allow",
-          overrideBrowserWindowOptions: {},
-        }
 
       newWindow.webContents.setWindowOpenHandler(({ url }) => {
         shell.openExternal(url)
@@ -524,7 +496,6 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           break
       }
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
-      void (await googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`))
       void (await googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`))
     } else {
       googleAuthWindow.show()
