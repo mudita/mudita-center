@@ -1,40 +1,22 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { ComponentProps } from "react"
+import { APIComponents } from "App/api-demo/models/api-components.types"
 import { OverviewConfig } from "../input/input-config"
-import { Components } from "../components"
 
-export type Exact<T> = {
-  [P in keyof T]: T[P]
-}
-
-export type ComponentPropsByName<C extends keyof Components> = Pick<
-  ComponentProps<Components[C]>,
-  "parameters"
-> & {
+export type ComponentPropsByName<
+  C extends keyof APIComponents = keyof APIComponents
+> = Pick<ComponentProps<APIComponents[C]>, "parameters"> & {
   component: C
-  // parameters?: Exact<
-  //   Omit<ComponentProps<Components[C]>, "children" | "data" | "className">
-  // >
-  // parameters?: Exact<Pick<ComponentProps<Components[C]>, "parameters">>
   childrenKeys?: string[]
 }
 
-// export type ComponentPropsByName<C extends keyof Components> = C extends string
-//   ? Pick<ComponentProps<Components[C]>, "parameters"> & {
-//       component: C
-//       // parameters?: Exact<
-//       //   Omit<ComponentProps<Components[C]>, "children" | "data" | "className">
-//       // >
-//       // parameters?: Exact<Pick<ComponentProps<Components[C]>, "parameters">>
-//       childrenKeys?: string[]
-//     }
-//   : never
-
-type Component<K extends keyof Components = keyof Components> =
-  ComponentPropsByName<K>
-
 export type View = {
-  main: Component
-  [key: string]: Component
+  main: ComponentPropsByName
+  [key: string]: ComponentPropsByName
 }
 
 type ViewGenerator<Config> = (config: Config) => View

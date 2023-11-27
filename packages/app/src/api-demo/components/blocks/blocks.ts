@@ -1,5 +1,10 @@
-import { BlockBox } from "App/api-demo/components/blocks/block-box"
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { BlockBox } from "./block-box"
 
 export const blocks = {
-  'block-box': BlockBox,
+  "block-box": BlockBox,
 }

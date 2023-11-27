@@ -4,7 +4,6 @@
  */
 
 import {
-  ReactNode,
   FunctionComponent as ReactFunctionComponent,
   PropsWithChildren,
 } from "react"

@@ -1,7 +1,13 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import React from "react"
 import styled, { css } from "styled-components"
-import { Size } from "./generic.types"
-import { APIFC } from "App/api-demo/models/api-fc"
+import { APIFC } from "App/api-demo/models/api-fc.types"
+
+type Size = number | string
 
 interface Layout {
   rows: Size[]
@@ -14,17 +20,6 @@ interface GridProperties {
   options?: {
     fillParentHeight?: boolean
   }
-}
-
-const mapSizes = (sizes: Size[]) => {
-  return sizes
-    .map((size) => {
-      if (typeof size === "number") {
-        return `${size}fr`
-      }
-      return size
-    })
-    .join(" ")
 }
 
 export const Grid: APIFC<GridProperties> = ({
@@ -43,6 +38,17 @@ export const Grid: APIFC<GridProperties> = ({
       {children}
     </GridWrapper>
   )
+}
+
+const mapSizes = (sizes: Size[]) => {
+  return sizes
+    .map((size) => {
+      if (typeof size === "number") {
+        return `${size}fr`
+      }
+      return size
+    })
+    .join(" ")
 }
 
 const GridWrapper = styled.div<Layout & { fillParentHeight: boolean }>`
