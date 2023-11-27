@@ -22,7 +22,7 @@ import {
   SerialNumberWrapper,
 } from "App/overview/components/device-preview/device-preview.styled"
 import {
-  URL_MAIN,
+  URL_ONBOARDING,
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
@@ -57,7 +57,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   const history = useHistory()
   const handleDisconnect = () => {
     onDisconnect()
-    history.push(URL_MAIN.news)
+    history.push(URL_ONBOARDING.welcome)
   }
 
   const openPureSystem = () => {
