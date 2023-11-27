@@ -240,7 +240,7 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -286,7 +286,7 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         allItemsSelected: false,
         createTemplate: createTemplateMock,
@@ -421,7 +421,7 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -471,7 +471,7 @@ describe("`Templates` component", () => {
 
       await waitFor(noop)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -598,7 +598,7 @@ describe("`Templates` component", () => {
       const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
       fireEvent.click(modalConfirmButton)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -637,7 +637,7 @@ describe("`Templates` component", () => {
       const modalConfirmButton = getByTestId(ModalTestIds.ModalActionButton)
       fireEvent.click(modalConfirmButton)
 
-       rerender({
+      rerender({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,

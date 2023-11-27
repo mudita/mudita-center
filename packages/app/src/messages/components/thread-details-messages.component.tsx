@@ -61,10 +61,14 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
   const scrollToBottom = () => {
     wrapperRef.current?.scrollIntoView({
-      behavior: "smooth",
+      behavior: "auto",
       block: "end",
     })
   }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [])
 
   useEffect(() => {
     if (
