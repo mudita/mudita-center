@@ -16,11 +16,11 @@ import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropd
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 export const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
-  display: string
+  display: boolean
 }>`
   margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
   margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
-  opacity: ${({ display }) => (display === "true" ? "1" : "0")};
+  visibility: ${({ display }) => (display ? "visible" : "hidden")};
 `
 
 export const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`

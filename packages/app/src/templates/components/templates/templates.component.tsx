@@ -91,7 +91,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded, error])
+  }, [loaded, error, states])
 
   // Deleting functionality
   const handleCloseDeleteModal = () => {

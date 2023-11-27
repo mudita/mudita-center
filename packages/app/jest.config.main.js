@@ -14,6 +14,7 @@ module.exports = {
     "<rootDir>/src/analytic-data-tracker/helpers",
     "<rootDir>/src/__deprecated__/context-menu",
     "<rootDir>/src/files-manager/helpers",
+    "<rootDir>/src/messages/services",
   ],
   testEnvironment: "node",
 }
