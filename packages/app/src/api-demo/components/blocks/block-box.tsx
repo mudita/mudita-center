@@ -1,5 +1,10 @@
-import { APIFC } from "App/api-demo/models/api-fc"
-import React, { FunctionComponent, PropsWithChildren } from "react"
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { APIFC } from "App/api-demo/models/api-fc.types"
+import React from "react"
 import styled from "styled-components"
 
 interface BoxProperties {

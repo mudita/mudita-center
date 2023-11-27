@@ -1,37 +1,37 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { IconType } from "./input-config"
 
 interface DetailListTextData {
-  text: string;
+  text: string
 }
 
 interface DetailListModalData {
-  text: string;
+  text: string
 }
 
-type DetailListFieldData = DetailListTextData | DetailListModalData;
+type DetailListFieldData = DetailListTextData | DetailListModalData
 
 interface UpdateTileData {
-  version: string;
+  version: string
 }
 
 interface IconTextRowData {
-  icon: IconType;
-  text: string;
-  subText?: string;
+  icon: IconType
+  text: string
+  subText?: string
 }
 
-type TileListFieldData = IconTextRowData;
+type TileListFieldData = IconTextRowData
 
 type TileListData = Record<string, TileListFieldData>
 
-type OverviewSectionsData = TileListData | UpdateTileData;
+type OverviewSectionsData = TileListData | UpdateTileData
 
-export interface OverviewData {
-  summary?: {
-    about?: Record<string, DetailListFieldData>
-  }
-  sections?: Record<string, OverviewSectionsData>
-}
+export type OverviewData = Record<string, unknown>
 
 export const overviewData: OverviewData = {
   summary: {

@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import IconTextRow from "./icon-text-row"
+import { apiComponents } from "App/api-demo/components/api-components"
 
-export const rows = {
-  "icon-text-row": IconTextRow,
-}
+export type APIComponents = typeof apiComponents

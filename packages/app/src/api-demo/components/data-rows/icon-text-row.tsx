@@ -1,5 +1,10 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import React from "react"
-import { APIFC } from "App/api-demo/models/api-fc"
+import { APIFC } from "App/api-demo/models/api-fc.types"
 
 interface IconTextRowProps {
   icon: string
