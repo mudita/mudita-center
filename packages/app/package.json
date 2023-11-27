@@ -28,7 +28,7 @@
     "dist": "npm run build && electron-builder --publish never",
     "TEST COMMANDS": "=========================================================",
     "test": "cross-env TZ=UTC jest --config=jest.config.js",
-    "test:watch": "npm test -- --watch --runInBand",
+    "test:watch": "npm test -- --watch",
     "STORYBOOK COMMANDS": "====================================================",
     "storybook:serve": "storybook dev -p 6006",
     "storybook:build": "storybook build",

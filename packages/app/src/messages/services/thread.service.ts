@@ -37,9 +37,7 @@ export class ThreadService {
   ) {}
 
   public async getThread(id: string): Promise<RequestResponse<Thread>> {
-    console.log(id)
     const threadResult = await this.getThreadRequestViaWorkaround(id)
-    console.log(threadResult)
 
     if (isResponseSuccessWithData(threadResult)) {
       return threadResult
@@ -95,7 +93,6 @@ export class ThreadService {
       limit: 99999,
       offset: 0,
     })
-    console.log(response)
 
     if (!isResponseSuccess(response)) {
       return {
