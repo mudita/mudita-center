@@ -103,7 +103,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
                 interlocutor ? DropdownPosition.Right : DropdownPosition.Left
               }
               interlocutor={interlocutor}
-              display={clicked === id}
+              display={(clicked === id).toString()}
               data-testid={MessageBubbleTestIds.Dropdown}
             >
               {isMessageFailed && (

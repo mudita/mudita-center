@@ -26,7 +26,7 @@ export abstract class BaseIndexer {
     token: string
   ): Promise<Buffer | undefined | null> {
     try {
-      return await this.fileSystemService.readEncryptedFile(filePath, token)
+      return this.fileSystemService.readEncryptedFile(filePath, token)
     } catch {
       return null
     }
