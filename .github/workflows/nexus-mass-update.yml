@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    if: github.event.base_ref == 'refs/heads/CP-2210-mass-update'
+    if: github.event.base_ref == 'refs/heads/main'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
