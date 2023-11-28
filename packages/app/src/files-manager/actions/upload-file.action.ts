@@ -38,6 +38,7 @@ export const uploadFile = createAsyncThunk<
 >(
   FilesManagerEvent.UploadFiles,
   async (_, { getState, dispatch, rejectWithValue }) => {
+    console.log("uploadFile: ", )
     dispatch(setUploadBlocked(true))
     const filesToUpload = await getPathsRequest({
       filters: [
