@@ -217,7 +217,7 @@ jobs:
           cd mudita-center-mass-update
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
-      - name: Create release with Windows files
+      - name: Create draft release with Windows files
         if: matrix.os == 'Windows'
         id: create_release_windows
         uses: softprops/action-gh-release@v1
@@ -226,12 +226,13 @@ jobs:
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-mass-update
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          draft: true
           files: |
             ./packages/app/release/Mudita-Center.exe
             ./packages/app/release/Mudita-Center.exe.blockmap
             ./packages/app/release/latest.yml
             ./packages/app/release/builder-debug-win.yml
-      - name: Create release with Linux files
+      - name: Create draft release with Linux files
         if: matrix.os == 'Linux'
         id: create_release_linux
         uses: softprops/action-gh-release@v1
@@ -240,11 +241,12 @@ jobs:
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-mass-update
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          draft: true
           files: |
             ./packages/app/release/Mudita-Center.AppImage
             ./packages/app/release/latest-linux.yml
             ./packages/app/release/builder-debug-linux.yml
-      - name: Create release with Mac files
+      - name: Create draft release with Mac files
         if: matrix.os == 'macOS'
         id: create_release_macos
         uses: softprops/action-gh-release@v1
@@ -253,6 +255,7 @@ jobs:
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-mass-update
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
+          draft: true
           files: |
             ./packages/app/release/Mudita-Center.dmg
             ./packages/app/release/Mudita-Center.zip
