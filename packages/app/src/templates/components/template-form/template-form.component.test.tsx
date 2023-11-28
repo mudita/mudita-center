@@ -116,9 +116,9 @@ describe("`TemplateForm` component", () => {
       await waitFor(() => {
         expect(onSaveMock).toHaveBeenCalledTimes(0)
       })
-      fireEvent.click(saveButton)
 
       await waitFor(() => {
+        fireEvent.click(saveButton)
         expect(onSaveMock).toHaveBeenCalledWith({ text: textMock })
       })
     })

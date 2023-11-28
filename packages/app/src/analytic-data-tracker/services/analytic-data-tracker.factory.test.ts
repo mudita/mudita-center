@@ -25,7 +25,10 @@ const noValidApiUrl: AnalyticDataTrackerFactoryOption["apiUrl"] = ""
 const settingsService = {
   getSettings: jest.fn().mockReturnValue({ applicationId: "" }),
 } as unknown as SettingsService
-const fileSystem = {} as unknown as FileSystemService
+const fileSystem = {
+  exists: jest.fn(),
+  writeFile: jest.fn()
+} as unknown as FileSystemService
 
 afterEach(() => {
   jest.clearAllMocks()

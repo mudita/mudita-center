@@ -15,11 +15,9 @@ const storeMock = init({
   },
 })
 
-jest.mock("electron", () => ({
-  remote: {
-    app: {
-      getPath: () => "/mocked/path",
-    },
+jest.mock("@electron/remote", () => ({
+  app: {
+    getPath: () => "/mocked/path",
   },
 }))
 
@@ -49,9 +47,4 @@ test("calls ContextMenu registerItems method with proper attributes", () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (ContextMenu as jest.Mock).mock.instances[0].registerItems.mock.calls[2][0]
   ).toEqual("Contacts")
-  expect(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    (ContextMenu as jest.Mock).mock.instances[0].registerItems.mock.calls[3][0]
-  ).toEqual("Calendar")
 })

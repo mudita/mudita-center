@@ -18,7 +18,6 @@ import registerPureOsDownloadListener from "App/__deprecated__/main/functions/re
 import registerNewsListener from "App/__deprecated__/main/functions/register-news-listener/register-news-listener"
 import registerAppLogsListeners from "App/__deprecated__/main/functions/register-app-logs-listener"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
-import registerEventsExportListener from "App/__deprecated__/calendar/backend/export-events"
 import registerWriteFileListener from "App/__deprecated__/main/functions/register-write-file-listener"
 import registerCopyFileListener from "App/__deprecated__/main/functions/register-copy-file-listener"
 import registerWriteGzipListener from "App/__deprecated__/main/functions/register-write-gzip-listener"
@@ -78,10 +77,19 @@ import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
 import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
+import installExtension, {
+  REDUX_DEVTOOLS,
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 require("dotenv").config()
+
+// FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+//  There is almost always a better way to accomplish your task than using this module.
+//  You can read more in https://github.com/electron/remote#migrating-from-remote
+require("@electron/remote/main").initialize()
 
 logger.info("Starting the app")
 
@@ -94,8 +102,13 @@ const termsWindow: BrowserWindow | null = null
 const policyWindow: BrowserWindow | null = null
 const metadataStore: MetadataStore = createMetadataStore()
 
-// Disables CORS in Electron 9
-app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
+// Disabling browser security features
+// to address CORS issue between local and remote servers.
+// To be handled as part of ticket https://appnroll.atlassian.net/browse/CP-2242
+app.commandLine.appendSwitch(
+  "disable-features",
+  "BlockInsecurePrivateNetworkRequests,PrivateNetworkAccessSendPreflights"
+)
 
 const gotTheLock = app.requestSingleInstanceLock()
 
@@ -105,43 +118,44 @@ process.on("uncaughtException", (error) => {
   // TODO: Add contact support modal
 })
 
-const installExtensions = async () => {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const installer = require("electron-devtools-installer")
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
-
-  return Promise.all(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(logger.error)
-}
-
 const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions: BrowserWindowConstructorOptions = {
   resizable: true,
   fullscreen: false,
+  fullscreenable: true,
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
-    devTools: !productionEnvironment,
+    // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
+    //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
+    contextIsolation: false,
   },
 }
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
 ) => ({
-  ...extendedWindowOptions,
   ...commonWindowOptions,
+  ...extendedWindowOptions,
 })
 
-const createWindow = async () => {
-  if (!productionEnvironment) {
-    await installExtensions()
+const installElectronDevToolExtensions = async () => {
+  try {
+    await installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+      loadExtensionOptions: {
+        allowFileAccess: true,
+      },
+    })
+    console.info(`[INFO] Successfully added devtools extensions`)
+  } catch (err) {
+    console.warn(
+      "[WARN] An error occurred while trying to add devtools extensions:\n",
+      err
+    )
   }
+}
 
+const createWindow = async () => {
   const title = "Mudita Center"
 
   // AUTO DISABLED - fix me if you like :)
@@ -159,6 +173,10 @@ const createWindow = async () => {
       title,
     })
   )
+  // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+  //  There is almost always a better way to accomplish your task than using this module.
+  //  You can read more in https://github.com/electron/remote#migrating-from-remote
+  require("@electron/remote/main").enable(win.webContents)
   win.removeMenu()
 
   win.webContents.on("before-input-event", (event, input) => {
@@ -179,14 +197,13 @@ const createWindow = async () => {
   const settingsService = createSettingsService()
   settingsService.init()
 
-  const appModules = new ApplicationModule(ipcMain)
+  const appModules = new ApplicationModule(ipcMain, win)
 
   registerPureOsDownloadListener(registerDownloadListener)
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
   registerContactsExportListener()
-  registerEventsExportListener()
   registerWriteFileListener()
   registerCopyFileListener()
   registerRmdirListener()
@@ -210,6 +227,7 @@ const createWindow = async () => {
     )
     autoupdate(win)
   } else {
+    await installElectronDevToolExtensions()
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -217,11 +235,12 @@ const createWindow = async () => {
     mockAutoupdate(win)
   }
 
-  win.webContents.on("new-window", (event, href) => {
-    event.preventDefault()
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    shell.openExternal(href)
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url)
+    return {
+      action: "deny",
+      overrideBrowserWindowOptions: {},
+    }
   })
 
   if (productionEnvironment) {
@@ -235,6 +254,13 @@ const createWindow = async () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       win!.webContents.openDevTools()
       appModules.lateInitialization()
+    })
+
+    win.webContents.once("dom-ready", () => {
+      win!.webContents.once("devtools-opened", () => {
+        win!.focus()
+      })
+      win!.webContents.openDevTools()
     })
   }
 
@@ -269,6 +295,10 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         title,
       })
     )
+    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+    //  There is almost always a better way to accomplish your task than using this module.
+    //  You can read more in https://github.com/electron/remote#migrating-from-remote
+    require("@electron/remote/main").enable(helpWindow.webContents)
     helpWindow.removeMenu()
 
     helpWindow.on("closed", () => {
@@ -317,6 +347,10 @@ const createOpenWindowListener = (
           title,
         })
       )
+      // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+      //  There is almost always a better way to accomplish your task than using this module.
+      //  You can read more in https://github.com/electron/remote#migrating-from-remote
+      require("@electron/remote/main").enable(newWindow.webContents)
       newWindow.removeMenu()
 
       newWindow.on("closed", () => {
@@ -334,11 +368,13 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
-      newWindow.webContents.on("new-window", (event, href) => {
-        event.preventDefault()
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        shell.openExternal(href)
+
+      newWindow.webContents.setWindowOpenHandler(({ url }) => {
+        shell.openExternal(url)
+        return {
+          action: "allow",
+          overrideBrowserWindowOptions: {},
+        }
       })
     } else {
       newWindow.show()
@@ -425,9 +461,10 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         getWindowOptions({
           width: GOOGLE_AUTH_WINDOW_SIZE.width,
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
-          titleBarStyle:
-            process.env.NODE_ENV === "development" ? "default" : "hidden",
           title,
+          webPreferences: {
+            nodeIntegration: true,
+          },
         })
       )
       googleAuthWindow.removeMenu()
@@ -459,9 +496,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           break
       }
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`)
+      void (await googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`))
     } else {
       googleAuthWindow.show()
     }
@@ -488,8 +523,6 @@ ipcMain.answerRenderer(
           getWindowOptions({
             width: 600,
             height: 600,
-            titleBarStyle:
-              process.env.NODE_ENV === "development" ? "default" : "hidden",
             title,
           })
         )

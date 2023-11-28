@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { renderHook } from "@testing-library/react-hooks"
+import { renderHook } from "@testing-library/react"
 import { useRouterListener } from "App/core/hooks/use-router-listener.hook"
 import { createMemoryHistory } from "history"
 import {

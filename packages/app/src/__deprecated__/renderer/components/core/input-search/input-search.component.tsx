@@ -26,7 +26,7 @@ import {
   textColor,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { InputProps } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
-import composeRefs from "@seznam/compose-react-refs/composeRefs"
+import composeRefs from "@seznam/compose-react-refs"
 import {
   ItemValue,
   List,
@@ -37,6 +37,7 @@ import {
 import { defineMessages } from "react-intl"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import useOutsideClick from "App/__deprecated__/renderer/utils/hooks/useOutsideClick"
 
 export enum InputSearchTestIds {
   Input = "input-search",
@@ -51,9 +52,8 @@ const messages = defineMessages({
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
-  transition: transform ${transitionTime("faster")}
+  transition: transform, ${transitionTime("faster")},
     ${transitionTimingFunction("smooth")};
-
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
 `
 
@@ -291,24 +291,32 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   onActionButtonClick,
   ...rest
 }) => {
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
   const [focus, setFocus] = useState(false)
   const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
 
-  const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
-    onBlur(event)
+  const handleOutsideWrapperClick = () => {
     setFocus(false)
     if (searchValue !== "") {
       onSelect(null)
     }
   }
 
+  useOutsideClick(wrapperRef, handleOutsideWrapperClick)
+
   const resetSearchValue = () => onSearchValueChange("")
 
-  const handleSelect = (item: typeof items[number]) => {
+  const handleSelect = (item: (typeof items)[number]) => {
+    setFocus(false)
     onSelect(item)
     setActiveItemIndex(-1)
+  }
+
+  const handleActionButtonClick = () => {
+    setFocus(false)
+    onActionButtonClick && onActionButtonClick()
   }
 
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
@@ -435,7 +443,11 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }, [activeItemIndex])
 
   return (
-    <SelectInputWrapper className={className} listStyles={listStyles}>
+    <SelectInputWrapper
+      ref={wrapperRef}
+      className={className}
+      listStyles={listStyles}
+    >
       <InputText
         data-testid={InputSearchTestIds.Input}
         {...rest}
@@ -444,7 +456,6 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
         trailingIcons={type === "text" ? [toggleIcon] : undefined}
         onChange={handleChange}
         onFocus={handleFocus}
-        onBlur={handleBlur}
         onKeyDown={onKeyDown}
         inputRef={composeRefs(selectRef, inputRef)}
         readOnly={!searchable}
@@ -469,7 +480,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
             onEmptyItemValueClick={noop}
             onItemClick={handleSelect}
             actionButton={actionButton}
-            onActionButtonClick={onActionButtonClick}
+            onActionButtonClick={handleActionButtonClick}
           />
         )}
     </SelectInputWrapper>

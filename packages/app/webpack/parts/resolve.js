@@ -8,15 +8,13 @@ module.exports = (production) => {
       Cypress: resolve(__dirname, "..", "..", "cypress"),
       Storybook: resolve(__dirname, "..", "..", ".storybook"),
       Renderer: resolve(__dirname, "..", "..", "src", "renderer"),
-      "react-intl": "react-intl/dist",
       fs: resolve(__dirname, "..", "..", "__mocks__", "fs-mock.js"),
     },
   }
 
   if (!production) {
     resolveConfig.alias = {
-      ...resolveConfig.alias,
-      "react-dom": "@hot-loader/react-dom",
+      ...resolveConfig.alias
     }
   }
 

@@ -17,14 +17,12 @@ import { CheckForUpdateState } from "App/update/constants/check-for-update-state
 
 jest.mock("App/feature-flags")
 
-jest.mock("electron", () => ({
-  remote: {
-    Menu: () => ({
-      popup: jest.fn(),
-      append: jest.fn(),
-    }),
-    MenuItem: () => jest.fn(),
-  },
+jest.mock("@electron/remote", () => ({
+  Menu: () => ({
+    popup: jest.fn(),
+    append: jest.fn(),
+  }),
+  MenuItem: () => jest.fn(),
 }))
 
 type Props = ComponentProps<typeof HarmonyOverview>

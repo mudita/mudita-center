@@ -10,6 +10,7 @@ import {
   PushNotificationAction,
   RemoveNotificationAction,
 } from "App/notification/reducers/notification.interface"
+import { isNotificationOutboxMessage } from "App/notification/filters/is-notification-outbox-message"
 
 export const initialState: NotificationState = {
   data: [],
@@ -22,6 +23,10 @@ export const notificationReducer = createReducer<NotificationState>(
       .addCase(
         NotificationEvent.PushEvent,
         (state, action: PushNotificationAction) => {
+          if (isNotificationOutboxMessage(action.payload)) {
+            return
+          }
+
           return {
             ...state,
             data: [...state.data, action.payload],

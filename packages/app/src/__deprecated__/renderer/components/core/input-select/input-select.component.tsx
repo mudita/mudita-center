@@ -24,7 +24,7 @@ import {
   textColor,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { InputProps } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
-import composeRefs from "@seznam/compose-react-refs/composeRefs"
+import composeRefs from "@seznam/compose-react-refs"
 import {
   ItemValue,
   List,
@@ -50,7 +50,7 @@ const messages = defineMessages({
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
-  transition: transform ${transitionTime("faster")}
+  transition: transform, ${transitionTime("faster")},
     ${transitionTimingFunction("smooth")};
 
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
@@ -265,7 +265,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
 
   const resetSearchValue = () => setSearchValue(null)
 
-  const handleSelect = (item: typeof items[number]) => {
+  const handleSelect = (item: (typeof items)[number]) => {
     onSelect(item)
     resetSearchValue()
     setActiveItemIndex(0)

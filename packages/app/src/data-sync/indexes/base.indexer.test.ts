@@ -20,6 +20,7 @@ beforeEach(() => {
   vol.reset()
 })
 
+// TODO: debug why?
 describe("`BaseIndexer`", () => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await

@@ -19,8 +19,9 @@ require("dotenv").config({
     "__deprecated__",
     "renderer",
     "fonts",
-    "main"
   )
+  const mainFontsDirectory = path.join(fontsDirectory, "main")
+
   const requiredFiles = [
     "GT-Pressura-Bold.otf",
     "GT-Pressura-Light.otf",
@@ -28,31 +29,32 @@ require("dotenv").config({
     "style.css",
   ]
 
-  console.log("Downloading fonts...")
   try {
-    for (const fileName of requiredFiles) {
-      const fileExists = await fs.pathExists(
-        path.join(fontsDirectory, fileName)
-      )
-      if (!fileExists) {
-        const url = `${process.env.FONTS_DIRECTORY_URL}/${fileName}`
-        const { data } = await axios.get(url, {
-          responseType: "arraybuffer",
-          headers: {
-            Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
-          },
-        })
-        await fs.writeFile(path.join(fontsDirectory, fileName), data)
-        console.log(`Downloaded ${fileName}`)
-      } else {
-        console.log(`${fileName} already exists. Downloading aborted.`)
-      }
+    console.log("Cleaning fonts directory...")
+    // First, remove all files except a .gitkeep from the fonts/main directory
+    const unnecessaryFiles = (await fs.readdir(mainFontsDirectory)).filter(file => ".gitkeep" !== file)
+    for (const fileName of unnecessaryFiles) {
+      await fs.remove(path.join(mainFontsDirectory, fileName))
     }
 
-    console.log("Fonts downloading finished.")
+    // Then, download all required files inside the fonts/main directory
+    console.log("Downloading fonts...")
+    for (const [index, fileName] of requiredFiles.entries()) {
+      const url = `${process.env.FONTS_DIRECTORY_URL}/${fileName}`
+      const { data } = await axios.get(url, {
+        responseType: "arraybuffer",
+        headers: {
+          Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
+        },
+      })
+      await fs.writeFile(path.join(mainFontsDirectory, fileName), data)
+      console.log(`Downloaded file (${index + 1}/${requiredFiles.length}): ${fileName}`)
+    }
   } catch (error) {
-    console.log(
-      "Error while downloading fonts. Fallback font will be used instead."
+    // In case of an error, copy content of fonts/fallback directory to fonts/main
+    await fs.copy(path.join(fontsDirectory, "fallback"), mainFontsDirectory)
+    console.warn(
+      "Error while downloading fonts. Fallback font will be used instead.",
     )
   }
 })()

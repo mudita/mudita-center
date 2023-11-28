@@ -11,7 +11,7 @@ import { ContactImportRowTestIds } from "App/contacts/components/contact-import-
 import { Checkbox } from "App/contacts/components/contact-import/contact-import-modal.styled"
 import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import {
   Col,
   Row,
@@ -57,7 +57,7 @@ export const ContactImportRow: FunctionComponent<
           <Icon
             data-testid={ContactImportRowTestIds.FailedIcon}
             type={IconType.FailRed}
-            size={2}
+            size={IconSize.Medium}
           />
         )}
       </Failed>
