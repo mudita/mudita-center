@@ -10,6 +10,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.2.5] - 2023-11-30
+
+### Changed
+
+- **Electron**: Updated from version 8.5.5 to 26
+- **Node.js**: Updated from version 14.17.3 to 18.16.1
+- **Chromedriver**: Updated from version 103.0.0 to 116.0.0
+- **Jest**: Updated from version 26.0.0 to 29.0.0
+- **React**: Updated from version 17.0.2 to 18.2.0
+- **TypeScript**: Updated from version 4.8.3 to 5.2.2
+- Removed unnecessary packages.
+
+
 ## [2.2.5] - 2023-11-23
 
 ### Changed
@@ -19,6 +32,7 @@ straightforward as possible.
 ### Fixed
 
 - Outlook import shows Mudita Center as verified publisher
+
 
 ## [2.2.4] - 2023-10-26
 
@@ -30,6 +44,7 @@ straightforward as possible.
 
 - Enhance of update badge status for Mudita Center
 - Enhance of update badge status for OS
+
 
 ## [2.2.3] - 2023-05-10
 
@@ -44,6 +59,7 @@ straightforward as possible.
 - The formatting of headlines in News section articles has been improved
 - Changed connection error flow to be more user-friendly
 - Changed text in contacts import flow for a more intuitive one
+
 
 ## [2.2.2] - 2023-09-28
 
