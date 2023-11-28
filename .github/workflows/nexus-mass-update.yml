@@ -106,7 +106,7 @@ jobs:
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
           export ENVIRONMENT_CATALOG_NAME=mass-update
-          export "BUILD_VERSION=-mass-update.1+${{ github.run_number }}"
+          export "BUILD_VERSION=-mass-update.${{ github.run_number }}"
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.os == 'macOS'
@@ -114,14 +114,14 @@ jobs:
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
           export ENVIRONMENT_CATALOG_NAME=mass-update
-          export "BUILD_VERSION=-mass-update.1+${{ github.run_number }}"
+          export "BUILD_VERSION=-mass-update.${{ github.run_number }}"
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           $ENVIRONMENT_CATALOG_NAME = "mass-update"
-          $BUILD_VERSION = "-mass-update.1+${{ github.run_number }}"
+          $BUILD_VERSION = "-mass-update.${{ github.run_number }}"
           $APP_VERSION = (Get-Content -Path "packages/app/version") + $BUILD_VERSION
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
