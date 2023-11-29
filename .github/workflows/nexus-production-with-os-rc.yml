@@ -1,4 +1,4 @@
-name: Build & deploy to mass-update
+name: Build & deploy to production-with-os-rc
 
 on:
   push:
@@ -7,12 +7,12 @@ on:
 
 jobs:
   build:
-    if: github.event.base_ref == 'refs/heads/main'
+    if: github.event.base_ref == 'refs/heads/CP-2210-production-with-os-rc'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [Linux, Windows, macOS]
-    environment: mass-update
+    environment: production-with-os-rc
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -105,23 +105,23 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=mass-update
-          export "BUILD_VERSION=-mass-update.${{ github.run_number }}"
+          export ENVIRONMENT_CATALOG_NAME=production-with-os-rc
+          export "BUILD_VERSION=-production-with-os-rc.${{ github.run_number }}"
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.os == 'macOS'
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=mass-update
-          export "BUILD_VERSION=-mass-update.${{ github.run_number }}"
+          export ENVIRONMENT_CATALOG_NAME=production-with-os-rc
+          export "BUILD_VERSION=-production-with-os-rc.${{ github.run_number }}"
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          $ENVIRONMENT_CATALOG_NAME = "mass-update"
-          $BUILD_VERSION = "-mass-update.${{ github.run_number }}"
+          $ENVIRONMENT_CATALOG_NAME = "production-with-os-rc"
+          $BUILD_VERSION = "-production-with-os-rc.${{ github.run_number }}"
           $APP_VERSION = (Get-Content -Path "packages/app/version") + $BUILD_VERSION
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
@@ -157,7 +157,7 @@ jobs:
           jq -r -j .version packages/app/package.json > packages/app/version
           $APP_VERSION = Get-Content -Path "packages/app/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          $ENVIRONMENT_CATALOG_NAME="mass-update"
+          $ENVIRONMENT_CATALOG_NAME="production-with-os-rc"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
@@ -168,8 +168,8 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./packages/app/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./packages/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-mass-update.git
-          cd mudita-center-mass-update
+          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-production-with-os-rc.git
+          cd mudita-center-production-with-os-rc
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
       - name: Push artifacts to nexus registry from Linux
@@ -180,7 +180,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          export ENVIRONMENT_CATALOG_NAME=mass-update
+          export ENVIRONMENT_CATALOG_NAME=production-with-os-rc
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
           git tag "$GITTAG"
@@ -189,8 +189,8 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-mass-update.git
-          cd mudita-center-mass-update
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-production-with-os-rc.git
+          cd mudita-center-production-with-os-rc
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Push artifacts to nexus registry from macOS
@@ -201,7 +201,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          ENVIRONMENT_CATALOG_NAME=mass-update
+          ENVIRONMENT_CATALOG_NAME=production-with-os-rc
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
           git tag "$GITTAG"
@@ -213,8 +213,8 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-mass-update.git
-          cd mudita-center-mass-update
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-production-with-os-rc.git
+          cd mudita-center-production-with-os-rc
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Create draft release with Windows files
@@ -224,7 +224,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-mass-update
+          repository: mudita/mudita-center-production-with-os-rc
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           files: |
             ./packages/app/release/Mudita-Center.exe
@@ -238,7 +238,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-mass-update
+          repository: mudita/mudita-center-production-with-os-rc
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           files: |
             ./packages/app/release/Mudita-Center.AppImage
@@ -251,7 +251,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-mass-update
+          repository: mudita/mudita-center-production-with-os-rc
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           files: |
             ./packages/app/release/Mudita-Center.dmg
