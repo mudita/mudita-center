@@ -272,8 +272,52 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           true
         )
 
-        const { payload } = await delayResponse(editContact(contact))
+        const { message, payload } =
+          (await delayResponse(addNewContact(contact))).payload ?? {}
 
+        if (payload || message) {
+          const newError: FormError[] = []
+          if (
+            message === "phone-number-duplicated" &&
+            payload?.primaryPhoneNumberIsDuplicated
+          ) {
+            newError.push({
+              field: "primaryPhoneNumber",
+              error: "component.formErrorNumberUnique",
+            })
+          }
+          if (
+            message === "phone-number-duplicated" &&
+            payload?.secondaryPhoneNumberIsDuplicated
+          ) {
+            newError.push({
+              field: "secondaryPhoneNumber",
+              error: "component.formErrorNumberUnique",
+            })
+          }
+          if (message === "Create contact: Empty primary phone number") {
+            newError.push({
+              field: "primaryPhoneNumber",
+              error: "component.formErrorRequiredPrimaryPhone",
+            })
+          }
+          if (newError.length === 0) {
+            newError.push({
+              field: "primaryPhoneNumber",
+              error: "component.formErrorNumberUnique",
+            })
+          }
+
+          const cleanedErrors = differenceWith(
+            formErrors,
+            allPossibleFormErrorCausedByAPI,
+            (a, b) => isEqual(a, b)
+          )
+
+          setFormErrors([...cleanedErrors, ...newError])
+          await closeModal()
+          return
+        }
         if (payload && !retried) {
           void modalService.openModal(
             <ErrorWithRetryDataModal onRetry={() => edit(true)} />,
