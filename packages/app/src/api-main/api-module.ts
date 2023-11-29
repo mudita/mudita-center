@@ -11,11 +11,6 @@ import { APIConfigService } from "./api-config.service"
 export interface APIConfigResponse {
   apiVersion: string
 }
-
-export enum APIServiceEvents {
-  APIConfig = "apiservice_api-config",
-}
-
 export class APIModule {
   private apiConfigService: APIConfigService
 
