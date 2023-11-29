@@ -21,6 +21,7 @@ export const URL_MAIN = {
   termsOfService: "/terms-of-service",
   privacyPolicy: "/privacy-policy",
   overviewDemo: "/overview-demo",
+  apiConnectionDemo: "/api-connection-demo",
 } as const
 
 export const URL_TABS = {

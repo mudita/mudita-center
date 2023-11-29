@@ -41,6 +41,7 @@ import PureSystem from "App/overview/components/pure-system/pure-system.containe
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "App/templates/template.container"
 import { OverviewDemo } from "App/api-demo/overview-demo"
+import { APIConnectionDemo } from "App/api-demo/api-connection-demo"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -112,7 +113,11 @@ export default () => (
           path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
           component={VoiceRecorder}
         />
-        <Route path={URL_MAIN.overviewDemo} component={OverviewDemo}/>
+        <Route path={URL_MAIN.overviewDemo} component={OverviewDemo} />
+        <Route
+          path={URL_MAIN.apiConnectionDemo}
+          component={APIConnectionDemo}
+        />
       </LayoutDesktopWrapper>
     </Route>
 

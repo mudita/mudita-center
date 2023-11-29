@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import "reflect-metadata"
 import translationConfig from "App/translations.config.json"
 import App from "App/__deprecated__/renderer/app.component"
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"

@@ -53,6 +53,7 @@ export enum View {
   Error = "error",
   PureSystem = "pure-system",
   OverviewDemo = "overview-demo",
+  APIConnectionDemo = "api-connection-demo",
 }
 
 export type Views = {
@@ -137,8 +138,12 @@ export const views: Views = {
   },
   [View.OverviewDemo]: {
     label: {
-      id: "Overview demo"
+      id: "Overview demo",
     },
     url: URL_MAIN.overviewDemo,
+  },
+  [View.APIConnectionDemo]: {
+    label: messages.help,
+    url: URL_MAIN.apiConnectionDemo,
   },
 }
