@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - develop
-      - CP-*
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -104,38 +103,23 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]]; then
-            export ENVIRONMENT_CATALOG_NAME=development
-            export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          else
-            export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-            export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          fi
+          export ENVIRONMENT_CATALOG_NAME=development
+          export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.os == 'macOS'
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]]; then
-            export ENVIRONMENT_CATALOG_NAME=development
-            export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          else
-            export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-            export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          fi
+          export ENVIRONMENT_CATALOG_NAME=development
+          export "BUILD_VERSION=-dev.${{ github.run_number }}"
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          if ($SOURCE_BRANCH -eq "develop") {
-              $ENVIRONMENT_CATALOG_NAME = "development"
-              $BUILD_VERSION = "-dev.${{ github.run_number }}"
-          } else {
-              $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
-              $BUILD_VERSION = "-dev.${{ github.run_number }}"
-          }
+          $ENVIRONMENT_CATALOG_NAME = "development"
+          $BUILD_VERSION = "-dev.${{ github.run_number }}"
           $APP_VERSION = (Get-Content -Path "packages/app/version") + $BUILD_VERSION
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
@@ -171,11 +155,7 @@ jobs:
           jq -r -j .version packages/app/package.json > packages/app/version
           $APP_VERSION = Get-Content -Path "packages/app/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
-          if ($SOURCE_BRANCH -eq "develop") {
-              $ENVIRONMENT_CATALOG_NAME = "development"
-          } else {
-              $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
-          }
+          $ENVIRONMENT_CATALOG_NAME = "development"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
@@ -186,8 +166,8 @@ jobs:
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./packages/app/release/latest.yml -Method Put -Credential $AUTH
           Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./packages/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
-          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
-          cd mudita-center-internal-releases
+          C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-development.git
+          cd mudita-center-development
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
           C:\"Program Files"\Git\cmd\git.exe push origin "$GITTAG"
       - name: Push artifacts to nexus registry from Linux
@@ -198,11 +178,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]]; then
-            export ENVIRONMENT_CATALOG_NAME=development
-          else
-            export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-          fi
+          export ENVIRONMENT_CATALOG_NAME=development
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
           git tag "$GITTAG"
@@ -211,8 +187,8 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
-          cd mudita-center-internal-releases
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-development.git
+          cd mudita-center-development
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Push artifacts to nexus registry from macOS
@@ -223,11 +199,7 @@ jobs:
         run: |
           export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
-          if [[ $SOURCE_BRANCH == "develop" ]]; then
-            export ENVIRONMENT_CATALOG_NAME=development
-          else
-            export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-          fi
+          export ENVIRONMENT_CATALOG_NAME=development
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
           git tag "$GITTAG"
@@ -239,8 +211,8 @@ jobs:
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
           curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
-          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-internal-releases.git
-          cd mudita-center-internal-releases
+          git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-development.git
+          cd mudita-center-development
           git tag "$GITTAG" 2>&1 || true
           git push origin "$GITTAG"
       - name: Create draft release with Windows files
@@ -250,7 +222,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-internal-releases
+          repository: mudita/mudita-center-development
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
           files: |
@@ -265,7 +237,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-internal-releases
+          repository: mudita/mudita-center-development
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
           files: |
@@ -279,7 +251,7 @@ jobs:
         with:
           tag_name: ${{ env.GITTAG }}
           name: Mudita Center v${{ env.GITTAG }}
-          repository: mudita/mudita-center-internal-releases
+          repository: mudita/mudita-center-development
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           draft: true
           files: |
