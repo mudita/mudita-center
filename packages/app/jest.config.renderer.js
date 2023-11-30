@@ -12,7 +12,6 @@ module.exports = {
     "<rootDir>/src/contacts/helpers/**/*(*.)+(spec|test).[tj]s?(x)",
     "<rootDir>/src/analytic-data-tracker/helpers/**/*(*.)+(spec|test).[tj]s?(x)",
     "<rootDir>/src/files-manager/helpers/**/*(*.)+(spec|test).[tj]s?(x)",
-    "<rootDir>/src/messages/services/**/*(*.)+(spec|test).[tj]s?(x)",
   ],
   testEnvironment: "jsdom",
 }

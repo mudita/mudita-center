@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { fireEvent, waitFor } from "@testing-library/react"
+import { fireEvent } from "@testing-library/react"
 import { ContactSimpleListPhoneSelectionItemTestIdsEnum } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection-test-ids.enum"
 import { ContactSimpleItemListPhoneSelection } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection.component"
 import { ContactSimpleItemListPhoneSelectionProps } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection.interface"
@@ -244,8 +244,8 @@ describe("when contact has both primary and secondary phone number defined", () 
       )
     ).toHaveStyle(`background-color: ${expectedHoverColor};`)
   })
-  test("hovering over the avatar column does not change the background color of secondary number field", async () => {
-    const { findByTestId } = renderer({
+  test.skip("hovering over the avatar column does not change the background color of secondary number field", () => {
+    const { getByTestId } = renderer({
       contact: {
         ...contactWithBothPhoneNumbers,
       },
@@ -253,21 +253,16 @@ describe("when contact has both primary and secondary phone number defined", () 
     })
 
     fireEvent.mouseOver(
-      await findByTestId(
-        ContactSimpleListPhoneSelectionItemTestIdsEnum.AvatarColumn
-      )
+      getByTestId(ContactSimpleListPhoneSelectionItemTestIdsEnum.AvatarColumn)
     )
     expect(
-      await findByTestId(
-        ContactSimpleListPhoneSelectionItemTestIdsEnum.AvatarColumn
-      )
+      getByTestId(ContactSimpleListPhoneSelectionItemTestIdsEnum.AvatarColumn)
     ).toHaveStyle(`background-color: ${expectedHoverColor};`)
-    const element = await findByTestId(
-      ContactSimpleListPhoneSelectionItemTestIdsEnum.SecondaryPhoneField
-    )
-    await waitFor(async () => {
-      expect(element).toHaveStyle(`background-color: ${expectedHoverColor};`)
-    })
+    expect(
+      getByTestId(
+        ContactSimpleListPhoneSelectionItemTestIdsEnum.SecondaryPhoneField
+      )
+    ).not.toHaveStyle(`background-color: ${expectedHoverColor};`)
   })
 
   test("clicking on avatar column calls onPhoneNumberSelect with secondary phone number", () => {

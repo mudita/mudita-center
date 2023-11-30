@@ -74,7 +74,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       // Delaying the invocation of updateTemplateOrder after drag-and-drop operation
       // helps control the component's re-rendering, eliminating subtle flickering.
       timeoutRef.current = setTimeout(
-        () => void updateTemplateOrder(updatedTemplates)
+        () => void dispatch(updateTemplateOrder(updatedTemplates))
       )
     }
   }
