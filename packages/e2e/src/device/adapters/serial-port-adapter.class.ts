@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Device } from "usb"
+import { PortInfo } from "serialport"
 import { Response } from "../../pure/types"
 
 export interface SerialPortAdapterClass {
-  request<Body>(device: Device, payload: any): Promise<Response<Body>>
-  requests<Body>(device: Device, payload: any[]): Promise<Response<Body>[]>
+  request<Body>(device: PortInfo, payload: any): Promise<Response<Body>>
+  requests<Body>(device: PortInfo, payload: any[]): Promise<Response<Body>[]>
 }
