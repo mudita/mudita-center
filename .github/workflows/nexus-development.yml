@@ -14,11 +14,11 @@ jobs:
     environment: development
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.17.3
+          node-version: 18.16.1
       - name: Setup Env for Windows
         if: matrix.os == 'Windows'
         env:
@@ -155,13 +155,13 @@ jobs:
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           cd packages/app/
-          npm run dist:prod:all
+          npm run dist
       - name: Build App for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
           cd packages/app/
-          npm run dist:prod:all
+          npm run dist
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
         env:

@@ -9,7 +9,6 @@ import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
 import { IndexRange } from "react-virtualized"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import { useDebounce } from "usehooks-ts"
 import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
 import { DeleteThreadModals } from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
@@ -41,7 +40,6 @@ import { Template } from "App/templates/dto"
 import { Contact } from "App/contacts/dto"
 import { ContactAttachmentPresenter } from "App/contacts/presenters"
 import { useLoadingState } from "App/ui"
-import { Feature, flags } from "App/feature-flags"
 import MessagesSearchResults from "App/messages/components/messages-search-results/messages-search-results.component"
 import { DataIndex } from "App/index-storage/constants"
 import { State } from "App/core/constants"
@@ -88,7 +86,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   deleteThreads = noop,
   threads,
   getActiveMessagesByThreadIdSelector,
-  getThreadDraftMessageSelector,
   getReceiver,
   toggleReadStatus = noop,
   markThreadsReadStatus = noop,
@@ -101,7 +98,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   removeLayoutNotification,
   currentlyDeletingMessageId,
   resendMessage,
-  updateMessage,
   templates,
   error,
   selectedItems,
@@ -137,7 +133,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
   const [draftMessage, setDraftMessage] = useState<Message>()
   const [content, setContent] = useState("")
-  const debouncedContent = useDebounce(content, 1000)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
   const [searchPreviewValue, setSearchPreviewValue] = useState<string>("")
@@ -147,6 +142,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [activeSearchDropdown, setActiveSearchDropdown] =
     useState<boolean>(false)
   const allItemsSelected = threads.length === selectedItems.rows.length
+
+  useEffect(() => {
+    const thread = threads.find(({ id }) => id === activeThread?.id)
+    if (thread) {
+      setActiveThread(thread)
+    }
+  }, [threads, activeThread])
 
   useEffect(() => {
     if (searchPreviewValue !== "") {
@@ -167,18 +169,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
       setMessagesState(MessagesState.List)
     }
   }, [messagesState, threads.length, activeThread, tmpActiveThread])
-
-  useEffect(() => {
-    messageLayoutNotifications
-      .filter(
-        (item) => (item.content as Message)?.messageType === MessageType.OUTBOX
-      )
-      .forEach((item) => {
-        removeLayoutNotification(item.id)
-      })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messageLayoutNotifications])
 
   useEffect(() => {
     if (state !== State.Loaded) {
@@ -218,74 +208,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threads])
-
-  useEffect(() => {
-    if (!activeThread) {
-      return
-    }
-
-    const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
-
-    if (tmpActiveThread === undefined && thread === undefined) {
-      setActiveThread(undefined)
-    }
-
-    if (thread) {
-      setActiveThread(thread)
-    }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeThread, threads])
-
-  useEffect(() => {
-    if (!flags.get(Feature.MessagesDraftStatus)) {
-      return
-    }
-
-    if (draftMessage) {
-      if (content && content !== draftMessage.content) {
-        void updateMessage({ ...draftMessage, content })
-      }
-
-      if (!content.length) {
-        void deleteMessage(draftMessage.id)
-        updateFieldState("draftDeleting", true)
-        setDraftMessage(undefined)
-        setContent("")
-      }
-    } else {
-      if (
-        activeThread &&
-        debouncedContent &&
-        activeThread.phoneNumber !== mockThread.phoneNumber
-      ) {
-        void handleAddNewMessage(activeThread.phoneNumber, MessageType.DRAFT)
-        updateFieldState("draftDeleting", false)
-      }
-    }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedContent])
-
-  useEffect(() => {
-    if (!flags.get(Feature.MessagesDraftStatus)) {
-      return
-    }
-
-    if (!activeThread || states.draftDeleting) {
-      return
-    }
-
-    const tmpDraftMessage = getThreadDraftMessageSelector(activeThread.id)
-    if (tmpDraftMessage) {
-      setDraftMessage(tmpDraftMessage)
-      setContent(tmpDraftMessage.content)
-    } else {
-      setDraftMessage(undefined)
-    }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeThread, threads])
 
   const handlePotentialThreadDeletion = () => {
     const isThreadInThreadsList = (thread: Thread) => {
@@ -545,7 +467,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const getThreads = (): Thread[] => {
-    if (tmpActiveThread !== undefined) {
+    const isTmpActiveThreadInThreads = threads.some(({ phoneNumber }) => {
+      return tmpActiveThread?.phoneNumber === phoneNumber
+    })
+
+    if (tmpActiveThread !== undefined && !isTmpActiveThreadInThreads) {
       return [tmpActiveThread, ...threads]
     } else {
       return threads
@@ -700,34 +626,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   return (
     <>
-      <ContactSelectModal
-        testId={MessagesTestIds.AttachContactModal}
-        withPhoneNumberOnly={false}
-        open={states.attachContact}
-        onClose={closeAttachContactModal}
-        onContactSelect={handleContactAttach}
-        title={intl.formatMessage(
-          contactsModalMessages.attachContactModalTitle
-        )}
-      />
-      <ContactSelectModal
-        testId={MessagesTestIds.BrowseContactsModal}
-        open={states.browseContact}
-        withPhoneNumberOnly
-        onClose={closeBrowseContactModal}
-        onContactSelect={handleBrowseContactSelection}
-        onPhoneNumberSelect={handleBrowsePhoneNumberSelection}
-        title={intl.formatMessage(
-          contactsModalMessages.browseContactsModalTitle
-        )}
-      />
-      <TemplatesSelectModal
-        open={states.attachTemplate}
-        onClose={closeAttachTemplateModal}
-        onSelect={handleSelectTemplate}
-        templates={templates}
-      />
       <MessagesPanel
+        data-testid={MessagesTestIds.MessagesPanel}
         searchValue={searchPreviewValue}
         onSearchValueChange={handleSearch}
         onNewMessageClick={handleNewMessageClick}
@@ -744,6 +644,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
       {messagesState === MessagesState.SearchResult ? (
         <MessagesSearchResults
+          data-testid={MessagesTestIds.MessagesSearchResults}
           results={searchResult.message ? searchResult.message : []}
           resultsState={threadsState}
           searchValue={searchValue}
@@ -822,7 +723,33 @@ const Messages: FunctionComponent<MessagesProps> = ({
           )}
         </TableWithSidebarWrapper>
       )}
-
+      <ContactSelectModal
+        testId={MessagesTestIds.AttachContactModal}
+        withPhoneNumberOnly={false}
+        open={states.attachContact}
+        onClose={closeAttachContactModal}
+        onContactSelect={handleContactAttach}
+        title={intl.formatMessage(
+          contactsModalMessages.attachContactModalTitle
+        )}
+      />
+      <ContactSelectModal
+        testId={MessagesTestIds.BrowseContactsModal}
+        open={states.browseContact}
+        withPhoneNumberOnly
+        onClose={closeBrowseContactModal}
+        onContactSelect={handleBrowseContactSelection}
+        onPhoneNumberSelect={handleBrowsePhoneNumberSelection}
+        title={intl.formatMessage(
+          contactsModalMessages.browseContactsModalTitle
+        )}
+      />
+      <TemplatesSelectModal
+        open={states.attachTemplate}
+        onClose={closeAttachTemplateModal}
+        onSelect={handleSelectTemplate}
+        templates={templates}
+      />
       <DeleteThreadModals
         deletedThreads={deletedThreads}
         deletingConfirmation={states.threadDeletingConfirmation}

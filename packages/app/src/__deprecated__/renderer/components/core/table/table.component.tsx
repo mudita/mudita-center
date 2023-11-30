@@ -105,6 +105,7 @@ export const Row = styled.div<TableRowProps>`
     !useMinRowHeight
       ? css`
           height: ${resolveHeight(size)}rem;
+          grid-auto-rows: ${resolveHeight(size)}rem;
         `
       : css`
           min-height: ${resolveHeight(size)}rem;

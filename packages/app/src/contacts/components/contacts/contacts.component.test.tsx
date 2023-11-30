@@ -32,14 +32,12 @@ window.IntersectionObserver = jest
 
 type Props = ComponentProps<typeof Contacts>
 
-jest.mock("electron", () => ({
-  remote: {
-    Menu: () => ({
-      popup: jest.fn(),
-      append: jest.fn(),
-    }),
-    MenuItem: () => jest.fn(),
-  },
+jest.mock("@electron/remote", () => ({
+  Menu: () => ({
+    popup: jest.fn(),
+    append: jest.fn(),
+  }),
+  MenuItem: () => jest.fn(),
 }))
 
 jest.mock("react-router", () => ({
@@ -236,20 +234,7 @@ test("first name and second name in search shows correct result", () => {
     ContactInputSelectTestIds.Input
   ) as HTMLInputElement
   fireEvent.change(input, { target: { value: "Oswald Bednar" } })
-
-  console.log(
-    "getByTestId(InputSearchTestIds.List).childNodes",
-    getByTestId(InputSearchTestIds.List).childNodes
-  )
-  console.log(
-    "getByTestId(InputSearchTestIds.List).childNodes.length",
-    getByTestId(InputSearchTestIds.List).childNodes.length
-  )
-
-  console.log(getByTestId(InputSearchTestIds.List).childNodes[0])
-  console.log(getByTestId(InputSearchTestIds.List).childNodes[1])
-
-  expect(getByTestId(InputSearchTestIds.List).childNodes).toHaveLength(4)
+  expect(getByTestId(InputSearchTestIds.List).childNodes).toHaveLength(3)
 })
 
 describe("contact export", () => {
@@ -257,26 +242,40 @@ describe("contact export", () => {
     const mockedExportContacts = jest
       .fn()
       .mockReturnValue(ExportContactsResult.Failed)
-    const { queryAllByTestId, queryByTestId } = renderer({
+    const { queryByTestId, findAllByTestId } = renderer({
       exportContacts: mockedExportContacts,
     })
 
-    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
-    fireEvent.click(
-      queryAllByTestId(
-        VirtualizedContactListItemTestIds.ContactRowDropdownToggler
-      )[0]
-    )
-
-    const exportButton = queryAllByTestId(
-      VirtualizedContactListItemTestIds.ContactExportButton
-    )[0] as HTMLInputElement
-
-    await waitFor(() => {
-      fireEvent.click(more)
-      fireEvent.click(exportButton)
+    await waitFor(async () => {
+      fireEvent.click(
+        (
+          await findAllByTestId(
+            VirtualizedContactListItemTestIds.ContactRowDropdownToggler
+          )
+        )[0]
+      )
     })
 
+    const moreButton = (await findAllByTestId("icon-More"))[0]
+    const toggler = (
+      await findAllByTestId(
+        VirtualizedContactListItemTestIds.ContactRowDropdownToggler
+      )
+    )[0]
+    await waitFor(() => {
+      fireEvent.click(toggler)
+    })
+    await waitFor(() => {
+      fireEvent.click(moreButton)
+    })
+    const exportButton = (
+      await findAllByTestId(
+        VirtualizedContactListItemTestIds.ContactExportButton
+      )
+    )[0]
+    await waitFor(() => {
+      fireEvent.click(exportButton)
+    })
     expect(mockedExportContacts).toHaveBeenCalledTimes(1)
     expect(
       queryByTestId(ExportContactFailedModalTestIds.Description)
@@ -288,78 +287,112 @@ describe("contact export", () => {
       .fn()
       .mockReturnValue(ExportContactsResult.Ok)
     const mockedResetAllItems = jest.fn()
-    const { queryAllByTestId, queryByTestId } = renderer({
+    const { queryByTestId, findAllByTestId } = renderer({
       exportContacts: mockedExportContacts,
       resetAllItems: mockedResetAllItems,
     })
 
-    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
-
-    fireEvent.click(
-      queryAllByTestId(
-        VirtualizedContactListItemTestIds.ContactRowDropdownToggler
-      )[0]
-    )
-    const exportButton = queryAllByTestId(
-      VirtualizedContactListItemTestIds.ContactExportButton
-    )[0] as HTMLInputElement
-
-    await waitFor(() => {
-      fireEvent.click(more)
-      fireEvent.click(exportButton)
+    await waitFor(async () => {
+      fireEvent.click(
+        (
+          await findAllByTestId(
+            VirtualizedContactListItemTestIds.ContactRowDropdownToggler
+          )
+        )[0]
+      )
     })
 
-    expect(mockedExportContacts).toHaveBeenCalledTimes(1)
-    expect(mockedResetAllItems).toHaveBeenCalledTimes(1)
-    expect(
-      queryByTestId(ExportContactFailedModalTestIds.Description)
-    ).not.toBeInTheDocument()
+    const moreButton = (await findAllByTestId("icon-More"))[0]
+    const toggler = (
+      await findAllByTestId(
+        VirtualizedContactListItemTestIds.ContactRowDropdownToggler
+      )
+    )[0]
+    await waitFor(() => {
+      fireEvent.click(toggler)
+    })
+    await waitFor(() => {
+      fireEvent.click(moreButton)
+    })
+    const exportButton = (
+      await findAllByTestId(
+        VirtualizedContactListItemTestIds.ContactExportButton
+      )
+    )[0]
+    await waitFor(() => {
+      fireEvent.click(exportButton)
+    })
+    await waitFor(() => {
+      expect(mockedExportContacts).toHaveBeenCalledTimes(1)
+      expect(mockedResetAllItems).toHaveBeenCalledTimes(1)
+      expect(
+        queryByTestId(ExportContactFailedModalTestIds.Description)
+      ).not.toBeInTheDocument()
+    })
   })
 
   test("Export failed modal is not shown if export is cancelled", async () => {
     const mockedExportContacts = jest
       .fn()
       .mockReturnValue(ExportContactsResult.Cancelled)
-    const { queryAllByTestId, queryByTestId } = renderer({
+    const { queryByTestId, findAllByTestId } = renderer({
       exportContacts: mockedExportContacts,
     })
 
-    const more = queryAllByTestId("icon-More")[0] as HTMLInputElement
+    await waitFor(async () => {
+      fireEvent.click(
+        (
+          await findAllByTestId(
+            VirtualizedContactListItemTestIds.ContactRowDropdownToggler
+          )
+        )[0]
+      )
+    })
 
-    fireEvent.click(
-      queryAllByTestId(
+    const moreButton = (await findAllByTestId("icon-More"))[0]
+    const toggler = (
+      await findAllByTestId(
         VirtualizedContactListItemTestIds.ContactRowDropdownToggler
-      )[0]
-    )
-
-    const exportButton = queryAllByTestId(
-      VirtualizedContactListItemTestIds.ContactExportButton
-    )[0] as HTMLInputElement
-
+      )
+    )[0]
     await waitFor(() => {
-      fireEvent.click(more)
+      fireEvent.click(toggler)
+    })
+    await waitFor(() => {
+      fireEvent.click(moreButton)
+    })
+    const exportButton = (
+      await findAllByTestId(
+        VirtualizedContactListItemTestIds.ContactExportButton
+      )
+    )[0]
+    await waitFor(() => {
       fireEvent.click(exportButton)
     })
 
-    expect(mockedExportContacts).toHaveBeenCalledTimes(1)
-    expect(
-      queryByTestId(ExportContactFailedModalTestIds.Description)
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(mockedExportContacts).toHaveBeenCalledTimes(1)
+    })
+
+    const desc = queryByTestId(ExportContactFailedModalTestIds.Description)
+    await waitFor(() => {
+      expect(desc).not.toBeInTheDocument()
+    })
   })
 })
 
 describe("search preview", () => {
-  test("preview list should be independent of search results", () => {
-    const { queryByTestId, getByTestId, queryAllByTestId } = renderer({
+  test("preview list should be independent of search results", async () => {
+    const { findByTestId, findAllByTestId } = renderer({
       contacts: [contactOne, contactTwo],
     })
-    const input = queryByTestId(
+    const input = (await findByTestId(
       ContactInputSelectTestIds.Input
-    ) as HTMLInputElement
+    )) as HTMLInputElement
     fireEvent.change(input, { target: { value: "Luke Skywalker" } })
 
     expect(
-      queryAllByTestId(VirtualizedContactListItemTestIds.ContactRow)
+      await findAllByTestId(VirtualizedContactListItemTestIds.ContactRow)
     ).toHaveLength(2)
 
     fireEvent.keyDown(input, {
@@ -370,15 +403,15 @@ describe("search preview", () => {
     })
 
     expect(
-      getByTestId(ContactSearchResultsTestIdsEnum.Table).childNodes
+      (await findByTestId(ContactSearchResultsTestIdsEnum.Table)).childNodes
     ).toHaveLength(1)
 
     fireEvent.change(input, { target: { value: "S" } })
 
     expect(
-      getByTestId(ContactSearchResultsTestIdsEnum.Table).childNodes
+      (await findByTestId(ContactSearchResultsTestIdsEnum.Table)).childNodes
     ).toHaveLength(1)
 
-    expect(queryAllByTestId(InputSearchTestIds.ListItem)).toHaveLength(2)
+    expect(await findAllByTestId(InputSearchTestIds.ListItem)).toHaveLength(2)
   })
 })

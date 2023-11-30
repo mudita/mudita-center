@@ -7,4 +7,5 @@ export enum DeleteMessageModalsTestIds {
   SuccessMessageDelete = "success-message-delete",
   FailMessageDelete = "fail-message-delete",
   DeleteMessageConfirmation = "message-delete-confirmation",
+  DeleteMessageModalsContainer = "message-detete-modals-container",
 }

@@ -10,10 +10,8 @@ import {
   createTemplate,
   deleteTemplates,
   updateTemplate,
-  updateTemplateOrder,
   resetAllItems,
   selectAllItems,
-  toggleItem,
 } from "App/templates/actions"
 import { templatesListSelector } from "App/templates/selectors"
 
@@ -31,10 +29,8 @@ const mapDispatchToProps = {
   createTemplate,
   deleteTemplates,
   updateTemplate,
-  updateTemplateOrder,
   resetAllItems,
   selectAllItems,
-  toggleItem,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Templates)

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { connect, useSelector } from "react-redux"
 import { Router } from "react-router"
 import { History } from "history"
@@ -21,7 +21,7 @@ import {
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
 import { useRouterListener } from "App/core/hooks"
-import ModalsManager from "App/modals-manager/containers/modals-manager.container"
+import ModalsManager from "App/modals-manager/components/modals-manager.container"
 import { getConnectedDevice } from "App/device/actions"
 import { sendDiagnosticData } from "App/settings/actions"
 import { State } from "App/core/constants"
@@ -91,22 +91,70 @@ const BaseApp: FunctionComponent<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lowestSupportedOsVersion, osVersion, shouldCheckForForceUpdateNeed])
 
+  // Attention: If you're reading this code and wondering what's going on, you're not alone.
+  // It's a bit like deciphering hieroglyphs, even for me. Please, be understanding, this is an artistic expression.
+  // Changes are coming soon, but for now, you'll have to play the role of a code detective. Good luck!
+  const firstRender = useRef<boolean>(true)
+
   useEffect(() => {
+    // Timeout variable for delayed redirection
+    let timeout: ReturnType<typeof setTimeout>
+
+    // Function to handle redirection based on conditions
+    const redirect = () => {
+      // Conditions for redirecting to connecting or welcome screens
+      const pushConnectingCondition =
+        deviceConnecting ||
+        deviceLocked ||
+        checkingForOsForceUpdate ||
+        initializationFailed
+      const pushWelcomeCondition = !deviceFeaturesVisible
+
+      if (pushConnectingCondition) {
+        history.push(URL_ONBOARDING.connecting)
+      } else if (pushWelcomeCondition) {
+        history.push(URL_ONBOARDING.welcome)
+      }
+    }
+
+    // Check if the device is restarting; if true, do nothing
     if (deviceRestarting) {
       return
     }
-    const pushConnectingCondition =
-      deviceConnecting ||
-      deviceLocked ||
-      checkingForOsForceUpdate ||
-      initializationFailed
-    const pushWelcomeCondition = !deviceFeaturesVisible
 
-    if (pushConnectingCondition) {
-      history.push(URL_ONBOARDING.connecting)
-    } else if (pushWelcomeCondition) {
-      history.push(URL_ONBOARDING.welcome)
+    // If it's the first render, set the flag to false and redirect
+    if (firstRender.current) {
+      firstRender.current = false
+      redirect()
+      return
     }
+
+    // Check if the current path is the welcome screen or initialization didn't fail
+    const isOnboardingOrInitializationFailed =
+      history.location.pathname === URL_ONBOARDING.welcome ||
+      !initializationFailed
+
+    // Check if the device is not connecting and the current path is not URL_MAIN.news
+    const isNotConnectingAndNotOnNewsPage = !(
+      deviceConnecting === false && history.location.pathname === URL_MAIN.news
+    )
+
+    // If conditions for redirection are met
+    if (isOnboardingOrInitializationFailed && isNotConnectingAndNotOnNewsPage) {
+      // If the device is not connecting, delay redirection by 500 ms
+      if (deviceConnecting === false) {
+        timeout = setTimeout(() => {
+          redirect()
+        }, 500)
+      } else {
+        // Otherwise, redirect immediately
+        redirect()
+      }
+    }
+
+    // Cleanup function to clear the timeout and avoid memory leaks
+    return () => clearTimeout(timeout)
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -115,6 +163,7 @@ const BaseApp: FunctionComponent<Props> = ({
     deviceRestarting,
     deviceLocked,
     checkingForOsForceUpdate,
+    initializationFailed,
   ])
 
   useEffect(() => {

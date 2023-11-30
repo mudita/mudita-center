@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { Route, RouteComponentProps, Router, Switch } from "react-router"
+import { Route, Router, Switch } from "react-router"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import { History } from "history"
 import { QuestionAndAnswer } from "App/help/components/help.component"
@@ -13,6 +13,7 @@ import Help from "App/help/help.container"
 import { renderAnswer } from "App/help/helpers/render-answer"
 import { useHelpSearch } from "App/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import ContextMenu from "App/__deprecated__/context-menu/context-menu"
+import { Feature, flags } from "App/feature-flags"
 
 interface Props {
   history: History
@@ -23,6 +24,8 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getStoreData?: (key?: string) => Promise<any>
 }
+
+const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
 
 const HelpApp: FunctionComponent<Props> = ({
   history,
@@ -36,22 +39,21 @@ const HelpApp: FunctionComponent<Props> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInputValue])
-  const AnswerComponent = (
-    props: RouteComponentProps<{ questionId: string }>
-  ) => renderAnswer(data, props)
 
   useEffect(() => {
-    const helpContextMenu = new ContextMenu()
-
-    // TODO: Add options for context menu
-
-    helpContextMenu.init()
+    if (devModeEnabled) {
+      const helpContextMenu = new ContextMenu()
+      helpContextMenu.init()
+    }
   }, [])
 
   return (
     <Router history={history}>
       <Switch>
-        <Route path={`${URL_MAIN.help}/:questionId`}>{AnswerComponent}</Route>
+        <Route
+          path={`${URL_MAIN.help}/:questionId`}
+          render={(props) => renderAnswer(data, props)}
+        />
         <Route path={URL_MAIN.help}>
           <Help
             list={data}

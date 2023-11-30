@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom"
 import React, { ComponentProps } from "react"
 import { Router } from "react-router"
 import history from "App/__deprecated__/renderer/routes/history"
@@ -14,16 +13,11 @@ import { SettingsTogglerTestIds } from "App/settings/components/settings-toggler
 import { Provider } from "react-redux"
 import store from "App/__deprecated__/renderer/store"
 
-jest.mock(
-  "electron",
-  jest.fn().mockImplementation(() => ({
-    remote: {
-      dialog: {
-        showOpenDialog: jest.fn(),
-      },
-    },
-  }))
-)
+jest.mock("@electron/remote", () => ({
+  dialog: {
+    showOpenDialog: jest.fn(),
+  },
+}))
 
 const renderer = (props = {}) =>
   renderWithThemeAndIntl(

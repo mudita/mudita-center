@@ -17,25 +17,22 @@ import thunk from "redux-thunk"
 import { initialState as updateInitialState } from "App/update/reducers/update-os.reducer"
 import { initialState as contactSupportInitialState } from "App/contact-support/reducers/contact-support.reducer"
 
+jest.mock("electron-better-ipc", () => {
+  return {
+    ipcRenderer: {
+      callMain: () => jest.fn(),
+      answerMain: () => jest.fn(),
+    },
+  }
+})
 jest.mock(
   "App/modals-manager/selectors/device-initialization-failed-modal-show-enabled.selector"
 )
-jest.mock("electron-better-ipc", () => ({
-  ipcRenderer: {
-    answerMain: jest.fn(),
+jest.mock("@electron/remote", () => ({
+  dialog: {
+    showOpenDialog: jest.fn(),
   },
 }))
-
-jest.mock(
-  "electron",
-  jest.fn().mockImplementation(() => ({
-    remote: {
-      dialog: {
-        showOpenDialog: jest.fn(),
-      },
-    },
-  }))
-)
 
 type Props = ComponentProps<typeof ModalsManager>
 
@@ -43,6 +40,7 @@ const defaultProps: Props = {
   appForcedUpdateFlowShow: false,
   appUpdateFlowShow: false,
   contactSupportFlowShow: false,
+  deviceInitializationFailedModalShowEnabled: false,
   hideModals: jest.fn(),
 }
 
@@ -149,6 +147,27 @@ describe("`ModalsManager` component", () => {
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when component is render with proper where `deviceInitializationFailedModalShowEnabled` is set to `true`", () => {
+    test("`ErrorConnectingModal` is visible", () => {
+      const { queryByTestId } = render({
+        deviceInitializationFailedModalShowEnabled: true,
+      })
+
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(AppUpdateFlowTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(AppForcedUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()
     })
   })
