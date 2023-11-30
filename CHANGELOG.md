@@ -14,14 +14,13 @@ straightforward as possible.
 
 ### Changed
 
-- **Electron**: Updated from version 8.5.5 to 26
-- **Node.js**: Updated from version 14.17.3 to 18.16.1
-- **Chromedriver**: Updated from version 103.0.0 to 116.0.0
-- **Jest**: Updated from version 26.0.0 to 29.0.0
-- **React**: Updated from version 17.0.2 to 18.2.0
-- **TypeScript**: Updated from version 4.8.3 to 5.2.2
-- Removed unnecessary packages.
-
+- **Electron**: updated to version 26.0.0
+- **Node.js**: updated to version 18.16.1
+- **Chromedriver**: updated to version 116.0.0
+- **Jest**: updated to version 29.0.0
+- **React**: updated to version 18.2.0
+- **TypeScript**: updated to version 5.2.2
+- Additionally, unnecessary dependencies have been removed, resulting in a more streamlined and efficient project structure. This release includes various minor fixes and optimizations to enhance overall stability and user experience.
 
 ## [2.2.5] - 2023-11-23
 
