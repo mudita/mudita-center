@@ -113,11 +113,13 @@ jobs:
       - name: Changing app version in packages.json for Mac & Standard Update
         if: matrix.os == 'macOS' && matrix.type == 'standard'
         run: |
-          export APP_VERSION=$(cat packages/app/package.json | jq -r .version)
+          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
           export TAG=$(echo $GITHUB_REF | sed 's/^refs\/tags\///')
           export VERSION=$(echo $TAG | awk -F'-' '{print $1}')
           export NEW_APP_VERSION="$VERSION-qa.$APP_VERSION"
-          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" packages/app/package.json
+          TMP_FILE=$(mktemp)
+          sed "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" packages/app/package.json > "$TMP_FILE"
+          mv "$TMP_FILE" packages/app/package.json
       - name: Changing app version in packages.json for Windows & Standard Update
         if: matrix.os == 'Windows' && matrix.type == 'standard'
         run: |
