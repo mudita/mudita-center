@@ -21,7 +21,34 @@ import { RequestConfig, DeviceInfo } from "App/device/types/mudita-os"
 import { DeviceStrategy } from "App/device/strategies/device-strategy.class"
 import { DeviceIpcEvent } from "App/device/constants/device-ipc-event.constant"
 
-export class Device {
+export interface DeviceProperties {
+  path: string
+  deviceType: DeviceType
+  connecting: boolean
+  locked: null | boolean
+  onboardingFinished: boolean
+  serialNumber: string
+}
+
+export const getDevicePropertiesFromDevice = ({
+  path,
+  deviceType,
+  connecting,
+  locked,
+  onboardingFinished,
+  serialNumber,
+}: Device): DeviceProperties => {
+  return {
+    path,
+    deviceType,
+    connecting,
+    locked,
+    onboardingFinished,
+    serialNumber,
+  }
+}
+
+export class Device implements DeviceProperties {
   public connecting = true
   public locked: null | boolean = null
   public onboardingFinished = false
@@ -35,6 +62,17 @@ export class Device {
     private eventEmitter: EventEmitter
   ) {
     this.mountListeners()
+  }
+
+  public toSerializableObject(): DeviceProperties {
+    return {
+      path: this.path,
+      deviceType: this.deviceType,
+      connecting: this.connecting,
+      locked: this.locked,
+      onboardingFinished: this.onboardingFinished,
+      serialNumber: this.serialNumber,
+    }
   }
 
   public async connect(): Promise<ResultObject<DeviceInfo>> {
@@ -226,8 +264,14 @@ export class Device {
     }
 
     if (this.locked !== true) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked, this)
-      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceLocked, this)
+      this.eventEmitter.emit(
+        DeviceServiceEvent.DeviceLocked,
+        this.toSerializableObject()
+      )
+      this.ipc.sendToRenderers(
+        DeviceIpcEvent.DeviceLocked,
+        this.toSerializableObject()
+      )
       this.locked = true
     }
   }
@@ -238,8 +282,14 @@ export class Device {
     }
 
     if (this.locked !== false) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked, this)
-      this.ipc.sendToRenderers(DeviceIpcEvent.DeviceUnlocked, this)
+      this.eventEmitter.emit(
+        DeviceServiceEvent.DeviceUnlocked,
+        this.toSerializableObject()
+      )
+      this.ipc.sendToRenderers(
+        DeviceIpcEvent.DeviceUnlocked,
+        this.toSerializableObject()
+      )
       this.locked = false
     }
   }

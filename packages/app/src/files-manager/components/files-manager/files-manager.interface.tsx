@@ -60,5 +60,4 @@ export interface FileServiceState {
   deletingFailed: boolean
   uploading: boolean
   uploadingInfo: boolean
-  uploadingFailed: boolean
 }

@@ -16,11 +16,9 @@ import Tethering from "App/__deprecated__/renderer/modules/tethering/tethering.c
 import {
   URL_MAIN,
   URL_ONBOARDING,
-  URL_RECOVERY_MODE,
   URL_TABS,
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
-import Calendar from "App/__deprecated__/calendar/calendar.container"
 import Playlist from "App/__deprecated__/renderer/modules/music/tabs/playlist.component"
 import Calls from "App/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
 import Dial from "App/__deprecated__/renderer/modules/phone/tabs/dial.component"
@@ -37,7 +35,6 @@ import {
   BackupContainer,
   AudioConversionContainer,
 } from "App/settings/components"
-import RecoveryMode from "App/__deprecated__/recovery-mode/recovery-mode.container"
 import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "App/templates/template.container"
@@ -57,7 +54,6 @@ export default () => (
           path={URL_ONBOARDING.troubleshooting}
           component={Troubleshooting}
         />
-        <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
       </LayoutBlankWrapper>
     </Route>
 
@@ -65,12 +61,6 @@ export default () => (
       <LayoutDesktopWrapperWithoutHeader>
         <Route path={URL_OVERVIEW.pureSystem} component={PureSystem} />
       </LayoutDesktopWrapperWithoutHeader>
-    </Route>
-
-    <Route exact path={[...Object.values(URL_RECOVERY_MODE)]}>
-      <LayoutBlankWrapper recoveryMode>
-        <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
-      </LayoutBlankWrapper>
     </Route>
 
     <Route>
@@ -88,7 +78,6 @@ export default () => (
           component={Playlist}
         />
         <Route path={URL_MAIN.news} component={News} />
-        <Route path={URL_MAIN.calendar} component={Calendar} />
         <Route path={URL_OVERVIEW.root} component={Overview} exact />
         <Route path={URL_MAIN.contacts} component={Contacts} exact />
         <Route path={URL_MAIN.phone} component={Calls} />

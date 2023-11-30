@@ -4,7 +4,6 @@
  */
 
 import { fireEvent } from "@testing-library/dom"
-import "@testing-library/jest-dom"
 import React from "react"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"

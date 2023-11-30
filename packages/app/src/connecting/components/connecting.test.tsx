@@ -8,14 +8,12 @@ import { act } from "@testing-library/react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Connecting from "App/connecting/components/connecting.component"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
-import { PasscodeModalTestIds } from "App/__deprecated__/passcode-modal/passcode-modal-test-ids.enum"
+import { PasscodeModalTestIds } from "App/__deprecated__/passcode-modal/components/passcode-modal-test-ids.enum"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { DeviceType } from "App/device/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { CriticalBatteryLevelModalTestIds } from "App/connecting/components/critical-battery-level-modal/critical-battery-level-modal-test-ids.enum"
-import { Provider } from "react-redux"
-import store from "App/__deprecated__/renderer/store"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 jest.mock("App/device-manager/listeners")
@@ -53,11 +51,7 @@ const render = (extraProps?: Partial<Props>) => {
     ...defaultProps,
     ...extraProps,
   }
-  const outcome = renderWithThemeAndIntl(
-    <Provider store={store}>
-      <Connecting {...props} />
-    </Provider>
-  )
+  const outcome = renderWithThemeAndIntl(<Connecting {...props} />)
   return {
     ...outcome,
   }

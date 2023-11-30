@@ -155,6 +155,10 @@ const ContactSupportModal: FunctionComponent<Props> = ({
     formState: { errors, isValid, isDirty, isSubmitted },
   } = useForm<ContactSupportFieldValues>({
     mode: "onChange",
+    defaultValues: {
+      [FieldKeys.Email]: "",
+      [FieldKeys.Description]: "",
+    },
   })
 
   const sendEmail = handleSubmit((data) => {

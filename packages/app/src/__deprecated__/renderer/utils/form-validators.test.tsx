@@ -6,7 +6,7 @@
 import { waitFor } from "@testing-library/dom"
 import { fireEvent } from "@testing-library/react"
 import { ContactSupportFieldValues } from "App/contact-support/components/contact-support-modal.component"
-import { InputText } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
+import InputText from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   addressValidator,
@@ -46,7 +46,7 @@ const Form: FunctionComponent<Props> = ({ validator }) => {
         data-testid={FormTestIds.Input}
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        errorMessage={errors.validator?.message}
+        errorMessage={errors.validator?.message?.toString()}
         {...register("validator", validator)}
       />
     </form>
@@ -332,10 +332,10 @@ describe("Form Validators", () => {
     )
 
     test("should not display error when phone number is valid", async () => {
-      const { getByTestId, queryByText } = render(defaultProps)
-      fireEvent.change(getByTestId(FormTestIds.Input), {
+      const { findByTestId, queryByText } = render(defaultProps)
+      fireEvent.change(await findByTestId(FormTestIds.Input), {
         target: {
-          value: "-",
+          value: "aaa",
         },
       })
       await waitFor(() => {
@@ -343,7 +343,7 @@ describe("Form Validators", () => {
           queryByText("[value] component.formErrorDigitsAndPlusOnly")
         ).toBeInTheDocument()
       })
-      fireEvent.change(getByTestId(FormTestIds.Input), {
+      fireEvent.change(await findByTestId(FormTestIds.Input), {
         target: {
           value: "+1234",
         },

@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import "@testing-library/jest-dom"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import React, { ComponentProps } from "react"

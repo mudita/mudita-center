@@ -67,32 +67,19 @@ Using Developer mode you can:
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default, you can run the following to package it for your current platform:
 
 ```bash
-npm run dist:dev
-```
-
-or
-
-```bash
-npm run dist:prod
+npm run dist
 ```
 
 This will create an installer for your platform in the `releases` folder.
-
-You can also build the app for all platforms (Windows, macOS, Linux) by using the `npm run dist:dev:all` or `npm run dist:prod:all` command.
 
 You can also make builds for a specific platform (or multiple platforms) by using [the CLI options](https://www.electron.build/cli).
 
 For example, building for Windows and Linux:
 
 ```bash
-npm run dist:dev -- -wl
+npm run dist -- -wl
 ```
 
-or
-
-```bash
-npm run dist:prod -- -wl
-```
 
 ### Feature toggle environment separation
 
@@ -101,13 +88,13 @@ Also you are able to distribute an application with in specific predefined envir
 To run distribution with feature toggle environment use the next formula:
 
 ```bash
-FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run dist:*
+FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run dist
 ```
 
 For example:
 
 ```bash
-FEATURE_TOGGLE_ENVIRONMENT=development npm run dist:dev
+FEATURE_TOGGLE_ENVIRONMENT=development npm run dist
 ```
 
 Will distribute an application with development set of feature toggles
@@ -133,12 +120,29 @@ npm version CURRENT_VERSION + 1
 
 ## Troubleshooting common errors
 
+
 ### Font during development is slightly different from what I see in official app
 
 That's because we're using `GT Pressura` font that can't be open-sourced, so we can't publish it in our repository.
 Instead, for development purpose outside the Mudita company, we're using a `Roboto Condensed` font from Google which is quite similar.
 
 More info about managing fonts [can be found here](packages/app/src/__deprecated__/renderer/fonts/README.md).
+
+### During `npm run setup` there's an issue with `node-gyp` and `python`
+
+Make sure you have proper Python version installed (3.10).
+
+Example on how to install it on macOS using Homebrew:
+
+1. ```shell
+   brew install python@3.10
+   ```
+2. ```shell
+   export PYTHON=/opt/homebrew/bin/python3.10
+   ```
+3. ```shell
+   source ~/.zshrc
+   ```
 
 ### The module was compiled against a different Node.js version
 

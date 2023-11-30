@@ -8,7 +8,7 @@ module.exports = {
     verbose: true,
     disableDotRule: false,
   },
-  onBeforeSetupMiddleware() {
+  setupMiddlewares(middlewares, devServer) {
     if (process.env.START_HOT) {
       spawn("npm", ["run", "dev:start:main"], {
         shell: true,
@@ -18,5 +18,6 @@ module.exports = {
         .on("close", (code) => process.exit(code))
         .on("error", (spawnError) => console.error(spawnError))
     }
+    return middlewares
   },
 }

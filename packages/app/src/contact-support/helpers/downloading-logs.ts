@@ -19,6 +19,7 @@ export const downloadingLogs = async (): Promise<
 > => {
   const mcFileName = `mc-${todayFormatDate}.txt`
   const appLogs = await getAppLogs(15000000)
+
   const appLogFile: ArchiveFile = {
     data: appLogs,
     name: mcFileName,

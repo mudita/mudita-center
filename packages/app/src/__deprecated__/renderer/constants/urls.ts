@@ -10,7 +10,6 @@ export const URL_MAIN = {
   phone: "/phone",
   contacts: "/contacts",
   music: "/music",
-  calendar: "/calendar",
   tools: "/tools",
   meditation: "/meditation",
   filesManager: "/files-manager",
@@ -41,10 +40,6 @@ export const URL_ONBOARDING = {
   welcome: "/onboarding/welcome",
   connecting: "/onboarding/connecting",
   troubleshooting: "/onboarding/troubleshooting",
-} as const
-
-export const URL_RECOVERY_MODE = {
-  root: "/recovery-mode",
 } as const
 
 export const URL_OVERVIEW = {

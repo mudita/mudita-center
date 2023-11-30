@@ -18,7 +18,7 @@ export const useHelpSearch = (
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getStoreData?: (key?: string) => Promise<any>
-) => {
+): { data: QuestionAndAnswer; searchQuestion: (value: string) => void } => {
   const [networkStatus, setNetworkStatus] = useState(window.navigator.onLine)
   const [data, setData] = useState<QuestionAndAnswer>({
     collection: [],

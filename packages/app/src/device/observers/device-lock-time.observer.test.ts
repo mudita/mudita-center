@@ -38,7 +38,6 @@ describe("Device Lock Time Observer: observe", () => {
   })
   afterEach(() => {
     jest.useRealTimers()
-    jest.resetAllMocks()
   })
 
   describe("When `unlockTime` returns success result", () => {

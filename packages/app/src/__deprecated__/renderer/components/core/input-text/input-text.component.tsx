@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React from "react"
 import {
   InputText,
   TextArea,
@@ -13,8 +13,8 @@ import {
   InputComponentProps,
   InputPasscodeProps,
   TextareaProps,
+  InputProps,
 } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 
 const isTextareaProps = (
   props: InputComponentProps
@@ -22,24 +22,42 @@ const isTextareaProps = (
   return props.type === "textarea"
 }
 
+const isInputProps = (props: InputComponentProps): props is InputProps => {
+  return true
+}
+
 const isInputPasscodeProps = (
   props: InputComponentProps
 ): props is InputPasscodeProps => {
   return props.type === "passcode"
 }
-
-export const InputComponent: FunctionComponent<InputComponentProps> = (
-  props
-) => {
-  if (isTextareaProps(props)) {
-    return <TextArea {...props} />
-  } else if (isInputPasscodeProps(props)) {
-    return <InputPasscode {...props} />
-  }
-  return <InputText {...props} />
+const isTextareaRef = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ref: React.ForwardedRef<any>
+): ref is React.ForwardedRef<HTMLTextAreaElement> => {
+  return true
+}
+const isInputRef = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ref: React.ForwardedRef<any>
+): ref is React.ForwardedRef<HTMLInputElement> => {
+  return true
 }
 
-export default React.forwardRef<
-  HTMLInputElement & HTMLTextAreaElement,
-  ComponentProps<typeof InputComponent>
->((props, ref) => <InputComponent {...props} inputRef={ref} />)
+const ForwardedInput = React.forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  InputComponentProps
+>((props, ref) => {
+  if (isTextareaProps(props) && isTextareaRef(ref)) {
+    return <TextArea {...props} inputRef={ref} />
+  } else if (isInputPasscodeProps(props) && isInputRef(ref)) {
+    return <InputPasscode {...props} inputRef={ref} />
+  } else if (isInputProps(props) && isInputRef(ref)) {
+    return <InputText {...props} inputRef={ref} />
+  }
+  return null
+})
+
+export default ForwardedInput

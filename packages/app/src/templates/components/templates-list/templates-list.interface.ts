@@ -4,15 +4,12 @@
  */
 
 import { Template } from "App/templates/dto"
-import { DropResult } from "react-beautiful-dnd"
 
 export interface TemplatesListProps {
-  templates: Template[]
   deleteTemplates: (ids: string[]) => void
   updateTemplate: (id: string) => void
-  onDragEnd: (result: DropResult) => void
-  toggleRow: (id: string) => void
+  templateReordered: () => void
   templateFormOpen: boolean
-  selectedItems: string[]
-  active?: Template
+  selectedTemplateIds: string[]
+  activeTemplate?: Template
 }

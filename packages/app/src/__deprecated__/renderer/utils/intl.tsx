@@ -8,6 +8,7 @@ import { createIntl } from "react-intl"
 import translationConfig from "App/translations.config.json"
 import localeEn from "App/__deprecated__/renderer/locales/default/en-US.json"
 import extractLanguageKeys from "App/__deprecated__/renderer/utils/extract-test-locale"
+import { FormatXMLElementFn, PrimitiveType } from "intl-messageformat"
 
 const testLocale = extractLanguageKeys(localeEn)
 
@@ -31,4 +32,9 @@ export const textFormatters = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   s: (str: string) => <s key={`strike-${++index}`}>{str}</s>,
-}
+} as unknown as Record<
+  string,
+  | React.ReactNode
+  | PrimitiveType
+  | FormatXMLElementFn<React.ReactNode, React.ReactNode>
+>

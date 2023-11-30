@@ -107,6 +107,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
   removeMessage = noop,
   resendMessage = noop,
   getContactByPhoneNumber,
+  ...restProps
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
 
@@ -121,7 +122,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
   )
 
   return (
-    <>
+    <div {...restProps}>
       <SearchResultQueryWrapper>
         <SearchTitle displayStyle={TextDisplayStyle.Headline4}>
           {intl.formatMessage(messages.searchResultsTitle, {
@@ -248,7 +249,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
           />
         )}
       </Threads>
-    </>
+    </div>
   )
 }
 

@@ -4,7 +4,7 @@
  */
 
 import { BrowserWindow } from "electron"
-import * as electron from "electron"
+import { getCurrentWindow } from "@electron/remote"
 import localShortcut from "electron-localshortcut"
 import { AppHotkeys } from "App/__deprecated__/hotkeys/hotkeys.types"
 
@@ -16,7 +16,7 @@ class Hotkeys {
   private readonly window: BrowserWindow
 
   constructor() {
-    this.window = electron.remote.getCurrentWindow()
+    this.window = getCurrentWindow()
   }
 
   public register(hotkey: AppHotkeys, callback: () => void) {

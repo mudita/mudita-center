@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { useEffect, useState } from "react"
+import { IpcRendererEvent } from "electron/renderer"
 import {
   registerDownloadProgressListener,
   removeDownloadProgressListener,
@@ -12,7 +14,6 @@ import {
   DownloadProgress,
   DownloadStatus,
 } from "App/__deprecated__/renderer/interfaces/file-download.interface"
-import { useEffect, useState } from "react"
 
 interface Result {
   downloadProgress: DownloadProgress | undefined
@@ -25,7 +26,7 @@ export const useDownloadProgress = (): Result => {
   >()
 
   useEffect(() => {
-    const downloadListener = (_event: Event, progress: DownloadProgress) => {
+    const downloadListener = (_event: IpcRendererEvent, progress: DownloadProgress) => {
       const { status } = progress
       setDownloadProgress(progress)
       if (status === DownloadStatus.Interrupted) {
