@@ -44,7 +44,6 @@ straightforward as possible.
 - Enhance of update badge status for Mudita Center
 - Enhance of update badge status for OS
 
-
 ## [2.2.3] - 2023-05-10
 
 ### Fixed
@@ -58,7 +57,6 @@ straightforward as possible.
 - The formatting of headlines in News section articles has been improved
 - Changed connection error flow to be more user-friendly
 - Changed text in contacts import flow for a more intuitive one
-
 
 ## [2.2.2] - 2023-09-28
 
