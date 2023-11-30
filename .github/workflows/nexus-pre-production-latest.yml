@@ -121,13 +121,13 @@ jobs:
       - name: Changing app version in packages.json for Windows & Standard Update
         if: matrix.os == 'Windows' && matrix.type == 'standard'
         run: |
-          $APP_VERSION = (Get-Content -Path "packages/app/version")
+          $APP_VERSION = Get-Content -Path "packages/app/version"
           $TAG = $env:GITHUB_REF -replace 'refs/tags/', ''
-          $VERSION = $TAG -split '-')[0]
+          $VERSION = ($TAG -split '-')[0]
           $NEW_APP_VERSION = "$VERSION-qa.$APP_VERSION"
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
-                      $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
-                    } | Set-Content -Path 'packages/app/package.json'
+              $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
+          } | Set-Content -Path 'packages/app/package.json'
       - name: Changing app version in packages.json for Linux & Force Update
         if: matrix.os == 'Linux' && matrix.type == 'force'
         run: |
@@ -143,11 +143,11 @@ jobs:
       - name: Changing app version in packages.json for Windows & Force Update
         if: matrix.os == 'Windows' && matrix.type == 'force'
         run: |
-          $APP_VERSION = (Get-Content -Path "packages/app/version")
+          $APP_VERSION = Get-Content -Path "packages/app/version"
           $NEW_APP_VERSION = "0.0.1-qa.$APP_VERSION"
           (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
-                      $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
-                    } | Set-Content -Path 'packages/app/package.json'
+              $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
+          } | Set-Content -Path 'packages/app/package.json'
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file for Windows
