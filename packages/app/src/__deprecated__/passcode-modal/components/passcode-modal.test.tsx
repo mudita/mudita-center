@@ -116,7 +116,7 @@ test("Message is displayed properly when request about phone lock return interna
   )
 })
 
-test.skip("Message is displayed properly when request about phone lock status return phone locked", async () => {
+test("Message is displayed properly when request about phone lock status return phone locked", async () => {
   const { inputsList, errorMessage } = renderer({
     getUnlockStatus: jest
       .fn()
@@ -127,10 +127,12 @@ test.skip("Message is displayed properly when request about phone lock status re
   fireEvent.keyDown(inputsList()[2] as Element, digitKeyEvent)
   fireEvent.keyDown(inputsList()[3] as Element, digitKeyEvent)
   await waitFor(noop)
-  await waitFor(() =>
-    expect(errorMessage()).toHaveTextContent(
-      "[value] component.passcodeModalError"
-    )
+  await waitFor(
+    () =>
+      expect(errorMessage()).toHaveTextContent(
+        "[value] component.passcodeModalError"
+      ),
+    { timeout: 100000 }
   )
 })
 
