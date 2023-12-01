@@ -8,6 +8,10 @@ import { useDispatch } from "react-redux"
 import { Dispatch } from "App/__deprecated__/renderer/store"
 import { uploadFile } from "App/files-manager/actions"
 
+/**
+ * Custom React hook facilitating file uploads with Redux. Offers a simple interface through `handleUploadFiles`
+ * while ensuring upload cancellation on component unmount.
+ */
 const useCancelableFileUpload = () => {
   const dispatch = useDispatch<Dispatch>()
   const uploadActionRef = useRef<ReturnType<typeof dispatch>>()
