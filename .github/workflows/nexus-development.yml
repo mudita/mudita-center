@@ -224,7 +224,6 @@ jobs:
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-development
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          draft: true
           files: |
             ./packages/app/release/Mudita-Center.exe
             ./packages/app/release/Mudita-Center.exe.blockmap
@@ -239,7 +238,6 @@ jobs:
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-development
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          draft: true
           files: |
             ./packages/app/release/Mudita-Center.AppImage
             ./packages/app/release/latest-linux.yml
@@ -253,7 +251,6 @@ jobs:
           name: Mudita Center v${{ env.GITTAG }}
           repository: mudita/mudita-center-development
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
-          draft: true
           files: |
             ./packages/app/release/Mudita-Center.dmg
             ./packages/app/release/Mudita-Center.zip
