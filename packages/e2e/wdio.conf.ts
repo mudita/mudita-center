@@ -38,12 +38,6 @@ export const config: Options.Testrunner = {
       transpileOnly: true,
       project: "tsconfig.json",
     },
-    // tsconfig-paths is only used if "tsConfigPathsOpts" are provided, if you
-    // do please make sure "tsconfig-paths" is installed as dependency
-    tsConfigPathsOpts: {
-      baseUrl: "./",
-      paths: {},
-    },
   },
   //
   // ==================
@@ -121,6 +115,7 @@ export const config: Options.Testrunner = {
       // maxInstances: 5,
       //
       browserName: "chrome",
+      browserVersion: '116.0.5793.0',
       // acceptInsecureCerts: true,
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
@@ -180,7 +175,7 @@ export const config: Options.Testrunner = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ["chromedriver"],
+  // services: [],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
