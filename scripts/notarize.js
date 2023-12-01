@@ -1,11 +1,13 @@
 const fs = require("fs")
 const path = require("path")
-const { build } = require("../package.json")
+const { build } = require("../packages/app/package.json")
 const { notarize } = require("electron-notarize")
 
 require("dotenv").config({
-  path: path.join(__dirname, "../.electron-builder.env"),
+  path: path.join(__dirname, "../packages/app/electron-builder.env"),
 })
+const env = path.join(__dirname, "../packages/app/electron-builder.env")
+console.log("env", env)
 
 module.exports = async function (context) {
   const { electronPlatformName, appOutDir } = context

@@ -4,7 +4,7 @@
  */
 
 import { Asset, Entry, EntryCollection } from "contentful"
-import { NewsEntry } from "App/news/dto"
+import { NewsEntry } from "../../dto"
 import { getBase64 } from "../get-base-64/get-base64.helper"
 
 // AUTO DISABLED - fix me if you like :)

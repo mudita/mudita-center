@@ -33,20 +33,19 @@
     "storybook:serve": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "DATA UPDATE/OVERWRITE COMMANDS": "=========================================",
-    "translations:sort": "ts-node ./scripts/sort-translations.ts",
-    "translations:sync": "ts-node ./scripts/sync-translations.ts",
-    "fonts:download": "node ./scripts/downloadFonts.js",
-    "copy-static-dependencies": "node ./scripts/copy-static-sql-js-dependencies.js",
-    "news:download": "ts-node ./scripts/downloadNews.ts",
-    "help:download": "ts-node ./scripts/downloadHelpItems.ts",
-    "app-configuration:download": "ts-node ./scripts/download-configuration.ts",
+    "translations:sort": "ts-node ../../scripts/sort-translations.ts",
+    "translations:sync": "ts-node ../../scripts/sync-translations.ts",
+    "fonts:download": "node ../../scripts/downloadFonts.js",
+    "copy-static-dependencies": "node ../../scripts/copy-static-sql-js-dependencies.js",
+    "news:download": "ts-node ../../scripts/downloadNews.ts",
+    "help:download": "ts-node ../../scripts/downloadHelpItems.ts",
+    "app-configuration:download": "ts-node ../../scripts/download-configuration.ts",
     "UTILITY/AUTO COMMANDS": "=================================================",
-    "postinstall": "npm run fonts:download && npm run news:download && npm run app-configuration:download && npm run copy-static-dependencies",
-    "prerelease": "npm r  un translations:overwrite && npm run build",
     "prestart": "npm run build",
     "posttranslations:sync": "npm run translations:sort",
     "posttranslations:sort": "prettier --write src/**/*.json",
-    "posttest:coverage": "prettier --write ./jest.coverage.json"
+    "posttest:coverage": "prettier --write ./jest.coverage.json",
+    "postinstall": "npm run fonts:download && npm run news:download && npm run app-configuration:download && npm run copy-static-dependencies"
   },
   "build": {
     "productName": "Mudita Center",
@@ -95,7 +94,7 @@
       "../../node_modules/",
       "package.json"
     ],
-    "afterSign": "./scripts/notarize.js"
+    "afterSign": "../../scripts/notarize.js"
   },
   "repository": {
     "type": "git",

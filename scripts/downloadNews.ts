@@ -7,16 +7,18 @@ const axios = require("axios")
 const path = require("path")
 const fs = require("fs-extra")
 require("dotenv").config({
-  path: path.join(__dirname, "../../../.env"),
+  path: path.join(__dirname, "../.env"),
 })
 import { EntryCollection } from "contentful"
-import { NewsEntry } from "../src/news/dto/news-entry.object"
-import { normalizeContentfulData } from "../src/news/helpers/normalize-contentful-data/normalize-contentful-data.helper"
+import { NewsEntry } from "../packages/app/src/news/dto/news-entry.object"
+import { normalizeContentfulData } from "../packages/app/src/news/helpers/normalize-contentful-data/normalize-contentful-data.helper"
 ;(async () => {
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))
-    const jsonPath = path.join("src", "news", "default-news.json")
-
+    const jsonPath = path.resolve(
+      __dirname,
+      "../packages/app/src/news/default-news.json"
+    )
     const url = `${process.env.MUDITA_CENTER_SERVER_URL}/news`
     const { data } = await axios.get(url, {
       params: { limit: 6 },

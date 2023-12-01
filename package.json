@@ -9,8 +9,8 @@
     "packages/e2e"
   ],
   "scripts": {
-    "READY": "--------------------------------------------------------------------------------------------------------------------",
     "setup": "npm i && nx postinstall app",
+    "setup-post": "nx postinstall app",
     "app:develop": "nx develop app",
     "app:lint": "nx lint app",
     "app:lint:fix": "nx lint:fix app",
@@ -21,14 +21,7 @@
     "app:dist2": "nx build app && electron-builder --publish never",
     "app:storybook:serve": "nx storybook:serve app",
     "app:storybook:build": "nx storybook:build app",
-    "e2e:test": "nx test e2e",
-    "READY2": "--------------------------------------------------------------------------------------------------------------------",
-    "niewiem": "--------------------------------------------------------------------------------------------------------------------",
-    "pre-commit": "lint-staged",
-    "bootstrap:netlify": "lerna bootstrap --force-local --ignore-scripts",
-    "app:prerelease": "lerna run --scope @mudita/mudita-center-app prerelease",
-    "app:electron:rebuild-serialport": "lerna run --scope @mudita/mudita-center-app electron:rebuild-serialport --",
-    "niewiem2": "--------------------------------------------------------------------------------------------------------------------"
+    "e2e:test": "nx test e2e"
   },
   "repository": {
     "type": "git",

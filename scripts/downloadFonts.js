@@ -3,7 +3,7 @@ const fs = require("fs-extra")
 const path = require("path")
 
 require("dotenv").config({
-  path: path.join(__dirname, "../../../.env"),
+  path: path.join(__dirname, "../.env"),
 })
 
 /**
@@ -15,6 +15,8 @@ require("dotenv").config({
   const fontsDirectory = path.join(
     __dirname,
     "..",
+    "packages",
+    "app",
     "src",
     "__deprecated__",
     "renderer",

@@ -6,13 +6,13 @@
 import axios from "axios"
 const path = require("path")
 const fs = require("fs-extra")
-import { Configuration } from "../src/settings/dto"
+import { Configuration } from "../packages/app/src/settings/dto"
 
 require("dotenv").config({
-  path: path.join(__dirname, "../../../.env"),
+  path: path.join(__dirname, "../.env"),
 })
 
-let defaultData = require("../src/settings/static/default-app-configuration.json")
+let defaultData = require("../packages/app/src/settings/static/default-app-configuration.json")
 
 ;(async () => {
   const jsonPath = path.join(
@@ -21,6 +21,7 @@ let defaultData = require("../src/settings/static/default-app-configuration.json
     "static",
     "app-configuration.json"
   )
+
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))
 
