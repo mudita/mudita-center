@@ -110,7 +110,9 @@ export abstract class BaseAdapter {
 
   protected abstract deviceRequest(
     port: SerialPort,
-    { options = {}, ...payload }: RequestPayload
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line
+    { options, ...payload }: RequestPayload
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<ResultObject<Response<any>>>

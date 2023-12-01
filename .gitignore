@@ -69,3 +69,6 @@ packages/app/src/settings/static/app-configuration.json
 
 # Fetched wasm sql lib
 packages/app/static/sql-wasm*
+
+# Nx local files
+.nx

@@ -1,5 +1,5 @@
 {
-  "name": "@mudita/mudita-center-e2e",
+  "name": "e2e",
   "version": "0.0.1",
   "description": "The E2E tests of Mudita Center",
   "author": "igorbezsmertnyii <mr.igor96@outlook.com>",
@@ -25,28 +25,9 @@
     "url": "https://github.com/mudita/mudita-center/issues"
   },
   "devDependencies": {
-    "@types/semver": "^7.5.6",
-    "@types/serialport": "^8.0.2",
-    "@wdio/cli": "^8.24.2",
-    "@wdio/json-reporter": "^8.24.2",
-    "@wdio/local-runner": "^8.24.2",
-    "@wdio/mocha-framework": "^8.24.2",
-    "@wdio/reporter": "^8.24.2",
-    "@wdio/spec-reporter": "^8.24.2",
-    "dotenv": "^16.3.1",
-    "node-gyp": "^10.0.1",
-    "semver": "^7.5.4",
-    "serialport": "10.1.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.3.2",
-    "util": "^0.12.5",
-    "wdio-wait-for": "^3.0.9"
   },
   "engines": {
     "node": "18.16.1",
     "npm": "9.5.1"
-  },
-  "dependencies": {
-    "axios": "^0.27.2"
   }
 }
