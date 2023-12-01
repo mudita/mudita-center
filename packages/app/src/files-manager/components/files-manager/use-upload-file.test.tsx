@@ -59,17 +59,14 @@ describe("useUploadFile", () => {
   it("should handle file upload", () => {
     const { result, unmount } = renderHookWithProviders(() => useUploadFile())
 
-    // Call the function to handle file upload
     act(() => {
       result.current.handleUploadFiles()
     })
 
-    // Simulate the effect of unmounting
     act(() => {
       unmount()
     })
 
-    // Check if the abort function has been called
     expect(uploadFile).toHaveBeenCalled()
   })
 })
