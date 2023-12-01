@@ -8,6 +8,7 @@ import { NewsProps } from "App/news/components/news/news.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React from "react"
 import styled from "styled-components"
+import { fillGenericStore } from "App/api-demo/store/generic-dispatch-demo"
 
 const MuditaNews = styled.section`
   overflow: auto;
@@ -15,6 +16,8 @@ const MuditaNews = styled.section`
 `
 
 const News: FunctionComponent<NewsProps> = ({ newsItems, loadData }) => {
+  // Demo purpose only
+  void fillGenericStore()
   return (
     <MuditaNews>
       <Cards newsItems={newsItems} loadData={loadData} />

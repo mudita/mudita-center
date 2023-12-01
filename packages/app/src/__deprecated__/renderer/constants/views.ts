@@ -31,7 +31,6 @@ const messages = defineMessages({
   help: { id: "module.help" },
   error: { id: "module.error" },
   pureSystem: { id: "module.overview.pureSystem" },
-  overviewDemo: { id: "module.overviewDemo" },
 })
 
 export enum View {
@@ -52,14 +51,13 @@ export enum View {
   Help = "help",
   Error = "error",
   PureSystem = "pure-system",
-  OverviewDemo = "overview-demo",
 }
 
 export type Views = {
   [key in View]: {
     label: {
       id: string
-    }
+    } | string
     url: string
     renderHeaderButton?: boolean
   }
@@ -134,11 +132,5 @@ export const views: Views = {
   [View.PureSystem]: {
     label: messages.pureSystem,
     url: URL_OVERVIEW.pureSystem,
-  },
-  [View.OverviewDemo]: {
-    label: {
-      id: "Overview demo"
-    },
-    url: URL_MAIN.overviewDemo,
   },
 }

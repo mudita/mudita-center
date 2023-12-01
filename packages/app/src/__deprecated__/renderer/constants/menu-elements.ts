@@ -7,7 +7,7 @@ import { DeviceType } from "App/device/constants"
 import { defineMessages } from "react-intl"
 import { View, views } from "App/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "App/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
-import { flags, Feature } from "App/feature-flags"
+import { Feature, flags } from "App/feature-flags"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
@@ -110,18 +110,20 @@ const DESKTOP_APP_BUTTONS: Item[] = [
 
 interface Item {
   button: (typeof views)[View]
-  icon: IconType
+  icon?: IconType
   testId?: MenuGroupTestIds
   hidden?: boolean
-  visibleOn: DeviceType[]
+  visibleOn?: DeviceType[]
   viewKey?: View
 }
 
 export interface MenuElement {
   items?: Item[]
-  label?: {
-    id: string
-  }
+  label?:
+    | {
+        id: string
+      }
+    | string
   icons?: IconType[]
   connectedPhoneOnly?: boolean
   devModeOnly?: boolean
@@ -131,7 +133,7 @@ export interface MenuElement {
   viewKey?: View
 }
 
-export const menuElements: MenuElement[] = [
+export const baseMenuElements: MenuElement[] = [
   {
     items: [
       {
@@ -165,16 +167,9 @@ export const menuElements: MenuElement[] = [
     ],
     viewKey: View.News,
   },
-  {
-    items: [
-      {
-        button: views[View.OverviewDemo],
-        icon: IconType.MenuOverview,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-      },
-    ],
-    viewKey: View.OverviewDemo,
-  },
+]
+
+export const deviceMenuElements: MenuElement[] = [
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
@@ -196,6 +191,9 @@ export const menuElements: MenuElement[] = [
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaHarmony],
   },
+]
+
+export const centerMenuElements: MenuElement[] = [
   {
     label: messages.desktopApp,
     items: DESKTOP_APP_BUTTONS,

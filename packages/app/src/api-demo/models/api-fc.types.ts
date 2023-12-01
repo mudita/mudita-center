@@ -3,17 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  FunctionComponent as ReactFunctionComponent,
-  PropsWithChildren,
-} from "react"
+import { FunctionComponent, PropsWithChildren, ReactHTMLElement } from "react"
 
-interface Props {
-  className?: string
-}
+type DefaultProps = Partial<
+  Pick<ReactHTMLElement<HTMLElement>["props"], "className" | "style">
+>
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type APIFC<P = {}> = ReactFunctionComponent<
-  Readonly<PropsWithChildren<{ parameters: P } & Props>>
+export type APIFC<
+  Parameters = {},
+  Data = {},
+  ExtraProps = {}
+> = FunctionComponent<
+  Readonly<
+    PropsWithChildren<
+      { parameters?: Parameters; data?: Data } & ExtraProps & DefaultProps
+    >
+  >
 >

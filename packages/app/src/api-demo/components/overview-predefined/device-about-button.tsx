@@ -14,7 +14,7 @@ interface DeviceAboutButtonProperties {
 export const DeviceAboutButton: APIFC<DeviceAboutButtonProperties> = ({
   parameters,
 }) => {
-  const { buttonLabel, modalContent } = parameters
+  const { buttonLabel, modalContent } = parameters || {}
   const openModal = () => {
     alert(modalContent)
   }

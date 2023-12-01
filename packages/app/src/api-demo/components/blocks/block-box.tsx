@@ -3,25 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { APIFC } from "App/api-demo/models/api-fc.types"
 import React from "react"
 import styled from "styled-components"
+import { APIFC } from "../../models/api-fc.types"
 
-interface BoxProperties {
+interface BlockBoxParameters {
   title?: string
 }
 
-export const BlockBox: APIFC<BoxProperties> = ({ parameters, children }) => {
+export const BlockBox: APIFC<BlockBoxParameters> = ({
+  parameters,
+  children,
+  ...props
+}) => {
   return (
-    <BoxWrapper>
-      {parameters.title && <h1>{parameters.title}</h1>}
+    <BoxWrapper {...props}>
+      {parameters?.title && <h1>{parameters.title}</h1>}
       {children}
     </BoxWrapper>
   )
 }
 
 const BoxWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: #9fc7ef;
+  background-color: #ccc;
 `
