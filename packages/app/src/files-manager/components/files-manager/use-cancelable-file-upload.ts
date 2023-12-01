@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux"
 import { Dispatch } from "App/__deprecated__/renderer/store"
 import { uploadFile } from "App/files-manager/actions"
 
-const useUploadFile = () => {
+const useCancelableFileUpload = () => {
   const dispatch = useDispatch<Dispatch>()
   const uploadActionRef = useRef<ReturnType<typeof dispatch>>()
   const [uploadActionTimestamp, setUploadActionTimestamp] = useState<number>()
@@ -36,4 +36,4 @@ const useUploadFile = () => {
   }
 }
 
-export default useUploadFile
+export default useCancelableFileUpload

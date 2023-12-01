@@ -13,7 +13,7 @@ import {
   RenderHookResult,
   RenderOptions,
 } from "@testing-library/react"
-import useUploadFile from "App/files-manager/components/files-manager/use-upload-file"
+import useCancelableFileUpload from "App/files-manager/components/files-manager/use-cancelable-file-upload"
 import { AnyAction, createAsyncThunk, PreloadedState } from "@reduxjs/toolkit"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { uploadFile } from "App/files-manager/actions"
@@ -57,7 +57,7 @@ describe("useUploadFile", () => {
     )
   })
   it("should handle file upload", () => {
-    const { result, unmount } = renderHookWithProviders(() => useUploadFile())
+    const { result, unmount } = renderHookWithProviders(() => useCancelableFileUpload())
 
     act(() => {
       result.current.handleUploadFiles()

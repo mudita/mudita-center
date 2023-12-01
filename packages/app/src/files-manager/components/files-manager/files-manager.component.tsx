@@ -28,7 +28,7 @@ import { useFilesFilter } from "App/files-manager/helpers/use-files-filter.hook"
 import { getSpaces } from "App/files-manager/components/files-manager/get-spaces.helper"
 import { useDispatch } from "react-redux"
 import { resetFiles } from "App/files-manager/actions/base.action"
-import useUploadFile from "App/files-manager/components/files-manager/use-upload-file"
+import useCancelableFileUpload from "App/files-manager/components/files-manager/use-cancelable-file-upload"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -81,7 +81,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     musicSpace,
   } = getSpaces(files, memorySpace)
   const dispatch = useDispatch()
-  const { handleUploadFiles } = useUploadFile()
+  const { handleUploadFiles } = useCancelableFileUpload()
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
   const downloadFiles = () => {
     // AUTO DISABLED - fix me if you like :)
