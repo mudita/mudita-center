@@ -8,7 +8,12 @@ import { DeviceType } from "App/device/constants"
 import { connect } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import MenuGroup from "App/__deprecated__/renderer/components/rest/menu/menu-group.component"
-import { menuElements } from "App/__deprecated__/renderer/constants/menu-elements"
+import {
+  MenuElement,
+  deviceMenuElements,
+  baseMenuElements,
+  centerMenuElements,
+} from "App/__deprecated__/renderer/constants/menu-elements"
 import { DevMode } from "App/__deprecated__/dev-mode/store/dev-mode.interface"
 import styled from "styled-components"
 import {
@@ -81,7 +86,9 @@ interface Properties {
     [View.Messages]: boolean
   }
   synchronizationProcess?: SynchronizationProcessState
+  genericMenuElements?: MenuElement[]
 }
+
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Menu: FunctionComponent<Properties> = ({
@@ -91,8 +98,14 @@ const Menu: FunctionComponent<Properties> = ({
   syncState,
   notifications,
   synchronizationProcess,
+  genericMenuElements,
 }) => {
-  const links = menuElements
+  const links = [
+    ...baseMenuElements,
+    ...(genericMenuElements || []),
+    ...deviceMenuElements,
+    ...centerMenuElements,
+  ]
     .filter(({ connectedPhoneOnly }) =>
       deviceFeaturesVisible ? true : !connectedPhoneOnly
     )
@@ -103,8 +116,6 @@ const Menu: FunctionComponent<Properties> = ({
     .filter(({ visibleOn }) =>
       deviceType && visibleOn ? visibleOn.includes(deviceType) : true
     )
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
       return (
         <MenuGroup
@@ -152,6 +163,7 @@ const mapDispatchToProps = (state: ReduxRootState) => ({
   notifications: {
     [View.Messages]: getUnreadThreads(state).length > 0,
   },
+  genericMenuElements: state.generic.menu,
 })
 
 export default connect(mapDispatchToProps)(Menu)

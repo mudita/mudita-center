@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import IconTextRow from "./icon-text-row"
+import { IconText } from "./icon-text"
 
 export const rows = {
-  "icon-text-row": IconTextRow,
+  "icon-text": IconText,
 }
