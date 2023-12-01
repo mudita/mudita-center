@@ -5,7 +5,7 @@
 import ContactsPage from "../page-objects/contacts.page"
 import NavigationTabs from "../page-objects/tabs.page"
 import ModalContactsPage from "../page-objects/modal-contacts.page"
-import { waitForClickableAndClick } from "../helpers/general.helper"
+import { waitForClickableAndClick } from "./general.helper"
 /** Add new contact */
 export const addNewContact = async (
   firstNameText: string,

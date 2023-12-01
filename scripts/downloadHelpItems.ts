@@ -7,9 +7,9 @@ const axios = require("axios")
 const path = require("path")
 const fs = require("fs-extra")
 require("dotenv").config({
-  path: path.join(__dirname, "../../../.env"),
+  path: path.join(__dirname, "../.env"),
 })
-import { normalizeHelpData } from "../../app/src/__deprecated__/renderer/utils/contentful/normalize-help-data"
+import { normalizeHelpData } from "../apps/mudita-center/src/__deprecated__/renderer/utils/contentful/normalize-help-data"
 ;(async () => {
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))

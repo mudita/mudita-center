@@ -36,5 +36,5 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./packages/pure/coverage/lcov.info,./packages/app/coverage/lcov.info
+          files: ./packages/pure/coverage/lcov.info,./apps/mudita-center/coverage/lcov.info
           fail_ci_if_error: false

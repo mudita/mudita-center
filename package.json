@@ -5,23 +5,22 @@
   "version": "2.2.6",
   "private": true,
   "workspaces": [
-    "packages/app",
-    "packages/e2e"
+    "apps/mudita-center",
+    "apps/mudita-center-e2e"
   ],
   "scripts": {
-    "setup": "npm i && nx postinstall app",
-    "setup-post": "nx postinstall app",
-    "app:develop": "nx develop app",
-    "app:lint": "nx lint app",
-    "app:lint:fix": "nx lint:fix app",
-    "app:lint:typecheck": "nx lint:typecheck app",
-    "app:translations:sync": "nx translations:sync app",
-    "app:test": "nx test app",
-    "app:dist": "nx dist app",
-    "app:dist2": "nx build app && electron-builder --publish never",
-    "app:storybook:serve": "nx storybook:serve app",
-    "app:storybook:build": "nx storybook:build app",
-    "e2e:test": "nx test e2e"
+    "setup": "npm i && nx postinstall mudita-center",
+    "setup-post": "nx postinstall mudita-center",
+    "app:develop": "nx develop mudita-center",
+    "app:lint": "nx lint mudita-center",
+    "app:lint:fix": "nx lint:fix mudita-center",
+    "app:lint:typecheck": "nx lint:typecheck mudita-center",
+    "app:translations:sync": "nx translations:sync mudita-center",
+    "app:test": "nx test mudita-center",
+    "app:dist": "nx dist mudita-center",
+    "app:storybook:serve": "nx storybook:serve mudita-center",
+    "app:storybook:build": "nx storybook:build mudita-center",
+    "e2e:test": "nx test mudita-center-e2e"
   },
   "repository": {
     "type": "git",

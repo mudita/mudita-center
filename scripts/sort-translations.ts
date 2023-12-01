@@ -1,6 +1,6 @@
 namespace SortTranslations {
   const fs = require("fs-extra")
-  const translationConfig = require("../src/translations.config.json")
+  const translationConfig = require("../apps/mudita-center/src/translations.config.json")
   const path = require("path")
 
   const script = async () => {
@@ -11,7 +11,7 @@ namespace SortTranslations {
         const filePath = path.join(
           __dirname,
           "..",
-          `src/__deprecated__/renderer/locales/default/${code}.json`
+          `apps/mudita-center/src/__deprecated__/renderer/locales/default/${code}.json`
         )
 
         if (await fs.pathExists(filePath)) {

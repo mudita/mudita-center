@@ -40,11 +40,11 @@ src/style.css
 src/style.css.map
 dist
 
-packages/app/tmp/extractedMessages
+apps/mudita-center/tmp/extractedMessages
 .idea
 .vscode
-packages/app/.storybook/tmp/**/*
-!packages/app/.storybook/tmp/.gitkeep
+apps/mudita-center/.storybook/tmp/**/*
+!apps/mudita-center/.storybook/tmp/.gitkeep
 storybook-static
 
 .env.*
@@ -55,20 +55,20 @@ tmp/**/*
 **/*/tmp/**/*
 !tmp/.keep
 
-packages/app/src/__deprecated__/renderer/fonts/main/**/*
-!packages/app/src/__deprecated__/renderer/fonts/main/.gitkeep
+apps/mudita-center/src/__deprecated__/renderer/fonts/main/**/*
+!apps/mudita-center/src/__deprecated__/renderer/fonts/main/.gitkeep
 
 # Fetched news
-packages/app/src/news/default-news.json
+apps/mudita-center/src/news/default-news.json
 
 # Fetched help items
-packages/app/src/help/default-help.json
+apps/mudita-center/src/help/default-help.json
 
 # Fetched appplication configuration
-packages/app/src/settings/static/app-configuration.json
+apps/mudita-center/src/settings/static/app-configuration.json
 
 # Fetched wasm sql lib
-packages/app/static/sql-wasm*
+apps/mudita-center/static/sql-wasm*
 
 # Nx local files
 .nx

@@ -48,7 +48,7 @@ jobs:
         shell: cmd
         run: |
           SET > .env
-          jq -r -j .version packages/app/package.json > packages/app/version
+          jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
         env:
@@ -104,72 +104,72 @@ jobs:
       - name: Changing app version in packages.json for Linux & Standard Update
         if: matrix.os == 'Linux' && matrix.type == 'standard'
         run: |
-          export APP_VERSION=$(cat packages/app/package.json | jq -r .version)
+          export APP_VERSION=$(cat apps/mudita-center/package.json | jq -r .version)
           export TAG=$(echo $GITHUB_REF | sed 's/^refs\/tags\///')
           export VERSION=$(echo $TAG | awk -F'-' '{print $1}')
           export NEW_APP_VERSION="$VERSION-qa.$APP_VERSION"
-          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" packages/app/package.json
+          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Mac & Standard Update
         if: matrix.os == 'macOS' && matrix.type == 'standard'
         run: |
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export TAG=$(echo $GITHUB_REF | sed 's/^refs\/tags\///')
           export VERSION=$(echo $TAG | awk -F'-' '{print $1}')
           export NEW_APP_VERSION="$VERSION-qa.$APP_VERSION"
           TMP_FILE=$(mktemp)
-          sed "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" packages/app/package.json > "$TMP_FILE"
-          mv "$TMP_FILE" packages/app/package.json
+          sed "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/mudita-center/package.json > "$TMP_FILE"
+          mv "$TMP_FILE" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Windows & Standard Update
         if: matrix.os == 'Windows' && matrix.type == 'standard'
         run: |
-          $APP_VERSION = Get-Content -Path "packages/app/version"
+          $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
           $TAG = $env:GITHUB_REF -replace 'refs/tags/', ''
           $VERSION = ($TAG -split '-')[0]
           $NEW_APP_VERSION = "$VERSION-qa.$APP_VERSION"
-          (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
+          (Get-Content -Path 'apps/mudita-center/package.json') | ForEach-Object {
               $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
-          } | Set-Content -Path 'packages/app/package.json'
+          } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Changing app version in packages.json for Linux & Force Update
         if: matrix.os == 'Linux' && matrix.type == 'force'
         run: |
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export NEW_APP_VERSION="0.0.1-qa.$APP_VERSION"
-          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" packages/app/package.json
+          sed -i "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Mac & Force Update
         if: matrix.os == 'macOS' && matrix.type == 'force'
         run: |
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export NEW_APP_VERSION="0.0.1-qa.$APP_VERSION"
-          sed -i '' "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" packages/app/package.json
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$NEW_APP_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Windows & Force Update
         if: matrix.os == 'Windows' && matrix.type == 'force'
         run: |
-          $APP_VERSION = Get-Content -Path "packages/app/version"
+          $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
           $NEW_APP_VERSION = "0.0.1-qa.$APP_VERSION"
-          (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
+          (Get-Content -Path 'apps/mudita-center/package.json') | ForEach-Object {
               $_ -replace '"version": ".*",' , "`"version`"`: `"$NEW_APP_VERSION`","
-          } | Set-Content -Path 'packages/app/package.json'
+          } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file for Windows
         if: matrix.os == 'Windows'
         run: |
-          copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
+          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
-          cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
+          cp ~/actions-runner/envs/electron-builder.env apps/mudita-center/electron-builder.env
       - name: Build App for Windows
         if: matrix.os == 'Windows'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
-          cd packages/app/
+          cd apps/mudita-center/
           npm run dist
       - name: Build App for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          cd packages/app/
+          cd apps/mudita-center/
           npm run dist
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
@@ -177,19 +177,19 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          jq -r -j .version packages/app/package.json > packages/app/version
-          $APP_VERSION = Get-Content -Path "packages/app/version"
+          jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
+          $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
           $ENVIRONMENT_CATALOG_NAME="pre-production"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
           $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force
           $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
-          copy ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-win.yml
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./packages/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./packages/app/release/latest.yml -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./packages/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
+          copy ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-win.yml
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./apps/mudita-center/release/Mudita-Center.exe -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/mudita-center/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/mudita-center/release/latest.yml -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/mudita-center/release/builder-debug-win.yml -Method Put -Credential $AUTH
           C:\"Program Files"\Git\cmd\git.exe clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
           cd mudita-center-pre-production
           C:\"Program Files"\Git\cmd\git.exe tag "$GITTAG"
@@ -201,13 +201,13 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           export ENVIRONMENT_CATALOG_NAME=pre-production
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
-          cp ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-linux.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
+          cp ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-linux.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
           git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
           cd mudita-center-pre-production
           git tag "$GITTAG" 2>&1 || true
@@ -219,16 +219,16 @@ jobs:
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           export ENVIRONMENT_CATALOG_NAME=pre-production
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           echo "GITTAG=$APP_VERSION" >> $GITHUB_ENV
           export GITTAG="$APP_VERSION"
-          cp ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-mac.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
+          cp ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-mac.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
           git clone https://${{ secrets.MC_GITHUB_ACCESS_TOKEN }}@github.com/mudita/mudita-center-pre-production.git
           cd mudita-center-pre-production
           git tag "$GITTAG" 2>&1 || true
@@ -243,10 +243,10 @@ jobs:
           repository: mudita/mudita-center-pre-production
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           files: |
-            ./packages/app/release/Mudita-Center.exe
-            ./packages/app/release/Mudita-Center.exe.blockmap
-            ./packages/app/release/latest.yml
-            ./packages/app/release/builder-debug-win.yml
+            ./apps/mudita-center/release/Mudita-Center.exe
+            ./apps/mudita-center/release/Mudita-Center.exe.blockmap
+            ./apps/mudita-center/release/latest.yml
+            ./apps/mudita-center/release/builder-debug-win.yml
       - name: Create draft release with Linux files
         if: matrix.os == 'Linux'
         id: create_release_linux
@@ -257,9 +257,9 @@ jobs:
           repository: mudita/mudita-center-pre-production
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           files: |
-            ./packages/app/release/Mudita-Center.AppImage
-            ./packages/app/release/latest-linux.yml
-            ./packages/app/release/builder-debug-linux.yml
+            ./apps/mudita-center/release/Mudita-Center.AppImage
+            ./apps/mudita-center/release/latest-linux.yml
+            ./apps/mudita-center/release/builder-debug-linux.yml
       - name: Create draft release with Mac files
         if: matrix.os == 'macOS'
         id: create_release_macos
@@ -270,9 +270,9 @@ jobs:
           repository: mudita/mudita-center-pre-production
           token: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           files: |
-            ./packages/app/release/Mudita-Center.dmg
-            ./packages/app/release/Mudita-Center.zip
-            ./packages/app/release/Mudita-Center.zip.blockmap
-            ./packages/app/release/Mudita-Center.dmg.blockmap
-            ./packages/app/release/latest-mac.yml
-            ./packages/app/release/builder-debug-mac.yml
+            ./apps/mudita-center/release/Mudita-Center.dmg
+            ./apps/mudita-center/release/Mudita-Center.zip
+            ./apps/mudita-center/release/Mudita-Center.zip.blockmap
+            ./apps/mudita-center/release/Mudita-Center.dmg.blockmap
+            ./apps/mudita-center/release/latest-mac.yml
+            ./apps/mudita-center/release/builder-debug-mac.yml

@@ -7,7 +7,7 @@ import messagesConversationPage from "../page-objects/messages-conversation.page
 import modalMessagesPage from "../page-objects/modal-messages.page"
 import navigationTabs from "../page-objects/tabs.page"
 
-import { waitForClickableAndClick } from "../helpers/general.helper"
+import { waitForClickableAndClick } from "./general.helper"
 
 /** Send message using send button */
 export const sendMessage = async (

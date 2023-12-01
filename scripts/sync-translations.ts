@@ -2,16 +2,16 @@ namespace SyncTranslation {
   const axios = require("axios")
   const path = require("path")
   const fs = require("fs-extra")
-  const translationConfig = require("../src/translations.config.json")
+  const translationConfig = require("../apps/mudita-center/src/translations.config.json")
   const {
     localesUrl,
     phraseUrl,
     axiosConfig,
     axiosDevConfig,
-  } = require("../src/__deprecated__/common/configs/phrase")
+  } = require("../apps/mudita-center/src/__deprecated__/common/configs/phrase")
 
   require("dotenv").config({
-    path: path.join(__dirname, "../../../.env"),
+    path: path.join(__dirname, "../.env"),
   })
 
   interface InternalNewKey {
@@ -126,7 +126,7 @@ namespace SyncTranslation {
       const localesDir = path.join(
         __dirname,
         "..",
-        `src/__deprecated__/renderer/locales/default`
+        `apps/mudita-center/src/__deprecated__/renderer/locales/default`
       )
       for await (const language of translationConfig.availableLanguages) {
         const localesJsonPath = path.join(localesDir, `${language.code}.json`)

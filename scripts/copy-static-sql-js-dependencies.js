@@ -5,7 +5,7 @@ const FILES_TO_COPY = ['sql-wasm-debug.js', 'sql-wasm-debug.wasm', 'sql-wasm.js'
 
 FILES_TO_COPY.forEach(fileName => {
     const sourcePath = path.resolve(__dirname, "../node_modules/sql.js/dist", fileName)
-    const destinationPath = path.resolve(__dirname, "../packages/app/static", fileName)
+    const destinationPath = path.resolve(__dirname, "../apps/mudita-center/static", fileName)
     console.log("sourcePath", sourcePath)
     console.log("destinationPath", destinationPath)
 
@@ -16,7 +16,7 @@ FILES_TO_COPY.forEach(fileName => {
 
 //this needs to be moved to new file
 var source = path.resolve(__dirname, "../node_modules/electron")
-var destination = path.resolve(__dirname, "../packages/app/node_modules/electron")
+var destination = path.resolve(__dirname, "../apps/mudita-center/node_modules/electron")
 
 const shell = require('child_process').execSync;
 

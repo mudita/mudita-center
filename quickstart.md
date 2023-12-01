@@ -114,7 +114,7 @@ The Mudita Center have the next feature toggle environments:
 Remember to update npm version in `package.json` and `package-lock.json`. You can do it by following the commands:
 
 ```bash
-cd packages/app
+cd apps/mudita-center/
 npm version CURRENT_VERSION + 1
 ```
 
@@ -126,7 +126,7 @@ npm version CURRENT_VERSION + 1
 That's because we're using `GT Pressura` font that can't be open-sourced, so we can't publish it in our repository.
 Instead, for development purpose outside the Mudita company, we're using a `Roboto Condensed` font from Google which is quite similar.
 
-More info about managing fonts [can be found here](packages/app/src/__deprecated__/renderer/fonts/README.md).
+More info about managing fonts [can be found here](apps/mudita-center/src/__deprecated__/renderer/fonts/README.md).
 
 ### During `npm run setup` there's an issue with `node-gyp` and `python`
 

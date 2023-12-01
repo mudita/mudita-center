@@ -15,8 +15,8 @@ require("dotenv").config({
   const fontsDirectory = path.join(
     __dirname,
     "..",
-    "packages",
-    "app",
+    "apps",
+    "mudita-center",
     "src",
     "__deprecated__",
     "renderer",
