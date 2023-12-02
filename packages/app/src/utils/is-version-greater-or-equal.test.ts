@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import isVersionGreaterOrEqual from "App/overview/helpers/is-version-greater-or-equal"
+import isVersionGreaterOrEqual from "App/utils/is-version-greater-or-equal"
 
 const validSemanticVersion = "0.10.2-rc"
 const notValidSemanticVersion = "0"
