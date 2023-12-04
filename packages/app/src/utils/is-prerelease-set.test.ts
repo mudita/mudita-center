@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import isPrereleaseSet from "App/overview/helpers/is-prerelease-set"
+import isPrereleaseSet from "App/utils/is-prerelease-set"
 
 describe("isPrereleaseSet helper", () => {
   test("should return false when pre release isn't set", () => {

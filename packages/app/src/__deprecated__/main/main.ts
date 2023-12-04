@@ -14,6 +14,7 @@ import {
 import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
 import * as url from "url"
+import packageInfo from "App/../package.json"
 import registerPureOsDownloadListener from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/__deprecated__/main/functions/register-news-listener/register-news-listener"
 import registerAppLogsListeners from "App/__deprecated__/main/functions/register-app-logs-listener"
@@ -81,6 +82,7 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
+import isPrereleaseSet from "App/utils/is-prerelease-set"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -156,7 +158,9 @@ const installElectronDevToolExtensions = async () => {
 }
 
 const createWindow = async () => {
-  const title = "Mudita Center"
+  const version = packageInfo.version
+  const prereleaseSet = isPrereleaseSet(version)
+  const title = prereleaseSet ? `Mudita Center - ${version}` :"Mudita Center"
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call

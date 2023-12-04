@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import getPrereleaseLabels from "App/overview/helpers/get-prerelease-labels"
+import getPrereleaseLabels from "App/utils/get-prerelease-labels"
 
 describe("isPrereleaseSet helper", () => {
   test("should return empty list when version is pre release", () => {
