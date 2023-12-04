@@ -77,7 +77,15 @@ import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests"
 import { createSettingsService } from "App/settings/containers/settings.container"
 import { ApplicationModule } from "App/core/application.module"
 import registerExternalUsageDevice from "App/device/listeners/register-external-usage-device.listner"
-import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from "electron-devtools-installer"
+import installExtension, {
+  REDUX_DEVTOOLS,
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer"
+import packageInfo from "App/../package.json"
+
+const x = packageInfo
+
+console.log(x)
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -139,7 +147,10 @@ const installElectronDevToolExtensions = async () => {
     })
     console.info(`[INFO] Successfully added devtools extensions`)
   } catch (err) {
-    console.warn("[WARN] An error occurred while trying to add devtools extensions:\n", err)
+    console.warn(
+      "[WARN] An error occurred while trying to add devtools extensions:\n",
+      err
+    )
   }
 }
 

@@ -3,6 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint } from "App/device/constants/endpoint.constant"
+import { Method } from "App/device/constants/request-method.constant"
+import { SerialPortDeviceAdapter } from "App/device/modules/mudita-os/adapters"
+import SerialPort from "serialport"
+
 const APIEndpoints = {
   APIConfig: "API_CONFIGURATION",
   FeatureConfiguration: "FEATURE_CONFIGURATION",
@@ -28,9 +33,9 @@ const APIRequests = {
   API_CONFIGURATION: [APIMethods.GET],
 } as const
 
-type xbody = {
-  id: string
-}
+// type xbody = {
+//   id: string
+// }
 
 // const APIRequestsBody = {
 //   MENU_CONFIGURATION: { [APIMethods.GET]: xbody },
@@ -48,15 +53,15 @@ interface APIRequestConfig<
   method: M[keyof M]
 }
 
-const z: APIRequestConfig<"MENU_CONFIGURATION"> = {
-  endpoint: APIEndpoints.MenuConfiguration,
-  method: "GET",
-}
+// const z: APIRequestConfig<"MENU_CONFIGURATION"> = {
+//   endpoint: APIEndpoints.MenuConfiguration,
+//   method: "GET",
+// }
 
-const z2: APIRequestConfig<"DATA_SYNC"> = {
-  endpoint: "DATA_SYNC",
-  method: "POST",
-}
+// const z2: APIRequestConfig<"DATA_SYNC"> = {
+//   endpoint: "DATA_SYNC",
+//   method: "POST",
+// }
 
 interface APIRequestWithPayload<
   T extends APIEndpointType,
@@ -66,20 +71,34 @@ interface APIRequestWithPayload<
 }
 
 export class APIDevice {
-  public request<Config, T extends APIEndpointType>(
+  private adapter: SerialPortDeviceAdapter
+  constructor({ path }: SerialPort.PortInfo) {
+    this.adapter = new SerialPortDeviceAdapter(path)
+  }
+
+  public async request<Config, T extends APIEndpointType>(
     config: APIRequestWithPayload<T>
   ): Promise<unknown> {
-    return Promise.resolve({} as Response)
+    const result = await this.adapter.requestUntyped(config)
+    console.log(result)
+    return result
+  }
+
+  public async requestAny(config: any): Promise<any> {
+    console.log(config)
+    const result = await this.adapter.requestUntyped(config)
+    console.log(result)
+    return result
   }
 }
 
-const x = new APIDevice()
+// const x = new APIDevice()
 
-type c1 = { iddd: string }
-type r1 = { res: string }
+// type c1 = { iddd: string }
+// type r1 = { res: string }
 
-const y = x.request({
-  endpoint: "DATA_SYNC",
-  method: "POST",
-  body: { iddd: "asd" },
-})
+// const y = x.request({
+//   endpoint: "DATA_SYNC",
+//   method: "POST",
+//   body: { iddd: "asd" },
+// })

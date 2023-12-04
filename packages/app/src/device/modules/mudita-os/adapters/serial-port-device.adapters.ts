@@ -27,8 +27,9 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
 
     this.serialPort.on("data", (event) => {
       try {
+        console.log(event)
         const data = this.parser.parse(event)
-
+        console.log(data)
         if (data !== undefined) {
           this.emitDataReceivedEvent(data)
         }
@@ -64,6 +65,23 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
       return this.writeRequest(this.serialPort, config)
     }
   }
+  public async requestUntyped(
+    config: any
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<unknown> {
+    if (this.serialPort === undefined) {
+      return Result.failed(
+        new AppError(
+          DeviceError.ConnectionDoesntEstablished,
+          "Serial port is undefined"
+        ),
+        { status: ResponseStatus.ConnectionError }
+      )
+    } else {
+      return this.writeRequestUntyped(this.serialPort, config)
+    }
+  }
 
   protected writeRequest(
     port: SerialPort,
@@ -89,6 +107,21 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     })
   }
 
+  protected writeRequestUntyped(
+    port: SerialPort,
+    config: any
+  ): Promise<unknown> {
+    return new Promise<unknown>((resolve) => {
+      const uuid = this.getNewUUID()
+      const payload: RequestPayload = { ...config, uuid }
+
+      void this.requestsQueue.add(async () => {
+        const response = await this.deviceRequest(port, payload)
+        resolve(response)
+      })
+    })
+  }
+
   protected deviceRequest(
     port: SerialPort,
     { options = {}, ...payload }: RequestPayload
@@ -111,6 +144,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           response.status === ResponseStatus.ParserError
         ) {
+          console.log(response)
           this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
           cancel()
           resolve(Result.success(response))

@@ -14,30 +14,26 @@ enum APIActions {
   GetConfig = "api-actions-get-config",
 }
 
-// export const getAPIConfigRequest = () => {
 export const getAPIConfigRequest = (
   ver: number
 ): Promise<ResultObject<APIConfigResponse>> => {
-  //   let event: string = "v1"
-  //   if (ver > 1 && ver < 4) {
-  //     event = "v2"
-  //   } else if (ver >= 4 && ver < 10) {
-  //     event = "v4"
-  //   } else {
-  //     throw new Error()
-  //   }
   return ipcRenderer.callMain(APIServiceEvents.APIConfig)
 }
 
-export const getAPIConfig = createAsyncThunk<
-  void,
-  void,
-  { state: ReduxRootState }
->(APIActions.GetConfig, async () => {
-  const { ok, data, error } = await getAPIConfigRequest(3)
+export const getAPIAny = (ver: any): Promise<ResultObject<any>> => {
+  return ipcRenderer.callMain(APIServiceEvents.APIAny, ver)
+}
 
-  if (ok) {
-    const x = data
+export const getAPIConfig = createAsyncThunk<
+  any,
+  any,
+  { state: ReduxRootState }
+>(APIActions.GetConfig, async (payload) => {
+  console.log()
+  const response = await getAPIAny(payload ?? {})
+
+  if (response.ok) {
+    const x = response.data
     console.log(x)
   }
   //   console.log(res)
@@ -51,5 +47,5 @@ export const getAPIConfig = createAsyncThunk<
   //     )
   //   }
 
-  return
+  return response
 })
