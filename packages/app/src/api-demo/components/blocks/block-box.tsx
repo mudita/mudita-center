@@ -12,13 +12,14 @@ interface BlockBoxParameters {
 }
 
 export const BlockBox: APIFC<BlockBoxParameters> = ({
-  parameters,
+  config,
+  data,
   children,
   ...props
 }) => {
   return (
     <BoxWrapper {...props}>
-      {parameters?.title && <h1>{parameters.title}</h1>}
+      {config?.title && <h1>{config.title}</h1>}
       {children}
     </BoxWrapper>
   )

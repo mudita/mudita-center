@@ -13,7 +13,7 @@ interface GenericState {
     string,
     {
       layout: View
-      data: View | undefined
+      data: Record<string, unknown>
     }
   >
 }

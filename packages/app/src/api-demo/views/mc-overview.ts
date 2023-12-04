@@ -217,6 +217,11 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     },
     connection: {
       component: "icon-text",
+      layout: {
+        flexPlacement: {
+          grow: 1,
+        },
+      }
     },
     update: {
       component: "block-box",

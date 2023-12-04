@@ -7,7 +7,7 @@ import React from "react"
 import styled from "styled-components"
 import { APIFC } from "../../models/api-fc.types"
 
-export const BlockVanilla: APIFC = (props) => {
+export const BlockVanilla: APIFC = ({ config, data, ...props }) => {
   return <BoxWrapper {...props} />
 }
 

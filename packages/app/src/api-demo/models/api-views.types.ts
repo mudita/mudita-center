@@ -5,14 +5,15 @@
 
 import { ComponentProps } from "react"
 import { APIComponents } from "./api-components.types"
-import { Layout } from "../components/layout/layout.types"
+import { Layout } from "../components/generic/layout.types"
 
 export type ComponentPropsByName<
   C extends keyof APIComponents = keyof APIComponents
-> = Partial<Pick<ComponentProps<APIComponents[C]>, "parameters" | "data">> & {
+> = {
   component: C
   layout?: Layout
   childrenKeys?: string[]
+  config?: ComponentProps<APIComponents[C]>["config"]
 }
 
 export type View = {
