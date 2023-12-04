@@ -14,7 +14,7 @@ import {
 import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
 import * as url from "url"
-import packageInfo from "../../../package.json"
+import packageInfo from "App/../package.json"
 import registerPureOsDownloadListener from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/__deprecated__/main/functions/register-news-listener/register-news-listener"
 import registerAppLogsListeners from "App/__deprecated__/main/functions/register-app-logs-listener"
