@@ -11,14 +11,14 @@ type DefaultProps = Partial<
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type APIFC<
-  Parameters = {},
-  Data = {},
-  ExtraProps = {}
-> = FunctionComponent<
+export type APIFC<Config = {}, Data = undefined, ExtraProps = {}> = FunctionComponent<
   Readonly<
     PropsWithChildren<
-      { parameters?: Parameters; data?: Data } & ExtraProps & DefaultProps
+      {
+        config?: Config
+        data?: Data
+      } & ExtraProps &
+        DefaultProps
     >
   >
 >

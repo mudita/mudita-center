@@ -15,7 +15,7 @@ interface IconTextRowData {
 
 export const IconText: APIFC<{}, IconTextRowData> = ({
   data,
-  children,
+  style,
   ...props
 }) => {
   const { icon, title, text } = data || {}
@@ -30,6 +30,7 @@ export const IconText: APIFC<{}, IconTextRowData> = ({
 
 const IconTextWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 0;
 `

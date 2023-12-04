@@ -5,7 +5,10 @@
 
 import React from "react"
 import { APIFC } from "../../models/api-fc.types"
+import styled from "styled-components"
 
-export const BlockWrapper: APIFC = ({ parameters, ...props }) => {
-  return <div {...props} />
+export const BlockWrapper: APIFC = ({ config, data, ...props }) => {
+  return <Wrapper {...props} />
 }
+
+const Wrapper = styled.div``

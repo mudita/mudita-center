@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { APIFC } from "App/api-demo/models/api-fc.types"
+import { APIFC } from "../../models/api-fc.types"
 import React from "react"
 
 interface Field {}
