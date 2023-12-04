@@ -6,63 +6,29 @@
 import React from "react"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { useSelector } from "react-redux"
-import { APIFC } from "App/api-demo/models/api-fc.types"
+import { APIFC } from "../../models/api-fc.types"
 import { apiComponents } from "../api-components"
-import { ComponentPropsByName } from "../../models/api-views.types"
 import { withLayout } from "./with-layout"
-import { Layout } from "./layout.types"
-import { withData } from "./with-data"
 
 interface MetaData {
   viewKey: string
-  dataKey: string
+  componentKey: string
 }
 
-export const RecursiveLayout = ({
-  viewKey,
-  dataKey,
-  component,
-  config,
-  layout,
-  childrenKeys,
-}: ComponentPropsByName & MetaData) => {
+export const RecursiveLayout = (recursiveComponentMetadata: MetaData) => {
+  const { viewKey, componentKey } = recursiveComponentMetadata
   const view = useSelector(
     (state: ReduxRootState) => state.generic.views[viewKey]
   )
+  const { component, childrenKeys } = view.layout[componentKey]
 
-  type EnhancedApiComponent = APIFC<
-    typeof config,
-    unknown,
-    {
-      viewKey: string
-      dataKey: string
-      layout?: Layout
-    }
-  >
-
-  const ApiComponent = withLayout(
-    withData(apiComponents[component] as APIFC<typeof config>)
-  ) as EnhancedApiComponent
+  const ApiComponent = withLayout(apiComponents[component] as APIFC)
 
   return (
-    <ApiComponent
-      config={config}
-      layout={layout}
-      viewKey={viewKey}
-      dataKey={dataKey}
-    >
+    <ApiComponent {...recursiveComponentMetadata}>
       {childrenKeys?.map((key) => {
-        const properties = view.layout[key]
-        const RecursiveComponentWithLayout = withLayout(
-          RecursiveLayout
-        ) as EnhancedApiComponent
         return (
-          <RecursiveLayout
-            key={key}
-            dataKey={key}
-            viewKey={viewKey}
-            {...properties}
-          />
+          <RecursiveLayout key={key} viewKey={viewKey} componentKey={key} />
         )
       })}
     </ApiComponent>

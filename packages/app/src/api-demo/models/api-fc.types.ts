@@ -11,7 +11,11 @@ type DefaultProps = Partial<
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type APIFC<Config = {}, Data = undefined, ExtraProps = {}> = FunctionComponent<
+export type APIFC<
+  Data = unknown,
+  Config = unknown,
+  ExtraProps = unknown
+> = FunctionComponent<
   Readonly<
     PropsWithChildren<
       {
@@ -21,4 +25,13 @@ export type APIFC<Config = {}, Data = undefined, ExtraProps = {}> = FunctionComp
         DefaultProps
     >
   >
+>
+
+export type RecursiveComponent = APIFC<
+  unknown,
+  unknown,
+  {
+    viewKey: string
+    componentKey: string
+  }
 >
