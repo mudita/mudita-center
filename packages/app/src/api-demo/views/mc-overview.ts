@@ -152,7 +152,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           flexLayout: {
             direction: "column",
             justifyContent: "space-between",
-          }
+          },
         },
         childrenKeys: [
           config.summary.showImg ? "summaryImg" : undefined,
@@ -208,7 +208,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         },
       },
       parameters: {
-        title: "Status"
+        title: "Status",
       },
       childrenKeys: ["battery", "connection"],
     },
@@ -221,7 +221,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         flexPlacement: {
           grow: 1,
         },
-      }
+      },
     },
     update: {
       component: "block-box",
@@ -251,5 +251,5 @@ export const mcOverviewDemoData = {
     icon: "network-icon-2",
     title: "Network",
     text: "Network name",
-  }
+  },
 }

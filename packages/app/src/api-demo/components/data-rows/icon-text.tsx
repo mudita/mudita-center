@@ -6,6 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "../../models/api-fc.types"
+import { withData } from "../generic/with-data"
 
 interface IconTextRowData {
   icon: string
@@ -13,11 +14,7 @@ interface IconTextRowData {
   text: string
 }
 
-export const IconText: APIFC<{}, IconTextRowData> = ({
-  data,
-  style,
-  ...props
-}) => {
+export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
   const { icon, title, text } = data || {}
   return (
     <IconTextWrapper {...props}>
@@ -27,6 +24,8 @@ export const IconText: APIFC<{}, IconTextRowData> = ({
     </IconTextWrapper>
   )
 }
+
+export default withData(IconText)
 
 const IconTextWrapper = styled.div`
   display: flex;

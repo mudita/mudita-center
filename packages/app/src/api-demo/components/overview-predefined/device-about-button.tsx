@@ -11,9 +11,10 @@ interface DeviceAboutButtonProperties {
   modalContent?: string
 }
 
-export const DeviceAboutButton: APIFC<DeviceAboutButtonProperties> = ({
-  config,
-}) => {
+export const DeviceAboutButton: APIFC<
+  undefined,
+  DeviceAboutButtonProperties
+> = ({ config }) => {
   const { buttonLabel, modalContent } = config || {}
   const openModal = () => {
     alert(modalContent)
