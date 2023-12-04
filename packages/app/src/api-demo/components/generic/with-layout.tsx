@@ -60,7 +60,7 @@ const wrapperStyles = css<{
 }))
 
 const childStyles = css<{
-  $layout: Pick<Layout, "flexLayout" | "gridLayout" | "padding" | "margin">
+  $layout: Pick<Layout, "flexLayout" | "gridLayout">
 }>(({ $layout }) => ({
   ...($layout.gridLayout && {
     display: "grid",
