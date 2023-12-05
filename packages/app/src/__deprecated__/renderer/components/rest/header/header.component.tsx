@@ -72,7 +72,7 @@ const Header: FunctionComponent<HeaderProps> = ({
         setRenderHeaderButton(false)
       }
     }
-  }, [location])
+  }, [location, genericMenu])
   return (
     <HeaderWrapper>
       <HeaderText
