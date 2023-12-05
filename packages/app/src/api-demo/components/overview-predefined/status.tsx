@@ -12,7 +12,7 @@ interface DeviceStatusProperties {
   fields?: Field[]
 }
 
-export const DeviceStatus: APIFC<DeviceStatusProperties> = ({}) => {
+export const DeviceStatus: APIFC<DeviceStatusProperties> = () => {
   return (
     <div>
       <h1>Status</h1>
