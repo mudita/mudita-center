@@ -13,3 +13,11 @@ export interface Response<Body = undefined> {
   uuid?: number
   error?: ResponseError
 }
+
+export interface ApiResponse<Body = undefined> {
+  status: ResponseStatus
+  body?: Body
+  endpoint?: Endpoint
+  rid?: number
+  error?: ResponseError
+}

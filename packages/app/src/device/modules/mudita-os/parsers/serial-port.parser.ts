@@ -7,6 +7,7 @@ import { TextEncoder } from "util"
 import { RequestPayload, Response } from "App/device/types/mudita-os"
 import { PacketType } from "App/device/modules/mudita-os/constants"
 import { SerialPortParserBase } from "App/device/modules/mudita-os/parsers/serial-port-base.parser"
+import { APIRequestData } from "App/api-main/api-request.model"
 
 export class SerialPortParser extends SerialPortParserBase {
   private dataRaw = Buffer.alloc(0)
@@ -54,7 +55,9 @@ export class SerialPortParser extends SerialPortParserBase {
     }
   }
 
-  public createRequest(payload: RequestPayload<unknown>): string {
+  public createRequest(
+    payload: RequestPayload<unknown> | APIRequestData
+  ): string {
     const encoder = new TextEncoder()
 
     let requestStr = "#"
