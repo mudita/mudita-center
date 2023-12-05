@@ -10,7 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
-## [2.2.5] - 2023-11-30
+## [2.2.7] - 2023-12-06
+
+### Fixed
+
+- Fixed an issue with updating from version 2.2.5 to 2.2.6 on Windows that required administrator rights to update correctly
+
+## [2.2.6] - 2023-11-30
 
 ### Changed
 
