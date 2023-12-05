@@ -11,7 +11,7 @@ interface BlockBoxParameters {
   title?: string
 }
 
-export const BlockBox: APIFC<{}, BlockBoxParameters> = ({
+export const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
   config,
   data,
   children,
