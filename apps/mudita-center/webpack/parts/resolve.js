@@ -9,6 +9,7 @@ module.exports = (production) => {
       Storybook: resolve(__dirname, "..", "..", ".storybook"),
       Renderer: resolve(__dirname, "..", "..", "src", "renderer"),
       fs: resolve(__dirname, "..", "..", "__mocks__", "fs-mock.js"),
+      Core: resolve(__dirname, "..", "..", "..", "..", "libs", "core")
     },
   }
 

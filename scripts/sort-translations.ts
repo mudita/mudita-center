@@ -11,7 +11,7 @@ namespace SortTranslations {
         const filePath = path.join(
           __dirname,
           "..",
-          `apps/mudita-center/src/__deprecated__/renderer/locales/default/${code}.json`
+          `libs/core/__deprecated__/renderer/locales/default/${code}.json`
         )
 
         if (await fs.pathExists(filePath)) {

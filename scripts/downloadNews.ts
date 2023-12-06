@@ -10,14 +10,14 @@ require("dotenv").config({
   path: path.join(__dirname, "../.env"),
 })
 import { EntryCollection } from "contentful"
-import { NewsEntry } from "../apps/mudita-center/src/news/dto/news-entry.object"
-import { normalizeContentfulData } from "../apps/mudita-center/src/news/helpers/normalize-contentful-data/normalize-contentful-data.helper"
+import { NewsEntry } from "../libs/core/news/dto/news-entry.object"
+import { normalizeContentfulData } from "../libs/core/news/helpers/normalize-contentful-data/normalize-contentful-data.helper"
 ;(async () => {
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))
     const jsonPath = path.resolve(
       __dirname,
-      "../packages/app/src/news/default-news.json"
+      "../libs/core/news/default-news.json"
     )
     const url = `${process.env.MUDITA_CENTER_SERVER_URL}/news`
     const { data } = await axios.get(url, {

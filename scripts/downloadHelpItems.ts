@@ -9,7 +9,7 @@ const fs = require("fs-extra")
 require("dotenv").config({
   path: path.join(__dirname, "../.env"),
 })
-import { normalizeHelpData } from "../apps/mudita-center/src/__deprecated__/renderer/utils/contentful/normalize-help-data"
+import { normalizeHelpData } from "../libs/core/__deprecated__/renderer/utils/contentful/normalize-help-data"
 ;(async () => {
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))

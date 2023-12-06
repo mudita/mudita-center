@@ -2,13 +2,13 @@ namespace SyncTranslation {
   const axios = require("axios")
   const path = require("path")
   const fs = require("fs-extra")
-  const translationConfig = require("../apps/mudita-center/src/translations.config.json")
+  const translationConfig = require("../libs/core/translations.config.json")
   const {
     localesUrl,
     phraseUrl,
     axiosConfig,
     axiosDevConfig,
-  } = require("../apps/mudita-center/src/__deprecated__/common/configs/phrase")
+  } = require("../libs/core/__deprecated__/common/configs/phrase")
 
   require("dotenv").config({
     path: path.join(__dirname, "../.env"),
@@ -126,7 +126,7 @@ namespace SyncTranslation {
       const localesDir = path.join(
         __dirname,
         "..",
-        `apps/mudita-center/src/__deprecated__/renderer/locales/default`
+        `libs/core/__deprecated__/renderer/locales/default`
       )
       for await (const language of translationConfig.availableLanguages) {
         const localesJsonPath = path.join(localesDir, `${language.code}.json`)

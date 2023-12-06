@@ -1,0 +1,50 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { PayloadAction } from "@reduxjs/toolkit"
+import { AppError } from "Core/core/errors"
+import { DataSyncError, DataSyncEvent } from "Core/data-sync/constants"
+import { AllIndexes } from "Core/data-sync/types"
+
+export enum SynchronizationState {
+  Loading,
+  Cache,
+  Loaded,
+  Empty,
+  Error,
+}
+
+export enum SynchronizationProcessState {
+  Done,
+  InProgress,
+}
+
+export interface DataSyncState {
+  initialized: boolean
+  initializationFailed: boolean
+  state: SynchronizationState
+  synchronizationProcess: SynchronizationProcessState
+  error: Error | string | null
+}
+
+export type ReadAllIndexesAction = PayloadAction<
+  AllIndexes,
+  DataSyncEvent.ReadAllIndexes
+>
+
+export type ReadAllIndexesRejectAction = PayloadAction<
+  AppError<DataSyncError.ReadAllIndexes>,
+  DataSyncEvent.ReadAllIndexes
+>
+
+export type UpdateAllIndexesRejectAction = PayloadAction<
+  AppError<DataSyncError.UpdateAllIndexes>,
+  DataSyncEvent.UpdateAllIndexes
+>
+
+export type SetErrorStateError = PayloadAction<
+  Error,
+  DataSyncEvent.SetErrorState
+>

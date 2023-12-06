@@ -6,24 +6,27 @@
 import axios from "axios"
 const path = require("path")
 const fs = require("fs-extra")
-import { Configuration } from "../apps/mudita-center/src/settings/dto"
+import { Configuration } from "../libs/core/settings/dto"
 
 require("dotenv").config({
   path: path.join(__dirname, "../.env"),
 })
 
-let defaultData = require("../apps/mudita-center/src/settings/static/default-app-configuration.json")
+let defaultData = require("../libs/core/settings/static/default-app-configuration.json")
 
 ;(async () => {
   const jsonPath = path.join(
-    "src",
+    __dirname,
+    "..",
+    "libs",
+    "core",
     "settings",
     "static",
     "app-configuration.json"
   )
 
   try {
-    await fs.ensureDir(path.resolve(path.join("src", "main")))
+    await fs.ensureDir(path.resolve(jsonPath))
 
     const url = `${process.env.MUDITA_CENTER_SERVER_URL}/v2-app-configuration?version=v2-app-configuration`
     const { status, data } = await axios.get<Configuration>(url)
