@@ -138,13 +138,11 @@ jobs:
         if: matrix.os == 'Windows'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
-          cd apps/mudita-center/
           npm run app:dist
       - name: Build App for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          cd apps/mudita-center/
           npm run app:dist
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
