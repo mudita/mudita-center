@@ -27,7 +27,10 @@ const arrayBufferToBuffer = (unitArray: Uint8Array): Buffer => {
 }
 
 const encodedBackupMock = fs.readFileSync(
-  path.join(__dirname, "../../testing-support/mocks/encoded-backup.tar")
+  path.join(
+    __dirname,
+    "../../../../jest/testing-support/mocks/encoded-backup.tar"
+  )
 )
 
 const updaterStatusSuccessMock: UpdaterStatus = {

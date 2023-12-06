@@ -4,14 +4,16 @@ module.exports = {
   },
   moduleNameMapper: {
     ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
-    "(.*)svg.component": "<rootDir>/__mocks__/file-mock.js",
+    "(.*)svg.component": "<rootDir>/apps/mudita-center/__mocks__/file-mock.js",
     ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-      "<rootDir>/__mocks__/file-mock.js",
-    "App/(.*)": "<rootDir>/src/$1",
-    "Cypress/(.*)": "cypress/$1",
-    "Storybook/(.*)": ".storybook/$1",
+      "<rootDir>/apps/mudita-center/__mocks__/file-mock.js",
+    "Root/(.*)": "<rootDir>/$1",
+    "App/(.*)": "<rootDir>/apps/mudita-center/src/$1",
+    "Core/(.*)": "<rootDir>/libs/core/$1",
+    "Cypress/(.*)": "<rootDir>/apps/mudita-center/cypress/$1",
+    "Storybook/(.*)": "<rootDir>/apps/mudita-center/.storybook/$1",
   },
-  rootDir: "./",
+  rootDir: "../",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   testPathIgnorePatterns: ["node_modules", ".cache", "public", "cypress"],
   globals: {
@@ -20,10 +22,10 @@ module.exports = {
   testEnvironmentOptions: {
     url: "http://localhost",
   },
-  setupFiles: ["<rootDir>/test-envs.js"],
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-  roots: ["<rootDir>/src"],
-  testResultsProcessor: "./jest.processor.js",
+  setupFiles: ["<rootDir>/jest/test-envs.js"],
+  setupFilesAfterEnv: ["<rootDir>/jest/jest.setup.js"],
+  roots: ["<rootDir>"],
+  testResultsProcessor: "<rootDir>/jest/jest.processor.js",
   collectCoverage: false,
   collectCoverageFrom: [
     "src/**/*.{js,ts,tsx}",

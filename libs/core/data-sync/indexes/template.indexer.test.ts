@@ -6,6 +6,7 @@
 import { TemplateIndexer } from "Core/data-sync/indexes/template.indexer"
 import { TemplatePresenter } from "Core/data-sync/presenters/template/template.presenter"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
+import path from "path"
 
 afterAll(() => {
   jest.clearAllMocks()
@@ -19,8 +20,9 @@ describe("`TemplateIndexer`", () => {
     )
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     const index = await indexer.index(
-      "./src/testing-support/mocks/",
+      path.join(__dirname, "../../../../jest/testing-support/mocks/"),
       "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"
     )
 

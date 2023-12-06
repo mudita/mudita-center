@@ -5,7 +5,7 @@
 
 import { EntryCollection } from "contentful"
 import { NewsEntry } from "Core/news/dto"
-import { mockDate } from "Core/testing-support"
+import { mockDate } from "Root/jest/testing-support"
 import { normalizeContentfulData } from "./normalize-contentful-data.helper"
 
 jest.mock("Core/news/helpers/get-base-64/get-base64.helper", () => ({

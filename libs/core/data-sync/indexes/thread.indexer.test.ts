@@ -6,6 +6,7 @@
 import { ThreadIndexer } from "Core/data-sync/indexes/thread.indexer"
 import { ThreadPresenter } from "Core/data-sync/presenters/thread/thread.presenter"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
+import path from "path"
 
 afterAll(() => {
   jest.clearAllMocks()
@@ -18,7 +19,7 @@ describe("`ThreadIndexer`", () => {
       new ThreadPresenter()
     )
     const index = await indexer.index(
-      "./src/testing-support/mocks/",
+      path.join(__dirname, "../../../../jest/testing-support/mocks/"),
       "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"
     )
 

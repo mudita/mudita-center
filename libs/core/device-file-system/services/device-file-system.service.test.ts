@@ -19,7 +19,7 @@ import {
   firstsPartEncodeLog,
   secondsPartDecodeLog,
   secondsPartEncodeLog,
-} from "Core/testing-support/mocks/diagnostic-data.mock"
+} from "Root/jest/testing-support/mocks/diagnostic-data.mock"
 import { DeviceFileSystemService } from "Core/device-file-system/services/device-file-system.service"
 
 const deviceManager = {

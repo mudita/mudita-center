@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-const defaultTranslations = require("../../__deprecated__/renderer/locales/default/en-US.json")
+const defaultTranslations = require("../../../libs/core/__deprecated__/renderer/locales/default/en-US.json")
 
 module.exports = (received) => {
   if (received && typeof received.innerHTML === "string") {

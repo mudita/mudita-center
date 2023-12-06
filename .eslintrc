@@ -65,7 +65,7 @@
     "no-async-promise-executor": "warn",
     "no-prototype-builtins": "warn",
 
-    "license-header/header": ["error", "../../resources/license-header.js"],
+    "license-header/header": ["error", "resources/license-header.js"],
 
     "no-unused-vars": "off",
     "unused-imports/no-unused-vars": [

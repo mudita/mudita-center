@@ -10,7 +10,7 @@ import { transformDeviceFilesByOption } from "Core/device-log/helpers/transform-
 import {
   firstsPartDecodeLog,
   secondsPartDecodeLog,
-} from "Core/testing-support/mocks/diagnostic-data.mock"
+} from "Root/jest/testing-support/mocks/diagnostic-data.mock"
 
 MockDate.set("1095-1-1")
 

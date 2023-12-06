@@ -20,7 +20,7 @@ import { RequestResponseStatus } from "Core/core/types/request-response.interfac
 import {
   firstsPartDecodeLog,
   secondsPartDecodeLog,
-} from "Core/testing-support/mocks/diagnostic-data.mock"
+} from "Root/jest/testing-support/mocks/diagnostic-data.mock"
 
 const deviceManagerMock = {
   device: {

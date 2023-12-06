@@ -4,6 +4,7 @@ module.exports = (production) => {
   const resolveConfig = {
     extensions: [".tsx", ".ts", ".js", ".json"],
     alias: {
+      Root: resolve(__dirname, "..", ".."),
       App: resolve(__dirname, "..", "..", "src"),
       Cypress: resolve(__dirname, "..", "..", "cypress"),
       Storybook: resolve(__dirname, "..", "..", ".storybook"),
