@@ -22,6 +22,7 @@ require("dotenv").config({
     "fonts",
   )
   const mainFontsDirectory = path.join(fontsDirectory, "main")
+  console.log("mainFontsDirectory", mainFontsDirectory)
 
   const requiredFiles = [
     "GT-Pressura-Bold.otf",
