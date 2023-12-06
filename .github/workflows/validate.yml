@@ -20,7 +20,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: |
-          npm ci && npm run bootstrap:ci
+          npm run setup
       - name: Lint test and typecheck
         run: |
           npm run lint
@@ -31,7 +31,7 @@ jobs:
         run: npm run test
         env:
           CI: true
-          NODE_OPTIONS: '--max_old_space_size=8192'
+          NODE_OPTIONS: "--max_old_space_size=8192"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
