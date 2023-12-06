@@ -10,7 +10,8 @@
     "libs"
   ],
   "scripts": {
-    "setup": "npm i && nx postinstall mudita-center",
+    "setup": "npm i",
+    "setup2": "npm i && nx postinstall mudita-center",
     "app:develop": "nx develop mudita-center",
     "app:dist": "nx dist mudita-center",
     "app:translations:sync": "nx translations:sync mudita-center",
