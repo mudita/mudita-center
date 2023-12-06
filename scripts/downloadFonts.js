@@ -35,9 +35,10 @@ require("dotenv").config({
     // First, remove all files except a .gitkeep from the fonts/main directory
     const unnecessaryFiles = (await fs.readdir(mainFontsDirectory)).filter(file => ".gitkeep" !== file)
     for (const fileName of unnecessaryFiles) {
+      console.log("removing fileName", fileName)
       await fs.remove(path.join(mainFontsDirectory, fileName))
     }
-
+    
     // Then, download all required files inside the fonts/main directory
     console.log("Downloading fonts...")
     for (const [index, fileName] of requiredFiles.entries()) {
