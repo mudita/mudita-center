@@ -55,8 +55,8 @@ tmp/**/*
 **/*/tmp/**/*
 !tmp/.keep
 
-apps/mudita-center/src/__deprecated__/renderer/fonts/main/**/*
-!apps/mudita-center/src/__deprecated__/renderer/fonts/main/.gitkeep
+apps/mudita-center/src/fonts/main/**/*
+!apps/mudita-center/src/fonts/main/.gitkeep
 
 # Fetched news
 apps/mudita-center/src/news/default-news.json

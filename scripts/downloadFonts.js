@@ -12,6 +12,7 @@ require("dotenv").config({
  * and GitHub Access Token provided in GITHUB_ACCESS_TOKEN env.
  */
 ;(async () => {
+  console.log("downloadFonts.js __dirname", __dirname)
   const fontsDirectory = path.join(
     __dirname,
     "..",
@@ -41,12 +42,14 @@ require("dotenv").config({
     console.log("Downloading fonts...")
     for (const [index, fileName] of requiredFiles.entries()) {
       const url = `${process.env.FONTS_DIRECTORY_URL}/${fileName}`
+      console.log("Before axios.get")
       const { data } = await axios.get(url, {
         responseType: "arraybuffer",
         headers: {
           Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
         },
       })
+      console.log("After axios.get")
       await fs.writeFile(path.join(mainFontsDirectory, fileName), data)
       console.log(`Downloaded file (${index + 1}/${requiredFiles.length}): ${fileName}`)
     }
