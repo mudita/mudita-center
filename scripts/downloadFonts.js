@@ -22,7 +22,7 @@ require("dotenv").config({
     "fonts",
   )
   const mainFontsDirectory = path.join(fontsDirectory, "main")
-  console.log("mainFontsDirectory", mainFontsDirectory)
+  console.log("downloadFonts.js mainFontsDirectory", mainFontsDirectory)
 
   const requiredFiles = [
     "GT-Pressura-Bold.otf",
@@ -35,6 +35,8 @@ require("dotenv").config({
     console.log("Cleaning fonts directory...")
     // First, remove all files except a .gitkeep from the fonts/main directory
     const unnecessaryFiles = (await fs.readdir(mainFontsDirectory)).filter(file => ".gitkeep" !== file)
+    console.log("downloadFonts.js unnecessaryFiles.length", unnecessaryFiles.length)
+
     for (const fileName of unnecessaryFiles) {
       console.log("removing fileName", fileName)
       await fs.remove(path.join(mainFontsDirectory, fileName))
@@ -56,6 +58,7 @@ require("dotenv").config({
       console.log(`Downloaded file (${index + 1}/${requiredFiles.length}): ${fileName}`)
     }
   } catch (error) {
+    console.log("downloadFonts.js error", error)
     // In case of an error, copy content of fonts/fallback directory to fonts/main
     await fs.copy(path.join(fontsDirectory, "fallback"), mainFontsDirectory)
     console.warn(
