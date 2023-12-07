@@ -126,8 +126,7 @@ jobs:
           } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
         run: |
-          del "package-lock.json"
-          rm node_modules -r -force
+          npm ci
           npm run setup
       - name: Copy electron-builder environment file for Windows
         if: matrix.os == 'Windows'
