@@ -15,10 +15,11 @@ export const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
   config,
   data,
   children,
+  className,
   ...props
 }) => {
   return (
-    <BoxWrapper {...props} className={"custom"}>
+    <BoxWrapper {...props} className={`${className} custom`}>
       {config?.title && <h1>{config.title}</h1>}
       {children}
     </BoxWrapper>
