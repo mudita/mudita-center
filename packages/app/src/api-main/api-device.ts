@@ -5,18 +5,19 @@
 
 import { Endpoint } from "App/device/constants/endpoint.constant"
 import { Method } from "App/device/constants/request-method.constant"
-import { SerialPortDeviceAPIAdapter } from "App/device/modules/mudita-os/adapters/serial-port-api-device.adapters"
+import { SerialPortDeviceAPIAdapter } from "App/api-main/serial-port-api-device.adapters"
 import SerialPort from "serialport"
 import {
   APIEndpointType,
   APIRequestData,
   APIRequestWithPayload,
 } from "./api-request.model"
+import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
 
 export class APIDevice {
   private adapter: SerialPortDeviceAPIAdapter
   constructor({ path }: SerialPort.PortInfo) {
-    this.adapter = new SerialPortDeviceAPIAdapter(path)
+    this.adapter = new SerialPortDeviceAPIAdapter(path, new SerialPortParser())
   }
 
   public async request<Config, T extends APIEndpointType>(

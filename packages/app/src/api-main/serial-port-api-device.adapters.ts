@@ -7,7 +7,7 @@ import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
 import { CONNECTION_TIME_OUT_MS, Endpoint } from "App/device/constants"
-import { DeviceCommunicationEvent, ResponseStatus } from "App/device/constants"
+import { ResponseStatus } from "App/device/constants"
 import { DeviceError } from "App/device/modules/mudita-os/constants"
 import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
 import {
@@ -22,9 +22,10 @@ import { APIRequestData } from "App/api-main/api-request.model"
 import SerialPort, { PortInfo } from "serialport"
 import { EventEmitter } from "events"
 import PQueue from "p-queue"
-import { SerialPortParserBase } from "../parsers/serial-port-base.parser"
-
-// extends BaseAdapter<ApiResponse<any>>
+import { SerialPortParserBase } from "../device/modules/mudita-os/parsers/serial-port-base.parser"
+import { ApiSerialPortEvent } from "./models/device-communication-event.constant"
+import { LoggerFactory } from "App/core/factories/logger-factory"
+import { ipcMain } from "electron-better-ipc"
 
 const generateRequestID = () => {
   return Math.floor(Math.random() * 10000)
@@ -36,19 +37,15 @@ export class SerialPortDeviceAPIAdapter {
 
   private requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  private parser: SerialPortParserBase = new SerialPortParser()
-
-  constructor(public path: string) {
+  constructor(public path: string, private parser: SerialPortParserBase) {
     this.serialPort = new SerialPort(path, (error) => {
       if (error) {
         const appError = new AppError(DeviceError.Initialization, error.message)
         this.emitInitializationFailedEvent(Result.failed(appError))
-
-        // workaround to trigger a device (USB) restart side effect after an initialization error
-        void this.getSerialPortList()
-      } else {
-        this.emitConnectionEvent(Result.success(`Device ${path} connected`))
       }
+      // else {
+      //   this.emitConnectionEvent(Result.success(`Device ${path} connected`))
+      // }
     })
 
     this.serialPort.on("data", (event) => {
@@ -72,33 +69,6 @@ export class SerialPortDeviceAPIAdapter {
     this.serialPort.on("close", () => {
       this.emitCloseEvent(Result.success(`Device ${path} disconnected`))
     })
-  }
-
-  @log("==== serial port: connect event ====", LogConfig.Args)
-  private emitConnectionEvent(data: ResultObject<string>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.Connected, data)
-  }
-
-  @log("==== serial port: connection failed event ====", LogConfig.Args)
-  private emitInitializationFailedEvent(data: ResultObject<AppError>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.InitializationFailed, data)
-  }
-
-  @log("==== serial port: data received ====", LogConfig.Args)
-  private emitDataReceivedEvent<ResponseType = unknown>(
-    data: Response<ResponseType> | AppError
-  ): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.DataReceived, data)
-  }
-
-  @log("==== serial port: connection closed ====", LogConfig.Args)
-  private emitCloseEvent(data: ResultObject<string>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.Disconnected, data)
-  }
-
-  @log("==== serial port: list ====")
-  private getSerialPortList(): Promise<PortInfo[]> {
-    return SerialPort.list()
   }
 
   public async request(
@@ -196,15 +166,15 @@ export class SerialPortDeviceAPIAdapter {
           response.status === ResponseStatus.ParserError
         ) {
           console.log(response)
-          this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
+          this.eventEmitter.off(ApiSerialPortEvent.DataReceived, listener)
           cancel()
           resolve(Result.success(response))
         }
       }
 
-      this.eventEmitter.on(DeviceCommunicationEvent.DataReceived, listener)
+      this.eventEmitter.on(ApiSerialPortEvent.DataReceived, listener)
       void promise.then(() => {
-        this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
+        this.eventEmitter.off(ApiSerialPortEvent.DataReceived, listener)
         resolve(
           Result.failed(
             new AppError(
@@ -223,7 +193,10 @@ export class SerialPortDeviceAPIAdapter {
     })
   }
 
-  @log("==== serial port: create valid request ====", LogConfig.Args)
+  @log(
+    "==== serial port - api device: create valid request ====",
+    LogConfig.Args
+  )
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private mapPayloadToRequest(payload: APIRequestData): string {
@@ -235,5 +208,33 @@ export class SerialPortDeviceAPIAdapter {
   private portWrite(port: SerialPort, payload: APIRequestData): void {
     const request = this.mapPayloadToRequest(payload)
     port.write(request)
+  }
+
+  // @log("==== serial port - api device: connect event ====", LogConfig.Args)
+  // private emitConnectionEvent(data: ResultObject<string>): void {
+  //   this.eventEmitter.emit(ApiSerialPortEvent.Connected, data)
+  // }
+
+  @log(
+    "==== serial port - api device: connection failed event ====",
+    LogConfig.Args
+  )
+  private emitInitializationFailedEvent(data: ResultObject<AppError>): void {
+    ipcMain.sendToRenderers(ApiSerialPortEvent.InitializationFailed, {
+      msg: "ups!",
+    })
+    this.eventEmitter.emit(ApiSerialPortEvent.InitializationFailed, data)
+  }
+
+  @log("==== serial port - api device: data received ====", LogConfig.Args)
+  private emitDataReceivedEvent<ResponseType = unknown>(
+    data: Response<ResponseType> | AppError
+  ): void {
+    this.eventEmitter.emit(ApiSerialPortEvent.DataReceived, data)
+  }
+
+  @log("==== serial port - api device: connection closed ====", LogConfig.Args)
+  private emitCloseEvent(data: ResultObject<string>): void {
+    this.eventEmitter.emit(ApiSerialPortEvent.Disconnected, data)
   }
 }
