@@ -34,7 +34,7 @@
     "posttranslations:sync": "npm run translations:sort",
     "posttranslations:sort": "prettier --write src/**/*.json",
     "posttest:coverage": "prettier --write ./jest.coverage.json",
-    "postsetup": "npm run fonts:download && npm run news:download && npm run app-configuration:download && npm run copy-static-dependencies"
+    "postinstall": "npm run fonts:download && npm run news:download && npm run app-configuration:download && npm run copy-static-dependencies"
   },
   "build": {
     "productName": "Mudita Center",
