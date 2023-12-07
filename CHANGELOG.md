@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
-## [2.2.7] - 2023-12-06
+## [2.2.7] - 2023-12-07
 
 ### Fixed
 
