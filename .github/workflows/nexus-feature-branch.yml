@@ -125,7 +125,9 @@ jobs:
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
           } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
-        run: npm run setup
+        run: |
+          npm ci
+          npm run setup
       - name: Copy electron-builder environment file for Windows
         if: matrix.os == 'Windows'
         run: |
