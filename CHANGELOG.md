@@ -14,7 +14,9 @@ straightforward as possible.
 
 ### Fixed
 
-- Fixed an issue with updating from version 2.2.5 to 2.2.6 on Windows that required administrator rights to update correctly
+- Resolved an issue with updating from version 2.2.5 to 2.2.6 on Windows, requiring administrator rights for a successful update.
+- Fixed the problem with clicking links in Terms of Service, preventing the opening of additional Electron windows.
+
 
 ## [2.2.6] - 2023-11-30
 
