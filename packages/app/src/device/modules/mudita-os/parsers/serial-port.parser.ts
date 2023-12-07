@@ -57,6 +57,7 @@ export class SerialPortParser extends SerialPortParserBase {
 
   public createRequest(
     payload: RequestPayload<unknown> | APIRequestData
+    // payload: Record<string, unknown>
   ): string {
     const encoder = new TextEncoder()
 
