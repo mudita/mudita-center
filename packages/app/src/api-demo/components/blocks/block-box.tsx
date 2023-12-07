@@ -18,7 +18,7 @@ export const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
   ...props
 }) => {
   return (
-    <BoxWrapper {...props}>
+    <BoxWrapper {...props} className={"custom"}>
       {config?.title && <h1>{config.title}</h1>}
       {children}
     </BoxWrapper>
@@ -26,5 +26,9 @@ export const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
 }
 
 const BoxWrapper = styled.div`
+  &.custom {
+    height: 90%;
+  }
+
   background-color: #ccc;
 `

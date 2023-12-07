@@ -232,6 +232,9 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           width: 1,
           height: 1,
         },
+        flexPlacement: {
+          grow: 1,
+        },
         flexLayout: {
           direction: "column",
           justifyContent: "space-between",

@@ -24,7 +24,7 @@ export const withLayout = <P extends object>(
     if (layout) {
       return (
         <Wrapper $layout={layout}>
-          <Component {...(props as P)} className={"layout-child"} />
+          <Component {...(props as P)} />
         </Wrapper>
       )
     }
@@ -83,7 +83,9 @@ const childStyles = css<{
 const Wrapper = styled.div<{ $layout: Layout }>`
   ${wrapperStyles};
 
-  > .layout-child {
+  > * {
+    width: 100%;
+    height: 100%;
     ${childStyles};
   }
 `
