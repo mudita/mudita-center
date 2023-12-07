@@ -376,7 +376,7 @@ const createOpenWindowListener = (
       newWindow.webContents.setWindowOpenHandler(({ url }) => {
         shell.openExternal(url)
         return {
-          action: "allow",
+          action: "deny",
           overrideBrowserWindowOptions: {},
         }
       })
