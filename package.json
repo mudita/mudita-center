@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "setup": "npm i",
-    "setup-validate": "npm i --ignore-scripts",
+    "setup-validate": "npm ci --ignore-scripts",
     "app:develop": "nx develop mudita-center",
     "app:dist": "nx dist mudita-center",
     "app:translations:sync": "nx translations:sync mudita-center",
