@@ -147,7 +147,7 @@ jobs:
           cd packages/app/
           npm run dist
       - name: Verify apple sign
-        if: matrix.os = 'macOS'
+        if: matrix.os == 'macOS'
         run: |
           codesign -v -v packages/app/release/mac/Mudita\ Center.app
       - name: Push artifacts to nexus registry from Windows
