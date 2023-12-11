@@ -58,4 +58,5 @@ module.exports = {
     escapeString: true,
     printBasicPrototype: true,
   },
+  maxWorkers: 1,
 }
