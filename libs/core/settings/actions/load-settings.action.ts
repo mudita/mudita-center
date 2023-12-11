@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import isVersionGreater from "Core/overview/helpers/is-version-greater"
+import isVersionGreater from "Core/utils/is-version-greater"
 import { SettingsEvent } from "Core/settings/constants"
 import { getSettings } from "Core/settings/requests"
 import { loadBackupData } from "Core/backup/actions/load-backup-data.action"

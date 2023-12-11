@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "Core/core/errors"
 import { DeviceType } from "Core/device/constants"
-import isVersionGreaterOrEqual from "Core/overview/helpers/is-version-greater-or-equal"
+import isVersionGreaterOrEqual from "Core/utils/is-version-greater-or-equal"
 import {
   CheckForUpdateMode,
   Product,

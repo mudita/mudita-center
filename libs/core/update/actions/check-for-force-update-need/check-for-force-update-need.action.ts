@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { Feature, flags } from "Core/feature-flags"
-import isVersionGreaterOrEqual from "Core/overview/helpers/is-version-greater-or-equal"
+import isVersionGreaterOrEqual from "Core/utils/is-version-greater-or-equal"
 import { checkForUpdate } from "Core/update/actions/check-for-update/check-for-update.action"
 import { CheckForUpdateMode, UpdateOsEvent } from "Core/update/constants"
 import { versionFormatter } from "Core/update/helpers"

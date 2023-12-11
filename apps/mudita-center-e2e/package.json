@@ -1,5 +1,5 @@
 {
-  "name": "mudita-center-e2e",
+  "name": "@mudita/mudita-center-e2e",
   "version": "0.0.1",
   "description": "The E2E tests of Mudita Center",
   "author": "igorbezsmertnyii <mr.igor96@outlook.com>",
