@@ -582,6 +582,7 @@ ipcMain.answerRenderer(
       logger.info("No Outlook Auth URL defined!")
     }
   }
+  //
 )
 
 ipcMain.answerRenderer(OutlookAuthActions.CloseWindow, () => {
