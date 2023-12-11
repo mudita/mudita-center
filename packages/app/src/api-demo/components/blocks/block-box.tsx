@@ -6,12 +6,13 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "../../models/api-fc.types"
+import { withConfig } from "../generic/with-config"
 
 interface BlockBoxParameters {
   title?: string
 }
 
-export const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
+const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
   config,
   data,
   children,
@@ -25,6 +26,8 @@ export const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
     </BoxWrapper>
   )
 }
+
+export default withConfig(BlockBox)
 
 const BoxWrapper = styled.div`
   &.custom {

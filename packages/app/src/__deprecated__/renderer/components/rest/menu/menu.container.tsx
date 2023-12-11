@@ -26,7 +26,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     devModeEnabled: state.devMode.enabled,
     syncState: state.dataSync.state,
     synchronizationProcess: state.dataSync.synchronizationProcess,
-    menuItems: state.generic.menu,
+    menuItems: state.genericViews.menu,
   }
 }
 

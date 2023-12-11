@@ -12,7 +12,7 @@ import { isEmpty } from "lodash"
 
 export const GenericView: FunctionComponent = () => {
   const { viewKey } = useParams<{ viewKey: string }>()
-  const { views } = useSelector((state: ReduxRootState) => state.generic)
+  const { views } = useSelector((state: ReduxRootState) => state.genericViews)
 
   if (isEmpty(views) || !views[viewKey].layout) {
     return <div>Loading...</div>

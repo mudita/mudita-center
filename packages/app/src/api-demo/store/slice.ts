@@ -30,17 +30,6 @@ export const genericSlice = createSlice({
     setMenu: (state, action: PayloadAction<MenuElement[]>) => {
       state.menu = action.payload
     },
-    setViews: (state, action: PayloadAction<string[]>) => {
-      state.views = action.payload.reduce((acc, feature) => {
-        return {
-          ...acc,
-          [feature]: {
-            layout: undefined,
-            data: undefined,
-          },
-        }
-      }, {})
-    },
     setViewLayout: (state, action) => {
       state.views[action.payload.feature] = {
         ...state.views[action.payload.feature],

@@ -9,9 +9,7 @@ type DefaultProps = Partial<
   Pick<ReactHTMLElement<HTMLElement>["props"], "className" | "style">
 >
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type APIFC<
+type BaseGenericComponent<
   Data = unknown,
   Config = unknown,
   ExtraProps = unknown
@@ -27,7 +25,12 @@ export type APIFC<
   >
 >
 
-export type RecursiveComponent = APIFC<
+export type APIFC<Data = unknown, Config = unknown> = BaseGenericComponent<
+  Data,
+  Config
+>
+
+export type RecursiveComponent = BaseGenericComponent<
   unknown,
   unknown,
   {

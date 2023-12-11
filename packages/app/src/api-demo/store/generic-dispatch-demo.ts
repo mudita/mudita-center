@@ -28,10 +28,6 @@ export const fillGenericStore = async () => {
   await wait(2000)
   store.dispatch(genericSlice.actions.setMenu(generateMenu(menuConfig)))
 
-  // Simulate views setup
-  await wait(2000)
-  store.dispatch(genericSlice.actions.setViews(apiConfigResponse.features))
-
   // Simulate mc-overview layout
   await wait(1000)
   store.dispatch(

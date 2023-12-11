@@ -5,11 +5,14 @@
 
 export type PrimitiveValue = string | number
 
-export interface GridLayout {
+interface Gap {
+  rowGap?: string
+  columnGap?: string
+}
+
+export interface GridLayout extends Gap {
   rows: PrimitiveValue[]
   columns: PrimitiveValue[]
-  rowGap?: PrimitiveValue
-  columnGap?: PrimitiveValue
 }
 
 export interface GridPlacement {
@@ -19,7 +22,7 @@ export interface GridPlacement {
   height: number
 }
 
-export interface FlexLayout {
+export interface FlexLayout extends Gap {
   direction: "row" | "column" | "row-reverse" | "column-reverse"
   justifyContent?:
     | "flex-start"
@@ -37,8 +40,6 @@ export interface FlexLayout {
     | "space-between"
     | "space-around"
   wrap?: "wrap" | "nowrap" | "wrap-reverse"
-  rowGap?: PrimitiveValue
-  columnGap?: PrimitiveValue
 }
 
 export interface FlexPlacement {

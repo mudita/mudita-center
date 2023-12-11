@@ -163,7 +163,7 @@ const mapDispatchToProps = (state: ReduxRootState) => ({
   notifications: {
     [View.Messages]: getUnreadThreads(state).length > 0,
   },
-  genericMenuElements: state.generic.menu,
+  genericMenuElements: state.genericViews.menu,
 })
 
 export default connect(mapDispatchToProps)(Menu)

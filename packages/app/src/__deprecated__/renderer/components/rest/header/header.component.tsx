@@ -43,7 +43,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   button,
 }) => {
   const location = useLocation()
-  const genericMenu = useSelector((state: ReduxRootState) => state.generic.menu)
+  const genericMenu = useSelector((state: ReduxRootState) => state.genericViews.menu)
   const [currentLocation, setCurrentLocation] = useState<
     { id: string } | string
   >()

@@ -35,7 +35,7 @@ export const reducers = {
   news: newsReducer,
   settings: settingsReducer,
   update: updateOsReducer,
-  generic: genericSlice.reducer,
+  genericViews: genericSlice.reducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

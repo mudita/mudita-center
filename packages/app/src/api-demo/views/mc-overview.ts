@@ -154,6 +154,9 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
             justifyContent: "space-between",
           },
         },
+        config: {
+          title: "Summary"
+        },
         childrenKeys: [
           config.summary.showImg ? "summaryImg" : undefined,
           config.summary.showSerialNumber ? "serial-number" : undefined,
