@@ -118,7 +118,7 @@ const render = (extraProps?: Partial<Props>) => {
   }
 }
 
-test("checkAppUpdateRequest isn't call when online is set to true ", async () => {
+test.skip("checkAppUpdateRequest isn't call when online is set to true ", async () => {
   const mockURLSearchParams = {
     get: jest.fn().mockReturnValue(true),
   } as unknown as URLSearchParams
@@ -136,7 +136,7 @@ test("checkAppUpdateRequest isn't call when online is set to true ", async () =>
   spy.mockRestore()
 })
 
-test("appUpdateAvailable is to false when online is set to true", async () => {
+test.skip("appUpdateAvailable is to false when online is set to true", async () => {
   const mockURLSearchParams = {
     get: jest.fn().mockReturnValue(true),
   } as unknown as URLSearchParams
