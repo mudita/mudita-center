@@ -17,6 +17,7 @@ import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
 export class APIDevice {
   private adapter: SerialPortDeviceAPIAdapter
   constructor({ path }: SerialPort.PortInfo) {
+    console.log(path)
     this.adapter = new SerialPortDeviceAPIAdapter(path, new SerialPortParser())
   }
 

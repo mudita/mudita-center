@@ -15,7 +15,7 @@ const APIMethods = {
   DELETE: "DELETE",
 } as const
 
-type APIMethodsType = (typeof APIMethods)[keyof typeof APIMethods]
+export type APIMethodsType = (typeof APIMethods)[keyof typeof APIMethods]
 
 const APIRequests = {
   MENU_CONFIGURATION: [APIMethods.GET],

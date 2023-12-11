@@ -5,18 +5,25 @@
 import { useEffect } from "react"
 import { ipcRenderer } from "electron-better-ipc"
 import { ApiSerialPortEvent } from "App/api-main/models/device-communication-event.constant"
+import { answerMain } from "../helpers/answer-main"
 
 export const useAPIListeners = () => {
   useEffect(() => {
-    const initFailListener = ipcRenderer.answerMain(
-      ApiSerialPortEvent.InitializationFailed,
+    const unregisterFailListener = answerMain(
+      "api-serial-port-initialization-failed",
       (x) => {
         console.log(x)
       }
     )
+    // const unregisterFailListener = ipcRenderer.answerMain(
+    //   ApiSerialPortEvent.InitializationFailed,
+    //   (x) => {
+    //     console.log(x)
+    //   }
+    // )
 
     return () => {
-      initFailListener()
+      unregisterFailListener()
     }
-  })
+  }, [])
 }

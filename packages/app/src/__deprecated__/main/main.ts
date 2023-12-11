@@ -5,7 +5,7 @@
 
 import "reflect-metadata"
 import { check as checkPort } from "tcp-port-used"
-import {
+import electron, {
   app,
   BrowserWindow,
   BrowserWindowConstructorOptions,
@@ -81,11 +81,6 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
-import packageInfo from "App/../package.json"
-
-const x = packageInfo
-
-console.log(x)
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -98,7 +93,7 @@ require("@electron/remote/main").initialize()
 
 logger.info("Starting the app")
 
-let win: BrowserWindow | null
+export let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
 let googleAuthWindow: BrowserWindow | null = null
 let outlookAuthWindow: BrowserWindow | null = null
