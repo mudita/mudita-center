@@ -9,27 +9,14 @@ import { AppError } from "App/core/errors"
 import { CONNECTION_TIME_OUT_MS, Endpoint } from "App/device/constants"
 import { ResponseStatus } from "App/device/constants"
 import { DeviceError } from "App/device/modules/mudita-os/constants"
-import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
-import {
-  RequestConfig,
-  Response,
-  RequestPayload,
-  ApiResponse,
-} from "App/device/types/mudita-os"
+import { Response, ApiResponse } from "App/device/types/mudita-os"
 import { timeout } from "App/device/modules/mudita-os/helpers"
-import { BaseAdapter } from "App/device/modules/base.adapter"
 import { APIMethodsType, APIRequestData } from "App/api-main/api-request.model"
-import SerialPort, { PortInfo } from "serialport"
+import SerialPort from "serialport"
 import { EventEmitter } from "events"
 import PQueue from "p-queue"
-import { SerialPortParserBase } from "../device/modules/mudita-os/parsers/serial-port-base.parser"
-import {
-  ApiSerialPortEvent,
-  ApiSerialPortEvents,
-} from "./models/device-communication-event.constant"
-import { LoggerFactory } from "App/core/factories/logger-factory"
-import { ipcMain } from "electron-better-ipc"
-import electron from "electron"
+import { SerialPortParserBase } from "App/device/modules/mudita-os/parsers/serial-port-base.parser"
+import { ApiSerialPortEvents } from "./models/device-communication-event.constant"
 import { callRenderer } from "./call-renderer.helper"
 
 const generateRequestID = () => {
@@ -48,11 +35,8 @@ export class SerialPortDeviceAPIAdapter {
 
   constructor(public path: string, private parser: SerialPortParserBase) {
     this.serialPort = new SerialPort(path, (error) => {
-      console.log("asd")
-      console.log("error", error)
       if (error) {
         const appError = new AppError(DeviceError.Initialization, error.message)
-        // this.emitInitializationFailedEvent(Result.failed(appError))
         callRenderer(
           "api-serial-port-initialization-failed",
           Result.failed(appError)
@@ -67,20 +51,11 @@ export class SerialPortDeviceAPIAdapter {
         "api-serial-port-connected",
         Result.success(`Device ${path} connected`)
       )
-
-      // this.emitInitializationFailedEvent(
-      //   Result.failed(new AppError(DeviceError.Initialization, "Asdasd"))
-      // )
-      // else {
-      //   this.emitConnectionEvent(Result.success(`Device ${path} connected`))
-      // }
     })
 
     this.serialPort.on("data", (event) => {
       try {
-        console.log(event)
         const data = this.parser.parse(event)
-        console.log(data)
         if (data !== undefined) {
           this.emitDataReceivedEvent(data)
         }
@@ -95,7 +70,6 @@ export class SerialPortDeviceAPIAdapter {
     })
 
     this.serialPort.on("close", () => {
-      // this.emitCloseEvent(Result.success(`Device ${path} disconnected`))
       callRenderer(
         "api-serial-port-disconnected",
         Result.success(`Device ${path} disconnected`)
@@ -241,20 +215,10 @@ export class SerialPortDeviceAPIAdapter {
     port.write(request)
   }
 
-  // @log("==== serial port - api device: connect event ====", LogConfig.Args)
-  // private emitConnectionEvent(data: ResultObject<string>): void {
-  //   this.eventEmitter.emit(ApiSerialPortEvent.Connected, data)
-  // }
-
   @log("==== serial port - api device: data received ====", LogConfig.Args)
   private emitDataReceivedEvent<ResponseType = unknown>(
     data: Response<ResponseType> | AppError
   ): void {
     this.eventEmitter.emit(ApiSerialPortEvents.DataReceived, data)
   }
-
-  // @log("==== serial port - api device: connection closed ====", LogConfig.Args)
-  // private emitCloseEvent(data: ResultObject<string>): void {
-  //   this.eventEmitter.emit(ApiSerialPortEvent.Disconnected, data)
-  // }
 }

@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint } from "App/device/constants/endpoint.constant"
-import { Method } from "App/device/constants/request-method.constant"
 import { SerialPortDeviceAPIAdapter } from "App/api-main/serial-port-api-device.adapters"
 import SerialPort from "serialport"
 import {
@@ -17,7 +15,6 @@ import { SerialPortParser } from "App/device/modules/mudita-os/parsers"
 export class APIDevice {
   private adapter: SerialPortDeviceAPIAdapter
   constructor({ path }: SerialPort.PortInfo) {
-    console.log(path)
     this.adapter = new SerialPortDeviceAPIAdapter(path, new SerialPortParser())
   }
 
@@ -29,10 +26,9 @@ export class APIDevice {
     return result
   }
 
+  // to be removed
   public async requestAny(config: any): Promise<any> {
-    console.log(config)
     const result = await this.adapter.requestUntyped(config as APIRequestData)
-    console.log(result)
     return result
   }
 }

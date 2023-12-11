@@ -4,8 +4,6 @@
  */
 
 import { DeviceManager } from "App/device-manager/services/device-manager.service"
-import { IpcEvent } from "App/core/decorators"
-import { Result, ResultObject } from "App/core/builder"
 import { APIConfigService } from "./api-config.service"
 
 export interface APIConfigResponse {

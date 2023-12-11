@@ -9,10 +9,9 @@ export type CallRendererEvent = ApiSerialPortToRendererEvents
 
 export const callRenderer = (event: CallRendererEvent, payload?: unknown) => {
   const win = electron.BrowserWindow.getAllWindows().find((win) => win.id === 1)
-  console.log(win)
+
   if (win) {
     logger.info(JSON.stringify({ event, payload }, null, 2))
-    console.log("asdasdasd")
     ipcMain.callRenderer(win, event, payload)
   } else {
     logger.info(
