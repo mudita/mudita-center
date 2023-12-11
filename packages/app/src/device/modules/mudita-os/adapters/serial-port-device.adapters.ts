@@ -28,7 +28,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     this.serialPort.on("data", (event) => {
       try {
         const data = this.parser.parse(event)
-
         if (data !== undefined) {
           this.emitDataReceivedEvent(data)
         }
@@ -111,6 +110,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           response.status === ResponseStatus.ParserError
         ) {
+          console.log(response)
           this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
           cancel()
           resolve(Result.success(response))

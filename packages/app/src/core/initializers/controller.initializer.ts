@@ -6,25 +6,26 @@
 import { ipcMain } from "electron-better-ipc"
 import { ReflectKey } from "App/core/constants"
 import { EventDefinition, Controller } from "App/core/types"
+import { APIModule } from "App/api-main/api-module"
 
 export class ControllerInitializer {
   public initialize(controllers: Controller[]): void {
-    controllers.forEach((controller) => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const events: EventDefinition[] = Reflect.getMetadata(
-        ReflectKey.Event,
-        controller.constructor
-      )
+    controllers.forEach(this.initializeSingleObject)
+  }
 
-      events.forEach((event) => {
+  public initializeSingleObject(controller: Controller) {
+    const events: EventDefinition[] = Reflect.getMetadata(
+      ReflectKey.Event,
+      controller.constructor
+    )
+
+    events.forEach((event) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/require-await
+      ipcMain.answerRenderer(event.name, (data) => {
         // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/require-await
-        ipcMain.answerRenderer(event.name, (data) => {
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
-          return (controller as Record<string, any>)[event.methodName](data)
-        })
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+        return (controller as Record<string, any>)[event.methodName](data)
       })
     })
   }

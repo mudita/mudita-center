@@ -20,9 +20,11 @@ import { DeviceServiceEvent } from "App/device"
 import { EventEmitter } from "events"
 import logger from "App/__deprecated__/main/utils/logger"
 import { Mutex } from "async-mutex"
+import { APIDevice } from "App/api-main/api-device"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
+  private currentAPIDevice: APIDevice | undefined
   public devicesMap = new Map<string, Device>()
   public currentDeviceInitializationFailed = false
 
@@ -48,6 +50,17 @@ export class DeviceManager {
     }
 
     return this.currentDevice
+  }
+
+  get apiDevice() {
+    if (!this.currentAPIDevice) {
+      throw new AppError(
+        DeviceManagerError.NoCurrentDevice,
+        "Current device is undefined"
+      )
+    }
+
+    return this.currentAPIDevice
   }
 
   get devices(): Device[] {
@@ -98,7 +111,9 @@ export class DeviceManager {
         this.currentDevice = this.devicesMap.values().next().value as Device
         this.ipc.sendToRenderers(
           ListenerEvent.CurrentDeviceChanged,
-          this.currentDevice ? getDevicePropertiesFromDevice(this.currentDevice) : undefined
+          this.currentDevice
+            ? getDevicePropertiesFromDevice(this.currentDevice)
+            : undefined
         )
       } else {
         this.currentDevice = undefined
@@ -144,6 +159,7 @@ export class DeviceManager {
   private async initializeDevice(
     portInfo: PortInfo
   ): Promise<Device | undefined> {
+    console.log(portInfo)
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
@@ -169,11 +185,15 @@ export class DeviceManager {
           const device = this.deviceResolver.resolve(port)
 
           if (!device) {
+            //tymczasowe
+            this.currentAPIDevice = new APIDevice(port)
+
             return
           }
 
           return resolve(device)
         }
+
         await sleep()
       }
 

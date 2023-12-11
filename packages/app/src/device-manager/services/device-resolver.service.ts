@@ -16,9 +16,9 @@ import { DeviceFactory } from "App/device/factories"
 
 export class DeviceResolverService {
   private eligibleDevices = [
-    MuditaPureDescriptor,
+    // MuditaPureDescriptor,
     MuditaHarmonyDescriptor,
-    MuditaKompaktDescriptor,
+    // MuditaKompaktDescriptor,
   ]
 
   constructor(

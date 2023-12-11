@@ -14,10 +14,14 @@ import { DeviceError } from "App/device/modules/mudita-os/constants"
 import {
   RequestConfig,
   Response,
+  ApiResponse,
   RequestPayload,
 } from "App/device/types/mudita-os"
+import { APIRequestData } from "App/api-main/api-request.model"
 
-export abstract class BaseAdapter {
+export abstract class BaseAdapter<
+  RequestResponse extends Response<any> | ApiResponse<any> = Response<any>
+> {
   protected serialPort: SerialPort
   protected eventEmitter = new EventEmitter()
 
@@ -61,10 +65,10 @@ export abstract class BaseAdapter {
   public abstract request(
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: RequestConfig<any>
+    config: RequestConfig<any> | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
+  Promise<ResultObject<RequestResponse>>
 
   @log("==== serial port: connect event ====", LogConfig.Args)
   protected emitConnectionEvent(data: ResultObject<string>): void {
@@ -103,17 +107,17 @@ export abstract class BaseAdapter {
 
   protected abstract writeRequest(
     port: SerialPort,
-    config: RequestConfig
+    config: RequestConfig | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
+  Promise<ResultObject<RequestResponse>>
 
   protected abstract deviceRequest(
     port: SerialPort,
-    { options = {}, ...payload }: RequestPayload
+    { options = {}, ...payload }: RequestPayload | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
+  Promise<ResultObject<RequestResponse>>
 
   protected getNewUUID(): number {
     return Math.floor(Math.random() * 10000)
@@ -125,6 +129,6 @@ export abstract class BaseAdapter {
     port: SerialPort,
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    payload: RequestPayload<any>
+    payload: RequestPayload<any> | APIRequestData
   ): void
 }

@@ -16,6 +16,7 @@ import Tethering from "App/__deprecated__/renderer/modules/tethering/tethering.c
 import {
   URL_MAIN,
   URL_ONBOARDING,
+  URL_RECOVERY_MODE,
   URL_TABS,
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
@@ -35,15 +36,18 @@ import {
   BackupContainer,
   AudioConversionContainer,
 } from "App/settings/components"
+import RecoveryMode from "App/__deprecated__/recovery-mode/components/recovery-mode.container"
 import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "App/templates/template.container"
-import { GenericView } from "App/api-demo/components/generic/generic-view"
+import { OverviewDemo } from "App/api-demo/overview-demo"
+import { APIConnectionDemo } from "App/api-demo/api-connection-demo"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => (
   <Switch>
+    <Redirect from={URL_ONBOARDING.welcome} to={URL_MAIN.overviewDemo} />
     <Redirect exact from={URL_MAIN.root} to={URL_MAIN.news} />
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
@@ -55,6 +59,7 @@ export default () => (
           path={URL_ONBOARDING.troubleshooting}
           component={Troubleshooting}
         />
+        <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
       </LayoutBlankWrapper>
     </Route>
 
@@ -64,9 +69,14 @@ export default () => (
       </LayoutDesktopWrapperWithoutHeader>
     </Route>
 
+    <Route exact path={[...Object.values(URL_RECOVERY_MODE)]}>
+      <LayoutBlankWrapper recoveryMode>
+        <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
+      </LayoutBlankWrapper>
+    </Route>
+
     <Route>
       <LayoutDesktopWrapper>
-        <Route path={"/generic/:viewKey"} component={GenericView} />
         <Route path={URL_MAIN.filesManager} component={FilesManager} />
         <Route path={URL_MAIN.meditation} component={Meditation} />
         <Route path={URL_MAIN.messages} component={Messages} exact />
@@ -102,6 +112,11 @@ export default () => (
         <Route
           path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
           component={VoiceRecorder}
+        />
+        <Route path={URL_MAIN.overviewDemo} component={OverviewDemo} />
+        <Route
+          path={URL_MAIN.apiConnectionDemo}
+          component={APIConnectionDemo}
         />
       </LayoutDesktopWrapper>
     </Route>

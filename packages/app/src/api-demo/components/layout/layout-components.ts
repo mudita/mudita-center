@@ -3,6 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { apiComponents } from "App/api-demo/components/api-components"
+import { Grid } from "./grid"
+import { GridItem } from "./grid-item"
 
-export type APIComponents = typeof apiComponents
+export const layoutComponents = {
+  grid: Grid,
+  "grid-item": GridItem,
+}

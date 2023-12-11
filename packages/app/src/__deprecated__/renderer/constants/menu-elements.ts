@@ -163,6 +163,16 @@ export const baseMenuElements: MenuElement[] = [
 
 export const deviceMenuElements: MenuElement[] = [
   {
+    items: [
+      {
+        button: views[View.APIConnectionDemo],
+        icon: IconType.MenuOverview,
+        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+      },
+    ],
+    viewKey: View.APIConnectionDemo,
+  },
+  {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
     icons: flags.get(Feature.YourPureIconsEnabled)

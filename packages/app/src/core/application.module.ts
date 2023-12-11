@@ -45,6 +45,7 @@ import {
   DeviceManager,
   DeviceResolverService,
 } from "App/device-manager/services"
+import { APIModule } from "App/api-main/api-module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -80,6 +81,8 @@ export class ApplicationModule {
   private controllerInitializer: ControllerInitializer
   private initializeInitializer: InitializeInitializer
 
+  private apiModule: APIModule
+
   private deviceManager = new DeviceManager(
     new DeviceResolverService(this.ipc, this.eventEmitter),
     this.ipc,
@@ -98,6 +101,8 @@ export class ApplicationModule {
     this.initializeInitializer = new InitializeInitializer()
 
     this.modules.forEach(this.initModule)
+    this.apiModule = new APIModule(this.deviceManager)
+    this.controllerInitializer.initialize(this.apiModule.getAPIServices())
   }
 
   lateInitialization(): void {

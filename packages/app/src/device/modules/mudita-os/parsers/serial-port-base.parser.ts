@@ -6,7 +6,7 @@
 import { RequestPayload, Response } from "App/device/types/mudita-os"
 
 export abstract class SerialPortParserBase {
-  public abstract parse(data: Buffer): Response<unknown> | undefined
+  public abstract parse(data: Buffer): any
 
-  public abstract createRequest(payload: RequestPayload<unknown>): string
+  public abstract createRequest(payload: unknown): string
 }

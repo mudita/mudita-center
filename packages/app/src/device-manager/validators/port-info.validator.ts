@@ -22,7 +22,7 @@ export class PortInfoValidator {
 
     const result = Boolean(
       PortInfoValidator.eligibleDevices.find((device) => {
-        const vendorIds = device.vendorIds.map((item) =>
+        const vendorIds = [...device.vendorIds, "0e8d"].map((item) =>
           item.toString().toLowerCase()
         )
 
@@ -37,7 +37,7 @@ export class PortInfoValidator {
     const id = portInfo.productId?.toLowerCase() ?? ""
     return Boolean(
       PortInfoValidator.eligibleDevices.find((device) =>
-        device.productIds
+        [...device.productIds, "2006"]
           .map((item) => item.toString().toLowerCase())
           .includes(id)
       )
@@ -51,10 +51,10 @@ export class PortInfoValidator {
     return Boolean(
       PortInfoValidator.eligibleDevices.find(({ vendorIds, productIds }) => {
         return (
-          vendorIds
+          [...vendorIds, "0e8d"]
             .map((item) => item.toString().toLowerCase())
             .includes(vendorId) &&
-          productIds
+          [...productIds, "2006"]
             .map((item) => item.toString().toLowerCase())
             .includes(productId)
         )
