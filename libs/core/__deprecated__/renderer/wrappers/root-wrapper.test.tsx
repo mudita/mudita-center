@@ -22,7 +22,6 @@ import { updateOsReducer } from "Core/update/reducers"
 import { dataSyncReducer } from "Core/data-sync/reducers"
 
 jest.mock("Core/settings/actions/check-update-available.action")
-// jest.mock("Core/settings/actions/load-settings.action")
 
 jest.mock("@electron/remote", () => ({
   Menu: () => ({
@@ -118,7 +117,7 @@ const render = (extraProps?: Partial<Props>) => {
   }
 }
 
-test.skip("checkAppUpdateRequest isn't call when online is set to true ", async () => {
+test("checkAppUpdateRequest isn't call when online is set to true ", async () => {
   const mockURLSearchParams = {
     get: jest.fn().mockReturnValue(true),
   } as unknown as URLSearchParams
@@ -136,7 +135,7 @@ test.skip("checkAppUpdateRequest isn't call when online is set to true ", async 
   spy.mockRestore()
 })
 
-test.skip("appUpdateAvailable is to false when online is set to true", async () => {
+test("appUpdateAvailable is to false when online is set to true", async () => {
   const mockURLSearchParams = {
     get: jest.fn().mockReturnValue(true),
   } as unknown as URLSearchParams

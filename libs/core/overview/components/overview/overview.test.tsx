@@ -165,7 +165,7 @@ const render = (extraProps?: Partial<Props>) => {
   )
 }
 
-describe.skip("`Overview` component for `MuditaPure` type,", () => {
+describe("`Overview` component for `MuditaPure` type,", () => {
   describe("when component is render with default props", () => {
     test("loadData is fired when component is mounted", () => {
       jest.spyOn(flags, "get").mockReturnValue(true)

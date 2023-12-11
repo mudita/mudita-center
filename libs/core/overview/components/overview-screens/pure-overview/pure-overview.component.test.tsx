@@ -101,7 +101,7 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-test.skip("Renders Mudita pure data", () => {
+test("Renders Mudita pure data", () => {
   const { getByTestId, queryByText } = render()
   expect(getByTestId(StatusTestIds.BatteryLevel)).toHaveTextContent("0 %")
   expect(getByTestId(StatusTestIds.NetworkName)).toHaveTextContent(
@@ -111,7 +111,7 @@ test.skip("Renders Mudita pure data", () => {
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
 })
 
-describe.skip("`ErrorSyncModal` logic", () => {
+describe("`ErrorSyncModal` logic", () => {
   test("when sync error occurred and `restoreDeviceState` is undefined modal is visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: undefined,
