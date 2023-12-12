@@ -1,0 +1,21 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { ipcRenderer } from "electron-better-ipc"
+import { IpcRendererEvent } from "electron/renderer"
+import { PureOsDownloadChannels } from "Core/__deprecated__/main/functions/register-pure-os-download-listener"
+import { DownloadProgress } from "Core/__deprecated__/renderer/interfaces/file-download.interface"
+
+export const registerDownloadProgressListener = (
+  listener: (event: IpcRendererEvent, progress: DownloadProgress) => void
+): void => {
+  ipcRenderer.on(PureOsDownloadChannels.progress, listener)
+}
+
+export const removeDownloadProgressListener = (
+  listener: (event: IpcRendererEvent, progress: DownloadProgress) => void
+): void => {
+  ipcRenderer.removeListener(PureOsDownloadChannels.progress, listener)
+}
