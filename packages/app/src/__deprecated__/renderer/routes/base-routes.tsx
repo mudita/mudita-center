@@ -16,7 +16,6 @@ import Tethering from "App/__deprecated__/renderer/modules/tethering/tethering.c
 import {
   URL_MAIN,
   URL_ONBOARDING,
-  URL_RECOVERY_MODE,
   URL_TABS,
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
@@ -36,18 +35,16 @@ import {
   BackupContainer,
   AudioConversionContainer,
 } from "App/settings/components"
-import RecoveryMode from "App/__deprecated__/recovery-mode/components/recovery-mode.container"
 import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "App/templates/template.container"
-import { OverviewDemo } from "App/api-demo/overview-demo"
+import { GenericView } from "App/api-demo/components/generic/generic-view"
 import { APIConnectionDemo } from "App/api-demo/api-connection-demo"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => (
   <Switch>
-    <Redirect from={URL_ONBOARDING.welcome} to={URL_MAIN.overviewDemo} />
     <Redirect exact from={URL_MAIN.root} to={URL_MAIN.news} />
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
@@ -59,7 +56,6 @@ export default () => (
           path={URL_ONBOARDING.troubleshooting}
           component={Troubleshooting}
         />
-        <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
       </LayoutBlankWrapper>
     </Route>
 
@@ -69,55 +65,51 @@ export default () => (
       </LayoutDesktopWrapperWithoutHeader>
     </Route>
 
-    <Route exact path={[...Object.values(URL_RECOVERY_MODE)]}>
-      <LayoutBlankWrapper recoveryMode>
-        <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
-      </LayoutBlankWrapper>
-    </Route>
-
     <Route>
       <LayoutDesktopWrapper>
-        <Route path={URL_MAIN.filesManager} component={FilesManager} />
-        <Route path={URL_MAIN.meditation} component={Meditation} />
-        <Route path={URL_MAIN.messages} component={Messages} exact />
-        <Route
-          path={`${URL_MAIN.messages}${URL_TABS.templates}`}
-          component={TemplatesContainer}
-        />
-        <Route path={URL_MAIN.music} component={Music} exact />
-        <Route
-          path={`${URL_MAIN.music}${URL_TABS.playlist}`}
-          component={Playlist}
-        />
-        <Route path={URL_MAIN.news} component={News} />
-        <Route path={URL_OVERVIEW.root} component={Overview} exact />
-        <Route path={URL_MAIN.contacts} component={Contacts} exact />
-        <Route path={URL_MAIN.phone} component={Calls} />
-        <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
-        <Route path={URL_MAIN.settings} component={BackupContainer} exact />
-        <Route
-          path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
-          component={NotificationsContainer}
-        />
-        <Route
-          path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
-          component={AudioConversionContainer}
-        />
-        <Route
-          path={`${URL_MAIN.settings}${URL_TABS.about}`}
-          component={AboutContainer}
-        />
-        <Route path={URL_MAIN.tethering} component={Tethering} />
-        <Route path={URL_MAIN.tools} component={Notes} exact />
-        <Route
-          path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
-          component={VoiceRecorder}
-        />
-        <Route path={URL_MAIN.overviewDemo} component={OverviewDemo} />
-        <Route
-          path={URL_MAIN.apiConnectionDemo}
-          component={APIConnectionDemo}
-        />
+        <Switch>
+          <Route
+            path={"/generic/api-connection-demo"}
+            component={APIConnectionDemo}
+          />
+          <Route path={"/generic/:viewKey"} component={GenericView} />
+          <Route path={URL_MAIN.filesManager} component={FilesManager} />
+          <Route path={URL_MAIN.meditation} component={Meditation} />
+          <Route path={URL_MAIN.messages} component={Messages} exact />
+          <Route
+            path={`${URL_MAIN.messages}${URL_TABS.templates}`}
+            component={TemplatesContainer}
+          />
+          <Route path={URL_MAIN.music} component={Music} exact />
+          <Route
+            path={`${URL_MAIN.music}${URL_TABS.playlist}`}
+            component={Playlist}
+          />
+          <Route path={URL_MAIN.news} component={News} />
+          <Route path={URL_OVERVIEW.root} component={Overview} exact />
+          <Route path={URL_MAIN.contacts} component={Contacts} exact />
+          <Route path={URL_MAIN.phone} component={Calls} />
+          <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
+          <Route path={URL_MAIN.settings} component={BackupContainer} exact />
+          <Route
+            path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
+            component={NotificationsContainer}
+          />
+          <Route
+            path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
+            component={AudioConversionContainer}
+          />
+          <Route
+            path={`${URL_MAIN.settings}${URL_TABS.about}`}
+            component={AboutContainer}
+          />
+          <Route path={URL_MAIN.tethering} component={Tethering} />
+          <Route path={URL_MAIN.tools} component={Notes} exact />
+          <Route
+            path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
+            component={VoiceRecorder}
+          />
+        </Switch>
       </LayoutDesktopWrapper>
     </Route>
 

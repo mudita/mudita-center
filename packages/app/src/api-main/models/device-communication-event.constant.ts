@@ -10,7 +10,7 @@ export const ApiSerialPortEvents = {
 export type ApiSerialPortEvent =
   (typeof ApiSerialPortEvents)[keyof typeof ApiSerialPortEvents]
 
-const ApiSerialPortToRendererEvents = {
+export const ApiSerialPortToRendererEvents = {
   Connected: "api-serial-port-connected",
   Disconnected: "api-serial-port-disconnected",
   InitializationFailed: "api-serial-port-initialization-failed",

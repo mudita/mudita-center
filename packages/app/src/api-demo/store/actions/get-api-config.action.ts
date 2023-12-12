@@ -29,23 +29,7 @@ export const getAPIConfig = createAsyncThunk<
   any,
   { state: ReduxRootState }
 >(APIActions.GetConfig, async (payload) => {
-  console.log()
   const response = await getAPIAny(payload ?? {})
-
-  if (response.ok) {
-    const x = response.data
-    console.log(x)
-  }
-  //   console.log(res)
-
-  //   if (error || data === undefined) {
-  //     return rejectWithValue(
-  //       new AppError(
-  //         MessagesError.AddNewMessage,
-  //         "Add New Message request failed"
-  //       )
-  //     )
-  //   }
 
   return response
 })

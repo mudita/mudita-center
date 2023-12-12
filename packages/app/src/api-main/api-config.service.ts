@@ -22,14 +22,16 @@ export class APIConfigService {
 
   @IpcEvent(APIServiceEvents.APIConfig)
   public async getAPIConfig(): Promise<ResultObject<APIConfigResponse>> {
-    const pure = await this.deviceManager.apiDevice.request({
+    const response = await this.deviceManager.apiDevice.request({
       endpoint: "API_CONFIGURATION",
       method: "GET",
       body: {},
     })
-    return Result.success({ apiVersion: "0.1.0", pure })
+
+    return Result.success({ apiVersion: "0.1.0", pure: response })
   }
 
+  //to remove
   @IpcEvent(APIServiceEvents.APIAny)
   public async getAPIAny(payload: any): Promise<ResultObject<any>> {
     const pure = await this.deviceManager.apiDevice.requestAny(payload)

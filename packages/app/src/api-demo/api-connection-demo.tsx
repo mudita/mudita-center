@@ -6,7 +6,6 @@
 import React, { FunctionComponent, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { RecursiveLayout } from "./components/recursive-layout"
 import { getAPIConfig } from "./store/actions/get-api-config.action"
 
 export const APIConnectionDemo: FunctionComponent = () => {
@@ -15,8 +14,8 @@ export const APIConnectionDemo: FunctionComponent = () => {
     "method": "GET",
     "body": {}
   }`)
-  const { layout, data, lastResponse } = useSelector(
-    (state: ReduxRootState) => state.generic
+  const { lastResponse } = useSelector(
+    (state: ReduxRootState) => state.genericViews
   )
   const dispatch = useDispatch<any>()
 

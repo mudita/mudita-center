@@ -6,14 +6,14 @@
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 interface MenuItemConfig {
-  feature: string;
-  displayName?: string;
-  icon?: IconType;
+  feature: string
+  displayName?: string
+  icon?: IconType
 }
 
 export interface MenuConfig {
-  title?: string;
-  menuItems: MenuItemConfig[];
+  title?: string
+  menuItems: MenuItemConfig[]
 }
 
 export const menuConfig: MenuConfig = {
@@ -25,9 +25,14 @@ export const menuConfig: MenuConfig = {
       icon: IconType.MenuOverview,
     },
     {
+      feature: "api-connection-demo",
+      displayName: "connection demo",
+      icon: IconType.MenuOverview,
+    },
+    {
       feature: "mc-calendar",
       displayName: "Calendar",
       icon: IconType.Calendar,
-    }
+    },
   ],
 }

@@ -5,7 +5,8 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { MenuElement } from "App/__deprecated__/renderer/constants/menu-elements"
-import { View } from "../models/api-views.types"
+import { View } from "App/api-demo/models/api-views.types"
+import { getAPIConfig } from "App/api-demo/store/actions/get-api-config.action"
 
 interface GenericState {
   menu: MenuElement[] | undefined
@@ -16,11 +17,13 @@ interface GenericState {
       data: Record<string, unknown>
     }
   >
+  lastResponse: any
 }
 
 const initialState: GenericState = {
   menu: undefined,
   views: {},
+  lastResponse: {},
 }
 
 export const genericSlice = createSlice({
@@ -42,5 +45,10 @@ export const genericSlice = createSlice({
         data: action.payload.data,
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getAPIConfig.fulfilled, (state, action) => {
+      state.lastResponse = action.payload
+    })
   },
 })

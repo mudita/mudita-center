@@ -18,11 +18,10 @@ export class APIDevice {
     this.adapter = new SerialPortDeviceAPIAdapter(path, new SerialPortParser())
   }
 
-  public async request<Config, T extends APIEndpointType>(
+  public async request<R, T extends APIEndpointType>(
     config: APIRequestWithPayload<T>
-  ): Promise<unknown> {
+  ) {
     const result = await this.adapter.request(config as APIRequestData)
-    console.log(result)
     return result
   }
 

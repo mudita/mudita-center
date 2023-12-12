@@ -6,7 +6,7 @@
 import { log, LogConfig } from "App/core/decorators/log.decorator"
 import { Result, ResultObject } from "App/core/builder"
 import { AppError } from "App/core/errors"
-import { CONNECTION_TIME_OUT_MS, Endpoint } from "App/device/constants"
+import { CONNECTION_TIME_OUT_MS } from "App/device/constants"
 import { ResponseStatus } from "App/device/constants"
 import { DeviceError } from "App/device/modules/mudita-os/constants"
 import { Response, ApiResponse } from "App/device/types/mudita-os"
@@ -16,7 +16,10 @@ import SerialPort from "serialport"
 import { EventEmitter } from "events"
 import PQueue from "p-queue"
 import { SerialPortParserBase } from "App/device/modules/mudita-os/parsers/serial-port-base.parser"
-import { ApiSerialPortEvents } from "./models/device-communication-event.constant"
+import {
+  ApiSerialPortEvents,
+  ApiSerialPortToRendererEvents,
+} from "./models/device-communication-event.constant"
 import { callRenderer } from "./call-renderer.helper"
 
 const generateRequestID = () => {
@@ -43,7 +46,7 @@ export class SerialPortDeviceAPIAdapter {
         )
       }
       //to remove
-      callRenderer("api-serial-port-initialization-failed", {
+      callRenderer(ApiSerialPortToRendererEvents.InitializationFailed, {
         msg: "ups!!",
       })
 
@@ -94,6 +97,8 @@ export class SerialPortDeviceAPIAdapter {
       return this.writeRequest(this.serialPort, config)
     }
   }
+
+  // to remove
   public async requestUntyped(
     config: any
     // AUTO DISABLED - fix me if you like :)
@@ -153,7 +158,7 @@ export class SerialPortDeviceAPIAdapter {
     { options = {}, ...payload }: APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<ApiResponse<any>>> {
+  Promise<ResultObject<ApiResponse<unknown>>> {
     const connectionTimeOut =
       options?.connectionTimeOut ?? CONNECTION_TIME_OUT_MS
     return new Promise((resolve) => {
@@ -170,7 +175,6 @@ export class SerialPortDeviceAPIAdapter {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           response.status === ResponseStatus.ParserError
         ) {
-          console.log(response)
           this.eventEmitter.off(ApiSerialPortEvents.DataReceived, listener)
           cancel()
           resolve(Result.success(response))

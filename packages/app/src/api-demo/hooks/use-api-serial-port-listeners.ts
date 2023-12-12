@@ -5,7 +5,7 @@
 import { useEffect } from "react"
 import { answerMain } from "App/api-demo/helpers/answer-main"
 
-export const useAPIListeners = () => {
+export const useAPISerialPortListeners = () => {
   useEffect(() => {
     const unregisterFailListener = answerMain(
       "api-serial-port-initialization-failed",

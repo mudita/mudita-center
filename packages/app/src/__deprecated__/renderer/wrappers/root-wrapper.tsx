@@ -71,7 +71,7 @@ import { resetUploadingState } from "App/files-manager/actions"
 import { setInitializationFailed } from "App/data-sync/actions"
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 import { setCheckingForUpdateFailed } from "App/settings/actions/set-checking-for-update-failed.action"
-import { useAPIListeners } from "App/api-demo/hooks/use-api-listeners"
+import { useAPISerialPortListeners } from "App/api-demo/hooks/use-api-serial-port-listeners"
 
 interface Props {
   history: History
@@ -103,7 +103,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   resetUploadingState,
   setCheckingForUpdate,
 }) => {
-  useAPIListeners()
+  useAPISerialPortListeners()
   const dispatch = useDispatch()
   const mode = new URLSearchParams(window.location.search).get("mode")
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
