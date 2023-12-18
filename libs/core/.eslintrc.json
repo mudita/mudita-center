@@ -1,0 +1,128 @@
+{
+  "env": {
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "tsconfigRootDir": ".",
+    "project": "tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "header",
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "unused-imports",
+    "jest",
+    "jest-dom",
+    "jsx-a11y",
+    "testing-library"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier",
+    "plugin:jsx-a11y/recommended",
+    "plugin:jest/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/await-thenable": "warn",
+    "@typescript-eslint/restrict-template-expressions": "warn",
+    "@typescript-eslint/restrict-plus-operands": "warn",
+    "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
+    "@typescript-eslint/unbound-method": "warn",
+    "@typescript-eslint/prefer-regexp-exec": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-redundant-type-constituents": "off",
+    "@typescript-eslint/no-unsafe-enum-comparison": "off",
+    "@typescript-eslint/no-duplicate-enum-values": "off",
+    "@typescript-eslint/prefer-as-const": "off",
+    "@typescript-eslint/no-base-to-string": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/require-await": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "react/jsx-boolean-value": "off",
+    "react/no-unescaped-entities": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "curly": "off",
+    "no-async-promise-executor": "warn",
+    "no-prototype-builtins": "warn",
+
+    "header/header": [
+      "error",
+      "block",
+      "*\n * Copyright (c) Mudita sp. z o.o. All rights reserved.\n * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md\n ",
+      2
+    ],
+
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-vars": [
+      "off",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "unused-imports/no-unused-imports": "error",
+
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "off",
+    "jest/no-standalone-expect": "off",
+    "jest/valid-title": "off",
+    "jest/no-alias-methods": "off",
+    "jest/jest/no-export": "off",
+    "jest/no-conditional-expect": "off",
+    "jest/expect-expect": "off",
+    "jest/no-export": "off",
+    "jest/no-mocks-import": "off",
+    "jest/prefer-to-have-length": "off",
+    "jest/no-disabled-tests": "off",
+    "jest/valid-expect": "off",
+    "jest/no-done-callback": "off",
+    "jest/no-test-prefixes": "off",
+
+    "jest-dom/prefer-in-document": "warn",
+    "jest-dom/prefer-enabled-disabled": "warn",
+
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-autofocus": "warn",
+
+    "testing-library/prefer-screen-queries": "off",
+    "testing-library/prefer-presence-queries": "off",
+    "testing-library/no-dom-import": "off",
+    "testing-library/render-result-naming-convention": "off",
+    "testing-library/no-wait-for-multiple-assertions": "off",
+    "testing-library/no-wait-for-side-effects": "off",
+    "testing-library/no-node-access": "off",
+    "testing-library/no-container": "off",
+    "testing-library/await-async-queries": "off",
+    "testing-library/no-await-sync-events": "off",
+    "testing-library/no-render-in-lifecycle": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "jest": {
+      "version": "detect"
+    }
+  },
+  "ignorePatterns": ["!**/*"]
+}

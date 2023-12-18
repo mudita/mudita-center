@@ -1,7 +1,9 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- *
+ */
+
+/**
  * App should be disabled during tests
  * @jest-environment node
  */
@@ -44,5 +46,5 @@ test("server should run the callback function", async () => {
   createAuthServer(callback)
 
   await axios.post(`http://localhost:${authServerPort}`)
-  await expect(callback).toBeCalled()
+  expect(callback).toBeCalled()
 })

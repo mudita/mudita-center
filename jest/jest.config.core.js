@@ -1,6 +1,11 @@
 module.exports = {
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        tsconfig: "libs/core/tsconfig.json",
+      },
+    ],
   },
   moduleNameMapper: {
     ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
@@ -57,5 +62,5 @@ module.exports = {
   snapshotFormat: {
     escapeString: true,
     printBasicPrototype: true,
-  }
+  },
 }
