@@ -11,6 +11,7 @@ import { History } from "history"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { DeviceBaseProperty } from "Core/device-manager/services"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress"
+import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress"
 
 export const handleDeviceConnected = createAsyncThunk<
   void,
@@ -44,6 +45,13 @@ export const handleDeviceConnected = createAsyncThunk<
   }
 
   // TODO: handle app initialization
+  const initializationAppInProgress = isInitializationAppInProgress(
+    getState()
+  )
+
+  if (initializationAppInProgress) {
+    return
+  }
 
   history.push(URL_DISCOVERY_DEVICE.root)
 })
