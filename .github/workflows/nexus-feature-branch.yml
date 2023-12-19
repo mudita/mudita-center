@@ -145,9 +145,9 @@ jobs:
           export NODE_OPTIONS="--max-old-space-size=4096"
           npm run app:dist
       - name: Verify apple sign
-          if: matrix.os == 'macOS'
-          run: |
-            codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
+        if: matrix.os == 'macOS'
+        run: |
+          codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
         env:
