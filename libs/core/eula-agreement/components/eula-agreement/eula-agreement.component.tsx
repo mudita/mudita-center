@@ -10,7 +10,7 @@ import { AgreementModal } from "Core/eula-agreement/components/agreement-modal"
 
 // DEPRECATED
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 
 export const EULAAgreement: FunctionComponent<EULAAgreementProps> = ({
   children,

@@ -13,7 +13,7 @@ import { UpdatingSuccessModal } from "Core/overview/components/update-os-modals/
 import { UpdatingForceModalFlowTestIds } from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.enum"
 import { UpdatingForceModalFlowProps } from "Core/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
 import { ReleaseProcessState, UpdateError } from "Core/update/constants"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { NotEnoughSpaceModal } from "Core/overview/components/update-os-modals/not-enough-space-modal"
 import { UpdateOsFlowTestIds } from "Core/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { OnboardingNotCompleteModal } from "Core/overview/components/onboarding-not-complete-modal"

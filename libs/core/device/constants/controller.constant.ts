@@ -4,7 +4,6 @@
  */
 
 export enum IpcDeviceEvent {
-  Connect = "device_connect",
   Unlock = "device_unlock",
   UnlockStatus = "device_unlock-status",
   LockTime = "device_lock-time",

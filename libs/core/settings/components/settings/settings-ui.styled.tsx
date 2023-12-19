@@ -4,7 +4,7 @@
  */
 
 import styled from "styled-components"
-import { borderColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
 import { IconButtonWithPrimaryTooltip } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-primary-tooltip.component"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 

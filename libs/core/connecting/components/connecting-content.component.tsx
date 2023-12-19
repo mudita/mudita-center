@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -12,7 +12,7 @@ import Text, {
 import Loader from "Core/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "Core/__deprecated__/renderer/components/core/loader/loader.interface"
 import styled from "styled-components"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 
 export const Container = styled.section`
   display: grid;

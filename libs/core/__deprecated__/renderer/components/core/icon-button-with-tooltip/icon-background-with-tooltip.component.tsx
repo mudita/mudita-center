@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { TooltipSecondaryContent } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/tooltip-secondary-content.component"
 import ElementWithTooltip, {
   ElementWithTooltipPlace,

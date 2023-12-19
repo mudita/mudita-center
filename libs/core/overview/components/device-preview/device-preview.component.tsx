@@ -6,7 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { DeviceType } from "Core/device/constants"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { DevicePreviewProps } from "Core/overview/components/device-preview/device-preview.interface"
 import {
   CardAction,

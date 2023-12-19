@@ -4,8 +4,8 @@
  */
 
 import { Link, NavLink } from "react-router-dom"
-import transition from "Core/__deprecated__/renderer/styles/functions/transition"
-import theme from "Core/__deprecated__/renderer/styles/theming/theme"
+import transition from "Core/core/styles/functions/transition"
+import theme from "Core/core/styles/theming/theme"
 import {
   backgroundColor,
   borderColor,
@@ -15,11 +15,11 @@ import {
   transitionTime,
   transitionTimingFunction,
   width,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import styled, { css, keyframes } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import { Theme } from "Core/__deprecated__/renderer/styles/theming/theme"
+import { Theme } from "Core/core/styles/theming/theme"
 
 const getSize = (size: Size) => {
   switch (size) {

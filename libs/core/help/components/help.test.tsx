@@ -11,7 +11,7 @@ import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/rende
 import { HelpComponentTestIds } from "Core/help/components/help.enum"
 import Help from "Core/help/components/help.component"
 import { Router } from "react-router"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import { data } from "Core/__deprecated__/seeds/help"
 
 jest.mock("@electron/remote", () => ({

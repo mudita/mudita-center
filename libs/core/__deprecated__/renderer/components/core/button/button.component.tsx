@@ -8,7 +8,7 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { Message as MessageInterface } from "Core/__deprecated__/renderer/interfaces/message.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import { DisplayStyle, Size, Type } from "./button.config"
 

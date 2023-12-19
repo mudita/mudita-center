@@ -9,8 +9,8 @@ import {
   backgroundColor,
   boxShadowColor,
   zIndex,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+} from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import useOutsideClick from "Core/__deprecated__/renderer/utils/hooks/useOutsideClick"
 import styled, { css } from "styled-components"
 import { IconButtonWithSecondaryTooltip } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"

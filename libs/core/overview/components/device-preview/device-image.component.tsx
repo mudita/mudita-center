@@ -5,7 +5,7 @@
 
 import React from "react"
 import { DeviceType, CaseColor } from "Core/device/constants"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Image from "Core/__deprecated__/renderer/components/core/image/image.component"
 import PureGrayImage from "Core/__deprecated__/renderer/images/pure-gray-front.png"
 import PureBlackImage from "Core/__deprecated__/renderer/images/pure-black-front.png"

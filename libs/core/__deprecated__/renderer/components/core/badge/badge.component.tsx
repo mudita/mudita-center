@@ -11,7 +11,7 @@ import {
   backgroundColor,
   borderRadius,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 
 const Badge = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.Label,

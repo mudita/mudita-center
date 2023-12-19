@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceError, DeviceEvent } from "Core/device/constants"
 import { unlockDeviceRequest } from "Core/device/requests"
-import { connectDevice } from "Core/device/actions/connect-device.action"
+// import { connectDevice } from "Core/device/actions/connect-device.action"
 import { AppError } from "Core/core/errors"
 
 // DEPRECATED
@@ -33,7 +33,7 @@ export const unlockDevice = createAsyncThunk<
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  void dispatch(connectDevice(state.device.deviceType!))
+  // void dispatch(connectDevice(state.device.deviceType!))
 
   return Boolean(data.data)
 })

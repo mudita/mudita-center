@@ -24,27 +24,14 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
 
   constructor(public path: string) {
     super(path)
+  }
 
-    this.serialPort.on("data", (event) => {
-      try {
-        const data = this.parser.parse(event)
-
-        if (data !== undefined) {
-          this.emitDataReceivedEvent(data)
-        }
-      } catch (error) {
-        this.emitDataReceivedEvent(
-          new AppError(
-            DeviceError.DataReceiving,
-            (error as Error).message || "Data receiving failed"
-          )
-        )
-      }
-    })
-
-    this.serialPort.on("close", () => {
-      this.emitCloseEvent(Result.success(`Device ${path} disconnected`))
-    })
+  public async connect(): Promise<ResultObject<undefined>> {
+    const result = await super.connect()
+    if (result.ok) {
+      this.mountListeners()
+    }
+    return result
   }
 
   public async request(
@@ -150,5 +137,28 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
   protected portWrite(port: SerialPort, payload: RequestPayload<any>): void {
     const request = this.mapPayloadToRequest(payload)
     port.write(request)
+  }
+
+  private mountListeners() {
+    if (this.serialPort === undefined) {
+      return
+    }
+
+    this.serialPort.on("data", (event) => {
+      try {
+        const data = this.parser.parse(event)
+
+        if (data !== undefined) {
+          this.emitDataReceivedEvent(data)
+        }
+      } catch (error) {
+        this.emitDataReceivedEvent(
+          new AppError(
+            DeviceError.DataReceiving,
+            (error as Error).message || "Data receiving failed"
+          )
+        )
+      }
+    })
   }
 }

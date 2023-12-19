@@ -6,19 +6,19 @@
 import { EventEmitter } from "events"
 import { RequestResponse, RequestResponseStatus } from "Core/core/types"
 import { DeviceStrategy } from "Core/device/strategies/device-strategy.class"
-import { DeviceInfo, RequestConfig } from "../types/mudita-os"
+import { RequestConfig } from "../types/mudita-os"
 import { BaseAdapter } from "Core/device/modules/base.adapter"
 import {
   GetDeviceInfoResponseBody,
   GetDeviceInfoRequestConfig,
 } from "Core/device/types/mudita-os"
 import {
-  Method,
   Endpoint,
   DeviceCommunicationEvent,
   DeviceServiceEvent,
 } from "Core/device/constants"
 import { ResponseKompaktPresenter } from "Core/device/modules/mudita-os/presenters"
+import { ResultObject } from "Core/core/builder"
 
 export class KompaktStrategy implements DeviceStrategy {
   private eventEmitter = new EventEmitter()
@@ -30,22 +30,8 @@ export class KompaktStrategy implements DeviceStrategy {
     this.mountInitializationFailedListener()
   }
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async connect(): Promise<RequestResponse<DeviceInfo, any>> {
-    const response = await this.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-
-    if (
-      response.status === RequestResponseStatus.Ok ||
-      response.status === RequestResponseStatus.PhoneLocked
-    ) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceConnected)
-    }
-
-    return response
+  public connect(): Promise<ResultObject<undefined>> {
+    return this.adapter.connect()
   }
 
   public async request(

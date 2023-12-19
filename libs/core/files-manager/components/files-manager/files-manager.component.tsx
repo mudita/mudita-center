@@ -6,7 +6,7 @@
 import { DeviceType } from "Core/device/constants"
 import React, { useEffect, useRef, useState } from "react"
 import { State } from "Core/core/constants"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { FilesManagerContainer } from "Core/files-manager/components/files-manager/files-manager.styled"
 import FilesSummary from "Core/files-manager/components/files-summary/files-summary.component"
 import {

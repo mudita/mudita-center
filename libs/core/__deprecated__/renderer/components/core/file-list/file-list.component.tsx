@@ -4,7 +4,7 @@
  */
 
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
@@ -14,7 +14,7 @@ import {
   textColor,
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { FileListTestIds } from "Core/__deprecated__/renderer/components/core/file-list/file-list-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 

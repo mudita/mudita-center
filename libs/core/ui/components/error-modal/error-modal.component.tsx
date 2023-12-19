@@ -15,7 +15,7 @@ import { RoundIconWrapper } from "Core/__deprecated__/renderer/components/core/m
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { Message as MessageInterface } from "Core/__deprecated__/renderer/interfaces/message.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React, { ComponentProps } from "react"
 
 export interface ErrorModalProps extends ComponentProps<typeof ModalDialog> {

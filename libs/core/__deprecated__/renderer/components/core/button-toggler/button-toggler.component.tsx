@@ -14,13 +14,13 @@ import { disabledSecondaryStyles } from "Core/__deprecated__/renderer/components
 import {
   borderRadius,
   zIndex,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+} from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { IconButtonWithPrimaryTooltip } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-primary-tooltip.component"
 import { ButtonTogglerTestIds } from "Core/__deprecated__/renderer/components/core/button-toggler/button-toggler-test-ids.enum"
-import transition from "Core/__deprecated__/renderer/styles/functions/transition"
-import theme from "Core/__deprecated__/renderer/styles/theming/theme"
+import transition from "Core/core/styles/functions/transition"
+import theme from "Core/core/styles/theming/theme"
 
 const ButtonTogglerWrapper = styled.section`
   display: flex;

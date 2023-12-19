@@ -44,10 +44,10 @@ export class DeviceConnectionObserver implements Observer {
           }
           this.invoked = true
 
-          if (this.deviceManager.updating) {
-            this.ipc.sendToRenderers(IpcEvent.DataSkipped)
-            return
-          }
+          // if (this.deviceManager.updating) {
+          //   this.ipc.sendToRenderers(IpcEvent.DataSkipped)
+          //   return
+          // }
 
           if (device.deviceType === DeviceType.MuditaHarmony) {
             this.ipc.sendToRenderers(IpcEvent.DataSkipped)

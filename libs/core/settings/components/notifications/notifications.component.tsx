@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import NotificationsUI from "Core/settings/components/notifications/notifications-ui.component"
 
 export interface NotificationsProps {

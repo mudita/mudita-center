@@ -11,12 +11,12 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { views } from "Core/__deprecated__/renderer/constants/views"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import {
   backgroundColor,
   borderColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 
 const HeaderWrapper = styled.div`
   display: grid;

@@ -9,7 +9,7 @@ import {
   transitionTime,
   transitionTimingFunction,
   zIndex,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 import { TitleOrder } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { getHeaderTemplate } from "Core/__deprecated__/renderer/components/core/modal/modal.helpers"

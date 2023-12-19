@@ -6,7 +6,7 @@
 import React, { ChangeEvent } from "react"
 import { Link } from "react-router-dom"
 import { HelpComponentTestIds } from "Core/help/components/help.enum"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -19,14 +19,14 @@ import {
   transitionTime,
   transitionTimingFunction,
   zIndex,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "Core/__deprecated__/renderer/utils/contentful/normalize-help-data"
 import ModalsManager from "Core/modals-manager/components/modals-manager.container"
-import { fontWeight } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { fontWeight } from "Core/core/styles/theming/theme-getters"
 import { IconButtonWithSecondaryTooltip } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { defineMessages } from "react-intl"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"

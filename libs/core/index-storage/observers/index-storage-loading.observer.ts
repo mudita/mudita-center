@@ -58,7 +58,7 @@ export class IndexStorageLoadingObserver implements Observer {
 
       //CP-1668 - when connecting Kompact there is no need to read indexes :)
       const restored =
-        this.deviceManager.currentDevice?.deviceType ===
+        this.deviceManager.activeDevice?.deviceType ===
         DeviceType.MuditaKompakt
           ? true
           : await this.indexStorageService.loadIndex()

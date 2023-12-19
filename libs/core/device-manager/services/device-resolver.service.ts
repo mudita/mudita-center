@@ -4,8 +4,6 @@
  */
 
 import { PortInfo } from "serialport"
-import { MainProcessIpc } from "electron-better-ipc"
-import { EventEmitter } from "events"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
@@ -21,18 +19,13 @@ export class DeviceResolverService {
     MuditaKompaktDescriptor,
   ]
 
-  constructor(
-    private ipc: MainProcessIpc,
-    private eventEmitter: EventEmitter
-  ) {}
+  constructor() {}
 
   public resolve({
     productId,
     serialNumber,
     path,
-  }: Pick<PortInfo, "productId" | "serialNumber" | "path">):
-    | Device
-    | undefined {
+  }: PortInfo): Device | undefined {
     const id = productId?.toLowerCase() ?? ""
     const descriptor = this.eligibleDevices.find((device) =>
       device.productIds
@@ -44,17 +37,12 @@ export class DeviceResolverService {
       return
     }
 
-    const newDevice = DeviceFactory.create(
+    return DeviceFactory.create(
       path,
+      serialNumber ?? "",
       descriptor.deviceType,
       descriptor.adapter,
-      descriptor.strategy,
-      this.ipc,
-      this.eventEmitter
+      descriptor.strategy
     )
-
-    newDevice.serialNumber = serialNumber ?? ""
-
-    return newDevice
   }
 }

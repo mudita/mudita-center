@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import TetheringUI from "Core/__deprecated__/renderer/modules/tethering/tethering-ui.component"
 
 export interface TetheringProps {

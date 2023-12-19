@@ -8,7 +8,7 @@ import InfoPopup from "Core/ui/components/info-popup/info-popup.component"
 import { defineMessages } from "react-intl"
 import { textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import React, { useEffect, useState } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { getContactsDeleteCountSelector } from "Core/contacts/selectors/contacts-delete-count.selector"
 
 export const messages = defineMessages({

@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalDialog, ModalDialogProps } from "Core/ui/components/modal-dialog"
 import styled from "styled-components"
 import Icon, {

@@ -5,7 +5,7 @@
 
 import React, { ComponentProps, useState } from "react"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"

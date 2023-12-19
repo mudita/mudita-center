@@ -5,7 +5,7 @@
 
 import React from "react"
 import { useHistory } from "react-router"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   URL_MAIN,
   URL_ONBOARDING,

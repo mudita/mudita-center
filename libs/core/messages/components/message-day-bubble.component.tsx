@@ -7,7 +7,7 @@ import { MessageBubbleProps } from "Core/messages/components/message-bubble"
 import MessageBubble from "Core/messages/components/message-bubble/message-bubble.component"
 import MessageDateTag from "Core/messages/components/message-date-tag.component"
 import { MessageDayBubbleTestIds } from "Core/messages/components/message-day-bubble-test-ids"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React from "react"
 
 interface Properties extends MessageBubbleProps {

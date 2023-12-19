@@ -5,7 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Actions } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import Dropdown from "Core/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { IconButtonWithSecondaryTooltip } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"

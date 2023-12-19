@@ -14,8 +14,8 @@ import Text, {
   getTextStyles,
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import transition from "Core/__deprecated__/renderer/styles/functions/transition"
-import theme from "Core/__deprecated__/renderer/styles/theming/theme"
+import transition from "Core/core/styles/functions/transition"
+import theme from "Core/core/styles/theming/theme"
 import {
   backgroundColor,
   borderColor,
@@ -25,8 +25,8 @@ import {
   textColor,
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+} from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import styled, { css } from "styled-components"
 import composeRefs from "@seznam/compose-react-refs"

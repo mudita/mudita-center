@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { FilesManagerProps } from "Core/overview/components/files-manager/files-manager.interface"
 import Card, {
   CardAction,
@@ -26,7 +26,7 @@ import {
   fontWeight,
   letterSpacing,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
