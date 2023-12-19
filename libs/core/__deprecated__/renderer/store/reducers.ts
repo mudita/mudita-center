@@ -19,6 +19,7 @@ import { newsReducer } from "Core/news/reducers"
 import { settingsReducer } from "Core/settings/reducers"
 import { updateOsReducer } from "Core/update/reducers"
 import { discoveryDeviceReducer } from "Core/discovery-device/reducers/discovery-device.reducer"
+import { deviceInitializationReducer } from "Core/device-initialization/reducers/device-initialization.reducer"
 
 export const reducers = {
   device: deviceReducer,
@@ -36,6 +37,7 @@ export const reducers = {
   settings: settingsReducer,
   update: updateOsReducer,
   discoveryDevice: discoveryDeviceReducer,
+  deviceInitialization: deviceInitializationReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

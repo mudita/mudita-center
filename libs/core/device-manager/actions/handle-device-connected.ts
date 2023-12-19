@@ -10,6 +10,7 @@ import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-
 import { History } from "history"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { DeviceBaseProperty } from "Core/device-manager/services"
+import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress"
 
 export const handleDeviceConnected = createAsyncThunk<
   void,
@@ -34,6 +35,13 @@ export const handleDeviceConnected = createAsyncThunk<
   }
 
   // TODO: handle device initialization
+  const initializationDeviceInProgress = isInitializationDeviceInProgress(
+    getState()
+  )
+
+  if (initializationDeviceInProgress) {
+    return
+  }
 
   // TODO: handle app initialization
 
