@@ -8,7 +8,7 @@ import Card, {
   CardAction,
   CardContent,
 } from "Core/overview/components/card.elements"
-import { borderColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
 
 export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";

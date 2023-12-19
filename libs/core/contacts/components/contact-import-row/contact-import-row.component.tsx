@@ -20,7 +20,7 @@ import {
   RowSize,
 } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React from "react"
 
 import { ContactImportRowProperties } from "Core/contacts/components/contact-import-row/contact-import-row.interface"

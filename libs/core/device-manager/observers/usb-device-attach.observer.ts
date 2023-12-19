@@ -5,33 +5,41 @@
 
 import { Observer } from "Core/core/types"
 import { DeviceManager } from "Core/device-manager/services"
-import { PortInfoValidator } from "Core/device-manager/validators"
+
 const intervalTime = 3000
 
 export class UsbDeviceAttachObserver implements Observer {
+  private previousAttachedDevicePaths = new Set<string>()
   constructor(private deviceManager: DeviceManager) {}
 
   public observe(): void {
-    void this.watchConnectedDevices()
+    void this.watchAttachedDevices()
   }
 
-  private async watchConnectedDevices(): Promise<void> {
-    const devices = await this.deviceManager.getConnectedDevices()
+  private async watchAttachedDevices(): Promise<void> {
+    const attachedDevices = await this.deviceManager.getAttachedDevices()
 
-    devices.forEach((device) => {
-      const portInfo = {
-        vendorId: device.vendorId,
-        productId: device.productId,
-      }
-      if (PortInfoValidator.isVendorIdValid(portInfo)) {
-        void this.deviceManager.addDevice(device)
+    const detachedDevicePaths = Array.from(this.previousAttachedDevicePaths).filter(
+      (previousAttachedDevicePath) =>
+        !attachedDevices.map(({ path }) => path).includes(previousAttachedDevicePath)
+    )
+
+    detachedDevicePaths.forEach((detachedDevicePath) => {
+      void this.deviceManager.removeDevice(detachedDevicePath)
+    })
+
+    attachedDevices.forEach((attachedDevice) => {
+      if (!this.previousAttachedDevicePaths.has(attachedDevice.path)) {
+        void this.deviceManager.addDevice(attachedDevice)
       }
     })
 
-    return new Promise((resolve) => {
+    this.previousAttachedDevicePaths = new Set(attachedDevices.map(({ path }) => path))
+
+    return new Promise<void>((resolve) => {
       setTimeout(() => {
         void (async () => {
-          resolve(await this.watchConnectedDevices())
+          resolve(await this.watchAttachedDevices())
         })()
       }, intervalTime)
     })

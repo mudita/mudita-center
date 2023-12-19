@@ -7,7 +7,7 @@ import React, { ComponentProps } from "react"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
 import moment from "moment"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { RoundIconWrapper } from "Core/__deprecated__/renderer/components/core/modal-shared/modal-shared"
 import Icon, {
   IconSize,

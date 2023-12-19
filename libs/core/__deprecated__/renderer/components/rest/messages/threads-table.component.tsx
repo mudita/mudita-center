@@ -16,7 +16,7 @@ import Text from "Core/__deprecated__/renderer/components/core/text/text.compone
 import {
   backgroundColor,
   borderColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
 /* stylelint-disable property-no-vendor-prefix */

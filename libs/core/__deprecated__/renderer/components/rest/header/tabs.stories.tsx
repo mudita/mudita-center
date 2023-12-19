@@ -7,7 +7,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { Router } from "react-router"
 import Tabs from "Core/__deprecated__/renderer/components/rest/header/tabs.component"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import styled from "styled-components"
 
 const Container = styled.div`

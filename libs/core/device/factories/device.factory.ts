@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MainProcessIpc } from "electron-better-ipc"
-import { EventEmitter } from "events"
 import { Device } from "Core/device/modules/device"
 import { DeviceType } from "Core/device/constants"
 import { DeviceDescriptor } from "Core/device/descriptors"
@@ -12,18 +10,16 @@ import { DeviceDescriptor } from "Core/device/descriptors"
 export class DeviceFactory {
   static create(
     path: string,
+    serialNumber: string,
     deviceType: DeviceType,
     Adapter: DeviceDescriptor["adapter"],
-    Strategy: DeviceDescriptor["strategy"],
-    ipc: MainProcessIpc,
-    eventEmitter: EventEmitter
+    Strategy: DeviceDescriptor["strategy"]
   ): Device {
     return new Device(
       path,
+      serialNumber,
       deviceType,
-      new Strategy(new Adapter(path)),
-      ipc,
-      eventEmitter
+      new Strategy(new Adapter(path))
     )
   }
 }

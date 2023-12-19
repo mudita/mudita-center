@@ -12,7 +12,7 @@ import React, {
 } from "react"
 import moment from "moment"
 import ViewportList from "react-viewport-list"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   MessageBubblesWrapper,
   BottomWrapper,

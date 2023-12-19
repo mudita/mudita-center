@@ -10,10 +10,10 @@ import {
   fontWeight,
   letterSpacing,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+} from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
-import { Theme } from "Core/__deprecated__/renderer/styles/theming/theme"
+import { Theme } from "Core/core/styles/theming/theme"
 
 const uppercaseTextSharedStyles = css`
   font-size: 1.2rem;

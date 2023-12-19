@@ -29,7 +29,7 @@ import {
   MessagesProps,
   MessagesServiceState,
 } from "Core/messages/components/messages/messages.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import createRouterPath from "Core/__deprecated__/renderer/utils/create-router-path"
 import useURLSearchParams from "Core/__deprecated__/renderer/utils/hooks/use-url-search-params"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"

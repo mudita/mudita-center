@@ -4,5 +4,5 @@
  */
 
 export enum DeviceManagerEvent {
-  GetCurrentDevice = "GET_CURRENT_DEVICE",
+  HandleDeviceConnected = "HANDLE_DEVICE_CONNECTED",
 }

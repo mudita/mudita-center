@@ -6,7 +6,7 @@
 import React from "react"
 import { History } from "history"
 import { Route, Router } from "react-router"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
 import SarComponent from "Core/overview/components/pure-system/sar.component"
 

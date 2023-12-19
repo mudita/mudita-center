@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AboutUI from "Core/settings/components/about/about-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { AboutActions } from "Core/__deprecated__/common/enums/about-actions.enum"

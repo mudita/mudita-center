@@ -4,13 +4,13 @@
  */
 
 import styled from "styled-components"
-import transition from "Core/__deprecated__/renderer/styles/functions/transition"
+import transition from "Core/core/styles/functions/transition"
 import {
   backgroundColor,
   borderRadius,
   boxShadowColor,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import Avatar from "Core/__deprecated__/renderer/components/core/avatar/avatar.component"
 import Dropdown from "Core/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"

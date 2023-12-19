@@ -3,13 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ipcMain } from "electron-better-ipc"
-import { EventEmitter } from "events"
 import { ProductID, DeviceType } from "Core/device/constants"
 import { DeviceResolverService } from "Core/device-manager/services/device-resolver.service"
 
-const eventEmitter = new EventEmitter()
-const subject = new DeviceResolverService(ipcMain, eventEmitter)
+const subject = new DeviceResolverService()
 
 describe("Pure descriptor", () => {
   test.each([ProductID.MuditaPureDeprecated])(

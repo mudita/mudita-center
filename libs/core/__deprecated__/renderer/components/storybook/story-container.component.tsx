@@ -4,7 +4,7 @@
  */
 
 import React, { createContext, ReactElement } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { FlattenInterpolation } from "styled-components"
 import { Heading, Wrapper } from "./storybook.elements"
 

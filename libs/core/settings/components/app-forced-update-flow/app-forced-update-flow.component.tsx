@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AppUpdateStepModal from "Core/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 import { AppForcedUpdateFlowTestIds } from "Core/settings/components/app-forced-update-flow/app-forced-update-flow-test-ids.enum"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"

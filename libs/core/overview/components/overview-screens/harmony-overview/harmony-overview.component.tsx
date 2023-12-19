@@ -12,7 +12,7 @@ import UpdatingForceModalFlow from "Core/overview/components/updating-force-moda
 import { CheckForUpdateMode } from "Core/update/constants"
 import { OsRelease } from "Core/update/dto"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import React from "react"

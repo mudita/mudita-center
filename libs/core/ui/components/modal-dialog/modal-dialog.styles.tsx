@@ -8,7 +8,7 @@ import {
   backgroundColor,
   fontWeight,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 
 export const ModalContentWithoutMargin = styled.div`

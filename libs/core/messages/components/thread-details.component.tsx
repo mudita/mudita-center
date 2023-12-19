@@ -12,7 +12,7 @@ import { Message } from "Core/messages/dto"
 import { Receiver } from "Core/messages/reducers/messages.interface"
 import { Notification } from "Core/notification/types"
 import { Sidebar } from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React, { ChangeEvent, ComponentProps } from "react"
 
 type SidebarProps = ComponentProps<typeof Sidebar>

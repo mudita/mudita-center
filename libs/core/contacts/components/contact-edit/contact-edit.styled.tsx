@@ -8,7 +8,7 @@ import { ListItem } from "Core/__deprecated__/renderer/components/core/list/list
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import InputComponent from "Core/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { InputComponentProps } from "Core/__deprecated__/renderer/components/core/input-text/input-text.interface"
-import { fontWeight } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { fontWeight } from "Core/core/styles/theming/theme-getters"
 import { Sidebar } from "Core/__deprecated__/renderer/components/core/table/table.component"
 
 export const Form = styled.form`

@@ -81,7 +81,7 @@ export class ApplicationModule {
   private initializeInitializer: InitializeInitializer
 
   private deviceManager = new DeviceManager(
-    new DeviceResolverService(this.ipc, this.eventEmitter),
+    new DeviceResolverService(),
     this.ipc,
     this.eventEmitter
   )

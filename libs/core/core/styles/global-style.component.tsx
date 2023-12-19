@@ -8,7 +8,7 @@ import {
   font,
   width,
   zIndex,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { createGlobalStyle } from "styled-components"
 import { Theme } from "./theming/theme"
 

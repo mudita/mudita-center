@@ -5,9 +5,7 @@
 
 export * from "./base.action"
 export * from "./change-sim.action"
-export * from "./connect-device.action"
 export * from "./disconnect-device.action"
-export * from "./get-connected-device.action"
 export * from "./get-unlock-status.action"
 export * from "./load-device-data.action"
 export * from "./load-storage-info.action"

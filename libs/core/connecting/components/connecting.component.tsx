@@ -14,7 +14,7 @@ import {
 } from "Core/__deprecated__/renderer/constants/urls"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
 import ErrorConnectingModal from "Core/connecting/components/error-connecting-modal"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import PasscodeModal from "Core/__deprecated__/passcode-modal/components/passcode-modal.component"
 import { SynchronizationState } from "Core/data-sync/reducers"
 import ErrorSyncModal from "Core/connecting/components/error-sync-modal/error-sync-modal"
@@ -22,7 +22,6 @@ import { ConnectingError } from "Core/connecting/components/connecting-error.enu
 import { AppError } from "Core/core/errors"
 import CriticalBatteryLevelModal from "Core/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
 import ErrorUpdateModal from "Core/connecting/components/error-update-modal/error-update-modal"
-import { offCurrentDeviceChangedListener } from "Core/device-manager/listeners"
 
 const Connecting: FunctionComponent<{
   loaded: boolean
@@ -162,7 +161,6 @@ const Connecting: FunctionComponent<{
     history.push(URL_MAIN.news)
   }
   const onCloseErrorConnectingModal = () => {
-    offCurrentDeviceChangedListener()
     close()
   }
 

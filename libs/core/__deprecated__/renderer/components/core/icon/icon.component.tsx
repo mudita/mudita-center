@@ -9,8 +9,8 @@ import {
   getIconType,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.config"
 import Svg from "Core/__deprecated__/renderer/components/core/svg/svg.component"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 

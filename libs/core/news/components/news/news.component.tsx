@@ -5,7 +5,7 @@
 
 import Cards from "Core/news/components/cards/cards.component"
 import { NewsProps } from "Core/news/components/news/news.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React from "react"
 import styled from "styled-components"
 

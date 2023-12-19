@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import theme from "Core/__deprecated__/renderer/styles/theming/theme"
+import theme from "Core/core/styles/theming/theme"
 
 /**
  * Util returning transition property taken from theme defaults.

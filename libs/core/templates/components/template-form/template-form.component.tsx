@@ -7,7 +7,7 @@ import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import {
   DisplayStyle,

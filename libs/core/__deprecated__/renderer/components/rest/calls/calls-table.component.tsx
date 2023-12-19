@@ -13,7 +13,7 @@ import { CallRow } from "Core/__deprecated__/renderer/components/rest/calls/call
 import { SelectableCalls } from "Core/__deprecated__/renderer/components/rest/calls/calls-table.styled"
 import { CallDetails } from "Core/__deprecated__/renderer/components/rest/calls/call-details.component"
 import { Details } from "Core/__deprecated__/renderer/components/rest/calls/call-details.types"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { UseTableSelect } from "Core/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"

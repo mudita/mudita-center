@@ -11,7 +11,7 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import RangeIcon from "Core/__deprecated__/renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Core/__deprecated__/renderer/components/core/icon/battery-icon.component"

@@ -9,8 +9,8 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { InputProps } from "Core/__deprecated__/renderer/interfaces/input.interface"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { InputCheckboxWithTooltip } from "Core/__deprecated__/renderer/components/core/input-checkbox/input-checkbox-with-tooltip"

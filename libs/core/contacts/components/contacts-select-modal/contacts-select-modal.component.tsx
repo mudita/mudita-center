@@ -13,7 +13,7 @@ import {
 } from "Core/contacts/selectors"
 import { ModalDialog } from "Core/ui/components/modal-dialog"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"

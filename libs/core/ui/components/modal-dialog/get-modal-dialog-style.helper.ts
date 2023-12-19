@@ -5,11 +5,11 @@
 
 import muditaTheme, {
   Theme,
-} from "Core/__deprecated__/renderer/styles/theming/theme"
+} from "Core/core/styles/theming/theme"
 import {
   backgroundColor,
   zIndex as getZIndex,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { ModalProps } from "Core/__deprecated__/renderer/components/core/modal/modal.component"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { Styles } from "react-modal"

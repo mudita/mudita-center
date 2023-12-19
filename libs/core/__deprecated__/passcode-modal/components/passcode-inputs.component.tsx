@@ -4,10 +4,10 @@
  */
 
 import React, { createRef, useEffect, RefObject, useState } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import InputText from "Core/__deprecated__/renderer/components/core/input-text/input-text.component"
-import { textColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { textColor } from "Core/core/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"

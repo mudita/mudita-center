@@ -28,6 +28,7 @@ jest
 const eventEmitter = new EventEmitter()
 const deviceMockOne = DeviceFactory.create(
   "/dev/123",
+  "123456",
   DeviceType.MuditaPure,
   class Adapter {
     // AUTO DISABLED - fix me if you like :)
@@ -45,11 +46,10 @@ const deviceMockOne = DeviceFactory.create(
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     off() {}
   } as unknown as typeof PureStrategy,
-  ipcMain,
-  eventEmitter
 )
 const deviceMockTwo = DeviceFactory.create(
   "/dev/321",
+  "123456",
   DeviceType.MuditaHarmony,
   class Adapter {
     // AUTO DISABLED - fix me if you like :)
@@ -67,8 +67,6 @@ const deviceMockTwo = DeviceFactory.create(
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     off() {}
   } as unknown as typeof PureStrategy,
-  ipcMain,
-  eventEmitter
 )
 const deviceResolver = {
   resolve: jest.fn().mockReturnValue(deviceMockOne),
@@ -91,7 +89,7 @@ describe("Method: addDevice", () => {
 
     expect(() => subject.device).toThrow(
       new AppError(
-        DeviceManagerError.NoCurrentDevice,
+        DeviceManagerError.NoActiveDevice,
         "Current device is undefined"
       )
     )
@@ -122,7 +120,7 @@ describe("Method: addDevice", () => {
 
     expect(() => subject.device).toThrow(
       new AppError(
-        DeviceManagerError.NoCurrentDevice,
+        DeviceManagerError.NoActiveDevice,
         "Current device is undefined"
       )
     )
@@ -144,7 +142,7 @@ describe("Method: addDevice", () => {
 
     expect(() => subject.device).toThrow(
       new AppError(
-        DeviceManagerError.NoCurrentDevice,
+        DeviceManagerError.NoActiveDevice,
         "Current device is undefined"
       )
     )
@@ -156,7 +154,7 @@ describe("Method: removeDevice", () => {
   test("Executing method removes device from device map and current device", () => {
     const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
-    subject.currentDevice = deviceMockOne
+    subject.activeDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
     expect(subject.devices).toEqual([deviceMockOne])
@@ -165,7 +163,7 @@ describe("Method: removeDevice", () => {
 
     expect(() => subject.device).toThrow(
       new AppError(
-        DeviceManagerError.NoCurrentDevice,
+        DeviceManagerError.NoActiveDevice,
         "Current device is undefined"
       )
     )
@@ -176,7 +174,7 @@ describe("Method: removeDevice", () => {
     const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
-    subject.currentDevice = deviceMockOne
+    subject.activeDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
     expect(subject.devices).toEqual([deviceMockOne, deviceMockTwo])
@@ -193,10 +191,10 @@ describe("Method: setCurrentDevice", () => {
     const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
-    subject.currentDevice = deviceMockOne
+    subject.activeDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
-    expect(subject.setCurrentDevice(deviceMockTwo.path)).toEqual(
+    expect(subject.setActiveDevice(deviceMockTwo.path)).toEqual(
       Result.success(true)
     )
     expect(subject.device).toEqual(deviceMockTwo)
@@ -206,10 +204,10 @@ describe("Method: setCurrentDevice", () => {
     const subject = new DeviceManager(deviceResolver, ipcMain, eventEmitter)
     subject.devicesMap.set(deviceMockOne.path, deviceMockOne)
     subject.devicesMap.set(deviceMockTwo.path, deviceMockTwo)
-    subject.currentDevice = deviceMockOne
+    subject.activeDevice = deviceMockOne
 
     expect(subject.device).toEqual(deviceMockOne)
-    expect(subject.setCurrentDevice("/dev/0000")).toEqual(
+    expect(subject.setActiveDevice("/dev/0000")).toEqual(
       Result.failed(
         new AppError(
           DeviceManagerError.CannotFindDevice,

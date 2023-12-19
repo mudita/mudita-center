@@ -7,7 +7,7 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import { helpSeed } from "Core/__deprecated__/seeds/help"
 import Help from "Core/help/components/help.component"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import { Router } from "react-router"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 

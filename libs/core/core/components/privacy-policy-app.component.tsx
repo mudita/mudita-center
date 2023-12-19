@@ -6,21 +6,22 @@
 import React from "react"
 import { History } from "history"
 import { Route, Router } from "react-router"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-import { TermsOfServiceUI } from "Core/settings/components"
+import { PrivacyPolicyUI } from "Core/settings/components"
+
 interface Props {
   history: History
 }
 
-const TermsOfServiceApp: FunctionComponent<Props> = ({ history }) => {
+const PrivacyPolicyApp: FunctionComponent<Props> = ({ history }) => {
   return (
     <Router history={history}>
-      <Route path={URL_MAIN.termsOfService}>
-        <TermsOfServiceUI />
+      <Route path={URL_MAIN.privacyPolicy}>
+        <PrivacyPolicyUI />
       </Route>
     </Router>
   )
 }
 
-export default TermsOfServiceApp
+export default PrivacyPolicyApp

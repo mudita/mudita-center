@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import { Router } from "react-router"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import TetheringUI from "Core/__deprecated__/renderer/modules/tethering/tethering-ui.component"
 import { TetheringTestIds } from "Core/__deprecated__/renderer/modules/tethering/screens/tethering.enum"

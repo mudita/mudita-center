@@ -5,12 +5,12 @@
 
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import HelpApp from "Core/__deprecated__/renderer/wrappers/help-app.component"
+import HelpApp from "Core/core/components/help-app.component"
 import { createMemoryHistory } from "history"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { data } from "Core/__deprecated__/seeds/help"
 import { HelpComponentTestIds } from "Core/help/components/help.enum"
-import { useHelpSearch } from "../utils/hooks/use-help-search/use-help-search"
+import { useHelpSearch } from "../../__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import { Provider } from "react-redux"
 import store from "Core/__deprecated__/renderer/store"
 

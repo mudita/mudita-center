@@ -4,8 +4,8 @@
  */
 
 import * as React from "react"
-import { textColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { textColor } from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { LoaderSpinnerProps } from "Core/__deprecated__/renderer/components/core/loader/loader.interface"
 

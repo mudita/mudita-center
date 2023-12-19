@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Route, Router, Switch } from "react-router"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { History } from "history"

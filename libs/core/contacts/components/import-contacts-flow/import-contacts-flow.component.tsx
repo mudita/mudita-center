@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalDialog } from "Core/ui/components/modal-dialog"
 import { ImportContactsFlowTestIds } from "Core/contacts/components/import-contacts-flow/import-contacts-flow-test-ids.component"
 import SyncContactsModal from "Core/contacts/components/sync-contacts-modal/sync-contacts-modal.component"

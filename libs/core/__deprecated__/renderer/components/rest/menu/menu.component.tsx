@@ -14,8 +14,8 @@ import styled from "styled-components"
 import {
   backgroundColor,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+} from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import {

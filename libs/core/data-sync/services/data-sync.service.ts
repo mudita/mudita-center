@@ -69,9 +69,9 @@ export class DataSyncService {
     )
     const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
 
-    if (this.deviceManager.device.locked) {
-      return true
-    }
+    // if (this.deviceManager.device.locked) {
+    //   return true
+    // }
 
     if (
       !this.contactIndexer ||
@@ -90,7 +90,7 @@ export class DataSyncService {
     const { ok } = await this.syncBackupCreateService.createSyncBackup({
       token,
       extract: true,
-      cwd: syncFileDir,
+      cwd: syncFileDir
     })
 
     if (!ok) {

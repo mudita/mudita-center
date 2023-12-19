@@ -19,6 +19,7 @@ import {
 
 export interface createSyncBackupOptions
   extends Pick<Partial<TokenOptions>, "key"> {
+  key?: string
   cwd: string
   token?: string
   extract?: boolean

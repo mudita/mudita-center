@@ -11,7 +11,7 @@ import { PureOverview } from "Core/overview/components/overview-screens/pure-ove
 import { StatusTestIds } from "Core/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "Core/overview/components/system/system-test-ids.enum"
 import { DownloadState, SilentCheckForUpdateState } from "Core/update/constants"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import store from "Core/__deprecated__/renderer/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"

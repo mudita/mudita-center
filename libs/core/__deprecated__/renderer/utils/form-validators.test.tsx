@@ -7,7 +7,7 @@ import { waitFor } from "@testing-library/dom"
 import { fireEvent } from "@testing-library/react"
 import { ContactSupportFieldValues } from "Core/contact-support/components/contact-support-modal.component"
 import InputText from "Core/__deprecated__/renderer/components/core/input-text/input-text.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   addressValidator,
   backupSecretKeyValidator,

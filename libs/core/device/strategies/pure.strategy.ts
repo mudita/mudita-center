@@ -85,6 +85,7 @@ import {
 import { BaseAdapter } from "Core/device/modules/base.adapter"
 import { DeviceStrategy } from "Core/device/strategies/device-strategy.class"
 import { ResponsePresenter } from "Core/device/modules/mudita-os/presenters"
+import { ResultObject } from "Core/core/builder"
 
 export class PureStrategy implements DeviceStrategy {
   private eventEmitter = new EventEmitter()
@@ -96,21 +97,8 @@ export class PureStrategy implements DeviceStrategy {
     this.mountInitializationFailedListener()
   }
 
-  public async connect(): Promise<RequestResponse<GetDeviceInfoResponseBody>> {
-    const response = await this.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-
-    if (
-      response.status === RequestResponseStatus.Ok ||
-      response.status === RequestResponseStatus.PhoneLocked
-    ) {
-      this.mountDeviceUnlockedListener()
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceConnected)
-    }
-
-    return response
+  public connect(): Promise<ResultObject<undefined>> {
+    return this.adapter.connect()
   }
 
   public async request(
@@ -176,7 +164,6 @@ export class PureStrategy implements DeviceStrategy {
   public async request(
     config: DeleteTemplateRequestConfig
   ): Promise<RequestResponse>
-
   public async request(
     config: GetContactsRequestConfig
   ): Promise<RequestResponse<GetContactsResponseBody>>

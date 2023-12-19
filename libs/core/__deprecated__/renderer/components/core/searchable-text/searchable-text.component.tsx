@@ -5,7 +5,7 @@
 
 import React from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { SearchableTextTestIds } from "Core/__deprecated__/renderer/components/core/searchable-text/searchable-text-test-ids.enum"
 
 const LightPhrase = styled.span`
