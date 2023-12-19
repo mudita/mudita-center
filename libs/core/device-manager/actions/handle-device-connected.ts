@@ -6,12 +6,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceManagerEvent } from "Core/device-manager/constants"
-import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress"
+import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
 import { History } from "history"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { DeviceBaseProperty } from "Core/device-manager/services"
-import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress"
-import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress"
+import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
+import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 
 export const handleDeviceConnected = createAsyncThunk<
   void,

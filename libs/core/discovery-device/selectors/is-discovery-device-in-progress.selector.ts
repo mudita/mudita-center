@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status"
+import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 
 export const isDiscoveryDeviceInProgress = createSelector(

@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status"
+import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 
 export const isInitializationDeviceInProgress = createSelector(
