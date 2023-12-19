@@ -19,6 +19,13 @@ import {
 import { EventEmitter } from "events"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { Mutex } from "async-mutex"
+import { DeviceType } from "Core/device"
+
+// TODO: handle tmp interface
+export interface DeviceBaseProperty {
+  serialNumber: string
+  deviceType: DeviceType
+}
 
 export class DeviceManager {
   public activeDevice: Device | undefined
@@ -99,10 +106,14 @@ export class DeviceManager {
     }
     this.devicesMap.set(device.path, device)
     const result = await device.connect()
+    const data = {
+      serialNumber: port.serialNumber,
+      deviceType: device.deviceType,
+    }
     if (result.ok) {
-      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected)
+      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected, data)
     } else {
-      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnectFailed)
+      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnectFailed, data)
     }
   }
 

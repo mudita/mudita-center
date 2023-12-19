@@ -18,6 +18,7 @@ import {
   URL_ONBOARDING,
   URL_TABS,
   URL_OVERVIEW,
+  URL_DISCOVERY_DEVICE,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Playlist from "Core/__deprecated__/renderer/modules/music/tabs/playlist.component"
 import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
@@ -38,6 +39,7 @@ import {
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "Core/templates/template.container"
+import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configured-devices-discovery"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -61,6 +63,15 @@ export default () => (
       <LayoutDesktopWrapperWithoutHeader>
         <Route path={URL_OVERVIEW.pureSystem} component={PureSystem} />
       </LayoutDesktopWrapperWithoutHeader>
+    </Route>
+
+    <Route exact path={[...Object.values(URL_DISCOVERY_DEVICE)]}>
+      <LayoutBlankWrapper>
+        <Route
+          path={URL_DISCOVERY_DEVICE.root}
+          component={ConfiguredDevicesDiscovery}
+        />
+      </LayoutBlankWrapper>
     </Route>
 
     <Route>

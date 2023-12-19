@@ -42,6 +42,10 @@ export const URL_ONBOARDING = {
   troubleshooting: "/onboarding/troubleshooting",
 } as const
 
+export const URL_DISCOVERY_DEVICE = {
+  root: "/discovery-device",
+}
+
 export const URL_OVERVIEW = {
   root: "/overview",
   pureSystem: "/overview/pure-system",
