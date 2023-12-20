@@ -23,7 +23,7 @@ const AppInitialization: FunctionComponent<Props> = ({ history }) => {
 
   useDeviceConnectedEffect(history)
   useApplicationUpdateEffects()
-  useInitializingAppEffects()
+  useInitializingAppEffects(history)
 
   if (appInitializationStatus !== AppInitializationStatus.Initialized) {
     return <AppInitializationFlow />

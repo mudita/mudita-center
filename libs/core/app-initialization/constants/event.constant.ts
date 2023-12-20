@@ -4,6 +4,7 @@
  */
 
 export enum AppInitializationEvent {
-  SetAppInitializationStatus = "APP_INITIALIZATION_SET_APP_INITIALIZATION_STATUS",
-  StartInitializingApp = "APP_INITIALIZATION_START_INITIALIZING_APP",
+  SetAppInitializationStatus = "SET_APP_INITIALIZATION_STATUS",
+  StartInitializingApp = "START_INITIALIZING_APP",
+  RedirectToDiscovery = "REDIRECT_TO_DISCOVERY",
 }

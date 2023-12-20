@@ -23,12 +23,17 @@ export const handleDeviceConnected = createAsyncThunk<
   DeviceManagerEvent.HandleDeviceConnected,
   async (payload, { dispatch, getState }) => {
     const { history, property } = payload
-    // TODO: handle DeviceManager state
+    console.log("device connected: handle device connected Action!")
     dispatch(addDevice(property))
+
+    console.log("device added: ")
 
     const activeDeviceSet = isActiveDeviceSet(getState())
 
     if (activeDeviceSet) {
+      console.log(
+        "device connected: redirect to discovery skipped because active device is set"
+      )
       // TODO: add switch logic when device is active
       // handle backup/update/restore process when is in progress
       return
@@ -38,6 +43,9 @@ export const handleDeviceConnected = createAsyncThunk<
     const discoveryDeviceInProgress = isDiscoveryDeviceInProgress(getState())
 
     if (discoveryDeviceInProgress) {
+      console.log(
+        "device connected: redirect to discovery skipped because discovery device is in progress: "
+      )
       return
     }
 
@@ -47,6 +55,9 @@ export const handleDeviceConnected = createAsyncThunk<
     )
 
     if (initializationDeviceInProgress) {
+      console.log(
+        "device connected: redirect to discovery skipped because initialization device is in progress: "
+      )
       return
     }
 
@@ -56,6 +67,9 @@ export const handleDeviceConnected = createAsyncThunk<
     )
 
     if (initializationAppInProgress) {
+      console.log(
+        "device connected: redirect to discovery skipped because initialization application is in progress: "
+      )
       return
     }
 
