@@ -10,10 +10,7 @@ import { SettingsState } from "Core/settings/reducers"
 import { ConversionFormat, Convert } from "Core/settings/constants"
 import { setSettings } from "./set-settings.action"
 
-const settings: Omit<
-  SettingsState,
-  "loaded" | "loading" | "updateAvailable" | "latestVersion"
-> = {
+const settings: SettingsState = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
   autostart: false,
   tethering: false,
@@ -45,6 +42,11 @@ const settings: Omit<
   },
   checkingForUpdate: false,
   checkingForUpdateFailed: false,
+  loaded: false,
+  loading: false,
+  updateAvailable: undefined,
+  latestVersion: undefined,
+  updateAvailableSkipped: undefined
 }
 
 const mockStore = createMockStore([thunk])()

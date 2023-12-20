@@ -3,20 +3,33 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import React from "react"
+import { useSelector } from "react-redux"
+import { History } from "history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { setAppInitializationStatus } from "Core/app-initialization/actions/base.action"
 import { AppInitializationStatus } from "Core/app-initialization/reducers/app-initialization.interface"
+import { getAppInitializationStatus } from "Core/app-initialization/selectors/get-app-initialization-status.selector"
+import AppInitializationFlow from "Core/app-initialization/components/app-initialization-flow.component"
+import { useDeviceConnectedEffect } from "Core/app-initialization/hooks/use-device-connected-effect"
+import { useApplicationUpdateEffects } from "Core/app-initialization/hooks/use-application-update-effects"
+import { useInitializingAppEffects } from "Core/app-initialization/hooks/use-initializing-app-effects"
 
-const AppInitialization: FunctionComponent = () => {
-  const dispatch = useDispatch()
+interface Props {
+  history: History
+}
 
-  useEffect(() => {
-    dispatch(setAppInitializationStatus(AppInitializationStatus.Initializing))
-  }, [dispatch])
+const AppInitialization: FunctionComponent<Props> = ({ history }) => {
+  const appInitializationStatus = useSelector(getAppInitializationStatus)
 
-  return <div>App Initialization View</div>
+  useDeviceConnectedEffect(history)
+  useApplicationUpdateEffects()
+  useInitializingAppEffects()
+
+  if (appInitializationStatus !== AppInitializationStatus.Initialized) {
+    return <AppInitializationFlow />
+  }
+
+  return <></>
 }
 
 export default AppInitialization

@@ -5,4 +5,5 @@
 
 export enum AppInitializationEvent {
   SetAppInitializationStatus = "APP_INITIALIZATION_SET_APP_INITIALIZATION_STATUS",
+  StartInitializingApp = "APP_INITIALIZATION_START_INITIALIZING_APP",
 }

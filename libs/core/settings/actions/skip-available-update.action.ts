@@ -6,6 +6,6 @@
 import { createAction } from "@reduxjs/toolkit"
 import { SettingsEvent } from "Core/settings/constants"
 
-export const toggleApplicationUpdateAvailable = createAction<boolean>(
-  SettingsEvent.ToggleUpdateAvailable
+export const skipAvailableUpdate = createAction(
+  SettingsEvent.SkipAvailableUpdate
 )
