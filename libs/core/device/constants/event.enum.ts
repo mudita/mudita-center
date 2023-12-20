@@ -9,8 +9,6 @@ export enum DeviceEvent {
   GetConnected = "DEVICE_GET_CONNECTED",
   SetData = "DEVICE_SET_DATA",
 
-  SetConnectionState = "DEVICE_SET_CONNECTION_STATE",
-  Connected = "DEVICE_CONNECTED",
   Disconnected = "DEVICE_DISCONNECTED",
 
   Unlock = "DEVICE_UNLOCK",

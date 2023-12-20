@@ -4,25 +4,19 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import {
-  PureDeviceData,
-  HarmonyDeviceData,
-  OsVersionPayload,
-} from "Core/device/reducers"
-import { DeviceEvent } from "Core/device/constants"
+import { PureDeviceData, HarmonyDeviceData } from "Core/device/reducers"
+import { DeviceEvent, DeviceType } from "Core/device/constants"
 import { GetPhoneLockTimeResponseBody } from "Core/device/types/mudita-os"
 
-export const setDeviceData = createAction<Partial<
-  PureDeviceData | HarmonyDeviceData
-> | null>(DeviceEvent.SetData)
+export const setDeviceData = createAction<
+  | (PureDeviceData & { deviceType: DeviceType })
+  | (HarmonyDeviceData & { deviceType: DeviceType })
+>(DeviceEvent.SetData)
 
 export const setLockTime = createAction<
   GetPhoneLockTimeResponseBody | undefined
 >(DeviceEvent.SetLockTime)
-export const setSimData = createAction<number>(DeviceEvent.SetSimData)
-export const setOsVersionData = createAction<OsVersionPayload>(
-  DeviceEvent.SetOsVersionData
-)
+
 export const setInitState = createAction(DeviceEvent.SetInitState)
 export const setOnboardingStatus = createAction<boolean>(
   DeviceEvent.OnboardingStatus

@@ -11,7 +11,7 @@ import {
   TmpDispatch,
 } from "Core/__deprecated__/renderer/store"
 import { RootModel } from "Core/__deprecated__/renderer/models/models"
-import { PureDeviceData, disconnectDevice, DeviceType } from "Core/device"
+import { PureDeviceData, DeviceType } from "Core/device"
 import { lastBackupDateSelector } from "Core/backup/selectors"
 import {
   startBackupDevice,
@@ -80,7 +80,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  disconnectDevice: () => dispatch(disconnectDevice()),
+  disconnectDevice: () => {},
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   closeForceUpdateFlow: () => dispatch(closeForceUpdateFlow()),

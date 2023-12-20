@@ -4,33 +4,21 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import {
-  DeviceEvent,
-  ConnectionState,
-  DeviceCommunicationError,
-} from "Core/device/constants"
+import { DeviceEvent, DeviceCommunicationError } from "Core/device/constants"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import {
-  setDeviceData,
-  setExternalUsageDevice,
-} from "Core/device/actions/base.action"
+import { setExternalUsageDevice } from "Core/device/actions/base.action"
 import { lockedDevice } from "Core/device/actions/locked-device.action"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
-import { setValue, MetadataKey } from "Core/metadata"
-import { trackOsVersion } from "Core/analytic-data-tracker/helpers"
 import { externalUsageDevice } from "Core/device/requests/external-usage-device.request"
 import { setExternalUsageDeviceRequest } from "Core/analytic-data-tracker/requests/set-external-usage-device.request"
+import { DeviceInfo } from "Core/device-info/dto"
 
 export const loadDeviceData = createAsyncThunk<
-  undefined,
+  DeviceInfo | undefined,
   void,
   { state: ReduxRootState }
 >(DeviceEvent.Loading, async (_, { getState, dispatch, rejectWithValue }) => {
   const state = getState()
-
-  if (state.device.state === ConnectionState.Loaded) {
-    return
-  }
 
   try {
     const { ok, data, error } = await getDeviceInfoRequest()
@@ -42,23 +30,6 @@ export const loadDeviceData = createAsyncThunk<
 
       return
     }
-
-    if (state.device.deviceType !== null) {
-      void trackOsVersion({
-        serialNumber: data.serialNumber,
-        osVersion: data.osVersion,
-        deviceType: state.device.deviceType,
-      })
-    }
-
-    void setValue({
-      key: MetadataKey.DeviceOsVersion,
-      value: data.osVersion ?? null,
-    })
-    void setValue({
-      key: MetadataKey.DeviceType,
-      value: state.device.deviceType,
-    })
 
     if (
       data.serialNumber !== state.device.data?.serialNumber ||
@@ -73,7 +44,8 @@ export const loadDeviceData = createAsyncThunk<
         dispatch(setExternalUsageDevice(resultExternalUsageDevice))
       }
     }
-    dispatch(setDeviceData(data))
+
+    return data
   } catch (error) {
     return rejectWithValue(error)
   }

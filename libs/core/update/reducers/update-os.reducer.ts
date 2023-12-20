@@ -21,7 +21,6 @@ import {
   forceUpdate,
   checkForForceUpdateNeed,
   setDeviceHasBeenDetachedDuringDownload,
-  handleDeviceDetached,
 } from "Core/update/actions"
 
 import {
@@ -304,17 +303,6 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(forceUpdate.rejected, (state, action) => {
       state.forceUpdateState = State.Failed
       state.error = action.payload as AppError<UpdateError>
-    })
-    builder.addCase(handleDeviceDetached.fulfilled, (state) => {
-      if (state.downloadState === DownloadState.Loading) {
-        state.data = {
-          allReleases: null,
-          availableReleasesForUpdate: null,
-          downloadedProcessedReleases: null,
-          updateProcessedReleases: null,
-        }
-        state.deviceHasBeenDetachedDuringDownload = true
-      }
     })
   }
 )

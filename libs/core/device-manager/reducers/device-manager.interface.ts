@@ -15,6 +15,7 @@ export enum DeviceState {
 }
 
 export interface InitializationOptions {
+  data: boolean
   eula: boolean
   sync: boolean
   passcode: boolean
@@ -32,4 +33,3 @@ export interface DeviceManagerState {
   devices: Device[]
   activeDeviceId: DeviceId | undefined
 }
-

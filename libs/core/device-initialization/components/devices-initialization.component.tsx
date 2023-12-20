@@ -5,18 +5,21 @@
 
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
+import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
-import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
+import ConnectingContent from "Core/connecting/components/connecting-content.component"
+import { startInitializingDevice } from "Core/device-initialization/actions/start-initializing-device"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 const DevicesInitialization: FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const history = useHistory()
+  const dispatch = useDispatch<Dispatch>()
 
   useEffect(() => {
-    dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Initializing))
-  }, [dispatch])
+    dispatch(startInitializingDevice(history))
+  }, [history, dispatch])
 
-  return <div>Devices Initialization View</div>
+  return <ConnectingContent />
 }
 
 export default DevicesInitialization

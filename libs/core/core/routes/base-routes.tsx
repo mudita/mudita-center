@@ -18,7 +18,8 @@ import {
   URL_ONBOARDING,
   URL_TABS,
   URL_OVERVIEW,
-  URL_DISCOVERY_DEVICE, URL_DEVICE_INITIALIZATION,
+  URL_DISCOVERY_DEVICE,
+  URL_DEVICE_INITIALIZATION,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Playlist from "Core/__deprecated__/renderer/modules/music/tabs/playlist.component"
 import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
@@ -26,7 +27,6 @@ import Dial from "Core/__deprecated__/renderer/modules/phone/tabs/dial.component
 import VoiceRecorder from "Core/__deprecated__/renderer/modules/tools/tabs/voice-recorder.component"
 import Notes from "Core/__deprecated__/renderer/modules/tools/tabs/notes.container"
 import Onboarding from "Core/onboarding/onboarding.container"
-import Connecting from "Core/connecting/connecting.container"
 import Troubleshooting from "Core/__deprecated__/troubleshooting/troubleshooting.container"
 import LayoutDesktopWrapper from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "Core/__deprecated__/renderer/wrappers/layout-blank-wrapper"
@@ -52,7 +52,6 @@ export default () => (
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
       <LayoutBlankWrapper>
         <Route path={URL_ONBOARDING.welcome} component={Onboarding} />
-        <Route path={URL_ONBOARDING.connecting} component={Connecting} />
         <Route
           path={URL_ONBOARDING.troubleshooting}
           component={Troubleshooting}
@@ -74,7 +73,6 @@ export default () => (
         />
       </LayoutBlankWrapper>
     </Route>
-
 
     <Route exact path={[...Object.values(URL_DEVICE_INITIALIZATION)]}>
       <LayoutBlankWrapper>
