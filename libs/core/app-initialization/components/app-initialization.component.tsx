@@ -5,7 +5,6 @@
 
 import React from "react"
 import { useSelector } from "react-redux"
-import { History } from "history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { AppInitializationStatus } from "Core/app-initialization/reducers/app-initialization.interface"
 import { getAppInitializationStatus } from "Core/app-initialization/selectors/get-app-initialization-status.selector"
@@ -14,16 +13,12 @@ import { useDeviceConnectedEffect } from "Core/app-initialization/hooks/use-devi
 import { useApplicationUpdateEffects } from "Core/app-initialization/hooks/use-application-update-effects"
 import { useInitializingAppEffects } from "Core/app-initialization/hooks/use-initializing-app-effects"
 
-interface Props {
-  history: History
-}
-
-const AppInitialization: FunctionComponent<Props> = ({ history }) => {
+const AppInitialization: FunctionComponent = () => {
   const appInitializationStatus = useSelector(getAppInitializationStatus)
 
-  useDeviceConnectedEffect(history)
+  useDeviceConnectedEffect()
   useApplicationUpdateEffects()
-  useInitializingAppEffects(history)
+  useInitializingAppEffects()
 
   if (appInitializationStatus !== AppInitializationStatus.Initialized) {
     return <AppInitializationFlow />

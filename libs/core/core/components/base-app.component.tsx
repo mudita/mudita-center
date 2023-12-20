@@ -12,6 +12,7 @@ import NetworkStatusChecker from "Core/__deprecated__/renderer/components/core/n
 import BaseRoutes from "Core/core/routes/base-routes"
 import ModalsManager from "Core/modals-manager/components/modals-manager.container"
 import { CrashDump } from "Core/crash-dump"
+import AppInitialization from "Core/app-initialization/components/app-initialization.component"
 
 interface Props {
   history: History
@@ -24,6 +25,7 @@ const BaseApp: FunctionComponent<Props> = ({ history }) => {
       <ModalsManager />
       <CrashDump />
       <Router history={history}>
+        <AppInitialization />
         <BaseRoutes />
       </Router>
     </>

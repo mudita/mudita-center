@@ -18,7 +18,7 @@ import {
   URL_ONBOARDING,
   URL_TABS,
   URL_OVERVIEW,
-  URL_DISCOVERY_DEVICE,
+  URL_DISCOVERY_DEVICE, URL_DEVICE_INITIALIZATION,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Playlist from "Core/__deprecated__/renderer/modules/music/tabs/playlist.component"
 import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
@@ -40,6 +40,7 @@ import PureSystem from "Core/overview/components/pure-system/pure-system.contain
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "Core/templates/template.container"
 import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configured-devices-discovery"
+import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -70,6 +71,16 @@ export default () => (
         <Route
           path={URL_DISCOVERY_DEVICE.root}
           component={ConfiguredDevicesDiscovery}
+        />
+      </LayoutBlankWrapper>
+    </Route>
+
+
+    <Route exact path={[...Object.values(URL_DEVICE_INITIALIZATION)]}>
+      <LayoutBlankWrapper>
+        <Route
+          path={URL_DEVICE_INITIALIZATION.root}
+          component={DevicesInitialization}
         />
       </LayoutBlankWrapper>
     </Route>

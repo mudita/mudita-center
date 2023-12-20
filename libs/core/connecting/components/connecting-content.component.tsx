@@ -43,10 +43,10 @@ const LoaderWrapper = styled.div`
 
 interface Props {
   onCancel?: () => void
-  longerConnection: boolean
+  longerConnection?: boolean
 }
 
-const ConnectingContent: FunctionComponent<Props> = ({ longerConnection }) => {
+const ConnectingContent: FunctionComponent<Props> = ({ longerConnection = false }) => {
   return (
     <Container>
       <main>

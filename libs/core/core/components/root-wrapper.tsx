@@ -27,7 +27,6 @@ import { Mode } from "Core/__deprecated__/common/enums/mode.enum"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import { ModalProvider } from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
-import AppInitialization from "Core/app-initialization/components/app-initialization.component"
 
 interface Props {
   history: History
@@ -85,7 +84,6 @@ const RootWrapper: FunctionComponent<Props> = ({ history }) => {
         messages={localeEn}
       >
         <ModalProvider service={modalService}>
-          <AppInitialization history={history} />
           <Normalize />
           <GlobalStyle />
           <RenderRoutes />
