@@ -64,9 +64,12 @@ export class ApplicationModule {
     DeviceFileSystemModule,
     DeviceLogModule,
     DeviceModule,
-    DeviceManagerModule,
   ]
-  public lateModules: Module[] = [DataSyncModule, CrashDumpModule]
+  public lateModules: Module[] = [
+    DeviceManagerModule,
+    DataSyncModule,
+    CrashDumpModule,
+  ]
 
   private deviceLogger: DeviceLogger = LoggerFactory.getInstance()
   private index = new IndexFactory().create()
