@@ -45,9 +45,7 @@ export const handleDeviceConnected = createAsyncThunk<
   }
 
   // TODO: handle app initialization
-  const initializationAppInProgress = isInitializationAppInProgress(
-    getState()
-  )
+  const initializationAppInProgress = isInitializationAppInProgress(getState())
 
   if (initializationAppInProgress) {
     return

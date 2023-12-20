@@ -4,11 +4,12 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import {
   AppInitializationState,
   AppInitializationStatus,
 } from "Core/app-initialization/reducers/app-initialization.interface"
+import { setAppInitializationStatus } from "Core/app-initialization/actions/base.action"
+import { startInitializingApp } from "Core/app-initialization/actions/start-initializing-app"
 
 export const initialState: AppInitializationState = {
   appInitializationStatus: AppInitializationStatus.Idle,
@@ -17,11 +18,18 @@ export const initialState: AppInitializationState = {
 export const appInitializationReducer = createReducer<AppInitializationState>(
   initialState,
   (builder) => {
-    builder.addCase(setDeviceInitializationStatus, (state, action) => {
-      return {
-        ...state,
-        deviceInitializationStatus: action.payload,
-      }
-    })
+    builder
+      .addCase(setAppInitializationStatus, (state, action) => {
+        return {
+          ...state,
+          appInitializationStatus: action.payload,
+        }
+      })
+      .addCase(startInitializingApp.pending, (state) => {
+        return {
+          ...state,
+          appInitializationStatus: AppInitializationStatus.Initializing,
+        }
+      })
   }
 )

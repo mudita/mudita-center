@@ -19,6 +19,7 @@ export interface SettingsState extends Settings {
   loading: boolean
   updateRequired: boolean
   updateAvailable: boolean | undefined
+  updateAvailableSkipped: boolean | undefined
   checkingForUpdate: boolean
   checkingForUpdateFailed: boolean
 }

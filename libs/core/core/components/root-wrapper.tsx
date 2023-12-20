@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { connect, useDispatch } from "react-redux"
-import { History } from "history"
-import React, { useEffect, useMemo } from "react"
+import { connect } from "react-redux"
+import React, { useMemo } from "react"
 import { IntlProvider } from "react-intl"
+import { History } from "history"
 import { ipcRenderer } from "electron-better-ipc"
 import translationConfig from "App/translations.config.json"
 import { ThemeProvider } from "styled-components"
@@ -18,8 +18,6 @@ import HelpApp from "Core/core/components/help-app.component"
 import ErrorApp from "Core/core/components/error-app.component"
 import BaseApp from "Core/core/components/base-app.component"
 import { QuestionAndAnswer } from "Core/help/components/help.component"
-import { initAnalyticDataTracker } from "Core/analytic-data-tracker/helpers"
-import { EULAAgreement } from "Core/eula-agreement/components"
 import LicenseApp from "Core/core/components/license-app.component"
 import TermsOfServiceApp from "Core/core/components/terms-of-service-app.component"
 import PrivacyPolicyApp from "Core/core/components/privacy-policy-app.component"
@@ -27,12 +25,9 @@ import SarApp from "Core/core/components/sar-app.component"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { Mode } from "Core/__deprecated__/common/enums/mode.enum"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { ModalProvider } from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
-import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
-import { handleDeviceConnected } from "Core/device-manager/actions/handle-device-connected"
-import { DeviceBaseProperty } from "Core/device-manager/services"
+import AppInitialization from "Core/app-initialization/components/app-initialization.component"
 
 interface Props {
   history: History
@@ -82,26 +77,6 @@ const RootWrapper: FunctionComponent<Props> = ({ history }) => {
     [mode, history]
   )
 
-  // App Business Logic
-  const dispatch = useDispatch<Dispatch>()
-
-  const onDeviceConnectedHandler = async (property: DeviceBaseProperty) => {
-    await dispatch(handleDeviceConnected({ property, history }))
-  }
-
-  useEffect(() => {
-    void initAnalyticDataTracker()
-  }, [])
-
-  useEffect(() => {
-    const deviceConnected = registerDeviceConnectedListener(
-      onDeviceConnectedHandler
-    )
-    return () => {
-      deviceConnected()
-    }
-  })
-
   return (
     <ThemeProvider theme={theme}>
       <IntlProvider
@@ -110,11 +85,10 @@ const RootWrapper: FunctionComponent<Props> = ({ history }) => {
         messages={localeEn}
       >
         <ModalProvider service={modalService}>
-          <EULAAgreement>
-            <Normalize />
-            <GlobalStyle />
-            <RenderRoutes />
-          </EULAAgreement>
+          <AppInitialization history={history} />
+          <Normalize />
+          <GlobalStyle />
+          <RenderRoutes />
         </ModalProvider>
       </IntlProvider>
     </ThemeProvider>
