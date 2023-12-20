@@ -4,8 +4,8 @@
  */
 
 import { DeviceType } from "Core/device"
-
-type DeviceId = string // string as serialNumber or self-generated value when empty
+import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export enum DeviceState {
   Connected = "CONNECTED",
@@ -20,21 +20,16 @@ export interface InitializationOptions {
   passcode: boolean
 }
 
-export interface Device {
+export interface Device extends DeviceBaseProperties {
   id: DeviceId
   serialNumber: string | undefined
-  type: DeviceType
+  deviceType: DeviceType
   state: DeviceState
   initializationOptions: InitializationOptions
 }
 
 export interface DeviceManagerState {
   devices: Device[]
-  activeDeviceId: DeviceId | undefined // as serialNumber
+  activeDeviceId: DeviceId | undefined
 }
 
-// TODO: handle tmp interface
-export interface DeviceBaseProperty {
-  serialNumber: string
-  deviceType: DeviceType
-}

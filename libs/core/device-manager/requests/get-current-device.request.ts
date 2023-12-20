@@ -6,10 +6,8 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "Core/core/builder"
 import { IpcDeviceManagerEvent } from "Core/device-manager/constants"
-import { Device } from "Core/device/modules/device"
+import { DeviceId } from "Core/device/constants/device-id"
 
-export const getCurrentDeviceRequest = async (): Promise<
-  ResultObject<Device>
-> => {
-  return ipcRenderer.callMain(IpcDeviceManagerEvent.GetCurrentDevice)
+export const setActiveDeviceRequest = async (id: DeviceId): Promise<ResultObject<boolean>> => {
+  return ipcRenderer.callMain(IpcDeviceManagerEvent.SetActiveDevice, id)
 }

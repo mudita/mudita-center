@@ -4,20 +4,16 @@
  */
 
 import { IpcEvent } from "Core/core/decorators"
-import { Result } from "Core/core/builder"
-import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { IpcDeviceManagerEvent } from "Core/device-manager/constants"
+import { ResultObject } from "Core/core/builder"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceManagerController {
   constructor(private deviceManager: DeviceManager) {}
 
-  @IpcEvent(IpcDeviceManagerEvent.GetCurrentDevice)
-  public getCurrentDevice() {
-    try {
-      return Result.success(this.deviceManager.device.toSerializableObject())
-    } catch (error) {
-      return Result.failed(error as AppError)
-    }
+  @IpcEvent(IpcDeviceManagerEvent.SetActiveDevice)
+  public setActiveDevice(id: DeviceId): ResultObject<boolean>  {
+    return this.deviceManager.setActiveDevice(id)
   }
 }

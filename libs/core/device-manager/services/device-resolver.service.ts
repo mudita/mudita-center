@@ -39,7 +39,7 @@ export class DeviceResolverService {
 
     return DeviceFactory.create(
       path,
-      serialNumber ?? "",
+      serialNumber,
       descriptor.deviceType,
       descriptor.adapter,
       descriptor.strategy

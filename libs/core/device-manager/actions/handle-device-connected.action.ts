@@ -9,22 +9,22 @@ import { DeviceManagerEvent } from "Core/device-manager/constants"
 import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
 import { History } from "history"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
-import { DeviceBaseProperty } from "Core/device-manager/reducers/device-manager.interface"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { addDevice } from "Core/device-manager/actions/base.action"
 import { isActiveDeviceSet } from "Core/device-manager/selectors/is-active-device-set.selector"
+import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 
 export const handleDeviceConnected = createAsyncThunk<
   void,
-  { property: DeviceBaseProperty; history: History },
+  { properties: DeviceBaseProperties; history: History },
   { state: ReduxRootState }
 >(
   DeviceManagerEvent.HandleDeviceConnected,
   async (payload, { dispatch, getState }) => {
-    const { history, property } = payload
+    const { history, properties } = payload
     console.log("device connected: handle device connected Action!")
-    dispatch(addDevice(property))
+    dispatch(addDevice(properties))
 
     console.log("device added: ")
 

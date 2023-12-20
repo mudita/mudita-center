@@ -19,6 +19,7 @@ import {
 import { EventEmitter } from "events"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { Mutex } from "async-mutex"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceManager {
   public activeDevice: Device | undefined
@@ -47,14 +48,14 @@ export class DeviceManager {
     return Array.from(this.devicesMap.values())
   }
 
-  public setActiveDevice(path: string): ResultObject<boolean> {
-    const newActiveDevice = this.devicesMap.get(path)
+  public setActiveDevice(id: DeviceId): ResultObject<boolean> {
+    const newActiveDevice = this.devicesMap.get(id)
 
     if (!newActiveDevice) {
       return Result.failed(
         new AppError(
           DeviceManagerError.CannotFindDevice,
-          `Device ${path} can't be found`
+          `Device ${id} can't be found`
         )
       )
     }
@@ -73,10 +74,15 @@ export class DeviceManager {
 
   // TODO: `removeDevice` method to hides
   public removeDevice(path: string): void {
-    this.devicesMap.delete(path)
+    const device = this.getDeviceByPath(path)
+    if(device === undefined) {
+    //TODO: handle device as undefined
+      return
+    }
+
     this.activeDevice = undefined
 
-    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, path)
+    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, device.id)
     logger.info(`Detached device with path: ${path}`)
   }
 
@@ -97,12 +103,10 @@ export class DeviceManager {
       // TODO: handle not possible use case
       return
     }
-    this.devicesMap.set(device.path, device)
+    this.devicesMap.set(device.id, device)
     const result = await device.connect()
-    const data = {
-      serialNumber: port.serialNumber,
-      deviceType: device.deviceType,
-    }
+    const data = device.toSerializableObject()
+
     if (result.ok) {
       this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected, data)
     } else {
@@ -119,7 +123,7 @@ export class DeviceManager {
     portInfo.productId = portInfo.productId?.toUpperCase()
     portInfo.vendorId = portInfo.vendorId?.toUpperCase()
 
-    const alreadyInitializedDevices = Array.from(this.devicesMap.keys())
+    const alreadyInitializedDevices = this.getDevicePaths()
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
@@ -154,5 +158,13 @@ export class DeviceManager {
   @log("==== device manager: list ====")
   private getSerialPortList(): Promise<SerialPortInfo[]> {
     return SerialPort.list()
+  }
+
+  private getDeviceByPath(path: string): Device | undefined {
+    return this.devices.find((device) => device.path === path)
+  }
+
+  private getDevicePaths(): string[] {
+    return this.devices.map(({path}) => path)
   }
 }
