@@ -19,6 +19,18 @@ const uniqueId = (length = 16): DeviceId => {
   )
 }
 
+const generateDeviceIdBySerialNumber = (
+  serialNumber: string | undefined
+): DeviceId => {
+  if (serialNumber === undefined) {
+    return uniqueId()
+  } else if (serialNumber === "00000000000000") {
+    return uniqueId()
+  } else {
+    return serialNumber
+  }
+}
+
 export class DeviceFactory {
   static create(
     path: string,
@@ -27,7 +39,7 @@ export class DeviceFactory {
     Adapter: DeviceDescriptor["adapter"],
     Strategy: DeviceDescriptor["strategy"]
   ): Device {
-    const id: DeviceId = serialNumber ?? uniqueId()
+    const id = generateDeviceIdBySerialNumber(serialNumber)
 
     return new Device(
       id,
