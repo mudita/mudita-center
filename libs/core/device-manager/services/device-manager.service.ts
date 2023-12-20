@@ -13,19 +13,12 @@ import { Device } from "Core/device/modules/device"
 import { PortInfo } from "Core/device-manager/types"
 import { PortInfoValidator } from "Core/device-manager/validators"
 import {
-  DeviceManagerMainEvent,
   DeviceManagerError,
+  DeviceManagerMainEvent,
 } from "Core/device-manager/constants"
 import { EventEmitter } from "events"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { Mutex } from "async-mutex"
-import { DeviceType } from "Core/device"
-
-// TODO: handle tmp interface
-export interface DeviceBaseProperty {
-  serialNumber: string
-  deviceType: DeviceType
-}
 
 export class DeviceManager {
   public activeDevice: Device | undefined

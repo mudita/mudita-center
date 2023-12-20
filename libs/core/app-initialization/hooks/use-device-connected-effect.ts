@@ -6,7 +6,7 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { History } from "history"
-import { DeviceBaseProperty } from "Core/device-manager/services"
+import { DeviceBaseProperty } from "Core/device-manager/reducers/device-manager.interface"
 import { handleDeviceConnected } from "Core/device-manager/actions/handle-device-connected.action"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import { Dispatch } from "Core/__deprecated__/renderer/store"

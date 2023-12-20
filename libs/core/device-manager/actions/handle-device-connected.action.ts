@@ -9,47 +9,56 @@ import { DeviceManagerEvent } from "Core/device-manager/constants"
 import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
 import { History } from "history"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
-import { DeviceBaseProperty } from "Core/device-manager/services"
+import { DeviceBaseProperty } from "Core/device-manager/reducers/device-manager.interface"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
+import { addDevice } from "Core/device-manager/actions/base.action"
+import { isActiveDeviceSet } from "Core/device-manager/selectors/is-active-device-set.selector"
 
 export const handleDeviceConnected = createAsyncThunk<
   void,
   { property: DeviceBaseProperty; history: History },
   { state: ReduxRootState }
->(DeviceManagerEvent.HandleDeviceConnected, async (payload, { getState }) => {
-  const { history } = payload
-  // TODO: handle DeviceManager state
+>(
+  DeviceManagerEvent.HandleDeviceConnected,
+  async (payload, { dispatch, getState }) => {
+    const { history, property } = payload
+    // TODO: handle DeviceManager state
+    dispatch(addDevice(property))
 
-  // discovery / switch logic handle
-  // TODO: handle active device
+    const activeDeviceSet = isActiveDeviceSet(getState())
 
-  // switch logic when device is active
+    if (activeDeviceSet) {
+      // TODO: add switch logic when device is active
+      // handle backup/update/restore process when is in progress
+      return
+    }
 
-  // redirect logic when active device isnt active
+    // TODO: handle discovery in progress
+    const discoveryDeviceInProgress = isDiscoveryDeviceInProgress(getState())
 
-  // TODO: handle discovery in progress
-  const discoveryDeviceInProgress = isDiscoveryDeviceInProgress(getState())
+    if (discoveryDeviceInProgress) {
+      return
+    }
 
-  if (discoveryDeviceInProgress) {
-    return
+    // TODO: handle device initialization
+    const initializationDeviceInProgress = isInitializationDeviceInProgress(
+      getState()
+    )
+
+    if (initializationDeviceInProgress) {
+      return
+    }
+
+    // TODO: handle app initialization
+    const initializationAppInProgress = isInitializationAppInProgress(
+      getState()
+    )
+
+    if (initializationAppInProgress) {
+      return
+    }
+
+    history.push(URL_DISCOVERY_DEVICE.root)
   }
-
-  // TODO: handle device initialization
-  const initializationDeviceInProgress = isInitializationDeviceInProgress(
-    getState()
-  )
-
-  if (initializationDeviceInProgress) {
-    return
-  }
-
-  // TODO: handle app initialization
-  const initializationAppInProgress = isInitializationAppInProgress(getState())
-
-  if (initializationAppInProgress) {
-    return
-  }
-
-  history.push(URL_DISCOVERY_DEVICE.root)
-})
+)

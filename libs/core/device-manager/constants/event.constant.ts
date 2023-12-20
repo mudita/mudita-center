@@ -4,5 +4,6 @@
  */
 
 export enum DeviceManagerEvent {
-  HandleDeviceConnected = "HANDLE_DEVICE_CONNECTED",
+  HandleDeviceConnected = "DEVICE_MANAGER_HANDLE_DEVICE_CONNECTED",
+  AddDevice = "DEVICE_MANAGER_ADD_DEVICE",
 }
