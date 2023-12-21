@@ -1,14 +1,20 @@
-{
-  "env": {
-    "browser": true
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+module.exports = {
+  env: {
+    browser: true,
   },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json",
-    "sourceType": "module"
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: "./tsconfig.json",
+    sourceType: "module",
+    tsconfigRootDir: __dirname,
   },
-  "root": true,
-  "plugins": [
+  root: true,
+  plugins: [
     "@typescript-eslint",
     "react",
     "react-hooks",
@@ -17,9 +23,9 @@
     "jest",
     "jest-dom",
     "jsx-a11y",
-    "testing-library"
+    "testing-library",
   ],
-  "extends": [
+  extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -29,9 +35,9 @@
     "plugin:jest-dom/recommended",
     "plugin:testing-library/react",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
   ],
-  "rules": {
+  rules: {
     "@typescript-eslint/await-thenable": "warn",
     "@typescript-eslint/restrict-template-expressions": "warn",
     "@typescript-eslint/restrict-plus-operands": "warn",
@@ -61,18 +67,21 @@
     "react/jsx-boolean-value": "off",
     "react/no-unescaped-entities": "warn",
     "react-hooks/rules-of-hooks": "warn",
-    "curly": "off",
+    curly: "off",
     "no-async-promise-executor": "warn",
     "no-prototype-builtins": "warn",
 
-    "license-header/header": ["error", "resources/license-header.js"],
+    "license-header/header": [
+      "error",
+      __dirname + "/resources/license-header.js",
+    ],
 
     "no-unused-vars": "off",
     "unused-imports/no-unused-vars": [
       "off",
       {
-        "argsIgnorePattern": "^_"
-      }
+        argsIgnorePattern: "^_",
+      },
     ],
     "unused-imports/no-unused-imports": "error",
 
@@ -109,15 +118,16 @@
     "testing-library/no-container": "off",
     "testing-library/await-async-queries": "off",
     "testing-library/no-await-sync-events": "off",
-    "testing-library/no-render-in-lifecycle": "off"
+    "testing-library/no-render-in-lifecycle": "off",
+    "react/react-in-jsx-scope": "off",
   },
-  "settings": {
-    "react": {
-      "version": "detect"
+  settings: {
+    react: {
+      version: "detect",
     },
-    "jest": {
-      "version": "detect"
-    }
+    jest: {
+      version: "detect",
+    },
   },
-  "ignorePatterns": ["auth-server.test.ts", "./jest"]
+  ignorePatterns: ["auth-server.test.ts", "./jest"],
 }
