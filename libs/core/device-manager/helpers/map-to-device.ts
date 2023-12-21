@@ -16,7 +16,7 @@ const getInitializationOptionsByDeviceType = (
 ): InitializationOptions => {
   return {
     data: true,
-    eula: false,
+    eula: true,
     sync: false,
     passcode: false,
   }

@@ -6,8 +6,11 @@
 import { createReducer } from "@reduxjs/toolkit"
 import {
   loadDeviceData,
+  setCriticalBatteryLevel,
   setDeviceData,
   setInitState,
+  setOnboardingStatus,
+  setUnlockedStatus,
 } from "Core/device/actions"
 import { DeviceState } from "Core/device/reducers/device.interface"
 
@@ -40,12 +43,40 @@ export const deviceReducer = createReducer<DeviceState>(
           ...initialState,
           data,
           deviceType,
+          status: initialState.status,
         }
       })
       .addCase(setDeviceData, (state, action) => {
         return {
           ...initialState,
           data: action.payload,
+        }
+      })
+      .addCase(setUnlockedStatus, (state, action) => {
+        return {
+          ...initialState,
+          status: {
+            ...initialState.status,
+            unlocked: action.payload,
+          },
+        }
+      })
+      .addCase(setOnboardingStatus, (state, action) => {
+        return {
+          ...initialState,
+          status: {
+            ...initialState.status,
+            onboardingFinished: action.payload,
+          },
+        }
+      })
+      .addCase(setCriticalBatteryLevel, (state, action) => {
+        return {
+          ...initialState,
+          status: {
+            ...initialState.status,
+            criticalBatteryLevel: action.payload,
+          },
         }
       })
   }

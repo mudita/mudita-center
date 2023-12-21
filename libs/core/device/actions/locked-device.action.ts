@@ -4,52 +4,25 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import {
-  setOnboardingStatus,
-  setCriticalBatteryLevel,
-  setLockTime,
-} from "Core/device/actions/base.action"
-import {
-  DeviceCommunicationError,
-  DeviceError,
-  DeviceEvent,
-  DeviceType,
-} from "Core/device/constants"
+import { setLockTime } from "Core/device/actions/base.action"
+import { DeviceEvent, DeviceType } from "Core/device/constants"
 import {
   deviceLockTimeRequest,
   unlockDeviceStatusRequest,
 } from "Core/device/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { AppError } from "Core/core/errors"
 
 export const lockedDevice = createAsyncThunk(
   DeviceEvent.Locked,
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
 
-    if (state.device.deviceType === null) {
-      return rejectWithValue(
-        new AppError(DeviceError.Locking, "`deviceType` is a null")
-      )
-    }
-
     if (state.device.deviceType === DeviceType.MuditaPure) {
       const unlocked = await unlockDeviceStatusRequest()
       const lockTime = await deviceLockTimeRequest()
 
-      if (
-        !unlocked.ok &&
-        unlocked.error.type ===
-          DeviceCommunicationError.DeviceOnboardingNotFinished
-      ) {
-        dispatch(setOnboardingStatus(false))
-      }
-
-      if (
-        !unlocked.ok &&
-        unlocked.error.type === DeviceCommunicationError.BatteryCriticalLevel
-      ) {
-        dispatch(setCriticalBatteryLevel(true))
+      if (!unlocked.ok) {
+        // TODO: handle if you know what going on
       }
 
       if (!lockTime.ok || !lockTime.data?.phoneLockTime) {

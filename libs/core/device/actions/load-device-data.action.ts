@@ -9,20 +9,25 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
 import { DeviceInfo } from "Core/device-info/dto"
 import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
-import { DeviceState } from "Core/device"
+import { DeviceState } from "Core/device/reducers"
+import { processDeviceDataOnLoad } from "Core/device/actions/process-device-data-on-load.action"
+import { processDeviceDataOnFailed } from "Core/device/actions/process-device-data-on-failed.action"
 
 export const loadDeviceData = createAsyncThunk<
   DeviceInfo & Pick<DeviceState, "deviceType">,
   void,
   { state: ReduxRootState }
->(DeviceEvent.Loading, async (_, { rejectWithValue, getState }) => {
+>(DeviceEvent.Loading, async (_, { dispatch, rejectWithValue, getState }) => {
   try {
     const deviceType = getActiveDeviceTypeSelector(getState())
     const { ok, data, error } = await getDeviceInfoRequest()
 
     if (ok) {
+      await dispatch(processDeviceDataOnLoad())
+
       return { ...data, deviceType: deviceType ?? null }
     } else {
+      await dispatch(processDeviceDataOnFailed(error))
       return rejectWithValue(error)
     }
   } catch (error) {

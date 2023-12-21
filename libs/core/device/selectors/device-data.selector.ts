@@ -4,12 +4,18 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { DeviceType } from "Core/device/constants"
 import { deviceStateSelector } from "Core/device/selectors/device-state.selector"
+import {
+  HarmonyDeviceData,
+  KompaktDeviceData,
+  PureDeviceData,
+} from "Core/device/reducers"
 
-export const deviceTypeSelector = createSelector(
+export const deviceDataSelector = createSelector(
   deviceStateSelector,
-  (deviceState): DeviceType | null => {
-    return deviceState?.deviceType ?? null
+  (
+    deviceState
+  ): Partial<PureDeviceData | HarmonyDeviceData | KompaktDeviceData> | null => {
+    return deviceState.data
   }
 )

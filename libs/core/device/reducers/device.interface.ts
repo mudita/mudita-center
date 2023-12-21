@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColor, DeviceType } from "Core/device/constants"
+import { CaseColor, DeviceType, OnboardingState } from "Core/device/constants"
 import { SimCard } from "Core/__deprecated__/renderer/models/basic-info/basic-info.typings"
 
 export interface KompaktDeviceData {
@@ -37,6 +37,7 @@ export interface PureDeviceData {
   }
   caseColour: CaseColor
   backupFilePath: string
+  onboardingState?: OnboardingState
 }
 
 export interface HarmonyDeviceData {
@@ -48,18 +49,21 @@ export interface HarmonyDeviceData {
     usedUserSpace: number
     total: number
   }
+  onboardingState?: OnboardingState
+}
+
+export interface DeviceStatus {
+  loaded: boolean | null
+  unlocked: boolean | null
+  onboardingFinished: boolean | null
+  criticalBatteryLevel: boolean | null
+  restarting: boolean | null
 }
 
 export interface DeviceState {
   deviceType: DeviceType | null
   data: Partial<PureDeviceData | HarmonyDeviceData | KompaktDeviceData> | null
-  status: {
-    loaded: boolean | null
-    unlocked: boolean | null
-    onboardingFinished: boolean | null
-    criticalBatteryLevel: boolean | null
-    restarting: boolean | null
-  }
+  status: DeviceStatus
   error: Error | string | null
   externalUsageDevice: boolean | null
 }

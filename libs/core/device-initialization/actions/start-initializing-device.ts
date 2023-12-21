@@ -9,10 +9,26 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceInitializationEvent } from "Core/device-initialization/constants/event.constant"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
-import { loadDeviceData } from "Core/device"
+import { loadDeviceData, setOnboardingStatus } from "Core/device/actions"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { processDeviceDataOnLoad } from "Core/device/actions/process-device-data-on-load.action"
+import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
+import {
+  HarmonyDeviceData,
+  KompaktDeviceData,
+  OnboardingState,
+  PureDeviceData,
+} from "Core/device"
+
+const isDataRelativeToCoreDevice = (
+  data: Partial<PureDeviceData | HarmonyDeviceData | KompaktDeviceData> | null
+): data is PureDeviceData | HarmonyDeviceData => {
+  if (data === null) {
+    return false
+  } else {
+    return "onboardingState" in data
+  }
+}
 
 export const startInitializingDevice = createAsyncThunk<
   void,
@@ -27,18 +43,20 @@ export const startInitializingDevice = createAsyncThunk<
       return
     }
 
-    if (activeDevice.initializationOptions.eula) {
-      return
-    }
-
-    if (activeDevice.initializationOptions.passcode) {
-      return
-    }
-
     if (activeDevice.initializationOptions.data) {
       // TODO: handle when load data throw error
       await dispatch(loadDeviceData())
-      await dispatch(processDeviceDataOnLoad())
+    }
+
+    if (activeDevice.initializationOptions.eula) {
+      const data = deviceDataSelector(getState())
+      if (
+        isDataRelativeToCoreDevice(data) &&
+        data.onboardingState === OnboardingState.InProgress
+      ) {
+        dispatch(setOnboardingStatus(false))
+        return
+      }
     }
 
     if (activeDevice.initializationOptions.sync) {
