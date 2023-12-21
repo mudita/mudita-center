@@ -28,7 +28,6 @@
       "E2E/*": ["./apps/mudita-center-e2e/src/*"],
       "Libs/*": ["./libs/*"],
       "Root/*": ["./*"],
-      "generic-view/feature": ["libs/generic-view/feature/src/index.ts"]
     }
   },
   "exclude": [
