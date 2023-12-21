@@ -119,5 +119,5 @@
       "version": "detect"
     }
   },
-  "ignorePatterns": ["auth-server.test.ts"]
+  "ignorePatterns": ["auth-server.test.ts", "./jest"]
 }
