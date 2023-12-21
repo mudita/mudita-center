@@ -33,4 +33,6 @@ export enum DeviceEvent {
   Restarting = "DEVICE_RESTARTING",
 
   InitializationFailed = "DEVICE_SET_INITIALIZATION_FAILED",
+
+  ProcessDeviceDataOnLoad = "PROCESS_DEVICE_DATA_ON_LOAD",
 }

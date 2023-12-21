@@ -4,7 +4,11 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { setDeviceData, setInitState } from "Core/device/actions"
+import {
+  loadDeviceData,
+  setDeviceData,
+  setInitState,
+} from "Core/device/actions"
 import { DeviceState } from "Core/device/reducers/device.interface"
 
 export const initialState: DeviceState = {
@@ -30,11 +34,18 @@ export const deviceReducer = createReducer<DeviceState>(
           ...initialState,
         }
       })
+      .addCase(loadDeviceData.fulfilled, (state, action) => {
+        const { deviceType, ...data } = action.payload
+        return {
+          ...initialState,
+          data,
+          deviceType,
+        }
+      })
       .addCase(setDeviceData, (state, action) => {
         return {
           ...initialState,
           data: action.payload,
-          deviceType: action.payload.deviceType,
         }
       })
   }

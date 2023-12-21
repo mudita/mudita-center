@@ -5,13 +5,12 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { PureDeviceData, HarmonyDeviceData } from "Core/device/reducers"
-import { DeviceEvent, DeviceType } from "Core/device/constants"
+import { DeviceEvent } from "Core/device/constants"
 import { GetPhoneLockTimeResponseBody } from "Core/device/types/mudita-os"
 
-export const setDeviceData = createAction<
-  | (PureDeviceData & { deviceType: DeviceType })
-  | (HarmonyDeviceData & { deviceType: DeviceType })
->(DeviceEvent.SetData)
+export const setDeviceData = createAction<PureDeviceData | HarmonyDeviceData>(
+  DeviceEvent.SetData
+)
 
 export const setLockTime = createAction<
   GetPhoneLockTimeResponseBody | undefined
