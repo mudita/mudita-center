@@ -6,13 +6,15 @@
 import { createReducer } from "@reduxjs/toolkit"
 import {
   loadDeviceData,
-  setCriticalBatteryLevel,
-  setDeviceData,
+  loadStorageInfoAction,
+  setCriticalBatteryLevelStatus,
   setInitState,
   setOnboardingStatus,
+  setRestartingStatus,
   setUnlockedStatus,
 } from "Core/device/actions"
 import { DeviceState } from "Core/device/reducers/device.interface"
+import { AppError } from "Core/core/errors"
 
 export const initialState: DeviceState = {
   deviceType: null,
@@ -46,12 +48,6 @@ export const deviceReducer = createReducer<DeviceState>(
           status: initialState.status,
         }
       })
-      .addCase(setDeviceData, (state, action) => {
-        return {
-          ...initialState,
-          data: action.payload,
-        }
-      })
       .addCase(setUnlockedStatus, (state, action) => {
         return {
           ...initialState,
@@ -70,13 +66,35 @@ export const deviceReducer = createReducer<DeviceState>(
           },
         }
       })
-      .addCase(setCriticalBatteryLevel, (state, action) => {
+      .addCase(setCriticalBatteryLevelStatus, (state, action) => {
         return {
           ...initialState,
           status: {
             ...initialState.status,
             criticalBatteryLevel: action.payload,
           },
+        }
+      })
+      .addCase(setRestartingStatus, (state, action) => {
+        state.status.restarting = action.payload
+      })
+      .addCase(loadStorageInfoAction.fulfilled, (state, action) => {
+        return {
+          ...state,
+          data: {
+            ...state.data,
+            memorySpace: {
+              usedUserSpace: action.payload.usedUserSpace,
+              reservedSpace: action.payload.reservedSpace,
+              total: action.payload.totalSpace,
+            },
+          },
+        }
+      })
+      .addCase(loadStorageInfoAction.rejected, (state, action) => {
+        return {
+          ...state,
+          error: action.payload as AppError,
         }
       })
   }

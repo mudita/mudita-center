@@ -25,6 +25,7 @@ export class DeviceLockTimeObserver implements Observer {
     private deviceService: DeviceService
   ) {}
 
+  // TODO: refactor to middleware or listening on request in interval
   public observe(): void {
     this.registerListener()
   }

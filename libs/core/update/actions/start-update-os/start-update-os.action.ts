@@ -25,7 +25,7 @@ import {
   TrackOsUpdateState,
 } from "Core/analytic-data-tracker/helpers"
 import { checkUpdate } from "Core/update/requests/checkUpdate.request"
-import { setRestarting } from "Core/device"
+import { setRestartingStatus } from "Core/device"
 
 interface Params {
   releases: OsRelease[]
@@ -101,11 +101,11 @@ export const startUpdateOs = createAsyncThunk<
       )
 
       if (release.version !== state.device.data?.osVersion) {
-        dispatch(setRestarting(true))
+        dispatch(setRestartingStatus(true))
         const updateResult = await startOsUpdate({
           fileName: release.file.name,
         })
-        dispatch(setRestarting(false))
+        dispatch(setRestartingStatus(false))
         const result = updateResult.ok ? await checkUpdate() : updateResult
         if (!result.ok) {
           void setUpdatingRequest(false)

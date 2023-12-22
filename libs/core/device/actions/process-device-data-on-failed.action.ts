@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceCommunicationError, DeviceEvent } from "Core/device/constants"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
-  setCriticalBatteryLevel,
+  setCriticalBatteryLevelStatus,
   setOnboardingStatus,
   setUnlockedStatus,
 } from "Core/device/actions/base.action"
@@ -30,7 +30,7 @@ export const processDeviceDataOnFailed = createAsyncThunk<
   }
 
   if (errorType === DeviceCommunicationError.BatteryCriticalLevel) {
-    dispatch(setCriticalBatteryLevel(true))
+    dispatch(setCriticalBatteryLevelStatus(true))
     return
   }
 })

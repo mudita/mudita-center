@@ -17,7 +17,7 @@ export const loadDeviceData = createAsyncThunk<
   DeviceInfo & Pick<DeviceState, "deviceType">,
   void,
   { state: ReduxRootState }
->(DeviceEvent.Loading, async (_, { dispatch, rejectWithValue, getState }) => {
+>(DeviceEvent.LoadDeviceData, async (_, { dispatch, rejectWithValue, getState }) => {
   try {
     const deviceType = getActiveDeviceTypeSelector(getState())
     const { ok, data, error } = await getDeviceInfoRequest()
