@@ -17,20 +17,22 @@ export const loadDeviceData = createAsyncThunk<
   DeviceInfo & Pick<DeviceState, "deviceType">,
   void,
   { state: ReduxRootState }
->(DeviceEvent.LoadDeviceData, async (_, { dispatch, rejectWithValue, getState }) => {
-  try {
-    const deviceType = getActiveDeviceTypeSelector(getState())
-    const { ok, data, error } = await getDeviceInfoRequest()
+>(
+  DeviceEvent.LoadDeviceData,
+  async (_, { dispatch, rejectWithValue, getState }) => {
+    try {
+      const deviceType = getActiveDeviceTypeSelector(getState())
+      const { ok, data, error } = await getDeviceInfoRequest()
 
-    if (ok) {
-      await dispatch(processDeviceDataOnLoad())
-
-      return { ...data, deviceType: deviceType ?? null }
-    } else {
-      await dispatch(processDeviceDataOnFailed(error))
+      if (ok) {
+        await dispatch(processDeviceDataOnLoad())
+        return { ...data, deviceType: deviceType ?? null }
+      } else {
+        await dispatch(processDeviceDataOnFailed(error))
+        return rejectWithValue(error)
+      }
+    } catch (error) {
       return rejectWithValue(error)
     }
-  } catch (error) {
-    return rejectWithValue(error)
   }
-})
+)

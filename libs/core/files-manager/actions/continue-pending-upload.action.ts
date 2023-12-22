@@ -22,7 +22,11 @@ import {
 import { loadStorageInfoAction } from "Core/device/actions/load-storage-info.action"
 import { getHarmonyFreeFilesSlotsCount } from "Core/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
 
-export const continuePendingUpload = createAsyncThunk(
+export const continuePendingUpload = createAsyncThunk<
+  void,
+  void,
+  { state: ReduxRootState }
+>(
   FilesManagerEvent.ContinuePendingUpload,
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState

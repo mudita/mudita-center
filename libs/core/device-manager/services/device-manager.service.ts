@@ -5,7 +5,6 @@
 
 import SerialPort, { PortInfo as SerialPortInfo } from "serialport"
 import { MainProcessIpc } from "electron-better-ipc"
-import { log } from "Core/core/decorators/log.decorator"
 import { DeviceResolverService } from "Core/device-manager/services/device-resolver.service"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
@@ -75,8 +74,8 @@ export class DeviceManager {
   // TODO: `removeDevice` method to hides
   public removeDevice(path: string): void {
     const device = this.getDeviceByPath(path)
-    if(device === undefined) {
-    //TODO: handle device as undefined
+    if (device === undefined) {
+      //TODO: handle device as undefined
       return
     }
 
@@ -155,7 +154,8 @@ export class DeviceManager {
     })
   }
 
-  @log("==== device manager: list ====")
+  // TODO: uncomment bellow logger
+  // @log("==== device manager: list ====")
   private getSerialPortList(): Promise<SerialPortInfo[]> {
     return SerialPort.list()
   }
@@ -165,6 +165,6 @@ export class DeviceManager {
   }
 
   private getDevicePaths(): string[] {
-    return this.devices.map(({path}) => path)
+    return this.devices.map(({ path }) => path)
   }
 }

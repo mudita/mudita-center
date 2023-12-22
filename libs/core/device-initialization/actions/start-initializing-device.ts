@@ -9,16 +9,23 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceInitializationEvent } from "Core/device-initialization/constants/event.constant"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
-import { loadDeviceData, setOnboardingStatus } from "Core/device/actions"
+import {
+  loadDeviceData,
+  setOnboardingStatus,
+  setUnlockedStatus,
+} from "Core/device/actions"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
 import {
+  DeviceCommunicationError,
+  DeviceType,
   HarmonyDeviceData,
   KompaktDeviceData,
   OnboardingState,
   PureDeviceData,
 } from "Core/device"
+import { unlockDeviceStatusRequest } from "Core/device/requests"
 
 const isDataRelativeToCoreDevice = (
   data: Partial<PureDeviceData | HarmonyDeviceData | KompaktDeviceData> | null
@@ -30,6 +37,7 @@ const isDataRelativeToCoreDevice = (
   }
 }
 
+// TODO: refactor by divides to smaller contexts
 export const startInitializingDevice = createAsyncThunk<
   void,
   History,
@@ -43,12 +51,39 @@ export const startInitializingDevice = createAsyncThunk<
       return
     }
 
-    if (activeDevice.initializationOptions.data) {
-      // TODO: handle when load data throw error
-      await dispatch(loadDeviceData())
-    }
+    // Initializing Mudita Pure Device
+    if (activeDevice.deviceType === DeviceType.MuditaPure) {
+      // check EULA & PASSCODE
+      const data = await unlockDeviceStatusRequest()
+      console.log("data: ", data)
+      if (!data.ok) {
+        const errorType = data.error.type
+        if (
+          errorType === DeviceCommunicationError.DeviceOnboardingNotFinished
+        ) {
+          dispatch(setOnboardingStatus(false))
+          return
+        } else if (errorType === DeviceCommunicationError.DeviceLocked) {
+          dispatch(setUnlockedStatus(false))
+          return
+        }
+      }
 
-    if (activeDevice.initializationOptions.eula) {
+      await dispatch(loadDeviceData())
+
+      // make sync data
+      // make load data
+
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
+      )
+
+      history.push(URL_OVERVIEW.root)
+
+      // Initializing Mudita Harmony Device
+    } else if (activeDevice.deviceType === DeviceType.MuditaHarmony) {
+      await dispatch(loadDeviceData())
+      // check EULA & PASSCODE
       const data = deviceDataSelector(getState())
       if (
         isDataRelativeToCoreDevice(data) &&
@@ -57,15 +92,20 @@ export const startInitializingDevice = createAsyncThunk<
         dispatch(setOnboardingStatus(false))
         return
       }
-    }
 
-    if (activeDevice.initializationOptions.sync) {
-      return
-    }
-    dispatch(
-      setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
-    )
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
+      )
 
-    history.push(URL_OVERVIEW.root)
+      history.push(URL_OVERVIEW.root)
+
+      // skip Initializing for others
+    } else {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
+      )
+
+      history.push(URL_OVERVIEW.root)
+    }
   }
 )

@@ -70,11 +70,6 @@ export abstract class BaseAdapter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<ResultObject<Response<any>>>
 
-  @log("==== serial port: connect event ====", LogConfig.Args)
-  protected emitConnectionEvent(data: ResultObject<string>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.Connected, data)
-  }
-
   @log("==== serial port: data received ====", LogConfig.Args)
   protected emitDataReceivedEvent<ResponseType = unknown>(
     data: Response<ResponseType> | AppError

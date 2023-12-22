@@ -14,19 +14,11 @@ export enum DeviceState {
   Failed = "FAILED",
 }
 
-export interface InitializationOptions {
-  data: boolean
-  eula: boolean
-  sync: boolean
-  passcode: boolean
-}
-
 export interface Device extends DeviceBaseProperties {
   id: DeviceId
   serialNumber: string | undefined
   deviceType: DeviceType
   state: DeviceState
-  initializationOptions: InitializationOptions
 }
 
 export interface DeviceManagerState {
