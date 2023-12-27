@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum IpcEvent {
-  DataUpdated = "data-sync-data-updated",
+export enum IpcOutboxEvent {
+  ReadOutboxEntries = "index_storage_read-outbox-entries",
 }

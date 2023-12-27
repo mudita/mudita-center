@@ -3,4 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./data-sync.listener"
+export * from "./read-outbox-entries.request"

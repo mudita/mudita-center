@@ -19,11 +19,9 @@ import { DeviceManager } from "Core/device-manager/services"
 import { EntryHandler } from "Core/outbox/services/entry-handler.type"
 
 export type EntryHandlersMapType = Record<OutboxEntryType, EntryHandler>
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type EntryChangesEvent = { entry: OutboxEntry; payload: any }
 
-// TODO: make OutboxService controller
+export type EntryChangesEvent = { entry: OutboxEntry; payload: unknown }
+
 export class OutboxService {
   constructor(
     private deviceManager: DeviceManager,
@@ -58,7 +56,7 @@ export class OutboxService {
   private async getOutboxEntriesRequest(): Promise<
     ResultObject<GetEntriesResponseBody>
   > {
-    return this.deviceManager.device.request({
+    return this.deviceManager.device.request<GetEntriesResponseBody>({
       endpoint: Endpoint.Outbox,
       method: Method.Get,
       body: {
