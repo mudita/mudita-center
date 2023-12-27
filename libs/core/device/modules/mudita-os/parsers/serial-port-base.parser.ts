@@ -4,7 +4,8 @@
  */
 
 export abstract class SerialPortParserBase {
-  public abstract parse(data: Buffer): unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public abstract parse(data: Buffer): any
 
   public abstract createRequest(payload: unknown): string
 }
