@@ -28,6 +28,14 @@
       "E2E/*": ["./apps/mudita-center-e2e/src/*"],
       "Libs/*": ["./libs/*"],
       "Root/*": ["./*"],
+      "device/adapters": ["libs/device/adapters/src/index.ts"],
+      "device/feature": ["libs/device/feature/src/index.ts"],
+      "device/models": ["libs/device/models/src/index.ts"],
+      "generic-view/feature": ["libs/generic-view/feature/src/index.ts"],
+      "generic-view/store": ["libs/generic-view/store/src/index.ts"],
+      "generic-view/ui": ["libs/generic-view/ui/src/index.ts"],
+      "generic-view/utils": ["libs/generic-view/utils/src/index.ts"],
+      "generic-view/views": ["libs/generic-view/views/src/index.ts"]
     }
   },
   "exclude": [

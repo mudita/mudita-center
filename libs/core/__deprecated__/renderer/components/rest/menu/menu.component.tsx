@@ -8,7 +8,12 @@ import { DeviceType } from "Core/device/constants"
 import { connect } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import MenuGroup from "Core/__deprecated__/renderer/components/rest/menu/menu-group.component"
-import { menuElements } from "Core/__deprecated__/renderer/constants/menu-elements"
+import {
+  baseMenuElements,
+  centerMenuElements,
+  deviceMenuElements,
+  MenuElement,
+} from "Core/__deprecated__/renderer/constants/menu-elements"
 import { DevMode } from "Core/__deprecated__/dev-mode/store/dev-mode.interface"
 import styled from "styled-components"
 import {
@@ -81,6 +86,7 @@ interface Properties {
     [View.Messages]: boolean
   }
   synchronizationProcess?: SynchronizationProcessState
+  genericMenuElements?: MenuElement[]
 }
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -91,8 +97,14 @@ const Menu: FunctionComponent<Properties> = ({
   syncState,
   notifications,
   synchronizationProcess,
+  genericMenuElements,
 }) => {
-  const links = menuElements
+  const links = [
+    ...baseMenuElements,
+    ...(genericMenuElements || []),
+    ...deviceMenuElements,
+    ...centerMenuElements,
+  ]
     .filter(({ connectedPhoneOnly }) =>
       deviceFeaturesVisible ? true : !connectedPhoneOnly
     )
@@ -152,6 +164,7 @@ const mapDispatchToProps = (state: ReduxRootState) => ({
   notifications: {
     [View.Messages]: getUnreadThreads(state).length > 0,
   },
+  genericMenuElements: state.genericViews.menu,
 })
 
 export default connect(mapDispatchToProps)(Menu)

@@ -102,18 +102,20 @@ const DESKTOP_APP_BUTTONS: Item[] = [
 
 interface Item {
   button: (typeof views)[View]
-  icon: IconType
+  icon?: IconType
   testId?: MenuGroupTestIds
   hidden?: boolean
-  visibleOn: DeviceType[]
+  visibleOn?: DeviceType[]
   viewKey?: View
 }
 
 export interface MenuElement {
   items?: Item[]
-  label?: {
+  label?:
+    | {
     id: string
   }
+    | string
   icons?: IconType[]
   connectedPhoneOnly?: boolean
   devModeOnly?: boolean
@@ -122,6 +124,76 @@ export interface MenuElement {
   visibleOn?: DeviceType[]
   viewKey?: View
 }
+
+export const baseMenuElements: MenuElement[] = [
+  {
+    items: [
+      {
+        button: views[View.Connecting],
+        icon: IconType.Send,
+        testId: MenuGroupTestIds.Connecting,
+        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+      },
+    ],
+    viewKey: View.Connecting,
+    simulatePhoneConnection: true,
+  },
+  {
+    items: [
+      {
+        button: views[View.Onboarding],
+        icon: IconType.Send,
+        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+      },
+    ],
+    viewKey: View.Onboarding,
+    devModeOnly: true,
+  },
+  {
+    items: [
+      {
+        button: views[View.News],
+        icon: IconType.MenuNews,
+        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+      },
+    ],
+    viewKey: View.News,
+  },
+]
+
+export const deviceMenuElements: MenuElement[] = [
+  // {
+  //   items: [
+  //     {
+  //       button: views[View.APIConnectionDemo],
+  //       icon: IconType.MenuOverview,
+  //       visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+  //     },
+  //   ],
+  //   viewKey: View.APIConnectionDemo,
+  // },
+  {
+    label: messages.yourPure,
+    items: YOUR_PURE_BUTTONS,
+    icons: flags.get(Feature.YourPureIconsEnabled)
+      ? [
+        IconType.MenuRange,
+        IconType.MenuBattery,
+        IconType.Sim,
+        IconType.TetheringStatus,
+      ]
+      : [],
+    connectedPhoneOnly: true,
+    visibleOn: [DeviceType.MuditaPure],
+  },
+  {
+    label: messages.yourHarmony,
+    items: YOUR_PURE_BUTTONS,
+    icons: [],
+    connectedPhoneOnly: true,
+    visibleOn: [DeviceType.MuditaHarmony],
+  },
+]
 
 export const menuElements: MenuElement[] = [
   {
@@ -178,6 +250,13 @@ export const menuElements: MenuElement[] = [
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaHarmony],
   },
+  {
+    label: messages.desktopApp,
+    items: DESKTOP_APP_BUTTONS,
+  },
+]
+
+export const centerMenuElements: MenuElement[] = [
   {
     label: messages.desktopApp,
     items: DESKTOP_APP_BUTTONS,

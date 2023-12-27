@@ -3,10 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { RequestPayload, Response } from "Core/device/types/mudita-os"
-
 export abstract class SerialPortParserBase {
-  public abstract parse(data: Buffer): Response<unknown> | undefined
+  public abstract parse(data: Buffer): unknown
 
-  public abstract createRequest(payload: RequestPayload<unknown>): string
+  public abstract createRequest(payload: unknown): string
 }

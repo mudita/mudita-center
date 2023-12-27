@@ -23,9 +23,11 @@ import { DeviceServiceEvent } from "Core/device"
 import { EventEmitter } from "events"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { Mutex } from "async-mutex"
+import { APIDevice } from "device/feature"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
+  private currentAPIDevice: APIDevice | undefined
   public devicesMap = new Map<string, Device>()
   public currentDeviceInitializationFailed = false
 
@@ -40,6 +42,17 @@ export class DeviceManager {
     protected eventEmitter: EventEmitter
   ) {
     this.mountListeners()
+  }
+
+  get apiDevice() {
+    if (!this.currentAPIDevice) {
+      throw new AppError(
+        DeviceManagerError.NoCurrentDevice,
+        "Current device is undefined"
+      )
+    }
+
+    return this.currentAPIDevice
   }
 
   get device(): Device {
@@ -149,6 +162,8 @@ export class DeviceManager {
   private async initializeDevice(
     portInfo: PortInfo
   ): Promise<Device | undefined> {
+    // TODO: remove this
+    console.log(portInfo)
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
@@ -174,6 +189,8 @@ export class DeviceManager {
           const device = this.deviceResolver.resolve(port)
 
           if (!device) {
+            //TODO: temporary, remove in future
+            this.currentAPIDevice = new APIDevice(port)
             return
           }
 

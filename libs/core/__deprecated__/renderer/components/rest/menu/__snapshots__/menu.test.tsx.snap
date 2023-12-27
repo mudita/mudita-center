@@ -339,6 +339,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
         class="c10"
         data-testid="component.menuHeaderDesktopApp"
       >
+         
         <p
           class="c11"
           color="primary"
@@ -744,6 +745,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
         class="c10"
         data-testid="component.menuHeaderDesktopApp"
       >
+         
         <p
           class="c11"
           color="primary"

@@ -33,6 +33,9 @@ const defaultState = {
   messages: {
     data: { threadMap: {} },
   },
+  genericViews: {
+    menu: []
+  }
 } as unknown as ReduxRootState
 
 const threadMock: Thread = {

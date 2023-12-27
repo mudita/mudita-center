@@ -5,11 +5,7 @@
 
 import { defineMessages } from "react-intl"
 
-import {
-  URL_MAIN,
-  URL_ONBOARDING,
-  URL_OVERVIEW,
-} from "./urls"
+import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "./urls"
 
 const messages = defineMessages({
   onboarding: { id: "module.onboarding" },
@@ -53,9 +49,11 @@ export enum View {
 
 export type Views = {
   [key in View]: {
-    label: {
-      id: string
-    }
+    label:
+      | {
+          id: string
+        }
+      | string
     url: string
     renderHeaderButton?: boolean
   }
