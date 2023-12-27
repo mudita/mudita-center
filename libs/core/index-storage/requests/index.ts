@@ -3,4 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./index-storage-loading.observer"
+export * from "./load-index.request"
+export * from "./save-index.request"

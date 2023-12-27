@@ -8,11 +8,23 @@ import { AppError } from "Core/core/errors"
 import { readAllIndexes } from "Core/data-sync/actions/read-all-indexes.action"
 import { DataSyncError, DataSyncEvent } from "Core/data-sync/constants"
 import { indexAllRequest } from "Core/data-sync/requests"
+import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { isPureDeviceData } from "Core/device/helpers/is-pure-device-data"
+import { saveIndexRequest } from "Core/index-storage/requests"
 
-export const updateAllIndexes = createAsyncThunk<void, void>(
+export const updateAllIndexes = createAsyncThunk<
+  void,
+  void,
+  { state: ReduxRootState }
+>(
   DataSyncEvent.UpdateAllIndexes,
-  async (_, { dispatch, rejectWithValue }) => {
-    const indexed = await indexAllRequest()
+  async (_, { dispatch, rejectWithValue, getState }) => {
+    const data = deviceDataSelector(getState())
+    if (!isPureDeviceData(data)) {
+      return
+    }
+    const indexed = await indexAllRequest(data)
 
     if (!indexed) {
       return rejectWithValue(
@@ -22,6 +34,8 @@ export const updateAllIndexes = createAsyncThunk<void, void>(
         )
       )
     }
+
+    await saveIndexRequest(data)
 
     const action = await dispatch(readAllIndexes())
 

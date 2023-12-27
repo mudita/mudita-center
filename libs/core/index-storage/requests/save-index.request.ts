@@ -4,11 +4,9 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcDataSyncEvent } from "Core/data-sync/constants"
+import { IpcIndexStorageEvent } from "Core/index-storage/constants/controller.constant"
 import { InitializeOptions } from "Core/data-sync/types"
 
-export const initializeDataSyncRequest = async (
-  options: InitializeOptions
-): Promise<boolean> => {
-  return ipcRenderer.callMain(IpcDataSyncEvent.InitializeDataSync, options)
+export const saveIndexRequest = (options: InitializeOptions): Promise<void> => {
+  return ipcRenderer.callMain(IpcIndexStorageEvent.SaveIndex, options)
 }

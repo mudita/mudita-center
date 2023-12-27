@@ -7,6 +7,7 @@ import { connect } from "react-redux"
 import Menu from "Core/__deprecated__/renderer/components/rest/menu/menu.component"
 import { RootState, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
+import { isDataSyncInProgressSelector } from "Core/data-sync/selectors/is-data-sync-in-progress.selector"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
@@ -14,8 +15,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       state.deviceInitialization.deviceInitializationStatus ===
       DeviceInitializationStatus.Initialized,
     devModeEnabled: state.devMode.enabled,
-    syncState: state.dataSync.state,
-    synchronizationProcess: state.dataSync.synchronizationProcess,
+    dataSyncInProgress: isDataSyncInProgressSelector(state),
   }
 }
 

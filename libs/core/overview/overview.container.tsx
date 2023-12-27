@@ -36,8 +36,8 @@ import { OsRelease } from "Core/update/dto"
 import { areAllReleasesDownloaded } from "Core/update/selectors"
 import { CheckForUpdateMode } from "Core/update/constants"
 import { forceUpdate } from "Core/update/actions/force-update/force-update.action"
-import { SynchronizationProcessState } from "Core/data-sync/reducers/data-sync.interface"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
+import { isDataSyncInProgressSelector } from "Core/data-sync/selectors/is-data-sync-in-progress.selector"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -56,7 +56,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     restoreDeviceState: state.backup.restoringState,
     backups: state.backup.data.backups,
     ...state.devMode,
-    syncState: state.dataSync.state,
+    syncState: state.dataSync.status,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
     updatingState: state.update.updateOsState,
     checkingForUpdateState: state.update.checkForUpdateState,
@@ -71,9 +71,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     areAllReleasesDownloaded: areAllReleasesDownloaded(state),
     forceUpdateNeeded: state.update.needsForceUpdate,
     forceUpdateState: state.update.forceUpdateState,
-    backupActionDisabled:
-      state.dataSync.synchronizationProcess ===
-      SynchronizationProcessState.InProgress,
+    backupActionDisabled: isDataSyncInProgressSelector(state),
   }
 }
 

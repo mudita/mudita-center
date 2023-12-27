@@ -3,4 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./device-connection.observer"
+export enum IpcIndexStorageEvent {
+  LoadIndex = "index_storage_load-index",
+  SaveIndex = "index_storage_save-index",
+}

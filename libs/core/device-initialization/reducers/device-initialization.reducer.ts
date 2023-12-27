@@ -9,7 +9,7 @@ import {
   DeviceInitializationStatus,
 } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
-import { startInitializingDevice } from "Core/device-initialization/actions/start-initializing-device"
+import { startInitializingDevice } from "Core/device-initialization/actions/start-initializing-device/start-initializing-device.action"
 
 export const initialState: DeviceInitializationState = {
   deviceInitializationStatus: DeviceInitializationStatus.Idle,

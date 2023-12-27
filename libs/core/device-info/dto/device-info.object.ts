@@ -31,4 +31,5 @@ export interface DeviceInfo {
   syncFilePath: string
   recoveryStatusFilePath: string
   onboardingState: OnboardingState
+  token?: string
 }

@@ -18,10 +18,6 @@ import {
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import {
-  SynchronizationProcessState,
-  SynchronizationState,
-} from "Core/data-sync/reducers"
 import Loader from "Core/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "Core/__deprecated__/renderer/components/core/loader/loader.interface"
 import Text, {
@@ -71,26 +67,24 @@ const LoaderWrapper = styled.div`
   margin: 0 1.6rem;
 `
 
-interface Properties {
+export interface MenuProps {
   deviceType: DeviceType | null
   deviceFeaturesVisible?: boolean
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
-  syncState?: SynchronizationState
   notifications: {
     [View.Messages]: boolean
   }
-  synchronizationProcess?: SynchronizationProcessState
+  dataSyncInProgress?: boolean
 }
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
-const Menu: FunctionComponent<Properties> = ({
+const Menu: FunctionComponent<MenuProps> = ({
   deviceType,
   deviceFeaturesVisible,
   devModeEnabled,
-  syncState,
   notifications,
-  synchronizationProcess,
+  dataSyncInProgress,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
@@ -128,21 +122,16 @@ const Menu: FunctionComponent<Properties> = ({
         </LogoWrapper>
         {links}
       </div>
-      {syncState !== undefined &&
-        (syncState === SynchronizationState.Loading ||
-          syncState === SynchronizationState.Cache ||
-          synchronizationProcess === SynchronizationProcessState.InProgress) &&
-        //CP-1668 - this condition until Kompakt has limited endpoint support, currently only device info endpoint (10.08.2023)
-        deviceType !== DeviceType.MuditaKompakt && (
-          <SyncProgressWrapper data-testid={MenuGroupTestIds.Sync}>
-            <LoaderWrapper>
-              <Loader type={LoaderType.Spinner} size={1.5} />
-            </LoaderWrapper>
-            <Text displayStyle={TextDisplayStyle.Paragraph1}>
-              {intl.formatMessage({ id: "component.menuHeaderSync" })}
-            </Text>
-          </SyncProgressWrapper>
-        )}
+      {dataSyncInProgress && (
+        <SyncProgressWrapper data-testid={MenuGroupTestIds.Sync}>
+          <LoaderWrapper>
+            <Loader type={LoaderType.Spinner} size={1.5} />
+          </LoaderWrapper>
+          <Text displayStyle={TextDisplayStyle.Paragraph1}>
+            {intl.formatMessage({ id: "component.menuHeaderSync" })}
+          </Text>
+        </SyncProgressWrapper>
+      )}
     </MenuWrapper>
   )
 }

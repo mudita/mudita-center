@@ -5,19 +5,11 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { DataSyncEvent } from "Core/data-sync/constants"
+import { SynchronizationStatus } from "Core/data-sync/reducers"
 
 export const setDataSyncInitState = createAction(
   DataSyncEvent.SetDataSyncInitState
 )
-export const setDataSyncInitialized = createAction(
-  DataSyncEvent.SetDataSyncInitialized
-)
-export const setInitializationFailed = createAction<boolean>(
-  DataSyncEvent.SetInitializationFailed
-)
-export const setLoadingState = createAction(DataSyncEvent.SetLoadingState)
-export const setCacheState = createAction(DataSyncEvent.SetCacheState)
-export const setLoadedState = createAction(DataSyncEvent.SetLoadedState)
-export const setErrorState = createAction<Error | null>(
-  DataSyncEvent.SetErrorState
+export const setDataSyncSetStatus = createAction<SynchronizationStatus>(
+  DataSyncEvent.SetDataSyncSetStatus
 )

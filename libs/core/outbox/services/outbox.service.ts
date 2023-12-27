@@ -23,6 +23,7 @@ export type EntryHandlersMapType = Record<OutboxEntryType, EntryHandler>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EntryChangesEvent = { entry: OutboxEntry; payload: any }
 
+// TODO: make OutboxService controller
 export class OutboxService {
   constructor(
     private deviceManager: DeviceManager,

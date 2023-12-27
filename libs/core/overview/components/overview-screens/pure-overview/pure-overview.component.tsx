@@ -5,7 +5,7 @@
 
 import ErrorSyncModal from "Core/connecting/components/error-sync-modal/error-sync-modal"
 import { State } from "Core/core/constants"
-import { SynchronizationState } from "Core/data-sync/reducers"
+import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { DeviceType } from "Core/device/constants"
 import { Feature, flags } from "Core/feature-flags"
 import BackupDeviceFlow, {
@@ -167,7 +167,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   const shouldErrorSyncModalVisible = (): boolean => {
-    if (syncState !== SynchronizationState.Error) {
+    if (syncState !== SynchronizationStatus.Error) {
       return false
     }
 

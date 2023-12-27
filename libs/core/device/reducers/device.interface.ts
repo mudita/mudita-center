@@ -37,6 +37,7 @@ export interface PureDeviceData {
   }
   caseColour: CaseColor
   backupFilePath: string
+  token: string
   onboardingState?: OnboardingState
 }
 

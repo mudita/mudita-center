@@ -5,26 +5,28 @@
 
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import React, { ComponentProps } from "react"
+import React from "react"
 import { Router } from "react-router"
 import { Provider } from "react-redux"
 import { DeviceType } from "Core/device/constants"
-import Menu from "Core/__deprecated__/renderer/components/rest/menu/menu.component"
+import Menu, {
+  MenuProps,
+} from "Core/__deprecated__/renderer/components/rest/menu/menu.component"
 import history from "Core/core/routes/history"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { flags } from "Core/feature-flags"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
-import { SynchronizationState } from "Core/data-sync/reducers"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceState } from "Core/device"
 import { MessagesState } from "Core/messages/reducers"
 import { NotificationBadgeTestIds } from "Core/notification/components"
 import { MessageType } from "Core/messages/constants"
 import { Thread } from "Core/messages/dto"
+import { View } from "Core/__deprecated__/renderer/constants/views"
 
 jest.mock("Core/feature-flags")
 
-type Props = ComponentProps<typeof Menu>
+type Props = MenuProps
 
 const defaultState = {
   device: {
@@ -48,7 +50,11 @@ const threadMock: Thread = {
 }
 
 const defaultProps: Props = {
-  syncState: SynchronizationState.Empty,
+  deviceType: null,
+  notifications: {
+    [View.Messages]: false,
+  },
+  dataSyncInProgress: false,
 }
 
 const render = (
@@ -83,28 +89,16 @@ describe("Device: Mudita pure", () => {
   })
 
   describe("Sync spinner functionality", () => {
-    test("when `syncState` is set to `Empty` the spinner isn't visible", () => {
+    test("when `dataSyncInProgress` is set to `true` the spinner is visible", () => {
       const { queryByTestId } = render(defaultState, {
-        syncState: SynchronizationState.Empty,
-      })
-      expect(queryByTestId(MenuGroupTestIds.Sync)).not.toBeInTheDocument()
-    })
-    test("when `syncState` is set to `Loaded` the spinner isn't visible", () => {
-      const { queryByTestId } = render(defaultState, {
-        syncState: SynchronizationState.Loaded,
-      })
-      expect(queryByTestId(MenuGroupTestIds.Sync)).not.toBeInTheDocument()
-    })
-    test("when `syncState` is set to `Cache` the spinner is visible", () => {
-      const { queryByTestId } = render(defaultState, {
-        syncState: SynchronizationState.Cache,
+        dataSyncInProgress: true,
       })
       expect(queryByTestId(MenuGroupTestIds.Sync)).toBeInTheDocument()
     })
 
-    test("when `syncState` is set to `Loading` the spinner is visible", () => {
+    test("when `dataSyncInProgress` is set to `false` the spinner is not visible", () => {
       const { queryByTestId } = render(defaultState, {
-        syncState: SynchronizationState.Empty,
+        dataSyncInProgress: false,
       })
       expect(queryByTestId(MenuGroupTestIds.Sync)).not.toBeInTheDocument()
     })

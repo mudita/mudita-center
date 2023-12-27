@@ -54,6 +54,7 @@ const pureDeviceMock: PureDeviceData = {
   },
   caseColour: CaseColor.Gray,
   backupFilePath: "path/to/directory/fileBase.tar",
+  token: "",
 }
 
 const mockedRelease: OsRelease = {
