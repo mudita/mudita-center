@@ -1,0 +1,39 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost",
+      "es5",
+      "es7",
+      "es2017",
+      "ESNext",
+      "esnext.intl",
+      "es2017.intl",
+      "es2018.intl"
+    ],
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "App/*": ["./apps/mudita-center/src/*"],
+      "Core/*": ["./libs/core/*"],
+      "E2E/*": ["./apps/mudita-center-e2e/src/*"],
+      "Libs/*": ["./libs/*"],
+      "Root/*": ["./*"],
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "./apps/mudita-center/node_modules",
+    "./apps/mudita-center/dist",
+    "./apps/mudita-center/__mocks__"
+  ]
+}

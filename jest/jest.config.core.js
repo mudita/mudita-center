@@ -15,7 +15,13 @@ module.exports = {
   },
   rootDir: "../",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  testPathIgnorePatterns: ["node_modules", ".cache", "public", "cypress"],
+  testPathIgnorePatterns: [
+    "node_modules",
+    ".cache",
+    "public",
+    "cypress",
+    "libs/(?!core)",
+  ],
   globals: {
     __PATH_PREFIX__: "",
   },
@@ -57,5 +63,5 @@ module.exports = {
   snapshotFormat: {
     escapeString: true,
     printBasicPrototype: true,
-  }
+  },
 }
