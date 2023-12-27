@@ -16,7 +16,7 @@ import theme from "Core/core/styles/theming/theme"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import HelpApp from "Core/core/components/help-app.component"
 import ErrorApp from "Core/core/components/error-app.component"
-import BaseApp from "Core/core/components/base-app.component"
+import BaseAppContainer from "Core/core/components/base-app-container.component"
 import { QuestionAndAnswer } from "Core/help/components/help.component"
 import LicenseApp from "Core/core/components/license-app.component"
 import TermsOfServiceApp from "Core/core/components/terms-of-service-app.component"
@@ -71,7 +71,7 @@ const RootWrapper: FunctionComponent<Props> = ({ history }) => {
         return <SarApp history={history} />
       }
 
-      return <BaseApp history={history} />
+      return <BaseAppContainer history={history} />
     },
     [mode, history]
   )

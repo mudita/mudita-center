@@ -17,6 +17,7 @@ import { setDeviceInitializationStatus } from "Core/device-initialization/action
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
 import { isHarmonyDeviceData } from "Core/device/helpers/is-harmony-device-data"
+import { getCrashDump } from "Core/crash-dump"
 
 export const initializeMuditaHarmony = async (
   history: History,
@@ -33,6 +34,9 @@ export const initializeMuditaHarmony = async (
     dispatch(setOnboardingStatus(false))
     return
   }
+
+  // fetch crash dumps state
+  await dispatch(getCrashDump())
 
   dispatch(
     setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)

@@ -26,6 +26,7 @@ import {
   updateAllIndexes,
 } from "Core/data-sync/actions"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
+import { getCrashDump } from "Core/crash-dump/actions"
 
 const corruptedPureOSVersions = ["1.5.1"]
 
@@ -57,6 +58,10 @@ export const initializeMuditaPure = async (
     "initializeMuditaPure:sync:loadDeviceDataResult: ",
     loadDeviceDataResult
   )
+
+  // fetch crash dumps state
+  await dispatch(getCrashDump())
+
   // make sync data
   const deviceData = deviceDataSelector(getState())
 

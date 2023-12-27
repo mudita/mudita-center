@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from "react"
-import { connect } from "react-redux"
+import { connect, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
 import { State } from "Core/core/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -23,6 +23,9 @@ import {
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { isAllCrashDumpIgnoredSelector } from "Core/crash-dump/selectors/is-all-crash-dump-ignored.selector"
+import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
+import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 
 const messages = defineMessages({
   crashDumpModalErrorTitle: {
@@ -46,7 +49,6 @@ const messages = defineMessages({
 })
 
 const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
-  hasCrashDump,
   sending,
   sended,
   failed,
@@ -56,10 +58,15 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   resetCrashDump,
   layer = ModalLayers.CrashDump,
 }) => {
+  const allCrashDumpIgnored = useSelector(isAllCrashDumpIgnoredSelector)
+  const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
   const [openInfo, setOpenInfo] = useState<boolean>(false)
 
   useEffect(() => {
-    if (!hasCrashDump) {
+    if (deviceInitializationStatus !== DeviceInitializationStatus.Initialized) {
+      return
+    }
+    if (allCrashDumpIgnored) {
       return
     }
 
@@ -68,9 +75,14 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
     } else {
       setOpenInfo(true)
     }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasCrashDump, sended, sended, failed])
+  }, [
+    setOpenInfo,
+    allCrashDumpIgnored,
+    deviceInitializationStatus,
+    sended,
+    sending,
+    failed,
+  ])
 
   const handleClosCrashDumpModal = () => {
     ignoreCrashDump()
@@ -87,6 +99,9 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   }
 
   if (!deviceType) {
+    return <></>
+  }
+  if (deviceInitializationStatus !== DeviceInitializationStatus.Initialized) {
     return <></>
   }
 
@@ -135,7 +150,6 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
 }
 
 const mapStateToProps = (state: ReduxRootState) => ({
-  hasCrashDump: Boolean(state.crashDump.data.files.length),
   sending:
     state.crashDump.loadingState === State.Loading ||
     state.crashDump.downloadingState === State.Loading ||
