@@ -7,4 +7,6 @@ export enum DeviceManagerMainEvent {
   DeviceDetached = "device-manager-device-detached",
   DeviceConnected = "device-manager-device-connected",
   DeviceConnectFailed = "device-manager-device-connect-failed",
+
+  ActiveDeviceLocked = "device-manager-active-device-locked",
 }

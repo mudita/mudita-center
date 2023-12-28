@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { EventEmitter } from "events"
+import { ipcMain } from "electron-better-ipc"
 import {
   DeviceCommunicationError,
   Endpoint,
@@ -20,11 +20,10 @@ import { DeviceStrategy } from "Core/device/strategies/device-strategy.class"
 import { ResponsePresenter } from "Core/device/modules/mudita-os/presenters"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
+import { DeviceManagerMainEvent } from "Core/device-manager/constants"
 
 export class PureStrategy implements DeviceStrategy {
-  constructor(private adapter: BaseAdapter) {
-    EventEmitter.defaultMaxListeners = 15
-  }
+  constructor(private adapter: BaseAdapter) {}
 
   public connect(): Promise<ResultObject<undefined>> {
     return this.adapter.connect()
@@ -35,6 +34,11 @@ export class PureStrategy implements DeviceStrategy {
   ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
     const response = await this.adapter.request(config)
     const serializedResponse = ResponsePresenter.toResponseObject(response)
+
+    if (serializedResponse.status === RequestResponseStatus.PhoneLocked) {
+      ipcMain.sendToRenderers(DeviceManagerMainEvent.ActiveDeviceLocked)
+    }
+
     return this.mapResponseObjectToResultObject<ResponseType>(
       serializedResponse
     )
