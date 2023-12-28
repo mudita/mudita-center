@@ -17,16 +17,17 @@ interface Props extends Omit<ModalDialogProps, "close" | "open"> {
   openModal: boolean
   close: () => void
   leftTime?: number
-  unlockDevice: (code: number[]) => Promise<PayloadAction<boolean>>
-  getUnlockStatus: () => Promise<PayloadAction<boolean | AppError>>
+  unlockDevice: (
+    code: number[]
+  ) => Promise<PayloadAction<boolean, string, unknown, AppError>>
   canBeClosed: boolean
 }
 
 enum ErrorState {
-  NoError,
-  TypingError,
-  BadPasscode,
-  InternalServerError,
+  NoError = "NoError",
+  TypingError = "TypingError",
+  BadPasscode = "BadPasscode",
+  InternalServerError = "InternalServerError",
 }
 
 const ErrorMessageMap: Record<ErrorState, string> = {
@@ -44,7 +45,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
   close,
   leftTime,
   unlockDevice,
-  getUnlockStatus,
   ...rest
 }) => {
   const initValue = ["", "", "", ""]
@@ -64,28 +64,18 @@ const PasscodeModal: FunctionComponent<Props> = ({
     }, 1500)
   }
 
-  const getErrorMessage = (): string => {
-    return ErrorMessageMap[errorState]
-  }
-
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout
-
     const unlockDeviceRequest = async (code: number[]): Promise<void> => {
       const unlockDeviceStatus = await unlockDevice(code)
 
-      if (!unlockDeviceStatus.payload) {
+      if (unlockDeviceStatus.error) {
         setErrorState(ErrorState.InternalServerError)
-      } else {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        timeoutId = setTimeout(async () => {
-          const unlockCheckStatus = await getUnlockStatus()
+        return
+      }
 
-          if (unlockCheckStatus.payload !== true) {
-            setErrorState(ErrorState.BadPasscode)
-          }
-        }, 1000)
+      if (!unlockDeviceStatus.payload) {
+        setErrorState(ErrorState.BadPasscode)
+        return
       }
     }
 
@@ -97,10 +87,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
       }
     } else {
       setErrorState(ErrorState.NoError)
-    }
-
-    return () => {
-      clearTimeout(timeoutId)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +115,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
     <PasscodeModalUI
       openModal={openModal}
       close={close}
-      errorMessage={getErrorMessage()}
+      errorMessage={ErrorMessageMap[errorState]}
       values={values}
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}

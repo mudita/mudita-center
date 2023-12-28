@@ -14,7 +14,7 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { getLeftTimeSelector } from "Core/device/selectors"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-passcode-modal-can-be-closed.selector"
-import { getUnlockStatus, unlockDevice } from "Core/device/actions"
+import { unlockDevice } from "Core/device/actions"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { AppError } from "Core/core/errors"
 
@@ -36,12 +36,7 @@ const PasscodeModalContainer: FunctionComponent = () => {
       leftTime={leftTime}
       unlockDevice={(code) =>
         dispatch(unlockDevice(code)) as unknown as Promise<
-          PayloadAction<boolean>
-        >
-      }
-      getUnlockStatus={() =>
-        dispatch(getUnlockStatus()) as unknown as Promise<
-          PayloadAction<boolean | AppError>
+          PayloadAction<boolean, string, unknown, AppError>
         >
       }
       canBeClosed={canBeClosed}

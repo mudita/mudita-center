@@ -9,9 +9,11 @@ import {
   loadStorageInfoAction,
   setCriticalBatteryLevelStatus,
   setInitState,
+  setLockTime,
   setOnboardingStatus,
   setRestartingStatus,
   setUnlockedStatus,
+  unlockDevice,
 } from "Core/device/actions"
 import { DeviceState } from "Core/device/reducers/device.interface"
 import { AppError } from "Core/core/errors"
@@ -95,6 +97,25 @@ export const deviceReducer = createReducer<DeviceState>(
         return {
           ...state,
           error: action.payload as AppError,
+        }
+      })
+      .addCase(unlockDevice.fulfilled, (state, action) => {
+        return {
+          ...state,
+          status: {
+            ...initialState.status,
+            unlocked: action.payload,
+          },
+        }
+      })
+      .addCase(setLockTime, (state, action) => {
+        return {
+          ...state,
+          data: {
+            ...(state.data ?? {}),
+            phoneLockTime: action.payload?.phoneLockTime,
+            timeLeftToNextAttempt: action.payload?.timeLeftToNextAttempt,
+          },
         }
       })
   }

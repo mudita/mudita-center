@@ -15,6 +15,8 @@ import { PasscodeLockedTestIds } from "Core/__deprecated__/passcode-modal/compon
 import { flags } from "Core/feature-flags"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { ModalTestIds } from "Core/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
+import { AppError } from "Core/core/errors"
+import { PayloadAction } from "@reduxjs/toolkit"
 
 jest.mock("Core/feature-flags")
 
@@ -26,9 +28,6 @@ const defaultProps: Props = {
   close: jest.fn(),
   leftTime: undefined,
   unlockDevice: jest.fn().mockReturnValue({
-    payload: RequestResponseStatus.Ok,
-  }),
-  getUnlockStatus: jest.fn().mockReturnValue({
     payload: RequestResponseStatus.Ok,
   }),
 }
@@ -101,7 +100,9 @@ test("Show typing error message", async () => {
 
 test("Message is displayed properly when request about phone lock return internal server error", async () => {
   const { inputsList, errorMessage } = renderer({
-    unlockDevice: jest.fn().mockReturnValue(false),
+    unlockDevice: jest.fn().mockReturnValue({
+      error: new AppError("App Error", "I'm error"),
+    } as PayloadAction<boolean, string, unknown, AppError>),
   })
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
 
@@ -118,9 +119,7 @@ test("Message is displayed properly when request about phone lock return interna
 
 test.skip("Message is displayed properly when request about phone lock status return phone locked", async () => {
   const { inputsList, errorMessage } = renderer({
-    getUnlockStatus: jest
-      .fn()
-      .mockReturnValue(RequestResponseStatus.PhoneLocked),
+    unlockDevice: jest.fn().mockReturnValue(false),
   })
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
   fireEvent.keyDown(inputsList()[1] as Element, digitKeyEvent)

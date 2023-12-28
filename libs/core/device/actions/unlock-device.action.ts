@@ -5,29 +5,42 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceError, DeviceEvent } from "Core/device/constants"
-import { unlockDeviceRequest } from "Core/device/requests"
+import {
+  deviceLockTimeRequest,
+  unlockDeviceRequest,
+  unlockDeviceStatusRequest,
+} from "Core/device/requests"
 import { AppError } from "Core/core/errors"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { setUnlockedStatus } from "Core/device/actions/base.action"
+import { setLockTime } from "Core/device/actions/base.action"
 
 export const unlockDevice = createAsyncThunk<
   boolean,
   number[],
   { state: ReduxRootState }
 >(DeviceEvent.Unlock, async (code, { rejectWithValue, dispatch, getState }) => {
-  const data = await unlockDeviceRequest(code)
+  const unlockDeviceResult = await unlockDeviceRequest(code)
 
-  if (!data.ok) {
+  if (!unlockDeviceResult.ok) {
     return rejectWithValue(
       new AppError(
         DeviceError.Unlocking,
         "Something went wrong during unlocking",
-        data
+        unlockDeviceResult
       )
     )
   }
 
-  dispatch(setUnlockedStatus(true))
+  const unlockDeviceStatusResult = await unlockDeviceStatusRequest()
 
-  return Boolean(data.data)
+  if (unlockDeviceStatusResult.ok) {
+    dispatch(setLockTime(undefined))
+  }
+
+  if (!unlockDeviceStatusResult.ok) {
+    const deviceLockTimeResult = await deviceLockTimeRequest()
+    deviceLockTimeResult.ok && dispatch(setLockTime(deviceLockTimeResult.data))
+  }
+
+  return unlockDeviceStatusResult.ok
 })
