@@ -5,6 +5,7 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import {
+  getUnlockStatus,
   loadDeviceData,
   loadStorageInfoAction,
   setCriticalBatteryLevelStatus,
@@ -13,7 +14,6 @@ import {
   setOnboardingStatus,
   setRestartingStatus,
   setUnlockedStatus,
-  unlockDevice,
 } from "Core/device/actions"
 import { DeviceState } from "Core/device/reducers/device.interface"
 import { AppError } from "Core/core/errors"
@@ -99,7 +99,7 @@ export const deviceReducer = createReducer<DeviceState>(
           error: action.payload as AppError,
         }
       })
-      .addCase(unlockDevice.fulfilled, (state, action) => {
+      .addCase(getUnlockStatus.fulfilled, (state, action) => {
         return {
           ...state,
           status: {

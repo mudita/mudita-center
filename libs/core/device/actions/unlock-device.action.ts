@@ -3,22 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createAsyncThunk } from "@reduxjs/toolkit"
+import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import { DeviceError, DeviceEvent } from "Core/device/constants"
-import {
-  deviceLockTimeRequest,
-  unlockDeviceRequest,
-  unlockDeviceStatusRequest,
-} from "Core/device/requests"
+import { unlockDeviceRequest } from "Core/device/requests"
 import { AppError } from "Core/core/errors"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { setLockTime } from "Core/device/actions/base.action"
+import { getUnlockStatus } from "Core/device/actions/get-unlock-status.action"
 
 export const unlockDevice = createAsyncThunk<
   boolean,
   number[],
   { state: ReduxRootState }
->(DeviceEvent.Unlock, async (code, { rejectWithValue, dispatch, getState }) => {
+>(DeviceEvent.Unlock, async (code, { rejectWithValue, dispatch }) => {
   const unlockDeviceResult = await unlockDeviceRequest(code)
 
   if (!unlockDeviceResult.ok) {
@@ -31,16 +27,9 @@ export const unlockDevice = createAsyncThunk<
     )
   }
 
-  const unlockDeviceStatusResult = await unlockDeviceStatusRequest()
+  const { payload } = (await dispatch(
+    getUnlockStatus()
+  )) as PayloadAction<boolean>
 
-  if (unlockDeviceStatusResult.ok) {
-    dispatch(setLockTime(undefined))
-  }
-
-  if (!unlockDeviceStatusResult.ok) {
-    const deviceLockTimeResult = await deviceLockTimeRequest()
-    deviceLockTimeResult.ok && dispatch(setLockTime(deviceLockTimeResult.data))
-  }
-
-  return unlockDeviceStatusResult.ok
+  return payload
 })
