@@ -16,10 +16,12 @@ import { useWatchLockTimeEffect } from "Core/core/hooks/use-watch-lock-time-effe
 import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
 import { useWatchDeviceDataEffect } from "Core/core/hooks/use-watch-device-data-effect"
 import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
+import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
 
 const BaseApp: FunctionComponent = () => {
   useApplicationUpdateEffects()
   useDeviceConnectedEffect()
+  useDeviceDetachedEffect()
   useDeviceLockedEffect()
   useWatchOutboxEntriesEffect()
   useWatchLockTimeEffect()

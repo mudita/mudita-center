@@ -4,10 +4,10 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { History } from "history"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceManagerEvent } from "Core/device-manager/constants"
 import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
-import { History } from "history"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"

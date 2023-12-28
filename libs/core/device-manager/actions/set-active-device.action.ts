@@ -10,8 +10,8 @@ import { setActiveDeviceRequest } from "Core/device-manager/requests"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export const setActiveDevice = createAsyncThunk<
-  DeviceId,
-  DeviceId,
+  DeviceId | undefined,
+  DeviceId | undefined,
   { state: ReduxRootState }
 >(
   DeviceManagerEvent.SetActiveDevice,

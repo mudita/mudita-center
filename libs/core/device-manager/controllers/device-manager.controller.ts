@@ -13,7 +13,7 @@ export class DeviceManagerController {
   constructor(private deviceManager: DeviceManager) {}
 
   @IpcEvent(IpcDeviceManagerEvent.SetActiveDevice)
-  public setActiveDevice(id: DeviceId): ResultObject<boolean>  {
+  public setActiveDevice(id: DeviceId | undefined): ResultObject<boolean>  {
     return this.deviceManager.setActiveDevice(id)
   }
 }

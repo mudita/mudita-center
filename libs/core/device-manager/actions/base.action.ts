@@ -10,3 +10,7 @@ import { DeviceBaseProperties } from "Core/device/constants/device-base-properti
 export const addDevice = createAction<DeviceBaseProperties>(
   DeviceManagerEvent.AddDevice
 )
+
+export const removeDevice = createAction<DeviceBaseProperties>(
+  DeviceManagerEvent.RemoveDevice
+)

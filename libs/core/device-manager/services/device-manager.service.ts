@@ -47,7 +47,13 @@ export class DeviceManager {
     return Array.from(this.devicesMap.values())
   }
 
-  public setActiveDevice(id: DeviceId): ResultObject<boolean> {
+  public setActiveDevice(id: DeviceId | undefined): ResultObject<boolean> {
+    if (id === undefined) {
+      this.activeDevice = undefined
+
+      return Result.success(true)
+    }
+
     const newActiveDevice = this.devicesMap.get(id)
 
     if (!newActiveDevice) {
@@ -79,9 +85,9 @@ export class DeviceManager {
       return
     }
 
-    this.activeDevice = undefined
+    const data = device.toSerializableObject()
 
-    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, device.id)
+    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, data)
     logger.info(`Detached device with path: ${path}`)
   }
 

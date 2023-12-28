@@ -8,6 +8,6 @@ import { ResultObject } from "Core/core/builder"
 import { IpcDeviceManagerEvent } from "Core/device-manager/constants"
 import { DeviceId } from "Core/device/constants/device-id"
 
-export const setActiveDeviceRequest = async (id: DeviceId): Promise<ResultObject<boolean>> => {
+export const setActiveDeviceRequest = async (id: DeviceId | undefined): Promise<ResultObject<boolean>> => {
   return ipcRenderer.callMain(IpcDeviceManagerEvent.SetActiveDevice, id)
 }
