@@ -13,11 +13,14 @@ import store, { Dispatch } from "Core/__deprecated__/renderer/store"
 import { resourceTypeMap } from "Core/notification/constants/resource-type-map.constant"
 import { pushNotification } from "Core/notification/actions"
 import { v4 as uuid } from "uuid"
-import { NotificationMethod, NotificationType } from "Core/notification/constants"
+import {
+  NotificationMethod,
+  NotificationType,
+} from "Core/notification/constants"
 import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
 import { DeviceType } from "Core/device"
 
-const outboxTime = 10000
+const outboxIntervalTime = 10000
 
 export const useWatchOutboxEntriesEffect = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -27,7 +30,7 @@ export const useWatchOutboxEntriesEffect = () => {
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval>
 
-    if(activeDeviceType !== DeviceType.MuditaPure){
+    if (activeDeviceType !== DeviceType.MuditaPure) {
       return
     }
 
@@ -49,7 +52,7 @@ export const useWatchOutboxEntriesEffect = () => {
             )
           })
         }
-      }, outboxTime)
+      }, outboxIntervalTime)
     }
 
     return () => clearInterval(intervalId)

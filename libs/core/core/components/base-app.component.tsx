@@ -9,15 +9,16 @@ import AppInitialization from "Core/app-initialization/components/app-initializa
 import { useDeviceConnectedEffect } from "Core/core/hooks/use-device-connected-effect"
 import { useApplicationUpdateEffects } from "Core/core/hooks/use-application-update-effects"
 import { CrashDump } from "Core/crash-dump"
-import NetworkStatusChecker
-  from "Core/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.container"
+import NetworkStatusChecker from "Core/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.container"
 import ModalsManager from "Core/modals-manager/components/modals-manager.container"
 import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-entries-effect"
+import { useWatchLockTimeEffect } from "Core/core/hooks/use-watch-lock-time-effect"
 
 const BaseApp: FunctionComponent = () => {
   useApplicationUpdateEffects()
   useDeviceConnectedEffect()
   useWatchOutboxEntriesEffect()
+  useWatchLockTimeEffect()
 
   return (
     <>
