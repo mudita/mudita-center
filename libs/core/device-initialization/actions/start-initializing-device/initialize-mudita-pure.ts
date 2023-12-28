@@ -53,7 +53,7 @@ export const initializeMuditaPure = async (
 
   // make load data
   // TODO: load device error handle
-  const loadDeviceDataResult = await dispatch(loadDeviceData())
+  const loadDeviceDataResult = await dispatch(loadDeviceData(true))
   console.log(
     "initializeMuditaPure:sync:loadDeviceDataResult: ",
     loadDeviceDataResult

@@ -18,39 +18,36 @@ export const processDeviceDataOnLoad = createAsyncThunk<
   void,
   void,
   { state: ReduxRootState }
->(
-  DeviceEvent.ProcessDeviceDataOnLoad,
-  async (_, { getState, dispatch, rejectWithValue }) => {
-    const settingsState = settingsStateSelector(getState())
-    const deviceData = getActiveDeviceBaseDataSelector(getState())
+>(DeviceEvent.ProcessDeviceDataOnLoad, async (_, { getState, dispatch }) => {
+  const settingsState = settingsStateSelector(getState())
+  const deviceData = getActiveDeviceBaseDataSelector(getState())
 
-    if (deviceData === undefined) {
-      return
-    }
+  if (deviceData === undefined) {
+    return
+  }
 
-    void trackOsVersion({
-      serialNumber: deviceData.serialNumber,
-      osVersion: deviceData.data.osVersion,
-      deviceType: deviceData.deviceType,
-    })
-    void setValue({
-      key: MetadataKey.DeviceOsVersion,
-      value: deviceData.data.osVersion ?? null,
-    })
-    void setValue({
-      key: MetadataKey.DeviceType,
-      value: deviceData.deviceType,
-    })
+  void trackOsVersion({
+    serialNumber: deviceData.serialNumber,
+    osVersion: deviceData.data.osVersion,
+    deviceType: deviceData.deviceType,
+  })
+  void setValue({
+    key: MetadataKey.DeviceOsVersion,
+    value: deviceData.data.osVersion ?? null,
+  })
+  void setValue({
+    key: MetadataKey.DeviceType,
+    value: deviceData.deviceType,
+  })
 
-    if (deviceData.externalUsageDevice === null) {
-      const resultExternalUsageDevice = settingsState.privacyPolicyAccepted
-        ? await externalUsageDevice(deviceData.serialNumber ?? "")
-        : false
+  if (deviceData.externalUsageDevice === null) {
+    const resultExternalUsageDevice = settingsState.privacyPolicyAccepted
+      ? await externalUsageDevice(deviceData.serialNumber ?? "")
+      : false
 
-      await setExternalUsageDeviceRequest(resultExternalUsageDevice)
-      if (settingsState.privacyPolicyAccepted !== undefined) {
-        dispatch(setExternalUsageDevice(resultExternalUsageDevice))
-      }
+    await setExternalUsageDeviceRequest(resultExternalUsageDevice)
+    if (settingsState.privacyPolicyAccepted !== undefined) {
+      dispatch(setExternalUsageDevice(resultExternalUsageDevice))
     }
   }
-)
+})

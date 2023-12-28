@@ -15,17 +15,22 @@ import { processDeviceDataOnFailed } from "Core/device/actions/process-device-da
 
 export const loadDeviceData = createAsyncThunk<
   DeviceInfo & Pick<DeviceState, "deviceType">,
-  void,
+  boolean | undefined,
   { state: ReduxRootState }
 >(
   DeviceEvent.LoadDeviceData,
-  async (_, { dispatch, rejectWithValue, getState }) => {
+  async (
+    forceProcessOnLoad = false,
+    { dispatch, rejectWithValue, getState }
+  ) => {
     try {
       const deviceType = getActiveDeviceTypeSelector(getState())
       const { ok, data, error } = await getDeviceInfoRequest()
 
       if (ok) {
-        await dispatch(processDeviceDataOnLoad())
+        if (forceProcessOnLoad) {
+          await dispatch(processDeviceDataOnLoad())
+        }
         return { ...data, deviceType: deviceType ?? null }
       } else {
         await dispatch(processDeviceDataOnFailed(error))

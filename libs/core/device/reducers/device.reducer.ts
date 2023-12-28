@@ -52,27 +52,27 @@ export const deviceReducer = createReducer<DeviceState>(
       })
       .addCase(setUnlockedStatus, (state, action) => {
         return {
-          ...initialState,
+          ...state,
           status: {
-            ...initialState.status,
+            ...state.status,
             unlocked: action.payload,
           },
         }
       })
       .addCase(setOnboardingStatus, (state, action) => {
         return {
-          ...initialState,
+          ...state,
           status: {
-            ...initialState.status,
+            ...state.status,
             onboardingFinished: action.payload,
           },
         }
       })
       .addCase(setCriticalBatteryLevelStatus, (state, action) => {
         return {
-          ...initialState,
+          ...state,
           status: {
-            ...initialState.status,
+            ...state.status,
             criticalBatteryLevel: action.payload,
           },
         }

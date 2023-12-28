@@ -24,7 +24,7 @@ export const initializeMuditaHarmony = async (
   dispatch: ThunkDispatch<ReduxRootState, unknown, Action<unknown>>,
   getState: () => ReduxRootState
 ): Promise<void> => {
-  await dispatch(loadDeviceData())
+  await dispatch(loadDeviceData(true))
   // check EULA
   const data = deviceDataSelector(getState())
   if (

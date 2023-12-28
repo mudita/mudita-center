@@ -14,6 +14,7 @@ import ModalsManager from "Core/modals-manager/components/modals-manager.contain
 import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-entries-effect"
 import { useWatchLockTimeEffect } from "Core/core/hooks/use-watch-lock-time-effect"
 import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
+import { useWatchDeviceDataEffect } from "Core/core/hooks/use-watch-device-data-effect"
 
 const BaseApp: FunctionComponent = () => {
   useApplicationUpdateEffects()
@@ -21,6 +22,7 @@ const BaseApp: FunctionComponent = () => {
   useWatchOutboxEntriesEffect()
   useWatchLockTimeEffect()
   useWatchUnlockStatus()
+  useWatchDeviceDataEffect()
 
   return (
     <>
