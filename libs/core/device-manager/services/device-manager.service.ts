@@ -85,6 +85,10 @@ export class DeviceManager {
       return
     }
 
+    if (this.activeDevice?.id === device.id) {
+      this.activeDevice = undefined
+    }
+
     const data = device.toSerializableObject()
 
     this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, data)

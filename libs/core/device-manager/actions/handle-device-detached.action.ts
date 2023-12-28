@@ -20,6 +20,7 @@ import { setDeviceInitializationStatus } from "Core/device-initialization/action
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
+import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 
 export const handleDeviceDetached = createAsyncThunk<
   void,
@@ -35,8 +36,15 @@ export const handleDeviceDetached = createAsyncThunk<
 
     dispatch(removeDevice(properties))
 
-    // TODO: handle skipping during a processing
     if (activeDevice?.id === properties.id) {
+      const activeDeviceProcessing = isActiveDeviceProcessingSelector(
+        getState()
+      )
+
+      if (activeDeviceProcessing) {
+        return
+      }
+
       await dispatch(setActiveDevice(undefined))
 
       const devices = getConnectedDevicesSelector(getState())

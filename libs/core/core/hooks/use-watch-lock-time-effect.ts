@@ -25,7 +25,7 @@ export const useWatchLockTimeEffect = () => {
       return
     }
 
-    if (deviceUnlockedStatus) {
+    if (deviceUnlockedStatus !== false) {
       return
     }
 

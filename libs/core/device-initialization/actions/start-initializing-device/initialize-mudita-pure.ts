@@ -27,6 +27,7 @@ import {
 } from "Core/data-sync/actions"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { getCrashDump } from "Core/crash-dump/actions"
+import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 
 const corruptedPureOSVersions = ["1.5.1"]
 
@@ -59,42 +60,46 @@ export const initializeMuditaPure = async (
     loadDeviceDataResult
   )
 
-  // fetch crash dumps state
-  await dispatch(getCrashDump())
+  const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
 
-  // make sync data
-  const deviceData = deviceDataSelector(getState())
+  if (!activeDeviceProcessing) {
+    // fetch crash dumps state
+    await dispatch(getCrashDump())
 
-  if (!isPureDeviceData(deviceData)) {
-    return
-  }
+    // make sync data
+    const deviceData = deviceDataSelector(getState())
 
-  const { osVersion, serialNumber, token } = deviceData
+    if (!isPureDeviceData(deviceData)) {
+      return
+    }
 
-  const baseVersion = String(osVersion).split("-")[0]
-  // skip data sync when os corrupted
-  if (corruptedPureOSVersions.some((v) => v === baseVersion)) {
-    dispatch(
-      setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
-    )
+    const { osVersion, serialNumber, token } = deviceData
 
-    history.push(URL_OVERVIEW.root)
-    return
-  }
+    const baseVersion = String(osVersion).split("-")[0]
+    // skip data sync when os corrupted
+    if (corruptedPureOSVersions.some((v) => v === baseVersion)) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
+      )
 
-  const restored = await loadIndexRequest({ serialNumber, token })
-  console.log("data:sync:restored: ", restored)
-  if (restored) {
-    await dispatch(readAllIndexes())
-    dispatch(setDataSyncSetStatus(SynchronizationStatus.Cache))
-    dispatch(updateAllIndexes())
-  } else {
-    // TODO: data sync error handle
-    const updateAllIndexesResult = await dispatch(updateAllIndexes())
-    console.log(
-      "initializeMuditaPure:sync:updateAllIndexesResult: ",
-      updateAllIndexesResult
-    )
+      history.push(URL_OVERVIEW.root)
+      return
+    }
+
+    const restored = await loadIndexRequest({ serialNumber, token })
+    console.log("data:sync:restored: ", restored)
+    if (restored) {
+      await dispatch(readAllIndexes())
+      dispatch(setDataSyncSetStatus(SynchronizationStatus.Cache))
+      dispatch(updateAllIndexes())
+    } else {
+      // TODO: data sync error handle
+      const updateAllIndexesResult = await dispatch(updateAllIndexes())
+      console.log(
+        "initializeMuditaPure:sync:updateAllIndexesResult: ",
+        updateAllIndexesResult
+      )
+    }
   }
 
   dispatch(

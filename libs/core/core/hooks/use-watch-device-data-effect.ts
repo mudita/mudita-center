@@ -12,6 +12,7 @@ import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-a
 import { loadDeviceData } from "Core/device/actions/load-device-data.action"
 import { useLocation } from "react-router"
 import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
+import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 
 const deviceDataIntervalTime = 10000
 
@@ -20,13 +21,16 @@ export const useWatchDeviceDataEffect = () => {
   const dispatch = useDispatch<Dispatch>()
   const activeDeviceType = useSelector(getActiveDeviceTypeSelector)
   const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
+  const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
 
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval>
 
-    // TODO: handle skipping during a processing
-
     if (location.pathname !== URL_OVERVIEW.root) {
+      return
+    }
+
+    if (activeDeviceProcessing) {
       return
     }
 
@@ -37,5 +41,11 @@ export const useWatchDeviceDataEffect = () => {
     }
 
     return () => clearInterval(intervalId)
-  }, [dispatch, activeDeviceType, deviceInitializationStatus, location])
+  }, [
+    dispatch,
+    activeDeviceType,
+    deviceInitializationStatus,
+    location,
+    activeDeviceProcessing,
+  ])
 }
