@@ -15,17 +15,28 @@ import {
 import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_ONBOARDING,
+  URL_OVERVIEW,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { isHarmonyDeviceData } from "Core/device/helpers/is-harmony-device-data"
 import { getCrashDump } from "Core/crash-dump"
+import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 
 export const initializeMuditaHarmony = async (
   history: History,
   dispatch: ThunkDispatch<ReduxRootState, unknown, Action<unknown>>,
   getState: () => ReduxRootState
 ): Promise<void> => {
-  await dispatch(loadDeviceData(true))
-  // check EULA
+  // Handle LOAD DEVICE DATA as an initializing step
+  const result = await dispatch(loadDeviceData(true))
+
+  if ("error" in result) {
+    history.push(URL_ONBOARDING.troubleshooting)
+    return
+  }
+
+  // Handle EULA as an initializing step
   const data = deviceDataSelector(getState())
   if (
     isHarmonyDeviceData(data) &&
@@ -35,8 +46,12 @@ export const initializeMuditaHarmony = async (
     return
   }
 
-  // fetch crash dumps state
-  await dispatch(getCrashDump())
+  const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
+
+  if (!activeDeviceProcessing) {
+    // Handle FETCH CRASH DUMPS as an initializing step
+    await dispatch(getCrashDump())
+  }
 
   dispatch(
     setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)

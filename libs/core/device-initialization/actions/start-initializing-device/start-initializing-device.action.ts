@@ -9,7 +9,10 @@ import { DeviceType } from "Core/device"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceInitializationEvent } from "Core/device-initialization/constants/event.constant"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
-import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_ONBOARDING,
+  URL_OVERVIEW,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { initializeMuditaHarmony } from "Core/device-initialization/actions/start-initializing-device/initialize-mudita-harmony"
@@ -23,15 +26,16 @@ export const startInitializingDevice = createAsyncThunk<
   DeviceInitializationEvent.StartInitializingDevice,
   async (history, { dispatch, getState }) => {
     const activeDevice = getActiveDevice(getState())
-    if (activeDevice == undefined) {
-      // TODO: handle active device as undefined
+
+    if (activeDevice === undefined) {
+      history.push(URL_ONBOARDING.troubleshooting)
       return
     }
+
     if (activeDevice.deviceType === DeviceType.MuditaPure) {
       return await initializeMuditaPure(history, dispatch, getState)
     } else if (activeDevice.deviceType === DeviceType.MuditaHarmony) {
       return await initializeMuditaHarmony(history, dispatch, getState)
-      // skip Initializing for others
     } else {
       dispatch(
         setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)

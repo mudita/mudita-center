@@ -11,14 +11,17 @@ import { unlockDeviceStatusRequest } from "Core/device/requests"
 import {
   DeviceCommunicationError,
   loadDeviceData,
+  PureDeviceData,
   setOnboardingStatus,
   setUnlockedStatus,
 } from "Core/device"
 import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
-import { isPureDeviceData } from "Core/device/helpers/is-pure-device-data"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_ONBOARDING,
+  URL_OVERVIEW,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { loadIndexRequest } from "Core/index-storage/requests"
 import {
   readAllIndexes,
@@ -28,77 +31,65 @@ import {
 import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { getCrashDump } from "Core/crash-dump/actions"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
-
-const corruptedPureOSVersions = ["1.5.1"]
+import { shouldSkipDataSync } from "Core/device-initialization/actions/start-initializing-device/should-skip-data-sync.helper"
 
 export const initializeMuditaPure = async (
   history: History,
   dispatch: ThunkDispatch<ReduxRootState, unknown, Action<unknown>>,
   getState: () => ReduxRootState
 ): Promise<void> => {
-  // check EULA & PASSCODE
-  const data = await unlockDeviceStatusRequest()
-  console.log("initializeMuditaPure:unlockDeviceStatusRequest:data: ", data)
-  if (!data.ok) {
-    const errorType = data.error.type
-    // check EULA
+  const unlockDeviceStatusResult = await unlockDeviceStatusRequest()
+
+  if (!unlockDeviceStatusResult.ok) {
+    const errorType = unlockDeviceStatusResult.error.type
+
+    // Handle EULA as an initializing step
     if (errorType === DeviceCommunicationError.DeviceOnboardingNotFinished) {
       dispatch(setOnboardingStatus(false))
       return
-      // check PASSCODE
-    } else if (errorType === DeviceCommunicationError.DeviceLocked) {
+    }
+
+    // Handle PASSCODE as an initializing step
+    if (errorType === DeviceCommunicationError.DeviceLocked) {
       dispatch(setUnlockedStatus(false))
       return
     }
   }
 
-  // make load data
-  // TODO: load device error handle
+  // Handle LOAD DEVICE DATA as an initializing step
   const loadDeviceDataResult = await dispatch(loadDeviceData(true))
-  console.log(
-    "initializeMuditaPure:sync:loadDeviceDataResult: ",
-    loadDeviceDataResult
-  )
+
+  if ("error" in loadDeviceDataResult) {
+    history.push(URL_ONBOARDING.troubleshooting)
+    return
+  }
 
   const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
 
   if (!activeDeviceProcessing) {
-    // fetch crash dumps state
+    // Handle FETCH CRASH DUMPS as an initializing step
     await dispatch(getCrashDump())
+  }
 
-    // make sync data
-    const deviceData = deviceDataSelector(getState())
+  // Handle SYNC DATA as an initializing step
+  const deviceData = deviceDataSelector(getState()) as PureDeviceData
+  const skipDataSync = shouldSkipDataSync(deviceData)
 
-    if (!isPureDeviceData(deviceData)) {
-      return
-    }
-
-    const { osVersion, serialNumber, token } = deviceData
-
-    const baseVersion = String(osVersion).split("-")[0]
-    // skip data sync when os corrupted
-    if (corruptedPureOSVersions.some((v) => v === baseVersion)) {
-      dispatch(
-        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
-      )
-
-      history.push(URL_OVERVIEW.root)
-      return
-    }
+  if (!activeDeviceProcessing && !skipDataSync) {
+    const { serialNumber, token } = deviceData
 
     const restored = await loadIndexRequest({ serialNumber, token })
-    console.log("data:sync:restored: ", restored)
+
     if (restored) {
       await dispatch(readAllIndexes())
       dispatch(setDataSyncSetStatus(SynchronizationStatus.Cache))
       dispatch(updateAllIndexes())
     } else {
-      // TODO: data sync error handle
       const updateAllIndexesResult = await dispatch(updateAllIndexes())
-      console.log(
-        "initializeMuditaPure:sync:updateAllIndexesResult: ",
-        updateAllIndexesResult
-      )
+      if ("error" in updateAllIndexesResult) {
+        history.push(URL_ONBOARDING.troubleshooting)
+        return
+      }
     }
   }
 
