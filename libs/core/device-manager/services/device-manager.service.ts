@@ -84,6 +84,8 @@ export class DeviceManager {
       return
     }
 
+    this.devicesMap.delete(device.id)
+
     if (this.activeDevice?.id === device.id) {
       this.activeDevice = undefined
     }

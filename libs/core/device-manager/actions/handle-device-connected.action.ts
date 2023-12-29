@@ -16,10 +16,11 @@ import { isInitializationDeviceInProgress } from "Core/device-initialization/sel
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { addDevice } from "Core/device-manager/actions/base.action"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
-import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { setActiveDevice } from "Core/device-manager/actions/set-active-device.action"
+import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 
 export const handleDeviceConnected = createAsyncThunk<
   void,
@@ -29,19 +30,32 @@ export const handleDeviceConnected = createAsyncThunk<
   DeviceManagerEvent.HandleDeviceConnected,
   async (payload, { dispatch, getState }) => {
     const { history, properties } = payload
+    const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
+    const activeDeviceId = activeDeviceIdSelector(getState())
+
     dispatch(addDevice(properties))
 
-    const activeDevice = getActiveDevice(getState())
-
-    if (activeDevice) {
+    if (activeDeviceId) {
       // TODO: add switch logic when device is active
 
-      // TODO: handle MuditaHarmony with undefined ID (or 0000000)
-      if (activeDevice.id === properties.id) {
+      if (activeDeviceId === properties.id) {
         await dispatch(setActiveDevice(properties.id))
-        setDiscoveryStatus(DiscoveryStatus.Discovered)
+        dispatch(setDiscoveryStatus(DiscoveryStatus.Discovered))
         history.push(URL_DEVICE_INITIALIZATION.root)
       }
+
+      // Workaround: Add device and set it as active if serialNumber is "00000000000000" during active processing.
+      if (
+        activeDeviceProcessing &&
+        properties.serialNumber === "00000000000000"
+      ) {
+        await dispatch(setActiveDevice(properties.id))
+        dispatch(setDiscoveryStatus(DiscoveryStatus.Discovered))
+        history.push(URL_DEVICE_INITIALIZATION.root)
+
+        return
+      }
+
       return
     }
 
