@@ -29,19 +29,12 @@ export const handleDeviceConnected = createAsyncThunk<
   DeviceManagerEvent.HandleDeviceConnected,
   async (payload, { dispatch, getState }) => {
     const { history, properties } = payload
-    console.log("device connected: handle device connected Action!")
     dispatch(addDevice(properties))
-
-    console.log("device added: ")
 
     const activeDevice = getActiveDevice(getState())
 
     if (activeDevice) {
-      console.log(
-        "device connected: redirect to discovery skipped because active device is set"
-      )
       // TODO: add switch logic when device is active
-      // handle update process when is in progress
 
       // TODO: handle MuditaHarmony with undefined ID (or 0000000)
       if (activeDevice.id === properties.id) {
@@ -52,37 +45,15 @@ export const handleDeviceConnected = createAsyncThunk<
       return
     }
 
-    // TODO: handle discovery in progress
-    const discoveryDeviceInProgress = isDiscoveryDeviceInProgress(getState())
-
-    if (discoveryDeviceInProgress) {
-      console.log(
-        "device connected: redirect to discovery skipped because discovery device is in progress: "
-      )
+    if (isDiscoveryDeviceInProgress(getState())) {
       return
     }
 
-    // TODO: handle device initialization
-    const initializationDeviceInProgress = isInitializationDeviceInProgress(
-      getState()
-    )
-
-    if (initializationDeviceInProgress) {
-      console.log(
-        "device connected: redirect to discovery skipped because initialization device is in progress: "
-      )
+    if (isInitializationDeviceInProgress(getState())) {
       return
     }
 
-    // TODO: handle app initialization
-    const initializationAppInProgress = isInitializationAppInProgress(
-      getState()
-    )
-
-    if (initializationAppInProgress) {
-      console.log(
-        "device connected: redirect to discovery skipped because initialization application is in progress: "
-      )
+    if (isInitializationAppInProgress(getState())) {
       return
     }
 
