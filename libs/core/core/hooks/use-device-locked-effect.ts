@@ -6,9 +6,9 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { useHistory } from "react-router-dom"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { deviceUnlockedStatusSelector } from "Core/device/selectors/device-unlocked-status.selector"
 import { URL_DEVICE_INITIALIZATION } from "Core/__deprecated__/renderer/constants/urls"
 import { registerActiveDeviceLockedListener } from "Core/device-manager/listeners/active-device-locked.listener"
@@ -21,7 +21,6 @@ export const useDeviceLockedEffect = () => {
 
   // Redirect to device initialization when it becomes locked (Redux event)
   useEffect(() => {
-    // TODO: handle skipping during a processing (update, backup)
     if (
       deviceUnlockedStatus === false &&
       deviceInitializationStatus === DeviceInitializationStatus.Initialized
@@ -32,8 +31,7 @@ export const useDeviceLockedEffect = () => {
 
   // Redirect to device initialization when it becomes locked (Main layer event)
   useEffect(() => {
-    const activeDeviceLockedHandler = () => {
-      // TODO: handle skipping during a processing (update, backup)
+    const handler = () => {
       if (
         deviceInitializationStatus === DeviceInitializationStatus.Initialized
       ) {
@@ -41,9 +39,7 @@ export const useDeviceLockedEffect = () => {
       }
     }
 
-    const activeDeviceLocked = registerActiveDeviceLockedListener(
-      activeDeviceLockedHandler
-    )
+    const activeDeviceLocked = registerActiveDeviceLockedListener(handler)
     return () => {
       activeDeviceLocked()
     }

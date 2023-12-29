@@ -6,13 +6,13 @@
 import { useDispatch, useSelector } from "react-redux"
 import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { useEffect } from "react"
+import { v4 as uuid } from "uuid"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { readOutboxEntriesRequest } from "Core/outbox/requests"
 import { readAllIndexes } from "Core/data-sync/actions"
-import store, { Dispatch } from "Core/__deprecated__/renderer/store"
 import { resourceTypeMap } from "Core/notification/constants/resource-type-map.constant"
 import { pushNotification } from "Core/notification/actions"
-import { v4 as uuid } from "uuid"
 import {
   NotificationMethod,
   NotificationType,
@@ -28,32 +28,35 @@ export const useWatchOutboxEntriesEffect = () => {
   const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
 
   useEffect(() => {
-    let intervalId: ReturnType<typeof setInterval>
-
     if (activeDeviceType !== DeviceType.MuditaPure) {
       return
     }
 
-    if (deviceInitializationStatus === DeviceInitializationStatus.Initialized) {
-      intervalId = setInterval(async () => {
-        const updatedData = await readOutboxEntriesRequest()
-
-        if (updatedData) {
-          dispatch(readAllIndexes())
-          updatedData.forEach((item) => {
-            void store.dispatch(
-              pushNotification({
-                id: uuid(),
-                method: NotificationMethod.Layout,
-                type: NotificationType.Info,
-                resourceType: resourceTypeMap[item.entry.type],
-                content: item.payload,
-              })
-            )
-          })
-        }
-      }, outboxIntervalTime)
+    if (deviceInitializationStatus !== DeviceInitializationStatus.Initialized) {
+      return
     }
+
+    const intervalId = setInterval(async () => {
+      const updatedItems = await readOutboxEntriesRequest()
+
+      if (!updatedItems) {
+        return
+      }
+
+      dispatch(readAllIndexes())
+
+      updatedItems.forEach((item) => {
+        const notification = {
+          id: uuid(),
+          method: NotificationMethod.Layout,
+          type: NotificationType.Info,
+          resourceType: resourceTypeMap[item.entry.type],
+          content: item.payload,
+        }
+
+        void dispatch(pushNotification(notification))
+      })
+    }, outboxIntervalTime)
 
     return () => clearInterval(intervalId)
   }, [dispatch, activeDeviceType, deviceInitializationStatus])

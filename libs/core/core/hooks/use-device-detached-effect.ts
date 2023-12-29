@@ -16,13 +16,11 @@ export const useDeviceDetachedEffect = () => {
   const dispatch = useDispatch<Dispatch>()
 
   useEffect(() => {
-    const onDeviceConnectedHandler = async (properties: DeviceBaseProperties) => {
+    const handler = async (properties: DeviceBaseProperties) => {
       await dispatch(handleDeviceDetached({ properties, history }))
     }
 
-    const deviceDetached = registerDeviceDetachedListener(
-      onDeviceConnectedHandler
-    )
+    const deviceDetached = registerDeviceDetachedListener(handler)
     return () => {
       deviceDetached()
     }

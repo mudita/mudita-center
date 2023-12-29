@@ -18,9 +18,11 @@ import { getLeftTimeSelector } from "Core/device/selectors"
 import { isPasscodeModalCanBeClosedSelector } from "Core/device-initialization/selectors/is-passcode-modal-can-be-closed.selector"
 import { unlockDevice } from "Core/device/actions"
 import { useWatchLockTimeEffect } from "Core/device-initialization/components/passcode-modal/use-watch-lock-time-effect"
+import { useWatchUnlockStatus } from "Core/device-initialization/components/passcode-modal/use-watch-unlock-status-effect"
 
 const PasscodeModalContainer: FunctionComponent = () => {
   useWatchLockTimeEffect()
+  useWatchUnlockStatus()
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const leftTime = useSelector(getLeftTimeSelector)

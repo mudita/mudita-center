@@ -6,9 +6,9 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { handleDeviceConnected } from "Core/device-manager/actions/handle-device-connected.action"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 
 export const useDeviceConnectedEffect = () => {
@@ -16,13 +16,11 @@ export const useDeviceConnectedEffect = () => {
   const dispatch = useDispatch<Dispatch>()
 
   useEffect(() => {
-    const onDeviceConnectedHandler = async (properties: DeviceBaseProperties) => {
+    const handler = async (properties: DeviceBaseProperties) => {
       await dispatch(handleDeviceConnected({ properties, history }))
     }
 
-    const deviceConnected = registerDeviceConnectedListener(
-      onDeviceConnectedHandler
-    )
+    const deviceConnected = registerDeviceConnectedListener(handler)
     return () => {
       deviceConnected()
     }
