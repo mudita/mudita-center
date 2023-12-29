@@ -27,6 +27,7 @@ import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import React, { useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
+import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
@@ -76,6 +77,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   closeForceUpdateFlow,
   backupActionDisabled,
 }) => {
+  useWatchDeviceDataEffect()
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
     loadingModal: false,

@@ -17,6 +17,7 @@ import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import React from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
+import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
 
 export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   batteryLevel = 0,
@@ -45,6 +46,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   forceUpdateState,
   closeForceUpdateFlow,
 }) => {
+  useWatchDeviceDataEffect()
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
   }

@@ -13,7 +13,6 @@ import NetworkStatusChecker from "Core/__deprecated__/renderer/components/core/n
 import ModalsManager from "Core/modals-manager/components/modals-manager.container"
 import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-entries-effect"
 import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
-import { useWatchDeviceDataEffect } from "Core/core/hooks/use-watch-device-data-effect"
 import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
 import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
 
@@ -24,7 +23,6 @@ const BaseApp: FunctionComponent = () => {
   useDeviceLockedEffect()
   useWatchOutboxEntriesEffect()
   useWatchUnlockStatus()
-  useWatchDeviceDataEffect()
 
   return (
     <>
