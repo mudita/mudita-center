@@ -30,33 +30,31 @@ export const handleDeviceDetached = createAsyncThunk<
   DeviceManagerEvent.HandleDeviceDetached,
   async (payload, { dispatch, getState }) => {
     const { history, properties } = payload
-    console.log("device detached: handle device detached Action!")
 
     const activeDevice = getActiveDevice(getState())
 
     dispatch(removeDevice(properties))
 
-    if (activeDevice?.id === properties.id) {
-      const activeDeviceProcessing = isActiveDeviceProcessingSelector(
-        getState()
-      )
+    if (activeDevice?.id !== properties.id) {
+      return
+    }
 
-      if (activeDeviceProcessing) {
-        return
-      }
+    const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
 
-      await dispatch(setActiveDevice(undefined))
+    if (activeDeviceProcessing) {
+      return
+    }
 
-      const devices = getConnectedDevicesSelector(getState())
-      // TODO: reduce active device states in app
-      dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
-      dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))
+    await dispatch(setActiveDevice(undefined))
 
-      if (devices.length > 0) {
-        history.push(URL_DISCOVERY_DEVICE.root)
-      } else {
-        history.push(URL_MAIN.news)
-      }
+    const devices = getConnectedDevicesSelector(getState())
+    dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
+    dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))
+
+    if (devices.length > 0) {
+      history.push(URL_DISCOVERY_DEVICE.root)
+    } else {
+      history.push(URL_MAIN.news)
     }
   }
 )
