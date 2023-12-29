@@ -19,6 +19,7 @@ import {
   URL_TABS,
   URL_OVERVIEW,
   URL_DISCOVERY_DEVICE,
+  URL_DEVICE_INITIALIZATION,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Playlist from "Core/__deprecated__/renderer/modules/music/tabs/playlist.component"
 import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
@@ -26,7 +27,6 @@ import Dial from "Core/__deprecated__/renderer/modules/phone/tabs/dial.component
 import VoiceRecorder from "Core/__deprecated__/renderer/modules/tools/tabs/voice-recorder.component"
 import Notes from "Core/__deprecated__/renderer/modules/tools/tabs/notes.container"
 import Onboarding from "Core/onboarding/onboarding.container"
-import Connecting from "Core/connecting/connecting.container"
 import Troubleshooting from "Core/__deprecated__/troubleshooting/troubleshooting.container"
 import LayoutDesktopWrapper from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "Core/__deprecated__/renderer/wrappers/layout-blank-wrapper"
@@ -40,6 +40,7 @@ import PureSystem from "Core/overview/components/pure-system/pure-system.contain
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "Core/templates/template.container"
 import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configured-devices-discovery"
+import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -51,7 +52,6 @@ export default () => (
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
       <LayoutBlankWrapper>
         <Route path={URL_ONBOARDING.welcome} component={Onboarding} />
-        <Route path={URL_ONBOARDING.connecting} component={Connecting} />
         <Route
           path={URL_ONBOARDING.troubleshooting}
           component={Troubleshooting}
@@ -70,6 +70,15 @@ export default () => (
         <Route
           path={URL_DISCOVERY_DEVICE.root}
           component={ConfiguredDevicesDiscovery}
+        />
+      </LayoutBlankWrapper>
+    </Route>
+
+    <Route exact path={[...Object.values(URL_DEVICE_INITIALIZATION)]}>
+      <LayoutBlankWrapper>
+        <Route
+          path={URL_DEVICE_INITIALIZATION.root}
+          component={DevicesInitialization}
         />
       </LayoutBlankWrapper>
     </Route>

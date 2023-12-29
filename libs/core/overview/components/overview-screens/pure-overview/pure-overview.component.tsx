@@ -5,7 +5,7 @@
 
 import ErrorSyncModal from "Core/connecting/components/error-sync-modal/error-sync-modal"
 import { State } from "Core/core/constants"
-import { SynchronizationState } from "Core/data-sync/reducers"
+import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { DeviceType } from "Core/device/constants"
 import { Feature, flags } from "Core/feature-flags"
 import BackupDeviceFlow, {
@@ -27,6 +27,7 @@ import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import React, { useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
+import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
@@ -76,6 +77,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   closeForceUpdateFlow,
   backupActionDisabled,
 }) => {
+  useWatchDeviceDataEffect()
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
     loadingModal: false,
@@ -167,7 +169,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   const shouldErrorSyncModalVisible = (): boolean => {
-    if (syncState !== SynchronizationState.Error) {
+    if (syncState !== SynchronizationStatus.Error) {
       return false
     }
 

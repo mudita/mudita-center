@@ -10,9 +10,9 @@ import { FileSystemService } from "Core/file-system/services/file-system.service
 import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
-import { OutboxObserver } from "Core/outbox/observers"
 import { OutboxFactory } from "Core/outbox/factories"
 import { DeviceManager } from "Core/device-manager/services"
+import { IndexStorageController } from "Core/outbox/controllers"
 
 export class OutboxModule extends BaseModule {
   constructor(
@@ -40,12 +40,8 @@ export class OutboxModule extends BaseModule {
       this.deviceModule
     )
 
-    const outboxObserver = new OutboxObserver(
-      this.ipc,
-      this.eventEmitter,
-      outboxService
-    )
+    const indexStorageController = new IndexStorageController(outboxService)
 
-    this.observers = [outboxObserver]
+    this.controllers = [indexStorageController]
   }
 }

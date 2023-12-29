@@ -4,32 +4,34 @@
  */
 
 import React from "react"
-import { connect } from "react-redux"
-import { Router } from "react-router"
-import { History } from "history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import NetworkStatusChecker from "Core/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.container"
-import BaseRoutes from "Core/core/routes/base-routes"
-import ModalsManager from "Core/modals-manager/components/modals-manager.container"
+import AppInitialization from "Core/app-initialization/components/app-initialization.component"
+import { useDeviceConnectedEffect } from "Core/core/hooks/use-device-connected-effect"
+import { useApplicationUpdateEffects } from "Core/core/hooks/use-application-update-effects"
 import { CrashDump } from "Core/crash-dump"
+import NetworkStatusChecker from "Core/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.container"
+import ModalsManager from "Core/modals-manager/components/modals-manager.container"
+import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-entries-effect"
+import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
+import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
+import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
 
-interface Props {
-  history: History
-}
+const BaseApp: FunctionComponent = () => {
+  useApplicationUpdateEffects()
+  useDeviceConnectedEffect()
+  useDeviceDetachedEffect()
+  useDeviceLockedEffect()
+  useWatchOutboxEntriesEffect()
+  useWatchUnlockStatus()
 
-const BaseApp: FunctionComponent<Props> = ({ history }) => {
   return (
     <>
+      <CrashDump />
       <NetworkStatusChecker />
       <ModalsManager />
-      <CrashDump />
-      <Router history={history}>
-        <BaseRoutes />
-      </Router>
+      <AppInitialization />
     </>
   )
 }
 
-const mapDispatchToProps = {}
-
-export default connect(undefined, mapDispatchToProps)(BaseApp)
+export default BaseApp

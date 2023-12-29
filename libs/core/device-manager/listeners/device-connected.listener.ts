@@ -6,13 +6,13 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRendererEvent } from "electron/renderer"
 import { DeviceManagerMainEvent } from "Core/device-manager/constants"
-import { DeviceBaseProperty } from "Core/device-manager/reducers/device-manager.interface"
+import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 
 export const registerDeviceConnectedListener = (
-  handler: (property: DeviceBaseProperty) => void
+  handler: (properties: DeviceBaseProperties) => void
 ): (() => void) => {
-  const listener = (event: IpcRendererEvent, property: DeviceBaseProperty) =>
-    handler(property)
+  const listener = (event: IpcRendererEvent, properties: DeviceBaseProperties) =>
+    handler(properties)
 
   ipcRenderer.on(DeviceManagerMainEvent.DeviceConnected, listener)
 

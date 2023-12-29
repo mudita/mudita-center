@@ -3,45 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ResultObject, Result } from "Core/core/builder"
-import { AppError } from "Core/core/errors"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "Core/core/types/request-response.interface"
-import { DeviceType, DeviceCommunicationError } from "Core/device/constants"
+import { ResultObject } from "Core/core/builder"
+import { DeviceCommunicationError, DeviceType } from "Core/device/constants"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import { DeviceStrategy } from "Core/device/strategies/device-strategy.class"
+import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
+import { DeviceId } from "Core/device/constants/device-id"
 
-export interface DeviceProperties {
-  path: string
-  serialNumber: string
-  deviceType: DeviceType
-}
-
-export const getDevicePropertiesFromDevice = ({
-  path,
-  serialNumber,
-  deviceType,
-}: Device): DeviceProperties => {
-  return {
-    path,
-    serialNumber,
-    deviceType,
-  }
-}
-
-export class Device implements DeviceProperties {
+export class Device implements DeviceBaseProperties {
   constructor(
+    public id: DeviceId,
     public path: string,
-    public serialNumber: string,
+    public serialNumber: string | undefined,
     public deviceType: DeviceType,
     private strategy: DeviceStrategy
   ) {}
 
-  // TODO: to remove
-  public toSerializableObject(): DeviceProperties {
+  public toSerializableObject(): DeviceBaseProperties {
     return {
+      id: this.id,
       path: this.path,
       serialNumber: this.serialNumber,
       deviceType: this.deviceType,
@@ -55,20 +35,6 @@ export class Device implements DeviceProperties {
   public async request<ResponseType = unknown>(
     config: RequestConfig<unknown>
   ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
-    const response = (await this.strategy.request(config)) as RequestResponse<
-      ResponseType,
-      unknown
-    >
-    if (response.status !== RequestResponseStatus.Ok) {
-      return Result.failed(
-        new AppError(
-          DeviceCommunicationError.RequestFailed,
-          `Request to device ${this.path} failed`,
-          response
-        )
-      )
-    } else {
-      return Result.success(response.data as ResponseType)
-    }
+    return this.strategy.request(config)
   }
 }

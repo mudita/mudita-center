@@ -4,9 +4,13 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { DeviceBaseProperty } from "Core/device-manager/reducers/device-manager.interface"
 import { DeviceManagerEvent } from "Core/device-manager/constants"
+import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 
-export const addDevice = createAction<DeviceBaseProperty>(
+export const addDevice = createAction<DeviceBaseProperties>(
   DeviceManagerEvent.AddDevice
+)
+
+export const removeDevice = createAction<DeviceBaseProperties>(
+  DeviceManagerEvent.RemoveDevice
 )

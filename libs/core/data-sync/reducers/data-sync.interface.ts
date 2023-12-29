@@ -8,24 +8,16 @@ import { AppError } from "Core/core/errors"
 import { DataSyncError, DataSyncEvent } from "Core/data-sync/constants"
 import { AllIndexes } from "Core/data-sync/types"
 
-export enum SynchronizationState {
-  Loading,
-  Cache,
-  Loaded,
-  Empty,
-  Error,
-}
-
-export enum SynchronizationProcessState {
-  Done,
-  InProgress,
+export enum SynchronizationStatus {
+  Loading = "LOADING",
+  Cache = "CACHE",
+  Loaded = "LOADED",
+  Empty = "EMPTY",
+  Error = "ERROR",
 }
 
 export interface DataSyncState {
-  initialized: boolean
-  initializationFailed: boolean
-  state: SynchronizationState
-  synchronizationProcess: SynchronizationProcessState
+  status: SynchronizationStatus
   error: Error | string | null
 }
 
@@ -37,14 +29,4 @@ export type ReadAllIndexesAction = PayloadAction<
 export type ReadAllIndexesRejectAction = PayloadAction<
   AppError<DataSyncError.ReadAllIndexes>,
   DataSyncEvent.ReadAllIndexes
->
-
-export type UpdateAllIndexesRejectAction = PayloadAction<
-  AppError<DataSyncError.UpdateAllIndexes>,
-  DataSyncEvent.UpdateAllIndexes
->
-
-export type SetErrorStateError = PayloadAction<
-  Error,
-  DataSyncEvent.SetErrorState
 >

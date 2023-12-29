@@ -4,5 +4,6 @@
  */
 
 export enum DeviceInitializationEvent {
-  SetDeviceInitializationStatus = "DEVICE_INITIALIZATION_SET_DEVICE_INITIALIZATION_STATUS",
+  SetDeviceInitializationStatus = "SET_DEVICE_INITIALIZATION_STATUS",
+  StartInitializingDevice = "START_INITIALIZING_DEVICE",
 }

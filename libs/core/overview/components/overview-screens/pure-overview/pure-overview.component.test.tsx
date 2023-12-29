@@ -5,7 +5,7 @@
 
 import { ErrorSyncModalTestIds } from "Core/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { State } from "Core/core/constants"
-import { SynchronizationState } from "Core/data-sync/reducers"
+import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { CaseColor } from "Core/device/constants"
 import { PureOverview } from "Core/overview/components/overview-screens/pure-overview/pure-overview.component"
 import { StatusTestIds } from "Core/overview/components/status/status-test-ids.enum"
@@ -58,7 +58,7 @@ const defaultProps: Props = {
     usedUserSpace: 200,
     total: 200,
   },
-  syncState: SynchronizationState.Loaded,
+  syncState: SynchronizationStatus.Loaded,
   updateAllIndexes: jest.fn(),
   abortDownload: jest.fn(),
   allReleases: [],
@@ -115,21 +115,21 @@ describe("`ErrorSyncModal` logic", () => {
   test("when sync error occurred and `restoreDeviceState` is undefined modal is visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: undefined,
-      syncState: SynchronizationState.Error,
+      syncState: SynchronizationStatus.Error,
     })
     expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
   })
   test("when sync error occurred and `restoreDeviceState` has empty state modal is visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: State.Initial,
-      syncState: SynchronizationState.Error,
+      syncState: SynchronizationStatus.Error,
     })
     expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
   })
   test("when sync error occurred and `restoreDeviceState` has failed state modal isn't visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: State.Failed,
-      syncState: SynchronizationState.Error,
+      syncState: SynchronizationStatus.Error,
     })
     expect(
       queryByTestId(ErrorSyncModalTestIds.Container)
@@ -138,7 +138,7 @@ describe("`ErrorSyncModal` logic", () => {
   test("when sync error occurred and `restoreDeviceState` has loading state modal isn't visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: State.Loading,
-      syncState: SynchronizationState.Error,
+      syncState: SynchronizationStatus.Error,
     })
     expect(
       queryByTestId(ErrorSyncModalTestIds.Container)
@@ -147,7 +147,7 @@ describe("`ErrorSyncModal` logic", () => {
   test("when sync error occurred and `restoreDeviceState` has loaded state modal isn't visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: State.Loaded,
-      syncState: SynchronizationState.Error,
+      syncState: SynchronizationStatus.Error,
     })
     expect(
       queryByTestId(ErrorSyncModalTestIds.Container)

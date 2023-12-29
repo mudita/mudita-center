@@ -7,33 +7,28 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { getCrashDumpsRequest } from "Core/crash-dump/requests/get-crash-dumps.request"
 import { CrashDumpError, Event } from "Core/crash-dump/constants"
 import { setCrashDump } from "Core/crash-dump/actions/base.action"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { AppError } from "Core/core/errors"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-export const getCrashDump = createAsyncThunk<RequestResponseStatus | undefined>(
-  Event.GetCrashDump,
-  async (_, { dispatch, rejectWithValue, getState }) => {
-    const state = getState() as ReduxRootState
+export const getCrashDump = createAsyncThunk<
+  void,
+  void,
+  { state: ReduxRootState }
+>(Event.GetCrashDump, async (_, { dispatch, rejectWithValue }) => {
+  const { status, error, data = [] } = await getCrashDumpsRequest()
 
-    if (state.crashDump.data.files.length) {
-      return
-    }
-
-    const { status, error, data = [] } = await getCrashDumpsRequest()
-
-    if (status === RequestResponseStatus.Ok && data) {
-      dispatch(setCrashDump(data))
-    } else {
-      return rejectWithValue(
-        new AppError(
-          CrashDumpError.Getting,
-          "Getting crash dumps from device isn't possible",
-          error
-        )
+  if (status === RequestResponseStatus.Ok && data) {
+    dispatch(setCrashDump(data))
+  } else {
+    return rejectWithValue(
+      new AppError(
+        CrashDumpError.Getting,
+        "Getting crash dumps from device isn't possible",
+        error
       )
-    }
-
-    return status
+    )
   }
-)
+
+  return
+})

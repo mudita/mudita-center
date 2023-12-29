@@ -3,81 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { EventEmitter } from "events"
+import { ipcMain } from "electron-better-ipc"
 import {
-  DeviceCommunicationEvent,
-  DeviceServiceEvent,
+  DeviceCommunicationError,
   Endpoint,
   Method,
   PhoneLockCategory,
 } from "Core/device/constants"
-import {
-  CreateContactRequestConfig,
-  CreateContactResponseBody,
-  CreateMessageRequestConfig,
-  CreateMessageResponseBody,
-  CreateTemplateRequestConfig,
-  CreateTemplateResponseBody,
-  DeleteContactRequestConfig,
-  DeleteContactResponseBody,
-  DeleteEntriesRequestConfig,
-  DeleteMessageRequestConfig,
-  DeleteTemplateRequestConfig,
-  DeleteThreadRequestConfig,
-  DownloadFileSystemRequestConfig,
-  DownloadFileSystemResponseBody,
-  GetBackupDeviceStatusRequestConfig,
-  GetBackupDeviceStatusResponseBody,
-  GetContactRequestConfig,
-  GetContactResponseBody,
-  GetContactsRequestConfig,
-  GetContactsResponseBody,
-  GetDeviceFilesRequestConfig,
-  GetDeviceFilesResponseBody,
-  GetDeviceInfoRequestConfig,
-  GetDeviceInfoResponseBody,
-  GetEntriesRequestConfig,
-  GetEntriesResponseBody,
-  GetFileSystemDirectoryRequestConfig,
-  GetFileSystemDirectoryResponseBody,
-  GetFileSystemRequestConfig,
-  GetFileSystemResponseBody,
-  GetMessageRequestConfig,
-  GetMessageResponseBody,
-  GetMessagesRequestConfig,
-  GetMessagesResponseBody,
-  GetPhoneLockStatusRequestConfig,
-  GetPhoneLockTimeRequestConfig,
-  GetPhoneLockTimeResponseBody,
-  GetRestoreDeviceStatusRequestConfig,
-  GetRestoreDeviceStatusResponseBody,
-  GetSecurityRequestConfig,
-  GetTemplateRequestConfig,
-  GetTemplateResponseBody,
-  GetTemplatesRequestConfig,
-  GetTemplatesResponseBody,
-  GetThreadRequestConfig,
-  GetThreadResponseBody,
-  GetThreadsRequestConfig,
-  GetThreadsResponseBody,
-  PutFileSystemRequestConfig,
-  PutFileSystemResponseBody,
-  RemoveFileSystemRequestConfig,
-  RequestConfig,
-  SendFileSystemRequestConfig,
-  SendFileSystemResponseBody,
-  StartBackupRequestConfig,
-  StartBackupResponseBody,
-  StartDeviceUpdateRequestBody,
-  StartRestoreRequestConfig,
-  UnlockDeviceRequestConfig,
-  UpdateContactRequestConfig,
-  UpdateContactResponseBody,
-  UpdateMessageRequestConfig,
-  UpdateTemplateOrderRequestConfig,
-  UpdateTemplateRequestConfig,
-  UpdateThreadReadUnreadStateRequestConfig,
-} from "Core/device/types/mudita-os"
+import { RequestConfig } from "Core/device/types/mudita-os"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -85,228 +18,71 @@ import {
 import { BaseAdapter } from "Core/device/modules/base.adapter"
 import { DeviceStrategy } from "Core/device/strategies/device-strategy.class"
 import { ResponsePresenter } from "Core/device/modules/mudita-os/presenters"
-import { ResultObject } from "Core/core/builder"
+import { Result, ResultObject } from "Core/core/builder"
+import { AppError } from "Core/core/errors"
+import { DeviceManagerMainEvent } from "Core/device-manager/constants"
 
 export class PureStrategy implements DeviceStrategy {
-  private eventEmitter = new EventEmitter()
-  private lockedInterval: NodeJS.Timeout | undefined
-
-  constructor(private adapter: BaseAdapter) {
-    EventEmitter.defaultMaxListeners = 15
-    this.mountDisconnectionListener()
-    this.mountInitializationFailedListener()
-  }
+  constructor(private adapter: BaseAdapter) {}
 
   public connect(): Promise<ResultObject<undefined>> {
     return this.adapter.connect()
   }
 
-  public async request(
-    config: GetSecurityRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: GetPhoneLockStatusRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: GetPhoneLockTimeRequestConfig
-  ): Promise<RequestResponse<GetPhoneLockTimeResponseBody>>
-  public async request(
-    config: UnlockDeviceRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: GetDeviceInfoRequestConfig
-  ): Promise<RequestResponse<GetDeviceInfoResponseBody>>
-  public async request(
-    config: GetDeviceFilesRequestConfig
-  ): Promise<RequestResponse<GetDeviceFilesResponseBody>>
-  public async request(
-    config: GetMessagesRequestConfig
-  ): Promise<RequestResponse<GetMessagesResponseBody>>
-  public async request(
-    config: GetMessageRequestConfig
-  ): Promise<RequestResponse<GetMessageResponseBody>>
-  public async request(
-    config: GetThreadsRequestConfig
-  ): Promise<RequestResponse<GetThreadsResponseBody>>
-  public async request(
-    config: GetThreadRequestConfig
-  ): Promise<RequestResponse<GetThreadResponseBody>>
-  public async request(
-    config: CreateMessageRequestConfig
-  ): Promise<RequestResponse<CreateMessageResponseBody>>
-  public async request(
-    config: UpdateMessageRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: DeleteThreadRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: DeleteMessageRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: UpdateThreadReadUnreadStateRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: GetTemplatesRequestConfig
-  ): Promise<RequestResponse<GetTemplatesResponseBody>>
-  public async request(
-    config: GetTemplateRequestConfig
-  ): Promise<RequestResponse<GetTemplateResponseBody>>
-  public async request(
-    config: CreateTemplateRequestConfig
-  ): Promise<RequestResponse<CreateTemplateResponseBody>>
-  public async request(
-    config: UpdateTemplateRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: UpdateTemplateOrderRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: DeleteTemplateRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: GetContactsRequestConfig
-  ): Promise<RequestResponse<GetContactsResponseBody>>
-  public async request(
-    config: GetContactRequestConfig
-  ): Promise<RequestResponse<GetContactResponseBody>>
-  public async request(
-    config: CreateContactRequestConfig
-  ): Promise<RequestResponse<CreateContactResponseBody>>
-  public async request(
-    config: UpdateContactRequestConfig
-  ): Promise<RequestResponse<UpdateContactResponseBody>>
-  public async request(
-    config: DeleteContactRequestConfig
-  ): Promise<RequestResponse<DeleteContactResponseBody>>
-
-  public async request(
-    config: StartDeviceUpdateRequestBody
-  ): Promise<RequestResponse>
-
-  public async request(
-    config: GetFileSystemDirectoryRequestConfig
-  ): Promise<RequestResponse<GetFileSystemDirectoryResponseBody>>
-  public async request(
-    config: GetFileSystemRequestConfig
-  ): Promise<RequestResponse<GetFileSystemResponseBody>>
-  public async request(
-    config: DownloadFileSystemRequestConfig
-  ): Promise<RequestResponse<DownloadFileSystemResponseBody>>
-  public async request(
-    config: SendFileSystemRequestConfig
-  ): Promise<RequestResponse<SendFileSystemResponseBody>>
-  public async request(
-    config: PutFileSystemRequestConfig
-  ): Promise<RequestResponse<PutFileSystemResponseBody>>
-
-  public async request(
-    config: StartBackupRequestConfig
-  ): Promise<RequestResponse<StartBackupResponseBody>>
-  public async request(
-    config: GetBackupDeviceStatusRequestConfig
-  ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>>
-  public async request(
-    config: StartRestoreRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: GetRestoreDeviceStatusRequestConfig
-  ): Promise<RequestResponse<GetRestoreDeviceStatusResponseBody>>
-  public async request(
-    config: RemoveFileSystemRequestConfig
-  ): Promise<RequestResponse>
-  public async request(
-    config: GetEntriesRequestConfig
-  ): Promise<RequestResponse<GetEntriesResponseBody>>
-  public async request(
-    config: DeleteEntriesRequestConfig
-  ): Promise<RequestResponse>
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async request(config: RequestConfig<any>): Promise<RequestResponse> {
+  public async request<ResponseType = unknown>(
+    config: RequestConfig<unknown>
+  ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
     const response = await this.adapter.request(config)
     const serializedResponse = ResponsePresenter.toResponseObject(response)
 
-    this.checkResponseStatus(config, serializedResponse)
-
-    return serializedResponse
-  }
-
-  public onCommunicationEvent(
-    eventName: DeviceCommunicationEvent,
-    listener: () => void
-  ): void {
-    this.adapter.on(eventName, listener)
-  }
-
-  public offCommunicationEvent(
-    eventName: DeviceCommunicationEvent,
-    listener: () => void
-  ): void {
-    this.adapter.off(eventName, listener)
-  }
-
-  public on(
-    eventName: DeviceServiceEvent,
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listener: (path: string, ...args: any[]) => void
-  ): void {
-    this.eventEmitter.on(eventName, listener)
-  }
-
-  public off(
-    eventName: DeviceServiceEvent,
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listener: (path: string, ...args: any[]) => void
-  ): void {
-    this.eventEmitter.off(eventName, listener)
-  }
-
-  private checkResponseStatus(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: RequestConfig<any>,
-    response: RequestResponse<unknown>
-  ): void {
-    this.handleDeviceOnboardingStatusEvent(config, response)
-    this.handleDeviceUnlockedEvent(config, response)
-  }
-
-  private handleDeviceOnboardingStatusEvent(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: RequestConfig<any>,
-    response: RequestResponse<unknown>
-  ): void {
-    if (config.endpoint !== Endpoint.Security) {
-      return
+    if (serializedResponse.status === RequestResponseStatus.PhoneLocked) {
+      ipcMain.sendToRenderers(DeviceManagerMainEvent.ActiveDeviceLocked)
     }
 
-    if (response.status === RequestResponseStatus.OnboardingNotFinished) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingNotFinished)
-    } else if (
-      response.status === RequestResponseStatus.PhoneLocked ||
-      response.status === RequestResponseStatus.Ok
-    ) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingFinished)
-    }
+    return this.mapResponseObjectToResultObject<ResponseType>(
+      serializedResponse
+    )
   }
 
-  private handleDeviceUnlockedEvent(
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: RequestConfig<any>,
-    response: RequestResponse<unknown>
-  ): void {
-    if (!this.isEndpointSecure(config)) {
-      return
-    }
+  private mapResponseObjectToResultObject<ResponseType>(
+    response: RequestResponse
+  ): ResultObject<ResponseType, DeviceCommunicationError> {
     if (response.status === RequestResponseStatus.PhoneLocked) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceLocked)
-    } else if (response.status === RequestResponseStatus.Ok) {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.DeviceLocked,
+          `Device ${this.adapter.path} is locked`,
+          response
+        )
+      )
+    } else if (
+      response.status === RequestResponseStatus.OnboardingNotFinished
+    ) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.DeviceOnboardingNotFinished,
+          `Device ${this.adapter.path} onboarding not finished`,
+          response
+        )
+      )
+    } else if (response.status === RequestResponseStatus.BatteryCriticalLevel) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.BatteryCriticalLevel,
+          `Device ${this.adapter.path} has critical battery level`,
+          response
+        )
+      )
+    } else if (response.status !== RequestResponseStatus.Ok) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.RequestFailed,
+          `Request to device ${this.adapter.path} failed`,
+          response
+        )
+      )
+    } else {
+      return Result.success(response.data as ResponseType)
     }
   }
 
@@ -327,40 +103,5 @@ export class PureStrategy implements DeviceStrategy {
     }
 
     return false
-  }
-
-  private mountDeviceUnlockedListener(): void {
-    void this.getUnlockedStatusRequest()
-    this.lockedInterval = setInterval(() => {
-      void this.getUnlockedStatusRequest()
-    }, 10000)
-  }
-
-  private unmountDeviceUnlockedListener(): void {
-    clearInterval(this.lockedInterval)
-  }
-
-  private getUnlockedStatusRequest(): Promise<RequestResponse> {
-    return this.request({
-      endpoint: Endpoint.Security,
-      method: Method.Get,
-      body: { category: PhoneLockCategory.Status },
-    })
-  }
-
-  private mountDisconnectionListener(): void {
-    this.onCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
-      this.unmountDeviceUnlockedListener()
-    })
-  }
-
-  private mountInitializationFailedListener(): void {
-    this.onCommunicationEvent(
-      DeviceCommunicationEvent.InitializationFailed,
-      () => {
-        this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
-      }
-    )
   }
 }

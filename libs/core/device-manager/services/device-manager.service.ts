@@ -5,7 +5,8 @@
 
 import SerialPort, { PortInfo as SerialPortInfo } from "serialport"
 import { MainProcessIpc } from "electron-better-ipc"
-import { log } from "Core/core/decorators/log.decorator"
+import { Mutex } from "async-mutex"
+import { EventEmitter } from "events"
 import { DeviceResolverService } from "Core/device-manager/services/device-resolver.service"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
@@ -16,9 +17,9 @@ import {
   DeviceManagerError,
   DeviceManagerMainEvent,
 } from "Core/device-manager/constants"
-import { EventEmitter } from "events"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { Mutex } from "async-mutex"
+import { DeviceId } from "Core/device/constants/device-id"
+import { log } from "Core/core/decorators/log.decorator"
 
 export class DeviceManager {
   public activeDevice: Device | undefined
@@ -47,14 +48,20 @@ export class DeviceManager {
     return Array.from(this.devicesMap.values())
   }
 
-  public setActiveDevice(path: string): ResultObject<boolean> {
-    const newActiveDevice = this.devicesMap.get(path)
+  public setActiveDevice(id: DeviceId | undefined): ResultObject<boolean> {
+    if (id === undefined) {
+      this.activeDevice = undefined
+
+      return Result.success(true)
+    }
+
+    const newActiveDevice = this.devicesMap.get(id)
 
     if (!newActiveDevice) {
       return Result.failed(
         new AppError(
           DeviceManagerError.CannotFindDevice,
-          `Device ${path} can't be found`
+          `Device ${id} can't be found`
         )
       )
     }
@@ -64,23 +71,31 @@ export class DeviceManager {
     return Result.success(true)
   }
 
-  // TODO: `addDevice` method to hides
   public async addDevice(port: PortInfo): Promise<void> {
     await this.mutex.runExclusive(async () => {
       await this.addDeviceTask(port)
     })
   }
 
-  // TODO: `removeDevice` method to hides
   public removeDevice(path: string): void {
-    this.devicesMap.delete(path)
-    this.activeDevice = undefined
+    const device = this.getDeviceByPath(path)
 
-    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, path)
+    if (device === undefined) {
+      return
+    }
+
+    this.devicesMap.delete(device.id)
+
+    if (this.activeDevice?.id === device.id) {
+      this.activeDevice = undefined
+    }
+
+    const data = device.toSerializableObject()
+
+    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, data)
     logger.info(`Detached device with path: ${path}`)
   }
 
-  // TODO: `getAttachedDevices` method to hides
   public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
     return (
@@ -93,16 +108,20 @@ export class DeviceManager {
 
   private async addDeviceTask(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
-    if (!device) {
-      // TODO: handle not possible use case
+
+    const alreadyInitializedDevices = this.getDevicePaths()
+    if (alreadyInitializedDevices.includes(port.path ?? "")) {
       return
     }
-    this.devicesMap.set(device.path, device)
-    const result = await device.connect()
-    const data = {
-      serialNumber: port.serialNumber,
-      deviceType: device.deviceType,
+
+    if (!device) {
+      return
     }
+
+    this.devicesMap.set(device.id, device)
+    const result = await device.connect()
+    const data = device.toSerializableObject()
+
     if (result.ok) {
       this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected, data)
     } else {
@@ -119,8 +138,6 @@ export class DeviceManager {
     portInfo.productId = portInfo.productId?.toUpperCase()
     portInfo.vendorId = portInfo.vendorId?.toUpperCase()
 
-    const alreadyInitializedDevices = Array.from(this.devicesMap.keys())
-
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     return new Promise<Device | undefined>(async (resolve) => {
@@ -130,21 +147,15 @@ export class DeviceManager {
           ({ productId, vendorId, path }) =>
             productId?.toUpperCase() === portInfo.productId &&
             vendorId?.toUpperCase() === portInfo.vendorId &&
-            ((!portInfo.path && !alreadyInitializedDevices.includes(path)) ||
-              path === portInfo.path)
+            path === portInfo.path
         )
 
         if (port) {
           const device = this.deviceResolver.resolve(port)
-
-          // TODO: simplify resolve logic
-          if (!device) {
-            return
-          }
-
           return resolve(device)
+        } else {
+          await sleep()
         }
-        await sleep()
       }
 
       resolve(undefined)
@@ -154,5 +165,13 @@ export class DeviceManager {
   @log("==== device manager: list ====")
   private getSerialPortList(): Promise<SerialPortInfo[]> {
     return SerialPort.list()
+  }
+
+  private getDeviceByPath(path: string): Device | undefined {
+    return this.devices.find((device) => device.path === path)
+  }
+
+  private getDevicePaths(): string[] {
+    return this.devices.map(({ path }) => path)
   }
 }

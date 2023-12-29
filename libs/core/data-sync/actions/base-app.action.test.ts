@@ -6,11 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { DataSyncEvent } from "Core/data-sync/constants"
-import {
-  setCacheState,
-  setDataSyncInitialized,
-  setDataSyncInitState,
-} from "Core/data-sync/actions/base-app.action"
+import { setDataSyncInitState } from "Core/data-sync/actions/base-app.action"
 
 const mockStore = createMockStore([thunk])()
 
@@ -24,30 +20,6 @@ describe("Action: SetDataSyncInitState", () => {
     expect(mockStore.getActions()).toEqual([
       {
         type: DataSyncEvent.SetDataSyncInitState,
-        payload: undefined,
-      },
-    ])
-  })
-})
-
-describe("Action: SetDataSyncInitialized", () => {
-  test("fire action without payload and `SetDataSyncInitialized` type", () => {
-    mockStore.dispatch(setDataSyncInitialized())
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: DataSyncEvent.SetDataSyncInitialized,
-        payload: undefined,
-      },
-    ])
-  })
-})
-
-describe("Action: SetCacheState", () => {
-  test("fire action without payload and `SetCacheState` type", () => {
-    mockStore.dispatch(setCacheState())
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: DataSyncEvent.SetCacheState,
         payload: undefined,
       },
     ])

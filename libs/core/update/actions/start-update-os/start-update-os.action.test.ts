@@ -27,7 +27,7 @@ import {
   trackOsUpdate,
   TrackOsUpdateState,
 } from "Core/analytic-data-tracker/helpers"
-import { DeviceType, setRestarting } from "Core/device"
+import { DeviceType, setRestartingStatus } from "Core/device"
 
 jest.mock("Core/update/requests/remove-downloaded-os-updates.request")
 jest.mock("Core/device/requests/set-updating.request")
@@ -204,8 +204,8 @@ describe("when all updating os requests return success status", () => {
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       getParamsForSettingIntallingRelaseStateAction(
         "1.1.0",
         ReleaseProcessState.Done
@@ -214,8 +214,8 @@ describe("when all updating os requests return success status", () => {
         "1.2.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       getParamsForSettingIntallingRelaseStateAction(
         "1.2.0",
         ReleaseProcessState.Done
@@ -304,8 +304,8 @@ describe("when updating os request return failure status", () => {
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       startUpdateOs.rejected(testError, requestId, params, error),
     ])
   })

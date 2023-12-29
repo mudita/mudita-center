@@ -5,30 +5,13 @@
 
 import {
   Device,
-  DeviceBaseProperty,
   DeviceState,
-  InitializationOptions,
 } from "Core/device-manager/reducers/device-manager.interface"
-import { DeviceType } from "Core/device"
+import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 
-const getInitializationOptionsByDeviceType = (
-  type: DeviceType
-): InitializationOptions => {
+export const mapToDevice = (properties: DeviceBaseProperties): Device => {
   return {
-    eula: false,
-    sync: false,
-    passcode: false,
-  }
-}
-
-export const mapToDevice = (property: DeviceBaseProperty): Device => {
-  return {
-    id: property.serialNumber,
-    serialNumber: property.serialNumber,
-    type: property.deviceType,
+    ...properties,
     state: DeviceState.Connected,
-    initializationOptions: getInitializationOptionsByDeviceType(
-      property.deviceType
-    ),
   }
 }
