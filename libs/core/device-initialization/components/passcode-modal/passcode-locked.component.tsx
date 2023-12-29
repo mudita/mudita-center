@@ -11,7 +11,7 @@ import Text, {
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
 import moment from "moment"
-import { PasscodeLockedTestIds } from "Core/__deprecated__/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
+import { PasscodeLockedTestIds } from "Core/device-initialization/components/passcode-modal/passcode-locked-test-ids.enum"
 
 const PasscodeLockedContainer = styled.div`
   margin-bottom: 4.2rem;

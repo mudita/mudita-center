@@ -13,8 +13,8 @@ import Icon, {
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { PasscodeInputs } from "./passcode-inputs.component"
-import PasscodeLocked from "Core/__deprecated__/passcode-modal/components/PasscodeLocked/passcode-locked.component"
-import { PasscodeModalTestIds } from "Core/__deprecated__/passcode-modal/components/passcode-modal-test-ids.enum"
+import PasscodeLocked from "Core/device-initialization/components/passcode-modal/passcode-locked.component"
+import { PasscodeModalTestIds } from "Core/device-initialization/components/passcode-modal/passcode-modal-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`

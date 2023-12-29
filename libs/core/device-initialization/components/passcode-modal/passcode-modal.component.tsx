@@ -3,23 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React, { useEffect, useState } from "react"
 import { PayloadAction } from "@reduxjs/toolkit"
-import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
+import PasscodeModalUI from "Core/device-initialization/components/passcode-modal/passcode-modal-ui.component"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { AppError } from "Core/core/errors"
 import { ModalDialogProps } from "Core/ui"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
+export type UnlockDeviceReturnType = Promise<
+  PayloadAction<boolean, string, unknown, AppError>
+>
+
 interface Props extends Omit<ModalDialogProps, "close" | "open"> {
   openModal: boolean
   close: () => void
   leftTime?: number
-  unlockDevice: (
-    code: number[]
-  ) => Promise<PayloadAction<boolean, string, unknown, AppError>>
+  unlockDevice: (code: number[]) => UnlockDeviceReturnType
   canBeClosed: boolean
 }
 
@@ -39,6 +41,8 @@ const ErrorMessageMap: Record<ErrorState, string> = {
 
 let timeoutId3: NodeJS.Timeout
 
+const initValue = ["", "", "", ""]
+
 const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
   canBeClosed,
@@ -47,7 +51,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
   unlockDevice,
   ...rest
 }) => {
-  const initValue = ["", "", "", ""]
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
   const [values, setValues] = useState<string[]>(initValue)
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
@@ -108,9 +111,8 @@ const PasscodeModal: FunctionComponent<Props> = ({
     return () => {
       clearTimeout(timeoutId)
     }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorState])
+
   return (
     <PasscodeModalUI
       openModal={openModal}

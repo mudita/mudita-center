@@ -6,8 +6,8 @@
 import React, { ComponentProps } from "react"
 import * as MockDate from "mockdate"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import PasscodeLocked from "Core/__deprecated__/passcode-modal/components/PasscodeLocked/passcode-locked.component"
-import { PasscodeLockedTestIds } from "Core/__deprecated__/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
+import PasscodeLocked from "Core/device-initialization/components/passcode-modal/passcode-locked.component"
+import { PasscodeLockedTestIds } from "Core/device-initialization/components/passcode-modal/passcode-locked-test-ids.enum"
 
 type Props = ComponentProps<typeof PasscodeLocked>
 
