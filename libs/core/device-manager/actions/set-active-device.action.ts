@@ -13,11 +13,7 @@ export const setActiveDevice = createAsyncThunk<
   DeviceId | undefined,
   DeviceId | undefined,
   { state: ReduxRootState }
->(
-  DeviceManagerEvent.SetActiveDevice,
-  async (payload) => {
-    // TODO: handle error
-    await setActiveDeviceRequest(payload)
-    return payload
-  }
-)
+>(DeviceManagerEvent.SetActiveDevice, async (payload) => {
+  await setActiveDeviceRequest(payload)
+  return payload
+})

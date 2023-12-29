@@ -19,11 +19,10 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: loggerEnabled,
     [Environment.AlphaProduction]: loggerEnabled,
   },
-  // TODO: update LogsScrubbingEnabled feature flags
   [Feature.LogsScrubbingEnabled]: {
     [Environment.Development]: false,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.Production]: true,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.DeveloperModeEnabled]: {
     [Environment.Development]: true,
