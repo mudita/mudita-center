@@ -10,10 +10,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
-## [2.2.4] - 2023-10-26
+## [2.2.5] - 2023-11-30
 
-Here we write upgrading notes for brands. It's a team effort to make them as
-straightforward as possible.
+### Changed
+
+- **Electron**: updated to version 26.0.0
+- **Node.js**: updated to version 18.16.1
+- **Chromedriver**: updated to version 116.0.0
+- **Jest**: updated to version 29.0.0
+- **React**: updated to version 18.2.0
+- **TypeScript**: updated to version 5.2.2
+- Additionally, unnecessary dependencies have been removed, resulting in a more streamlined and efficient project structure. This release includes various minor fixes and optimizations to enhance overall stability and user experience.
+
+## [2.2.5] - 2023-11-23
+
+### Changed
+
+- Improved the connection between Mudita Pure and Mudita Center after disabling MTP
+
+### Fixed
+
+- Outlook import shows Mudita Center as verified publisher
+
+
+## [2.2.4] - 2023-10-26
 
 ### Fixed
 

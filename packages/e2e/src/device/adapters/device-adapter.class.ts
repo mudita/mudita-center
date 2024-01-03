@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Device } from "usb"
+import { PortInfo } from "serialport"
 import { DeviceIdentity } from "../types"
 
 export interface DeviceAdapterClass {
-  getDeviceByDescription(props: DeviceIdentity): Promise<Device>
+  getDeviceByDescription(props: DeviceIdentity): Promise<PortInfo>
 }

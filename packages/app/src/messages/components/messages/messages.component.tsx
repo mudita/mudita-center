@@ -144,6 +144,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
+    const thread = threads.find(({ id }) => id === activeThread?.id)
+    if (thread) {
+      setActiveThread(thread)
+    }
+  }, [threads, activeThread])
+
+  useEffect(() => {
     if (searchPreviewValue !== "") {
       return
     }
@@ -460,7 +467,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const getThreads = (): Thread[] => {
-    if (tmpActiveThread !== undefined) {
+    const isTmpActiveThreadInThreads = threads.some(({ phoneNumber }) => {
+      return tmpActiveThread?.phoneNumber === phoneNumber
+    })
+
+    if (tmpActiveThread !== undefined && !isTmpActiveThreadInThreads) {
       return [tmpActiveThread, ...threads]
     } else {
       return threads

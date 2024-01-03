@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { BrowserWindow } from "electron"
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { IndexStorage } from "App/index-storage/types"
@@ -25,7 +26,8 @@ export interface Module {
     logger: AppLogger,
     ipc: MainProcessIpc,
     eventEmitter: EventEmitter,
-    fileSystem: FileSystemService
+    fileSystem: FileSystemService,
+    mainApplicationWindow: BrowserWindow
   ): {
     controllers: Controller[]
     models: Model[]

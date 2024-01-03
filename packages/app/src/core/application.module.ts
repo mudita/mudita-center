@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { BrowserWindow } from "electron"
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 // TODO change module name to `KeyStorage`
@@ -21,6 +22,7 @@ import {
 } from "App/core/initializers"
 import { Module } from "App/core/types"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
+import { FileSystemModule } from "App/file-system/file-system.module"
 import { IndexStorageModule } from "App/index-storage/index-storage.module"
 import { DataSyncModule } from "App/data-sync/data-sync.module"
 import { ContactModule } from "App/contacts/contact.module"
@@ -48,6 +50,7 @@ import { MachineModule } from "App/machine/machine.module"
 export class ApplicationModule {
   public modules: Module[] = [
     DeviceInfoModule,
+    FileSystemModule,
     IndexStorageModule,
     OutboxModule,
     AnalyticDataTrackerModule,
@@ -85,7 +88,7 @@ export class ApplicationModule {
     this.eventEmitter
   )
 
-  constructor(private ipc: MainProcessIpc) {
+  constructor(private ipc: MainProcessIpc, private mainApplicationWindow: BrowserWindow) {
     const enabled = flags.get(Feature.LoggerEnabled)
 
     this.deviceLogger.registerLogger(new PureLogger())
@@ -111,7 +114,8 @@ export class ApplicationModule {
       this.logger,
       this.ipc,
       this.eventEmitter,
-      this.fileSystem
+      this.fileSystem,
+      this.mainApplicationWindow,
     )
 
     this.dataStorageInitializer.initialize(instance.models)

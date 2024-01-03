@@ -13,6 +13,10 @@ import {
   Device,
   getDevicePropertiesFromDevice,
 } from "App/device/modules/device"
+import {
+  Device,
+  getDevicePropertiesFromDevice,
+} from "App/device/modules/device"
 import { PortInfo } from "App/device-manager/types"
 import { PortInfoValidator } from "App/device-manager/validators"
 import { ListenerEvent, DeviceManagerError } from "App/device-manager/constants"
@@ -87,7 +91,7 @@ export class DeviceManager {
     }
 
     this.ipc.sendToRenderers(ListenerEvent.DeviceAttached)
-    //logger.info(`Connected device with serial number: ${device.serialNumber}`)
+    logger.info(`Connected device with serial number: ${device.serialNumber}`)
   }
 
   public removeDevice(path: string): void {
@@ -98,9 +102,7 @@ export class DeviceManager {
         this.currentDevice = this.devicesMap.values().next().value as Device
         this.ipc.sendToRenderers(
           ListenerEvent.CurrentDeviceChanged,
-          this.currentDevice
-            ? getDevicePropertiesFromDevice(this.currentDevice)
-            : undefined
+          this.currentDevice ? getDevicePropertiesFromDevice(this.currentDevice) : undefined
         )
       } else {
         this.currentDevice = undefined
