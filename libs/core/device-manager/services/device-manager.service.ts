@@ -16,8 +16,8 @@ import {
 import { PortInfo } from "Core/device-manager/types"
 import { PortInfoValidator } from "Core/device-manager/validators"
 import {
-  ListenerEvent,
   DeviceManagerError,
+  ListenerEvent,
 } from "Core/device-manager/constants"
 import { DeviceServiceEvent } from "Core/device"
 import { EventEmitter } from "events"
@@ -162,8 +162,6 @@ export class DeviceManager {
   private async initializeDevice(
     portInfo: PortInfo
   ): Promise<Device | undefined> {
-    // TODO: remove this
-    console.log(portInfo)
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
@@ -188,9 +186,15 @@ export class DeviceManager {
         if (port) {
           const device = this.deviceResolver.resolve(port)
 
-          if (!device) {
+          if (
+            !device &&
+            process.env.FEATURE_TOGGLE_ENVIRONMENT === "development"
+          ) {
             //TODO: temporary, remove in future
             this.currentAPIDevice = new APIDevice(port)
+          }
+
+          if (!device) {
             return
           }
 
