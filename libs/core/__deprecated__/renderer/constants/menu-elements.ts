@@ -7,7 +7,7 @@ import { DeviceType } from "Core/device/constants"
 import { defineMessages } from "react-intl"
 import { View, views } from "Core/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
-import { flags, Feature } from "Core/feature-flags"
+import { Feature, flags } from "Core/feature-flags"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
@@ -113,8 +113,8 @@ export interface MenuElement {
   items?: Item[]
   label?:
     | {
-    id: string
-  }
+        id: string
+      }
     | string
   icons?: IconType[]
   connectedPhoneOnly?: boolean
@@ -162,73 +162,6 @@ export const baseMenuElements: MenuElement[] = [
 ]
 
 export const deviceMenuElements: MenuElement[] = [
-  // {
-  //   items: [
-  //     {
-  //       button: views[View.APIConnectionDemo],
-  //       icon: IconType.MenuOverview,
-  //       visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-  //     },
-  //   ],
-  //   viewKey: View.APIConnectionDemo,
-  // },
-  {
-    label: messages.yourPure,
-    items: YOUR_PURE_BUTTONS,
-    icons: flags.get(Feature.YourPureIconsEnabled)
-      ? [
-        IconType.MenuRange,
-        IconType.MenuBattery,
-        IconType.Sim,
-        IconType.TetheringStatus,
-      ]
-      : [],
-    connectedPhoneOnly: true,
-    visibleOn: [DeviceType.MuditaPure],
-  },
-  {
-    label: messages.yourHarmony,
-    items: YOUR_PURE_BUTTONS,
-    icons: [],
-    connectedPhoneOnly: true,
-    visibleOn: [DeviceType.MuditaHarmony],
-  },
-]
-
-export const menuElements: MenuElement[] = [
-  {
-    items: [
-      {
-        button: views[View.Connecting],
-        icon: IconType.Send,
-        testId: MenuGroupTestIds.Connecting,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-      },
-    ],
-    viewKey: View.Connecting,
-    simulatePhoneConnection: true,
-  },
-  {
-    items: [
-      {
-        button: views[View.Onboarding],
-        icon: IconType.Send,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-      },
-    ],
-    viewKey: View.Onboarding,
-    devModeOnly: true,
-  },
-  {
-    items: [
-      {
-        button: views[View.News],
-        icon: IconType.MenuNews,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-      },
-    ],
-    viewKey: View.News,
-  },
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
@@ -249,10 +182,6 @@ export const menuElements: MenuElement[] = [
     icons: [],
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaHarmony],
-  },
-  {
-    label: messages.desktopApp,
-    items: DESKTOP_APP_BUTTONS,
   },
 ]
 
