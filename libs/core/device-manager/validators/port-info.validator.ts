@@ -5,39 +5,38 @@
 
 import { PortInfo } from "serialport"
 import {
-  MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
-  MuditaKompaktDescriptor,
+  // MuditaKompaktDescriptor,
+  MuditaPureDescriptor,
 } from "../../device/descriptors"
 
 export class PortInfoValidator {
   static eligibleDevices = [
     MuditaPureDescriptor,
     MuditaHarmonyDescriptor,
-    MuditaKompaktDescriptor,
+    // TODO: Uncomment when Kompakt will be production ready
+    // MuditaKompaktDescriptor,
   ]
 
   static isVendorIdValid(portInfo: Partial<PortInfo>): boolean {
     const id = portInfo.vendorId?.toLowerCase() ?? ""
 
-    const result = Boolean(
+    return Boolean(
       PortInfoValidator.eligibleDevices.find((device) => {
-        const vendorIds = [...device.vendorIds, "0e8d"].map((item) =>
+        const vendorIds = device.vendorIds.map((item) =>
           item.toString().toLowerCase()
         )
 
         return vendorIds.includes(id)
       })
     )
-
-    return result
   }
 
   static isProductIdValid(portInfo: Partial<PortInfo>): boolean {
     const id = portInfo.productId?.toLowerCase() ?? ""
     return Boolean(
       PortInfoValidator.eligibleDevices.find((device) =>
-        [...device.productIds, "2006"]
+        device.productIds
           .map((item) => item.toString().toLowerCase())
           .includes(id)
       )
@@ -51,10 +50,10 @@ export class PortInfoValidator {
     return Boolean(
       PortInfoValidator.eligibleDevices.find(({ vendorIds, productIds }) => {
         return (
-          [...vendorIds, "0e8d"]
+          vendorIds
             .map((item) => item.toString().toLowerCase())
             .includes(vendorId) &&
-          [...productIds, "2006"]
+          productIds
             .map((item) => item.toString().toLowerCase())
             .includes(productId)
         )
