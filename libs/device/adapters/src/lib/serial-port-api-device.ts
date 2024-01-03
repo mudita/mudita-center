@@ -18,7 +18,6 @@ import {
   APIMethodsType,
   APIRequestData,
   ApiSerialPortEvents,
-  ApiSerialPortToRendererEvents,
 } from "device/models"
 import { callRenderer } from "./call-renderer.helper"
 
