@@ -45,10 +45,6 @@ export class SerialPortDeviceAPIAdapter {
           Result.failed(appError)
         )
       }
-      //to remove
-      callRenderer(ApiSerialPortToRendererEvents.InitializationFailed, {
-        msg: "ups!!",
-      })
 
       callRenderer(
         "api-serial-port-connected",
