@@ -111,7 +111,6 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           response.status === ResponseStatus.ParserError
         ) {
-          console.log(response)
           this.eventEmitter.off(DeviceCommunicationEvent.DataReceived, listener)
           cancel()
           resolve(Result.success(response))
