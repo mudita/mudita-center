@@ -23,6 +23,9 @@ export const useGenericStoreDemo = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if (process.env.FEATURE_TOGGLE_ENVIRONMENT !== "development") {
+      return
+    }
     void (async () => {
       if (genericViewsSlice.getInitialState().menu) {
         return
