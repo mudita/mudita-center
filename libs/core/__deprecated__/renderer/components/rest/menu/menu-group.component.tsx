@@ -50,7 +50,6 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
         <HeaderWrapper
           data-testid={typeof label === "string" ? label : label.id}
         >
-          {" "}
           <Text displayStyle={TextDisplayStyle.Title} message={label} />
           {icons && (
             <HeaderIconContainer>
