@@ -44,6 +44,7 @@ export const URL_ONBOARDING = {
 
 export const URL_DISCOVERY_DEVICE = {
   root: "/discovery-device",
+  availableDeviceListModal: "/available-device-list-modal",
 }
 
 export const URL_DEVICE_INITIALIZATION = {

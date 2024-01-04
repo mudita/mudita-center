@@ -23,6 +23,11 @@ import { NotificationBadgeTestIds } from "Core/notification/components"
 import { MessageType } from "Core/messages/constants"
 import { Thread } from "Core/messages/dto"
 import { View } from "Core/__deprecated__/renderer/constants/views"
+import {
+  DeviceInitializationState,
+  DeviceInitializationStatus,
+} from "Core/device-initialization/reducers/device-initialization.interface"
+import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
 
 jest.mock("Core/feature-flags")
 
@@ -30,8 +35,14 @@ type Props = MenuProps
 
 const defaultState = {
   device: {
-    deviceType: DeviceType.MuditaPure,
+    deviceType: DeviceType.MuditaPure
   } as unknown as DeviceState,
+  deviceManager: {
+    devices: []
+  } as unknown as DeviceManagerState,
+  deviceInitialization: {
+    deviceInitializationStatus: DeviceInitializationStatus.Idle
+  } as unknown as DeviceInitializationState,
   messages: {
     data: { threadMap: {} },
   },
