@@ -45,6 +45,7 @@ import {
   DeviceManager,
   DeviceResolverService,
 } from "Core/device-manager/services"
+import { DesktopModule } from "Core/desktop/desktop.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -65,6 +66,7 @@ export class ApplicationModule {
     DeviceLogModule,
     DeviceModule,
     DeviceManagerModule,
+    DesktopModule,
   ]
   public lateModules: Module[] = [DataSyncModule, CrashDumpModule]
 

@@ -15,6 +15,9 @@ import ErrorConnectingModal from "Core/connecting/components/error-connecting-mo
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import PrivacyPolicyModal from "Core/settings/components/privacy-policy-modal/privacy-policy-modal.component"
+import MuditaCenterOnSudoModeContainer from "Core/settings/components/usb-access/mudita-center-on-sudo-mode.container"
+import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
+import { ModalsManagerState } from "../reducers"
 
 type Props = {
   appForcedUpdateFlowShow: boolean
@@ -34,6 +37,9 @@ const ModalsManager: FunctionComponent<Props> = ({
   const { privacyPolicyAccepted } = useSelector(
     (state: ReduxRootState) => state.settings
   )
+  const { usbAccessFlowShow } = useSelector(
+    (state: ReduxRootState): ModalsManagerState => state.modalsManager
+  )
 
   if (privacyPolicyAccepted === false) {
     return <PrivacyPolicyModal />
@@ -48,6 +54,8 @@ const ModalsManager: FunctionComponent<Props> = ({
       {appUpdateFlowShow && <AppUpdateFlowContainer />}
       {contactSupportFlowShow && <ContactSupportFlow />}
       <UpdateOsInterruptedFlowContainer />
+      <MuditaCenterOnSudoModeContainer />
+      {usbAccessFlowShow && <USBAccessFlowContainer />}
     </>
   )
 }
