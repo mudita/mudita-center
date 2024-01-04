@@ -138,7 +138,7 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     })
   }
 
-  @log("==== serial port: create valid request ====", LogConfig.Args)
+  //@log("==== serial port: create valid request ====", LogConfig.Args)
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected mapPayloadToRequest(payload: RequestPayload<any>): string {

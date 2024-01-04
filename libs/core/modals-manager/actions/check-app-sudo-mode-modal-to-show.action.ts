@@ -8,6 +8,7 @@ import { ModalsManagerEvent } from "Core/modals-manager/constants"
 import { showModal } from "Core/modals-manager/actions/base.action"
 import { ModalStateKey } from "Core/modals-manager/reducers"
 import { isSudoMode } from "Core/desktop/requests/is-sudo-mode.request"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export const checkAppInSudoModeModalToShow = createAsyncThunk<void, undefined>(
   ModalsManagerEvent.ShowAppInSudoMode,
@@ -15,6 +16,7 @@ export const checkAppInSudoModeModalToShow = createAsyncThunk<void, undefined>(
   // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { dispatch }) => {
     const sudoMode = await isSudoMode()
+    logger.info(`checkAppInSudoModeModalToShow ${sudoMode}`)
 
     if (sudoMode) {
       dispatch(showModal(ModalStateKey.AppRunWithSudo))

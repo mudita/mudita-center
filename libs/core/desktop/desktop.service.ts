@@ -15,10 +15,13 @@ export class DesktopService {
   }
 
   public async isSudoMode(): Promise<boolean> {
-    if (await this.isLinux()) {
+    const isLinux = await this.isLinux()
+    logger.info(`isSudoMode isLinux ${isLinux}`)
+    if (isLinux) {
       const processUid = process.getuid ? process.getuid() : undefined
       const isSudoMode = processUid === 0
 
+      logger.info(`isSudoMode isSudoMode ${isSudoMode}`)
       return isSudoMode
     }
     return false
