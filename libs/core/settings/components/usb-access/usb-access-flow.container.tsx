@@ -62,7 +62,7 @@ const USBAccessFlowContainer = () => {
         actionButtonLabel="ALLOW"
         closeButton={false}
       />
-      <USBAccessGrantedModal
+      {/* <USBAccessGrantedModal
         title="Mudita Center"
         open={accessState === USBAccessState.granted}
         closeModal={() => {
@@ -100,7 +100,7 @@ const USBAccessFlowContainer = () => {
         }}
         actionButtonLabel="OK"
         closeButton={false}
-      />
+      /> */}
     </>
   )
 }
