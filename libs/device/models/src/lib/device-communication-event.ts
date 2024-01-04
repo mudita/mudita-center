@@ -12,8 +12,8 @@ export type ApiSerialPortEvent =
 
 export const ApiSerialPortToRendererEvents = {
   Connected: "api-serial-port-connected",
-  Disconnected: "api-serial-port-disconnected",
-  InitializationFailed: "api-serial-port-initialization-failed",
+  Closed: "api-serial-port-closed",
+  ConnectionFailed: "api-serial-port-connection-failed",
 } as const
 
 export type ApiSerialPortToRendererEvents =

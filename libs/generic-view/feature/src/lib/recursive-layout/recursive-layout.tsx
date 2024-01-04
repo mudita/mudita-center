@@ -9,12 +9,12 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import apiComponents from "generic-view/ui"
 import { APIFC, withLayout } from "generic-view/utils"
 
-interface MetaData {
+interface Properties {
   viewKey: string
   componentKey: string
 }
 
-export const RecursiveLayout: FunctionComponent<MetaData> = (
+export const RecursiveLayout: FunctionComponent<Properties> = (
   recursiveComponentMetadata
 ) => {
   const { viewKey, componentKey } = recursiveComponentMetadata
