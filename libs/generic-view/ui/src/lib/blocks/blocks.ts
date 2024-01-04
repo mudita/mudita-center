@@ -4,11 +4,9 @@
  */
 
 import BlockBox from "./block-box"
-import { BlockVanilla } from "./block-vanilla"
-import { BlockWrapper } from "./block-wrapper"
+import { BlockPlain } from "./block-plain"
 
 export const blocks = {
+  "block-plain": BlockPlain,
   "block-box": BlockBox,
-  "block-vanilla": BlockVanilla,
-  "block-wrapper": BlockWrapper,
 }

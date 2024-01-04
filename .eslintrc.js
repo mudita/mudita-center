@@ -128,5 +128,4 @@ module.exports = {
       version: "detect",
     },
   },
-  ignorePatterns: ["auth-server.test.ts", "./jest"],
 }

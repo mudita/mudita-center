@@ -124,11 +124,11 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
 ) => {
   return {
     main: {
-      component: "block-wrapper",
+      component: "block-plain",
       layout: {
-        padding: "2rem",
+        padding: "32px",
         gridLayout: {
-          rows: [1, 1, 1],
+          rows: ["261px", "205px", 1],
           columns: [1, 2],
           columnGap: "2rem",
           rowGap: "2rem",
@@ -137,11 +137,17 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           grow: 1,
         },
       },
-      childrenKeys: ["summary", "status", "update"],
+      childrenKeys: [
+        "summary",
+        ...config.sections.map((section) => section.key),
+      ],
     },
     ...(config.summary.show && {
       summary: {
         component: "block-box",
+        config: {
+          title: "Summary",
+        },
         layout: {
           gridPlacement: {
             row: 1,
@@ -154,9 +160,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
             justifyContent: "space-between",
           },
         },
-        config: {
-          title: "Summary",
-        },
+
         childrenKeys: [
           config.summary.showImg ? "summaryImg" : undefined,
           config.summary.showSerialNumber ? "serial-number" : undefined,
@@ -164,7 +168,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         ].filter(Boolean) as string[],
       },
       summaryImg: {
-        component: "block-box",
+        component: "block-plain",
         layout: {
           flexPlacement: {
             alignSelf: "center",
@@ -175,7 +179,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         },
       },
       "serial-number": {
-        component: "block-box",
+        component: "block-plain",
         layout: {
           flexPlacement: {
             alignSelf: "center",
@@ -186,7 +190,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         },
       },
       about: {
-        component: "block-box",
+        component: "block-plain",
         layout: {
           flexPlacement: {
             alignSelf: "center",
@@ -199,6 +203,9 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     }),
     status: {
       component: "block-box",
+      config: {
+        title: "Status",
+      },
       layout: {
         gridPlacement: {
           row: 1,
@@ -210,9 +217,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           direction: "column",
         },
       },
-      parameters: {
-        title: "Status",
-      },
+
       childrenKeys: ["battery", "connection"],
     },
     battery: {
@@ -228,6 +233,9 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     },
     update: {
       component: "block-box",
+      config: {
+        title: "MuditaOS",
+      },
       layout: {
         gridPlacement: {
           row: 2,
