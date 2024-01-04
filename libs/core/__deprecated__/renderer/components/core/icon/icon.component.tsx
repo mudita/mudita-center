@@ -4,15 +4,15 @@
  */
 
 import * as React from "react"
-import {
-  getEnumName,
-  getIconType,
-} from "Core/__deprecated__/renderer/components/core/icon/icon.config"
+import { getEnumName, getIconType } from "Core/__deprecated__/renderer/components/core/icon/icon.config"
 import Svg from "Core/__deprecated__/renderer/components/core/svg/svg.component"
-import { backgroundColor, fontWeight } from "Core/core/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { BadgeWithCounter } from "Core/__deprecated__/renderer/components/core/icon/badge-with-counter"
+import { getIconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/get-icon-badge-type.helper"
+import { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/icon-badge-type.constant"
 
 export enum IconSize {
   Small = 1.6,
@@ -65,52 +65,6 @@ const Wrapper = styled.span<{
 
   ${({ badge }) => badge && badgeStyles};
 `
-
-export enum IconBadgeType {
-  Badge,
-  BadgeWithCounter,
-}
-
-const getIconBadgeType = (
-  badge: undefined | boolean | IconBadgeType
-): IconBadgeType | undefined => {
-  if (badge === true || badge === IconBadgeType.Badge) {
-    return IconBadgeType.Badge
-  } else if (badge === IconBadgeType.BadgeWithCounter) {
-    return IconBadgeType.BadgeWithCounter
-  } else {
-    return undefined
-  }
-}
-
-interface BadgeWithCounterProps {
-  indicator: number
-}
-
-const BadgeWithCounterContainer = styled.span`
-  width: 2rem;
-  height: 2rem;
-  background-color: black;
-  color: white;
-  border-radius: 50%;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  right: 0;
-  font-size: 1.2rem;
-  font-weight: ${fontWeight("bold")};
-  transform: translate(calc(50% + -0.2rem), calc(-50% + 0.8rem));
-`
-
-const BadgeWithCounter: FunctionComponent<BadgeWithCounterProps> = ({
-  indicator,
-}) => {
-  console.log("indicator: ", indicator)
-  return <BadgeWithCounterContainer>{ indicator }</BadgeWithCounterContainer>
-  // return <div>s</div>
-}
 
 const Icon: FunctionComponent<Props> = ({
   badge = false,

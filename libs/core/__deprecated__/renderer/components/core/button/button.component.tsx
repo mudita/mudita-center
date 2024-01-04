@@ -20,8 +20,9 @@ import {
   StyledLink,
   StyledNavLink,
 } from "./button.styled.elements"
-import { IconBadgeType, IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/icon-badge-type.constant"
 
 export interface ButtonComponentProps {
   nav?: boolean

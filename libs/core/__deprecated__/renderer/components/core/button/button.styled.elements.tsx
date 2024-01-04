@@ -18,8 +18,9 @@ import {
 } from "Core/core/styles/theming/theme-getters"
 import styled, { css, keyframes } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
-import Icon, { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { Theme } from "Core/core/styles/theming/theme"
+import { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/icon-badge-type.constant"
 
 const getSize = (size: Size) => {
   switch (size) {
