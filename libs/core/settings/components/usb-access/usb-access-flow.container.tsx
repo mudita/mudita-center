@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { hideModals } from "Core/modals-manager/actions/base.action"
@@ -46,8 +46,8 @@ const USBAccessFlowContainer = () => {
   return (
     <>
       <div>accessState: {accessState}</div>
-      <div>usbAccessRestart: {usbAccessRestart}</div>
-      {/* <AllowUSBPortAccessModal
+      <div>usbAccessRestart: {usbAccessRestart ? "true" : "false"}</div>
+      <AllowUSBPortAccessModal
         title="Mudita Center"
         open={accessState === USBAccessState.notGranted}
         closeModal={() => {
@@ -63,8 +63,8 @@ const USBAccessFlowContainer = () => {
         }}
         actionButtonLabel="ALLOW"
         closeButton={false}
-      /> */}
-      {/* <USBAccessGrantedModal
+      />
+      <USBAccessGrantedModal
         title="Mudita Center"
         open={accessState === USBAccessState.granted}
         closeModal={() => {
@@ -102,7 +102,7 @@ const USBAccessFlowContainer = () => {
         }}
         actionButtonLabel="OK"
         closeButton={false}
-      /> */}
+      />
     </>
   )
 }

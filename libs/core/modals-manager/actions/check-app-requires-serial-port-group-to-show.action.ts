@@ -21,7 +21,8 @@ export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { dispatch }) => {
     //if (await isLinux()) {
-    const userInGroup = await isUserInSerialPortGroup()
+    //const userInGroup = await isUserInSerialPortGroup()
+    const userInGroup = false
 
     logger.info(`checkAppRequiresSerialPortGroup userInGroup ${userInGroup}`)
 
