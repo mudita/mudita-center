@@ -59,6 +59,7 @@ import NewContact from "Core/__deprecated__/renderer/svg/new-contact.svg"
 import Notes from "Core/__deprecated__/renderer/svg/notes.svg"
 import Notifications from "Core/__deprecated__/renderer/svg/notifications.svg"
 import Dial from "Core/__deprecated__/renderer/svg/dial.svg"
+import DotsInBox from "Core/__deprecated__/renderer/svg/dots-in-box.svg"
 import Playlist from "Core/__deprecated__/renderer/svg/playlist.svg"
 import PlusSign from "Core/__deprecated__/renderer/svg/plus-sign.svg"
 import Reload from "Core/__deprecated__/renderer/svg/circle-arrow.svg"
@@ -300,6 +301,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.Dial]: Dial,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.DotsInBox]: DotsInBox,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.Notes]: Notes,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -505,7 +509,7 @@ export const getIconType = (
 ): FunctionComponent<ImageInterface> => typeToIcon[icon] || Message
 
 export function getEnumName(type: IconType): string
-export function getEnumName(type?: IconType): null
+export function getEnumName(type: IconType | undefined): string | null
 export function getEnumName(type?: IconType): string | null {
   return type !== undefined ? IconType[type] : null
 }

@@ -20,7 +20,7 @@ import {
   StyledLink,
   StyledNavLink,
 } from "./button.styled.elements"
-import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import { IconBadgeType, IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 export interface ButtonComponentProps {
@@ -31,6 +31,8 @@ export interface ButtonComponentProps {
   href?: string
   Icon?: IconType
   iconSize?: IconSize
+  iconBadgeType?: IconBadgeType
+  iconBadgeCountIndicator?: number
   label?: string | JSX.Element
   labelMessage?: MessageInterface
   onClick?: MouseEventHandler
@@ -64,8 +66,15 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
   type = Type.Button,
   buttonRef,
   loading,
+  iconBadgeType,
+  iconBadgeCountIndicator,
   ...rest
 }) => {
+  const badge =
+    iconBadgeType === undefined &&
+    displayStyle === DisplayStyle.BorderlessButton
+      ? IconBadgeType.BadgeWithCounter
+      : iconBadgeType
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let Component: any
@@ -92,9 +101,10 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
   const getButtonTextDisplayStyle = (style: DisplayStyle): TextDisplayStyle => {
     if (
       style ===
-      (DisplayStyle.MenuLink ||
-        DisplayStyle.Tab ||
-        DisplayStyle.LinkWithParagraph)
+        (DisplayStyle.MenuLink ||
+          DisplayStyle.Tab ||
+          DisplayStyle.LinkWithParagraph) ||
+      style === DisplayStyle.BorderlessButton
     ) {
       return TextDisplayStyle.Paragraph1
     }
@@ -136,6 +146,7 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
       displayStyle={displayStyle}
       size={size}
       disabled={disabled}
+      badge={badge}
     >
       {loading && (
         <StyledIcon
@@ -143,6 +154,8 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
           withMargin={Boolean(label || labelMessage)}
           type={IconType.Refresh}
           size={IconSize.Medium}
+          badge={badge}
+          badgeCountIndicator={iconBadgeCountIndicator}
           rotate
         />
       )}
@@ -152,6 +165,8 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
           withMargin={Boolean(label || labelMessage)}
           type={Icon}
           size={iconSize}
+          badge={badge}
+          badgeCountIndicator={iconBadgeCountIndicator}
         />
       )}
       {getLabel()}

@@ -27,6 +27,8 @@ import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/m
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { View } from "Core/__deprecated__/renderer/constants/views"
 import { getUnreadThreads } from "Core/messages/selectors"
+import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
+import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -65,6 +67,17 @@ const SyncProgressWrapper = styled.div`
 `
 const LoaderWrapper = styled.div`
   margin: 0 1.6rem;
+`
+
+const DeviceButton = styled(ButtonComponent)``
+
+const DeviceButtonWrapper = styled.div`
+  ${DeviceButton} {
+    padding-left: 0;
+    margin-left: 0;
+    justify-content: flex-start;
+    margin-bottom: 3.2rem;
+  }
 `
 
 export interface MenuProps {
@@ -132,6 +145,14 @@ const Menu: FunctionComponent<MenuProps> = ({
           </Text>
         </SyncProgressWrapper>
       )}
+      <DeviceButtonWrapper>
+        <DeviceButton
+          label="Select Device"
+          displayStyle={DisplayStyle.BorderlessButton}
+          Icon={IconType.DotsInBox}
+          iconBadgeCountIndicator={2}
+        />
+      </DeviceButtonWrapper>
     </MenuWrapper>
   )
 }

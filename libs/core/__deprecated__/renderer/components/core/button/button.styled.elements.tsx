@@ -18,7 +18,7 @@ import {
 } from "Core/core/styles/theming/theme-getters"
 import styled, { css, keyframes } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
-import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { Theme } from "Core/core/styles/theming/theme"
 
 const getSize = (size: Size) => {
@@ -70,6 +70,11 @@ export const buttonTransitionStyles = css`
     )},
     ${transition(
       "border",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
+    ${transition(
+      "text-decoration-color",
       theme.transitionTime.quick,
       theme.transitionTimingFunction.easeInOut
     )};
@@ -337,6 +342,21 @@ const buttonStyles = css<{
           ${getButtonContentColor("tabHover")}
           ${disabled && getButtonContentColor("disabled")}
         `
+      case DisplayStyle.BorderlessButton:
+        return css`
+          height: 3.2rem;
+          border-color: transparent;
+          text-decoration: underline;
+          text-decoration-color: transparent;
+          overflow: inherit;
+          g path {
+            fill: ${textColor("primary")};
+          }
+
+          &:hover {
+            text-decoration-color: ${textColor("primary")};
+          }
+        `
       default:
         return
     }
@@ -386,8 +406,9 @@ export const StyledIcon = styled(Icon)<{
   displayStyle: DisplayStyle
   withMargin: boolean
   rotate?: boolean
+  badge: undefined | boolean | IconBadgeType
 }>`
-  ${({ displayStyle, withMargin }) => {
+  ${({ displayStyle, withMargin, badge }) => {
     if (withMargin) {
       if (
         displayStyle === DisplayStyle.Link ||
@@ -398,9 +419,15 @@ export const StyledIcon = styled(Icon)<{
           margin-right: 0.4rem;
         `
       }
-      return css`
-        margin: 0 0.8rem 0 0;
-      `
+      if (badge === IconBadgeType.BadgeWithCounter) {
+        return css`
+          margin: 0 1rem 0 0;
+        `
+      } else {
+        return css`
+          margin: 0 0.8rem 0 0;
+        `
+      }
     }
     return css``
   }}

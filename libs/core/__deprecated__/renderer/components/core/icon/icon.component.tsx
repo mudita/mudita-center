@@ -9,7 +9,7 @@ import {
   getIconType,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.config"
 import Svg from "Core/__deprecated__/renderer/components/core/svg/svg.component"
-import { backgroundColor } from "Core/core/styles/theming/theme-getters"
+import { backgroundColor, fontWeight } from "Core/core/styles/theming/theme-getters"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
@@ -22,7 +22,8 @@ export enum IconSize {
 }
 
 export interface Props {
-  badge?: boolean
+  badge?: boolean | IconBadgeType
+  badgeCountIndicator?: number
   height?: number
   width?: number
   size?: IconSize
@@ -44,7 +45,7 @@ const badgeStyles = css`
 `
 
 const Wrapper = styled.span<{
-  badge?: boolean
+  badge: boolean
   height?: number
   width?: number
   size?: IconSize
@@ -65,8 +66,55 @@ const Wrapper = styled.span<{
   ${({ badge }) => badge && badgeStyles};
 `
 
+export enum IconBadgeType {
+  Badge,
+  BadgeWithCounter,
+}
+
+const getIconBadgeType = (
+  badge: undefined | boolean | IconBadgeType
+): IconBadgeType | undefined => {
+  if (badge === true || badge === IconBadgeType.Badge) {
+    return IconBadgeType.Badge
+  } else if (badge === IconBadgeType.BadgeWithCounter) {
+    return IconBadgeType.BadgeWithCounter
+  } else {
+    return undefined
+  }
+}
+
+interface BadgeWithCounterProps {
+  indicator: number
+}
+
+const BadgeWithCounterContainer = styled.span`
+  width: 2rem;
+  height: 2rem;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
+  font-size: 1.2rem;
+  font-weight: ${fontWeight("bold")};
+  transform: translate(calc(50% + -0.2rem), calc(-50% + 0.8rem));
+`
+
+const BadgeWithCounter: FunctionComponent<BadgeWithCounterProps> = ({
+  indicator,
+}) => {
+  console.log("indicator: ", indicator)
+  return <BadgeWithCounterContainer>{ indicator }</BadgeWithCounterContainer>
+  // return <div>s</div>
+}
+
 const Icon: FunctionComponent<Props> = ({
   badge = false,
+  badgeCountIndicator = 0,
   className,
   size,
   height,
@@ -74,17 +122,19 @@ const Icon: FunctionComponent<Props> = ({
   type,
   ...rest
 }) => {
+  const iconBadgeType = getIconBadgeType(badge)
   return (
     <Wrapper
-      badge={badge}
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      data-testid={`icon-${getEnumName(type)}`}
+      badge={iconBadgeType === IconBadgeType.Badge}
+      data-testid={`icon-${getEnumName(type) ?? ""}`}
       className={className}
       height={size || height || width}
       width={size || width || height}
       {...rest}
     >
+      {iconBadgeType === IconBadgeType.BadgeWithCounter && (
+        <BadgeWithCounter indicator={badgeCountIndicator} />
+      )}
       <Svg Image={getIconType(type)} />
     </Wrapper>
   )
