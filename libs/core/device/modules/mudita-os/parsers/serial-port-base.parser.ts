@@ -3,10 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { RequestPayload, Response } from "Core/device/types/mudita-os"
-
 export abstract class SerialPortParserBase {
-  public abstract parse(data: Buffer): Response<unknown> | undefined
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public abstract parse(data: Buffer): any
 
-  public abstract createRequest(payload: RequestPayload<unknown>): string
+  public abstract createRequest(payload: unknown): string
 }

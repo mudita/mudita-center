@@ -47,7 +47,9 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
   return (
     <>
       {label && (
-        <HeaderWrapper data-testid={label.id}>
+        <HeaderWrapper
+          data-testid={typeof label === "string" ? label : label.id}
+        >
           <Text displayStyle={TextDisplayStyle.Title} message={label} />
           {icons && (
             <HeaderIconContainer>
@@ -86,9 +88,11 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
             const buttonMenuConfig = {
               nav: true,
               displayStyle: DisplayStyle.MenuLink,
-              labelMessage: button.label,
               Icon: icon,
               iconSize: IconSize.Bigger,
+              ...(typeof button.label === "string"
+                ? { label: button.label }
+                : { labelMessage: button.label }),
             }
             if (button === views.help) {
               const openHelpWindow = () =>

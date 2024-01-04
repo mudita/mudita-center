@@ -17,6 +17,8 @@ import {
   backgroundColor,
   borderColor,
 } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { useSelector } from "react-redux"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 const HeaderWrapper = styled.div`
   display: grid;
@@ -41,7 +43,12 @@ const Header: FunctionComponent<HeaderProps> = ({
   button,
 }) => {
   const location = useLocation()
-  const [currentLocation, setCurrentLocation] = useState<{ id: string }>()
+  const genericMenu = useSelector(
+    (state: ReduxRootState) => state.genericViews.menu
+  )
+  const [currentLocation, setCurrentLocation] = useState<
+    { id: string } | string
+  >()
   const [renderHeaderButton, setRenderHeaderButton] = useState(false)
   useEffect(() => {
     const pathname = location.pathname
@@ -58,8 +65,16 @@ const Header: FunctionComponent<HeaderProps> = ({
       setRenderHeaderButton(
         menuElementNameWithHeaderButton === currentMenuElementName
       )
+    } else {
+      const currentGenericMenuElement = genericMenu
+        ?.flatMap((element) => element.items)
+        .find((item) => item?.button.url === pathname)
+      if (currentGenericMenuElement) {
+        setCurrentLocation(currentGenericMenuElement.button.label)
+        setRenderHeaderButton(false)
+      }
     }
-  }, [location])
+  }, [genericMenu, location])
   return (
     <HeaderWrapper>
       <HeaderText

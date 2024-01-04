@@ -16,16 +16,18 @@ import {
 import { PortInfo } from "Core/device-manager/types"
 import { PortInfoValidator } from "Core/device-manager/validators"
 import {
-  ListenerEvent,
   DeviceManagerError,
+  ListenerEvent,
 } from "Core/device-manager/constants"
 import { DeviceServiceEvent } from "Core/device"
 import { EventEmitter } from "events"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { Mutex } from "async-mutex"
+import { APIDevice } from "device/feature"
 
 export class DeviceManager {
   public currentDevice: Device | undefined
+  private currentAPIDevice: APIDevice | undefined
   public devicesMap = new Map<string, Device>()
   public currentDeviceInitializationFailed = false
 
@@ -40,6 +42,17 @@ export class DeviceManager {
     protected eventEmitter: EventEmitter
   ) {
     this.mountListeners()
+  }
+
+  get apiDevice() {
+    if (!this.currentAPIDevice) {
+      throw new AppError(
+        DeviceManagerError.NoCurrentDevice,
+        "Current device is undefined"
+      )
+    }
+
+    return this.currentAPIDevice
   }
 
   get device(): Device {
@@ -172,6 +185,14 @@ export class DeviceManager {
 
         if (port) {
           const device = this.deviceResolver.resolve(port)
+
+          if (
+            !device &&
+            process.env.FEATURE_TOGGLE_ENVIRONMENT === "development"
+          ) {
+            //TODO: temporary, remove in future
+            this.currentAPIDevice = new APIDevice(port)
+          }
 
           if (!device) {
             return

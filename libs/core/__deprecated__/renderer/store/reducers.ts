@@ -18,6 +18,7 @@ import { templateReducer } from "Core/templates/reducers"
 import { newsReducer } from "Core/news/reducers"
 import { settingsReducer } from "Core/settings/reducers"
 import { updateOsReducer } from "Core/update/reducers"
+import { genericViewsReducer } from "generic-view/store"
 
 export const reducers = {
   device: deviceReducer,
@@ -34,6 +35,7 @@ export const reducers = {
   news: newsReducer,
   settings: settingsReducer,
   update: updateOsReducer,
+  genericViews: genericViewsReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

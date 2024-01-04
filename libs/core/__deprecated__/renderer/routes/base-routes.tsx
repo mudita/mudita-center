@@ -38,6 +38,8 @@ import {
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "Core/templates/template.container"
+import { APIConnectionDemo } from "device/feature"
+import { GenericView } from "generic-view/feature"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -65,42 +67,49 @@ export default () => (
 
     <Route>
       <LayoutDesktopWrapper>
-        <Route path={URL_MAIN.filesManager} component={FilesManager} />
-        <Route path={URL_MAIN.meditation} component={Meditation} />
-        <Route path={URL_MAIN.messages} component={Messages} exact />
-        <Route
-          path={`${URL_MAIN.messages}${URL_TABS.templates}`}
-          component={TemplatesContainer}
-        />
-        <Route path={URL_MAIN.music} component={Music} exact />
-        <Route
-          path={`${URL_MAIN.music}${URL_TABS.playlist}`}
-          component={Playlist}
-        />
-        <Route path={URL_MAIN.news} component={News} />
-        <Route path={URL_OVERVIEW.root} component={Overview} exact />
-        <Route path={URL_MAIN.contacts} component={Contacts} exact />
-        <Route path={URL_MAIN.phone} component={Calls} />
-        <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
-        <Route path={URL_MAIN.settings} component={BackupContainer} exact />
-        <Route
-          path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
-          component={NotificationsContainer}
-        />
-        <Route
-          path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
-          component={AudioConversionContainer}
-        />
-        <Route
-          path={`${URL_MAIN.settings}${URL_TABS.about}`}
-          component={AboutContainer}
-        />
-        <Route path={URL_MAIN.tethering} component={Tethering} />
-        <Route path={URL_MAIN.tools} component={Notes} exact />
-        <Route
-          path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
-          component={VoiceRecorder}
-        />
+        <Switch>
+          <Route
+            path={"/generic/api-connection-demo"}
+            component={APIConnectionDemo}
+          />
+          <Route path={"/generic/:viewKey"} component={GenericView} />
+          <Route path={URL_MAIN.filesManager} component={FilesManager} />
+          <Route path={URL_MAIN.meditation} component={Meditation} />
+          <Route path={URL_MAIN.messages} component={Messages} exact />
+          <Route
+            path={`${URL_MAIN.messages}${URL_TABS.templates}`}
+            component={TemplatesContainer}
+          />
+          <Route path={URL_MAIN.music} component={Music} exact />
+          <Route
+            path={`${URL_MAIN.music}${URL_TABS.playlist}`}
+            component={Playlist}
+          />
+          <Route path={URL_MAIN.news} component={News} />
+          <Route path={URL_OVERVIEW.root} component={Overview} exact />
+          <Route path={URL_MAIN.contacts} component={Contacts} exact />
+          <Route path={URL_MAIN.phone} component={Calls} />
+          <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
+          <Route path={URL_MAIN.settings} component={BackupContainer} exact />
+          <Route
+            path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
+            component={NotificationsContainer}
+          />
+          <Route
+            path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
+            component={AudioConversionContainer}
+          />
+          <Route
+            path={`${URL_MAIN.settings}${URL_TABS.about}`}
+            component={AboutContainer}
+          />
+          <Route path={URL_MAIN.tethering} component={Tethering} />
+          <Route path={URL_MAIN.tools} component={Notes} exact />
+          <Route
+            path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
+            component={VoiceRecorder}
+          />
+        </Switch>
       </LayoutDesktopWrapper>
     </Route>
 
