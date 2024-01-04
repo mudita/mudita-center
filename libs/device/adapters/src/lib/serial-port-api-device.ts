@@ -40,7 +40,7 @@ export class SerialPortDeviceAPIAdapter {
       if (error) {
         const appError = new AppError(DeviceError.Initialization, error.message)
         callRenderer(
-          "api-serial-port-initialization-failed",
+          "api-serial-port-connection-failed",
           Result.failed(appError)
         )
       }
@@ -69,7 +69,7 @@ export class SerialPortDeviceAPIAdapter {
 
     this.serialPort.on("close", () => {
       callRenderer(
-        "api-serial-port-disconnected",
+        "api-serial-port-closed",
         Result.success(`Device ${path} disconnected`)
       )
     })

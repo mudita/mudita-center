@@ -9,7 +9,7 @@ import { answerMain } from "./answer-main"
 export const useAPISerialPortListeners = () => {
   useEffect(() => {
     const unregisterFailListener = answerMain(
-      "api-serial-port-initialization-failed",
+      "api-serial-port-connection-failed",
       (x) => {
         console.log(x)
       }
