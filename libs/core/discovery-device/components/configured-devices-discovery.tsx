@@ -13,7 +13,7 @@ import ConnectingContent from "Core/connecting/components/connecting-content.com
 import { getConnectedDevicesSelector } from "Core/device-manager/selectors/get-connected-devices.selector"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import AvailableDeviceList from "Core/discovery-device/components/available-device-list.component"
+import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 
 const ConfiguredDevicesDiscovery: FunctionComponent = () => {
@@ -57,12 +57,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   }, [dispatch])
 
   if (devices.length > 1 && noNewDevicesDetectedState) {
-    return (
-      <AvailableDeviceList
-        onDeviceClick={handleDeviceClick}
-        devices={devices}
-      />
-    )
+    return <AvailableDeviceListContainer />
   } else {
     return <ConnectingContent />
   }

@@ -5,30 +5,15 @@
 
 import React from "react"
 import { DeviceType } from "Core/device/constants"
+import styled from "styled-components"
 import { connect } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import MenuGroup from "Core/__deprecated__/renderer/components/rest/menu/menu-group.component"
-import { menuElements } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { DevMode } from "Core/__deprecated__/dev-mode/store/dev-mode.interface"
-import styled from "styled-components"
-import {
-  backgroundColor,
-  textColor,
-} from "Core/core/styles/theming/theme-getters"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import Loader from "Core/__deprecated__/renderer/components/core/loader/loader.component"
-import { LoaderType } from "Core/__deprecated__/renderer/components/core/loader/loader.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
-import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { View } from "Core/__deprecated__/renderer/constants/views"
 import { getUnreadThreads } from "Core/messages/selectors"
-import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
-import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
+import MenuTop from "Core/__deprecated__/renderer/components/rest/menu/menu-top.component"
+import MenuBottom from "Core/__deprecated__/renderer/components/rest/menu/menu-bottom.component"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -37,47 +22,6 @@ const MenuWrapper = styled.div`
   margin: 0 3.2rem;
   justify-content: space-between;
   min-height: 100%;
-`
-
-const LogoWrapper = styled.div`
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: ${backgroundColor("row")};
-`
-
-const SvgMuditaLogo = styled(Icon)`
-  height: 2rem;
-  width: 8.6rem;
-  margin: 2rem 0 2.4rem;
-`
-
-const DevSign = styled.span`
-  position: absolute;
-  right: 0;
-  top: 2rem;
-  line-height: 2rem;
-  color: ${textColor("secondary")};
-`
-const SyncProgressWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 3.2rem;
-  margin-top: 0.8rem;
-`
-const LoaderWrapper = styled.div`
-  margin: 0 1.6rem;
-`
-
-const DeviceButton = styled(ButtonComponent)``
-
-const DeviceButtonWrapper = styled.div`
-  ${DeviceButton} {
-    padding-left: 0;
-    margin-left: 0;
-    justify-content: flex-start;
-    margin-bottom: 3.2rem;
-  }
 `
 
 export interface MenuProps {
@@ -90,69 +34,15 @@ export interface MenuProps {
   }
   dataSyncInProgress?: boolean
 }
-const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Menu: FunctionComponent<MenuProps> = ({
-  deviceType,
-  deviceFeaturesVisible,
-  devModeEnabled,
-  notifications,
   dataSyncInProgress,
+  ...rest
 }) => {
-  const links = menuElements
-    .filter(({ connectedPhoneOnly }) =>
-      deviceFeaturesVisible ? true : !connectedPhoneOnly
-    )
-    .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
-    .filter(({ simulatePhoneConnection }) =>
-      simulatePhoneConnectionEnabled ? true : !simulatePhoneConnection
-    )
-    .filter(({ visibleOn }) =>
-      deviceType && visibleOn ? visibleOn.includes(deviceType) : true
-    )
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
-      return (
-        <MenuGroup
-          {...props}
-          deviceType={deviceType}
-          key={indexMenu}
-          notifications={notifications}
-        />
-      )
-    })
   return (
     <MenuWrapper>
-      <div>
-        <LogoWrapper>
-          <SvgMuditaLogo type={IconType.MuditaLogoWithText} />
-          {devModeEnabled && (
-            <DevSign>
-              {intl.formatMessage({ id: "component.devModeHeader" })}
-            </DevSign>
-          )}
-        </LogoWrapper>
-        {links}
-      </div>
-      {dataSyncInProgress && (
-        <SyncProgressWrapper data-testid={MenuGroupTestIds.Sync}>
-          <LoaderWrapper>
-            <Loader type={LoaderType.Spinner} size={1.5} />
-          </LoaderWrapper>
-          <Text displayStyle={TextDisplayStyle.Paragraph1}>
-            {intl.formatMessage({ id: "component.menuHeaderSync" })}
-          </Text>
-        </SyncProgressWrapper>
-      )}
-      <DeviceButtonWrapper>
-        <DeviceButton
-          label="Select Device"
-          displayStyle={DisplayStyle.BorderlessButton}
-          Icon={IconType.DotsInBox}
-          iconBadgeCountIndicator={2}
-        />
-      </DeviceButtonWrapper>
+      <MenuTop {...rest} />
+      <MenuBottom dataSyncInProgress={dataSyncInProgress} />
     </MenuWrapper>
   )
 }

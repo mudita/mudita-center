@@ -41,6 +41,7 @@ import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrap
 import TemplatesContainer from "Core/templates/template.container"
 import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configured-devices-discovery"
 import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
+import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -70,6 +71,10 @@ export default () => (
         <Route
           path={URL_DISCOVERY_DEVICE.root}
           component={ConfiguredDevicesDiscovery}
+        />
+        <Route
+          path={URL_DISCOVERY_DEVICE.availableDeviceListModal}
+          component={AvailableDeviceListContainer}
         />
       </LayoutBlankWrapper>
     </Route>
