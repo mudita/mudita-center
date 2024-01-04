@@ -25,6 +25,8 @@ enum USBAccessState {
 }
 
 const USBAccessFlowContainer = () => {
+  logger.info(`USBAccessFlowContainer render`)
+
   const [accessState, setAccessState] = useState<USBAccessState>(
     USBAccessState.notGranted
   )
