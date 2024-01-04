@@ -93,19 +93,19 @@ export class DesktopService {
       )
       if (this.serialPortGroup) {
         const command = `usermod -aG ${this.serialPortGroup} $USER`
-        logger.info(`addUserToSerialPortGroup command ${command}`)
+        process.title = "aaa"
+        logger.info(`addUserToSerialPortGroup command ${command} process.title ${process.title}`) 
         sudoPrompt.exec(command, (error, stdout, stderr) => {
           logger.info(`addUserToSerialPortGroup resolved error ${error}`)
           logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
           logger.info(`addUserToSerialPortGroup resolved stderr ${stderr}`)
-          if (stdout) {
-            //logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
+          if(error === null) {
             resolve()
           }
         })
       }
-      logger.info(`addUserToSerialPortGroup reject`)
-      reject()
+      //logger.info(`addUserToSerialPortGroup reject`)
+      //reject()
     })
   }
 }

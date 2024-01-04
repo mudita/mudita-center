@@ -16,6 +16,10 @@ import { addUserToSerialPortGroup } from "Core/desktop/requests/add-user-to-seri
 import { setSetting } from "Core/settings/actions/set-setting.action"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { SettingsState } from "Core/settings/reducers"
+import { getSettings } from "Core/settings/requests"
+import { updateSettings } from "Core/settings/requests"
+import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -35,7 +39,7 @@ const USBAccessFlowContainer = () => {
     (state: ReduxRootState): SettingsState => state.settings
   )
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<any>()
 
   useEffect(() => {
     if (usbAccessRestart) {
@@ -55,11 +59,10 @@ const USBAccessFlowContainer = () => {
         }}
         layer={ModalLayers.LinuxSerialPortGroup}
         onActionButtonClick={async () => {
-          logger.info(`before addUserToSerialPortGroup`)
           await addUserToSerialPortGroup()
-          logger.info(`after addUserToSerialPortGroup`)
-          dispatch(setSetting({ key: "usbAccessRestart", value: true }))
+          dispatch(setUSBAccessRestart(true))
           setAccessState(USBAccessState.granted)
+          //dispatch(getSettings())
         }}
         actionButtonLabel="ALLOW"
         closeButton={false}
@@ -72,7 +75,7 @@ const USBAccessFlowContainer = () => {
         }}
         layer={ModalLayers.LinuxSerialPortGroup}
         onActionButtonClick={() => {
-          setAccessState(USBAccessState.grantedNeedsRestart)
+          dispatch(hideModals())
         }}
         actionButtonLabel="OK"
         closeButton={false}

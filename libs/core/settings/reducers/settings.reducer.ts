@@ -80,10 +80,12 @@ export const settingsReducer = createReducer<SettingsState>(
       })
 
       .addCase(setSetting, (state, action) => {
-        return {
+        const result = {
           ...state,
           [action.payload.key]: action.payload.value,
         }
+        console.log("setSetting result", result)
+        return result
       })
 
       .addCase(setLatestVersion, (state, action) => {
