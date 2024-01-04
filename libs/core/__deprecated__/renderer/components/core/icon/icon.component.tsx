@@ -10,7 +10,7 @@ import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { BadgeWithCounter } from "Core/__deprecated__/renderer/components/core/icon/badge-with-counter"
+import { BadgeWithCounter } from "Core/__deprecated__/renderer/components/core/icon/badge-with-counter.component"
 import { getIconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/get-icon-badge-type.helper"
 import { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/icon-badge-type.constant"
 
