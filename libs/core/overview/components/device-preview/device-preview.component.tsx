@@ -20,6 +20,7 @@ import {
   DeviceInfo,
   PureSystemButtonContainer,
   SerialNumberWrapper,
+  DeviceCardContentWrapper,
 } from "Core/overview/components/device-preview/device-preview.styled"
 import {
   URL_ONBOARDING,
@@ -70,25 +71,27 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
 
   return (
     <PhoneCard className={className} onClick={onClick}>
-      <DeviceInfo>
-        <DeviceImage caseColour={caseColour} deviceType={deviceType} />
-      </DeviceInfo>
+      <DeviceCardContentWrapper>
+        <DeviceInfo>
+          <DeviceImage caseColour={caseColour} deviceType={deviceType} />
+        </DeviceInfo>
 
-      <SerialNumberWrapper>
-        <Text
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
-          message={messages.serialNumber}
-        />
-        <Text
-          displayStyle={TextDisplayStyle.Paragraph1}
-          testId={DeviceTestIds.SerialNumber}
-        >
-          {serialNumber
-            ? serialNumber
-            : intl.formatMessage(messages.noSerialNumberMessage)}
-        </Text>
-      </SerialNumberWrapper>
+        <SerialNumberWrapper>
+          <Text
+            displayStyle={TextDisplayStyle.Paragraph4}
+            color="secondary"
+            message={messages.serialNumber}
+          />
+          <Text
+            displayStyle={TextDisplayStyle.Paragraph1}
+            testId={DeviceTestIds.SerialNumber}
+          >
+            {serialNumber
+              ? serialNumber
+              : intl.formatMessage(messages.noSerialNumberMessage)}
+          </Text>
+        </SerialNumberWrapper>
+      </DeviceCardContentWrapper>
 
       <CardAction>
         <CardActionButton
