@@ -26,8 +26,6 @@ export const loadSettings = createAsyncThunk<void, void>(
     const settings = await getSettings()
     const configuration = await getConfiguration()
 
-    console.log("loadSettings settings", settings)
-
     try {
       updateRequired = isVersionGreater(
         configuration.centerVersion,

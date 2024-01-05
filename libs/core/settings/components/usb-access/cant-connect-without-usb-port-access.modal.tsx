@@ -10,7 +10,7 @@ import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/mo
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import {
   ModalDialog,
-  ModalContent as SimpleModal,
+  ModalContent,
   RoundIconWrapper,
 } from "Core/ui/components/modal-dialog"
 import Text, {
@@ -27,7 +27,7 @@ const CantConnectWithoutUSBPortAccessModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = ({ ...props }) => (
   <ModalDialog size={ModalSize.Small} {...props}>
-    <SimpleModal>
+    <ModalContent>
       <RoundIconWrapper>
         <Icon type={IconType.ThinFail} width={3.2} />
       </RoundIconWrapper>
@@ -40,7 +40,7 @@ const CantConnectWithoutUSBPortAccessModal: FunctionComponent<
         displayStyle={TextDisplayStyle.Paragraph4}
         color="secondary"
       />
-    </SimpleModal>
+    </ModalContent>
   </ModalDialog>
 )
 

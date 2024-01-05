@@ -24,7 +24,6 @@ import {
   setNonStandardAudioFilesConversion,
   setLowBattery,
   setCheckingForUpdate,
-  setSetting,
 } from "Core/settings/actions"
 import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
 import { setCheckingForUpdateFailed } from "Core/settings/actions/set-checking-for-update-failed.action"
@@ -77,15 +76,6 @@ export const settingsReducer = createReducer<SettingsState>(
           loaded: true,
           loading: true,
         }
-      })
-
-      .addCase(setSetting, (state, action) => {
-        const result = {
-          ...state,
-          [action.payload.key]: action.payload.value,
-        }
-        console.log("setSetting result", result)
-        return result
       })
 
       .addCase(setLatestVersion, (state, action) => {

@@ -13,13 +13,8 @@ import USBAccessGrantedModal from "Core/settings/components/usb-access/usb-acces
 import RestartYourComputerToConnectModal from "Core/settings/components/usb-access/restart-your-computer-to-connect.modal"
 import CantConnectWithoutUSBPortAccessModal from "Core/settings/components/usb-access/cant-connect-without-usb-port-access.modal"
 import { addUserToSerialPortGroup } from "Core/desktop/requests/add-user-to-serial-port-group.request"
-import { setSetting } from "Core/settings/actions/set-setting.action"
-import logger from "Core/__deprecated__/main/utils/logger"
 import { SettingsState } from "Core/settings/reducers"
-import { getSettings } from "Core/settings/requests"
-import { updateSettings } from "Core/settings/requests"
 import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -29,8 +24,6 @@ enum USBAccessState {
 }
 
 const USBAccessFlowContainer = () => {
-  logger.info(`USBAccessFlowContainer render`)
-
   const [accessState, setAccessState] = useState<USBAccessState>(
     USBAccessState.notGranted
   )
@@ -39,6 +32,7 @@ const USBAccessFlowContainer = () => {
     (state: ReduxRootState): SettingsState => state.settings
   )
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const dispatch = useDispatch<any>()
 
   useEffect(() => {
@@ -49,8 +43,6 @@ const USBAccessFlowContainer = () => {
 
   return (
     <>
-      <div>accessState: {accessState}</div>
-      <div>usbAccessRestart: {usbAccessRestart ? "true" : "false"}</div>
       <AllowUSBPortAccessModal
         title="Mudita Center"
         open={accessState === USBAccessState.notGranted}
@@ -62,7 +54,6 @@ const USBAccessFlowContainer = () => {
           await addUserToSerialPortGroup()
           dispatch(setUSBAccessRestart(true))
           setAccessState(USBAccessState.granted)
-          //dispatch(getSettings())
         }}
         actionButtonLabel="ALLOW"
         closeButton={false}

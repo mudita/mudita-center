@@ -5,7 +5,13 @@
 
 import { exec } from "child_process"
 import sudoPrompt from "@vscode/sudo-prompt"
-import logger from "Core/__deprecated__/main/utils/logger"
+
+enum SerialPortGroup {
+  dialout = "dialout",
+  uucp = "uucp",
+}
+
+const hardwareSerialPort = "/dev/ttyACM0"
 
 export class DesktopService {
   private serialPortGroup: string | undefined = undefined
@@ -16,12 +22,10 @@ export class DesktopService {
 
   public async isSudoMode(): Promise<boolean> {
     const isLinux = await this.isLinux()
-    logger.info(`isSudoMode isLinux ${isLinux}`)
     if (isLinux) {
       const processUid = process.getuid ? process.getuid() : undefined
       const isSudoMode = processUid === 0
 
-      logger.info(`isSudoMode isSudoMode ${isSudoMode}`)
       return isSudoMode
     }
     return false
@@ -31,36 +35,25 @@ export class DesktopService {
     const userGroups = await this.getUserGroups()
     const serialPortGroup = await this.getGroupsAssignedToSerialPort()
 
-    const isDialout = serialPortGroup.includes("dialout")
-    const isUUCP = serialPortGroup.includes("uucp")
-
-    logger.info(
-      `isUserInSerialPortGroup userGroups ${userGroups} serialPortGroup ${serialPortGroup}`
-    )
-    logger.info(
-      `isUserInSerialPortGroup isDialout ${isDialout} isUUCP ${isUUCP}`
-    )
+    const isDialout = serialPortGroup.includes(SerialPortGroup.dialout)
+    const isUUCP = serialPortGroup.includes(SerialPortGroup.uucp)
 
     let group = ""
     if (isDialout) {
-      group = "dialout"
+      group = SerialPortGroup.dialout
     } else if (isUUCP) {
-      group = "uucp"
+      group = SerialPortGroup.uucp
     }
 
     this.serialPortGroup = group
     const isInGroup = group !== "" ? userGroups.includes(group) : false
-
-    logger.info(
-      `isUserInSerialPortGroup this.serialPortGroup ${this.serialPortGroup} isInGroup ${isInGroup}`
-    )
 
     return isInGroup
   }
 
   private async getGroupsAssignedToSerialPort(): Promise<string> {
     return new Promise((resolve, reject) => {
-      exec("ls -l /dev/ttyACM0", (error, stdout, stderr) => {
+      exec(`ls -l ${hardwareSerialPort}`, (error, stdout, stderr) => {
         if (error) {
           reject(`${error.name} - ${error.message}`)
         } else if (stderr) {
@@ -88,24 +81,20 @@ export class DesktopService {
 
   public async addUserToSerialPortGroup(): Promise<void> {
     return new Promise((resolve, reject) => {
-      logger.info(
-        `addUserToSerialPortGroup this.serialPortGroup ${this.serialPortGroup}`
-      )
       if (this.serialPortGroup) {
         const command = `usermod -aG ${this.serialPortGroup} $USER`
-        process.title = "aaa"
-        logger.info(`addUserToSerialPortGroup command ${command} process.title ${process.title}`) 
-        sudoPrompt.exec(command, (error, stdout, stderr) => {
-          logger.info(`addUserToSerialPortGroup resolved error ${error}`)
-          logger.info(`addUserToSerialPortGroup resolved stdout ${stdout}`)
-          logger.info(`addUserToSerialPortGroup resolved stderr ${stderr}`)
-          if(error === null) {
+
+        //set simpler process.title, otherwise there is en error from sudoPrompt.exec - 'process.title cannot be used as a valid name.'
+        process.title = "dummy"
+
+        sudoPrompt.exec(command, (error) => {
+          if (error === null) {
             resolve()
+          } else {
+            reject()
           }
         })
       }
-      //logger.info(`addUserToSerialPortGroup reject`)
-      //reject()
     })
   }
 }
