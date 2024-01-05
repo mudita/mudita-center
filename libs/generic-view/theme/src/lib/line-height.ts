@@ -5,4 +5,7 @@
 
 export const lineHeight = {
   headline3: "32px",
+  paragraph1: "24px",
+  paragraph3: "22px",
+  tag: "20px",
 } as const
