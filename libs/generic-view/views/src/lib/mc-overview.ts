@@ -234,7 +234,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     update: {
       component: "block-box",
       config: {
-        title: "MuditaOS",
+        title: "Android OS",
       },
       layout: {
         gridPlacement: {
@@ -251,6 +251,13 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           justifyContent: "space-between",
         },
       },
+      childrenKeys: ["version"],
+    },
+    version: {
+      component: "overview-os-version",
+      config: {
+        versionLabel: "Current version:",
+      },
     },
   }
 }
@@ -265,5 +272,13 @@ export const mcOverviewDemoData = {
     icon: "network-icon-2",
     title: "Network",
     text: "Network name",
+  },
+  version: {
+    version: "Android 13",
+    update: {
+      available: true,
+      text: "Update available (Android 14)",
+      actionLabel: "You can update it on your device",
+    },
   },
 }
