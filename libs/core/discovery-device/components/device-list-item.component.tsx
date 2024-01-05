@@ -27,8 +27,20 @@ const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
   subheaderTitle: { id: "module.availableDeviceList.subheaderTitle" },
   serialNumber: { id: "module.availableDeviceList.serialNumber" },
-  noSerialNumberMessage: { id: "module.availableDeviceList.noSerialNumberMessage" },
+  noSerialNumberMessage: {
+    id: "module.availableDeviceList.noSerialNumberMessage",
+  },
 })
+
+const DeviceImageWrapper = styled.div`
+  box-sizing: border-box;
+
+  height: 34.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+`
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -41,20 +53,20 @@ const Container = styled.div`
   height: 44rem;
   max-height: 44rem;
   max-width: 34rem;
-  padding-top: 4rem;
   border: 0.1rem solid ${borderColor("deviceListSeparator")};
   border-radius: ${borderRadius("medium")};
   img {
-    height: 26.3rem;
+    max-height: 26.3rem;
+    max-width: 20.5rem;
   }
   &:hover {
     cursor: pointer;
     background-color: ${backgroundColor("main")};
     border-radius: ${borderColor("deviceListSeparatorHover")};
     transition: background-color ${transitionTime("veryQuick")}
-    ${transitionTimingFunction("smooth")},
-    border-color ${transitionTime("quick")}
-    ${transitionTimingFunction("smooth")};
+        ${transitionTimingFunction("smooth")},
+      border-color ${transitionTime("quick")}
+        ${transitionTimingFunction("smooth")};
   }
 `
 
@@ -63,6 +75,7 @@ export const DeviceInfoContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 2.2rem;
+  height: 7.3rem;
 `
 
 export const DeviceInfoDeviceTypeName = styled(Text)`
@@ -93,11 +106,11 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
 }) => {
   return (
     <Container className={className} onClick={() => onDeviceClick(id)}>
-      <DeviceImage deviceType={deviceType} />
+      <DeviceImageWrapper>
+        <DeviceImage deviceType={deviceType} />
+      </DeviceImageWrapper>
       <DeviceInfoContainer>
-        <DeviceInfoDeviceTypeName
-          displayStyle={TextDisplayStyle.Headline4}
-        >
+        <DeviceInfoDeviceTypeName displayStyle={TextDisplayStyle.Headline4}>
           {getDeviceTypeName(deviceType)}
         </DeviceInfoDeviceTypeName>
         <Text
