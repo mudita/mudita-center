@@ -21,10 +21,6 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
   const devices = useSelector(getConnectedDevicesSelector)
 
-  const handleDeviceClick = (id: string) => {
-    dispatch(handleDeviceActivated({ deviceId: id, history }))
-  }
-
   useEffect(() => {
     dispatch(setDiscoveryStatus(DiscoveryStatus.Discovering))
   }, [history, dispatch])

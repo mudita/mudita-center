@@ -5,16 +5,14 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
+import styled from "styled-components"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import Table, {
-  Row,
-} from "Core/__deprecated__/renderer/components/core/table/table.component"
 import { Device } from "Core/device-manager/reducers/device-manager.interface"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import styled from "styled-components"
 import { fontWeight } from "Core/core/styles/theming/theme-getters"
+import DeviceList from "Core/discovery-device/components/device-list.component"
 
 interface Props {
   devices: Device[]
@@ -26,11 +24,18 @@ const messages = defineMessages({
   subheaderTitle: { id: "module.availableDeviceList.subheaderTitle" },
 })
 
-const AvailableDeviceListContainer = styled.div``
+const AvailableDeviceListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+`
 
 const TitlesContainer = styled.div`
+  max-width: 107.2rem;
+  margin: 4rem auto;
   text-align: center;
-  margin: 4rem 0;
 `
 const HeaderTitle = styled(Text)`
   margin-bottom: 0.8rem;
@@ -59,19 +64,7 @@ const AvailableDeviceList: FunctionComponent<Props> = ({
         />
       </TitlesContainer>
 
-      <Table role="list">
-        {devices.map((device) => {
-          return (
-            <Row
-              key={device.id}
-              role="listitem"
-              onClick={() => onDeviceClick(device.id)}
-            >
-              {JSON.stringify(device)}
-            </Row>
-          )
-        })}
-      </Table>
+      <DeviceList devices={devices} onDeviceClick={onDeviceClick} />
     </AvailableDeviceListContainer>
   )
 }

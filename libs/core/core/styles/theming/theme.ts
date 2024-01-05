@@ -76,6 +76,8 @@ const theme = {
       smallSeparator: grey4,
       verticalSeparator: grey3,
       tetheringSeparator: blue3,
+      deviceListSeparator: grey5,
+      deviceListSeparatorHover: grey4,
     },
     boxShadow: {
       full: transparentBlack2,

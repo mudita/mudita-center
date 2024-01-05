@@ -7,10 +7,11 @@ import React from "react"
 import { DeviceType, CaseColor } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Image from "Core/__deprecated__/renderer/components/core/image/image.component"
+import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
 import PureGrayImage from "Core/__deprecated__/renderer/images/pure-gray-front.png"
 import PureBlackImage from "Core/__deprecated__/renderer/images/pure-black-front.png"
+import KompaktGrayImage from "Core/__deprecated__/renderer/images/kompakt-gray-render.png"
 import HarmonyImage from "Core/__deprecated__/renderer/images/harmony-render.png"
-import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
 
 interface DeviceImageProps {
   deviceType: DeviceType
@@ -21,23 +22,20 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
   deviceType,
   caseColour,
 }) => {
-  return (
-    <>
-      {deviceType === DeviceType.MuditaPure ? (
-        caseColour === CaseColor.Gray ? (
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          <Image src={PureGrayImage} data-testid={DeviceTestIds.PureGray} />
-        ) : (
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          <Image src={PureBlackImage} data-testid={DeviceTestIds.PureBlack} />
-        )
-      ) : (
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        <Image src={HarmonyImage} />
-      )}
-    </>
-  )
+  if (deviceType === DeviceType.MuditaPure && caseColour === CaseColor.Black) {
+    return <Image src={PureBlackImage} data-testid={DeviceTestIds.PureBlack} />
+  }
+
+  if (deviceType === DeviceType.MuditaPure) {
+    return <Image src={PureGrayImage} data-testid={DeviceTestIds.PureGray} />
+  }
+
+  if (deviceType === DeviceType.MuditaHarmony) {
+    return <Image src={HarmonyImage} />
+  }
+  if (deviceType === DeviceType.MuditaKompakt) {
+    return <Image src={KompaktGrayImage} />
+  }
+
+  return <></>
 }

@@ -22,10 +22,7 @@ const AvailableDeviceListContainer: FunctionComponent = () => {
   }
 
   return (
-    <AvailableDeviceList
-      onDeviceClick={handleDeviceClick}
-      devices={devices}
-    />
+    <AvailableDeviceList onDeviceClick={handleDeviceClick} devices={devices} />
   )
 }
 

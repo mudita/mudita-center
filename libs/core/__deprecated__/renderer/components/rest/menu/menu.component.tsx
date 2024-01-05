@@ -15,7 +15,7 @@ import { getUnreadThreads } from "Core/messages/selectors"
 import MenuTop from "Core/__deprecated__/renderer/components/rest/menu/menu-top.component"
 import MenuBottom from "Core/__deprecated__/renderer/components/rest/menu/menu-bottom.component"
 
-const MenuWrapper = styled.div`
+const MenuContainer = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -40,10 +40,10 @@ const Menu: FunctionComponent<MenuProps> = ({
   ...rest
 }) => {
   return (
-    <MenuWrapper>
+    <MenuContainer>
       <MenuTop {...rest} />
       <MenuBottom dataSyncInProgress={dataSyncInProgress} />
-    </MenuWrapper>
+    </MenuContainer>
   )
 }
 
