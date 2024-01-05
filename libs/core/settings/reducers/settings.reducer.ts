@@ -74,7 +74,7 @@ export const settingsReducer = createReducer<SettingsState>(
           ...state,
           ...action.payload,
           loaded: true,
-          loading: true,
+          loading: false,
         }
       })
 

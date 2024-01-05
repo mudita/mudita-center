@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { ReduxRootState, AppDispatch } from "Core/__deprecated__/renderer/store"
 import { hideModals } from "Core/modals-manager/actions/base.action"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import AllowUSBPortAccessModal from "Core/settings/components/usb-access/allow-usb-port-access.modal"
@@ -32,8 +32,7 @@ const USBAccessFlowContainer = () => {
     (state: ReduxRootState): SettingsState => state.settings
   )
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dispatch = useDispatch<any>()
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     if (usbAccessRestart) {

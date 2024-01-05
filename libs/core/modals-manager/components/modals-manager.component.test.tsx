@@ -54,6 +54,9 @@ const defaultState = {
   settings: {
     privacyPolicyAccepted: true,
   },
+  modalsManager: {
+    usbAccessFlowShow: false,
+  },
 } as unknown as ReduxRootState
 
 const render = (
