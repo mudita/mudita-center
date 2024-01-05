@@ -14,7 +14,7 @@ enum SerialPortGroup {
 const hardwareSerialPort = "/dev/ttyACM0"
 
 export class DesktopService {
-  private serialPortGroup: string | undefined = undefined
+  public serialPortGroup: string | undefined = undefined
 
   public async isLinux(): Promise<boolean> {
     return process.platform === "linux"
@@ -51,7 +51,7 @@ export class DesktopService {
     return isInGroup
   }
 
-  private async getGroupsAssignedToSerialPort(): Promise<string> {
+  public async getGroupsAssignedToSerialPort(): Promise<string> {
     return new Promise((resolve, reject) => {
       exec(`ls -l ${hardwareSerialPort}`, (error, stdout, stderr) => {
         if (error) {
@@ -65,7 +65,7 @@ export class DesktopService {
     })
   }
 
-  private async getUserGroups(): Promise<string> {
+  public async getUserGroups(): Promise<string> {
     return new Promise((resolve, reject) => {
       exec("groups", (error, stdout, stderr) => {
         if (error) {
@@ -88,10 +88,10 @@ export class DesktopService {
         process.title = "dummy"
 
         sudoPrompt.exec(command, (error) => {
-          if (error === null) {
+          if (error === undefined) {
             resolve()
           } else {
-            reject()
+            reject("Could not add user")
           }
         })
       }
