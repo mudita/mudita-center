@@ -8,10 +8,10 @@ import { DeviceType, CaseColor } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Image from "Core/__deprecated__/renderer/components/core/image/image.component"
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
-import PureGrayImage from "Core/__deprecated__/renderer/images/pure-gray-front.png"
-import PureBlackImage from "Core/__deprecated__/renderer/images/pure-black-front.png"
+import PureGrayImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
+import PureBlackImage from "Core/__deprecated__/renderer/images/pure-black-render.png"
 import KompaktGrayImage from "Core/__deprecated__/renderer/images/kompakt-gray-render.png"
-import HarmonyImage from "Core/__deprecated__/renderer/images/harmony-render.png"
+import HarmonyGrayImage from "Core/__deprecated__/renderer/images/harmony-gray-render.png"
 
 interface DeviceImageProps {
   deviceType: DeviceType
@@ -31,7 +31,7 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
   }
 
   if (deviceType === DeviceType.MuditaHarmony) {
-    return <Image src={HarmonyImage} />
+    return <Image src={HarmonyGrayImage} />
   }
   if (deviceType === DeviceType.MuditaKompakt) {
     return <Image src={KompaktGrayImage} />
