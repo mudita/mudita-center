@@ -47,7 +47,7 @@ import AvailableDeviceListContainer from "Core/discovery-device/components/avail
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => (
   <Switch>
-    <Redirect exact from={URL_MAIN.root} to={URL_MAIN.news} />
+    <Redirect exact from={URL_MAIN.root} to={URL_ONBOARDING.root} />
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
