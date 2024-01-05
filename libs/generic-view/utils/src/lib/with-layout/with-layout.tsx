@@ -55,7 +55,6 @@ const wrapperStyles = css<{
   }),
   ...($layout.padding && {
     padding: $layout.padding,
-    boxSizing: "border-box",
   }),
 }))
 

@@ -4,11 +4,22 @@
  */
 
 import React, { FunctionComponent, PropsWithChildren } from "react"
-import { ThemeProvider } from "styled-components"
-import { theme } from "./theme"
+import { createGlobalStyle, ThemeProvider } from "styled-components"
+import { Theme, theme } from "./theme"
 
 export const GenericThemeProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      {children}
+    </ThemeProvider>
+  )
 }
+
+const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
+  * {
+    box-sizing: border-box;
+  }
+`
