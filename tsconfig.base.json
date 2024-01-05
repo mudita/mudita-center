@@ -43,6 +43,7 @@
     "node_modules",
     "./apps/mudita-center/node_modules",
     "./apps/mudita-center/dist",
-    "./apps/mudita-center/__mocks__"
+    "./apps/mudita-center/__mocks__",
+    "./libs/generic-view/ui/styled.d.ts"
   ]
 }
