@@ -6,7 +6,6 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import {
-  Device,
   DeviceManagerState,
   DeviceState,
 } from "Core/device-manager/reducers/device-manager.interface"
