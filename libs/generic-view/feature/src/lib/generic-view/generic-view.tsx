@@ -8,6 +8,7 @@ import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { isEmpty } from "lodash"
+import { GenericThemeProvider } from "generic-view/theme"
 import RecursiveLayout from "../recursive-layout/recursive-layout"
 
 export const GenericView: FunctionComponent = () => {
@@ -22,7 +23,11 @@ export const GenericView: FunctionComponent = () => {
     return <div>Not found</div>
   }
 
-  return <RecursiveLayout viewKey={viewKey} componentKey={"main"} />
+  return (
+    <GenericThemeProvider>
+      <RecursiveLayout viewKey={viewKey} componentKey={"main"} />
+    </GenericThemeProvider>
+  )
 }
 
 export default GenericView

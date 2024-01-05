@@ -4,7 +4,6 @@
  */
 
 // TODO: demo code, file to be removed
-import { wait } from "fork-ts-checker-webpack-plugin/lib/utils/async/wait"
 import {
   generateMcCalendarLayout,
   generateMcOverviewLayout,
@@ -33,11 +32,9 @@ export const useGenericStoreDemo = () => {
       }
 
       // Simulate menu setup after device connection
-      await wait(2000)
       dispatch(setMenu(generateMenu(menuConfig)))
 
       // Simulate mc-overview layout
-      await wait(1000)
       dispatch(
         setViewLayout({
           feature: "mc-overview",
@@ -46,7 +43,6 @@ export const useGenericStoreDemo = () => {
       )
 
       // Simulate mc-calendar layout
-      await wait(1000)
       dispatch(
         setViewLayout({
           feature: "mc-calendar",
@@ -54,7 +50,6 @@ export const useGenericStoreDemo = () => {
         })
       )
 
-      await wait(1000)
       dispatch(
         setViewData({
           feature: "mc-overview",

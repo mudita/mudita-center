@@ -4,11 +4,9 @@
  */
 
 import React from "react"
-import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
 
-export const BlockWrapper: APIFC = ({ config, data, ...props }) => {
-  return <Wrapper {...props} />
+export const BlockPlain: APIFC = ({ config, data, ...props }) => {
+  return <div {...props} />
 }
 
-const Wrapper = styled.div``

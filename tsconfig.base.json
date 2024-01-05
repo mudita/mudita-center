@@ -33,6 +33,7 @@
       "device/models": ["libs/device/models/src/index.ts"],
       "generic-view/feature": ["libs/generic-view/feature/src/index.ts"],
       "generic-view/store": ["libs/generic-view/store/src/index.ts"],
+      "generic-view/theme": ["libs/generic-view/theme/src/index.ts"],
       "generic-view/ui": ["libs/generic-view/ui/src/index.ts"],
       "generic-view/utils": ["libs/generic-view/utils/src/index.ts"],
       "generic-view/views": ["libs/generic-view/views/src/index.ts"]
@@ -42,6 +43,7 @@
     "node_modules",
     "./apps/mudita-center/node_modules",
     "./apps/mudita-center/dist",
-    "./apps/mudita-center/__mocks__"
+    "./apps/mudita-center/__mocks__",
+    "./libs/generic-view/ui/styled.d.ts"
   ]
 }

@@ -19,19 +19,24 @@ const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
   ...props
 }) => {
   return (
-    <BoxWrapper {...props} className={`${className} custom`}>
-      {config?.title && <h1>{config.title}</h1>}
+    <Block {...props} className={className}>
+      {config?.title && <Headline>{config.title}</Headline>}
       {children}
-    </BoxWrapper>
+    </Block>
   )
 }
 
 export default withConfig(BlockBox)
 
-const BoxWrapper = styled.div`
-  &.custom {
-    height: 90%;
-  }
+const Block = styled.div`
+  background-color: ${({ theme }) => theme.color.white};
+  border-radius: ${({ theme }) => theme.radius.sm};
+  padding: ${({ theme }) => theme.space.xl};
+  box-sizing: border-box;
+`
 
-  background-color: #ccc;
+const Headline = styled.h3`
+  margin: 0;
+  font-size: ${({ theme }) => theme.fontSize.headline3};
+  line-height: ${({ theme }) => theme.lineHeight.headline3};
 `
