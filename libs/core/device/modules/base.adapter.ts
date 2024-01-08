@@ -16,8 +16,13 @@ import {
   Response,
   RequestPayload,
 } from "Core/device/types/mudita-os"
+import { APIRequestData } from "Libs/device/models/src"
+import { ApiResponse } from "Core/device/types/mudita-os"
 
-export abstract class BaseAdapter {
+export abstract class BaseAdapter<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  RequestResponse extends Response<any> | ApiResponse<any> = Response<any>
+> {
   protected serialPort: SerialPort | undefined
   protected eventEmitter = new EventEmitter()
 
@@ -65,10 +70,10 @@ export abstract class BaseAdapter {
   public abstract request(
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: RequestConfig<any>
+    config: RequestConfig<any> | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
+  Promise<ResultObject<RequestResponse>>
 
   @log("==== serial port: data received ====", LogConfig.Args)
   protected emitDataReceivedEvent<ResponseType = unknown>(
@@ -92,19 +97,19 @@ export abstract class BaseAdapter {
 
   protected abstract writeRequest(
     port: SerialPort,
-    config: RequestConfig
+    config: RequestConfig | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
+  Promise<ResultObject<RequestResponse>>
 
   protected abstract deviceRequest(
     port: SerialPort,
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line
-    { options, ...payload }: RequestPayload
+    { options, ...payload }: RequestPayload | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
+  Promise<ResultObject<RequestResponse>>
 
   protected getNewUUID(): number {
     return Math.floor(Math.random() * 10000)
@@ -116,6 +121,6 @@ export abstract class BaseAdapter {
     port: SerialPort,
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    payload: RequestPayload<any>
+    payload: RequestPayload<any> | APIRequestData
   ): void
 }

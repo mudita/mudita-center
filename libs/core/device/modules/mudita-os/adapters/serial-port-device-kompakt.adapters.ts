@@ -7,14 +7,17 @@ import SerialPort from "serialport"
 import { log, LogConfig } from "Core/core/decorators/log.decorator"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { CONNECTION_TIME_OUT_MS } from "Core/device/constants"
-import { DeviceCommunicationEvent, ResponseStatus } from "Core/device/constants"
+import {
+  CONNECTION_TIME_OUT_MS,
+  DeviceCommunicationEvent,
+  ResponseStatus,
+} from "Core/device/constants"
 import { DeviceError } from "Core/device/modules/mudita-os/constants"
 import { SerialPortParserKompakt } from "Core/device/modules/mudita-os/parsers"
 import {
   RequestConfig,
-  Response,
   RequestPayload,
+  Response,
 } from "Core/device/types/mudita-os"
 import { timeout } from "Core/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "Core/device/modules/base.adapter"
@@ -50,8 +53,7 @@ export class SerialPortDeviceKompaktAdapter extends BaseAdapter {
     } else {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      const result = this.writeRequest(this.serialPort, config)
-      return result
+      return this.writeRequest(this.serialPort, config)
     }
   }
 

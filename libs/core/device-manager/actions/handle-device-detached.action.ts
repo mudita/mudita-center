@@ -21,6 +21,8 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { setDataSyncInitState } from "Core/data-sync/actions"
+import { setInitState } from "Core/device/actions"
 
 export const handleDeviceDetached = createAsyncThunk<
   void,
@@ -50,6 +52,8 @@ export const handleDeviceDetached = createAsyncThunk<
     const devices = getConnectedDevicesSelector(getState())
     dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
     dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))
+    dispatch(setDataSyncInitState())
+    dispatch(setInitState())
 
     if (devices.length > 0) {
       history.push(URL_DISCOVERY_DEVICE.root)

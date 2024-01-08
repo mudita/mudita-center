@@ -20,7 +20,10 @@ import { DeviceStrategy } from "Core/device/strategies/device-strategy.class"
 import { ResponsePresenter } from "Core/device/modules/mudita-os/presenters"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { DeviceManagerMainEvent } from "Core/device-manager/constants"
+
+export enum PureStrategyMainEvent {
+  ActiveDeviceLocked = "pure-device-active-device-locked",
+}
 
 export class PureStrategy implements DeviceStrategy {
   constructor(private adapter: BaseAdapter) {}
@@ -36,7 +39,7 @@ export class PureStrategy implements DeviceStrategy {
     const serializedResponse = ResponsePresenter.toResponseObject(response)
 
     if (serializedResponse.status === RequestResponseStatus.PhoneLocked) {
-      ipcMain.sendToRenderers(DeviceManagerMainEvent.ActiveDeviceLocked)
+      ipcMain.sendToRenderers(PureStrategyMainEvent.ActiveDeviceLocked)
     }
 
     return this.mapResponseObjectToResultObject<ResponseType>(

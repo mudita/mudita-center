@@ -4,12 +4,17 @@
  */
 
 import React from "react"
+import styled from "styled-components"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { menuElements } from "Core/__deprecated__/renderer/constants/menu-elements"
+import {
+  baseMenuElements,
+  centerMenuElements,
+  deviceMenuElements,
+  MenuElement,
+} from "Core/__deprecated__/renderer/constants/menu-elements"
 import MenuGroup from "Core/__deprecated__/renderer/components/rest/menu/menu-group.component"
-import styled from "styled-components"
 import {
   backgroundColor,
   textColor,
@@ -50,6 +55,7 @@ interface Props {
   notifications: {
     [View.Messages]: boolean
   }
+  genericMenuElements?: MenuElement[]
 }
 
 const MenuTop: FunctionComponent<Props> = ({
@@ -57,8 +63,14 @@ const MenuTop: FunctionComponent<Props> = ({
   deviceFeaturesVisible,
   devModeEnabled,
   notifications,
+  genericMenuElements,
 }) => {
-  const links = menuElements
+  const links = [
+    ...baseMenuElements,
+    ...(genericMenuElements || []),
+    ...deviceMenuElements,
+    ...centerMenuElements,
+  ]
     .filter(({ connectedPhoneOnly }) =>
       deviceFeaturesVisible ? true : !connectedPhoneOnly
     )

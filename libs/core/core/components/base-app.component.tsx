@@ -15,6 +15,7 @@ import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-en
 import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
 import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
 import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
+import { useAPISerialPortListeners } from "device/feature"
 
 const BaseApp: FunctionComponent = () => {
   useApplicationUpdateEffects()
@@ -23,6 +24,9 @@ const BaseApp: FunctionComponent = () => {
   useDeviceLockedEffect()
   useWatchOutboxEntriesEffect()
   useWatchUnlockStatus()
+
+  // API
+  useAPISerialPortListeners()
 
   return (
     <>
