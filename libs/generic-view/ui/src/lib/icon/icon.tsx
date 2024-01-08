@@ -15,8 +15,8 @@ interface IconProps {
 
 const StyledIcon = styled.div`
   color: pink;
-  width: 32px;
-  height: 32px;
+  width: 3.2rem;
+  height: 3.2rem;
   & > * {
     width: 100%;
     height: 100%;

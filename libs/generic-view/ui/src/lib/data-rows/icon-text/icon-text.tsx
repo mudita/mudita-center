@@ -42,16 +42,16 @@ export default withData(IconText)
 const IconTextWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: 1.6rem;
   flex: 0;
-  height: 40px;
+  height: 4rem;
 `
 const IconWrapper = styled.div`
   background-color: ${({ theme }) => theme.color.grey6};
-  min-width: 40px;
-  min-height: 40px;
-  max-width: 40px;
-  max-height: 40px;
+  min-width: 4rem;
+  min-height: 4rem;
+  max-width: 4rem;
+  max-height: 4rem;
   border-radius: ${({ theme }) => theme.radius.sm};
   display: flex;
   justify-content: center;
@@ -61,7 +61,6 @@ const IconWrapper = styled.div`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: center;
   align-items: flex-start;
 `
@@ -70,12 +69,12 @@ const TitleText = styled.h4`
   font-size: ${({ theme }) => theme.fontSize.headline4};
   font-weight: 700;
   line-height: ${({ theme }) => theme.fontSize.headline4};
-  letter-spacing: 0.32px;
-  margin: 4px 0 0 0;
+  letter-spacing: 0.032rem;
+  margin: 0.4rem 0 0 0;
 `
 const DetailText = styled.span`
   font-size: ${({ theme }) => theme.fontSize.detailText};
   line-height: ${({ theme }) => theme.lineHeight.detailText};
-  letter-spacing: 0.48px;
+  letter-spacing: 0.048rem;
   color: ${({ theme }) => theme.color.grey2};
 `
