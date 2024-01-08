@@ -55,7 +55,7 @@ const Container = styled.div`
   &:hover {
     cursor: pointer;
     background-color: ${backgroundColor("main")};
-    border-radius: ${borderColor("deviceListSeparatorHover")};
+    border-color: ${borderColor("deviceListSeparatorHover")};
     transition: background-color ${transitionTime("veryQuick")}
         ${transitionTimingFunction("smooth")},
       border-color ${transitionTime("quick")}
