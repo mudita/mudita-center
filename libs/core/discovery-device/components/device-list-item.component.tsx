@@ -16,8 +16,9 @@ import {
   transitionTimingFunction,
 } from "Core/core/styles/theming/theme-getters"
 import { DeviceImage } from "Core/overview/components/device-preview/device-image.component"
-import Text, { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
+import Text, {
+  TextDisplayStyle,
+} from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { DeviceType } from "Core/device"
 
@@ -25,9 +26,6 @@ const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
   subheaderTitle: { id: "module.availableDeviceList.subheaderTitle" },
   serialNumber: { id: "module.availableDeviceList.serialNumber" },
-  noSerialNumberMessage: {
-    id: "module.availableDeviceList.noSerialNumberMessage",
-  },
 })
 
 const DeviceImageWrapper = styled.div`
@@ -115,6 +113,12 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
   serialNumber,
   deviceType,
 }) => {
+  const serialNumberValue = serialNumber ?? ""
+
+  const serialNumberHeader = serialNumber
+    ? intl.formatMessage(messages.serialNumber)
+    : ""
+
   return (
     <Container className={className} onClick={() => onDeviceClick(id)}>
       <DeviceImageWrapper>
@@ -124,18 +128,11 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
         <DeviceInfoDeviceTypeName displayStyle={TextDisplayStyle.Headline4}>
           {getDeviceTypeName(deviceType)}
         </DeviceInfoDeviceTypeName>
-        <Text
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
-          message={messages.serialNumber}
-        />
-        <Text
-          displayStyle={TextDisplayStyle.Paragraph1}
-          testId={DeviceTestIds.SerialNumber}
-        >
-          {serialNumber
-            ? serialNumber
-            : intl.formatMessage(messages.noSerialNumberMessage)}
+        <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+          {serialNumberHeader}
+        </Text>
+        <Text displayStyle={TextDisplayStyle.Paragraph1}>
+          {serialNumberValue}
         </Text>
       </DeviceInfoContainer>
     </Container>

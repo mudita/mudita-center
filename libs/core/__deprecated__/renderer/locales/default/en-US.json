@@ -198,7 +198,6 @@
   "module.availableDeviceList.headerTitle": "Connected devices",
   "module.availableDeviceList.subheaderTitle": "Select the device you want to use",
   "module.availableDeviceList.serialNumber": "Serial Number",
-  "module.availableDeviceList.noSerialNumberMessage": "-",
   "module.calendar": "Calendar",
   "module.calendar.authorizationFailedBody": "You need to allow all requested access rights in order to synchronize your calendar",
   "module.calendar.authorizationFailedButton": "Retry",
