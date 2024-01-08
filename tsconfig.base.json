@@ -36,7 +36,8 @@
       "generic-view/theme": ["libs/generic-view/theme/src/index.ts"],
       "generic-view/ui": ["libs/generic-view/ui/src/index.ts"],
       "generic-view/utils": ["libs/generic-view/utils/src/index.ts"],
-      "generic-view/views": ["libs/generic-view/views/src/index.ts"]
+      "generic-view/views": ["libs/generic-view/views/src/index.ts"],
+      "shared/utils": ["libs/shared/utils/src/index.ts"]
     }
   },
   "exclude": [

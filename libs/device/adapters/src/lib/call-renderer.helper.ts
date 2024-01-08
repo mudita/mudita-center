@@ -7,7 +7,7 @@ import { LoggerFactory } from "Core/core/factories"
 import electron from "electron"
 import { ipcMain } from "electron-better-ipc"
 import { ApiSerialPortToRendererEvents } from "device/models"
-import { DeviceManagerMainEvent } from "Core/device-manager/constants"
+import { DeviceManagerMainEvent } from "shared/utils"
 
 const logger = LoggerFactory.getInstance()
 

@@ -14,8 +14,8 @@ import { PortInfo } from "Core/device-manager/types"
 import { PortInfoValidator } from "Core/device-manager/validators"
 import {
   DeviceManagerError,
-  DeviceManagerMainEvent,
 } from "Core/device-manager/constants"
+import { DeviceManagerMainEvent } from "shared/utils"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { DeviceId } from "Core/device/constants/device-id"
 import { log } from "Core/core/decorators/log.decorator"

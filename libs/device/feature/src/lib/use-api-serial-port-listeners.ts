@@ -5,7 +5,7 @@
 
 import { useEffect } from "react"
 import { answerMain } from "./answer-main"
-import { DeviceManagerMainEvent } from "Core/device-manager/constants"
+import { DeviceManagerMainEvent } from "shared/utils"
 
 export const useAPISerialPortListeners = () => {
   useEffect(() => {

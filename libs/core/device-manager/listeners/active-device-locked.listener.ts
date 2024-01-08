@@ -4,15 +4,15 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { DeviceManagerMainEvent } from "Core/device-manager/constants"
+import { PureStrategyMainEvent } from "Core/device/strategies"
 
 export const registerActiveDeviceLockedListener = (
   handler: () => void
 ): (() => void) => {
 
-  ipcRenderer.on(DeviceManagerMainEvent.ActiveDeviceLocked, handler)
+  ipcRenderer.on(PureStrategyMainEvent.ActiveDeviceLocked, handler)
 
   return () => {
-    ipcRenderer.off(DeviceManagerMainEvent.ActiveDeviceLocked, handler)
+    ipcRenderer.off(PureStrategyMainEvent.ActiveDeviceLocked, handler)
   }
 }

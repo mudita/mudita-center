@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { DeviceManagerMainEvent } from "Core/device-manager/constants"
+import { DeviceManagerMainEvent } from "shared/utils"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 import { IpcRendererEvent } from "electron/renderer"
 
