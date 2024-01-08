@@ -5,7 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Device } from "Core/device-manager/reducers/device-manager.interface"
 import {
@@ -16,9 +16,7 @@ import {
   transitionTimingFunction,
 } from "Core/core/styles/theming/theme-getters"
 import { DeviceImage } from "Core/overview/components/device-preview/device-image.component"
-import Text, {
-  TextDisplayStyle,
-} from "Core/__deprecated__/renderer/components/core/text/text.component"
+import Text, { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { DeviceType } from "Core/device"
@@ -55,10 +53,7 @@ const Container = styled.div`
   max-width: 34rem;
   border: 0.1rem solid ${borderColor("deviceListSeparator")};
   border-radius: ${borderRadius("medium")};
-  img {
-    max-height: 26.3rem;
-    max-width: 20.5rem;
-  }
+
   &:hover {
     cursor: pointer;
     background-color: ${backgroundColor("main")};
@@ -68,6 +63,22 @@ const Container = styled.div`
       border-color ${transitionTime("quick")}
         ${transitionTimingFunction("smooth")};
   }
+`
+
+export const DeviceImageStyled = styled(DeviceImage)`
+  max-height: 25.4rem;
+  max-width: 20.5rem;
+
+  ${({ deviceType }) => {
+    switch (deviceType) {
+      case DeviceType.MuditaPure:
+        return css`
+          max-height: 25.1rem;
+        `
+      default:
+        return
+    }
+  }}
 `
 
 export const DeviceInfoContainer = styled.div`
@@ -107,7 +118,7 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
   return (
     <Container className={className} onClick={() => onDeviceClick(id)}>
       <DeviceImageWrapper>
-        <DeviceImage deviceType={deviceType} />
+        <DeviceImageStyled deviceType={deviceType} />
       </DeviceImageWrapper>
       <DeviceInfoContainer>
         <DeviceInfoDeviceTypeName displayStyle={TextDisplayStyle.Headline4}>

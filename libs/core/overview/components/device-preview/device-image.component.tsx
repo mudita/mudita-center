@@ -21,20 +21,21 @@ interface DeviceImageProps {
 export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
   deviceType,
   caseColour,
+  ...props
 }) => {
   if (deviceType === DeviceType.MuditaPure && caseColour === CaseColor.Black) {
-    return <Image src={PureBlackImage} data-testid={DeviceTestIds.PureBlack} />
+    return <Image src={PureBlackImage} data-testid={DeviceTestIds.PureBlack} {...props} />
   }
 
   if (deviceType === DeviceType.MuditaPure) {
-    return <Image src={PureGrayImage} data-testid={DeviceTestIds.PureGray} />
+    return <Image src={PureGrayImage} data-testid={DeviceTestIds.PureGray} {...props}/>
   }
 
   if (deviceType === DeviceType.MuditaHarmony) {
-    return <Image src={HarmonyGrayImage} />
+    return <Image src={HarmonyGrayImage} {...props}/>
   }
   if (deviceType === DeviceType.MuditaKompakt) {
-    return <Image src={KompaktGrayImage} />
+    return <Image src={KompaktGrayImage} {...props}/>
   }
 
   return <></>
