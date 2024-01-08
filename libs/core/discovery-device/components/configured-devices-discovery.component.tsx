@@ -51,7 +51,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
       deviceConnected()
       clearTimeout(timeoutId)
     }
-  }, [dispatch])
+  }, [])
 
   useEffect(()=>{
     if(devices.length === 0 && noNewDevicesDetectedState){
