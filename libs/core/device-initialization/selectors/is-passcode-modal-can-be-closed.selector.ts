@@ -5,15 +5,12 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { updateStateSelector } from "Core/update/selectors/update-state-selector"
-import { State } from "Core/core/constants"
+import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 
 export const isPasscodeModalCanBeClosedSelector = createSelector(
   updateStateSelector,
-  (updateOsState): boolean => {
-    return (
-      updateOsState.needsForceUpdate ||
-      updateOsState.forceUpdateState === State.Loading ||
-      updateOsState.updateOsState === State.Loading
-    )
+  isActiveDeviceProcessingSelector,
+  (updateOsState, activeDeviceProcessing): boolean => {
+    return !updateOsState.needsForceUpdate || !activeDeviceProcessing
   }
 )
