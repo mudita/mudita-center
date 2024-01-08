@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/generic-view"
-export * from "./lib/recursive-layout"
+import Divider from "./divider"
+
+export const helpers = {
+  divider: Divider,
+}

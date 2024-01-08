@@ -42,6 +42,20 @@ export const useGenericStoreDemo = () => {
         })
       )
 
+      dispatch(
+        setViewLayout({
+          feature: "mc-about",
+          layout: {
+            main: {
+              component: "block-box",
+              config: {
+                title: "About"
+              }
+            }
+          }
+        })
+      )
+
       // Simulate mc-calendar layout
       dispatch(
         setViewLayout({

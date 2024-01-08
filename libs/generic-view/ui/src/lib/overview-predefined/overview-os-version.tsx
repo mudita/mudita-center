@@ -57,6 +57,7 @@ const VersionLabel = styled.p`
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
   color: ${({ theme }) => theme.color.grey2};
   margin: 0;
+  letter-spacing: 0.7px;
 `
 
 const VersionInfo = styled.div`

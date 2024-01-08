@@ -8,4 +8,5 @@ export const lineHeight = {
   paragraph1: "24px",
   paragraph3: "22px",
   tag: "20px",
+  link: "20px",
 } as const

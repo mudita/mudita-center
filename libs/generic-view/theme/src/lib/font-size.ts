@@ -8,4 +8,5 @@ export const fontSize = {
   paragraph1: "16px",
   paragraph3: "14px",
   tag: "12px",
+  link: "12px",
 } as const

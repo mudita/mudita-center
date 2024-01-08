@@ -4,6 +4,7 @@
  */
 
 import { ViewGenerator } from "generic-view/utils"
+import { kompaktImg } from "Root/demo-data/kompakt-img"
 
 export type IconType =
   | "arrow"
@@ -129,7 +130,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         padding: "32px",
         gridLayout: {
           rows: ["261px", "205px", 1],
-          columns: [1, 2],
+          columns: ["280px", 1],
           columnGap: "32px",
           rowGap: "32px",
         },
@@ -145,9 +146,6 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     ...(config.summary.show && {
       summary: {
         component: "block-box",
-        config: {
-          title: "Summary",
-        },
         layout: {
           gridPlacement: {
             row: 1,
@@ -157,47 +155,59 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           },
           flexLayout: {
             direction: "column",
-            justifyContent: "space-between",
+            rowGap: "24px",
           },
         },
-
         childrenKeys: [
-          config.summary.showImg ? "summaryImg" : undefined,
+          config.summary.showImg ? "device-image" : undefined,
           config.summary.showSerialNumber ? "serial-number" : undefined,
+          config.summary.showAbout ? "aboutDivider" : undefined,
           config.summary.showAbout ? "about" : undefined,
         ].filter(Boolean) as string[],
       },
-      summaryImg: {
-        component: "block-plain",
+      "device-image": {
+        component: "image",
         layout: {
           flexPlacement: {
             alignSelf: "center",
           },
-        },
-        parameters: {
-          title: "Image",
+          padding: "16px 27px",
         },
       },
       "serial-number": {
-        component: "block-plain",
+        component: "labeled-text",
         layout: {
           flexPlacement: {
             alignSelf: "center",
+            grow: 1,
+          },
+          flexLayout: {
+            direction: "column",
+            rowGap: "8px",
+            alignItems: "center",
           },
         },
-        parameters: {
-          title: config.summary.aboutSubtitle,
+        config: {
+          label: "Serial number",
+        },
+      },
+      aboutDivider: {
+        component: "divider",
+        layout: {
+          margin: "0 -24px",
         },
       },
       about: {
-        component: "block-plain",
+        component: "icon-link",
         layout: {
           flexPlacement: {
             alignSelf: "center",
           },
         },
-        parameters: {
-          title: config.summary.aboutTitle,
+        config: {
+          linkViewKey: "mc-overview/mc-about",
+          label: "About your Kompakt",
+          icon: "icon",
         },
       },
     }),
@@ -263,6 +273,12 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
 }
 
 export const mcOverviewDemoData = {
+  "device-image": {
+    src: kompaktImg,
+  },
+  "serial-number": {
+    text: "6XJMD87764MAXA",
+  },
   battery: {
     icon: "battery-icon-2",
     title: "Battery",
