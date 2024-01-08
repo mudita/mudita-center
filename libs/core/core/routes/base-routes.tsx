@@ -39,7 +39,7 @@ import {
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "Core/templates/template.container"
-import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configured-devices-discovery"
+import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configured-devices-discovery.component"
 import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 

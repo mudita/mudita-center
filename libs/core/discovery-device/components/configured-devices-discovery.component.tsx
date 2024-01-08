@@ -15,6 +15,7 @@ import { handleDeviceActivated } from "Core/device-manager/actions/handle-device
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
+import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 
 const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const history = useHistory()
@@ -51,6 +52,14 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
       clearTimeout(timeoutId)
     }
   }, [dispatch])
+
+  useEffect(()=>{
+    if(devices.length === 0 && noNewDevicesDetectedState){
+      dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
+      history.push(URL_MAIN.news)
+    }
+
+  }, [dispatch, history, devices.length, noNewDevicesDetectedState])
 
   if (devices.length > 1 && noNewDevicesDetectedState) {
     return <AvailableDeviceListContainer />
