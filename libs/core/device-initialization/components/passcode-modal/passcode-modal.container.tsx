@@ -16,9 +16,10 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { getLeftTimeSelector } from "Core/device/selectors"
 import { isPasscodeModalCanBeClosedSelector } from "Core/device-initialization/selectors/is-passcode-modal-can-be-closed.selector"
-import { unlockDevice } from "Core/device/actions"
+import { setInitState, unlockDevice } from "Core/device/actions"
 import { useWatchLockTimeEffect } from "Core/device-initialization/components/passcode-modal/use-watch-lock-time-effect"
 import { useWatchUnlockStatus } from "Core/device-initialization/components/passcode-modal/use-watch-unlock-status-effect"
+import { setDataSyncInitState } from "Core/data-sync/actions"
 
 const PasscodeModalContainer: FunctionComponent = () => {
   useWatchLockTimeEffect()
@@ -30,6 +31,8 @@ const PasscodeModalContainer: FunctionComponent = () => {
 
   const handleClose = () => {
     dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
+    dispatch(setDataSyncInitState())
+    dispatch(setInitState())
     history.push(URL_MAIN.news)
   }
   const handleUnlockDevice = (code: number[]): UnlockDeviceReturnType => {
