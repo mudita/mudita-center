@@ -5,4 +5,6 @@
 
 export const fontSize = {
   headline3: "24px",
+  headline4: "16px",
+  detailText: "12px",
 } as const
