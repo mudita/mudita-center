@@ -10,7 +10,6 @@ import { EventEmitter } from "events"
 import { DeviceResolverService } from "Core/device-manager/services/device-resolver.service"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
-import { Device } from "Core/device/modules/device"
 import { PortInfo } from "Core/device-manager/types"
 import { PortInfoValidator } from "Core/device-manager/validators"
 import {
@@ -20,10 +19,13 @@ import {
 import logger from "Core/__deprecated__/main/utils/logger"
 import { DeviceId } from "Core/device/constants/device-id"
 import { log } from "Core/core/decorators/log.decorator"
+import { APIDevice } from "device/feature"
+import { BaseDevice } from "Core/device/modules/base-device"
+import { CoreDevice } from "Core/device/modules/core-device"
 
 export class DeviceManager {
-  public activeDevice: Device | undefined
-  public devicesMap = new Map<string, Device>()
+  public activeDevice: BaseDevice | undefined
+  public devicesMap = new Map<string, BaseDevice>()
 
   private mutex = new Mutex()
 
@@ -33,7 +35,7 @@ export class DeviceManager {
     protected eventEmitter: EventEmitter
   ) {}
 
-  get device(): Device {
+  get apiDevice(): APIDevice {
     if (!this.activeDevice) {
       throw new AppError(
         DeviceManagerError.NoActiveDevice,
@@ -41,10 +43,23 @@ export class DeviceManager {
       )
     }
 
-    return this.activeDevice
+    // TODO: add device type validation
+    return this.activeDevice as APIDevice
   }
 
-  get devices(): Device[] {
+  get device(): CoreDevice {
+    if (!this.activeDevice) {
+      throw new AppError(
+        DeviceManagerError.NoActiveDevice,
+        "Active device is undefined"
+      )
+    }
+
+    // TODO: add device type validation
+    return this.activeDevice as CoreDevice
+  }
+
+  get devices(): BaseDevice[] {
     return Array.from(this.devicesMap.values())
   }
 
@@ -131,7 +146,7 @@ export class DeviceManager {
 
   private async initializeDevice(
     portInfo: PortInfo
-  ): Promise<Device | undefined> {
+  ): Promise<BaseDevice | undefined> {
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
@@ -140,7 +155,7 @@ export class DeviceManager {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
-    return new Promise<Device | undefined>(async (resolve) => {
+    return new Promise<BaseDevice | undefined>(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
         const portList = await this.getAttachedDevices()
         const port = portList.find(
@@ -167,7 +182,7 @@ export class DeviceManager {
     return SerialPort.list()
   }
 
-  private getDeviceByPath(path: string): Device | undefined {
+  private getDeviceByPath(path: string): BaseDevice | undefined {
     return this.devices.find((device) => device.path === path)
   }
 

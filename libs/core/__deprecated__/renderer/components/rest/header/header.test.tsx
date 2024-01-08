@@ -12,15 +12,19 @@ import { HeaderButton } from "Core/__deprecated__/renderer/wrappers/layout-deskt
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { flags } from "Core/feature-flags"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { Provider } from "react-redux"
+import store from "Core/__deprecated__/renderer/store"
 
 jest.mock("Core/feature-flags")
 
 test("matches snapshot without tabs", () => {
   const currentLocation = "/overview"
   const { container } = renderWithThemeAndIntl(
-    <MemoryRouter initialEntries={[currentLocation]}>
-      <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[currentLocation]}>
+        <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
+      </MemoryRouter>
+    </Provider>
   )
   const header = container.firstChild
   expect(header).toMatchSnapshot()
@@ -30,9 +34,11 @@ test("matches snapshot with tabs", () => {
   jest.spyOn(flags, "get").mockReturnValueOnce(true)
   const currentLocation = "/phone"
   const { container } = renderWithThemeAndIntl(
-    <MemoryRouter initialEntries={[currentLocation]}>
-      <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[currentLocation]}>
+        <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
+      </MemoryRouter>
+    </Provider>
   )
   const header = container.firstChild
   expect(header).toMatchSnapshot()
@@ -40,9 +46,11 @@ test("matches snapshot with tabs", () => {
 
 test("header should render correct pathname", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MemoryRouter initialEntries={["/overview"]}>
-      <Header />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={["/overview"]}>
+        <Header />
+      </MemoryRouter>
+    </Provider>
   )
   expect(getByTestId("location")).toHaveTextContent("module.overview")
 })
@@ -51,21 +59,23 @@ test("button renders on news page", () => {
   const currentLocation = "/news"
   const buttonsIconId = "icon-ExternalLink"
   const { getByTestId } = renderWithThemeAndIntl(
-    <MemoryRouter initialEntries={[currentLocation]}>
-      <Header
-        middleComponent={<Tabs currentLocation={currentLocation} />}
-        button={
-          <HeaderButton
-            Icon={IconType.ExternalLink}
-            label={intl.formatMessage({
-              id: "module.news.moreNewsButtonLabel",
-            })}
-            href={"https://www.mudita.com/"}
-            target="_blank"
-          />
-        }
-      />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[currentLocation]}>
+        <Header
+          middleComponent={<Tabs currentLocation={currentLocation} />}
+          button={
+            <HeaderButton
+              Icon={IconType.ExternalLink}
+              label={intl.formatMessage({
+                id: "module.news.moreNewsButtonLabel",
+              })}
+              href={"https://www.mudita.com/"}
+              target="_blank"
+            />
+          }
+        />
+      </MemoryRouter>
+    </Provider>
   )
   expect(getByTestId(buttonsIconId)).toBeInTheDocument()
 })
@@ -74,9 +84,11 @@ test("button doesnt render on other pages than news", () => {
   const currentLocation = "/phone"
   const buttonsIconId = "icon-More"
   const { queryByTestId } = renderWithThemeAndIntl(
-    <MemoryRouter initialEntries={[currentLocation]}>
-      <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[currentLocation]}>
+        <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
+      </MemoryRouter>
+    </Provider>
   )
   expect(queryByTestId(buttonsIconId)).not.toBeInTheDocument()
 })

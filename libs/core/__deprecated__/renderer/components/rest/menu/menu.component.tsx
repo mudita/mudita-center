@@ -4,9 +4,9 @@
  */
 
 import React from "react"
-import { DeviceType } from "Core/device/constants"
 import styled from "styled-components"
 import { connect } from "react-redux"
+import { DeviceType } from "Core/device/constants"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DevMode } from "Core/__deprecated__/dev-mode/store/dev-mode.interface"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -14,6 +14,7 @@ import { View } from "Core/__deprecated__/renderer/constants/views"
 import { getUnreadThreads } from "Core/messages/selectors"
 import MenuTop from "Core/__deprecated__/renderer/components/rest/menu/menu-top.component"
 import MenuBottom from "Core/__deprecated__/renderer/components/rest/menu/menu-bottom.component"
+import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 
 const MenuContainer = styled.div`
   flex: 1;
@@ -33,6 +34,7 @@ export interface MenuProps {
     [View.Messages]: boolean
   }
   dataSyncInProgress?: boolean
+  genericMenuElements?: MenuElement[]
 }
 
 const Menu: FunctionComponent<MenuProps> = ({
@@ -52,6 +54,7 @@ const mapDispatchToProps = (state: ReduxRootState) => ({
   notifications: {
     [View.Messages]: getUnreadThreads(state).length > 0,
   },
+  genericMenuElements: state.genericViews.menu,
 })
 
 export default connect(mapDispatchToProps)(Menu)

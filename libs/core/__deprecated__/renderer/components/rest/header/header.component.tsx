@@ -7,16 +7,18 @@ import * as React from "react"
 import { ReactElement, useState } from "react"
 import { useEffect } from "react"
 import { useLocation } from "react-router"
+import styled from "styled-components"
+import { useSelector } from "react-redux"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { views } from "Core/__deprecated__/renderer/constants/views"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import styled from "styled-components"
 import {
   backgroundColor,
   borderColor,
 } from "Core/core/styles/theming/theme-getters"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 const HeaderWrapper = styled.div`
   display: grid;
@@ -41,7 +43,12 @@ const Header: FunctionComponent<HeaderProps> = ({
   button,
 }) => {
   const location = useLocation()
-  const [currentLocation, setCurrentLocation] = useState<{ id: string }>()
+  const genericMenu = useSelector(
+    (state: ReduxRootState) => state.genericViews.menu
+  )
+  const [currentLocation, setCurrentLocation] = useState<
+    { id: string } | string
+  >()
   const [renderHeaderButton, setRenderHeaderButton] = useState(false)
   useEffect(() => {
     const pathname = location.pathname
@@ -58,8 +65,16 @@ const Header: FunctionComponent<HeaderProps> = ({
       setRenderHeaderButton(
         menuElementNameWithHeaderButton === currentMenuElementName
       )
+    } else {
+      const currentGenericMenuElement = genericMenu
+        ?.flatMap((element) => element.items)
+        .find((item) => item?.button.url === pathname)
+      if (currentGenericMenuElement) {
+        setCurrentLocation(currentGenericMenuElement.button.label)
+        setRenderHeaderButton(false)
+      }
     }
-  }, [location])
+  }, [genericMenu, location])
   return (
     <HeaderWrapper>
       <HeaderText

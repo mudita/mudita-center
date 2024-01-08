@@ -22,6 +22,7 @@ import { discoveryDeviceReducer } from "Core/discovery-device/reducers/discovery
 import { deviceInitializationReducer } from "Core/device-initialization/reducers/device-initialization.reducer"
 import { appInitializationReducer } from "Core/app-initialization/reducers/app-initialization.reducer"
 import { deviceManagerReducer } from "Core/device-manager/reducers/device-manager.reducer"
+import { genericViewsReducer } from "generic-view/store"
 
 export const reducers = {
   device: deviceReducer,
@@ -42,6 +43,7 @@ export const reducers = {
   deviceInitialization: deviceInitializationReducer,
   appInitialization: appInitializationReducer,
   deviceManager: deviceManagerReducer,
+  genericViews: genericViewsReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)
