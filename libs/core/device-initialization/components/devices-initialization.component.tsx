@@ -13,7 +13,7 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { deviceStatusSelector } from "Core/device/selectors/device-status.selector"
 import CriticalBatteryLevelModalContainer from "Core/device-initialization/components/critical-battery-level-modal.container"
 import PasscodeModalContainer from "Core/device-initialization/components/passcode-modal/passcode-modal.container"
-import EULAAgreementContainer from "Core/device-initialization/components/eula-agreement.container"
+import EULAAgreementContainer from "Core/device-initialization/components/eula-agreement/eula-agreement.container"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { DeviceType } from "Core/device"
 
@@ -49,6 +49,20 @@ const MuditaPureInitializationModalFlow: FunctionComponent = () => {
 
     previousUnlockedStatus.current = deviceStatus?.unlocked
   }, [deviceStatus?.unlocked, history, dispatch])
+
+  const previousOnboardingStatus = useRef(deviceStatus?.onboardingFinished)
+
+  useEffect(() => {
+    // continue initializing process when onboarding is finished
+    if (
+      previousOnboardingStatus.current === false &&
+      deviceStatus?.onboardingFinished === true
+    ) {
+      dispatch(startInitializingDevice(history))
+    }
+
+    previousOnboardingStatus.current = deviceStatus?.onboardingFinished
+  }, [deviceStatus?.onboardingFinished, history, dispatch])
 
   if (deviceStatus?.criticalBatteryLevel) {
     return <CriticalBatteryLevelModalContainer />

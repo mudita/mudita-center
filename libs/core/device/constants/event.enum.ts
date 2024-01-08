@@ -13,6 +13,7 @@ export enum DeviceEvent {
   GetUnlockedStatus = "DEVICE_GET_UNLOCKED_STATUS",
   SetUnlockedStatus = "DEVICE_SET_UNLOCKED_STATUS",
 
+  GetOnboardingStatus = "DEVICE_GET_ONBOARDING_STATUS",
   SetOnboardingStatus = "DEVICE_SET_ONBOARDING_STATUS",
   SetRestartingStatus = "DEVICE_SET_RESTARTING_STATUS",
   SetCriticalBatteryLevelStatus = "DEVICE_SET_CRITICAL_BATTERY_LEVEL_STATUS",

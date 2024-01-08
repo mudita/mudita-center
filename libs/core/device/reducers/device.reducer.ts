@@ -17,6 +17,7 @@ import {
 } from "Core/device/actions"
 import { DeviceState } from "Core/device/reducers/device.interface"
 import { AppError } from "Core/core/errors"
+import { getOnboardingStatus } from "Core/device/actions/get-onboarding-status.action"
 
 export const initialState: DeviceState = {
   deviceType: null,
@@ -56,6 +57,15 @@ export const deviceReducer = createReducer<DeviceState>(
           status: {
             ...state.status,
             unlocked: action.payload,
+          },
+        }
+      })
+      .addCase(getOnboardingStatus.fulfilled, (state, action) => {
+        return {
+          ...state,
+          status: {
+            ...state.status,
+            onboardingFinished: action.payload,
           },
         }
       })
