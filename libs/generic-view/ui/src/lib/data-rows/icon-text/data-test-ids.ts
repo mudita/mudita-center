@@ -3,8 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const color = {
-  white: "#FFFFFF",
-  grey2: "#6A6A6A",
-  grey6: "#FBFBFB",
+export default {
+  IconTextTitle: "icon-text-title",
+  IconTextDetailText: "icon-text-detail-text",
 } as const
