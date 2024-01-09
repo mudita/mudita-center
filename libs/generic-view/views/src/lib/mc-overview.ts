@@ -129,7 +129,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
       layout: {
         padding: "32px",
         gridLayout: {
-          rows: ["261px", "205px", 1],
+          rows: [1.56, 1, 1],
           columns: ["280px", 1],
           columnGap: "32px",
           rowGap: "32px",
