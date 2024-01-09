@@ -130,6 +130,17 @@ describe("Device: Mudita pure", () => {
             },
           },
         } as unknown as MessagesState,
+        deviceManager: {
+          devices: [
+            {
+              id: "1",
+              serialNumber: "1",
+              deviceType: DeviceType.MuditaPure,
+              caseColour: undefined,
+            },
+          ],
+          activeDeviceId: "1"
+        } as unknown as DeviceManagerState,
       },
       {
         deviceFeaturesVisible: true,

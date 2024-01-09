@@ -6,7 +6,7 @@
 import { PortInfo } from "serialport"
 import {
   MuditaHarmonyDescriptor,
-  // MuditaKompaktDescriptor,
+  MuditaKompaktDescriptor,
   MuditaPureDescriptor,
 } from "../../device/descriptors"
 
@@ -14,8 +14,7 @@ export class PortInfoValidator {
   static eligibleDevices = [
     MuditaPureDescriptor,
     MuditaHarmonyDescriptor,
-    // TODO: Uncomment when Kompakt will be production ready
-    // MuditaKompaktDescriptor,
+    MuditaKompaktDescriptor,
   ]
 
   static isVendorIdValid(portInfo: Partial<PortInfo>): boolean {

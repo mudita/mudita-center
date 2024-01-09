@@ -6,6 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux"
+import { createSelector } from "@reduxjs/toolkit"
 import { DeviceType } from "Core/device/constants"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DevMode } from "Core/__deprecated__/dev-mode/store/dev-mode.interface"
@@ -15,6 +16,8 @@ import { getUnreadThreads } from "Core/messages/selectors"
 import MenuTop from "Core/__deprecated__/renderer/components/rest/menu/menu-top.component"
 import MenuBottom from "Core/__deprecated__/renderer/components/rest/menu/menu-bottom.component"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
+import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
+import { RootModel } from "Core/__deprecated__/renderer/models/models"
 
 const MenuContainer = styled.div`
   flex: 1;
@@ -49,8 +52,16 @@ const Menu: FunctionComponent<MenuProps> = ({
   )
 }
 
-const mapDispatchToProps = (state: ReduxRootState) => ({
-  deviceType: state.device.deviceType,
+// TODO: change type for `deviceType` in Menu
+const getActiveDeviceTypeSelectorWrapper = createSelector(
+  getActiveDeviceTypeSelector,
+  (deviceType): DeviceType | null => {
+    return deviceType ?? null
+  }
+)
+
+const mapDispatchToProps = (state: RootModel & ReduxRootState) => ({
+  deviceType: getActiveDeviceTypeSelectorWrapper(state),
   notifications: {
     [View.Messages]: getUnreadThreads(state).length > 0,
   },
