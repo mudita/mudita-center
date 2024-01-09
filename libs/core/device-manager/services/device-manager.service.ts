@@ -183,10 +183,10 @@ export class DeviceManager {
   }
 
   private getDeviceByPath(path: string): BaseDevice | undefined {
-    return this.devices.find((device) => device.path === path)
+    return this.devices.find((device) => device.portInfo.path === path)
   }
 
   private getDevicePaths(): string[] {
-    return this.devices.map(({ path }) => path)
+    return this.devices.map(({portInfo} ) => portInfo.path)
   }
 }

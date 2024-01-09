@@ -101,7 +101,7 @@ const getDeviceTypeName = (deviceType: DeviceType): string => {
       return "Pure"
     case DeviceType.MuditaHarmony:
       return "Harmony 1"
-    case DeviceType.MuditaKompakt:
+    case DeviceType.APIDevice:
       return "Kompakt"
   }
 }

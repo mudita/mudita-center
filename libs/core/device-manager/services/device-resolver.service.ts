@@ -7,7 +7,6 @@ import { PortInfo } from "serialport"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
-  MuditaKompaktDescriptor,
 } from "Core/device/descriptors"
 import { DeviceFactory } from "Core/device/factories"
 import { APIDevice } from "device/feature"
@@ -18,17 +17,10 @@ export class DeviceResolverService {
   private eligibleDevices = [
     MuditaPureDescriptor,
     MuditaHarmonyDescriptor,
-    MuditaKompaktDescriptor,
   ]
 
-  constructor() {}
-
-  public resolve({
-    productId,
-    serialNumber,
-    path,
-  }: PortInfo): BaseDevice | undefined {
-    const id = productId?.toLowerCase() ?? ""
+  public resolve(portInfo: PortInfo): BaseDevice | undefined {
+    const id = portInfo.productId?.toLowerCase() ?? ""
     const descriptor = this.eligibleDevices.find((device) =>
       device.productIds
         .map((item) => item.toString().toLowerCase())
@@ -37,8 +29,7 @@ export class DeviceResolverService {
 
     if (descriptor) {
       return DeviceFactory.create(
-        path,
-        serialNumber,
+        portInfo,
         descriptor.deviceType,
         descriptor.adapter,
         descriptor.strategy
@@ -49,13 +40,10 @@ export class DeviceResolverService {
       !descriptor &&
       process.env.FEATURE_TOGGLE_ENVIRONMENT === "development"
     ) {
-      const id = DeviceFactory.generateDeviceIdBySerialNumber(serialNumber)
       //TODO: temporary, remove in future
       return new APIDevice(
-        id,
-        path,
-        serialNumber,
-        DeviceType.MuditaKompakt
+        portInfo,
+        DeviceType.APIDevice
       )
     }
 

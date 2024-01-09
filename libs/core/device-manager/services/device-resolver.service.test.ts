@@ -28,29 +28,6 @@ describe("Harmony descriptor", () => {
   })
 })
 
-describe("Kompakt descriptor", () => {
-  test("returns Device with MuditaKompakt device type productID has been provided", () => {
-    expect(
-      subject.resolve({
-        productId: ProductID.MuditaKompaktChargeDec,
-        path: "/dev/123",
-      })?.deviceType
-    ).toEqual(DeviceType.MuditaKompakt)
-    expect(
-      subject.resolve({
-        productId: ProductID.MuditaKompaktNoDebugDec,
-        path: "/dev/123",
-      })?.deviceType
-    ).toEqual(DeviceType.MuditaKompakt)
-    expect(
-      subject.resolve({
-        productId: ProductID.MuditaKompaktTransferDec,
-        path: "/dev/123",
-      })?.deviceType
-    ).toEqual(DeviceType.MuditaKompakt)
-  })
-})
-
 //TODO: temporary, remove in future
 describe.skip("Unknown descriptor", () => {
   test("returns undefined if unknown product id has been provided", () => {

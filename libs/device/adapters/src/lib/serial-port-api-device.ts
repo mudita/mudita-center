@@ -3,6 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import SerialPort from "serialport"
+import { ipcMain } from "electron-better-ipc"
+import { EventEmitter } from "events"
+import PQueue from "p-queue"
 import { log, LogConfig } from "Core/core/decorators/log.decorator"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
@@ -10,15 +14,14 @@ import { CONNECTION_TIME_OUT_MS, ResponseStatus } from "Core/device/constants"
 import { DeviceError } from "Core/device/modules/mudita-os/constants"
 import { ApiResponse, Response } from "Core/device/types/mudita-os"
 import { timeout } from "Core/device/modules/mudita-os/helpers"
-import SerialPort from "serialport"
-import { EventEmitter } from "events"
-import PQueue from "p-queue"
 import { SerialPortParserBase } from "Core/device/modules/mudita-os/parsers/serial-port-base.parser"
 import {
   APIMethodsType,
   APIRequestData,
   ApiSerialPortEvents,
+  ApiSerialPortToRendererEvents,
 } from "device/models"
+import { callRenderer } from "./call-renderer.helper"
 
 const generateRequestID = () => {
   return Math.floor(Math.random() * 10000)
@@ -208,6 +211,14 @@ export class SerialPortDeviceAPIAdapter {
           )
         )
       }
+    })
+
+    this.serialPort.on("close", () => {
+      callRenderer(
+        ApiSerialPortToRendererEvents.Closed,
+        Result.success(`Device ${this.path} closed`)
+      )
+      ipcMain.emit(ApiSerialPortToRendererEvents.Closed, this.path);
     })
   }
 }

@@ -4,6 +4,7 @@
  */
 
 import SerialPort from "serialport"
+import { ipcMain } from "electron-better-ipc"
 import { log, LogConfig } from "Core/core/decorators/log.decorator"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
@@ -18,6 +19,10 @@ import {
 } from "Core/device/types/mudita-os"
 import { timeout } from "Core/device/modules/mudita-os/helpers"
 import { BaseAdapter } from "Core/device/modules/base.adapter"
+
+export enum SerialPortDeviceAdapterEvent {
+  Closed = "serial-port-closed",
+}
 
 export class SerialPortDeviceAdapter extends BaseAdapter {
   protected parser = new SerialPortParser()
@@ -160,5 +165,10 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
         )
       }
     })
+
+    this.serialPort.on("close", () => {
+      ipcMain.emit(SerialPortDeviceAdapterEvent.Closed, this.path);
+    })
+
   }
 }

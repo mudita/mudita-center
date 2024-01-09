@@ -11,7 +11,7 @@ import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { DeviceManager } from "Core/device-manager/services"
-import { UsbDeviceAttachObserver } from "Core/device-manager/observers"
+import { UsbDeviceDetectionObserver } from "Core/device-manager/observers"
 import { DeviceManagerController } from "Core/device-manager/controllers"
 
 export class DeviceManagerModule extends BaseModule {
@@ -34,7 +34,7 @@ export class DeviceManagerModule extends BaseModule {
       fileSystem
     )
 
-    const usbDeviceAttachObserver = new UsbDeviceAttachObserver(
+    const usbDeviceDetectionObserver = new UsbDeviceDetectionObserver(
       this.deviceManager
     )
 
@@ -43,7 +43,7 @@ export class DeviceManagerModule extends BaseModule {
     )
 
     this.initializers = []
-    this.observers = [usbDeviceAttachObserver]
+    this.observers = [usbDeviceDetectionObserver]
     this.controllers = [deviceManagerController]
   }
 }
