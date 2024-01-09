@@ -45,6 +45,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   forceUpdate,
   forceUpdateState,
   closeForceUpdateFlow,
+  caseColour,
 }) => {
   useWatchDeviceDataEffect()
   const goToHelp = (): void => {
@@ -136,6 +137,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         onUpdateInstall={() => updateReleases()}
         onUpdateDownload={openCheckForUpdateModal}
         serialNumber={serialNumber}
+        caseColour={caseColour}
       />
     </>
   )
