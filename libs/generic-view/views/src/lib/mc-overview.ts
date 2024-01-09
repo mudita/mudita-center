@@ -215,6 +215,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         },
         flexLayout: {
           direction: "column",
+          rowGap: "10px",
         },
       },
 
@@ -257,13 +258,13 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
 
 export const mcOverviewDemoData = {
   battery: {
-    icon: "battery-icon-2",
-    title: "Battery",
-    text: "60 %",
+    icon: "battery-1",
+    title: "60 %",
+    text: "Battery",
   },
   connection: {
-    icon: "network-icon-2",
+    icon: "network-signal-2",
     title: "Network",
-    text: "Network name",
+    // text: "Network name",
   },
 }

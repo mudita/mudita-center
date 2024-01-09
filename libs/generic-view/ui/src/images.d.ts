@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const color = {
-  white: "#FFFFFF",
-  grey2: "#6A6A6A",
-  grey6: "#FBFBFB",
-} as const
+declare module "*.svg"
+declare module "*.png"
+declare module "*.jpg"
+declare module "*.jpeg"
+declare module "*.gif"

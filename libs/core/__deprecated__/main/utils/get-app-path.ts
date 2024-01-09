@@ -4,7 +4,6 @@
  */
 
 import path from "path"
-import packageInfo from "../../../../../apps/mudita-center/package.json"
 
 export enum AppType {
   Main = "main",
@@ -39,9 +38,11 @@ export const resolve: AppResolver = () => {
   }
 }
 
-const getAppPath = (): string => {
+const getAppPath = (...paths: string[]): string => {
   try {
-    return path.join(resolve().app.getPath("appData"), packageInfo.name)
+    const appDataPath = resolve().app.getPath("appData");
+    const baseAppPath = path.join(appDataPath, '@mudita', 'mudita-center-app');
+    return path.join(baseAppPath, ...paths);
   } catch {
     return ""
   }
