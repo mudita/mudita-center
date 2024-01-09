@@ -57,7 +57,7 @@ const BackButton = styled(Link)`
   margin-left: 3.2rem;
 
   ${HeaderText} {
-    margin-left: 2px;
+    margin-left: 0.2rem;
   }
 `
 
