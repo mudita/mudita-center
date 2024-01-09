@@ -5,10 +5,16 @@
 
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { createSelector } from "reselect"
+
+const screenTitleSelector = createSelector(
+  (state: ReduxRootState) => state.genericViews?.views,
+  (state: ReduxRootState, viewKey: string) => viewKey,
+  (views, viewKey) => views?.[viewKey]?.layout?.main?.screenTitle
+)
 
 export const useScreenTitle = (viewKey: string) => {
-  return useSelector(
-    (state: ReduxRootState) =>
-      state.genericViews?.views?.[viewKey]?.layout?.main?.screenTitle
-  )
+  return useSelector((state: ReduxRootState) => {
+    return screenTitleSelector(state, viewKey)
+  })
 }
