@@ -6,7 +6,6 @@
 import React from "react"
 import { APIFC, useScreenTitle, withConfig } from "generic-view/utils"
 import styled from "styled-components"
-import { Link } from "react-router-dom"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
