@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PortInfo } from "serialport"
 import { SerialPortParser } from "Core/device/modules/mudita-os/parsers"
 import { SerialPortDeviceAPIAdapter } from "device/adapters"
 import {
@@ -11,20 +12,17 @@ import {
   APIRequestWithPayload,
 } from "device/models"
 import { BaseDevice } from "Core/device/modules/base-device"
-import { DeviceId } from "Core/device/constants/device-id"
 import { DeviceType } from "Core/device"
 import { ResultObject } from "Core/core/builder"
 
 export class APIDevice extends BaseDevice {
   private adapter: SerialPortDeviceAPIAdapter
   constructor(
-    id: DeviceId,
-    path: string,
-    serialNumber: string | undefined,
-    deviceType: DeviceType
+    portInfo: PortInfo,
+    deviceType: DeviceType,
   ) {
-    super(id, path, serialNumber, deviceType)
-    this.adapter = new SerialPortDeviceAPIAdapter(path, new SerialPortParser())
+    super(portInfo, deviceType)
+    this.adapter = new SerialPortDeviceAPIAdapter(portInfo.path, new SerialPortParser())
   }
 
   connect(): Promise<ResultObject<undefined>> {

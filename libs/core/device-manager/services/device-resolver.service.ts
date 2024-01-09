@@ -19,14 +19,8 @@ export class DeviceResolverService {
     MuditaHarmonyDescriptor,
   ]
 
-  constructor() {}
-
-  public resolve({
-    productId,
-    serialNumber,
-    path,
-  }: PortInfo): BaseDevice | undefined {
-    const id = productId?.toLowerCase() ?? ""
+  public resolve(portInfo: PortInfo): BaseDevice | undefined {
+    const id = portInfo.productId?.toLowerCase() ?? ""
     const descriptor = this.eligibleDevices.find((device) =>
       device.productIds
         .map((item) => item.toString().toLowerCase())
@@ -35,8 +29,7 @@ export class DeviceResolverService {
 
     if (descriptor) {
       return DeviceFactory.create(
-        path,
-        serialNumber,
+        portInfo,
         descriptor.deviceType,
         descriptor.adapter,
         descriptor.strategy
@@ -47,12 +40,9 @@ export class DeviceResolverService {
       !descriptor &&
       process.env.FEATURE_TOGGLE_ENVIRONMENT === "development"
     ) {
-      const id = DeviceFactory.generateDeviceIdBySerialNumber(serialNumber)
       //TODO: temporary, remove in future
       return new APIDevice(
-        id,
-        path,
-        serialNumber,
+        portInfo,
         DeviceType.APIDevice
       )
     }
