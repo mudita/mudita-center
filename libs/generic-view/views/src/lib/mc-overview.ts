@@ -263,7 +263,7 @@ export const mcOverviewDemoData = {
     text: "Battery",
   },
   connection: {
-    icon: "network-signal-2",
+    icon: "airplane-mode",
     title: "Network",
     // text: "Network name",
   },

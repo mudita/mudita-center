@@ -44,7 +44,8 @@ const IconTextWrapper = styled.div`
   flex-direction: row;
   gap: 1.6rem;
   flex: 0;
-  height: 4rem;
+  height: 4.4rem;
+  align-items: center;
 `
 const IconWrapper = styled.div`
   background-color: ${({ theme }) => theme.color.grey6};
@@ -68,9 +69,9 @@ const TextWrapper = styled.div`
 const TitleText = styled.h4`
   font-size: ${({ theme }) => theme.fontSize.headline4};
   font-weight: 700;
-  line-height: ${({ theme }) => theme.fontSize.headline4};
+  line-height: ${({ theme }) => theme.lineHeight.headline4};
   letter-spacing: 0.032rem;
-  margin: 0.4rem 0 0 0;
+  margin: 0;
 `
 const DetailText = styled.span`
   font-size: ${({ theme }) => theme.fontSize.detailText};
