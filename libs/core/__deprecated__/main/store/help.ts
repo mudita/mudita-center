@@ -4,12 +4,11 @@
  */
 
 import Store from "electron-store"
-import { app } from "electron"
-import packageInfo from "../../../../../apps/mudita-center/package.json"
+import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 
 const helpStore = new Store({
   name: "help",
-  cwd: `${app.getPath("appData")}/${packageInfo.name}`,
+  cwd: getAppPath(),
 })
 
 export default helpStore
