@@ -4,9 +4,9 @@
  */
 
 export const fontSize = {
-  headline3: "24px",
-  paragraph1: "16px",
-  paragraph3: "14px",
-  tag: "12px",
-  link: "12px",
+  headline3: "2.4rem",
+  paragraph1: "1.6rem",
+  paragraph3: "1.4rem",
+  tag: "1.2rem",
+  link: "1.2rem",
 } as const
