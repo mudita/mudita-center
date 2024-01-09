@@ -5,6 +5,7 @@
 
 // TODO: demo code, file to be removed
 import {
+  generateMcAboutLayout,
   generateMcCalendarLayout,
   generateMcOverviewLayout,
   mcCalendarConfig,
@@ -45,14 +46,7 @@ export const useGenericStoreDemo = () => {
       dispatch(
         setViewLayout({
           feature: "mc-about",
-          layout: {
-            main: {
-              component: "block-box",
-              config: {
-                title: "About"
-              }
-            }
-          }
+          layout: generateMcAboutLayout({ title: "About" }),
         })
       )
 

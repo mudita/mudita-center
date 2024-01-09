@@ -4,8 +4,8 @@
  */
 
 import * as React from "react"
-import { ReactElement, useEffect, useState } from "react"
-import { useLocation } from "react-router"
+import { MouseEventHandler, ReactElement, useEffect, useState } from "react"
+import { useHistory, useLocation } from "react-router"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -20,11 +20,11 @@ import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { Link } from "react-router-dom"
 import { defineMessages } from "react-intl"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   backButtonLabel: { id: "module.generic.viewBackButton" },
@@ -58,6 +58,7 @@ const BackButton = styled(Link)`
 
   ${HeaderText} {
     margin-left: 0.2rem;
+    line-height: 1.7;
   }
 `
 
@@ -65,7 +66,14 @@ const Header: FunctionComponent<HeaderProps> = ({
   middleComponent,
   button,
 }) => {
-  const location = useLocation()
+  const location = useLocation<{ previousViewName?: string }>()
+  const history = useHistory()
+  const goBack: MouseEventHandler<HTMLAnchorElement> = (event) => {
+    event.preventDefault()
+    history.goBack()
+  }
+  const previousViewName = location?.state?.previousViewName
+
   const genericMenu = useSelector(
     (state: ReduxRootState) => state.genericViews.menu
   )
@@ -73,9 +81,6 @@ const Header: FunctionComponent<HeaderProps> = ({
     { id: string } | string
   >()
   const [renderHeaderButton, setRenderHeaderButton] = useState(false)
-  const [backButtonData, setBackButtonData] = useState<
-    { label: string; path: string } | undefined
-  >()
   useEffect(() => {
     const pathname = location.pathname
     const currentMenuElementName = Object.keys(views).find(
@@ -91,44 +96,26 @@ const Header: FunctionComponent<HeaderProps> = ({
       setRenderHeaderButton(
         menuElementNameWithHeaderButton === currentMenuElementName
       )
-    } else {
-      const pathSections = pathname.split("/")
-      const hasParentPath = pathSections.length === 4
-
-      if (hasParentPath) {
-        const parentPathName = pathSections.slice(0, 3).join("/")
-        const parentGenericMenuElement = genericMenu
-          ?.flatMap((element) => element.items)
-          .find((item) => item?.button.url === parentPathName)
-
-        if (parentGenericMenuElement?.button) {
-          setBackButtonData({
-            label: intl.formatMessage(messages.backButtonLabel, {
-              name: parentGenericMenuElement.button.label as string,
-            }),
-            path: parentGenericMenuElement.button.url,
-          })
-        }
-      } else {
-        setBackButtonData(undefined)
-        const currentGenericMenuElement = genericMenu
-          ?.flatMap((element) => element.items)
-          .find((item) => item?.button.url === pathname)
-        if (currentGenericMenuElement) {
-          setCurrentLocation(currentGenericMenuElement.button.label)
-          setRenderHeaderButton(false)
-        }
+    } else if (!previousViewName) {
+      const currentGenericMenuElement = genericMenu
+        ?.flatMap((element) => element.items)
+        .find((item) => item?.button.url === pathname)
+      if (currentGenericMenuElement) {
+        setCurrentLocation(currentGenericMenuElement.button.label)
+        setRenderHeaderButton(false)
       }
     }
-  }, [genericMenu, location])
+  }, [genericMenu, location, previousViewName])
   return (
     <HeaderWrapper>
-      {backButtonData ? (
-        <BackButton to={backButtonData.path}>
+      {previousViewName ? (
+        <BackButton onClick={goBack} to={""}>
           <Icon type={IconType.ArrowLongLeft} size={IconSize.Medium} />
           <HeaderText
             displayStyle={TextDisplayStyle.Button}
-            message={backButtonData.label}
+            message={intl.formatMessage(messages.backButtonLabel, {
+              name: previousViewName,
+            })}
             data-testid={"location"}
           />
         </BackButton>

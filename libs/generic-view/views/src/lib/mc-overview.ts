@@ -125,6 +125,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
 ) => {
   return {
     main: {
+      screenTitle: config.title,
       component: "block-plain",
       layout: {
         padding: "32px",

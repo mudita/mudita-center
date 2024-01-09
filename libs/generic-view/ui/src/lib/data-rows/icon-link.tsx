@@ -4,13 +4,14 @@
  */
 
 import React from "react"
-import { APIFC, withConfig } from "generic-view/utils"
+import { APIFC, useScreenTitle, withConfig } from "generic-view/utils"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { GenericViewLink } from "Libs/generic-view/ui/src/lib/shared/generic-view-link"
 
 interface Config {
   linkViewKey: string
@@ -19,11 +20,20 @@ interface Config {
 }
 
 const IconLink: APIFC<undefined, Config> = ({ config, ...props }) => {
+  const currentViewName = useScreenTitle(props.viewKey)
   return (
-    <Wrapper to={`/generic/${config?.linkViewKey}`} {...props}>
+    <GenericViewLink
+      to={{
+        pathname: `/generic/${config?.linkViewKey}`,
+        state: {
+          previousViewName: currentViewName,
+        },
+      }}
+      {...props}
+    >
       <Icon type={IconType.Pure} size={IconSize.Medium} />
       <Label>{config?.label}</Label>
-    </Wrapper>
+    </GenericViewLink>
   )
 }
 
