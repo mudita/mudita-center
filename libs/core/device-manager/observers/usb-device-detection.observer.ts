@@ -11,7 +11,7 @@ import { SerialPortDeviceAdapterEvent } from "Core/device/modules/mudita-os/adap
 
 const intervalTime = 3000
 
-export class UsbDeviceAttachObserver implements Observer {
+export class UsbDeviceDetectionObserver implements Observer {
   private previousAttachedDevicePaths = new Set<string>()
   constructor(private deviceManager: DeviceManager) {}
 
