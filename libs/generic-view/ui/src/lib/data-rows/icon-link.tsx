@@ -22,7 +22,7 @@ interface Config {
 const IconLink: APIFC<undefined, Config> = ({ config, ...props }) => {
   const currentViewName = useScreenTitle(props.viewKey as string)
   return (
-    <GenericViewLink
+    <Wrapper
       to={{
         pathname: `/generic/${config?.linkViewKey}`,
         state: {
@@ -33,13 +33,13 @@ const IconLink: APIFC<undefined, Config> = ({ config, ...props }) => {
     >
       <Icon type={IconType.Pure} size={IconSize.Medium} />
       <Label>{config?.label}</Label>
-    </GenericViewLink>
+    </Wrapper>
   )
 }
 
 export default withConfig(IconLink)
 
-const Wrapper = styled(Link)`
+const Wrapper = styled(GenericViewLink)`
   display: flex;
   flex-direction: row;
   align-items: center;
