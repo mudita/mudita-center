@@ -11,7 +11,7 @@ import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { GenericViewLink } from "Libs/generic-view/ui/src/lib/shared/generic-view-link"
+import { GenericViewLink } from "../shared/generic-view-link"
 
 interface Config {
   linkViewKey: string
