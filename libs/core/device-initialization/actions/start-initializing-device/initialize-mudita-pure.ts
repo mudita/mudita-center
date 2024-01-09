@@ -32,6 +32,8 @@ import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { getCrashDump } from "Core/crash-dump/actions"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 import { shouldSkipDataSync } from "Core/device-initialization/actions/start-initializing-device/should-skip-data-sync.helper"
+import { configureDevice } from "Core/device-manager/actions/configure-device.action"
+import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 
 export const initializeMuditaPure = async (
   history: History,
@@ -55,6 +57,8 @@ export const initializeMuditaPure = async (
       return
     }
   }
+
+  await dispatch(configureDevice(activeDeviceIdSelector(getState()) as string))
 
   // Handle LOAD DEVICE DATA as an initializing step
   const loadDeviceDataResult = await dispatch(loadDeviceData(true))
