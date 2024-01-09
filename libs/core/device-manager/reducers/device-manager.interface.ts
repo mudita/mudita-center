@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device"
+import { CaseColor, DeviceType } from "Core/device"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 import { DeviceId } from "Core/device/constants/device-id"
 
@@ -18,6 +18,7 @@ export interface Device extends DeviceBaseProperties {
   id: DeviceId
   serialNumber: string | undefined
   deviceType: DeviceType
+  caseColour: CaseColor | undefined
   state: DeviceState
 }
 

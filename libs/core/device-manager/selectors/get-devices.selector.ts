@@ -7,7 +7,7 @@ import { createSelector } from "@reduxjs/toolkit"
 import { deviceManagerState } from "Core/device-manager/selectors/device-manager-state.selector"
 import { Device } from "Core/device-manager/reducers/device-manager.interface"
 
-export const getConnectedDevicesSelector = createSelector(
+export const getDevicesSelector = createSelector(
   deviceManagerState,
   (deviceManager): Device[] => {
     return deviceManager.devices

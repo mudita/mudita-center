@@ -7,4 +7,5 @@ export const ControllerPrefix = "device-manager"
 
 export enum IpcDeviceManagerEvent {
   SetActiveDevice = "device-manager_set-active-device",
+  GetDeviceConfiguration = "device-manager_get-device-configuration",
 }

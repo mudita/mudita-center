@@ -13,6 +13,7 @@ import { BaseModule } from "Core/core/module"
 import { DeviceManager } from "Core/device-manager/services"
 import { UsbDeviceDetectionObserver } from "Core/device-manager/observers"
 import { DeviceManagerController } from "Core/device-manager/controllers"
+import { DeviceCacheConfigurationService } from "Core/device-manager/services/device-cache-configuration.service"
 
 export class DeviceManagerModule extends BaseModule {
   constructor(
@@ -39,7 +40,8 @@ export class DeviceManagerModule extends BaseModule {
     )
 
     const deviceManagerController = new DeviceManagerController(
-      this.deviceManager
+      this.deviceManager,
+      new DeviceCacheConfigurationService(this.fileSystem)
     )
 
     this.initializers = []

@@ -15,7 +15,7 @@ import { removeDevice } from "Core/device-manager/actions/base.action"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { setActiveDevice } from "Core/device-manager/actions/set-active-device.action"
-import { getConnectedDevicesSelector } from "Core/device-manager/selectors/get-connected-devices.selector"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
@@ -49,7 +49,7 @@ export const handleDeviceDetached = createAsyncThunk<
 
     await dispatch(setActiveDevice(undefined))
 
-    const devices = getConnectedDevicesSelector(getState())
+    const devices = getDevicesSelector(getState())
     dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
     dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))
     dispatch(setDataSyncInitState())

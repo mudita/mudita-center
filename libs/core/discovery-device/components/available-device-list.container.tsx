@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AvailableDeviceList from "Core/discovery-device/components/available-device-list.component"
-import { getConnectedDevicesSelector } from "Core/device-manager/selectors/get-connected-devices.selector"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 const AvailableDeviceListContainer: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
-  const devices = useSelector(getConnectedDevicesSelector)
+  const devices = useSelector(getDevicesSelector)
 
   const handleDeviceClick = (id: string) => {
     dispatch(handleDeviceActivated({ deviceId: id, history }))

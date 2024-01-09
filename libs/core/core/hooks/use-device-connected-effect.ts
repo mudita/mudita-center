@@ -22,6 +22,7 @@ import {
 import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
+import { configureDevice } from "Core/device-manager/actions/configure-device.action"
 
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
@@ -37,6 +38,7 @@ export const useDeviceConnectedEffect = () => {
 
   const handleDeviceConnected = async (properties: DeviceBaseProperties) => {
     dispatch(addDevice(properties))
+    dispatch(configureDevice(properties.id))
 
     if (activeDeviceId) {
       await handleActiveDevice(properties)

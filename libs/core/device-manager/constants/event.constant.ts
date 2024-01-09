@@ -9,4 +9,5 @@ export enum DeviceManagerEvent {
   AddDevice = "ADD_DEVICE",
   RemoveDevice = "REMOVE_DEVICE",
   SetActiveDevice = "SET_ACTIVE_DEVICE",
+  ConfigureDevice = "CONFIGURE_DEVICE",
 }
