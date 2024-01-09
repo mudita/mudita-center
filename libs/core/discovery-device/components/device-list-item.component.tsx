@@ -20,7 +20,7 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { DeviceType } from "Core/device"
+import { CaseColor, DeviceType } from "Core/device"
 
 const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
@@ -112,6 +112,7 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
   id,
   serialNumber,
   deviceType,
+  caseColour = CaseColor.Black,
 }) => {
   const serialNumberValue = serialNumber ?? ""
 
@@ -122,7 +123,7 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
   return (
     <Container className={className} onClick={() => onDeviceClick(id)}>
       <DeviceImageWrapper>
-        <DeviceImageStyled deviceType={deviceType} />
+        <DeviceImageStyled deviceType={deviceType} caseColour={caseColour} />
       </DeviceImageWrapper>
       <DeviceInfoContainer>
         <DeviceInfoDeviceTypeName displayStyle={TextDisplayStyle.Headline4}>

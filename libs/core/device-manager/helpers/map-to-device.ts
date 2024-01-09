@@ -12,6 +12,7 @@ import { DeviceBaseProperties } from "Core/device/constants/device-base-properti
 export const mapToDevice = (properties: DeviceBaseProperties): Device => {
   return {
     ...properties,
+    caseColour: undefined,
     state: DeviceState.Connected,
   }
 }

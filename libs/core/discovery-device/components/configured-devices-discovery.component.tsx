@@ -10,17 +10,19 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
-import { getConnectedDevicesSelector } from "Core/device-manager/selectors/get-connected-devices.selector"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import { getConfiguredDevicesSelector } from "Core/device-manager/selectors/get-configured-devices.selector"
 
 const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
-  const devices = useSelector(getConnectedDevicesSelector)
+  const devices = useSelector(getDevicesSelector)
+  const configuredDevices = useSelector(getConfiguredDevicesSelector)
 
   useEffect(() => {
     dispatch(setDiscoveryStatus(DiscoveryStatus.Discovering))
@@ -30,10 +32,14 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     useState<boolean>(false)
 
   useEffect(() => {
-    if (devices.length === 1 && noNewDevicesDetectedState) {
+    if (
+      devices.length === 1 &&
+      configuredDevices.length === 1 &&
+      noNewDevicesDetectedState
+    ) {
       dispatch(handleDeviceActivated({ deviceId: devices[0].id, history }))
     }
-  }, [history, dispatch, devices, noNewDevicesDetectedState])
+  }, [history, dispatch, devices, configuredDevices, noNewDevicesDetectedState])
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
@@ -53,15 +59,18 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     }
   }, [])
 
-  useEffect(()=>{
-    if(devices.length === 0 && noNewDevicesDetectedState){
+  useEffect(() => {
+    if (devices.length === 0 && noNewDevicesDetectedState) {
       dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
       history.push(URL_MAIN.news)
     }
-
   }, [dispatch, history, devices.length, noNewDevicesDetectedState])
 
-  if (devices.length > 1 && noNewDevicesDetectedState) {
+  if (
+    devices.length > 1 &&
+    configuredDevices.length === devices.length &&
+    noNewDevicesDetectedState
+  ) {
     return <AvailableDeviceListContainer />
   } else {
     return <ConnectingContent />

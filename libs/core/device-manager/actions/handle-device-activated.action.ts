@@ -18,7 +18,7 @@ export const handleDeviceActivated = createAsyncThunk<
   { deviceId: DeviceId; history: History },
   { state: ReduxRootState }
 >(
-  DeviceManagerEvent.HandleDeviceConnected,
+  DeviceManagerEvent.HandleDeviceActivated,
   async (payload, { dispatch, getState }) => {
     const { history, deviceId } = payload
     await dispatch(setActiveDevice(deviceId))

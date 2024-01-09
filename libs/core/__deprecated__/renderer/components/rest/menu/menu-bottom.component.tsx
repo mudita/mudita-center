@@ -21,7 +21,7 @@ import { getDeviceInitializationStatus } from "Core/device-initialization/select
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { useHistory } from "react-router-dom"
-import { getConnectedDevicesSelector } from "Core/device-manager/selectors/get-connected-devices.selector"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 
 const SyncProgressWrapper = styled.div`
   display: flex;
@@ -50,7 +50,7 @@ interface Props {
 
 const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const history = useHistory()
-  const devices = useSelector(getConnectedDevicesSelector)
+  const devices = useSelector(getDevicesSelector)
   const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
   const deviceInitialized =
     deviceInitializationStatus === DeviceInitializationStatus.Initialized

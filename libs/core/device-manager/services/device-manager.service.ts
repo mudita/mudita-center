@@ -12,9 +12,7 @@ import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
 import { PortInfo } from "Core/device-manager/types"
 import { PortInfoValidator } from "Core/device-manager/validators"
-import {
-  DeviceManagerError,
-} from "Core/device-manager/constants"
+import { DeviceManagerError } from "Core/device-manager/constants"
 import { DeviceManagerMainEvent } from "shared/utils"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { DeviceId } from "Core/device/constants/device-id"
@@ -22,6 +20,8 @@ import { log } from "Core/core/decorators/log.decorator"
 import { APIDevice } from "device/feature"
 import { BaseDevice } from "Core/device/modules/base-device"
 import { CoreDevice } from "Core/device/modules/core-device"
+import { RequestConfig } from "Core/device/types/mudita-os"
+import { DeviceCommunicationError } from "Core/device"
 
 export class DeviceManager {
   public activeDevice: BaseDevice | undefined
@@ -121,6 +121,14 @@ export class DeviceManager {
     )
   }
 
+  public request<ResponseType = unknown>(
+    id: DeviceId,
+    config: RequestConfig<unknown>
+  ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
+    const device = this.devicesMap.get(id) as CoreDevice
+    return device.request(config)
+  }
+
   private async addDeviceTask(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
 
@@ -187,6 +195,6 @@ export class DeviceManager {
   }
 
   private getDevicePaths(): string[] {
-    return this.devices.map(({portInfo} ) => portInfo.path)
+    return this.devices.map(({ portInfo }) => portInfo.path)
   }
 }
