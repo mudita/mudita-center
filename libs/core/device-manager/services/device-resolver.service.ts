@@ -14,10 +14,7 @@ import { DeviceType } from "Core/device"
 import { BaseDevice } from "Core/device/modules/base-device"
 
 export class DeviceResolverService {
-  private eligibleDevices = [
-    MuditaPureDescriptor,
-    MuditaHarmonyDescriptor,
-  ]
+  private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
 
   public resolve(portInfo: PortInfo): BaseDevice | undefined {
     const id = portInfo.productId?.toLowerCase() ?? ""
@@ -41,10 +38,7 @@ export class DeviceResolverService {
       process.env.FEATURE_TOGGLE_ENVIRONMENT === "development"
     ) {
       //TODO: temporary, remove in future
-      return new APIDevice(
-        portInfo,
-        DeviceType.APIDevice
-      )
+      return new APIDevice(portInfo, DeviceType.APIDevice)
     }
 
     return
