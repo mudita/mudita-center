@@ -7,7 +7,6 @@ import { PortInfo } from "serialport"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
-  MuditaKompaktDescriptor,
 } from "Core/device/descriptors"
 import { DeviceFactory } from "Core/device/factories"
 import { APIDevice } from "device/feature"
@@ -18,7 +17,6 @@ export class DeviceResolverService {
   private eligibleDevices = [
     MuditaPureDescriptor,
     MuditaHarmonyDescriptor,
-    MuditaKompaktDescriptor,
   ]
 
   constructor() {}
@@ -55,7 +53,7 @@ export class DeviceResolverService {
         id,
         path,
         serialNumber,
-        DeviceType.MuditaKompakt
+        DeviceType.APIDevice
       )
     }
 

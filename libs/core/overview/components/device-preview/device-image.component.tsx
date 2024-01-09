@@ -34,7 +34,7 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
   if (deviceType === DeviceType.MuditaHarmony) {
     return <Image src={HarmonyGrayImage} {...props}/>
   }
-  if (deviceType === DeviceType.MuditaKompakt) {
+  if (deviceType === DeviceType.APIDevice) {
     return <Image src={KompaktGrayImage} {...props}/>
   }
 
