@@ -6,6 +6,7 @@
 export * from "./lib/generate-menu/generate-menu"
 export * from "./lib/models/api-fc.types"
 export * from "./lib/models/api-views.types"
+export * from "./lib/models/icons.types"
 export * from "./lib/with-config/with-config"
 export * from "./lib/with-data/with-data"
 export * from "./lib/with-layout/with-layout"

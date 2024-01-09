@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import IconText from "./icon-text"
+import IconText from "./icon-text/icon-text"
 import Image from "./image"
 import LabeledText from "./labeled-text"
 import IconLink from "./icon-link"

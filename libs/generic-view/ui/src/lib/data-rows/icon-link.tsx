@@ -20,7 +20,7 @@ interface Config {
 }
 
 const IconLink: APIFC<undefined, Config> = ({ config, ...props }) => {
-  const currentViewName = useScreenTitle(props.viewKey)
+  const currentViewName = useScreenTitle(props.viewKey as string)
   return (
     <GenericViewLink
       to={{
