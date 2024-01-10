@@ -15,6 +15,7 @@ import CantConnectWithoutUSBPortAccessModal from "Core/settings/components/usb-a
 import { addUserToSerialPortGroup } from "Core/desktop/requests/add-user-to-serial-port-group.request"
 import { SettingsState } from "Core/settings/reducers"
 import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
+import { UsbAccessFlowTestIds } from "Core/settings/components/usb-access/usb-access-flow-test-ids.enum"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -41,8 +42,9 @@ const USBAccessFlowContainer = () => {
   }, [usbAccessRestart])
 
   return (
-    <>
+    <div data-testid={UsbAccessFlowTestIds.USBAccessFlowContainer}>
       <AllowUSBPortAccessModal
+        testId={UsbAccessFlowTestIds.AllowUSBPortAccessModal}
         title="Mudita Center"
         open={accessState === USBAccessState.notGranted}
         closeModal={() => {
@@ -58,6 +60,7 @@ const USBAccessFlowContainer = () => {
         closeButton={false}
       />
       <USBAccessGrantedModal
+        testId={UsbAccessFlowTestIds.USBAccessGrantedModal}
         title="Mudita Center"
         open={accessState === USBAccessState.granted}
         closeModal={() => {
@@ -71,6 +74,7 @@ const USBAccessFlowContainer = () => {
         closeButton={false}
       />
       <RestartYourComputerToConnectModal
+        testId={UsbAccessFlowTestIds.RestartYourComputerToConnectModal}
         title="Error"
         open={accessState === USBAccessState.grantedNeedsRestart}
         closeModal={() => {
@@ -84,6 +88,7 @@ const USBAccessFlowContainer = () => {
         closeButton={false}
       />
       <CantConnectWithoutUSBPortAccessModal
+        testId={UsbAccessFlowTestIds.CantConnectWithoutUSBPortAccessModal}
         title="Error"
         open={accessState === USBAccessState.notGrantedCancelled}
         closeModal={() => {
@@ -96,7 +101,7 @@ const USBAccessFlowContainer = () => {
         actionButtonLabel="OK"
         closeButton={false}
       />
-    </>
+    </div>
   )
 }
 

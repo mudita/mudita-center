@@ -19,6 +19,7 @@ const MuditaCenterOnSudoModeContainer = () => {
 
   return (
     <MuditaCenterOnSudoModeModal
+      testId="mudita-center-on-sudo-mode-modal"
       title="Mudita Center"
       open={appRunWithSudoShow}
       closeModal={() => {

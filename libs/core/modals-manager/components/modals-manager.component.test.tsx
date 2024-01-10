@@ -16,6 +16,7 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { initialState as updateInitialState } from "Core/update/reducers/update-os.reducer"
 import { initialState as contactSupportInitialState } from "Core/contact-support/reducers/contact-support.reducer"
+import { UsbAccessFlowTestIds } from "Core/settings/components/usb-access/usb-access-flow-test-ids.enum"
 
 jest.mock("electron-better-ipc", () => {
   return {
@@ -55,6 +56,11 @@ const defaultState = {
     privacyPolicyAccepted: true,
   },
   modalsManager: {
+    appForcedUpdateFlowShow: false,
+    appUpdateFlowShow: false,
+    contactSupportFlowShow: false,
+    deviceInitializationFailedModalShow: false,
+    appRunWithSudoShow: false,
     usbAccessFlowShow: false,
   },
 } as unknown as ReduxRootState
@@ -95,6 +101,12 @@ describe("`ModalsManager` component", () => {
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId("mudita-center-on-sudo-mode-modal")
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(UsbAccessFlowTestIds.USBAccessFlowContainer)
       ).not.toBeInTheDocument()
     })
   })
@@ -172,6 +184,48 @@ describe("`ModalsManager` component", () => {
       expect(
         queryByTestId(AppForcedUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("MuditaCenterOnSudoModeModal", () => {
+    test("Is visible", () => {
+      const { queryByTestId } = render(undefined, {
+        modalsManager: {
+          ...defaultState.modalsManager,
+          appRunWithSudoShow: true,
+        },
+      })
+
+      expect(
+        queryByTestId("mudita-center-on-sudo-mode-modal")
+      ).toBeInTheDocument()
+    })
+    test("Is invisible", () => {
+      const { queryByTestId } = render(undefined, {
+        modalsManager: {
+          ...defaultState.modalsManager,
+          appRunWithSudoShow: false,
+        },
+      })
+
+      expect(
+        queryByTestId("mudita-center-on-sudo-mode-modal")
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("USBAccessFlowContainer", () => {
+    test("`AllowUSBPortAccessModal` is visible", () => {
+      const { queryByTestId } = render(undefined, {
+        modalsManager: {
+          ...defaultState.modalsManager,
+          usbAccessFlowShow: true,
+        },
+      })
+      
+      expect(
+        queryByTestId(UsbAccessFlowTestIds.AllowUSBPortAccessModal)
+      ).toBeInTheDocument()
     })
   })
 })
