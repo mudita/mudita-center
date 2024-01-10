@@ -18,6 +18,7 @@ export const generateMcCalendarLayout: ViewGenerator<CalendarConfig> = (
 ) => {
   return {
     main: {
+      screenTitle: config.title,
       component: "block-plain",
       parameters: {
         layout: {

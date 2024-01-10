@@ -9,23 +9,27 @@ import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { isEmpty } from "lodash"
 import { GenericThemeProvider } from "generic-view/theme"
-import RecursiveLayout from "../recursive-layout/recursive-layout"
+import RecursiveLayout from "./recursive-layout"
 
 export const GenericView: FunctionComponent = () => {
-  const { viewKey } = useParams<{ viewKey: string }>()
+  const { viewKey, subviewKey } = useParams<{
+    viewKey: string
+    subviewKey?: string
+  }>()
+  const currentViewKey = subviewKey || viewKey
   const { views } = useSelector((state: ReduxRootState) => state.genericViews)
 
-  if (isEmpty(views) || !views[viewKey].layout) {
+  if (isEmpty(views) || !views[currentViewKey].layout) {
     return <div>Loading...</div>
   }
 
-  if (!views[viewKey]) {
+  if (!views[currentViewKey]) {
     return <div>Not found</div>
   }
 
   return (
     <GenericThemeProvider>
-      <RecursiveLayout viewKey={viewKey} componentKey={"main"} />
+      <RecursiveLayout viewKey={currentViewKey} componentKey={"main"} />
     </GenericThemeProvider>
   )
 }

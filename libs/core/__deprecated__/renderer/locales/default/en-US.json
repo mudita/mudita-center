@@ -453,6 +453,7 @@
   "module.filesManager.uploadingModalNoSpaceErrorTitle": "Uploading Files",
   "module.filesManager.uploadingModalSubtitle": "Files uploading...",
   "module.filesManager.uploadingModalTitle": "Upload files",
+  "module.generic.viewBackButton": "Back to {name}",
   "module.help": "Help",
   "module.help.answerError": "Something went wrong",
   "module.help.backLinkText": "Back",

@@ -3,5 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/generic-view"
-export * from "./lib/recursive-layout"
+export const fontWeight = {
+  light: 300,
+  regular: 400,
+  medium: 500,
+  bold: 700,
+} as const
