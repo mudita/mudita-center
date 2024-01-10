@@ -16,6 +16,7 @@ import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
+import { getDeviceConfigurationRequest } from "Core/device-manager/requests/get-device-configuration.request"
 
 export const useDeviceConnectFailedEffect = () => {
   const history = useHistory()
@@ -29,7 +30,12 @@ export const useDeviceConnectFailedEffect = () => {
   const handleDeviceConnectFailed = async (
     properties: DeviceBaseProperties
   ) => {
-    dispatch(addDevice({ ...properties, state: DeviceState.Failed }))
+    const result = await getDeviceConfigurationRequest(properties.id)
+    const caseColour = result.ok ? result.data.caseColour : undefined
+
+    dispatch(
+      addDevice({ ...properties, caseColour, state: DeviceState.Failed })
+    )
 
     if (shouldSkipProcessing()) {
       return
