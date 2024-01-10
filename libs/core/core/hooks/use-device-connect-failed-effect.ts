@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect } from "react"
+import { useEffect, useCallback } from "react"
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
@@ -29,36 +29,42 @@ export const useDeviceConnectFailedEffect = () => {
     isInitializationDeviceInProgress
   )
   const initializationAppInProgress = useSelector(isInitializationAppInProgress)
-  const handleDeviceConnectFailed = async (
-    properties: DeviceBaseProperties
-  ) => {
-    const result = await getDeviceConfigurationRequest(properties.id)
-    const caseColour = result.ok ? result.data.caseColour : undefined
 
-    dispatch(
-      addDevice({ ...properties, caseColour, state: DeviceState.Failed })
-    )
-    if (activeDeviceId) {
-
-      return
-    }
-    console.log("handleDeviceConnectFailed activeDeviceId: ", activeDeviceId)
-
-    if (shouldSkipProcessing()) {
-      return
-    }
-
-    history.push(URL_DISCOVERY_DEVICE.root)
-  }
-
-  const shouldSkipProcessing = () => {
+  const shouldSkipProcessing = useCallback(() => {
     return (
       discoveryDeviceInProgress ||
       initializationDeviceInProgress ||
       initializationAppInProgress ||
       activeDeviceProcessing
     )
-  }
+  }, [
+    discoveryDeviceInProgress,
+    initializationDeviceInProgress,
+    initializationAppInProgress,
+    activeDeviceProcessing,
+  ])
+
+  const handleDeviceConnectFailed = useCallback(
+    async (properties: DeviceBaseProperties) => {
+      const result = await getDeviceConfigurationRequest(properties.id)
+      const caseColour = result.ok ? result.data.caseColour : undefined
+
+      dispatch(
+        addDevice({ ...properties, caseColour, state: DeviceState.Failed })
+      )
+
+      if (activeDeviceId) {
+        return
+      }
+
+      if (shouldSkipProcessing()) {
+        return
+      }
+
+      history.push(URL_DISCOVERY_DEVICE.root)
+    },
+    [dispatch, activeDeviceId, shouldSkipProcessing, history]
+  )
 
   useEffect(() => {
     const handler = async (properties: DeviceBaseProperties) => {
