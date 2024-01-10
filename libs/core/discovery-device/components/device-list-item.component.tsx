@@ -95,15 +95,32 @@ export interface DeviceListItemProps extends Device {
   onDeviceClick: (id: string) => void
 }
 
-const getDeviceTypeName = (deviceType: DeviceType): string => {
-  switch (deviceType) {
-    case DeviceType.MuditaPure:
-      return "Pure"
-    case DeviceType.MuditaHarmony:
-      return "Harmony 1"
-    case DeviceType.APIDevice:
-      return "Kompakt"
+const getDeviceTypeName = (
+  deviceType: DeviceType,
+  caseColour: CaseColor = CaseColor.Black
+): string => {
+  if (deviceType === DeviceType.MuditaPure) {
+    return "Pure"
   }
+
+  if (
+    deviceType === DeviceType.MuditaHarmony &&
+    caseColour === CaseColor.Gray
+  ) {
+    return "Harmony 1"
+  }
+
+  if (
+    deviceType === DeviceType.MuditaHarmony &&
+    caseColour === CaseColor.Black
+  ) {
+    return "Harmony 2"
+  }
+
+  if (deviceType === DeviceType.APIDevice) {
+    return "Kompakt"
+  }
+  return "Unknown Device"
 }
 
 const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
@@ -127,7 +144,7 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
       </DeviceImageWrapper>
       <DeviceInfoContainer>
         <DeviceInfoDeviceTypeName displayStyle={TextDisplayStyle.Headline4}>
-          {getDeviceTypeName(deviceType)}
+          {getDeviceTypeName(deviceType, caseColour)}
         </DeviceInfoDeviceTypeName>
         <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
           {serialNumberHeader}
