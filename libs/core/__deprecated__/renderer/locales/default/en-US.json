@@ -671,7 +671,6 @@
   "module.overview.networkTitle": "Pure Status",
   "module.overview.networkTooltipDescription": "You can activate this SIM card by going to the network settings on your phone",
   "module.overview.networkTooltipTitle": "Activate card",
-  "module.overview.noSerialNumberMessage": "-",
   "module.overview.phoneBattery": "Battery",
   "module.overview.phoneDescription": "Mudita Pure",
   "module.overview.phoneDisconnectAction": "Disconnect",

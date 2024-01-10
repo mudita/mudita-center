@@ -21,6 +21,7 @@ import Text, {
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { CaseColor, DeviceType } from "Core/device"
+import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 
 const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
@@ -131,11 +132,10 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
   deviceType,
   caseColour = CaseColor.Black,
 }) => {
-  const serialNumberValue = serialNumber ?? ""
+  const serialNumberValue = getSerialNumberValue(serialNumber)
 
-  const serialNumberHeader = serialNumber
-    ? intl.formatMessage(messages.serialNumber)
-    : ""
+  const serialNumberHeader =
+    serialNumberValue !== "" ? intl.formatMessage(messages.serialNumber) : ""
 
   return (
     <Container className={className} onClick={() => onDeviceClick(id)}>
