@@ -9,7 +9,7 @@ import { settingsStateSelector } from "Core/settings/selectors"
 export const isAppUpdateProcessPassed = createSelector(
   settingsStateSelector,
   (settingsState): boolean => {
-    const { updateAvailable, updateAvailableSkipped } = settingsState
-    return updateAvailableSkipped || updateAvailable === false
+    const { updateAvailable, updateAvailableSkipped, checkingForUpdateFailed } = settingsState
+    return checkingForUpdateFailed || updateAvailableSkipped || updateAvailable === false
   }
 )

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect } from "react"
+import { useEffect, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -36,55 +36,78 @@ export const useDeviceConnectedEffect = () => {
   )
   const initializationAppInProgress = useSelector(isInitializationAppInProgress)
 
-  const handleDeviceConnected = async (properties: DeviceBaseProperties) => {
-    dispatch(addDevice(properties))
-    dispatch(configureDevice(properties.id))
-
-    if (activeDeviceId) {
-      await handleActiveDevice(properties)
-      return
-    }
-
-    if (shouldSkipProcessing()) {
-      return
-    }
-
-    history.push(URL_DISCOVERY_DEVICE.root)
-  }
-
-  const handleActiveDevice = async (properties: DeviceBaseProperties) => {
-    if (activeDeviceId === properties.id) {
-      await setActiveDeviceAndNavigate(properties.id)
-      return
-    }
-
-    await handleActiveDeviceWorkaround(properties)
-  }
-
-  const setActiveDeviceAndNavigate = async (deviceId: string) => {
-    await dispatch(setActiveDevice(deviceId))
-    dispatch(setDiscoveryStatus(DiscoveryStatus.Discovered))
-    history.push(URL_DEVICE_INITIALIZATION.root)
-  }
-
-  const handleActiveDeviceWorkaround = async (
-    properties: DeviceBaseProperties
-  ) => {
-    if (
-      activeDeviceProcessing &&
-      properties.serialNumber === "00000000000000"
-    ) {
-      await setActiveDeviceAndNavigate(properties.id)
-    }
-  }
-
-  const shouldSkipProcessing = () => {
+  const shouldSkipProcessing = useCallback(() => {
     return (
       discoveryDeviceInProgress ||
       initializationDeviceInProgress ||
       initializationAppInProgress
     )
-  }
+  }, [
+    discoveryDeviceInProgress,
+    initializationDeviceInProgress,
+    initializationAppInProgress,
+  ])
+
+  const setActiveDeviceAndNavigate = useCallback(
+    async (deviceId: string) => {
+      await dispatch(setActiveDevice(deviceId))
+      dispatch(setDiscoveryStatus(DiscoveryStatus.Discovered))
+      history.push(URL_DEVICE_INITIALIZATION.root)
+    },
+    [dispatch, history]
+  )
+
+  const handleActiveDeviceWorkaround = useCallback(
+    async (properties: DeviceBaseProperties) => {
+      if (
+        activeDeviceProcessing &&
+        properties.serialNumber === "00000000000000"
+      ) {
+        await setActiveDeviceAndNavigate(properties.id)
+      }
+    },
+    [activeDeviceProcessing, setActiveDeviceAndNavigate]
+  )
+
+  const handleActiveDevice = useCallback(
+    async (properties: DeviceBaseProperties) => {
+      if (activeDeviceId === properties.id) {
+        await setActiveDeviceAndNavigate(properties.id)
+        return
+      }
+
+      await handleActiveDeviceWorkaround(properties)
+    },
+    [activeDeviceId, setActiveDeviceAndNavigate, handleActiveDeviceWorkaround]
+  )
+
+  const handleDeviceConnected = useCallback(
+    async (properties: DeviceBaseProperties) => {
+      dispatch(addDevice(properties))
+      dispatch(configureDevice(properties.id))
+
+      if (activeDeviceId) {
+        await handleActiveDevice(properties)
+        return
+      }
+
+      if (shouldSkipProcessing()) {
+        return
+      }
+
+      history.push(URL_DISCOVERY_DEVICE.root)
+    },
+    [
+      dispatch,
+      activeDeviceId,
+      handleActiveDevice,
+      shouldSkipProcessing,
+      history,
+    ]
+  )
+
+
+
 
   useEffect(() => {
     const handler = async (properties: DeviceBaseProperties) => {
@@ -95,7 +118,5 @@ export const useDeviceConnectedEffect = () => {
     return () => {
       deviceConnected()
     }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [handleDeviceConnected])
 }
