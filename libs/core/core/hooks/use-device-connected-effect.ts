@@ -95,7 +95,5 @@ export const useDeviceConnectedEffect = () => {
     return () => {
       deviceConnected()
     }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [handleDeviceConnected])
 }
