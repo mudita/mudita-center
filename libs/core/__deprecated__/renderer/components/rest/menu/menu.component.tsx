@@ -18,6 +18,7 @@ import MenuBottom from "Core/__deprecated__/renderer/components/rest/menu/menu-b
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
 import { RootModel } from "Core/__deprecated__/renderer/models/models"
+import { deviceStateSelector } from "Core/device/selectors"
 
 const MenuContainer = styled.div`
   flex: 1;
@@ -55,8 +56,9 @@ const Menu: FunctionComponent<MenuProps> = ({
 // TODO: change type for `deviceType` in Menu
 const getActiveDeviceTypeSelectorWrapper = createSelector(
   getActiveDeviceTypeSelector,
-  (deviceType): DeviceType | null => {
-    return deviceType ?? null
+  deviceStateSelector,
+  (deviceType, deviceState): DeviceType | null => {
+    return deviceType ?? deviceState.deviceType ?? null
   }
 )
 
