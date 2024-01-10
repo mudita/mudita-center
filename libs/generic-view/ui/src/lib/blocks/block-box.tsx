@@ -15,11 +15,10 @@ const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
   config,
   data,
   children,
-  className,
   ...props
 }) => {
   return (
-    <Block {...props} className={className}>
+    <Block {...props}>
       {config?.title && <Headline>{config.title}</Headline>}
       {children}
     </Block>

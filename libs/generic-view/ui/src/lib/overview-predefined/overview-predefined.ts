@@ -5,8 +5,10 @@
 
 import { DeviceAboutButton } from "./device-about-button"
 import { DeviceStatus } from "./status"
+import OverviewOsVersion from "./overview-os-version"
 
 export const predefinedComponents = {
   "device-about-button": DeviceAboutButton,
   "device-status": DeviceStatus,
+  "overview-os-version": OverviewOsVersion,
 }
