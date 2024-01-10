@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from "react"
 import ContactList from "Core/contacts/components/contact-list/contact-list.component"
 import ContactPanel from "Core/contacts/components/contact-panel/contact-panel.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { TableWithSidebarWrapper } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import ContactDetails from "Core/contacts/components/contact-details/contact-details.component"
 import useTableSidebar from "Core/__deprecated__/renderer/utils/hooks/use-table-sidebar"

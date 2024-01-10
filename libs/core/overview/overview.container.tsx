@@ -11,7 +11,7 @@ import {
   TmpDispatch,
 } from "Core/__deprecated__/renderer/store"
 import { RootModel } from "Core/__deprecated__/renderer/models/models"
-import { PureDeviceData, disconnectDevice, DeviceType } from "Core/device"
+import { PureDeviceData, DeviceType } from "Core/device"
 import { lastBackupDateSelector } from "Core/backup/selectors"
 import {
   startBackupDevice,
@@ -36,8 +36,9 @@ import { OsRelease } from "Core/update/dto"
 import { areAllReleasesDownloaded } from "Core/update/selectors"
 import { CheckForUpdateMode } from "Core/update/constants"
 import { forceUpdate } from "Core/update/actions/force-update/force-update.action"
-import { SynchronizationProcessState } from "Core/data-sync/reducers/data-sync.interface"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
+import { isDataSyncInProgressSelector } from "Core/data-sync/selectors/is-data-sync-in-progress.selector"
+import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -56,7 +57,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     restoreDeviceState: state.backup.restoringState,
     backups: state.backup.data.backups,
     ...state.devMode,
-    syncState: state.dataSync.state,
+    syncState: state.dataSync.status,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
     updatingState: state.update.updateOsState,
     checkingForUpdateState: state.update.checkForUpdateState,
@@ -71,16 +72,16 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     areAllReleasesDownloaded: areAllReleasesDownloaded(state),
     forceUpdateNeeded: state.update.needsForceUpdate,
     forceUpdateState: state.update.forceUpdateState,
-    backupActionDisabled:
-      state.dataSync.synchronizationProcess ===
-      SynchronizationProcessState.InProgress,
+    backupActionDisabled: isDataSyncInProgressSelector(state),
   }
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  disconnectDevice: () => dispatch(disconnectDevice()),
+  disconnectDevice: () => {
+    dispatch(deactivateDevice())
+  },
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   closeForceUpdateFlow: () => dispatch(closeForceUpdateFlow()),

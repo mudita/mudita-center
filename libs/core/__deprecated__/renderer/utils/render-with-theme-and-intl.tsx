@@ -14,7 +14,7 @@ import { IntlProvider } from "react-intl"
 import translationConfig from "App/translations.config.json"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import { ThemeProvider } from "styled-components"
-import theme from "../styles/theming/theme"
+import theme from "../../../core/styles/theming/theme"
 import extractLanguageKeys from "Core/__deprecated__/renderer/utils/extract-test-locale"
 import ReactModal from "react-modal"
 

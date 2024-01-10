@@ -15,10 +15,7 @@ import {
 import { SettingsState } from "Core/settings/reducers"
 import { ConversionFormat, Convert } from "Core/settings/constants"
 
-const settings: Omit<
-  SettingsState,
-  "loaded" | "loading" | "updateAvailable" | "latestVersion"
-> = {
+const settings: SettingsState = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
   autostart: false,
   tethering: false,
@@ -45,11 +42,16 @@ const settings: Omit<
     lowestSupportedProductVersion: {
       MuditaHarmony: "1.5.0",
       MuditaPure: "1.0.0",
-      MuditaKompakt: "2.0.0",
+      APIDevice: "2.0.0",
     },
   },
   checkingForUpdate: false,
   checkingForUpdateFailed: false,
+  loaded: false,
+  loading: false,
+  updateAvailable: undefined,
+  latestVersion: undefined,
+  updateAvailableSkipped: undefined
   usbAccessRestart: false,
 }
 
@@ -87,20 +89,6 @@ describe("Functionality: loading settings", () => {
   })
 })
 
-describe("Functionality: set latest version", () => {
-  test("Event: SetLatestVersion set `latestVersion` value", () => {
-    expect(
-      settingsReducer(undefined, {
-        type: SettingsEvent.SetLatestVersion,
-        payload: "1.0.0",
-      })
-    ).toEqual({
-      ...initialState,
-      latestVersion: "1.0.0",
-    })
-  })
-})
-
 describe("Functionality: toggle tethering", () => {
   test("Event: ToggleTethering/fulfilled set `tethering` value", () => {
     expect(
@@ -120,29 +108,6 @@ describe("Functionality: toggle tethering", () => {
     ).toEqual({
       ...initialState,
       tethering: false,
-    })
-  })
-})
-
-describe("Functionality: toggle update available", () => {
-  test("Event: ToggleUpdateAvailable/pending set updateAvailable value", () => {
-    expect(
-      settingsReducer(undefined, {
-        type: pendingAction(SettingsEvent.ToggleUpdateAvailable),
-        meta: { arg: true },
-      })
-    ).toEqual({
-      ...initialState,
-      updateAvailable: true,
-    })
-    expect(
-      settingsReducer(undefined, {
-        type: pendingAction(SettingsEvent.ToggleUpdateAvailable),
-        meta: { arg: false },
-      })
-    ).toEqual({
-      ...initialState,
-      updateAvailable: false,
     })
   })
 })

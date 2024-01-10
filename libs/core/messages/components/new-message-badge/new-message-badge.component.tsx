@@ -5,7 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import {
   DisplayStyle,

@@ -7,7 +7,7 @@ import {
   Col,
   RowBackgroundTransitionStyles,
 } from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
 const ItemCol = styled(Col)`

@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { TemplatesListProps } from "Core/templates/components/templates-list/templates-list.interface"
 import {
   Table,

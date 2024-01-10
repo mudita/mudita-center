@@ -5,8 +5,9 @@
 
 import React from "react"
 import styled from "styled-components"
+import { defineMessages } from "react-intl"
 import { DeviceType } from "Core/device/constants"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { DevicePreviewProps } from "Core/overview/components/device-preview/device-preview.interface"
 import {
   CardAction,
@@ -20,9 +21,10 @@ import {
   DeviceInfo,
   PureSystemButtonContainer,
   SerialNumberWrapper,
+  DeviceCardContentWrapper,
 } from "Core/overview/components/device-preview/device-preview.styled"
 import {
-  URL_ONBOARDING,
+  URL_MAIN,
   URL_OVERVIEW,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
@@ -33,7 +35,6 @@ import Text, {
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   serialNumber: { id: "module.overview.serialNumber" },
@@ -57,7 +58,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   const history = useHistory()
   const handleDisconnect = () => {
     onDisconnect()
-    history.push(URL_ONBOARDING.welcome)
+    history.push(URL_MAIN.news)
   }
 
   const openPureSystem = () => {
@@ -70,25 +71,27 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
 
   return (
     <PhoneCard className={className} onClick={onClick}>
-      <DeviceInfo>
-        <DeviceImage caseColour={caseColour} deviceType={deviceType} />
-      </DeviceInfo>
+      <DeviceCardContentWrapper>
+        <DeviceInfo>
+          <DeviceImage caseColour={caseColour} deviceType={deviceType} />
+        </DeviceInfo>
 
-      <SerialNumberWrapper>
-        <Text
-          displayStyle={TextDisplayStyle.Paragraph4}
-          color="secondary"
-          message={messages.serialNumber}
-        />
-        <Text
-          displayStyle={TextDisplayStyle.Paragraph1}
-          testId={DeviceTestIds.SerialNumber}
-        >
-          {serialNumber
-            ? serialNumber
-            : intl.formatMessage(messages.noSerialNumberMessage)}
-        </Text>
-      </SerialNumberWrapper>
+        <SerialNumberWrapper>
+          <Text
+            displayStyle={TextDisplayStyle.Paragraph4}
+            color="secondary"
+            message={messages.serialNumber}
+          />
+          <Text
+            displayStyle={TextDisplayStyle.Paragraph1}
+            testId={DeviceTestIds.SerialNumber}
+          >
+            {serialNumber
+              ? serialNumber
+              : intl.formatMessage(messages.noSerialNumberMessage)}
+          </Text>
+        </SerialNumberWrapper>
+      </DeviceCardContentWrapper>
 
       <CardAction>
         <CardActionButton

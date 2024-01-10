@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { ModalText } from "Core/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import styled from "styled-components"

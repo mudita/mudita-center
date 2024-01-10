@@ -19,14 +19,14 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import styled, { ThemeProps } from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { useSelector, useDispatch } from "react-redux"
 import { resetUploadingState } from "Core/files-manager/actions/base.action"
 import { getUploadPendingFiles } from "Core/files-manager/selectors/get-upload-pending-files.selector"
 import { getDuplicatedFiles } from "Core/files-manager/selectors/get-duplicated-files.selector"
 import { getFilesManagerError } from "Core/files-manager/selectors/get-files-manager-error.selector"
 import { FilesManagerError } from "Core/files-manager/constants/errors.enum"
-import { Theme } from "Core/__deprecated__/renderer/styles/theming/theme"
+import { Theme } from "Core/core/styles/theming/theme"
 
 const messages = defineMessages({
   duplicatedFilesUploadModalTitle: {

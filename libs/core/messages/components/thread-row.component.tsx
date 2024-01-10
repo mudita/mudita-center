@@ -29,7 +29,7 @@ import { ElementWithTooltipPlace } from "Core/__deprecated__/renderer/components
 import { Time } from "Core/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import ScrollAnchorContainer from "Core/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import getPrettyCaller from "Core/__deprecated__/renderer/models/calls/get-pretty-caller"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   RowStatus,
   UseTableSelect,

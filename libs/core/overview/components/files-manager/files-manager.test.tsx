@@ -10,7 +10,7 @@ import FilesManager from "Core/overview/components/files-manager/files-manager.c
 import { FilesManagerProps } from "Core/overview/components/files-manager/files-manager.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import { Router } from "react-router"
 
 const renderFilesManager = ({

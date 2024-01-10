@@ -16,24 +16,33 @@ import {
   Response,
   RequestPayload,
 } from "Core/device/types/mudita-os"
+import { APIRequestData } from "Libs/device/models/src"
+import { ApiResponse } from "Core/device/types/mudita-os"
 
-export abstract class BaseAdapter {
-  protected serialPort: SerialPort
+export abstract class BaseAdapter<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  RequestResponse extends Response<any> | ApiResponse<any> = Response<any>
+> {
+  protected serialPort: SerialPort | undefined
   protected eventEmitter = new EventEmitter()
 
   protected requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  constructor(public path: string) {
-    this.serialPort = new SerialPort(path, (error) => {
-      if (error) {
-        const appError = new AppError(DeviceError.Initialization, error.message)
-        this.emitInitializationFailedEvent(Result.failed(appError))
+  protected constructor(public path: string) {}
 
-        // workaround to trigger a device (USB) restart side effect after an initialization error
-        void this.getSerialPortList()
-      } else {
-        this.emitConnectionEvent(Result.success(`Device ${path} connected`))
-      }
+  public connect(): Promise<ResultObject<undefined>> {
+    return new Promise((resolve) => {
+      this.serialPort = new SerialPort(this.path, (error) => {
+        if (error) {
+          resolve(
+            Result.failed(
+              new AppError(DeviceError.Initialization, error.message)
+            )
+          )
+        } else {
+          resolve(Result.success(undefined))
+        }
+      })
     })
   }
 
@@ -61,31 +70,16 @@ export abstract class BaseAdapter {
   public abstract request(
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    config: RequestConfig<any>
+    config: RequestConfig<any> | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
-
-  @log("==== serial port: connect event ====", LogConfig.Args)
-  protected emitConnectionEvent(data: ResultObject<string>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.Connected, data)
-  }
-
-  @log("==== serial port: connection failed event ====", LogConfig.Args)
-  protected emitInitializationFailedEvent(data: ResultObject<AppError>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.InitializationFailed, data)
-  }
+  Promise<ResultObject<RequestResponse>>
 
   @log("==== serial port: data received ====", LogConfig.Args)
   protected emitDataReceivedEvent<ResponseType = unknown>(
     data: Response<ResponseType> | AppError
   ): void {
     this.eventEmitter.emit(DeviceCommunicationEvent.DataReceived, data)
-  }
-
-  @log("==== serial port: connection closed ====", LogConfig.Args)
-  protected emitCloseEvent(data: ResultObject<string>): void {
-    this.eventEmitter.emit(DeviceCommunicationEvent.Disconnected, data)
   }
 
   @log("==== serial port: list ====")
@@ -103,19 +97,19 @@ export abstract class BaseAdapter {
 
   protected abstract writeRequest(
     port: SerialPort,
-    config: RequestConfig
+    config: RequestConfig | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
+  Promise<ResultObject<RequestResponse>>
 
   protected abstract deviceRequest(
     port: SerialPort,
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line
-    { options, ...payload }: RequestPayload
+    { options, ...payload }: RequestPayload | APIRequestData
   ): // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Promise<ResultObject<Response<any>>>
+  Promise<ResultObject<RequestResponse>>
 
   protected getNewUUID(): number {
     return Math.floor(Math.random() * 10000)
@@ -127,6 +121,6 @@ export abstract class BaseAdapter {
     port: SerialPort,
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    payload: RequestPayload<any>
+    payload: RequestPayload<any> | APIRequestData
   ): void
 }

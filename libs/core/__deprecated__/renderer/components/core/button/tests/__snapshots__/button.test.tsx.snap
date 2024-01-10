@@ -23,8 +23,8 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   opacity: 0.6;
   -webkit-transition: opacity 250ms ease-in-out;
@@ -90,8 +90,8 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -195,8 +195,8 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -291,8 +291,8 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -396,8 +396,8 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -492,8 +492,8 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -606,8 +606,8 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -709,8 +709,8 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -730,8 +730,8 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 .c0.active * {
   color: #000000;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
 }
 
 .c0.active svg {
@@ -746,8 +746,8 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 .c0:hover * {
   color: #000000;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
 }
 
 .c0:hover svg {
@@ -841,8 +841,8 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -862,8 +862,8 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 .c0.active * {
   color: #000000;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
 }
 
 .c0.active svg {
@@ -878,8 +878,8 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 .c0:hover * {
   color: #000000;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
 }
 
 .c0:hover svg {
@@ -966,8 +966,8 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -1099,8 +1099,8 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -1223,8 +1223,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 13.2rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -1298,8 +1298,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 13.2rem;
   pointer-events: none;
   height: 4rem;
@@ -1385,8 +1385,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -1461,8 +1461,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   pointer-events: none;
   height: 4rem;
@@ -1549,8 +1549,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -1625,8 +1625,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   pointer-events: none;
   height: 4rem;
@@ -1713,8 +1713,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 13.2rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -1783,8 +1783,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 13.2rem;
   pointer-events: none;
   height: 4rem;
@@ -1864,8 +1864,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -1935,8 +1935,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   pointer-events: none;
   height: 4rem;
@@ -2017,8 +2017,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -2088,8 +2088,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   pointer-events: none;
   height: 4rem;
@@ -2194,8 +2194,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 13.2rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -2307,8 +2307,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 13.2rem;
   pointer-events: none;
   height: 4rem;
@@ -2432,8 +2432,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -2546,8 +2546,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   pointer-events: none;
   height: 4rem;
@@ -2672,8 +2672,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -2786,8 +2786,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   pointer-events: none;
   height: 4rem;
@@ -2912,8 +2912,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 13.2rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -3020,8 +3020,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 13.2rem;
   pointer-events: none;
   height: 4rem;
@@ -3139,8 +3139,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -3248,8 +3248,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 17.6rem;
   pointer-events: none;
   height: 4rem;
@@ -3368,8 +3368,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -3477,8 +3477,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   pointer-events: none;
   height: 4rem;
@@ -3573,8 +3573,8 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -3649,8 +3649,8 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   outline: none;
   box-sizing: border-box;
   overflow: hidden;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out, text-decoration-color 250ms ease-in-out;
   width: 28rem;
   height: 4rem;
   border-radius: 0.4rem;

@@ -2,3 +2,5 @@
 jest
 jest.config.ts
 jest.preset.js
+demo-data
+auth-server.test.ts

@@ -40,7 +40,7 @@ import {
   TextInfo,
   Checkbox,
 } from "Core/__deprecated__/renderer/modules/tools/tabs/notes.styled"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import useTableSelect from "Core/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"

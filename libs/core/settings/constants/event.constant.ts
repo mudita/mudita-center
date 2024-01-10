@@ -26,5 +26,6 @@ export enum SettingsEvent {
   DeleteCollectingData = "DELETE_COLLECTING_DATA",
   SetCheckingForUpdate = "SET_CHECKING_FOR_UPDATE",
   SetCheckingForUpdateFailed = "SET_CHECKING_FOR_UPDATE_FAILED",
+  SkipAvailableUpdate = "SKIP_AVAILABLE_UPDATE",
   SetUSBAccessRestart = "SET_USB_ACCESS_RESTART",
 }

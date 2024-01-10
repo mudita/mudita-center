@@ -6,7 +6,7 @@
 import { basicAvatarStyles } from "Core/__deprecated__/renderer/components/core/avatar/avatar.component"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import Table from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 // TODO: Remove file when dropdown buttons become available and change to ButtonComponent where it was used
 export const HiddenButton = styled(ButtonComponent)<{ hide: boolean }>`

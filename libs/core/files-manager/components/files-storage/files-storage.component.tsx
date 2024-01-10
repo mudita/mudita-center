@@ -6,7 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { FilesStorageTestIds } from "Core/files-manager/components/files-storage/files-storage-test-ids.enum"
 import Text, {
   TextDisplayStyle,
@@ -14,7 +14,7 @@ import Text, {
 import FilesStorageList from "Core/files-manager/components/files-storage-list/files-storage-list.component"
 import { FilesManagerPanel } from "Core/files-manager/components/files-manager-panel"
 import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 
 const TitleWrapper = styled.div`
   padding: 1.6rem 3.2rem 1rem;

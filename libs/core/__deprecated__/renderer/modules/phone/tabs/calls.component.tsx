@@ -5,7 +5,7 @@
 
 import React from "react"
 import { Details } from "Core/__deprecated__/renderer/components/rest/calls/call-details.types"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { VisibilityFilter } from "Core/__deprecated__/renderer/models/calls/calls.interface"
 import CallsHeader from "Core/__deprecated__/renderer/components/rest/calls/calls-header.component"

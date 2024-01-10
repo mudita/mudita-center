@@ -3,18 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ipcMain } from "electron-better-ipc"
+import fs from "fs-extra"
 import { IpcNewsEvents } from "Core/news/constants"
 import getDefaultNewsItems from "Core/news/default-news-item"
 import { getUpdatedNews } from "Core/__deprecated__/main/functions/register-news-listener/get-updated-news"
-import { app } from "electron"
-import { ipcMain } from "electron-better-ipc"
-import fs from "fs-extra"
-import packageInfo from "../../../../../../apps/mudita-center/package.json"
+import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 
 const registerNewsListener = (): void => {
-  const newsFilePath = `${app.getPath("appData")}/${
-    packageInfo.name
-  }/default-news-items.json`
+  const newsFilePath = getAppPath("default-news-items.json")
 
   if (!fs.readJsonSync(newsFilePath, { throws: false })) {
     const defaultNews = getDefaultNewsItems()

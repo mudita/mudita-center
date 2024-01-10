@@ -7,7 +7,7 @@ import {
   backgroundColor,
   borderRadius,
   transitionTime,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import styled from "styled-components"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { ProcessReleasesProgress } from "Core/overview/components/update-os-modals/process-releases-progress"

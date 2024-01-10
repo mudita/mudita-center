@@ -20,6 +20,8 @@ export const URL_MAIN = {
   license: "/license",
   termsOfService: "/terms-of-service",
   privacyPolicy: "/privacy-policy",
+  overviewDemo: "/overview-demo",
+  apiConnectionDemo: "/api-connection-demo",
 } as const
 
 export const URL_TABS = {
@@ -41,6 +43,15 @@ export const URL_ONBOARDING = {
   connecting: "/onboarding/connecting",
   troubleshooting: "/onboarding/troubleshooting",
 } as const
+
+export const URL_DISCOVERY_DEVICE = {
+  root: "/discovery-device",
+  availableDeviceListModal: "/available-device-list-modal",
+}
+
+export const URL_DEVICE_INITIALIZATION = {
+  root: "/device-initialization",
+}
 
 export const URL_OVERVIEW = {
   root: "/overview",

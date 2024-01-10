@@ -5,9 +5,9 @@
 
 import React from "react"
 import { useHistory } from "react-router"
-import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import OnboardingTroubleshooting from "Core/__deprecated__/troubleshooting/components/onboarding-troubleshooting.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 
 interface Props {
   openContactSupportFlow: () => void
@@ -20,7 +20,7 @@ const Troubleshooting: FunctionComponent<Props> = ({
 
   const onRetry = () => {
     // TODO: do some logic to retry connection
-    history.push(URL_ONBOARDING.connecting)
+    history.push(URL_DISCOVERY_DEVICE.root)
   }
 
   return (

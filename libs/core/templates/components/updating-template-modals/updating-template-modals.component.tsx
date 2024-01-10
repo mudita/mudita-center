@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { UpdatingTemplateModalsProps } from "Core/templates/components/updating-template-modals/updating-template-modals.interface"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"

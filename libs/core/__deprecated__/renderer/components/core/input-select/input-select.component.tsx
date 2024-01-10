@@ -15,14 +15,14 @@ import React, {
 } from "react"
 import styled, { FlattenSimpleInterpolation } from "styled-components"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { InputText } from "Core/__deprecated__/renderer/components/core/input-text/input-text.elements"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import {
   transitionTime,
   transitionTimingFunction,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { InputProps } from "Core/__deprecated__/renderer/components/core/input-text/input-text.interface"
 import composeRefs from "@seznam/compose-react-refs"
 import {

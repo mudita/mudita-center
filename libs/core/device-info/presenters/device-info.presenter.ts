@@ -62,6 +62,7 @@ export class DeviceInfoPresenter {
         ? data.recoveryStatusFilePath
         : "",
       syncFilePath: data.syncFilePath ? data.syncFilePath : "",
+      token: data.deviceToken ?? "",
       onboardingState:
         data.onboardingState === undefined
           ? OnboardingState.Finished

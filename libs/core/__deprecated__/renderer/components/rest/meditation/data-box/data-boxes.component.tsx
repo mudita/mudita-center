@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import DataBox from "Core/__deprecated__/renderer/components/rest/meditation/data-box/data-box.component"
 import { TextWrapper } from "Core/__deprecated__/renderer/components/rest/meditation/data-box/data-box.styled"
 import styled from "styled-components"

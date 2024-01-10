@@ -11,18 +11,11 @@ import {
   PhoneLockCategory,
 } from "Core/device/constants"
 import { PhoneLockTime } from "Core/device/dto"
-import {
-  DeviceInfo,
-  GetPhoneLockTimeResponseBody,
-} from "Core/device/types/mudita-os"
+import { GetPhoneLockTimeResponseBody } from "Core/device/types/mudita-os"
 import { DeviceManager } from "Core/device-manager/services"
 
 export class DeviceService {
   constructor(private deviceManager: DeviceManager) {}
-
-  public async connect(): Promise<ResultObject<DeviceInfo>> {
-    return this.deviceManager.device.connect()
-  }
 
   public async unlock(code: string): Promise<ResultObject<boolean>> {
     const response = await this.deviceManager.device.request({
@@ -55,6 +48,6 @@ export class DeviceService {
   }
 
   public setUpdating(updating: boolean): void {
-    this.deviceManager.updating = updating
+    // this.deviceManager.updating = updating
   }
 }

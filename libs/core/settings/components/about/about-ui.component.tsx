@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ActionsWrapper } from "Core/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
@@ -19,10 +19,10 @@ import { AboutTestIds } from "Core/settings/components/about/about.enum"
 import {
   backgroundColor,
   borderRadius,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import styled from "styled-components"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { borderColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
 import { AppUpdateNotAvailable } from "Core/__deprecated__/renderer/wrappers/app-update-step-modal/app-update.modals"
 import { UpdateFailedModal } from "Core/settings/components/about/update-failed-modal.component"
 import { AboutLoaderModal } from "Core/settings/components/about/about-loader.component"

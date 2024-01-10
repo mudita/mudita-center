@@ -11,13 +11,11 @@ import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { DataSyncService } from "Core/data-sync/services/data-sync.service"
-import { DeviceConnectionObserver } from "Core/data-sync/observers"
 import { DataSyncController } from "Core/data-sync/controllers"
 import { DeviceManager } from "Core/device-manager/services"
 
 export class DataSyncModule extends BaseModule {
   private dataSyncService: DataSyncService
-  private deviceConnectionObserver: DeviceConnectionObserver
   private dataSyncController: DataSyncController
 
   constructor(
@@ -45,13 +43,6 @@ export class DataSyncModule extends BaseModule {
       this.keyStorage,
       this.fileSystem
     )
-    this.deviceConnectionObserver = new DeviceConnectionObserver(
-      this.deviceManager,
-      this.keyStorage,
-      this.dataSyncService,
-      this.ipc,
-      this.eventEmitter
-    )
     this.dataSyncController = new DataSyncController(
       this.index,
       this.dataSyncService
@@ -59,6 +50,6 @@ export class DataSyncModule extends BaseModule {
 
     this.controllers = [this.dataSyncController]
 
-    this.observers = [this.deviceConnectionObserver]
+    this.observers = []
   }
 }

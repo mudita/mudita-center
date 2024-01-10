@@ -5,9 +5,9 @@
 
 import { PortInfo } from "serialport"
 import {
-  MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
   MuditaKompaktDescriptor,
+  MuditaPureDescriptor,
 } from "../../device/descriptors"
 
 export class PortInfoValidator {
@@ -20,7 +20,7 @@ export class PortInfoValidator {
   static isVendorIdValid(portInfo: Partial<PortInfo>): boolean {
     const id = portInfo.vendorId?.toLowerCase() ?? ""
 
-    const result = Boolean(
+    return Boolean(
       PortInfoValidator.eligibleDevices.find((device) => {
         const vendorIds = device.vendorIds.map((item) =>
           item.toString().toLowerCase()
@@ -29,8 +29,6 @@ export class PortInfoValidator {
         return vendorIds.includes(id)
       })
     )
-
-    return result
   }
 
   static isProductIdValid(portInfo: Partial<PortInfo>): boolean {

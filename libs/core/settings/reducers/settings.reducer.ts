@@ -27,6 +27,7 @@ import {
 } from "Core/settings/actions"
 import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
 import { setCheckingForUpdateFailed } from "Core/settings/actions/set-checking-for-update-failed.action"
+import { skipAvailableUpdate } from "Core/settings/actions/skip-available-update.action"
 
 export const initialState: SettingsState = {
   applicationId: "",
@@ -53,6 +54,7 @@ export const initialState: SettingsState = {
   tethering: false,
   updateRequired: false,
   updateAvailable: undefined,
+  updateAvailableSkipped: undefined,
   loaded: false,
   loading: false,
   checkingForUpdate: false,
@@ -86,8 +88,8 @@ export const settingsReducer = createReducer<SettingsState>(
         state.tethering = action.payload
       })
 
-      .addCase(toggleApplicationUpdateAvailable.pending, (state, action) => {
-        state.updateAvailable = action.meta.arg
+      .addCase(toggleApplicationUpdateAvailable, (state, action) => {
+        state.updateAvailable = action.payload
       })
 
       .addCase(toggleCollectionData.fulfilled, (state, action) => {
@@ -145,6 +147,9 @@ export const settingsReducer = createReducer<SettingsState>(
 
       .addCase(setCheckingForUpdateFailed, (state, action) => {
         state.checkingForUpdateFailed = action.payload
+      })
+      .addCase(skipAvailableUpdate, (state, action) => {
+        state.updateAvailableSkipped = true
       })
   }
 )

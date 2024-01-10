@@ -5,7 +5,7 @@
 
 import React from "react"
 
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ArrowLeft from "Core/__deprecated__/renderer/svg/arrow-long-left.svg"
 import ArrowRight from "Core/__deprecated__/renderer/svg/arrow-long-right.svg"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"

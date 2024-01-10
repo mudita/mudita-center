@@ -7,13 +7,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import isVersionGreater from "Core/utils/is-version-greater"
 import { SettingsEvent } from "Core/settings/constants"
 import { getSettings } from "Core/settings/requests"
-import { loadBackupData } from "Core/backup/actions/load-backup-data.action"
 import {
-  checkAppForcedUpdateFlowToShow,
-  checkAppUpdateFlowToShow,
   checkAppInSudoModeModalToShow,
   checkAppRequiresSerialPortGroup,
 } from "Core/modals-manager/actions"
+
 import { setSettings } from "Core/settings/actions/set-settings.action"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { getConfiguration } from "Core/settings/requests"
@@ -57,9 +55,6 @@ export const loadSettings = createAsyncThunk<void, void>(
       })
     )
 
-    void dispatch(loadBackupData())
-    void dispatch(checkAppUpdateFlowToShow())
-    void dispatch(checkAppForcedUpdateFlowToShow())
     void dispatch(checkAppInSudoModeModalToShow())
     void dispatch(checkAppRequiresSerialPortGroup())
 

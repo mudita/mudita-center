@@ -4,7 +4,7 @@
  */
 
 export enum DeviceManagerError {
-  NoCurrentDevice = "NO_CURRENT_DEVICE_ERROR",
+  NoActiveDevice = "NO_ACTIVE_DEVICE_ERROR",
   CannotFindDevice = "CANNOT_FIND_DEVICE_ERROR",
   CannotInitializeDeviceObject = "CANNOT_INITIALIZE_DEVICE_OBJECT_ERROR",
 }

@@ -8,7 +8,7 @@ import {
   backgroundColor,
   textColor,
   transitionTime,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { SettingsToggler } from "Core/settings/components"

@@ -15,7 +15,7 @@ import {
   EmptyState,
   LoadingState,
 } from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import useTableScrolling from "Core/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { isEqual } from "lodash"
 import React, { createRef, useEffect, useState } from "react"

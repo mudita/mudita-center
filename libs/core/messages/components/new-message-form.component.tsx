@@ -4,7 +4,7 @@
  */
 
 import React, { ChangeEvent, ComponentProps, useState } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { MessagesWrapper } from "Core/messages/components/thread-details.styled"
 import ThreadDetailsMessages from "Core/messages/components/thread-details-messages.component"
 import ThreadDetailsTextArea from "Core/messages/components/thread-details-text-area.component"

@@ -4,27 +4,24 @@
  */
 
 import styled from "styled-components"
-import Card, {
-  CardAction,
-  CardContent,
-} from "Core/overview/components/card.elements"
-import { borderColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import Card, { CardContent } from "Core/overview/components/card.elements"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
 
 export const PhoneCard = styled(Card)`
-  grid-template-areas: "Text" "Buttons";
-  grid-template-columns: 1fr;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
   min-height: 60rem;
-  padding: 8rem 0 0;
-  justify-items: center;
-  ${CardAction} {
-    justify-self: center;
-    display: flex;
-    align-items: flex-end;
-    margin-top: auto;
-    margin-bottom: 2.4rem;
-    padding: 0 5.3rem;
-  }
+`
+
+export const DeviceCardContentWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 `
 
 export const DeviceInfo = styled(CardContent)`
@@ -32,9 +29,10 @@ export const DeviceInfo = styled(CardContent)`
   flex-direction: column;
   align-items: center;
   padding: 0 5.3rem;
-  margin-bottom: 2.4rem;
+  margin-bottom: 3rem;
   img {
-    height: 29.7rem;
+    max-height: 29.7rem;
+    max-width: 20.5rem;
   }
 `
 
@@ -43,6 +41,7 @@ export const PureSystemButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   border-top: 0.1rem solid ${borderColor("separator")};
+  width: 100%;
 `
 
 export const SerialNumberWrapper = styled.div`

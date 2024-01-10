@@ -4,16 +4,13 @@
  */
 
 import fs from "fs-extra"
-import { app } from "electron"
-import packageInfo from "../../../../../apps/mudita-center/package.json"
 import { Settings } from "Core/settings/dto"
+import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 
 const getAppSettingsMain = (): Promise<Settings> => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return fs.readJSON(
-    `${app.getPath("appData")}/${packageInfo.name}/settings.json`
-  )
+  return fs.readJSON(getAppPath("settings.json"))
 }
 
 export default getAppSettingsMain

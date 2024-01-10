@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ReceiverInputSearch from "Core/messages/components/receiver-input-search/receiver-input-search.component"
 
 type ContactInputSearchProps = ComponentProps<typeof ReceiverInputSearch>

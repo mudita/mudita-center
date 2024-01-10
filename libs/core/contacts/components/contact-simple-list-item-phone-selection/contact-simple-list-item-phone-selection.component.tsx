@@ -12,7 +12,7 @@ import {
   PhoneNumberCol,
   SecondPhoneNumber,
 } from "Core/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection.styled"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React, { useState } from "react"
 
 export const ContactSimpleItemListPhoneSelection: FunctionComponent<

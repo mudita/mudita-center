@@ -19,7 +19,7 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { useSelector, useDispatch } from "react-redux"
 import { resetUploadingState } from "Core/files-manager/actions/base.action"
 import { getFilesManagerError } from "Core/files-manager/selectors/get-files-manager-error.selector"

@@ -11,7 +11,7 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import RangeIcon from "Core/__deprecated__/renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Core/__deprecated__/renderer/components/core/icon/battery-icon.component"
@@ -47,7 +47,9 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
   return (
     <>
       {label && (
-        <HeaderWrapper data-testid={label.id}>
+        <HeaderWrapper
+          data-testid={typeof label === "string" ? label : label.id}
+        >
           <Text displayStyle={TextDisplayStyle.Title} message={label} />
           {icons && (
             <HeaderIconContainer>
@@ -86,9 +88,11 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
             const buttonMenuConfig = {
               nav: true,
               displayStyle: DisplayStyle.MenuLink,
-              labelMessage: button.label,
               Icon: icon,
               iconSize: IconSize.Bigger,
+              ...(typeof button.label === "string"
+                ? { label: button.label }
+                : { labelMessage: button.label }),
             }
             if (button === views.help) {
               const openHelpWindow = () =>

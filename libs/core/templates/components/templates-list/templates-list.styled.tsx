@@ -9,7 +9,7 @@ import BaseTable, {
   EmptyState,
   Row as BaseRow,
 } from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { transitionTime } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { transitionTime } from "Core/core/styles/theming/theme-getters"
 import { VisibleCheckbox } from "Core/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
 import {
   animatedOpacityActiveStyles,
@@ -19,7 +19,7 @@ import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.compone
 import {
   backgroundColor,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 
 const checkboxShowedStyles = css`

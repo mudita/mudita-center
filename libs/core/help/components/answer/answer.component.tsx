@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { RouteComponentProps } from "react-router"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
@@ -14,7 +14,7 @@ import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { QuestionAndAnswer } from "Core/help/components/help.component"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { richTextReactComponentOptions } from "Core/__deprecated__/renderer/utils/rich-text/rich-text-renderer"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { AnswerUiTestIds } from "Core/help/components/answer/answer-test-ids.enum"
 import Text, {
   TextDisplayStyle,

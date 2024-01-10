@@ -8,7 +8,7 @@ import * as React from "react"
 import styled from "styled-components"
 
 import Svg from "Core/__deprecated__/renderer/components/core/svg/svg.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 
 const SvgWrapper = styled.div`
   display: flex;

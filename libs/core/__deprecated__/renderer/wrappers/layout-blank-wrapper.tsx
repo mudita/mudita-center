@@ -5,12 +5,12 @@
 
 import * as React from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   textColor,
   backgroundColor,
   width,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
@@ -38,7 +38,7 @@ const Layout = styled.div`
 const Header = styled.header`
   width: 100%;
   padding: 2.7rem 0 3rem;
-  max-width: 99rem;
+  max-width: 107.2rem;
 
   display: flex;
   flex-direction: row;
@@ -101,7 +101,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
   return (
     <Layout>
       <Header>
-        <Icon type={IconType.MuditaLogoWithText} width={8.6} height={2} />
+        <Icon type={IconType.MuditaLogoWithText} width={8.9} height={2} />
         <MainTitle
           displayStyle={TextDisplayStyle.Paragraph3}
           message={{ id: "module.onboarding.mainTitle" }}

@@ -6,7 +6,7 @@
 import { UpdatingSpinnerModalProps } from "Core/overview/components/update-os-modals/updating-spinner-modal/updating-spinner-modal.interface"
 import { UpdateProgressText } from "Core/overview/components/update-os-modals/updating-spinner-modal/updating-spinner-modal.styled"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import React from "react"
 import { defineMessages } from "react-intl"

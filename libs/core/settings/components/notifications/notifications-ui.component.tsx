@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"

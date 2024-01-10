@@ -119,7 +119,6 @@ module.exports = {
     "testing-library/await-async-queries": "off",
     "testing-library/no-await-sync-events": "off",
     "testing-library/no-render-in-lifecycle": "off",
-    "react/react-in-jsx-scope": "off",
   },
   settings: {
     react: {
@@ -129,5 +128,4 @@ module.exports = {
       version: "detect",
     },
   },
-  ignorePatterns: ["auth-server.test.ts", "./jest"],
 }

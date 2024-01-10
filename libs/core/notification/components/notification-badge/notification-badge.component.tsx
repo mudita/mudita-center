@@ -5,11 +5,11 @@
 
 import React from "react"
 import styled, { ThemeProps } from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 
 import { NotificationBadgeProps } from "./notification-badge.interface"
 import { NotificationBadgeTestIds } from "./notification-badge-ids.enum"
-import { Theme } from "Core/__deprecated__/renderer/styles/theming/theme"
+import { Theme } from "Core/core/styles/theming/theme"
 
 const NotificationCircle = styled.div`
   position: absolute;

@@ -4,13 +4,13 @@
  */
 
 import path from "path"
+import elasticlunr from "elasticlunr"
 import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 import { DataIndex } from "Core/index-storage/constants"
 import { IndexStorage } from "Core/index-storage/types"
 import { MetadataStore } from "Core/metadata/services"
-import { MetadataKey } from "Core/metadata/constants"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
-import elasticlunr from "elasticlunr"
+import { InitializeOptions } from "Core/data-sync/types"
 
 const cacheFileNames: Record<DataIndex, string> = {
   [DataIndex.Contact]: "contacts.json",
@@ -26,16 +26,10 @@ export class IndexStorageService {
     private fileSystemService: FileSystemService
   ) {}
 
-  public async loadIndex(): Promise<boolean> {
-    const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
-    const serialNumber = String(
-      this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
-    )
-
-    if (!token || !serialNumber) {
-      return false
-    }
-
+  public async loadIndex({
+    token,
+    serialNumber,
+  }: InitializeOptions): Promise<boolean> {
     const files = Object.entries(cacheFileNames)
 
     const results = await Promise.all<boolean>(
@@ -78,30 +72,19 @@ export class IndexStorageService {
     return results.every((value: boolean) => value)
   }
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  public saveIndex() {
-    const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
-    const serialNumber = String(
-      this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
-    )
-
-    if (!token || !serialNumber) {
-      return
-    }
-
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    Object.entries(cacheFileNames).forEach(async (value) => {
-      const [indexName, fileName] = value as [DataIndex, string]
-      const data = this.index.get(indexName)
+  public async saveIndex({
+    token,
+    serialNumber,
+  }: InitializeOptions): Promise<void> {
+    for (const [indexName, fileName] of Object.entries(cacheFileNames)) {
+      const data = this.index.get(indexName as DataIndex)
 
       await this.fileSystemService.writeEncryptedFile(
         this.getCacheFilePath(fileName, serialNumber),
         Buffer.from(JSON.stringify(data)),
         token
       )
-    })
+    }
   }
 
   public getCacheFilePath(filePath: string, serialNumber: string): string {

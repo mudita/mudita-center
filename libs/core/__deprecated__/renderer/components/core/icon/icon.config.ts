@@ -59,6 +59,7 @@ import NewContact from "Core/__deprecated__/renderer/svg/new-contact.svg"
 import Notes from "Core/__deprecated__/renderer/svg/notes.svg"
 import Notifications from "Core/__deprecated__/renderer/svg/notifications.svg"
 import Dial from "Core/__deprecated__/renderer/svg/dial.svg"
+import DotsInBox from "Core/__deprecated__/renderer/svg/dots-in-box.svg"
 import Playlist from "Core/__deprecated__/renderer/svg/playlist.svg"
 import PlusSign from "Core/__deprecated__/renderer/svg/plus-sign.svg"
 import Reload from "Core/__deprecated__/renderer/svg/circle-arrow.svg"
@@ -126,7 +127,7 @@ import Warning from "Core/__deprecated__/renderer/svg/warning.svg"
 import MarkAsUnread from "Core/__deprecated__/renderer/svg/mark-as-unread.svg"
 import Conversation from "Core/__deprecated__/renderer/svg/conversation.svg"
 import Exclamation from "Core/__deprecated__/renderer/svg/exclamation.svg"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
@@ -298,6 +299,9 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.Dial]: Dial,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  [IconType.DotsInBox]: DotsInBox,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.Notes]: Notes,
@@ -505,7 +509,7 @@ export const getIconType = (
 ): FunctionComponent<ImageInterface> => typeToIcon[icon] || Message
 
 export function getEnumName(type: IconType): string
-export function getEnumName(type?: IconType): null
+export function getEnumName(type: IconType | undefined): string | null
 export function getEnumName(type?: IconType): string | null {
   return type !== undefined ? IconType[type] : null
 }

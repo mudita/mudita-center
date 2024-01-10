@@ -4,57 +4,43 @@
  */
 
 import { PortInfo } from "serialport"
-import { MainProcessIpc } from "electron-better-ipc"
-import { EventEmitter } from "events"
 import {
   MuditaPureDescriptor,
   MuditaHarmonyDescriptor,
-  MuditaKompaktDescriptor,
 } from "Core/device/descriptors"
-import { Device } from "Core/device/modules/device"
 import { DeviceFactory } from "Core/device/factories"
+import { APIDevice } from "device/feature"
+import { DeviceType } from "Core/device"
+import { BaseDevice } from "Core/device/modules/base-device"
 
 export class DeviceResolverService {
-  private eligibleDevices = [
-    MuditaPureDescriptor,
-    MuditaHarmonyDescriptor,
-    MuditaKompaktDescriptor,
-  ]
+  private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
 
-  constructor(
-    private ipc: MainProcessIpc,
-    private eventEmitter: EventEmitter
-  ) {}
-
-  public resolve({
-    productId,
-    serialNumber,
-    path,
-  }: Pick<PortInfo, "productId" | "serialNumber" | "path">):
-    | Device
-    | undefined {
-    const id = productId?.toLowerCase() ?? ""
+  public resolve(portInfo: PortInfo): BaseDevice | undefined {
+    const id = portInfo.productId?.toLowerCase() ?? ""
     const descriptor = this.eligibleDevices.find((device) =>
       device.productIds
         .map((item) => item.toString().toLowerCase())
         .includes(id)
     )
 
-    if (!descriptor) {
-      return
+    if (descriptor) {
+      return DeviceFactory.create(
+        portInfo,
+        descriptor.deviceType,
+        descriptor.adapter,
+        descriptor.strategy
+      )
     }
 
-    const newDevice = DeviceFactory.create(
-      path,
-      descriptor.deviceType,
-      descriptor.adapter,
-      descriptor.strategy,
-      this.ipc,
-      this.eventEmitter
-    )
+    if (
+      !descriptor &&
+      process.env.FEATURE_TOGGLE_ENVIRONMENT === "development"
+    ) {
+      //TODO: temporary, remove in future
+      return new APIDevice(portInfo, DeviceType.APIDevice)
+    }
 
-    newDevice.serialNumber = serialNumber ?? ""
-
-    return newDevice
+    return
   }
 }

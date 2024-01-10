@@ -4,7 +4,7 @@
  */
 
 import React, { ChangeEvent } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { searchIcon } from "Core/__deprecated__/renderer/components/core/input-text/input-text.elements"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"

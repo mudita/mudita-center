@@ -7,8 +7,6 @@ export enum MetadataKey {
   DeviceOsVersion = "deviceOsVersion",
   DeviceType = "deviceType",
   MuditaCenterVersion = "muditaCenterVersion",
-  DeviceSerialNumber = "deviceSerialNumber",
-  DeviceToken = "deviceToken",
   BackupInProgress = "backupInProgress",
   UpdateInProgress = "updateInProgress",
 }

@@ -10,7 +10,7 @@ import { DeviceType, CaseColor } from "Core/device/constants"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "Core/overview/components/overview/overview.component"
 import store from "Core/__deprecated__/renderer/store"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import { StatusTestIds } from "Core/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "Core/overview/components/system/system-test-ids.enum"
 import { State } from "Core/core/constants"
@@ -18,7 +18,7 @@ import { BackupDeviceFlowTestIds } from "Core/overview/components/backup-device-
 import { RestoreDeviceFlowTestIds } from "Core/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { flags } from "Core/feature-flags"
-import { SynchronizationState } from "Core/data-sync/reducers"
+import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { DownloadState, SilentCheckForUpdateState } from "Core/update/constants"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
@@ -128,7 +128,7 @@ const defaultProps: Props = {
     total: 200,
   },
   caseColour: CaseColor.Gray,
-  syncState: SynchronizationState.Loaded,
+  syncState: SynchronizationStatus.Loaded,
   updateAllIndexes: jest.fn(),
   abortDownload: jest.fn(),
   allReleases: [],

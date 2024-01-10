@@ -5,7 +5,7 @@
 
 import React, { ChangeEvent, KeyboardEvent } from "react"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   Textarea,
   TextareaWrapper,
