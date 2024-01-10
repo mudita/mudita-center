@@ -42,6 +42,7 @@ export const PureSystemButtonContainer = styled.div`
   justify-content: center;
   border-top: 0.1rem solid ${borderColor("separator")};
   width: 100%;
+  margin-top: 2.4rem;
 `
 
 export const SerialNumberWrapper = styled.div`
