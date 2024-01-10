@@ -17,7 +17,6 @@ interface Props {
 const Wrapper = styled.div`
   width: 100%;
   overflow: auto;
-  margin-bottom: 2.6rem;
 `
 const gridColumnsMap: Record<number | string, string> = {
   1: 'repeat(1, minmax(0, 34rem))',
@@ -31,7 +30,7 @@ const Container = styled.div<{ devicesLength: number }>`
   gap: 2.6rem;
   justify-content: center;
   max-width: 107.2rem;
-  margin: 0 auto;
+  margin: 0 auto 2.6rem auto;
 `
 
 const DeviceList: FunctionComponent<Props> = ({ devices, onDeviceClick }) => {
