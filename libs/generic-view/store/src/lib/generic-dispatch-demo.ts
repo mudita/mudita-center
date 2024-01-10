@@ -8,6 +8,7 @@ import {
   generateMcAboutLayout,
   generateMcCalendarLayout,
   generateMcOverviewLayout,
+  mcAboutDemoData,
   mcCalendarConfig,
   mcOverviewConfig,
   mcOverviewDemoData,
@@ -62,6 +63,13 @@ export const useGenericStoreDemo = () => {
         setViewData({
           feature: "mc-overview",
           data: mcOverviewDemoData,
+        })
+      )
+
+      dispatch(
+        setViewData({
+          feature: "mc-about",
+          data: mcAboutDemoData,
         })
       )
     })()
