@@ -51,6 +51,7 @@ export interface HarmonyDeviceData {
     total: number
   }
   onboardingState?: OnboardingState
+  caseColour: CaseColor
 }
 
 export interface DeviceStatus {
