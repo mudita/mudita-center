@@ -17,6 +17,7 @@ import {
 import { mapToDevice } from "Core/device-manager/helpers/map-to-device"
 import { setActiveDevice } from "Core/device-manager/actions/set-active-device.action"
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
+import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 
 export const initialState: DeviceManagerState = {
   devices: [],
@@ -77,6 +78,27 @@ export const deviceManagerReducer = createReducer<DeviceManagerState>(
         return {
           ...state,
           devices,
+        }
+      })
+      .addCase(deactivateDevice.fulfilled, (state) => {
+        const devices = state.devices.reduce((prev, device) => {
+          if (device.id === state.activeDeviceId) {
+            return [
+              ...prev,
+              {
+                ...device,
+                state: DeviceState.Connected,
+              },
+            ]
+          } else {
+            return [...prev, device]
+          }
+        }, [] as Device[])
+
+        return {
+          ...state,
+          devices,
+          activeDeviceId: undefined,
         }
       })
   }
