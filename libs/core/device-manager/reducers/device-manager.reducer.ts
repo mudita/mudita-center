@@ -14,7 +14,6 @@ import {
   addDevice,
   removeDevice,
 } from "Core/device-manager/actions/base.action"
-import { mapToDevice } from "Core/device-manager/helpers/map-to-device"
 import { setActiveDevice } from "Core/device-manager/actions/set-active-device.action"
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
@@ -36,7 +35,11 @@ export const deviceManagerReducer = createReducer<DeviceManagerState>(
       })
       .addCase(addDevice, (state, action) => {
         const devices = [...state.devices]
-        devices.push(mapToDevice(action.payload))
+        devices.push({
+          caseColour: undefined,
+          state: DeviceState.Connected,
+          ...action.payload,
+        })
 
         return {
           ...state,

@@ -11,6 +11,8 @@ import AvailableDeviceList from "Core/discovery-device/components/available-devi
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
+import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
 
 const AvailableDeviceListContainer: FunctionComponent = () => {
   const history = useHistory()
@@ -18,7 +20,12 @@ const AvailableDeviceListContainer: FunctionComponent = () => {
   const devices = useSelector(getDevicesSelector)
 
   const handleDeviceClick = (id: string) => {
-    dispatch(handleDeviceActivated({ deviceId: id, history }))
+    const device = devices.find((device) => device.id === id)
+    if (device?.state === DeviceState.Failed) {
+      history.push(URL_ONBOARDING.troubleshooting)
+    } else {
+      dispatch(handleDeviceActivated({ deviceId: id, history }))
+    }
   }
 
   return (
