@@ -38,6 +38,7 @@ import { CheckForUpdateMode } from "Core/update/constants"
 import { forceUpdate } from "Core/update/actions/force-update/force-update.action"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { isDataSyncInProgressSelector } from "Core/data-sync/selectors/is-data-sync-in-progress.selector"
+import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -78,7 +79,9 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  disconnectDevice: () => {},
+  disconnectDevice: () => {
+    dispatch(deactivateDevice())
+  },
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   closeForceUpdateFlow: () => dispatch(closeForceUpdateFlow()),

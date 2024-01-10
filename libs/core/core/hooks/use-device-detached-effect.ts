@@ -17,7 +17,6 @@ export const useDeviceDetachedEffect = () => {
 
   useEffect(() => {
     const handler = async (properties: DeviceBaseProperties) => {
-      console.log("handleDeviceDetached: ", properties)
       await dispatch(handleDeviceDetached({ properties, history }))
     }
 

@@ -14,15 +14,9 @@ import {
 import { removeDevice } from "Core/device-manager/actions/base.action"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
-import { setActiveDevice } from "Core/device-manager/actions/set-active-device.action"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
-import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
-import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
-import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
-import { setDataSyncInitState } from "Core/data-sync/actions"
-import { setInitState } from "Core/device/actions"
+import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 
 export const handleDeviceDetached = createAsyncThunk<
   void,
@@ -47,13 +41,9 @@ export const handleDeviceDetached = createAsyncThunk<
       return
     }
 
-    await dispatch(setActiveDevice(undefined))
+    await dispatch(deactivateDevice())
 
     const devices = getDevicesSelector(getState())
-    dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
-    dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))
-    dispatch(setDataSyncInitState())
-    dispatch(setInitState())
 
     if (devices.length > 0) {
       history.push(URL_DISCOVERY_DEVICE.root)
