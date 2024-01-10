@@ -44,7 +44,7 @@ export const generateMcAboutLayout: ViewGenerator<CalendarConfig> = (
         },
         padding: "3.2rem",
       },
-      childrenKeys: ["serial-number", "sar", "imei1", "imei1"],
+      childrenKeys: ["serial-number", "imei1", "imei1", "sar"],
     },
     "serial-number": {
       component: "about-data-box",
