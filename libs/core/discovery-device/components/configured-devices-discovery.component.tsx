@@ -15,14 +15,16 @@ import { handleDeviceActivated } from "Core/device-manager/actions/handle-device
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-import { getConfiguredDevicesSelector } from "Core/device-manager/selectors/get-configured-devices.selector"
+import { URL_MAIN, URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
+import { getFailedDevicesSelector } from "Core/device-manager/selectors/get-failed-devices.selector"
 
 const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const devices = useSelector(getDevicesSelector)
-  const configuredDevices = useSelector(getConfiguredDevicesSelector)
+  const failedDevicesSelector = useSelector(getFailedDevicesSelector)
+  const availableDevicesSelector = useSelector(getAvailableDevicesSelector)
 
   useEffect(() => {
     dispatch(setDiscoveryStatus(DiscoveryStatus.Discovering))
@@ -34,12 +36,21 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   useEffect(() => {
     if (
       devices.length === 1 &&
-      configuredDevices.length === 1 &&
+      failedDevicesSelector.length === 1 &&
+      noNewDevicesDetectedState
+    ) {
+      history.push(URL_ONBOARDING.troubleshooting)
+      return
+    }
+
+    if (
+      devices.length === 1 &&
+      availableDevicesSelector.length === 1 &&
       noNewDevicesDetectedState
     ) {
       dispatch(handleDeviceActivated({ deviceId: devices[0].id, history }))
     }
-  }, [history, dispatch, devices, configuredDevices, noNewDevicesDetectedState])
+  }, [history, dispatch, devices, failedDevicesSelector, availableDevicesSelector, noNewDevicesDetectedState])
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
@@ -68,7 +79,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
 
   if (
     devices.length > 1 &&
-    configuredDevices.length === devices.length &&
+    availableDevicesSelector.length === devices.length &&
     noNewDevicesDetectedState
   ) {
     return <AvailableDeviceListContainer />

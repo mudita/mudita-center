@@ -16,10 +16,12 @@ import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-ef
 import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
 import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
 import { useAPISerialPortListeners } from "device/feature"
+import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect-failed-effect"
 
 const BaseApp: FunctionComponent = () => {
   useApplicationUpdateEffects()
   useDeviceConnectedEffect()
+  useDeviceConnectFailedEffect()
   useDeviceDetachedEffect()
   useDeviceLockedEffect()
   useWatchOutboxEntriesEffect()
