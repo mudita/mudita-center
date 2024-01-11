@@ -13,6 +13,7 @@ import { setDeviceInitializationStatus } from "Core/device-initialization/action
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setDataSyncInitState } from "Core/data-sync/actions"
 import { setInitState } from "Core/device"
+import { clearStateAndData } from "Core/update/actions"
 
 export const deactivateDevice = createAsyncThunk<
   void,
@@ -24,4 +25,5 @@ export const deactivateDevice = createAsyncThunk<
   dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))
   dispatch(setDataSyncInitState())
   dispatch(setInitState())
+  dispatch(clearStateAndData())
 })
