@@ -21,7 +21,8 @@ import { APIDevice } from "device/feature"
 import { BaseDevice } from "Core/device/modules/base-device"
 import { CoreDevice } from "Core/device/modules/core-device"
 import { RequestConfig } from "Core/device/types/mudita-os"
-import { DeviceCommunicationError } from "Core/device"
+import { DeviceCommunicationError, DeviceType } from "Core/device"
+import { MockCoreDevice } from "Core/device/modules/mock-core-device"
 
 export class DeviceManager {
   public activeDevice: BaseDevice | undefined
@@ -49,10 +50,7 @@ export class DeviceManager {
 
   get device(): CoreDevice {
     if (!this.activeDevice) {
-      throw new AppError(
-        DeviceManagerError.NoActiveDevice,
-        "Active device is undefined"
-      )
+      return new MockCoreDevice({} as unknown as SerialPortInfo, "deviceType" as DeviceType) as CoreDevice
     }
 
     // TODO: add device type validation
