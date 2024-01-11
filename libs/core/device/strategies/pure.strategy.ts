@@ -39,7 +39,9 @@ export class PureStrategy implements DeviceStrategy {
     const serializedResponse = ResponsePresenter.toResponseObject(response)
 
     if (serializedResponse.status === RequestResponseStatus.PhoneLocked) {
-      ipcMain.sendToRenderers(PureStrategyMainEvent.ActiveDeviceLocked)
+      ipcMain.sendToRenderers(PureStrategyMainEvent.ActiveDeviceLocked, {
+        path: this.adapter.path,
+      })
     }
 
     return this.mapResponseObjectToResultObject<ResponseType>(
