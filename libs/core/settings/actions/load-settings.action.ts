@@ -11,45 +11,49 @@ import { setSettings } from "Core/settings/actions/set-settings.action"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { getConfiguration } from "Core/settings/requests"
 import packageInfo from "../../../../apps/mudita-center/package.json"
+import { loadBackupData } from "Core/backup/actions"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-export const loadSettings = createAsyncThunk<void, void>(
-  SettingsEvent.LoadSettings,
-  async (_, { dispatch }) => {
-    let updateRequired = false
-    const settings = await getSettings()
-    const configuration = await getConfiguration()
+export const loadSettings = createAsyncThunk<
+  void,
+  void,
+  { state: ReduxRootState }
+>(SettingsEvent.LoadSettings, async (_, { dispatch }) => {
+  let updateRequired = false
+  const settings = await getSettings()
+  const configuration = await getConfiguration()
 
-    try {
-      updateRequired = isVersionGreater(
-        configuration.centerVersion,
-        packageInfo.version
-      )
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      logger.error(
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
-        `Settings -> LoadSettings: Check that app update required fails: ${error.message}`
-      )
-    }
-
-    settings.collectingData ? logger.enableRollbar() : logger.disableRollbar()
-
-    dispatch(
-      setSettings({
-        ...settings,
-        updateRequired,
-        currentVersion: packageInfo.version,
-        checkingForUpdate: false,
-        checkingForUpdateFailed: false,
-        lowestSupportedVersions: {
-          lowestSupportedCenterVersion: configuration.centerVersion,
-          lowestSupportedProductVersion: configuration.productVersions,
-        },
-      })
+  try {
+    updateRequired = isVersionGreater(
+      configuration.centerVersion,
+      packageInfo.version
     )
-
-    return
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    logger.error(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
+      `Settings -> LoadSettings: Check that app update required fails: ${error.message}`
+    )
   }
-)
+
+  settings.collectingData ? logger.enableRollbar() : logger.disableRollbar()
+
+  dispatch(
+    setSettings({
+      ...settings,
+      updateRequired,
+      currentVersion: packageInfo.version,
+      checkingForUpdate: false,
+      checkingForUpdateFailed: false,
+      lowestSupportedVersions: {
+        lowestSupportedCenterVersion: configuration.centerVersion,
+        lowestSupportedProductVersion: configuration.productVersions,
+      },
+    })
+  )
+  await dispatch(loadBackupData())
+
+  return
+})
