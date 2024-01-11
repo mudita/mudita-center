@@ -12,6 +12,7 @@ import {
   DeviceCommunicationError,
   loadDeviceData,
   PureDeviceData,
+  setCriticalBatteryLevelStatus,
   setOnboardingStatus,
   setUnlockedStatus,
 } from "Core/device"
@@ -44,6 +45,12 @@ export const initializeMuditaPure = async (
 
   if (!unlockDeviceStatusResult.ok) {
     const errorType = unlockDeviceStatusResult.error.type
+
+    // Handle Battery Critical Level as an initializing step
+    if (errorType === DeviceCommunicationError.BatteryCriticalLevel) {
+      dispatch(setCriticalBatteryLevelStatus(true))
+      return
+    }
 
     // Handle EULA as an initializing step
     if (errorType === DeviceCommunicationError.DeviceOnboardingNotFinished) {
