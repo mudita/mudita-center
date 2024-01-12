@@ -48,7 +48,6 @@ export const startUpdateOs = createAsyncThunk<
   Params,
   {
     state: ReduxRootState
-    rejectValue: AppError<UpdateError>
   }
 >(
   UpdateOsEvent.StartOsUpdateProcess,

@@ -203,20 +203,34 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       }
     })
     builder.addCase(checkForUpdate.rejected, (state, action) => {
-      let error: AppError<UpdateError> | null =
-        action.payload as AppError<UpdateError>
+      const error = action.payload as AppError<UpdateError>
+
+      if (error?.type === UpdateError.NoActiveDevice) {
+        return { ...initialState }
+      }
+
       if (
         action.meta.aborted &&
         action.meta.arg.mode === CheckForUpdateMode.SilentCheck
       ) {
-        state.silentCheckForUpdate = SilentCheckForUpdateState.Initial
-        error = null
+        return {
+          ...state,
+          error: null,
+          silentCheckForUpdate: SilentCheckForUpdateState.Initial
+        }
       } else if (action.meta.arg.mode === CheckForUpdateMode.SilentCheck) {
-        state.silentCheckForUpdate = SilentCheckForUpdateState.Failed
+        return {
+          ...state,
+          error: error ?? null,
+          silentCheckForUpdate: SilentCheckForUpdateState.Failed
+        }
       } else {
-        state.checkForUpdateState = CheckForUpdateState.Failed
+        return {
+          ...state,
+          error: error ?? null,
+          checkForUpdateState: CheckForUpdateState.Failed
+        }
       }
-      state.error = error
     })
 
     builder.addCase(downloadUpdates.pending, (state, action) => {
@@ -236,11 +250,12 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.downloadState = DownloadState.Loaded
     })
     builder.addCase(downloadUpdates.rejected, (state, action) => {
-      if (action.payload?.type === UpdateError.DownloadCancelledByUser) {
+      const error = action.payload as AppError<UpdateError>
+      if (error?.type === UpdateError.DownloadCancelledByUser) {
         state.downloadState = DownloadState.Cancelled
       } else {
         state.downloadState = DownloadState.Failed
-        state.error = action.payload as AppError<UpdateError>
+        state.error = error
       }
       state.deviceHasBeenDetachedDuringDownload = false
     })
