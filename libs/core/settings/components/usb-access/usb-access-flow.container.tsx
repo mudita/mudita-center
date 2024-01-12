@@ -53,10 +53,18 @@ const USBAccessFlowContainer = () => {
         }}
         layer={ModalLayers.LinuxSerialPortGroup}
         onActionButtonClick={async () => {
-          await addUserToSerialPortGroup()
-          logger.info(`adding to group finished`)
-          dispatch(setUSBAccessRestart(true))
-          setAccessState(USBAccessState.granted)
+          try {
+            await addUserToSerialPortGroup()
+            logger.info(`USBAccessFlowContainer - adding to group finished`)
+            dispatch(setUSBAccessRestart(true))
+            setAccessState(USBAccessState.granted)
+          } catch (er) {
+            if (er instanceof Error) {
+              logger.info(
+                `USBAccessFlowContainer - rejected er.message ${er.message}`
+              )
+            }
+          }
         }}
         actionButtonLabel="ALLOW"
         closeButton={false}
