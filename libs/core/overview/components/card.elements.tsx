@@ -44,7 +44,6 @@ export const CardContent = styled.div`
 
 export const CardAction = styled(ButtonToggler)`
   min-width: 17.6rem;
-  margin-bottom: 2.4rem;
 `
 
 export const CardText = styled.div`

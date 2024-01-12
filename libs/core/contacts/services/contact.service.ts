@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "Core/device/constants"
+import {
+  DeviceCommunicationError,
+  Endpoint,
+  Method,
+} from "Core/device/constants"
 import {
   GetContactResponseBody,
   GetContactsResponseBody,
@@ -171,17 +175,34 @@ export class ContactService {
   public async deleteContacts(
     contactIds: ContactID[]
   ): Promise<RequestResponse<ContactID[]>> {
-    const results = contactIds.map(async (id) => {
-      const { ok } = await this.deviceManager.device.request({
+    const results = []
+
+    for (const id of contactIds) {
+      const result = await this.deviceManager.device.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
         body: { id: Number(id) },
+        options: {
+          connectionTimeOut: 5000
+        }
       })
-      return {
+
+      const { ok, error } = result
+
+      if (error?.type === DeviceCommunicationError.DeviceInitializationFailed) {
+        return {
+          status: RequestResponseStatus.Error,
+          error: {
+            message: "deleteContacts is break",
+          },
+        }
+      }
+
+      results.push({
         status: ok ? RequestResponseStatus.Ok : RequestResponseStatus.Error,
         id,
-      }
-    })
+      })
+    }
 
     const errorIds = (await Promise.all(results))
       .filter(({ status }) => status === RequestResponseStatus.Error)

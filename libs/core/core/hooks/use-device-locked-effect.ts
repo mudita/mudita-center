@@ -12,10 +12,12 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 import { deviceUnlockedStatusSelector } from "Core/device/selectors/device-unlocked-status.selector"
 import { URL_DEVICE_INITIALIZATION } from "Core/__deprecated__/renderer/constants/urls"
 import { registerActiveDeviceLockedListener } from "Core/device-manager/listeners/active-device-locked.listener"
+import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 
 export const useDeviceLockedEffect = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
+  const activeDevice = useSelector(getActiveDevice)
   const deviceUnlockedStatus = useSelector(deviceUnlockedStatusSelector)
   const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
 
@@ -31,9 +33,10 @@ export const useDeviceLockedEffect = () => {
 
   // Redirect to device initialization when it becomes locked (Main layer event)
   useEffect(() => {
-    const handler = () => {
+    const handler = ({ path }: { path: string }) => {
       if (
-        deviceInitializationStatus === DeviceInitializationStatus.Initialized
+        deviceInitializationStatus === DeviceInitializationStatus.Initialized &&
+        activeDevice?.path === path
       ) {
         history.push(URL_DEVICE_INITIALIZATION.root)
       }
@@ -43,5 +46,11 @@ export const useDeviceLockedEffect = () => {
     return () => {
       activeDeviceLocked()
     }
-  }, [dispatch, history, deviceUnlockedStatus, deviceInitializationStatus])
+  }, [
+    dispatch,
+    history,
+    activeDevice,
+    deviceUnlockedStatus,
+    deviceInitializationStatus,
+  ])
 }

@@ -10,7 +10,7 @@ import Image from "Core/__deprecated__/renderer/components/core/image/image.comp
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
 import PureGrayImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
 import PureBlackImage from "Core/__deprecated__/renderer/images/pure-black-render.png"
-import KompaktGrayImage from "Core/__deprecated__/renderer/images/kompakt-gray-render.png"
+import KompaktBlackImage from "Core/__deprecated__/renderer/images/kompakt-black-render.png"
 import HarmonyGrayImage from "Core/__deprecated__/renderer/images/harmony-gray-render.png"
 import HarmonyBlackImage from "Core/__deprecated__/renderer/images/harmony-black-render.png"
 
@@ -40,7 +40,7 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
     return <Image src={HarmonyGrayImage} {...props}/>
   }
   if (deviceType === DeviceType.APIDevice) {
-    return <Image src={KompaktGrayImage} {...props}/>
+    return <Image src={KompaktBlackImage} {...props}/>
   }
 
   return <></>

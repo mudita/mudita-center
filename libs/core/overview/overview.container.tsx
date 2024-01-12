@@ -113,7 +113,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(showModal(ModalStateKey.ContactSupportFlow)),
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-  updateAllIndexes: () => dispatch(updateAllIndexes()),
+  updateAllIndexes: () => dispatch(updateAllIndexes(true)),
   checkForUpdate: (
     deviceType: DeviceType,
     mode: CheckForUpdateMode

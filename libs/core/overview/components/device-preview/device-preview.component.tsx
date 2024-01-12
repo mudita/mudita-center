@@ -35,12 +35,12 @@ import Text, {
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 
 const messages = defineMessages({
   serialNumber: { id: "module.overview.serialNumber" },
   phoneDisconnectAction: { id: "module.overview.phoneDisconnectAction" },
   pureSystem: { id: "module.overview.pureSystem" },
-  noSerialNumberMessage: { id: "module.overview.noSerialNumberMessage" },
 })
 
 const DeviceSystemButton = styled(Button)`
@@ -55,6 +55,9 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   deviceType,
   serialNumber,
 }) => {
+  const serialNumberValue = getSerialNumberValue(serialNumber)
+  const serialNumberHeader =
+    serialNumberValue !== "" ? intl.formatMessage(messages.serialNumber) : ""
   const history = useHistory()
   const handleDisconnect = () => {
     onDisconnect()
@@ -77,18 +80,14 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
         </DeviceInfo>
 
         <SerialNumberWrapper>
-          <Text
-            displayStyle={TextDisplayStyle.Paragraph4}
-            color="secondary"
-            message={messages.serialNumber}
-          />
+          <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+            {serialNumberHeader}
+          </Text>
           <Text
             displayStyle={TextDisplayStyle.Paragraph1}
             testId={DeviceTestIds.SerialNumber}
           >
-            {serialNumber
-              ? serialNumber
-              : intl.formatMessage(messages.noSerialNumberMessage)}
+            {serialNumberValue}
           </Text>
         </SerialNumberWrapper>
       </DeviceCardContentWrapper>

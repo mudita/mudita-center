@@ -13,15 +13,29 @@ import { setDeviceInitializationStatus } from "Core/device-initialization/action
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setDataSyncInitState } from "Core/data-sync/actions"
 import { setInitState } from "Core/device"
+import { clearStateAndData } from "Core/update/actions"
+import { MetadataKey, setValue } from "Core/metadata"
+import { setInitialBackupState } from "Core/backup"
+import { setInitialContactsState } from "Core/contacts/actions"
+import { setInitialFilesManagerState } from "Core/files-manager/actions"
+import { setInitialMessagesState } from "Core/messages/actions/base.action"
 
 export const deactivateDevice = createAsyncThunk<
   void,
   void,
   { state: ReduxRootState }
->(DeviceManagerEvent.DeactivateDevice, async (_, {dispatch}) => {
+>(DeviceManagerEvent.DeactivateDevice, async (_, { dispatch }) => {
   await setActiveDeviceRequest(undefined)
   dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
   dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))
   dispatch(setDataSyncInitState())
+  dispatch(setInitialBackupState())
+  dispatch(setInitialContactsState())
+  dispatch(setInitialFilesManagerState())
+  dispatch(setInitialMessagesState())
   dispatch(setInitState())
+
+  dispatch(clearStateAndData())
+  void setValue({ key: MetadataKey.DeviceOsVersion, value: null })
+  void setValue({ key: MetadataKey.DeviceType, value: null })
 })

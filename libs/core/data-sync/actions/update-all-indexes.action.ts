@@ -4,6 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import delayResponse from "@appnroll/delay-response"
 import { AppError } from "Core/core/errors"
 import { readAllIndexes } from "Core/data-sync/actions/read-all-indexes.action"
 import { DataSyncError, DataSyncEvent } from "Core/data-sync/constants"
@@ -13,13 +14,25 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { isPureDeviceData } from "Core/device/helpers/is-pure-device-data"
 import { saveIndexRequest } from "Core/index-storage/requests"
 
+/***
+ * `shouldDelay` - Specifies whether to delay the process.
+ * @param {boolean} shouldDelay - Set to `true` to introduce a delay.
+ *
+ * Asynchronously updates all indexes. If `shouldDelay` is `true`,
+ * the process is delayed to ensure adequate time between attempts,
+ * critical for proper device handling.
+***/
+
 export const updateAllIndexes = createAsyncThunk<
   void,
-  void,
+  boolean | undefined,
   { state: ReduxRootState }
 >(
   DataSyncEvent.UpdateAllIndexes,
-  async (_, { dispatch, rejectWithValue, getState }) => {
+  async (shouldDelay = false, { dispatch, rejectWithValue, getState }) => {
+    if(shouldDelay){
+      await delayResponse(Promise.resolve(),30000)
+    }
     const data = deviceDataSelector(getState())
     if (!isPureDeviceData(data)) {
       return
