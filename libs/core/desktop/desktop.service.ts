@@ -89,6 +89,9 @@ export class DesktopService {
 
   public async addUserToSerialPortGroup(): Promise<void> {
     return new Promise((resolve, reject) => {
+      logger.info(
+        `addUserToSerialPortGroup this.serialPortGroup ${this.serialPortGroup}`
+      )
       if (this.serialPortGroup) {
         const command = `usermod -aG ${this.serialPortGroup} $USER`
 
@@ -96,13 +99,18 @@ export class DesktopService {
         process.title = "dummy"
 
         sudoPrompt.exec(command, (error) => {
+          logger.info(`addUserToSerialPortGroup error ${JSON.stringify(error)}`)
+
           if (error === undefined) {
+            logger.info(`addUserToSerialPortGroup resolve`)
             resolve()
           } else {
+            logger.info(`addUserToSerialPortGroup reject`)
             reject("Could not add user")
           }
         })
       }
+      logger.info(`addUserToSerialPortGroup i should not be here`)
     })
   }
 }
