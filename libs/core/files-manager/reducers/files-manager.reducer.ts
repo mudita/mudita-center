@@ -23,6 +23,7 @@ import {
   resetUploadingStateAfterSuccess,
   resetFiles,
   setInvalidFiles,
+  setInitialFilesManagerState,
 } from "Core/files-manager/actions"
 import { changeLocation } from "Core/core/actions"
 import { FilesManagerState } from "Core/files-manager/reducers/files-manager.interface"
@@ -50,6 +51,9 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
   initialState,
   (builder) => {
     builder
+      .addCase(setInitialFilesManagerState, () => {
+        return { ...initialState }
+      })
       .addCase(getFiles.pending, (state) => {
         return {
           ...state,
