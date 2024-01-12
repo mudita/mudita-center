@@ -9,10 +9,7 @@ import { defineMessages } from "react-intl"
 import { DeviceType } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { DevicePreviewProps } from "Core/overview/components/device-preview/device-preview.interface"
-import {
-  CardAction,
-  CardActionButton,
-} from "Core/overview/components/card.elements"
+import { CardActionButton } from "Core/overview/components/card.elements"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useHistory } from "react-router"
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
@@ -22,6 +19,7 @@ import {
   PureSystemButtonContainer,
   SerialNumberWrapper,
   DeviceCardContentWrapper,
+  DisconnectActionCard,
 } from "Core/overview/components/device-preview/device-preview.styled"
 import {
   URL_MAIN,
@@ -92,14 +90,14 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
         </SerialNumberWrapper>
       </DeviceCardContentWrapper>
 
-      <CardAction>
+      <DisconnectActionCard>
         <CardActionButton
           active
           label={intl.formatMessage(messages.phoneDisconnectAction)}
           onClick={handleDisconnect}
           data-testid={DeviceTestIds.DisconnectButton}
         />
-      </CardAction>
+      </DisconnectActionCard>
       {deviceType === DeviceType.MuditaPure && (
         <PureSystemButtonContainer>
           <DeviceSystemButton
