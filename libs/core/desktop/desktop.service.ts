@@ -5,7 +5,6 @@
 
 import { exec } from "child_process"
 import sudoPrompt from "@vscode/sudo-prompt"
-import logger from "Core/__deprecated__/main/utils/logger"
 
 enum SerialPortGroup {
   dialout = "dialout",
@@ -49,13 +48,6 @@ export class DesktopService {
     this.serialPortGroup = group
     const isInGroup = group !== "" ? userGroups.includes(group) : false
 
-    logger.info(`isUserInSerialPortGroup group ${group}`)
-    logger.info(`isUserInSerialPortGroup userGroups ${userGroups}`)
-    logger.info(
-      `isUserInSerialPortGroup this.serialPortGroup ${this.serialPortGroup}`
-    )
-    logger.info(`isUserInSerialPortGroup isInGroup ${isInGroup}`)
-
     return isInGroup
   }
 
@@ -89,9 +81,6 @@ export class DesktopService {
 
   public async addUserToSerialPortGroup(): Promise<void> {
     return new Promise((resolve, reject) => {
-      logger.info(
-        `addUserToSerialPortGroup this.serialPortGroup ${this.serialPortGroup}`
-      )
       if (this.serialPortGroup) {
         const command = `usermod -aG ${this.serialPortGroup} $USER`
 
@@ -99,22 +88,13 @@ export class DesktopService {
         process.title = "dummy"
 
         sudoPrompt.exec(command, (error) => {
-          logger.info(
-            `addUserToSerialPortGroup error ${JSON.stringify(
-              error
-            )} typeof ${typeof error}`
-          )
-
           if (error === null) {
-            logger.info(`addUserToSerialPortGroup resolve`)
             resolve()
           } else {
-            logger.info(`addUserToSerialPortGroup reject`)
             reject("Could not add user")
           }
         })
       }
-      logger.info(`addUserToSerialPortGroup i should not be here`)
     })
   }
 }
