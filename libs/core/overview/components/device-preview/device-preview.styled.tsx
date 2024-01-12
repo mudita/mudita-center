@@ -4,7 +4,10 @@
  */
 
 import styled from "styled-components"
-import Card, { CardContent } from "Core/overview/components/card.elements"
+import Card, {
+  CardAction,
+  CardContent,
+} from "Core/overview/components/card.elements"
 import { borderColor } from "Core/core/styles/theming/theme-getters"
 
 export const PhoneCard = styled(Card)`
@@ -14,6 +17,11 @@ export const PhoneCard = styled(Card)`
   align-items: center;
   height: 100%;
   min-height: 60rem;
+  padding: 2.4rem 2.4rem 0 2.4rem;
+`
+
+export const DisconnectActionCard = styled(CardAction)`
+  margin-bottom: 2.4rem;
 `
 
 export const DeviceCardContentWrapper = styled.div`
@@ -42,7 +50,6 @@ export const PureSystemButtonContainer = styled.div`
   justify-content: center;
   border-top: 0.1rem solid ${borderColor("separator")};
   width: 100%;
-  margin-top: 2.4rem;
 `
 
 export const SerialNumberWrapper = styled.div`
