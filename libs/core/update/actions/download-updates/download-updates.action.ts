@@ -33,7 +33,6 @@ export const downloadUpdates = createAsyncThunk<
   Params,
   {
     state: ReduxRootState
-    rejectValue: AppError<UpdateError>
   }
 >(
   UpdateOsEvent.DownloadUpdate,

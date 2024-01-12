@@ -26,4 +26,5 @@ export enum UpdateError {
   TooLowBattery = "TOO_LOW_BATTERY",
   UnexpectedDownloadError = "UNEXPECTED_DOWNLOAD_ERROR",
   ForceUpdateError = "FORCE_UPDATE_ERROR",
+  NoActiveDevice = "UPDATE_NO_ACTIVE_DEVICE",
 }
