@@ -105,7 +105,7 @@ export class DesktopService {
             )} typeof ${typeof error}`
           )
 
-          if (error === undefined) {
+          if (error === null) {
             logger.info(`addUserToSerialPortGroup resolve`)
             resolve()
           } else {
