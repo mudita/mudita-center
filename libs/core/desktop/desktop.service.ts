@@ -99,7 +99,11 @@ export class DesktopService {
         process.title = "dummy"
 
         sudoPrompt.exec(command, (error) => {
-          logger.info(`addUserToSerialPortGroup error ${JSON.stringify(error)}`)
+          logger.info(
+            `addUserToSerialPortGroup error ${JSON.stringify(
+              error
+            )} typeof ${typeof error}`
+          )
 
           if (error === undefined) {
             logger.info(`addUserToSerialPortGroup resolve`)
