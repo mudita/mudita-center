@@ -12,7 +12,7 @@ import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import MuditaCenterOnSudoModeContainer from "Core/settings/components/usb-access/mudita-center-on-sudo-mode.container"
 import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
-import { ModalsManagerState } from "../reducers"
+import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
 
 type Props = {
   contactSupportFlowShow: boolean
