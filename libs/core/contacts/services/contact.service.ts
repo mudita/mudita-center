@@ -182,6 +182,9 @@ export class ContactService {
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
         body: { id: Number(id) },
+        options: {
+          connectionTimeOut: 5000
+        }
       })
 
       const { ok, error } = result
