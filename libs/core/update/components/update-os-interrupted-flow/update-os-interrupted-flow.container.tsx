@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { connect } from "react-redux"
 import { State } from "Core/core/constants"
 import { showModal } from "Core/modals-manager/actions"
 import { ModalStateKey } from "Core/modals-manager/reducers"
@@ -15,15 +16,16 @@ import {
   RootState,
   TmpDispatch,
 } from "Core/__deprecated__/renderer/store"
-import { connect } from "react-redux"
+import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     downloadInterruptedModalOpened:
-      state.update.downloadState === DownloadState.Failed,
-    // && !state.device.status.connected,
-    updateInterruptedModalOpened: state.update.updateOsState === State.Failed,
-    // && !state.device.status.connected,
+      state.update.downloadState === DownloadState.Failed &&
+      isActiveDeviceProcessingSelector(state),
+    updateInterruptedModalOpened:
+      state.update.updateOsState === State.Failed &&
+      isActiveDeviceProcessingSelector(state),
     alreadyDownloadedReleases: alreadyProcessedReleasesSelector(
       Mode.DownloadedReleases
     )(state),
