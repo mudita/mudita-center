@@ -11,7 +11,6 @@ import { setSettings } from "Core/settings/actions/set-settings.action"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { getConfiguration } from "Core/settings/requests"
 import packageInfo from "../../../../apps/mudita-center/package.json"
-import { loadBackupData } from "Core/backup/actions"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const loadSettings = createAsyncThunk<
@@ -53,7 +52,6 @@ export const loadSettings = createAsyncThunk<
       },
     })
   )
-  await dispatch(loadBackupData())
 
   return
 })
