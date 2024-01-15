@@ -4,8 +4,7 @@
  */
 
 export * from "./lib/api-config.service"
-export * from "./lib/api-connection-demo"
 export * from "./lib/api-device"
 export * from "./lib/api-module"
-export * from "./lib/get-api-config"
 export * from "./lib/use-api-serial-port-listeners"
+export * from "./lib/api-features"

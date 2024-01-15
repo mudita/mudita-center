@@ -38,8 +38,8 @@ import {
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "Core/templates/template.container"
-import { APIConnectionDemo } from "device/feature"
 import { GenericView } from "generic-view/feature"
+import { APIConnectionDemo } from "generic-view/ui"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

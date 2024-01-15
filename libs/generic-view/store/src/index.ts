@@ -6,3 +6,5 @@
 export * from "./lib/actions"
 export * from "./lib/reducer"
 export * from "./lib/generic-dispatch-demo"
+export * from "./lib/features"
+export * from "./lib/get-api-config"

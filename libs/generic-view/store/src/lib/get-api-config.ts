@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "Core/core/builder"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { APIConfigResponse, APIServiceEvents } from "./api-config.service"
+import { APIConfigResponse, APIServiceEvents } from "device/feature"
 
 enum APIActions {
   GetConfig = "api-actions-get-config",

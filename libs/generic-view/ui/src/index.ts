@@ -18,3 +18,5 @@ const apiComponents = {
 export default apiComponents
 
 export type APIComponents = typeof apiComponents
+
+export * from "./lib/api-connection-demo"

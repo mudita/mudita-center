@@ -6,8 +6,10 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { View } from "generic-view/utils"
-import { getAPIConfig } from "device/feature"
+import { getAPIConfig } from "./get-api-config"
 import { setMenu, setViewData, setViewLayout } from "./actions"
+import { getOverviewData } from "./features"
+import { getOverviewConfig } from "./features/get-overview-config.actions"
 
 interface GenericState {
   menu: MenuElement[] | undefined
@@ -44,6 +46,12 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
   })
   builder.addCase(getAPIConfig.fulfilled, (state, action) => {
+    state.lastResponse = action.payload
+  })
+  builder.addCase(getOverviewData.fulfilled, (state, action) => {
+    state.lastResponse = action.payload
+  })
+  builder.addCase(getOverviewConfig.fulfilled, (state, action) => {
     state.lastResponse = action.payload
   })
 })
