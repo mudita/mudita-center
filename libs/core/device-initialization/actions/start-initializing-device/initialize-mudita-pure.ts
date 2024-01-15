@@ -35,6 +35,7 @@ import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/
 import { shouldSkipDataSync } from "Core/device-initialization/actions/start-initializing-device/should-skip-data-sync.helper"
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
+import { loadBackupData } from "Core/backup"
 
 export const initializeMuditaPure = async (
   history: History,
@@ -103,6 +104,9 @@ export const initializeMuditaPure = async (
       }
     }
   }
+
+
+  await dispatch(loadBackupData())
 
   dispatch(
     setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
