@@ -4,6 +4,7 @@
  */
 
 import React from "react"
+import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AppInitialization from "Core/app-initialization/components/app-initialization.component"
 import { useDeviceConnectedEffect } from "Core/core/hooks/use-device-connected-effect"
@@ -17,8 +18,18 @@ import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
 import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
 import { useAPISerialPortListeners } from "device/feature"
 import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect-failed-effect"
+import { useRouterListener } from "Core/core/hooks"
+import { URL_MAIN, URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
+
+const actions = {[URL_MAIN.contacts]: [],
+  [URL_MAIN.phone]: [],
+  [URL_OVERVIEW.root]: [],
+  [URL_MAIN.messages]: [],}
 
 const BaseApp: FunctionComponent = () => {
+  const history = useHistory()
+  useRouterListener(history, actions)
+
   useApplicationUpdateEffects()
   useDeviceConnectedEffect()
   useDeviceConnectFailedEffect()
@@ -26,7 +37,6 @@ const BaseApp: FunctionComponent = () => {
   useDeviceLockedEffect()
   useWatchOutboxEntriesEffect()
   useWatchUnlockStatus()
-
   // API
   useAPISerialPortListeners()
 
