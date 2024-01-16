@@ -3,11 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React from "react"
 import { UpdateOsInterruptedFlowTestIds } from "Core/update/components/update-os-interrupted-flow/update-os-interrupted-flow-test-ids"
 import { UpdateOsInterruptedFlow } from "Core/update/components/update-os-interrupted-flow/update-os-interrupted-flow.component"
 import { UpdateOsInterruptedFlowProps } from "Core/update/components/update-os-interrupted-flow/update-os-interrupted-flow.interface"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import React from "react"
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+}));
 
 const defaultProps: UpdateOsInterruptedFlowProps = {
   alreadyDownloadedReleases: [],
@@ -15,8 +23,8 @@ const defaultProps: UpdateOsInterruptedFlowProps = {
   downloadInterruptedModalOpened: false,
   updateInterruptedModalOpened: false,
   onClose: jest.fn(),
+  deactivateDevice: jest.fn(),
 }
-
 const render = (extraProps?: Partial<UpdateOsInterruptedFlowProps>) => {
   const props = {
     ...defaultProps,

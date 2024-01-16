@@ -10,6 +10,7 @@ import { DeviceManagerEvent } from "Core/device-manager/constants"
 import {
   URL_DISCOVERY_DEVICE,
   URL_MAIN,
+  URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { removeDevice } from "Core/device-manager/actions/base.action"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
@@ -17,6 +18,7 @@ import { getActiveDevice } from "Core/device-manager/selectors/get-active-device
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
+import { DownloadState } from "Core/update/constants"
 
 export const handleDeviceDetached = createAsyncThunk<
   void,
@@ -38,6 +40,11 @@ export const handleDeviceDetached = createAsyncThunk<
     const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
 
     if (activeDeviceProcessing) {
+      return
+    }
+
+    if (getState().update.downloadState === DownloadState.Loading) {
+      history.push(URL_ONBOARDING.welcome)
       return
     }
 
