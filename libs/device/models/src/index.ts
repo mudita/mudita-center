@@ -5,6 +5,6 @@
 
 export * from "./lib/device-communication-event"
 export * from "./lib/api-request.model"
-export * from "./lib/renderer-to-main-events/api-features-service-events"
-export * from "./lib/overview/overview-data"
-export * from "./lib/overview/overview-config"
+export * from "./lib/renderer-to-main-events"
+export * from "./lib/overview"
+export * from "./lib/outbox"
