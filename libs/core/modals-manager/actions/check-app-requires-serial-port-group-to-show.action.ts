@@ -9,6 +9,7 @@ import { showModal } from "Core/modals-manager/actions/base.action"
 import { ModalStateKey } from "Core/modals-manager/reducers"
 import { isUserInSerialPortGroup } from "Core/desktop/requests/is-user-in-serial-port-group.request"
 import { isLinux } from "Core/desktop/requests/is-linux.request"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   void,
@@ -18,6 +19,7 @@ export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   async (_, { dispatch }) => {
     if (await isLinux()) {
       const userInGroup = await isUserInSerialPortGroup()
+      logger.info(`checkAppRequiresSerialPortGroup userInGroup ${userInGroup}`)
 
       if (!userInGroup) {
         dispatch(showModal(ModalStateKey.UsbAccessFlowShow))

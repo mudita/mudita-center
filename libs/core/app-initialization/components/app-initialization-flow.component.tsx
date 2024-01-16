@@ -14,6 +14,7 @@ import MuditaCenterOnSudoModeContainer from "Core/settings/components/usb-access
 import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
 import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 const AppInitializationFlow: FunctionComponent = () => {
   const privacyPolicyVisible = useSelector(shouldPrivacyPolicyVisible)
@@ -23,6 +24,10 @@ const AppInitializationFlow: FunctionComponent = () => {
   )
   const { appRunWithSudoShow } = useSelector(
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
+  )
+
+  logger.info(
+    `AppInitializationFlow usbAccessFlowShow ${usbAccessFlowShow} appRunWithSudoShow ${appRunWithSudoShow}`
   )
 
   if (privacyPolicyVisible) {
