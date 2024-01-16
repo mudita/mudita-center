@@ -93,22 +93,20 @@ export class DesktopService {
   public async addUserToSerialPortGroup(): Promise<void> {
     const serialPortGroup = await this.getSerialPortGroup()
     return new Promise((resolve, reject) => {
-      reject("Could not add user")
+      if (serialPortGroup !== "") {
+        const command = `usermod -aG ${serialPortGroup} $USER`
 
-      // if (serialPortGroup !== "") {
-      //   const command = `usermod -aG ${serialPortGroup} $USER`
+        //set simpler process.title, otherwise there is en error from sudoPrompt.exec - 'process.title cannot be used as a valid name.'
+        process.title = "dummy"
 
-      //   //set simpler process.title, otherwise there is en error from sudoPrompt.exec - 'process.title cannot be used as a valid name.'
-      //   process.title = "dummy"
-
-      //   sudoPrompt.exec(command, (error) => {
-      //     if (error === null) {
-      //       resolve()
-      //     } else {
-      //       reject("Could not add user")
-      //     }
-      //   })
-      // }
+        sudoPrompt.exec(command, (error) => {
+          if (error === null) {
+            resolve()
+          } else {
+            reject("Could not add user")
+          }
+        })
+      }
     })
   }
 }
