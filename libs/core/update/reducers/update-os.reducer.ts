@@ -19,7 +19,7 @@ import {
   closeForceUpdateFlow,
   startUpdateOs,
   forceUpdate,
-  checkForForceUpdateNeed,
+  checkForForceUpdateNeed, setTmpMuditaHarmonyPortInfo,
 } from "Core/update/actions"
 
 import {
@@ -46,6 +46,7 @@ export const initialState: UpdateOsState = {
     downloadedProcessedReleases: null,
     updateProcessedReleases: null,
   },
+  tmpMuditaHarmonyPortInfo: undefined
 }
 
 export const updateOsReducer = createReducer<UpdateOsState>(
@@ -89,9 +90,10 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         downloadState: DownloadState.Initial,
       }
     })
-    builder.addCase(clearStateAndData, () => {
+    builder.addCase(clearStateAndData, (state) => {
       return {
         ...initialState,
+        tmpMuditaHarmonyPortInfo: state.tmpMuditaHarmonyPortInfo
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -260,6 +262,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.error = null
       state.downloadState = DownloadState.Initial
       state.updateOsState = State.Loading
+      state.tmpMuditaHarmonyPortInfo = undefined
     })
     builder.addCase(startUpdateOs.fulfilled, (state) => {
       state.updateOsState = State.Loaded
@@ -270,10 +273,12 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         updateProcessedReleases: [],
       }
       state.error = null
+      state.tmpMuditaHarmonyPortInfo = undefined
     })
     builder.addCase(startUpdateOs.rejected, (state, action) => {
       state.updateOsState = State.Failed
       state.error = action.payload as AppError<UpdateError>
+      state.tmpMuditaHarmonyPortInfo = undefined
     })
     builder.addCase(checkForForceUpdateNeed.fulfilled, (state, action) => {
       state.needsForceUpdate = action.payload
@@ -305,6 +310,9 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(forceUpdate.rejected, (state, action) => {
       state.forceUpdateState = State.Failed
       state.error = action.payload as AppError<UpdateError>
+    })
+    builder.addCase(setTmpMuditaHarmonyPortInfo, (state, action) => {
+      state.tmpMuditaHarmonyPortInfo = action.payload
     })
   }
 )

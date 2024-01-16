@@ -6,8 +6,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "Core/core/errors"
 import { removeFile } from "Core/device-file-system"
-import { DiagnosticsFilePath } from "Core/device/constants"
-import { setStateForInstalledRelease } from "Core/update/actions/base.action"
+import { DeviceType, DiagnosticsFilePath } from "Core/device/constants"
+import {
+  setStateForInstalledRelease,
+  setTmpMuditaHarmonyPortInfo,
+} from "Core/update/actions/base.action"
 import {
   ReleaseProcessState,
   UpdateError,
@@ -26,6 +29,7 @@ import {
 } from "Core/analytic-data-tracker/helpers"
 import { checkUpdate } from "Core/update/requests/checkUpdate.request"
 import { setRestartingStatus } from "Core/device"
+import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 
 interface Params {
   releases: OsRelease[]
@@ -76,6 +80,11 @@ export const startUpdateOs = createAsyncThunk<
     await dispatch(removeFile(DiagnosticsFilePath.UPDATER_LOG))
 
     for (const release of releases) {
+      const activeDevice = getActiveDevice(getState())
+      if (activeDevice?.deviceType === DeviceType.MuditaHarmony) {
+        dispatch(setTmpMuditaHarmonyPortInfo(activeDevice))
+      }
+
       state = getState()
 
       const trackOsUpdateOptions: Omit<TrackOsUpdateOptions, "state"> = {

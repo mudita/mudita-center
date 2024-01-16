@@ -73,6 +73,7 @@ test("empty event returns initial state", () => {
       "forceUpdateState": 0,
       "needsForceUpdate": false,
       "silentCheckForUpdate": 0,
+      "tmpMuditaHarmonyPortInfo": undefined,
       "updateOsState": 0,
     }
   `)
