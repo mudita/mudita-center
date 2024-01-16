@@ -5,23 +5,18 @@
 
 import React from "react"
 import MuditaCenterOnSudoModeModal from "Core/settings/components/usb-access/mudita-center-on-sudo-mode.modal"
-import { useSelector, useDispatch } from "react-redux"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { useDispatch } from "react-redux"
 import { hideModals } from "Core/modals-manager/actions/base.action"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
-import { ModalsManagerState } from "Core/modals-manager"
 
 const MuditaCenterOnSudoModeContainer = () => {
-  const { appRunWithSudoShow } = useSelector(
-    (state: ReduxRootState): ModalsManagerState => state.modalsManager
-  )
   const dispatch = useDispatch()
 
   return (
     <MuditaCenterOnSudoModeModal
       testId="mudita-center-on-sudo-mode-modal"
       title="Mudita Center"
-      open={appRunWithSudoShow}
+      open={true}
       closeModal={() => {
         dispatch(hideModals())
       }}
@@ -29,7 +24,7 @@ const MuditaCenterOnSudoModeContainer = () => {
       onActionButtonClick={() => {
         dispatch(hideModals())
       }}
-      actionButtonLabel={"OK"}
+      actionButtonLabel="OK"
       closeButton={false}
     />
   )

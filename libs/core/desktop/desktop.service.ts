@@ -14,8 +14,6 @@ enum SerialPortGroup {
 const hardwareSerialPort = "/dev/ttyACM0"
 
 export class DesktopService {
-  public serialPortGroup: string | undefined = undefined
-
   public async isLinux(): Promise<boolean> {
     return process.platform === "linux"
   }
@@ -31,8 +29,7 @@ export class DesktopService {
     return false
   }
 
-  public async isUserInSerialPortGroup(): Promise<boolean> {
-    const userGroups = await this.getUserGroups()
+  private async getSerialPortGroup(): Promise<string> {
     const serialPortGroup = await this.getGroupsAssignedToSerialPort()
 
     const isDialout = serialPortGroup.includes(SerialPortGroup.dialout)
@@ -45,8 +42,15 @@ export class DesktopService {
       group = SerialPortGroup.uucp
     }
 
-    this.serialPortGroup = group
-    const isInGroup = group !== "" ? userGroups.includes(group) : false
+    return group
+  }
+
+  public async isUserInSerialPortGroup(): Promise<boolean> {
+    const userGroups = await this.getUserGroups()
+    const serialPortGroup = await this.getSerialPortGroup()
+
+    const isInGroup =
+      serialPortGroup !== "" ? userGroups.includes(serialPortGroup) : false
 
     return isInGroup
   }
@@ -80,21 +84,24 @@ export class DesktopService {
   }
 
   public async addUserToSerialPortGroup(): Promise<void> {
+    const serialPortGroup = await this.getSerialPortGroup()
     return new Promise((resolve, reject) => {
-      if (this.serialPortGroup) {
-        const command = `usermod -aG ${this.serialPortGroup} $USER`
+      reject("Could not add user")
 
-        //set simpler process.title, otherwise there is en error from sudoPrompt.exec - 'process.title cannot be used as a valid name.'
-        process.title = "dummy"
+      // if (serialPortGroup !== "") {
+      //   const command = `usermod -aG ${serialPortGroup} $USER`
 
-        sudoPrompt.exec(command, (error) => {
-          if (error === null) {
-            resolve()
-          } else {
-            reject("Could not add user")
-          }
-        })
-      }
+      //   //set simpler process.title, otherwise there is en error from sudoPrompt.exec - 'process.title cannot be used as a valid name.'
+      //   process.title = "dummy"
+
+      //   sudoPrompt.exec(command, (error) => {
+      //     if (error === null) {
+      //       resolve()
+      //     } else {
+      //       reject("Could not add user")
+      //     }
+      //   })
+      // }
     })
   }
 }

@@ -264,7 +264,11 @@ describe("getUserGroups", () => {
 
 describe("addUserToSerialPortGroup", () => {
   test("user not added to serial port group", async () => {
-    const execSpy = jest
+    const getGroupsAssignedToSerialPortSpy = jest
+      .spyOn(desktopService, "getGroupsAssignedToSerialPort")
+      .mockImplementation(() => new Promise((resolve) => resolve("uucp")))
+
+    const execSudoSpy = jest
       .spyOn(sudoPrompt, "exec")
       .mockImplementation((_, callback) => {
         if (typeof callback === "function") {
@@ -278,10 +282,15 @@ describe("addUserToSerialPortGroup", () => {
       expect(err).toBe("Could not add user")
     }
 
-    execSpy.mockClear()
+    getGroupsAssignedToSerialPortSpy.mockClear()
+    execSudoSpy.mockClear()
   })
 
   test("user added to serial port group", async () => {
+    const getGroupsAssignedToSerialPortSpy = jest
+      .spyOn(desktopService, "getGroupsAssignedToSerialPort")
+      .mockImplementation(() => new Promise((resolve) => resolve("uucp")))
+
     const execSpy = jest
       .spyOn(sudoPrompt, "exec")
       .mockImplementation((_, callback) => {
@@ -296,6 +305,7 @@ describe("addUserToSerialPortGroup", () => {
       // eslint-disable-next-line no-empty
     } catch (err) {}
 
+    getGroupsAssignedToSerialPortSpy.mockClear()
     execSpy.mockClear()
   })
 })

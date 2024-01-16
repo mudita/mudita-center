@@ -11,8 +11,6 @@ import { isSudoMode } from "Core/desktop/requests/is-sudo-mode.request"
 
 export const checkAppInSudoModeModalToShow = createAsyncThunk<void, undefined>(
   ModalsManagerEvent.ShowAppInSudoMode,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { dispatch }) => {
     const sudoMode = await isSudoMode()
     if (sudoMode) {

@@ -15,8 +15,6 @@ export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   undefined
 >(
   ModalsManagerEvent.ShowAppRequiresSerialPortGroup,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { dispatch }) => {
     if (await isLinux()) {
       const userInGroup = await isUserInSerialPortGroup()

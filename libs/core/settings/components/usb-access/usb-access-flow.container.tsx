@@ -16,6 +16,7 @@ import { addUserToSerialPortGroup } from "Core/desktop/requests/add-user-to-seri
 import { SettingsState } from "Core/settings/reducers"
 import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
 import { UsbAccessFlowTestIds } from "Core/settings/components/usb-access/usb-access-flow-test-ids.enum"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -52,9 +53,14 @@ const USBAccessFlowContainer = () => {
         }}
         layer={ModalLayers.LinuxSerialPortGroup}
         onActionButtonClick={async () => {
-          await addUserToSerialPortGroup()
-          dispatch(setUSBAccessRestart(true))
-          setAccessState(USBAccessState.granted)
+          try {
+            await addUserToSerialPortGroup()
+          } catch (ex) {
+            logger.info(`addUserToSerialPortGroup ex ${JSON.stringify(ex)}`)
+          }
+
+          // dispatch(setUSBAccessRestart(true))
+          // setAccessState(USBAccessState.granted)
         }}
         actionButtonLabel="ALLOW"
         closeButton={false}
