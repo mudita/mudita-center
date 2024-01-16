@@ -38,13 +38,13 @@ const AppInitializationFlow: FunctionComponent = () => {
     return <AppUpdateFlow />
   }
 
-  if (appRunWithSudoShow) {
-    return <MuditaCenterOnSudoModeContainer />
-  }
+  // if (appRunWithSudoShow) {
+  //   return <MuditaCenterOnSudoModeContainer />
+  // }
 
-  if (usbAccessFlowShow) {
-    return <USBAccessFlowContainer />
-  }
+  // if (usbAccessFlowShow) {
+  //   return <USBAccessFlowContainer />
+  // }
 
   return <></>
 }
