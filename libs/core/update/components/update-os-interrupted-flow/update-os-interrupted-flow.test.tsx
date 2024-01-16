@@ -15,6 +15,7 @@ const defaultProps: UpdateOsInterruptedFlowProps = {
   downloadInterruptedModalOpened: false,
   updateInterruptedModalOpened: false,
   onClose: jest.fn(),
+  deactivateDevice: jest.fn(),
 }
 
 const render = (extraProps?: Partial<UpdateOsInterruptedFlowProps>) => {
