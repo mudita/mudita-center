@@ -28,6 +28,8 @@ export const UpdateOsInterruptedFlow: FunctionComponent<
       return
     }
 
+    console.log("history: ", history)
+
     history.push(URL_ONBOARDING.welcome)
   }, [history, downloadInterruptedModalOpened, updateInterruptedModalOpened])
 

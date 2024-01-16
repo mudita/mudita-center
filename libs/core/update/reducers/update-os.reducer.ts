@@ -20,7 +20,6 @@ import {
   startUpdateOs,
   forceUpdate,
   checkForForceUpdateNeed,
-  setDeviceHasBeenDetachedDuringDownload,
 } from "Core/update/actions"
 
 import {
@@ -41,7 +40,6 @@ export const initialState: UpdateOsState = {
   error: null,
   needsForceUpdate: false,
   checkedForForceUpdateNeed: false,
-  deviceHasBeenDetachedDuringDownload: false,
   data: {
     allReleases: null,
     availableReleasesForUpdate: null,
@@ -53,12 +51,6 @@ export const initialState: UpdateOsState = {
 export const updateOsReducer = createReducer<UpdateOsState>(
   initialState,
   (builder) => {
-    builder.addCase(setDeviceHasBeenDetachedDuringDownload, (state, action) => {
-      return {
-        ...state,
-        deviceHasBeenDetachedDuringDownload: action.payload,
-      }
-    })
     builder.addCase(closeForceUpdateFlow, (state) => {
       return {
         ...state,
@@ -97,13 +89,9 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         downloadState: DownloadState.Initial,
       }
     })
-    builder.addCase(clearStateAndData, (state) => {
+    builder.addCase(clearStateAndData, () => {
       return {
         ...initialState,
-        deviceHasBeenDetachedDuringDownload:
-          state.downloadState === DownloadState.Loading
-            ? state.deviceHasBeenDetachedDuringDownload
-            : initialState.deviceHasBeenDetachedDuringDownload,
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -216,19 +204,19 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         return {
           ...state,
           error: null,
-          silentCheckForUpdate: SilentCheckForUpdateState.Initial
+          silentCheckForUpdate: SilentCheckForUpdateState.Initial,
         }
       } else if (action.meta.arg.mode === CheckForUpdateMode.SilentCheck) {
         return {
           ...state,
           error: error ?? null,
-          silentCheckForUpdate: SilentCheckForUpdateState.Failed
+          silentCheckForUpdate: SilentCheckForUpdateState.Failed,
         }
       } else {
         return {
           ...state,
           error: error ?? null,
-          checkForUpdateState: CheckForUpdateState.Failed
+          checkForUpdateState: CheckForUpdateState.Failed,
         }
       }
     })
@@ -257,7 +245,6 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         state.downloadState = DownloadState.Failed
         state.error = error
       }
-      state.deviceHasBeenDetachedDuringDownload = false
     })
     builder.addCase(cancelDownload, (state) => {
       state.downloadState = DownloadState.Cancelled

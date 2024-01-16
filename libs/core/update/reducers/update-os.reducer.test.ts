@@ -31,11 +31,11 @@ const mockHistory = {
   block: jest.fn(),
   listen: jest.fn(),
   location: { pathname: "", search: "", hash: "", state: null },
-};
+}
 
 jest.mock("history", () => ({
   createHashHistory: jest.fn(() => mockHistory),
-}));
+}))
 
 const exampleError = new AppError(
   UpdateError.UpdateOsProcess,
@@ -68,7 +68,6 @@ test("empty event returns initial state", () => {
         "downloadedProcessedReleases": null,
         "updateProcessedReleases": null,
       },
-      "deviceHasBeenDetachedDuringDownload": false,
       "downloadState": 0,
       "error": null,
       "forceUpdateState": 0,
