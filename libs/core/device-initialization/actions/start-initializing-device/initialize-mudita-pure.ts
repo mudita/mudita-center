@@ -36,6 +36,7 @@ import { shouldSkipDataSync } from "Core/device-initialization/actions/start-ini
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 import { loadBackupData } from "Core/backup"
+import { checkForForceUpdateNeed } from "Core/update/actions"
 
 export const initializeMuditaPure = async (
   history: History,
@@ -81,6 +82,7 @@ export const initializeMuditaPure = async (
   if (!activeDeviceProcessing) {
     // Handle FETCH CRASH DUMPS as an initializing step
     await dispatch(getCrashDump())
+    await dispatch(checkForForceUpdateNeed())
   }
 
   // Handle SYNC DATA as an initializing step

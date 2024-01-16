@@ -13,7 +13,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const checkForForceUpdateNeed = createAsyncThunk<boolean, void, { state: ReduxRootState }>(
   UpdateOsEvent.CheckForForceUpdate,
-  (_, { getState, dispatch }) => {
+  async (_, { getState, dispatch }) => {
     if (!flags.get(Feature.ForceUpdate)) {
       return false
     }
@@ -35,7 +35,7 @@ export const checkForForceUpdateNeed = createAsyncThunk<boolean, void, { state: 
     )
 
     if (!osVersionSupported) {
-      void dispatch(
+      await dispatch(
         checkForUpdate({
           deviceType,
           mode: CheckForUpdateMode.Normal,

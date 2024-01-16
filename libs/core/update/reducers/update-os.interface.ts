@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PortInfo } from "serialport"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import {
@@ -28,4 +29,5 @@ export interface UpdateOsState {
     downloadedProcessedReleases: ProcessedRelease[] | null
     updateProcessedReleases: ProcessedRelease[] | null
   }
+  tmpMuditaHarmonyPortInfo?: PortInfo
 }

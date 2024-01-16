@@ -22,6 +22,7 @@ import {
 import { isHarmonyDeviceData } from "Core/device/helpers/is-harmony-device-data"
 import { getCrashDump } from "Core/crash-dump"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { checkForForceUpdateNeed } from "Core/update/actions"
 
 export const initializeMuditaHarmony = async (
   history: History,
@@ -51,6 +52,7 @@ export const initializeMuditaHarmony = async (
   if (!activeDeviceProcessing) {
     // Handle FETCH CRASH DUMPS as an initializing step
     await dispatch(getCrashDump())
+    await dispatch(checkForForceUpdateNeed())
   }
 
   dispatch(

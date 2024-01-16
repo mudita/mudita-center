@@ -23,6 +23,8 @@ import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
+import { DeviceType } from "Core/device"
+import { getTmpMuditaHarmonyPortInfoSelector } from "Core/update/selectors/get-tmp-mudita-harmony-port-info-selector"
 
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
@@ -35,6 +37,9 @@ export const useDeviceConnectedEffect = () => {
     isInitializationDeviceInProgress
   )
   const initializationAppInProgress = useSelector(isInitializationAppInProgress)
+  const tmpMuditaHarmonyPortInfo = useSelector(
+    getTmpMuditaHarmonyPortInfoSelector
+  )
 
   const shouldSkipProcessing = useCallback(() => {
     return (
@@ -57,16 +62,45 @@ export const useDeviceConnectedEffect = () => {
     [dispatch, history]
   )
 
+  /**
+   * Workaround for restarting Mudita Harmony device during the update process,
+   * when the serial number is "00000000000000". Applicable to Mudita Harmony versions
+   * below 1.8.2, addressing the described issue.
+   */
   const handleActiveDeviceWorkaround = useCallback(
     async (properties: DeviceBaseProperties) => {
-      if (
-        activeDeviceProcessing &&
-        properties.serialNumber === "00000000000000"
-      ) {
+      if (!activeDeviceProcessing) {
+        return
+      }
+
+      if (properties.deviceType !== DeviceType.MuditaHarmony) {
+        return
+      }
+
+      if (tmpMuditaHarmonyPortInfo === undefined) {
+        return
+      }
+
+      const { locationId, serialNumber } = tmpMuditaHarmonyPortInfo
+      // Windows & Mac workaround
+      if (locationId !== undefined) {
+        if (properties.locationId === locationId) {
+          await setActiveDeviceAndNavigate(properties.id)
+        }
+
+        return
+      }
+
+      // Linux (without handle multi)
+      if (serialNumber === "00000000000000") {
         await setActiveDeviceAndNavigate(properties.id)
       }
     },
-    [activeDeviceProcessing, setActiveDeviceAndNavigate]
+    [
+      activeDeviceProcessing,
+      setActiveDeviceAndNavigate,
+      tmpMuditaHarmonyPortInfo,
+    ]
   )
 
   const handleActiveDevice = useCallback(
@@ -105,9 +139,6 @@ export const useDeviceConnectedEffect = () => {
       history,
     ]
   )
-
-
-
 
   useEffect(() => {
     const handler = async (properties: DeviceBaseProperties) => {
