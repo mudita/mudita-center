@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import {
   backgroundColor,
   borderRadius,
@@ -52,21 +52,17 @@ export const CardText = styled.div`
   }
 `
 
-export const CardActionButton = styled(ButtonTogglerItem)`
-  padding: 0 1.6rem;
+export const CardActionButton = styled(ButtonTogglerItem)<{
+  visible?: boolean
+}>`
   width: 50%;
+  padding: ${({ loading }) => (loading ? "0" : "0 1.6rem")};
+  visibility: ${({ visible = true }) => (visible ? "visible" : "hidden")};
+
   svg {
     height: initial;
     width: initial;
   }
-
-  ${({ loading }) =>
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    loading &&
-    css`
-      padding: 0px;
-    `};
 `
 
 export default Card
