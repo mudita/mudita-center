@@ -29,7 +29,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${({ theme }) => theme.color.black + "4D"}; // 30% opacity
+    background-color: ${({ theme }) => theme.color.black + "4D"};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,8 +50,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     width: 100%;
     max-height: calc(100vh - 20rem);
     overflow: hidden;
-    box-shadow: 0 2rem 10rem 0 ${({ theme }) =>
-      theme.color.black + "26"}; // 15% opacity
+    box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.color.black + "26"};
     display: flex;
     flex-direction: column;
   }
