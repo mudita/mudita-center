@@ -508,8 +508,5 @@ export const getIconType = (
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 ): FunctionComponent<ImageInterface> => typeToIcon[icon] || Message
 
-export function getEnumName(type: IconType): string
-export function getEnumName(type: IconType | undefined): string | null
-export function getEnumName(type?: IconType): string | null {
-  return type !== undefined ? IconType[type] : null
-}
+export const getEnumName = (type?: IconType): string | null =>
+  type !== undefined ? IconType[type] : null
