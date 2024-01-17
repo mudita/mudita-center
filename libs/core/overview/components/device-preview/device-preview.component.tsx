@@ -6,12 +6,13 @@
 import React from "react"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
+import { useHistory } from "react-router-dom"
+import { useSelector } from "react-redux"
 import { DeviceType } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { DevicePreviewProps } from "Core/overview/components/device-preview/device-preview.interface"
 import { CardActionButton } from "Core/overview/components/card.elements"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { useHistory } from "react-router"
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
 import {
   PhoneCard,
@@ -22,7 +23,7 @@ import {
   DisconnectActionCard,
 } from "Core/overview/components/device-preview/device-preview.styled"
 import {
-  URL_MAIN,
+  URL_DISCOVERY_DEVICE,
   URL_OVERVIEW,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
@@ -34,6 +35,7 @@ import Text, {
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 
 const messages = defineMessages({
   serialNumber: { id: "module.overview.serialNumber" },
@@ -53,13 +55,15 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   deviceType,
   serialNumber,
 }) => {
+  const devices = useSelector(getDevicesSelector)
+
   const serialNumberValue = getSerialNumberValue(serialNumber)
   const serialNumberHeader =
     serialNumberValue !== "" ? intl.formatMessage(messages.serialNumber) : ""
   const history = useHistory()
   const handleDisconnect = () => {
     onDisconnect()
-    history.push(URL_MAIN.news)
+    history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
   }
 
   const openPureSystem = () => {
@@ -93,6 +97,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
       <DisconnectActionCard>
         <CardActionButton
           active
+          visible={devices.length > 1}
           label={intl.formatMessage(messages.phoneDisconnectAction)}
           onClick={handleDisconnect}
           data-testid={DeviceTestIds.DisconnectButton}
