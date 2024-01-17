@@ -13,13 +13,17 @@ import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_DISCOVERY_DEVICE,
+  URL_MAIN,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { getLeftTimeSelector } from "Core/device/selectors"
 import { isPasscodeModalCanBeClosedSelector } from "Core/device-initialization/selectors/is-passcode-modal-can-be-closed.selector"
 import { setInitState, unlockDevice } from "Core/device/actions"
 import { useWatchLockTimeEffect } from "Core/device-initialization/components/passcode-modal/use-watch-lock-time-effect"
 import { useWatchUnlockStatus } from "Core/device-initialization/components/passcode-modal/use-watch-unlock-status-effect"
 import { setDataSyncInitState } from "Core/data-sync/actions"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 
 const PasscodeModalContainer: FunctionComponent = () => {
   useWatchLockTimeEffect()
@@ -28,12 +32,17 @@ const PasscodeModalContainer: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
   const leftTime = useSelector(getLeftTimeSelector)
   const canBeClosed = useSelector(isPasscodeModalCanBeClosedSelector)
+  const devices = useSelector(getDevicesSelector)
 
   const handleClose = () => {
     dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
     dispatch(setDataSyncInitState())
     dispatch(setInitState())
-    history.push(URL_MAIN.news)
+    if (devices.length > 1) {
+      history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
+    }else {
+      history.push(URL_MAIN.news)
+    }
   }
   const handleUnlockDevice = (code: number[]): UnlockDeviceReturnType => {
     return dispatch(unlockDevice(code)) as unknown as UnlockDeviceReturnType
