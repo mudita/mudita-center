@@ -4,22 +4,37 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceCommunicationError, DeviceEvent } from "Core/device/constants"
+import {
+  DeviceCommunicationError,
+  DeviceEvent,
+  DeviceType,
+  OnboardingState,
+} from "Core/device/constants"
 import { unlockDeviceStatusRequest } from "Core/device/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
+import { getDeviceInfoRequest } from "Core/device-info/requests"
 
 export const getOnboardingStatus = createAsyncThunk<
   boolean,
   void,
   { state: ReduxRootState }
->(DeviceEvent.GetOnboardingStatus, async () => {
-  const unlockDeviceStatusResult = await unlockDeviceStatusRequest()
+>(DeviceEvent.GetOnboardingStatus, async (_, { getState }) => {
+  const activeDevice = getActiveDevice(getState())
 
-  if (!unlockDeviceStatusResult.ok) {
-    return (
-      unlockDeviceStatusResult.error.type !==
-      DeviceCommunicationError.DeviceOnboardingNotFinished
-    )
+  if (activeDevice) {
+    const { deviceType } = activeDevice
+
+    if (deviceType === DeviceType.MuditaPure) {
+      const { ok, error } = await unlockDeviceStatusRequest()
+      return (
+        ok ||
+        error?.type === DeviceCommunicationError.DeviceOnboardingNotFinished
+      )
+    } else if (deviceType === DeviceType.MuditaHarmony) {
+      const { ok, data } = await getDeviceInfoRequest()
+      return ok && data.onboardingState === OnboardingState.Finished
+    }
   }
 
   return true

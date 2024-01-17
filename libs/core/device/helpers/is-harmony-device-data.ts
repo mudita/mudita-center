@@ -11,12 +11,8 @@ import {
 
 export const isHarmonyDeviceData = (
   data: Partial<PureDeviceData | HarmonyDeviceData | KompaktDeviceData> | null
-): data is PureDeviceData => {
+): data is HarmonyDeviceData => {
   if (data === null) {
     return false
-  } else
-    return (
-      (data as PureDeviceData).token === undefined &&
-      (data as KompaktDeviceData).simCards === undefined
-    )
+  } else return (data as HarmonyDeviceData).onboardingState !== undefined
 }
