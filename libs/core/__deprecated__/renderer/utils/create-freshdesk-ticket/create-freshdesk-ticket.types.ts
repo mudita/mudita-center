@@ -10,7 +10,7 @@ export enum FreshdeskTicketDataType {
 export enum FreshdeskTicketProduct {
   Pure = "Mudita Pure",
   Harmony = "Mudita Harmony",
-  Kompakt = "Mudita Kompakt",
+  Unknown = "Unknown",
   None = "None",
 }
 
