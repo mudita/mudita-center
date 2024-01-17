@@ -23,7 +23,7 @@ import {
   DisconnectActionCard,
 } from "Core/overview/components/device-preview/device-preview.styled"
 import {
-  URL_MAIN,
+  URL_DISCOVERY_DEVICE,
   URL_OVERVIEW,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
@@ -63,7 +63,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   const history = useHistory()
   const handleDisconnect = () => {
     onDisconnect()
-    history.push(URL_MAIN.news)
+    history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
   }
 
   const openPureSystem = () => {
