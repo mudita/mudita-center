@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { connect } from "react-redux"
 import React, { useMemo } from "react"
 import { IntlProvider } from "react-intl"
 import { History } from "history"
@@ -93,6 +92,4 @@ const RootWrapper: FunctionComponent<Props> = ({ history }) => {
   )
 }
 
-const mapDispatchToProps = {}
-
-export default connect(undefined, mapDispatchToProps)(RootWrapper)
+export default RootWrapper
