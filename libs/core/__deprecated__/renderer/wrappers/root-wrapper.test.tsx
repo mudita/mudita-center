@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, FC, PropsWithChildren } from "react"
 import { init } from "@rematch/core"
 import { render as testingLibraryRender, waitFor } from "@testing-library/react"
 import { Provider } from "react-redux"
@@ -39,6 +39,13 @@ jest.mock("electron", () => ({
     getPath: () => "",
   },
 }))
+
+jest.mock("react-markdown", () => {
+  const ReactMarkdown: FC<PropsWithChildren> = ({ children }) => {
+    return <>{children}</>
+  }
+  return jest.fn().mockReturnValue(ReactMarkdown)
+})
 
 jest.mock("Core/__deprecated__/renderer/requests/connect-device.request", () =>
   jest.fn().mockReturnValue({
