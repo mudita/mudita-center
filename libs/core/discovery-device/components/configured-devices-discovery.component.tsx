@@ -13,9 +13,12 @@ import ConnectingContent from "Core/connecting/components/connecting-content.com
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
+import AvailableDeviceList from "Core/discovery-device/components/available-device-list.component"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
-import { URL_MAIN, URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_ONBOARDING,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
 import { getFailedDevicesSelector } from "Core/device-manager/selectors/get-failed-devices.selector"
 
@@ -50,7 +53,14 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     ) {
       dispatch(handleDeviceActivated({ deviceId: devices[0].id, history }))
     }
-  }, [history, dispatch, devices, failedDevicesSelector, availableDevicesSelector, noNewDevicesDetectedState])
+  }, [
+    history,
+    dispatch,
+    devices,
+    failedDevicesSelector,
+    availableDevicesSelector,
+    noNewDevicesDetectedState,
+  ])
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
@@ -82,7 +92,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     availableDevicesSelector.length === devices.length &&
     noNewDevicesDetectedState
   ) {
-    return <AvailableDeviceListContainer />
+    return <AvailableDeviceList />
   } else {
     return <ConnectingContent />
   }
