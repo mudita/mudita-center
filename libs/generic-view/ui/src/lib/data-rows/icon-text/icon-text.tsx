@@ -6,7 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC, IconType, withData } from "generic-view/utils"
-import { Icon } from "../../icon/icon"
+import Icon from "../../icon/icon"
 import dataTestIds from "./data-test-ids"
 
 interface IconTextRowData {
@@ -23,7 +23,7 @@ export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
   return (
     <IconTextWrapper {...props}>
       <IconWrapper>
-        <Icon config={{ type: icon }} />
+        <Icon data={{ type: icon }} />
       </IconWrapper>
       <TextWrapper>
         <TitleText data-testid={dataTestIds.IconTextTitle}>{title}</TitleText>

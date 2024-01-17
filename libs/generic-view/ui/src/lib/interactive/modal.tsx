@@ -14,7 +14,7 @@ import {
 } from "generic-view/utils"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import styled, { css } from "styled-components"
-import { Icon } from "../icon/icon"
+import Icon from "../icon/icon"
 import { ButtonBase } from "../buttons/button-base"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -66,7 +66,7 @@ export const Modal: BaseGenericComponent<
     >
       <ModalHeader $active={contentScrolled}>
         <ButtonBase action={closeAction}>
-          <ModalClose config={{ type: IconType.Close }} />
+          <ModalClose data={{ type: IconType.Close }} />
         </ButtonBase>
       </ModalHeader>
       <ScrollContainer onScroll={handleScroll}>{children}</ScrollContainer>

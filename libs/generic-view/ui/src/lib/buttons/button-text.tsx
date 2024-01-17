@@ -7,7 +7,7 @@ import React from "react"
 import styled from "styled-components"
 import { APIFC, ButtonAction, IconType, withConfig } from "generic-view/utils"
 import { ButtonBase } from "./button-base"
-import { Icon } from "../icon/icon"
+import Icon from "../icon/icon"
 
 interface Config {
   text: string
@@ -22,7 +22,7 @@ export const ButtonText: APIFC<undefined, Config> = ({
 }) => {
   return (
     <Button {...props} action={config?.action as ButtonAction}>
-      {config?.icon && <Icon config={{ type: config.icon }} />}
+      {config?.icon && <Icon data={{ type: config.icon }} />}
       <span>{config?.text}</span>
     </Button>
   )

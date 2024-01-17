@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IconType, withConfig } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { APIFC } from "generic-view/utils"
 import React from "react"
 import styled from "styled-components"
@@ -23,24 +23,22 @@ const StyledIcon = styled.div`
   }
 `
 
-export const Icon: APIFC<IconProps, IconProps> = ({
-  className,
-  data,
-  config,
-  ...rest
-}) => {
-  if (!data && !config) {
+const Icon: APIFC<IconProps> = ({ className, data, ...rest }) => {
+  if (!data) {
     return null
   }
-  const type = data?.type || config?.type
 
-  const SVGToDisplay = getIcon(type!)
+  const SVGToDisplay = getIcon(data.type)
 
   return (
-    <StyledIcon className={className} data-testid={`icon-${type}`} {...rest}>
+    <StyledIcon
+      className={className}
+      data-testid={`icon-${data.type}`}
+      {...rest}
+    >
       <SVGToDisplay />
     </StyledIcon>
   )
 }
 
-export default withConfig(Icon)
+export default Icon

@@ -33,6 +33,7 @@ const Subheader = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph4};
   line-height: ${({ theme }) => theme.lineHeight.paragraph4};
   font-weight: ${({ theme }) => theme.fontWeight.light};
+  color: ${({ theme }) => theme.color.grey2};
   letter-spacing: 0.07rem;
   margin: 0;
 `
