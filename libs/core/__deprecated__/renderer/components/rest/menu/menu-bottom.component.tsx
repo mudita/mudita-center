@@ -12,16 +12,18 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import styled from "styled-components"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
-import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { useHistory } from "react-router-dom"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { openSelectDeviceDrawer } from "Core/device-select/actions/open-select-device-drawer.action"
+import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 
 const SyncProgressWrapper = styled.div`
   display: flex;
@@ -51,9 +53,8 @@ interface Props {
 const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const history = useHistory()
   const devices = useSelector(getDevicesSelector)
+  const dispatch = useDispatch<Dispatch>()
   const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
-  const deviceInitialized =
-    deviceInitializationStatus === DeviceInitializationStatus.Initialized
 
   const handleSelectDeviceClick = () => {
     history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
@@ -71,17 +72,34 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
           </Text>
         </SyncProgressWrapper>
       )}
-      {!deviceInitialized && devices.length > 0 && (
-        <DeviceButtonWrapper>
-          <DeviceButton
-            label="Select Device"
-            displayStyle={DisplayStyle.BorderlessButton}
-            Icon={IconType.DotsInBox}
-            iconBadgeCountIndicator={devices.length}
-            onClick={handleSelectDeviceClick}
-          />
-        </DeviceButtonWrapper>
-      )}
+      {!dataSyncInProgress &&
+        (devices.length === 1 ||
+          history.location.pathname === URL_MAIN.news) && (
+          <DeviceButtonWrapper>
+            <DeviceButton
+              label="Select Device"
+              displayStyle={DisplayStyle.BorderlessButton}
+              Icon={IconType.DotsInBox}
+              iconBadgeCountIndicator={devices.length}
+              onClick={handleSelectDeviceClick}
+            />
+          </DeviceButtonWrapper>
+        )}
+      {!dataSyncInProgress &&
+        devices.length > 1 &&
+        history.location.pathname !== URL_MAIN.news && (
+          <DeviceButtonWrapper>
+            <DeviceButton
+              label="Change Device"
+              displayStyle={DisplayStyle.BorderlessButton}
+              Icon={IconType.DotsInBox}
+              iconBadgeCountIndicator={devices.length}
+              onClick={() => {
+                dispatch(openSelectDeviceDrawer())
+              }}
+            />
+          </DeviceButtonWrapper>
+        )}
     </>
   )
 }

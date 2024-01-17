@@ -17,10 +17,13 @@ import {
 import { setActiveDevice } from "Core/device-manager/actions/set-active-device.action"
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
+import { openSelectDeviceDrawer } from "Core/device-select/actions/open-select-device-drawer.action"
+import { closeSelectDeviceDrawer } from "Core/device-select/actions/close-select-device-drawer.action"
 
 export const initialState: DeviceManagerState = {
   devices: [],
   activeDeviceId: undefined,
+  selectDeviceDrawerOpen: false,
 }
 
 export const deviceManagerReducer = createReducer<DeviceManagerState>(
@@ -102,6 +105,18 @@ export const deviceManagerReducer = createReducer<DeviceManagerState>(
           ...state,
           devices,
           activeDeviceId: undefined,
+        }
+      })
+      .addCase(openSelectDeviceDrawer, (state) => {
+        return {
+          ...state,
+          selectDeviceDrawerOpen: true,
+        }
+      })
+      .addCase(closeSelectDeviceDrawer, (state) => {
+        return {
+          ...state,
+          selectDeviceDrawerOpen: false,
         }
       })
   }

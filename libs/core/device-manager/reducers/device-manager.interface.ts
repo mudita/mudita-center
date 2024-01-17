@@ -25,4 +25,5 @@ export interface Device extends DeviceBaseProperties {
 export interface DeviceManagerState {
   devices: Device[]
   activeDeviceId: DeviceId | undefined
+  selectDeviceDrawerOpen: boolean
 }

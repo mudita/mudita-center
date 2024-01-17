@@ -20,6 +20,7 @@ import styled from "styled-components"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { Feature, flags } from "Core/feature-flags"
 import AlphaReleaseWarning from "Core/__deprecated__/renderer/wrappers/components/alpha-release-warning.component"
+import DrawerContainer from "Core/__deprecated__/renderer/components/core/drawer/drawer.component"
 
 const Layout = styled.div`
   display: grid;
@@ -89,6 +90,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
         )}
         {children}
       </ViewWrapper>
+      <DrawerContainer />
     </Layout>
   )
 }
