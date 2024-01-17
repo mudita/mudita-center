@@ -3,34 +3,30 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AvailableDeviceList from "Core/discovery-device/components/available-device-list.component"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
-import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
-import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
+import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 
 const AvailableDeviceListContainer: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const devices = useSelector(getDevicesSelector)
 
-  const handleDeviceClick = (id: string) => {
-    const device = devices.find((device) => device.id === id)
-    if (device?.state === DeviceState.Failed) {
-      history.push(URL_ONBOARDING.troubleshooting)
-    } else {
-      dispatch(handleDeviceActivated({ deviceId: id, history }))
+  useEffect(() => {
+    if (devices.length === 0) {
+      dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
+      history.push(URL_MAIN.news)
     }
-  }
+  }, [dispatch, history, devices.length])
 
-  return (
-    <AvailableDeviceList onDeviceClick={handleDeviceClick} devices={devices} />
-  )
+  return <AvailableDeviceList />
 }
 
 export default AvailableDeviceListContainer

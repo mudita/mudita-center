@@ -6,18 +6,19 @@
 import React from "react"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
+import { useHistory } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Device } from "Core/device-manager/reducers/device-manager.interface"
+import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { fontWeight } from "Core/core/styles/theming/theme-getters"
 import DeviceList from "Core/discovery-device/components/device-list.component"
-
-interface Props {
-  devices: Device[]
-  onDeviceClick: (id: string) => void
-}
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 
 const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
@@ -44,10 +45,20 @@ const SubheaderTitle = styled(Text)`
   font-weight: ${fontWeight("default")};
 `
 
-const AvailableDeviceList: FunctionComponent<Props> = ({
-  devices,
-  onDeviceClick,
-}) => {
+const AvailableDeviceList: FunctionComponent = () => {
+  const history = useHistory()
+  const dispatch = useDispatch<Dispatch>()
+  const devices = useSelector(getDevicesSelector)
+
+  const handleDeviceClick = (id: string) => {
+    const device = devices.find((device) => device.id === id)
+    if (device?.state === DeviceState.Failed) {
+      history.push(URL_ONBOARDING.troubleshooting)
+    } else {
+      dispatch(handleDeviceActivated({ deviceId: id, history }))
+    }
+  }
+
   return (
     <AvailableDeviceListContainer>
       <TitlesContainer>
@@ -64,7 +75,7 @@ const AvailableDeviceList: FunctionComponent<Props> = ({
         />
       </TitlesContainer>
 
-      <DeviceList devices={devices} onDeviceClick={onDeviceClick} />
+      <DeviceList devices={devices} onDeviceClick={handleDeviceClick} />
     </AvailableDeviceListContainer>
   )
 }
