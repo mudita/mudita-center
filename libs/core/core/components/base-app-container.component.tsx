@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { connect } from "react-redux"
 import { Router } from "react-router"
 import { History } from "history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -24,6 +23,4 @@ const BaseAppContainer: FunctionComponent<Props> = ({ history }) => {
   )
 }
 
-const mapDispatchToProps = {}
-
-export default connect(undefined, mapDispatchToProps)(BaseAppContainer)
+export default BaseAppContainer
