@@ -23,12 +23,14 @@ import { isHarmonyDeviceData } from "Core/device/helpers/is-harmony-device-data"
 import { getCrashDump } from "Core/crash-dump"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 import { checkForForceUpdateNeed } from "Core/update/actions"
+import { loadSettings } from "Core/settings/actions"
 
 export const initializeMuditaHarmony = async (
   history: History,
   dispatch: ThunkDispatch<ReduxRootState, unknown, Action<unknown>>,
   getState: () => ReduxRootState
 ): Promise<void> => {
+  await dispatch(loadSettings())
   // Handle LOAD DEVICE DATA as an initializing step
   const result = await dispatch(loadDeviceData(true))
 

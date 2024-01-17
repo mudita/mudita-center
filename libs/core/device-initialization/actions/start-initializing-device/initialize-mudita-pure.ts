@@ -37,12 +37,15 @@ import { configureDevice } from "Core/device-manager/actions/configure-device.ac
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 import { loadBackupData } from "Core/backup"
 import { checkForForceUpdateNeed } from "Core/update/actions"
+import { loadSettings } from "Core/settings/actions"
 
 export const initializeMuditaPure = async (
   history: History,
   dispatch: ThunkDispatch<ReduxRootState, unknown, Action<unknown>>,
   getState: () => ReduxRootState
 ): Promise<void> => {
+  await dispatch(loadSettings())
+
   const unlockDeviceStatusResult = await unlockDeviceStatusRequest()
 
   if (!unlockDeviceStatusResult.ok) {
@@ -106,7 +109,6 @@ export const initializeMuditaPure = async (
       }
     }
   }
-
 
   await dispatch(loadBackupData())
 
