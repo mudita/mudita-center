@@ -16,7 +16,6 @@ import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon
 import styled from "styled-components"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { useSelector, useDispatch } from "react-redux"
-import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { useHistory } from "react-router-dom"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
@@ -54,11 +53,46 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const history = useHistory()
   const devices = useSelector(getDevicesSelector)
   const dispatch = useDispatch<Dispatch>()
-  const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
 
   const handleSelectDeviceClick = () => {
     history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
   }
+
+  const isSelectDevice =
+    !dataSyncInProgress &&
+    devices.length === 1 &&
+    history.location.pathname === URL_MAIN.news
+
+  const SelectDeviceButton = (
+    <DeviceButtonWrapper>
+      <DeviceButton
+        label="Select Device" //to translations
+        displayStyle={DisplayStyle.BorderlessButton}
+        Icon={IconType.DotsInBox}
+        iconBadgeCountIndicator={devices.length}
+        onClick={handleSelectDeviceClick}
+      />
+    </DeviceButtonWrapper>
+  )
+
+  const isChangeDevice =
+    !dataSyncInProgress &&
+    devices.length > 1 &&
+    history.location.pathname !== URL_MAIN.news
+
+  const ChangeDeviceButton = (
+    <DeviceButtonWrapper>
+      <DeviceButton
+        label="Change Device" //to translations
+        displayStyle={DisplayStyle.BorderlessButton}
+        Icon={IconType.DotsInBox}
+        iconBadgeCountIndicator={devices.length}
+        onClick={() => {
+          dispatch(openSelectDeviceDrawer())
+        }}
+      />
+    </DeviceButtonWrapper>
+  )
 
   return (
     <>
@@ -72,34 +106,8 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
           </Text>
         </SyncProgressWrapper>
       )}
-      {!dataSyncInProgress &&
-        (devices.length === 1 ||
-          history.location.pathname === URL_MAIN.news) && (
-          <DeviceButtonWrapper>
-            <DeviceButton
-              label="Select Device"
-              displayStyle={DisplayStyle.BorderlessButton}
-              Icon={IconType.DotsInBox}
-              iconBadgeCountIndicator={devices.length}
-              onClick={handleSelectDeviceClick}
-            />
-          </DeviceButtonWrapper>
-        )}
-      {!dataSyncInProgress &&
-        devices.length > 1 &&
-        history.location.pathname !== URL_MAIN.news && (
-          <DeviceButtonWrapper>
-            <DeviceButton
-              label="Change Device"
-              displayStyle={DisplayStyle.BorderlessButton}
-              Icon={IconType.DotsInBox}
-              iconBadgeCountIndicator={devices.length}
-              onClick={() => {
-                dispatch(openSelectDeviceDrawer())
-              }}
-            />
-          </DeviceButtonWrapper>
-        )}
+      {isSelectDevice && SelectDeviceButton}
+      {isChangeDevice && ChangeDeviceButton}
     </>
   )
 }
