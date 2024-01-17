@@ -6,3 +6,4 @@
 export * from "./api-features-service-events"
 export * from "./api-outbox-service-events"
 export * from "./api-menu-service-events"
+export * from "./api-config-service-events"

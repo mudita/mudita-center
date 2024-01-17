@@ -6,33 +6,28 @@
 import { DeviceManager } from "Core/device-manager/services"
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
-
-export interface APIConfigResponse {
-  apiVersion: string
-  pure: unknown
-}
-
-export enum APIServiceEvents {
-  APIConfig = "apiservice_api-config",
-  APIAny = "apiservice_api-ani-any",
-}
+import { ApiConfig, APIConfigServiceEvents } from "device/models"
 
 export class APIConfigService {
   constructor(private deviceManager: DeviceManager) {}
 
-  @IpcEvent(APIServiceEvents.APIConfig)
-  public async getAPIConfig(): Promise<ResultObject<APIConfigResponse>> {
+  @IpcEvent(APIConfigServiceEvents.APIConfig)
+  public async getAPIConfig(): Promise<ResultObject<ApiConfig>> {
     const response = await this.deviceManager.apiDevice.request({
       endpoint: "API_CONFIGURATION",
       method: "GET",
       body: {},
     })
 
-    return Result.success({ apiVersion: "0.1.0", pure: response })
+    if (response.ok) {
+      return Result.success(response.data.body as ApiConfig)
+    }
+
+    return Result.failed(response.error)
   }
 
   //to remove
-  @IpcEvent(APIServiceEvents.APIAny)
+  @IpcEvent(APIConfigServiceEvents.APIAny)
   public async getAPIAny(payload: unknown): Promise<ResultObject<unknown>> {
     const pure = await this.deviceManager.apiDevice.requestAny(payload)
     return Result.success(pure)

@@ -4,7 +4,7 @@
  */
 
 import { DeviceManager } from "Core/device-manager/services"
-import { APIConfigService } from "./api-config.service"
+import { APIConfigService } from "./api-config/api-config.service"
 import { APIFeaturesService } from "./api-features/api-features.service"
 import { APIMenuService } from "./menu"
 import { APIOutboxService } from "./outbox/outbox.service"
