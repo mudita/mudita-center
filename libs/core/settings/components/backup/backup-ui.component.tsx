@@ -4,10 +4,10 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import { ActionsWrapper } from "Core/__deprecated__/renderer/components/rest/messages/threads-table.component"
-import { borderColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"

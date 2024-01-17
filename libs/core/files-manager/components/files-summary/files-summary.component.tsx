@@ -5,7 +5,7 @@
 
 import React from "react"
 import FilesSummaryItem from "Core/files-manager/components/files-summary-item/files-summary-item.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import { DiskSpaceCategory } from "Core/files-manager/components/files-manager/files-manager.interface"
 import { FilesSummaryTestIds } from "Core/files-manager/components/files-summary/files-summary-test-ids.enum"

@@ -19,9 +19,7 @@ import {
   closeForceUpdateFlow,
   startUpdateOs,
   forceUpdate,
-  checkForForceUpdateNeed,
-  setDeviceHasBeenDetachedDuringDownload,
-  handleDeviceDetached,
+  checkForForceUpdateNeed, setTmpMuditaHarmonyPortInfo,
 } from "Core/update/actions"
 
 import {
@@ -42,24 +40,18 @@ export const initialState: UpdateOsState = {
   error: null,
   needsForceUpdate: false,
   checkedForForceUpdateNeed: false,
-  deviceHasBeenDetachedDuringDownload: false,
   data: {
     allReleases: null,
     availableReleasesForUpdate: null,
     downloadedProcessedReleases: null,
     updateProcessedReleases: null,
   },
+  tmpMuditaHarmonyPortInfo: undefined
 }
 
 export const updateOsReducer = createReducer<UpdateOsState>(
   initialState,
   (builder) => {
-    builder.addCase(setDeviceHasBeenDetachedDuringDownload, (state, action) => {
-      return {
-        ...state,
-        deviceHasBeenDetachedDuringDownload: action.payload,
-      }
-    })
     builder.addCase(closeForceUpdateFlow, (state) => {
       return {
         ...state,
@@ -101,10 +93,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(clearStateAndData, (state) => {
       return {
         ...initialState,
-        deviceHasBeenDetachedDuringDownload:
-          state.downloadState === DownloadState.Loading
-            ? state.deviceHasBeenDetachedDuringDownload
-            : initialState.deviceHasBeenDetachedDuringDownload,
+        tmpMuditaHarmonyPortInfo: state.tmpMuditaHarmonyPortInfo
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -204,20 +193,34 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       }
     })
     builder.addCase(checkForUpdate.rejected, (state, action) => {
-      let error: AppError<UpdateError> | null =
-        action.payload as AppError<UpdateError>
+      const error = action.payload as AppError<UpdateError>
+
+      if (error?.type === UpdateError.NoActiveDevice) {
+        return { ...initialState }
+      }
+
       if (
         action.meta.aborted &&
         action.meta.arg.mode === CheckForUpdateMode.SilentCheck
       ) {
-        state.silentCheckForUpdate = SilentCheckForUpdateState.Initial
-        error = null
+        return {
+          ...state,
+          error: null,
+          silentCheckForUpdate: SilentCheckForUpdateState.Initial,
+        }
       } else if (action.meta.arg.mode === CheckForUpdateMode.SilentCheck) {
-        state.silentCheckForUpdate = SilentCheckForUpdateState.Failed
+        return {
+          ...state,
+          error: error ?? null,
+          silentCheckForUpdate: SilentCheckForUpdateState.Failed,
+        }
       } else {
-        state.checkForUpdateState = CheckForUpdateState.Failed
+        return {
+          ...state,
+          error: error ?? null,
+          checkForUpdateState: CheckForUpdateState.Failed,
+        }
       }
-      state.error = error
     })
 
     builder.addCase(downloadUpdates.pending, (state, action) => {
@@ -237,13 +240,13 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.downloadState = DownloadState.Loaded
     })
     builder.addCase(downloadUpdates.rejected, (state, action) => {
-      if (action.payload?.type === UpdateError.DownloadCancelledByUser) {
+      const error = action.payload as AppError<UpdateError>
+      if (error?.type === UpdateError.DownloadCancelledByUser) {
         state.downloadState = DownloadState.Cancelled
       } else {
         state.downloadState = DownloadState.Failed
-        state.error = action.payload as AppError<UpdateError>
+        state.error = error
       }
-      state.deviceHasBeenDetachedDuringDownload = false
     })
     builder.addCase(cancelDownload, (state) => {
       state.downloadState = DownloadState.Cancelled
@@ -259,6 +262,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.error = null
       state.downloadState = DownloadState.Initial
       state.updateOsState = State.Loading
+      state.tmpMuditaHarmonyPortInfo = undefined
     })
     builder.addCase(startUpdateOs.fulfilled, (state) => {
       state.updateOsState = State.Loaded
@@ -269,10 +273,12 @@ export const updateOsReducer = createReducer<UpdateOsState>(
         updateProcessedReleases: [],
       }
       state.error = null
+      state.tmpMuditaHarmonyPortInfo = undefined
     })
     builder.addCase(startUpdateOs.rejected, (state, action) => {
       state.updateOsState = State.Failed
       state.error = action.payload as AppError<UpdateError>
+      state.tmpMuditaHarmonyPortInfo = undefined
     })
     builder.addCase(checkForForceUpdateNeed.fulfilled, (state, action) => {
       state.needsForceUpdate = action.payload
@@ -305,16 +311,8 @@ export const updateOsReducer = createReducer<UpdateOsState>(
       state.forceUpdateState = State.Failed
       state.error = action.payload as AppError<UpdateError>
     })
-    builder.addCase(handleDeviceDetached.fulfilled, (state) => {
-      if (state.downloadState === DownloadState.Loading) {
-        state.data = {
-          allReleases: null,
-          availableReleasesForUpdate: null,
-          downloadedProcessedReleases: null,
-          updateProcessedReleases: null,
-        }
-        state.deviceHasBeenDetachedDuringDownload = true
-      }
+    builder.addCase(setTmpMuditaHarmonyPortInfo, (state, action) => {
+      state.tmpMuditaHarmonyPortInfo = action.payload
     })
   }
 )

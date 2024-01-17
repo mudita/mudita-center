@@ -6,7 +6,7 @@
 import React from "react"
 import { useDispatch } from "react-redux"
 import { Draggable } from "react-beautiful-dnd"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   Checkbox,
   IconWrapper,

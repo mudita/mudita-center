@@ -65,9 +65,12 @@ export class ApplicationModule {
     DeviceFileSystemModule,
     DeviceLogModule,
     DeviceModule,
-    DeviceManagerModule,
   ]
-  public lateModules: Module[] = [DataSyncModule, CrashDumpModule]
+  public lateModules: Module[] = [
+    DeviceManagerModule,
+    DataSyncModule,
+    CrashDumpModule,
+  ]
 
   private deviceLogger: DeviceLogger = LoggerFactory.getInstance()
   private index = new IndexFactory().create()
@@ -84,7 +87,7 @@ export class ApplicationModule {
   private apiModule: APIModule
 
   private deviceManager = new DeviceManager(
-    new DeviceResolverService(this.ipc, this.eventEmitter),
+    new DeviceResolverService(),
     this.ipc,
     this.eventEmitter
   )

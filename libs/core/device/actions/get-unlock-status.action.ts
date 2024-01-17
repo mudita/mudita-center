@@ -4,21 +4,31 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceError, DeviceEvent } from "Core/device/constants"
-import { unlockDeviceStatusRequest } from "Core/device/requests"
-import { AppError } from "Core/core/errors"
+import { DeviceEvent } from "Core/device/constants"
+import {
+  deviceLockTimeRequest,
+  unlockDeviceStatusRequest,
+} from "Core/device/requests"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { setLockTime } from "Core/device/actions/base.action"
+import { getLeftTimeSelector } from "Core/device/selectors"
 
-export const getUnlockStatus = createAsyncThunk<boolean>(
-  DeviceEvent.GetUnlockedStatus,
-  async (_, { rejectWithValue }) => {
-    const data = await unlockDeviceStatusRequest()
+export const getUnlockStatus = createAsyncThunk<
+  boolean,
+  void,
+  { state: ReduxRootState }
+>(DeviceEvent.GetUnlockedStatus, async (_, { dispatch, getState }) => {
+  const result = await unlockDeviceStatusRequest()
+  const leftTime = getLeftTimeSelector(getState())
 
-    if (!data.ok) {
-      return rejectWithValue(
-        new AppError(DeviceError.Locked, "Device is locked", data)
-      )
-    }
-
-    return data.ok
+  if (result.ok && leftTime !== undefined) {
+    dispatch(setLockTime(undefined))
   }
-)
+
+  if (!result.ok) {
+    const deviceLockTimeResult = await deviceLockTimeRequest()
+    deviceLockTimeResult.ok && dispatch(setLockTime(deviceLockTimeResult.data))
+  }
+
+  return result.ok
+})

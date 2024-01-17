@@ -5,6 +5,7 @@
 
 export enum DeviceCommunicationError {
   DeviceLocked = "DEVICE_LOCKED_ERROR",
+  DeviceInitializationFailed = "DEVICE_INITIALIZATION_FAILED",
   DeviceOnboardingNotFinished = "DEVICE_ONBOARDING_NOT_FINISHED",
   RequestFailed = "REQUEST_FAILED_ERROR",
   DisconnectionFailed = "DEVICE_DISCONNECT_FAILED",

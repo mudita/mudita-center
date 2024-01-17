@@ -69,16 +69,13 @@ export class CrashDumpService {
       fileList
     )
 
-    if (
-      !getDiagnosticFileListResponse.ok ||
-      getDiagnosticFileListResponse.data === undefined
-    ) {
+    if (!getDiagnosticFileListResponse.ok) {
       return {
         status: RequestResponseStatus.Error,
       }
     }
 
-    const filePaths = getDiagnosticFileListResponse.data.files
+    const filePaths = getDiagnosticFileListResponse.data?.files ?? []
 
     return {
       data: filePaths,
@@ -89,7 +86,7 @@ export class CrashDumpService {
   public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
   ): Promise<ResultObject<GetDeviceFilesResponseBody>> {
-    return this.deviceManager.device.request({
+    return this.deviceManager.device.request<GetDeviceFilesResponseBody>({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       body: { fileList },

@@ -6,7 +6,7 @@
 import React, { useState } from "react"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import DataBoxes from "Core/__deprecated__/renderer/components/rest/meditation/data-box/data-boxes.component"
 import MeditationNav from "Core/__deprecated__/renderer/components/rest/meditation/nav/meditation-nav.component"
 import MeditationStats from "Core/__deprecated__/renderer/components/rest/meditation/stats/meditation-stats.component"

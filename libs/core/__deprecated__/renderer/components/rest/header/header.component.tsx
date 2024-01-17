@@ -6,17 +6,17 @@
 import * as React from "react"
 import { MouseEventHandler, ReactElement, useEffect, useState } from "react"
 import { useHistory, useLocation } from "react-router"
+import styled from "styled-components"
+import { useSelector } from "react-redux"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { views } from "Core/__deprecated__/renderer/constants/views"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
-import styled from "styled-components"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   backgroundColor,
   borderColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { useSelector } from "react-redux"
+} from "Core/core/styles/theming/theme-getters"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { Link } from "react-router-dom"
 import { defineMessages } from "react-intl"

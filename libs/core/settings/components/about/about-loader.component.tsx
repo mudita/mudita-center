@@ -7,7 +7,7 @@ import React from "react"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalDialogProps } from "Core/ui"
 
 const messages = defineMessages({

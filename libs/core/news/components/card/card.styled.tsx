@@ -8,7 +8,7 @@ import Text from "Core/__deprecated__/renderer/components/core/text/text.compone
 import {
   backgroundColor,
   borderRadius,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import styled from "styled-components"
 
 export const CardContainer = styled.div`

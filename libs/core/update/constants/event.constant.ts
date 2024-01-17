@@ -18,5 +18,5 @@ export enum UpdateOsEvent {
   CheckForForceUpdate = "CHECK_FOR_FORCE_UPDATE",
   StartOsForceUpdateProcess = "START_OS_FORCE_UPDATE_PROCESS",
   CloseForceUpdateFlow = "CLOSE_FORCE_UPDATE_FLOW",
-  DeviceHasBeenDetachedDuringDownload = "DEVICE_HAS_BEEN_DETACHED_DURING_DOWNLOAD",
+  SetTmpMuditaHarmonyPortInfo = "SET_TMP_MUDITA_HARMONY_PORT_INFO",
 }

@@ -9,16 +9,16 @@ import isVersionGreaterOrEqual from "Core/utils/is-version-greater-or-equal"
 import { checkForUpdate } from "Core/update/actions/check-for-update/check-for-update.action"
 import { CheckForUpdateMode, UpdateOsEvent } from "Core/update/constants"
 import { versionFormatter } from "Core/update/helpers"
-import { ReduxRootState, RootState } from "Core/__deprecated__/renderer/store"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
+export const checkForForceUpdateNeed = createAsyncThunk<boolean, void, { state: ReduxRootState }>(
   UpdateOsEvent.CheckForForceUpdate,
-  (_, { getState, dispatch }) => {
+  async (_, { getState, dispatch }) => {
     if (!flags.get(Feature.ForceUpdate)) {
       return false
     }
 
-    const { device, settings } = getState() as RootState & ReduxRootState
+    const { device, settings } = getState()
 
     const osVersion = versionFormatter(device.data?.osVersion ?? "")
     const lowestSupportedProductVersion =
@@ -35,7 +35,7 @@ export const checkForForceUpdateNeed = createAsyncThunk<boolean, void>(
     )
 
     if (!osVersionSupported) {
-      void dispatch(
+      await dispatch(
         checkForUpdate({
           deviceType,
           mode: CheckForUpdateMode.Normal,

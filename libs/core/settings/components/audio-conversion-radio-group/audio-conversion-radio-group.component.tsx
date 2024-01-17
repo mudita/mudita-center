@@ -4,7 +4,7 @@
  */
 
 import React, { ChangeEvent } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import InputRadioGroup from "Core/__deprecated__/renderer/components/core/input-radio-group/input-radio-group.component"
 import { InputProps } from "Core/__deprecated__/renderer/interfaces/input.interface"
 

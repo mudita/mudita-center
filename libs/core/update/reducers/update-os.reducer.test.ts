@@ -24,6 +24,19 @@ import {
 } from "Core/__deprecated__/renderer/store"
 import { CheckForUpdateState } from "../constants/check-for-update-state.constant"
 
+const mockHistory = {
+  push: jest.fn(),
+  replace: jest.fn(),
+  go: jest.fn(),
+  block: jest.fn(),
+  listen: jest.fn(),
+  location: { pathname: "", search: "", hash: "", state: null },
+}
+
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => mockHistory),
+}))
+
 const exampleError = new AppError(
   UpdateError.UpdateOsProcess,
   "Device updating process failed"
@@ -55,12 +68,12 @@ test("empty event returns initial state", () => {
         "downloadedProcessedReleases": null,
         "updateProcessedReleases": null,
       },
-      "deviceHasBeenDetachedDuringDownload": false,
       "downloadState": 0,
       "error": null,
       "forceUpdateState": 0,
       "needsForceUpdate": false,
       "silentCheckForUpdate": 0,
+      "tmpMuditaHarmonyPortInfo": undefined,
       "updateOsState": 0,
     }
   `)

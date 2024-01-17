@@ -4,28 +4,32 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { useDispatch, useSelector } from "react-redux"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AppUpdateStepModal from "Core/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 import { AppUpdateFlowTestIds } from "Core/settings/components/app-update-flow/app-update-flow-test-ids.enum"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { settingsStateSelector } from "Core/settings/selectors"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { skipAvailableUpdate } from "Core/settings/actions/skip-available-update.action"
 
-interface Props {
-  appCurrentVersion?: string
-  appLatestVersion?: string
-  closeModal: () => void
-}
+export const AppUpdateFlow: FunctionComponent = () => {
+  const dispatch = useDispatch<Dispatch>()
+  const { latestVersion, currentVersion, updateRequired } = useSelector(
+    settingsStateSelector
+  )
 
-export const AppUpdateFlow: FunctionComponent<Props> = ({
-  appCurrentVersion,
-  appLatestVersion,
-  closeModal,
-}) => {
+  const handleCloseModal = () => {
+    dispatch(skipAvailableUpdate())
+  }
+
   return (
     <AppUpdateStepModal
+      forced={updateRequired}
       layer={ModalLayers.UpdateApp}
-      appCurrentVersion={appCurrentVersion}
-      appLatestVersion={appLatestVersion}
-      closeModal={closeModal}
+      appCurrentVersion={currentVersion}
+      appLatestVersion={latestVersion}
+      closeModal={handleCloseModal}
       testId={AppUpdateFlowTestIds.Container}
     />
   )

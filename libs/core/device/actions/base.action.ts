@@ -4,36 +4,27 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import {
-  PureDeviceData,
-  HarmonyDeviceData,
-  OsVersionPayload,
-} from "Core/device/reducers"
 import { DeviceEvent } from "Core/device/constants"
 import { GetPhoneLockTimeResponseBody } from "Core/device/types/mudita-os"
-
-export const setDeviceData = createAction<Partial<
-  PureDeviceData | HarmonyDeviceData
-> | null>(DeviceEvent.SetData)
 
 export const setLockTime = createAction<
   GetPhoneLockTimeResponseBody | undefined
 >(DeviceEvent.SetLockTime)
-export const setSimData = createAction<number>(DeviceEvent.SetSimData)
-export const setOsVersionData = createAction<OsVersionPayload>(
-  DeviceEvent.SetOsVersionData
-)
+
 export const setInitState = createAction(DeviceEvent.SetInitState)
 export const setOnboardingStatus = createAction<boolean>(
-  DeviceEvent.OnboardingStatus
+  DeviceEvent.SetOnboardingStatus
+)
+export const setUnlockedStatus = createAction<boolean>(
+  DeviceEvent.SetUnlockedStatus
 )
 export const unlockedDevice = createAction(DeviceEvent.Unlocked)
-export const setCriticalBatteryLevel = createAction<boolean>(
-  DeviceEvent.CriticalBatteryLevel
+export const setCriticalBatteryLevelStatus = createAction<boolean>(
+  DeviceEvent.SetCriticalBatteryLevelStatus
 )
 
 export const setExternalUsageDevice = createAction<boolean>(
-  DeviceEvent.ExternalUsageDevice
+  DeviceEvent.SetExternalUsageDevice
 )
 
-export const setRestarting = createAction<boolean>(DeviceEvent.Restarting)
+export const setRestartingStatus = createAction<boolean>(DeviceEvent.SetRestartingStatus)

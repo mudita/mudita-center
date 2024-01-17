@@ -5,7 +5,7 @@
 
 import styled from "styled-components"
 import Story from "Core/__deprecated__/renderer/components/storybook/story.component"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 
 const AppViewStory = styled(Story)`
   margin: 0 1rem 0 0;

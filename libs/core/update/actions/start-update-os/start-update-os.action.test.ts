@@ -27,7 +27,8 @@ import {
   trackOsUpdate,
   TrackOsUpdateState,
 } from "Core/analytic-data-tracker/helpers"
-import { DeviceType, setRestarting } from "Core/device"
+import { DeviceType, setRestartingStatus } from "Core/device"
+import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
 
 jest.mock("Core/update/requests/remove-downloaded-os-updates.request")
 jest.mock("Core/device/requests/set-updating.request")
@@ -169,6 +170,15 @@ describe("when all updating os requests return success status", () => {
         osVersion: "1.0.0",
       },
     },
+    deviceManager: {
+      devices: [
+        {
+          id: "1",
+          deviceType: DeviceType.MuditaPure,
+        },
+      ],
+      activeDeviceId: "1"
+    } as unknown as DeviceManagerState,
   })
 
   beforeEach(() => {
@@ -204,8 +214,8 @@ describe("when all updating os requests return success status", () => {
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       getParamsForSettingIntallingRelaseStateAction(
         "1.1.0",
         ReleaseProcessState.Done
@@ -214,8 +224,8 @@ describe("when all updating os requests return success status", () => {
         "1.2.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       getParamsForSettingIntallingRelaseStateAction(
         "1.2.0",
         ReleaseProcessState.Done
@@ -272,6 +282,15 @@ describe("when updating os request return failure status", () => {
         osVersion: "1.0.0",
       },
     },
+    deviceManager: {
+      devices: [
+        {
+          id: "1",
+          deviceType: DeviceType.MuditaPure,
+        },
+      ],
+      activeDeviceId: "1"
+    } as unknown as DeviceManagerState,
   })
 
   test("action is rejected", async () => {
@@ -304,8 +323,8 @@ describe("when updating os request return failure status", () => {
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       startUpdateOs.rejected(testError, requestId, params, error),
     ])
   })

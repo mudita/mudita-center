@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   FiltersWrapper,
   UnreadFilters,
@@ -25,7 +25,7 @@ import { showToggleableElement } from "Core/__deprecated__/renderer/modules/tool
 import {
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { CallsHeaderTestIds } from "Core/__deprecated__/renderer/components/rest/calls/calls-header-test-ids.enum"

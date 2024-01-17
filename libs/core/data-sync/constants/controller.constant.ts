@@ -6,5 +6,4 @@
 export enum IpcDataSyncEvent {
   GetIndex = "data-sync_get-index",
   IndexAll = "data-sync_index-all",
-  InitializeDataSync = "data-sync_initialize",
 }

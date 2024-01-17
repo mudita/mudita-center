@@ -23,6 +23,7 @@ import {
 } from "Core/update/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
+import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
 
 interface Params {
   releases: OsRelease[]
@@ -33,12 +34,11 @@ export const downloadUpdates = createAsyncThunk<
   Params,
   {
     state: ReduxRootState
-    rejectValue: AppError<UpdateError>
   }
 >(
   UpdateOsEvent.DownloadUpdate,
   async ({ releases }, { getState, rejectWithValue, dispatch }) => {
-    let state = getState()
+    const state = getState()
     const batteryLevel = state.device.data?.batteryLevel ?? 0
 
     if (!isBatteryLevelEnoughForUpdate(batteryLevel)) {
@@ -51,9 +51,9 @@ export const downloadUpdates = createAsyncThunk<
     }
 
     for (const release of releases) {
-      state = getState()
+      const activeDeviceAttached = isActiveDeviceAttachedSelector(getState())
 
-      if (state.update.deviceHasBeenDetachedDuringDownload) {
+      if (!activeDeviceAttached) {
         return rejectWithValue(
           new AppError(
             UpdateError.UnexpectedDownloadError,
@@ -104,9 +104,10 @@ export const downloadUpdates = createAsyncThunk<
             )
           )
         }
-        state = getState()
 
-        if (state.update.deviceHasBeenDetachedDuringDownload) {
+        const activeDeviceAttached = isActiveDeviceAttachedSelector(getState())
+
+        if (!activeDeviceAttached) {
           return rejectWithValue(
             new AppError(
               UpdateError.UnexpectedDownloadError,

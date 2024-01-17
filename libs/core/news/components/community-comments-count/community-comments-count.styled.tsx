@@ -4,7 +4,7 @@
  */
 
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { borderColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
 import styled from "styled-components"
 
 export const CommentsLine = styled.div`

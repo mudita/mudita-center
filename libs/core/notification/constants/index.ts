@@ -4,7 +4,6 @@
  */
 
 export * from "./event.enum"
-export * from "./ipc-event.constant"
 export * from "./notification-method.enum"
 export * from "./notification-resource-type.enum"
 export * from "./notification-type.enum"

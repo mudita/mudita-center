@@ -15,6 +15,7 @@ export enum DisplayStyle {
   Tab,
   Dropdown,
   InputIcon,
+  BorderlessButton
 }
 
 export enum Type {

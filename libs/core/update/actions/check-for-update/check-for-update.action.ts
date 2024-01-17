@@ -21,7 +21,8 @@ import {
   getReleasesByVersions,
   osUpdateAlreadyDownloadedCheck,
 } from "Core/update/requests"
-import { ReduxRootState, RootState } from "Core/__deprecated__/renderer/store"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { isActiveDeviceSet } from "Core/device-manager/selectors/is-active-device-set.selector"
 
 interface Params {
   deviceType: DeviceType
@@ -44,10 +45,18 @@ const areAllReleasesDownloaded = async (
   return result.every(Boolean)
 }
 
-export const checkForUpdate = createAsyncThunk<Result, Params>(
+// TODO: The entire logic within checkForUpdate requires a comprehensive rewrite.
+//  The current implementation surpasses the boundaries of even the most audacious imagination.
+//  It's in dire need of restructuring and clarity.
+//  The intricacies of what transpires here defy conventional understanding, prompting a thorough overhaul for better maintainability and comprehension.
+export const checkForUpdate = createAsyncThunk<
+  Result,
+  Params,
+  { state: ReduxRootState }
+>(
   UpdateOsEvent.CheckForUpdate,
   async ({ deviceType }, { rejectWithValue, getState }) => {
-    const state = getState() as RootState & ReduxRootState
+    const state = getState()
 
     const osVersion = versionFormatter(state.device.data?.osVersion || "")
 
@@ -62,10 +71,14 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       )
     }
 
-    const [latestReleaseResult, allReleasesResult] = await Promise.all([
-      getLatestReleaseRequest(product, state.device.data?.serialNumber),
-      getAllReleasesRequest(product, state.device.data?.serialNumber),
-    ])
+    const latestReleaseResult = await getLatestReleaseRequest(
+      product,
+      state.device.data?.serialNumber
+    )
+    const allReleasesResult = await getAllReleasesRequest(
+      product,
+      state.device.data?.serialNumber
+    )
 
     if (!latestReleaseResult.ok || !latestReleaseResult.data) {
       return rejectWithValue(
@@ -79,13 +92,19 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
         : []
 
     if (isVersionGreaterOrEqual(osVersion, latestReleaseResult.data.version)) {
+      const activeDeviceSet = isActiveDeviceSet(getState())
+
+      if (!activeDeviceSet) {
+        return rejectWithValue(new AppError(UpdateError.NoActiveDevice, ""))
+      }
+
       return {
         allReleases,
         availableReleasesForUpdate: [],
       }
     }
 
-    const availableReleasesForUpdate = [latestReleaseResult.data]
+    const availableReleasesForUpdate: OsRelease[] = [latestReleaseResult.data]
 
     const mandatoryVersionsToInstall =
       latestReleaseResult.data.mandatoryVersions.filter(
@@ -93,12 +112,18 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
       )
 
     if (mandatoryVersionsToInstall.length === 0) {
+      const areAllReleasesAlreadyDownloaded = await areAllReleasesDownloaded(
+        availableReleasesForUpdate
+      )
+      const activeDeviceSet = isActiveDeviceSet(getState())
+
+      if (!activeDeviceSet) {
+        return rejectWithValue(new AppError(UpdateError.NoActiveDevice, ""))
+      }
       return {
         allReleases,
         availableReleasesForUpdate,
-        areAllReleasesAlreadyDownloaded: await areAllReleasesDownloaded(
-          availableReleasesForUpdate
-        ),
+        areAllReleasesAlreadyDownloaded,
       }
     }
 
@@ -115,12 +140,19 @@ export const checkForUpdate = createAsyncThunk<Result, Params>(
 
     availableReleasesForUpdate.unshift(...mandatoryReleasesToInstall.data)
 
+    const areAllReleasesAlreadyDownloaded = await areAllReleasesDownloaded(
+      availableReleasesForUpdate
+    )
+    const activeDeviceSet = isActiveDeviceSet(getState())
+
+    if (!activeDeviceSet) {
+      return rejectWithValue(new AppError(UpdateError.NoActiveDevice, ""))
+    }
+
     return {
       allReleases,
       availableReleasesForUpdate,
-      areAllReleasesAlreadyDownloaded: await areAllReleasesDownloaded(
-        availableReleasesForUpdate
-      ),
+      areAllReleasesAlreadyDownloaded,
     }
   }
 )

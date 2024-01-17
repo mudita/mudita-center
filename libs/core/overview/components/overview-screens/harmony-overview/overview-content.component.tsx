@@ -4,8 +4,8 @@
  */
 
 import React from "react"
-import { DeviceType } from "Core/device/constants"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { CaseColor, DeviceType } from "Core/device/constants"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   DeviceInfo,
   StatusInfo,
@@ -22,6 +22,7 @@ interface OverviewProps {
   readonly osVersion: string
   readonly batteryLevel: number
   readonly serialNumber: string | undefined
+  readonly caseColour?: CaseColor
 }
 
 const OverviewContent: FunctionComponent<OverviewProps> = ({
@@ -33,10 +34,12 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
   toggleDevMode,
   osVersion,
   serialNumber,
+  caseColour,
 }) => {
   return (
     <OverviewWrapper>
       <DeviceInfo
+        caseColour={caseColour}
         deviceType={DeviceType.MuditaHarmony}
         onClick={toggleDevMode}
         onDisconnect={disconnectDevice}

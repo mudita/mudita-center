@@ -8,7 +8,7 @@ import { FiltersWrapper } from "Core/__deprecated__/renderer/components/rest/mes
 import {
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import InputSearch from "Core/__deprecated__/renderer/components/core/input-search/input-search.component"
 import SelectionManager from "Core/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
 

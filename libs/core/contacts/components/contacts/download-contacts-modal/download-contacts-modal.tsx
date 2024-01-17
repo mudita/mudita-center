@@ -5,10 +5,10 @@
 
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import React, { ComponentProps } from "react"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Message } from "Core/__deprecated__/renderer/interfaces/message.interface"
 import Text, {

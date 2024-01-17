@@ -5,7 +5,7 @@
 
 import React from "react"
 import { DeviceType, CaseColor } from "Core/device/constants"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   DeviceInfo,
   StatusInfo,

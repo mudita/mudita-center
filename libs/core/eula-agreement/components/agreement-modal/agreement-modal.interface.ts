@@ -5,4 +5,6 @@
 
 export interface AgreementModalProps {
   open: boolean
+  onActionButtonClick?: () => void
+  closeModal?: () => void
 }

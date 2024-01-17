@@ -5,112 +5,57 @@
 
 import {
   DataSyncState,
-  SynchronizationState,
-  UpdateAllIndexesRejectAction,
-  SetErrorStateError,
-  SynchronizationProcessState,
+  SynchronizationStatus,
 } from "Core/data-sync/reducers/data-sync.interface"
 import { createReducer } from "@reduxjs/toolkit"
-import { DataSyncEvent } from "Core/data-sync/constants/event.enum"
 import {
-  fulfilledAction,
-  pendingAction,
-  rejectedAction,
-} from "Core/__deprecated__/renderer/store/helpers"
-import { setInitializationFailed } from "../actions"
+  setDataSyncInitState,
+  setDataSyncSetStatus,
+  updateAllIndexes,
+} from "Core/data-sync/actions"
+import { AppError } from "Core/core/errors"
 
 export const initialState: DataSyncState = {
-  initialized: false,
-  initializationFailed: false,
-  state: SynchronizationState.Empty,
-  synchronizationProcess: SynchronizationProcessState.Done,
+  status: SynchronizationStatus.Empty,
   error: null,
 }
+
 export const dataSyncReducer = createReducer<DataSyncState>(
   initialState,
   (builder) => {
     builder
-      .addCase(
-        DataSyncEvent.SetDataSyncInitState,
-        ({ initializationFailed }) => {
-          return {
-            ...initialState,
-            initializationFailed,
-          }
+      .addCase(setDataSyncInitState, () => {
+        return {
+          ...initialState,
         }
-      )
-      .addCase(DataSyncEvent.SetDataSyncInitialized, (state) => {
+      })
+      .addCase(setDataSyncSetStatus, (state, action) => {
         return {
           ...state,
-          state: SynchronizationState.Loaded,
-          initialized: true,
+          status: action.payload,
           error: null,
-          initializationFailed: false,
         }
       })
-      .addCase(pendingAction(DataSyncEvent.UpdateAllIndexes), (state) => {
+      .addCase(updateAllIndexes.pending, (state, action) => {
         return {
           ...state,
-          state: SynchronizationState.Loading,
-          synchronizationProcess: SynchronizationProcessState.InProgress,
-        }
-      })
-      .addCase(fulfilledAction(DataSyncEvent.UpdateAllIndexes), (state) => {
-        return {
-          ...state,
-          state: SynchronizationState.Loaded,
-          synchronizationProcess: SynchronizationProcessState.Done,
-          initialized: true,
+          status: SynchronizationStatus.Loading,
           error: null,
-          initializationFailed: false,
         }
       })
-      .addCase(
-        rejectedAction(DataSyncEvent.UpdateAllIndexes),
-        (state, action: UpdateAllIndexesRejectAction) => {
-          return {
-            ...state,
-            state: SynchronizationState.Error,
-            synchronizationProcess: SynchronizationProcessState.Done,
-            error: action.payload,
-          }
-        }
-      )
-      .addCase(DataSyncEvent.SetLoadingState, (state) => {
+      .addCase(updateAllIndexes.rejected, (state, action) => {
         return {
           ...state,
-          state: SynchronizationState.Loading,
-          synchronizationProcess: SynchronizationProcessState.InProgress,
+          status: SynchronizationStatus.Error,
+          error: action.payload as AppError,
         }
       })
-      .addCase(DataSyncEvent.SetCacheState, (state) => {
+      .addCase(updateAllIndexes.fulfilled, (state, action) => {
         return {
           ...state,
-          state: SynchronizationState.Cache,
-          initialized: true,
-          initializationFailed: false,
+          status: SynchronizationStatus.Loaded,
+          error: null,
         }
-      })
-      .addCase(DataSyncEvent.SetLoadedState, (state) => {
-        return {
-          ...state,
-          state: SynchronizationState.Loaded,
-          synchronizationProcess: SynchronizationProcessState.Done,
-        }
-      })
-      .addCase(
-        DataSyncEvent.SetErrorState,
-        (state, action: SetErrorStateError) => {
-          return {
-            ...state,
-            state: SynchronizationState.Error,
-            synchronizationProcess: SynchronizationProcessState.Done,
-            error: action.payload,
-          }
-        }
-      )
-      .addCase(setInitializationFailed, (state, action) => {
-        state.initializationFailed = action.payload
       })
   }
 )

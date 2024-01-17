@@ -47,7 +47,7 @@ describe("Method: getDeviceCrashDumpFiles", () => {
     expect(deviceManager.device.request).toHaveBeenCalled()
   })
 
-  test("returns an `Error` status if data key isn't exists", async () => {
+  test("returns empty list of files if  if data key isn't exists", async () => {
     deviceManager.device.request = jest
       .fn()
       .mockReturnValueOnce(Result.success(undefined))
@@ -56,7 +56,8 @@ describe("Method: getDeviceCrashDumpFiles", () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(deviceManager.device.request).not.toHaveBeenCalled()
     expect(await subject.getDeviceCrashDumpFiles()).toEqual({
-      status: RequestResponseStatus.Error,
+      data: [],
+      status: RequestResponseStatus.Ok,
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -126,10 +127,15 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
     })
   })
 
-  test("returns an `Error` status if `getDeviceFiles` returns empty data", async () => {
+  test("returns an `success` status if `getDeviceFiles` returns empty data", async () => {
     deviceManager.device.request = jest
       .fn()
       .mockReturnValueOnce(Result.success(undefined))
+    ;(
+      deviceFileSystemMock.downloadDeviceFilesLocally as jest.Mock
+    ).mockReturnValueOnce(
+      Result.success([])
+    )
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -141,7 +147,8 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
     ).not.toHaveBeenCalled()
 
     expect(await subject.downloadDeviceCrashDumpFiles()).toEqual({
-      status: RequestResponseStatus.Error,
+      status: RequestResponseStatus.Ok,
+      data: []
     })
 
     // AUTO DISABLED - fix me if you like :)
@@ -151,13 +158,13 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
       deviceFileSystemMock.downloadDeviceFilesLocally
-    ).not.toHaveBeenCalled()
+    ).toHaveBeenCalled()
   })
 
   test("returns an `Error` status if `getDeviceFiles` returns `Error` status", async () => {
     deviceManager.device.request = jest
       .fn()
-      .mockReturnValueOnce(Result.success(undefined))
+      .mockReturnValueOnce(Result.failed({} as AppError))
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method

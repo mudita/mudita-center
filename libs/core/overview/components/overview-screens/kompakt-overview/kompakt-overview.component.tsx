@@ -7,7 +7,7 @@ import React from "react"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { useSelector } from "react-redux"
 import { KompaktDeviceData } from "Core/device/reducers"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 
 export const KompaktOverview: FunctionComponent = () => {
   const {

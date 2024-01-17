@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 
 import { Image as ImageInterface } from "Core/__deprecated__/renderer/interfaces/image.interface"
 

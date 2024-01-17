@@ -7,7 +7,7 @@ import { ContactSimpleListItemAvatar } from "Core/contacts/components/contact-si
 import { ContactSimpleListItemContactSelectionTestIdsEnum } from "Core/contacts/components/contact-simple-list-item-contact-selection/contact-simple-list-item-contact-selection-test-ids.enum"
 import { ContactSimpleListItemContactSelectionProps } from "Core/contacts/components/contact-simple-list-item-contact-selection/contact-simple-list-item-contact-selection.interface"
 import { ClickableCol } from "Core/contacts/components/contact-simple-list-item-contact-selection/contact-simple-list-item-contact-selection.styled"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React from "react"
 
 export const ContactSimpleListItemContactSelection: FunctionComponent<

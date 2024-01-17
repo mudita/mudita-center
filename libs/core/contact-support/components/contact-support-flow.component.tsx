@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ContactSupportModal from "Core/contact-support/components/contact-support-modal.component"
 import ContactSupportModalSuccess from "Core/contact-support/components/contact-support-modal-success.component"
 import ContactSupportModalError from "Core/contact-support/components/contact-support-modal-error.component"

@@ -7,7 +7,7 @@ import * as React from "react"
 import Icon, {
   Props as IconProps,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 export interface RangeIconProps {

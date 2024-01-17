@@ -5,23 +5,29 @@
 
 import * as React from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { connect, useDispatch } from "react-redux"
+import { Link, useHistory } from "react-router-dom"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   textColor,
   backgroundColor,
   width,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { Link } from "react-router-dom"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { LayoutBlankWrapperTestIds } from "Core/__deprecated__/renderer/wrappers/wrappers-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { RootState, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { RootState, ReduxRootState, Dispatch } from "Core/__deprecated__/renderer/store"
 import { State } from "Core/core/constants"
-import { connect } from "react-redux"
+import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
+import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
+import { setDataSyncInitState } from "Core/data-sync/actions"
+import { setInitState } from "Core/device"
+import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
+import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 
 const Layout = styled.div`
   display: grid;
@@ -38,7 +44,7 @@ const Layout = styled.div`
 const Header = styled.header`
   width: 100%;
   padding: 2.7rem 0 3rem;
-  max-width: 99rem;
+  max-width: 107.2rem;
 
   display: flex;
   flex-direction: row;
@@ -98,10 +104,22 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
   onClose,
   closeable,
 }) => {
+  const history = useHistory()
+  const dispatch = useDispatch<Dispatch>()
+
+  const handleClosePage = () => {
+    dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
+    dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
+    dispatch(setDataSyncInitState())
+    dispatch(setInitState())
+    history.push(URL_MAIN.news)
+    onClose && onClose()
+  }
+
   return (
     <Layout>
       <Header>
-        <Icon type={IconType.MuditaLogoWithText} width={8.6} height={2} />
+        <Icon type={IconType.MuditaLogoWithText} width={8.9} height={2} />
         <MainTitle
           displayStyle={TextDisplayStyle.Paragraph3}
           message={{ id: "module.onboarding.mainTitle" }}
@@ -109,7 +127,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
         {!recoveryMode && closeable && (
           <Link
             to={URL_MAIN.news}
-            onClick={onClose}
+            onClick={handleClosePage}
             data-testid={LayoutBlankWrapperTestIds.Close}
           >
             <Icon type={IconType.Close} />

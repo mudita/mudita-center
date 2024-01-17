@@ -4,7 +4,7 @@
  */
 
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { useDispatch, useSelector } from "react-redux"
 import { getInvalidFiles } from "Core/files-manager/selectors/get-invalid-files.selector"
 import {

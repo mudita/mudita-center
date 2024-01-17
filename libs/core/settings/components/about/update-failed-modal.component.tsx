@@ -7,7 +7,7 @@ import React from "react"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import ErrorModal from "Core/ui/components/error-modal/error-modal.component"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalDialogProps } from "Core/ui"
 
 const messages = defineMessages({

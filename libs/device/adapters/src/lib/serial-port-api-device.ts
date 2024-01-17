@@ -3,6 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import SerialPort from "serialport"
+import { ipcMain } from "electron-better-ipc"
+import { EventEmitter } from "events"
+import PQueue from "p-queue"
 import { log, LogConfig } from "Core/core/decorators/log.decorator"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
@@ -10,14 +14,12 @@ import { CONNECTION_TIME_OUT_MS, ResponseStatus } from "Core/device/constants"
 import { DeviceError } from "Core/device/modules/mudita-os/constants"
 import { ApiResponse, Response } from "Core/device/types/mudita-os"
 import { timeout } from "Core/device/modules/mudita-os/helpers"
-import SerialPort from "serialport"
-import { EventEmitter } from "events"
-import PQueue from "p-queue"
 import { SerialPortParserBase } from "Core/device/modules/mudita-os/parsers/serial-port-base.parser"
 import {
   APIMethodsType,
   APIRequestData,
   ApiSerialPortEvents,
+  ApiSerialPortToRendererEvents,
 } from "device/models"
 import { callRenderer } from "./call-renderer.helper"
 
@@ -30,48 +32,27 @@ const getRequestPriority = (method: APIMethodsType) => {
 }
 
 export class SerialPortDeviceAPIAdapter {
-  private serialPort: SerialPort
+  private serialPort: SerialPort | undefined
   private eventEmitter = new EventEmitter()
 
   private requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  constructor(public path: string, private parser: SerialPortParserBase) {
-    this.serialPort = new SerialPort(path, (error) => {
-      if (error) {
-        const appError = new AppError(DeviceError.Initialization, error.message)
-        callRenderer(
-          "api-serial-port-connection-failed",
-          Result.failed(appError)
-        )
-      }
+  constructor(public path: string, private parser: SerialPortParserBase) {}
 
-      callRenderer(
-        "api-serial-port-connected",
-        Result.success(`Device ${path} connected`)
-      )
-    })
-
-    this.serialPort.on("data", (event) => {
-      try {
-        const data = this.parser.parse(event)
-        if (data !== undefined) {
-          this.emitDataReceivedEvent(data)
-        }
-      } catch (error) {
-        this.emitDataReceivedEvent(
-          new AppError(
-            DeviceError.DataReceiving,
-            (error as Error).message || "Data receiving failed"
+  public connect(): Promise<ResultObject<undefined>> {
+    return new Promise((resolve) => {
+      this.serialPort = new SerialPort(this.path, (error) => {
+        if (error) {
+          resolve(
+            Result.failed(
+              new AppError(DeviceError.Initialization, error.message)
+            )
           )
-        )
-      }
-    })
-
-    this.serialPort.on("close", () => {
-      callRenderer(
-        "api-serial-port-closed",
-        Result.success(`Device ${path} disconnected`)
-      )
+        } else {
+          this.mountListeners()
+          resolve(Result.success(undefined))
+        }
+      })
     })
   }
 
@@ -208,5 +189,36 @@ export class SerialPortDeviceAPIAdapter {
     data: Response<ResponseType> | AppError
   ): void {
     this.eventEmitter.emit(ApiSerialPortEvents.DataReceived, data)
+  }
+
+  private mountListeners() {
+    if (this.serialPort === undefined) {
+      return
+    }
+
+    this.serialPort.on("data", (event) => {
+      try {
+        const data = this.parser.parse(event)
+
+        if (data !== undefined) {
+          this.emitDataReceivedEvent(data)
+        }
+      } catch (error) {
+        this.emitDataReceivedEvent(
+          new AppError(
+            DeviceError.DataReceiving,
+            (error as Error).message || "Data receiving failed"
+          )
+        )
+      }
+    })
+
+    this.serialPort.on("close", () => {
+      callRenderer(
+        ApiSerialPortToRendererEvents.Closed,
+        Result.success(`Device ${this.path} closed`)
+      )
+      ipcMain.emit(ApiSerialPortToRendererEvents.Closed, this.path);
+    })
   }
 }

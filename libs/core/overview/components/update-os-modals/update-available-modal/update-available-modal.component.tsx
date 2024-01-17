@@ -23,7 +23,7 @@ import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/mo
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React from "react"
 import { defineMessages } from "react-intl"
 

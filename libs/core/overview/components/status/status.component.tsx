@@ -7,7 +7,7 @@ import React from "react"
 import { DeviceType } from "Core/device/constants"
 import { defineMessages, FormattedMessage } from "react-intl"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { StatusProps } from "Core/overview/components/status/status.interface"
 import Text, {
   TextDisplayStyle,
@@ -19,7 +19,7 @@ import { StatusTestIds } from "Core/overview/components/status/status-test-ids.e
 import {
   backgroundColor,
   borderRadius,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 
 const Stats = styled.div`
   display: flex;

@@ -4,121 +4,76 @@
  */
 
 import { EventEmitter } from "events"
-import {
-  Endpoint,
-  Method,
-  DeviceServiceEvent,
-  DeviceCommunicationEvent,
-} from "Core/device/constants"
-import {
-  RequestConfig,
-  GetDeviceInfoRequestConfig,
-  GetDeviceInfoResponseBody,
-} from "Core/device/types/mudita-os"
-import { BaseAdapter } from "Core/device/modules/base.adapter"
+import { RequestConfig } from "Core/device/types/mudita-os"
 import { DeviceStrategy } from "Core/device/strategies/device-strategy.class"
 import { ResponsePresenter } from "Core/device/modules/mudita-os/presenters"
-import { RequestResponse } from "Core/core/types/request-response.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "Core/core/types/request-response.interface"
+import { Result, ResultObject } from "Core/core/builder"
+import { BaseAdapter } from "Core/device/modules/base.adapter"
+import { AppError } from "Core/core/errors"
+import { DeviceCommunicationError } from "Core/device"
 
 export class HarmonyStrategy implements DeviceStrategy {
-  private eventEmitter = new EventEmitter()
-
   constructor(private adapter: BaseAdapter) {
     EventEmitter.defaultMaxListeners = 15
-    this.mountDisconnectionListener()
-    this.mountInitializationFailedListener()
   }
 
-  public async connect(): Promise<RequestResponse<GetDeviceInfoResponseBody>> {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    const response = await this.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceConnected)
-
-    return response
+  public connect(): Promise<ResultObject<undefined>> {
+    return this.adapter.connect()
   }
 
-  public request(
-    config: GetDeviceInfoRequestConfig
-  ): Promise<RequestResponse<GetDeviceInfoResponseBody>>
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async request(config: RequestConfig<any>): Promise<RequestResponse> {
+  public async request<ResponseType = unknown>(
+    config: RequestConfig<unknown>
+  ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
     const response = await this.adapter.request(config)
 
-    this.emitUnlockEvent()
-
-    return ResponsePresenter.toResponseObject(response)
-  }
-
-  public onCommunicationEvent(
-    eventName: DeviceCommunicationEvent,
-    listener: () => void
-  ): void {
-    this.adapter.on(eventName, listener)
-  }
-
-  public offCommunicationEvent(
-    eventName: DeviceCommunicationEvent,
-    listener: () => void
-  ): void {
-    this.adapter.off(eventName, listener)
-  }
-
-  public on(
-    eventName: DeviceServiceEvent,
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listener: (path: string, ...args: any[]) => void
-  ): void {
-    this.eventEmitter.on(eventName, listener)
-  }
-
-  public off(
-    eventName: DeviceServiceEvent,
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listener: (path: string, ...args: any[]) => void
-  ): void {
-    this.eventEmitter.off(eventName, listener)
-  }
-
-  private emitUnlockEvent(): void {
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceUnlocked)
-    this.eventEmitter.emit(DeviceServiceEvent.DeviceOnboardingFinished)
-  }
-
-  private mountDisconnectionListener(): void {
-    this.onCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
-    })
-  }
-
-  private unmountDisconnectionListener(): void {
-    this.offCommunicationEvent(DeviceCommunicationEvent.Disconnected, () => {
-      this.eventEmitter.emit(DeviceServiceEvent.DeviceDisconnected)
-    })
-  }
-
-  private mountInitializationFailedListener(): void {
-    this.onCommunicationEvent(
-      DeviceCommunicationEvent.InitializationFailed,
-      () => {
-        this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
-      }
+    return this.mapResponseObjectToResultObject<ResponseType>(
+      ResponsePresenter.toResponseObject(response)
     )
   }
 
-  private unmountInitializationFailedListener(): void {
-    this.offCommunicationEvent(
-      DeviceCommunicationEvent.InitializationFailed,
-      () => {
-        this.eventEmitter.emit(DeviceServiceEvent.DeviceInitializationFailed)
-      }
-    )
+  private mapResponseObjectToResultObject<ResponseType>(
+    response: RequestResponse
+  ): ResultObject<ResponseType, DeviceCommunicationError> {
+    if (response.status === RequestResponseStatus.PhoneLocked) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.DeviceLocked,
+          `Device ${this.adapter.path} is locked`,
+          response
+        )
+      )
+    } else if (
+      response.status === RequestResponseStatus.OnboardingNotFinished
+    ) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.DeviceOnboardingNotFinished,
+          `Device ${this.adapter.path} onboarding not finished`,
+          response
+        )
+      )
+    } else if (response.status === RequestResponseStatus.BatteryCriticalLevel) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.BatteryCriticalLevel,
+          `Device ${this.adapter.path} has critical battery level`,
+          response
+        )
+      )
+    } else if (response.status !== RequestResponseStatus.Ok) {
+      return Result.failed(
+        new AppError(
+          DeviceCommunicationError.RequestFailed,
+          `Request to device ${this.adapter.path} failed`,
+          response
+        )
+      )
+    } else {
+      return Result.success(response.data as ResponseType)
+    }
   }
 }

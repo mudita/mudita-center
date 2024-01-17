@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
@@ -28,7 +28,7 @@ import {
 import delayResponse from "@appnroll/delay-response"
 import { ContactInputSearch } from "Core/contacts/components/contact-input-search/contact-input-search.component"
 import styled from "styled-components"
-import { borderColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { borderColor } from "Core/core/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"

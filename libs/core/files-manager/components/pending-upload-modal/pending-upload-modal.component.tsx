@@ -19,9 +19,9 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import styled from "styled-components"
-import { fontWeight } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { fontWeight } from "Core/core/styles/theming/theme-getters"
 import { PendingUploadModalProps } from "Core/files-manager/components/pending-upload-modal/pending-upload-modal.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { getModalButtonsSize } from "Core/__deprecated__/renderer/components/core/modal/modal.helpers"
 
 const messages = defineMessages({

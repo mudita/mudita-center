@@ -5,7 +5,7 @@
 
 import styled, { css } from "styled-components"
 import { ListItem } from "Core/__deprecated__/renderer/components/core/list/list.component"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import InputSearch from "Core/__deprecated__/renderer/components/core/input-search/input-search.component"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 

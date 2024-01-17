@@ -66,6 +66,9 @@ describe("async `deleteContacts` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
+        deviceManager: {
+          activeDeviceId: ""
+        }
       })
       const {
         meta: { requestId },
@@ -97,6 +100,9 @@ describe("async `deleteContacts` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
+        deviceManager: {
+          activeDeviceId: ""
+        }
       })
       const {
         meta: { requestId },
@@ -122,6 +128,9 @@ describe("async `deleteContacts` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
+        deviceManager: {
+          activeDeviceId: ""
+        }
       })
       const {
         meta: { requestId },

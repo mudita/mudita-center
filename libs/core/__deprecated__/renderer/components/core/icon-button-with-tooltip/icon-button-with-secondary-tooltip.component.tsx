@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import IconButtonWithTooltip from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-tooltip.component"
 import { TooltipSecondaryContent } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/tooltip-secondary-content.component"
 import { ElementWithTooltipPlace } from "Core/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"

@@ -8,7 +8,7 @@ import React from "react"
 import StoryContainer from "Core/__deprecated__/renderer/components/storybook/story-container.component"
 import PureDisconnected from "Core/__deprecated__/renderer/modules/tethering/screens/pure-disconnected.component"
 import { Router } from "react-router"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import TetheringEnabled from "Core/__deprecated__/renderer/modules/tethering/screens/tethering-enabled.component"
 import TetheringDisabled from "Core/__deprecated__/renderer/modules/tethering/screens/tethering-disabled.component"
 

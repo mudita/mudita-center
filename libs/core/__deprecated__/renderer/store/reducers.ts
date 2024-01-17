@@ -18,6 +18,10 @@ import { templateReducer } from "Core/templates/reducers"
 import { newsReducer } from "Core/news/reducers"
 import { settingsReducer } from "Core/settings/reducers"
 import { updateOsReducer } from "Core/update/reducers"
+import { discoveryDeviceReducer } from "Core/discovery-device/reducers/discovery-device.reducer"
+import { deviceInitializationReducer } from "Core/device-initialization/reducers/device-initialization.reducer"
+import { appInitializationReducer } from "Core/app-initialization/reducers/app-initialization.reducer"
+import { deviceManagerReducer } from "Core/device-manager/reducers/device-manager.reducer"
 import { genericViewsReducer } from "generic-view/store"
 
 export const reducers = {
@@ -35,6 +39,10 @@ export const reducers = {
   news: newsReducer,
   settings: settingsReducer,
   update: updateOsReducer,
+  discoveryDevice: discoveryDeviceReducer,
+  deviceInitialization: deviceInitializationReducer,
+  appInitialization: appInitializationReducer,
+  deviceManager: deviceManagerReducer,
   genericViews: genericViewsReducer,
 }
 
