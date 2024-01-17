@@ -9,4 +9,5 @@ export const color = {
   grey4: "#D2D6DB",
   grey5: "#F4F5F6",
   grey6: "#FBFBFB",
+  blue2: "#6D9BBC",
 } as const
