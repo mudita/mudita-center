@@ -18,8 +18,7 @@ import {
 } from "Core/device/types/mudita-os"
 
 export interface createSyncBackupOptions
-  extends Pick<Partial<TokenOptions>, "key"> {
-  key?: string
+  extends Partial<Pick<TokenOptions, "key">> {
   cwd: string
   token?: string
   extract?: boolean
