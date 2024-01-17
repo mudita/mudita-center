@@ -35,9 +35,9 @@ export const useDeviceDetachedEffect = () => {
       await handleDeviceDetachedHandler(properties)
     }
 
-    const deviceDetached = registerDeviceDetachedListener(handler)
+    const unregister = registerDeviceDetachedListener(handler)
     return () => {
-      deviceDetached()
+      unregister()
     }
   }, [handleDeviceDetachedHandler, dispatch, history])
 }

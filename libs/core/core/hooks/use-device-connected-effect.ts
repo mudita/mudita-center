@@ -145,9 +145,9 @@ export const useDeviceConnectedEffect = () => {
       await handleDeviceConnected(properties)
     }
 
-    const deviceConnected = registerDeviceConnectedListener(handler)
+    const unregister = registerDeviceConnectedListener(handler)
     return () => {
-      deviceConnected()
+      unregister()
     }
   }, [handleDeviceConnected])
 }
