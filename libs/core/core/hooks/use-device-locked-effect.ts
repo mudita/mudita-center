@@ -13,6 +13,7 @@ import { deviceUnlockedStatusSelector } from "Core/device/selectors/device-unloc
 import { URL_DEVICE_INITIALIZATION } from "Core/__deprecated__/renderer/constants/urls"
 import { registerActiveDeviceLockedListener } from "Core/device-manager/listeners/active-device-locked.listener"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
+import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 
 export const useDeviceLockedEffect = () => {
   const history = useHistory()
@@ -20,23 +21,31 @@ export const useDeviceLockedEffect = () => {
   const activeDevice = useSelector(getActiveDevice)
   const deviceUnlockedStatus = useSelector(deviceUnlockedStatusSelector)
   const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
-
+  const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   // Redirect to device initialization when it becomes locked (Redux event)
   useEffect(() => {
     if (
       deviceUnlockedStatus === false &&
-      deviceInitializationStatus === DeviceInitializationStatus.Initialized
+      deviceInitializationStatus === DeviceInitializationStatus.Initialized &&
+      !activeDeviceProcessing
     ) {
       history.push(URL_DEVICE_INITIALIZATION.root)
     }
-  }, [dispatch, history, deviceUnlockedStatus, deviceInitializationStatus])
+  }, [
+    dispatch,
+    history,
+    deviceUnlockedStatus,
+    deviceInitializationStatus,
+    activeDeviceProcessing,
+  ])
 
   // Redirect to device initialization when it becomes locked (Main layer event)
   useEffect(() => {
     const handler = ({ path }: { path: string }) => {
       if (
         deviceInitializationStatus === DeviceInitializationStatus.Initialized &&
-        activeDevice?.path === path
+        activeDevice?.path === path &&
+        !activeDeviceProcessing
       ) {
         history.push(URL_DEVICE_INITIALIZATION.root)
       }
@@ -52,5 +61,6 @@ export const useDeviceLockedEffect = () => {
     activeDevice,
     deviceUnlockedStatus,
     deviceInitializationStatus,
+    activeDeviceProcessing,
   ])
 }

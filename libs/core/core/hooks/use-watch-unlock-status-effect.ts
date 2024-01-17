@@ -31,10 +31,6 @@ export const useWatchUnlockStatus = () => {
       return
     }
 
-    if (activeDeviceProcessing) {
-      return
-    }
-
     const intervalId = setInterval(async () => {
       dispatch(getUnlockStatus())
     }, unlockStatusIntervalTime)
