@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import ButtonModal from "./button-modal"
+import Modal from "./modal"
 
 export const interactive = {
-  "button-modal": ButtonModal,
+  modal: Modal,
 }

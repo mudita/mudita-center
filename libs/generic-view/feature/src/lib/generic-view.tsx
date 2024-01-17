@@ -27,9 +27,21 @@ export const GenericView: FunctionComponent = () => {
     return <div>Not found</div>
   }
 
+  const modalsToRender = Object.entries(views[currentViewKey].layout)
+    .filter(([, { component }]) => component === "modal")
+    .map(([key]) => key)
   return (
     <GenericThemeProvider>
       <RecursiveLayout viewKey={currentViewKey} componentKey={"main"} />
+      {modalsToRender.map((modalKey) => {
+        return (
+          <RecursiveLayout
+            key={modalKey}
+            viewKey={currentViewKey}
+            componentKey={modalKey}
+          />
+        )
+      })}
     </GenericThemeProvider>
   )
 }

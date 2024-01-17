@@ -9,7 +9,7 @@ type DefaultProps = Partial<
   Pick<ReactHTMLElement<HTMLElement>["props"], "className" | "style">
 >
 
-type BaseGenericComponent<
+export type BaseGenericComponent<
   Data = unknown,
   Config = unknown,
   ExtraProps = unknown
