@@ -44,14 +44,8 @@ export abstract class BaseDevice {
   abstract request(config: unknown): Promise<unknown>
 
   private generateDeviceIdBySerialNumber = (
-    serialNumber: string | undefined
+    serialNumber: string = "00000000000000"
   ): DeviceId => {
-    if (serialNumber === undefined) {
-      return uniqueId()
-    } else if (serialNumber === "00000000000000") {
-      return uniqueId()
-    } else {
-      return serialNumber
-    }
+    return serialNumber === "00000000000000" ? uniqueId() : serialNumber
   }
 }
