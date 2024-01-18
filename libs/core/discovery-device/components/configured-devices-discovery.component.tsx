@@ -16,6 +16,7 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import AvailableDeviceList from "Core/discovery-device/components/available-device-list.component"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import {
+  URL_DEVICE_INITIALIZATION,
   URL_MAIN,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
@@ -46,12 +47,17 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
       return
     }
 
+    const handleDeviceActivation = async () => {
+      await dispatch(handleDeviceActivated(devices[0].id))
+      history.push(URL_DEVICE_INITIALIZATION.root)
+    }
+
     if (
       devices.length === 1 &&
       availableDevicesSelector.length === 1 &&
       noNewDevicesDetectedState
     ) {
-      dispatch(handleDeviceActivated({ deviceId: devices[0].id, history }))
+      void handleDeviceActivation()
     }
   }, [
     history,

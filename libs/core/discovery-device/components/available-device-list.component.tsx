@@ -17,7 +17,10 @@ import { fontWeight } from "Core/core/styles/theming/theme-getters"
 import DeviceList from "Core/discovery-device/components/device-list.component"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
-import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_DEVICE_INITIALIZATION,
+  URL_ONBOARDING,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 
 const messages = defineMessages({
@@ -50,12 +53,13 @@ const AvailableDeviceList: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
   const devices = useSelector(getDevicesSelector)
 
-  const handleDeviceClick = (id: string) => {
+  const handleDeviceClick = async (id: string) => {
     const device = devices.find((device) => device.id === id)
     if (device?.state === DeviceState.Failed) {
       history.push(URL_ONBOARDING.troubleshooting)
     } else {
-      dispatch(handleDeviceActivated({ deviceId: id, history }))
+      await dispatch(handleDeviceActivated(id))
+      history.push(URL_DEVICE_INITIALIZATION.root)
     }
   }
 
