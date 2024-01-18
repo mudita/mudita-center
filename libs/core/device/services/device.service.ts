@@ -46,8 +46,4 @@ export class DeviceService {
       body: { category: PhoneLockCategory.Time },
     })
   }
-
-  public setUpdating(updating: boolean): void {
-    // this.deviceManager.updating = updating
-  }
 }

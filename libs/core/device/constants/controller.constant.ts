@@ -7,5 +7,4 @@ export enum IpcDeviceEvent {
   Unlock = "device_unlock",
   UnlockStatus = "device_unlock-status",
   LockTime = "device_lock-time",
-  SetUpdating = "device_set-updating",
 }
