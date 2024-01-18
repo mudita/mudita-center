@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { CaseColor, DeviceType } from "Core/device/constants"
+import { CaseColour, DeviceType } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   DeviceInfo,
@@ -22,7 +22,7 @@ interface OverviewProps {
   readonly osVersion: string
   readonly batteryLevel: number
   readonly serialNumber: string | undefined
-  readonly caseColour?: CaseColor
+  readonly caseColour?: CaseColour
 }
 
 const OverviewContent: FunctionComponent<OverviewProps> = ({

@@ -6,7 +6,7 @@
 import { ErrorSyncModalTestIds } from "Core/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { State } from "Core/core/constants"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
-import { CaseColor } from "Core/device/constants"
+import { CaseColour } from "Core/device/constants"
 import { PureOverview } from "Core/overview/components/overview-screens/pure-overview/pure-overview.component"
 import { StatusTestIds } from "Core/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "Core/overview/components/system/system-test-ids.enum"
@@ -38,7 +38,7 @@ const defaultProps: Props = {
   openContactSupportFlow: jest.fn(),
   backupDeviceState: State.Initial,
   backups: [],
-  caseColour: CaseColor.Black,
+  caseColour: CaseColour.Black,
   networkLevel: 0,
   readBackupDeviceDataState: jest.fn(),
   readRestoreDeviceDataState: jest.fn(),
