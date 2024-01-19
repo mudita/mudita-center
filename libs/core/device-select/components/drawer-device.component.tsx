@@ -22,9 +22,8 @@ import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-n
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const Device = styled("div")<{ active: boolean }>`
+  padding: 1.8rem 2.4rem 1.8rem 1rem;
   display: flex;
-  justify-content: flex-start;
-  margin: 1rem 0.5rem 1rem 0.5rem;
 
   &:hover {
     background: ${backgroundColor("main")};
@@ -43,28 +42,49 @@ const Device = styled("div")<{ active: boolean }>`
 `
 
 const DeviceImageContainer = styled("div")`
-  min-height: 15rem;
-  min-width: 15rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 9.6rem;
+  min-width: 9.1rem;
+  padding: 0 2.4rem 0 0rem;
 `
 
 export const DeviceImageStyled = styled(DeviceImage)`
-  max-height: 12rem;
-  max-width: 9rem;
+  ${({ deviceType }) => {
+    switch (deviceType) {
+      case DeviceType.MuditaPure:
+        return css`
+          max-height: 9.6rem;
+          max-width: 4.2rem;
+        `
+      case DeviceType.MuditaHarmony:
+        return css`
+          max-height: 7.5rem;
+          max-width: 7rem;
+        `
+      case DeviceType.APIDevice:
+        //sizes for Kompakt
+        return css`
+          max-height: 9.6rem;
+          max-width: 5.3rem;
+        `
+      default:
+        return
+    }
+  }}
 `
 
 const DeviceDetailsWrapper = styled("div")`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 `
 
 const DeviceDetails = styled("div")`
-  margin: 0 0.5rem 0 2rem;
   display: flex;
   flex-direction: column;
+  padding: 1.3rem 6rem 1.4rem 0;
 `
 
 const ActiveDot = styled("span")`

@@ -20,7 +20,6 @@ import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/butto
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
-import { DeviceImage } from "Core/overview/components/device-preview/device-image.component"
 import { useHistory } from "react-router-dom"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
@@ -38,29 +37,26 @@ const messages = defineMessages({
 })
 
 const DrawerChildrenContainer = styled("div")`
-  margin: 1.5rem 0rem 1.5rem 0rem;
+  padding: 1.3rem 1.8rem 1.3rem 1.8rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  gap: 3.2rem;
   height: 100%;
 `
 
 const Header = styled("div")`
-  margin: 0.5rem 3rem 1.5rem 2rem;
   display: flex;
   justify-content: space-between;
+  padding-right: 1.8rem;
 `
 
 const DevicesContainer = styled("div")`
-  padding: 0.5rem 2rem 0.5rem 2rem;
   display: flex;
+  gap: 3.8rem;
   flex-direction: column;
-  overflow: auto;
-`
-
-export const DeviceImageStyled = styled(DeviceImage)`
-  max-height: 12rem;
-  max-width: 9rem;
+  align-items: flex-start;
+  overflow-y: scroll;
 `
 
 const DeviceSelectDrawer: FunctionComponent = () => {
@@ -89,7 +85,7 @@ const DeviceSelectDrawer: FunctionComponent = () => {
         dispatch(closeSelectDeviceDrawer())
       }}
       direction="right"
-      size="30vw"
+      size="36.9rem"
     >
       <DrawerChildrenContainer>
         <Header>
@@ -112,7 +108,9 @@ const DeviceSelectDrawer: FunctionComponent = () => {
               serialNumber={serialNumber}
               caseColour={caseColour}
               deviceType={deviceType}
-              onClick={() => handleDrawerDeviceClick(id)}
+              onClick={() => {
+                handleDrawerDeviceClick(id)
+              }}
             />
           ))}
         </DevicesContainer>
