@@ -60,13 +60,15 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
 
   const isSelectDevice =
     !dataSyncInProgress &&
-    devices.length === 1 &&
+    devices.length > 0 &&
     history.location.pathname === URL_MAIN.news
 
   const SelectDeviceButton = (
     <DeviceButtonWrapper>
       <DeviceButton
-        label="Select Device" //to translations
+        label={intl.formatMessage({
+          id: "component.deviceSelection.selectDevice",
+        })}
         displayStyle={DisplayStyle.BorderlessButton}
         Icon={IconType.DotsInBox}
         iconBadgeCountIndicator={devices.length}
@@ -83,7 +85,9 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const ChangeDeviceButton = (
     <DeviceButtonWrapper>
       <DeviceButton
-        label="Change Device" //to translations
+        label={intl.formatMessage({
+          id: "component.deviceSelection.changeDevice",
+        })}
         displayStyle={DisplayStyle.BorderlessButton}
         Icon={IconType.DotsInBox}
         iconBadgeCountIndicator={devices.length}
