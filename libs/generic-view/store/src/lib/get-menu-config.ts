@@ -6,20 +6,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { getAPIConfigRequest } from "device/feature"
-import { ApiConfig } from "device/models"
+import { getMenuConfigRequest } from "device/feature"
+import { MenuConfig } from "device/models"
 import { ActionName } from "./action-names"
-import { getMenuConfig } from "./get-menu-config"
 
-export const getAPIConfig = createAsyncThunk<
-  { deviceId: string; apiConfig: ApiConfig },
+export const getMenuConfig = createAsyncThunk<
+  { deviceId: string; menuConfig: MenuConfig },
   { deviceId: DeviceId },
   { state: ReduxRootState }
->(ActionName.GetConfig, async ({ deviceId }, { rejectWithValue, dispatch }) => {
-  const response = await getAPIConfigRequest(deviceId)
+>(ActionName.GetMenuConfig, async ({ deviceId }, { rejectWithValue }) => {
+  const response = await getMenuConfigRequest(deviceId)
   if (response.ok) {
-    dispatch(getMenuConfig({ deviceId }))
-    return { deviceId, apiConfig: response.data }
+    return { deviceId, menuConfig: response.data }
   }
   return rejectWithValue(response.error)
 })

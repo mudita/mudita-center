@@ -11,6 +11,8 @@ import {
   OverviewConfig,
   OverviewData,
 } from "device/models"
+import { GeneralError } from "../general-error"
+import { AppError } from "Core/core/errors"
 
 export class APIFeaturesService {
   constructor(private deviceManager: DeviceManager) {}
@@ -19,7 +21,12 @@ export class APIFeaturesService {
   public async getFeatureConfiguration(
     feature: string
   ): Promise<ResultObject<unknown>> {
-    const response = await this.deviceManager.apiDevice.request({
+    const device = this.deviceManager.apiDevice
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
       endpoint: "FEATURE_CONFIGURATION",
       method: "GET",
       body: {
@@ -38,7 +45,12 @@ export class APIFeaturesService {
   public async getOverviewFeatureConfiguration(): Promise<
     ResultObject<OverviewConfig>
   > {
-    const response = await this.deviceManager.apiDevice.request({
+    const device = this.deviceManager.apiDevice
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
       endpoint: "FEATURE_CONFIGURATION",
       method: "GET",
       body: {
@@ -56,7 +68,12 @@ export class APIFeaturesService {
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureData)
   public async getFeatureData(feature: string): Promise<ResultObject<unknown>> {
-    const response = await this.deviceManager.apiDevice.request({
+    const device = this.deviceManager.apiDevice
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
       endpoint: "FEATURE_DATA",
       method: "GET",
       body: {
@@ -73,7 +90,12 @@ export class APIFeaturesService {
 
   @IpcEvent(APIFeaturesServiceEvents.GetOverviewData)
   public async getOverviewData(): Promise<ResultObject<OverviewData>> {
-    const response = await this.deviceManager.apiDevice.request({
+    const device = this.deviceManager.apiDevice
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
       endpoint: "FEATURE_DATA",
       method: "GET",
       body: {

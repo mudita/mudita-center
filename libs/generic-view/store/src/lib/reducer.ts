@@ -10,6 +10,14 @@ import { getAPIConfig } from "./get-api-config"
 import { setMenu, setViewData, setViewLayout } from "./actions"
 import { getOverviewData } from "./features"
 import { getOverviewConfig } from "./features/get-overview-config.actions"
+import { getAPIAny } from "./get-api-any"
+import { ApiConfig, MenuConfig } from "device/models"
+import { getMenuConfig } from "./get-menu-config"
+
+interface DeviceConfiguration {
+  apiConfig: ApiConfig
+  menuConfig?: MenuConfig
+}
 
 interface GenericState {
   menu: MenuElement[] | undefined
@@ -21,12 +29,14 @@ interface GenericState {
     }
   >
   lastResponse: unknown
+  devicesConfiguration: Record<string, DeviceConfiguration>
 }
 
 const initialState: GenericState = {
   menu: undefined,
   views: {},
   lastResponse: {},
+  devicesConfiguration: {},
 }
 
 export const genericViewsReducer = createReducer(initialState, (builder) => {
@@ -46,6 +56,17 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
   })
   builder.addCase(getAPIConfig.fulfilled, (state, action) => {
+    state.devicesConfiguration[action.payload.deviceId] = {
+      apiConfig: action.payload.apiConfig,
+    }
+    state.lastResponse = action.payload
+  })
+  builder.addCase(getMenuConfig.fulfilled, (state, action) => {
+    state.devicesConfiguration[action.payload.deviceId].menuConfig =
+      action.payload.menuConfig
+    state.lastResponse = action.payload
+  })
+  builder.addCase(getAPIAny.fulfilled, (state, action) => {
     state.lastResponse = action.payload
   })
   builder.addCase(getOverviewData.fulfilled, (state, action) => {

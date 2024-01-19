@@ -5,8 +5,11 @@
 
 import { ResultObject } from "Core/core/builder"
 import { ipcRenderer } from "electron-better-ipc"
-import { APIMenuServiceEvents, Outbox } from "device/models"
+import { APIMenuServiceEvents, MenuConfig } from "device/models"
+import { DeviceId } from "Core/device/constants/device-id"
 
-export const getMenuConfigRequest = (): Promise<ResultObject<Outbox>> => {
-  return ipcRenderer.callMain(APIMenuServiceEvents.GetMenuConfig)
+export const getMenuConfigRequest = (
+  deviceId: DeviceId
+): Promise<ResultObject<MenuConfig>> => {
+  return ipcRenderer.callMain(APIMenuServiceEvents.GetMenuConfig, deviceId)
 }
