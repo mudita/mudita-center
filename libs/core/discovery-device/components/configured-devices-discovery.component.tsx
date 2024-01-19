@@ -27,8 +27,8 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const devices = useSelector(getDevicesSelector)
-  const failedDevicesSelector = useSelector(getFailedDevicesSelector)
-  const availableDevicesSelector = useSelector(getAvailableDevicesSelector)
+  const failedDevices = useSelector(getFailedDevicesSelector)
+  const availableDevices = useSelector(getAvailableDevicesSelector)
 
   useEffect(() => {
     dispatch(setDiscoveryStatus(DiscoveryStatus.Discovering))
@@ -40,7 +40,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   useEffect(() => {
     if (
       devices.length === 1 &&
-      failedDevicesSelector.length === 1 &&
+      failedDevices.length === 1 &&
       noNewDevicesDetectedState
     ) {
       history.push(URL_ONBOARDING.troubleshooting)
@@ -54,7 +54,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
 
     if (
       devices.length === 1 &&
-      availableDevicesSelector.length === 1 &&
+      availableDevices.length === 1 &&
       noNewDevicesDetectedState
     ) {
       void handleDeviceActivation()
@@ -63,8 +63,8 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     history,
     dispatch,
     devices,
-    failedDevicesSelector,
-    availableDevicesSelector,
+    failedDevices.length,
+    availableDevices.length,
     noNewDevicesDetectedState,
   ])
 
@@ -95,7 +95,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
 
   if (
     devices.length > 1 &&
-    availableDevicesSelector.length === devices.length &&
+    availableDevices.length === devices.length &&
     noNewDevicesDetectedState
   ) {
     return <AvailableDeviceList />
