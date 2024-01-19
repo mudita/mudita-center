@@ -19,6 +19,7 @@ import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.se
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { DownloadState } from "Core/update/constants"
+import { cancelOsDownload } from "Core/update/requests"
 
 export const handleDeviceDetached = createAsyncThunk<
   void,
@@ -44,6 +45,8 @@ export const handleDeviceDetached = createAsyncThunk<
     }
 
     if (getState().update.downloadState === DownloadState.Loading) {
+      await dispatch(deactivateDevice())
+      cancelOsDownload()
       history.push(URL_ONBOARDING.welcome)
       return
     }
