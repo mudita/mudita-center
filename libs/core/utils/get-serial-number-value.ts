@@ -3,15 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const getSerialNumberValue = (
-  serialNumber: string | undefined
-): string => {
-  if (serialNumber === undefined) {
-    return ""
-  }
-  if (serialNumber === "00000000000000") {
-    return ""
-  }
+import { unknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 
-  return serialNumber
+export const getSerialNumberValue = (
+  serialNumber: string = unknownSerialNumber
+): string => {
+  return serialNumber === unknownSerialNumber ? "" : serialNumber
 }

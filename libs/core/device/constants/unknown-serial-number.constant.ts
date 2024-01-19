@@ -3,7 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum CaseColor {
-  Black = "black",
-  Gray = "gray",
-}
+export const unknownSerialNumber = "00000000000000"

@@ -8,7 +8,7 @@ import { Backup, RestoreBackup } from "Core/backup/dto"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
-import { CaseColor, DeviceType } from "Core/device/constants"
+import { CaseColour, DeviceType } from "Core/device/constants"
 import { MemorySpace } from "Core/files-manager/components/files-manager/files-manager.interface"
 import {
   CheckForUpdateMode,
@@ -28,7 +28,7 @@ export interface PureOverviewProps {
   readonly networkLevel: number
   readonly pureOsBackupLocation: string
   readonly updatingState: State
-  readonly caseColour: CaseColor
+  readonly caseColour: CaseColour
   readonly lastBackupDate: Date | undefined
   readonly backupDeviceState: State
   readonly restoreDeviceState: State

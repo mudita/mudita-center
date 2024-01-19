@@ -6,7 +6,7 @@
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
-import { DeviceType, CaseColor } from "Core/device/constants"
+import { DeviceType, CaseColour } from "Core/device/constants"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "Core/overview/components/overview/overview.component"
 import store from "Core/__deprecated__/renderer/store"
@@ -127,7 +127,7 @@ const defaultProps: Props = {
     usedUserSpace: 200,
     total: 200,
   },
-  caseColour: CaseColor.Gray,
+  caseColour: CaseColour.Gray,
   syncState: SynchronizationStatus.Loaded,
   updateAllIndexes: jest.fn(),
   abortDownload: jest.fn(),

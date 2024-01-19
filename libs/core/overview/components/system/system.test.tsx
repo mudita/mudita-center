@@ -10,7 +10,7 @@ import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/rende
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import System from "Core/overview/components/system/system.component"
 import { SystemTestIds } from "Core/overview/components/system/system-test-ids.enum"
-import { CaseColor, DeviceType, PureDeviceData } from "Core/device"
+import { CaseColour, DeviceType, PureDeviceData } from "Core/device"
 import { Provider } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import createMockStore from "redux-mock-store"
@@ -52,7 +52,7 @@ const pureDeviceMock: PureDeviceData = {
     usedUserSpace: 1021,
     total: 16000000000,
   },
-  caseColour: CaseColor.Gray,
+  caseColour: CaseColour.Gray,
   backupFilePath: "path/to/directory/fileBase.tar",
   token: "",
 }

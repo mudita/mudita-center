@@ -9,7 +9,7 @@ import { IpcDeviceManagerEvent } from "Core/device-manager/constants"
 import { Result, ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
 import {
-  CaseColor,
+  CaseColour,
   DeviceCommunicationError,
   Endpoint,
   Method,
@@ -18,7 +18,7 @@ import { DeviceInfo } from "Core/device/types/mudita-os"
 import { DeviceCacheConfigurationService } from "Core/device-manager/services/device-cache-configuration.service"
 
 export interface DeviceConfiguration {
-  caseColour: CaseColor | undefined
+  caseColour: CaseColour | undefined
 }
 
 export class DeviceManagerController {

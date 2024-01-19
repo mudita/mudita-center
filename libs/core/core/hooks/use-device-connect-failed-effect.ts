@@ -71,9 +71,9 @@ export const useDeviceConnectFailedEffect = () => {
       await handleDeviceConnectFailed(properties)
     }
 
-    const deviceConnected = registerDeviceConnectFailedListener(handler)
+    const unregister = registerDeviceConnectFailedListener(handler)
     return () => {
-      deviceConnected()
+      unregister()
     }
   }, [handleDeviceConnectFailed])
 }

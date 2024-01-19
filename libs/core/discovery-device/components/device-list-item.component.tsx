@@ -20,7 +20,7 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { CaseColor, DeviceType } from "Core/device"
+import { CaseColour, DeviceType } from "Core/device"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 
 const messages = defineMessages({
@@ -98,7 +98,7 @@ export interface DeviceListItemProps extends Device {
 
 const getDeviceTypeName = (
   deviceType: DeviceType,
-  caseColour: CaseColor = CaseColor.Black
+  caseColour: CaseColour = CaseColour.Black
 ): string => {
   if (deviceType === DeviceType.MuditaPure) {
     return "Pure"
@@ -106,14 +106,14 @@ const getDeviceTypeName = (
 
   if (
     deviceType === DeviceType.MuditaHarmony &&
-    caseColour === CaseColor.Gray
+    caseColour === CaseColour.Gray
   ) {
     return "Harmony 1"
   }
 
   if (
     deviceType === DeviceType.MuditaHarmony &&
-    caseColour === CaseColor.Black
+    caseColour === CaseColour.Black
   ) {
     return "Harmony 2"
   }
@@ -130,7 +130,7 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
   id,
   serialNumber,
   deviceType,
-  caseColour = CaseColor.Black,
+  caseColour = CaseColour.Black,
 }) => {
   const serialNumberValue = getSerialNumberValue(serialNumber)
 
