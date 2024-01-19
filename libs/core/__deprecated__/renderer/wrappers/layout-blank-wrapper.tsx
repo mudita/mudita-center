@@ -5,8 +5,8 @@
 
 import * as React from "react"
 import styled from "styled-components"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
+import { connect } from "react-redux"
+import { Link } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   textColor,
@@ -20,14 +20,9 @@ import Text, {
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { LayoutBlankWrapperTestIds } from "Core/__deprecated__/renderer/wrappers/wrappers-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { RootState, ReduxRootState, Dispatch } from "Core/__deprecated__/renderer/store"
+import { RootState, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { State } from "Core/core/constants"
-import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
-import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { setDataSyncInitState } from "Core/data-sync/actions"
-import { setInitState } from "Core/device"
-import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
-import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
+import { useHandleActiveDeviceAborted } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-aborted.hook"
 
 const Layout = styled.div`
   display: grid;
@@ -104,15 +99,10 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
   onClose,
   closeable,
 }) => {
-  const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
+  const handleActiveDeviceAborted = useHandleActiveDeviceAborted()
 
   const handleClosePage = () => {
-    dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
-    dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
-    dispatch(setDataSyncInitState())
-    dispatch(setInitState())
-    history.push(URL_MAIN.news)
+    handleActiveDeviceAborted()
     onClose && onClose()
   }
 

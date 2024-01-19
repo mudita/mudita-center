@@ -28,7 +28,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import React, { useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
-import { useHandleDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-handle-device-detached.hook"
+import { useHandleActiveDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-detached.hook"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
@@ -79,7 +79,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   backupActionDisabled,
 }) => {
   useWatchDeviceDataEffect()
-  const handleDeviceDetached = useHandleDeviceDetached()
+  const handleActiveDeviceDetached = useHandleActiveDeviceDetached()
 
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -129,7 +129,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeBackupDeviceFlowState = () => {
     setBackupDeviceFlowState(undefined)
     readBackupDeviceDataState()
-    handleDeviceDetached()
+    handleActiveDeviceDetached()
   }
 
   useEffect(() => {
@@ -154,7 +154,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeRestoreDeviceFlowState = () => {
     setRestoreDeviceFlowState(undefined)
     readRestoreDeviceDataState()
-    handleDeviceDetached()
+    handleActiveDeviceDetached()
   }
 
   useEffect(() => {

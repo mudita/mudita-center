@@ -24,6 +24,7 @@ import { getCrashDump } from "Core/crash-dump"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 import { checkForForceUpdateNeed } from "Core/update/actions"
 import { loadSettings } from "Core/settings/actions"
+import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
 
 export const initializeMuditaHarmony = async (
   history: History,
@@ -55,6 +56,10 @@ export const initializeMuditaHarmony = async (
     // Handle FETCH CRASH DUMPS as an initializing step
     await dispatch(getCrashDump())
     await dispatch(checkForForceUpdateNeed())
+  }
+
+  if(!isActiveDeviceAttachedSelector(getState())){
+    return
   }
 
   dispatch(

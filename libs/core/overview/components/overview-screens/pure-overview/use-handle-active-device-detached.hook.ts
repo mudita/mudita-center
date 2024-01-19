@@ -10,15 +10,18 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
-import { URL_DISCOVERY_DEVICE, URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_DISCOVERY_DEVICE,
+  URL_MAIN,
+} from "Core/__deprecated__/renderer/constants/urls"
 
-export const useHandleDeviceDetached = () => {
+export const useHandleActiveDeviceDetached = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const activeDeviceAttached = useSelector(isActiveDeviceAttachedSelector)
   const devices = useSelector(getDevicesSelector)
 
-  return useCallback( () => {
+  return useCallback(() => {
     if (!activeDeviceAttached) {
       void dispatch(deactivateDevice())
       if (devices.length > 1) {

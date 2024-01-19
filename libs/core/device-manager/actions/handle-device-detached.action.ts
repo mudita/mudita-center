@@ -55,7 +55,9 @@ export const handleDeviceDetached = createAsyncThunk<
 
     const devices = getDevicesSelector(getState())
 
-    if (devices.length > 0) {
+    if (devices.length > 1) {
+      history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
+    } else if (devices.length === 1) {
       history.push(URL_DISCOVERY_DEVICE.root)
     } else {
       history.push(URL_MAIN.news)

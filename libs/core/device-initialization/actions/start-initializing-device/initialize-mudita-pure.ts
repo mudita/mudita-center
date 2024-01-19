@@ -38,6 +38,7 @@ import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-dev
 import { loadBackupData } from "Core/backup"
 import { checkForForceUpdateNeed } from "Core/update/actions"
 import { loadSettings } from "Core/settings/actions"
+import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
 
 export const initializeMuditaPure = async (
   history: History,
@@ -111,6 +112,10 @@ export const initializeMuditaPure = async (
   }
 
   await dispatch(loadBackupData())
+
+  if(!isActiveDeviceAttachedSelector(getState())){
+    return
+  }
 
   dispatch(
     setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
