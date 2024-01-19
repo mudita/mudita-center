@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import PasscodeModal, {
   UnlockDeviceReturnType,
@@ -24,6 +24,7 @@ import { useWatchLockTimeEffect } from "Core/device-initialization/components/pa
 import { useWatchUnlockStatus } from "Core/device-initialization/components/passcode-modal/use-watch-unlock-status-effect"
 import { setDataSyncInitState } from "Core/data-sync/actions"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 
 const PasscodeModalContainer: FunctionComponent = () => {
   useWatchLockTimeEffect()
@@ -47,6 +48,11 @@ const PasscodeModalContainer: FunctionComponent = () => {
   const handleUnlockDevice = (code: number[]): UnlockDeviceReturnType => {
     return dispatch(unlockDevice(code)) as unknown as UnlockDeviceReturnType
   }
+
+  useEffect(()=> {
+    // handle closing contact import failure modal
+    void modalService.closeModal(true)
+  }, [])
 
   return (
     <PasscodeModal

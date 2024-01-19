@@ -22,6 +22,7 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "Core/core/types/request-response.interface"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class ContactService {
   constructor(
@@ -194,6 +195,17 @@ export class ContactService {
           status: RequestResponseStatus.Error,
           error: {
             message: "deleteContacts is break",
+          },
+        }
+      }
+
+      logger.info(`ContactService deleteContacts: ${JSON.stringify(result)}`)
+
+      if (error?.type === DeviceCommunicationError.DeviceLocked) {
+        return {
+          status: RequestResponseStatus.Error,
+          error: {
+            message: "deleteContacts is break by locked device",
           },
         }
       }
