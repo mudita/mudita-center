@@ -31,6 +31,7 @@ import {
 } from "Core/__deprecated__/renderer/constants/urls"
 import { DrawerDevice } from "Core/device-select/components/drawer-device.component"
 import { defineMessages } from "react-intl"
+import { DeviceId } from "Core/device/constants/device-id"
 
 const messages = defineMessages({
   changeDevice: { id: "component.deviceSelection.changeDevice" },
@@ -69,6 +70,18 @@ const DeviceSelectDrawer: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
 
+  const handleDrawerDeviceClick = async (id: DeviceId) => {
+    dispatch(closeSelectDeviceDrawer())
+    const device = devices.find((device) => device.id === id)
+    if (device?.state === DeviceState.Failed) {
+      history.push(URL_ONBOARDING.troubleshooting)
+    } else {
+      await dispatch(deactivateDevice())
+      await dispatch(handleDeviceActivated(id))
+      history.push(URL_DEVICE_INITIALIZATION.root)
+    }
+  }
+
   return (
     <Drawer
       open={isOpen}
@@ -99,17 +112,7 @@ const DeviceSelectDrawer: FunctionComponent = () => {
               serialNumber={serialNumber}
               caseColour={caseColour}
               deviceType={deviceType}
-              onClick={() => {
-                dispatch(closeSelectDeviceDrawer())
-                const device = devices.find((device) => device.id === id)
-                if (device?.state === DeviceState.Failed) {
-                  history.push(URL_ONBOARDING.troubleshooting)
-                } else {
-                  dispatch(deactivateDevice())
-                  dispatch(handleDeviceActivated(id))
-                  history.push(URL_DEVICE_INITIALIZATION.root)
-                }
-              }}
+              onClick={() => handleDrawerDeviceClick(id)}
             />
           ))}
         </DevicesContainer>
