@@ -25,7 +25,10 @@ import { useHistory } from "react-router-dom"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
-import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_DEVICE_INITIALIZATION,
+  URL_ONBOARDING,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { DrawerDevice } from "Core/device-select/components/drawer-device.component"
 import { defineMessages } from "react-intl"
 
@@ -103,7 +106,8 @@ const DeviceSelectDrawer: FunctionComponent = () => {
                   history.push(URL_ONBOARDING.troubleshooting)
                 } else {
                   dispatch(deactivateDevice())
-                  dispatch(handleDeviceActivated({ deviceId: id, history }))
+                  dispatch(handleDeviceActivated(id))
+                  history.push(URL_DEVICE_INITIALIZATION.root)
                 }
               }}
             />
