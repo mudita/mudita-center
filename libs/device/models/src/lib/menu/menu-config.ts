@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IconType } from "generic-view/views"
+import { IconType } from "generic-view/utils"
 
 export interface MenuItemConfig {
   feature: string

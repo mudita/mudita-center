@@ -17,7 +17,6 @@ import {
   backgroundColor,
   borderColor,
 } from "Core/core/styles/theming/theme-getters"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { Link } from "react-router-dom"
 import { defineMessages } from "react-intl"
 import Icon, {
@@ -25,6 +24,7 @@ import Icon, {
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { activeDeviceMenuElements } from "generic-view/store"
 
 const messages = defineMessages({
   backButtonLabel: { id: "module.generic.viewBackButton" },
@@ -75,7 +75,8 @@ const Header: FunctionComponent<HeaderProps> = ({
   const previousViewName = location?.state?.previousViewName
 
   const genericMenu = useSelector(
-    (state: ReduxRootState) => state.genericViews.menu
+    // (state: ReduxRootState) => state.genericViews.menu
+    activeDeviceMenuElements
   )
   const [currentLocation, setCurrentLocation] = useState<
     { id: string } | string

@@ -21,4 +21,5 @@ export enum IconType {
   NetworkSignal4 = "network-signal-4",
   NoSimCard = "no-sim-card",
   AirplaneMode = "airplane-mode",
+  Overview = "overview",
 }

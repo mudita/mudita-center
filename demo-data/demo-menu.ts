@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { IconType } from "generic-view/utils"
 
 interface MenuItemConfig {
   feature: string
@@ -22,17 +22,17 @@ export const menuConfig: MenuConfig = {
     {
       feature: "mc-overview",
       displayName: "Overview",
-      icon: IconType.MenuOverview,
+      icon: IconType.Battery1,
     },
     {
       feature: "api-connection-demo",
       displayName: "connection demo",
-      icon: IconType.MenuOverview,
+      icon: IconType.Battery1,
     },
     {
       feature: "mc-calendar",
       displayName: "Calendar",
-      icon: IconType.Calendar,
+      icon: IconType.Battery1,
     },
   ],
 }

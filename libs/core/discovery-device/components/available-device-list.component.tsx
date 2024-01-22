@@ -59,6 +59,7 @@ const AvailableDeviceList: FunctionComponent = () => {
       history.push(URL_ONBOARDING.troubleshooting)
     } else {
       await dispatch(handleDeviceActivated(id))
+
       history.push(URL_DEVICE_INITIALIZATION.root)
     }
   }
