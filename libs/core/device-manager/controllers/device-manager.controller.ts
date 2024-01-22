@@ -45,6 +45,9 @@ export class DeviceManagerController {
     const result = await this.deviceManager.request<DeviceInfo>(id, {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
+      options: {
+        connectionTimeOut: 5000,
+      },
     })
 
     if (result.ok) {
