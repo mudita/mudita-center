@@ -53,7 +53,7 @@ export class DeviceInfoPresenter {
           fromMebiToByte(Number(data.deviceSpaceTotal)) +
           getMissingStorageBytes(Number(data.deviceSpaceTotal), deviceType),
       },
-      caseColour: data.caseColour ? data.caseColour : CaseColour.Gray,
+      caseColour: data.caseColour ? data.caseColour : CaseColour.Black,
       backupFilePath: data.backupFilePath ? data.backupFilePath : "",
       updateFilePath: data.updateFilePath
         ? data.updateFilePath
