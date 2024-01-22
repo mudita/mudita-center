@@ -17,7 +17,7 @@ import {
   textColor,
 } from "Core/core/styles/theming/theme-getters"
 import { DeviceType } from "Core/device"
-import { CaseColor } from "Core/device/constants"
+import { CaseColour } from "Core/device/constants"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
@@ -104,7 +104,7 @@ export type DrawerDeviceProps = {
   deviceId: string
   activeDeviceId: string | undefined
   serialNumber: string | undefined
-  caseColour: CaseColor | undefined
+  caseColour: CaseColour | undefined
   deviceType: DeviceType
   onClick: () => void
 }
