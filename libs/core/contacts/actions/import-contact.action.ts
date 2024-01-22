@@ -30,6 +30,12 @@ export const importContact = createAsyncThunk<Error | Contact, NewContact>(
       return response.data ?? contact
     }
 
+    if (status === RequestResponseStatus.InternalServerError) {
+      return rejectWithValue(
+        new AppError(RequestResponseStatus.InternalServerError, "")
+      )
+    }
+
     if (error || !data) {
       return rejectWithValue(
         new AppError(

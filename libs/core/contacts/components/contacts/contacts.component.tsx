@@ -57,6 +57,8 @@ import { ExportContactsResult } from "Core/contacts/constants"
 import DeleteContactsPopup from "./delete-contacts-popup/delete-contacts-popup.component"
 import { differenceWith, isEqual } from "lodash"
 import { filterContacts } from "Core/contacts/helpers/filter-contacts/filter-contacts"
+import { AppError } from "Core/core/errors"
+import { RequestResponseStatus } from "Core/core/types"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {
@@ -557,21 +559,25 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await showContactsImportingModal()
 
-    const newContactResponses = await importedContacts.reduce(
-      async (lastPromise, contact, index) => {
-        const value = await lastPromise
-        const { payload } = await importContact(contact)
-        const currentContactIndex = index + 1
-        setAddedContactsCount(currentContactIndex)
+    const newContactResponses = []
+    for (let index = 0; index < importedContacts.length; index++) {
+      const contact = importedContacts[index]
+      const { payload } = await importContact(contact)
 
-        if (isError(payload)) {
-          return [...value, { ...contact, successfullyAdded: false }]
-        } else {
-          return [...value, { ...payload }]
-        }
-      },
-      Promise.resolve<(NewContactResponse | Contact)[]>([])
-    )
+      if (
+        (payload as AppError).type === RequestResponseStatus.InternalServerError
+      ) {
+        return
+      }
+      const currentContactIndex = index + 1
+      setAddedContactsCount(currentContactIndex)
+
+      if (isError(payload)) {
+        newContactResponses.push({ ...contact, successfullyAdded: false })
+      } else {
+        newContactResponses.push({ ...payload })
+      }
+    }
 
     const failedNewContacts: NewContact[] = newContactResponses.filter(
       (contact): contact is NewContactResponse => "successfullyAdded" in contact
