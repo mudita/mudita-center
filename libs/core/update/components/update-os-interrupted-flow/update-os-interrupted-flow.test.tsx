@@ -8,6 +8,15 @@ import { UpdateOsInterruptedFlowTestIds } from "Core/update/components/update-os
 import { UpdateOsInterruptedFlow } from "Core/update/components/update-os-interrupted-flow/update-os-interrupted-flow.component"
 import { UpdateOsInterruptedFlowProps } from "Core/update/components/update-os-interrupted-flow/update-os-interrupted-flow.interface"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: (): History => ({
+    push: jest.fn(),
+    location: { pathname: URL_ONBOARDING.welcome },
+  } as unknown as History),
+}));
 
 const defaultProps: UpdateOsInterruptedFlowProps = {
   alreadyDownloadedReleases: [],

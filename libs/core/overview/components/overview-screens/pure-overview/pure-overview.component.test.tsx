@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React, { ComponentProps } from "react"
+import { Provider } from "react-redux"
 import { ErrorSyncModalTestIds } from "Core/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { State } from "Core/core/constants"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
@@ -11,13 +13,9 @@ import { PureOverview } from "Core/overview/components/overview-screens/pure-ove
 import { StatusTestIds } from "Core/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "Core/overview/components/system/system-test-ids.enum"
 import { DownloadState, SilentCheckForUpdateState } from "Core/update/constants"
-import history from "Core/core/routes/history"
 import store from "Core/__deprecated__/renderer/store"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import React, { ComponentProps } from "react"
-import { Provider } from "react-redux"
-import { Router } from "react-router"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 
 // TODO [mw] add integration tests for update process - scope of the next PR (after all the changes from CP-1681 are done)
@@ -89,11 +87,9 @@ const render = (extraProps?: Partial<Props>) => {
     ...extraProps,
   }
   return renderWithThemeAndIntl(
-    <Router history={history}>
-      <Provider store={store}>
-        <PureOverview {...props} />
-      </Provider>
-    </Router>
+    <Provider store={store}>
+      <PureOverview {...props} />
+    </Provider>
   )
 }
 

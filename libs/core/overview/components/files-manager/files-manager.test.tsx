@@ -4,14 +4,12 @@
  */
 
 import React from "react"
+import { fireEvent } from "@testing-library/dom"
 import { convertBytes } from "Core/core/helpers/convert-bytes/convert-bytes"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import FilesManager from "Core/overview/components/files-manager/files-manager.component"
 import { FilesManagerProps } from "Core/overview/components/files-manager/files-manager.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
-import { fireEvent } from "@testing-library/dom"
-import history from "Core/core/routes/history"
-import { Router } from "react-router"
 
 const renderFilesManager = ({
   onFilesOpen = noop,
@@ -19,13 +17,7 @@ const renderFilesManager = ({
   ...props
 }: Partial<FilesManagerProps> = {}) => {
   return renderWithThemeAndIntl(
-    <Router history={history}>
-      <FilesManager
-        onFilesOpen={onFilesOpen}
-        usedSpace={usedSpace}
-        {...props}
-      />
-    </Router>
+    <FilesManager onFilesOpen={onFilesOpen} usedSpace={usedSpace} {...props} />
   )
 }
 

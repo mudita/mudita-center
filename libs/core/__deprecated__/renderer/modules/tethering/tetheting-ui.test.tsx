@@ -4,13 +4,11 @@
  */
 
 import React, { ComponentProps } from "react"
-import { Router } from "react-router"
-import history from "Core/core/routes/history"
+import { Provider } from "react-redux"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import TetheringUI from "Core/__deprecated__/renderer/modules/tethering/tethering-ui.component"
 import { TetheringTestIds } from "Core/__deprecated__/renderer/modules/tethering/screens/tethering.enum"
 import { SettingsTogglerTestIds } from "Core/settings/components/settings-toggler/settings-toggler-test-ids.enum"
-import { Provider } from "react-redux"
 import store from "Core/__deprecated__/renderer/store"
 
 jest.mock("@electron/remote", () => ({
@@ -21,11 +19,9 @@ jest.mock("@electron/remote", () => ({
 
 const renderer = (props = {}) =>
   renderWithThemeAndIntl(
-    <Router history={history}>
-      <Provider store={store}>
-        <TetheringUI {...props} />
-      </Provider>
-    </Router>
+    <Provider store={store}>
+      <TetheringUI {...props} />
+    </Provider>
   )
 
 describe("Pure disconnected screen tests", () => {

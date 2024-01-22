@@ -5,17 +5,11 @@
 
 import React from "react"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import { Router } from "react-router"
-import history from "Core/core/routes/history"
-import { LicenseUI } from "./license-ui.component"
-import { LicenseComponentTestIds } from "./license-ui.enum"
+import { LicenseUI } from "Core/settings/components/license/license-ui.component"
+import { LicenseComponentTestIds } from "Core/settings/components/license/license-ui.enum"
 
 const renderer = () => {
-  return renderWithThemeAndIntl(
-    <Router history={history}>
-      <LicenseUI />
-    </Router>
-  )
+  return renderWithThemeAndIntl(<LicenseUI />)
 }
 
 test("License component renders", () => {
