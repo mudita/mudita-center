@@ -22,8 +22,8 @@ import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     downloadInterruptedModalOpened:
-      state.update.downloadState === DownloadState.Failed &&
-      !isActiveDeviceAttachedSelector(state),
+      state.update.downloadState === DownloadState.Failed ||
+      state.update.downloadState === DownloadState.Cancelled,
     updateInterruptedModalOpened:
       state.update.updateOsState === State.Failed &&
       !isActiveDeviceAttachedSelector(state),

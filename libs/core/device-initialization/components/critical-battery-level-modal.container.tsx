@@ -5,24 +5,15 @@
 
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { useHistory } from "react-router-dom"
-import { useDispatch } from "react-redux"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
-import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import CriticalBatteryLevelModal from "Core/connecting/components/critical-battery-level-modal/critical-battery-level-modal"
+import { useHandleActiveDeviceAborted } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-aborted.hook"
 
 const CriticalBatteryLevelModalContainer: FunctionComponent = () => {
-  const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
+  const handleActiveDeviceAborted = useHandleActiveDeviceAborted()
 
-  const handleClose = () => {
-    dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
-    history.push(URL_MAIN.news)
-  }
-
-  return <CriticalBatteryLevelModal open closeModal={handleClose} />
+  return (
+    <CriticalBatteryLevelModal open closeModal={handleActiveDeviceAborted} />
+  )
 }
 
 export default CriticalBatteryLevelModalContainer

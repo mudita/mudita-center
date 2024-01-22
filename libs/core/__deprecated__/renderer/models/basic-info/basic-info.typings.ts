@@ -4,7 +4,7 @@
  */
 
 import { State } from "Core/core/constants"
-import { DeviceType, CaseColor } from "Core/device/constants"
+import { DeviceType, CaseColour } from "Core/device/constants"
 
 export interface SimCard {
   readonly network?: string
@@ -40,7 +40,7 @@ export interface StoreValues {
   readonly initialDataLoaded: boolean
   readonly serialNumber: string | undefined
   readonly phoneLockTime?: number
-  readonly caseColour: CaseColor | undefined
+  readonly caseColour: CaseColour | undefined
 }
 
 export interface StoreEffects {

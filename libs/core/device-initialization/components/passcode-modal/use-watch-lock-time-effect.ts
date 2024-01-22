@@ -11,10 +11,20 @@ import { deviceUnlockedStatusSelector } from "Core/device/selectors/device-unloc
 import { deviceLockTimeRequest } from "Core/device/requests"
 import { PhoneLockTime } from "Core/device/dto"
 
+const arePhoneLockTimesEqual = (
+  objA: undefined | PhoneLockTime,
+  objB: undefined | PhoneLockTime
+): boolean => {
+  return (
+    objA?.phoneLockTime === objB?.phoneLockTime &&
+    objA?.timeLeftToNextAttempt === objB?.timeLeftToNextAttempt
+  )
+}
+
 const deviceLockIntervalTime = 15000
 
 export const useWatchLockTimeEffect = () => {
-  const previousPhoneLockTime = useRef<undefined | PhoneLockTime>(undefined)
+  const previousPhoneLockTimeRef = useRef<undefined | PhoneLockTime>(undefined)
   const dispatch = useDispatch<Dispatch>()
   const deviceUnlockedStatus = useSelector(deviceUnlockedStatusSelector)
 
@@ -26,15 +36,13 @@ export const useWatchLockTimeEffect = () => {
     const intervalId = setInterval(async () => {
       const result = await deviceLockTimeRequest()
       const phoneLockTime = result.ok ? result.data : undefined
+      const previousPhoneLockTime = previousPhoneLockTimeRef.current
 
-      if (
-        JSON.stringify(previousPhoneLockTime.current) !==
-        JSON.stringify(phoneLockTime)
-      ) {
+      if (arePhoneLockTimesEqual(previousPhoneLockTime, phoneLockTime)) {
         dispatch(setLockTime(phoneLockTime))
       }
 
-      previousPhoneLockTime.current = phoneLockTime
+      previousPhoneLockTimeRef.current = phoneLockTime
     }, deviceLockIntervalTime)
 
     return () => clearInterval(intervalId)

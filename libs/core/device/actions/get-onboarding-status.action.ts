@@ -29,7 +29,7 @@ export const getOnboardingStatus = createAsyncThunk<
       const { ok, error } = await unlockDeviceStatusRequest()
       return (
         ok ||
-        error?.type === DeviceCommunicationError.DeviceOnboardingNotFinished
+        error?.type !== DeviceCommunicationError.DeviceOnboardingNotFinished
       )
     } else if (deviceType === DeviceType.MuditaHarmony) {
       const { ok, data } = await getDeviceInfoRequest()

@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { DeviceType, CaseColor } from "Core/device/constants"
+import { DeviceType, CaseColour } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Image from "Core/__deprecated__/renderer/components/core/image/image.component"
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
@@ -16,15 +16,15 @@ import HarmonyBlackImage from "Core/__deprecated__/renderer/images/harmony-black
 
 interface DeviceImageProps {
   deviceType: DeviceType
-  caseColour?: CaseColor
+  caseColour?: CaseColour
 }
 
 export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
   deviceType,
-  caseColour,
+  caseColour= CaseColour.Black,
   ...props
 }) => {
-  if (deviceType === DeviceType.MuditaPure && caseColour === CaseColor.Black) {
+  if (deviceType === DeviceType.MuditaPure && caseColour === CaseColour.Black) {
     return <Image src={PureBlackImage} data-testid={DeviceTestIds.PureBlack} {...props} />
   }
 
@@ -32,7 +32,7 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
     return <Image src={PureGrayImage} data-testid={DeviceTestIds.PureGray} {...props}/>
   }
 
-  if (deviceType === DeviceType.MuditaHarmony && caseColour === CaseColor.Black) {
+  if (deviceType === DeviceType.MuditaHarmony && caseColour === CaseColour.Black) {
     return <Image src={HarmonyBlackImage} {...props}/>
   }
 

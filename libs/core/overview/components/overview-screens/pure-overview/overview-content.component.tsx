@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { DeviceType, CaseColor } from "Core/device/constants"
+import { DeviceType, CaseColour } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   DeviceInfo,
@@ -23,7 +23,7 @@ interface OverviewContentProps {
   networkName: string
   networkLevel: number | undefined
   osVersion: string
-  caseColour: CaseColor | undefined
+  caseColour: CaseColour | undefined
   lastBackupDate: Date | undefined
   serialNumber: string | undefined
   disconnectDevice: () => void

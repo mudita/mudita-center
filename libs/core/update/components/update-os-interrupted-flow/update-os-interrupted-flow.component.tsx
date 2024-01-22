@@ -24,11 +24,9 @@ export const UpdateOsInterruptedFlow: FunctionComponent<
   const history = useHistory()
 
   useEffect(() => {
-    if (!downloadInterruptedModalOpened && !updateInterruptedModalOpened) {
+    if (!updateInterruptedModalOpened) {
       return
     }
-
-    console.log("history: ", history)
 
     history.push(URL_ONBOARDING.welcome)
   }, [history, downloadInterruptedModalOpened, updateInterruptedModalOpened])
@@ -42,8 +40,8 @@ export const UpdateOsInterruptedFlow: FunctionComponent<
     <>
       <DownloadingUpdateInterruptedModal
         testId={UpdateOsInterruptedFlowTestIds.DownloadingInterruptedModal}
-        open={downloadInterruptedModalOpened}
-        onClose={handleClose}
+        open={downloadInterruptedModalOpened && history.location.pathname === URL_ONBOARDING.welcome}
+        onClose={onClose}
         alreadyDownloadedReleases={alreadyDownloadedReleases}
       />
       <UpdateInterruptedModal

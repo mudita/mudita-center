@@ -28,6 +28,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import React, { useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
+import { useHandleActiveDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-detached.hook"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
@@ -78,6 +79,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   backupActionDisabled,
 }) => {
   useWatchDeviceDataEffect()
+  const handleActiveDeviceDetached = useHandleActiveDeviceDetached()
+
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
     loadingModal: false,
@@ -126,6 +129,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeBackupDeviceFlowState = () => {
     setBackupDeviceFlowState(undefined)
     readBackupDeviceDataState()
+    handleActiveDeviceDetached()
   }
 
   useEffect(() => {
@@ -150,6 +154,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeRestoreDeviceFlowState = () => {
     setRestoreDeviceFlowState(undefined)
     readRestoreDeviceDataState()
+    handleActiveDeviceDetached()
   }
 
   useEffect(() => {

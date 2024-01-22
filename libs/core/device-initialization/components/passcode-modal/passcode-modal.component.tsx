@@ -26,10 +26,10 @@ interface Props extends Omit<ModalDialogProps, "close" | "open"> {
 }
 
 enum ErrorState {
-  NoError = "NoError",
-  TypingError = "TypingError",
-  BadPasscode = "BadPasscode",
-  InternalServerError = "InternalServerError",
+  NoError = "no-error",
+  TypingError = "typing-error",
+  BadPasscode = "bad-passcode",
+  InternalServerError = "internal-server-error",
 }
 
 const ErrorMessageMap: Record<ErrorState, string> = {

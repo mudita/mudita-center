@@ -14,7 +14,7 @@ import {
   Tray,
   AccessTechnology,
   NetworkStatus,
-  CaseColor,
+  CaseColour,
   DiagnosticsFileList,
   PhoneLockCategory,
   MessageType,
@@ -137,7 +137,7 @@ export interface DeviceInfo {
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus
   serialNumber: string
-  caseColour: CaseColor
+  caseColour: CaseColour
   deviceToken?: string
   backupFilePath: string
   updateFilePath?: string
