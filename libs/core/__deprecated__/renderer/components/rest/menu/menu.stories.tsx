@@ -5,10 +5,9 @@
 
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import { Router } from "react-router"
-import Menu from "Core/__deprecated__/renderer/components/rest/menu/menu.component"
-import history from "Core/core/routes/history"
+import { BrowserRouter as Router } from "react-router-dom"
 import styled from "styled-components"
+import Menu from "Core/__deprecated__/renderer/components/rest/menu/menu.component"
 
 const Container = styled.div`
   width: 31.5rem;
@@ -16,7 +15,7 @@ const Container = styled.div`
 
 storiesOf("Components/Menu", module).add("Menu", () => {
   return (
-    <Router history={history}>
+    <Router>
       <Container>
         <Menu />
       </Container>

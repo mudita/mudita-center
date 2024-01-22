@@ -4,17 +4,14 @@
  */
 
 import React from "react"
-import { History } from "history"
+import history from "Core/core/routes/history"
 import { Route, Router } from "react-router"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
 import SarComponent from "Core/overview/components/pure-system/sar.component"
 
-interface Props {
-  history: History
-}
 
-const SarApp: FunctionComponent<Props> = ({ history }) => {
+const SarApp: FunctionComponent = ( ) => {
   return (
     <Router history={history}>
       <Route path={URL_OVERVIEW.sar}>

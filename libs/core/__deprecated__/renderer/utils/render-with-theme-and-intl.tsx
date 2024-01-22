@@ -14,11 +14,11 @@ import ReactModal from "react-modal"
 import { ThemeProvider } from "styled-components"
 import { IntlProvider } from "react-intl"
 import { Router } from "react-router"
+import { createHashHistory } from "history"
 import translationConfig from "App/translations.config.json"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import extractLanguageKeys from "Core/__deprecated__/renderer/utils/extract-test-locale"
 import theme from "Core/core/styles/theming/theme"
-import history from "Core/core/routes/history"
 
 ReactModal.setAppElement(document.createElement("div"))
 const testLocale = extractLanguageKeys(localeEn)
@@ -33,7 +33,7 @@ export function constructWrapper(ui: React.ReactElement) {
         locale={translationConfig.defaultLanguage}
         messages={process.env.NODE_ENV === "test" ? testLocale : localeEn}
       >
-        <Router history={history}>
+        <Router history={createHashHistory()}>
           {ui}
         </Router>
       </IntlProvider>

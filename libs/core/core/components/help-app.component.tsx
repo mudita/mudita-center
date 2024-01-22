@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Route, Router, Switch } from "react-router"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-import { History } from "history"
+import history from "Core/core/routes/history"
 import { QuestionAndAnswer } from "Core/help/components/help.component"
 import Help from "Core/help/help.container"
 import { renderAnswer } from "Core/help/helpers/render-answer"
@@ -16,7 +16,6 @@ import ContextMenu from "Core/__deprecated__/context-menu/context-menu"
 import { Feature, flags } from "Core/feature-flags"
 
 interface Props {
-  history: History
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   saveToStore?: (data: QuestionAndAnswer) => Promise<any>
@@ -27,11 +26,7 @@ interface Props {
 
 const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
 
-const HelpApp: FunctionComponent<Props> = ({
-  history,
-  saveToStore,
-  getStoreData,
-}) => {
+const HelpApp: FunctionComponent<Props> = ({ saveToStore, getStoreData }) => {
   const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
   const [searchInputValue, setSearchInputValue] = useState("")
   useEffect(() => {

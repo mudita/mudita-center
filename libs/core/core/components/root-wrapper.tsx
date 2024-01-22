@@ -27,11 +27,7 @@ import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import { ModalProvider } from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 
-interface Props {
-  history: History
-}
-
-const RootWrapper: FunctionComponent<Props> = ({ history }) => {
+const RootWrapper: FunctionComponent = () => {
   const mode = new URLSearchParams(window.location.search).get("mode")
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
@@ -41,38 +37,32 @@ const RootWrapper: FunctionComponent<Props> = ({ history }) => {
   const RenderRoutes = useMemo(
     () => () => {
       if (mode === Mode.ServerError) {
-        return <ErrorApp history={history} />
+        return <ErrorApp />
       }
 
       if (mode === Mode.Help) {
-        return (
-          <HelpApp
-            history={history}
-            saveToStore={saveToStore}
-            getStoreData={getStoreData}
-          />
-        )
+        return <HelpApp saveToStore={saveToStore} getStoreData={getStoreData} />
       }
 
       if (mode === Mode.License) {
-        return <LicenseApp history={history} />
+        return <LicenseApp />
       }
 
       if (mode === Mode.TermsOfService) {
-        return <TermsOfServiceApp history={history} />
+        return <TermsOfServiceApp />
       }
 
       if (mode === Mode.PrivacyPolicy) {
-        return <PrivacyPolicyApp history={history} />
+        return <PrivacyPolicyApp />
       }
 
       if (mode === Mode.Sar) {
-        return <SarApp history={history} />
+        return <SarApp />
       }
 
-      return <BaseAppContainer history={history} />
+      return <BaseAppContainer />
     },
-    [mode, history]
+    [mode]
   )
 
   return (
