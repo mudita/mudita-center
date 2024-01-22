@@ -196,7 +196,8 @@ export class ContactService {
   public async deleteContacts(
     contactIds: ContactID[]
   ): Promise<RequestResponse<ContactID[]>> {
-    const results = []
+    const errorIds = []
+    const successIds = []
 
     for (const id of contactIds) {
       const result = await this.deviceManager.device.request({
@@ -216,18 +217,12 @@ export class ContactService {
 
       const { ok } = result
 
-      results.push({
-        status: ok ? RequestResponseStatus.Ok : RequestResponseStatus.Error,
-        id,
-      })
+      if (ok) {
+        successIds.push(id)
+      } else {
+        errorIds.push(id)
+      }
     }
-
-    const errorIds = (await Promise.all(results))
-      .filter(({ status }) => status === RequestResponseStatus.Error)
-      .map(({ id }) => id)
-    const successIds = (await Promise.all(results))
-      .filter(({ status }) => status === RequestResponseStatus.Ok)
-      .map(({ id }) => id)
 
     if (errorIds.length > 0) {
       successIds.forEach((id) => this.contactRepository.delete(id, true))
@@ -273,7 +268,7 @@ export class ContactService {
 
   private isInternalServerError(
     result: ResultObject<unknown, DeviceCommunicationError>
-  ): Boolean {
+  ): boolean {
     const { error } = result
     if (error?.type === DeviceCommunicationError.DeviceInitializationFailed) {
       return true
