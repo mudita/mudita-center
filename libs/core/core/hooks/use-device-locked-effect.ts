@@ -51,9 +51,9 @@ export const useDeviceLockedEffect = () => {
       }
     }
 
-    const activeDeviceLocked = registerActiveDeviceLockedListener(handler)
+    const unregister = registerActiveDeviceLockedListener(handler)
     return () => {
-      activeDeviceLocked()
+      unregister()
     }
   }, [
     dispatch,

@@ -25,6 +25,7 @@ import { isInitializationAppInProgress } from "Core/app-initialization/selectors
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
 import { DeviceType } from "Core/device"
 import { getTmpMuditaHarmonyPortInfoSelector } from "Core/update/selectors/get-tmp-mudita-harmony-port-info-selector"
+import { unknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
@@ -92,7 +93,7 @@ export const useDeviceConnectedEffect = () => {
       }
 
       // Linux (without handle multi)
-      if (serialNumber === "00000000000000") {
+      if (serialNumber === unknownSerialNumber) {
         await setActiveDeviceAndNavigate(properties.id)
       }
     },
@@ -145,9 +146,9 @@ export const useDeviceConnectedEffect = () => {
       await handleDeviceConnected(properties)
     }
 
-    const deviceConnected = registerDeviceConnectedListener(handler)
+    const unregister = registerDeviceConnectedListener(handler)
     return () => {
-      deviceConnected()
+      unregister()
     }
   }, [handleDeviceConnected])
 }

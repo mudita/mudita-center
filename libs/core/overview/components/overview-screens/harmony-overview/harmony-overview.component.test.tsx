@@ -14,7 +14,7 @@ import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/rende
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
-import { CaseColor } from "Core/device"
+import { CaseColour } from "Core/device"
 
 jest.mock("Core/feature-flags")
 
@@ -29,7 +29,7 @@ jest.mock("@electron/remote", () => ({
 type Props = ComponentProps<typeof HarmonyOverview>
 
 const defaultProps: Props = {
-  caseColour: CaseColor.Gray,
+  caseColour: CaseColour.Gray,
   batteryLevel: undefined,
   osVersion: "1.0.0",
   serialNumber: undefined,

@@ -10,13 +10,13 @@ import {
   RenderResult,
 } from "@testing-library/react"
 import React from "react"
+import ReactModal from "react-modal"
+import { ThemeProvider } from "styled-components"
 import { IntlProvider } from "react-intl"
 import translationConfig from "App/translations.config.json"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
-import { ThemeProvider } from "styled-components"
-import theme from "../../../core/styles/theming/theme"
 import extractLanguageKeys from "Core/__deprecated__/renderer/utils/extract-test-locale"
-import ReactModal from "react-modal"
+import theme from "Core/core/styles/theming/theme"
 
 ReactModal.setAppElement(document.createElement("div"))
 const testLocale = extractLanguageKeys(localeEn)

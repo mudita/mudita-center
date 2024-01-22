@@ -4,7 +4,7 @@
  */
 
 import { DeviceInfo as DeviceInfoRaw } from "Core/device/types/mudita-os"
-import { CaseColor, DeviceType } from "Core/device/constants"
+import { CaseColour, DeviceType } from "Core/device/constants"
 import { DeviceInfo } from "Core/device-info/dto"
 import { SimCardPresenter } from "Core/device-info/presenters/sim-card.presenter"
 import { OnboardingState } from "Core/device/constants/onboarding-state.constant"
@@ -53,7 +53,7 @@ export class DeviceInfoPresenter {
           fromMebiToByte(Number(data.deviceSpaceTotal)) +
           getMissingStorageBytes(Number(data.deviceSpaceTotal), deviceType),
       },
-      caseColour: data.caseColour ? data.caseColour : CaseColor.Gray,
+      caseColour: data.caseColour ? data.caseColour : CaseColour.Gray,
       backupFilePath: data.backupFilePath ? data.backupFilePath : "",
       updateFilePath: data.updateFilePath
         ? data.updateFilePath

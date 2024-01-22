@@ -8,6 +8,7 @@ import { ResultObject } from "Core/core/builder"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 import { DeviceId } from "Core/device/constants/device-id"
 import { DeviceType } from "Core/device"
+import { unknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 
 const uniqueId = (length = 16): DeviceId => {
   return String(
@@ -44,14 +45,8 @@ export abstract class BaseDevice {
   abstract request(config: unknown): Promise<unknown>
 
   private generateDeviceIdBySerialNumber = (
-    serialNumber: string | undefined
+    serialNumber: string = unknownSerialNumber
   ): DeviceId => {
-    if (serialNumber === undefined) {
-      return uniqueId()
-    } else if (serialNumber === "00000000000000") {
-      return uniqueId()
-    } else {
-      return serialNumber
-    }
+    return serialNumber === unknownSerialNumber ? uniqueId() : serialNumber
   }
 }

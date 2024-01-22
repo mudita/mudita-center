@@ -20,21 +20,15 @@ export const redirectToDiscovery = createAsyncThunk<
 >(
   AppInitializationEvent.RedirectToDiscovery,
   async (history, { dispatch, getState }) => {
-    console.log("application initialized: redirect to discovery Action!", )
-
     const deviceListEmpty = isDeviceListEmpty(getState())
 
     if (deviceListEmpty) {
-      console.log(
-        "application initialized: redirect to discovery skipped because device list is empty: "
-      )
       return
     }
 
     const activeDeviceSet = isActiveDeviceSet(getState())
 
     if (activeDeviceSet) {
-      console.log("application initialized: redirect to discovery skipped because active device is set")
       // TODO: add switch logic when device is active
       // handle backup/update/restore process when is in progress
       return
@@ -44,7 +38,6 @@ export const redirectToDiscovery = createAsyncThunk<
     const discoveryDeviceInProgress = isDiscoveryDeviceInProgress(getState())
 
     if (discoveryDeviceInProgress) {
-      console.log("application initialized: redirect to discovery skipped because discovery device is in progress: ")
       return
     }
 
@@ -54,7 +47,6 @@ export const redirectToDiscovery = createAsyncThunk<
     )
 
     if (initializationDeviceInProgress) {
-      console.log("application initialized: redirect to discovery skipped because initialization device is in progress: ")
       return
     }
 

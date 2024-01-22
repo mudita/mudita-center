@@ -8,7 +8,7 @@ import { Provider } from "react-redux"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import { fireEvent } from "@testing-library/dom"
-import { CaseColor, DeviceType } from "Core/device/constants"
+import { CaseColour, DeviceType } from "Core/device/constants"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { DevicePreview } from "Core/overview/components/device-preview/device-preview.component"
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
@@ -27,7 +27,7 @@ type Props = ComponentProps<typeof DevicePreview>
 const defaultProps: Props = {
   onDisconnect: jest.fn(),
   deviceType: DeviceType.MuditaPure,
-  caseColour: CaseColor.Gray,
+  caseColour: CaseColour.Gray,
 }
 const defaultState: ReduxRootState = {
   deviceManager: { devices: [{}, {}] }
@@ -62,7 +62,7 @@ test("disconnect button works properly", () => {
 })
 
 test("Phone Component should render proper phone color", () => {
-  const { getByTestId } = render({ caseColour: CaseColor.Black })
+  const { getByTestId } = render({ caseColour: CaseColour.Black })
 
   expect(getByTestId(DeviceTestIds.PureBlack)).toBeInTheDocument()
 })

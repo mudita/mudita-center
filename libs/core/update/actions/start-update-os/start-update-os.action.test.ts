@@ -4,6 +4,8 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import {
@@ -19,9 +21,6 @@ import * as startOsUpdateRequestModule from "Core/update/requests/start-os-updat
 import * as checkUpdateRequestModule from "Core/update/requests/checkUpdate.request"
 import { testError } from "Core/__deprecated__/renderer/store/constants"
 import { pendingAction } from "Core/__deprecated__/renderer/store/helpers"
-import createMockStore from "redux-mock-store"
-import thunk from "redux-thunk"
-import { startUpdateOs } from "./start-update-os.action"
 import * as removeDownloadedOsUpdatesModule from "Core/update/requests/remove-downloaded-os-updates.request"
 import {
   trackOsUpdate,
@@ -29,9 +28,9 @@ import {
 } from "Core/analytic-data-tracker/helpers"
 import { DeviceType, setRestartingStatus } from "Core/device"
 import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
+import { startUpdateOs } from "Core/update/actions"
 
 jest.mock("Core/update/requests/remove-downloaded-os-updates.request")
-jest.mock("Core/device/requests/set-updating.request")
 jest.mock("Core/analytic-data-tracker/helpers/track-os-update")
 
 jest.mock("Core/device-file-system", () => ({
