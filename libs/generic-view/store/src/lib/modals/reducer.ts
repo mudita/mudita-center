@@ -15,7 +15,7 @@ import {
 export interface Modal {
   key: string
   domain?: string
-  replaced?: boolean
+  permanent?: boolean
 }
 
 interface GenericState {
@@ -32,23 +32,16 @@ export const genericModalsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(closeModal, (state) => {
     state.queue.splice(-1)
-    if (state.queue.length > 0) {
-      state.queue[state.queue.length - 1].replaced = false
-    }
   })
   builder.addCase(closeAllModals, (state) => {
     state.queue = []
   })
   builder.addCase(replaceModal, (state, action) => {
-    state.queue[state.queue.length - 1].replaced = true
-    state.queue.push(action.payload)
+    state.queue.splice(-1, 1, action.payload)
   })
   builder.addCase(closeDomainModals, (state, action) => {
     state.queue = state.queue.filter(
       (modal) => modal.domain !== action.payload.domain
     )
-    if (state.queue.length > 0) {
-      state.queue[state.queue.length - 1].replaced = false
-    }
   })
 })

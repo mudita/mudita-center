@@ -37,6 +37,7 @@ export const generateMcDemoLayout: ViewGenerator<McDemoConfig> = ({
         "demo-modal-1-content",
         "demo-modal-2-button",
         "demo-modal-2-button-replace",
+        "demo-modal-2-button-permanent",
       ],
     },
     "demo-modal-1-content": {
@@ -53,10 +54,22 @@ export const generateMcDemoLayout: ViewGenerator<McDemoConfig> = ({
         },
       },
     },
+    "demo-modal-2-button-permanent": {
+      component: "button-link",
+      config: {
+        text: "Open modal 2 and make it permanent",
+        action: {
+          type: "open-modal",
+          modalKey: "demo-modal-2",
+          domain: "demo",
+          permanent: true,
+        },
+      },
+    },
     "demo-modal-2-button-replace": {
       component: "button-link",
       config: {
-        text: "Replace with modal 2",
+        text: "Replace current modal with modal 2",
         action: {
           type: "replace-modal",
           modalKey: "demo-modal-2",
@@ -123,12 +136,12 @@ export const generateMcDemoLayout: ViewGenerator<McDemoConfig> = ({
 
 export const mcDemoData = {
   "demo-modal-1-content": {
-    content: "This is a demo modal with no domain.",
+    content: "This is a demo modal 1 with no domain.",
   },
   "demo-modal-2-content": {
-    content: "This is a demo modal 2 with domain demo.",
+    content: "This is a demo modal 2 with domain 'demo'.",
   },
   "demo-modal-3-content": {
-    content: "This is a demo modal 3 with domain demo.",
+    content: "This is a demo modal 3 with domain 'demo'.",
   },
 }

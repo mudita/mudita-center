@@ -5,7 +5,13 @@
 
 export type ModalAction =
   | {
-      type: "open-modal" | "close-modal" | "replace-modal"
+      type: "open-modal" | "replace-modal"
+      domain?: string
+      modalKey: string
+      permanent?: boolean
+    }
+  | {
+      type: "close-modal"
       domain?: string
       modalKey: string
     }

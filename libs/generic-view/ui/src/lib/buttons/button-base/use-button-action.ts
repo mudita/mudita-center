@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, HTMLAttributes } from "react"
-import styled from "styled-components"
 import {
   closeAllModals,
   closeDomainModals,
@@ -12,30 +10,37 @@ import {
   openModal,
   replaceModal,
 } from "generic-view/store"
+import { ButtonAction, useScreenTitle } from "generic-view/utils"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router"
-import { ButtonAction, useScreenTitle } from "generic-view/utils"
 
-interface Props extends HTMLAttributes<HTMLButtonElement> {
-  action: ButtonAction
-  viewKey?: string
-}
-
-export const ButtonBase: FunctionComponent<Props> = ({ action, ...props }) => {
+export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch()
-  const currentViewName = useScreenTitle(props.viewKey as string)
   const navigate = useHistory()
+  const currentViewName = useScreenTitle(viewKey)
 
-  const callAction = () => {
+  return (action: ButtonAction) => {
     switch (action.type) {
       case "open-modal":
-        dispatch(openModal({ key: action.modalKey, domain: action.domain }))
+        dispatch(
+          openModal({
+            key: action.modalKey,
+            domain: action.domain,
+            permanent: action.permanent,
+          })
+        )
         break
       case "close-modal":
         dispatch(closeModal({ key: action.modalKey }))
         break
       case "replace-modal":
-        dispatch(replaceModal({ key: action.modalKey, domain: action.domain }))
+        dispatch(
+          replaceModal({
+            key: action.modalKey,
+            domain: action.domain,
+            permanent: action.permanent,
+          })
+        )
         break
       case "close-domain-modals":
         dispatch(closeDomainModals({ domain: action.domain }))
@@ -53,20 +58,4 @@ export const ButtonBase: FunctionComponent<Props> = ({ action, ...props }) => {
         break
     }
   }
-
-  return <Button {...props} onClick={callAction} />
 }
-
-const Button = styled.button`
-  border: none;
-  outline: none;
-  background: transparent;
-  box-sizing: border-box;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.4rem;
-`

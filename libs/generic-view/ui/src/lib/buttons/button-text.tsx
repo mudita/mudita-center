@@ -6,7 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC, ButtonAction, IconType, withConfig } from "generic-view/utils"
-import { ButtonBase } from "./button-base"
+import { ButtonBase } from "./button-base/button-base"
 import Icon from "../icon/icon"
 
 interface Config {

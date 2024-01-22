@@ -14,10 +14,9 @@ import {
 } from "generic-view/utils"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import styled, { css } from "styled-components"
-import Icon from "../icon/icon"
-import { ButtonBase } from "../buttons/button-base"
-import { useSelector } from "react-redux"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import Icon from "../../icon/icon"
+import { ButtonBase } from "../../buttons/button-base/button-base"
+import { useModalsQueue } from "./use-modals-queue"
 
 interface Config {
   closeButtonAction?: ModalAction
@@ -30,14 +29,7 @@ export const Modal: BaseGenericComponent<
   { componentKey: string }
 > = ({ children, componentKey, config }) => {
   const [contentScrolled, setContentScrolled] = useState(false)
-
-  const modalsQueue = useSelector(
-    (state: ReduxRootState) => state.genericModals.queue
-  )
-  const modalOpened =
-    modalsQueue.findIndex(
-      (modal) => modal.key === componentKey && !modal.replaced
-    ) !== -1
+  const { opened } = useModalsQueue(componentKey)
 
   const closeAction: ModalAction = config?.closeButtonAction
     ? config.closeButtonAction
@@ -52,7 +44,7 @@ export const Modal: BaseGenericComponent<
     <ReactModal
       className="generic-modal"
       overlayClassName="generic-modal-overlay"
-      isOpen={modalOpened}
+      isOpen={opened}
       style={{
         overlay: {
           zIndex: ModalLayers.Default,
@@ -65,7 +57,7 @@ export const Modal: BaseGenericComponent<
       closeTimeoutMS={400}
     >
       <ModalHeader $active={contentScrolled}>
-        <ButtonBase action={closeAction}>
+        <ButtonBase action={closeAction} test-id={"close-button"}>
           <ModalClose data={{ type: IconType.Close }} />
         </ButtonBase>
       </ModalHeader>
