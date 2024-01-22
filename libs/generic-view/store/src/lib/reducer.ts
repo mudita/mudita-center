@@ -7,7 +7,13 @@ import { createReducer } from "@reduxjs/toolkit"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { View } from "generic-view/utils"
 import { getAPIConfig } from "./get-api-config"
-import { activateDevice, setMenu, setViewData, setViewLayout } from "./actions"
+import {
+  activateDevice,
+  detachDevice,
+  setMenu,
+  setViewData,
+  setViewLayout,
+} from "./actions"
 import { getOverviewData } from "./features"
 import { getOverviewConfig } from "./features/get-overview-config.actions"
 import { getAPIAny } from "./get-api-any"
@@ -78,8 +84,18 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.lastResponse = action.payload
   })
   builder.addCase(activateDevice, (state, action) => {
-    if (state.devicesConfiguration[action.payload.deviceId].apiConfig) {
-      state.activeDevice = action.payload.deviceId
+    const { deviceId } = action.payload
+    state.activeDevice = state.devicesConfiguration[deviceId].apiConfig
+      ? deviceId
+      : undefined
+  })
+  builder.addCase(detachDevice, (state, action) => {
+    const { deviceId } = action.payload
+    if (state.devicesConfiguration[deviceId].apiConfig) {
+      delete state.devicesConfiguration[deviceId]
+    }
+    if (state.activeDevice === deviceId) {
+      state.activeDevice = undefined
     }
   })
 })

@@ -11,4 +11,5 @@ export enum ActionName {
   SetViewLayout = "generic-views/set-view-layout",
   SetViewData = "generic-views/set-view-data",
   ActivateDevice = "generic-views/activate-device",
+  DetachDevice = "generic-views/detach-device",
 }

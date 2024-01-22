@@ -116,7 +116,7 @@ export class DeviceManager {
     }
 
     const data = device.toSerializableObject()
-
+    callRenderer(DeviceManagerMainEvent.DeviceDetached, data)
     this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, data)
     logger.info(`Detached device with path: ${path}`)
   }

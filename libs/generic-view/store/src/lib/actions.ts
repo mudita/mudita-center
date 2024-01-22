@@ -23,3 +23,7 @@ export const setViewData = createAction<{
 export const activateDevice = createAction<{
   deviceId: DeviceId
 }>(ActionName.ActivateDevice)
+
+export const detachDevice = createAction<{
+  deviceId: DeviceId
+}>(ActionName.DetachDevice)

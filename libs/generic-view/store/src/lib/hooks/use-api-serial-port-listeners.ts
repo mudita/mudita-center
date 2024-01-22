@@ -7,6 +7,7 @@ import { Device } from "Core/device-manager/reducers/device-manager.interface"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { answerMain, DeviceManagerMainEvent } from "shared/utils"
+import { detachDevice } from "../actions"
 import { getAPIConfig } from "../get-api-config"
 
 export const useAPISerialPortListeners = () => {
@@ -17,6 +18,7 @@ export const useAPISerialPortListeners = () => {
     const unregisterFailListener = answerMain(
       DeviceManagerMainEvent.DeviceConnectFailed,
       (properties) => {
+        // todo: connection error handling
         console.log(properties)
       }
     )
@@ -24,11 +26,18 @@ export const useAPISerialPortListeners = () => {
       DeviceManagerMainEvent.DeviceConnected,
       (properties) => {
         const { id } = properties as Device
-        console.log(properties)
         dispatch(getAPIConfig({ deviceId: id }))
       }
     )
+    const unregisterDetachedListener = answerMain(
+      DeviceManagerMainEvent.DeviceDetached,
+      (properties) => {
+        const { id } = properties as Device
+        dispatch(detachDevice({ deviceId: id }))
+      }
+    )
     return () => {
+      unregisterDetachedListener()
       unregisterConnectListener()
       unregisterFailListener()
     }
