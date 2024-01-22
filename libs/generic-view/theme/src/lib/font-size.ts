@@ -9,6 +9,7 @@ export const fontSize = {
   headline3: "2.4rem",
   headline4: "1.6rem",
   headline5: "1.4rem",
+  headline6: "1.2rem",
   paragraph1: "1.6rem",
   paragraph3: "1.4rem",
   paragraph4: "1.4rem",

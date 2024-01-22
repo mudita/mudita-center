@@ -103,7 +103,22 @@ export const mcAboutDemoData = {
       "Another paragraph in new line.\n" +
       "1. A list item\n" +
       "2. Another list item\n" +
-      "* A list item.   \n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n" +
+      "2. Another list item\n\n" +
+      "* **A list item.**   \n" +
       "With multiple paragraphs.\n" +
       "* Another list item.\n" +
       "* Abacus\n" +
@@ -113,7 +128,9 @@ export const mcAboutDemoData = {
       "    2. bupkis\n" +
       "    3. burper\n" +
       "* Cunning\n\n" +
-      "> This is a blockquote.\n\n",
+      "> This is a blockquote.\n" +
+      "> \n" +
+      "> Second paragraph of blockquote.\n\n",
   },
   "new-modal-content": {
     content:

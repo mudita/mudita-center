@@ -96,7 +96,8 @@ const ModalClose = styled(Icon)`
 
 const ScrollContainer = styled.div`
   overflow-y: auto;
-  padding: 0 3.7rem 4rem;
+  padding: 0 3.7rem 0 4rem;
   margin-right: 0.3rem;
+  margin-bottom: 4rem;
   flex: 1;
 `
