@@ -4,19 +4,23 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getOverviewConfigRequest } from "device/feature"
-import { OverviewConfig } from "Libs/device/models/src"
+import { OverviewConfig } from "device/models"
 import { FeaturesActions } from "./featues-action-keys"
 
 export const getOverviewConfig = createAsyncThunk<
   OverviewConfig,
-  undefined,
+  { deviceId: DeviceId },
   { state: ReduxRootState }
->(FeaturesActions.GetOverviewConfig, async (_, { rejectWithValue }) => {
-  const response = await getOverviewConfigRequest()
-  if (response.ok) {
-    return response.data
+>(
+  FeaturesActions.GetOverviewConfig,
+  async ({ deviceId }, { rejectWithValue }) => {
+    const response = await getOverviewConfigRequest(deviceId)
+    if (response.ok) {
+      return response.data
+    }
+    return rejectWithValue(response.error)
   }
-  return rejectWithValue(response.error)
-})
+)

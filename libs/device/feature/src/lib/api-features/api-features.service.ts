@@ -13,6 +13,7 @@ import {
 } from "device/models"
 import { GeneralError } from "../general-error"
 import { AppError } from "Core/core/errors"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export class APIFeaturesService {
   constructor(private deviceManager: DeviceManager) {}
@@ -42,10 +43,13 @@ export class APIFeaturesService {
   }
 
   @IpcEvent(APIFeaturesServiceEvents.GetOverviewConfiguration)
-  public async getOverviewFeatureConfiguration(): Promise<
-    ResultObject<OverviewConfig>
-  > {
-    const device = this.deviceManager.apiDevice
+  public async getOverviewFeatureConfiguration(
+    deviceId?: DeviceId
+  ): Promise<ResultObject<OverviewConfig>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
@@ -89,8 +93,13 @@ export class APIFeaturesService {
   }
 
   @IpcEvent(APIFeaturesServiceEvents.GetOverviewData)
-  public async getOverviewData(): Promise<ResultObject<OverviewData>> {
-    const device = this.deviceManager.apiDevice
+  public async getOverviewData(
+    deviceId?: DeviceId
+  ): Promise<ResultObject<OverviewData>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }

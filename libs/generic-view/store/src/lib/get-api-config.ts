@@ -9,6 +9,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getAPIConfigRequest } from "device/feature"
 import { ApiConfig } from "device/models"
 import { ActionName } from "./action-names"
+import { getAllFeatures } from "./features/get-all-features"
 import { getMenuConfig } from "./get-menu-config"
 
 export const getAPIConfig = createAsyncThunk<
@@ -19,6 +20,7 @@ export const getAPIConfig = createAsyncThunk<
   const response = await getAPIConfigRequest(deviceId)
   if (response.ok) {
     dispatch(getMenuConfig({ deviceId }))
+    dispatch(getAllFeatures({ deviceId, features: response.data.features }))
     return { deviceId, apiConfig: response.data }
   }
   return rejectWithValue(response.error)

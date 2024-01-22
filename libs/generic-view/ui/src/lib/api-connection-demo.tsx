@@ -45,20 +45,20 @@ export const APIConnectionDemo: FunctionComponent = () => {
       >
         get api config
       </button>
-      <button
+      {/* <button
         onClick={() => {
           dispatch(getOverviewConfig())
         }}
       >
         get overview config
-      </button>
-      <button
+      </button> */}
+      {/* <button
         onClick={() => {
           dispatch(getOverviewData())
         }}
       >
         get overview data
-      </button>
+      </button> */}
       <div>{JSON.stringify(lastResponse)}</div>
     </div>
   )

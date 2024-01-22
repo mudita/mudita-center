@@ -5,10 +5,14 @@
 
 import { ResultObject } from "Core/core/builder"
 import { ipcRenderer } from "electron-better-ipc"
-import { APIFeaturesServiceEvents, OverviewData } from "device/models"
+import { APIFeaturesServiceEvents, OverviewConfig } from "device/models"
+import { DeviceId } from "Core/device/constants/device-id"
 
-export const getOverviewDataRequest = (): Promise<
-  ResultObject<OverviewData>
-> => {
-  return ipcRenderer.callMain(APIFeaturesServiceEvents.GetOverviewData)
+export const getOverviewConfigRequest = (
+  deviceId: DeviceId
+): Promise<ResultObject<OverviewConfig>> => {
+  return ipcRenderer.callMain(
+    APIFeaturesServiceEvents.GetOverviewConfiguration,
+    deviceId
+  )
 }
