@@ -15,6 +15,8 @@ import {
   borderColor,
   borderRadius,
   textColor,
+  transitionTime,
+  transitionTimingFunction,
 } from "Core/core/styles/theming/theme-getters"
 import { DeviceType } from "Core/device"
 import { CaseColour } from "Core/device/constants"
@@ -29,6 +31,9 @@ const Device = styled("div")<{ active: boolean }>`
     background: ${backgroundColor("main")};
     cursor: pointer;
   }
+
+  transition: background-color ${transitionTime("veryQuick")}
+    ${transitionTimingFunction("smooth")};
 
   ${({ active }) => {
     return active
