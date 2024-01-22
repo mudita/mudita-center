@@ -4,6 +4,5 @@
  */
 
 export enum DeviceSelectEvent {
-  OpenSelectDeviceDrawer = "device-select_open-select-device-drawer",
-  CloseSelectDeviceDrawer = "device-select_close-select-device-drawer",
+  SetSelectDeviceDrawerOpen = "device-select-set-select-device-drawer-open",
 }

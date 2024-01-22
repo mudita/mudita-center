@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColor, DeviceType } from "Core/device"
+import { CaseColour, DeviceType } from "Core/device"
 
 export const DeviceNames = {
   Pure: "Pure",
@@ -15,7 +15,7 @@ export const DeviceNames = {
 
 export const getDeviceTypeName = (
   deviceType: DeviceType,
-  caseColour: CaseColor = CaseColor.Black
+  caseColour: CaseColour = CaseColour.Black
 ): string => {
   if (deviceType === DeviceType.MuditaPure) {
     return DeviceNames.Pure
@@ -23,14 +23,14 @@ export const getDeviceTypeName = (
 
   if (
     deviceType === DeviceType.MuditaHarmony &&
-    caseColour === CaseColor.Gray
+    caseColour === CaseColour.Gray
   ) {
     return DeviceNames.Harmony1
   }
 
   if (
     deviceType === DeviceType.MuditaHarmony &&
-    caseColour === CaseColor.Black
+    caseColour === CaseColour.Black
   ) {
     return DeviceNames.Harmony2
   }

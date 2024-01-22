@@ -21,7 +21,7 @@ import { useHistory } from "react-router-dom"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { openSelectDeviceDrawer } from "Core/device-select/actions/open-select-device-drawer.action"
+import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 
 const SyncProgressWrapper = styled.div`
@@ -92,7 +92,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
         Icon={IconType.DotsInBox}
         iconBadgeCountIndicator={devices.length}
         onClick={() => {
-          dispatch(openSelectDeviceDrawer())
+          dispatch(setSelectDeviceDrawerOpen(true))
         }}
       />
     </DeviceButtonWrapper>

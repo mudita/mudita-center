@@ -6,6 +6,6 @@
 import { createAction } from "@reduxjs/toolkit"
 import { DeviceSelectEvent } from "Core/device-select/constants/event.constant"
 
-export const openSelectDeviceDrawer = createAction(
-  DeviceSelectEvent.OpenSelectDeviceDrawer
+export const setSelectDeviceDrawerOpen = createAction<boolean>(
+  DeviceSelectEvent.SetSelectDeviceDrawerOpen
 )

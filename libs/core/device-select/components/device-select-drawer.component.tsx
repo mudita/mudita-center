@@ -10,7 +10,7 @@ import Drawer from "react-modern-drawer"
 import "react-modern-drawer/dist/index.css"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { isSelectDeviceDrawerOpenSelector } from "Core/device-select/selectors/is-select-device-drawer-open.selector"
-import { closeSelectDeviceDrawer } from "Core/device-select/actions/close-select-device-drawer.action"
+import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -67,7 +67,7 @@ const DeviceSelectDrawer: FunctionComponent = () => {
   const history = useHistory()
 
   const handleDrawerDeviceClick = async (id: DeviceId) => {
-    dispatch(closeSelectDeviceDrawer())
+    dispatch(setSelectDeviceDrawerOpen(false))
     const device = devices.find((device) => device.id === id)
     if (device?.state === DeviceState.Failed) {
       history.push(URL_ONBOARDING.troubleshooting)
@@ -82,7 +82,7 @@ const DeviceSelectDrawer: FunctionComponent = () => {
     <Drawer
       open={isOpen}
       onClose={() => {
-        dispatch(closeSelectDeviceDrawer())
+        dispatch(setSelectDeviceDrawerOpen(false))
       }}
       direction="right"
       size="36.9rem"
@@ -95,7 +95,7 @@ const DeviceSelectDrawer: FunctionComponent = () => {
           />
           <Close
             displayStyle={DisplayStyle.IconOnly}
-            onClick={() => dispatch(closeSelectDeviceDrawer())}
+            onClick={() => dispatch(setSelectDeviceDrawerOpen(false))}
             Icon={IconType.Close}
           />
         </Header>
