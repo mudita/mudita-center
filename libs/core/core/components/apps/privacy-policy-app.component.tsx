@@ -10,7 +10,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { PrivacyPolicyUI } from "Core/settings/components"
 
-const PrivacyPolicyApp: FunctionComponent = ( ) => {
+const PrivacyPolicyApp: FunctionComponent = () => {
   return (
     <Router history={history}>
       <Route path={URL_MAIN.privacyPolicy}>

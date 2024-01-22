@@ -10,8 +10,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import BaseRoutes from "Core/core/components/apps/base-app/base-app-routes"
 import BaseApp from "Core/core/components/apps/base-app/base-app.component"
 
-
-const BaseAppContainer: FunctionComponent = ( ) => {
+const BaseAppContainer: FunctionComponent = () => {
   return (
     <Router history={history}>
       <BaseApp />

@@ -10,8 +10,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
 import SarComponent from "Core/overview/components/pure-system/sar.component"
 
-
-const SarApp: FunctionComponent = ( ) => {
+const SarApp: FunctionComponent = () => {
   return (
     <Router history={history}>
       <Route path={URL_OVERVIEW.sar}>

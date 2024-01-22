@@ -19,12 +19,17 @@ import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-eff
 import { useAPISerialPortListeners } from "device/feature"
 import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect-failed-effect"
 import { useRouterListener } from "Core/core/hooks"
-import { URL_MAIN, URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_OVERVIEW,
+} from "Core/__deprecated__/renderer/constants/urls"
 
-const actions = {[URL_MAIN.contacts]: [],
+const actions = {
+  [URL_MAIN.contacts]: [],
   [URL_MAIN.phone]: [],
   [URL_OVERVIEW.root]: [],
-  [URL_MAIN.messages]: [],}
+  [URL_MAIN.messages]: [],
+}
 
 const BaseApp: FunctionComponent = () => {
   const history = useHistory()

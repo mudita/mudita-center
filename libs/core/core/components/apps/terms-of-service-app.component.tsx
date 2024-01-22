@@ -10,8 +10,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { TermsOfServiceUI } from "Core/settings/components"
 
-
-const TermsOfServiceApp: FunctionComponent = ( ) => {
+const TermsOfServiceApp: FunctionComponent = () => {
   return (
     <Router history={history}>
       <Route path={URL_MAIN.termsOfService}>

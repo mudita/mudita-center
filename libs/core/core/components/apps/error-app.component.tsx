@@ -17,8 +17,7 @@ const messages = defineMessages({
   errorBody: { id: "module.errorBody" },
 })
 
-
-const ErrorApp: FunctionComponent = ( ) => (
+const ErrorApp: FunctionComponent = () => (
   <Router history={history}>
     <Route path={URL_MAIN.error}>
       <Text
