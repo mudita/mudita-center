@@ -21,7 +21,7 @@ interface DeviceImageProps {
 
 export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
   deviceType,
-  caseColour,
+  caseColour= CaseColour.Black,
   ...props
 }) => {
   if (deviceType === DeviceType.MuditaPure && caseColour === CaseColour.Black) {

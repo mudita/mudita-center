@@ -130,7 +130,7 @@ const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({
   id,
   serialNumber,
   deviceType,
-  caseColour = CaseColour.Black,
+  caseColour,
 }) => {
   const serialNumberValue = getSerialNumberValue(serialNumber)
 
