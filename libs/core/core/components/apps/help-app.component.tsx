@@ -4,29 +4,26 @@
  */
 
 import React, { useEffect, useState } from "react"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Route, Router, Switch } from "react-router"
+import { ipcRenderer } from "electron-better-ipc"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-import history from "Core/core/routes/history"
+import history from "Core/core/history"
 import { QuestionAndAnswer } from "Core/help/components/help.component"
 import Help from "Core/help/help.container"
 import { renderAnswer } from "Core/help/helpers/render-answer"
 import { useHelpSearch } from "Core/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import ContextMenu from "Core/__deprecated__/context-menu/context-menu"
 import { Feature, flags } from "Core/feature-flags"
-
-interface Props {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  saveToStore?: (data: QuestionAndAnswer) => Promise<any>
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getStoreData?: (key?: string) => Promise<any>
-}
+import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 
 const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
 
-const HelpApp: FunctionComponent<Props> = ({ saveToStore, getStoreData }) => {
+const HelpApp: FunctionComponent = () => {
+  const saveToStore = async (normalizeData: QuestionAndAnswer) =>
+    await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
+  const getStoreData = async (key?: string) =>
+    await ipcRenderer.callMain(HelpActions.GetStore, key)
   const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
   const [searchInputValue, setSearchInputValue] = useState("")
   useEffect(() => {

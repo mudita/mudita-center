@@ -5,10 +5,10 @@
 
 import React from "react"
 import { Router } from "react-router"
-import history from "Core/core/routes/history"
+import history from "Core/core/history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import BaseRoutes from "Core/core/routes/base-routes"
-import BaseApp from "Core/core/components/base-app.component"
+import BaseRoutes from "Core/core/components/apps/base-app/base-app-routes"
+import BaseApp from "Core/core/components/apps/base-app/base-app.component"
 
 
 const BaseAppContainer: FunctionComponent = ( ) => {

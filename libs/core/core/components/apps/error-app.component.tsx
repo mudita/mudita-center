@@ -6,7 +6,7 @@
 import React from "react"
 import { Route, Router } from "react-router"
 import { defineMessages } from "react-intl"
-import history from "Core/core/routes/history"
+import history from "Core/core/history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import Text, {

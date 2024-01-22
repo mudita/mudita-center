@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import history from "Core/core/routes/history"
+import history from "Core/core/history"
 import { Route, Router } from "react-router"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"

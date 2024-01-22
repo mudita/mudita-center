@@ -4,20 +4,21 @@
  */
 
 import React from "react"
-import history from "Core/core/routes/history"
+import history from "Core/core/history"
 import { Route, Router } from "react-router"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
-import { PrivacyPolicyUI } from "Core/settings/components"
+import { TermsOfServiceUI } from "Core/settings/components"
 
-const PrivacyPolicyApp: FunctionComponent = ( ) => {
+
+const TermsOfServiceApp: FunctionComponent = ( ) => {
   return (
     <Router history={history}>
-      <Route path={URL_MAIN.privacyPolicy}>
-        <PrivacyPolicyUI />
+      <Route path={URL_MAIN.termsOfService}>
+        <TermsOfServiceUI />
       </Route>
     </Router>
   )
 }
 
-export default PrivacyPolicyApp
+export default TermsOfServiceApp
