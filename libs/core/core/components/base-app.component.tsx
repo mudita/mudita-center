@@ -22,7 +22,7 @@ import {
   URL_MAIN,
   URL_OVERVIEW,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { useAPISerialPortListeners } from "generic-view/store"
+import { useAPISerialPortListeners, useOutbox } from "generic-view/store"
 
 const actions = {
   [URL_MAIN.contacts]: [],
@@ -44,6 +44,7 @@ const BaseApp: FunctionComponent = () => {
   useWatchUnlockStatus()
   // API
   useAPISerialPortListeners()
+  useOutbox()
 
   return (
     <>

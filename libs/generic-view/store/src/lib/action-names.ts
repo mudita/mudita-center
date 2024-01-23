@@ -7,6 +7,7 @@ export enum ActionName {
   GetConfig = "api-actions/get-config",
   GetAny = "api-actions/get-any",
   GetMenuConfig = "api-actions/get-menu-config",
+  GetOutboxData = "api-actions/get-outbox-data",
   SetMenu = "generic-views/set-menu",
   SetViewLayout = "generic-views/set-view-layout",
   SetViewData = "generic-views/set-view-data",

@@ -6,7 +6,10 @@
 import { ResultObject } from "Core/core/builder"
 import { ipcRenderer } from "electron-better-ipc"
 import { APIOutboxServiceEvents, Outbox } from "device/models"
+import { DeviceId } from "Core/device/constants/device-id"
 
-export const getOutboxDataRequest = (): Promise<ResultObject<Outbox>> => {
-  return ipcRenderer.callMain(APIOutboxServiceEvents.GetOutboxData)
+export const getOutboxDataRequest = (
+  deviceId: DeviceId
+): Promise<ResultObject<Outbox>> => {
+  return ipcRenderer.callMain(APIOutboxServiceEvents.GetOutboxData, deviceId)
 }
