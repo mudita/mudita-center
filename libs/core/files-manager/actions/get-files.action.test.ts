@@ -14,8 +14,20 @@ import { File } from "Core/files-manager/dto"
 import { getFiles } from "Core/files-manager/actions"
 import { DeviceDirectory } from "Core/files-manager/constants"
 import { testError } from "Core/__deprecated__/renderer/store/constants"
+import * as loadDeviceDataActionModule from "Core/device/actions/load-device-data.action"
+import { fulfilledAction } from "Core/__deprecated__/renderer/store"
+import { DeviceEvent } from "Core/device"
 
 jest.mock("Core/files-manager/requests/get-files.request")
+
+jest
+  .spyOn(loadDeviceDataActionModule, "loadDeviceData")
+  .mockImplementation(
+    () =>
+      ({
+        type: fulfilledAction(DeviceEvent.LoadDeviceData),
+      } as unknown as jest.Mock)
+  )
 
 const successObjectResult: ResultObject<File[]> = Result.success([
   {
@@ -56,6 +68,9 @@ describe("when `getFiles` request return success result", () => {
 
     expect(mockStore.getActions()).toEqual([
       getFiles.pending(requestId, DeviceDirectory.Music),
+      {
+        type: fulfilledAction(DeviceEvent.LoadDeviceData),
+      },
       getFiles.fulfilled(
         successObjectResult.data,
         requestId,
