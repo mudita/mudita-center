@@ -9,7 +9,7 @@ import { render } from "@testing-library/react"
 import { theme } from "generic-view/theme"
 import { ThemeProvider } from "styled-components"
 import { IconText } from "./icon-text"
-import { IconType } from "Libs/generic-view/utils/src"
+import { IconType } from "generic-view/utils"
 import dataTestIds from "./data-test-ids"
 
 jest.mock("../../icon/icon", () => () => {

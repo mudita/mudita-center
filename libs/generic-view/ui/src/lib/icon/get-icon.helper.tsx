@@ -14,6 +14,8 @@ import VeryHighRange from "Core/__deprecated__/renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Core/__deprecated__/renderer/svg/very-low-battery.svg"
 import VeryLowRange from "Core/__deprecated__/renderer/svg/very-low-range.svg"
 import AirplaneMode from "Core/__deprecated__/renderer/svg/airplane-mode.svg"
+import CloseIcon from "Core/__deprecated__/renderer/svg/close.svg"
+import PhoneAbout from "Core/__deprecated__/renderer/svg/phone-about.svg"
 import { IconType } from "generic-view/utils"
 
 const typeToIcon: Record<IconType, typeof HighBattery> = {
@@ -34,6 +36,8 @@ const typeToIcon: Record<IconType, typeof HighBattery> = {
   [IconType.NetworkSignal4]: VeryHighRange,
   [IconType.NoSimCard]: NoRange,
   [IconType.AirplaneMode]: AirplaneMode,
+  [IconType.Close]: CloseIcon,
+  [IconType.PhoneAbout]: PhoneAbout,
 }
 
 export const getIcon = (
