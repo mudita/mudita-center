@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "Core/device/constants"
+import {
+  DeviceCommunicationError,
+  Endpoint,
+  Method,
+} from "Core/device/constants"
 import {
   GetContactResponseBody,
   GetContactsResponseBody,
@@ -18,6 +22,7 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "Core/core/types/request-response.interface"
+import { ResultObject } from "Core/core/builder"
 
 export class ContactService {
   constructor(
@@ -88,17 +93,26 @@ export class ContactService {
     }
     //workaround
 
-    const response =
+    const result =
       await this.deviceManager.device.request<CreateContactResponseBody>({
         endpoint: Endpoint.Contacts,
         method: Method.Post,
         body: ContactPresenter.mapToPureContact(newContact),
+        options: {
+          connectionTimeOut: 5000,
+        },
       })
 
-    if (response.ok && response.data) {
+    if (this.isInternalServerError(result)) {
+      return {
+        status: RequestResponseStatus.InternalServerError,
+      }
+    }
+
+    if (result.ok && result.data) {
       const contact = {
         ...newContact,
-        id: String(response.data.id),
+        id: String(result.data.id),
         primaryPhoneNumber: newContact.primaryPhoneNumber ?? "",
       }
 
@@ -110,9 +124,9 @@ export class ContactService {
       }
       // error type cannot be typed correctly, response method needs enhancement
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    } else if (response.error?.payload?.status === "phone-number-duplicated") {
+    } else if (result.error?.payload?.status === "phone-number-duplicated") {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const errorPayloadData = (response.error?.payload?.data ?? {
+      const errorPayloadData = (result.error?.payload?.data ?? {
         duplicateNumbers: [],
       }) as CreateContactErrorResponseBody
 
@@ -150,11 +164,22 @@ export class ContactService {
       return isContactValidResponse
     }
 
-    const { ok, data } = await this.deviceManager.device.request({
+    const result = await this.deviceManager.device.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
       body: ContactPresenter.mapToPureContact(contact),
+      options: {
+        connectionTimeOut: 5000,
+      },
     })
+
+    if (this.isInternalServerError(result)) {
+      return {
+        status: RequestResponseStatus.InternalServerError,
+      }
+    }
+
+    const { ok, data } = result
 
     if (ok) {
       this.contactRepository.update(contact, true)
@@ -171,24 +196,33 @@ export class ContactService {
   public async deleteContacts(
     contactIds: ContactID[]
   ): Promise<RequestResponse<ContactID[]>> {
-    const results = contactIds.map(async (id) => {
-      const { ok } = await this.deviceManager.device.request({
+    const errorIds = []
+    const successIds = []
+
+    for (const id of contactIds) {
+      const result = await this.deviceManager.device.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
         body: { id: Number(id) },
+        options: {
+          connectionTimeOut: 5000,
+        },
       })
-      return {
-        status: ok ? RequestResponseStatus.Ok : RequestResponseStatus.Error,
-        id,
-      }
-    })
 
-    const errorIds = (await Promise.all(results))
-      .filter(({ status }) => status === RequestResponseStatus.Error)
-      .map(({ id }) => id)
-    const successIds = (await Promise.all(results))
-      .filter(({ status }) => status === RequestResponseStatus.Ok)
-      .map(({ id }) => id)
+      if (this.isInternalServerError(result)) {
+        return {
+          status: RequestResponseStatus.InternalServerError,
+        }
+      }
+
+      const { ok } = result
+
+      if (ok) {
+        successIds.push(id)
+      } else {
+        errorIds.push(id)
+      }
+    }
 
     if (errorIds.length > 0) {
       successIds.forEach((id) => this.contactRepository.delete(id, true))
@@ -230,5 +264,20 @@ export class ContactService {
         status: RequestResponseStatus.Ok,
       }
     }
+  }
+
+  private isInternalServerError(
+    result: ResultObject<unknown, DeviceCommunicationError>
+  ): boolean {
+    const { error } = result
+    if (error?.type === DeviceCommunicationError.DeviceInitializationFailed) {
+      return true
+    }
+
+    if (error?.type === DeviceCommunicationError.DeviceLocked) {
+      return true
+    }
+
+    return false
   }
 }

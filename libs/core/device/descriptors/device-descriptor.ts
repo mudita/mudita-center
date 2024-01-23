@@ -9,24 +9,14 @@ import {
   ProductID,
   DeviceType,
 } from "Core/device/constants"
-import {
-  PureStrategy,
-  HarmonyStrategy,
-  KompaktStrategy,
-} from "Core/device/strategies"
+import { PureStrategy, HarmonyStrategy } from "Core/device/strategies"
 import { SerialPortDeviceAdapter } from "Core/device/modules/mudita-os/adapters/serial-port-device.adapters"
-import { SerialPortDeviceKompaktAdapter } from "Core/device/modules/mudita-os/adapters/serial-port-device-kompakt.adapters"
 
 export interface DeviceDescriptor {
   manufacturer: Manufacture
   deviceType: DeviceType
   productIds: ProductID[]
   vendorIds: VendorID[]
-  adapter:
-    | typeof SerialPortDeviceAdapter
-    | typeof SerialPortDeviceKompaktAdapter
-  strategy:
-    | typeof PureStrategy
-    | typeof HarmonyStrategy
-    | typeof KompaktStrategy
+  adapter: typeof SerialPortDeviceAdapter
+  strategy: typeof PureStrategy | typeof HarmonyStrategy
 }

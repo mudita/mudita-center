@@ -8,15 +8,9 @@ import { ResultObject } from "Core/core/builder"
 import { DeviceService } from "Core/device/services"
 import { PhoneLockTime } from "Core/device/dto"
 import { IpcDeviceEvent } from "Core/device/constants"
-import { DeviceInfo } from "Core/device/types/mudita-os"
 
 export class DeviceController {
   constructor(private deviceService: DeviceService) {}
-
-  @IpcEvent(IpcDeviceEvent.Connect)
-  public async connectDevice(): Promise<ResultObject<DeviceInfo>> {
-    return this.deviceService.connect()
-  }
 
   @IpcEvent(IpcDeviceEvent.Unlock)
   public async unlockDevice(code: string): Promise<ResultObject<boolean>> {
@@ -31,10 +25,5 @@ export class DeviceController {
   @IpcEvent(IpcDeviceEvent.LockTime)
   public async deviceLockTime(): Promise<ResultObject<PhoneLockTime>> {
     return this.deviceService.unlockTime()
-  }
-
-  @IpcEvent(IpcDeviceEvent.SetUpdating)
-  public setUpdating(updating: boolean): void {
-    return this.deviceService.setUpdating(updating)
   }
 }

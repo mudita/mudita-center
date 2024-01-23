@@ -8,7 +8,7 @@ import {
   backgroundColor,
   borderColor,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { ListItem } from "Core/__deprecated__/renderer/components/core/list/list.component"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 import InputSearch from "Core/__deprecated__/renderer/components/core/input-search/input-search.component"

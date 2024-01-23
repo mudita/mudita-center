@@ -44,6 +44,15 @@ export const URL_ONBOARDING = {
   troubleshooting: "/onboarding/troubleshooting",
 } as const
 
+export const URL_DISCOVERY_DEVICE = {
+  root: "/discovery-device",
+  availableDeviceListModal: "/available-device-list-modal",
+}
+
+export const URL_DEVICE_INITIALIZATION = {
+  root: "/device-initialization",
+}
+
 export const URL_OVERVIEW = {
   root: "/overview",
   pureSystem: "/overview/pure-system",

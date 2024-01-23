@@ -4,7 +4,7 @@
  */
 
 import React, { createContext, useEffect, useReducer, useState } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 import SourceCode from "Core/__deprecated__/renderer/components/storybook/source-code.component"
 import { Button } from "Core/__deprecated__/renderer/components/storybook/storybook.elements"

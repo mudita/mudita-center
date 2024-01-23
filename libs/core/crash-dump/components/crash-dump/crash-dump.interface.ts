@@ -8,7 +8,6 @@ import { CrashDump } from "Core/crash-dump/dto"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 export interface CrashDumpContainerProps {
-  hasCrashDump: boolean
   sending: boolean
   sended: boolean
   failed: boolean

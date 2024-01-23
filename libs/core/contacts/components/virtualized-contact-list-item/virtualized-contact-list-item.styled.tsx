@@ -17,7 +17,7 @@ import {
   animatedOpacityStyles,
 } from "Core/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
 import { VisibleCheckbox } from "Core/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
-import { textColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { textColor } from "Core/core/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
 const checkboxShowedStyles = css`

@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import BackupUI from "Core/settings/components/backup/backup-ui.component"
 import useLocationPicker from "Core/__deprecated__/renderer/utils/hooks/use-location-picker"
 

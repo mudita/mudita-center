@@ -6,7 +6,7 @@
 import React, { MouseEventHandler } from "react"
 import { defineMessages } from "react-intl"
 import { ThreadDetailsTestIds } from "Core/messages/components/thread-details-test-ids.enum"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   ColumnContent,
   RetryButton,

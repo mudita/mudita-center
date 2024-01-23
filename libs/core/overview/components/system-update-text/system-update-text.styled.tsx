@@ -9,7 +9,7 @@ import Text, {
 import {
   backgroundColor,
   borderRadius,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import styled from "styled-components"
 
 export const AvailableUpdateText = styled(Text).attrs(() => ({

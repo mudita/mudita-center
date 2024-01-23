@@ -5,7 +5,7 @@
 
 import React from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Table from "Core/__deprecated__/renderer/components/core/table/table.component"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { Settings } from "Core/settings/dto"

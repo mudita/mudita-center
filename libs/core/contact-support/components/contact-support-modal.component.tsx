@@ -7,7 +7,7 @@ import React, { ComponentProps } from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
@@ -17,7 +17,7 @@ import Text, {
 import {
   backgroundColor,
   borderRadius,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import InputComponent from "Core/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { Message } from "Core/__deprecated__/renderer/interfaces/message.interface"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"

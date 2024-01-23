@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { ModalText } from "Core/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"

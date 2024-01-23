@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { SidebarHeaderButton } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"

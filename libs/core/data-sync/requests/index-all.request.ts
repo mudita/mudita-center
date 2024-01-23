@@ -5,7 +5,10 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcDataSyncEvent } from "Core/data-sync/constants"
+import { InitializeOptions } from "Core/data-sync/types"
 
-export const indexAllRequest = async (): Promise<boolean> => {
-  return ipcRenderer.callMain(IpcDataSyncEvent.IndexAll)
+export const indexAllRequest = async (
+  options: InitializeOptions
+): Promise<boolean> => {
+  return ipcRenderer.callMain(IpcDataSyncEvent.IndexAll, options)
 }

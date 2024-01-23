@@ -4,5 +4,11 @@
  */
 
 export enum DeviceManagerEvent {
-  GetCurrentDevice = "GET_CURRENT_DEVICE",
+  HandleDeviceActivated = "HANDLE_DEVICE_ACTIVATED",
+  HandleDeviceDetached = "HANDLE_DEVICE_DETACHED",
+  AddDevice = "ADD_DEVICE",
+  RemoveDevice = "REMOVE_DEVICE",
+  SetActiveDevice = "SET_ACTIVE_DEVICE",
+  DeactivateDevice = "DEACTIVATE_DEVICE",
+  ConfigureDevice = "CONFIGURE_DEVICE",
 }

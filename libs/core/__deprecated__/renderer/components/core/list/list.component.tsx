@@ -14,7 +14,7 @@ import {
   transitionTime,
   transitionTimingFunction,
   zIndex,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import {
   getTextStyles,
   TextDisplayStyle,

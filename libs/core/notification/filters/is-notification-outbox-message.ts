@@ -8,13 +8,18 @@ import { Message } from "Core/messages/dto"
 import { MessageType } from "Core/messages/constants"
 import { Notification } from "Core/notification/types"
 
+const isContentMessage = (
+  notification: Notification
+): notification is Notification<Message> => {
+  return notification.resourceType === NotificationResourceType.Message
+}
+
 export const isNotificationOutboxMessage = (
   notification: Notification
 ): boolean => {
-  const isMessage =
-    notification.resourceType === NotificationResourceType.Message
-  const isOutboxMessage =
-    (notification.content as Message).messageType === MessageType.OUTBOX
-
-  return isMessage && isOutboxMessage
+  if (isContentMessage(notification)) {
+    return notification.content?.messageType === MessageType.OUTBOX
+  } else {
+    return false
+  }
 }

@@ -18,7 +18,7 @@ import {
   textColor,
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import styled, { keyframes } from "styled-components"
 import { animatedOpacityActiveStyles } from "Core/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
 

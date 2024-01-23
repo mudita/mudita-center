@@ -6,7 +6,7 @@
 import { ProcessReleasesProgressProps } from "Core/overview/components/update-os-modals/process-releases-progress/process-releases-progress.interface"
 import { ProgressText } from "Core/overview/components/update-os-modals/process-releases-progress/process-releases-progress.styled"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import React from "react"
 import { defineMessages } from "react-intl"

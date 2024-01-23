@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { SearchResultAccentProps } from "Core/search/components/search-result-accent/search-result-accent.interface"
 
 export const SearchResultAccent: FunctionComponent<SearchResultAccentProps> = ({

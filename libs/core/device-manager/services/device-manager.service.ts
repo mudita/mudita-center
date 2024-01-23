@@ -5,72 +5,84 @@
 
 import SerialPort, { PortInfo as SerialPortInfo } from "serialport"
 import { MainProcessIpc } from "electron-better-ipc"
-import { log } from "Core/core/decorators/log.decorator"
+import { Mutex } from "async-mutex"
+import { EventEmitter } from "events"
 import { DeviceResolverService } from "Core/device-manager/services/device-resolver.service"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
-import {
-  Device,
-  getDevicePropertiesFromDevice,
-} from "Core/device/modules/device"
 import { PortInfo } from "Core/device-manager/types"
 import { PortInfoValidator } from "Core/device-manager/validators"
-import {
-  DeviceManagerError,
-  ListenerEvent,
-} from "Core/device-manager/constants"
-import { DeviceServiceEvent } from "Core/device"
-import { EventEmitter } from "events"
+import { DeviceManagerError } from "Core/device-manager/constants"
+import { DeviceManagerMainEvent } from "shared/utils"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { Mutex } from "async-mutex"
+import { DeviceId } from "Core/device/constants/device-id"
+import { log } from "Core/core/decorators/log.decorator"
 import { APIDevice } from "device/feature"
+import { BaseDevice } from "Core/device/modules/base-device"
+import { CoreDevice } from "Core/device/modules/core-device"
+import { RequestConfig } from "Core/device/types/mudita-os"
+import { DeviceCommunicationError, DeviceType } from "Core/device"
+import { MockCoreDevice } from "Core/device/modules/mock-core-device"
 
 export class DeviceManager {
-  public currentDevice: Device | undefined
-  private currentAPIDevice: APIDevice | undefined
-  public devicesMap = new Map<string, Device>()
-  public currentDeviceInitializationFailed = false
+  public activeDevice: BaseDevice | undefined
+  public devicesMap = new Map<string, BaseDevice>()
 
-  // The `updating` property is a tmp solution to skip sync process
-  // The tech debt will be fixed as part ot tech task
-  // https://appnroll.atlassian.net/browse/CP-1765
-  public updating = false
+  private mutex = new Mutex()
 
   constructor(
     private deviceResolver: DeviceResolverService,
     private ipc: MainProcessIpc,
     protected eventEmitter: EventEmitter
-  ) {
-    this.mountListeners()
-  }
+  ) {}
 
-  get apiDevice() {
-    if (!this.currentAPIDevice) {
+  get apiDevice(): APIDevice {
+    if (!this.activeDevice) {
       throw new AppError(
-        DeviceManagerError.NoCurrentDevice,
-        "Current device is undefined"
+        DeviceManagerError.NoActiveDevice,
+        "Active device is undefined"
       )
     }
 
-    return this.currentAPIDevice
+    // TODO: add device type validation
+    return this.activeDevice as APIDevice
   }
 
-  get device(): Device {
-    if (!this.currentDevice) {
-      throw new AppError(
-        DeviceManagerError.NoCurrentDevice,
-        "Current device is undefined"
-      )
+  get device(): CoreDevice {
+    if (!this.activeDevice) {
+      return new MockCoreDevice({} as unknown as SerialPortInfo, "deviceType" as DeviceType) as CoreDevice
     }
 
-    return this.currentDevice
+    // TODO: add device type validation
+    return this.activeDevice as CoreDevice
   }
 
-  get devices(): Device[] {
+  get devices(): BaseDevice[] {
     return Array.from(this.devicesMap.values())
   }
 
-  private mutex = new Mutex()
+  public setActiveDevice(id: DeviceId | undefined): ResultObject<boolean> {
+    if (id === undefined) {
+      this.activeDevice = undefined
+
+      return Result.success(true)
+    }
+
+    const newActiveDevice = this.devicesMap.get(id)
+
+    if (!newActiveDevice) {
+      return Result.failed(
+        new AppError(
+          DeviceManagerError.CannotFindDevice,
+          `Device ${id} can't be found`
+        )
+      )
+    }
+
+    this.activeDevice = newActiveDevice
+
+    return Result.success(true)
+  }
 
   public async addDevice(port: PortInfo): Promise<void> {
     await this.mutex.runExclusive(async () => {
@@ -78,78 +90,26 @@ export class DeviceManager {
     })
   }
 
-  public async addDeviceTask(port: PortInfo): Promise<void> {
-    if (this.currentDevice) {
+  public removeDevice(path: string): void {
+    const device = this.getDeviceByPath(path)
+
+    if (device === undefined) {
       return
     }
 
-    const device = await this.initializeDevice(port)
+    this.devicesMap.delete(device.id)
 
-    if (!device) {
-      throw new AppError(
-        DeviceManagerError.CannotInitializeDeviceObject,
-        `Cannot initialize device object for ${port.productId || ""}`
-      )
+    if (this.activeDevice?.id === device.id) {
+      this.activeDevice = undefined
     }
 
-    this.devicesMap.set(device.path, device)
+    const data = device.toSerializableObject()
 
-    if (!this.currentDevice) {
-      this.currentDevice = device
-      this.ipc.sendToRenderers(
-        ListenerEvent.CurrentDeviceChanged,
-        this.device.toSerializableObject()
-      )
-    }
-
-    this.ipc.sendToRenderers(ListenerEvent.DeviceAttached)
-    logger.info(`Connected device with serial number: ${device.serialNumber}`)
+    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, data)
+    logger.info(`Detached device with path: ${path}`)
   }
 
-  public removeDevice(path: string): void {
-    this.devicesMap.delete(path)
-
-    if (this.currentDevice?.path === path) {
-      if (this.devicesMap.size > 0) {
-        this.currentDevice = this.devicesMap.values().next().value as Device
-        this.ipc.sendToRenderers(
-          ListenerEvent.CurrentDeviceChanged,
-          this.currentDevice
-            ? getDevicePropertiesFromDevice(this.currentDevice)
-            : undefined
-        )
-      } else {
-        this.currentDevice = undefined
-      }
-    }
-
-    this.ipc.sendToRenderers(ListenerEvent.DeviceDetached, path)
-    logger.info(`Disconnected device with path: ${path}`)
-  }
-
-  public setCurrentDevice(path: string): ResultObject<boolean> {
-    const newCurrentDevice = this.devicesMap.get(path)
-
-    if (!newCurrentDevice) {
-      return Result.failed(
-        new AppError(
-          DeviceManagerError.CannotFindDevice,
-          `Device ${path} can't be found`
-        )
-      )
-    }
-
-    this.currentDevice = newCurrentDevice
-
-    this.ipc.sendToRenderers(
-      ListenerEvent.CurrentDeviceChanged,
-      getDevicePropertiesFromDevice(this.currentDevice)
-    )
-
-    return Result.success(true)
-  }
-
-  public async getConnectedDevices(): Promise<SerialPortInfo[]> {
+  public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
     return (
       portList
@@ -159,48 +119,64 @@ export class DeviceManager {
     )
   }
 
+  public request<ResponseType = unknown>(
+    id: DeviceId,
+    config: RequestConfig<unknown>
+  ): Promise<ResultObject<ResponseType, DeviceCommunicationError>> {
+    const device = this.devicesMap.get(id) as CoreDevice
+    return device.request(config)
+  }
+
+  private async addDeviceTask(port: PortInfo): Promise<void> {
+    const device = await this.initializeDevice(port)
+
+    const alreadyInitializedDevices = this.getDevicePaths()
+    if (alreadyInitializedDevices.includes(port.path ?? "")) {
+      return
+    }
+
+    if (!device) {
+      return
+    }
+
+    this.devicesMap.set(device.id, device)
+    const result = await device.connect()
+    const data = device.toSerializableObject()
+
+    if (result.ok) {
+      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected, data)
+    } else {
+      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnectFailed, data)
+    }
+  }
+
   private async initializeDevice(
     portInfo: PortInfo
-  ): Promise<Device | undefined> {
+  ): Promise<BaseDevice | undefined> {
     const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
     const retryLimit = 20
 
     portInfo.productId = portInfo.productId?.toUpperCase()
     portInfo.vendorId = portInfo.vendorId?.toUpperCase()
 
-    const alreadyInitializedDevices = Array.from(this.devicesMap.keys())
-
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
-    return new Promise(async (resolve) => {
+    return new Promise<BaseDevice | undefined>(async (resolve) => {
       for (let i = 0; i < retryLimit; i++) {
-        const portList = await this.getConnectedDevices()
+        const portList = await this.getAttachedDevices()
         const port = portList.find(
           ({ productId, vendorId, path }) =>
             productId?.toUpperCase() === portInfo.productId &&
             vendorId?.toUpperCase() === portInfo.vendorId &&
-            ((!portInfo.path && !alreadyInitializedDevices.includes(path)) ||
-              path === portInfo.path)
+            path === portInfo.path
         )
 
         if (port) {
           const device = this.deviceResolver.resolve(port)
-
-          if (
-            !device &&
-            process.env.FEATURE_TOGGLE_ENVIRONMENT === "development"
-          ) {
-            //TODO: temporary, remove in future
-            this.currentAPIDevice = new APIDevice(port)
-          }
-
-          if (!device) {
-            return
-          }
-
           return resolve(device)
+        } else {
+          await sleep()
         }
-        await sleep()
       }
 
       resolve(undefined)
@@ -212,21 +188,11 @@ export class DeviceManager {
     return SerialPort.list()
   }
 
-  private mountListeners(): void {
-    this.eventEmitter.on(
-      DeviceServiceEvent.DeviceInitializationFailed,
-      this.deviceInitializationFailedListener
-    )
-    this.eventEmitter.on(
-      DeviceServiceEvent.DeviceConnected,
-      this.deviceConnectedListener
-    )
+  private getDeviceByPath(path: string): BaseDevice | undefined {
+    return this.devices.find((device) => device.portInfo.path === path)
   }
 
-  private deviceInitializationFailedListener = () => {
-    this.currentDeviceInitializationFailed = true
-  }
-  private deviceConnectedListener = () => {
-    this.currentDeviceInitializationFailed = false
+  private getDevicePaths(): string[] {
+    return this.devices.map(({ portInfo }) => portInfo.path)
   }
 }

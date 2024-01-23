@@ -9,7 +9,7 @@ import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import SelectionManager from "Core/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
 import { showToggleableElement } from "Core/__deprecated__/renderer/modules/tools/tabs/notes.styled"
 

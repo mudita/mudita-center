@@ -4,7 +4,7 @@
  */
 
 import React, { ChangeEvent, useEffect } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import AudioConversionUI from "Core/settings/components/audio-conversion/audio-conversion-ui.component"
 import { ConversionFormat, Convert } from "Core/settings/constants"

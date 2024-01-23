@@ -14,13 +14,11 @@ import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { CrashDumpController } from "Core/crash-dump/controllers"
 import { CrashDumpService } from "Core/crash-dump/services"
-import { CrashDumpObserver } from "Core/crash-dump/observers"
 import { DeviceManager } from "Core/device-manager/services"
 
 export class CrashDumpModule extends BaseModule {
   private crashDumpController: CrashDumpController
   private crashDumpService: CrashDumpService
-  private crashDumpObserver: CrashDumpObserver
 
   constructor(
     public index: IndexStorage,
@@ -55,14 +53,7 @@ export class CrashDumpModule extends BaseModule {
       this.crashDumpService,
       settingsService
     )
-    this.crashDumpObserver = new CrashDumpObserver(
-      this.ipc,
-      this.eventEmitter,
-      this.crashDumpService,
-      settingsService
-    )
 
     this.controllers = [this.crashDumpController]
-    this.observers = [this.crashDumpObserver]
   }
 }

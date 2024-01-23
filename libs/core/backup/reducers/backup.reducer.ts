@@ -14,6 +14,7 @@ import {
   startBackupDevice,
   startRestoreDevice,
   readRestoreDeviceDataState,
+  setInitialBackupState,
 } from "Core/backup/actions"
 import { BackupError } from "Core/backup/constants"
 
@@ -75,6 +76,9 @@ export const backupReducer = createReducer<BackupState>(
       .addCase(readRestoreDeviceDataState, (state) => {
         state.restoringState = State.Initial
         state.error = null
+      })
+      .addCase(setInitialBackupState, () => {
+        return { ...initialState }
       })
   }
 )

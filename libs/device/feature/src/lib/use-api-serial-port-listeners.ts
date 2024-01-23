@@ -5,13 +5,14 @@
 
 import { useEffect } from "react"
 import { answerMain } from "./answer-main"
+import { DeviceManagerMainEvent } from "shared/utils"
 
 export const useAPISerialPortListeners = () => {
   useEffect(() => {
     const unregisterFailListener = answerMain(
-      "api-serial-port-connection-failed",
-      (x) => {
-        console.log(x)
+      DeviceManagerMainEvent.DeviceConnectFailed,
+      (properties) => {
+        console.log(properties)
       }
     )
 

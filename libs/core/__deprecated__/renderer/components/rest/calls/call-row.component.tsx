@@ -23,7 +23,7 @@ import {
 import { Details } from "Core/__deprecated__/renderer/components/rest/calls/call-details.types"
 import getPrettyCaller from "Core/__deprecated__/renderer/models/calls/get-pretty-caller"
 import { resolveCallType } from "Core/__deprecated__/renderer/components/rest/calls/call-details.helpers"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import formatDuration from "Core/__deprecated__/renderer/utils/format-duration"
 import { isToday } from "Core/__deprecated__/renderer/utils/is-today"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"

@@ -4,7 +4,7 @@
  */
 
 import React, { Dispatch, SetStateAction } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import TetheringEnabled from "Core/__deprecated__/renderer/modules/tethering/screens/tethering-enabled.component"
 import PureDisconnected from "Core/__deprecated__/renderer/modules/tethering/screens/pure-disconnected.component"
 import TetheringDisabled from "Core/__deprecated__/renderer/modules/tethering/screens/tethering-disabled.component"

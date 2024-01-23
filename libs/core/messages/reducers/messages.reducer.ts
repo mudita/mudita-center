@@ -43,6 +43,7 @@ import assert from "assert"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import { search, searchPreview } from "Core/search/actions/search.action"
+import { setInitialMessagesState } from "Core/messages/actions/base.action"
 
 export const initialState: MessagesState = {
   data: {
@@ -66,6 +67,9 @@ export const messagesReducer = createReducer<MessagesState>(
   initialState,
   (builder) => {
     builder
+      .addCase(setInitialMessagesState, (state) => {
+        return { ...initialState }
+      })
       .addCase(
         fulfilledAction(MessagesEvent.AddNewMessage),
         (state, action: AddNewMessageAction) => {

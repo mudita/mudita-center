@@ -8,7 +8,7 @@ import {
   CommentsText,
 } from "Core/news/components/community-comments-count/community-comments-count.styled"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import * as React from "react"
 import { FormattedMessage } from "react-intl"
 

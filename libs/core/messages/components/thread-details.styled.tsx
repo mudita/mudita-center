@@ -8,7 +8,7 @@ import Text from "Core/__deprecated__/renderer/components/core/text/text.compone
 import {
   backgroundColor,
   zIndex,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import InputComponent from "Core/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { Sidebar } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"

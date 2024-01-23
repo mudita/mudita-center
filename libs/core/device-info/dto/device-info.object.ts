@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColor } from "Core/device/constants"
+import { CaseColour } from "Core/device/constants"
 
 // DEPRECATED
 import { SimCard } from "Core/__deprecated__/renderer/models/basic-info/basic-info.typings"
@@ -25,10 +25,11 @@ export interface DeviceInfo {
   phoneLockTime?: number
   timeLeftToNextAttempt?: number
   memorySpace: DeviceInfoMemorySpace
-  caseColour: CaseColor
+  caseColour: CaseColour
   backupFilePath: string
   updateFilePath: string
   syncFilePath: string
   recoveryStatusFilePath: string
   onboardingState: OnboardingState
+  token?: string
 }

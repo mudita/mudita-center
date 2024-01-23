@@ -41,10 +41,14 @@ describe("Get Device Crash Dump Files request returns `success` status", () => {
 
       expect(mockStore.getActions()).toEqual([
         getCrashDump.pending(requestId),
+        {
+          type: Event.SetCrashDump,
+          payload: [],
+        },
         getCrashDump.fulfilled(undefined, requestId),
       ])
 
-      expect(getCrashDumpsRequest).not.toHaveBeenCalled()
+      expect(getCrashDumpsRequest).toHaveBeenCalled()
     })
   })
 
@@ -75,7 +79,7 @@ describe("Get Device Crash Dump Files request returns `success` status", () => {
           type: Event.SetCrashDump,
           payload: crashDumpsMock,
         },
-        getCrashDump.fulfilled(RequestResponseStatus.Ok, requestId),
+        getCrashDump.fulfilled(undefined, requestId),
       ])
 
       expect(getCrashDumpsRequest).toHaveBeenCalled()

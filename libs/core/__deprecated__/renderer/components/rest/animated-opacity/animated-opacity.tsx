@@ -7,7 +7,7 @@ import { css } from "styled-components"
 import {
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 
 export const animatedOpacityActiveStyles = css`
   opacity: 1;

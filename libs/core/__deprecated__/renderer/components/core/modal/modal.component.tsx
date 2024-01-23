@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import * as React from "react"
 import {
   DisplayStyle,
@@ -28,7 +28,7 @@ import {
 } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ModalTestIds } from "Core/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { ReactNode } from "react"
 import {
   Close,

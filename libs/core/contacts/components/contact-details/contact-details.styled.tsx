@@ -12,7 +12,7 @@ import {
   borderColor,
   fontWeight,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { Sidebar } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import InputComponent from "Core/__deprecated__/renderer/components/core/input-text/input-text.component"
 import { InputComponentProps } from "Core/__deprecated__/renderer/components/core/input-text/input-text.interface"

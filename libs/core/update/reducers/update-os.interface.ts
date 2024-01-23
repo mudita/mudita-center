@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PortInfo } from "serialport"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import {
@@ -22,11 +23,11 @@ export interface UpdateOsState {
   error: AppError<UpdateError> | null
   needsForceUpdate: boolean
   checkedForForceUpdateNeed: boolean
-  deviceHasBeenDetachedDuringDownload: boolean
   data: {
     allReleases: OsRelease[] | null
     availableReleasesForUpdate: OsRelease[] | null
     downloadedProcessedReleases: ProcessedRelease[] | null
     updateProcessedReleases: ProcessedRelease[] | null
   }
+  tmpMuditaHarmonyPortInfo?: PortInfo
 }

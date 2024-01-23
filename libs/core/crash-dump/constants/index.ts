@@ -6,4 +6,3 @@
 export * from "./controller.constant"
 export * from "./error.enum"
 export * from "./event.enum"
-export * from "./ipc-event.enum"

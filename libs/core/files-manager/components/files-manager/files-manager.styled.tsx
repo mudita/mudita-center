@@ -4,7 +4,7 @@
  */
 
 import styled from "styled-components"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 
 export const FilesManagerContainer = styled.div`

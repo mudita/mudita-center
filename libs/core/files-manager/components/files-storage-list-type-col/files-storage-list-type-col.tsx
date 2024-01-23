@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Col } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import { FilesStorageListTypeColTestIds } from "Core/files-manager/components/files-storage-list-type-col/files-storage-list-type-col-test-ids.enum"
 import { File } from "Core/files-manager/dto"

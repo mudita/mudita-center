@@ -5,7 +5,7 @@
 
 import styled from "styled-components"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { fontWeight } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { fontWeight } from "Core/core/styles/theming/theme-getters"
 
 export const Title = styled(Text)`
   font-size: 3rem;

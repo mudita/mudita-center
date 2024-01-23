@@ -28,7 +28,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import theme from "Core/__deprecated__/renderer/styles/theming/theme"
+import theme from "Core/core/styles/theming/theme"
 import useTableSelect from "Core/__deprecated__/renderer/utils/hooks/useTableSelect"
 import useTableSidebar from "Core/__deprecated__/renderer/utils/hooks/use-table-sidebar"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"

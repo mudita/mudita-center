@@ -10,7 +10,7 @@ import {
   Size,
 } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { Message as MessageInterface } from "Core/__deprecated__/renderer/interfaces/message.interface"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 

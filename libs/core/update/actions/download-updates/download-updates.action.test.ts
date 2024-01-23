@@ -25,6 +25,7 @@ import * as osUpdateAlreadyDownloadedCheckModule from "Core/update/requests/os-u
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { trackOsDownload } from "Core/analytic-data-tracker/helpers/track-os-download"
+import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
 
 jest.mock("Core/analytic-data-tracker/helpers/track-os-download")
 
@@ -62,6 +63,11 @@ const mockedRelease2: OsRelease = {
   mandatoryVersions: [],
 }
 
+const mockedDeviceManagerState = {
+  devices: [{ id: "1" }],
+  activeDeviceId: "1",
+} as unknown as DeviceManagerState
+
 const params = { releases: [mockedRelease, mockedRelease2] }
 
 const getParamsForDownloadingIntallingRelaseStateAction = (
@@ -84,9 +90,6 @@ describe("when battery is lower than 40%", () => {
         data: {
           batteryLevel: 0.39,
         },
-      },
-      update: {
-        deviceHasBeenDetachedDuringDownload: false,
       },
     })
 
@@ -125,9 +128,7 @@ describe("when some of the updates have been downloaded before", () => {
           batteryLevel: 0.55,
         },
       },
-      update: {
-        deviceHasBeenDetachedDuringDownload: false,
-      },
+      deviceManager: mockedDeviceManagerState,
     })
 
     const {
@@ -186,9 +187,7 @@ describe("when update downloads successfully", () => {
           batteryLevel: 0.55,
         },
       },
-      update: {
-        deviceHasBeenDetachedDuringDownload: false,
-      },
+      deviceManager: mockedDeviceManagerState,
     })
 
     const {
@@ -243,9 +242,7 @@ describe("when download is cancelled by user", () => {
           batteryLevel: 0.55,
         },
       },
-      update: {
-        deviceHasBeenDetachedDuringDownload: false,
-      },
+      deviceManager: mockedDeviceManagerState,
     })
 
     const {
@@ -293,9 +290,7 @@ describe("when download failed", () => {
           batteryLevel: 0.55,
         },
       },
-      update: {
-        deviceHasBeenDetachedDuringDownload: false,
-      },
+      deviceManager: mockedDeviceManagerState,
     })
 
     const {

@@ -6,33 +6,22 @@
 export enum DeviceEvent {
   SetInitState = "DEVICE_SET_INIT_STATE",
 
-  GetConnected = "DEVICE_GET_CONNECTED",
-  SetData = "DEVICE_SET_DATA",
-
-  SetConnectionState = "DEVICE_SET_CONNECTION_STATE",
-  Connected = "DEVICE_CONNECTED",
-  Disconnected = "DEVICE_DISCONNECTED",
-
   Unlock = "DEVICE_UNLOCK",
   Locked = "DEVICE_LOCKED",
   Unlocked = "DEVICE_UNLOCKED",
   SetLockTime = "DEVICE_SET_LOCK_TIME",
   GetUnlockedStatus = "DEVICE_GET_UNLOCKED_STATUS",
+  SetUnlockedStatus = "DEVICE_SET_UNLOCKED_STATUS",
 
-  Loading = "DEVICE_DATA_LOADING",
-
-  ChangeSimData = "DEVICE_CHANGE_SIM",
-  SetSimData = "DEVICE_SET_SIM_DATA",
-
-  SetOsVersionData = "DEVICE_SET_OS_VERSION_DATA",
+  GetOnboardingStatus = "DEVICE_GET_ONBOARDING_STATUS",
+  SetOnboardingStatus = "DEVICE_SET_ONBOARDING_STATUS",
+  SetRestartingStatus = "DEVICE_SET_RESTARTING_STATUS",
+  SetCriticalBatteryLevelStatus = "DEVICE_SET_CRITICAL_BATTERY_LEVEL_STATUS",
+  SetExternalUsageDevice = "DEVICE_SET_EXTERNAL_USAGE_DEVICE",
 
   LoadStorageInfo = "DEVICE_LOAD_STORAGE_INFO",
-  OnboardingStatus = "DEVICE_ONBOARDING_STATUS",
-  CriticalBatteryLevel = "CRITICAL_BATTERY_LEVEL",
 
-  ExternalUsageDevice = "EXTERNAL_USAGE_DEVICE",
-
-  Restarting = "DEVICE_RESTARTING",
-
-  InitializationFailed = "DEVICE_SET_INITIALIZATION_FAILED",
+  LoadDeviceData = "DEVICE_LOAD_DEVICE_DATA",
+  ProcessDeviceDataOnLoad = "DEVICE_PROCESS_DEVICE_DATA_ON_LOAD",
+  ProcessDeviceDataOnFailed = "DEVICE_PROCESS_DEVICE_DATA_ON_FAILED",
 }

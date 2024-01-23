@@ -12,7 +12,7 @@ import {
 import { ContactSimpleListItemAvatarTestIds } from "Core/contacts/components/contact-simple-list-item-avatar/contact-simple-list-item-avatar-test-ids.enum"
 import { createFullName } from "Core/contacts/helpers/contacts.helpers"
 import { AvatarSize } from "Core/__deprecated__/renderer/components/core/avatar/avatar.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import React from "react"
 import { defineMessages } from "react-intl"

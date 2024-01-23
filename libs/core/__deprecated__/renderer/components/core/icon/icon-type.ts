@@ -59,6 +59,7 @@ export enum IconType {
   Contact,
   NewContact,
   Dial,
+  DotsInBox,
   Notes,
   Notifications,
   Playlist,

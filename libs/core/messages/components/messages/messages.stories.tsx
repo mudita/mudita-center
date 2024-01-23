@@ -21,7 +21,7 @@ import {
   rowMessages,
   rowThreads,
 } from "Core/__deprecated__/renderer/components/core/table/table.fake-data"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import React from "react"
 import { Router } from "react-router"

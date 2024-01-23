@@ -4,7 +4,7 @@
  */
 
 import styled from "styled-components"
-import { fontWeight } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { fontWeight } from "Core/core/styles/theming/theme-getters"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 
 export const OnboardingWrapper = styled.section`

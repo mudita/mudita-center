@@ -11,12 +11,9 @@ import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { DeviceManager } from "Core/device-manager/services"
-import {
-  UsbDeviceAttachObserver,
-  DeviceDisconnectedObserver,
-} from "Core/device-manager/observers"
+import { UsbDeviceDetectionObserver } from "Core/device-manager/observers"
 import { DeviceManagerController } from "Core/device-manager/controllers"
-import { DeviceInitializationFailedObserver } from "Core/device-manager/observers/device-initialization-failed.observer"
+import { DeviceCacheConfigurationService } from "Core/device-manager/services/device-cache-configuration.service"
 
 export class DeviceManagerModule extends BaseModule {
   constructor(
@@ -38,29 +35,17 @@ export class DeviceManagerModule extends BaseModule {
       fileSystem
     )
 
-    const usbDeviceAttachObserver = new UsbDeviceAttachObserver(
+    const usbDeviceDetectionObserver = new UsbDeviceDetectionObserver(
       this.deviceManager
     )
-    const deviceDisconnectedObserver = new DeviceDisconnectedObserver(
-      this.deviceManager,
-      this.eventEmitter
-    )
-    const deviceInitializationFailedObserver =
-      new DeviceInitializationFailedObserver(
-        this.deviceManager,
-        this.eventEmitter
-      )
 
     const deviceManagerController = new DeviceManagerController(
-      this.deviceManager
+      this.deviceManager,
+      new DeviceCacheConfigurationService(this.fileSystem)
     )
 
     this.initializers = []
-    this.observers = [
-      usbDeviceAttachObserver,
-      deviceDisconnectedObserver,
-      deviceInitializationFailedObserver,
-    ]
+    this.observers = [usbDeviceDetectionObserver]
     this.controllers = [deviceManagerController]
   }
 }
