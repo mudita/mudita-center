@@ -4,3 +4,4 @@
  */
 
 export * from "./active-device-menu-items"
+export * from "./select-configured-device-ids"

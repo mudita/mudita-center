@@ -38,6 +38,8 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     useState<boolean>(false)
 
   useEffect(() => {
+    console.log(devices, failedDevices, availableDevices)
+
     if (
       devices.length === 1 &&
       failedDevices.length === 1 &&
