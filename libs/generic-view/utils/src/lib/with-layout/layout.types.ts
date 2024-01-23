@@ -23,7 +23,7 @@ export interface GridPlacement {
 }
 
 export interface FlexLayout extends Gap {
-  direction: "row" | "column" | "row-reverse" | "column-reverse"
+  direction?: "row" | "column" | "row-reverse" | "column-reverse"
   justifyContent?:
     | "flex-start"
     | "flex-end"

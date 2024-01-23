@@ -6,11 +6,13 @@
 import IconText from "./icon-text/icon-text"
 import Image from "./image"
 import LabeledText from "./labeled-text"
-import IconLink from "./icon-link"
+import TextPlain from "./text-plain"
+import TextFormatted from "./text-formatted"
 
 export const rows = {
   "icon-text": IconText,
   "labeled-text": LabeledText,
-  "icon-link": IconLink,
   image: Image,
+  "text-plain": TextPlain,
+  "text-formatted": TextFormatted,
 }

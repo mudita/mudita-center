@@ -191,16 +191,19 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         },
       },
       about: {
-        component: "icon-link",
+        component: "button-text",
         layout: {
           flexPlacement: {
             alignSelf: "center",
           },
         },
         config: {
-          linkViewKey: "mc-overview/mc-about",
-          label: "About your Kompakt",
-          icon: "icon",
+          text: "About your Kompakt",
+          icon: "phone-about",
+          action: {
+            type: "navigate",
+            viewKey: "mc-overview/mc-about",
+          },
         },
       },
     }),
@@ -279,9 +282,9 @@ export const mcOverviewDemoData = {
     text: "Battery",
   },
   connection: {
-    icon: "airplane-mode",
+    icon: "network-signal-2",
     title: "Network",
-    // text: "Network name",
+    text: "Network name",
   },
   version: {
     version: "Android 13",

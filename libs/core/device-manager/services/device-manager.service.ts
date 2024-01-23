@@ -155,8 +155,6 @@ export class DeviceManager {
     const result = await device.connect()
     const data = device.toSerializableObject()
 
-    console.log(result, data)
-
     if (result.ok) {
       callRenderer(DeviceManagerMainEvent.DeviceConnected, data)
       this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected, data)

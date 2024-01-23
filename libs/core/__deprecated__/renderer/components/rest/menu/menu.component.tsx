@@ -46,8 +46,6 @@ const Menu: FunctionComponent<MenuProps> = ({
   dataSyncInProgress,
   ...rest
 }) => {
-  console.log(rest.genericMenuElements)
-
   return (
     <MenuContainer>
       <MenuTop {...rest} />

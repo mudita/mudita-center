@@ -23,6 +23,7 @@ import { deviceInitializationReducer } from "Core/device-initialization/reducers
 import { appInitializationReducer } from "Core/app-initialization/reducers/app-initialization.reducer"
 import { deviceManagerReducer } from "Core/device-manager/reducers/device-manager.reducer"
 import { genericViewsReducer } from "generic-view/store"
+import { genericModalsReducer } from "generic-view/store"
 
 export const reducers = {
   device: deviceReducer,
@@ -44,6 +45,7 @@ export const reducers = {
   appInitialization: appInitializationReducer,
   deviceManager: deviceManagerReducer,
   genericViews: genericViewsReducer,
+  genericModals: genericModalsReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

@@ -7,9 +7,11 @@
 import {
   generateMcAboutLayout,
   generateMcCalendarLayout,
+  generateMcDemoLayout,
   generateMcOverviewLayout,
   mcAboutDemoData,
   mcCalendarConfig,
+  mcDemoData,
   mcOverviewConfig,
   mcOverviewDemoData,
 } from "generic-view/views"
@@ -17,8 +19,8 @@ import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { menuConfig } from "../../../../../demo-data/demo-menu"
 import { generateMenu } from "generic-view/utils"
-import { setMenu, setViewData, setViewLayout } from "./actions"
-import { genericViewsReducer } from "./reducer"
+import { setMenu, setViewData, setViewLayout } from "./views/actions"
+import { genericViewsReducer } from "./views/reducer"
 
 // For demo purposes to simulate device connection and async data fetching
 export const useGenericStoreDemo = () => {
@@ -56,6 +58,20 @@ export const useGenericStoreDemo = () => {
         setViewLayout({
           feature: "mc-calendar",
           layout: generateMcCalendarLayout(mcCalendarConfig),
+        })
+      )
+
+      dispatch(
+        setViewLayout({
+          feature: "mc-demo",
+          layout: generateMcDemoLayout({ title: "Demo" }),
+        })
+      )
+
+      dispatch(
+        setViewData({
+          feature: "mc-demo",
+          data: mcDemoData,
         })
       )
 

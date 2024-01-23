@@ -22,4 +22,6 @@ export enum IconType {
   NoSimCard = "no-sim-card",
   AirplaneMode = "airplane-mode",
   Overview = "overview",
+  Close = "close",
+  PhoneAbout = "phone-about",
 }

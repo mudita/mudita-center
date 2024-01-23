@@ -8,6 +8,9 @@ import { rows } from "./lib/data-rows/data-rows"
 import { predefinedComponents } from "./lib/predefined/overview-predefined"
 import { helpers } from "./lib/helpers/helpers"
 import { interactive } from "./lib/interactive/interactive"
+import { buttons } from "./lib/buttons/buttons"
+
+export { default as Icon } from "./lib/icon/icon"
 
 const apiComponents = {
   ...predefinedComponents,
@@ -15,6 +18,7 @@ const apiComponents = {
   ...rows,
   ...helpers,
   ...interactive,
+  ...buttons,
 }
 
 export default apiComponents

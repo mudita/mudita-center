@@ -10,6 +10,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { isEmpty } from "lodash"
 import { GenericThemeProvider } from "generic-view/theme"
 import RecursiveLayout from "./recursive-layout"
+import GenericModals from "./generic-modals"
 
 export const GenericView: FunctionComponent = () => {
   const { viewKey, subviewKey } = useParams<{
@@ -30,6 +31,7 @@ export const GenericView: FunctionComponent = () => {
   return (
     <GenericThemeProvider>
       <RecursiveLayout viewKey={currentViewKey} componentKey={"main"} />
+      <GenericModals viewKey={currentViewKey} />
     </GenericThemeProvider>
   )
 }
