@@ -7,7 +7,7 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { fontWeight } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { fontWeight } from "Core/core/styles/theming/theme-getters"
 
 export const RichTextSecondaryHeading = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.Headline2,

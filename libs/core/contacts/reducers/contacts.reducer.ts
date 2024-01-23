@@ -35,6 +35,7 @@ import {
   resetAllItems,
   toggleItem,
   deleteContacts,
+  setInitialContactsState,
 } from "Core/contacts/actions"
 import { changeLocation } from "Core/core/actions"
 
@@ -54,6 +55,9 @@ export const contactsReducer = createReducer<ContactsState>(
   initialState,
   (builder) => {
     builder
+      .addCase(setInitialContactsState, (state) => {
+        return { ...initialState }
+      })
       .addCase(
         fulfilledAction(DataSyncEvent.ReadAllIndexes),
         (state, action: ReadAllIndexesAction) => {

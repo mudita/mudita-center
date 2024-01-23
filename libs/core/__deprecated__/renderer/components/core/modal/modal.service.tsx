@@ -24,11 +24,11 @@ import {
   ModalWrapper,
 } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import { Store } from "Core/__deprecated__/renderer/store"
 import { ThemeProvider } from "styled-components"
-import theme from "Core/__deprecated__/renderer/styles/theming/theme"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import theme from "Core/core/styles/theming/theme"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { createRoot, Root } from "react-dom/client"
 
 enum ModalError {

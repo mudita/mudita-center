@@ -10,7 +10,6 @@ import { IndexStorage } from "Core/index-storage/types"
 import { DataIndex } from "Core/index-storage/constants"
 import { DeviceManager } from "Core/device-manager/services"
 import { MetadataStore } from "Core/metadata/services"
-import { MetadataKey } from "Core/metadata/constants"
 import {
   ContactIndexer,
   MessageIndexer,
@@ -25,6 +24,7 @@ import {
   ThreadPresenter,
 } from "Core/data-sync/presenters"
 import { SyncBackupCreateService } from "Core/backup/services/sync-backup-create.service"
+import { InitializeOptions } from "Core/data-sync/types"
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
@@ -63,26 +63,16 @@ export class DataSyncService {
     )
   }
 
-  public async indexAll(): Promise<boolean> {
-    const serialNumber = String(
-      this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
-    )
-    const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
-
-    if (this.deviceManager.device.locked) {
-      return true
-    }
-
+  public async indexAll({
+    token,
+    serialNumber,
+  }: InitializeOptions): Promise<boolean> {
     if (
       !this.contactIndexer ||
       !this.messageIndexer ||
       !this.threadIndexer ||
       !this.templateIndexer
     ) {
-      return false
-    }
-
-    if (!token || !serialNumber) {
       return false
     }
 

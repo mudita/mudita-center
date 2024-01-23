@@ -13,7 +13,7 @@ import React, {
 } from "react"
 import _uniqueId from "lodash/uniqueId"
 import { TooltipProps } from "react-tooltip"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Tooltip from "Core/__deprecated__/renderer/components/core/tooltip/tooltip.component"
 
 export enum ElementWithTooltipPlace {

@@ -11,12 +11,12 @@ import { FileSystemService } from "Core/file-system/services/file-system.service
 import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { IndexStorageService } from "Core/index-storage/services"
-import { IndexStorageLoadingObserver } from "Core/index-storage/observers"
 import { DeviceManager } from "Core/device-manager/services"
+import { IndexStorageController } from "Core/index-storage/controllers"
 
 export class IndexStorageModule extends BaseModule {
   private indexStorageService: IndexStorageService
-  private indexStorageLoadingObserver: IndexStorageLoadingObserver
+  private indexStorageController: IndexStorageController
 
   constructor(
     public index: IndexStorage,
@@ -42,14 +42,13 @@ export class IndexStorageModule extends BaseModule {
       this.keyStorage,
       this.fileSystem
     )
-    this.indexStorageLoadingObserver = new IndexStorageLoadingObserver(
-      this.deviceManager,
-      this.keyStorage,
-      this.indexStorageService,
-      this.ipc,
-      this.eventEmitter
+
+    this.indexStorageController = new IndexStorageController(
+      this.indexStorageService
     )
 
-    this.observers = [this.indexStorageLoadingObserver]
+    this.controllers = [this.indexStorageController]
+
+    this.observers = []
   }
 }

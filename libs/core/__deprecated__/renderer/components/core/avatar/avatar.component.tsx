@@ -12,9 +12,9 @@ import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import Image from "Core/__deprecated__/renderer/components/core/image/image.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { AvatarTestIds } from "Core/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"

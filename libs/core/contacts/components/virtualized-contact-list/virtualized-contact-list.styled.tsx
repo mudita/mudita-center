@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { zIndex } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { zIndex } from "Core/core/styles/theming/theme-getters"
 import styled from "styled-components"
 
 export const VirtualListWrapper = styled.div`

@@ -4,79 +4,40 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import {
-  DeviceEvent,
-  ConnectionState,
-  DeviceCommunicationError,
-} from "Core/device/constants"
+import { DeviceEvent } from "Core/device/constants"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import {
-  setDeviceData,
-  setExternalUsageDevice,
-} from "Core/device/actions/base.action"
-import { lockedDevice } from "Core/device/actions/locked-device.action"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
-import { setValue, MetadataKey } from "Core/metadata"
-import { trackOsVersion } from "Core/analytic-data-tracker/helpers"
-import { externalUsageDevice } from "Core/device/requests/external-usage-device.request"
-import { setExternalUsageDeviceRequest } from "Core/analytic-data-tracker/requests/set-external-usage-device.request"
+import { DeviceInfo } from "Core/device-info/dto"
+import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
+import { DeviceState } from "Core/device/reducers"
+import { processDeviceDataOnLoad } from "Core/device/actions/process-device-data-on-load.action"
+import { processDeviceDataOnFailed } from "Core/device/actions/process-device-data-on-failed.action"
 
 export const loadDeviceData = createAsyncThunk<
-  undefined,
-  void,
+  DeviceInfo & Pick<DeviceState, "deviceType">,
+  boolean | undefined,
   { state: ReduxRootState }
->(DeviceEvent.Loading, async (_, { getState, dispatch, rejectWithValue }) => {
-  const state = getState()
+>(
+  DeviceEvent.LoadDeviceData,
+  async (
+    forceProcessOnLoad = false,
+    { dispatch, rejectWithValue, getState }
+  ) => {
+    try {
+      const deviceType = getActiveDeviceTypeSelector(getState())
+      const { ok, data, error } = await getDeviceInfoRequest()
 
-  if (state.device.state === ConnectionState.Loaded) {
-    return
-  }
-
-  try {
-    const { ok, data, error } = await getDeviceInfoRequest()
-
-    if (!ok || !data) {
-      if (error?.type === DeviceCommunicationError.DeviceLocked) {
-        void dispatch(lockedDevice())
+      if (ok) {
+        if (forceProcessOnLoad) {
+          await dispatch(processDeviceDataOnLoad())
+        }
+        return { ...data, deviceType: deviceType ?? null }
+      } else {
+        await dispatch(processDeviceDataOnFailed(error))
+        return rejectWithValue(error)
       }
-
-      return
+    } catch (error) {
+      return rejectWithValue(error)
     }
-
-    if (state.device.deviceType !== null) {
-      void trackOsVersion({
-        serialNumber: data.serialNumber,
-        osVersion: data.osVersion,
-        deviceType: state.device.deviceType,
-      })
-    }
-
-    void setValue({
-      key: MetadataKey.DeviceOsVersion,
-      value: data.osVersion ?? null,
-    })
-    void setValue({
-      key: MetadataKey.DeviceType,
-      value: state.device.deviceType,
-    })
-
-    if (
-      data.serialNumber !== state.device.data?.serialNumber ||
-      state.device.externalUsageDevice === null
-    ) {
-      const resultExternalUsageDevice = state.settings.privacyPolicyAccepted
-        ? await externalUsageDevice(data.serialNumber)
-        : false
-
-      await setExternalUsageDeviceRequest(resultExternalUsageDevice)
-      if (state.settings.privacyPolicyAccepted !== undefined) {
-        dispatch(setExternalUsageDevice(resultExternalUsageDevice))
-      }
-    }
-    dispatch(setDeviceData(data))
-  } catch (error) {
-    return rejectWithValue(error)
   }
-
-  return
-})
+)

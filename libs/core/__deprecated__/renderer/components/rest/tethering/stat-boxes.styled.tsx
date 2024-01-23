@@ -9,7 +9,7 @@ import { DataBoxesWrapper } from "Core/__deprecated__/renderer/components/rest/m
 import {
   borderColor,
   transitionTime,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { TextWrapper } from "Core/__deprecated__/renderer/components/rest/meditation/data-box/data-box.styled"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"

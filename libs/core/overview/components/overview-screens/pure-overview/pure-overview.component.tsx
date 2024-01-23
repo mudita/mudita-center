@@ -5,7 +5,7 @@
 
 import ErrorSyncModal from "Core/connecting/components/error-sync-modal/error-sync-modal"
 import { State } from "Core/core/constants"
-import { SynchronizationState } from "Core/data-sync/reducers"
+import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { DeviceType } from "Core/device/constants"
 import { Feature, flags } from "Core/feature-flags"
 import BackupDeviceFlow, {
@@ -22,11 +22,13 @@ import { CheckForUpdateMode } from "Core/update/constants"
 import { OsRelease } from "Core/update/dto"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import React, { useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
+import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
+import { useHandleActiveDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-detached.hook"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
@@ -76,6 +78,9 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   closeForceUpdateFlow,
   backupActionDisabled,
 }) => {
+  useWatchDeviceDataEffect()
+  const handleActiveDeviceDetached = useHandleActiveDeviceDetached()
+
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
     loadingModal: false,
@@ -124,6 +129,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeBackupDeviceFlowState = () => {
     setBackupDeviceFlowState(undefined)
     readBackupDeviceDataState()
+    handleActiveDeviceDetached()
   }
 
   useEffect(() => {
@@ -148,6 +154,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeRestoreDeviceFlowState = () => {
     setRestoreDeviceFlowState(undefined)
     readRestoreDeviceDataState()
+    handleActiveDeviceDetached()
   }
 
   useEffect(() => {
@@ -167,7 +174,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   const shouldErrorSyncModalVisible = (): boolean => {
-    if (syncState !== SynchronizationState.Error) {
+    if (syncState !== SynchronizationStatus.Error) {
       return false
     }
 

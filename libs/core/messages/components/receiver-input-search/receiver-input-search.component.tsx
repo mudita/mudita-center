@@ -6,7 +6,7 @@
 import React, { ComponentProps } from "react"
 import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import InputSearch from "Core/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { searchIcon } from "Core/__deprecated__/renderer/components/core/input-text/input-text.elements"

@@ -7,6 +7,10 @@ import { createAction } from "@reduxjs/toolkit"
 import { ContactsEvent } from "Core/contacts/constants"
 import { Contact, ContactID } from "Core/contacts/reducers"
 
+export const setInitialContactsState = createAction(
+  ContactsEvent.SetInitialContactsState
+)
+
 export const setContacts = createAction<Contact[]>(ContactsEvent.SetContacts)
 
 export const addNewContactsToState = createAction<Contact[]>(

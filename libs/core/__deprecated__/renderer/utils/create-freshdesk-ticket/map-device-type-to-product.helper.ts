@@ -9,7 +9,7 @@ import { FreshdeskTicketProduct } from "./create-freshdesk-ticket.types"
 const DEVICE_TYPE_TO_PRODUCT: Record<DeviceType, FreshdeskTicketProduct> = {
   [DeviceType.MuditaHarmony]: FreshdeskTicketProduct.Harmony,
   [DeviceType.MuditaPure]: FreshdeskTicketProduct.Pure,
-  [DeviceType.MuditaKompakt]: FreshdeskTicketProduct.Kompakt,
+  [DeviceType.APIDevice]: FreshdeskTicketProduct.Unknown,
 }
 
 export const mapDeviceTypeToProduct = (

@@ -5,7 +5,7 @@
 
 import { SystemUpdateTextProps } from "Core/overview/components/system-update-text/system-update-text.interface"
 import { AvailableUpdateText } from "Core/overview/components/system-update-text/system-update-text.styled"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { useSelector } from "react-redux"

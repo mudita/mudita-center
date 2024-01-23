@@ -7,7 +7,7 @@ import { VirtualizedContactListGroupItem } from "Core/contacts/components/virtua
 import { VirtualizedContactListItem } from "Core/contacts/components/virtualized-contact-list-item"
 import { VirtualizedContactListProps } from "Core/contacts/components/virtualized-contact-list/virtualized-contact-list.interface"
 import { VirtualListWrapper } from "Core/contacts/components/virtualized-contact-list/virtualized-contact-list.styled"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React, { useEffect, useRef } from "react"
 import { GroupedVirtuoso, GroupedVirtuosoHandle } from "react-virtuoso"
 

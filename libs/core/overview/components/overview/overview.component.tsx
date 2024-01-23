@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import { DeviceType } from "Core/device/constants"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   PureOverview,
   HarmonyOverview,
@@ -23,7 +23,7 @@ const Screen: FunctionComponent<Props> = (props) => {
       return <PureOverview {...props} />
     case DeviceType.MuditaHarmony:
       return <HarmonyOverview {...props} />
-    case DeviceType.MuditaKompakt:
+    case DeviceType.APIDevice:
       return <KompaktOverview />
     default:
       return <></>

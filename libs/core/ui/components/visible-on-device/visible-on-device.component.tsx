@@ -6,7 +6,7 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { VisibleOnDeviceProps } from "Core/ui/components/visible-on-device/visible-on-device.interface"
 
 export const VisibleOnDevice: FunctionComponent<VisibleOnDeviceProps> = ({

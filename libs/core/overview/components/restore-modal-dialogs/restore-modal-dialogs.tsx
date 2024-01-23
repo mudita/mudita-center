@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalDialog, ModalMainText } from "Core/ui/components/modal-dialog"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"

@@ -4,15 +4,15 @@
  */
 
 import * as React from "react"
-import {
-  getEnumName,
-  getIconType,
-} from "Core/__deprecated__/renderer/components/core/icon/icon.config"
+import { getEnumName, getIconType } from "Core/__deprecated__/renderer/components/core/icon/icon.config"
 import Svg from "Core/__deprecated__/renderer/components/core/svg/svg.component"
-import { backgroundColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { BadgeWithCounter } from "Core/__deprecated__/renderer/components/core/icon/badge-with-counter.component"
+import { getIconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/get-icon-badge-type.helper"
+import { IconBadgeType } from "Core/__deprecated__/renderer/components/core/icon/icon-badge-type.constant"
 
 export enum IconSize {
   Small = 1.6,
@@ -22,7 +22,8 @@ export enum IconSize {
 }
 
 export interface Props {
-  badge?: boolean
+  badge?: boolean | IconBadgeType
+  badgeCountIndicator?: number
   height?: number
   width?: number
   size?: IconSize
@@ -44,7 +45,7 @@ const badgeStyles = css`
 `
 
 const Wrapper = styled.span<{
-  badge?: boolean
+  badge: boolean
   height?: number
   width?: number
   size?: IconSize
@@ -67,6 +68,7 @@ const Wrapper = styled.span<{
 
 const Icon: FunctionComponent<Props> = ({
   badge = false,
+  badgeCountIndicator = 0,
   className,
   size,
   height,
@@ -74,17 +76,19 @@ const Icon: FunctionComponent<Props> = ({
   type,
   ...rest
 }) => {
+  const iconBadgeType = getIconBadgeType(badge)
   return (
     <Wrapper
-      badge={badge}
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      data-testid={`icon-${getEnumName(type)}`}
+      badge={iconBadgeType === IconBadgeType.Badge}
+      data-testid={`icon-${getEnumName(type) ?? ""}`}
       className={className}
       height={size || height || width}
       width={size || width || height}
       {...rest}
     >
+      {iconBadgeType === IconBadgeType.BadgeWithCounter && (
+        <BadgeWithCounter indicator={badgeCountIndicator} />
+      )}
       <Svg Image={getIconType(type)} />
     </Wrapper>
   )

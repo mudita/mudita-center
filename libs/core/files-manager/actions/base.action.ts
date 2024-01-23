@@ -7,6 +7,10 @@ import { createAction } from "@reduxjs/toolkit"
 import { State } from "Core/core/constants"
 import { FilesManagerEvent } from "Core/files-manager/constants"
 
+export const setInitialFilesManagerState = createAction(
+  FilesManagerEvent.SetInitialFilesManagerState
+)
+
 export const setUploadingState = createAction<State>(
   FilesManagerEvent.SetUploadingState
 )

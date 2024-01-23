@@ -6,7 +6,7 @@
 import React from "react"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { Router } from "react-router"
-import history from "Core/__deprecated__/renderer/routes/history"
+import history from "Core/core/routes/history"
 import { TermsOfServiceUI } from "Core/settings/components/terms-of-service/terms-of-service-ui.component"
 import { TermsOfServiceComponentTestIds } from "Core/settings/components/terms-of-service/terms-of-service-ui.enum"
 

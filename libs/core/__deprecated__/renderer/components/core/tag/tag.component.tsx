@@ -7,7 +7,7 @@ import styled from "styled-components"
 import {
   borderColor,
   borderRadius,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 
 const Tag = styled.div`
   max-width: 100%;

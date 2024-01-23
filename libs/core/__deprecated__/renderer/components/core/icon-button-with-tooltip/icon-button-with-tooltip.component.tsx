@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconButtonWithTooltipTestIds } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-tooltip.enum"

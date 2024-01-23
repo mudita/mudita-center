@@ -6,7 +6,7 @@
 import React from "react"
 import { css } from "styled-components"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { RenderListItem } from "Core/__deprecated__/renderer/components/core/list/list.component"
 import { searchIcon } from "Core/__deprecated__/renderer/components/core/input-text/input-text.elements"

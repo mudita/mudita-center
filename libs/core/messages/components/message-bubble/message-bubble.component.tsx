@@ -5,7 +5,7 @@
 
 import React, { useState } from "react"
 import moment from "moment"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   MessageBubbleWrapper,
   MessageBubbleContainer,

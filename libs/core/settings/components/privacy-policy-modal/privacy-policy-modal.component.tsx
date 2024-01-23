@@ -19,7 +19,7 @@ import styled from "styled-components"
 import {
   fontWeight,
   textColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ipcRenderer } from "electron-better-ipc"
@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { togglePrivacyPolicyAccepted } from "Core/settings/actions"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 const messages = defineMessages({

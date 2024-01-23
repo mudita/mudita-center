@@ -30,7 +30,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import useTableSelect from "Core/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import React, { useEffect } from "react"

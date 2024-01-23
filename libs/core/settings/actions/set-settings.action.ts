@@ -10,6 +10,10 @@ import { SettingsState } from "Core/settings/reducers"
 export const setSettings = createAction<
   Omit<
     SettingsState,
-    "loaded" | "loading" | "updateAvailable" | "latestVersion"
+    | "loaded"
+    | "loading"
+    | "updateAvailable"
+    | "latestVersion"
+    | "updateAvailableSkipped"
   >
 >(SettingsEvent.SetSettings)

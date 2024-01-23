@@ -6,8 +6,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "Core/core/errors"
 import { removeFile } from "Core/device-file-system"
-import { DiagnosticsFilePath } from "Core/device/constants"
-import { setStateForInstalledRelease } from "Core/update/actions/base.action"
+import { DeviceType, DiagnosticsFilePath } from "Core/device/constants"
+import {
+  setStateForInstalledRelease,
+  setTmpMuditaHarmonyPortInfo,
+} from "Core/update/actions/base.action"
 import {
   ReleaseProcessState,
   UpdateError,
@@ -18,14 +21,14 @@ import { OsRelease } from "Core/update/dto"
 import { isBatteryLevelEnoughForUpdate } from "Core/update/helpers"
 import { removeDownloadedOsUpdates, startOsUpdate } from "Core/update/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { setUpdatingRequest } from "Core/device/requests/set-updating.request"
 import {
   trackOsUpdate,
   TrackOsUpdateOptions,
   TrackOsUpdateState,
 } from "Core/analytic-data-tracker/helpers"
 import { checkUpdate } from "Core/update/requests/checkUpdate.request"
-import { setRestarting } from "Core/device"
+import { setRestartingStatus } from "Core/device"
+import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 
 interface Params {
   releases: OsRelease[]
@@ -48,12 +51,10 @@ export const startUpdateOs = createAsyncThunk<
   Params,
   {
     state: ReduxRootState
-    rejectValue: AppError<UpdateError>
   }
 >(
   UpdateOsEvent.StartOsUpdateProcess,
   async ({ releases }, { dispatch, rejectWithValue, getState }) => {
-    void setUpdatingRequest(true)
     let state = getState()
     const batteryLevel = state.device.data?.batteryLevel ?? 0
     const deviceType = state.device.deviceType
@@ -77,6 +78,11 @@ export const startUpdateOs = createAsyncThunk<
     await dispatch(removeFile(DiagnosticsFilePath.UPDATER_LOG))
 
     for (const release of releases) {
+      const activeDevice = getActiveDevice(getState())
+      if (activeDevice?.deviceType === DeviceType.MuditaHarmony) {
+        dispatch(setTmpMuditaHarmonyPortInfo(activeDevice))
+      }
+
       state = getState()
 
       const trackOsUpdateOptions: Omit<TrackOsUpdateOptions, "state"> = {
@@ -101,15 +107,13 @@ export const startUpdateOs = createAsyncThunk<
       )
 
       if (release.version !== state.device.data?.osVersion) {
-        dispatch(setRestarting(true))
+        dispatch(setRestartingStatus(true))
         const updateResult = await startOsUpdate({
           fileName: release.file.name,
         })
-        dispatch(setRestarting(false))
+        dispatch(setRestartingStatus(false))
         const result = updateResult.ok ? await checkUpdate() : updateResult
         if (!result.ok) {
-          void setUpdatingRequest(false)
-
           const errorType = getErrorType(result.error?.type)
 
           void trackOsUpdate(
@@ -143,8 +147,6 @@ export const startUpdateOs = createAsyncThunk<
     }
 
     void removeDownloadedOsUpdates()
-
-    void setUpdatingRequest(false)
 
     return
   }

@@ -6,6 +6,19 @@
 import store from "Core/__deprecated__/renderer/store"
 import { isDevModeEnabled, toggleDevMode } from "./dev-mode.helpers"
 
+const mockHistory = {
+  push: jest.fn(),
+  replace: jest.fn(),
+  go: jest.fn(),
+  block: jest.fn(),
+  listen: jest.fn(),
+  location: { pathname: "", search: "", hash: "", state: null },
+};
+
+jest.mock("history", () => ({
+  createHashHistory: jest.fn(() => mockHistory),
+}));
+
 describe("Function: isDevModeEnabled", () => {
   test("returns current devMode state", () => {
     expect(isDevModeEnabled()).toBeFalsy()

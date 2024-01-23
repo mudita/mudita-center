@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { MessagesSidebar } from "Core/messages/components/thread-details.styled"
 import { Sidebar } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import NewMessageFormSidebarLeftHeader from "Core/messages/components/new-message-form-sidebar-left-header.component"

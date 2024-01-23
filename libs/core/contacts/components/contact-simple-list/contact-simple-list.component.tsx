@@ -12,7 +12,7 @@ import {
   Row,
   EmptyState,
 } from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ContactSimpleListItemContactSelection } from "Core/contacts/components/contact-simple-list-item-contact-selection"
 import { ContactSimpleListItemPlaceholder } from "Core/contacts/components/contact-simple-list-item-placeholder"
 import { ContactSimpleListProps } from "Core/contacts/components/contact-simple-list/contact-simple-list.interface"

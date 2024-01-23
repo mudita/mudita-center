@@ -3,18 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ipcMain } from "electron-better-ipc"
 import { Result } from "Core/core/builder"
-import { AppError } from "Core/core/errors"
 import {
   EntryHandlersMapType,
   OutboxService,
 } from "Core/outbox/services/outbox.service"
 import { DeviceManager } from "Core/device-manager/services"
-import { IpcEvent } from "Core/data-sync/constants"
 import { OutboxEntry } from "Core/device/types/mudita-os"
 import {
-  DeviceCommunicationError,
   OutboxEntryChange,
   OutboxEntryType,
   Endpoint,
@@ -48,19 +44,6 @@ beforeEach(() => {
 
 describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Contact Entry", () => {
-    test("`DataLoaded` isn't emits", async () => {
-      deviceManager.device.request = jest
-        .fn()
-        .mockResolvedValueOnce(Result.success({ entries: entriesMock }))
-
-      await subject.readOutboxEntries()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-      expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
-      )
-    })
-
     test("outbox `delete` request was called", async () => {
       deviceManager.device.request = jest
         .fn()
@@ -89,40 +72,6 @@ describe("`OutboxService`", () => {
         // eslint-disable-next-line @typescript-eslint/unbound-method
         entryHandlersMap[OutboxEntryType.Contact].handleEntry
       ).toHaveBeenCalledWith(entriesMock[0])
-    })
-  })
-
-  describe("when Get Outbox Entries returns Entries with empty list", () => {
-    test("`DataLoaded` isn't emits", async () => {
-      deviceManager.device.request = jest
-        .fn()
-        .mockResolvedValueOnce(Result.success({ entries: [] }))
-
-      await subject.readOutboxEntries()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-      expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
-      )
-    })
-  })
-
-  describe("when Get Outbox Entries returns error", () => {
-    test("`DataLoaded` isn't emits", async () => {
-      deviceManager.device.request = jest.fn().mockResolvedValueOnce(
-        Result.failed(
-          new AppError(DeviceCommunicationError.RequestFailed, "", {
-            entries: [],
-          })
-        )
-      )
-
-      await subject.readOutboxEntries()
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-      expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
-      )
     })
   })
 })

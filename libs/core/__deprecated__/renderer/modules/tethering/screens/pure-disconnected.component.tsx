@@ -19,7 +19,7 @@ import Image from "Core/__deprecated__/renderer/components/core/image/image.comp
 import NoTethering from "Core/__deprecated__/renderer/images/tethering-disabled.png"
 import React from "react"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { TetheringTestIds } from "Core/__deprecated__/renderer/modules/tethering/screens/tethering.enum"
 import { tetheringMessages } from "Core/__deprecated__/renderer/modules/tethering/tethering-messages"

@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Button, {
   ButtonComponentProps as ButtonProps,
 } from "Core/__deprecated__/renderer/components/core/button/button.component"
@@ -13,7 +13,7 @@ import styled, { css } from "styled-components"
 import {
   transitionTime,
   transitionTimingFunction,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"

@@ -3,10 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Selector } from "@reduxjs/toolkit"
+import { createSelector } from "@reduxjs/toolkit"
 import { DeviceType } from "Core/device/constants"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { deviceStateSelector } from "Core/device/selectors/device-state.selector"
 
-export const deviceTypeSelector: Selector<ReduxRootState, DeviceType | null> = (
-  state
-) => state.device?.deviceType
+export const deviceTypeSelector = createSelector(
+  deviceStateSelector,
+  (deviceState): DeviceType | null => {
+    return deviceState?.deviceType ?? null
+  }
+)

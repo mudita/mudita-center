@@ -11,7 +11,7 @@ import { DeleteConfirmationModal } from "Core/ui/components/delete-confirmation-
 import ErrorModal from "Core/ui/components/error-modal/error-modal.component"
 import InfoPopup from "Core/ui/components/info-popup/info-popup.component"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({

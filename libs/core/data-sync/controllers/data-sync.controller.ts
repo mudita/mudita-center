@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { SerialisedIndexData } from "elasticlunr"
 import { IpcEvent } from "Core/core/decorators"
 import { IndexStorage } from "Core/index-storage/types"
 import { DataSyncService } from "Core/data-sync/services/data-sync.service"
 import { IpcDataSyncEvent, DataIndex } from "Core/data-sync/constants"
-import { SerialisedIndexData } from "elasticlunr"
+import { InitializeOptions } from "Core/data-sync/types"
 
 export class DataSyncController {
   constructor(
@@ -29,7 +30,7 @@ export class DataSyncController {
   }
 
   @IpcEvent(IpcDataSyncEvent.IndexAll)
-  public indexAll(): Promise<boolean> {
-    return this.dataSyncService.indexAll()
+  public indexAll(options: InitializeOptions): Promise<boolean> {
+    return this.dataSyncService.indexAll(options)
   }
 }

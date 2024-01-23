@@ -17,8 +17,15 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { CrashDumpModalTestingIds } from "Core/crash-dump/components/crash-dump-modal/crash-dump-modal-testing-ids.enum"
 import { CrashDumpTestingIds } from "Core/crash-dump/components/crash-dump/crash-dump-testing-ids.enum"
 import { ModalTestIds } from "Core/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
+import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 
 const initialStateMock = {
+  settings: {
+    ignoredCrashDumps: [],
+  },
+  deviceInitialization: {
+    deviceInitializationStatus: DeviceInitializationStatus.Initialized,
+  },
   crashDump: {
     data: {
       files: [],

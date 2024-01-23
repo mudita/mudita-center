@@ -10,8 +10,8 @@ import Text, {
 import {
   borderRadius,
   height,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+} from "Core/core/styles/theming/theme-getters"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { convertBytes } from "Core/core/helpers/convert-bytes/convert-bytes"
 import styled, { css } from "styled-components"
 

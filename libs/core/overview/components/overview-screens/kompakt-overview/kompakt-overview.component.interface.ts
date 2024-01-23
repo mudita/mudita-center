@@ -7,8 +7,8 @@ import { BackupError } from "Core/backup"
 import { Backup, RestoreBackup } from "Core/backup/dto"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
-import { SynchronizationState } from "Core/data-sync/reducers"
-import { CaseColor, DeviceType } from "Core/device/constants"
+import { SynchronizationStatus } from "Core/data-sync/reducers"
+import { CaseColour, DeviceType } from "Core/device/constants"
 import { MemorySpace } from "Core/files-manager/components/files-manager/files-manager.interface"
 import {
   CheckForUpdateMode,
@@ -28,14 +28,14 @@ export interface KompaktOverviewProps {
   readonly networkLevel: number
   readonly pureOsBackupLocation: string
   readonly updatingState: State
-  readonly caseColour: CaseColor
+  readonly caseColour: CaseColour
   readonly lastBackupDate: Date | undefined
   readonly backupDeviceState: State
   readonly restoreDeviceState: State
   readonly forceUpdateState: State
   readonly backups: Backup[]
   readonly backupError: AppError<BackupError> | null
-  readonly syncState: SynchronizationState
+  readonly syncState: SynchronizationStatus
   readonly serialNumber: string | undefined
   readonly silentCheckForUpdateState: SilentCheckForUpdateState
   readonly checkingForUpdateState: CheckForUpdateState

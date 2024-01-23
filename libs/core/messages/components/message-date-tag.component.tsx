@@ -7,12 +7,12 @@ import React from "react"
 import moment from "moment"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Tag from "Core/__deprecated__/renderer/components/core/tag/tag.component"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { textColor } from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+import { textColor } from "Core/core/styles/theming/theme-getters"
 
 const messages = defineMessages({
   today: {

@@ -4,6 +4,8 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import {
@@ -19,18 +21,16 @@ import * as startOsUpdateRequestModule from "Core/update/requests/start-os-updat
 import * as checkUpdateRequestModule from "Core/update/requests/checkUpdate.request"
 import { testError } from "Core/__deprecated__/renderer/store/constants"
 import { pendingAction } from "Core/__deprecated__/renderer/store/helpers"
-import createMockStore from "redux-mock-store"
-import thunk from "redux-thunk"
-import { startUpdateOs } from "./start-update-os.action"
 import * as removeDownloadedOsUpdatesModule from "Core/update/requests/remove-downloaded-os-updates.request"
 import {
   trackOsUpdate,
   TrackOsUpdateState,
 } from "Core/analytic-data-tracker/helpers"
-import { DeviceType, setRestarting } from "Core/device"
+import { DeviceType, setRestartingStatus } from "Core/device"
+import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
+import { startUpdateOs } from "Core/update/actions"
 
 jest.mock("Core/update/requests/remove-downloaded-os-updates.request")
-jest.mock("Core/device/requests/set-updating.request")
 jest.mock("Core/analytic-data-tracker/helpers/track-os-update")
 
 jest.mock("Core/device-file-system", () => ({
@@ -169,6 +169,15 @@ describe("when all updating os requests return success status", () => {
         osVersion: "1.0.0",
       },
     },
+    deviceManager: {
+      devices: [
+        {
+          id: "1",
+          deviceType: DeviceType.MuditaPure,
+        },
+      ],
+      activeDeviceId: "1"
+    } as unknown as DeviceManagerState,
   })
 
   beforeEach(() => {
@@ -204,8 +213,8 @@ describe("when all updating os requests return success status", () => {
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       getParamsForSettingIntallingRelaseStateAction(
         "1.1.0",
         ReleaseProcessState.Done
@@ -214,8 +223,8 @@ describe("when all updating os requests return success status", () => {
         "1.2.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       getParamsForSettingIntallingRelaseStateAction(
         "1.2.0",
         ReleaseProcessState.Done
@@ -272,6 +281,15 @@ describe("when updating os request return failure status", () => {
         osVersion: "1.0.0",
       },
     },
+    deviceManager: {
+      devices: [
+        {
+          id: "1",
+          deviceType: DeviceType.MuditaPure,
+        },
+      ],
+      activeDeviceId: "1"
+    } as unknown as DeviceManagerState,
   })
 
   test("action is rejected", async () => {
@@ -304,8 +322,8 @@ describe("when updating os request return failure status", () => {
         "1.1.0",
         ReleaseProcessState.InProgress
       ),
-      setRestarting(true),
-      setRestarting(false),
+      setRestartingStatus(true),
+      setRestartingStatus(false),
       startUpdateOs.rejected(testError, requestId, params, error),
     ])
   })

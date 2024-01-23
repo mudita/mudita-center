@@ -6,7 +6,7 @@
 import * as React from "react"
 import Tab from "Core/__deprecated__/renderer/components/rest/header/tab.component"
 import { tabElements } from "Core/__deprecated__/renderer/constants/tab-elements"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
 
 const TabsWrapper = styled.div`

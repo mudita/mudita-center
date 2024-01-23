@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Card from "Core/news/components/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"

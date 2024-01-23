@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/__deprecated__/renderer/types/function-component.interface"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled, { css } from "styled-components"
 import {
   Col,
@@ -16,7 +16,7 @@ import { basicAvatarStyles } from "Core/__deprecated__/renderer/components/core/
 import {
   backgroundColor,
   borderColor,
-} from "Core/__deprecated__/renderer/styles/theming/theme-getters"
+} from "Core/core/styles/theming/theme-getters"
 import useTableScrolling from "Core/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { MessagesSearchResultsTestIdsEnum } from "Core/messages/components/messages-search-results/messages-search-results-test-ids.enum"
 import { ResultState } from "Core/contacts/reducers/contacts.interface"
