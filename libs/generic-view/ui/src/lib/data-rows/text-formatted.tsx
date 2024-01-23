@@ -72,6 +72,17 @@ const Content = styled(Markdown)`
   }
 
   p,
+  ol,
+  ul,
+  blockquote {
+    margin-bottom: 2.4rem;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  p,
   li {
     font-size: ${({ theme }) => theme.fontSize.paragraph3};
     line-height: ${({ theme }) => theme.lineHeight.paragraph3};
@@ -86,6 +97,21 @@ const Content = styled(Markdown)`
     }
   }
 
+  ol {
+    counter-reset: item;
+    li {
+      counter-increment: item;
+    }
+    li:before {
+      content: counter(item) ".";
+    }
+  }
+  ul {
+    li:before {
+      content: "▪";
+      font-size: 1rem;
+    }
+  }
   ol,
   ul {
     list-style: none;
@@ -111,21 +137,6 @@ const Content = styled(Markdown)`
         margin-left: 0.8rem;
         margin-bottom: 0;
       }
-    }
-  }
-  ol {
-    counter-reset: item;
-    li {
-      counter-increment: item;
-    }
-    li:before {
-      content: counter(item) ".";
-    }
-  }
-  ul {
-    li:before {
-      content: "▪";
-      font-size: 1rem;
     }
   }
 
@@ -159,16 +170,5 @@ const Content = styled(Markdown)`
         }
       }
     }
-  }
-
-  p,
-  ol,
-  ul,
-  blockquote {
-    margin-bottom: 2.4rem;
-  }
-
-  > *:last-child {
-    margin-bottom: 0;
   }
 `
