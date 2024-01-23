@@ -12,8 +12,6 @@ import {
   mcAboutDemoData,
   mcCalendarConfig,
   mcDemoData,
-  mcOverviewConfig,
-  mcOverviewDemoData,
 } from "generic-view/views"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
@@ -21,6 +19,10 @@ import { menuConfig } from "../../../../../demo-data/demo-menu"
 import { generateMenu } from "generic-view/utils"
 import { setMenu, setViewData, setViewLayout } from "./views/actions"
 import { genericViewsReducer } from "./views/reducer"
+import {
+  mcOverviewConfig,
+  mcOverviewDemoData,
+} from "Libs/generic-view/views/src/lib/mc-overview"
 
 // For demo purposes to simulate device connection and async data fetching
 export const useGenericStoreDemo = () => {

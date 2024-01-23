@@ -58,14 +58,14 @@ export interface OverviewConfig {
   title: string
   summary: {
     show: boolean
-    showImg: boolean
-    imgVariant: string
-    showSerialNumber: boolean
-    showAbout: boolean
-    aboutTitle: string
+    showImg?: boolean
+    imgVariant?: string
+    showSerialNumber?: boolean
+    showAbout?: boolean
+    aboutTitle?: string
     aboutSubtitle?: string
     aboutIcon?: IconType
-    aboutFields: Array<DetailListFieldConfig>
+    aboutFields?: Array<DetailListFieldConfig>
   }
   sections: Array<OverviewSectionsConfig>
 }
@@ -80,7 +80,7 @@ export const mcOverviewConfig: OverviewConfig = {
     showAbout: true,
     aboutTitle: "About your device",
     aboutIcon: "device",
-    aboutSubtitle: "Device details",
+    aboutSubtitle: "The details of your phone.",
     aboutFields: [
       {
         key: "serialNumber",
