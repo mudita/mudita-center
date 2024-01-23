@@ -24,7 +24,7 @@ document.body.appendChild(mainElement)
 Modal.setAppElement("#app")
 const root = createRoot(mainElement)
 
-root.render(<App />)
+root.render(<div>zupka z trupka</div>)
 
 // Setup modal service
 modalService.bindStore(store)

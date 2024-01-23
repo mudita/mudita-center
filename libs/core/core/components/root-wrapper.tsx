@@ -32,64 +32,64 @@ interface Props {
 }
 
 const RootWrapper: FunctionComponent<Props> = ({ history }) => {
-  const mode = new URLSearchParams(window.location.search).get("mode")
-  const saveToStore = async (normalizeData: QuestionAndAnswer) =>
-    await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
-  const getStoreData = async (key?: string) =>
-    await ipcRenderer.callMain(HelpActions.GetStore, key)
+  // const mode = new URLSearchParams(window.location.search).get("mode")
+  // const saveToStore = async (normalizeData: QuestionAndAnswer) =>
+  //   await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
+  // const getStoreData = async (key?: string) =>
+  //   await ipcRenderer.callMain(HelpActions.GetStore, key)
 
-  const RenderRoutes = useMemo(
-    () => () => {
-      if (mode === Mode.ServerError) {
-        return <ErrorApp history={history} />
-      }
+  // const RenderRoutes = useMemo(
+  //   () => () => {
+  //     if (mode === Mode.ServerError) {
+  //       return <ErrorApp history={history} />
+  //     }
 
-      if (mode === Mode.Help) {
-        return (
-          <HelpApp
-            history={history}
-            saveToStore={saveToStore}
-            getStoreData={getStoreData}
-          />
-        )
-      }
+  //     if (mode === Mode.Help) {
+  //       return (
+  //         <HelpApp
+  //           history={history}
+  //           saveToStore={saveToStore}
+  //           getStoreData={getStoreData}
+  //         />
+  //       )
+  //     }
 
-      if (mode === Mode.License) {
-        return <LicenseApp history={history} />
-      }
+  //     if (mode === Mode.License) {
+  //       return <LicenseApp history={history} />
+  //     }
 
-      if (mode === Mode.TermsOfService) {
-        return <TermsOfServiceApp history={history} />
-      }
+  //     if (mode === Mode.TermsOfService) {
+  //       return <TermsOfServiceApp history={history} />
+  //     }
 
-      if (mode === Mode.PrivacyPolicy) {
-        return <PrivacyPolicyApp history={history} />
-      }
+  //     if (mode === Mode.PrivacyPolicy) {
+  //       return <PrivacyPolicyApp history={history} />
+  //     }
 
-      if (mode === Mode.Sar) {
-        return <SarApp history={history} />
-      }
+  //     if (mode === Mode.Sar) {
+  //       return <SarApp history={history} />
+  //     }
 
-      return <BaseAppContainer history={history} />
-    },
-    [mode, history]
-  )
+  //     return <BaseAppContainer history={history} />
+  //   },
+  //   [mode, history]
+  // )
 
   return (
-    <ThemeProvider theme={theme}>
-      <IntlProvider
-        defaultLocale={translationConfig.defaultLanguage}
-        locale={translationConfig.defaultLanguage}
-        messages={localeEn}
-      >
-        <div>zupka z trupka</div>
-        {/* <ModalProvider service={modalService}>
-          <Normalize />
-          <GlobalStyle />
-          <RenderRoutes />
-        </ModalProvider> */}
-      </IntlProvider>
-    </ThemeProvider>
+    <div>zupka z trupka</div>
+    // <ThemeProvider theme={theme}>
+    //   <IntlProvider
+    //     defaultLocale={translationConfig.defaultLanguage}
+    //     locale={translationConfig.defaultLanguage}
+    //     messages={localeEn}
+    //   >
+    //     <ModalProvider service={modalService}>
+    //       <Normalize />
+    //       <GlobalStyle />
+    //       <RenderRoutes />
+    //     </ModalProvider>
+    //   </IntlProvider>
+    // </ThemeProvider>
   )
 }
 
