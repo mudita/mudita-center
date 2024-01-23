@@ -7,7 +7,7 @@ import { Device } from "Core/device-manager/reducers/device-manager.interface"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { answerMain, DeviceManagerMainEvent } from "shared/utils"
-import { detachDevice } from "../actions"
+import { detachDevice } from "../views/actions"
 import { getAPIConfig } from "../get-api-config"
 
 export const useAPISerialPortListeners = () => {

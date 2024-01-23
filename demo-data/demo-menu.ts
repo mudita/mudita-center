@@ -32,7 +32,7 @@ export const menuConfig: MenuConfig = {
     {
       feature: "mc-demo",
       displayName: "Demo",
-      icon: IconType.MenuOverview,
+      icon: IconType.Overview,
     },
   ],
 }

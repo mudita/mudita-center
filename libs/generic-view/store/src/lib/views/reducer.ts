@@ -6,7 +6,7 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { View } from "generic-view/utils"
-import { getAPIConfig } from "./get-api-config"
+import { getAPIConfig } from "../get-api-config"
 import {
   activateDevice,
   detachDevice,
@@ -14,16 +14,16 @@ import {
   setViewData,
   setViewLayout,
 } from "./actions"
-import { getOverviewData } from "./features"
-import { getOverviewConfig } from "./features/get-overview-config.actions"
-import { getAPIAny } from "./get-api-any"
+import { getOverviewData } from "../features"
+import { getOverviewConfig } from "../features/get-overview-config.actions"
+import { getAPIAny } from "../get-api-any"
 import {
   ApiConfig,
   MenuConfig,
   OverviewConfig,
   OverviewData,
 } from "device/models"
-import { getMenuConfig } from "./get-menu-config"
+import { getMenuConfig } from "../get-menu-config"
 import { DeviceId } from "Core/device/constants/device-id"
 
 interface DeviceConfiguration {
