@@ -10,7 +10,6 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 export const selectConfiguredDeviceIDs = createSelector(
   [(state: ReduxRootState) => state.genericViews.devicesConfiguration],
   (devices) => {
-    // return Object.entries(devices).map(([])=>{})
     return Object.entries(devices)
       .map(([id, data]) => {
         if (data.apiConfig) {

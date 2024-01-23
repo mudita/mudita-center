@@ -16,7 +16,7 @@ export const getConfiguredDevicesSelector = createSelector(
   deviceManagerState,
   selectConfiguredDeviceIDs,
   (deviceManager, apiIds): Device[] => {
-    console.log(apiIDs)
+    console.log(apiIds)
     return deviceManager.devices.filter(({ state, deviceType, id }) => {
       if (deviceType === DeviceType.APIDevice && apiIds.includes(id)) {
         return true
