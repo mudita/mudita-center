@@ -11,7 +11,10 @@ import { OverviewData } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export const getOverviewData = createAsyncThunk<
-  OverviewData,
+  {
+    deviceId: DeviceId
+    data: OverviewData
+  },
   { deviceId: DeviceId },
   { state: ReduxRootState }
 >(
@@ -19,7 +22,10 @@ export const getOverviewData = createAsyncThunk<
   async ({ deviceId }, { rejectWithValue }) => {
     const response = await getOverviewDataRequest(deviceId)
     if (response.ok) {
-      return response.data
+      return {
+        deviceId,
+        data: response.data,
+      }
     }
     return rejectWithValue(response.error)
   }

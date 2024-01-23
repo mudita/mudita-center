@@ -11,7 +11,10 @@ import { OverviewConfig } from "device/models"
 import { FeaturesActions } from "./featues-action-keys"
 
 export const getOverviewConfig = createAsyncThunk<
-  OverviewConfig,
+  {
+    config: OverviewConfig
+    deviceId: DeviceId
+  },
   { deviceId: DeviceId },
   { state: ReduxRootState }
 >(
@@ -19,7 +22,7 @@ export const getOverviewConfig = createAsyncThunk<
   async ({ deviceId }, { rejectWithValue }) => {
     const response = await getOverviewConfigRequest(deviceId)
     if (response.ok) {
-      return response.data
+      return { config: response.data, deviceId }
     }
     return rejectWithValue(response.error)
   }

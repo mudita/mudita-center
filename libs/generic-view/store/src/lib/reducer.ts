@@ -17,13 +17,24 @@ import {
 import { getOverviewData } from "./features"
 import { getOverviewConfig } from "./features/get-overview-config.actions"
 import { getAPIAny } from "./get-api-any"
-import { ApiConfig, MenuConfig } from "device/models"
+import {
+  ApiConfig,
+  MenuConfig,
+  OverviewConfig,
+  OverviewData,
+} from "device/models"
 import { getMenuConfig } from "./get-menu-config"
 import { DeviceId } from "Core/device/constants/device-id"
 
 interface DeviceConfiguration {
   apiConfig: ApiConfig
   menuConfig?: MenuConfig
+  features?: {
+    "mc-overview"?: {
+      config?: OverviewConfig
+      data?: OverviewData
+    }
+  }
 }
 
 interface GenericState {
@@ -79,9 +90,32 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(getOverviewData.fulfilled, (state, action) => {
     state.lastResponse = action.payload
+    const deviceId = action.payload.deviceId
+    if (deviceId) {
+      state.devicesConfiguration[deviceId].features = {
+        ...state.devicesConfiguration[deviceId].features,
+        "mc-overview": {
+          config:
+            state.devicesConfiguration[deviceId].features?.["mc-overview"]
+              ?.config,
+          data: action.payload.data,
+        },
+      }
+    }
   })
   builder.addCase(getOverviewConfig.fulfilled, (state, action) => {
     state.lastResponse = action.payload
+    const deviceId = action.payload.deviceId
+    if (deviceId) {
+      state.devicesConfiguration[deviceId].features = {
+        ...state.devicesConfiguration[deviceId].features,
+        "mc-overview": {
+          config: action.payload.config,
+          data: state.devicesConfiguration[deviceId].features?.["mc-overview"]
+            ?.data,
+        },
+      }
+    }
   })
   builder.addCase(activateDevice, (state, action) => {
     const { deviceId } = action.payload

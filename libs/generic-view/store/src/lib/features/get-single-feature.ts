@@ -17,8 +17,6 @@ export const getSingleFeatures = createAsyncThunk<
 >(
   FeaturesActions.GetSingleFeature,
   async ({ deviceId, feature }, { getState, dispatch }) => {
-    console.log(deviceId, feature)
-
     switch (feature) {
       case "mc-overview":
         await dispatch(getOverviewConfig({ deviceId }))
