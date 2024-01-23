@@ -4,4 +4,3 @@
  */
 
 export * from "./tag"
-export * from "./generic-view-link"

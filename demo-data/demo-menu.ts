@@ -30,9 +30,9 @@ export const menuConfig: MenuConfig = {
       icon: IconType.MenuOverview,
     },
     {
-      feature: "mc-calendar",
-      displayName: "Calendar",
-      icon: IconType.Calendar,
-    },
+      feature: "mc-demo",
+      displayName: "Demo",
+      icon: IconType.MenuOverview,
+    }
   ],
 }
