@@ -82,11 +82,12 @@ const RootWrapper: FunctionComponent<Props> = ({ history }) => {
         locale={translationConfig.defaultLanguage}
         messages={localeEn}
       >
-        <ModalProvider service={modalService}>
+        <div>zupka z trupka</div>
+        {/* <ModalProvider service={modalService}>
           <Normalize />
           <GlobalStyle />
           <RenderRoutes />
-        </ModalProvider>
+        </ModalProvider> */}
       </IntlProvider>
     </ThemeProvider>
   )
