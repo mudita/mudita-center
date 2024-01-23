@@ -5,6 +5,7 @@
 
 import { DeviceType } from "Core/device/constants"
 import React, { useEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
 import { State } from "Core/core/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { FilesManagerContainer } from "Core/files-manager/components/files-manager/files-manager.styled"
@@ -15,18 +16,13 @@ import {
   FilesManagerProps,
 } from "Core/files-manager/components/files-manager/files-manager.interface"
 import { FilesManagerTestIds } from "Core/files-manager/components/files-manager/files-manager-test-ids.enum"
-import {
-  DeviceDirectory,
-  DiskSpaceCategoryType,
-  filesSummaryElements,
-} from "Core/files-manager/constants"
+import { DeviceDirectory, DiskSpaceCategoryType, filesSummaryElements } from "Core/files-manager/constants"
 import FilesStorage from "Core/files-manager/components/files-storage/files-storage.component"
 import { DeleteFilesModals } from "Core/files-manager/components/delete-files-modals/delete-files-modals.component"
 import { useLoadingState } from "Core/ui"
 import { UploadFilesModals } from "Core/files-manager/components/upload-files-modals/upload-files-modals.component"
 import { useFilesFilter } from "Core/files-manager/helpers/use-files-filter.hook"
-import { getSpaces } from "Core/files-manager/components/files-manager/get-spaces.helper"
-import { useDispatch } from "react-redux"
+import useSpaces from "Core/files-manager/components/files-manager/use-spaces/use-spaces.hook"
 import { resetFiles } from "Core/files-manager/actions/base.action"
 import useCancelableFileUpload from "Core/files-manager/components/files-manager/use-cancelable-file-upload"
 
@@ -79,7 +75,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     usedMemorySpace,
     otherSpace,
     musicSpace,
-  } = getSpaces(files, memorySpace)
+  } = useSpaces(files, memorySpace, loading)
   const dispatch = useDispatch()
   const { handleUploadFiles } = useCancelableFileUpload()
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
@@ -193,34 +189,26 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     }
   }, [resetUploadingState])
 
-  const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
-    const elements = {
-      [DiskSpaceCategoryType.Free]: {
-        ...element,
-        size: freeSpace,
-      },
-      [DiskSpaceCategoryType.System]: {
-        ...element,
-        size: reservedSpace,
-      },
-      [DiskSpaceCategoryType.Music]: {
-        ...element,
-        size: musicSpace,
-        filesAmount: files?.length ?? 0,
-      },
-      [DiskSpaceCategoryType.OtherSpace]: {
-        ...element,
-        size: otherSpace,
-      },
-    }
-    return elements[element.type]
-  }
+  const [diskSpaceCategories, setDiskSpaceCategories] = useState<DiskSpaceCategory[] | null>(null);
 
-  const diskSpaceCategories: DiskSpaceCategory[] | null =
-    files &&
-    filesSummaryElements.map((element) => {
-      return getDiskSpaceCategories(element)
-    })
+  useEffect(() => {
+    const getDiskSpaceCategories = (element: DiskSpaceCategory): DiskSpaceCategory => {
+      const elements = {
+        [DiskSpaceCategoryType.Free]: { ...element, size: freeSpace },
+        [DiskSpaceCategoryType.System]: { ...element, size: reservedSpace },
+        [DiskSpaceCategoryType.Music]: { ...element, size: musicSpace, filesAmount: files?.length ?? 0 },
+        [DiskSpaceCategoryType.OtherSpace]: { ...element, size: otherSpace },
+      };
+
+      return elements[element.type] as DiskSpaceCategory;
+    };
+
+    if (files && typeof otherSpace !== 'undefined') {
+      const spaceCategories = filesSummaryElements.map(getDiskSpaceCategories);
+      setDiskSpaceCategories(spaceCategories);
+    }
+  }, [files, freeSpace, memorySpace, musicSpace, otherSpace, reservedSpace]);
+
   const openDeleteModal = (ids: string[]) => {
     updateFieldState("deletingInfo", false)
     updateFieldState("uploadingInfo", false)

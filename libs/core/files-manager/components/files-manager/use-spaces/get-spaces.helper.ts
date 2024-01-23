@@ -5,15 +5,7 @@
 
 import { MemorySpace } from "Core/files-manager/components/files-manager/files-manager.interface"
 import { File } from "Core/files-manager/dto"
-
-export interface Spaces {
-  reservedSpace: number
-  freeSpace: number
-  usedMemorySpace: number
-  totalMemorySpace: number
-  otherSpace: number
-  musicSpace: number
-}
+import { Spaces } from "Core/files-manager/components/files-manager/use-spaces/spaces.interface"
 
 /***
  * logic with the `isSizeCorrupt` property should be simplified after fix a issue in os side

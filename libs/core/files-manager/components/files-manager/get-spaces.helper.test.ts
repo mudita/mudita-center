@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { getSpaces } from "Core/files-manager/components/files-manager/get-spaces.helper"
+import { getSpaces } from "Core/files-manager/components/files-manager/use-spaces/get-spaces.helper"
 import { File } from "Core/files-manager/dto"
 
 describe("`getSpaces` helper", () => {
