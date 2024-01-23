@@ -4,6 +4,12 @@
  */
 
 export const lineHeight = {
-  headline3: "32px",
-  detailText: "20px",
+  headline3: "3.2rem",
+  headline4: "2.4rem",
+  paragraph1: "2.4rem",
+  paragraph3: "2.2rem",
+  paragraph4: "2.2rem",
+  tag: "2rem",
+  link: "2rem",
+  detailText: "2rem",
 } as const

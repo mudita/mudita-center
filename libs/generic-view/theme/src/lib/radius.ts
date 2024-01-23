@@ -4,5 +4,5 @@
  */
 
 export const radius = {
-  sm: "4px",
+  sm: "0.4rem",
 } as const

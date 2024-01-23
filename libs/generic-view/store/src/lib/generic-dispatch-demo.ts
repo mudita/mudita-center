@@ -5,8 +5,10 @@
 
 // TODO: demo code, file to be removed
 import {
+  generateMcAboutLayout,
   generateMcCalendarLayout,
   generateMcOverviewLayout,
+  mcAboutDemoData,
   mcCalendarConfig,
   mcOverviewConfig,
   mcOverviewDemoData,
@@ -42,6 +44,13 @@ export const useGenericStoreDemo = () => {
         })
       )
 
+      dispatch(
+        setViewLayout({
+          feature: "mc-about",
+          layout: generateMcAboutLayout({ title: "About" }),
+        })
+      )
+
       // Simulate mc-calendar layout
       dispatch(
         setViewLayout({
@@ -54,6 +63,13 @@ export const useGenericStoreDemo = () => {
         setViewData({
           feature: "mc-overview",
           data: mcOverviewDemoData,
+        })
+      )
+
+      dispatch(
+        setViewData({
+          feature: "mc-about",
+          data: mcAboutDemoData,
         })
       )
     })()

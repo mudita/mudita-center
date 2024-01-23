@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/generic-view"
-export * from "./lib/recursive-layout"
+import ButtonModal from "./button-modal"
+
+export const interactive = {
+  "button-modal": ButtonModal,
+}
