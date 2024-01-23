@@ -41,7 +41,7 @@ export const DescriptionText = styled(Text)`
 export const AgreementModal: FunctionComponent<AgreementModalProps> = ({
   open,
   onActionButtonClick,
-                                                                         closeModal
+  closeModal,
 }) => {
   return (
     <ModalDialog
@@ -57,7 +57,7 @@ export const AgreementModal: FunctionComponent<AgreementModalProps> = ({
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={IconType.MuditaLogo} width={4.8} />
+          <Icon type={IconType.Exclamation} width={4.8} />
         </RoundIconWrapper>
         <DescriptionText
           testId={AgreementModalIds.Text}
