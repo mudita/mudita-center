@@ -20,6 +20,7 @@ import { getAPIAny } from "../get-api-any"
 import { ApiConfig, MenuConfig, OverviewData } from "device/models"
 import { getMenuConfig } from "../get-menu-config"
 import { DeviceId } from "Core/device/constants/device-id"
+import { getOutboxData } from "../outbox/get-outbox-data.action"
 
 interface DeviceConfiguration {
   apiConfig: ApiConfig
@@ -42,6 +43,7 @@ interface GenericState {
     }
   >
   lastResponse: unknown
+  lastRefresh?: number
   activeDevice?: DeviceId
   devicesConfiguration: Record<string, DeviceConfiguration>
 }
@@ -114,7 +116,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(activateDevice, (state, action) => {
     const { deviceId } = action.payload
-    state.activeDevice = state.devicesConfiguration[deviceId].apiConfig
+    state.activeDevice = state.devicesConfiguration?.[deviceId]?.apiConfig
       ? deviceId
       : undefined
   })
@@ -125,6 +127,21 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
     if (state.activeDevice === deviceId) {
       state.activeDevice = undefined
+    }
+  })
+  builder.addCase(getOutboxData.fulfilled, (state, action) => {
+    const { deviceId, timestamp } = action.payload
+    if (state.activeDevice === deviceId) {
+      state.lastRefresh = timestamp
+    }
+  })
+  builder.addCase(getOutboxData.rejected, (state, action) => {
+    const { deviceId, timestamp } = action.payload as {
+      deviceId: DeviceId
+      timestamp: number
+    }
+    if (state.activeDevice === deviceId) {
+      state.lastRefresh = timestamp
     }
   })
 })

@@ -8,16 +8,16 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { selectActiveDevice } from "../selectors/active-device"
+import { selectLastRefreshTimestamp } from "../selectors/select-last-refresh-timestamp"
 
 export const useOutbox = () => {
   const dispatch = useDispatch<Dispatch>()
   const activeDevice = useSelector(selectActiveDevice)
+  const lastRefreshTimestamp = useSelector(selectLastRefreshTimestamp)
 
   useEffect(() => {
     if (activeDevice) {
-      console.log("run outbox action")
       const outboxTimeout = setTimeout(() => {
-        console.log("Asdasdasd")
         dispatch(getOutboxData({ deviceId: activeDevice }))
       }, 10000)
 
@@ -26,5 +26,6 @@ export const useOutbox = () => {
       }
     }
     return
-  }, [activeDevice])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeDevice, lastRefreshTimestamp])
 }

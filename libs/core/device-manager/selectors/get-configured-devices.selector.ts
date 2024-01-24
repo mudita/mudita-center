@@ -9,12 +9,18 @@ import {
   Device,
   DeviceState,
 } from "Core/device-manager/reducers/device-manager.interface"
+import { selectConfiguredDeviceIDs } from "generic-view/store"
+import { DeviceType } from "Core/device/constants"
 
 export const getConfiguredDevicesSelector = createSelector(
   deviceManagerState,
-  (deviceManager): Device[] => {
-    return deviceManager.devices.filter(
-      ({ state }) => state === DeviceState.Configured
-    )
+  selectConfiguredDeviceIDs,
+  (deviceManager, apiIds): Device[] => {
+    return deviceManager.devices.filter(({ state, deviceType, id }) => {
+      if (deviceType === DeviceType.APIDevice && apiIds.includes(id)) {
+        return true
+      }
+      return state === DeviceState.Configured
+    })
   }
 )

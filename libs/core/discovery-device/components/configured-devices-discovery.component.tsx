@@ -59,6 +59,8 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     ) {
       void handleDeviceActivation()
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     history,
     dispatch,

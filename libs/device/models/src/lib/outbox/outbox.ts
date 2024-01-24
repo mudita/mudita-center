@@ -5,5 +5,5 @@
 
 export interface Outbox {
   features: string[]
-  configuration: string[]
+  data: string[]
 }

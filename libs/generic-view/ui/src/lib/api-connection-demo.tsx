@@ -3,16 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import React, { FunctionComponent, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-// import { getAPIConfig } from "../../../../device/feature/src/lib/get-api-config"
 
-import {
-  getOverviewConfig,
-  getOverviewData,
-  getAPIConfig,
-} from "generic-view/store"
+import { getAPIConfig } from "generic-view/store"
 
 export const APIConnectionDemo: FunctionComponent = () => {
   const [input, setInput] = useState(`{
