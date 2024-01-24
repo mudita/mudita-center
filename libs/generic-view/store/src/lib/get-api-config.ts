@@ -18,7 +18,6 @@ export const getAPIConfig = createAsyncThunk<
   { state: ReduxRootState }
 >(ActionName.GetConfig, async ({ deviceId }, { rejectWithValue, dispatch }) => {
   const response = await getAPIConfigRequest(deviceId)
-  console.log(response)
   if (response.ok) {
     dispatch(getMenuConfig({ deviceId }))
     dispatch(getAllFeatures({ deviceId, features: response.data.features }))
