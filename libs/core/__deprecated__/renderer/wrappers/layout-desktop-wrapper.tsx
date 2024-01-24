@@ -89,8 +89,8 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
           <AlphaReleaseWarning onClose={handleCloseWarning} />
         )}
         {children}
+        <DeviceSelectDrawer />
       </ViewWrapper>
-      <DeviceSelectDrawer />
     </Layout>
   )
 }
