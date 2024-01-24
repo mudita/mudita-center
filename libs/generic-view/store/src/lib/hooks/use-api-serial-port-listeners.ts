@@ -41,5 +41,6 @@ export const useAPISerialPortListeners = () => {
       unregisterConnectListener()
       unregisterFailListener()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }
