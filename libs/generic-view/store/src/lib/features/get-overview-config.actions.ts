@@ -22,7 +22,6 @@ export const getOverviewConfig = createAsyncThunk<
   async ({ deviceId }, { rejectWithValue }) => {
     const response = await getOverviewConfigRequest(deviceId)
     if (response.ok) {
-      //
       return { config: response.data, deviceId }
     }
     return rejectWithValue(response.error)
