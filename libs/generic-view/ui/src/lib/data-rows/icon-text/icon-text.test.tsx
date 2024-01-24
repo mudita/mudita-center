@@ -24,16 +24,16 @@ describe("Icon text component", () => {
           data={{
             icon: IconType.Battery1,
             text: "Dummy text",
-            title: "Dummy title",
+            subText: "Dummy subtext",
           }}
         />
       </ThemeProvider>
     )
-    expect(getByTestId(dataTestIds.IconTextTitle)).toHaveTextContent(
-      "Dummy title"
-    )
-    expect(getByTestId(dataTestIds.IconTextDetailText)).toHaveTextContent(
+    expect(getByTestId(dataTestIds.IconText)).toHaveTextContent(
       "Dummy text"
+    )
+    expect(getByTestId(dataTestIds.IconSubtext)).toHaveTextContent(
+      "Dummy subtext"
     )
   })
   it("Render without detail text", () => {
@@ -42,16 +42,16 @@ describe("Icon text component", () => {
         <IconText
           data={{
             icon: IconType.Battery1,
-            title: "Dummy title",
+            text: "Dummy text",
           }}
         />
       </ThemeProvider>
     )
-    expect(getByTestId(dataTestIds.IconTextTitle)).toHaveTextContent(
-      "Dummy title"
+    expect(getByTestId(dataTestIds.IconText)).toHaveTextContent(
+      "Dummy text"
     )
     expect(
-      queryByTestId(dataTestIds.IconTextDetailText)
+      queryByTestId(dataTestIds.IconSubtext)
     ).not.toBeInTheDocument()
   })
 })

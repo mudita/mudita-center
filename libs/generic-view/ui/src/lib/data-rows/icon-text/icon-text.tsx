@@ -11,14 +11,14 @@ import dataTestIds from "./data-test-ids"
 
 interface IconTextRowData {
   icon: IconType
-  title: string
-  text?: string
+  text: string
+  subText?: string
 }
 
 export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
   if (!data) return null
 
-  const { icon, title, text } = data
+  const { icon, text, subText } = data
 
   return (
     <IconTextWrapper {...props}>
@@ -26,10 +26,10 @@ export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
         <Icon data={{ type: icon }} />
       </IconWrapper>
       <TextWrapper>
-        <TitleText data-testid={dataTestIds.IconTextTitle}>{title}</TitleText>
-        {text && (
-          <DetailText data-testid={dataTestIds.IconTextDetailText}>
-            {text}
+        <TitleText data-testid={dataTestIds.IconText}>{text}</TitleText>
+        {subText && (
+          <DetailText data-testid={dataTestIds.IconSubtext}>
+            {subText}
           </DetailText>
         )}
       </TextWrapper>

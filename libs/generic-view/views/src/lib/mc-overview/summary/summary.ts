@@ -9,7 +9,12 @@ import { kompaktImg } from "Root/demo-data/kompakt-img"
 
 type OverviewSummaryConfig = OverviewConfig["summary"]
 
-enum SummaryKeys {}
+enum SummaryKeys {
+  Image = "summary-img",
+  SerialNumber = "summary-serial-number",
+  AboutDivider = "summary-about-divider",
+  About = "summary-about",
+}
 
 export const generateMcOverviewSummaryLayout: ViewGenerator<
   OverviewSummaryConfig,
@@ -19,7 +24,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
 
   const image: Subview = config.showImg
     ? {
-        "summary-img": {
+        [SummaryKeys.Image]: {
           component: "image",
           layout: {
             flexPlacement: {
@@ -28,61 +33,63 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
             padding: "16px 27px",
           },
           config: {
-            // TODO: implement colors support based on config.imgVariant
+            // TODO: implement support for config.imgVariant
             src: kompaktImg,
           },
         },
       }
     : undefined
 
-  const serialNumber: Subview = config.showSerialNumber
-    ? {
-        "summary-serial-number": {
-          component: "labeled-text",
-          layout: {
-            flexPlacement: {
-              alignSelf: "center",
-              grow: 1,
+  const serialNumber: Subview =
+    config.showSerialNumber === false
+      ? undefined
+      : {
+          [SummaryKeys.SerialNumber]: {
+            component: "labeled-text",
+            layout: {
+              flexPlacement: {
+                alignSelf: "center",
+                grow: 1,
+              },
+              flexLayout: {
+                direction: "column",
+                rowGap: "8px",
+                alignItems: "center",
+              },
             },
-            flexLayout: {
-              direction: "column",
-              rowGap: "8px",
-              alignItems: "center",
+            config: {
+              label: config.serialNumberLabel,
             },
           },
-          config: {
-            label: config.serialNumberLabel,
-          },
-        },
-      }
-    : undefined
+        }
 
-  const about: Subview = config.showAbout
-    ? {
-        "summary-about-divider": {
-          component: "divider",
-          layout: {
-            margin: "0 -24px",
-          },
-        },
-        "summary-about": {
-          component: "button-text",
-          layout: {
-            flexPlacement: {
-              alignSelf: "center",
+  const about: Subview =
+    config.showAbout === false
+      ? undefined
+      : {
+          [SummaryKeys.AboutDivider]: {
+            component: "divider",
+            layout: {
+              margin: "0 -24px",
             },
           },
-          config: {
-            text: config.aboutTitle,
-            icon: config.aboutIcon,
-            action: {
-              type: "navigate",
-              viewKey: "mc-overview/mc-about",
+          [SummaryKeys.About]: {
+            component: "button-text",
+            layout: {
+              flexPlacement: {
+                alignSelf: "center",
+              },
+            },
+            config: {
+              text: config.aboutTitle,
+              icon: config.aboutIcon,
+              action: {
+                type: "navigate",
+                viewKey: "mc-overview/mc-about",
+              },
             },
           },
-        },
-      }
-    : undefined
+        }
 
   return {
     summary: {
@@ -100,9 +107,9 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
         },
       },
       childrenKeys: [
-        ...(image ? ["summary-img"] : []),
-        ...(serialNumber ? ["summary-serial-number"] : []),
-        ...(about ? ["summary-about-divider", "summary-about"] : []),
+        ...(image ? [SummaryKeys.Image] : []),
+        ...(serialNumber ? [SummaryKeys.SerialNumber] : []),
+        ...(about ? [SummaryKeys.AboutDivider, SummaryKeys.About] : []),
       ],
     },
     ...image,
@@ -116,7 +123,7 @@ export const generateMcOverviewSummaryData = (
 ) => {
   const serialNumber = data?.about?.serialNumber
     ? {
-        "summary-serial-number": {
+        [SummaryKeys.SerialNumber]: {
           text: data.about.serialNumber.text,
         },
       }

@@ -14,10 +14,12 @@ import {
   generateMcOverviewSummaryLayout,
 } from "./summary/summary"
 import { OverviewConfig, OverviewData } from "device/models"
+import { generateMcOverviewTileListLayout } from "./section-tile-list/section-tile-list"
 
 export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
   config
 ) => {
+  console.log(config)
   const mainConfig: MainView = {
     screenTitle: config.title,
     component: "block-plain",
@@ -35,54 +37,19 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     },
   }
   const summary = generateMcOverviewSummaryLayout(config.summary)
-  return generateViewConfig(mainConfig, [summary])
-}
-
-const data = {
-  summary: {
-    about: {
-      serialNumber: {
-        text: "0123456789ABCDEF",
-      },
-      imei1: {
-        text: "864055030180631",
-      },
-      imei2: {
-        text: "864055030176639",
-      },
-      deviceMode: {
-        text: "Online",
-      },
-      osVersion: {
-        text: "ANDROID 12",
-      },
-    },
-  },
-  sections: {
-    battery: {
-      icon: "battery-charging-5",
-      text: "100%",
-      subText: "",
-    },
-    connection: {
-      icon: "no-sim-card",
-      text: "No SIM",
-      subText: "SIM 1 - no network",
-    },
-    connection2: {
-      icon: "no-sim-card",
-      text: "No SIM",
-      subText: "SIM 2 - no network",
-    },
-    esim: {
-      icon: "no-sim-card",
-      text: "No SIM",
-      subText: "E SIM - no network",
-    },
-  },
+  const sections =
+    config.summary.sections?.map((section) => {
+      switch (section.type) {
+        case "tile-list":
+          return generateMcOverviewTileListLayout(section)
+        default:
+          return undefined
+      }
+    }) || []
+  return generateViewConfig(mainConfig, [summary, ...sections])
 }
 
 export const generateMcOverviewData = (data: OverviewData) => {
   const summary = generateMcOverviewSummaryData(data.summary)
-  return generateDataConfig([summary])
+  return generateDataConfig([summary, data.sections])
 }

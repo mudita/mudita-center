@@ -4,6 +4,6 @@
  */
 
 export default {
-  IconTextTitle: "icon-text-title",
-  IconTextDetailText: "icon-text-detail-text",
+  IconText: "icon-text",
+  IconSubtext: "icon-subtext",
 } as const

@@ -13,6 +13,7 @@ interface Data {
 
 export const Image: APIFC<Data, Data> = ({ data, config }) => {
   const { src, alt } = data || config || {}
+  if (!src) return null
   return <img src={src} alt={alt} />
 }
 

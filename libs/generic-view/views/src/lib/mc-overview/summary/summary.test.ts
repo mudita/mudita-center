@@ -6,7 +6,7 @@
 import { generateMcOverviewSummaryLayout } from "./summary"
 
 describe("generateMcOverviewSummaryLayout", () => {
-  it("returns undefined when config.show is false", () => {
+  it("should return undefined when config.show is false", () => {
     const config = { show: false }
     const result = generateMcOverviewSummaryLayout(config)
     expect(result).toBeUndefined()
