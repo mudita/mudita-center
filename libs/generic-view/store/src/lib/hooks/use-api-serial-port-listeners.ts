@@ -9,10 +9,10 @@ import { useDispatch } from "react-redux"
 import { answerMain, DeviceManagerMainEvent } from "shared/utils"
 import { detachDevice } from "../views/actions"
 import { getAPIConfig } from "../get-api-config"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 export const useAPISerialPortListeners = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dispatch = useDispatch<any>()
+  const dispatch = useDispatch<Dispatch>()
 
   useEffect(() => {
     const unregisterFailListener = answerMain(

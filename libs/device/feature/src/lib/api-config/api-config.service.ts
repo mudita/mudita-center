@@ -21,7 +21,7 @@ export class APIConfigService {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
       : this.deviceManager.apiDevice
-    console.log(device, deviceId)
+
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
@@ -31,8 +31,6 @@ export class APIConfigService {
       method: "GET",
       body: {},
     })
-
-    console.log(response)
 
     if (response.ok) {
       return Result.success(response.data.body as ApiConfig)

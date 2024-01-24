@@ -8,7 +8,6 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { FeaturesActions } from "./featues-action-keys"
 import { getOverviewConfig } from "./get-overview-config.actions"
-import { getOverviewData } from "./get-overview-data.actions"
 
 export const getSingleFeatureConfig = createAsyncThunk<
   undefined,
