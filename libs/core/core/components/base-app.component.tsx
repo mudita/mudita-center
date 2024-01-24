@@ -16,15 +16,20 @@ import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-en
 import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
 import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"
 import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-effect"
-import { useAPISerialPortListeners } from "device/feature"
 import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect-failed-effect"
 import { useRouterListener } from "Core/core/hooks"
-import { URL_MAIN, URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_OVERVIEW,
+} from "Core/__deprecated__/renderer/constants/urls"
+import { useAPISerialPortListeners, useOutbox } from "generic-view/store"
 
-const actions = {[URL_MAIN.contacts]: [],
+const actions = {
+  [URL_MAIN.contacts]: [],
   [URL_MAIN.phone]: [],
   [URL_OVERVIEW.root]: [],
-  [URL_MAIN.messages]: [],}
+  [URL_MAIN.messages]: [],
+}
 
 const BaseApp: FunctionComponent = () => {
   const history = useHistory()
@@ -39,6 +44,7 @@ const BaseApp: FunctionComponent = () => {
   useWatchUnlockStatus()
   // API
   useAPISerialPortListeners()
+  useOutbox()
 
   return (
     <>

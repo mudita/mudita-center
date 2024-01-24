@@ -4,3 +4,4 @@
  */
 
 export * from "./lib/main-event.constant"
+export * from "./lib/answer-main"

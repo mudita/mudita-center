@@ -23,6 +23,7 @@ import { CoreDevice } from "Core/device/modules/core-device"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import { DeviceCommunicationError, DeviceType } from "Core/device"
 import { MockCoreDevice } from "Core/device/modules/mock-core-device"
+import { callRenderer } from "device/adapters"
 
 export class DeviceManager {
   public activeDevice: BaseDevice | undefined
@@ -36,12 +37,12 @@ export class DeviceManager {
     protected eventEmitter: EventEmitter
   ) {}
 
-  get apiDevice(): APIDevice {
-    if (!this.activeDevice) {
-      throw new AppError(
-        DeviceManagerError.NoActiveDevice,
-        "Active device is undefined"
-      )
+  get apiDevice() {
+    if (
+      !this.activeDevice ||
+      this.activeDevice.deviceType !== DeviceType.APIDevice
+    ) {
+      return null
     }
 
     // TODO: add device type validation
@@ -50,11 +51,22 @@ export class DeviceManager {
 
   get device(): CoreDevice {
     if (!this.activeDevice) {
-      return new MockCoreDevice({} as unknown as SerialPortInfo, "deviceType" as DeviceType) as CoreDevice
+      return new MockCoreDevice(
+        {} as unknown as SerialPortInfo,
+        "deviceType" as DeviceType
+      ) as CoreDevice
     }
 
     // TODO: add device type validation
     return this.activeDevice as CoreDevice
+  }
+
+  public getAPIDeviceById(id: DeviceId) {
+    const device = this.devicesMap.get(id)
+    if (!device || device.deviceType !== DeviceType.APIDevice) {
+      return null
+    }
+    return device as APIDevice
   }
 
   get devices(): BaseDevice[] {
@@ -104,7 +116,7 @@ export class DeviceManager {
     }
 
     const data = device.toSerializableObject()
-
+    callRenderer(DeviceManagerMainEvent.DeviceDetached, data)
     this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, data)
     logger.info(`Detached device with path: ${path}`)
   }
@@ -144,8 +156,10 @@ export class DeviceManager {
     const data = device.toSerializableObject()
 
     if (result.ok) {
+      callRenderer(DeviceManagerMainEvent.DeviceConnected, data)
       this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected, data)
     } else {
+      callRenderer(DeviceManagerMainEvent.DeviceConnectFailed, data)
       this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnectFailed, data)
     }
   }
