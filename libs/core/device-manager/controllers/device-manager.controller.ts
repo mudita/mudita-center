@@ -19,6 +19,7 @@ import { DeviceCacheConfigurationService } from "Core/device-manager/services/de
 
 export interface DeviceConfiguration {
   caseColour: CaseColour | undefined
+  serialNumber: string | undefined
 }
 
 export class DeviceManagerController {
@@ -51,7 +52,10 @@ export class DeviceManagerController {
     })
 
     if (result.ok) {
-      const deviceConfiguration = { caseColour: result.data.caseColour }
+      const deviceConfiguration = {
+        caseColour: result.data.caseColour,
+        serialNumber: result.data.serialNumber,
+      }
       await this.deviceCacheConfigurationService.saveDeviceConfiguration(
         id,
         deviceConfiguration
