@@ -90,13 +90,21 @@ const DESKTOP_APP_BUTTONS: Item[] = [
   {
     button: views.settings,
     icon: IconType.MenuSettings,
-    visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+    visibleOn: [
+      DeviceType.MuditaPure,
+      DeviceType.MuditaHarmony,
+      DeviceType.APIDevice,
+    ],
   },
   {
     button: views.help,
     icon: IconType.MenuHelp,
     testId: MenuGroupTestIds.Help,
-    visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+    visibleOn: [
+      DeviceType.MuditaPure,
+      DeviceType.MuditaHarmony,
+      DeviceType.APIDevice,
+    ],
   },
 ]
 
