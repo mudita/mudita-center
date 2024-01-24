@@ -25,6 +25,7 @@ import { getDeviceInitializationStatus } from "Core/device-initialization/select
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 
 const SyncProgressWrapper = styled.div`
   display: flex;
@@ -56,6 +57,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const devices = useSelector(getDevicesSelector)
   const dispatch = useDispatch<Dispatch>()
   const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
   const deviceInitialized =
     deviceInitializationStatus === DeviceInitializationStatus.Initialized
 
@@ -66,7 +68,8 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const isSelectDevice =
     !dataSyncInProgress &&
     devices.length > 0 &&
-    history.location.pathname === URL_MAIN.news
+    history.location.pathname === URL_MAIN.news &&
+    !activeDeviceId
 
   const SelectDeviceButton = (
     <DeviceButtonWrapper>
@@ -83,9 +86,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   )
 
   const isChangeDevice =
-    !dataSyncInProgress &&
-    devices.length > 1 &&
-    history.location.pathname !== URL_MAIN.news
+    !dataSyncInProgress && devices.length > 1 && activeDeviceId
 
   const ChangeDeviceButton = (
     <DeviceButtonWrapper>
