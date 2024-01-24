@@ -64,12 +64,14 @@ export const deviceManagerReducer = createReducer<DeviceManagerState>(
       })
       .addCase(configureDevice.fulfilled, (state, action) => {
         const devices = state.devices.reduce((prev, device) => {
-          if (device.id === action.payload.id) {
+          const payload = action.payload
+          if (device.id === payload.id) {
             return [
               ...prev,
               {
                 ...device,
-                caseColour: action.payload.caseColour,
+                caseColour: payload.caseColour ?? device.caseColour,
+                serialNumber: payload.serialNumber ?? device.serialNumber,
                 state: DeviceState.Configured,
               },
             ]
