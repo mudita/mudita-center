@@ -89,7 +89,7 @@ const DeviceDetailsWrapper = styled("div")`
 const DeviceDetails = styled("div")`
   display: flex;
   flex-direction: column;
-  padding: 1.3rem 6rem 1.4rem 0;
+  padding: 1.3rem 5rem 1.4rem 0;
 `
 
 const ActiveDot = styled("span")`
