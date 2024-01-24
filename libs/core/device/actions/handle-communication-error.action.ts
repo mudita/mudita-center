@@ -8,19 +8,21 @@ import { DeviceCommunicationError, DeviceEvent } from "Core/device/constants"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
   setCriticalBatteryLevelStatus,
+  setLockTime,
   setOnboardingStatus,
   setUnlockedStatus,
 } from "Core/device/actions/base.action"
 import { AppError } from "Core/core/errors"
+import { deviceLockTimeRequest } from "Core/device/requests"
 
-export const processDeviceDataOnFailed = createAsyncThunk<
+export const handleCommunicationError = createAsyncThunk<
   void,
   AppError,
   { state: ReduxRootState }
->(DeviceEvent.ProcessDeviceDataOnFailed, async (error, { dispatch }) => {
+>(DeviceEvent.HandleCommunicationError, async (error, { dispatch }) => {
   const errorType = error.type
-  if (errorType === DeviceCommunicationError.DeviceLocked) {
-    dispatch(setUnlockedStatus(false))
+  if (errorType === DeviceCommunicationError.BatteryCriticalLevel) {
+    dispatch(setCriticalBatteryLevelStatus(true))
     return
   }
 
@@ -29,8 +31,10 @@ export const processDeviceDataOnFailed = createAsyncThunk<
     return
   }
 
-  if (errorType === DeviceCommunicationError.BatteryCriticalLevel) {
-    dispatch(setCriticalBatteryLevelStatus(true))
+  if (errorType === DeviceCommunicationError.DeviceLocked) {
+    const deviceLockTimeResult = await deviceLockTimeRequest()
+    deviceLockTimeResult.ok && dispatch(setLockTime(deviceLockTimeResult.data))
+    dispatch(setUnlockedStatus(false))
     return
   }
 })
