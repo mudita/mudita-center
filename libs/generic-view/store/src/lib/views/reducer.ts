@@ -122,7 +122,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(detachDevice, (state, action) => {
     const { deviceId } = action.payload
-    if (state.devicesConfiguration[deviceId].apiConfig) {
+    if (state.devicesConfiguration[deviceId]?.apiConfig) {
       delete state.devicesConfiguration[deviceId]
     }
     if (state.activeDevice === deviceId) {
