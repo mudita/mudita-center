@@ -10,6 +10,7 @@ import { setActiveDevice } from "Core/device-manager/actions/set-active-device.a
 import { DeviceId } from "Core/device/constants/device-id"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
+import { activateDevice } from "generic-view/store"
 
 export const handleDeviceActivated = createAsyncThunk<
   void,
@@ -18,4 +19,5 @@ export const handleDeviceActivated = createAsyncThunk<
 >(DeviceManagerEvent.HandleDeviceActivated, async (deviceId, { dispatch }) => {
   await dispatch(setActiveDevice(deviceId))
   setDiscoveryStatus(DiscoveryStatus.Discovered)
+  dispatch(activateDevice({ deviceId }))
 })

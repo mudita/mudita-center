@@ -19,6 +19,7 @@ import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-element
 import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
 import { RootModel } from "Core/__deprecated__/renderer/models/models"
 import { deviceStateSelector } from "Core/device/selectors"
+import { activeDeviceMenuElements } from "generic-view/store"
 
 const MenuContainer = styled.div`
   flex: 1;
@@ -67,7 +68,7 @@ const mapDispatchToProps = (state: RootModel & ReduxRootState) => ({
   notifications: {
     [View.Messages]: getUnreadThreads(state).length > 0,
   },
-  genericMenuElements: state.genericViews.menu,
+  genericMenuElements: activeDeviceMenuElements(state),
 })
 
 export default connect(mapDispatchToProps)(Menu)

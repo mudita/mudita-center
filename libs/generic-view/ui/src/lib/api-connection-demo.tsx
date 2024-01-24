@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import React, { FunctionComponent, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { getAPIConfig } from "./get-api-config"
+
+import { getAPIConfig } from "generic-view/store"
 
 export const APIConnectionDemo: FunctionComponent = () => {
   const [input, setInput] = useState(`{
@@ -30,6 +31,7 @@ export const APIConnectionDemo: FunctionComponent = () => {
           setInput(e.target.value)
         }}
       ></textarea>
+      <br />
       <button
         onClick={() => {
           const payload = JSON.parse(input)
@@ -38,6 +40,20 @@ export const APIConnectionDemo: FunctionComponent = () => {
       >
         get api config
       </button>
+      {/* <button
+        onClick={() => {
+          dispatch(getOverviewConfig())
+        }}
+      >
+        get overview config
+      </button> */}
+      {/* <button
+        onClick={() => {
+          dispatch(getOverviewData())
+        }}
+      >
+        get overview data
+      </button> */}
       <div>{JSON.stringify(lastResponse)}</div>
     </div>
   )
