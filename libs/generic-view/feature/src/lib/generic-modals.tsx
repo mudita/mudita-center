@@ -15,9 +15,10 @@ interface Props {
 export const GenericModals: FunctionComponent<Props> = ({ viewKey }) => {
   const { views } = useSelector((state: ReduxRootState) => state.genericViews)
 
-  const modalsToRender = Object.entries(views[viewKey].layout)
-    .filter(([, { component }]) => component === "modal")
-    .map(([key]) => key)
+  // const modalsToRender = Object.entries(views[viewKey].layout)
+  //   .filter(([, { component }]) => component === "modal")
+  //   .map(([key]) => key)
+  const modalsToRender: string[] = []
   return (
     <>
       {modalsToRender.map((modalKey) => {

@@ -17,12 +17,7 @@ import {
 import { getOverviewData } from "../features"
 import { getOverviewConfig } from "../features/get-overview-config.actions"
 import { getAPIAny } from "../get-api-any"
-import {
-  ApiConfig,
-  MenuConfig,
-  OverviewConfig,
-  OverviewData,
-} from "device/models"
+import { ApiConfig, MenuConfig, OverviewData } from "device/models"
 import { getMenuConfig } from "../get-menu-config"
 import { DeviceId } from "Core/device/constants/device-id"
 
@@ -31,7 +26,7 @@ interface DeviceConfiguration {
   menuConfig?: MenuConfig
   features?: {
     "mc-overview"?: {
-      config?: OverviewConfig
+      config?: View
       data?: OverviewData
     }
   }

@@ -4,7 +4,7 @@
  */
 
 import { Subview, ViewGenerator } from "generic-view/utils"
-import { OverviewConfig } from "../mc-overview.types"
+import { OverviewConfig } from "device/models"
 
 type OverviewSummaryConfig = OverviewConfig["summary"]
 
@@ -12,7 +12,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
   OverviewSummaryConfig,
   Subview
 > = (config) => {
-  if (config.show) return undefined
+  if (config.show === false) return undefined
 
   const image: Subview = config.showImg
     ? {

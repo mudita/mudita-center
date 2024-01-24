@@ -56,10 +56,11 @@ type OverviewSectionsConfig = TileListConfig | UpdateTileConfig | DataSyncKey
 export interface OverviewConfig {
   title: string
   summary: {
-    show: boolean
+    show?: boolean
     showImg?: boolean //default true
     imgVariant?: string
     showSerialNumber?: boolean //default true
+    serialNumberLabel?: string
     showAbout?: boolean //default false
     aboutTitle?: string //default defined by translation
     aboutSubtitle?: string

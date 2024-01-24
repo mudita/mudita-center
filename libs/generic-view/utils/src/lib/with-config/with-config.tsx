@@ -12,10 +12,15 @@ export const withConfig = <P extends object>(
   Component: ComponentType<P & { viewKey?: string; componentKey: string }>
 ): RecursiveComponent => {
   return ({ viewKey, componentKey, ...props }) => {
-    const config = useSelector(
-      (state: ReduxRootState) =>
-        state.genericViews.views?.[viewKey]?.layout?.[componentKey]?.config
-    )
+    const config = useSelector((state: ReduxRootState) => {
+      const features =
+        state.genericViews.devicesConfiguration[
+          state.genericViews.activeDevice!
+        ].features
+      return features?.[viewKey as keyof typeof features]?.config?.[
+        componentKey
+      ]?.config
+    })
     return (
       <Component
         {...(props as P)}

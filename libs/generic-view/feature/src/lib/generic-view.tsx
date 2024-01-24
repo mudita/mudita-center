@@ -18,13 +18,24 @@ export const GenericView: FunctionComponent = () => {
     subviewKey?: string
   }>()
   const currentViewKey = subviewKey || viewKey
-  const { views } = useSelector((state: ReduxRootState) => state.genericViews)
+  const { devicesConfiguration, activeDevice } = useSelector(
+    (state: ReduxRootState) => state.genericViews
+  )
 
-  if (isEmpty(views) || !views[currentViewKey].layout) {
+  if (!activeDevice) {
+    return <div>No active device found</div>
+  }
+  const activeDeviceConfiguration = devicesConfiguration[activeDevice].features
+  const view =
+    activeDeviceConfiguration?.[
+      currentViewKey as keyof typeof activeDeviceConfiguration
+    ]
+
+  if (isEmpty(activeDeviceConfiguration)) {
     return <div>Loading...</div>
   }
 
-  if (!views[currentViewKey]) {
+  if (!view) {
     return <div>Not found</div>
   }
 

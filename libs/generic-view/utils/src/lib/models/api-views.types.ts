@@ -23,6 +23,9 @@ export type View = {
   [key: string]: ComponentPropsByName
 }
 
+export type MainView = View["main"]
+
 export type Subview = Omit<View, "main"> | undefined
 
 export type ViewGenerator<Config, ReturnType = View> = (config: Config) => ReturnType
+

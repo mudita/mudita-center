@@ -7,12 +7,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { getOverviewConfigRequest } from "device/feature"
-import { OverviewConfig } from "device/models"
 import { FeaturesActions } from "./featues-action-keys"
+import { View } from "generic-view/utils"
+import { generateMcOverviewLayout } from "generic-view/views"
 
 export const getOverviewConfig = createAsyncThunk<
   {
-    config: OverviewConfig
+    config: View
     deviceId: DeviceId
   },
   { deviceId: DeviceId },
@@ -22,7 +23,7 @@ export const getOverviewConfig = createAsyncThunk<
   async ({ deviceId }, { rejectWithValue }) => {
     const response = await getOverviewConfigRequest(deviceId)
     if (response.ok) {
-      return { config: response.data, deviceId }
+      return { config: generateMcOverviewLayout(response.data), deviceId }
     }
     return rejectWithValue(response.error)
   }

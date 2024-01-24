@@ -16,10 +16,15 @@ export const withLayout = <P extends object>(
 ): RecursiveComponent => {
   return (props) => {
     const { viewKey, componentKey } = props
-    const layout = useSelector(
-      (state: ReduxRootState) =>
-        state.genericViews.views?.[viewKey]?.layout?.[componentKey]?.layout
-    )
+    const layout = useSelector((state: ReduxRootState) => {
+      const features =
+        state.genericViews.devicesConfiguration[
+          state.genericViews.activeDevice!
+        ].features
+      return features?.[viewKey as keyof typeof features]?.config?.[
+        componentKey
+      ]?.layout
+    })
     if (layout) {
       return (
         <Wrapper $layout={layout}>
