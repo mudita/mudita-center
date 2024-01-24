@@ -35,6 +35,11 @@ export const handleDeviceDetached = createAsyncThunk<
 
     dispatch(removeDevice(properties))
 
+    const devices = getDevicesSelector(getState())
+    if (devices.length < 2) {
+      dispatch(setSelectDeviceDrawerOpen(false))
+    }
+
     if (activeDevice?.id !== properties.id) {
       return
     }
@@ -54,10 +59,7 @@ export const handleDeviceDetached = createAsyncThunk<
 
     await dispatch(deactivateDevice())
 
-    const devices = getDevicesSelector(getState())
-
     if (devices.length > 1) {
-      void dispatch(setSelectDeviceDrawerOpen(false))
       history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
     } else if (devices.length === 1) {
       history.push(URL_DISCOVERY_DEVICE.root)
