@@ -7,13 +7,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { FeaturesActions } from "./featues-action-keys"
 import { getOverviewDataRequest } from "device/feature"
-import { OverviewData } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
+import { generateMcOverviewData } from "generic-view/views"
+import { Feature } from "generic-view/utils"
 
 export const getOverviewData = createAsyncThunk<
   {
     deviceId: DeviceId
-    data: OverviewData
+    data: Feature
   },
   { deviceId: DeviceId },
   { state: ReduxRootState }
@@ -24,7 +25,7 @@ export const getOverviewData = createAsyncThunk<
     if (response.ok) {
       return {
         deviceId,
-        data: response.data,
+        data: generateMcOverviewData(response.data),
       }
     }
     return rejectWithValue(response.error)

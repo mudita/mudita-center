@@ -4,14 +4,16 @@
  */
 
 import {
+  generateDataConfig,
   generateViewConfig,
-  IconType,
   MainView,
   ViewGenerator,
 } from "generic-view/utils"
-import { generateMcOverviewSummaryLayout } from "./summary/summary"
-import { OverviewConfig } from "device/models"
-import { kompaktImg } from "Root/demo-data/kompakt-img"
+import {
+  generateMcOverviewSummaryData,
+  generateMcOverviewSummaryLayout,
+} from "./summary/summary"
+import { OverviewConfig, OverviewData } from "device/models"
 
 export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
   config
@@ -36,80 +38,51 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
   return generateViewConfig(mainConfig, [summary])
 }
 
-export const mcOverviewDemoConfig: OverviewConfig = {
-  title: "Overview",
+const data = {
   summary: {
-    show: true,
-    showImg: true,
-    imgVariant: "black",
-    showSerialNumber: true,
-    showAbout: true,
-    aboutTitle: "About your device",
-    aboutIcon: IconType.Battery1,
-    aboutSubtitle: "The details of your phone.",
-    aboutFields: [
-      {
-        dataKey: "serialNumber",
-        type: "detail-list-text",
-        title: "Serial number",
+    about: {
+      serialNumber: {
+        text: "0123456789ABCDEF",
       },
-      {
-        dataKey: "sarText",
-        type: "detail-list-modal",
-        title: "SAR",
-        buttonText: "check sar information",
+      imei1: {
+        text: "864055030180631",
       },
-    ],
+      imei2: {
+        text: "864055030176639",
+      },
+      deviceMode: {
+        text: "Online",
+      },
+      osVersion: {
+        text: "ANDROID 12",
+      },
+    },
   },
-  sections: [
-    {
-      title: "Status",
-      dataKey: "status",
-      type: "tile-list",
-      fields: [
-        {
-          dataKey: "battery",
-          type: "icon-text",
-        },
-        {
-          dataKey: "connection",
-          type: "icon-text",
-        },
-      ],
+  sections: {
+    battery: {
+      icon: "battery-charging-5",
+      text: "100%",
+      subText: "",
     },
-    {
-      title: "MuditaOS",
-      dataKey: "update",
-      type: "mc-overview-update",
-      currentVersionKey: "version",
-      showBadge: true,
+    connection: {
+      icon: "no-sim-card",
+      text: "No SIM",
+      subText: "SIM 1 - no network",
     },
-  ],
+    connection2: {
+      icon: "no-sim-card",
+      text: "No SIM",
+      subText: "SIM 2 - no network",
+    },
+    esim: {
+      icon: "no-sim-card",
+      text: "No SIM",
+      subText: "E SIM - no network",
+    },
+  },
 }
 
-export const mcOverviewDemoData = {
-  "device-image": {
-    src: kompaktImg,
-  },
-  "serial-number": {
-    text: "6XJMD87764MAXA",
-  },
-  battery: {
-    icon: "battery-1",
-    title: "60 %",
-    text: "Battery",
-  },
-  connection: {
-    icon: "network-signal-2",
-    title: "Network",
-    text: "Network name",
-  },
-  version: {
-    version: "Android 13",
-    update: {
-      available: true,
-      text: "Update available (Android 14)",
-      actionLabel: "You can update it on your device",
-    },
-  },
+export const generateMcOverviewData = (data: OverviewData) => {
+  const summary = generateMcOverviewSummaryData(data.summary)
+  return generateDataConfig([summary])
 }
