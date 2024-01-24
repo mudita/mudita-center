@@ -18,8 +18,11 @@ export const GenericView: FunctionComponent = () => {
     subviewKey?: string
   }>()
   const currentViewKey = subviewKey || viewKey
-  const { devicesConfiguration, activeDevice } = useSelector(
-    (state: ReduxRootState) => state.genericViews
+  const devicesConfiguration = useSelector(
+    (state: ReduxRootState) => state.genericViews.devicesConfiguration
+  )
+  const activeDevice = useSelector(
+    (state: ReduxRootState) => state.genericViews.activeDevice
   )
 
   if (!activeDevice) {
