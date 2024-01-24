@@ -35,9 +35,6 @@ import {
   NotificationsContainer,
   BackupContainer,
   AudioConversionContainer,
-  AudioConversionContainer,
-  BackupContainer,
-  NotificationsContainer,
 } from "Core/settings/components"
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"

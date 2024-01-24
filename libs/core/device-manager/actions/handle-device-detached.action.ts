@@ -20,6 +20,7 @@ import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { DownloadState } from "Core/update/constants"
 import { cancelOsDownload } from "Core/update/requests"
+import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 
 export const handleDeviceDetached = createAsyncThunk<
   void,
@@ -56,6 +57,7 @@ export const handleDeviceDetached = createAsyncThunk<
     const devices = getDevicesSelector(getState())
 
     if (devices.length > 1) {
+      void dispatch(setSelectDeviceDrawerOpen(false))
       history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
     } else if (devices.length === 1) {
       history.push(URL_DISCOVERY_DEVICE.root)
