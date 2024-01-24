@@ -71,7 +71,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
           </Text>
         </SyncProgressWrapper>
       )}
-      {!deviceInitialized && devices.length > 0 && (
+      {!deviceInitialized && devices.length > 1 && (
         <DeviceButtonWrapper>
           <DeviceButton
             label="Select Device"
