@@ -4,7 +4,7 @@
  */
 
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { FunctionComponent, useState } from "react"
+import React, { FunctionComponent, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { getAPIConfig } from "generic-view/store"
