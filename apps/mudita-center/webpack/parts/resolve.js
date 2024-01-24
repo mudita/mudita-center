@@ -10,7 +10,7 @@ module.exports = (production) => {
         acc[alias] = resolve(__dirname, "..", "..", "..", "..", path)
         return acc
       }, {}),
-      Root: resolve(__dirname, "..", ".."),
+      Root: resolve(__dirname, "..", "..", "..", ".."),
       App: resolve(__dirname, "..", "..", "src"),
       Cypress: resolve(__dirname, "..", "..", "cypress"),
       Storybook: resolve(__dirname, "..", "..", ".storybook"),

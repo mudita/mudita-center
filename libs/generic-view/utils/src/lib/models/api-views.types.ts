@@ -17,7 +17,9 @@ export type ComponentPropsByName<
 }
 
 export type View = {
-  main: ComponentPropsByName
+  main: {
+    screenTitle: string
+  } & ComponentPropsByName
   [key: string]: ComponentPropsByName
 }
 

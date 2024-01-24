@@ -4,9 +4,10 @@
  */
 
 export const space = {
-  xs: "4px",
-  sm: "8px",
-  md: "12px",
-  lg: "16px",
-  xl: "24px",
+  xs: "0.4rem",
+  sm: "0.8rem",
+  md: "1.2rem",
+  lg: "1.6rem",
+  xl: "2.4rem",
+  xxl: "3.2rem",
 } as const

@@ -259,6 +259,7 @@
   },
   "dependencies": {
     "react-is": "18.2.0",
+    "react-markdown": "^9.0.1",
     "serialport": "10.1.0",
     "tslib": "^2.3.0"
   }

@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     font-size: 10px;
     font-weight: 400;
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
   a {
     appearance: none;

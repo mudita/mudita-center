@@ -9,13 +9,20 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { RecursiveComponent } from "../models/api-fc.types"
 
 export const withData = <P extends object>(
-  Component: ComponentType<P>
+  Component: ComponentType<P & { viewKey?: string; componentKey: string }>
 ): RecursiveComponent => {
   return ({ viewKey, componentKey, ...props }) => {
     const data = useSelector(
       (state: ReduxRootState) =>
-        state.genericViews.views[viewKey]?.data?.[componentKey]
+        state.genericViews.views?.[viewKey]?.data?.[componentKey]
     )
-    return <Component {...(props as P)} data={data} />
+    return (
+      <Component
+        {...(props as P)}
+        data={data}
+        componentKey={componentKey}
+        viewKey={viewKey}
+      />
+    )
   }
 }

@@ -4,6 +4,7 @@
  */
 
 import { ViewGenerator } from "generic-view/utils"
+import { kompaktImg } from "Root/demo-data/kompakt-img"
 
 export type IconType =
   | "arrow"
@@ -12,6 +13,7 @@ export type IconType =
   | "no-signal"
   | "lte"
   | "device"
+  | "phone-about"
 
 interface DetailListTextConfig {
   key: string
@@ -124,14 +126,15 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
 ) => {
   return {
     main: {
+      screenTitle: config.title,
       component: "block-plain",
       layout: {
         padding: "32px",
         gridLayout: {
-          rows: ["261px", "205px", 1],
-          columns: [1, 2],
-          columnGap: "2rem",
-          rowGap: "2rem",
+          rows: [1.56, 1, 1],
+          columns: ["280px", 1],
+          columnGap: "32px",
+          rowGap: "32px",
         },
         flexPlacement: {
           grow: 1,
@@ -145,9 +148,6 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     ...(config.summary.show && {
       summary: {
         component: "block-box",
-        config: {
-          title: "Summary",
-        },
         layout: {
           gridPlacement: {
             row: 1,
@@ -157,47 +157,62 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           },
           flexLayout: {
             direction: "column",
-            justifyContent: "space-between",
+            rowGap: "24px",
           },
         },
-
         childrenKeys: [
-          config.summary.showImg ? "summaryImg" : undefined,
+          config.summary.showImg ? "device-image" : undefined,
           config.summary.showSerialNumber ? "serial-number" : undefined,
+          config.summary.showAbout ? "aboutDivider" : undefined,
           config.summary.showAbout ? "about" : undefined,
         ].filter(Boolean) as string[],
       },
-      summaryImg: {
-        component: "block-plain",
+      "device-image": {
+        component: "image",
         layout: {
           flexPlacement: {
             alignSelf: "center",
           },
-        },
-        parameters: {
-          title: "Image",
+          padding: "16px 27px",
         },
       },
       "serial-number": {
-        component: "block-plain",
+        component: "labeled-text",
         layout: {
           flexPlacement: {
             alignSelf: "center",
+            grow: 1,
+          },
+          flexLayout: {
+            direction: "column",
+            rowGap: "8px",
+            alignItems: "center",
           },
         },
-        parameters: {
-          title: config.summary.aboutSubtitle,
+        config: {
+          label: "Serial number",
+        },
+      },
+      aboutDivider: {
+        component: "divider",
+        layout: {
+          margin: "0 -24px",
         },
       },
       about: {
-        component: "block-plain",
+        component: "button-text",
         layout: {
           flexPlacement: {
             alignSelf: "center",
           },
         },
-        parameters: {
-          title: config.summary.aboutTitle,
+        config: {
+          text: "About your Kompakt",
+          icon: "phone-about",
+          action: {
+            type: "navigate",
+            viewKey: "mc-overview/mc-about",
+          },
         },
       },
     }),
@@ -235,7 +250,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     update: {
       component: "block-box",
       config: {
-        title: "MuditaOS",
+        title: "Android OS",
       },
       layout: {
         gridPlacement: {
@@ -252,11 +267,24 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           justifyContent: "space-between",
         },
       },
+      childrenKeys: ["version"],
+    },
+    version: {
+      component: "overview-os-version",
+      config: {
+        versionLabel: "Current version:",
+      },
     },
   }
 }
 
 export const mcOverviewDemoData = {
+  "device-image": {
+    src: kompaktImg,
+  },
+  "serial-number": {
+    text: "6XJMD87764MAXA",
+  },
   battery: {
     icon: "battery-1",
     title: "60 %",
@@ -265,6 +293,14 @@ export const mcOverviewDemoData = {
   connection: {
     icon: "network-signal-2",
     title: "Network",
-    // text: "Network name",
+    text: "Network name",
+  },
+  version: {
+    version: "Android 13",
+    update: {
+      available: true,
+      text: "Update available (Android 14)",
+      actionLabel: "You can update it on your device",
+    },
   },
 }

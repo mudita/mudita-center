@@ -16,10 +16,10 @@ import Tethering from "Core/__deprecated__/renderer/modules/tethering/tethering.
 import {
   URL_MAIN,
   URL_ONBOARDING,
-  URL_TABS,
   URL_OVERVIEW,
   URL_DISCOVERY_DEVICE,
   URL_DEVICE_INITIALIZATION,
+  URL_TABS,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Playlist from "Core/__deprecated__/renderer/modules/music/tabs/playlist.component"
 import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
@@ -35,6 +35,9 @@ import {
   NotificationsContainer,
   BackupContainer,
   AudioConversionContainer,
+  AudioConversionContainer,
+  BackupContainer,
+  NotificationsContainer,
 } from "Core/settings/components"
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
@@ -96,6 +99,10 @@ export default () => (
           <Route
             path={"/generic/api-connection-demo"}
             component={APIConnectionDemo}
+          />
+          <Route
+            path={"/generic/:viewKey/:subviewKey"}
+            component={GenericView}
           />
           <Route path={"/generic/:viewKey"} component={GenericView} />
           <Route path={URL_MAIN.filesManager} component={FilesManager} />

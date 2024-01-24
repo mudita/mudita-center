@@ -12,15 +12,17 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import styled from "styled-components"
+import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { useSelector, useDispatch } from "react-redux"
-import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
-import { useHistory } from "react-router-dom"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { useHistory } from "react-router-dom"
+import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
+import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 
@@ -53,6 +55,9 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const history = useHistory()
   const devices = useSelector(getDevicesSelector)
   const dispatch = useDispatch<Dispatch>()
+  const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
+  const deviceInitialized =
+    deviceInitializationStatus === DeviceInitializationStatus.Initialized
 
   const handleSelectDeviceClick = () => {
     history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
@@ -112,6 +117,17 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
       )}
       {isSelectDevice && SelectDeviceButton}
       {isChangeDevice && ChangeDeviceButton}
+      {!deviceInitialized && devices.length > 0 && (
+        <DeviceButtonWrapper>
+          <DeviceButton
+            label="Select Device"
+            displayStyle={DisplayStyle.BorderlessButton}
+            Icon={IconType.DotsInBox}
+            iconBadgeCountIndicator={devices.length}
+            onClick={handleSelectDeviceClick}
+          />
+        </DeviceButtonWrapper>
+      )}
     </>
   )
 }

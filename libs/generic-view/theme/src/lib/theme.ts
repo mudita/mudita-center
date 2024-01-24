@@ -8,6 +8,7 @@ import { fontSize } from "./font-size"
 import { radius } from "./radius"
 import { space } from "./space"
 import { lineHeight } from "./line-height"
+import { fontWeight } from "./font-weight"
 
 export const theme = {
   color,
@@ -15,6 +16,7 @@ export const theme = {
   space,
   fontSize,
   lineHeight,
+  fontWeight,
 } as const
 
 export type Theme = typeof theme

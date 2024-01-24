@@ -5,3 +5,5 @@
 
 export * from "./lib/mc-calendar"
 export * from "./lib/mc-overview"
+export * from "./lib/mc-about"
+export * from "./lib/mc-demo"

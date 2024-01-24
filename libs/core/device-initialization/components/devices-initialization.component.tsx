@@ -43,7 +43,7 @@ const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const history = useHistory()
 
   useEffect(() => {
-    history.push(`generic/mc-overview`)
+    history.push(`generic/mc-overview`);
 
     dispatch(
       setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)

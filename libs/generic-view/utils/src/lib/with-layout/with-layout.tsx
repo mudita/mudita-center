@@ -18,7 +18,7 @@ export const withLayout = <P extends object>(
     const { viewKey, componentKey } = props
     const layout = useSelector(
       (state: ReduxRootState) =>
-        state.genericViews.views?.[viewKey].layout?.[componentKey]?.layout
+        state.genericViews.views?.[viewKey]?.layout?.[componentKey]?.layout
     )
     if (layout) {
       return (

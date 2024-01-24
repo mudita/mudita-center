@@ -5,12 +5,20 @@
 
 import { blocks } from "./lib/blocks/blocks"
 import { rows } from "./lib/data-rows/data-rows"
-import { predefinedComponents } from "./lib/overview-predefined/overview-predefined"
+import { predefinedComponents } from "./lib/predefined/overview-predefined"
+import { helpers } from "./lib/helpers/helpers"
+import { interactive } from "./lib/interactive/interactive"
+import { buttons } from "./lib/buttons/buttons"
+
+export { default as Icon } from "./lib/icon/icon"
 
 const apiComponents = {
   ...predefinedComponents,
   ...blocks,
   ...rows,
+  ...helpers,
+  ...interactive,
+  ...buttons,
 }
 
 export default apiComponents
