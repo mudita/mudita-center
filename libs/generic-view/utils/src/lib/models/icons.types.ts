@@ -23,5 +23,5 @@ export enum IconType {
   AirplaneMode = "airplane-mode",
   Overview = "overview",
   Close = "close",
-  PhoneAbout = "phone-about",
+  Device = "device",
 }
