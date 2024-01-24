@@ -19,7 +19,6 @@ import {
 } from "Core/core/styles/theming/theme-getters"
 import { Link } from "react-router-dom"
 import { defineMessages } from "react-intl"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"

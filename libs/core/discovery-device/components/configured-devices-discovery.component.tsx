@@ -38,8 +38,6 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     useState<boolean>(false)
 
   useEffect(() => {
-    console.log(devices, failedDevices, availableDevices)
-
     if (
       devices.length === 1 &&
       failedDevices.length === 1 &&
@@ -61,6 +59,8 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     ) {
       void handleDeviceActivation()
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     history,
     dispatch,
