@@ -20,7 +20,7 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { CaseColour, DeviceType } from "Core/device"
+import { DeviceType } from "Core/device"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 

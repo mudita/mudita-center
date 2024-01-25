@@ -110,21 +110,19 @@ const DeviceSelectDrawer: FunctionComponent = () => {
             />
           </Header>
           <DevicesContainer>
-            {[...devices, ...devices].map(
-              ({ caseColour, deviceType, id, serialNumber }) => (
-                <DrawerDevice
-                  key={id}
-                  deviceId={id}
-                  activeDeviceId={activeDeviceId}
-                  serialNumber={serialNumber}
-                  caseColour={caseColour}
-                  deviceType={deviceType}
-                  onClick={() => {
-                    handleDrawerDeviceClick(id)
-                  }}
-                />
-              )
-            )}
+            {devices.map(({ caseColour, deviceType, id, serialNumber }) => (
+              <DrawerDevice
+                key={id}
+                deviceId={id}
+                activeDeviceId={activeDeviceId}
+                serialNumber={serialNumber}
+                caseColour={caseColour}
+                deviceType={deviceType}
+                onClick={() => {
+                  handleDrawerDeviceClick(id)
+                }}
+              />
+            ))}
           </DevicesContainer>
         </DrawerChildrenContainer>
       </Drawer>

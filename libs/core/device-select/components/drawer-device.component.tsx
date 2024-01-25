@@ -22,6 +22,7 @@ import { DeviceType } from "Core/device"
 import { CaseColour } from "Core/device/constants"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 
 const Device = styled("div")<{ active: boolean }>`
   padding: 1.8rem 2.4rem 1.8rem 1rem;
@@ -122,6 +123,8 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
   deviceType,
   onClick,
 }) => {
+  const serialNumberValue = getSerialNumberValue(serialNumber)
+
   return (
     <Device
       active={deviceId == activeDeviceId}
@@ -139,7 +142,7 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
             {deviceId === activeDeviceId && <ActiveDot />}
           </DeviceName>
 
-          {serialNumber && (
+          {serialNumberValue && (
             <>
               <Text
                 displayStyle={TextDisplayStyle.Paragraph4}
@@ -150,7 +153,7 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
                 })}
               </Text>
               <Text displayStyle={TextDisplayStyle.Paragraph1}>
-                {serialNumber}
+                {serialNumberValue}
               </Text>
             </>
           )}
