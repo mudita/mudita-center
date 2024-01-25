@@ -27,7 +27,7 @@ interface IconTextRowData {
 
 type TileListFieldData = IconTextRowData
 
-type TileListData = Record<string, TileListFieldData>
+export type TileListData = Record<string, TileListFieldData>
 
 type OverviewSectionsData = TileListData | UpdateTileData
 

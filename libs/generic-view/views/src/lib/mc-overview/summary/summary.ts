@@ -4,9 +4,17 @@
  */
 
 import { Subview, ViewGenerator } from "generic-view/utils"
-import { OverviewConfig } from "device/models"
+import { OverviewConfig, OverviewData } from "device/models"
+import { kompaktImg } from "Root/demo-data/kompakt-img"
 
 type OverviewSummaryConfig = OverviewConfig["summary"]
+
+enum SummaryKeys {
+  Image = "summary-img",
+  SerialNumber = "summary-serial-number",
+  AboutDivider = "summary-about-divider",
+  About = "summary-about",
+}
 
 export const generateMcOverviewSummaryLayout: ViewGenerator<
   OverviewSummaryConfig,
@@ -16,7 +24,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
 
   const image: Subview = config.showImg
     ? {
-        "mc-overview-summary-img": {
+        [SummaryKeys.Image]: {
           component: "image",
           layout: {
             flexPlacement: {
@@ -24,61 +32,67 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
             },
             padding: "16px 27px",
           },
-        },
-      }
-    : undefined
-
-  const serialNumber: Subview = config.showSerialNumber
-    ? {
-        "mc-overview-summary-serial-number": {
-          component: "labeled-text",
-          layout: {
-            flexPlacement: {
-              alignSelf: "center",
-              grow: 1,
-            },
-            flexLayout: {
-              direction: "column",
-              rowGap: "8px",
-              alignItems: "center",
-            },
-          },
           config: {
-            label: config.serialNumberLabel,
+            // TODO: implement support for config.imgVariant
+            src: kompaktImg,
           },
         },
       }
     : undefined
 
-  const about: Subview = config.showAbout
-    ? {
-        "mc-overview-summary-about-divider": {
-          component: "divider",
-          layout: {
-            margin: "0 -24px",
-          },
-        },
-        "mc-overview-summary-about": {
-          component: "button-text",
-          layout: {
-            flexPlacement: {
-              alignSelf: "center",
+  const serialNumber: Subview =
+    config.showSerialNumber === false
+      ? undefined
+      : {
+          [SummaryKeys.SerialNumber]: {
+            component: "labeled-text",
+            layout: {
+              flexPlacement: {
+                alignSelf: "center",
+                grow: 1,
+              },
+              flexLayout: {
+                direction: "column",
+                rowGap: "8px",
+                alignItems: "center",
+              },
+            },
+            config: {
+              label: config.serialNumberLabel,
             },
           },
-          config: {
-            text: config.aboutTitle,
-            icon: config.aboutIcon,
-            action: {
-              type: "navigate",
-              viewKey: "mc-overview/mc-about",
+        }
+
+  const about: Subview =
+    config.showAbout === false
+      ? undefined
+      : {
+          [SummaryKeys.AboutDivider]: {
+            component: "divider",
+            layout: {
+              margin: "0 -24px",
             },
           },
-        },
-      }
-    : undefined
+          [SummaryKeys.About]: {
+            component: "button-text",
+            layout: {
+              flexPlacement: {
+                alignSelf: "center",
+              },
+            },
+            config: {
+              text: config.aboutTitle,
+              icon: config.aboutIcon,
+              action: {
+                type: "navigate",
+                viewKey: "mc-overview/mc-about",
+              },
+            },
+          },
+        }
 
   return {
-    "mc-overview-summary": {
+    summary: {
       component: "block-box",
       layout: {
         gridPlacement: {
@@ -93,15 +107,29 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
         },
       },
       childrenKeys: [
-        ...(image ? ["mc-overview-summary-img"] : []),
-        ...(serialNumber ? ["mc-overview-summary-serial-number"] : []),
-        ...(about
-          ? ["mc-overview-summary-about-divider", "mc-overview-summary-about"]
-          : []),
+        ...(image ? [SummaryKeys.Image] : []),
+        ...(serialNumber ? [SummaryKeys.SerialNumber] : []),
+        ...(about ? [SummaryKeys.AboutDivider, SummaryKeys.About] : []),
       ],
     },
     ...image,
     ...serialNumber,
     ...about,
+  }
+}
+
+export const generateMcOverviewSummaryData = (
+  data: OverviewData["summary"]
+) => {
+  const serialNumber = data?.about?.serialNumber
+    ? {
+        [SummaryKeys.SerialNumber]: {
+          text: data.about.serialNumber.text,
+        },
+      }
+    : undefined
+
+  return {
+    ...serialNumber,
   }
 }

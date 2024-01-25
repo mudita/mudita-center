@@ -6,7 +6,7 @@
 import { generateMcOverviewSummaryLayout } from "./summary"
 
 describe("generateMcOverviewSummaryLayout", () => {
-  it("returns undefined when config.show is false", () => {
+  it("should return undefined when config.show is false", () => {
     const config = { show: false }
     const result = generateMcOverviewSummaryLayout(config)
     expect(result).toBeUndefined()
@@ -17,7 +17,7 @@ describe("generateMcOverviewSummaryLayout", () => {
       show: true,
     }
     const result = generateMcOverviewSummaryLayout(config)
-    expect(result).toHaveProperty("mc-overview-summary")
+    expect(result).toHaveProperty("summary")
   })
 
   it("returns image layout key properly", () => {
@@ -26,10 +26,8 @@ describe("generateMcOverviewSummaryLayout", () => {
       showImg: true,
     }
     const result = generateMcOverviewSummaryLayout(config)
-    expect(result).toHaveProperty("mc-overview-summary-img")
-    expect(result?.["mc-overview-summary"].childrenKeys).toContain(
-      "mc-overview-summary-img"
-    )
+    expect(result).toHaveProperty("summary-img")
+    expect(result?.["summary"].childrenKeys).toContain("summary-img")
   })
 
   it("returns serial number layout key properly", () => {
@@ -38,10 +36,8 @@ describe("generateMcOverviewSummaryLayout", () => {
       showSerialNumber: true,
     }
     const result = generateMcOverviewSummaryLayout(config)
-    expect(result).toHaveProperty("mc-overview-summary-serial-number")
-    expect(result?.["mc-overview-summary"].childrenKeys).toContain(
-      "mc-overview-summary-serial-number"
-    )
+    expect(result).toHaveProperty("summary-serial-number")
+    expect(result?.["summary"].childrenKeys).toContain("summary-serial-number")
   })
 
   it("returns about layout key properly", () => {
@@ -50,13 +46,9 @@ describe("generateMcOverviewSummaryLayout", () => {
       showAbout: true,
     }
     const result = generateMcOverviewSummaryLayout(config)
-    expect(result).toHaveProperty("mc-overview-summary-about-divider")
-    expect(result).toHaveProperty("mc-overview-summary-about")
-    expect(result?.["mc-overview-summary"].childrenKeys).toContain(
-      "mc-overview-summary-about-divider"
-    )
-    expect(result?.["mc-overview-summary"].childrenKeys).toContain(
-      "mc-overview-summary-about"
-    )
+    expect(result).toHaveProperty("summary-about-divider")
+    expect(result).toHaveProperty("summary-about")
+    expect(result?.["summary"].childrenKeys).toContain("summary-about-divider")
+    expect(result?.["summary"].childrenKeys).toContain("summary-about")
   })
 })

@@ -44,14 +44,17 @@ interface IconTextRowConfig {
 
 type TileListFieldConfig = IconTextRowConfig
 
-interface TileListConfig {
+export interface TileListConfig {
   title?: string
   type: "tile-list"
   dataKey: string
   fields: Array<TileListFieldConfig>
 }
 
-type OverviewSectionsConfig = TileListConfig | UpdateTileConfig | DataSyncKey
+type OverviewSectionsConfig =
+  | TileListConfig
+  | UpdateTileConfig
+  | DataSyncTileConfig
 
 export interface OverviewConfig {
   title: string
@@ -66,6 +69,7 @@ export interface OverviewConfig {
     aboutSubtitle?: string
     aboutIcon?: IconType
     aboutFields?: Array<DetailListFieldConfig> //default []
+    sections?: Array<OverviewSectionsConfig> //default []
   }
   sections?: Array<OverviewSectionsConfig> //default []
 }

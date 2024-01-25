@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { APIFC, withData } from "generic-view/utils"
+import { APIFC, withConfig, withData } from "generic-view/utils"
 import React from "react"
 
 interface Data {
@@ -11,8 +11,10 @@ interface Data {
   alt?: string
 }
 
-export const Image: APIFC<Data> = ({ data }) => {
-  return <img src={data?.src} alt={data?.alt} />
+export const Image: APIFC<Data, Data> = ({ data, config }) => {
+  const { src, alt } = data || config || {}
+  if (!src) return null
+  return <img src={src} alt={alt} />
 }
 
-export default withData(Image)
+export default withConfig(withData(Image))
