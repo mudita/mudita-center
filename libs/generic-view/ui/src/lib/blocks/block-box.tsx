@@ -5,13 +5,18 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, withConfig } from "generic-view/utils"
+import { APIFC, withConfig, withData } from "generic-view/utils"
+import { Badge } from "../data-rows/badge"
+
+interface Data {
+  badgeText?: string
+}
 
 interface BlockBoxParameters {
   title?: string
 }
 
-const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
+const BlockBox: APIFC<Data, BlockBoxParameters> = ({
   config,
   data,
   children,
@@ -19,13 +24,20 @@ const BlockBox: APIFC<undefined, BlockBoxParameters> = ({
 }) => {
   return (
     <Block {...props}>
-      {config?.title && <Headline>{config.title}</Headline>}
+      {config?.title && (
+        <Headline>
+          {config.title}
+          {data?.badgeText && (
+            <HeadlineBadge data={{ variant: "dark", text: data.badgeText }} />
+          )}
+        </Headline>
+      )}
       {children}
     </Block>
   )
 }
 
-export default withConfig(BlockBox)
+export default withData(withConfig(BlockBox))
 
 const Block = styled.div`
   background-color: ${({ theme }) => theme.color.white};
@@ -36,6 +48,13 @@ const Block = styled.div`
 
 const Headline = styled.h3`
   margin: 0 0 1.2rem 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-size: ${({ theme }) => theme.fontSize.headline3};
   line-height: ${({ theme }) => theme.lineHeight.headline3};
+`
+
+const HeadlineBadge = styled(Badge)`
+  margin-left: ${({ theme }) => theme.space.lg};
 `
