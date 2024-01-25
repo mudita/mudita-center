@@ -44,6 +44,7 @@ const IconTextWrapper = styled.div`
   flex-direction: row;
   gap: 1.6rem;
   flex: 0;
+  min-height: 4.4rem;
   height: 4.4rem;
   align-items: center;
 `

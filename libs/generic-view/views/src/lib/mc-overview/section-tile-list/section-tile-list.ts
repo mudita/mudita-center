@@ -3,13 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { TileListConfig, TileListData } from "device/models"
+import { TileListConfig } from "device/models"
 import { Subview, ViewGenerator } from "generic-view/utils"
 
-type OverviewTileListConfig = TileListConfig
-
 export const generateMcOverviewTileListLayout: ViewGenerator<
-  OverviewTileListConfig,
+  TileListConfig,
   Subview
 > = (config) => {
   return {
@@ -27,7 +25,7 @@ export const generateMcOverviewTileListLayout: ViewGenerator<
         },
         flexLayout: {
           direction: "column",
-          rowGap: "10px",
+          rowGap: "16px",
         },
       },
       childrenKeys: config.fields.map((field) => field.dataKey),
@@ -39,70 +37,4 @@ export const generateMcOverviewTileListLayout: ViewGenerator<
       return acc
     }, {} as NonNullable<Subview>),
   }
-}
-
-export const generateMcOverviewTileListData = (data: TileListData) => {
-  return data
-}
-
-const config = {
-  status: {
-    component: "block-box",
-    config: {
-      title: "Status",
-    },
-    layout: {
-      gridPlacement: {
-        row: 1,
-        column: 2,
-        width: 1,
-        height: 1,
-      },
-      flexLayout: {
-        direction: "column",
-        rowGap: "10px",
-      },
-    },
-
-    childrenKeys: ["battery", "connection"],
-  },
-  battery: {
-    component: "icon-text",
-  },
-  connection: {
-    component: "icon-text",
-    layout: {
-      flexPlacement: {
-        grow: 1,
-      },
-    },
-  },
-  update: {
-    component: "block-box",
-    config: {
-      title: "Android OS",
-    },
-    layout: {
-      gridPlacement: {
-        row: 2,
-        column: 2,
-        width: 1,
-        height: 1,
-      },
-      flexPlacement: {
-        grow: 1,
-      },
-      flexLayout: {
-        direction: "column",
-        justifyContent: "space-between",
-      },
-    },
-    childrenKeys: ["version"],
-  },
-  version: {
-    component: "overview-os-version",
-    config: {
-      versionLabel: "Current version:",
-    },
-  },
 }

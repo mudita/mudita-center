@@ -9,11 +9,11 @@ import { APIFC, withData } from "generic-view/utils"
 import Markdown from "react-markdown"
 
 interface Data {
-  content: string
+  text: string
 }
 
 const TextFormatted: APIFC<Data> = ({ data }) => {
-  return <Content>{data?.content}</Content>
+  return <Content>{data?.text}</Content>
 }
 
 export default withData(TextFormatted)
@@ -86,7 +86,7 @@ const Content = styled(Markdown)`
   li {
     font-size: ${({ theme }) => theme.fontSize.paragraph3};
     line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.color.grey1};
     font-weight: ${({ theme }) => theme.fontWeight.light};
     letter-spacing: 0.05em;
     margin-top: 0;
@@ -94,6 +94,7 @@ const Content = styled(Markdown)`
 
     strong {
       font-weight: ${({ theme }) => theme.fontWeight.bold};
+      color: ${({ theme }) => theme.color.black};
     }
   }
 
@@ -115,7 +116,7 @@ const Content = styled(Markdown)`
   ol,
   ul {
     list-style: none;
-    margin: 0;
+    margin-top: 0;
     padding: 0 0 0 2.2rem;
 
     li {
@@ -151,7 +152,7 @@ const Content = styled(Markdown)`
 
   blockquote {
     padding: 0;
-    margin: 0;
+    margin: 1rem 0;
 
     p {
       font-size: ${({ theme }) => theme.fontSize.headline5};

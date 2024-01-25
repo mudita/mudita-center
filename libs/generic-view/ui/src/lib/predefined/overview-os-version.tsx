@@ -10,19 +10,19 @@ import { Tag } from "../shared/tag"
 
 interface Config {
   versionLabel?: string
+  showBadge?: boolean
 }
 
 interface Data {
   version?: string
-  update:
+  badgeText?: string
+  update?:
     | {
         available?: boolean
-        text?: undefined
         actionLabel?: undefined
       }
     | {
         available: true
-        text: string
         actionLabel: string
       }
 }
@@ -35,8 +35,8 @@ const OverviewOsVersion: APIFC<Data, Config> = ({ config, data, ...props }) => {
       )}
       <VersionInfo>
         {data?.version && <Version>{data.version}</Version>}
-        {data?.update.available && <Tag>{data.update.text}</Tag>}
-        {data?.update.available && (
+        {config?.showBadge && <Tag>{data?.badgeText}</Tag>}
+        {data?.update?.available && (
           <ActionLabel>{data.update.actionLabel}</ActionLabel>
         )}
       </VersionInfo>
@@ -71,6 +71,11 @@ const Version = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
   line-height: ${({ theme }) => theme.lineHeight.paragraph1};
   margin: 0;
+  text-transform: lowercase;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
 `
 
 const ActionLabel = styled.p`

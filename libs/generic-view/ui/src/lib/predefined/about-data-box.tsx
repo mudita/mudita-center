@@ -12,10 +12,10 @@ interface Config {
 }
 
 interface Data {
-  value?: string
+  text?: string
 }
 
-const AboutDataBox: APIFC<Data, Config> = ({
+export const AboutDataBox: APIFC<Data, Config> = ({
   data,
   config,
   children,
@@ -24,8 +24,7 @@ const AboutDataBox: APIFC<Data, Config> = ({
   return (
     <Wrapper {...props}>
       <Title>{config?.title}</Title>
-      {data?.value && <Value>{data?.value}</Value>}
-      {children}
+      {children || (data?.text && <Value>{data?.text}</Value>)}
     </Wrapper>
   )
 }

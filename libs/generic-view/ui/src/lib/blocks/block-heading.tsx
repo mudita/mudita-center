@@ -9,14 +9,14 @@ import { APIFC, withConfig } from "generic-view/utils"
 
 interface Config {
   heading: string
-  subheading: string
+  subheading?: string
 }
 
 const BlockHeading: APIFC<undefined, Config> = ({ config, data, ...props }) => {
   return (
     <div {...props}>
       <Header>{config?.heading}</Header>
-      <Subheader>{config?.subheading}</Subheader>
+      {config?.subheading && <Subheader>{config?.subheading}</Subheader>}
     </div>
   )
 }

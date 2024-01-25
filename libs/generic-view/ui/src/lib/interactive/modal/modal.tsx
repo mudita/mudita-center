@@ -57,9 +57,9 @@ export const Modal: BaseGenericComponent<
       closeTimeoutMS={400}
     >
       <ModalHeader $active={contentScrolled}>
-        <ButtonBase action={closeAction} test-id={"close-button"}>
-          <ModalClose data={{ type: IconType.Close }} />
-        </ButtonBase>
+        <ModalClose action={closeAction} test-id={"close-button"}>
+          <CloseIcon data={{ type: IconType.Close }} />
+        </ModalClose>
       </ModalHeader>
       <ScrollContainer onScroll={handleScroll}>{children}</ScrollContainer>
     </ReactModal>
@@ -82,8 +82,18 @@ const ModalHeader = styled.header<{ $active: boolean }>`
   ${({ $active }) => $active && headerWhileScrollingStyles};
 `
 
-const ModalClose = styled(Icon)`
+const ModalClose = styled(ButtonBase)`
+  width: 3.2rem;
+  height: 3.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const CloseIcon = styled(Icon)`
   cursor: pointer;
+  width: 1.6rem;
+  height: 1.6rem;
 `
 
 const ScrollContainer = styled.div`

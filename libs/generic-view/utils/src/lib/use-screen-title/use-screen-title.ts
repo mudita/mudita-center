@@ -8,9 +8,14 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { createSelector } from "reselect"
 
 const screenTitleSelector = createSelector(
-  (state: ReduxRootState) => state.genericViews?.views,
+  (state: ReduxRootState) => state.genericViews.activeDevice,
+  (state: ReduxRootState) => state.genericViews.devicesConfiguration,
   (state: ReduxRootState, viewKey: string) => viewKey,
-  (views, viewKey) => views?.[viewKey]?.layout?.main?.screenTitle
+  (activeDevice, devices, viewKey) => {
+    const features = devices[activeDevice as keyof typeof devices]?.features
+    return features?.[viewKey as keyof typeof features]?.config?.main
+      .screenTitle
+  }
 )
 
 export const useScreenTitle = (viewKey: string) => {

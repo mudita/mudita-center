@@ -13,12 +13,23 @@ interface Props {
 }
 
 export const GenericModals: FunctionComponent<Props> = ({ viewKey }) => {
-  const { views } = useSelector((state: ReduxRootState) => state.genericViews)
+  const devicesConfiguration = useSelector(
+    (state: ReduxRootState) => state.genericViews.devicesConfiguration
+  )
+  const activeDevice = useSelector(
+    (state: ReduxRootState) => state.genericViews.activeDevice
+  )
 
-  // const modalsToRender = Object.entries(views[viewKey].layout)
-  //   .filter(([, { component }]) => component === "modal")
-  //   .map(([key]) => key)
-  const modalsToRender: string[] = []
+  if (!activeDevice) {
+    return null
+  }
+  const features = devicesConfiguration[activeDevice].features || {}
+
+  const modalsToRender = Object.entries(
+    features[viewKey as keyof typeof features]?.config || {}
+  )
+    .filter(([, { component }]) => component === "modal")
+    .map(([key]) => key)
   return (
     <>
       {modalsToRender.map((modalKey) => {

@@ -35,7 +35,7 @@ const Block = styled.div`
 `
 
 const Headline = styled.h3`
-  margin: 0;
+  margin: 0 0 1.2rem 0;
   font-size: ${({ theme }) => theme.fontSize.headline3};
   line-height: ${({ theme }) => theme.lineHeight.headline3};
 `

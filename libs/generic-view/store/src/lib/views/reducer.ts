@@ -30,6 +30,10 @@ interface DeviceConfiguration {
       config?: View
       data?: OverviewData
     }
+    "mc-about"?: {
+      config?: View
+      data?: OverviewData
+    }
   }
 }
 
@@ -95,8 +99,18 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
           config:
             state.devicesConfiguration[deviceId].features?.["mc-overview"]
               ?.config,
-          data: action.payload.data,
+          data: action.payload.overviewData,
         },
+        ...(action.payload.aboutData
+          ? {
+              "mc-about": {
+                config:
+                  state.devicesConfiguration[deviceId].features?.["mc-about"]
+                    ?.config,
+                data: action.payload.aboutData,
+              },
+            }
+          : {}),
       }
     }
   })
@@ -107,10 +121,20 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       state.devicesConfiguration[deviceId].features = {
         ...state.devicesConfiguration[deviceId].features,
         "mc-overview": {
-          config: action.payload.config,
+          config: action.payload.overviewConfig,
           data: state.devicesConfiguration[deviceId].features?.["mc-overview"]
             ?.data,
         },
+        ...(action.payload.aboutConfig
+          ? {
+              "mc-about": {
+                config: action.payload.aboutConfig,
+                data: state.devicesConfiguration[deviceId].features?.[
+                  "mc-about"
+                ]?.data,
+              },
+            }
+          : {}),
       }
     }
   })

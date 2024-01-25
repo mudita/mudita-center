@@ -8,11 +8,11 @@ import styled from "styled-components"
 import { APIFC, withData } from "generic-view/utils"
 
 interface Data {
-  content: string
+  text: string
 }
 
 const TextPlain: APIFC<Data> = ({ data }) => {
-  return <Paragraph>{data?.content}</Paragraph>
+  return <Paragraph>{data?.text}</Paragraph>
 }
 
 export default withData(TextPlain)
