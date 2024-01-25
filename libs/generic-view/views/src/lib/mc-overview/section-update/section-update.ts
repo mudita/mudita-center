@@ -50,16 +50,16 @@ export const generateMcOverviewUpdateData = (
   data: OverviewData["sections"],
   config?: View
 ) => {
-  console.log(data, config)
   const updateKey = Object.entries(config || {}).find(([key, item]) => {
     return (
       item.component === "block-box" &&
       item.childrenKeys?.includes(key + UpdateKeys.OSVersion)
     )
   })?.[0]
-  console.log(updateKey)
+  const newData = { ...data }
+  delete newData?.[updateKey as keyof typeof data]
   return {
-    ...data,
+    ...newData,
     [updateKey + UpdateKeys.OSVersion]: data?.[updateKey as keyof typeof data],
   }
 }
