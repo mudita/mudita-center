@@ -36,6 +36,15 @@ const messages = defineMessages({
   changeDevice: { id: "component.deviceSelection.changeDevice" },
 })
 
+//bugfix for CP-2453
+//resizing window vertically is not smooth, it has delay which comes from trasition delay
+//adding another transition to inner drawer class helps for it
+const DrawerWrapper = styled("div")`
+  .EZDrawer .EZDrawer__checkbox:checked ~ .EZDrawer__container {
+    transition: transform 500ms;
+  }
+`
+
 const DrawerChildrenContainer = styled("div")`
   padding: 1.3rem 1.8rem 1.3rem 1.8rem;
   overflow: hidden;
@@ -79,43 +88,47 @@ const DeviceSelectDrawer: FunctionComponent = () => {
   }
 
   return (
-    <Drawer
-      open={isOpen}
-      onClose={() => {
-        dispatch(setSelectDeviceDrawerOpen(false))
-      }}
-      direction="right"
-      size="36.9rem"
-    >
-      <DrawerChildrenContainer>
-        <Header>
-          <Text
-            displayStyle={TextDisplayStyle.Headline4}
-            message={messages.changeDevice}
-          />
-          <Close
-            displayStyle={DisplayStyle.IconOnly}
-            onClick={() => dispatch(setSelectDeviceDrawerOpen(false))}
-            Icon={IconType.Close}
-          />
-        </Header>
-        <DevicesContainer>
-          {devices.map(({ caseColour, deviceType, id, serialNumber }) => (
-            <DrawerDevice
-              key={id}
-              deviceId={id}
-              activeDeviceId={activeDeviceId}
-              serialNumber={serialNumber}
-              caseColour={caseColour}
-              deviceType={deviceType}
-              onClick={() => {
-                handleDrawerDeviceClick(id)
-              }}
+    <DrawerWrapper>
+      <Drawer
+        open={isOpen}
+        onClose={() => {
+          dispatch(setSelectDeviceDrawerOpen(false))
+        }}
+        direction="right"
+        size="36.9rem"
+      >
+        <DrawerChildrenContainer>
+          <Header>
+            <Text
+              displayStyle={TextDisplayStyle.Headline4}
+              message={messages.changeDevice}
             />
-          ))}
-        </DevicesContainer>
-      </DrawerChildrenContainer>
-    </Drawer>
+            <Close
+              displayStyle={DisplayStyle.IconOnly}
+              onClick={() => dispatch(setSelectDeviceDrawerOpen(false))}
+              Icon={IconType.Close}
+            />
+          </Header>
+          <DevicesContainer>
+            {[...devices, ...devices].map(
+              ({ caseColour, deviceType, id, serialNumber }) => (
+                <DrawerDevice
+                  key={id}
+                  deviceId={id}
+                  activeDeviceId={activeDeviceId}
+                  serialNumber={serialNumber}
+                  caseColour={caseColour}
+                  deviceType={deviceType}
+                  onClick={() => {
+                    handleDrawerDeviceClick(id)
+                  }}
+                />
+              )
+            )}
+          </DevicesContainer>
+        </DrawerChildrenContainer>
+      </Drawer>
+    </DrawerWrapper>
   )
 }
 
