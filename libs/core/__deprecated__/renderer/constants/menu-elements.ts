@@ -162,7 +162,11 @@ export const baseMenuElements: MenuElement[] = [
       {
         button: views[View.News],
         icon: IconType.MenuNews,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+        visibleOn: [
+          DeviceType.MuditaPure,
+          DeviceType.MuditaHarmony,
+          DeviceType.APIDevice,
+        ],
       },
     ],
     viewKey: View.News,
