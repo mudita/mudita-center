@@ -22,7 +22,6 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "Core/core/types/request-response.interface"
-import logger from "Core/__deprecated__/main/utils/logger"
 import { ResultObject } from "Core/core/builder"
 
 export class ContactService {
