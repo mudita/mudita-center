@@ -142,21 +142,16 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
             {deviceId === activeDeviceId && <ActiveDot />}
           </DeviceName>
 
-          {serialNumberValue && (
-            <>
-              <Text
-                displayStyle={TextDisplayStyle.Paragraph4}
-                color="secondary"
-              >
-                {intl.formatMessage({
-                  id: "module.availableDeviceList.serialNumber",
-                })}
-              </Text>
-              <Text displayStyle={TextDisplayStyle.Paragraph1}>
-                {serialNumberValue}
-              </Text>
-            </>
-          )}
+          <>
+            <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+              {intl.formatMessage({
+                id: "module.availableDeviceList.serialNumber",
+              })}
+            </Text>
+            <Text displayStyle={TextDisplayStyle.Paragraph1}>
+              {serialNumber}
+            </Text>
+          </>
         </DeviceDetails>
       </DeviceDetailsWrapper>
     </Device>
