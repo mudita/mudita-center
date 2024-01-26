@@ -27,6 +27,8 @@ import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 const Device = styled("div")<{ active: boolean }>`
   padding: 1.8rem 2.4rem 1.8rem 1rem;
   display: flex;
+  min-width: 27.2rem;
+  max-width: 27.2rem;
 
   &:hover {
     background: ${backgroundColor("main")};
