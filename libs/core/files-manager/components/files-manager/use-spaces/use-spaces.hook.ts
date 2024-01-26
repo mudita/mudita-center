@@ -18,16 +18,16 @@ const useSpaces = (files: File[] | null, memorySpace: MemorySpace, loading: Stat
     freeSpace,
     totalMemorySpace,
     usedMemorySpace,
-    otherSpace: noFixOtherSpace,
+    otherSpace: notFixedOtherSpace,
     musicSpace,
   } = getSpaces(files, memorySpace);
 
   useEffect(() => {
     if (!rendered.current && loading === State.Loaded) {
       rendered.current = true;
-      setOtherSpace(noFixOtherSpace);
+      setOtherSpace(notFixedOtherSpace);
     }
-  }, [noFixOtherSpace, loading, rendered]);
+  }, [notFixedOtherSpace, loading, rendered]);
 
   return {
     reservedSpace,
