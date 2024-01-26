@@ -17,7 +17,7 @@ export const Badge: APIFC<Data> = ({ data, config, ...props }) => {
   if (!data) return null
   return (
     <BadgeWrapper {...props} variant={data?.variant || "light"}>
-      Lorem ipsum
+      {data.text}
     </BadgeWrapper>
   )
 }
