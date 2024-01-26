@@ -5,37 +5,33 @@
 
 import { useEffect, useRef, useState } from "react"
 import { MemorySpace } from "Core/files-manager/components/files-manager/files-manager.interface"
-import { getSpaces} from "Core/files-manager/components/files-manager/use-spaces/get-spaces.helper"
+import { getSpaces } from "Core/files-manager/components/files-manager/use-spaces/get-spaces.helper"
 import { State } from "Core/core/constants"
 import { File } from "Core/files-manager/dto"
 import { Spaces } from "Core/files-manager/components/files-manager/use-spaces/spaces.interface"
 
-const useSpaces = (files: File[] | null, memorySpace: MemorySpace, loading: State): Spaces => {
-  const rendered = useRef<boolean>(false);
-  const [otherSpace, setOtherSpace] = useState<number>(0);
-  const {
-    reservedSpace,
-    freeSpace,
-    totalMemorySpace,
-    usedMemorySpace,
-    otherSpace: notFixedOtherSpace,
-    musicSpace,
-  } = getSpaces(files, memorySpace);
+const useSpaces = (
+  files: File[] | null,
+  memorySpace: MemorySpace,
+  loading: State
+): Spaces => {
+  const rendered = useRef<boolean>(false)
+  const [otherSpace, setOtherSpace] = useState<number>(0)
+  const { otherSpace: notFixedOtherSpace, ...spaces } = getSpaces(
+    files,
+    memorySpace
+  )
 
   useEffect(() => {
     if (!rendered.current && loading === State.Loaded) {
-      rendered.current = true;
-      setOtherSpace(notFixedOtherSpace);
+      rendered.current = true
+      setOtherSpace(notFixedOtherSpace)
     }
-  }, [notFixedOtherSpace, loading, rendered]);
+  }, [notFixedOtherSpace, loading, rendered])
 
   return {
-    reservedSpace,
-    freeSpace,
-    usedMemorySpace,
     otherSpace,
-    musicSpace,
-    totalMemorySpace,
+    ...spaces,
   }
 }
 
