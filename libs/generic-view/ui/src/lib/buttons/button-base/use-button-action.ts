@@ -9,8 +9,9 @@ import {
   closeModal,
   openModal,
   replaceModal,
+  useScreenTitle,
 } from "generic-view/store"
-import { ButtonAction, useScreenTitle } from "generic-view/utils"
+import { ButtonAction } from "generic-view/utils"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router"
 

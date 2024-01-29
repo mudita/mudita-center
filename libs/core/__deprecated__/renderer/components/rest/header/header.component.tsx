@@ -72,7 +72,6 @@ const Header: FunctionComponent<HeaderProps> = ({
     event.preventDefault()
     history.goBack()
   }
-  console.log(location)
   const previousViewName = location?.state?.previousViewName
 
   const genericMenu = useSelector(
