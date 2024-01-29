@@ -19,11 +19,13 @@ import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 
 const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
 
+const saveToStore = async (normalizeData: QuestionAndAnswer) =>
+  await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
+const getStoreData = async (key?: string) =>
+  await ipcRenderer.callMain(HelpActions.GetStore, key)
+
 const HelpApp: FunctionComponent = () => {
-  const saveToStore = async (normalizeData: QuestionAndAnswer) =>
-    await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
-  const getStoreData = async (key?: string) =>
-    await ipcRenderer.callMain(HelpActions.GetStore, key)
+
   const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
   const [searchInputValue, setSearchInputValue] = useState("")
   useEffect(() => {
