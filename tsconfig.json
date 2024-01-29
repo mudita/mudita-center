@@ -15,6 +15,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["./apps/mudita-center/src", "./libs"],
+  "include": ["./apps/mudita-center/src", "./libs", "preload.js"],
   "extends": "./tsconfig.base.json"
 }

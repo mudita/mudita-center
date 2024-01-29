@@ -132,6 +132,7 @@ const commonWindowOptions: BrowserWindowConstructorOptions = {
     // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
     //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
     contextIsolation: false,
+    preload: path.join(__dirname, "preload.js"),
   },
 }
 const getWindowOptions = (
@@ -203,20 +204,20 @@ const createWindow = async () => {
 
   const appModules = new ApplicationModule(ipcMain, win)
 
-  registerPureOsDownloadListener(registerDownloadListener)
-  registerOsUpdateAlreadyDownloadedCheck()
-  registerNewsListener()
-  registerAppLogsListeners()
-  registerContactsExportListener()
-  registerWriteFileListener()
-  registerCopyFileListener()
-  registerRmdirListener()
-  registerWriteGzipListener()
-  registerArchiveFilesListener()
-  registerMetadataAllGetValueListener()
-  registerMetadataGetValueListener()
-  registerMetadataSetValueListener()
-  registerExternalUsageDevice()
+  // registerPureOsDownloadListener(registerDownloadListener)
+  // registerOsUpdateAlreadyDownloadedCheck()
+  // registerNewsListener()
+  // registerAppLogsListeners()
+  // registerContactsExportListener()
+  // registerWriteFileListener()
+  // registerCopyFileListener()
+  // registerRmdirListener()
+  // registerWriteGzipListener()
+  // registerArchiveFilesListener()
+  // registerMetadataAllGetValueListener()
+  // registerMetadataGetValueListener()
+  // registerMetadataSetValueListener()
+  // registerExternalUsageDevice()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
