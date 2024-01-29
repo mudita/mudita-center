@@ -26,7 +26,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
   const summary = generateMcOverviewSummaryLayout(config.summary)
   const sections =
     config.sections?.map((section) => {
-      switch (section.type) {
+      switch (section?.type) {
         case "tile-list":
           return generateMcOverviewTileListLayout(section)
         case "mc-overview-update":
@@ -42,10 +42,13 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     layout: {
       padding: "32px",
       gridLayout: {
-        rows: sections.length === 3 ? ["auto", 1, 1] : ["auto", 1.1, 1],
+        rows:
+          sections.length === 3
+            ? ["auto", 1, 1]
+            : ["auto", "minmax(auto, 172px)", 1],
         columns: ["280px", 1],
         columnGap: "32px",
-        rowGap: "32px",
+        rowGap: sections.length === 3 ? "20px" : "32px",
       },
       flexPlacement: {
         grow: 1,
