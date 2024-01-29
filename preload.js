@@ -2,5 +2,6 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
+import logger from "Core/__deprecated__/main/utils/logger"
 
-console.log("running preload js")
+logger.info("running preload js")
