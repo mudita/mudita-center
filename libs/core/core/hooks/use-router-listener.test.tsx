@@ -25,6 +25,12 @@ jest.mock("react-redux", () => ({
   useDispatch: () => mockDispatch,
 }))
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+}));
+
 export function renderHookWithRouter<Result, Props>(
   render: (initialProps: Props) => Result,
   history: History
