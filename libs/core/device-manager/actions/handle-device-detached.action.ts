@@ -60,6 +60,7 @@ export const handleDeviceDetached = createAsyncThunk<
     await dispatch(deactivateDevice())
 
     if (devices.length > 1) {
+      dispatch(setSelectDeviceDrawerOpen(false))
       history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
     } else if (devices.length === 1) {
       history.push(URL_DISCOVERY_DEVICE.root)
