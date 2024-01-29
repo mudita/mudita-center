@@ -224,6 +224,8 @@ const createWindow = async () => {
     win.setMenuBarVisibility(false)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    const indexPath = path.join(__dirname, "index.html")
+    logger.info(`main - indexPath`, indexPath)
     win.loadURL(
       url.format({
         pathname: path.join(__dirname, "index.html"),
