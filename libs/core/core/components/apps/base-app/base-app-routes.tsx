@@ -42,8 +42,8 @@ import TemplatesContainer from "Core/templates/template.container"
 import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configured-devices-discovery.component"
 import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
-import { APIConnectionDemo } from "device/feature"
 import { GenericView } from "generic-view/feature"
+import { APIConnectionDemo } from "generic-view/ui"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

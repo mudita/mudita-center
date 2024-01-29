@@ -3,17 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ViewGenerator } from "generic-view/utils"
+import { IconType, ViewGenerator } from "generic-view/utils"
 import { kompaktImg } from "Root/demo-data/kompakt-img"
-
-export type IconType =
-  | "arrow"
-  | "ArrowLongLeft"
-  | "battery1"
-  | "no-signal"
-  | "lte"
-  | "device"
-  | "phone-about"
 
 interface DetailListTextConfig {
   key: string
@@ -79,7 +70,7 @@ export const mcOverviewConfig: OverviewConfig = {
     showSerialNumber: true,
     showAbout: true,
     aboutTitle: "About your device",
-    aboutIcon: "device",
+    aboutIcon: IconType.Battery1,
     aboutSubtitle: "Device details",
     aboutFields: [
       {

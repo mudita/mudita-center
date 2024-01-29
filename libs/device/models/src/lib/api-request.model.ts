@@ -9,6 +9,7 @@ const APIEndpoints = {
   FeatureData: "FEATURE_DATA",
   DataSynchronization: "DATA_SYNC",
   MenuConfiguration: "MENU_CONFIGURATION",
+  Outbox: "OUTBOX",
 } as const
 
 export type APIEndpointType = (typeof APIEndpoints)[keyof typeof APIEndpoints]
@@ -28,6 +29,7 @@ const APIRequests = {
   FEATURE_DATA: [APIMethods.GET],
   FEATURE_CONFIGURATION: [APIMethods.GET],
   API_CONFIGURATION: [APIMethods.GET],
+  OUTBOX: [APIMethods.GET],
 } as const
 
 interface APIRequestConfig<
