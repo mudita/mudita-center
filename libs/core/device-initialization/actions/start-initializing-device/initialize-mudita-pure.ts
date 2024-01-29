@@ -7,15 +7,7 @@ import { History } from "history"
 import { ThunkDispatch } from "@reduxjs/toolkit"
 import { Action } from "redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { unlockDeviceStatusRequest } from "Core/device/requests"
-import {
-  DeviceCommunicationError,
-  loadDeviceData,
-  PureDeviceData,
-  setCriticalBatteryLevelStatus,
-  setOnboardingStatus,
-  setUnlockedStatus,
-} from "Core/device"
+import { getUnlockStatus, loadDeviceData, PureDeviceData } from "Core/device"
 import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
@@ -47,28 +39,9 @@ export const initializeMuditaPure = async (
 ): Promise<void> => {
   await dispatch(loadSettings())
 
-  const unlockDeviceStatusResult = await unlockDeviceStatusRequest()
-
-  if (!unlockDeviceStatusResult.ok) {
-    const errorType = unlockDeviceStatusResult.error.type
-
-    // Handle Battery Critical Level as an initializing step
-    if (errorType === DeviceCommunicationError.BatteryCriticalLevel) {
-      dispatch(setCriticalBatteryLevelStatus(true))
-      return
-    }
-
-    // Handle EULA as an initializing step
-    if (errorType === DeviceCommunicationError.DeviceOnboardingNotFinished) {
-      dispatch(setOnboardingStatus(false))
-      return
-    }
-
-    // Handle PASSCODE as an initializing step
-    if (errorType === DeviceCommunicationError.DeviceLocked) {
-      dispatch(setUnlockedStatus(false))
-      return
-    }
+  const unlockStatus = await dispatch(getUnlockStatus())
+  if (!unlockStatus.payload) {
+    return
   }
 
   await dispatch(configureDevice(activeDeviceIdSelector(getState()) as string))
@@ -113,7 +86,7 @@ export const initializeMuditaPure = async (
 
   await dispatch(loadBackupData())
 
-  if(!isActiveDeviceAttachedSelector(getState())){
+  if (!isActiveDeviceAttachedSelector(getState())) {
     return
   }
 

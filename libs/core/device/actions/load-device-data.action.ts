@@ -11,7 +11,7 @@ import { DeviceInfo } from "Core/device-info/dto"
 import { getActiveDeviceTypeSelector } from "Core/device-manager/selectors/get-active-device-type.selector"
 import { DeviceState } from "Core/device/reducers"
 import { processDeviceDataOnLoad } from "Core/device/actions/process-device-data-on-load.action"
-import { processDeviceDataOnFailed } from "Core/device/actions/process-device-data-on-failed.action"
+import { handleCommunicationError } from "Core/device/actions/handle-communication-error.action"
 
 export const loadDeviceData = createAsyncThunk<
   DeviceInfo & Pick<DeviceState, "deviceType">,
@@ -33,7 +33,7 @@ export const loadDeviceData = createAsyncThunk<
         }
         return { ...data, deviceType: deviceType ?? null }
       } else {
-        await dispatch(processDeviceDataOnFailed(error))
+        await dispatch(handleCommunicationError(error))
         return rejectWithValue(error)
       }
     } catch (error) {
