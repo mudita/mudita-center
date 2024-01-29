@@ -29,19 +29,12 @@ export const useDiscoveryRedirectEffect = () => {
       return
     }
 
-    if (deviceListEmpty) {
-      return
-    }
-
-    if (activeDeviceSet) {
-      return
-    }
-
-    if (discoveryDeviceInProgress) {
-      return
-    }
-
-    if (initializationDeviceInProgress) {
+    if (
+      deviceListEmpty ||
+      activeDeviceSet ||
+      discoveryDeviceInProgress ||
+      initializationDeviceInProgress
+    ) {
       return
     }
 
@@ -55,5 +48,3 @@ export const useDiscoveryRedirectEffect = () => {
     initializationDeviceInProgress,
   ])
 }
-
-
