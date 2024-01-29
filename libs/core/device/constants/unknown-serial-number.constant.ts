@@ -4,3 +4,9 @@
  */
 
 export const unknownSerialNumber = "00000000000000"
+
+export const isUnknownSerialNumber = (
+  serialNumber: string | undefined = unknownSerialNumber
+): boolean => {
+  return serialNumber === unknownSerialNumber || serialNumber === ""
+}

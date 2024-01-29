@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
+import { DeviceEvent, DeviceType } from "Core/device/constants"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
@@ -22,6 +22,7 @@ import {
 } from "Core/files-manager/actions/base.action"
 import { getFiles } from "Core/files-manager/actions/get-files.action"
 import { getPathsRequest } from "Core/file-system/requests"
+import * as loadStorageInfoActionModule from "Core/device/actions/load-storage-info.action"
 
 jest.mock("Core/file-system/requests/get-paths.request")
 jest.mock("Core/files-manager/requests")
@@ -32,13 +33,14 @@ const GET_FILES_MOCK_RESULT = {
 }
 
 jest.mock("Core/files-manager/actions/get-files.action")
-
-jest.mock("Core/device/actions/load-storage-info.action", () => ({
-  loadStorageInfoAction: jest.fn().mockReturnValue({
-    type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
-    payload: undefined,
-  }),
-}))
+jest
+  .spyOn(loadStorageInfoActionModule, "loadStorageInfoAction")
+  .mockImplementation(
+    () =>
+      ({
+        type: pendingAction(DeviceEvent.LoadStorageInfo),
+      } as unknown as jest.Mock)
+  )
 
 const pathsMock = ["/path/file-1.mp3", "/path/file-2.wav"]
 const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
@@ -81,8 +83,7 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
       setUploadingState(State.Loading),
       GET_FILES_MOCK_RESULT,
       {
-        type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
-        payload: undefined,
+        type: pendingAction(DeviceEvent.LoadStorageInfo),
       },
       setUploadingState(State.Loaded),
       setUploadBlocked(false),

@@ -7,19 +7,13 @@ import { History } from "history"
 import { Action } from "redux"
 import { ThunkDispatch } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import {
-  loadDeviceData,
-  OnboardingState,
-  setOnboardingStatus,
-} from "Core/device"
-import { deviceDataSelector } from "Core/device/selectors/device-data.selector"
+import { loadDeviceData } from "Core/device"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import {
   URL_ONBOARDING,
   URL_OVERVIEW,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { isHarmonyDeviceData } from "Core/device/helpers/is-harmony-device-data"
 import { getCrashDump } from "Core/crash-dump"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 import { checkForForceUpdateNeed } from "Core/update/actions"
@@ -40,16 +34,6 @@ export const initializeMuditaHarmony = async (
     return
   }
 
-  // Handle EULA as an initializing step
-  const data = deviceDataSelector(getState())
-  if (
-    isHarmonyDeviceData(data) &&
-    data.onboardingState === OnboardingState.InProgress
-  ) {
-    dispatch(setOnboardingStatus(false))
-    return
-  }
-
   const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
 
   if (!activeDeviceProcessing) {
@@ -58,7 +42,7 @@ export const initializeMuditaHarmony = async (
     await dispatch(checkForForceUpdateNeed())
   }
 
-  if(!isActiveDeviceAttachedSelector(getState())){
+  if (!isActiveDeviceAttachedSelector(getState())) {
     return
   }
 

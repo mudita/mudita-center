@@ -8,6 +8,7 @@ import { FilesManagerEvent } from "Core/files-manager/constants"
 import { deleteFilesRequest } from "Core/files-manager/requests/delete-files.request"
 import { loadStorageInfoAction } from "Core/device/actions/load-storage-info.action"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { loadDeviceData } from "Core/device"
 
 export const deleteFiles = createAsyncThunk<
   string[],
@@ -21,6 +22,8 @@ export const deleteFiles = createAsyncThunk<
   }
 
   void dispatch(loadStorageInfoAction())
+
+  await dispatch(loadDeviceData())
 
   return result.data
 })
