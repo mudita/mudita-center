@@ -94,6 +94,7 @@ require("dotenv").config()
 require("@electron/remote/main").initialize()
 
 logger.info("Starting the app")
+app.disableHardwareAcceleration()
 
 let win: BrowserWindow | null
 // let helpWindow: BrowserWindow | null = null
