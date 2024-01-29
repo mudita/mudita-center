@@ -195,12 +195,12 @@ const createWindow = async () => {
     app.exit()
   })
 
-  new MetadataInitializer(metadataStore).init()
+  //new MetadataInitializer(metadataStore).init()
 
-  const registerDownloadListener = createDownloadListenerRegistrar(win)
+  //const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  const settingsService = createSettingsService()
-  settingsService.init()
+  // const settingsService = createSettingsService()
+  // settingsService.init()
 
   const appModules = new ApplicationModule(ipcMain, win)
 
