@@ -5,16 +5,12 @@
 
 import React from "react"
 import { Router } from "react-router"
-import { History } from "history"
+import history from "Core/core/history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import BaseRoutes from "Core/core/routes/base-routes"
-import BaseApp from "Core/core/components/base-app.component"
+import BaseRoutes from "Core/core/components/apps/base-app/base-app-routes"
+import BaseApp from "Core/core/components/apps/base-app/base-app.component"
 
-interface Props {
-  history: History
-}
-
-const BaseAppContainer: FunctionComponent<Props> = ({ history }) => {
+const BaseAppContainer: FunctionComponent = () => {
   return (
     <Router history={history}>
       <BaseApp />

@@ -4,7 +4,6 @@
  */
 
 import React, { ComponentProps } from "react"
-import { Router } from "react-router"
 import { Provider } from "react-redux"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
@@ -159,11 +158,9 @@ const renderer = (
   }
 
   const outcome = renderWithThemeAndIntl(
-    <Router history={history}>
-      <Provider store={storeMock}>
-        <Messages {...props} />
-      </Provider>
-    </Router>,
+    <Provider store={storeMock}>
+      <Messages {...props} />
+    </Provider>,
     options
   )
 
@@ -177,11 +174,9 @@ const renderer = (
       }
       outcome.rerender(
         constructWrapper(
-          <Router history={history}>
-            <Provider store={storeMock}>
-              <Messages {...newProps} />
-            </Provider>
-          </Router>
+          <Provider store={storeMock}>
+            <Messages {...newProps} />
+          </Provider>
         )
       )
     },

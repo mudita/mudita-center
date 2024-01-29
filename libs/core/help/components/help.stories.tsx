@@ -7,13 +7,12 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import { helpSeed } from "Core/__deprecated__/seeds/help"
 import Help from "Core/help/components/help.component"
-import history from "Core/core/routes/history"
-import { Router } from "react-router"
+import { BrowserRouter as Router } from "react-router-dom"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 
 storiesOf("Views/Help", module).add("Help", () => (
   <div style={{ maxWidth: "97.5rem" }}>
-    <Router history={history}>
+    <Router>
       <Help
         list={helpSeed.list}
         searchQuestion={noop}

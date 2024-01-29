@@ -5,10 +5,9 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
+import { BrowserRouter as Router } from "react-router-dom"
 import StoryContainer from "Core/__deprecated__/renderer/components/storybook/story-container.component"
 import PureDisconnected from "Core/__deprecated__/renderer/modules/tethering/screens/pure-disconnected.component"
-import { Router } from "react-router"
-import history from "Core/core/routes/history"
 import TetheringEnabled from "Core/__deprecated__/renderer/modules/tethering/screens/tethering-enabled.component"
 import TetheringDisabled from "Core/__deprecated__/renderer/modules/tethering/screens/tethering-disabled.component"
 
@@ -16,7 +15,7 @@ storiesOf("Views/Tethering", module)
   .add("Pure Disconnected", () => {
     return (
       <StoryContainer>
-        <Router history={history}>
+        <Router>
           <PureDisconnected />
         </Router>
       </StoryContainer>
@@ -25,7 +24,7 @@ storiesOf("Views/Tethering", module)
   .add("Tethering Enabled", () => {
     return (
       <StoryContainer>
-        <Router history={history}>
+        <Router>
           <TetheringEnabled />
         </Router>
       </StoryContainer>
@@ -34,7 +33,7 @@ storiesOf("Views/Tethering", module)
   .add("Tethering Disabled", () => {
     return (
       <StoryContainer>
-        <Router history={history}>
+        <Router>
           <TetheringDisabled />
         </Router>
       </StoryContainer>

@@ -10,6 +10,7 @@ import { UpdateOsInterruptedFlowProps } from "Core/update/components/update-os-i
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
 
+// AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

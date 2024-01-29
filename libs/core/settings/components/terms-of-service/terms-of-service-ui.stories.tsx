@@ -5,13 +5,12 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import history from "Core/core/routes/history"
-import { Router } from "react-router"
+import { BrowserRouter as Router } from "react-router-dom"
 import { TermsOfServiceUI } from "Core/settings/components/terms-of-service/terms-of-service-ui.component"
 
 storiesOf("Views/License", module).add("License", () => (
   <div style={{ maxWidth: "97.5rem" }}>
-    <Router history={history}>
+    <Router>
       <TermsOfServiceUI />
     </Router>
   </div>

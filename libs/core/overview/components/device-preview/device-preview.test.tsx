@@ -14,14 +14,6 @@ import { DevicePreview } from "Core/overview/components/device-preview/device-pr
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: () => ({
-    push: jest.fn(),
-  }),
-}));
-
 type Props = ComponentProps<typeof DevicePreview>
 
 const defaultProps: Props = {
