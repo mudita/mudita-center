@@ -7,7 +7,11 @@
 
 import React, { ComponentProps } from "react"
 import { waitFor, fireEvent } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { VirtuosoMockContext } from "react-virtuoso"
+import { Provider } from "react-redux"
+import { render } from "@testing-library/react"
+import { ThemeProvider } from "styled-components"
+import { IntlProvider } from "react-intl"
 import Contacts from "Core/contacts/components/contacts/contacts.component"
 import { ContactDetailsTestIds } from "Core/contacts/components/contact-details/contact-details-test-ids.enum"
 import { InputSearchTestIds } from "Core/__deprecated__/renderer/components/core/input-search/input-search.component"
@@ -16,10 +20,12 @@ import { Contact, ResultState } from "Core/contacts/reducers/contacts.interface"
 import { ExportContactFailedModalTestIds } from "Core/contacts/components/export-contact-failed-modal/export-contact-failed-modal-test-ids.component"
 import { ExportContactsResult } from "Core/contacts/constants"
 import { VirtualizedContactListItemTestIds } from "Core/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
-import { VirtuosoMockContext } from "react-virtuoso"
 import { ContactSearchResultsTestIdsEnum } from "../contact-search-results/contact-search-results-test-ids.enum"
-import { Provider } from "react-redux"
 import store from "Core/__deprecated__/renderer/store"
+import theme from "Core/core/styles/theming/theme"
+import translationConfig from "App/translations.config.json"
+import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
+import extractLanguageKeys from "Core/__deprecated__/renderer/utils/extract-test-locale"
 
 const intersectionObserverMock = () => ({
   observe: () => null,
@@ -57,6 +63,8 @@ jest.mock("react-router-dom", () => ({
     <a href={to}>{children}</a>
   ),
 }))
+
+const testLocale = extractLanguageKeys(localeEn)
 
 const contactOne: Contact = {
   id: "0",
@@ -181,14 +189,22 @@ const renderer = (extraProps?: Partial<Props>) => {
     ...extraProps,
   }
 
-  return renderWithThemeAndIntl(
-    <VirtuosoMockContext.Provider
-      value={{ viewportHeight: 300, itemHeight: 5 }}
-    >
-      <Provider store={store}>
-        <Contacts {...props} />
-      </Provider>
-    </VirtuosoMockContext.Provider>
+  return render(
+    <ThemeProvider theme={theme}>
+      <IntlProvider
+        defaultLocale={translationConfig.defaultLanguage}
+        locale={translationConfig.defaultLanguage}
+        messages={process.env.NODE_ENV === "test" ? testLocale : localeEn}
+      >
+        <VirtuosoMockContext.Provider
+          value={{ viewportHeight: 300, itemHeight: 5 }}
+        >
+          <Provider store={store}>
+            <Contacts {...props} />
+          </Provider>
+        </VirtuosoMockContext.Provider>
+      </IntlProvider>
+    </ThemeProvider>
   )
 }
 

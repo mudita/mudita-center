@@ -7,5 +7,5 @@ export enum PasscodeModalTestIds {
   Container = "passcode-container",
   PasscodeInputs = "passcode-inputs",
   ErrorMessage = "passcode-error-message",
-  PhoneLockTimeContainer = "phone-lock-time-container"
+  PhoneLockTimeContainer = "phone-lock-time-container",
 }

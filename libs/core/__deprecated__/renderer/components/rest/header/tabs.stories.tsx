@@ -5,10 +5,9 @@
 
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import { Router } from "react-router"
-import Tabs from "Core/__deprecated__/renderer/components/rest/header/tabs.component"
-import history from "Core/core/routes/history"
+import { BrowserRouter as Router } from "react-router-dom"
 import styled from "styled-components"
+import Tabs from "Core/__deprecated__/renderer/components/rest/header/tabs.component"
 
 const Container = styled.div`
   width: 35rem;
@@ -16,7 +15,7 @@ const Container = styled.div`
 
 storiesOf("Components/Tabs", module).add("Phone view", () => {
   return (
-    <Router history={history}>
+    <Router>
       <Container>
         <Tabs currentLocation="/phone" />
       </Container>

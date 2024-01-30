@@ -6,22 +6,34 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { pendingAction } from "Core/__deprecated__/renderer/store/helpers"
 import { deleteFilesRequest } from "Core/files-manager/requests/delete-files.request"
 import { initialState } from "Core/files-manager/reducers"
 import { Result, ResultObject } from "Core/core/builder"
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
 import { AppError } from "Core/core/errors"
 import { testError } from "Core/__deprecated__/renderer/store/constants"
+import { fulfilledAction, pendingAction } from "Core/__deprecated__/renderer/store"
+import * as loadStorageInfoActionModule from "Core/device/actions/load-storage-info.action"
+import * as loadDeviceDataActionModule from "Core/device/actions/load-device-data.action"
+import { DeviceEvent } from "Core/device"
 
 jest.mock("Core/files-manager/requests/delete-files.request")
-jest.mock("Core/device/actions/load-storage-info.action", () => ({
-  loadStorageInfoAction: jest.fn().mockReturnValue({
-    type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
-    payload: undefined,
-  }),
-}))
-
+jest
+  .spyOn(loadStorageInfoActionModule, "loadStorageInfoAction")
+  .mockImplementation(
+    () =>
+      ({
+        type: pendingAction(DeviceEvent.LoadStorageInfo),
+      } as unknown as jest.Mock)
+  )
+jest
+  .spyOn(loadDeviceDataActionModule, "loadDeviceData")
+  .mockImplementation(
+    () =>
+      ({
+        type: fulfilledAction(DeviceEvent.LoadDeviceData),
+      } as unknown as jest.Mock)
+  )
 const filePaths = [
   "user/music/example_file_name.mp3",
   "user/music/second_example_file_name.wav",
@@ -47,8 +59,10 @@ describe("when `deleteFiles` request return success result", () => {
     expect(mockStore.getActions()).toEqual([
       deleteFiles.pending(requestId, filePaths),
       {
-        type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
-        payload: undefined,
+        type: pendingAction(DeviceEvent.LoadStorageInfo),
+      },
+      {
+        type: fulfilledAction(DeviceEvent.LoadDeviceData),
       },
       deleteFiles.fulfilled(successObjectResult.data, requestId, filePaths),
     ])

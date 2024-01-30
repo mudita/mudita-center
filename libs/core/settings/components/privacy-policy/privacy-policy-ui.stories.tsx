@@ -5,13 +5,12 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import history from "Core/core/routes/history"
-import { Router } from "react-router"
-import { PrivacyPolicyUI } from "./privacy-policy-ui.component"
+import { BrowserRouter as Router } from "react-router-dom"
+import { PrivacyPolicyUI } from "Core/settings/components"
 
 storiesOf("Views/License", module).add("License", () => (
   <div style={{ maxWidth: "97.5rem" }}>
-    <Router history={history}>
+    <Router >
       <PrivacyPolicyUI />
     </Router>
   </div>

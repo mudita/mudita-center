@@ -4,10 +4,9 @@
  */
 
 import React from "react"
-import { History } from "history"
 import { Route, Router } from "react-router"
 import { defineMessages } from "react-intl"
-
+import history from "Core/core/history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import Text, {
@@ -18,11 +17,7 @@ const messages = defineMessages({
   errorBody: { id: "module.errorBody" },
 })
 
-interface Props {
-  history: History
-}
-
-const ErrorApp: FunctionComponent<Props> = ({ history }) => (
+const ErrorApp: FunctionComponent = () => (
   <Router history={history}>
     <Route path={URL_MAIN.error}>
       <Text

@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { History } from "history"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import {
@@ -20,28 +19,27 @@ type NestedRoutesKeys = keyof typeof URL_TABS
 type NestedRoutesValues = (typeof URL_TABS)[NestedRoutesKeys]
 type OverviewRoutesKeys = keyof typeof URL_OVERVIEW
 type OverViewRoutesValues = (typeof URL_OVERVIEW)[OverviewRoutesKeys]
-type Values =
+export type Values =
   | MainRoutesValues
   | (MainRoutesValues & NestedRoutesValues)
   | OverViewRoutesValues
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/ban-types
-type Actions = { [key in Values]?: Array<Function> }
+type Actions = { [key in Values]?: Array<() => void> }
+
+const defaultActions: Actions = {
+  [URL_MAIN.contacts]: [],
+  [URL_MAIN.phone]: [],
+  [URL_OVERVIEW.root]: [],
+  [URL_MAIN.messages]: [],
+}
 
 const isPathnameCorrect = (
   actions: Actions,
   pathname: string
 ): pathname is MainRoutesValues => Object.keys(actions).includes(pathname)
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useRouterListener = (
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  history: Pick<History, "listen"> = useHistory(),
-  actions: Actions
-) => {
+export const useRouterListener = (actions: Actions = defaultActions): void => {
+  const history = useHistory()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -53,7 +51,5 @@ export const useRouterListener = (
         }
       }
     })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history])
+  }, [history, dispatch, actions])
 }

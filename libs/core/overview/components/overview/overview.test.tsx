@@ -5,12 +5,10 @@
 
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
-import { Router } from "react-router"
 import { DeviceType, CaseColour } from "Core/device/constants"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "Core/overview/components/overview/overview.component"
 import store from "Core/__deprecated__/renderer/store"
-import history from "Core/core/routes/history"
 import { StatusTestIds } from "Core/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "Core/overview/components/system/system-test-ids.enum"
 import { State } from "Core/core/constants"
@@ -157,11 +155,9 @@ const render = (extraProps?: Partial<Props>) => {
     ...extraProps,
   }
   return renderWithThemeAndIntl(
-    <Router history={history}>
-      <Provider store={store}>
-        <Overview {...props} />
-      </Provider>
-    </Router>
+    <Provider store={store}>
+      <Overview {...props} />
+    </Provider>
   )
 }
 
