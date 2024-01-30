@@ -24,7 +24,6 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 
 const SyncProgressWrapper = styled.div`
@@ -65,11 +64,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
     history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
   }
 
-  const isSelectDevice =
-    !dataSyncInProgress &&
-    devices.length > 0 &&
-    history.location.pathname === URL_MAIN.news &&
-    !activeDeviceId
+  const isSelectDevice = !deviceInitialized && devices.length > 0
 
   const SelectDeviceButton = (
     <DeviceButtonWrapper>
@@ -118,17 +113,6 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
       )}
       {isSelectDevice && SelectDeviceButton}
       {isChangeDevice && ChangeDeviceButton}
-      {!deviceInitialized && devices.length > 0 && (
-        <DeviceButtonWrapper>
-          <DeviceButton
-            label="Select Device"
-            displayStyle={DisplayStyle.BorderlessButton}
-            Icon={IconType.DotsInBox}
-            iconBadgeCountIndicator={devices.length}
-            onClick={handleSelectDeviceClick}
-          />
-        </DeviceButtonWrapper>
-      )}
     </>
   )
 }
