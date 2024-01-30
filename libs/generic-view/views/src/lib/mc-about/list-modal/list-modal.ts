@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Subview, View, ViewGenerator } from "generic-view/utils"
+import { Subview, ViewGenerator } from "generic-view/utils"
 import { AboutData, DetailListModalConfig } from "device/models"
 
 enum ListModalKeys {
@@ -44,7 +44,10 @@ export const generateMcAboutListModalLayout: ViewGenerator<
   }
 }
 
-export const generateMcAboutListModalData = (data: AboutData, config: View) => {
+export const generateMcAboutListModalData = (
+  data: AboutData,
+  config: Subview = {}
+) => {
   const modalContentKeys = Object.entries(config)
     .filter(([key, item]) => {
       return item.component === "about-data-box" && item.childrenKeys

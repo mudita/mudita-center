@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { generateMcOverviewSummaryLayout } from "./summary"
+import {
+  generateMcOverviewSummaryData,
+  generateMcOverviewSummaryLayout,
+} from "./summary"
 
 describe("generateMcOverviewSummaryLayout", () => {
   it("should return undefined when config.show is false", () => {
@@ -50,5 +53,23 @@ describe("generateMcOverviewSummaryLayout", () => {
     expect(result).toHaveProperty("summary-about")
     expect(result?.["summary"].childrenKeys).toContain("summary-about-divider")
     expect(result?.["summary"].childrenKeys).toContain("summary-about")
+  })
+})
+
+describe("generateMcOverviewSummaryData", () => {
+  it("should generate field for serial number properly", () => {
+    const result = generateMcOverviewSummaryData({
+      about: {
+        serialNumber: {
+          text: "ABC123",
+        },
+      },
+    })
+
+    expect(result).toMatchObject({
+      "summary-serial-number": {
+        text: "ABC123",
+      },
+    })
   })
 })

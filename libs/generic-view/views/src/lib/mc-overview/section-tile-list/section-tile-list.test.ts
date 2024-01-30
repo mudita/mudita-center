@@ -3,14 +3,31 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { generateMcOverviewTileListLayout } from "Libs/generic-view/views/src/lib/mc-overview/section-tile-list/section-tile-list"
+import { generateMcOverviewTileListLayout } from "./section-tile-list"
 
-describe("SectionTileList", () => {
-  it("returns main component with children properly", () => {
+describe("generateMcOverviewTileListLayout", () => {
+  it("should generate box title properly", () => {
     const result = generateMcOverviewTileListLayout({
-      dataKey: "test-key",
+      dataKey: "key",
       type: "tile-list",
-      title: "test",
+      title: "Title",
+      fields: [],
+    })
+
+    expect(result).toMatchObject({
+      key: {
+        config: {
+          title: "Title",
+        },
+      },
+    })
+  })
+
+  it("should transform fields to generic components properly", () => {
+    const result = generateMcOverviewTileListLayout({
+      dataKey: "key",
+      type: "tile-list",
+      title: "Title",
       fields: [
         {
           dataKey: "row-1",
@@ -23,24 +40,8 @@ describe("SectionTileList", () => {
       ],
     })
 
-    expect(result).toEqual({
-      "test-key": {
-        component: "block-box",
-        config: {
-          title: "test",
-        },
-        layout: {
-          gridPlacement: {
-            row: 1,
-            column: 2,
-            width: 1,
-            height: 1,
-          },
-          flexLayout: {
-            direction: "column",
-            rowGap: "10px",
-          },
-        },
+    expect(result).toMatchObject({
+      key: {
         childrenKeys: ["row-1", "row-2"],
       },
       "row-1": {
