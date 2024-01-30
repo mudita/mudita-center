@@ -7,6 +7,7 @@ import { createAction } from "@reduxjs/toolkit"
 import { DeviceInitializationEvent } from "Core/device-initialization/constants/event.constant"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 
-export const setDeviceInitializationStatus = createAction<DeviceInitializationStatus>(
-  DeviceInitializationEvent.SetDeviceInitializationStatus
-)
+export const setDeviceInitializationStatus =
+  createAction<DeviceInitializationStatus>(
+    DeviceInitializationEvent.SetDeviceInitializationStatus
+  )

@@ -10,6 +10,7 @@ import { answerMain, DeviceManagerMainEvent } from "shared/utils"
 import { detachDevice } from "../views/actions"
 import { getAPIConfig } from "../get-api-config"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { DeviceType } from "Core/device"
 
 export const useAPISerialPortListeners = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -18,6 +19,10 @@ export const useAPISerialPortListeners = () => {
     const unregisterFailListener = answerMain(
       DeviceManagerMainEvent.DeviceConnectFailed,
       (properties) => {
+        const { deviceType } = properties as Device
+        if (deviceType !== DeviceType.APIDevice) {
+          return
+        }
         // todo: connection error handling
         console.log(properties)
       }
@@ -25,14 +30,20 @@ export const useAPISerialPortListeners = () => {
     const unregisterConnectListener = answerMain(
       DeviceManagerMainEvent.DeviceConnected,
       (properties) => {
-        const { id } = properties as Device
+        const { id, deviceType } = properties as Device
+        if (deviceType !== DeviceType.APIDevice) {
+          return
+        }
         dispatch(getAPIConfig({ deviceId: id }))
       }
     )
     const unregisterDetachedListener = answerMain(
       DeviceManagerMainEvent.DeviceDetached,
       (properties) => {
-        const { id } = properties as Device
+        const { id, deviceType } = properties as Device
+        if (deviceType !== DeviceType.APIDevice) {
+          return
+        }
         dispatch(detachDevice({ deviceId: id }))
       }
     )
@@ -41,6 +52,5 @@ export const useAPISerialPortListeners = () => {
       unregisterConnectListener()
       unregisterFailListener()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch])
 }

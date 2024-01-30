@@ -3,10 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PaginationBody } from "Core/device/types/mudita-os"
+import React from "react"
+import { BrowserRouter as Router } from "react-router-dom"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"
+import { PaginationBody } from "Core/device/types/mudita-os"
 import {
   Contact,
   ContactCategory,
@@ -21,10 +23,7 @@ import {
   rowMessages,
   rowThreads,
 } from "Core/__deprecated__/renderer/components/core/table/table.fake-data"
-import history from "Core/core/routes/history"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
-import React from "react"
-import { Router } from "react-router"
 import { State } from "Core/core/constants"
 
 // AUTO DISABLED - fix me if you like :)
@@ -138,7 +137,7 @@ const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
 const isContactCreatedByPhoneNumber = () => true
 
 storiesOf("Views|Messages", module).add("Messages", () => (
-  <Router history={history}>
+  <Router>
     <div style={{ maxWidth: "97.5rem" }}>
       <Messages
         language={"en"}

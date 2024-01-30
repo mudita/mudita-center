@@ -10,8 +10,6 @@ import store from "Core/__deprecated__/renderer/store"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { HelpComponentTestIds } from "Core/help/components/help.enum"
 import Help from "Core/help/components/help.component"
-import { Router } from "react-router"
-import history from "Core/core/routes/history"
 import { data } from "Core/__deprecated__/seeds/help"
 
 jest.mock("@electron/remote", () => ({
@@ -36,9 +34,7 @@ const render = (extraProps?: Partial<Props>) => {
 
   return renderWithThemeAndIntl(
     <Provider store={store}>
-      <Router history={history}>
-        <Help {...props} />
-      </Router>
+      <Help {...props} />
     </Provider>
   )
 }

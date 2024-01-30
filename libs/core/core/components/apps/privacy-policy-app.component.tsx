@@ -4,17 +4,13 @@
  */
 
 import React from "react"
-import { History } from "history"
+import history from "Core/core/history"
 import { Route, Router } from "react-router"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { PrivacyPolicyUI } from "Core/settings/components"
 
-interface Props {
-  history: History
-}
-
-const PrivacyPolicyApp: FunctionComponent<Props> = ({ history }) => {
+const PrivacyPolicyApp: FunctionComponent = () => {
   return (
     <Router history={history}>
       <Route path={URL_MAIN.privacyPolicy}>

@@ -9,5 +9,6 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 
 export const getDeviceInitializationStatus = createSelector(
   deviceInitializationState,
-  ({ deviceInitializationStatus }): DeviceInitializationStatus => deviceInitializationStatus
+  ({ deviceInitializationStatus }): DeviceInitializationStatus =>
+    deviceInitializationStatus
 )

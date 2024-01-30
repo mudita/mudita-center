@@ -41,6 +41,7 @@ export class ResponsePresenter {
       }
     } else if (status === ResponseStatus.NoContent) {
       return {
+        data,
         status: RequestResponseStatus.Ok,
       }
     } else if (status === ResponseStatus.PhoneLocked) {

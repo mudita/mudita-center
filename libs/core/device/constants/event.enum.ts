@@ -23,5 +23,5 @@ export enum DeviceEvent {
 
   LoadDeviceData = "DEVICE_LOAD_DEVICE_DATA",
   ProcessDeviceDataOnLoad = "DEVICE_PROCESS_DEVICE_DATA_ON_LOAD",
-  ProcessDeviceDataOnFailed = "DEVICE_PROCESS_DEVICE_DATA_ON_FAILED",
+  HandleCommunicationError = "DEVICE_HANDLE_COMMUNICATION_ERROR",
 }

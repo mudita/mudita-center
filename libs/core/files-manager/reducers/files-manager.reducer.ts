@@ -136,7 +136,7 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         }
       })
       .addCase(changeLocation, (state) => {
-        return { ...state, selectedItems: { rows: [] } }
+        return { ...initialState }
       })
       .addCase(deleteFiles.pending, (state) => {
         return {

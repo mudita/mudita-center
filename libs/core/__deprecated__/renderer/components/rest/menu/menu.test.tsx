@@ -6,13 +6,11 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import React from "react"
-import { Router } from "react-router"
 import { Provider } from "react-redux"
 import { DeviceType } from "Core/device/constants"
 import Menu, {
   MenuProps,
 } from "Core/__deprecated__/renderer/components/rest/menu/menu.component"
-import history from "Core/core/routes/history"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { flags } from "Core/feature-flags"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
@@ -35,20 +33,20 @@ type Props = MenuProps
 
 const defaultState = {
   device: {
-    deviceType: DeviceType.MuditaPure
+    deviceType: DeviceType.MuditaPure,
   } as unknown as DeviceState,
   deviceManager: {
-    devices: []
+    devices: [],
   } as unknown as DeviceManagerState,
   deviceInitialization: {
-    deviceInitializationStatus: DeviceInitializationStatus.Idle
+    deviceInitializationStatus: DeviceInitializationStatus.Idle,
   } as unknown as DeviceInitializationState,
   messages: {
     data: { threadMap: {} },
   },
   genericViews: {
-    menu: []
-  }
+    menu: [],
+  },
 } as unknown as ReduxRootState
 
 const threadMock: Thread = {
@@ -87,9 +85,7 @@ const render = (
 
   return renderWithThemeAndIntl(
     <Provider store={storeMock}>
-      <Router history={history}>
-        <Menu {...props} />
-      </Router>
+      <Menu {...props} />
     </Provider>
   )
 }
@@ -139,7 +135,7 @@ describe("Device: Mudita pure", () => {
               caseColour: undefined,
             },
           ],
-          activeDeviceId: "1"
+          activeDeviceId: "1",
         } as unknown as DeviceManagerState,
       },
       {

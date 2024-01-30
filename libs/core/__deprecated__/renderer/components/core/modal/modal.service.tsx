@@ -24,7 +24,7 @@ import {
   ModalWrapper,
 } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
-import history from "Core/core/routes/history"
+import history from "Core/core/history"
 import { Store } from "Core/__deprecated__/renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "Core/core/styles/theming/theme"
