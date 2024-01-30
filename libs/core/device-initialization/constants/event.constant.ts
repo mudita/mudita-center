@@ -5,5 +5,6 @@
 
 export enum DeviceInitializationEvent {
   SetDeviceInitializationStatus = "SET_DEVICE_INITIALIZATION_STATUS",
-  StartInitializingDevice = "START_INITIALIZING_DEVICE",
+  InitializeMuditaPure = "INITIALIZE_MUDITA_PURE",
+  InitializeMuditaHarmony = "INITIALIZE_MUDITA_HARMONY",
 }
