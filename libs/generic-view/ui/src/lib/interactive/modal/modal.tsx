@@ -5,18 +5,14 @@
 
 import React, { UIEventHandler, useState } from "react"
 import ReactModal from "react-modal"
-import {
-  BaseGenericComponent,
-  IconType,
-  ModalAction,
-  withConfig,
-  withData,
-} from "generic-view/utils"
+import { BaseGenericComponent, IconType, ModalAction } from "generic-view/utils"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import styled, { css } from "styled-components"
 import Icon from "../../icon/icon"
 import { ButtonBase } from "../../buttons/button-base/button-base"
 import { useModalsQueue } from "./use-modals-queue"
+import { withData } from "../../utils/with-data"
+import { withConfig } from "../../utils/with-config"
 
 interface Config {
   closeButtonAction?: ModalAction

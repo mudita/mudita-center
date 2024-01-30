@@ -7,23 +7,8 @@ import React, { ComponentType } from "react"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import styled, { css } from "styled-components"
 import { useSelector } from "react-redux"
-import { Layout } from "./layout.types"
-import { mapSizes } from "./map-sizes"
-import { RecursiveComponent } from "../models/api-fc.types"
-import { createSelector } from "reselect"
-
-type Keys = { viewKey: string; componentKey: string }
-
-const layoutSelector = createSelector(
-  (state: ReduxRootState) => state.genericViews.devicesConfiguration,
-  (state: ReduxRootState) => state.genericViews.activeDevice,
-  (state: ReduxRootState, keys: Keys) => keys,
-  (devicesConfiguration, activeDevice, { viewKey, componentKey }) => {
-    const features = devicesConfiguration[activeDevice!].features
-    return features?.[viewKey as keyof typeof features]?.config?.[componentKey]
-      ?.layout
-  }
-)
+import { selectComponentLayout } from "generic-view/store"
+import { Layout, mapLayoutSizes, RecursiveComponent } from "generic-view/utils"
 
 export const withLayout = <P extends object>(
   Component: ComponentType<P>
@@ -31,7 +16,7 @@ export const withLayout = <P extends object>(
   return (props) => {
     const { viewKey, componentKey } = props
     const layout = useSelector((state: ReduxRootState) => {
-      return layoutSelector(state, { viewKey, componentKey })
+      return selectComponentLayout(state, { viewKey, componentKey })
     })
     if (layout) {
       return (
@@ -76,8 +61,8 @@ const childStyles = css<{
 }>(({ $layout }) => ({
   ...($layout.gridLayout && {
     display: "grid",
-    gridTemplateRows: mapSizes($layout.gridLayout.rows),
-    gridTemplateColumns: mapSizes($layout.gridLayout.columns),
+    gridTemplateRows: mapLayoutSizes($layout.gridLayout.rows),
+    gridTemplateColumns: mapLayoutSizes($layout.gridLayout.columns),
     rowGap: $layout.gridLayout.rowGap || 0,
     columnGap: $layout.gridLayout.columnGap || 0,
   }),

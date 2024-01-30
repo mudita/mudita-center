@@ -3,8 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { APIFC, withConfig, withData } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
 import React from "react"
+import { withData } from "../utils/with-data"
+import { withConfig } from "../utils/with-config"
 
 interface Data {
   src: string

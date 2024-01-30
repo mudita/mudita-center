@@ -5,9 +5,10 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, IconType, withData } from "generic-view/utils"
+import { APIFC, IconType } from "generic-view/utils"
 import Icon from "../../icon/icon"
 import dataTestIds from "./data-test-ids"
+import { withData } from "../../utils/with-data"
 
 interface IconTextRowData {
   icon: IconType

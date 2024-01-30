@@ -7,29 +7,28 @@ import React, { FunctionComponent } from "react"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import RecursiveLayout from "./recursive-layout"
+import { selectViewConfig } from "generic-view/store"
+import { createSelector } from "reselect"
+import { isEmpty } from "lodash"
+
+const selectModalsToRender = createSelector(selectViewConfig, (config) => {
+  return Object.entries(config || {})
+    .filter(([, { component }]) => component === "modal")
+    .map(([key]) => key)
+})
 
 interface Props {
   viewKey: string
 }
 
 export const GenericModals: FunctionComponent<Props> = ({ viewKey }) => {
-  const devicesConfiguration = useSelector(
-    (state: ReduxRootState) => state.genericViews.devicesConfiguration
-  )
-  const activeDevice = useSelector(
-    (state: ReduxRootState) => state.genericViews.activeDevice
+  const modalsToRender = useSelector((state: ReduxRootState) =>
+    selectModalsToRender(state, { viewKey })
   )
 
-  if (!activeDevice) {
+  if (isEmpty(modalsToRender)) {
     return null
   }
-  const features = devicesConfiguration[activeDevice].features || {}
-
-  const modalsToRender = Object.entries(
-    features[viewKey as keyof typeof features]?.config || {}
-  )
-    .filter(([, { component }]) => component === "modal")
-    .map(([key]) => key)
   return (
     <>
       {modalsToRender.map((modalKey) => {

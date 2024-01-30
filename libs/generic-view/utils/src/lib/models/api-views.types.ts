@@ -5,7 +5,7 @@
 
 import { ComponentProps } from "react"
 import { APIComponents } from "generic-view/ui"
-import { Layout } from "../with-layout/layout.types"
+import { Layout } from "./layout.types"
 
 export type ComponentPropsByName<
   C extends keyof APIComponents = keyof APIComponents

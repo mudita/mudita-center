@@ -4,9 +4,11 @@
  */
 
 import React from "react"
-import { APIFC, withConfig, withData } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
 import { Tag } from "../shared/tag"
+import { withData } from "../utils/with-data"
+import { withConfig } from "../utils/with-config"
 
 interface Config {
   versionLabel?: string
