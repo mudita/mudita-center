@@ -5,4 +5,5 @@
 
 export enum DeviceInitializationError {
   InitializingDeviceError = "device-initialization-initializing-device-error",
+  ActiveDeviceNotAttached = "device-initialization-active-device-not-attached",
 }

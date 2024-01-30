@@ -16,7 +16,9 @@ import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { cancelOsDownload } from "Core/update/requests"
 import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
-import { useHandleActiveDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-detached.hook"
+import { useRedirectOnActiveDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-redirect-on-active-device-detached.hook"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 
 export const useDeviceDetachedEffect = () => {
   const history = useHistory()
@@ -26,12 +28,17 @@ export const useDeviceDetachedEffect = () => {
   const downloadProcessing = useSelector(
     ({ update }: ReduxRootState) => update.downloadState
   )
-  const handleActiveDeviceDetached = useHandleActiveDeviceDetached()
+  const devices = useSelector(getDevicesSelector)
+  const redirectOnActiveDeviceDetached = useRedirectOnActiveDeviceDetached()
 
   useEffect(() => {
     return registerDeviceDetachedListener(
       async (properties: DeviceBaseProperties) => {
         dispatch(removeDevice(properties))
+
+        if (devices.length < 2) {
+          dispatch(setSelectDeviceDrawerOpen(false))
+        }
 
         if (activeDeviceId !== properties.id) {
           return
@@ -50,16 +57,16 @@ export const useDeviceDetachedEffect = () => {
           history.push(URL_ONBOARDING.welcome)
           return
         }
-
-        handleActiveDeviceDetached()
+        redirectOnActiveDeviceDetached()
       }
     )
   }, [
+    devices,
     activeDeviceId,
     activeDeviceProcessing,
     downloadProcessing,
     dispatch,
     history,
-    handleActiveDeviceDetached,
+    redirectOnActiveDeviceDetached,
   ])
 }

@@ -23,11 +23,13 @@ export const useHandleActiveDeviceAborted = () => {
   const dispatch = useDispatch<Dispatch>()
   const devices = useSelector(getDevicesSelector)
 
-  return useCallback(() => {
-    void dispatch(deactivateDevice())
+  return useCallback(async () => {
+    const pathname = history.location.pathname
+
+    await dispatch(deactivateDevice())
     dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
     dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
-    if (devices.length > 1) {
+    if (devices.length && !pathname.includes(URL_DISCOVERY_DEVICE.root)) {
       history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
     } else {
       history.push(URL_MAIN.news)
