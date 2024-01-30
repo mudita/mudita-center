@@ -44,6 +44,7 @@ export const initializeMuditaPure = createAsyncThunk<
         )
         throw new AppError(DeviceInitializationError.ActiveDeviceNotAttached)
       }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return dispatch(action)
     }
 

@@ -6,7 +6,6 @@
 import * as React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux"
-import { Link } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   textColor,
@@ -17,7 +16,6 @@ import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.compone
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { LayoutBlankWrapperTestIds } from "Core/__deprecated__/renderer/wrappers/wrappers-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { RootState, ReduxRootState } from "Core/__deprecated__/renderer/store"

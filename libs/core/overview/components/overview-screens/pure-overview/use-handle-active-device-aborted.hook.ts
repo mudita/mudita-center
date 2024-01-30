@@ -29,7 +29,7 @@ export const useHandleActiveDeviceAborted = () => {
     await dispatch(deactivateDevice())
     dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
     dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
-    if (devices.length && !pathname.includes(URL_DISCOVERY_DEVICE.root)) {
+    if (devices.length > 1 && !pathname.includes(URL_DISCOVERY_DEVICE.root)) {
       history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
     } else {
       history.push(URL_MAIN.news)
