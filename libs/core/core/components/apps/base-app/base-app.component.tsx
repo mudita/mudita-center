@@ -19,6 +19,7 @@ import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect
 import { useDiscoveryRedirectEffect } from "Core/core/hooks/use-discovery-redirect-effect"
 import { useRouterListener } from "Core/core/hooks"
 import { useAPISerialPortListeners, useOutbox } from "generic-view/store"
+import { useModalObserver } from "Core/modals-manager/hooks/use-modal-observer.hook"
 
 
 const BaseApp: FunctionComponent = () => {
@@ -31,6 +32,7 @@ const BaseApp: FunctionComponent = () => {
   useWatchOutboxEntriesEffect()
   useWatchUnlockStatus()
   useDiscoveryRedirectEffect()
+  useModalObserver()
   // API
   useAPISerialPortListeners()
   useOutbox()

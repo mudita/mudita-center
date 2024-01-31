@@ -12,4 +12,5 @@ export enum ModalsManagerEvent {
   ShowModal = "SHOW_MODAL",
   ShowCollectingDataModal = "SHOW_COLLECTING_DATA_MODAL",
   ShowAppForcedUpdateFlow = "SHOW_APP_FORCED_UPDATE_FLOW",
+  SetVisibleModals = "SET_VISIBLE_MODALS",
 }

@@ -7,11 +7,14 @@ import { createReducer } from "@reduxjs/toolkit"
 import {
   ModalsManagerState,
   ModalStateKey,
-  ShowModalAction,
 } from "Core/modals-manager/reducers/modals-manager.interface"
-import { ModalsManagerEvent } from "Core/modals-manager/constants"
+import {
+  hideModals,
+  setVisibleModals,
+  showModal,
+} from "Core/modals-manager/actions/base.action"
 
-const initialModalsState: Record<ModalStateKey, boolean> = {
+export const initialModalsState: Record<ModalStateKey, boolean> = {
   appForcedUpdateFlowShow: false,
   appUpdateFlowShow: false,
   contactSupportFlowShow: false,
@@ -20,27 +23,31 @@ const initialModalsState: Record<ModalStateKey, boolean> = {
 
 export const initialState: ModalsManagerState = {
   ...initialModalsState,
+  visibleModals: [],
 }
 
 export const modalsManagerReducer = createReducer<ModalsManagerState>(
   initialState,
   (builder) => {
     builder
-      .addCase(ModalsManagerEvent.HideModals, (state) => {
+      .addCase(hideModals, (state) => {
         return {
           ...state,
           ...initialModalsState,
         }
       })
-      .addCase(
-        ModalsManagerEvent.ShowModal,
-        (state, action: ShowModalAction) => {
-          return {
-            ...state,
-            ...initialModalsState,
-            [action.payload]: true,
-          }
+      .addCase(showModal, (state, action) => {
+        return {
+          ...state,
+          ...initialModalsState,
+          [action.payload]: true,
         }
-      )
+      })
+      .addCase(setVisibleModals, (state, action) => {
+        return {
+          ...state,
+          visibleModals: action.payload,
+        }
+      })
   }
 )
