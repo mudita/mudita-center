@@ -16,7 +16,7 @@ import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { cancelOsDownload } from "Core/update/requests"
 import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
-import { useRedirectOnActiveDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-redirect-on-active-device-detached.hook"
+import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 
@@ -29,7 +29,7 @@ export const useDeviceDetachedEffect = () => {
     ({ update }: ReduxRootState) => update.downloadState
   )
   const devices = useSelector(getDevicesSelector)
-  const redirectOnActiveDeviceDetached = useRedirectOnActiveDeviceDetached()
+  const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
 
   useEffect(() => {
     return registerDeviceDetachedListener(
@@ -57,7 +57,7 @@ export const useDeviceDetachedEffect = () => {
           history.push(URL_ONBOARDING.welcome)
           return
         }
-        redirectOnActiveDeviceDetached()
+        deactivateDeviceAndRedirect()
       }
     )
   }, [
@@ -67,6 +67,6 @@ export const useDeviceDetachedEffect = () => {
     downloadProcessing,
     dispatch,
     history,
-    redirectOnActiveDeviceDetached,
+    deactivateDeviceAndRedirect,
   ])
 }

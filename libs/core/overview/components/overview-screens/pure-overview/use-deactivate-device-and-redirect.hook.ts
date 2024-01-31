@@ -15,7 +15,7 @@ import {
 } from "Core/__deprecated__/renderer/constants/urls"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 
-export const useRedirectOnActiveDeviceDetached = () => {
+export const useDeactivateDeviceAndRedirect = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const devices = useSelector(getDevicesSelector)

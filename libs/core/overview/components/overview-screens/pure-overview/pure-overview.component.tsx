@@ -28,7 +28,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import React, { useCallback, useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
-import { useRedirectOnActiveDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-redirect-on-active-device-detached.hook"
+import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { useSelector } from "react-redux"
 import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
 
@@ -82,7 +82,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 }) => {
   useWatchDeviceDataEffect()
   const activeDeviceAttached = useSelector(isActiveDeviceAttachedSelector)
-  const redirectOnActiveDeviceDetached = useRedirectOnActiveDeviceDetached()
+  const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
 
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -132,7 +132,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeBackupDeviceFlowState = () => {
     setBackupDeviceFlowState(undefined)
     readBackupDeviceDataState()
-    redirectOnActiveDeviceDetached()
+    deactivateDeviceAndRedirect()
   }
 
   useEffect(() => {
@@ -158,11 +158,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     setRestoreDeviceFlowState(undefined)
     readRestoreDeviceDataState()
     if (activeDeviceAttached) {
-      redirectOnActiveDeviceDetached()
+      deactivateDeviceAndRedirect()
     }
   }, [
     activeDeviceAttached,
-    redirectOnActiveDeviceDetached,
+    deactivateDeviceAndRedirect,
     readRestoreDeviceDataState,
   ])
 
