@@ -18,7 +18,6 @@ import { cancelOsDownload } from "Core/update/requests"
 import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
-import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 
 export const useDeviceDetachedEffect = () => {
   const history = useHistory()
@@ -35,10 +34,6 @@ export const useDeviceDetachedEffect = () => {
     return registerDeviceDetachedListener(
       async (properties: DeviceBaseProperties) => {
         dispatch(removeDevice(properties))
-
-        if (devices.length < 2) {
-          dispatch(setSelectDeviceDrawerOpen(false))
-        }
 
         if (activeDeviceId !== properties.id) {
           return
