@@ -5,13 +5,13 @@
 
 import { IconType } from "Libs/generic-view/utils/src"
 
-interface DetailListTextConfig {
+export interface DetailListTextConfig {
   dataKey: string
   type: "detail-list-text"
   title: string
 }
 
-interface DetailListModalConfig {
+export interface DetailListModalConfig {
   dataKey: string
   type: "detail-list-modal"
   title: string
@@ -20,19 +20,20 @@ interface DetailListModalConfig {
 
 type DetailListFieldConfig = DetailListTextConfig | DetailListModalConfig
 
-interface UpdateTileConfig {
+export interface UpdateTileConfig {
   title: string
   dataKey: string
   type: "mc-overview-update"
   currentVersionKey: string
   showBadge: boolean
+  versionLabel: string
 }
 
 type DataSyncKey = "currentDateISO" | "timezone"
 
 interface DataSyncTileConfig {
   title: string
-  type: "mc-overview-update"
+  type: "mc-overview-sync"
   buttonText: string
   fieldsToSync: Array<DataSyncKey>
 }
@@ -44,22 +45,26 @@ interface IconTextRowConfig {
 
 type TileListFieldConfig = IconTextRowConfig
 
-interface TileListConfig {
+export interface TileListConfig {
   title?: string
   type: "tile-list"
   dataKey: string
   fields: Array<TileListFieldConfig>
 }
 
-type OverviewSectionsConfig = TileListConfig | UpdateTileConfig | DataSyncKey
+type OverviewSectionsConfig =
+  | TileListConfig
+  | UpdateTileConfig
+  | DataSyncTileConfig
 
 export interface OverviewConfig {
   title: string
   summary: {
-    show: boolean
+    show?: boolean
     showImg?: boolean //default true
     imgVariant?: string
     showSerialNumber?: boolean //default true
+    serialNumberLabel?: string
     showAbout?: boolean //default false
     aboutTitle?: string //default defined by translation
     aboutSubtitle?: string

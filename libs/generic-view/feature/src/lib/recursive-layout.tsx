@@ -7,7 +7,12 @@ import React, { FunctionComponent } from "react"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import apiComponents from "generic-view/ui"
-import { APIFC, withLayout } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
+import {
+  selectComponentChildrenKeys,
+  selectComponentName,
+} from "generic-view/store"
+import { withLayout } from "./with-layout"
 
 interface Properties {
   viewKey: string
@@ -18,10 +23,17 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
   recursiveComponentMetadata
 ) => {
   const { viewKey, componentKey } = recursiveComponentMetadata
-  const { childrenKeys, component } = useSelector(
-    (state: ReduxRootState) =>
-      state.genericViews.views?.[viewKey]?.layout?.[componentKey]
-  )
+  const component = useSelector((state: ReduxRootState) => {
+    return selectComponentName(state, { viewKey, componentKey })
+  })
+  const childrenKeys = useSelector((state: ReduxRootState) => {
+    return selectComponentChildrenKeys(state, { viewKey, componentKey })
+  })
+  if (!component) {
+    // TODO: implement error handling
+    return null
+  }
+
   const ApiComponent = withLayout(apiComponents[component] as APIFC)
 
   return (

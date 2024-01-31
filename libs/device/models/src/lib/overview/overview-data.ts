@@ -5,11 +5,11 @@
 
 import { IconType } from "Libs/generic-view/utils/src"
 
-interface DetailListTextData {
+export interface DetailListTextData {
   text: string
 }
 
-interface DetailListModalData {
+export interface DetailListModalData {
   text: string
 }
 
@@ -27,13 +27,15 @@ interface IconTextRowData {
 
 type TileListFieldData = IconTextRowData
 
-type TileListData = Record<string, TileListFieldData>
+export type TileListData = Record<string, TileListFieldData>
 
 type OverviewSectionsData = TileListData | UpdateTileData
 
+export type AboutData = Record<string, DetailListFieldData>
+
 export interface OverviewData {
   summary?: {
-    about?: Record<string, DetailListFieldData>
+    about?: AboutData
   }
   sections?: Record<string, OverviewSectionsData>
 }

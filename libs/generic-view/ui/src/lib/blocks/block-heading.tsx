@@ -5,18 +5,19 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, withConfig } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
+import { withConfig } from "../utils/with-config"
 
 interface Config {
   heading: string
-  subheading: string
+  subheading?: string
 }
 
 const BlockHeading: APIFC<undefined, Config> = ({ config, data, ...props }) => {
   return (
     <div {...props}>
       <Header>{config?.heading}</Header>
-      <Subheader>{config?.subheading}</Subheader>
+      {config?.subheading && <Subheader>{config?.subheading}</Subheader>}
     </div>
   )
 }

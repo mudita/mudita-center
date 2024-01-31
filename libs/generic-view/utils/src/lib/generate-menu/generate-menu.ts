@@ -28,7 +28,7 @@ const mapIcons: Record<IconType, CoreIconType> = {
   [IconType.AirplaneMode]: CoreIconType.NoRange,
   [IconType.Overview]: CoreIconType.MenuOverview,
   [IconType.Close]: CoreIconType.Close,
-  [IconType.PhoneAbout]: CoreIconType.MenuPhone,
+  [IconType.Device]: CoreIconType.MenuPhone,
 }
 
 const mapDefaultIcons: Record<string, CoreIconType> = {

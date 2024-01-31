@@ -5,7 +5,6 @@
 
 export * from "./lib/views/actions"
 export * from "./lib/views/reducer"
-export * from "./lib/generic-dispatch-demo"
 export * from "./lib/features"
 export * from "./lib/get-api-config"
 export * from "./lib/hooks"
