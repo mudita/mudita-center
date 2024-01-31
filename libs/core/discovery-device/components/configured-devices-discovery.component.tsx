@@ -13,10 +13,10 @@ import ConnectingContent from "Core/connecting/components/connecting-content.com
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import AvailableDeviceList from "Core/discovery-device/components/available-device-list.component"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import {
   URL_DEVICE_INITIALIZATION,
+  URL_DISCOVERY_DEVICE,
   URL_MAIN,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
@@ -95,15 +95,22 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     }
   }, [dispatch, history, devices.length, noNewDevicesDetectedState])
 
-  if (
-    devices.length > 1 &&
-    availableDevices.length === devices.length &&
-    noNewDevicesDetectedState
-  ) {
-    return <AvailableDeviceList />
-  } else {
-    return <ConnectingContent />
-  }
+  useEffect(() => {
+    if (
+      devices.length > 1 &&
+      availableDevices.length === devices.length &&
+      noNewDevicesDetectedState
+    ) {
+      history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
+    }
+  }, [
+    history,
+    devices.length,
+    availableDevices.length,
+    noNewDevicesDetectedState,
+  ])
+
+  return <ConnectingContent />
 }
 
 export default ConfiguredDevicesDiscovery
