@@ -18,6 +18,7 @@ import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
+import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-new-devices-detected.hook"
 
 const CONNECTING_LOADER_MODAL_ID = "connecting-loader-modal"
 
@@ -30,26 +31,7 @@ const messages = defineMessages({
 const ConnectingLoaderModalContainer: FunctionComponent = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
 
-  const [noNewDevicesDetectedState, setNoNewDevicesDetectedState] =
-    useState<boolean>(false)
-
-  useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
-
-    const handler = () => {
-      clearTimeout(timeoutId)
-
-      timeoutId = setTimeout(() => {
-        setNoNewDevicesDetectedState(true)
-      }, 3000)
-    }
-    handler()
-    const deviceConnected = registerDeviceConnectedListener(handler)
-    return () => {
-      deviceConnected()
-      clearTimeout(timeoutId)
-    }
-  }, [])
+  const noNewDevicesDetectedState = useNoNewDevicesDetectedHook()
 
   const history = useHistory()
   const isAnyOtherModalPresent = useSelector((state: ReduxRootState) =>
