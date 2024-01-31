@@ -93,24 +93,31 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.lastResponse = action.payload
     const deviceId = action.payload.deviceId
     if (deviceId) {
-      state.devicesConfiguration[deviceId].features = {
-        ...state.devicesConfiguration[deviceId].features,
-        "mc-overview": {
-          config:
-            state.devicesConfiguration[deviceId].features?.["mc-overview"]
-              ?.config,
-          data: action.payload.overviewData,
-        },
-        ...(action.payload.aboutData
-          ? {
-              "mc-about": {
-                config:
-                  state.devicesConfiguration[deviceId].features?.["mc-about"]
-                    ?.config,
-                data: action.payload.aboutData,
-              },
-            }
-          : {}),
+      if (
+        state.devicesConfiguration[deviceId].features?.hasOwnProperty(
+          "mc-overview"
+        )
+      ) {
+        console.log(
+          "updateData",
+          state.devicesConfiguration[deviceId].features?.["mc-overview"]?.data,
+          action.payload.overviewData
+        )
+        updateState(
+          state.devicesConfiguration[deviceId].features?.["mc-overview"]?.data,
+          action.payload.overviewData
+        )
+      }
+
+      if (
+        state.devicesConfiguration[deviceId].features?.hasOwnProperty(
+          "mc-about"
+        )
+      ) {
+        updateState(
+          state.devicesConfiguration[deviceId].features?.["mc-about"]?.data,
+          action.payload.aboutData
+        )
       }
     }
   })
@@ -118,23 +125,43 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.lastResponse = action.payload
     const deviceId = action.payload.deviceId
     if (deviceId) {
-      state.devicesConfiguration[deviceId].features = {
-        ...state.devicesConfiguration[deviceId].features,
-        "mc-overview": {
-          config: action.payload.overviewConfig,
-          data: state.devicesConfiguration[deviceId].features?.["mc-overview"]
-            ?.data,
-        },
-        ...(action.payload.aboutConfig
-          ? {
-              "mc-about": {
-                config: action.payload.aboutConfig,
-                data: state.devicesConfiguration[deviceId].features?.[
-                  "mc-about"
-                ]?.data,
-              },
-            }
-          : {}),
+      if (
+        state.devicesConfiguration[deviceId].features?.hasOwnProperty(
+          "mc-overview"
+        )
+      ) {
+        updateState(
+          state.devicesConfiguration[deviceId].features?.["mc-overview"]
+            ?.config,
+          action.payload.overviewConfig
+        )
+      } else {
+        state.devicesConfiguration[deviceId].features = {
+          ...state.devicesConfiguration[deviceId].features,
+          ["mc-overview"]: {
+            ...state.devicesConfiguration[deviceId].features?.["mc-overview"],
+            config: action.payload.overviewConfig,
+          },
+        }
+      }
+
+      if (
+        state.devicesConfiguration[deviceId].features?.hasOwnProperty(
+          "mc-about"
+        )
+      ) {
+        updateState(
+          state.devicesConfiguration[deviceId].features?.["mc-about"]?.config,
+          action.payload.aboutConfig
+        )
+      } else {
+        state.devicesConfiguration[deviceId].features = {
+          ...state.devicesConfiguration[deviceId].features,
+          ["mc-about"]: {
+            ...state.devicesConfiguration[deviceId].features?.["mc-about"],
+            config: action.payload.aboutConfig,
+          },
+        }
       }
     }
   })
@@ -169,3 +196,12 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
   })
 })
+
+const updateState = (
+  state: Record<string, unknown> = {},
+  newState: Record<string, unknown> = {}
+) => {
+  Object.keys(newState).forEach((key) => {
+    state[key] = newState[key]
+  })
+}
