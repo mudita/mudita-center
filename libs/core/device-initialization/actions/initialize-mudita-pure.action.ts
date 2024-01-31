@@ -36,94 +36,125 @@ export const initializeMuditaPure = createAsyncThunk<
 >(
   DeviceInitializationEvent.InitializeMuditaPure,
   async (_, { dispatch, getState, rejectWithValue }) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const dispatchWithDeviceCheck = async (action: any): Promise<any> => {
+    dispatch(
+      setDeviceInitializationStatus(DeviceInitializationStatus.Initializing)
+    )
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
+
+    await dispatch(loadSettings())
+
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
+    const unlockStatus = await dispatch(getUnlockStatus())
+    if (!unlockStatus.payload) {
+      return DeviceInitializationStatus.Initializing
+    }
+
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
+    await dispatch(
+      configureDevice(activeDeviceIdSelector(getState()) as string)
+    )
+
+    // Handle LOAD DEVICE DATA as an initializing step
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
+    const loadDeviceDataResult = await dispatch(loadDeviceData(true))
+    if ("error" in loadDeviceDataResult) {
+      return rejectWithValue(
+        new AppError(DeviceInitializationError.InitializingDeviceError)
+      )
+    }
+
+    const activeDeviceProcessing = isActiveDeviceProcessingSelector(getState())
+
+    if (!activeDeviceProcessing) {
+      // Handle FETCH CRASH DUMPS as an initializing step
       if (!isActiveDeviceAttachedSelector(getState())) {
         dispatch(
           setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
         )
-        throw new AppError(DeviceInitializationError.ActiveDeviceNotAttached)
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return dispatch(action)
-    }
-
-    try {
-      dispatch(
-        setDeviceInitializationStatus(DeviceInitializationStatus.Initializing)
-      )
-      await dispatchWithDeviceCheck(loadSettings())
-
-      const unlockStatus = await dispatchWithDeviceCheck(getUnlockStatus())
-      if (!unlockStatus.payload) {
-        return DeviceInitializationStatus.Initializing
-      }
-
-      await dispatchWithDeviceCheck(
-        configureDevice(activeDeviceIdSelector(getState()) as string)
-      )
-
-      // Handle LOAD DEVICE DATA as an initializing step
-      const loadDeviceDataResult = await dispatchWithDeviceCheck(
-        loadDeviceData(true)
-      )
-      if ("error" in loadDeviceDataResult) {
-        return rejectWithValue(
-          new AppError(DeviceInitializationError.InitializingDeviceError)
-        )
-      }
-
-      const activeDeviceProcessing = isActiveDeviceProcessingSelector(
-        getState()
-      )
-
-      if (!activeDeviceProcessing) {
-        // Handle FETCH CRASH DUMPS as an initializing step
-        await dispatchWithDeviceCheck(getCrashDump())
-        await dispatchWithDeviceCheck(checkForForceUpdateNeed())
-      }
-
-      // Handle SYNC DATA as an initializing step
-      const deviceData = deviceDataSelector(getState()) as PureDeviceData
-      const skipDataSync = shouldSkipDataSync(deviceData)
-
-      if (!activeDeviceProcessing && !skipDataSync) {
-        const { serialNumber, token } = deviceData
-
-        const restored = await loadIndexRequest({ serialNumber, token })
-
-        if (restored) {
-          await dispatchWithDeviceCheck(readAllIndexes())
-          await dispatchWithDeviceCheck(
-            setDataSyncSetStatus(SynchronizationStatus.Cache)
-          )
-          await dispatchWithDeviceCheck(updateAllIndexes())
-        } else {
-          const updateAllIndexesResult = await dispatchWithDeviceCheck(
-            updateAllIndexes()
-          )
-          if ("error" in updateAllIndexesResult) {
-            return rejectWithValue(
-              new AppError(DeviceInitializationError.InitializingDeviceError)
-            )
-          }
-        }
-      }
-
-      await dispatchWithDeviceCheck(loadBackupData())
-
-      dispatch(
-        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
-      )
-      return DeviceInitializationStatus.Initialized
-    } catch (error) {
-      if (
-        error instanceof AppError &&
-        error.type === DeviceInitializationError.ActiveDeviceNotAttached
-      ) {
         return DeviceInitializationStatus.Aborted
       }
-      return rejectWithValue(error)
+      await dispatch(getCrashDump())
+      if (!isActiveDeviceAttachedSelector(getState())) {
+        dispatch(
+          setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+        )
+        return DeviceInitializationStatus.Aborted
+      }
+      await dispatch(checkForForceUpdateNeed())
     }
+
+    // Handle SYNC DATA as an initializing step
+    const deviceData = deviceDataSelector(getState()) as PureDeviceData
+    const skipDataSync = shouldSkipDataSync(deviceData)
+
+    if (!activeDeviceProcessing && !skipDataSync) {
+      const { serialNumber, token } = deviceData
+
+      const restored = await loadIndexRequest({ serialNumber, token })
+
+      if (restored) {
+        if (!isActiveDeviceAttachedSelector(getState())) {
+          dispatch(
+            setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+          )
+          return DeviceInitializationStatus.Aborted
+        }
+        await dispatch(readAllIndexes())
+        dispatch(setDataSyncSetStatus(SynchronizationStatus.Cache))
+        if (!isActiveDeviceAttachedSelector(getState())) {
+          dispatch(
+            setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+          )
+          return DeviceInitializationStatus.Aborted
+        }
+        await dispatch(updateAllIndexes())
+      } else {
+        if (!isActiveDeviceAttachedSelector(getState())) {
+          dispatch(
+            setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+          )
+          return DeviceInitializationStatus.Aborted
+        }
+        const updateAllIndexesResult = await dispatch(updateAllIndexes())
+        if ("error" in updateAllIndexesResult) {
+          return rejectWithValue(
+            new AppError(DeviceInitializationError.InitializingDeviceError)
+          )
+        }
+      }
+    }
+
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
+    await dispatch(loadBackupData())
+
+    dispatch(
+      setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
+    )
+    return DeviceInitializationStatus.Initialized
   }
 )
