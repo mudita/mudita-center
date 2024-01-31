@@ -357,6 +357,8 @@ const buttonStyles = css<{
           &:hover {
             text-decoration-color: ${textColor("primary")};
           }
+
+          ${disabled && getButtonContentColor("disabled")}
         `
       default:
         return

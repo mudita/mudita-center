@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useEffect } from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
@@ -168,7 +168,12 @@ const ContactSupportModal: FunctionComponent<Props> = ({
   const handleCloseModal = () => {
     reset()
     closeModal()
+    localStorage.setItem("customerSupportIsSending", "false")
   }
+
+  useEffect(() => {
+    localStorage.setItem("customerSupportIsSending", sending ? "true" : "false")
+  }, [sending])
 
   return (
     <ModalDialog

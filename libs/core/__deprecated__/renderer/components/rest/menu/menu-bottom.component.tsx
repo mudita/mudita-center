@@ -25,6 +25,7 @@ import { getDeviceInitializationStatus } from "Core/device-initialization/select
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
+import { useCustomerSupportIsSending } from "Core/__deprecated__/renderer/components/rest/menu/hooks/use-customer-support-is-sending"
 
 const SyncProgressWrapper = styled.div`
   display: flex;
@@ -59,6 +60,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const deviceInitialized =
     deviceInitializationStatus === DeviceInitializationStatus.Initialized
+  const isCustomerSupportSending = useCustomerSupportIsSending()
 
   const handleSelectDeviceClick = () => {
     history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
@@ -89,6 +91,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
         label={intl.formatMessage({
           id: "component.deviceSelection.changeDevice",
         })}
+        disabled={isCustomerSupportSending}
         displayStyle={DisplayStyle.BorderlessButton}
         Icon={IconType.DotsInBox}
         iconBadgeCountIndicator={devices.length}
