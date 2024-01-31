@@ -29,9 +29,7 @@ describe("Icon text component", () => {
         />
       </ThemeProvider>
     )
-    expect(getByTestId(dataTestIds.IconText)).toHaveTextContent(
-      "Dummy text"
-    )
+    expect(getByTestId(dataTestIds.IconText)).toHaveTextContent("Dummy text")
     expect(getByTestId(dataTestIds.IconSubtext)).toHaveTextContent(
       "Dummy subtext"
     )
@@ -47,11 +45,7 @@ describe("Icon text component", () => {
         />
       </ThemeProvider>
     )
-    expect(getByTestId(dataTestIds.IconText)).toHaveTextContent(
-      "Dummy text"
-    )
-    expect(
-      queryByTestId(dataTestIds.IconSubtext)
-    ).not.toBeInTheDocument()
+    expect(getByTestId(dataTestIds.IconText)).toHaveTextContent("Dummy text")
+    expect(queryByTestId(dataTestIds.IconSubtext)).not.toBeInTheDocument()
   })
 })
