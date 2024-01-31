@@ -12,6 +12,7 @@
   "component.columnFileName": "File name",
   "component.columnLastBackup": "Last Backup",
   "component.columnSize": "Size",
+  "component.connectingLoaderModal.subtitle": "Connection please wait...",
   "component.contactModalActionButton": "Send",
   "component.contactModalActionButtonProgress": "Sending",
   "component.contactModalDescription": "Contact Mudita support team and we will do our best to help you resolve your issues.",
