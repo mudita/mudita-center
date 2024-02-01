@@ -358,7 +358,7 @@ const buttonStyles = css<{
             text-decoration-color: ${textColor("primary")};
           }
 
-          ${disabled && getButtonContentColor("disabled")}
+          ${disabled && getButtonContentColor("secondary")}
         `
       default:
         return
@@ -410,6 +410,7 @@ export const StyledIcon = styled(Icon)<{
   withMargin: boolean
   rotate?: boolean
   badge: undefined | boolean | IconBadgeType
+  disabled: boolean
 }>`
   ${({ displayStyle, withMargin, badge }) => {
     if (withMargin) {
@@ -447,4 +448,11 @@ export const StyledIcon = styled(Icon)<{
     css`
       animation: ${rotateAnimation} 2s infinite linear;
     `};
+
+  ${({ disabled }) =>
+    disabled
+      ? css`
+          color: ${textColor("secondary")};
+        `
+      : css``}
 `

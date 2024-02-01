@@ -34,6 +34,8 @@ import { ModalDialog } from "Core/ui/components/modal-dialog"
 import FileList from "Core/__deprecated__/renderer/components/core/file-list/file-list.component"
 import { SendTicketPayload } from "Core/contact-support/actions/send-ticket.action"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 
 const messages = defineMessages({
   actionButton: {
@@ -168,11 +170,11 @@ const ContactSupportModal: FunctionComponent<Props> = ({
   const handleCloseModal = () => {
     reset()
     closeModal()
-    localStorage.setItem("customerSupportIsSending", "false")
+    ipcRenderer.callMain(HelpActions.CustomerIsSendingToMain, false)
   }
 
   useEffect(() => {
-    localStorage.setItem("customerSupportIsSending", sending ? "true" : "false")
+    ipcRenderer.callMain(HelpActions.CustomerIsSendingToMain, sending)
   }, [sending])
 
   return (

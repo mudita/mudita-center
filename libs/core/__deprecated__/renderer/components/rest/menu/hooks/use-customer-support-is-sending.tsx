@@ -4,21 +4,20 @@
  */
 
 import { useEffect, useState } from "react"
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 
 export const useCustomerSupportIsSending = () => {
-  const [isSending, setSending] = useState(
-    localStorage.getItem("customerSupportIsSending")
-  )
+  const [isSending, setSending] = useState<boolean>(false)
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSending(localStorage.getItem("customerSupportIsSending"))
-    }, 1000)
-
-    return () => {
-      clearInterval(intervalId)
-    }
+    ipcRenderer.answerMain(
+      HelpActions.CustomerIsSendingToRenderer,
+      (sending: boolean) => {
+        setSending(sending)
+      }
+    )
   }, [])
 
-  return isSending === "true" ? true : false
+  return isSending
 }
