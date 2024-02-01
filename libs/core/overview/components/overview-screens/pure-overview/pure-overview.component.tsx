@@ -23,7 +23,6 @@ import { OsRelease } from "Core/update/dto"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import React, { useCallback, useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
@@ -34,7 +33,6 @@ import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
-  disconnectDevice = noop,
   osVersion = "",
   memorySpace = {
     reservedSpace: 0,
@@ -295,7 +293,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       )}
       <OverviewContent
         batteryLevel={batteryLevel}
-        disconnectDevice={disconnectDevice}
         osVersion={osVersion}
         memorySpace={memorySpace}
         networkName={networkName}
