@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -13,15 +13,15 @@ import ConnectingContent from "Core/connecting/components/connecting-content.com
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import AvailableDeviceList from "Core/discovery-device/components/available-device-list.component"
-import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import {
   URL_DEVICE_INITIALIZATION,
+  URL_DISCOVERY_DEVICE,
   URL_MAIN,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
 import { getFailedDevicesSelector } from "Core/device-manager/selectors/get-failed-devices.selector"
+import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-new-devices-detected.hook"
 
 const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const history = useHistory()
@@ -34,8 +34,7 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     dispatch(setDiscoveryStatus(DiscoveryStatus.Discovering))
   }, [history, dispatch])
 
-  const [noNewDevicesDetectedState, setNoNewDevicesDetectedState] =
-    useState<boolean>(false)
+  const noNewDevicesDetectedState = useNoNewDevicesDetectedHook()
 
   useEffect(() => {
     if (
@@ -71,39 +70,28 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   ])
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
-
-    const handler = () => {
-      clearTimeout(timeoutId)
-
-      timeoutId = setTimeout(() => {
-        setNoNewDevicesDetectedState(true)
-      }, 5000)
-    }
-    handler()
-    const deviceConnected = registerDeviceConnectedListener(handler)
-    return () => {
-      deviceConnected()
-      clearTimeout(timeoutId)
-    }
-  }, [])
-
-  useEffect(() => {
     if (devices.length === 0 && noNewDevicesDetectedState) {
       dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
       history.push(URL_MAIN.news)
     }
   }, [dispatch, history, devices.length, noNewDevicesDetectedState])
 
-  if (
-    devices.length > 1 &&
-    availableDevices.length === devices.length &&
-    noNewDevicesDetectedState
-  ) {
-    return <AvailableDeviceList />
-  } else {
-    return <ConnectingContent />
-  }
+  useEffect(() => {
+    if (
+      devices.length > 1 &&
+      availableDevices.length === devices.length &&
+      noNewDevicesDetectedState
+    ) {
+      history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
+    }
+  }, [
+    history,
+    devices.length,
+    availableDevices.length,
+    noNewDevicesDetectedState,
+  ])
+
+  return <ConnectingContent />
 }
 
 export default ConfiguredDevicesDiscovery

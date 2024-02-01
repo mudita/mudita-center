@@ -94,14 +94,14 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
         onAfterClose={onClose}
         {...props}
       >
-        <Header
+        {(title || subtitle || closeModal) && <Header
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           titleOrder={titleOrder}
           subtitleGap={Boolean(subtitle)}
           data-testid={ModalTestIds.Header}
         >
-          <ModalTitle
+          {title && <ModalTitle
             displayStyle={getTitleStyle(size)}
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -110,7 +110,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
             data-testid={ModalTestIds.Title}
           >
             {title}
-          </ModalTitle>
+          </ModalTitle>}
           {Boolean(closeModal) && close}
           <ModalSubTitle
             displayStyle={getSubtitleStyle(size)}
@@ -119,7 +119,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
           >
             {subtitle}
           </ModalSubTitle>
-        </Header>
+        </Header>}
         {children}
         {actionButtonLabel || closeButton ? (
           // AUTO DISABLED - fix me if you like :)
