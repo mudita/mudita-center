@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useMemo } from "react"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import RecursiveLayout from "./recursive-layout"
@@ -25,23 +25,27 @@ export const GenericModals: FunctionComponent<Props> = ({ viewKey }) => {
   const modalsToRender = useSelector((state: ReduxRootState) =>
     selectModalsToRender(state, { viewKey })
   )
+  const modalsToRenderDependency = JSON.stringify(modalsToRender)
 
-  if (isEmpty(modalsToRender)) {
-    return null
-  }
-  return (
-    <>
-      {modalsToRender.map((modalKey) => {
-        return (
-          <RecursiveLayout
-            key={modalKey}
-            viewKey={viewKey}
-            componentKey={modalKey}
-          />
-        )
-      })}
-    </>
-  )
+  return useMemo(() => {
+    if (isEmpty(modalsToRender)) {
+      return null
+    }
+    return (
+      <>
+        {modalsToRender.map((modalKey) => {
+          return (
+            <RecursiveLayout
+              key={modalKey}
+              viewKey={viewKey}
+              componentKey={modalKey}
+            />
+          )
+        })}
+      </>
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalsToRenderDependency, viewKey])
 }
 
 export default GenericModals
