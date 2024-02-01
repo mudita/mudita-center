@@ -22,6 +22,7 @@ import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
+import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 const CONNECTING_LOADER_MODAL_ID = "connecting-loader-modal"
 
@@ -108,6 +109,7 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
       data={{ "modal-id": CONNECTING_LOADER_MODAL_ID }}
       subtitle={intl.formatMessage(messages.subtitle)}
       open={openModal}
+      layer={ModalLayers.ConnectingLoader}
     />
   )
 }

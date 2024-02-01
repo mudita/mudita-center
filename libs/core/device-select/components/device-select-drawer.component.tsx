@@ -31,6 +31,7 @@ import {
 import { DrawerDevice } from "Core/device-select/components/drawer-device.component"
 import { defineMessages } from "react-intl"
 import { DeviceId } from "Core/device/constants/device-id"
+import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 const messages = defineMessages({
   changeDevice: { id: "component.deviceSelection.changeDevice" },
@@ -96,6 +97,7 @@ const DeviceSelectDrawer: FunctionComponent = () => {
         }}
         direction="right"
         size="36.9rem"
+        zIndex={ModalLayers.Drawer}
       >
         <DrawerChildrenContainer>
           <Header>
