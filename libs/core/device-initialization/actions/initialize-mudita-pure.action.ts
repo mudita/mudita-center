@@ -39,20 +39,44 @@ export const initializeMuditaPure = createAsyncThunk<
     dispatch(
       setDeviceInitializationStatus(DeviceInitializationStatus.Initializing)
     )
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
+
     await dispatch(loadSettings())
 
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
     const unlockStatus = await dispatch(getUnlockStatus())
     if (!unlockStatus.payload) {
       return DeviceInitializationStatus.Initializing
     }
 
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
     await dispatch(
       configureDevice(activeDeviceIdSelector(getState()) as string)
     )
 
     // Handle LOAD DEVICE DATA as an initializing step
+    if (!isActiveDeviceAttachedSelector(getState())) {
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+      )
+      return DeviceInitializationStatus.Aborted
+    }
     const loadDeviceDataResult = await dispatch(loadDeviceData(true))
-
     if ("error" in loadDeviceDataResult) {
       return rejectWithValue(
         new AppError(DeviceInitializationError.InitializingDeviceError)
@@ -63,7 +87,19 @@ export const initializeMuditaPure = createAsyncThunk<
 
     if (!activeDeviceProcessing) {
       // Handle FETCH CRASH DUMPS as an initializing step
+      if (!isActiveDeviceAttachedSelector(getState())) {
+        dispatch(
+          setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+        )
+        return DeviceInitializationStatus.Aborted
+      }
       await dispatch(getCrashDump())
+      if (!isActiveDeviceAttachedSelector(getState())) {
+        dispatch(
+          setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+        )
+        return DeviceInitializationStatus.Aborted
+      }
       await dispatch(checkForForceUpdateNeed())
     }
 
@@ -77,10 +113,28 @@ export const initializeMuditaPure = createAsyncThunk<
       const restored = await loadIndexRequest({ serialNumber, token })
 
       if (restored) {
+        if (!isActiveDeviceAttachedSelector(getState())) {
+          dispatch(
+            setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+          )
+          return DeviceInitializationStatus.Aborted
+        }
         await dispatch(readAllIndexes())
         dispatch(setDataSyncSetStatus(SynchronizationStatus.Cache))
-        dispatch(updateAllIndexes())
+        if (!isActiveDeviceAttachedSelector(getState())) {
+          dispatch(
+            setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+          )
+          return DeviceInitializationStatus.Aborted
+        }
+        await dispatch(updateAllIndexes())
       } else {
+        if (!isActiveDeviceAttachedSelector(getState())) {
+          dispatch(
+            setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
+          )
+          return DeviceInitializationStatus.Aborted
+        }
         const updateAllIndexesResult = await dispatch(updateAllIndexes())
         if ("error" in updateAllIndexesResult) {
           return rejectWithValue(
@@ -90,14 +144,13 @@ export const initializeMuditaPure = createAsyncThunk<
       }
     }
 
-    await dispatch(loadBackupData())
-
     if (!isActiveDeviceAttachedSelector(getState())) {
       dispatch(
         setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
       )
       return DeviceInitializationStatus.Aborted
     }
+    await dispatch(loadBackupData())
 
     dispatch(
       setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)

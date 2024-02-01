@@ -88,23 +88,9 @@ export const deviceManagerReducer = createReducer<DeviceManagerState>(
         }
       })
       .addCase(deactivateDevice.fulfilled, (state) => {
-        const devices = state.devices.reduce((prev, device) => {
-          if (device.id === state.activeDeviceId) {
-            return [
-              ...prev,
-              {
-                ...device,
-                state: DeviceState.Connected,
-              },
-            ]
-          } else {
-            return [...prev, device]
-          }
-        }, [] as Device[])
 
         return {
           ...state,
-          devices,
           activeDeviceId: undefined,
         }
       })
