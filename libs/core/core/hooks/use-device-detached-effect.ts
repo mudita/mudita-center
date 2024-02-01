@@ -57,7 +57,11 @@ export const useDeviceDetachedEffect = () => {
           return
         }
 
-        if (devices.length === 2) {
+        if (
+          !activeDeviceProcessing &&
+          activeDeviceId === undefined &&
+          devices.length === 2
+        ) {
           history.push(URL_DISCOVERY_DEVICE.root)
           return
         }
