@@ -132,7 +132,9 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeBackupDeviceFlowState = () => {
     setBackupDeviceFlowState(undefined)
     readBackupDeviceDataState()
-    deactivateDeviceAndRedirect()
+    if (!activeDeviceAttached) {
+      void deactivateDeviceAndRedirect()
+    }
   }
 
   useEffect(() => {
@@ -157,8 +159,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeRestoreDeviceFlowState = useCallback(() => {
     setRestoreDeviceFlowState(undefined)
     readRestoreDeviceDataState()
-    if (activeDeviceAttached) {
-      deactivateDeviceAndRedirect()
+    if (!activeDeviceAttached) {
+      void deactivateDeviceAndRedirect()
     }
   }, [
     activeDeviceAttached,
