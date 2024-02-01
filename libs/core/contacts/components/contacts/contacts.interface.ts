@@ -12,15 +12,14 @@ import {
 } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
 import {
   Contact,
+  ContactCategory,
   ContactID,
   NewContact,
+  ResultState,
 } from "Core/contacts/reducers/contacts.interface"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
-import {
-  ResultState,
-  ContactCategory,
-} from "Core/contacts/reducers/contacts.interface"
 import { ExportContactsResult } from "Core/contacts/constants"
+import { ImportContactArg } from "Core/contacts/actions"
 
 export interface ExternalService {
   type: Provider
@@ -57,7 +56,7 @@ export interface ContactsProps {
     contact: NewContact
   ) => Promise<PayloadAction<ContactErrorResponse | undefined>>
   importContact: (
-    contact: NewContact
+    arg: ImportContactArg
   ) => Promise<PayloadAction<Error | Contact>>
   editContact: (contact: Contact) => Promise<PayloadAction<Error | undefined>>
   deleteContacts: (
