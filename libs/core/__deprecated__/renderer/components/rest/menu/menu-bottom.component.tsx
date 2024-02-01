@@ -66,7 +66,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
     history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
   }
 
-  const isSelectDevice = !deviceInitialized && devices.length > 0
+  const isSelectDevice = !deviceInitialized && devices.length > 1
 
   const SelectDeviceButton = (
     <DeviceButtonWrapper>
