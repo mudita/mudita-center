@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IconType } from "Libs/generic-view/utils/src"
+import { IconType } from "generic-view/utils"
 import { z } from "zod"
 
 export const DetailListTextConfigValidator = z.object({
@@ -106,3 +106,11 @@ export const OverviewConfigValidator = z.object({
 })
 
 export type OverviewConfig = z.infer<typeof OverviewConfigValidator>
+
+export const ComponentsWithDataKey = [
+  DetailListTextConfigValidator.shape.type.value,
+  DetailListModalConfigValidator.shape.type.value,
+  UpdateTileConfigValidator.shape.type.value,
+  IconTextRowConfigValidator.shape.type.value,
+  TileListConfigValidator.shape.type.value,
+]

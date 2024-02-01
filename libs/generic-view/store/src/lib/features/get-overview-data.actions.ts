@@ -9,6 +9,7 @@ import { FeaturesActions } from "./featues-action-keys"
 import { getOverviewDataRequest } from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { generateMcAboutData, generateMcOverviewData } from "generic-view/views"
+import { View } from "generic-view/utils"
 
 export const getOverviewData = createAsyncThunk<
   {
@@ -21,16 +22,20 @@ export const getOverviewData = createAsyncThunk<
 >(
   FeaturesActions.GetOverviewData,
   async ({ deviceId }, { rejectWithValue, getState }) => {
-    const response = await getOverviewDataRequest(deviceId)
+    const overviewConfig =
+      getState().genericViews.devicesConfiguration[deviceId]?.features?.[
+        "mc-overview"
+      ]?.config
+    const aboutConfig =
+      getState().genericViews.devicesConfiguration[deviceId]?.features?.[
+        "mc-about"
+      ]?.config
+    const response = await getOverviewDataRequest(
+      deviceId,
+      overviewConfig ?? ({} as View),
+      aboutConfig ?? ({} as View)
+    )
     if (response.ok) {
-      const overviewConfig =
-        getState().genericViews.devicesConfiguration[deviceId]?.features?.[
-          "mc-overview"
-        ]?.config
-      const aboutConfig =
-        getState().genericViews.devicesConfiguration[deviceId]?.features?.[
-          "mc-about"
-        ]?.config
       return {
         deviceId,
         overviewData: generateMcOverviewData(response.data, overviewConfig),
