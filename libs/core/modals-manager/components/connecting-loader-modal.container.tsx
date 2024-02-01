@@ -99,10 +99,19 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
         }
       }, 3000)
     }
+
+    const unregister = history.listen((location) => {
+      if(location.pathname.includes(URL_DISCOVERY_DEVICE.root)){
+        clearTimeout(timeoutId)
+        setOpenModal(false)
+      }
+    })
+
     return () => {
       clearTimeout(timeoutId)
+      unregister()
     }
-  }, [openModal, dispatch, discoveryStatus, history.location.pathname])
+  }, [openModal, dispatch, discoveryStatus, history])
 
   return (
     <LoaderModal
