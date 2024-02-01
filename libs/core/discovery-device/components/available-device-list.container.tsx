@@ -21,7 +21,7 @@ const AvailableDeviceListContainer: FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(setDiscoveryStatus(DiscoveryStatus.Discovering))
-  })
+  }, [dispatch])
 
   useEffect(() => {
     if (devices.length === 0) {
