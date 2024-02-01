@@ -15,7 +15,10 @@ import { removeDevice } from "Core/device-manager/actions/base.action"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { cancelOsDownload } from "Core/update/requests"
-import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_DISCOVERY_DEVICE,
+  URL_ONBOARDING,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 
@@ -35,24 +38,29 @@ export const useDeviceDetachedEffect = () => {
       async (properties: DeviceBaseProperties) => {
         dispatch(removeDevice(properties))
 
-        if (activeDeviceId !== properties.id) {
+        if (activeDeviceId === properties.id) {
+          // handle deprecated contact modal
+          await modalService.closeModal(true)
+
+          if (activeDeviceProcessing) {
+            return
+          }
+
+          if (downloadProcessing) {
+            await dispatch(deactivateDevice())
+            cancelOsDownload()
+            history.push(URL_ONBOARDING.welcome)
+            return
+          }
+
+          await deactivateDeviceAndRedirect()
           return
         }
 
-        // handle deprecated contact modal
-        await modalService.closeModal(true)
-
-        if (activeDeviceProcessing) {
+        if (devices.length === 2) {
+          history.push(URL_DISCOVERY_DEVICE.root)
           return
         }
-
-        if (downloadProcessing) {
-          await dispatch(deactivateDevice())
-          cancelOsDownload()
-          history.push(URL_ONBOARDING.welcome)
-          return
-        }
-        deactivateDeviceAndRedirect()
       }
     )
   }, [
