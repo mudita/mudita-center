@@ -5,7 +5,6 @@
 
 import { IconType, View } from "generic-view/utils"
 import { z } from "zod"
-import { OverviewConfig } from "./overview-config"
 
 export interface DetailListTextData {
   text: string
@@ -78,6 +77,7 @@ export const OverviewDataBaseValidator = (config: View) => {
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const validator = keys.reduce((acc, item) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     if (!item) return acc
     const { key, component } = item
 
