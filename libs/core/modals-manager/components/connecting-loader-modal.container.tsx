@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import { registerDeviceConnectFailedListener } from "Core/device-manager/listeners/device-connect-failed.listener"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
@@ -22,6 +22,7 @@ import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
+import { checkIsAnyOtherModalPresent } from "Core/utils/check-is-any-other-modal-present"
 
 const CONNECTING_LOADER_MODAL_ID = "connecting-loader-modal"
 
@@ -38,7 +39,6 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
   const noNewDevicesDetectedState = useNoNewDevicesDetectedHook()
 
   const history = useHistory()
-  const isAnyOtherModalPresent = true
 
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const initializationDeviceInProgress = useSelector(
@@ -54,7 +54,7 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
         initializationDeviceInProgress ||
         initializationAppInProgress ||
         activeDeviceProcessing ||
-        isAnyOtherModalPresent ||
+        checkIsAnyOtherModalPresent(CONNECTING_LOADER_MODAL_ID) ||
         !noNewDevicesDetectedState
       ) {
         setOpenModal(false)
@@ -77,7 +77,6 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
     initializationDeviceInProgress,
     initializationAppInProgress,
     activeDeviceProcessing,
-    isAnyOtherModalPresent,
     noNewDevicesDetectedState,
   ])
 
@@ -98,7 +97,7 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
     }
 
     const unregister = history.listen((location) => {
-      if(location.pathname.includes(URL_DISCOVERY_DEVICE.root)){
+      if (location.pathname.includes(URL_DISCOVERY_DEVICE.root)) {
         clearTimeout(timeoutId)
         setOpenModal(false)
       }
