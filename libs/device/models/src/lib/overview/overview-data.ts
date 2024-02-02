@@ -76,17 +76,19 @@ export const OverviewDataBaseValidator = (config: View) => {
     })
     .filter(Boolean)
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const validator = keys.reduce((acc, item) => {
     if (!item) return acc
     const { key, component } = item
 
     const cleanKey = cleanKeyName(key)
     const validator = getValidatorByComponentName(component)
-
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return {
       ...acc,
       ...(validator ? { [cleanKey]: validator } : undefined),
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }, {} as any)
   return z.object(validator)
 }

@@ -36,6 +36,7 @@ describe("DetailListTextConfig", () => {
   it.each(["dataKey", "title"])(
     "should return fail when %s is empty string",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumDetailListTextConfig }
       dataToParse[fieldName] = ""
       const result = DetailListTextConfigValidator.safeParse(dataToParse)
@@ -45,6 +46,7 @@ describe("DetailListTextConfig", () => {
   it.each(["dataKey", "type", "title"])(
     "should return fail when %s is missing",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumDetailListTextConfig }
       delete dataToParse[fieldName]
       const result = DetailListTextConfigValidator.safeParse(dataToParse)
@@ -69,6 +71,7 @@ describe("DetailListModalConfig", () => {
   it.each(["dataKey", "title", "buttonText"])(
     "should return fail when %s is empty string",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumDetailListModalConfig }
       dataToParse[fieldName] = ""
       const result = DetailListModalConfigValidator.safeParse(dataToParse)
@@ -78,6 +81,7 @@ describe("DetailListModalConfig", () => {
   it.each(["dataKey", "type", "title", "buttonText"])(
     "should return fail when %s is missing",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumDetailListModalConfig }
       delete dataToParse[fieldName]
       const result = DetailListModalConfigValidator.safeParse(dataToParse)
@@ -104,6 +108,7 @@ describe("UpdateTileConfig", () => {
   it.each(["dataKey", "title", "currentVersionKey", "versionLabel"])(
     "should return fail when %s is empty string",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumUpdateTileConfigConfig }
       dataToParse[fieldName] = ""
       const result = UpdateTileConfigValidator.safeParse(dataToParse)
@@ -118,6 +123,7 @@ describe("UpdateTileConfig", () => {
     "showBadge",
     "versionLabel",
   ])("should return fail when %s is missing", (fieldName) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataToParse: any = { ...minimumUpdateTileConfigConfig }
     delete dataToParse[fieldName]
     const result = UpdateTileConfigValidator.safeParse(dataToParse)
@@ -147,6 +153,7 @@ describe("DataSyncTileConfig", () => {
   it.each(["title", "buttonText"])(
     "should return fail when %s is empty string",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumDataSyncTileConfig }
       dataToParse[fieldName] = ""
       const result = DataSyncTileConfigValidator.safeParse(dataToParse)
@@ -156,6 +163,7 @@ describe("DataSyncTileConfig", () => {
   it.each(["type", "title", "buttonText", "fieldsToSync"])(
     "should return fail when %s is missing",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumDataSyncTileConfig }
       delete dataToParse[fieldName]
       const result = DataSyncTileConfigValidator.safeParse(dataToParse)
@@ -178,6 +186,7 @@ describe("IconTextRowConfig", () => {
   it.each(["dataKey"])(
     "should return fail when %s is empty string",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumIconTextRowConfig }
       dataToParse[fieldName] = ""
       const result = IconTextRowConfigValidator.safeParse(dataToParse)
@@ -187,6 +196,7 @@ describe("IconTextRowConfig", () => {
   it.each(["type", "dataKey"])(
     "should return fail when %s is missing",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumIconTextRowConfig }
       delete dataToParse[fieldName]
       const result = IconTextRowConfigValidator.safeParse(dataToParse)
@@ -211,6 +221,7 @@ describe("TileListConfig", () => {
   it.each(["dataKey"])(
     "should return fail when %s is empty string",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumTileListConfig }
       dataToParse[fieldName] = ""
       const result = TileListConfigValidator.safeParse(dataToParse)
@@ -220,6 +231,7 @@ describe("TileListConfig", () => {
   it.each(["dataKey", "type", "fields"])(
     "should return fail when %s is missing",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumTileListConfig }
       delete dataToParse[fieldName]
       const result = TileListConfigValidator.safeParse(dataToParse)
@@ -273,6 +285,7 @@ describe("OverviewConfig", () => {
   it.each(["title"])(
     "should return fail when %s is empty string",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumOverviewConfig }
       dataToParse[fieldName] = ""
       const result = OverviewConfigValidator.safeParse(dataToParse)
@@ -282,6 +295,7 @@ describe("OverviewConfig", () => {
   it.each(["title", "summary"])(
     "should return fail when %s is missing",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const dataToParse: any = { ...minimumOverviewConfig }
       delete dataToParse[fieldName]
       const result = OverviewConfigValidator.safeParse(dataToParse)

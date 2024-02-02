@@ -61,6 +61,7 @@ describe("OverviewDataValidator", () => {
     expect(result.success).toBeTruthy()
   })
   it("should return fail when about data is missing", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataToParse: any = { ...minimumData }
     delete dataToParse.summary.about.imei
     const validator = OverviewDataValidator(overviewConfig, aboutConfig)
@@ -68,6 +69,7 @@ describe("OverviewDataValidator", () => {
     expect(result.success).toBeFalsy()
   })
   it("should return fail when summary data is missing", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataToParse: any = { ...minimumData }
     delete dataToParse.sections.network
     const validator = OverviewDataValidator(overviewConfig, aboutConfig)

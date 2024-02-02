@@ -38,6 +38,7 @@ describe("APIConfigValidator", () => {
   it.each(["apiVersion", "productId", "vendorId"])(
     "should return fail when %s is missing",
     (fieldName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const apiConfig: any = { ...minimumApiConfig }
       delete apiConfig[fieldName]
       const result = ApiConfigValidator.safeParse(apiConfig)
