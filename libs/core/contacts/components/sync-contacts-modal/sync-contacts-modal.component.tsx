@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useRef, ComponentProps, ReactNode } from "react"
+import React, { ComponentProps, ReactNode } from "react"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
@@ -25,7 +25,6 @@ import {
   ModalLink,
 } from "Core/ui/components/modal-dialog"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import InputFileSelect from "Core/contacts/components/sync-contacts-modal/input-file-select"
 import { ipcRenderer } from "electron-better-ipc"
 import { BrowserActions } from "Core/__deprecated__/common/enums/browser-actions.enum"
 
@@ -57,7 +56,7 @@ export interface Props extends ComponentProps<typeof ModalDialog> {
   onGoogleButtonClick: () => void
   onOutlookButtonClick: () => void
   onAppleButtonClick?: () => void
-  onManualImportClick: (inputElement: HTMLInputElement) => void
+  onManualImportClick: () => void
   disabledOtherMethod: boolean
   onCancelManualImportClick: () => void
 }
@@ -72,13 +71,6 @@ const SyncContactsModal: FunctionComponent<Props> = ({
   onCancelManualImportClick,
   ...props
 }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
-  const handleManualImportClick = () => {
-    if (onManualImportClick && fileInputRef.current) {
-      onManualImportClick(fileInputRef.current)
-    }
-  }
 
   const openHelpWindow = () =>
     ipcRenderer.callMain(BrowserActions.AppleOpenBrowser)
@@ -137,13 +129,8 @@ const SyncContactsModal: FunctionComponent<Props> = ({
             <SyncButton
               labelMessage={messages.manualImportText}
               Icon={IconType.DownloadWhite}
-              onClick={handleManualImportClick}
+              onClick={onManualImportClick}
               disabled={disabledOtherMethod}
-            />
-            <InputFileSelect
-              ref={fileInputRef}
-              onManualImportClick={onManualImportClick}
-              onCancelManualImportClick={onCancelManualImportClick}
             />
           </ButtonWrapper>
         </ButtonsContainer>

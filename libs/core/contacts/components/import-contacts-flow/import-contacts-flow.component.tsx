@@ -69,7 +69,7 @@ interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   contacts: NewContact[]
   authorizeAtGoogle: () => Promise<void>
   authorizeAtOutLook: () => Promise<void>
-  importFromFile: (inputElement: HTMLInputElement) => void
+  importFromFile: () => void
   sendContactsToPhone: (contacts: NewContact[]) => Promise<void>
   closeModal: () => void
   retryImport: () => void

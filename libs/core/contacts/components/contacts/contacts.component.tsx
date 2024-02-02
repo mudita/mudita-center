@@ -59,6 +59,8 @@ import { differenceWith, isEqual } from "lodash"
 import { filterContacts } from "Core/contacts/helpers/filter-contacts/filter-contacts"
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types"
+import { getPathsRequest } from "Core/file-system/requests"
+import createFile from "Core/__deprecated__/renderer/utils/create-file/create-file"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {
@@ -467,20 +469,25 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   }
 
   // Synchronization, step 2a: file select
-  // AUTO DISABLED - fix me if you like :)
-  const importFromFile = (inputElement: HTMLInputElement) => {
-    const onFileSelect = () => {
-      if (inputElement.files) {
-        void getContacts({
-          type: "files",
-          data: Array.from(inputElement.files),
-        })
-        inputElement.removeEventListener("change", onFileSelect)
-      }
-    }
+  const importFromFile = async () => {
+    const { ok, data: paths } = await getPathsRequest({
+      filters: [
+        {
+          name: ".vcf",
+          extensions: [".vcf"],
+        },
+      ],
+      properties: ["openFile", "multiSelections"],
+    })
 
-    inputElement.click()
-    inputElement.addEventListener("change", onFileSelect)
+    const files =
+      ok && paths !== undefined ? paths.map((path) => createFile(path)) : []
+
+    void getContacts({
+      type: "files",
+      data: Array.from(files),
+    })
+
     setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
   }
 
