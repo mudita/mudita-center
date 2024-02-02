@@ -11,7 +11,6 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { isAnyOtherModalPresentSelector } from "Core/modals-manager/selectors/is-any-other-modal-present.selector"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import { registerDeviceConnectFailedListener } from "Core/device-manager/listeners/device-connect-failed.listener"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
@@ -39,9 +38,7 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
   const noNewDevicesDetectedState = useNoNewDevicesDetectedHook()
 
   const history = useHistory()
-  const isAnyOtherModalPresent = useSelector((state: ReduxRootState) =>
-    isAnyOtherModalPresentSelector(state, CONNECTING_LOADER_MODAL_ID)
-  )
+  const isAnyOtherModalPresent = true
 
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const initializationDeviceInProgress = useSelector(

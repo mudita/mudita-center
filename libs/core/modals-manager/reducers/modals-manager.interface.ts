@@ -10,15 +10,9 @@ export enum ModalStateKey {
   DeviceInitializationFailedModalShow = "deviceInitializationFailedModalShow",
 }
 
-export interface ModalsManagerItem {
-  id?: string
-  isPresent: boolean
-}
-
 export interface ModalsManagerState extends Record<ModalStateKey, boolean> {
   appForcedUpdateFlowShow: boolean
   appUpdateFlowShow: boolean
   contactSupportFlowShow: boolean
   deviceInitializationFailedModalShow: boolean
-  visibleModals: ModalsManagerItem[]
 }
