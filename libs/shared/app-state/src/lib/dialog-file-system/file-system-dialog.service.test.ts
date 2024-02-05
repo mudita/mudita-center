@@ -6,8 +6,8 @@
 import { dialog, BrowserWindow } from "electron"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { FilesSystemDialogService } from "Core/file-system/services/file-system-dialog.service"
-import { DialogFileSystemError } from "Core/file-system/constants"
+import { FileSystemDialogService } from "./file-system-dialog.service"
+import { FileSystemDialogError } from "./error.constant"
 
 jest.mock("electron", () => ({
   dialog: {
@@ -15,7 +15,7 @@ jest.mock("electron", () => ({
   },
 }))
 
-const subject = new FilesSystemDialogService({} as BrowserWindow)
+const subject = new FileSystemDialogService({} as BrowserWindow)
 
 beforeEach(() => [jest.resetAllMocks()])
 
@@ -36,7 +36,7 @@ test("returns `Result.failed` if `showOpenDialog` throw an error", async () => {
   const result = await subject.getPaths()
   expect(result).toEqual(
     Result.failed(
-      new AppError(DialogFileSystemError.GetPath, "Luke, I'm your error")
+      new AppError(FileSystemDialogError.GetPath, "Luke, I'm your error")
     )
   )
 })

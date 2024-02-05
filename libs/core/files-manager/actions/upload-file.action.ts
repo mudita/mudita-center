@@ -13,7 +13,7 @@ import {
   FilesManagerError,
   FilesManagerEvent,
 } from "Core/files-manager/constants"
-import { getPathsRequest } from "Core/file-system/requests"
+import { getPathsRequest } from "shared/app-state"
 import { uploadFilesRequest } from "Core/files-manager/requests"
 import { getFiles } from "Core/files-manager/actions/get-files.action"
 import {

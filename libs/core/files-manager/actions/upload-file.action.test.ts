@@ -21,7 +21,7 @@ import {
   setUploadingState,
 } from "Core/files-manager/actions/base.action"
 import { getFiles } from "Core/files-manager/actions/get-files.action"
-import { getPathsRequest } from "Core/file-system/requests"
+import { getPathsRequest } from "shared/app-state"
 import * as loadStorageInfoActionModule from "Core/device/actions/load-storage-info.action"
 
 jest.mock("Core/file-system/requests/get-paths.request")
