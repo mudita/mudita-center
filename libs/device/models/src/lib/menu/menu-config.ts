@@ -4,14 +4,19 @@
  */
 
 import { IconType } from "generic-view/utils"
+import { z } from "zod"
 
-export interface MenuItemConfig {
-  feature: string
-  displayName?: string
-  icon?: IconType
-}
+const MenuItemConfigValidator = z.object({
+  feature: z.string(),
+  displayName: z.string().optional(),
+  icon: z.nativeEnum(IconType).optional(),
+})
 
-export interface MenuConfig {
-  title?: string
-  menuItems: MenuItemConfig[]
-}
+export type MenuItemConfig = z.infer<typeof MenuItemConfigValidator>
+
+export const MenuConfigValidator = z.object({
+  title: z.string().optional(),
+  menuItems: z.array(MenuItemConfigValidator).min(1),
+})
+
+export type MenuConfig = z.infer<typeof MenuConfigValidator>

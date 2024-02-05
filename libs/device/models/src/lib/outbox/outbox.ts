@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface Outbox {
-  features: string[]
-  data: string[]
-}
+import { z } from "zod"
+
+export const OutboxValidator = z.object({
+  features: z.array(z.string()),
+  data: z.array(z.string()),
+})
+
+export type Outbox = z.infer<typeof OutboxValidator>

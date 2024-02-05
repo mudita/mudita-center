@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IconType } from "Libs/generic-view/utils/src"
+import { IconType, View } from "generic-view/utils"
+import { z } from "zod"
 
 export interface DetailListTextData {
   text: string
@@ -32,6 +33,82 @@ export type TileListData = Record<string, TileListFieldData>
 type OverviewSectionsData = TileListData | UpdateTileData
 
 export type AboutData = Record<string, DetailListFieldData>
+
+const keyToCheckForBaseOverview = ["icon-text"]
+const keyToCheckForAboutOverview = ["about-data-box", "text-formatted"]
+const keyToCheckForOverview = [
+  ...keyToCheckForBaseOverview,
+  ...keyToCheckForAboutOverview,
+]
+
+const getValidatorByComponentName = (component: string) => {
+  switch (component) {
+    case "about-data-box":
+      return z.object({
+        text: z.string().optional(),
+      })
+    case "text-formatted":
+      return z.object({
+        text: z.string().optional(),
+      })
+    case "icon-text":
+      return z.object({
+        icon: z.nativeEnum(IconType),
+        text: z.string(),
+        subText: z.string().optional(),
+      })
+    default:
+      return null
+  }
+}
+const cleanKeyName = (key: string) => {
+  return key.replace("modal-content", "")
+}
+
+export const OverviewDataBaseValidator = (config: View) => {
+  const keys = Object.entries(config)
+    .map(([key, value]) => {
+      if (keyToCheckForOverview.includes(value.component)) {
+        return { key, component: value.component }
+      }
+      return null
+    })
+    .filter(Boolean)
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  const validator = keys.reduce((acc, item) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    if (!item) return acc
+    const { key, component } = item
+
+    const cleanKey = cleanKeyName(key)
+    const validator = getValidatorByComponentName(component)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return {
+      ...acc,
+      ...(validator ? { [cleanKey]: validator } : undefined),
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }, {} as any)
+  return z.object(validator)
+}
+
+export const OverviewDataValidator = (
+  overviewConfig: View,
+  aboutConfig: View
+) => {
+  const baseShape = OverviewDataBaseValidator(overviewConfig)
+  const aboutShape = OverviewDataBaseValidator(aboutConfig)
+
+  return z.object({
+    summary: z
+      .object({
+        about: aboutShape.optional(),
+      })
+      .optional(),
+    sections: baseShape.optional(),
+  })
+}
 
 export interface OverviewData {
   summary?: {
