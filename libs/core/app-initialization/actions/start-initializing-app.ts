@@ -23,5 +23,5 @@ export const startInitializingApp = createAsyncThunk<
 
   await dispatch(checkUpdateAvailable())
 
-  //void dispatch(checkAppRequiresSerialPortGroup())
+  await dispatch(checkAppRequiresSerialPortGroup())
 })
