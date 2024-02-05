@@ -36,6 +36,10 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     opacity: 0;
     transition: opacity 400ms ease-out;
 
+    &.hidden {
+      background-color: transparent;
+    }
+
     &.ReactModal__Overlay--after-open {
       opacity: 1;
     }
@@ -50,6 +54,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     width: 100%;
     max-height: calc(100vh - 20rem);
     overflow: hidden;
+    outline: none;
     box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.color.black + "26"};
     display: flex;
     flex-direction: column;

@@ -8,8 +8,12 @@ import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
-import { APIOutboxServiceEvents, Outbox, OutboxValidator } from "device/models"
-import { GeneralError } from "../general-error"
+import {
+  APIOutboxServiceEvents,
+  GeneralError,
+  Outbox,
+  OutboxValidator,
+} from "device/models"
 
 export class APIOutboxService {
   constructor(private deviceManager: DeviceManager) {}

@@ -10,10 +10,10 @@ import {
   ApiConfig,
   APIConfigServiceEvents,
   ApiConfigValidator,
+  GeneralError,
 } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 import { AppError } from "Core/core/errors"
-import { GeneralError } from "../general-error"
 import { APIConfigError } from "./api-config-error"
 
 export class APIConfigService {

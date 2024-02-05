@@ -21,7 +21,7 @@ export const activeDeviceMenuItems = createSelector(
   }
 )
 
-export const activeDeviceMenuElements = createSelector(
+export const selectActiveDeviceMenuElements = createSelector(
   activeDeviceMenuItems,
   (menuConfig) => {
     return menuConfig && generateMenu(menuConfig)

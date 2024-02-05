@@ -17,10 +17,11 @@ import {
 import { getOverviewData } from "../features"
 import { getOverviewConfig } from "../features/get-overview-config.actions"
 import { getAPIAny } from "../get-api-any"
-import { ApiConfig, MenuConfig, OverviewData } from "device/models"
+import { ApiConfig, ApiError, MenuConfig, OverviewData } from "device/models"
 import { getMenuConfig } from "../get-menu-config"
 import { DeviceId } from "Core/device/constants/device-id"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
+import { AppError } from "Core/core/errors"
 
 interface DeviceConfiguration {
   apiConfig: ApiConfig
@@ -50,6 +51,7 @@ interface GenericState {
   lastRefresh?: number
   activeDevice?: DeviceId
   devicesConfiguration: Record<string, DeviceConfiguration>
+  apiErrors: Record<ApiError, boolean>
 }
 
 const initialState: GenericState = {
@@ -57,6 +59,9 @@ const initialState: GenericState = {
   views: {},
   lastResponse: {},
   devicesConfiguration: {},
+  apiErrors: {
+    [ApiError.DeviceLocked]: false,
+  },
 }
 
 export const genericViewsReducer = createReducer(initialState, (builder) => {
@@ -85,6 +90,16 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.devicesConfiguration[action.payload.deviceId].menuConfig =
       action.payload.menuConfig
     state.lastResponse = action.payload
+    state.apiErrors[ApiError.DeviceLocked] = false
+  })
+  builder.addCase(getMenuConfig.rejected, (state, action) => {
+    const error = action.payload as AppError
+    const apiError = !isNaN(Number(error.type))
+      ? (Number(error.type) as ApiError)
+      : undefined
+    if (apiError && ApiError[apiError]) {
+      state.apiErrors[apiError] = true
+    }
   })
   builder.addCase(getAPIAny.fulfilled, (state, action) => {
     state.lastResponse = action.payload
@@ -158,6 +173,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     if (state.activeDevice === deviceId) {
       state.lastRefresh = timestamp
     }
+    state.apiErrors[ApiError.DeviceLocked] = false
   })
   builder.addCase(getOutboxData.rejected, (state, action) => {
     const { deviceId, timestamp } = action.payload as {

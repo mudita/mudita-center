@@ -13,7 +13,7 @@ import { isEmpty } from "lodash"
 
 const selectModalsToRender = createSelector(selectViewConfig, (config) => {
   return Object.entries(config || {})
-    .filter(([, { component }]) => component === "modal")
+    .filter(([, { component }]) => ["modal", "text-modal"].includes(component))
     .map(([key]) => key)
 })
 

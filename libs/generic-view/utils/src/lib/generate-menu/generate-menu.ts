@@ -8,7 +8,7 @@ import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-element
 import { IconType } from "../models/icons.types"
 import { MenuConfig } from "Root/demo-data/demo-menu"
 
-const mapIcons: Record<IconType, CoreIconType> = {
+const mapIcons: Partial<Record<IconType, CoreIconType>> = {
   [IconType.Battery1]: CoreIconType.VeryLowBattery,
   [IconType.Battery2]: CoreIconType.LowBattery,
   [IconType.Battery3]: CoreIconType.MediumBattery,
@@ -29,6 +29,7 @@ const mapIcons: Record<IconType, CoreIconType> = {
   [IconType.Overview]: CoreIconType.MenuOverview,
   [IconType.Close]: CoreIconType.Close,
   [IconType.Device]: CoreIconType.MenuPhone,
+  [IconType.Mudita]: CoreIconType.MuditaLogo,
 }
 
 const mapDefaultIcons: Record<string, CoreIconType> = {

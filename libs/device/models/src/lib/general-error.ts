@@ -7,3 +7,7 @@ export enum GeneralError {
   NoDevice = "no-device",
   IncorrectResponse = "incorrect-response",
 }
+
+export enum ApiError {
+  DeviceLocked = 423,
+}
