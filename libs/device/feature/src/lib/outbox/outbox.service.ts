@@ -8,7 +8,7 @@ import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
-import { APIOutboxServiceEvents, Outbox } from "device/models"
+import { APIOutboxServiceEvents, Outbox, OutboxValidator } from "device/models"
 import { GeneralError } from "../general-error"
 
 export class APIOutboxService {
@@ -28,7 +28,11 @@ export class APIOutboxService {
       method: "GET",
     })
     if (response.ok) {
-      return Result.success(response.data.body as Outbox)
+      const outbox = OutboxValidator.safeParse(response.data.body)
+
+      return outbox.success
+        ? Result.success(outbox.data)
+        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     }
 
     return Result.failed(response.error)

@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum GeneralError {
-  NoDevice = "no-device",
+export enum APIConfigError {
   IncorrectResponse = "incorrect-response",
 }
