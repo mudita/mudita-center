@@ -17,28 +17,25 @@ import { ResultObject } from "Core/core/builder"
 
 export class APIDevice extends BaseDevice {
   private adapter: SerialPortDeviceAPIAdapter
-  constructor(
-    portInfo: PortInfo,
-    deviceType: DeviceType,
-  ) {
+  constructor(portInfo: PortInfo, deviceType: DeviceType) {
     super(portInfo, deviceType)
-    this.adapter = new SerialPortDeviceAPIAdapter(portInfo.path, new SerialPortParser())
+    this.adapter = new SerialPortDeviceAPIAdapter(
+      portInfo.path,
+      new SerialPortParser()
+    )
   }
-
   connect(): Promise<ResultObject<undefined>> {
     return this.adapter.connect()
   }
 
-  public async request<R, T extends APIEndpointType>(
+  public request<R, T extends APIEndpointType>(
     config: APIRequestWithPayload<T>
   ) {
-    const result = await this.adapter.request(config as APIRequestData)
-    return result
+    return this.adapter.request(config as APIRequestData)
   }
 
   // to be removed
-  public async requestAny(config: unknown): Promise<unknown> {
-    const result = await this.adapter.requestUntyped(config as APIRequestData)
-    return result
+  public requestAny(config: unknown): Promise<unknown> {
+    return this.adapter.requestUntyped(config as APIRequestData)
   }
 }

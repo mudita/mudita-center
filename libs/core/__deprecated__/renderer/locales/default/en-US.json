@@ -74,6 +74,8 @@
   "component.devModeHeader": "DEV",
   "component.devModeToggle": "Toggle dev window",
   "component.devModeWrapperName": "Developer Options",
+  "component.deviceLockedModalHeadline": "Unlock your phone",
+  "component.deviceLockedModalParagraph": "Enter your passcode or scan your fingerprint",
   "component.dropdownCall": "Call {name}",
   "component.dropdownTogglerTooltipDescription": "Options",
   "component.dropdownTogllerTooltipDescription": "Options",

@@ -17,6 +17,8 @@ import AirplaneMode from "Core/__deprecated__/renderer/svg/airplane-mode.svg"
 import MenuOverview from "Core/__deprecated__/renderer/svg/menu-overview.svg"
 import CloseIcon from "Core/__deprecated__/renderer/svg/close.svg"
 import Device from "Core/__deprecated__/renderer/svg/device.svg"
+import Mudita from "Core/__deprecated__/renderer/svg/mudita.svg"
+import Spinner from "Core/__deprecated__/renderer/svg/spinner.svg"
 import { IconType } from "generic-view/utils"
 
 const typeToIcon: Record<IconType, typeof HighBattery> = {
@@ -40,6 +42,8 @@ const typeToIcon: Record<IconType, typeof HighBattery> = {
   [IconType.Overview]: MenuOverview,
   [IconType.Close]: CloseIcon,
   [IconType.Device]: Device,
+  [IconType.Mudita]: Mudita,
+  [IconType.Spinner]: Spinner,
 }
 
 export const getIcon = (
