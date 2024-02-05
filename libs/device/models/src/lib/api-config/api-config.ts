@@ -3,14 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export type MCLang = "en-US"
+import { z } from "zod"
 
-export interface ApiConfig {
-  apiVersion: string
-  lang?: MCLang
-  variant?: string
-  productId: string
-  vendorId: string
-  serialNumber?: string
-  features: string[]
-}
+const MCLangValidator = z.enum(["en-US"])
+
+export type MCLang = z.infer<typeof MCLangValidator>
+
+export const ApiConfigValidator = z.object({
+  apiVersion: z.string(),
+  lang: MCLangValidator.optional(),
+  variant: z.string().optional(),
+  productId: z.string(),
+  vendorId: z.string(),
+  serialNumber: z.string().optional(),
+  features: z.array(z.string()).min(1),
+})
+
+export type ApiConfig = z.infer<typeof ApiConfigValidator>

@@ -12,6 +12,7 @@ export const Tag = styled.p`
   border-radius: ${({ theme }) => theme.radius.sm};
   color: ${({ theme }) => theme.color.grey2};
   font-size: ${({ theme }) => theme.fontSize.tag};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
   line-height: ${({ theme }) => theme.lineHeight.tag};
   height: ${({ theme }) => theme.lineHeight.tag};
   margin: 0;

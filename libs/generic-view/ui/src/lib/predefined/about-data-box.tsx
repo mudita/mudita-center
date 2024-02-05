@@ -5,17 +5,19 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, withConfig, withData } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
+import { withData } from "../utils/with-data"
+import { withConfig } from "../utils/with-config"
 
 interface Config {
   title: string
 }
 
 interface Data {
-  value?: string
+  text?: string
 }
 
-const AboutDataBox: APIFC<Data, Config> = ({
+export const AboutDataBox: APIFC<Data, Config> = ({
   data,
   config,
   children,
@@ -24,8 +26,7 @@ const AboutDataBox: APIFC<Data, Config> = ({
   return (
     <Wrapper {...props}>
       <Title>{config?.title}</Title>
-      {data?.value && <Value>{data?.value}</Value>}
-      {children}
+      {children || (data?.text && <Value>{data?.text}</Value>)}
     </Wrapper>
   )
 }

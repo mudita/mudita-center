@@ -5,20 +5,21 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, IconType, withData } from "generic-view/utils"
+import { APIFC, IconType } from "generic-view/utils"
 import Icon from "../../icon/icon"
 import dataTestIds from "./data-test-ids"
+import { withData } from "../../utils/with-data"
 
 interface IconTextRowData {
   icon: IconType
-  title: string
-  text?: string
+  text: string
+  subText?: string
 }
 
 export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
   if (!data) return null
 
-  const { icon, title, text } = data
+  const { icon, text, subText } = data
 
   return (
     <IconTextWrapper {...props}>
@@ -26,10 +27,10 @@ export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
         <Icon data={{ type: icon }} />
       </IconWrapper>
       <TextWrapper>
-        <TitleText data-testid={dataTestIds.IconTextTitle}>{title}</TitleText>
-        {text && (
-          <DetailText data-testid={dataTestIds.IconTextDetailText}>
-            {text}
+        <TitleText data-testid={dataTestIds.IconText}>{text}</TitleText>
+        {subText && (
+          <DetailText data-testid={dataTestIds.IconSubtext}>
+            {subText}
           </DetailText>
         )}
       </TextWrapper>
@@ -44,6 +45,7 @@ const IconTextWrapper = styled.div`
   flex-direction: row;
   gap: 1.6rem;
   flex: 0;
+  min-height: 4.4rem;
   height: 4.4rem;
   align-items: center;
 `

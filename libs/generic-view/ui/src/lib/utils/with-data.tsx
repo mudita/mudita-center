@@ -6,20 +6,20 @@
 import React, { ComponentType } from "react"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { RecursiveComponent } from "../models/api-fc.types"
+import { selectComponentData } from "generic-view/store"
+import { RecursiveComponent } from "generic-view/utils"
 
-export const withConfig = <P extends object>(
+export const withData = <P extends object>(
   Component: ComponentType<P & { viewKey?: string; componentKey: string }>
 ): RecursiveComponent => {
   return ({ viewKey, componentKey, ...props }) => {
-    const config = useSelector(
-      (state: ReduxRootState) =>
-        state.genericViews.views?.[viewKey]?.layout?.[componentKey]?.config
-    )
+    const data = useSelector((state: ReduxRootState) => {
+      return selectComponentData(state, { viewKey, componentKey })
+    })
     return (
       <Component
         {...(props as P)}
-        config={config}
+        data={data}
         componentKey={componentKey}
         viewKey={viewKey}
       />

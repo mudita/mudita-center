@@ -10,15 +10,11 @@ import { AppInitializationStatus } from "Core/app-initialization/reducers/app-in
 import { getAppInitializationStatus } from "Core/app-initialization/selectors/get-app-initialization-status.selector"
 import AppInitializationFlow from "Core/app-initialization/components/app-initialization-flow.component"
 import { useInitializingAppEffects } from "Core/app-initialization/hooks/use-initializing-app-effects"
-import { useGenericStoreDemo } from "generic-view/store"
 
 const AppInitialization: FunctionComponent = () => {
   const appInitializationStatus = useSelector(getAppInitializationStatus)
 
   useInitializingAppEffects()
-
-  // TODO: Demo purpose only, remove in future
-  useGenericStoreDemo()
 
   if (appInitializationStatus !== AppInitializationStatus.Initialized) {
     return <AppInitializationFlow />

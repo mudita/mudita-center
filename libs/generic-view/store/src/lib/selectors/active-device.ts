@@ -4,7 +4,6 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const selectActiveDevice = createSelector(

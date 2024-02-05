@@ -12,6 +12,7 @@ jest.mock("generic-view/store", () => ({
   closeAllModals: jest.fn(),
   replaceModal: jest.fn(),
   closeDomainModals: jest.fn(),
+  useScreenTitle: jest.fn().mockReturnValue("testScreenTitle"),
 }))
 
 jest.mock("react-redux", () => ({
@@ -23,10 +24,6 @@ jest.mock("react-router", () => ({
   useHistory: jest.fn().mockReturnValue({
     push: jest.fn(),
   }),
-}))
-
-jest.mock("generic-view/utils", () => ({
-  useScreenTitle: jest.fn().mockReturnValue("testScreenTitle"),
 }))
 
 describe("useButtonAction", () => {
@@ -89,7 +86,7 @@ describe("useButtonAction", () => {
 
   it("calls the correct action for 'navigate'", () => {
     const push = jest.fn()
-    const navigate = jest
+    jest
       .requireMock("react-router")
       .useHistory.mockImplementation(() => ({ push }))
     const { result } = renderHook(() => useButtonAction("testKey"))

@@ -5,4 +5,5 @@
 
 export enum GeneralError {
   NoDevice = "no-device",
+  IncorrectResponse = "incorrect-response",
 }
