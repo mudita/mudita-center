@@ -26,10 +26,10 @@ enum USBAccessState {
 
 const USBAccessFlowContainer = () => {
   useEffect(() => {
-    console.log("first mount")
+    console.log("USBAccessFlowContainer first mount")
 
     return () => {
-      console.log("dismount")
+      console.log("USBAccessFlowContainer dismount")
     }
   }, [])
 

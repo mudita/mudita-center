@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import AppInitialization from "Core/app-initialization/components/app-initialization.component"
 import { useDeviceConnectedEffect } from "Core/core/hooks/use-device-connected-effect"
@@ -19,10 +19,15 @@ import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect
 import { useDiscoveryRedirectEffect } from "Core/core/hooks/use-discovery-redirect-effect"
 import { useRouterListener } from "Core/core/hooks"
 import { useAPISerialPortListeners, useOutbox } from "generic-view/store"
-import logger from "Core/__deprecated__/main/utils/logger"
 
 const BaseApp: FunctionComponent = () => {
-  logger.info(`render BaseApp`)
+  useEffect(() => {
+    console.log("BaseApp first mount")
+
+    return () => {
+      console.log("BaseApp dismount")
+    }
+  }, [])
 
   useRouterListener()
   useApplicationUpdateEffects()
