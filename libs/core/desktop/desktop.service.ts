@@ -5,6 +5,7 @@
 
 import { exec } from "child_process"
 import sudoPrompt from "@vscode/sudo-prompt"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 enum SerialPortGroup {
   dialout = "dialout",
@@ -20,6 +21,7 @@ export class DesktopService {
 
   private async getSerialPortGroup(): Promise<string> {
     const serialPortGroup = await this.getGroupsAssignedToSerialPort()
+    logger.info(`getSerialPortGroup serialPortGroup ${serialPortGroup}`)
 
     const isDialout = serialPortGroup.includes(SerialPortGroup.dialout)
     const isUUCP = serialPortGroup.includes(SerialPortGroup.uucp)
@@ -30,6 +32,7 @@ export class DesktopService {
       group = SerialPortGroup.uucp
     }
 
+    logger.info(`getSerialPortGroup group ${group}`)
     return group
   }
 
@@ -37,9 +40,13 @@ export class DesktopService {
     const userGroups = await this.getUserGroups()
     const serialPortGroup = await this.getSerialPortGroup()
 
+    logger.info(`isUserInSerialPortGroup userGroups ${userGroups}`)
+    logger.info(`serialPortGroup serialPortGroup ${serialPortGroup}`)
+
     const isInGroup =
       serialPortGroup !== "" ? userGroups.includes(serialPortGroup) : false
 
+    logger.info(`isUserInSerialPortGroup isInGroup ${isInGroup}`)
     return isInGroup
   }
 
@@ -72,6 +79,7 @@ export class DesktopService {
   }
 
   public async addUserToSerialPortGroup(): Promise<void> {
+    logger.info(`addUserToSerialPortGroup`)
     const serialPortGroup = await this.getSerialPortGroup()
     return new Promise((resolve, reject) => {
       if (serialPortGroup !== "") {
@@ -82,6 +90,7 @@ export class DesktopService {
 
         sudoPrompt.exec(command, (error) => {
           if (error === null) {
+            logger.info(`addUserToSerialPortGroup resolve`)
             resolve()
           } else {
             reject("Could not add user")
