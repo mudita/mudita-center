@@ -8,13 +8,9 @@ import {
   ModalsManagerState,
   ModalStateKey,
 } from "Core/modals-manager/reducers/modals-manager.interface"
-import {
-  hideModals,
-  setVisibleModals,
-  showModal,
-} from "Core/modals-manager/actions/base.action"
+import { hideModals, showModal } from "Core/modals-manager/actions/base.action"
 
-export const initialModalsState: Record<ModalStateKey, boolean> = {
+const initialModalsState: Record<ModalStateKey, boolean> = {
   appForcedUpdateFlowShow: false,
   appUpdateFlowShow: false,
   contactSupportFlowShow: false,
@@ -23,7 +19,6 @@ export const initialModalsState: Record<ModalStateKey, boolean> = {
 
 export const initialState: ModalsManagerState = {
   ...initialModalsState,
-  visibleModals: [],
 }
 
 export const modalsManagerReducer = createReducer<ModalsManagerState>(
@@ -41,12 +36,6 @@ export const modalsManagerReducer = createReducer<ModalsManagerState>(
           ...state,
           ...initialModalsState,
           [action.payload]: true,
-        }
-      })
-      .addCase(setVisibleModals, (state, action) => {
-        return {
-          ...state,
-          visibleModals: action.payload,
         }
       })
   }
