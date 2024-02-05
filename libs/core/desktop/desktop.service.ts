@@ -41,11 +41,15 @@ export class DesktopService {
   public async isUserInSerialPortGroup(): Promise<boolean> {
     const userGroups = await this.getUserGroups()
     logger.info(`isUserInSerialPortGroup userGroups ${userGroups}`)
+    console.log("isUserInSerialPortGroup userGroups", userGroups)
 
     const serialPortGroup = await this.getSerialPortGroup()
+    console.log("isUserInSerialPortGroup serialPortGroup", serialPortGroup)
 
     const isInGroup =
       serialPortGroup !== "" ? userGroups.includes(serialPortGroup) : false
+
+    console.log("isUserInSerialPortGroup isInGroup", isInGroup)
 
     return isInGroup
   }
