@@ -93,7 +93,7 @@ require("dotenv").config()
 //  You can read more in https://github.com/electron/remote#migrating-from-remote
 require("@electron/remote/main").initialize()
 
-logger.info("Starting the app")
+logger.info("Starting the app 2 - good main")
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
