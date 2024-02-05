@@ -46,6 +46,7 @@ import {
   DeviceResolverService,
 } from "Core/device-manager/services"
 import { APIModule } from "device/feature"
+import { DesktopModule } from "Core/desktop/desktop.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -66,10 +67,12 @@ export class ApplicationModule {
     DeviceLogModule,
     DeviceModule,
   ]
+
   public lateModules: Module[] = [
     DeviceManagerModule,
     DataSyncModule,
     CrashDumpModule,
+    DesktopModule,
   ]
 
   private deviceLogger: DeviceLogger = LoggerFactory.getInstance()

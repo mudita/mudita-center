@@ -7,6 +7,7 @@ export enum SettingsEvent {
   LoadSettings = "LOAD_SETTINGS",
   SetLatestVersion = "SET_LATEST_VERSION",
   SetSettings = "SET_SETTINGS",
+  SetSetting = "SET_SETTING",
   SetDiagnosticTimestamp = "SET_DIAGNOSTIC_TIMESTAMP",
   SetOsBackupLocation = "SET_OS_BACKUP_LOCATION",
   SetConversionFormat = "SET_CONVERSION_FORMAT",
@@ -26,4 +27,5 @@ export enum SettingsEvent {
   SetCheckingForUpdate = "SET_CHECKING_FOR_UPDATE",
   SetCheckingForUpdateFailed = "SET_CHECKING_FOR_UPDATE_FAILED",
   SkipAvailableUpdate = "SKIP_AVAILABLE_UPDATE",
+  SetUSBAccessRestart = "SET_USB_ACCESS_RESTART",
 }

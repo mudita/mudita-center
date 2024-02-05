@@ -257,6 +257,7 @@
     "npm": "9.5.1"
   },
   "dependencies": {
+    "@vscode/sudo-prompt": "^9.3.1",
     "react-is": "18.2.0",
     "react-markdown": "^9.0.1",
     "serialport": "10.1.0",

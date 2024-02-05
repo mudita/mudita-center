@@ -35,6 +35,8 @@ jest.mock("Core/backup/actions/load-backup-data.action", () => ({
 jest.mock("Core/modals-manager/actions", () => ({
   checkAppForcedUpdateFlowToShow: () => jest.fn(),
   checkAppUpdateFlowToShow: () => jest.fn(),
+  checkAppInSudoModeModalToShow: () => jest.fn(),
+  checkAppRequiresSerialPortGroup: () => jest.fn(),
 }))
 
 beforeEach(() => {
