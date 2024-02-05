@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import React, { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
@@ -50,9 +52,9 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
   const firstRenderTime = useRef(Date.now())
-  const deviceLocked = useSelector((state: ReduxRootState) =>
-    selectApiError(state, ApiError.DeviceLocked)
-  )
+  const deviceLocked = useSelector((state: ReduxRootState) => {
+    return selectApiError(state, ApiError.DeviceLocked)
+  })
   const menuElements = useSelector(selectActiveDeviceMenuElements)
   const deviceId = useSelector(selectActiveDevice)
 
