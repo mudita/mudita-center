@@ -12,7 +12,6 @@ import {
   URL_DISCOVERY_DEVICE,
   URL_MAIN,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 
 export const useDeactivateDeviceAndRedirect = () => {
   const history = useHistory()
@@ -20,7 +19,6 @@ export const useDeactivateDeviceAndRedirect = () => {
 
   return useCallback(async () => {
     const { payload: devices } = await dispatch(deactivateDevice())
-    dispatch(setSelectDeviceDrawerOpen(false))
 
     if (devices.length > 1) {
       history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)

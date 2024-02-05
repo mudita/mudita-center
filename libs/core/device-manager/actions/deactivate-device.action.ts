@@ -21,6 +21,7 @@ import { setInitialFilesManagerState } from "Core/files-manager/actions"
 import { setInitialMessagesState } from "Core/messages/actions/base.action"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { Device } from "Core/device-manager/reducers/device-manager.interface"
+import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 
 export const deactivateDevice = createAsyncThunk<
   Device[],
@@ -28,6 +29,7 @@ export const deactivateDevice = createAsyncThunk<
   { state: ReduxRootState }
 >(DeviceManagerEvent.DeactivateDevice, async (_, { dispatch, getState }) => {
   await setActiveDeviceRequest(undefined)
+  dispatch(setSelectDeviceDrawerOpen(false))
   dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
   dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))
   dispatch(setDataSyncInitState())
