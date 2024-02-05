@@ -58,7 +58,6 @@ export interface Props extends ComponentProps<typeof ModalDialog> {
   onAppleButtonClick?: () => void
   onManualImportClick: () => void
   disabledOtherMethod: boolean
-  onCancelManualImportClick: () => void
 }
 
 const SyncContactsModal: FunctionComponent<Props> = ({
@@ -68,10 +67,8 @@ const SyncContactsModal: FunctionComponent<Props> = ({
   onGoogleButtonClick,
   onManualImportClick,
   disabledOtherMethod,
-  onCancelManualImportClick,
   ...props
 }) => {
-
   const openHelpWindow = () =>
     ipcRenderer.callMain(BrowserActions.AppleOpenBrowser)
 

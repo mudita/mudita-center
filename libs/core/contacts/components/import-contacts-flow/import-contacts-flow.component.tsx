@@ -74,7 +74,6 @@ interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   closeModal: () => void
   retryImport: () => void
   addedContactsCount: number
-  onCancelManualImportClick: () => void
 }
 
 const ImportContactsFlow: FunctionComponent<Props> = ({
@@ -87,7 +86,6 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
   sendContactsToPhone,
   closeModal,
   retryImport,
-  onCancelManualImportClick,
 }) => {
   return (
     <>
@@ -102,7 +100,6 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         testId={ImportContactsFlowTestIds.Start}
         closeModal={closeModal}
         disabledOtherMethod={ImportContactsFlowState.Start !== state}
-        onCancelManualImportClick={onCancelManualImportClick}
       />
       <DownloadContactsModal
         open={ImportContactsFlowState.Downloading === state}

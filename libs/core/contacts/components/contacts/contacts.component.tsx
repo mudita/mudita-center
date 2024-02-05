@@ -483,17 +483,19 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     const files =
       ok && paths !== undefined ? paths.map((path) => createFile(path)) : []
 
-    void getContacts({
-      type: "files",
-      data: Array.from(files),
-    })
+    if (files.length === 0) {
+      setImportContactsFlowState(ImportContactsFlowState.Start)
+    } else {
+      void getContacts({
+        type: "files",
+        data: Array.from(files),
+      })
 
-    setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
+      setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
+    }
   }
 
-  const cancelImportFromFile = () => {
-    setImportContactsFlowState(ImportContactsFlowState.Start)
-  }
+  const cancelImportFromFile = () => {}
 
   // Synchronization, step 2b: 3-rd party services
   const authorizeAtGoogle = () => {
@@ -688,7 +690,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           sendContactsToPhone={sendContactsToPhone}
           retryImport={handleImportContacts}
           addedContactsCount={addedContactsCount}
-          onCancelManualImportClick={cancelImportFromFile}
         />
       )}
       <ContactSection>

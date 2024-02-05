@@ -17,7 +17,6 @@ const renderer = (extraProps?: Partial<Props>) => {
     onOutlookButtonClick: jest.fn(),
     open: true,
     disabledOtherMethod: false,
-    onCancelManualImportClick: jest.fn(),
     ...extraProps,
   }
   return renderWithThemeAndIntl(<SyncContactsModal {...props} />)
