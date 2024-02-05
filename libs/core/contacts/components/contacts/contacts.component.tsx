@@ -473,8 +473,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     const { ok, data: paths } = await getPathsRequest({
       filters: [
         {
-          name: ".vcf",
-          extensions: [".vcf"],
+          name: "vcf",
+          extensions: ["vcf"],
         },
       ],
       properties: ["openFile", "multiSelections"],
