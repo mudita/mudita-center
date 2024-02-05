@@ -37,7 +37,9 @@ const LoaderWrapper = styled.div`
   margin: 0 1.6rem;
 `
 
-const DeviceButton = styled(ButtonComponent)``
+const DeviceButton = styled(ButtonComponent)`
+  width: auto;
+`
 
 const DeviceButtonWrapper = styled.div`
   ${DeviceButton} {

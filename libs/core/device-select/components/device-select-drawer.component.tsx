@@ -34,7 +34,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
 const messages = defineMessages({
-  changeDevice: { id: "component.deviceSelection.changeDevice" },
+  changeDevice: { id: "component.drawer.headerTitle" },
 })
 
 //bugfix for CP-2453

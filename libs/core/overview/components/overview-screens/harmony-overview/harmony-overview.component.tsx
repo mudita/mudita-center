@@ -13,7 +13,6 @@ import { CheckForUpdateMode } from "Core/update/constants"
 import { OsRelease } from "Core/update/dto"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import React from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
@@ -21,7 +20,6 @@ import { useWatchDeviceDataEffect } from "Core/overview/components/overview-scre
 
 export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   batteryLevel = 0,
-  disconnectDevice = noop,
   osVersion = "",
   updatingState,
   startUpdateOs,
@@ -131,7 +129,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
 
       <OverviewContent
         batteryLevel={batteryLevel}
-        disconnectDevice={disconnectDevice}
         osVersion={osVersion}
         onUpdateCheck={checkForHarmonyUpdate}
         onUpdateInstall={() => updateReleases()}
