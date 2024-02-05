@@ -37,7 +37,9 @@ const LoaderWrapper = styled.div`
   margin: 0 1.6rem;
 `
 
-const DeviceButton = styled(ButtonComponent)``
+const DeviceButton = styled(ButtonComponent)`
+  width: auto;
+`
 
 const DeviceButtonWrapper = styled.div`
   ${DeviceButton} {
@@ -66,7 +68,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
     history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
   }
 
-  const isSelectDevice = !deviceInitialized && devices.length > 0
+  const isSelectDevice = !deviceInitialized && devices.length > 1
 
   const SelectDeviceButton = (
     <DeviceButtonWrapper>

@@ -26,7 +26,6 @@ interface OverviewContentProps {
   caseColour: CaseColour | undefined
   lastBackupDate: Date | undefined
   serialNumber: string | undefined
-  disconnectDevice: () => void
   onBackupCreate: () => void
   onBackupRestore: () => void
   onUpdateCheck: () => void
@@ -38,7 +37,6 @@ interface OverviewContentProps {
 
 const OverviewContent: FunctionComponent<OverviewContentProps> = ({
   batteryLevel,
-  disconnectDevice,
   memorySpace,
   networkName,
   networkLevel,
@@ -59,7 +57,6 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
       caseColour={caseColour}
       deviceType={DeviceType.MuditaPure}
       onClick={toggleDevMode}
-      onDisconnect={disconnectDevice}
       serialNumber={serialNumber}
     />
     <StatusInfo

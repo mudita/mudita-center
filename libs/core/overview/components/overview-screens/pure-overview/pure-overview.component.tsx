@@ -23,16 +23,16 @@ import { OsRelease } from "Core/update/dto"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { useWatchDeviceDataEffect } from "Core/overview/components/overview-screens/helpers/use-watch-device-data-effect"
-import { useHandleActiveDeviceDetached } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-detached.hook"
+import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
+import { useSelector } from "react-redux"
+import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
 
 export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
-  disconnectDevice = noop,
   osVersion = "",
   memorySpace = {
     reservedSpace: 0,
@@ -79,7 +79,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   backupActionDisabled,
 }) => {
   useWatchDeviceDataEffect()
-  const handleActiveDeviceDetached = useHandleActiveDeviceDetached()
+  const activeDeviceAttached = useSelector(isActiveDeviceAttachedSelector)
+  const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
 
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -129,7 +130,9 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   const closeBackupDeviceFlowState = () => {
     setBackupDeviceFlowState(undefined)
     readBackupDeviceDataState()
-    handleActiveDeviceDetached()
+    if (!activeDeviceAttached) {
+      void deactivateDeviceAndRedirect()
+    }
   }
 
   useEffect(() => {
@@ -151,11 +154,17 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     setRestoreDeviceFlowState(RestoreDeviceFlowState.Start)
   }
 
-  const closeRestoreDeviceFlowState = () => {
+  const closeRestoreDeviceFlowState = useCallback(() => {
     setRestoreDeviceFlowState(undefined)
     readRestoreDeviceDataState()
-    handleActiveDeviceDetached()
-  }
+    if (!activeDeviceAttached) {
+      void deactivateDeviceAndRedirect()
+    }
+  }, [
+    activeDeviceAttached,
+    deactivateDeviceAndRedirect,
+    readRestoreDeviceDataState,
+  ])
 
   useEffect(() => {
     if (restoreDeviceState === State.Loading) {
@@ -284,7 +293,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       )}
       <OverviewContent
         batteryLevel={batteryLevel}
-        disconnectDevice={disconnectDevice}
         osVersion={osVersion}
         memorySpace={memorySpace}
         networkName={networkName}

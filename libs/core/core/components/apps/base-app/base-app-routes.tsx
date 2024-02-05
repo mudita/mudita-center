@@ -73,10 +73,12 @@ export default () => (
         <Route
           path={URL_DISCOVERY_DEVICE.root}
           component={ConfiguredDevicesDiscovery}
+          exact
         />
         <Route
           path={URL_DISCOVERY_DEVICE.availableDeviceListModal}
           component={AvailableDeviceListContainer}
+          exact
         />
       </LayoutBlankWrapper>
     </Route>

@@ -23,13 +23,12 @@ const Content = styled.div`
 `
 
 export interface LoaderModalProps extends ComponentProps<typeof ModalDialog> {
-  title: string
+  title?: string
   subtitle?: string
   body?: string
 }
 
 const LoaderModal: FunctionComponent<LoaderModalProps> = ({
-  title,
   subtitle,
   body,
   children,
@@ -37,7 +36,6 @@ const LoaderModal: FunctionComponent<LoaderModalProps> = ({
 }) => (
   <ModalDialog
     size={ModalSize.Small}
-    title={title}
     closeable={false}
     closeButton={false}
     {...rest}
