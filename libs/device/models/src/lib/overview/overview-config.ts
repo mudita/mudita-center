@@ -3,73 +3,114 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IconType } from "Libs/generic-view/utils/src"
+import { IconType } from "generic-view/utils"
+import { z } from "zod"
 
-export interface DetailListTextConfig {
-  dataKey: string
-  type: "detail-list-text"
-  title: string
-}
+export const DetailListTextConfigValidator = z.object({
+  dataKey: z.string().min(1),
+  type: z.literal("detail-list-text"),
+  title: z.string().min(1),
+})
 
-export interface DetailListModalConfig {
-  dataKey: string
-  type: "detail-list-modal"
-  title: string
-  buttonText: string
-}
+export type DetailListTextConfig = z.infer<typeof DetailListTextConfigValidator>
 
-type DetailListFieldConfig = DetailListTextConfig | DetailListModalConfig
+export const DetailListModalConfigValidator = z.object({
+  dataKey: z.string().min(1),
+  type: z.literal("detail-list-modal"),
+  title: z.string().min(1),
+  buttonText: z.string().min(1),
+})
 
-export interface UpdateTileConfig {
-  title: string
-  dataKey: string
-  type: "mc-overview-update"
-  currentVersionKey: string
-  showBadge: boolean
-  versionLabel: string
-}
+export type DetailListModalConfig = z.infer<
+  typeof DetailListModalConfigValidator
+>
 
-type DataSyncKey = "currentDateISO" | "timezone"
+const DetailListFieldConfigValidator = z.union([
+  DetailListModalConfigValidator,
+  DetailListTextConfigValidator,
+])
 
-interface DataSyncTileConfig {
-  title: string
-  type: "mc-overview-sync"
-  buttonText: string
-  fieldsToSync: Array<DataSyncKey>
-}
+export type DetailListFieldConfig = z.infer<
+  typeof DetailListFieldConfigValidator
+>
 
-interface IconTextRowConfig {
-  dataKey: string
-  type: "icon-text"
-}
+export const UpdateTileConfigValidator = z.object({
+  dataKey: z.string().min(1),
+  type: z.literal("mc-overview-update"),
+  title: z.string().min(1),
+  currentVersionKey: z.string().min(1),
+  showBadge: z.boolean(),
+  versionLabel: z.string().min(1),
+})
 
-type TileListFieldConfig = IconTextRowConfig
+export type UpdateTileConfig = z.infer<typeof UpdateTileConfigValidator>
 
-export interface TileListConfig {
-  title?: string
-  type: "tile-list"
-  dataKey: string
-  fields: Array<TileListFieldConfig>
-}
+const DataSyncKeyValidator = z.enum(["currentDateISO", "timezone"])
 
-type OverviewSectionsConfig =
-  | TileListConfig
-  | UpdateTileConfig
-  | DataSyncTileConfig
+export type DataSyncKey = z.infer<typeof DataSyncKeyValidator>
 
-export interface OverviewConfig {
-  title: string
-  summary: {
-    show?: boolean
-    showImg?: boolean //default true
-    imgVariant?: string
-    showSerialNumber?: boolean //default true
-    serialNumberLabel?: string
-    showAbout?: boolean //default false
-    aboutTitle?: string //default defined by translation
-    aboutSubtitle?: string
-    aboutIcon?: IconType
-    aboutFields?: Array<DetailListFieldConfig> //default []
-  }
-  sections?: Array<OverviewSectionsConfig> //default []
-}
+export const DataSyncTileConfigValidator = z.object({
+  type: z.literal("mc-overview-sync"),
+  title: z.string().min(1),
+  buttonText: z.string().min(1),
+  fieldsToSync: z.array(DataSyncKeyValidator).min(1),
+})
+
+export type DataSyncTileConfig = z.infer<typeof DataSyncTileConfigValidator>
+
+export const IconTextRowConfigValidator = z.object({
+  dataKey: z.string().min(1),
+  type: z.literal("icon-text"),
+})
+
+export type IconTextRowConfig = z.infer<typeof IconTextRowConfigValidator>
+
+const TileListFieldConfigValidator = IconTextRowConfigValidator
+
+type TileListFieldConfig = z.infer<typeof TileListFieldConfigValidator>
+
+export const TileListConfigValidator = z.object({
+  title: z.string().optional(),
+  type: z.literal("tile-list"),
+  dataKey: z.string().min(1),
+  fields: z.array(TileListFieldConfigValidator),
+})
+
+export type TileListConfig = z.infer<typeof TileListConfigValidator>
+
+const OverviewSectionsConfigValidator = z.union([
+  TileListConfigValidator,
+  UpdateTileConfigValidator,
+  DataSyncTileConfigValidator,
+])
+
+export type OverviewSectionsConfig = z.infer<
+  typeof OverviewSectionsConfigValidator
+>
+
+export const OverviewConfigValidator = z.object({
+  title: z.string().min(1),
+  summary: z.object({
+    show: z.boolean().optional(),
+    showImg: z.boolean().optional(),
+    imgVariant: z.string().optional(),
+    showSerialNumber: z.boolean().optional(),
+    serialNumberLabel: z.string().optional(),
+    showAbout: z.boolean().optional(),
+    aboutTitle: z.string().optional(),
+    aboutSubtitle: z.string().optional(),
+    aboutIcon: z.nativeEnum(IconType).optional(),
+    aboutFields: z.array(DetailListFieldConfigValidator).optional(),
+  }),
+  sections: z.array(OverviewSectionsConfigValidator).optional(),
+})
+
+export type OverviewConfig = z.infer<typeof OverviewConfigValidator>
+
+export const ComponentsWithDataKey = [
+  DetailListTextConfigValidator.shape.type.value,
+  DetailListModalConfigValidator.shape.type.value,
+  UpdateTileConfigValidator.shape.type.value,
+  IconTextRowConfigValidator.shape.type.value,
+  TileListConfigValidator.shape.type.value,
+]

@@ -7,7 +7,11 @@ import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
-import { APIMenuServiceEvents, MenuConfig } from "device/models"
+import {
+  APIMenuServiceEvents,
+  MenuConfig,
+  MenuConfigValidator,
+} from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 import { GeneralError } from "../general-error"
 
@@ -34,7 +38,11 @@ export class APIMenuService {
       },
     })
     if (response.ok) {
-      return Result.success(response.data.body as MenuConfig)
+      const menuConfig = MenuConfigValidator.safeParse(response.data.body)
+
+      return menuConfig.success
+        ? Result.success(menuConfig.data)
+        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     }
 
     return Result.failed(response.error)

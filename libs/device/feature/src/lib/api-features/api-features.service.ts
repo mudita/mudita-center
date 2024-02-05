@@ -9,11 +9,14 @@ import { IpcEvent } from "Core/core/decorators"
 import {
   APIFeaturesServiceEvents,
   OverviewConfig,
+  OverviewConfigValidator,
   OverviewData,
+  OverviewDataValidator,
 } from "device/models"
 import { GeneralError } from "../general-error"
 import { AppError } from "Core/core/errors"
 import { DeviceId } from "Core/device/constants/device-id"
+import { View } from "generic-view/utils"
 
 export class APIFeaturesService {
   constructor(private deviceManager: DeviceManager) {}
@@ -64,7 +67,11 @@ export class APIFeaturesService {
     })
 
     if (response.ok) {
-      return Result.success(response.data.body as OverviewConfig)
+      const config = OverviewConfigValidator.safeParse(response.data.body)
+
+      return config.success
+        ? Result.success(config.data)
+        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     }
 
     return Result.failed(response.error)
@@ -93,9 +100,15 @@ export class APIFeaturesService {
   }
 
   @IpcEvent(APIFeaturesServiceEvents.GetOverviewData)
-  public async getOverviewData(
+  public async getOverviewData({
+    deviceId,
+    overview,
+    about,
+  }: {
     deviceId?: DeviceId
-  ): Promise<ResultObject<OverviewData>> {
+    overview: View
+    about: View
+  }): Promise<ResultObject<OverviewData>> {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
       : this.deviceManager.apiDevice
@@ -113,7 +126,13 @@ export class APIFeaturesService {
       },
     })
     if (response.ok) {
-      return Result.success(response.data.body as OverviewData)
+      const validator = OverviewDataValidator(overview, about)
+
+      const overviewData = validator.safeParse(response.data.body)
+
+      return overviewData.success
+        ? Result.success(overviewData.data)
+        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     }
 
     return Result.failed(response.error)

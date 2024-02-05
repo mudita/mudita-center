@@ -6,10 +6,15 @@
 import { DeviceManager } from "Core/device-manager/services"
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
-import { ApiConfig, APIConfigServiceEvents } from "device/models"
+import {
+  ApiConfig,
+  APIConfigServiceEvents,
+  ApiConfigValidator,
+} from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 import { AppError } from "Core/core/errors"
 import { GeneralError } from "../general-error"
+import { APIConfigError } from "./api-config-error"
 
 export class APIConfigService {
   constructor(private deviceManager: DeviceManager) {}
@@ -33,7 +38,11 @@ export class APIConfigService {
     })
 
     if (response.ok) {
-      return Result.success(response.data.body as ApiConfig)
+      const apiConfig = ApiConfigValidator.safeParse(response.data.body)
+
+      return apiConfig.success
+        ? Result.success(apiConfig.data)
+        : Result.failed(new AppError(APIConfigError.IncorrectResponse, ""))
     }
 
     return Result.failed(response.error)
