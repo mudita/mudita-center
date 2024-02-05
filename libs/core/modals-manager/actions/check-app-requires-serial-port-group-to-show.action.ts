@@ -17,6 +17,7 @@ export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   ModalsManagerEvent.ShowAppRequiresSerialPortGroup,
   async (_, { dispatch }) => {
     const linux = await isLinux()
+    
     console.log("checkAppRequiresSerialPortGroup linux", linux)
     if (linux) {
       const userInGroup = await isUserInSerialPortGroup()

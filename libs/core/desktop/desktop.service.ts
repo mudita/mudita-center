@@ -5,7 +5,6 @@
 
 import { exec } from "child_process"
 import sudoPrompt from "@vscode/sudo-prompt"
-import logger from "Core/__deprecated__/main/utils/logger"
 
 enum SerialPortGroup {
   dialout = "dialout",
@@ -21,12 +20,9 @@ export class DesktopService {
 
   private async getSerialPortGroup(): Promise<string> {
     const serialPortGroup = await this.getGroupsAssignedToSerialPort()
-    logger.info(`getSerialPortGroup serialPortGroup ${serialPortGroup}`)
 
     const isDialout = serialPortGroup.includes(SerialPortGroup.dialout)
-    logger.info(`getSerialPortGroup isDialout ${String(isDialout)}`)
     const isUUCP = serialPortGroup.includes(SerialPortGroup.uucp)
-    logger.info(`getSerialPortGroup isUUCP ${String(isUUCP)}`)
     let group = ""
     if (isDialout) {
       group = SerialPortGroup.dialout
@@ -34,22 +30,15 @@ export class DesktopService {
       group = SerialPortGroup.uucp
     }
 
-    logger.info(`getSerialPortGroup return group ${group}`)
     return group
   }
 
   public async isUserInSerialPortGroup(): Promise<boolean> {
     const userGroups = await this.getUserGroups()
-    logger.info(`isUserInSerialPortGroup userGroups ${userGroups}`)
-    console.log("isUserInSerialPortGroup userGroups", userGroups)
-
     const serialPortGroup = await this.getSerialPortGroup()
-    console.log("isUserInSerialPortGroup serialPortGroup", serialPortGroup)
 
     const isInGroup =
       serialPortGroup !== "" ? userGroups.includes(serialPortGroup) : false
-
-    console.log("isUserInSerialPortGroup isInGroup", isInGroup)
 
     return isInGroup
   }
