@@ -5,10 +5,10 @@
 
 import React from "react"
 import styled from "styled-components"
-import { withConfig } from "generic-view/utils"
 import { ButtonText } from "./button-text"
+import { withConfig } from "../utils/with-config"
 
-const ButtonLink: typeof ButtonText = (props) => {
+export const ButtonLink: typeof ButtonText = (props) => {
   return <Button {...props} />
 }
 

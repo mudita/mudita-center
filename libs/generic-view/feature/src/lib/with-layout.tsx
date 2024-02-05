@@ -7,19 +7,17 @@ import React, { ComponentType } from "react"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import styled, { css } from "styled-components"
 import { useSelector } from "react-redux"
-import { Layout } from "./layout.types"
-import { mapSizes } from "./map-sizes"
-import { RecursiveComponent } from "../models/api-fc.types"
+import { selectComponentLayout } from "generic-view/store"
+import { Layout, mapLayoutSizes, RecursiveComponent } from "generic-view/utils"
 
 export const withLayout = <P extends object>(
   Component: ComponentType<P>
 ): RecursiveComponent => {
   return (props) => {
     const { viewKey, componentKey } = props
-    const layout = useSelector(
-      (state: ReduxRootState) =>
-        state.genericViews.views?.[viewKey]?.layout?.[componentKey]?.layout
-    )
+    const layout = useSelector((state: ReduxRootState) => {
+      return selectComponentLayout(state, { viewKey, componentKey })
+    })
     if (layout) {
       return (
         <Wrapper $layout={layout}>
@@ -63,8 +61,8 @@ const childStyles = css<{
 }>(({ $layout }) => ({
   ...($layout.gridLayout && {
     display: "grid",
-    gridTemplateRows: mapSizes($layout.gridLayout.rows),
-    gridTemplateColumns: mapSizes($layout.gridLayout.columns),
+    gridTemplateRows: mapLayoutSizes($layout.gridLayout.rows),
+    gridTemplateColumns: mapLayoutSizes($layout.gridLayout.columns),
     rowGap: $layout.gridLayout.rowGap || 0,
     columnGap: $layout.gridLayout.columnGap || 0,
   }),

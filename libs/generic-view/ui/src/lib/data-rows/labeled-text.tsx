@@ -5,7 +5,9 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, withConfig, withData } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
+import { withData } from "../utils/with-data"
+import { withConfig } from "../utils/with-config"
 
 interface Data {
   text: string

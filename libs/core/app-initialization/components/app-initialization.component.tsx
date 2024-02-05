@@ -76,6 +76,10 @@ const AppInitialization: FunctionComponent = () => {
   if (usbAccessFlowShow) {
     return <USBAccessFlowContainer />
   }
+          
+  if (appInitializationStatus !== AppInitializationStatus.Initialized) {
+    return <AppInitializationFlow />
+  }
 
   return <></>
 }

@@ -5,9 +5,10 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, ButtonAction, IconType, withConfig } from "generic-view/utils"
+import { APIFC, ButtonAction, IconType } from "generic-view/utils"
 import { ButtonBase } from "./button-base/button-base"
 import Icon from "../icon/icon"
+import { withConfig } from "../utils/with-config"
 
 interface Config {
   text: string

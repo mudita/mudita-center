@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PrimitiveValue } from "./layout.types"
+import { PrimitiveValue } from "../models/layout.types"
 
-export const mapSizes = (sizes: PrimitiveValue[]) => {
+export const mapLayoutSizes = (sizes: PrimitiveValue[]) => {
   return sizes
     .map((size) => {
-      if (typeof size === "number") {
+      if (typeof size === "number" || !Number.isNaN(Number(size))) {
         return `${size}fr`
       }
       return size

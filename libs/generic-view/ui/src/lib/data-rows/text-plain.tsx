@@ -5,14 +5,15 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, withData } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
+import { withData } from "../utils/with-data"
 
 interface Data {
-  content: string
+  text: string
 }
 
 const TextPlain: APIFC<Data> = ({ data }) => {
-  return <Paragraph>{data?.content}</Paragraph>
+  return <Paragraph>{data?.text}</Paragraph>
 }
 
 export default withData(TextPlain)

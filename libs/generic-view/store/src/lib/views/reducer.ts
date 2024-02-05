@@ -17,12 +17,7 @@ import {
 import { getOverviewData } from "../features"
 import { getOverviewConfig } from "../features/get-overview-config.actions"
 import { getAPIAny } from "../get-api-any"
-import {
-  ApiConfig,
-  MenuConfig,
-  OverviewConfig,
-  OverviewData,
-} from "device/models"
+import { ApiConfig, MenuConfig, OverviewData } from "device/models"
 import { getMenuConfig } from "../get-menu-config"
 import { DeviceId } from "Core/device/constants/device-id"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
@@ -32,7 +27,11 @@ interface DeviceConfiguration {
   menuConfig?: MenuConfig
   features?: {
     "mc-overview"?: {
-      config?: OverviewConfig
+      config?: View
+      data?: OverviewData
+    }
+    "mc-about"?: {
+      config?: View
       data?: OverviewData
     }
   }
@@ -100,8 +99,18 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
           config:
             state.devicesConfiguration[deviceId].features?.["mc-overview"]
               ?.config,
-          data: action.payload.data,
+          data: action.payload.overviewData,
         },
+        ...(action.payload.aboutData
+          ? {
+              "mc-about": {
+                config:
+                  state.devicesConfiguration[deviceId].features?.["mc-about"]
+                    ?.config,
+                data: action.payload.aboutData,
+              },
+            }
+          : {}),
       }
     }
   })
@@ -112,10 +121,20 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       state.devicesConfiguration[deviceId].features = {
         ...state.devicesConfiguration[deviceId].features,
         "mc-overview": {
-          config: action.payload.config,
+          config: action.payload.overviewConfig,
           data: state.devicesConfiguration[deviceId].features?.["mc-overview"]
             ?.data,
         },
+        ...(action.payload.aboutConfig
+          ? {
+              "mc-about": {
+                config: action.payload.aboutConfig,
+                data: state.devicesConfiguration[deviceId].features?.[
+                  "mc-about"
+                ]?.data,
+              },
+            }
+          : {}),
       }
     }
   })
@@ -127,7 +146,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(detachDevice, (state, action) => {
     const { deviceId } = action.payload
-    if (state.devicesConfiguration[deviceId].apiConfig) {
+    if (state.devicesConfiguration[deviceId]?.apiConfig) {
       delete state.devicesConfiguration[deviceId]
     }
     if (state.activeDevice === deviceId) {

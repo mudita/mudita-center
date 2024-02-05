@@ -8,6 +8,7 @@ import Image from "./image"
 import LabeledText from "./labeled-text"
 import TextPlain from "./text-plain"
 import TextFormatted from "./text-formatted"
+import Badge from "./badge"
 
 export const rows = {
   "icon-text": IconText,
@@ -15,4 +16,5 @@ export const rows = {
   image: Image,
   "text-plain": TextPlain,
   "text-formatted": TextFormatted,
+  badge: Badge,
 }
