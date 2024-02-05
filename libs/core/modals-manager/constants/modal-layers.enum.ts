@@ -12,7 +12,6 @@ export enum ModalLayers {
   EULA,
   ErrorConnecting,
   LinuxSerialPortGroup,
-  LinuxSudoMode,
   UpdateApp,
   PrivacyPolicy,
 }

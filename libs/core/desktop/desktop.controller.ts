@@ -15,11 +15,6 @@ export class DesktopController {
     return this.desktopService.isLinux()
   }
 
-  @IpcEvent(IpcDesktopEvent.IsSudoMode)
-  public async isSudoMode(): Promise<boolean> {
-    return this.desktopService.isSudoMode()
-  }
-
   @IpcEvent(IpcDesktopEvent.IsUserInSerialPortGroup)
   public async isUserInSerialPortGroup(): Promise<boolean> {
     return this.desktopService.isUserInSerialPortGroup()

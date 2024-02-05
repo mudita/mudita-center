@@ -18,16 +18,6 @@ export class DesktopService {
     return process.platform === "linux"
   }
 
-  public async isSudoMode(): Promise<boolean> {
-    if (await this.isLinux()) {
-      const processUid = process.getuid ? process.getuid() : undefined
-      const isSudoMode = processUid === 0
-
-      return isSudoMode
-    }
-    return false
-  }
-
   private async getSerialPortGroup(): Promise<string> {
     const serialPortGroup = await this.getGroupsAssignedToSerialPort()
 

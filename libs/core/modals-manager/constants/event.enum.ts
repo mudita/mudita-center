@@ -12,7 +12,6 @@ export enum ModalsManagerEvent {
   ShowModal = "SHOW_MODAL",
   ShowCollectingDataModal = "SHOW_COLLECTING_DATA_MODAL",
   ShowAppForcedUpdateFlow = "SHOW_APP_FORCED_UPDATE_FLOW",
-  ShowAppInSudoMode = "SHOW_APP_IN_SUDO_MODE",
   ShowAppRequiresSerialPortGroup = "SHOW_APP_REQUIRES_SERIAL_PORT_GROUP",
   AddUSBAccess = "ADD_USB_ACCESS",
 }

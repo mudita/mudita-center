@@ -36,7 +36,6 @@ const defaultState = {
     appUpdateFlowShow: false,
     contactSupportFlowShow: false,
     deviceInitializationFailedModalShow: false,
-    appRunWithSudoShow: false,
     usbAccessFlowShow: false,
   },
 } as ReduxRootState

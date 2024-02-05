@@ -12,10 +12,7 @@ import logger from "Core/__deprecated__/main/utils/logger"
 import { getConfiguration } from "Core/settings/requests"
 import packageInfo from "../../../../apps/mudita-center/package.json"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import {
-  checkAppInSudoModeModalToShow,
-  checkAppRequiresSerialPortGroup,
-} from "Core/modals-manager/actions"
+import { checkAppRequiresSerialPortGroup } from "Core/modals-manager/actions"
 
 export const loadSettings = createAsyncThunk<
   void,
@@ -57,7 +54,6 @@ export const loadSettings = createAsyncThunk<
     })
   )
 
-  void dispatch(checkAppInSudoModeModalToShow())
   void dispatch(checkAppRequiresSerialPortGroup())
 
   return

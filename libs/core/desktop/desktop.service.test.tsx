@@ -44,54 +44,6 @@ describe("isLinux", () => {
   })
 })
 
-describe("isSudoMode", () => {
-  beforeEach(() => {
-    jest.resetModules()
-  })
-
-  test("application is not run in sudo mode", async () => {
-    Object.defineProperty(process, "platform", {
-      value: "linux",
-    })
-    Object.defineProperty(process, "getuid", {
-      value: () => 123,
-    })
-
-    expect(await desktopService.isSudoMode()).toEqual(false)
-  })
-
-  test("application is run in sudo mode", async () => {
-    Object.defineProperty(process, "platform", {
-      value: "linux",
-    })
-    Object.defineProperty(process, "getuid", {
-      value: () => 0,
-    })
-
-    expect(await desktopService.isSudoMode()).toEqual(true)
-  })
-
-  test("application is run in sudo mode, because platform is not linux", async () => {
-    Object.defineProperty(process, "platform", {
-      value: "win32",
-    })
-    Object.defineProperty(process, "getuid", {
-      value: () => 0,
-    })
-
-    expect(await desktopService.isSudoMode()).toEqual(false)
-  })
-
-  afterEach(() => {
-    Object.defineProperty(process, "platform", {
-      value: originalPlatform,
-    })
-    Object.defineProperty(process, "getuid", {
-      value: originalGetuid,
-    })
-  })
-})
-
 describe("isUserInSerialPortGroup", () => {
   test("user is in serial port group", async () => {
     const getGroupsAssignedToSerialPortSpy = jest
