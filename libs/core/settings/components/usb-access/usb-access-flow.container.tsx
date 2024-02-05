@@ -25,6 +25,14 @@ enum USBAccessState {
 }
 
 const USBAccessFlowContainer = () => {
+  useEffect(() => {
+    console.log("first mount")
+
+    return () => {
+      console.log("dismount")
+    }
+  }, [])
+
   const [accessState, setAccessState] = useState<USBAccessState>(
     USBAccessState.notGranted
   )
