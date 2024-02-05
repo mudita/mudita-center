@@ -19,9 +19,11 @@ import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect
 import { useDiscoveryRedirectEffect } from "Core/core/hooks/use-discovery-redirect-effect"
 import { useRouterListener } from "Core/core/hooks"
 import { useAPISerialPortListeners, useOutbox } from "generic-view/store"
-
+import logger from "Core/__deprecated__/main/utils/logger"
 
 const BaseApp: FunctionComponent = () => {
+  logger.info(`render BaseApp`)
+
   useRouterListener()
   useApplicationUpdateEffects()
   useDeviceConnectedEffect()

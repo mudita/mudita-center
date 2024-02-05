@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { ReduxRootState, AppDispatch } from "Core/__deprecated__/renderer/store"
 import { hideModals } from "Core/modals-manager/actions/base.action"
@@ -33,16 +33,13 @@ const USBAccessFlowContainer = () => {
     (state: ReduxRootState): SettingsState => state.settings
   )
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const usbAccessRestartMomoized = useMemo(() => usbAccessRestart, [])
-
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    if (usbAccessRestartMomoized) {
+    if (usbAccessRestart) {
       setAccessState(USBAccessState.grantedNeedsRestart)
     }
-  }, [usbAccessRestartMomoized])
+  }, [usbAccessRestart])
 
   return (
     <div data-testid={UsbAccessFlowTestIds.USBAccessFlowContainer}>
