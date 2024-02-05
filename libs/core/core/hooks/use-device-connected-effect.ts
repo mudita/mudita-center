@@ -27,11 +27,13 @@ import { getTmpMuditaHarmonyPortInfoSelector } from "Core/update/selectors/get-t
 import { isUnknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 import { getDeviceConfigurationRequest } from "Core/device-manager/requests/get-device-configuration.request"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
 
+  const devices = useSelector(getDevicesSelector)
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const discoveryStatus = useSelector(getDiscoveryStatus)
@@ -42,21 +44,6 @@ export const useDeviceConnectedEffect = () => {
   const tmpMuditaHarmonyPortInfo = useSelector(
     getTmpMuditaHarmonyPortInfoSelector
   )
-
-  const shouldSkipProcessing = useCallback(() => {
-    const discoveryDeviceInProgressOrAborted =
-      discoveryStatus === DiscoveryStatus.Discovering ||
-      discoveryStatus === DiscoveryStatus.Aborted
-    return (
-      discoveryDeviceInProgressOrAborted ||
-      initializationDeviceInProgress ||
-      initializationAppInProgress
-    )
-  }, [
-    discoveryStatus,
-    initializationDeviceInProgress,
-    initializationAppInProgress,
-  ])
 
   const setActiveDeviceAndNavigate = useCallback(
     async (deviceId: string) => {
@@ -136,7 +123,12 @@ export const useDeviceConnectedEffect = () => {
         return
       }
 
-      if (shouldSkipProcessing()) {
+      if (
+        (discoveryStatus === DiscoveryStatus.Aborted && devices.length !== 0) ||
+        discoveryStatus === DiscoveryStatus.Discovering ||
+        initializationDeviceInProgress ||
+        initializationAppInProgress
+      ) {
         return
       }
 
@@ -144,9 +136,12 @@ export const useDeviceConnectedEffect = () => {
     },
     [
       dispatch,
+      devices,
       activeDeviceId,
       handleActiveDevice,
-      shouldSkipProcessing,
+      discoveryStatus,
+      initializationDeviceInProgress,
+      initializationAppInProgress,
       history,
     ]
   )
