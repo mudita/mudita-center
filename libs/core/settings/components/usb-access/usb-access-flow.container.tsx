@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { ReduxRootState, AppDispatch } from "Core/__deprecated__/renderer/store"
 import { hideModals } from "Core/modals-manager/actions/base.action"
@@ -16,7 +16,6 @@ import { addUserToSerialPortGroup } from "Core/desktop/requests/add-user-to-seri
 import { SettingsState } from "Core/settings/reducers"
 import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
 import { UsbAccessFlowTestIds } from "Core/settings/components/usb-access/usb-access-flow-test-ids.enum"
-import logger from "Core/__deprecated__/main/utils/logger"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -34,17 +33,16 @@ const USBAccessFlowContainer = () => {
     (state: ReduxRootState): SettingsState => state.settings
   )
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const usbAccessRestartMomoized = useMemo(() => usbAccessRestart, [])
+
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    logger.info(
-      `useEffect usbAccessRestart ${usbAccessRestart ? "true" : "false"}`
-    )
-    if (usbAccessRestart) {
-      logger.info(`useEffect setting acccessState to grantedNeedsRestart`)
+    if (usbAccessRestartMomoized) {
       setAccessState(USBAccessState.grantedNeedsRestart)
     }
-  }, [usbAccessRestart])
+  }, [usbAccessRestartMomoized])
 
   return (
     <div data-testid={UsbAccessFlowTestIds.USBAccessFlowContainer}>
