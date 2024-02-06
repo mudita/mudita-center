@@ -13,12 +13,18 @@ import { handleInitializeDevice } from "Core/device-initialization/components/de
 import { initializeMuditaHarmony } from "Core/device-initialization/actions/initialize-mudita-harmony.action"
 import CriticalBatteryLevelModalContainer from "Core/device-initialization/components/critical-battery-level-modal.container"
 import EULAAgreementContainer from "Core/device-initialization/components/eula-agreement/eula-agreement.container"
+import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
+import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
   console.log("MuditaHarmonyInitializationModalFlow")
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const deviceStatus = useSelector(deviceStatusSelector)
+  const { usbAccessFlowShow } = useSelector(
+    (state: ReduxRootState): ModalsManagerState => state.modalsManager
+  )
 
   useEffect(() => {
     console.log("MuditaHarmonyInitializationModalFlow handleInitializeDevice")
@@ -33,7 +39,9 @@ export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
     return <EULAAgreementContainer />
   }
 
-  //new place for usb-access?
+  if (usbAccessFlowShow) {
+    return <USBAccessFlowContainer />
+  }
 
   return <></>
 }

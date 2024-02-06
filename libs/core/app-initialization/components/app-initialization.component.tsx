@@ -22,8 +22,6 @@ const AppInitialization: FunctionComponent = () => {
   const { usbAccessFlowShow } = useSelector(
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
   )
-  console.log("AppInitialization usbAccessFlowShow", usbAccessFlowShow)
-
   if (usbAccessFlowShow) {
     return <USBAccessFlowContainer />
   }

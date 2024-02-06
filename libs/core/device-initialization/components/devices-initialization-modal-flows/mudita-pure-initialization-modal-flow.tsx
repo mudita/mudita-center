@@ -14,11 +14,17 @@ import { initializeMuditaPure } from "Core/device-initialization/actions/initial
 import CriticalBatteryLevelModalContainer from "Core/device-initialization/components/critical-battery-level-modal.container"
 import EULAAgreementContainer from "Core/device-initialization/components/eula-agreement/eula-agreement.container"
 import PasscodeModalContainer from "Core/device-initialization/components/passcode-modal/passcode-modal.container"
+import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
+import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const deviceStatus = useSelector(deviceStatusSelector)
+  const { usbAccessFlowShow } = useSelector(
+    (state: ReduxRootState): ModalsManagerState => state.modalsManager
+  )
 
   const previousUnlockedStatus = useRef(deviceStatus?.unlocked)
 
@@ -67,7 +73,9 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
     return <PasscodeModalContainer />
   }
 
-  //usb-access?
+  if (usbAccessFlowShow) {
+    return <USBAccessFlowContainer />
+  }
 
   return <></>
 }
