@@ -13,18 +13,15 @@ import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import { registerDeviceConnectFailedListener } from "Core/device-manager/listeners/device-connect-failed.listener"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
-import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
-import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
-import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-new-devices-detected.hook"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
-import { checkIsAnyOtherModalPresent } from "Core/utils/check-is-any-other-modal-present"
-
-const CONNECTING_LOADER_MODAL_ID = "connecting-loader-modal"
+import {
+  CONNECTING_LOADER_MODAL_ID,
+  useLoaderSkipOnConnect,
+} from "Core/modals-manager/components/use-loader-skip-on-connect.hook"
 
 const messages = defineMessages({
   subtitle: {
@@ -32,31 +29,18 @@ const messages = defineMessages({
   },
 })
 
-const ConnectingLoaderModalContainer: FunctionComponent = () => {
+const ConnectingLoaderModal: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
   const [openModal, setOpenModal] = useState<boolean>(false)
 
-  const noNewDevicesDetectedState = useNoNewDevicesDetectedHook()
-
   const history = useHistory()
 
-  const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
-  const initializationDeviceInProgress = useSelector(
-    isInitializationDeviceInProgress
-  )
-  const initializationAppInProgress = useSelector(isInitializationAppInProgress)
   const discoveryStatus = useSelector(getDiscoveryStatus)
+  const shouldLoaderSkipOnConnect = useLoaderSkipOnConnect()
 
   useEffect(() => {
     const handler = async () => {
-      if (
-        history.location.pathname === URL_DISCOVERY_DEVICE.root ||
-        initializationDeviceInProgress ||
-        initializationAppInProgress ||
-        activeDeviceProcessing ||
-        checkIsAnyOtherModalPresent(CONNECTING_LOADER_MODAL_ID) ||
-        !noNewDevicesDetectedState
-      ) {
+      if (shouldLoaderSkipOnConnect()) {
         setOpenModal(false)
       } else {
         setOpenModal(true)
@@ -72,13 +56,7 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
       unregisterDeviceConnectedListener()
       unregisterDeviceConnectFailedListener()
     }
-  }, [
-    history.location.pathname,
-    initializationDeviceInProgress,
-    initializationAppInProgress,
-    activeDeviceProcessing,
-    noNewDevicesDetectedState,
-  ])
+  }, [shouldLoaderSkipOnConnect])
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
@@ -119,4 +97,4 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
   )
 }
 
-export default ConnectingLoaderModalContainer
+export default ConnectingLoaderModal
