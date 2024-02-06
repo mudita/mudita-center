@@ -3,27 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React from "react"
 import { useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
-import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { AppInitializationStatus } from "Core/app-initialization/reducers/app-initialization.interface"
+import { getAppInitializationStatus } from "Core/app-initialization/selectors/get-app-initialization-status.selector"
+import AppInitializationFlow from "Core/app-initialization/components/app-initialization-flow.component"
+import { useInitializingAppEffects } from "Core/app-initialization/hooks/use-initializing-app-effects"
 
 const AppInitialization: FunctionComponent = () => {
-  useEffect(() => {
-    console.log("AppInitialization first mount")
+  const appInitializationStatus = useSelector(getAppInitializationStatus)
 
-    return () => {
-      console.log("AppInitialization dismount")
-    }
-  }, [])
+  useInitializingAppEffects()
 
-  const { usbAccessFlowShow } = useSelector(
-    (state: ReduxRootState): ModalsManagerState => state.modalsManager
-  )
-  if (usbAccessFlowShow) {
-    return <USBAccessFlowContainer />
+  if (appInitializationStatus !== AppInitializationStatus.Initialized) {
+    return <AppInitializationFlow />
   }
 
   return <></>
