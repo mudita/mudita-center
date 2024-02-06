@@ -26,15 +26,10 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
   )
   const previousUnlockedStatus = useRef(deviceStatus?.unlocked)
-  const isInitialized = useRef(false)
 
   useEffect(() => {
     console.log("MuditaPureInitializationModalFlow handleInitializeDevice 1")
-    handleInitializeDevice(dispatch, initializeMuditaPure, history).then(
-      (initialized) => {
-        isInitialized.current = initialized
-      }
-    )
+    void handleInitializeDevice(dispatch, initializeMuditaPure, history)
   }, [history, dispatch])
 
   useEffect(() => {
@@ -77,7 +72,7 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
     return <PasscodeModalContainer />
   }
 
-  if (usbAccessFlowShow && isInitialized) {
+  if (usbAccessFlowShow) {
     return <USBAccessFlowContainer />
   }
 
