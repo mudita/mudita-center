@@ -121,13 +121,7 @@ export const initializeMuditaPure = createAsyncThunk<
         }
         await dispatch(readAllIndexes())
         dispatch(setDataSyncSetStatus(SynchronizationStatus.Cache))
-        if (!isActiveDeviceAttachedSelector(getState())) {
-          dispatch(
-            setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
-          )
-          return DeviceInitializationStatus.Aborted
-        }
-        await dispatch(updateAllIndexes())
+        dispatch(updateAllIndexes())
       } else {
         if (!isActiveDeviceAttachedSelector(getState())) {
           dispatch(
