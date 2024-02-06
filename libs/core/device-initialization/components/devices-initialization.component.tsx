@@ -12,11 +12,12 @@ import { DeviceType } from "Core/device"
 import { MuditaPureInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-pure-initialization-modal-flow"
 import { MuditaHarmonyInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-harmony-initialization-modal-flow"
 import { APIDeviceInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/api-device-initialization-modal-flow"
+import { Device } from "Core/device-manager/reducers/device-manager.interface"
 
-const DevicesInitializationModalFlow: FunctionComponent = () => {
+const DevicesInitializationModalFlow: FunctionComponent<{
+  activeDevice?: Device
+}> = ({ activeDevice }) => {
   console.log("DevicesInitializationModalFlow")
-
-  const activeDevice = useSelector(getActiveDevice)
 
   if (activeDevice?.deviceType === DeviceType.MuditaPure) {
     return <MuditaPureInitializationModalFlow />
@@ -31,10 +32,13 @@ const DevicesInitializationModalFlow: FunctionComponent = () => {
 
 const DevicesInitialization: FunctionComponent = () => {
   console.log("DevicesInitialization")
+  const activeDevice = useSelector(getActiveDevice)
   return (
     <>
-      <DevicesInitializationModalFlow />
-      <ConnectingContent />
+      <DevicesInitializationModalFlow activeDevice={activeDevice} />
+      {activeDevice?.deviceType !== DeviceType.APIDevice && (
+        <ConnectingContent />
+      )}
     </>
   )
 }

@@ -11,6 +11,9 @@ import { interactive } from "./lib/interactive/interactive"
 import { buttons } from "./lib/buttons/buttons"
 
 export { default as Icon } from "./lib/icon/icon"
+export * from "./lib/api-connection-demo"
+export * from "./lib/interactive/modal/modal-base"
+export * from "./lib/shared/shared"
 
 const apiComponents = {
   ...predefinedComponents,
@@ -25,4 +28,3 @@ export default apiComponents
 
 export type APIComponents = typeof apiComponents
 
-export * from "./lib/api-connection-demo"

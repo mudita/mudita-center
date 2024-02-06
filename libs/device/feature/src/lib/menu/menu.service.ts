@@ -9,11 +9,11 @@ import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import {
   APIMenuServiceEvents,
+  GeneralError,
   MenuConfig,
   MenuConfigValidator,
 } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
-import { GeneralError } from "../general-error"
 
 export class APIMenuService {
   constructor(private deviceManager: DeviceManager) {}
