@@ -8,7 +8,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ContactSupportFlow from "Core/contact-support/containers/contact-support-flow.container"
 import { UpdateOsInterruptedFlowContainer } from "Core/update/components/update-os-interrupted-flow"
 import ErrorConnectingModal from "Core/connecting/components/error-connecting-modal"
-import ConnectingLoaderModalContainer from "Core/modals-manager/components/connecting-loader-modal.container"
+import ConnectingLoaderModal from "Core/modals-manager/components/connecting-loader-modal.component"
 
 type Props = {
   contactSupportFlowShow: boolean
@@ -28,7 +28,7 @@ const ModalsManager: FunctionComponent<Props> = ({
       )}
       {contactSupportFlowShow && <ContactSupportFlow />}
       <UpdateOsInterruptedFlowContainer />
-      <ConnectingLoaderModalContainer />
+      <ConnectingLoaderModal />
     </>
   )
 }

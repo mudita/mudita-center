@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./controller.constant"
-export * from "./error.constant"
+export enum IpcFileSystemDialogEvent {
+  GetPaths = "file-system-dialog_get-paths",
+}

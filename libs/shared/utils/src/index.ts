@@ -5,3 +5,4 @@
 
 export * from "./lib/main-event.constant"
 export * from "./lib/answer-main"
+export * from "./lib/get-main-app-window"
