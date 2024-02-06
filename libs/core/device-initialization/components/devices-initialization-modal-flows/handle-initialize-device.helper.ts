@@ -36,11 +36,14 @@ export async function handleInitializeDevice(
     | typeof initializeMuditaPure
     | typeof initializeMuditaHarmony,
   history: History
-): Promise<void> {
+): Promise<boolean> {
   const { payload, error } = await dispatch(initializeFunction())
+  let initialized = false;
   if (error !== undefined) {
     history.push(URL_ONBOARDING.troubleshooting)
   } else if (payload === DeviceInitializationStatus.Initialized) {
     history.push(URL_OVERVIEW.root)
+    initialized = true;
   }
+  return initialized;
 }
