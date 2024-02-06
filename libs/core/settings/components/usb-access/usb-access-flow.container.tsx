@@ -38,6 +38,7 @@ const USBAccessFlowContainer = () => {
   return (
     <div data-testid={UsbAccessFlowTestIds.USBAccessFlowContainer}>
       <AllowUSBPortAccessModal
+        testId={UsbAccessFlowTestIds.AllowUSBPortAccessModal}
         title="Mudita Center"
         open={accessState === USBAccessState.notGranted}
         closeModal={() => {
