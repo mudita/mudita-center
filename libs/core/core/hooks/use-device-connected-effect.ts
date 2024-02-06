@@ -18,6 +18,7 @@ import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device
 import {
   URL_DEVICE_INITIALIZATION,
   URL_DISCOVERY_DEVICE,
+  URL_MAIN,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
@@ -28,6 +29,8 @@ import { isUnknownSerialNumber } from "Core/device/constants/unknown-serial-numb
 import { getDeviceConfigurationRequest } from "Core/device-manager/requests/get-device-configuration.request"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { checkIsAnyModalPresent } from "Core/utils/check-is-any-other-modal-present"
+import { selectDialogOpenState } from "shared/app-state"
 
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
@@ -44,6 +47,7 @@ export const useDeviceConnectedEffect = () => {
   const tmpMuditaHarmonyPortInfo = useSelector(
     getTmpMuditaHarmonyPortInfoSelector
   )
+  const dialogOpen = useSelector(selectDialogOpenState)
 
   const setActiveDeviceAndNavigate = useCallback(
     async (deviceId: string) => {
@@ -127,7 +131,10 @@ export const useDeviceConnectedEffect = () => {
         (discoveryStatus === DiscoveryStatus.Aborted && devices.length !== 0) ||
         discoveryStatus === DiscoveryStatus.Discovering ||
         initializationDeviceInProgress ||
-        initializationAppInProgress
+        initializationAppInProgress ||
+        (history.location.pathname.includes(URL_MAIN.settings) &&
+          checkIsAnyModalPresent()) ||
+        (history.location.pathname.includes(URL_MAIN.settings) && dialogOpen)
       ) {
         return
       }
@@ -135,6 +142,7 @@ export const useDeviceConnectedEffect = () => {
       history.push(URL_DISCOVERY_DEVICE.root)
     },
     [
+      dialogOpen,
       dispatch,
       devices,
       activeDeviceId,
