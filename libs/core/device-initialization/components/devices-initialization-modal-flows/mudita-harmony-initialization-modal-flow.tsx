@@ -25,6 +25,9 @@ export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
   const { usbAccessFlowShow } = useSelector(
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
   )
+  const areSettingsLoaded = useSelector(
+    (state: ReduxRootState): boolean => state.settings.loaded
+  )
 
   useEffect(() => {
     console.log("MuditaHarmonyInitializationModalFlow handleInitializeDevice")
@@ -39,7 +42,7 @@ export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
     return <EULAAgreementContainer />
   }
 
-  if (usbAccessFlowShow) {
+  if (usbAccessFlowShow && areSettingsLoaded) {
     return <USBAccessFlowContainer />
   }
 

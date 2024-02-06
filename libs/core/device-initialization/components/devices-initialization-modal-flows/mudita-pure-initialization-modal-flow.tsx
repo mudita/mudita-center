@@ -22,7 +22,12 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const deviceStatus = useSelector(deviceStatusSelector)
-
+  const { usbAccessFlowShow } = useSelector(
+    (state: ReduxRootState): ModalsManagerState => state.modalsManager
+  )
+  const areSettingsLoaded = useSelector(
+    (state: ReduxRootState): boolean => state.settings.loaded
+  )
   const previousUnlockedStatus = useRef(deviceStatus?.unlocked)
 
   useEffect(() => {
@@ -58,10 +63,6 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
     previousOnboardingStatus.current = deviceStatus?.onboardingFinished
   }, [deviceStatus?.onboardingFinished, history, dispatch])
 
-  const { usbAccessFlowShow } = useSelector(
-    (state: ReduxRootState): ModalsManagerState => state.modalsManager
-  )
-
   if (deviceStatus?.criticalBatteryLevel) {
     return <CriticalBatteryLevelModalContainer />
   }
@@ -74,7 +75,7 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
     return <PasscodeModalContainer />
   }
 
-  if (usbAccessFlowShow) {
+  if (usbAccessFlowShow && areSettingsLoaded) {
     return <USBAccessFlowContainer />
   }
 
