@@ -55,7 +55,7 @@ export const loadSettings = createAsyncThunk<
   )
 
   //console.log("loadSettings dispatch checkAppRequiresSerialPortGroup")
-  void dispatch(checkAppRequiresSerialPortGroup())
+  //void dispatch(checkAppRequiresSerialPortGroup())
 
   return
 })
