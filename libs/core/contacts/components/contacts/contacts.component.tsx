@@ -495,8 +495,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     }
   }
 
-  const cancelImportFromFile = () => {}
-
   // Synchronization, step 2b: 3-rd party services
   const authorizeAtGoogle = () => {
     return authorizeAtProvider(Provider.Google)
