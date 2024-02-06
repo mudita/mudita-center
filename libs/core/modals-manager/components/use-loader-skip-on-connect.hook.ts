@@ -12,7 +12,7 @@ import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { useNoNewDevicesDetectedHook } from "Core/discovery-device/hooks/use-no-new-devices-detected.hook"
-import { isDialogOpenSelector } from "shared/app-state"
+import { selectDialogOpenState } from "shared/app-state"
 
 export const CONNECTING_LOADER_MODAL_ID = "connecting-loader-modal"
 
@@ -25,7 +25,7 @@ export const useLoaderSkipOnConnect = () => {
     isInitializationDeviceInProgress
   )
   const initializationAppInProgress = useSelector(isInitializationAppInProgress)
-  const dialogOpen = useSelector(isDialogOpenSelector)
+  const dialogOpen = useSelector(selectDialogOpenState)
 
   return useCallback(() => {
     return (

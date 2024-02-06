@@ -6,7 +6,7 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { appStateSelector } from "./app-state.selector"
 
-export const isDialogOpenSelector = createSelector(
+export const selectDialogOpenState = createSelector(
   appStateSelector,
   ({ dialogOpen }): boolean => dialogOpen
 )
