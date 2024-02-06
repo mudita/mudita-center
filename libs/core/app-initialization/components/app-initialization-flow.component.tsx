@@ -13,12 +13,16 @@ import { AppUpdateFlow } from "Core/settings/components/app-update-flow/app-upda
 import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
+import { SettingsState } from "Core/settings/reducers"
 
 const AppInitializationFlow: FunctionComponent = () => {
   const privacyPolicyVisible = useSelector(shouldPrivacyPolicyVisible)
   const appUpdateFlowVisible = useSelector(shouldAppUpdateFlowVisible)
   const { usbAccessFlowShow } = useSelector(
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
+  )
+  const { loaded, loading } = useSelector(
+    (state: ReduxRootState): SettingsState => state.settings
   )
 
   if (usbAccessFlowShow) {
@@ -29,7 +33,7 @@ const AppInitializationFlow: FunctionComponent = () => {
     return <PrivacyPolicyModal />
   }
 
-  if (appUpdateFlowVisible) {
+  if (appUpdateFlowVisible && loaded && !loading) {
     return <AppUpdateFlow />
   }
 
