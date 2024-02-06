@@ -35,7 +35,7 @@ export const generateMcAboutListModalLayout: ViewGenerator<
       },
     },
     [config.dataKey + ListModalKeys.Modal]: {
-      component: "modal",
+      component: "text-modal",
       childrenKeys: [config.dataKey + ListModalKeys.ModalContent],
     },
     [config.dataKey + ListModalKeys.ModalContent]: {
