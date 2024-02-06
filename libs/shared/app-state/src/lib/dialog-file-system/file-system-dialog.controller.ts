@@ -13,9 +13,7 @@ export class FileSystemDialogController {
   constructor(private filesSystemDialogService: FileSystemDialogService) {}
 
   @IpcEvent(IpcFileSystemDialogEvent.GetPaths)
-  public async getPaths(
-    options: OpenDialogOptions
-  ): Promise<ResultObject<string[] | undefined>> {
+  public async getPaths(options: OpenDialogOptions): Promise<ResultObject<string[] | undefined>> {
     return this.filesSystemDialogService.getPaths(options)
   }
 }
