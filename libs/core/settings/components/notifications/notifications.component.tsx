@@ -31,6 +31,7 @@ export const Notifications: FunctionComponent<NotificationsProps> = ({
   loadSettings,
 }) => {
   useEffect(() => {
+    console.log("Notifications loadSettings")
     loadSettings()
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -70,6 +70,7 @@ export const AudioConversion: FunctionComponent<AudioConversionProps> = ({
   loadSettings,
 }) => {
   useEffect(() => {
+    console.log("AudioConversion loadSettings")
     loadSettings()
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps

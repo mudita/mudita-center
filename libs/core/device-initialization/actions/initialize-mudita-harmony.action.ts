@@ -25,9 +25,12 @@ export const initializeMuditaHarmony = createAsyncThunk<
 >(
   DeviceInitializationEvent.InitializeMuditaHarmony,
   async (_, { dispatch, getState, rejectWithValue }) => {
+    console.log("initializeMuditaHarmony")
+
     dispatch(
       setDeviceInitializationStatus(DeviceInitializationStatus.Initializing)
     )
+    console.log("initializeMuditaHarmony loadSettings")
     await dispatch(loadSettings())
     // Handle LOAD DEVICE DATA as an initializing step
     const result = await dispatch(loadDeviceData(true))

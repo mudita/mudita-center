@@ -19,9 +19,8 @@ export const startInitializingApp = createAsyncThunk<
 
   await initAnalyticDataTracker()
 
+  console.log("startInitializingApp loadSettings")
   await dispatch(loadSettings())
 
   await dispatch(checkUpdateAvailable())
-
-  await dispatch(checkAppRequiresSerialPortGroup())
 })
