@@ -9,7 +9,7 @@ import { IpcFileSystemDialogEvent } from "./controller.constant"
 import { GetPathsInput } from "./get-paths-input.object"
 
 export const getPathsRequest = async (
-  props: GetPathsInput
+  input: GetPathsInput
 ): Promise<ResultObject<string[] | undefined>> => {
-  return ipcRenderer.callMain(IpcFileSystemDialogEvent.GetPaths, props)
+  return ipcRenderer.callMain(IpcFileSystemDialogEvent.GetPaths, input)
 }

@@ -21,10 +21,10 @@ import {
   setUploadingState,
 } from "Core/files-manager/actions/base.action"
 import { getFiles } from "Core/files-manager/actions/get-files.action"
-import { getPathsRequest } from "shared/app-state"
+import { getPathsWrapper } from "Core/files-manager/actions/get-paths-wrapper"
 import * as loadStorageInfoActionModule from "Core/device/actions/load-storage-info.action"
 
-jest.mock("Core/file-system/requests/get-paths.request")
+jest.mock("Core/files-manager/actions/get-paths-wrapper")
 jest.mock("Core/files-manager/requests")
 
 const GET_FILES_MOCK_RESULT = {
@@ -58,7 +58,9 @@ const initialStore = {
 
 describe("when `uploadFileRequest` request return Result.success with uploaded files list", () => {
   beforeAll(() => {
-    ;(getPathsRequest as jest.Mock).mockResolvedValue(successGetPathResponse)
+    ;(getPathsWrapper as jest.Mock).mockResolvedValue({
+      payload: successGetPathResponse,
+    })
     ;(uploadFilesRequest as jest.Mock).mockReturnValue(successUploadResponse)
     ;(getFiles as unknown as jest.Mock).mockReturnValue(GET_FILES_MOCK_RESULT)
   })
@@ -98,9 +100,9 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
 
   describe("when `uploadFileRequest` request return Result.success with empty files list", () => {
     beforeAll(() => {
-      ;(getPathsRequest as jest.Mock).mockResolvedValue(
-        new SuccessResult<string[]>([])
-      )
+      ;(getPathsWrapper as jest.Mock).mockResolvedValue({
+        payload: new SuccessResult<string[]>([]),
+      })
     })
     afterEach(() => {
       jest.resetAllMocks()
@@ -128,7 +130,9 @@ describe("when `uploadFileRequest` request return Result.success with uploaded f
 
   describe("when `uploadFileRequest` request return Result.failed", () => {
     beforeEach(() => {
-      ;(getPathsRequest as jest.Mock).mockResolvedValue(successGetPathResponse)
+      ;(getPathsWrapper as jest.Mock).mockResolvedValue({
+        payload: successGetPathResponse,
+      })
       ;(uploadFilesRequest as jest.Mock).mockReturnValue(failedUploadResponse)
       ;(getFiles as unknown as jest.Mock).mockReturnValue(GET_FILES_MOCK_RESULT)
     })
