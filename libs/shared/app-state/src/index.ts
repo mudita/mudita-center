@@ -5,6 +5,5 @@
 
 export * from "./lib/dialog-file-system/get-paths.action"
 export * from "./lib/dialog-file-system/file-system-dialog.module"
-export * from "./lib/dialog-file-system/get-paths-input.object"
 export * from "./lib/selectors/is-dialog-open.selector"
 export * from "./lib/app-state.reducer"

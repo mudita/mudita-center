@@ -3,24 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { BrowserWindow, dialog, FileFilter, OpenDialogOptions } from "electron"
+import { BrowserWindow, dialog, OpenDialogOptions } from "electron"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
 import { FileSystemDialogError } from "./error.constant"
+
+const defaultOptions: OpenDialogOptions = { filters: [], properties: [] }
 
 export class FileSystemDialogService {
   private lastSelectedPath: string | undefined
 
   constructor(private mainApplicationWindow: BrowserWindow) {}
   public async getPaths(
-    filters?: FileFilter[],
-    properties?: OpenDialogOptions["properties"]
+    options: OpenDialogOptions = defaultOptions
   ): Promise<ResultObject<string[] | undefined>> {
     try {
-      const openDialogOptions = this.getOpenDialogOptions({
-        filters,
-        properties,
-      })
+      const openDialogOptions = this.getOpenDialogOptions(options)
       const result = await dialog.showOpenDialog(
         this.mainApplicationWindow,
         openDialogOptions
@@ -38,7 +36,7 @@ export class FileSystemDialogService {
   }
 
   private getOpenDialogOptions(options: OpenDialogOptions): OpenDialogOptions {
-    if (this.lastSelectedPath === undefined) {
+    if (this.lastSelectedPath === undefined || options.defaultPath) {
       return options
     } else {
       const defaultPath = this.lastSelectedPath

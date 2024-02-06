@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { OpenDialogOptions } from "electron"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { getPaths, GetPathsInput } from "shared/app-state"
+import { getPaths } from "shared/app-state"
 import { ResultObject } from "Core/core/builder"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
 
@@ -15,7 +16,7 @@ import { TmpDispatch } from "Core/__deprecated__/renderer/store"
  */
 export const getPathsWrapper = async (
   dispatch: TmpDispatch,
-  input: GetPathsInput
+  options: OpenDialogOptions
 ): Promise<PayloadAction<ResultObject<string[] | undefined>>> =>
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  dispatch(getPaths(input))
+  dispatch(getPaths(options))
