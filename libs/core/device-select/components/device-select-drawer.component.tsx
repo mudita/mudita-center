@@ -18,7 +18,7 @@ import styled from "styled-components"
 import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 import { useHistory } from "react-router-dom"
 import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
@@ -71,7 +71,7 @@ const DevicesContainer = styled("div")`
 
 const DeviceSelectDrawer: FunctionComponent = () => {
   const isOpen = useSelector(isSelectDeviceDrawerOpenSelector)
-  const devices = useSelector(getDevicesSelector)
+  const devices = useSelector(getAvailableDevicesSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
