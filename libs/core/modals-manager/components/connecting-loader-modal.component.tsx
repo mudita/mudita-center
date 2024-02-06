@@ -32,7 +32,7 @@ const messages = defineMessages({
   },
 })
 
-const ConnectingLoaderModalContainer: FunctionComponent = () => {
+const ConnectingLoaderModal: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
   const [openModal, setOpenModal] = useState<boolean>(false)
 
@@ -119,4 +119,4 @@ const ConnectingLoaderModalContainer: FunctionComponent = () => {
   )
 }
 
-export default ConnectingLoaderModalContainer
+export default ConnectingLoaderModal
