@@ -6,7 +6,7 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { getPaths } from "./dialog-file-system/get-paths.action"
 
-interface AppState {
+export interface AppState {
   dialogOpen: boolean
 }
 
