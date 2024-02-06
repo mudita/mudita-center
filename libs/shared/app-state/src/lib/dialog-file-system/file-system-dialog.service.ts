@@ -6,9 +6,9 @@
 import { BrowserWindow, dialog, FileFilter, OpenDialogOptions } from "electron"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
-import { DialogFileSystemError } from "Core/file-system/constants"
+import { FileSystemDialogError } from "./error.constant"
 
-export class FilesSystemDialogService {
+export class FileSystemDialogService {
   private lastSelectedPath: string | undefined
 
   constructor(private mainApplicationWindow: BrowserWindow) {}
@@ -30,7 +30,7 @@ export class FilesSystemDialogService {
     } catch (error) {
       return Result.failed(
         new AppError(
-          DialogFileSystemError.GetPath,
+          FileSystemDialogError.GetPath,
           error ? (error as Error).message : "Something went wrong"
         )
       )
