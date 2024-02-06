@@ -14,6 +14,8 @@ import { MuditaHarmonyInitializationModalFlow } from "Core/device-initialization
 import { APIDeviceInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/api-device-initialization-modal-flow"
 
 const DevicesInitializationModalFlow: FunctionComponent = () => {
+  console.log("DevicesInitializationModalFlow")
+
   const activeDevice = useSelector(getActiveDevice)
 
   if (activeDevice?.deviceType === DeviceType.MuditaPure) {
@@ -28,6 +30,7 @@ const DevicesInitializationModalFlow: FunctionComponent = () => {
 }
 
 const DevicesInitialization: FunctionComponent = () => {
+  console.log("DevicesInitialization")
   return (
     <>
       <DevicesInitializationModalFlow />

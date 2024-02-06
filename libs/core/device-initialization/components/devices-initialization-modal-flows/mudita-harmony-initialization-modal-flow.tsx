@@ -15,11 +15,13 @@ import CriticalBatteryLevelModalContainer from "Core/device-initialization/compo
 import EULAAgreementContainer from "Core/device-initialization/components/eula-agreement/eula-agreement.container"
 
 export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
+  console.log("MuditaHarmonyInitializationModalFlow")
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const deviceStatus = useSelector(deviceStatusSelector)
 
   useEffect(() => {
+    console.log("MuditaHarmonyInitializationModalFlow handleInitializeDevice")
     void handleInitializeDevice(dispatch, initializeMuditaHarmony, history)
   }, [history, dispatch])
 
@@ -30,6 +32,8 @@ export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
   if (deviceStatus?.onboardingFinished === false) {
     return <EULAAgreementContainer />
   }
+
+  //new place for usb-access?
 
   return <></>
 }
