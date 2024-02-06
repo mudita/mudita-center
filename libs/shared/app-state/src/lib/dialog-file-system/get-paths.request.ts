@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "Core/core/builder"
-import { IpcDialogFileSystemEvent } from "Core/file-system/constants"
-import { GetPathsInput } from "Core/file-system/dto"
+import { IpcFileSystemDialogEvent } from "./controller.constant"
+import { GetPathsInput } from "./get-paths-input.object"
 
 export const getPathsRequest = async (
-  props: GetPathsInput
+  input: GetPathsInput
 ): Promise<ResultObject<string[] | undefined>> => {
-  return ipcRenderer.callMain(IpcDialogFileSystemEvent.GetPaths, props)
+  return ipcRenderer.callMain(IpcFileSystemDialogEvent.GetPaths, input)
 }

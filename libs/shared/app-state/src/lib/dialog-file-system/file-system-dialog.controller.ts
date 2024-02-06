@@ -5,14 +5,14 @@
 
 import { IpcEvent } from "Core/core/decorators"
 import { ResultObject } from "Core/core/builder"
-import { IpcDialogFileSystemEvent } from "Core/file-system/constants"
-import { GetPathsInput } from "Core/file-system/dto"
-import { FilesSystemDialogService } from "Core/file-system/services/file-system-dialog.service"
+import { IpcFileSystemDialogEvent } from "./controller.constant"
+import { GetPathsInput } from "./get-paths-input.object"
+import { FileSystemDialogService } from "./file-system-dialog.service"
 
-export class DialogFileSystemController {
-  constructor(private filesSystemDialogService: FilesSystemDialogService) {}
+export class FileSystemDialogController {
+  constructor(private filesSystemDialogService: FileSystemDialogService) {}
 
-  @IpcEvent(IpcDialogFileSystemEvent.GetPaths)
+  @IpcEvent(IpcFileSystemDialogEvent.GetPaths)
   public async getPaths({
     filters = [],
     properties,
