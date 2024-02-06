@@ -176,10 +176,10 @@ export class SerialPortDeviceAPIAdapter {
     })
   }
 
-  // @log(
-  //   "==== serial port - api device: create valid request ====",
-  //   LogConfig.Args
-  // )
+  @log(
+    "==== serial port - api device: create valid request ====",
+    LogConfig.Args
+  )
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private mapPayloadToRequest(payload: APIRequestData): string {
@@ -193,7 +193,7 @@ export class SerialPortDeviceAPIAdapter {
     port.write(request)
   }
 
-  // @log("==== serial port - api device: data received ====", LogConfig.Args)
+  @log("==== serial port - api device: data received ====", LogConfig.Args)
   private emitDataReceivedEvent<ResponseType = unknown>(
     data: Response<ResponseType> | AppError
   ): void {

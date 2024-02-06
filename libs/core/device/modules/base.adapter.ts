@@ -46,7 +46,7 @@ export abstract class BaseAdapter<
     })
   }
 
-  //@log("==== serial port: disconnect ====")
+  @log("==== serial port: disconnect ====")
   public disconnect(): Promise<ResultObject<boolean>> {
     return new Promise((resolve) => {
       if (this.serialPort === undefined) {
@@ -75,14 +75,14 @@ export abstract class BaseAdapter<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Promise<ResultObject<RequestResponse>>
 
-  //@log("==== serial port: data received ====", LogConfig.Args)
+  @log("==== serial port: data received ====", LogConfig.Args)
   protected emitDataReceivedEvent<ResponseType = unknown>(
     data: Response<ResponseType> | AppError
   ): void {
     this.eventEmitter.emit(DeviceCommunicationEvent.DataReceived, data)
   }
 
-  //@log("==== serial port: list ====")
+  @log("==== serial port: list ====")
   protected getSerialPortList(): Promise<PortInfo[]> {
     return SerialPort.list()
   }

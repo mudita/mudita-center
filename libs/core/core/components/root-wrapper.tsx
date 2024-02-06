@@ -15,10 +15,8 @@ import localeEn from "Core/__deprecated__/renderer/locales/default/en-US.json"
 import { ModalProvider } from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import AppsSwitch from "Core/core/components/apps-switch"
-import logger from "Core/__deprecated__/main/utils/logger"
 
 const RootWrapper: FunctionComponent = () => {
-  logger.info("render RootWrapper")
   return (
     <ThemeProvider theme={theme}>
       <IntlProvider

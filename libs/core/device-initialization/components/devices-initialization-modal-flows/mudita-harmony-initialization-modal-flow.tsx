@@ -13,21 +13,13 @@ import { handleInitializeDevice } from "Core/device-initialization/components/de
 import { initializeMuditaHarmony } from "Core/device-initialization/actions/initialize-mudita-harmony.action"
 import CriticalBatteryLevelModalContainer from "Core/device-initialization/components/critical-battery-level-modal.container"
 import EULAAgreementContainer from "Core/device-initialization/components/eula-agreement/eula-agreement.container"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
-  console.log("MuditaHarmonyInitializationModalFlow")
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const deviceStatus = useSelector(deviceStatusSelector)
 
-  const areSettingsLoaded = useSelector(
-    (state: ReduxRootState): boolean => state.settings.loaded
-  )
-  console.log("areSettingsLoaded", areSettingsLoaded)
-
   useEffect(() => {
-    console.log("MuditaHarmonyInitializationModalFlow handleInitializeDevice")
     void handleInitializeDevice(dispatch, initializeMuditaHarmony, history)
   }, [history, dispatch])
 

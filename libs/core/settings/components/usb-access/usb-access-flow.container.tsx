@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { ReduxRootState, AppDispatch } from "Core/__deprecated__/renderer/store"
 import { hideModals } from "Core/modals-manager/actions/base.action"
@@ -34,15 +34,6 @@ const USBAccessFlowContainer = () => {
       ? USBAccessState.grantedNeedsRestart
       : USBAccessState.notGranted
   )
-
-  // useEffect(() => {
-  //   if (usbAccessRestart) {
-  //     console.log(
-  //       "USBAccessFlowContainer setAccessState to grantedNeedsRestart"
-  //     )
-  //     setAccessState(USBAccessState.grantedNeedsRestart)
-  //   }
-  // }, [usbAccessRestart])
 
   return (
     <div data-testid={UsbAccessFlowTestIds.USBAccessFlowContainer}>

@@ -36,12 +36,9 @@ export const initializeMuditaPure = createAsyncThunk<
 >(
   DeviceInitializationEvent.InitializeMuditaPure,
   async (_, { dispatch, getState, rejectWithValue }) => {
-    console.log("initializeMuditaPure")
-
     dispatch(
       setDeviceInitializationStatus(DeviceInitializationStatus.Initializing)
     )
-    console.log("initializeMuditaPure loadSettings")
     await dispatch(loadSettings())
 
     const unlockStatus = await dispatch(getUnlockStatus())

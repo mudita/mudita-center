@@ -17,8 +17,6 @@ import { Device } from "Core/device-manager/reducers/device-manager.interface"
 const DevicesInitializationModalFlow: FunctionComponent<{
   activeDevice?: Device
 }> = ({ activeDevice }) => {
-  console.log("DevicesInitializationModalFlow")
-
   if (activeDevice?.deviceType === DeviceType.MuditaPure) {
     return <MuditaPureInitializationModalFlow />
   } else if (activeDevice?.deviceType === DeviceType.MuditaHarmony) {
@@ -31,7 +29,6 @@ const DevicesInitializationModalFlow: FunctionComponent<{
 }
 
 const DevicesInitialization: FunctionComponent = () => {
-  console.log("DevicesInitialization")
   const activeDevice = useSelector(getActiveDevice)
   return (
     <>

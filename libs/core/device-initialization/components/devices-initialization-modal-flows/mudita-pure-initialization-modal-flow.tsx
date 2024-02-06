@@ -22,7 +22,6 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
   const previousUnlockedStatus = useRef(deviceStatus?.unlocked)
 
   useEffect(() => {
-    console.log("MuditaPureInitializationModalFlow handleInitializeDevice 1")
     void handleInitializeDevice(dispatch, initializeMuditaPure, history)
   }, [history, dispatch])
 
@@ -32,7 +31,6 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
       previousUnlockedStatus.current === false &&
       deviceStatus?.unlocked === true
     ) {
-      console.log("MuditaPureInitializationModalFlow handleInitializeDevice 2")
       void handleInitializeDevice(dispatch, initializeMuditaPure, history)
     }
 
@@ -47,7 +45,6 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
       previousOnboardingStatus.current === false &&
       deviceStatus?.onboardingFinished === true
     ) {
-      console.log("MuditaPureInitializationModalFlow handleInitializeDevice 3")
       void handleInitializeDevice(dispatch, initializeMuditaPure, history)
     }
 

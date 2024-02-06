@@ -21,12 +21,11 @@ const AppInitializationFlow: FunctionComponent = () => {
   const { usbAccessFlowShow } = useSelector(
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
   )
-  const { loaded, loading } = useSelector(
+  const { loaded: areSettingsLoaded } = useSelector(
     (state: ReduxRootState): SettingsState => state.settings
   )
-  console.log("state.settings loaded", loaded, "loading", loading)
 
-  if (usbAccessFlowShow && loaded && !loading) {
+  if (usbAccessFlowShow && areSettingsLoaded) {
     return <USBAccessFlowContainer />
   }
 
