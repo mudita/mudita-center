@@ -27,10 +27,16 @@ import { DeviceType } from "Core/device"
 import { getTmpMuditaHarmonyPortInfoSelector } from "Core/update/selectors/get-tmp-mudita-harmony-port-info-selector"
 import { isUnknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 import { getDeviceConfigurationRequest } from "Core/device-manager/requests/get-device-configuration.request"
+import { checkAppRequiresSerialPortGroup } from "Core/modals-manager/actions"
 
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
+
+  useEffect(() => {
+    void dispatch(checkAppRequiresSerialPortGroup())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
