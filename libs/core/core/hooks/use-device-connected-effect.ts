@@ -32,7 +32,6 @@ import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.se
 import { checkIsAnyModalPresent } from "Core/utils/check-is-any-other-modal-present"
 import { selectDialogOpenState } from "shared/app-state"
 
-
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
@@ -113,8 +112,8 @@ export const useDeviceConnectedEffect = () => {
     [activeDeviceId, setActiveDeviceAndNavigate, handleActiveDeviceWorkaround]
   )
 
-  const handleDeviceConnected = useCallback(
-    async (properties: DeviceBaseProperties) => {
+  useEffect(() => {
+    const handler = async (properties: DeviceBaseProperties) => {
       dispatch(addDevice(properties))
       dispatch(configureDevice(properties.id))
 
@@ -128,26 +127,19 @@ export const useDeviceConnectedEffect = () => {
       }
 
       history.push(URL_DISCOVERY_DEVICE.root)
-    },
-    [
-      history,
-      dispatch,
-      activeDeviceId,
-      handleActiveDevice,
-      shouldDiscoverySkipOnConnect,
-    ]
-  )
-
-  useEffect(() => {
-    const handler = async (properties: DeviceBaseProperties) => {
-      await handleDeviceConnected(properties)
     }
 
     const unregister = registerDeviceConnectedListener(handler)
     return () => {
       unregister()
     }
-  }, [handleDeviceConnected])
+  }, [
+    history,
+    dispatch,
+    activeDeviceId,
+    handleActiveDevice,
+    shouldDiscoverySkipOnConnect,
+  ])
 }
 
 const useDiscoverySkipOnConnect = () => {
