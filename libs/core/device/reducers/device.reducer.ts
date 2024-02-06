@@ -65,6 +65,7 @@ export const deviceReducer = createReducer<DeviceState>(
           ...state,
           status: {
             ...state.status,
+            unlocked: null,
             onboardingFinished: action.payload,
           },
         }
