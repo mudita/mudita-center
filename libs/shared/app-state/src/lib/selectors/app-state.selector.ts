@@ -6,6 +6,6 @@
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppState } from "shared/app-state"
 
-export const appStateSelector = (state: ReduxRootState): AppState =>
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  state.appState
+export const appStateSelector = (state: ReduxRootState): AppState => {
+  return state.appState
+}
