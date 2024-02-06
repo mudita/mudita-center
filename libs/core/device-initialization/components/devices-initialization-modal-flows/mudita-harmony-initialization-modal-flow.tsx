@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useRef } from "react"
+import React, { useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -16,6 +16,7 @@ import EULAAgreementContainer from "Core/device-initialization/components/eula-a
 import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
 import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { loadSettings } from "Core/settings/actions"
 
 export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
   console.log("MuditaHarmonyInitializationModalFlow")
@@ -25,15 +26,14 @@ export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
   const { usbAccessFlowShow } = useSelector(
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
   )
-  const isInitialized = useRef(false)
+  const areSettingsLoaded = useSelector(
+    (state: ReduxRootState): boolean => state.settings.loaded
+  )
+  console.log("areSettingsLoaded", areSettingsLoaded)
 
   useEffect(() => {
     console.log("MuditaHarmonyInitializationModalFlow handleInitializeDevice")
-    handleInitializeDevice(dispatch, initializeMuditaHarmony, history).then(
-      (initialized) => {
-        isInitialized.current = initialized
-      }
-    )
+    void handleInitializeDevice(dispatch, initializeMuditaHarmony, history)
   }, [history, dispatch])
 
   if (deviceStatus?.criticalBatteryLevel) {
@@ -44,7 +44,7 @@ export const MuditaHarmonyInitializationModalFlow: FunctionComponent = () => {
     return <EULAAgreementContainer />
   }
 
-  if (usbAccessFlowShow && isInitialized) {
+  if (usbAccessFlowShow) {
     return <USBAccessFlowContainer />
   }
 

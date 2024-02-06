@@ -25,7 +25,7 @@ export const initializeMuditaHarmony = createAsyncThunk<
 >(
   DeviceInitializationEvent.InitializeMuditaHarmony,
   async (_, { dispatch, getState, rejectWithValue }) => {
-    console.log("initializeMuditaHarmony")
+    console.log("initializeMuditaHarmony start")
 
     dispatch(
       setDeviceInitializationStatus(DeviceInitializationStatus.Initializing)
@@ -36,6 +36,7 @@ export const initializeMuditaHarmony = createAsyncThunk<
     const result = await dispatch(loadDeviceData(true))
 
     if ("error" in result) {
+      console.log("initializeMuditaHarmony reject")
       return rejectWithValue(
         new AppError(DeviceInitializationError.InitializingDeviceError)
       )
@@ -53,6 +54,7 @@ export const initializeMuditaHarmony = createAsyncThunk<
       dispatch(
         setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
       )
+      console.log("initializeMuditaHarmony Aborted")
       return DeviceInitializationStatus.Aborted
     }
 
@@ -60,6 +62,7 @@ export const initializeMuditaHarmony = createAsyncThunk<
       setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
     )
 
+    console.log("initializeMuditaHarmony Initialized")
     return DeviceInitializationStatus.Initialized
   }
 )
