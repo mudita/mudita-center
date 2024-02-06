@@ -32,22 +32,18 @@ import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.se
 import { checkIsAnyModalPresent } from "Core/utils/check-is-any-other-modal-present"
 import { selectDialogOpenState } from "shared/app-state"
 
+
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
 
-  const devices = useSelector(getDevicesSelector)
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
-  const discoveryStatus = useSelector(getDiscoveryStatus)
-  const initializationDeviceInProgress = useSelector(
-    isInitializationDeviceInProgress
-  )
-  const initializationAppInProgress = useSelector(isInitializationAppInProgress)
   const tmpMuditaHarmonyPortInfo = useSelector(
     getTmpMuditaHarmonyPortInfoSelector
   )
-  const dialogOpen = useSelector(selectDialogOpenState)
+
+  const shouldDiscoverySkipOnConnect = useDiscoverySkipOnConnect()
 
   const setActiveDeviceAndNavigate = useCallback(
     async (deviceId: string) => {
@@ -127,30 +123,18 @@ export const useDeviceConnectedEffect = () => {
         return
       }
 
-      if (
-        (discoveryStatus === DiscoveryStatus.Aborted && devices.length !== 0) ||
-        discoveryStatus === DiscoveryStatus.Discovering ||
-        initializationDeviceInProgress ||
-        initializationAppInProgress ||
-        (history.location.pathname.includes(URL_MAIN.settings) &&
-          checkIsAnyModalPresent()) ||
-        (history.location.pathname.includes(URL_MAIN.settings) && dialogOpen)
-      ) {
+      if (shouldDiscoverySkipOnConnect()) {
         return
       }
 
       history.push(URL_DISCOVERY_DEVICE.root)
     },
     [
-      dialogOpen,
+      history,
       dispatch,
-      devices,
       activeDeviceId,
       handleActiveDevice,
-      discoveryStatus,
-      initializationDeviceInProgress,
-      initializationAppInProgress,
-      history,
+      shouldDiscoverySkipOnConnect,
     ]
   )
 
@@ -164,4 +148,34 @@ export const useDeviceConnectedEffect = () => {
       unregister()
     }
   }, [handleDeviceConnected])
+}
+
+const useDiscoverySkipOnConnect = () => {
+  const history = useHistory()
+  const devices = useSelector(getDevicesSelector)
+  const discoveryStatus = useSelector(getDiscoveryStatus)
+  const initializationDeviceInProgress = useSelector(
+    isInitializationDeviceInProgress
+  )
+  const initializationAppInProgress = useSelector(isInitializationAppInProgress)
+  const dialogOpen = useSelector(selectDialogOpenState)
+
+  return useCallback(() => {
+    return (
+      (discoveryStatus === DiscoveryStatus.Aborted && devices.length !== 0) ||
+      discoveryStatus === DiscoveryStatus.Discovering ||
+      initializationDeviceInProgress ||
+      initializationAppInProgress ||
+      (history.location.pathname.includes(URL_MAIN.settings) &&
+        checkIsAnyModalPresent()) ||
+      (history.location.pathname.includes(URL_MAIN.settings) && dialogOpen)
+    )
+  }, [
+    history,
+    devices,
+    discoveryStatus,
+    initializationDeviceInProgress,
+    initializationAppInProgress,
+    dialogOpen,
+  ])
 }
