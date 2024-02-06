@@ -24,8 +24,9 @@ const AppInitializationFlow: FunctionComponent = () => {
   const { loaded, loading } = useSelector(
     (state: ReduxRootState): SettingsState => state.settings
   )
+  console.log("state.settings loaded", loaded, "loading", loading)
 
-  if (usbAccessFlowShow) {
+  if (usbAccessFlowShow && loaded && !loading) {
     return <USBAccessFlowContainer />
   }
 
@@ -33,7 +34,7 @@ const AppInitializationFlow: FunctionComponent = () => {
     return <PrivacyPolicyModal />
   }
 
-  if (appUpdateFlowVisible && loaded && !loading) {
+  if (appUpdateFlowVisible) {
     return <AppUpdateFlow />
   }
 
