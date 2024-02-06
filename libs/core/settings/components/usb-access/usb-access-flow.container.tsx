@@ -25,25 +25,24 @@ enum USBAccessState {
 }
 
 const USBAccessFlowContainer = () => {
-  const [accessState, setAccessState] = useState<USBAccessState>(
-    USBAccessState.notGranted
-  )
-
+  const dispatch = useDispatch<AppDispatch>()
   const { usbAccessRestart } = useSelector(
     (state: ReduxRootState): SettingsState => state.settings
   )
-  console.log("USBAccessFlowContainer usbAccessRestart", usbAccessRestart)
+  const [accessState, setAccessState] = useState<USBAccessState>(
+    usbAccessRestart
+      ? USBAccessState.grantedNeedsRestart
+      : USBAccessState.notGranted
+  )
 
-  const dispatch = useDispatch<AppDispatch>()
-
-  useEffect(() => {
-    if (usbAccessRestart) {
-      console.log(
-        "USBAccessFlowContainer setAccessState to grantedNeedsRestart"
-      )
-      setAccessState(USBAccessState.grantedNeedsRestart)
-    }
-  }, [usbAccessRestart])
+  // useEffect(() => {
+  //   if (usbAccessRestart) {
+  //     console.log(
+  //       "USBAccessFlowContainer setAccessState to grantedNeedsRestart"
+  //     )
+  //     setAccessState(USBAccessState.grantedNeedsRestart)
+  //   }
+  // }, [usbAccessRestart])
 
   return (
     <div data-testid={UsbAccessFlowTestIds.USBAccessFlowContainer}>
