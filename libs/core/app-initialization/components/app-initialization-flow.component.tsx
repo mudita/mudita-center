@@ -21,16 +21,16 @@ const AppInitializationFlow: FunctionComponent = () => {
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
   )
 
+  if (usbAccessFlowShow) {
+    return <USBAccessFlowContainer />
+  }
+
   if (privacyPolicyVisible) {
     return <PrivacyPolicyModal />
   }
 
   if (appUpdateFlowVisible) {
     return <AppUpdateFlow />
-  }
-
-  if (usbAccessFlowShow) {
-    return <USBAccessFlowContainer />
   }
 
   return <></>
