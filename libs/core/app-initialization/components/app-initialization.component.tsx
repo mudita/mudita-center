@@ -12,8 +12,6 @@ import AppInitializationFlow from "Core/app-initialization/components/app-initia
 import { useInitializingAppEffects } from "Core/app-initialization/hooks/use-initializing-app-effects"
 
 const AppInitialization: FunctionComponent = () => {
-  console.log("AppInitialization run")
-
   const appInitializationStatus = useSelector(getAppInitializationStatus)
 
   useInitializingAppEffects()

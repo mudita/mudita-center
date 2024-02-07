@@ -15,10 +15,8 @@ export const startInitializingApp = createAsyncThunk<
   void,
   { state: ReduxRootState }
 >(AppInitializationEvent.StartInitializingApp, async (_, { dispatch }) => {
-  console.log("startInitializingApp start")
   await initAnalyticDataTracker()
   await dispatch(loadSettings())
   await dispatch(checkUpdateAvailable())
   await dispatch(checkAppRequiresSerialPortGroup())
-  console.log("startInitializingApp end")
 })
