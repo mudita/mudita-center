@@ -6,14 +6,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
 import React, { useEffect, useRef } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
-import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
-  getAPIConfig,
   selectActiveDevice,
   selectActiveDeviceMenuElements,
   selectApiError,
@@ -49,7 +46,6 @@ const messages = defineMessages({
 })
 
 export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
-  const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
   const firstRenderTime = useRef(Date.now())
   const deviceLocked = useSelector((state: ReduxRootState) => {
@@ -59,17 +55,14 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const deviceId = useSelector(selectActiveDevice)
 
   const onModalClose = () => {
-    // TODO: handle modal close
-  }
-
-  useEffect(() => {
-    if (!deviceLocked && deviceId) {
-      dispatch(getAPIConfig({ deviceId }))
-      dispatch(
-        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
-      )
+    // TODO: make sure it works as expected after merging MDS
+    if (history.length === 3) {
+      // History length is 3 when user is on the first screen after onboarding
+      history.push(URL_MAIN.news)
+    } else {
+      history.go(-2)
     }
-  }, [deviceId, deviceLocked, dispatch])
+  }
 
   useEffect(() => {
     let timeout: NodeJS.Timeout
