@@ -245,6 +245,7 @@ const createWindow = async () => {
 
   if (productionEnvironment) {
     win.webContents.once("dom-ready", () => {
+      win!.webContents.openDevTools()
       appModules.lateInitialization()
     })
   } else {

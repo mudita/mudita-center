@@ -14,6 +14,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
 
 export const useInitializingAppEffects = () => {
+  console.log("useInitializingAppEffects run")
   const dispatch = useDispatch<Dispatch>()
   const appUpdateProcessPassed = useSelector(isAppUpdateProcessPassed)
   const { usbAccessFlowShow } = useSelector(
@@ -21,11 +22,14 @@ export const useInitializingAppEffects = () => {
   )
 
   useEffect(() => {
+    console.log("useInitializingAppEffects run startInitializingApp")
     dispatch(startInitializingApp())
   }, [dispatch])
 
   useEffect(() => {
+    console.log("useInitializingAppEffects run check if initialization over")
     if (appUpdateProcessPassed && !usbAccessFlowShow) {
+      console.log("useInitializingAppEffects run initialization over")
       dispatch(setAppInitializationStatus(AppInitializationStatus.Initialized))
     }
   }, [dispatch, appUpdateProcessPassed, usbAccessFlowShow])
