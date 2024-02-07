@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import ContactList from "Core/contacts/components/contact-list/contact-list.component"
 import ContactPanel from "Core/contacts/components/contact-panel/contact-panel.component"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -59,8 +60,8 @@ import { differenceWith, isEqual } from "lodash"
 import { filterContacts } from "Core/contacts/helpers/filter-contacts/filter-contacts"
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types"
-import { getPathsRequest } from "Core/file-system/requests"
 import createFile from "Core/__deprecated__/renderer/utils/create-file/create-file"
+import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {
@@ -104,6 +105,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   deleteContacts,
   authorize,
   onCall,
+  getPaths,
   onMessage,
   exportContacts,
   addNewContactsToState,
@@ -116,6 +118,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 }) => {
   const history = useHistory()
   const searchParams = useURLSearchParams()
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
   const phoneNumber = searchParams.get("phoneNumber") || ""
   const activeContact = findContactByPhoneNumber(contacts, phoneNumber)
   const initNewContact =
@@ -470,7 +473,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   // Synchronization, step 2a: file select
   const importFromFile = async () => {
-    const { ok, data: paths } = await getPathsRequest({
+    const { payload: getPathsPayload } = await getPaths({
       filters: [
         {
           name: "vcf",
@@ -479,6 +482,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       ],
       properties: ["openFile", "multiSelections"],
     })
+    const { ok, data: paths } = getPathsPayload
 
     const files =
       ok && paths !== undefined ? paths.map((path) => createFile(path)) : []
@@ -568,8 +572,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
     const newContactResponses = []
     for (let index = 0; index < importedContacts.length; index++) {
-      const contact = importedContacts[index]
-      const { payload } = await importContact(contact)
+      const newContact = importedContacts[index]
+      const { payload } = await importContact({ newContact, activeDeviceId })
 
       if (
         (payload as AppError).type === RequestResponseStatus.InternalServerError
@@ -580,7 +584,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       setAddedContactsCount(currentContactIndex)
 
       if (isError(payload)) {
-        newContactResponses.push({ ...contact, successfullyAdded: false })
+        newContactResponses.push({ ...newContact, successfullyAdded: false })
       } else {
         newContactResponses.push({ ...payload })
       }

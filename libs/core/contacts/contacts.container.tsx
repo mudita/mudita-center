@@ -6,6 +6,7 @@
 import { connect } from "react-redux"
 import { History, LocationState } from "history"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { OpenDialogOptions } from "electron"
 import Contacts from "Core/contacts/components/contacts/contacts.component"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ReduxRootState, TmpDispatch } from "Core/__deprecated__/renderer/store"
@@ -32,7 +33,10 @@ import { ContactErrorResponse } from "Core/contacts/components/contacts/contacts
 import { isThreadOpenedSelector } from "Core/messages/selectors"
 import { createNewContact } from "Core/contacts/actions/create-new-contacts.action"
 import { deleteContacts } from "Core/contacts/actions/delete-contacts.action"
-import { importContact } from "Core/contacts/actions/import-contact.action"
+import {
+  importContact,
+  ImportContactArg,
+} from "Core/contacts/actions/import-contact.action"
 import { addNewContactsToState } from "Core/contacts/actions/base.action"
 import { getContactSelector } from "Core/contacts/selectors/get-contact.selector"
 import { speedDialChosenListSelector } from "Core/contacts/selectors/speed-dial-chosen-list.selector"
@@ -46,6 +50,7 @@ import {
   selectAllItems,
   toggleItem,
 } from "Core/contacts/actions"
+import { getPaths } from "shared/app-state"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
@@ -106,10 +111,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
       dispatch(createNewContact(contact)),
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/require-await
-    importContact: async (contact: NewContact): Promise<string | void> =>
+    importContact: async (arg: ImportContactArg): Promise<string | void> =>
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-      dispatch(importContact(contact)),
+      dispatch(importContact(arg)),
     editContact: async (
       contact: Contact
       // AUTO DISABLED - fix me if you like :)
@@ -154,6 +159,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       void dispatch(closeWindow(provider))
     },
+    getPaths: (options: OpenDialogOptions) =>
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+      dispatch(getPaths(options)),
   }
 }
 

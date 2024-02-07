@@ -6,7 +6,6 @@
 import * as React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux"
-import { Link } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   textColor,
@@ -17,12 +16,13 @@ import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.compone
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { LayoutBlankWrapperTestIds } from "Core/__deprecated__/renderer/wrappers/wrappers-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { RootState, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { State } from "Core/core/constants"
 import { useHandleActiveDeviceAborted } from "Core/overview/components/overview-screens/pure-overview/use-handle-active-device-aborted.hook"
+import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
+import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 
 const Layout = styled.div`
   display: grid;
@@ -86,7 +86,8 @@ const mapStateToProps = (
     closeable: !(
       state.update.needsForceUpdate ||
       state.update.forceUpdateState === State.Loading ||
-      state.update.updateOsState === State.Loading
+      state.update.updateOsState === State.Loading ||
+      state.genericViews.activeDevice
     ),
     recoveryMode: ownProps.recoveryMode,
     onClose: ownProps.onClose,
@@ -102,7 +103,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
   const handleActiveDeviceAborted = useHandleActiveDeviceAborted()
 
   const handleClosePage = () => {
-    handleActiveDeviceAborted()
+    void handleActiveDeviceAborted()
     onClose && onClose()
   }
 
@@ -115,13 +116,12 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
           message={{ id: "module.onboarding.mainTitle" }}
         />
         {!recoveryMode && closeable && (
-          <Link
-            to={URL_MAIN.news}
+          <Close
             onClick={handleClosePage}
             data-testid={LayoutBlankWrapperTestIds.Close}
-          >
-            <Icon type={IconType.Close} />
-          </Link>
+            displayStyle={DisplayStyle.IconOnly}
+            Icon={IconType.Close}
+          />
         )}
       </Header>
       {children}

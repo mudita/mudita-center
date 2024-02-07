@@ -4,10 +4,9 @@
  */
 
 import { useHistory } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useCallback } from "react"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { TmpDispatch } from "Core/__deprecated__/renderer/store"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import {
   URL_DISCOVERY_DEVICE,
@@ -20,17 +19,18 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 
 export const useHandleActiveDeviceAborted = () => {
   const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
-  const devices = useSelector(getDevicesSelector)
+  const dispatch = useDispatch<TmpDispatch>()
 
-  return useCallback(() => {
-    void dispatch(deactivateDevice())
+  return useCallback(async () => {
+    const { payload: devices } = await dispatch(deactivateDevice())
+    const pathname = history.location.pathname
+
     dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
     dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
-    if (devices.length > 1) {
+    if (devices.length > 1 && !pathname.includes(URL_DISCOVERY_DEVICE.root)) {
       history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
     } else {
       history.push(URL_MAIN.news)
     }
-  }, [devices, history, dispatch])
+  }, [history, dispatch])
 }

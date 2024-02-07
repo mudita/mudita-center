@@ -20,8 +20,9 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { CaseColour, DeviceType } from "Core/device"
+import { DeviceType } from "Core/device"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
+import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 
 const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },
@@ -94,34 +95,6 @@ export const DeviceInfoDeviceTypeName = styled(Text)`
 
 export interface DeviceListItemProps extends Device {
   onDeviceClick: (id: string) => void
-}
-
-const getDeviceTypeName = (
-  deviceType: DeviceType,
-  caseColour: CaseColour = CaseColour.Black
-): string => {
-  if (deviceType === DeviceType.MuditaPure) {
-    return "Pure"
-  }
-
-  if (
-    deviceType === DeviceType.MuditaHarmony &&
-    caseColour === CaseColour.Gray
-  ) {
-    return "Harmony 1"
-  }
-
-  if (
-    deviceType === DeviceType.MuditaHarmony &&
-    caseColour === CaseColour.Black
-  ) {
-    return "Harmony 2"
-  }
-
-  if (deviceType === DeviceType.APIDevice) {
-    return "Kompakt"
-  }
-  return "Unknown Device"
 }
 
 const DeviceListItem: FunctionComponent<DeviceListItemProps> = ({

@@ -13,4 +13,6 @@ export enum ModalLayers {
   ErrorConnecting,
   UpdateApp,
   PrivacyPolicy,
+  Drawer,
+  ConnectingLoader
 }

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect, useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -19,7 +19,6 @@ import {
   URL_DEVICE_INITIALIZATION,
   URL_DISCOVERY_DEVICE,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
@@ -27,14 +26,17 @@ import { DeviceType } from "Core/device"
 import { getTmpMuditaHarmonyPortInfoSelector } from "Core/update/selectors/get-tmp-mudita-harmony-port-info-selector"
 import { isUnknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 import { getDeviceConfigurationRequest } from "Core/device-manager/requests/get-device-configuration.request"
+import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
 
+  const devices = useSelector(getDevicesSelector)
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
-  const discoveryDeviceInProgress = useSelector(isDiscoveryDeviceInProgress)
+  const discoveryStatus = useSelector(getDiscoveryStatus)
   const initializationDeviceInProgress = useSelector(
     isInitializationDeviceInProgress
   )
@@ -42,18 +44,6 @@ export const useDeviceConnectedEffect = () => {
   const tmpMuditaHarmonyPortInfo = useSelector(
     getTmpMuditaHarmonyPortInfoSelector
   )
-
-  const shouldSkipProcessing = useCallback(() => {
-    return (
-      discoveryDeviceInProgress ||
-      initializationDeviceInProgress ||
-      initializationAppInProgress
-    )
-  }, [
-    discoveryDeviceInProgress,
-    initializationDeviceInProgress,
-    initializationAppInProgress,
-  ])
 
   const setActiveDeviceAndNavigate = useCallback(
     async (deviceId: string) => {
@@ -133,7 +123,12 @@ export const useDeviceConnectedEffect = () => {
         return
       }
 
-      if (shouldSkipProcessing()) {
+      if (
+        (discoveryStatus === DiscoveryStatus.Aborted && devices.length !== 0) ||
+        discoveryStatus === DiscoveryStatus.Discovering ||
+        initializationDeviceInProgress ||
+        initializationAppInProgress
+      ) {
         return
       }
 
@@ -141,9 +136,12 @@ export const useDeviceConnectedEffect = () => {
     },
     [
       dispatch,
+      devices,
       activeDeviceId,
       handleActiveDevice,
-      shouldSkipProcessing,
+      discoveryStatus,
+      initializationDeviceInProgress,
+      initializationAppInProgress,
       history,
     ]
   )

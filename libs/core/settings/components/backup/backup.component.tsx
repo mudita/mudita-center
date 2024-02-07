@@ -4,9 +4,13 @@
  */
 
 import React from "react"
+import { useDispatch } from "react-redux"
+import { PayloadAction } from "@reduxjs/toolkit"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import BackupUI from "Core/settings/components/backup/backup-ui.component"
-import useLocationPicker from "Core/__deprecated__/renderer/utils/hooks/use-location-picker"
+import { TmpDispatch } from "Core/__deprecated__/renderer/store"
+import { getPaths } from "shared/app-state"
+import { ResultObject } from "Core/core/builder"
 
 export interface BackupProps {
   setOsBackupLocation: (value: string) => void
@@ -17,14 +21,19 @@ export const Backup: FunctionComponent<BackupProps> = ({
   setOsBackupLocation,
   osBackupLocation,
 }) => {
+  const dispatch = useDispatch<TmpDispatch>()
+
   const openDialog = async () => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const location = await useLocationPicker(osBackupLocation)
+    const { payload: getPathsPayload } = (await dispatch(
+      getPaths({
+        properties: ["openDirectory"],
+        defaultPath: osBackupLocation,
+      })
+    )) as PayloadAction<ResultObject<string[] | undefined>>
+    const location = getPathsPayload.ok && (getPathsPayload.data as string[])[0]
+
     if (location) {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/await-thenable
-      await setOsBackupLocation(location)
+      setOsBackupLocation(location)
     }
   }
 

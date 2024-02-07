@@ -24,4 +24,6 @@ export enum IconType {
   Overview = "overview",
   Close = "close",
   Device = "device",
+  Mudita = "mudita",
+  Spinner = "spinner",
 }
