@@ -14,4 +14,6 @@ export enum ModalLayers {
   LinuxSerialPortGroup,
   UpdateApp,
   PrivacyPolicy,
+  Drawer,
+  ConnectingLoader
 }

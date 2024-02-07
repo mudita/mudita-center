@@ -3,9 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PayloadAction } from "@reduxjs/toolkit"
-import { ModalsManagerEvent } from "Core/modals-manager/constants"
-
 export enum ModalStateKey {
   AppForcedUpdateFlow = "appForcedUpdateFlowShow",
   AppUpdateFlow = "appUpdateFlowShow",
@@ -21,8 +18,3 @@ export interface ModalsManagerState extends Record<ModalStateKey, boolean> {
   deviceInitializationFailedModalShow: boolean
   usbAccessFlowShow: boolean
 }
-
-export type ShowModalAction = PayloadAction<
-  ModalStateKey,
-  ModalsManagerEvent.ShowModal
->

@@ -20,7 +20,8 @@ export const PhoneCard = styled(Card)`
   padding: 2.4rem 2.4rem 0 2.4rem;
 `
 
-export const DisconnectActionCard = styled(CardAction)`
+export const EmptyBox = styled(CardAction)`
+  height: 4rem;
   margin-bottom: 2.4rem;
 `
 

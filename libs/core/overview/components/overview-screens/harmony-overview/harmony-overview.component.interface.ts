@@ -33,7 +33,6 @@ export interface HarmonyOverviewProps {
   readonly areAllReleasesDownloaded: boolean
   readonly forceUpdateNeeded: boolean
   readonly startUpdateOs: (releases: OsRelease[]) => void
-  readonly disconnectDevice: () => void
   readonly openContactSupportFlow: () => void
   readonly checkForUpdate: (
     deviceType: DeviceType,

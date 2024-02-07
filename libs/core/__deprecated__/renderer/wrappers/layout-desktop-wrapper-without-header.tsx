@@ -15,6 +15,7 @@ import {
 } from "Core/core/styles/theming/theme-getters"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
+import DeviceSelectDrawer from "Core/device-select/components/device-select-drawer.component"
 
 const Layout = styled.div`
   display: grid;
@@ -60,7 +61,10 @@ const LayoutDesktopWrapperWithoutHeader: FunctionComponent = ({ children }) => {
       <MenuWrapper>
         <Menu />
       </MenuWrapper>
-      <ViewWrapper>{children}</ViewWrapper>
+      <ViewWrapper>
+        {children}
+        <DeviceSelectDrawer />
+      </ViewWrapper>
     </Layout>
   )
 }

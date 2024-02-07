@@ -52,12 +52,9 @@ export const CardText = styled.div`
   }
 `
 
-export const CardActionButton = styled(ButtonTogglerItem)<{
-  visible?: boolean
-}>`
+export const CardActionButton = styled(ButtonTogglerItem)`
   width: 50%;
   padding: ${({ loading }) => (loading ? "0" : "0 1.6rem")};
-  visibility: ${({ visible = true }) => (visible ? "visible" : "hidden")};
 
   svg {
     height: initial;

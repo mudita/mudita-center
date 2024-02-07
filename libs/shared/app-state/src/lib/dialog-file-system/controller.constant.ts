@@ -3,4 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./file-system-dialog.service"
+export enum IpcFileSystemDialogEvent {
+  GetPaths = "file-system-dialog_get-paths",
+}

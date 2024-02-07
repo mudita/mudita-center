@@ -22,7 +22,6 @@ import {
 } from "Core/core/initializers"
 import { Module } from "Core/core/types"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
-import { FileSystemModule } from "Core/file-system/file-system.module"
 import { IndexStorageModule } from "Core/index-storage/index-storage.module"
 import { DataSyncModule } from "Core/data-sync/data-sync.module"
 import { ContactModule } from "Core/contacts/contact.module"
@@ -47,11 +46,11 @@ import {
 } from "Core/device-manager/services"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
+import { FileSystemDialogModule } from "shared/app-state"
 
 export class ApplicationModule {
   public modules: Module[] = [
     DeviceInfoModule,
-    FileSystemModule,
     IndexStorageModule,
     OutboxModule,
     AnalyticDataTrackerModule,
@@ -112,6 +111,9 @@ export class ApplicationModule {
     this.modules.forEach(this.initModule)
     this.apiModule = new APIModule(this.deviceManager)
     this.controllerInitializer.initialize(this.apiModule.getAPIServices())
+    this.controllerInitializer.initialize(
+      FileSystemDialogModule.getControllers()
+    )
   }
 
   lateInitialization(): void {
