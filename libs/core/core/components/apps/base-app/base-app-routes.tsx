@@ -32,9 +32,9 @@ import LayoutDesktopWrapper from "Core/__deprecated__/renderer/wrappers/layout-d
 import LayoutBlankWrapper from "Core/__deprecated__/renderer/wrappers/layout-blank-wrapper"
 import {
   AboutContainer,
-  AudioConversionContainer,
-  BackupContainer,
   NotificationsContainer,
+  BackupContainer,
+  AudioConversionContainer,
 } from "Core/settings/components"
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
@@ -73,10 +73,12 @@ export default () => (
         <Route
           path={URL_DISCOVERY_DEVICE.root}
           component={ConfiguredDevicesDiscovery}
+          exact
         />
         <Route
           path={URL_DISCOVERY_DEVICE.availableDeviceListModal}
           component={AvailableDeviceListContainer}
+          exact
         />
       </LayoutBlankWrapper>
     </Route>

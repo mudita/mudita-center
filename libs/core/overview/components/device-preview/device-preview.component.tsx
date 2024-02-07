@@ -7,11 +7,9 @@ import React from "react"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
-import { useSelector } from "react-redux"
 import { DeviceType } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { DevicePreviewProps } from "Core/overview/components/device-preview/device-preview.interface"
-import { CardActionButton } from "Core/overview/components/card.elements"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { DeviceTestIds } from "Core/overview/components/device-preview/device-preview-test-ids.enum"
 import {
@@ -20,12 +18,9 @@ import {
   PureSystemButtonContainer,
   SerialNumberWrapper,
   DeviceCardContentWrapper,
-  DisconnectActionCard,
+  EmptyBox,
 } from "Core/overview/components/device-preview/device-preview.styled"
-import {
-  URL_DISCOVERY_DEVICE,
-  URL_OVERVIEW,
-} from "Core/__deprecated__/renderer/constants/urls"
+import { URL_OVERVIEW } from "Core/__deprecated__/renderer/constants/urls"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { DeviceImage } from "Core/overview/components/device-preview/device-image.component"
@@ -35,7 +30,6 @@ import Text, {
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 
 const messages = defineMessages({
   serialNumber: { id: "module.overview.serialNumber" },
@@ -49,22 +43,15 @@ const DeviceSystemButton = styled(Button)`
 
 export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   className,
-  onDisconnect,
   onClick,
   caseColour,
   deviceType,
   serialNumber,
 }) => {
-  const devices = useSelector(getDevicesSelector)
-
   const serialNumberValue = getSerialNumberValue(serialNumber)
   const serialNumberHeader =
     serialNumberValue !== "" ? intl.formatMessage(messages.serialNumber) : ""
   const history = useHistory()
-  const handleDisconnect = () => {
-    onDisconnect()
-    history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
-  }
 
   const openPureSystem = () => {
     history.push(URL_OVERVIEW.pureSystem)
@@ -94,15 +81,8 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
         </SerialNumberWrapper>
       </DeviceCardContentWrapper>
 
-      <DisconnectActionCard>
-        <CardActionButton
-          active
-          visible={devices.length > 1}
-          label={intl.formatMessage(messages.phoneDisconnectAction)}
-          onClick={handleDisconnect}
-          data-testid={DeviceTestIds.DisconnectButton}
-        />
-      </DisconnectActionCard>
+      <EmptyBox />
+
       {deviceType === DeviceType.MuditaPure && (
         <PureSystemButtonContainer>
           <DeviceSystemButton

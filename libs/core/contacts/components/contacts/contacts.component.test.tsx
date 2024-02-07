@@ -181,6 +181,7 @@ const defaultProps: Props = {
   selectAllItems: jest.fn(),
   toggleItem: jest.fn(),
   closeImportWindow: jest.fn(),
+  getPaths: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

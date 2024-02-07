@@ -34,7 +34,6 @@ const defaultProps: Props = {
   osVersion: "1.0.0",
   serialNumber: undefined,
   startUpdateOs: jest.fn(),
-  disconnectDevice: jest.fn(),
   openContactSupportFlow: jest.fn(),
   abortDownload: jest.fn(),
   allReleases: [],

@@ -12,16 +12,20 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
-import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import styled from "styled-components"
+import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { useHistory } from "react-router-dom"
+import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
+import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
-import { useHistory } from "react-router-dom"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
+import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
+import { useCustomerSupportIsSending } from "Core/__deprecated__/renderer/components/rest/menu/hooks/use-customer-support-is-sending"
 
 const SyncProgressWrapper = styled.div`
   display: flex;
@@ -33,7 +37,9 @@ const LoaderWrapper = styled.div`
   margin: 0 1.6rem;
 `
 
-const DeviceButton = styled(ButtonComponent)``
+const DeviceButton = styled(ButtonComponent)`
+  width: auto;
+`
 
 const DeviceButtonWrapper = styled.div`
   ${DeviceButton} {
@@ -51,13 +57,52 @@ interface Props {
 const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
   const history = useHistory()
   const devices = useSelector(getDevicesSelector)
+  const dispatch = useDispatch<Dispatch>()
   const deviceInitializationStatus = useSelector(getDeviceInitializationStatus)
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
   const deviceInitialized =
     deviceInitializationStatus === DeviceInitializationStatus.Initialized
+  const isCustomerSupportSending = useCustomerSupportIsSending()
 
   const handleSelectDeviceClick = () => {
     history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
   }
+
+  const isSelectDevice = !deviceInitialized && devices.length > 1
+
+  const SelectDeviceButton = (
+    <DeviceButtonWrapper>
+      <DeviceButton
+        label={intl.formatMessage({
+          id: "component.deviceSelection.selectDevice",
+        })}
+        displayStyle={DisplayStyle.BorderlessButton}
+        Icon={IconType.DotsInBox}
+        iconBadgeCountIndicator={devices.length}
+        onClick={handleSelectDeviceClick}
+      />
+    </DeviceButtonWrapper>
+  )
+
+  const isChangeDevice =
+    !dataSyncInProgress && devices.length > 1 && activeDeviceId
+
+  const ChangeDeviceButton = (
+    <DeviceButtonWrapper>
+      <DeviceButton
+        label={intl.formatMessage({
+          id: "component.deviceSelection.changeDevice",
+        })}
+        disabled={isCustomerSupportSending}
+        displayStyle={DisplayStyle.BorderlessButton}
+        Icon={IconType.DotsInBox}
+        iconBadgeCountIndicator={devices.length}
+        onClick={() => {
+          dispatch(setSelectDeviceDrawerOpen(true))
+        }}
+      />
+    </DeviceButtonWrapper>
+  )
 
   return (
     <>
@@ -71,17 +116,8 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
           </Text>
         </SyncProgressWrapper>
       )}
-      {!deviceInitialized && devices.length > 1 && (
-        <DeviceButtonWrapper>
-          <DeviceButton
-            label="Select Device"
-            displayStyle={DisplayStyle.BorderlessButton}
-            Icon={IconType.DotsInBox}
-            iconBadgeCountIndicator={devices.length}
-            onClick={handleSelectDeviceClick}
-          />
-        </DeviceButtonWrapper>
-      )}
+      {isSelectDevice && SelectDeviceButton}
+      {isChangeDevice && ChangeDeviceButton}
     </>
   )
 }

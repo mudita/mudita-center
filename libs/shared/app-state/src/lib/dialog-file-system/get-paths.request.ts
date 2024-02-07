@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { OpenDialogOptions } from "electron"
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "Core/core/builder"
-import { IpcDialogFileSystemEvent } from "Core/file-system/constants"
-import { GetPathsInput } from "Core/file-system/dto"
+import { IpcFileSystemDialogEvent } from "./controller.constant"
 
 export const getPathsRequest = async (
-  props: GetPathsInput
+  options: OpenDialogOptions
 ): Promise<ResultObject<string[] | undefined>> => {
-  return ipcRenderer.callMain(IpcDialogFileSystemEvent.GetPaths, props)
+  return ipcRenderer.callMain(IpcFileSystemDialogEvent.GetPaths, options)
 }

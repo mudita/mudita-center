@@ -114,7 +114,6 @@ const defaultProps: Props = {
   closeForceUpdateFlow: jest.fn(),
   startUpdateOs: jest.fn(),
   batteryLevel: 0,
-  disconnectDevice: jest.fn(),
   networkName: "network name",
   osVersion: "1.0.0",
   pureOsBackupLocation: "path/location/backup",

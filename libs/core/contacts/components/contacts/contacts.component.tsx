@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import ContactList from "Core/contacts/components/contact-list/contact-list.component"
 import ContactPanel from "Core/contacts/components/contact-panel/contact-panel.component"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -59,6 +60,8 @@ import { differenceWith, isEqual } from "lodash"
 import { filterContacts } from "Core/contacts/helpers/filter-contacts/filter-contacts"
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types"
+import createFile from "Core/__deprecated__/renderer/utils/create-file/create-file"
+import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {
@@ -102,6 +105,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   deleteContacts,
   authorize,
   onCall,
+  getPaths,
   onMessage,
   exportContacts,
   addNewContactsToState,
@@ -114,6 +118,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 }) => {
   const history = useHistory()
   const searchParams = useURLSearchParams()
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
   const phoneNumber = searchParams.get("phoneNumber") || ""
   const activeContact = findContactByPhoneNumber(contacts, phoneNumber)
   const initNewContact =
@@ -467,25 +472,31 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   }
 
   // Synchronization, step 2a: file select
-  // AUTO DISABLED - fix me if you like :)
-  const importFromFile = (inputElement: HTMLInputElement) => {
-    const onFileSelect = () => {
-      if (inputElement.files) {
-        void getContacts({
-          type: "files",
-          data: Array.from(inputElement.files),
-        })
-        inputElement.removeEventListener("change", onFileSelect)
-      }
+  const importFromFile = async () => {
+    const { payload: getPathsPayload } = await getPaths({
+      filters: [
+        {
+          name: "vcf",
+          extensions: ["vcf"],
+        },
+      ],
+      properties: ["openFile", "multiSelections"],
+    })
+    const { ok, data: paths } = getPathsPayload
+
+    const files =
+      ok && paths !== undefined ? paths.map((path) => createFile(path)) : []
+
+    if (files.length === 0) {
+      setImportContactsFlowState(ImportContactsFlowState.Start)
+    } else {
+      void getContacts({
+        type: "files",
+        data: Array.from(files),
+      })
+
+      setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
     }
-
-    inputElement.click()
-    inputElement.addEventListener("change", onFileSelect)
-    setImportContactsFlowState(ImportContactsFlowState.MethodSelected)
-  }
-
-  const cancelImportFromFile = () => {
-    setImportContactsFlowState(ImportContactsFlowState.Start)
   }
 
   // Synchronization, step 2b: 3-rd party services
@@ -561,8 +572,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
     const newContactResponses = []
     for (let index = 0; index < importedContacts.length; index++) {
-      const contact = importedContacts[index]
-      const { payload } = await importContact(contact)
+      const newContact = importedContacts[index]
+      const { payload } = await importContact({ newContact, activeDeviceId })
 
       if (
         (payload as AppError).type === RequestResponseStatus.InternalServerError
@@ -573,7 +584,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       setAddedContactsCount(currentContactIndex)
 
       if (isError(payload)) {
-        newContactResponses.push({ ...contact, successfullyAdded: false })
+        newContactResponses.push({ ...newContact, successfullyAdded: false })
       } else {
         newContactResponses.push({ ...payload })
       }
@@ -681,7 +692,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           sendContactsToPhone={sendContactsToPhone}
           retryImport={handleImportContacts}
           addedContactsCount={addedContactsCount}
-          onCancelManualImportClick={cancelImportFromFile}
         />
       )}
       <ContactSection>
