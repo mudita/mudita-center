@@ -86,7 +86,8 @@ const mapStateToProps = (
     closeable: !(
       state.update.needsForceUpdate ||
       state.update.forceUpdateState === State.Loading ||
-      state.update.updateOsState === State.Loading
+      state.update.updateOsState === State.Loading ||
+      state.genericViews.activeDevice
     ),
     recoveryMode: ownProps.recoveryMode,
     onClose: ownProps.onClose,

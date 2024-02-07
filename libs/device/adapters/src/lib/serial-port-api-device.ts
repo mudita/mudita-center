@@ -16,6 +16,7 @@ import { ApiResponse, Response } from "Core/device/types/mudita-os"
 import { timeout } from "Core/device/modules/mudita-os/helpers"
 import { SerialPortParserBase } from "Core/device/modules/mudita-os/parsers/serial-port-base.parser"
 import {
+  ApiError,
   APIMethodsType,
   APIRequestData,
   ApiSerialPortEvents,
@@ -142,7 +143,15 @@ export class SerialPortDeviceAPIAdapter {
         ) {
           this.eventEmitter.off(ApiSerialPortEvents.DataReceived, listener)
           cancel()
-          resolve(Result.success(response))
+          if (ApiError[response.status]) {
+            resolve(
+              Result.failed(
+                new AppError(response.status, ApiError[response.status])
+              )
+            )
+          } else {
+            resolve(Result.success(response))
+          }
         }
       }
 

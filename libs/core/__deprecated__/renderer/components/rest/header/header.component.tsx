@@ -24,7 +24,7 @@ import Icon, {
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { activeDeviceMenuElements } from "generic-view/store"
+import { selectActiveDeviceMenuElements } from "generic-view/store"
 
 const messages = defineMessages({
   backButtonLabel: { id: "module.generic.viewBackButton" },
@@ -76,7 +76,7 @@ const Header: FunctionComponent<HeaderProps> = ({
 
   const genericMenu = useSelector(
     // (state: ReduxRootState) => state.genericViews.menu
-    activeDeviceMenuElements
+    selectActiveDeviceMenuElements
   )
   const [currentLocation, setCurrentLocation] = useState<
     { id: string } | string

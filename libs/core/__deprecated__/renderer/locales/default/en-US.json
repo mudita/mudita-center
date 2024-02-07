@@ -78,6 +78,8 @@
   "component.deviceSelection.selectDevice": "Show connected devices",
   "component.deviceSelection.changeDevice": "Show connected devices",
   "component.drawer.headerTitle": "Select a device",
+  "component.deviceLockedModalHeadline": "Unlock your phone",
+  "component.deviceLockedModalParagraph": "Enter your passcode or scan your fingerprint",
   "component.dropdownCall": "Call {name}",
   "component.dropdownTogglerTooltipDescription": "Options",
   "component.dropdownTogllerTooltipDescription": "Options",
