@@ -5,7 +5,6 @@
 
 import navigationTabs from "../../page-objects/tabs.page"
 import messagesPage from "../../page-objects/messages.page"
-import modalMessagesPage from "../../page-objects/modal-messages.page"
 import modalGeneralPage from "../../page-objects/modal-general.page"
 import messagesConversationPage from "../../page-objects/messages-conversation.page"
 

@@ -1,5 +1,5 @@
 {
-  "name": "@mudita/mudita-center-e2e",
+  "name": "mudita-center-e2e",
   "version": "0.0.1",
   "description": "The E2E tests of Mudita Center",
   "author": "igorbezsmertnyii <mr.igor96@outlook.com>",
@@ -17,7 +17,7 @@
     "url": "git+https://github.com/mudita/mudita-center.git"
   },
   "scripts": {
-    "test:e2e": "npm run validate-test-paths && ./node_modules/.bin/wdio run wdio.conf.ts",
+    "test": "npm run validate-test-paths && ../../node_modules/.bin/wdio run wdio.conf.ts",
     "lint:typecheck:to-fix": "tsc --noEmit",
     "validate-test-paths": "ts-node ./scripts/validate-test-paths.ts"
   },
