@@ -6,6 +6,7 @@
 import { connect } from "react-redux"
 import { History, LocationState } from "history"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { OpenDialogOptions } from "electron"
 import Contacts from "Core/contacts/components/contacts/contacts.component"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ReduxRootState, TmpDispatch } from "Core/__deprecated__/renderer/store"
@@ -49,6 +50,7 @@ import {
   selectAllItems,
   toggleItem,
 } from "Core/contacts/actions"
+import { getPaths } from "shared/app-state"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
@@ -157,6 +159,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       void dispatch(closeWindow(provider))
     },
+    getPaths: (options: OpenDialogOptions) =>
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+      dispatch(getPaths(options)),
   }
 }
 
