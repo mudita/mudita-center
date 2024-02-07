@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
@@ -21,8 +21,38 @@ import {
 } from "Core/__deprecated__/renderer/constants/urls"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { useDebouncedEventsHandler } from "Core/core/hooks/use-debounced-events-handler"
 
 export const useDeviceDetachedEffect = () => {
+  const handleDevicesDetached = useHandleDevicesDetached()
+
+  const batchDeviceDetachedEvents =
+    useDebouncedEventsHandler<DeviceBaseProperties>(handleDevicesDetached)
+
+  useEffect(() => {
+    return registerDeviceDetachedListener(batchDeviceDetachedEvents)
+  }, [batchDeviceDetachedEvents])
+}
+
+const useHandleDevicesDetached = () => {
+  const dispatch = useDispatch<Dispatch>()
+  const processActiveDevicesDetachment = useProcessActiveDevicesDetachment()
+  const processSingleDeviceRemaining = useProcessSingleDeviceRemaining()
+
+  return useCallback(
+    async (deviceDetachedEvents: DeviceBaseProperties[]) => {
+      for (const event of deviceDetachedEvents) {
+        dispatch(removeDevice(event))
+      }
+
+      await processActiveDevicesDetachment(deviceDetachedEvents)
+      processSingleDeviceRemaining(deviceDetachedEvents)
+    },
+    [dispatch, processActiveDevicesDetachment, processSingleDeviceRemaining]
+  )
+}
+
+const useProcessActiveDevicesDetachment = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const activeDeviceId = useSelector(activeDeviceIdSelector)
@@ -30,50 +60,63 @@ export const useDeviceDetachedEffect = () => {
   const downloadProcessing = useSelector(
     ({ update }: ReduxRootState) => update.downloadState
   )
-  const devices = useSelector(getDevicesSelector)
+
   const deactivateDeviceAndRedirect = useDeactivateDeviceAndRedirect()
 
-  useEffect(() => {
-    return registerDeviceDetachedListener(
-      async (properties: DeviceBaseProperties) => {
-        dispatch(removeDevice(properties))
+  return useCallback(
+    async (deviceDetachedEvents: DeviceBaseProperties[]) => {
+      const activeDeviceDetached = deviceDetachedEvents.some(
+        ({ id }) => activeDeviceId === id
+      )
 
-        if (activeDeviceId === properties.id) {
-          // handle deprecated contact modal
-          await modalService.closeModal(true)
+      if (activeDeviceDetached) {
+        await modalService.closeModal(true)
 
-          if (activeDeviceProcessing) {
-            return
-          }
-
-          if (downloadProcessing) {
-            await dispatch(deactivateDevice())
-            cancelOsDownload()
-            history.push(URL_ONBOARDING.welcome)
-            return
-          }
-
-          await deactivateDeviceAndRedirect()
+        if (activeDeviceProcessing) {
           return
         }
 
-        if (
-          !activeDeviceProcessing &&
-          activeDeviceId === undefined &&
-          devices.length === 2
-        ) {
-          history.push(URL_DISCOVERY_DEVICE.root)
+        if (downloadProcessing) {
+          await dispatch(deactivateDevice())
+          cancelOsDownload()
+          history.push(URL_ONBOARDING.welcome)
           return
         }
+
+        await deactivateDeviceAndRedirect()
       }
-    )
-  }, [
-    devices,
-    activeDeviceId,
-    activeDeviceProcessing,
-    downloadProcessing,
-    dispatch,
-    history,
-    deactivateDeviceAndRedirect,
-  ])
+    },
+    [
+      history,
+      dispatch,
+      activeDeviceId,
+      activeDeviceProcessing,
+      downloadProcessing,
+      deactivateDeviceAndRedirect,
+    ]
+  )
+}
+
+const useProcessSingleDeviceRemaining = () => {
+  const history = useHistory()
+  const activeDeviceId = useSelector(activeDeviceIdSelector)
+  const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
+  const devices = useSelector(getDevicesSelector)
+
+  return useCallback(
+    (deviceDetachedEvents: DeviceBaseProperties[]) => {
+      const devicesLeftAfterDetach =
+        devices.length - deviceDetachedEvents.length
+
+      if (
+        !activeDeviceProcessing &&
+        activeDeviceId === undefined &&
+        devicesLeftAfterDetach === 1
+      ) {
+        history.push(URL_DISCOVERY_DEVICE.root)
+        return
+      }
+    },
+    [history, activeDeviceId, activeDeviceProcessing, devices.length]
+  )
 }
