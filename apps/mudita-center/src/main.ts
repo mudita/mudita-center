@@ -306,6 +306,11 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
       removeSetHelpStoreHandler()
       removeGetHelpStoreHandler()
       helpWindow = null
+      void ipcMain.callRenderer(
+        win as BrowserWindow,
+        HelpActions.CustomerIsSendingToRenderer,
+        false
+      )
     })
 
     // AUTO DISABLED - fix me if you like :)
@@ -328,6 +333,17 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
     helpWindow.show()
   }
 })
+
+ipcMain.answerRenderer(
+  HelpActions.CustomerIsSendingToMain,
+  (sending: boolean) => {
+    ipcMain.callRenderer(
+      win as BrowserWindow,
+      HelpActions.CustomerIsSendingToRenderer,
+      sending
+    )
+  }
+)
 
 const createOpenWindowListener = (
   channel: string,

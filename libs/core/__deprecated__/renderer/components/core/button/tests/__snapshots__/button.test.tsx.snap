@@ -2341,6 +2341,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c2 {
   margin: 0 0.8rem 0 0;
+  color: #6a6a6a;
 }
 
 .c4 {
@@ -2580,6 +2581,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c2 {
   margin: 0 0.8rem 0 0;
+  color: #6a6a6a;
 }
 
 .c4 {
@@ -2820,6 +2822,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c2 {
   margin: 0 0.8rem 0 0;
+  color: #6a6a6a;
 }
 
 .c4 {
@@ -3048,6 +3051,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 .c2 {
   margin: 0 0.8rem 0 0;
+  color: #6a6a6a;
 }
 
 .c4 {
@@ -3276,6 +3280,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 .c2 {
   margin: 0 0.8rem 0 0;
+  color: #6a6a6a;
 }
 
 .c4 {
@@ -3505,6 +3510,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 .c2 {
   margin: 0 0.8rem 0 0;
+  color: #6a6a6a;
 }
 
 .c4 {

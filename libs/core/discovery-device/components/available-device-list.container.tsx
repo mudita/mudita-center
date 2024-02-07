@@ -20,6 +20,10 @@ const AvailableDeviceListContainer: FunctionComponent = () => {
   const devices = useSelector(getDevicesSelector)
 
   useEffect(() => {
+    dispatch(setDiscoveryStatus(DiscoveryStatus.Discovering))
+  }, [dispatch])
+
+  useEffect(() => {
     if (devices.length === 0) {
       dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
       history.push(URL_MAIN.news)

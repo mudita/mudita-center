@@ -16,7 +16,7 @@ import Text, {
 import { fontWeight } from "Core/core/styles/theming/theme-getters"
 import DeviceList from "Core/discovery-device/components/device-list.component"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
+import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_ONBOARDING,
@@ -51,7 +51,7 @@ const SubheaderTitle = styled(Text)`
 const AvailableDeviceList: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
-  const devices = useSelector(getDevicesSelector)
+  const devices = useSelector(getAvailableDevicesSelector)
 
   const handleDeviceClick = async (id: string) => {
     const device = devices.find((device) => device.id === id)

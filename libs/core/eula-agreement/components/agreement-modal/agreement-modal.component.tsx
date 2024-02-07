@@ -41,7 +41,7 @@ export const DescriptionText = styled(Text)`
 export const AgreementModal: FunctionComponent<AgreementModalProps> = ({
   open,
   onActionButtonClick,
-  closeModal,
+  closeModal
 }) => {
   return (
     <ModalDialog

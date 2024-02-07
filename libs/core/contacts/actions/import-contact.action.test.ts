@@ -4,7 +4,10 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
-import { importContact } from "Core/contacts/actions/import-contact.action"
+import {
+  importContact,
+  ImportContactArg,
+} from "Core/contacts/actions/import-contact.action"
 import { ContactsEvent } from "Core/contacts/constants"
 import { Contact, initialState, NewContact } from "Core/contacts/reducers"
 import {
@@ -35,6 +38,11 @@ const newContact: NewContact = {
   blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
+}
+
+const importContactArg: ImportContactArg = {
+  newContact,
+  activeDeviceId: "1234567",
 }
 
 const contact: Contact = {
@@ -76,21 +84,24 @@ describe("async `importContact` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
+        deviceManager: {
+          activeDeviceId: importContactArg.activeDeviceId,
+        },
       })
       const {
         meta: { requestId },
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
-        importContact(newContact) as unknown as AnyAction
+        importContact(importContactArg) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        importContact.pending(requestId, newContact),
+        importContact.pending(requestId, importContactArg),
         importContact.fulfilled(
           successDeviceResponse.data as Contact,
           requestId,
-          newContact
+          importContactArg
         ),
       ])
 
@@ -107,18 +118,26 @@ describe("async `importContact` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
+        deviceManager: {
+          activeDeviceId: importContactArg.activeDeviceId,
+        },
       })
       const {
         meta: { requestId },
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
-        importContact(newContact) as unknown as AnyAction
+        importContact(importContactArg) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        importContact.pending(requestId, newContact),
-        importContact.rejected(testError, requestId, newContact, errorMock),
+        importContact.pending(requestId, importContactArg),
+        importContact.rejected(
+          testError,
+          requestId,
+          importContactArg,
+          errorMock
+        ),
       ])
 
       expect(createContactRequest).toHaveBeenCalled()
@@ -135,26 +154,29 @@ describe("async `importContact` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
+        deviceManager: {
+          activeDeviceId: importContactArg.activeDeviceId,
+        },
       })
       const {
         meta: { requestId },
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
-        importContact(newContact) as unknown as AnyAction
+        importContact(importContactArg) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        importContact.pending(requestId, newContact),
+        importContact.pending(requestId, importContactArg),
         importContact.fulfilled(
           {
             ...newContact,
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-non-null-assertion
             id: duplicatedErrorDeviceResponse.error!.data.id,
-          } as Contact,
+          },
           requestId,
-          newContact
+          importContactArg
         ),
       ])
 

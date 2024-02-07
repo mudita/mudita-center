@@ -4,7 +4,10 @@
  */
 
 import * as React from "react"
-import { getEnumName, getIconType } from "Core/__deprecated__/renderer/components/core/icon/icon.config"
+import {
+  getEnumName,
+  getIconType,
+} from "Core/__deprecated__/renderer/components/core/icon/icon.config"
 import Svg from "Core/__deprecated__/renderer/components/core/svg/svg.component"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -28,6 +31,7 @@ export interface Props {
   width?: number
   size?: IconSize
   type?: IconType
+  disabled?: boolean
 }
 
 const badgeStyles = css`
@@ -74,6 +78,7 @@ const Icon: FunctionComponent<Props> = ({
   height,
   width,
   type,
+  disabled,
   ...rest
 }) => {
   const iconBadgeType = getIconBadgeType(badge)
@@ -87,7 +92,7 @@ const Icon: FunctionComponent<Props> = ({
       {...rest}
     >
       {iconBadgeType === IconBadgeType.BadgeWithCounter && (
-        <BadgeWithCounter indicator={badgeCountIndicator} />
+        <BadgeWithCounter indicator={badgeCountIndicator} disabled={disabled} />
       )}
       <Svg Image={getIconType(type)} />
     </Wrapper>
