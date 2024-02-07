@@ -23,7 +23,6 @@ storiesOf("Components|Rest/Sync Contacts Modal", module)
           onManualImportClick={action("Import")}
           open
           disabledOtherMethod
-          onCancelManualImportClick={noop}
         />
       </StoryModalWrapper>
     </Story>
