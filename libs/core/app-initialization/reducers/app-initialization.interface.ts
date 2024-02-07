@@ -5,6 +5,7 @@
 
 export interface AppInitializationState {
   appInitializationStatus: AppInitializationStatus
+  appInitializationPreparationFinished: boolean
 }
 
 export enum AppInitializationStatus {
