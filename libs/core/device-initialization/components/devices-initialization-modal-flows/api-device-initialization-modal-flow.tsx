@@ -31,7 +31,13 @@ import { IconType } from "generic-view/utils"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import ReactModal from "react-modal"
 import styled from "styled-components"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_DEVICE_INITIALIZATION,
+  URL_DISCOVERY_DEVICE,
+  URL_MAIN,
+  URL_ONBOARDING,
+} from "Core/__deprecated__/renderer/constants/urls"
+import { useFilteredRoutesHistory } from "shared/utils"
 
 const messages = defineMessages({
   connectingModalParagraph: {
@@ -53,15 +59,15 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   })
   const menuElements = useSelector(selectActiveDeviceMenuElements)
   const deviceId = useSelector(selectActiveDevice)
+  const [pathToGoBack] = useFilteredRoutesHistory([
+    URL_MAIN.root,
+    ...Object.values(URL_ONBOARDING),
+    ...Object.values(URL_DISCOVERY_DEVICE),
+    ...Object.values(URL_DEVICE_INITIALIZATION),
+  ])
 
   const onModalClose = () => {
-    // TODO: make sure it works as expected after merging MDS
-    if (history.length === 3) {
-      // History length is 3 when user is on the first screen after onboarding
-      history.push(URL_MAIN.news)
-    } else {
-      history.go(-2)
-    }
+    history.push(pathToGoBack || URL_MAIN.news)
   }
 
   useEffect(() => {

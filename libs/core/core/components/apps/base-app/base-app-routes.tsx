@@ -49,7 +49,7 @@ import { APIConnectionDemo } from "generic-view/ui"
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => (
   <Switch>
-    <Redirect exact from={URL_MAIN.root} to={URL_ONBOARDING.root} />
+    <Redirect exact from={URL_MAIN.root} to={URL_ONBOARDING.welcome} />
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
