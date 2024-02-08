@@ -27,7 +27,7 @@
     "lint:typecheck": "tsc --noEmit",
     "app:storybook:serve": "nx storybook:serve mudita-center",
     "app:storybook:build": "nx storybook:build mudita-center",
-    "e2e:test": "nx test mudita-center-e2e"
+    "e2e:test": "nx e2e:test mudita-center-e2e"
   },
   "repository": {
     "type": "git",
