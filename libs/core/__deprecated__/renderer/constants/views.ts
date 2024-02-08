@@ -21,7 +21,6 @@ const messages = defineMessages({
   tools: { id: "module.tools" },
   meditation: { id: "module.meditation" },
   filesManager: { id: "module.filesManager" },
-  tethering: { id: "module.tethering" },
   settings: { id: "module.settings" },
   help: { id: "module.help" },
   error: { id: "module.error" },
@@ -40,7 +39,6 @@ export enum View {
   Tools = "tools",
   Meditation = "meditation",
   FilesManager = "filesManager",
-  Tethering = "tethering",
   Settings = "settings",
   Help = "help",
   Error = "error",
@@ -104,10 +102,6 @@ export const views: Views = {
   [View.FilesManager]: {
     label: messages.filesManager,
     url: URL_MAIN.filesManager,
-  },
-  [View.Tethering]: {
-    label: messages.tethering,
-    url: URL_MAIN.tethering,
   },
   [View.Settings]: {
     label: messages.settings,

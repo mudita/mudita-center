@@ -13,7 +13,6 @@ export const URL_MAIN = {
   tools: "/tools",
   meditation: "/meditation",
   filesManager: "/files-manager",
-  tethering: "/tethering",
   settings: "/settings",
   help: "/help",
   error: "/error",
