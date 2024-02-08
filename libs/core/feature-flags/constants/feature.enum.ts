@@ -14,7 +14,6 @@ export enum Feature {
   ContactBlockingEnabled = "contact-blocking-enabled",
   ContactPhoneFieldIconsEnabled = "contact-phone-field-icons-enabled",
   ContactExportEnabled = "contact-export-enabled",
-  TetheringEnabled = "tethering-enabled",
   SettingsNotificationTabEnabled = "settings-notification-tab-enabled",
   SettingsAudioConversionTabEnabled = "settings-audio-conversion-tab-enabled",
   PhoneTabEnabled = "phone-tab-enabled",

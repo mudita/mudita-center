@@ -12,7 +12,6 @@ import Music from "Core/__deprecated__/renderer/modules/music/music.component"
 import News from "Core/news/news.container"
 import Overview from "Core/overview/overview.container"
 import Contacts from "Core/contacts/contacts.container"
-import Tethering from "Core/__deprecated__/renderer/modules/tethering/tethering.container"
 import {
   URL_MAIN,
   URL_ONBOARDING,
@@ -134,7 +133,6 @@ export default () => (
             path={`${URL_MAIN.settings}${URL_TABS.about}`}
             component={AboutContainer}
           />
-          <Route path={URL_MAIN.tethering} component={Tethering} />
           <Route path={URL_MAIN.tools} component={Notes} exact />
           <Route
             path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
