@@ -4,6 +4,7 @@
  */
 
 import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
+import { delay } from "shared/utils"
 import { DeviceError, DeviceEvent } from "Core/device/constants"
 import { unlockDeviceRequest } from "Core/device/requests"
 import { AppError } from "Core/core/errors"
@@ -26,6 +27,8 @@ export const unlockDevice = createAsyncThunk<
       )
     )
   }
+
+  await delay(500)
 
   const { payload } = (await dispatch(
     getUnlockStatus()
