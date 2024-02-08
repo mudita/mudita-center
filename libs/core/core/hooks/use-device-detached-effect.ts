@@ -22,6 +22,7 @@ import {
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { useDebouncedEventsHandler } from "Core/core/hooks/use-debounced-events-handler"
+import { selectDialogOpenState } from "shared/app-state"
 
 export const useDeviceDetachedEffect = () => {
   const handleDevicesDetached = useHandleDevicesDetached()
@@ -102,6 +103,7 @@ const useProcessSingleDeviceRemaining = () => {
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const devices = useSelector(getDevicesSelector)
+  const dialogOpen = useSelector(selectDialogOpenState)
 
   return useCallback(
     (deviceDetachedEvents: DeviceBaseProperties[]) => {
@@ -111,12 +113,19 @@ const useProcessSingleDeviceRemaining = () => {
       if (
         !activeDeviceProcessing &&
         activeDeviceId === undefined &&
-        devicesLeftAfterDetach === 1
+        devicesLeftAfterDetach === 1 &&
+        !dialogOpen
       ) {
         history.push(URL_DISCOVERY_DEVICE.root)
         return
       }
     },
-    [history, activeDeviceId, activeDeviceProcessing, devices.length]
+    [
+      dialogOpen,
+      history,
+      activeDeviceId,
+      activeDeviceProcessing,
+      devices.length,
+    ]
   )
 }

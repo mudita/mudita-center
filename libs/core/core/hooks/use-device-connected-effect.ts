@@ -80,14 +80,19 @@ const useDiscoverySkipOnConnect = () => {
   const dialogOpen = useSelector(selectDialogOpenState)
 
   return useCallback(() => {
+    const skipOnSettings =
+      history.location.pathname.includes(URL_MAIN.settings) &&
+      checkIsAnyModalPresent()
+    const skipIfAborted =
+      discoveryStatus === DiscoveryStatus.Aborted && devices.length !== 0
+
     return (
-      (discoveryStatus === DiscoveryStatus.Aborted && devices.length !== 0) ||
+      skipIfAborted ||
       discoveryStatus === DiscoveryStatus.Discovering ||
       initializationDeviceInProgress ||
       initializationAppInProgress ||
-      (history.location.pathname.includes(URL_MAIN.settings) &&
-        checkIsAnyModalPresent()) ||
-      (history.location.pathname.includes(URL_MAIN.settings) && dialogOpen)
+      skipOnSettings ||
+      dialogOpen
     )
   }, [
     history,
