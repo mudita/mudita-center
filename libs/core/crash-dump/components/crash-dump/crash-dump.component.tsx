@@ -151,7 +151,6 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
 
 const mapStateToProps = (state: ReduxRootState) => ({
   sending:
-    state.crashDump.loadingState === State.Loading ||
     state.crashDump.downloadingState === State.Loading ||
     state.crashDump.sendingState === State.Loading,
   sended:
