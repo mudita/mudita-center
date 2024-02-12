@@ -25,13 +25,14 @@ export const generateMcAboutListModalLayout: ViewGenerator<
       childrenKeys: [config.dataKey + ListModalKeys.Button],
     },
     [config.dataKey + ListModalKeys.Button]: {
-      component: "button-link",
+      component: "button-text",
       config: {
         text: config.buttonText,
         action: {
           type: "open-modal",
           modalKey: config.dataKey + ListModalKeys.Modal,
         },
+        modifiers: ["hover-underline"]
       },
     },
     [config.dataKey + ListModalKeys.Modal]: {

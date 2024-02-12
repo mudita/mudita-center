@@ -36,6 +36,31 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
       }
     }) || []
 
+  sections.push({
+    backup: {
+      component: "block-box",
+      config: {
+        title: "Backup",
+      },
+      layout: {
+        gridPlacement: {
+          row: 3,
+          column: 2,
+          width: 1,
+          height: 1,
+        },
+        flexLayout: {
+          direction: "column",
+          justifyContent: "space-between",
+        },
+      },
+      childrenKeys: ["backup-box"],
+    },
+    "backup-box": {
+      component: "backup-box",
+    },
+  })
+
   const mainConfig: MainView = {
     screenTitle: config.title,
     component: "block-plain",
