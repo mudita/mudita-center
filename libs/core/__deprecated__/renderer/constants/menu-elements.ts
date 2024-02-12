@@ -81,13 +81,6 @@ const YOUR_PURE_BUTTONS = [
 
 const DESKTOP_APP_BUTTONS: Item[] = [
   {
-    button: views.tethering,
-    icon: IconType.MenuTethering,
-    testId: MenuGroupTestIds.Tethering,
-    hidden: !flags.get(Feature.TetheringEnabled),
-    visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-  },
-  {
     button: views.settings,
     icon: IconType.MenuSettings,
     visibleOn: [
