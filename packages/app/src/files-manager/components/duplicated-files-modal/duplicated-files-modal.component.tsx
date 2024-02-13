@@ -3,6 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React from "react"
+import styled, { ThemeProps } from "styled-components"
+import { useSelector, useDispatch } from "react-redux"
+import { defineMessages } from "react-intl"
 import {
   ModalContent,
   ModalDialog,
@@ -10,19 +14,13 @@ import {
 } from "App/ui/components/modal-dialog"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import { defineMessages } from "react-intl"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
-
-import React from "react"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import styled, { ThemeProps } from "styled-components"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { useSelector, useDispatch } from "react-redux"
 import { resetUploadingState } from "App/files-manager/actions/base.action"
-import { getUploadPendingFiles } from "App/files-manager/selectors/get-upload-pending-files.selector"
 import { getDuplicatedFiles } from "App/files-manager/selectors/get-duplicated-files.selector"
 import { getFilesManagerError } from "App/files-manager/selectors/get-files-manager-error.selector"
 import { FilesManagerError } from "App/files-manager/constants/errors.enum"
@@ -78,7 +76,6 @@ const DuplicatedFilesListItemText = styled(Text)`
 
 const DuplicatedFilesModal: FunctionComponent = ({ ...props }) => {
   const filesManagerError = useSelector(getFilesManagerError)
-  const uploadPendingFiles = useSelector(getUploadPendingFiles)
   const duplicatedFiles = useSelector(getDuplicatedFiles)
 
   const dispatch = useDispatch()
@@ -87,23 +84,8 @@ const DuplicatedFilesModal: FunctionComponent = ({ ...props }) => {
     return null
   }
 
-  const detailText =
-    uploadPendingFiles.length > 0
-      ? {
-          ...messages.duplicatedFilesUploadModalPendingFilesTextInfo,
-          values: {
-            uploadFilesCount:
-              duplicatedFiles.length + uploadPendingFiles.length,
-            duplicatedFilesCount: duplicatedFiles.length,
-          },
-        }
-      : messages.duplicatedFilesUploadModalTextInfo
-
-  const modalDialogSize =
-    uploadPendingFiles.length > 0 ? ModalSize.Medium : ModalSize.Small
-
   const duplicatedFilesList =
-    uploadPendingFiles.length > 0 ? (
+    duplicatedFiles.length > 0 ? (
       <DuplicatedFilesListWrapper>
         <DuplicatedFilesListTitleText
           displayStyle={TextDisplayStyle.Paragraph4}
@@ -127,7 +109,7 @@ const DuplicatedFilesModal: FunctionComponent = ({ ...props }) => {
 
   return (
     <ModalDialog
-      size={modalDialogSize}
+      size={ModalSize.Small}
       title={intl.formatMessage(messages.duplicatedFilesUploadModalTitle)}
       open
       closeButton={false}
@@ -151,7 +133,7 @@ const DuplicatedFilesModal: FunctionComponent = ({ ...props }) => {
         <DuplicatedFilesDetailText
           displayStyle={TextDisplayStyle.Paragraph4}
           color="secondary"
-          message={detailText}
+          message={messages.duplicatedFilesUploadModalTextInfo}
         />
         {duplicatedFilesList}
       </ModalContent>
