@@ -8,30 +8,55 @@ import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
 import { ButtonText } from "../buttons/button-text"
 import { ButtonPrimary } from "../buttons/button-primary"
+import { withConfig } from "../utils/with-config"
+import { selectDeviceBackups, selectLastBackup } from "generic-view/store"
+import { useSelector } from "react-redux"
 
-export const BackupBox: APIFC = () => {
+interface Feature {
+  label: string
+  key: string
+  supportedKeys?: string[]
+}
+
+interface Config {
+  noBackupLabel?: string
+  backupAvailableLabel?: string
+  restoreFromBackupLabel?: string
+  createBackupLabel?: string
+  supportedFeatures: Feature[]
+}
+
+export const BackupBox: APIFC<undefined, Config> = ({ config }) => {
+  const backups = useSelector(selectDeviceBackups)
+  const lastBackup = useSelector(selectLastBackup)
   return (
     <Wrapper>
-      {/*<NoBackupLabel>*/}
-      {/*  You haven’t backed up your device yet. Create your first backup file.*/}
-      {/*</NoBackupLabel>*/}
-      <BackupAvailable>
-        <BackupAvailableLabel>Last backup:</BackupAvailableLabel>
-        <BackupDate>December 31, 2023</BackupDate>
-        <ButtonText
-          config={{
-            text: "Restore from Last backup",
-            action: {
-              type: "navigate",
-              viewKey: "restore-from-backup",
-            },
-            modifiers: ["link", "uppercase"],
-          }}
-        />
-      </BackupAvailable>
+      {backups.length === 0 ? (
+        <NoBackupLabel>
+          {config?.noBackupLabel ||
+            "You haven’t backed up your device yet.\nCreate your first backup file."}
+        </NoBackupLabel>
+      ) : (
+        <BackupAvailable>
+          <BackupAvailableLabel>
+            {config?.backupAvailableLabel || "Last backup:"}
+          </BackupAvailableLabel>
+          <BackupDate>{lastBackup?.date.toDateString()}</BackupDate>
+          <ButtonText
+            config={{
+              text: config?.restoreFromBackupLabel || "Restore from backup",
+              action: {
+                type: "navigate",
+                viewKey: "restore-from-backup",
+              },
+              modifiers: ["link", "uppercase"],
+            }}
+          />
+        </BackupAvailable>
+      )}
       <ButtonPrimary
         config={{
-          text: "Create backup",
+          text: config?.createBackupLabel || "Create backup",
           action: {
             type: "navigate",
             viewKey: "create-backup",
@@ -41,6 +66,8 @@ export const BackupBox: APIFC = () => {
     </Wrapper>
   )
 }
+
+export default withConfig(BackupBox)
 
 const Wrapper = styled.div`
   display: grid;
@@ -54,6 +81,8 @@ const NoBackupLabel = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph3};
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
   color: ${({ theme }) => theme.color.grey2};
+  white-space: pre;
+  margin: 0;
 `
 
 const BackupAvailable = styled.div`

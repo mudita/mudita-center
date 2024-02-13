@@ -6,7 +6,7 @@
 import { DeviceStatus } from "./status"
 import OverviewOsVersion from "./overview-os-version"
 import AboutDataBox from "./about-data-box"
-import { BackupBox } from "./backup-box"
+import BackupBox from "./backup-box"
 
 export const predefinedComponents = {
   "device-status": DeviceStatus,

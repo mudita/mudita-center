@@ -13,4 +13,10 @@ export enum ActionName {
   SetViewData = "generic-views/set-view-data",
   ActivateDevice = "generic-views/activate-device",
   DetachDevice = "generic-views/detach-device",
+  OpenModal = "generic-modals/open-modal",
+  CloseModal = "generic-modals/close-modal",
+  CloseAllModals = "generic-modals/close-all-modals",
+  ReplaceModal = "generic-modals/replace-modal",
+  CloseDomainModals = "generic-modals/close-domain-modals",
+  AddBackupFiles = "generic-backups/add-backup-files",
 }

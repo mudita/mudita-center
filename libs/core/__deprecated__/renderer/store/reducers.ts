@@ -22,8 +22,11 @@ import { discoveryDeviceReducer } from "Core/discovery-device/reducers/discovery
 import { deviceInitializationReducer } from "Core/device-initialization/reducers/device-initialization.reducer"
 import { appInitializationReducer } from "Core/app-initialization/reducers/app-initialization.reducer"
 import { deviceManagerReducer } from "Core/device-manager/reducers/device-manager.reducer"
-import { genericViewsReducer } from "generic-view/store"
-import { genericModalsReducer } from "generic-view/store"
+import {
+  genericBackupsReducer,
+  genericModalsReducer,
+  genericViewsReducer,
+} from "generic-view/store"
 import { appStateReducer } from "shared/app-state"
 
 export const reducers = {
@@ -47,6 +50,7 @@ export const reducers = {
   deviceManager: deviceManagerReducer,
   genericViews: genericViewsReducer,
   genericModals: genericModalsReducer,
+  genericBackups: genericBackupsReducer,
   appState: appStateReducer,
 }
 
