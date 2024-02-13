@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useEffect } from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
@@ -34,6 +34,8 @@ import { ModalDialog } from "Core/ui/components/modal-dialog"
 import FileList from "Core/__deprecated__/renderer/components/core/file-list/file-list.component"
 import { SendTicketPayload } from "Core/contact-support/actions/send-ticket.action"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 
 const messages = defineMessages({
   actionButton: {
@@ -168,7 +170,12 @@ const ContactSupportModal: FunctionComponent<Props> = ({
   const handleCloseModal = () => {
     reset()
     closeModal()
+    ipcRenderer.callMain(HelpActions.CustomerIsSendingToMain, false)
   }
+
+  useEffect(() => {
+    ipcRenderer.callMain(HelpActions.CustomerIsSendingToMain, sending)
+  }, [sending])
 
   return (
     <ModalDialog

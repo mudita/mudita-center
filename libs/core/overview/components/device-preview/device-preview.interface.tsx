@@ -6,7 +6,6 @@
 import { DeviceType, CaseColour } from "Core/device/constants"
 
 export interface DevicePreviewProps {
-  onDisconnect: () => void
   onClick?: () => void
   deviceType: DeviceType | null
   caseColour?: CaseColour

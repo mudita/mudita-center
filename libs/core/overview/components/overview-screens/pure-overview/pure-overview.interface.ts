@@ -55,7 +55,6 @@ export interface PureOverviewProps {
   readonly startBackupDevice: (secretKey: string) => void
   readonly closeForceUpdateFlow: () => void
   readonly startUpdateOs: (releases: OsRelease[]) => void
-  readonly disconnectDevice: () => void
   readonly checkForUpdate: (
     deviceType: DeviceType,
     mode: CheckForUpdateMode

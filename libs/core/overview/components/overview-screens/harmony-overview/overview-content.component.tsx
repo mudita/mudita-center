@@ -18,7 +18,6 @@ interface OverviewProps {
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
   readonly toggleDevMode?: () => void
-  readonly disconnectDevice: () => void
   readonly osVersion: string
   readonly batteryLevel: number
   readonly serialNumber: string | undefined
@@ -27,7 +26,6 @@ interface OverviewProps {
 
 const OverviewContent: FunctionComponent<OverviewProps> = ({
   batteryLevel,
-  disconnectDevice,
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
@@ -42,7 +40,6 @@ const OverviewContent: FunctionComponent<OverviewProps> = ({
         caseColour={caseColour}
         deviceType={DeviceType.MuditaHarmony}
         onClick={toggleDevMode}
-        onDisconnect={disconnectDevice}
         serialNumber={serialNumber}
       />
       <StatusInfo

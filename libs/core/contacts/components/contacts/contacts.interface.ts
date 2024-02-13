@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { OpenDialogOptions } from "electron"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { History, LocationState } from "history"
 import { AuthProviders } from "Core/__deprecated__/renderer/models/auth/auth.typings"
@@ -12,15 +13,15 @@ import {
 } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
 import {
   Contact,
+  ContactCategory,
   ContactID,
   NewContact,
+  ResultState,
 } from "Core/contacts/reducers/contacts.interface"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
-import {
-  ResultState,
-  ContactCategory,
-} from "Core/contacts/reducers/contacts.interface"
 import { ExportContactsResult } from "Core/contacts/constants"
+import { ImportContactArg } from "Core/contacts/actions"
+import { ResultObject } from "Core/core/builder"
 
 export interface ExternalService {
   type: Provider
@@ -57,7 +58,7 @@ export interface ContactsProps {
     contact: NewContact
   ) => Promise<PayloadAction<ContactErrorResponse | undefined>>
   importContact: (
-    contact: NewContact
+    arg: ImportContactArg
   ) => Promise<PayloadAction<Error | Contact>>
   editContact: (contact: Contact) => Promise<PayloadAction<Error | undefined>>
   deleteContacts: (
@@ -75,6 +76,7 @@ export interface ContactsProps {
   resultState: ResultState
   contactList: ContactCategory[]
   closeImportWindow: (provider: ExternalProvider) => Promise<void>
+  getPaths: (options: OpenDialogOptions) => Promise<PayloadAction<ResultObject<string[] | undefined>>>
 }
 
 export interface NewContactResponse extends NewContact {

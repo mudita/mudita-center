@@ -6,5 +6,4 @@
 export enum SyncContactsModalTestIds {
   GoogleButton = "google-button",
   OutlookButton = "outlook-button",
-  FileInput = "file-input",
 }

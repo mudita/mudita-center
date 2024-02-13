@@ -4,11 +4,13 @@
  */
 
 export enum IconType {
+  Battery0 = "battery-0",
   Battery1 = "battery-1",
   Battery2 = "battery-2",
   Battery3 = "battery-3",
   Battery4 = "battery-4",
   Battery5 = "battery-5",
+  BatteryCharging0 = "battery-charging-0",
   BatteryCharging1 = "battery-charging-1",
   BatteryCharging2 = "battery-charging-2",
   BatteryCharging3 = "battery-charging-3",
@@ -24,4 +26,6 @@ export enum IconType {
   Overview = "overview",
   Close = "close",
   Device = "device",
+  Mudita = "mudita",
+  Spinner = "spinner",
 }

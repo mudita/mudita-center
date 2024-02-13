@@ -12,10 +12,31 @@ import {
 } from "Core/contacts/requests"
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
+import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-export const importContact = createAsyncThunk<Error | Contact, NewContact>(
+export interface ImportContactArg {
+  newContact: NewContact
+  activeDeviceId?: string
+}
+export const importContact = createAsyncThunk<
+  Error | Contact,
+  ImportContactArg,
+  { state: ReduxRootState }
+>(
   ContactsEvent.ImportContact,
-  async (newContact, { rejectWithValue }) => {
+  async ({ newContact, activeDeviceId }, { rejectWithValue, getState }) => {
+    const currentActiveDeviceId = activeDeviceIdSelector(getState())
+
+    if (
+      activeDeviceId === undefined ||
+      activeDeviceId !== currentActiveDeviceId
+    ) {
+      return rejectWithValue(
+        new AppError(RequestResponseStatus.InternalServerError, "")
+      )
+    }
+
     const { data, error, status } = await createContactRequest(newContact)
 
     // Skipping 409 (Conflict) status code for preventing displaying error about duplicated

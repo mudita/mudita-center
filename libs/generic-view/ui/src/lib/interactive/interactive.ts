@@ -4,7 +4,9 @@
  */
 
 import Modal from "./modal/modal"
+import { TextModal } from "./modal/text-modal"
 
 export const interactive = {
   modal: Modal,
+  "text-modal": TextModal,
 }

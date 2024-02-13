@@ -158,6 +158,7 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
           badge={badge}
           badgeCountIndicator={iconBadgeCountIndicator}
           rotate
+          disabled={disabled}
         />
       )}
       {Icon && (
@@ -168,6 +169,7 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
           size={iconSize}
           badge={badge}
           badgeCountIndicator={iconBadgeCountIndicator}
+          disabled={disabled}
         />
       )}
       {getLabel()}

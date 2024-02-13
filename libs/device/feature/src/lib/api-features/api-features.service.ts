@@ -8,12 +8,12 @@ import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import {
   APIFeaturesServiceEvents,
+  GeneralError,
   OverviewConfig,
   OverviewConfigValidator,
   OverviewData,
   OverviewDataValidator,
 } from "device/models"
-import { GeneralError } from "../general-error"
 import { AppError } from "Core/core/errors"
 import { DeviceId } from "Core/device/constants/device-id"
 import { View } from "generic-view/utils"

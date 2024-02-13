@@ -11,9 +11,7 @@ export const URL_MAIN = {
   contacts: "/contacts",
   music: "/music",
   tools: "/tools",
-  meditation: "/meditation",
   filesManager: "/files-manager",
-  tethering: "/tethering",
   settings: "/settings",
   help: "/help",
   error: "/error",
@@ -46,7 +44,7 @@ export const URL_ONBOARDING = {
 
 export const URL_DISCOVERY_DEVICE = {
   root: "/discovery-device",
-  availableDeviceListModal: "/available-device-list-modal",
+  availableDeviceListModal: "/discovery-device/available-device-list-modal",
 }
 
 export const URL_DEVICE_INITIALIZATION = {

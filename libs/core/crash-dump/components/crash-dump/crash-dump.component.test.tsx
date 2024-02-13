@@ -175,15 +175,11 @@ test("display `Loading` modal if data.files list isn't empty and `sendingState` 
   expect(screen.queryByTestId(CrashDumpTestingIds.Loading)).toBeInTheDocument()
 })
 
-test("display `Loading` modal if data.files list isn't empty and `loadingState` flag is equal to `State.Loading`", () => {
+test("Don't display any modal when `loadingState` flag is equal to `State.Loading`", () => {
   render({
     ...initialStateMock,
     crashDump: {
       ...initialStateMock.crashDump,
-      data: {
-        ...initialStateMock.crashDump.data,
-        files: ["/pure/logs/crash-dumps/file.hex"],
-      },
       loadingState: State.Loading,
     },
   })
@@ -197,7 +193,9 @@ test("display `Loading` modal if data.files list isn't empty and `loadingState` 
   expect(
     screen.queryByTestId(CrashDumpTestingIds.Success)
   ).not.toBeInTheDocument()
-  expect(screen.queryByTestId(CrashDumpTestingIds.Loading)).toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpTestingIds.Loading)
+  ).not.toBeInTheDocument()
 })
 
 test("display `Error` modal if data.files list isn't empty and `loadingState` flag is equal to `State.Failed`", () => {

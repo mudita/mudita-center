@@ -4,7 +4,7 @@
  */
 
 import { EnvironmentConfig } from "Core/feature-flags/types"
-import { Feature, Environment } from "Core/feature-flags/constants"
+import { Environment, Feature } from "Core/feature-flags/constants"
 
 const loggerEnabled = process.env.DEV_DEVICE_LOGGER_ENABLED !== "0"
 
@@ -59,11 +59,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.TetheringEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
-  },
   [Feature.SettingsNotificationTabEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
@@ -95,11 +90,6 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: false,
   },
   [Feature.CalendarTabEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
-  },
-  [Feature.MeditationTabEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { isDeviceListEmpty } from "Core/device-manager/selectors/is-device-list-empty.selector"
@@ -23,8 +23,16 @@ export const useDiscoveryRedirectEffect = () => {
     isInitializationDeviceInProgress
   )
   const appInitializationStatus = useSelector(getAppInitializationStatus)
+  const previousAppInitializationStatus = useRef(appInitializationStatus)
 
   useEffect(() => {
+
+    if(previousAppInitializationStatus.current === AppInitializationStatus.Initialized){
+      return
+    }
+
+    previousAppInitializationStatus.current = appInitializationStatus
+
     if (appInitializationStatus !== AppInitializationStatus.Initialized) {
       return
     }
@@ -46,5 +54,6 @@ export const useDiscoveryRedirectEffect = () => {
     discoveryDeviceInProgress,
     history,
     initializationDeviceInProgress,
+    previousAppInitializationStatus,
   ])
 }

@@ -45,7 +45,6 @@ const defaultProps: Props = {
   startRestoreDevice: jest.fn(),
   startUpdateOs: jest.fn(),
   batteryLevel: 0,
-  disconnectDevice: jest.fn(),
   lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
   networkName: "network name",
   osVersion: "1.0.0",

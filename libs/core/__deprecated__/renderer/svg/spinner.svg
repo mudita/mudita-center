@@ -1,0 +1,25 @@
+<svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="13.9129" width="4.17391" height="4.17391" rx="2.08696" fill="#fff"/>
+    <rect opacity=".1" x="22.1927" y="1.1001" width="4.17391" height="4.17391" rx="2.08696"
+          transform="rotate(30 22.1927 1.1001)" fill="#fff"/>
+    <rect opacity=".2" x="28.8128" y="6.19238" width="4.17391" height="4.17391" rx="2.08696"
+          transform="rotate(60 28.8128 6.19238)" fill="#fff"/>
+    <rect opacity=".3" x="32" y="13.9131" width="4.17391" height="4.17391" rx="2.08696"
+          transform="rotate(90 32 13.9131)" fill="#fff"/>
+    <rect opacity=".4" x="30.8999" y="22.1924" width="4.17391" height="4.17391" rx="2.08696"
+          transform="rotate(120 30.8999 22.1924)" fill="#fff"/>
+    <rect opacity=".5" width="4.17391" height="4.17391" rx="2.08696"
+          transform="matrix(-.86603 .5 -.5 -.86603 25.8073 28.813)" fill="#fff"/>
+    <rect opacity=".6" x="18.0869" y="32" width="4.17391" height="4.17391" rx="2.08696"
+          transform="rotate(180 18.0869 32)" fill="#fff"/>
+    <rect opacity=".7" x="9.80728" y="30.8999" width="4.17391" height="4.17391" rx="2.08696"
+          transform="rotate(-150 9.80728 30.8999)" fill="#fff"/>
+    <rect opacity=".8" x="3.18716" y="25.8076" width="4.17391" height="4.17391" rx="2.08696"
+          transform="rotate(-120 3.18716 25.8076)" fill="#fff"/>
+    <rect opacity=".9" y="18.0869" width="4.17391" height="4.17391" rx="2.08696" transform="rotate(-90 0 18.0869)"
+          fill="#fff"/>
+    <rect x="1.1001" y="9.80762" width="4.17391" height="4.17391" rx="2.08696" transform="rotate(-60 1.1001 9.80762)"
+          fill="#fff"/>
+    <rect x="6.19272" y="3.18701" width="4.17391" height="4.17391" rx="2.08696" transform="rotate(-30 6.19272 3.18701)"
+          fill="#fff"/>
+</svg>
