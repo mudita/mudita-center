@@ -9,6 +9,13 @@ import styled from "styled-components"
 import { Tag } from "../shared/tag"
 import { withData } from "../utils/with-data"
 import { withConfig } from "../utils/with-config"
+import { defineMessages } from "react-intl"
+import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  updateTag: { id: "module.genericViews.update.tag" },
+  updateActionLabel: { id: "module.genericViews.update.actionLabel" },
+})
 
 interface Config {
   versionLabel?: string
@@ -17,15 +24,20 @@ interface Config {
 
 interface Data {
   version?: string
+  text?: string
   badgeText?: string
   update?:
     | {
         available?: boolean
         actionLabel?: undefined
+        updateVersion?: string
+        updateText?: string
       }
     | {
         available: true
-        actionLabel: string
+        actionLabel?: string
+        updateVersion: string
+        updateText: string
       }
 }
 
@@ -36,10 +48,20 @@ const OverviewOsVersion: APIFC<Data, Config> = ({ config, data, ...props }) => {
         <VersionLabel>{config.versionLabel}</VersionLabel>
       )}
       <VersionInfo>
-        {data?.version && <Version>{data.version}</Version>}
+        {data?.text && <Version>{data.text}</Version>}
         {config?.showBadge && <Tag>{data?.badgeText}</Tag>}
         {data?.update?.available && (
-          <ActionLabel>{data.update.actionLabel}</ActionLabel>
+          <Tag>
+            {intl.formatMessage(messages.updateTag, {
+              version: data.update.updateText,
+            })}
+          </Tag>
+        )}
+        {data?.update?.available && (
+          <ActionLabel>
+            {data.update.actionLabel ??
+              intl.formatMessage(messages.updateActionLabel)}
+          </ActionLabel>
         )}
       </VersionInfo>
     </Wrapper>

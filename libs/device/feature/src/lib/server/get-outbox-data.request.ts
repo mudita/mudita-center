@@ -5,13 +5,12 @@
 
 import { ResultObject } from "Core/core/builder"
 import { ipcRenderer } from "electron-better-ipc"
-import { APIServerServiceEvents, Outbox } from "device/models"
-import { DeviceId } from "Core/device/constants/device-id"
+import { APIServerServiceEvents, ServerAPIDeviceOSVersion } from "device/models"
 
 export const getDeviceOSVersion = (
   productId: string,
   vendorId: string
-): Promise<ResultObject<Outbox>> => {
+): Promise<ResultObject<ServerAPIDeviceOSVersion>> => {
   return ipcRenderer.callMain(APIServerServiceEvents.GetAPIDeviceOSVersion, {
     productId,
     vendorId,
