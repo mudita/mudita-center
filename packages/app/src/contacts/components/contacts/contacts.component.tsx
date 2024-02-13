@@ -273,7 +273,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         )
 
         const { message, payload } =
-          (await delayResponse(addNewContact(contact))).payload ?? {}
+          (await delayResponse(editContact(contact))).payload ?? {}
 
         if (payload || message) {
           const newError: FormError[] = []

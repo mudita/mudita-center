@@ -156,7 +156,7 @@ export class ContactService {
       body: ContactPresenter.mapToPureContact(contact),
     })
 
-    if (ok && data) {
+    if (ok) {
       this.contactRepository.update(contact, true)
       return {
         status: RequestResponseStatus.Ok,
@@ -189,7 +189,7 @@ export class ContactService {
     } else {
       return {
         status: RequestResponseStatus.Error,
-        error: { message: "Create contact: Something went wrong", data },
+        error: { message: "Edit contact: Something went wrong", data },
       }
     }
   }
