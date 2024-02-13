@@ -9,7 +9,6 @@ import {
   ServerAPIDeviceOSVersion,
   UpdateTileConfig,
 } from "device/models"
-import isVersionGreater from "Core/utils/is-version-greater"
 import semver from "semver/preload"
 
 enum UpdateKeys {

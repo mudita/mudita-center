@@ -10,7 +10,7 @@ import { Tag } from "../shared/tag"
 import { withData } from "../utils/with-data"
 import { withConfig } from "../utils/with-config"
 import { defineMessages } from "react-intl"
-import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   updateTag: { id: "module.genericViews.update.tag" },
