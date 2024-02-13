@@ -6,7 +6,6 @@
 import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
 import FilesManager from "Core/files-manager/files-manager.container"
-import Meditation from "Core/__deprecated__/renderer/modules/meditation/meditation.component"
 import Messages from "Core/messages/messages.container"
 import Music from "Core/__deprecated__/renderer/modules/music/music.component"
 import News from "Core/news/news.container"
@@ -104,7 +103,6 @@ export default () => (
           />
           <Route path={"/generic/:viewKey"} component={GenericView} />
           <Route path={URL_MAIN.filesManager} component={FilesManager} />
-          <Route path={URL_MAIN.meditation} component={Meditation} />
           <Route path={URL_MAIN.messages} component={Messages} exact />
           <Route
             path={`${URL_MAIN.messages}${URL_TABS.templates}`}
