@@ -63,14 +63,6 @@ const YOUR_PURE_BUTTONS = [
     viewKey: View.Music,
   },
   {
-    button: views.meditation,
-    icon: IconType.MenuMeditation,
-    testId: MenuGroupTestIds.Meditation,
-    hidden: !flags.get(Feature.MeditationTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Meditation,
-  },
-  {
     button: views.filesManager,
     icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,

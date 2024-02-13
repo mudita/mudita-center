@@ -29,7 +29,6 @@ import MediumBattery from "Core/__deprecated__/renderer/svg/battery-medium.svg"
 import MediumRange from "Core/__deprecated__/renderer/svg/signal-medium-range.svg"
 import MenuFilesManager from "Core/__deprecated__/renderer/svg/menu-files-manager.svg"
 import MenuHelp from "Core/__deprecated__/renderer/svg/menu-help.svg"
-import MenuMeditation from "Core/__deprecated__/renderer/svg/menu-meditation.svg"
 import Message from "Core/__deprecated__/renderer/svg/menu-messages.svg"
 import MenuMusic from "Core/__deprecated__/renderer/svg/menu-music.svg"
 import MenuNews from "Core/__deprecated__/renderer/svg/menu-news.svg"
@@ -215,9 +214,6 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.MenuHelp]: MenuHelp,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  [IconType.MenuMeditation]: MenuMeditation,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.MenuMusic]: MenuMusic,
