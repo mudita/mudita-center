@@ -10,10 +10,10 @@ import { AppError } from "Core/core/errors"
 import { IpcEvent } from "Core/core/decorators"
 import {
   APIServerServiceEvents,
+  GeneralError,
   ServerAPIDeviceOSVersion,
   ServerAPIDeviceOSVersionValidator,
 } from "device/models"
-import { GeneralError } from "../general-error"
 
 export class ServerService {
   private axiosInstance: Axios
