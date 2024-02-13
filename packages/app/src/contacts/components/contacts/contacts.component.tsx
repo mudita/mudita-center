@@ -131,6 +131,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const detailsEnabled = activeRow && !newContact && !editedContact
 
+  const contact = getContact(activeRow?.id ?? "")
+
   useEffect(() => {
     if (editedContact) {
       const newData = contacts.find(
@@ -167,10 +169,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   }, [contacts])
 
   const closeModal = () => modalService.closeModal()
-
-  const contactFreshData = ({ id }: Contact) => {
-    return getContact(id)
-  }
 
   const handleAddingContact = () => {
     closeSidebar()
@@ -795,7 +793,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
             )}
             {detailsEnabled && (
               <ContactDetails
-                contact={contactFreshData(activeRow)}
+                contact={contact}
                 onClose={closeSidebar}
                 onExport={handleExport}
                 onForward={noop}
