@@ -49,13 +49,15 @@ const OverviewOsVersion: APIFC<Data, Config> = ({ config, data, ...props }) => {
       )}
       <VersionInfo>
         {data?.text && <Version>{data.text}</Version>}
-        {config?.showBadge && <Tag>{data?.badgeText}</Tag>}
         {data?.update?.available && (
           <Tag>
             {intl.formatMessage(messages.updateTag, {
               version: data.update.updateText,
             })}
           </Tag>
+        )}
+        {config?.showBadge && !data?.update?.available && (
+          <Tag>{data?.badgeText}</Tag>
         )}
         {data?.update?.available && (
           <ActionLabel>

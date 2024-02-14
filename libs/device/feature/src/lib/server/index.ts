@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-outbox-data.request"
+export * from "./get-device-os-version.request"
 export * from "./server.service"
