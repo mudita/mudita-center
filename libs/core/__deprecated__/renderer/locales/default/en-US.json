@@ -910,5 +910,7 @@
   "module.tools.notesSelectionsNumber": "{num, plural, =-1 {All Notes} one {# Note} other {# Notes}} selected",
   "module.tools.notesTemporaryText": "New Note",
   "module.tools.notesUnsavedNote": "unsaved",
-  "module.tools.voiceRecorder": "Voice Recorder"
+  "module.tools.voiceRecorder": "Voice Recorder",
+  "module.genericViews.update.tag": "Update is available ({version}).",
+  "module.genericViews.update.actionLabel": "You can update it on your device."
 }

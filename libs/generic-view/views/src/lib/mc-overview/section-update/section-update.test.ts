@@ -58,6 +58,7 @@ describe("generateMcOverviewUpdateData", () => {
       {
         key: {
           version: "12",
+          text: "12",
         },
       },
       {
