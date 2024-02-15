@@ -6,10 +6,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
 import React, { useEffect, useRef } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
   selectActiveDevice,
   selectActiveDeviceMenuElements,
@@ -38,6 +38,8 @@ import {
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { useFilteredRoutesHistory } from "shared/utils"
+import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
+import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 
 const messages = defineMessages({
   connectingModalParagraph: {
@@ -53,6 +55,7 @@ const messages = defineMessages({
 
 export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const history = useHistory()
+  const dispatch = useDispatch<Dispatch>()
   const firstRenderTime = useRef(Date.now())
   const deviceLocked = useSelector((state: ReduxRootState) => {
     return selectApiError(state, ApiError.DeviceLocked)
@@ -77,6 +80,9 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
       const elapsedTime = Date.now() - firstRenderTime.current
       const delay = Math.max(0, 1000 - elapsedTime)
 
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
+      )
       timeout = setTimeout(() => {
         history.push(pathToGoBack || firstMenuItemUrl || URL_MAIN.news)
       }, delay)
@@ -84,7 +90,7 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
     return () => {
       clearTimeout(timeout)
     }
-  }, [deviceId, deviceLocked, history, menuElements, pathToGoBack])
+  }, [dispatch, deviceId, deviceLocked, history, menuElements, pathToGoBack])
 
   return (
     <GenericThemeProvider>
