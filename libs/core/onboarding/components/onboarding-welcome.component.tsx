@@ -3,72 +3,89 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { defineMessages } from "react-intl"
 import React from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Core/__deprecated__/renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import Image from "Core/__deprecated__/renderer/components/core/image/image.component"
-import Infographic from "Core/__deprecated__/renderer/images/infographic.png"
+import OnboardingContent from "Core/__deprecated__/renderer/images/onboarding-content.png"
 import {
-  Type as ButtonType,
   DisplayStyle,
+  Type as ButtonType,
 } from "Core/__deprecated__/renderer/components/core/button/button.config"
-import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import {
-  OnboardingWrapper,
-  WelcomeButton,
+  ButtonsContainer,
+  Content,
+  DeviceNames,
+  HeaderTitle,
+  ImageWrapper,
+  Container,
+  SubheaderTitle,
+  ContentTop,
   TroubleshootingButton,
+  CancelButton,
+  ContentBottom,
+  DeviceName,
 } from "Core/onboarding/components/onboarding-welcome.styled"
-import { Title } from "Core/__deprecated__/renderer/components/core/text/title-text.styled"
+
+const messages = defineMessages({
+  headerTitle: { id: "module.onboarding.headerTitle" },
+  subheaderTitle: { id: "module.onboarding.subheaderTitle" },
+  primaryButton: { id: "module.onboarding.primaryButton" },
+  secondaryButton: { id: "module.onboarding.secondaryButton" },
+})
+
 export interface Props {
-  onCancel?: () => void
-  onTroubleshooting?: () => void
+  onCancel?: VoidFunction
+  onTroubleshooting?: VoidFunction
 }
+
+const deviceNames = ["Harmony 1", "Harmony 2", "Pure", "Kompakt"]
 
 const OnboardingWelcome: FunctionComponent<Props> = ({
   onCancel = noop,
   onTroubleshooting = noop,
 }) => (
-  <OnboardingWrapper>
-    <header>
-      <Title
-        displayStyle={TextDisplayStyle.Headline2}
-        message={{
-          id: "module.onboarding.welcomeTitle",
-          values: textFormatters,
-        }}
-      />
-      <Text
-        displayStyle={TextDisplayStyle.Paragraph1}
-        message={{ id: "module.onboarding.welcomeInstruction" }}
-      />
-    </header>
-
-    <main>
-      {/* AUTO DISABLED - fix me if you like :) */}
-      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-      <Image src={Infographic} width={"100%"} />
-    </main>
-    <footer>
-      <WelcomeButton
+  <Container>
+    <Content>
+      <ContentTop>
+        <HeaderTitle
+          displayStyle={TextDisplayStyle.Headline1}
+          message={messages.headerTitle}
+          element={"h1"}
+        />
+        <SubheaderTitle
+          displayStyle={TextDisplayStyle.Paragraph1}
+          message={messages.subheaderTitle}
+          element={"h2"}
+        />
+      </ContentTop>
+      <ContentBottom>
+        <DeviceNames displayStyle={TextDisplayStyle.Paragraph1}>
+          {deviceNames.map((name, key) => (
+            <DeviceName key={key}>{name}</DeviceName>
+          ))}
+        </DeviceNames>
+        <ImageWrapper>
+          <Image src={OnboardingContent} width={"100%"} />
+        </ImageWrapper>
+      </ContentBottom>
+    </Content>
+    <ButtonsContainer>
+      <CancelButton
         type={ButtonType.Button}
-        label={intl.formatMessage({
-          id: "module.onboarding.welcomeButton",
-        })}
+        labelMessage={messages.primaryButton}
         onClick={onCancel}
         displayStyle={DisplayStyle.Secondary}
       />
       <TroubleshootingButton
         displayStyle={DisplayStyle.ActionLink}
-        labelMessage={{
-          id: "module.onboarding.welcomeTroubleshootingButton",
-        }}
+        labelMessage={messages.secondaryButton}
         onClick={onTroubleshooting}
       />
-    </footer>
-  </OnboardingWrapper>
+    </ButtonsContainer>
+  </Container>
 )
 
 export default OnboardingWelcome
