@@ -3,6 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+type BackupFeature = {
+  label: string
+  key: string
+}
+
+export type BackupAction =
+  | {
+      type: "backup-data"
+      features: BackupFeature[]
+    }
+  | {
+      type: "restore-data"
+      features: (BackupFeature & { supportedKeys: string[] })[]
+    }
+
 export type ModalAction =
   | {
       type: "open-modal" | "replace-modal"
@@ -28,4 +43,4 @@ export interface NavigateAction {
   viewKey: string
 }
 
-export type ButtonAction = ModalAction | NavigateAction
+export type ButtonAction = ModalAction | NavigateAction | BackupAction
