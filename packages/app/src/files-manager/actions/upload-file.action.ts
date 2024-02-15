@@ -19,15 +19,12 @@ import { getFiles } from "App/files-manager/actions/get-files.action"
 import {
   setDuplicatedFiles,
   setInvalidFiles,
-  setPendingFilesToUpload,
   setUploadBlocked,
   setUploadingFileCount,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
 import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
-import { getHarmonyFreeFilesSlotsCount } from "App/files-manager/helpers/get-free-files-slots-count-for-harmony.helper"
 import { getDuplicatedFiles } from "App/files-manager/helpers/get-duplicated-files.helper"
-import { getUniqueFiles } from "App/files-manager/helpers/get-unique-files.helper"
 import { AppError } from "App/core/errors/app-error"
 import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
 
@@ -64,7 +61,7 @@ export const uploadFile = createAsyncThunk<
       return rejectWithValue("no files to upload")
     }
 
-    const filePaths =  filesToUpload.data
+    const filePaths = filesToUpload.data
 
     if(filePaths.length === 0){
       dispatch(setUploadBlocked(false))
@@ -91,8 +88,6 @@ export const uploadFile = createAsyncThunk<
     )
 
     if (duplicatedFiles.length > 0) {
-      const uniqueFiles = getUniqueFiles(state.filesManager.files, validFiles)
-      dispatch(setPendingFilesToUpload(uniqueFiles))
       dispatch(setDuplicatedFiles(duplicatedFiles))
       dispatch(setUploadBlocked(false))
       return rejectWithValue(
@@ -101,30 +96,6 @@ export const uploadFile = createAsyncThunk<
           "File already exists on your device"
         )
       )
-    }
-
-    const harmonyFreeFilesSlotsCount = getHarmonyFreeFilesSlotsCount(
-      state.filesManager.files?.length ?? 0
-    )
-
-    if (
-      state.device.deviceType === DeviceType.MuditaHarmony &&
-      harmonyFreeFilesSlotsCount === 0
-    ) {
-      dispatch(setUploadBlocked(false))
-      return
-    }
-
-    if (
-      state.device.deviceType === DeviceType.MuditaHarmony &&
-      harmonyFreeFilesSlotsCount < validFiles.length
-    ) {
-      dispatch(
-        setPendingFilesToUpload(validFiles.slice(0, harmonyFreeFilesSlotsCount))
-      )
-      dispatch(setUploadingState(State.Pending))
-      dispatch(setUploadBlocked(false))
-      return
     }
 
     dispatch(setUploadingFileCount(validFiles.length))

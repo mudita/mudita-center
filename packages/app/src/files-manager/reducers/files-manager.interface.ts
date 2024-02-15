@@ -17,7 +17,6 @@ export interface FilesManagerState {
   selectedItems: { rows: string[] }
   error: AppError | null
   uploadBlocked: boolean
-  uploadPendingFiles: string[]
   duplicatedFiles: string[]
   invalidFiles: string[]
 }
