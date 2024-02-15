@@ -28,7 +28,7 @@ export const Container = styled.section`
   width: 100%;
 `
 
-export const Content = styled.div`
+export const Content = styled.main`
   ${baseContainerStyles};
   grid-area: Content;
   justify-content: space-between;
@@ -51,8 +51,6 @@ export const SubheaderTitle = styled(Text)`
   font-weight: ${fontWeight("light")};
   color: ${textColor("info")};
 `
-
-export const ContentBottom = styled.div``
 
 export const DeviceNames = styled(Text)`
   margin-bottom: -1rem;

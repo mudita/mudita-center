@@ -25,7 +25,6 @@ import {
   ContentTop,
   TroubleshootingButton,
   CancelButton,
-  ContentBottom,
   DeviceName,
 } from "Core/onboarding/components/onboarding-welcome.styled"
 
@@ -61,7 +60,7 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
           element={"h2"}
         />
       </ContentTop>
-      <ContentBottom>
+      <div>
         <DeviceNames displayStyle={TextDisplayStyle.Paragraph1}>
           {deviceNames.map((name, key) => (
             <DeviceName key={key}>{name}</DeviceName>
@@ -70,7 +69,7 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
         <ImageWrapper>
           <Image src={OnboardingContent} width={"100%"} />
         </ImageWrapper>
-      </ContentBottom>
+      </div>
     </Content>
     <ButtonsContainer>
       <CancelButton
