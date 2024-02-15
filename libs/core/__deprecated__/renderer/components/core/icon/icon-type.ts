@@ -30,7 +30,6 @@ export enum IconType {
   MenuFilesManager,
   MenuHelp,
   MenuContacts,
-  MenuMeditation,
   MenuMusic,
   MenuNews,
   MenuOverview,

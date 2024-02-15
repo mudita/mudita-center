@@ -4,27 +4,25 @@
  */
 
 import React, { useEffect, useRef } from "react"
-import { useHistory } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+
 import { deviceStatusSelector } from "Core/device/selectors/device-status.selector"
-import { handleInitializeDevice } from "Core/device-initialization/components/devices-initialization-modal-flows/handle-initialize-device.helper"
+import { useDeviceInitializer } from "Core/device-initialization/components/devices-initialization-modal-flows/handle-initialize-device.helper"
 import { initializeMuditaPure } from "Core/device-initialization/actions/initialize-mudita-pure.action"
 import CriticalBatteryLevelModalContainer from "Core/device-initialization/components/critical-battery-level-modal.container"
 import EULAAgreementContainer from "Core/device-initialization/components/eula-agreement/eula-agreement.container"
 import PasscodeModalContainer from "Core/device-initialization/components/passcode-modal/passcode-modal.container"
 
 export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
-  const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
   const deviceStatus = useSelector(deviceStatusSelector)
 
   const previousUnlockedStatus = useRef(deviceStatus?.unlocked)
+  const initializeDevice = useDeviceInitializer(initializeMuditaPure)
 
   useEffect(() => {
-    void handleInitializeDevice(dispatch, initializeMuditaPure, history)
-  }, [history, dispatch])
+    void initializeDevice()
+  }, [initializeDevice])
 
   useEffect(() => {
     // continue initializing process when device unlocked
@@ -32,11 +30,11 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
       previousUnlockedStatus.current === false &&
       deviceStatus?.unlocked === true
     ) {
-      void handleInitializeDevice(dispatch, initializeMuditaPure, history)
+      void initializeDevice()
     }
 
     previousUnlockedStatus.current = deviceStatus?.unlocked
-  }, [deviceStatus?.unlocked, history, dispatch])
+  }, [initializeDevice, deviceStatus?.unlocked])
 
   const previousOnboardingStatus = useRef(deviceStatus?.onboardingFinished)
 
@@ -46,11 +44,11 @@ export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
       previousOnboardingStatus.current === false &&
       deviceStatus?.onboardingFinished === true
     ) {
-      void handleInitializeDevice(dispatch, initializeMuditaPure, history)
+      void initializeDevice()
     }
 
     previousOnboardingStatus.current = deviceStatus?.onboardingFinished
-  }, [deviceStatus?.onboardingFinished, history, dispatch])
+  }, [initializeDevice, deviceStatus?.onboardingFinished])
 
   if (deviceStatus?.criticalBatteryLevel) {
     return <CriticalBatteryLevelModalContainer />

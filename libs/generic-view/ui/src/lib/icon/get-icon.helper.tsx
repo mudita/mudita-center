@@ -3,16 +3,26 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import HighBattery from "Core/__deprecated__/renderer/svg/high-battery.svg"
-import HighRange from "Core/__deprecated__/renderer/svg/high-range.svg"
-import LowBattery from "Core/__deprecated__/renderer/svg/low-battery.svg"
-import MediumBattery from "Core/__deprecated__/renderer/svg/medium-battery.svg"
-import MediumRange from "Core/__deprecated__/renderer/svg/medium-range.svg"
-import NoRange from "Core/__deprecated__/renderer/svg/no-range.svg"
-import VeryHighBattery from "Core/__deprecated__/renderer/svg/very-high-battery.svg"
-import VeryHighRange from "Core/__deprecated__/renderer/svg/very-high-range.svg"
-import VeryLowBattery from "Core/__deprecated__/renderer/svg/very-low-battery.svg"
-import VeryLowRange from "Core/__deprecated__/renderer/svg/very-low-range.svg"
+import BatteryEmpty from "Core/__deprecated__/renderer/svg/battery-empty.svg"
+import BatteryVeryLow from "Core/__deprecated__/renderer/svg/battery-very-low.svg"
+import BatteryLow from "Core/__deprecated__/renderer/svg/battery-low.svg"
+import BatteryMedium from "Core/__deprecated__/renderer/svg/battery-medium.svg"
+import BatteryHigh from "Core/__deprecated__/renderer/svg/battery-high.svg"
+import BatteryFull from "Core/__deprecated__/renderer/svg/battery-full.svg"
+
+import BatteryChargingEmpty from "Core/__deprecated__/renderer/svg/battery-charging-empty.svg"
+import BatteryChargingVeryLow from "Core/__deprecated__/renderer/svg/battery-charging-very-low.svg"
+import BatteryChargingLow from "Core/__deprecated__/renderer/svg/battery-charging-low.svg"
+import BatteryChargingMedium from "Core/__deprecated__/renderer/svg/battery-charging-medium.svg"
+import BatteryChargingHigh from "Core/__deprecated__/renderer/svg/battery-charging-high.svg"
+import BatteryChargingFull from "Core/__deprecated__/renderer/svg/battery-charging-full.svg"
+
+import SignalNoRange from "Core/__deprecated__/renderer/svg/signal-no-range.svg"
+import SignalVeryLowRange from "Core/__deprecated__/renderer/svg/signal-very-low-range.svg"
+import SignalMediumRange from "Core/__deprecated__/renderer/svg/signal-medium-range.svg"
+import SignalHighRange from "Core/__deprecated__/renderer/svg/signal-high-range.svg"
+import SignalVeryHighRange from "Core/__deprecated__/renderer/svg/signal-very-high-range.svg"
+
 import AirplaneMode from "Core/__deprecated__/renderer/svg/airplane-mode.svg"
 import MenuOverview from "Core/__deprecated__/renderer/svg/menu-overview.svg"
 import CloseIcon from "Core/__deprecated__/renderer/svg/close.svg"
@@ -21,23 +31,25 @@ import Mudita from "Core/__deprecated__/renderer/svg/mudita.svg"
 import Spinner from "Core/__deprecated__/renderer/svg/spinner.svg"
 import { IconType } from "generic-view/utils"
 
-const typeToIcon: Record<IconType, typeof HighBattery> = {
-  [IconType.Battery1]: VeryLowBattery,
-  [IconType.Battery2]: LowBattery,
-  [IconType.Battery3]: MediumBattery,
-  [IconType.Battery4]: HighBattery,
-  [IconType.Battery5]: VeryHighBattery,
-  [IconType.BatteryCharging1]: VeryLowBattery,
-  [IconType.BatteryCharging2]: LowBattery,
-  [IconType.BatteryCharging3]: MediumBattery,
-  [IconType.BatteryCharging4]: HighBattery,
-  [IconType.BatteryCharging5]: VeryHighBattery,
-  [IconType.NetworkSignal0]: NoRange,
-  [IconType.NetworkSignal1]: VeryLowRange,
-  [IconType.NetworkSignal2]: MediumRange,
-  [IconType.NetworkSignal3]: HighRange,
-  [IconType.NetworkSignal4]: VeryHighRange,
-  [IconType.NoSimCard]: NoRange,
+const typeToIcon: Record<IconType, typeof BatteryHigh> = {
+  [IconType.Battery0]: BatteryEmpty,
+  [IconType.Battery1]: BatteryVeryLow,
+  [IconType.Battery2]: BatteryLow,
+  [IconType.Battery3]: BatteryMedium,
+  [IconType.Battery4]: BatteryHigh,
+  [IconType.Battery5]: BatteryFull,
+  [IconType.BatteryCharging0]: BatteryChargingEmpty,
+  [IconType.BatteryCharging1]: BatteryChargingVeryLow,
+  [IconType.BatteryCharging2]: BatteryChargingLow,
+  [IconType.BatteryCharging3]: BatteryChargingMedium,
+  [IconType.BatteryCharging4]: BatteryChargingHigh,
+  [IconType.BatteryCharging5]: BatteryChargingFull,
+  [IconType.NetworkSignal0]: SignalNoRange,
+  [IconType.NetworkSignal1]: SignalVeryLowRange,
+  [IconType.NetworkSignal2]: SignalMediumRange,
+  [IconType.NetworkSignal3]: SignalHighRange,
+  [IconType.NetworkSignal4]: SignalVeryHighRange,
+  [IconType.NoSimCard]: SignalNoRange,
   [IconType.AirplaneMode]: AirplaneMode,
   [IconType.Overview]: MenuOverview,
   [IconType.Close]: CloseIcon,

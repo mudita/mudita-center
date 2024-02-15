@@ -15,7 +15,6 @@ export enum MenuGroupTestIds {
   Overview = "overview-link",
   Connecting = "connecting-link",
   Calendar = "calendar-link",
-  Meditation = "meditation-link",
   Backup = "backup-and-recovery-link",
   Sync = "sync-info",
 }

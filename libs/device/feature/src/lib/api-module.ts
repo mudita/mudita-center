@@ -8,18 +8,21 @@ import { APIConfigService } from "./api-config/api-config.service"
 import { APIFeaturesService } from "./api-features/api-features.service"
 import { APIMenuService } from "./menu"
 import { APIOutboxService } from "./outbox/outbox.service"
+import { ServerService } from "./server/server.service"
 
 export class APIModule {
   private apiConfigService: APIConfigService
   private apiFeaturesService: APIFeaturesService
   private apiOutboxService: APIOutboxService
   private apiMenuService: APIMenuService
+  private serverService: ServerService
 
   constructor(deviceManager: DeviceManager) {
     this.apiConfigService = new APIConfigService(deviceManager)
     this.apiFeaturesService = new APIFeaturesService(deviceManager)
     this.apiOutboxService = new APIOutboxService(deviceManager)
     this.apiMenuService = new APIMenuService(deviceManager)
+    this.serverService = new ServerService()
   }
 
   public getAPIServices() {
@@ -28,6 +31,7 @@ export class APIModule {
       this.apiFeaturesService,
       this.apiOutboxService,
       this.apiMenuService,
+      this.serverService,
     ]
   }
 }

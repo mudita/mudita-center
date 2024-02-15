@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/answer-main"
-export * from "./lib/delay"
-export * from "./lib/get-main-app-window"
-export * from "./lib/main-event.constant"
+export enum APIServerServiceEvents {
+  GetAPIDeviceOSVersion = "apiservice_server-get-os-version",
+}
