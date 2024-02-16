@@ -18,6 +18,7 @@ type DetailListFieldData = DetailListTextData | DetailListModalData
 
 interface UpdateTileData {
   version: string
+  text: string
 }
 
 interface IconTextRowData {
@@ -34,7 +35,11 @@ type OverviewSectionsData = TileListData | UpdateTileData
 
 export type AboutData = Record<string, DetailListFieldData>
 
-const keyToCheckForBaseOverview = ["icon-text", "overview-os-version"]
+const keyToCheckForBaseOverview = [
+  "icon-text",
+  "overview-os-version",
+  "block-box",
+]
 const keyToCheckForAboutOverview = ["about-data-box", "text-formatted"]
 const keyToCheckForOverview = [
   ...keyToCheckForBaseOverview,
@@ -59,8 +64,15 @@ const getValidatorByComponentName = (component: string) => {
       })
     case "overview-os-version":
       return z.object({
+        text: z.string(),
         version: z.string(),
       })
+    case "block-box":
+      return z
+        .object({
+          badgeText: z.string(),
+        })
+        .optional()
     default:
       return null
   }

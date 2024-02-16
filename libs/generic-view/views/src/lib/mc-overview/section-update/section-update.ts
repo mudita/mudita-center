@@ -4,7 +4,12 @@
  */
 
 import { Subview, View, ViewGenerator } from "generic-view/utils"
-import { OverviewData, UpdateTileConfig } from "device/models"
+import {
+  OverviewData,
+  ServerAPIDeviceOSVersion,
+  UpdateTileConfig,
+} from "device/models"
+import semver from "semver/preload"
 
 enum UpdateKeys {
   OSVersion = "version",
@@ -48,7 +53,8 @@ export const generateMcOverviewUpdateLayout: ViewGenerator<
 
 export const generateMcOverviewUpdateData = (
   data: OverviewData["sections"],
-  config?: View
+  config?: View,
+  updateData?: ServerAPIDeviceOSVersion
 ) => {
   const updateKey = Object.entries(config || {}).find(([key, item]) => {
     return (
@@ -58,8 +64,33 @@ export const generateMcOverviewUpdateData = (
   })?.[0]
   const newData = { ...data }
   delete newData?.[updateKey as keyof typeof data]
+  const baseUpdateData = data?.[updateKey as keyof typeof data]
+  if (updateData && baseUpdateData) {
+    let updateAvailable = false
+    try {
+      updateAvailable = semver.gt(
+        semver.coerce(updateData.version)?.raw ?? "",
+        semver.coerce(baseUpdateData.version as string)?.raw ?? ""
+      )
+    } catch {
+      updateAvailable = false
+    }
+    if (updateAvailable) {
+      return {
+        ...newData,
+        [updateKey + UpdateKeys.OSVersion]: {
+          ...baseUpdateData,
+          update: {
+            available: true,
+            updateVersion: updateData.version,
+            updateText: updateData.text,
+          },
+        },
+      }
+    }
+  }
   return {
     ...newData,
-    [updateKey + UpdateKeys.OSVersion]: data?.[updateKey as keyof typeof data],
+    [updateKey + UpdateKeys.OSVersion]: baseUpdateData,
   }
 }
