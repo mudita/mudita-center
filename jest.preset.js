@@ -5,4 +5,11 @@
 
 const nxPreset = require("@nx/jest/preset").default
 
-module.exports = { ...nxPreset }
+module.exports = {
+  ...nxPreset,
+  moduleNameMapper: {
+    ...nxPreset.moduleNameMapper,
+    "App/(.*)": `${__dirname}/apps/mudita-center/src/$1`,
+    "Core/(.*)": `${__dirname}/libs/core/$1`,
+  },
+}
