@@ -65,7 +65,7 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
         gridLayout: {
           rows: ["auto"],
           columns: ["repeat(auto-fit, 164px)"],
-          columnGap: "12px",
+          columnGap: "14px",
           justifyContent: "end",
         },
         flexPlacement: {
