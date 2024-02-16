@@ -23,6 +23,7 @@ interface BackupState {
 }
 
 const initialState: BackupState = {
+  // Demo data
   files: [
     {
       fileName: "backup1.json",

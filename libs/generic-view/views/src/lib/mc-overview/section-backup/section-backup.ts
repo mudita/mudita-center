@@ -73,33 +73,45 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
         },
       },
       childrenKeys: [
-        mainKey + BackupKeys.RestoreBackupWrapper,
-        mainKey + BackupKeys.CreateBackupButton,
-      ],
+        config.restoreFeatures ? mainKey + BackupKeys.RestoreBackupWrapper : "",
+        config.backupFeatures ? mainKey + BackupKeys.CreateBackupButton : "",
+      ].filter(Boolean) as string[],
     },
-    [mainKey + BackupKeys.RestoreBackupWrapper]: {
-      component: "backup-restore-available",
-      childrenKeys: [mainKey + BackupKeys.RestoreBackupButton],
-    },
-    [mainKey + BackupKeys.RestoreBackupButton]: {
-      component: "button-secondary",
-      config: {
-        text: intl.formatMessage({ id: "generic.backup.restoreButtonLabel" }),
-        action: {
-          type: "restore-data",
-          features: config.restoreFeatures,
-        },
-      },
-    },
-    [mainKey + BackupKeys.CreateBackupButton]: {
-      component: "button-primary",
-      config: {
-        text: intl.formatMessage({ id: "generic.backup.createButtonLabel" }),
-        action: {
-          type: "backup-data",
-          features: config.backupFeatures,
-        },
-      },
-    },
+    ...(config.restoreFeatures
+      ? {
+          [mainKey + BackupKeys.RestoreBackupWrapper]: {
+            component: "backup-restore-available",
+            childrenKeys: [mainKey + BackupKeys.RestoreBackupButton],
+          },
+          [mainKey + BackupKeys.RestoreBackupButton]: {
+            component: "button-secondary",
+            config: {
+              text: intl.formatMessage({
+                id: "generic.backup.restoreButtonLabel",
+              }),
+              action: {
+                type: "restore-data",
+                features: config.restoreFeatures,
+              },
+            },
+          },
+        }
+      : {}),
+    ...(config.backupFeatures
+      ? {
+          [mainKey + BackupKeys.CreateBackupButton]: {
+            component: "button-primary",
+            config: {
+              text: intl.formatMessage({
+                id: "generic.backup.createButtonLabel",
+              }),
+              action: {
+                type: "backup-data",
+                features: config.backupFeatures,
+              },
+            },
+          },
+        }
+      : {}),
   }
 }
