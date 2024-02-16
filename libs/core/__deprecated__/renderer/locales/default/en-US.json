@@ -920,8 +920,8 @@
   "module.tools.notesTemporaryText": "New Note",
   "module.tools.notesUnsavedNote": "unsaved",
   "module.tools.voiceRecorder": "Voice Recorder",
-  "generic.backup.backupAvailableLabel": "Last backup:",
-  "generic.backup.noBackupLabel": "You haven’t backed up your device yet.\nCreate a backup file to protect against data loss.",
-  "generic.backup.createButtonLabel": "Create backup",
-  "generic.backup.restoreButtonLabel": "Restore from backup"
+  "module.genericBackup.backupAvailableLabel": "Last backup:",
+  "module.genericBackup.noBackupLabel": "You haven’t backed up your device yet.\nCreate a backup file to protect against data loss.",
+  "module.genericBackup.createButtonLabel": "Create backup",
+  "module.genericBackup.restoreButtonLabel": "Restore from backup"
 }

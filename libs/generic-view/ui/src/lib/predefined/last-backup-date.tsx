@@ -20,10 +20,10 @@ interface Config {
 
 const messages = defineMessages({
   noBackupLabel: {
-    id: "generic.backup.noBackupLabel",
+    id: "module.genericBackup.noBackupLabel",
   },
   backupAvailableLabel: {
-    id: "generic.backup.backupAvailableLabel",
+    id: "module.genericBackup.backupAvailableLabel",
   },
 })
 

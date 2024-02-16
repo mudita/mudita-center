@@ -87,7 +87,7 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
             component: "button-secondary",
             config: {
               text: intl.formatMessage({
-                id: "generic.backup.restoreButtonLabel",
+                id: "module.genericBackup.restoreButtonLabel",
               }),
               action: {
                 type: "restore-data",
@@ -103,7 +103,7 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
             component: "button-primary",
             config: {
               text: intl.formatMessage({
-                id: "generic.backup.createButtonLabel",
+                id: "module.genericBackup.createButtonLabel",
               }),
               action: {
                 type: "backup-data",
