@@ -78,13 +78,13 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
       const delay = Math.max(0, 1000 - elapsedTime)
 
       timeout = setTimeout(() => {
-        history.push(firstMenuItemUrl || URL_MAIN.news)
+        history.push(pathToGoBack || firstMenuItemUrl || URL_MAIN.news)
       }, delay)
     }
     return () => {
       clearTimeout(timeout)
     }
-  }, [deviceId, deviceLocked, history, menuElements])
+  }, [deviceId, deviceLocked, history, menuElements, pathToGoBack])
 
   return (
     <GenericThemeProvider>
