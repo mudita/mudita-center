@@ -4,3 +4,6 @@
  */
 
 export * from "./backup.service"
+export * from "./check-pre-backup.request"
+export * from "./start-pre-backup.request"
+export * from "./post-backup.request"
