@@ -914,7 +914,7 @@
   "module.genericBackup.backupAvailableLabel": "Last backup:",
   "module.genericBackup.noBackupLabel": "You haven’t backed up your device yet.\nCreate a backup file to protect against data loss.",
   "module.genericBackup.createButtonLabel": "Create backup",
-  "module.genericBackup.restoreButtonLabel": "Restore from backup"
+  "module.genericBackup.restoreButtonLabel": "Restore from backup",
   "module.genericViews.update.tag": "Update is available ({version}).",
   "module.genericViews.update.actionLabel": "You can update it on your device."
 }
