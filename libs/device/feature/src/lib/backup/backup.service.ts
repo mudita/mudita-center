@@ -14,7 +14,7 @@ import {
   PreBackup,
   PreBackupValidator,
 } from "device/models"
-import _ from "lodash"
+import { random } from "lodash"
 
 export class APIBackupService {
   constructor(private deviceManager: DeviceManager) {}
@@ -35,7 +35,7 @@ export class APIBackupService {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
-    const backupId = _.random(1, 100000)
+    const backupId = random(1, 100000)
 
     const response = await device.request({
       endpoint: "PRE_BACKUP",
@@ -54,7 +54,7 @@ export class APIBackupService {
       const success =
         startBackupResponse.success &&
         ((response.data.status === 200 && startBackupResponse.data.features) ||
-          (response.data.status === 204 && !startBackupResponse.data.features))
+          (response.data.status === 202 && !startBackupResponse.data.features))
 
       return success
         ? Result.success(startBackupResponse.data as PreBackup)
@@ -98,7 +98,7 @@ export class APIBackupService {
       const success =
         startBackupResponse.success &&
         ((response.data.status === 200 && startBackupResponse.data.features) ||
-          (response.data.status === 204 && !startBackupResponse.data.features))
+          (response.data.status === 202 && !startBackupResponse.data.features))
 
       return success
         ? Result.success(startBackupResponse.data as PreBackup)
