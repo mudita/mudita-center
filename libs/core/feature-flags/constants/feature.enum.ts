@@ -21,7 +21,6 @@ export enum Feature {
   ToolsTabEnabled = "tools-tab-enabled",
   MusicTabEnabled = "music-tab-enabled",
   CalendarTabEnabled = "calendar-tab-enabled",
-  MeditationTabEnabled = "meditation-tab-enabled",
   YourPureIconsEnabled = "your-pure-icons-enabled",
   AlphaRelaseWarning = "alpha-release-warning",
   ForceUpdate = "force-update",

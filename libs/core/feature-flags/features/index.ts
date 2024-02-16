@@ -94,11 +94,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.MeditationTabEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
-  },
   [Feature.YourPureIconsEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,

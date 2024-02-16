@@ -11,7 +11,6 @@ export const URL_MAIN = {
   contacts: "/contacts",
   music: "/music",
   tools: "/tools",
-  meditation: "/meditation",
   filesManager: "/files-manager",
   settings: "/settings",
   help: "/help",
