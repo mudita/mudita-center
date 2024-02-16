@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceStatus } from "./status"
 import OverviewOsVersion from "./overview-os-version"
 import AboutDataBox from "./about-data-box"
-import BackupBox from "./backup-box"
+import LastBackupDate from "./last-backup-date"
+import { BackupRestoreAvailable } from "./backup-restore-available"
 
 export const predefinedComponents = {
-  "device-status": DeviceStatus,
   "overview-os-version": OverviewOsVersion,
   "about-data-box": AboutDataBox,
-  "backup-box": BackupBox,
+  "last-backup-date": LastBackupDate,
+  "backup-restore-available": BackupRestoreAvailable,
 }

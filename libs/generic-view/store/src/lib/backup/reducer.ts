@@ -23,7 +23,19 @@ interface BackupState {
 }
 
 const initialState: BackupState = {
-  files: [],
+  files: [
+    {
+      fileName: "backup1.json",
+      date: new Date(),
+      features: ["calls", "messages"],
+      device: {
+        serialNumber: "0123456789ABCDEF",
+        vendorId: "0e8d",
+        productId: "2006",
+        osVersion: "12",
+      },
+    },
+  ],
 }
 
 export const genericBackupsReducer = createReducer(initialState, (builder) => {

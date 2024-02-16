@@ -919,5 +919,9 @@
   "module.tools.notesSelectionsNumber": "{num, plural, =-1 {All Notes} one {# Note} other {# Notes}} selected",
   "module.tools.notesTemporaryText": "New Note",
   "module.tools.notesUnsavedNote": "unsaved",
-  "module.tools.voiceRecorder": "Voice Recorder"
+  "module.tools.voiceRecorder": "Voice Recorder",
+  "generic.backup.backupAvailableLabel": "Last backup:",
+  "generic.backup.noBackupLabel": "You haven’t backed up your device yet.\nCreate a backup file to protect against data loss.",
+  "generic.backup.createButtonLabel": "Create backup",
+  "generic.backup.restoreButtonLabel": "Restore from backup"
 }

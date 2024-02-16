@@ -8,6 +8,11 @@ type BackupFeature = {
   key: string
 }
 
+type RestoreFeature = {
+  label: string
+  keys: string[]
+}
+
 export type BackupAction =
   | {
       type: "backup-data"
@@ -15,7 +20,7 @@ export type BackupAction =
     }
   | {
       type: "restore-data"
-      features: (BackupFeature & { supportedKeys: string[] })[]
+      features: RestoreFeature[]
     }
 
 export type ModalAction =

@@ -65,6 +65,8 @@ const childStyles = css<{
     gridTemplateColumns: mapLayoutSizes($layout.gridLayout.columns),
     rowGap: $layout.gridLayout.rowGap || 0,
     columnGap: $layout.gridLayout.columnGap || 0,
+    justifyContent: $layout.gridLayout.justifyContent,
+    alignItems: $layout.gridLayout.alignItems,
   }),
   ...($layout.flexLayout && {
     display: "flex",

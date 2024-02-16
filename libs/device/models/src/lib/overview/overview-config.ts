@@ -63,6 +63,22 @@ export const BackupTileConfigValidator = z.object({
   type: z.literal("mc-overview-backup"),
   title: z.string().min(1),
   dataKey: z.string().min(1),
+  backupFeatures: z
+    .array(
+      z.object({
+        label: z.string().min(1),
+        key: z.string().min(1),
+      })
+    )
+    .optional(),
+  restoreFeatures: z
+    .array(
+      z.object({
+        label: z.string().min(1),
+        keys: z.array(z.string()),
+      })
+    )
+    .optional(),
 })
 
 export type BackupTileConfig = z.infer<typeof BackupTileConfigValidator>
