@@ -7,7 +7,7 @@ import React from "react"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
-import OnboardingWelcome from "Core/onboarding/components/onboarding-welcome.component"
+import OnboardingUI from "Core/onboarding/components/onboarding/onboarding-ui.component"
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 storiesOf("Components/Onboarding", module).add("Welcome", () => {
   return (
     <Wrapper>
-      <OnboardingWelcome
+      <OnboardingUI
         onCancel={action("Cancel")}
         onTroubleshooting={action("TroubleshootingInfo")}
       />

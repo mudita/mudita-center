@@ -10,7 +10,7 @@ import {
   URL_MAIN,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import OnboardingWelcome from "Core/onboarding/components/onboarding-welcome.component"
+import OnboardingUI from "Core/onboarding/components/onboarding/onboarding-ui.component"
 
 const Onboarding: FunctionComponent = () => {
   const history = useHistory()
@@ -25,7 +25,7 @@ const Onboarding: FunctionComponent = () => {
   }
 
   return (
-    <OnboardingWelcome
+    <OnboardingUI
       onCancel={onCancel}
       onTroubleshooting={onTroubleshooting}
     />
