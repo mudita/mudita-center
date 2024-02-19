@@ -4,18 +4,9 @@
  */
 
 import { initialState } from "Core/files-manager/reducers"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 const data = [
-  {
-    filesType: "Music",
-    occupiedMemory: 4294967296,
-    filesAmount: 15,
-    color: "#6D9BBC",
-    icon: IconType.MusicGrey,
-    url: URL_MAIN.music,
-  },
   {
     filesType: "Voice Recorder",
     occupiedMemory: 4294967296,

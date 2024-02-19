@@ -55,14 +55,6 @@ const YOUR_PURE_BUTTONS = [
     viewKey: View.Tools,
   },
   {
-    button: views.music,
-    icon: IconType.MenuMusic,
-    testId: MenuGroupTestIds.Music,
-    hidden: !flags.get(Feature.MusicTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Music,
-  },
-  {
     button: views.filesManager,
     icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,

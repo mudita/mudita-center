@@ -15,8 +15,6 @@ const messages = defineMessages({
   contacts: { id: "module.contacts" },
   calls: { id: "module.phone.calls" },
   dial: { id: "module.dial" },
-  allSongs: { id: "module.music.allSongs" },
-  playlist: { id: "module.playlist" },
   notes: { id: "module.tools.notes" },
   voiceRecorder: { id: "module.tools.voiceRecorder" },
   connection: { id: "module.settings.connection" },
@@ -73,21 +71,6 @@ export const tabElements: TabElement[] = [
     ],
   },
   {
-    parentUrl: URL_MAIN.music,
-    tabs: [
-      {
-        label: messages.allSongs,
-        url: URL_MAIN.music,
-        icon: IconType.MenuMusic,
-      },
-      {
-        label: messages.playlist,
-        url: `${URL_MAIN.music}${URL_TABS.playlist}`,
-        icon: IconType.Playlist,
-      },
-    ],
-  },
-  {
     parentUrl: URL_MAIN.tools,
     tabs: [
       {
@@ -120,7 +103,7 @@ export const tabElements: TabElement[] = [
       {
         label: messages.backup,
         url: URL_MAIN.settings,
-        icon: IconType.BackupFolder,
+        icon: IconType.BackupFolder
       },
       {
         label: messages.about,
