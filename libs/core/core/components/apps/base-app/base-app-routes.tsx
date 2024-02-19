@@ -7,7 +7,6 @@ import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
 import FilesManager from "Core/files-manager/files-manager.container"
 import Messages from "Core/messages/messages.container"
-import Music from "Core/__deprecated__/renderer/modules/music/music.component"
 import News from "Core/news/news.container"
 import Overview from "Core/overview/overview.container"
 import Contacts from "Core/contacts/contacts.container"
@@ -19,7 +18,6 @@ import {
   URL_DEVICE_INITIALIZATION,
   URL_TABS,
 } from "Core/__deprecated__/renderer/constants/urls"
-import Playlist from "Core/__deprecated__/renderer/modules/music/tabs/playlist.component"
 import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
 import Dial from "Core/__deprecated__/renderer/modules/phone/tabs/dial.component"
 import VoiceRecorder from "Core/__deprecated__/renderer/modules/tools/tabs/voice-recorder.component"
@@ -107,11 +105,6 @@ export default () => (
           <Route
             path={`${URL_MAIN.messages}${URL_TABS.templates}`}
             component={TemplatesContainer}
-          />
-          <Route path={URL_MAIN.music} component={Music} exact />
-          <Route
-            path={`${URL_MAIN.music}${URL_TABS.playlist}`}
-            component={Playlist}
           />
           <Route path={URL_MAIN.news} component={News} />
           <Route path={URL_OVERVIEW.root} component={Overview} exact />

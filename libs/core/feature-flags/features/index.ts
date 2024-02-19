@@ -84,11 +84,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.MusicTabEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
-  },
   [Feature.CalendarTabEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
