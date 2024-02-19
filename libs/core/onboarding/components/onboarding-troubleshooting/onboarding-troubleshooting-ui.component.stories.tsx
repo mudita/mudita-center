@@ -7,7 +7,7 @@ import React from "react"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
-import OnboardingTroubleshooting from "Core/__deprecated__/troubleshooting/components/onboarding-troubleshooting.component"
+import OnboardingTroubleshootingUI from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui.component"
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 storiesOf("Components/Troubleshooting", module).add("Troubleshooting", () => {
   return (
     <Wrapper>
-      <OnboardingTroubleshooting
+      <OnboardingTroubleshootingUI
         onRetry={action("Try again")}
         onContact={action("Contact support")}
       />

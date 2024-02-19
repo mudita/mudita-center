@@ -23,7 +23,7 @@ import Dial from "Core/__deprecated__/renderer/modules/phone/tabs/dial.component
 import VoiceRecorder from "Core/__deprecated__/renderer/modules/tools/tabs/voice-recorder.component"
 import Notes from "Core/__deprecated__/renderer/modules/tools/tabs/notes.container"
 import Onboarding from "Core/onboarding/components/onboarding/onboarding.component"
-import Troubleshooting from "Core/__deprecated__/troubleshooting/troubleshooting.container"
+import OnboardingTroubleshooting from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting.component"
 import LayoutDesktopWrapper from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "Core/__deprecated__/renderer/wrappers/layout-blank-wrapper"
 import {
@@ -53,7 +53,7 @@ export default () => (
         <Route path={URL_ONBOARDING.welcome} component={Onboarding} />
         <Route
           path={URL_ONBOARDING.troubleshooting}
-          component={Troubleshooting}
+          component={OnboardingTroubleshooting}
         />
       </LayoutBlankWrapper>
     </Route>

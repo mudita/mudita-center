@@ -36,7 +36,6 @@ export const URL_TABS = {
 export const URL_ONBOARDING = {
   root: "/onboarding",
   welcome: "/onboarding/welcome",
-  connecting: "/onboarding/connecting",
   troubleshooting: "/onboarding/troubleshooting",
 } as const
 

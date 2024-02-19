@@ -132,7 +132,7 @@ interface Props {
   onContact?: () => void
 }
 
-const OnboardingTroubleshooting: FunctionComponent<Props> = ({
+const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
   onRetry = noop,
   onContact = noop,
 }) => {
@@ -252,4 +252,4 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
   )
 }
 
-export default OnboardingTroubleshooting
+export default OnboardingTroubleshootingUI

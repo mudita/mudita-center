@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
 import { defineMessages } from "react-intl"
+import { DeviceType } from "Core/device/constants"
 import { View, views } from "Core/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import { Feature, flags } from "Core/feature-flags"
@@ -111,18 +111,6 @@ export interface MenuElement {
 }
 
 export const baseMenuElements: MenuElement[] = [
-  {
-    items: [
-      {
-        button: views[View.Connecting],
-        icon: IconType.Send,
-        testId: MenuGroupTestIds.Connecting,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-      },
-    ],
-    viewKey: View.Connecting,
-    simulatePhoneConnection: true,
-  },
   {
     items: [
       {
