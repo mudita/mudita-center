@@ -9,10 +9,10 @@ import {
   NotificationResourceType,
 } from "App/notification/constants"
 
-export interface Notification {
+export interface Notification<NotificationContentType = unknown> {
   id: string
   type: NotificationType
   method: NotificationMethod
   resourceType: NotificationResourceType
-  content: unknown
+  content?: NotificationContentType
 }
