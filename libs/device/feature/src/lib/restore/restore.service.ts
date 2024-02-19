@@ -18,7 +18,7 @@ import {
   RestoreValidator200,
   RestoreValidator202,
 } from "device/models"
-import { random } from "lodash"
+import random from "lodash/random"
 
 export class APIRestoreService {
   constructor(private deviceManager: DeviceManager) {}

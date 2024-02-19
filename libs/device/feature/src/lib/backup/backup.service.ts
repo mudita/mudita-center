@@ -16,7 +16,7 @@ import {
   PreBackupValidator200,
   PreBackupValidator202,
 } from "device/models"
-import { random } from "lodash"
+import random from "lodash/random"
 
 export class APIBackupService {
   constructor(private deviceManager: DeviceManager) {}
