@@ -23,11 +23,40 @@ import {
   generateMcOverviewUpdateData,
   generateMcOverviewUpdateLayout,
 } from "./section-update/section-update"
+import { generateMcOverviewBackupLayout } from "./section-backup/section-backup"
 
 export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
   config
 ) => {
   const summary = generateMcOverviewSummaryLayout(config.summary)
+
+  // Push a demo data for backup section
+  config.sections?.push({
+    type: "mc-overview-backup",
+    dataKey: "backup",
+    title: "Backup",
+    backupFeatures: [
+      {
+        label: "Contacts list",
+        key: "contacts-list",
+      },
+      {
+        label: "Call log",
+        key: "call-log",
+      },
+    ],
+    restoreFeatures: [
+      {
+        label: "Contacts list",
+        keys: ["contacts-list"],
+      },
+      {
+        label: "Call log",
+        keys: ["call-log"],
+      },
+    ],
+  })
+
   const sections =
     config.sections?.map((section) => {
       switch (section?.type) {
@@ -35,6 +64,8 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
           return generateMcOverviewTileListLayout(section)
         case "mc-overview-update":
           return generateMcOverviewUpdateLayout(section)
+        case "mc-overview-backup":
+          return generateMcOverviewBackupLayout(section)
         default:
           return undefined
       }

@@ -58,6 +58,31 @@ export const DataSyncTileConfigValidator = z.object({
 
 export type DataSyncTileConfig = z.infer<typeof DataSyncTileConfigValidator>
 
+// TODO: Implement proper validation
+export const BackupTileConfigValidator = z.object({
+  type: z.literal("mc-overview-backup"),
+  title: z.string().min(1),
+  dataKey: z.string().min(1),
+  backupFeatures: z
+    .array(
+      z.object({
+        label: z.string().min(1),
+        key: z.string().min(1),
+      })
+    )
+    .optional(),
+  restoreFeatures: z
+    .array(
+      z.object({
+        label: z.string().min(1),
+        keys: z.array(z.string()).min(1),
+      })
+    )
+    .optional(),
+})
+
+export type BackupTileConfig = z.infer<typeof BackupTileConfigValidator>
+
 export const IconTextRowConfigValidator = z.object({
   dataKey: z.string().min(1),
   type: z.literal("icon-text"),
@@ -82,6 +107,7 @@ const OverviewSectionsConfigValidator = z.union([
   TileListConfigValidator,
   UpdateTileConfigValidator,
   DataSyncTileConfigValidator,
+  BackupTileConfigValidator,
 ])
 
 export type OverviewSectionsConfig = z.infer<
