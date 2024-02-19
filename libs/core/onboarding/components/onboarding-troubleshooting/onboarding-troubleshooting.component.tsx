@@ -16,19 +16,19 @@ const OnboardingTroubleshooting: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<TmpDispatch>()
 
-  const handleRetry = useCallback(() => {
+  const handleRetryButtonClick = useCallback(() => {
     // TODO: do some logic to retry connection
     history.push(URL_DISCOVERY_DEVICE.root)
   }, [history])
 
-  const handleContact = useCallback(() => {
+  const handleContactButtonClick = useCallback(() => {
     dispatch(showModal(ModalStateKey.ContactSupportFlow))
   }, [dispatch])
 
   return (
     <OnboardingTroubleshootingUI
-      onRetry={handleRetry}
-      onContact={handleContact}
+      onRetryButtonClick={handleRetryButtonClick}
+      onContactButtonClick={handleContactButtonClick}
     />
   )
 }

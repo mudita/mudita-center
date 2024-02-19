@@ -12,7 +12,7 @@ import { OnboardingTroubleshootingUiTestIds } from "Core/onboarding/components/o
 test("troubleshooting retry button works properly", () => {
   const onRetry = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
-    <OnboardingTroubleshootingUI onRetry={onRetry} />
+    <OnboardingTroubleshootingUI onRetryButtonClick={onRetry} />
   )
 
   fireEvent.click(getByTestId(OnboardingTroubleshootingUiTestIds.Retry))
@@ -22,7 +22,7 @@ test("troubleshooting retry button works properly", () => {
 test("troubleshooting contact button works properly", () => {
   const onContact = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
-    <OnboardingTroubleshootingUI onContact={onContact} />
+    <OnboardingTroubleshootingUI onContactButtonClick={onContact} />
   )
 
   fireEvent.click(getByTestId(OnboardingTroubleshootingUiTestIds.ContactSupport))

@@ -20,8 +20,8 @@ storiesOf("Components/Troubleshooting", module).add("Troubleshooting", () => {
   return (
     <Wrapper>
       <OnboardingTroubleshootingUI
-        onRetry={action("Try again")}
-        onContact={action("Contact support")}
+        onRetryButtonClick={action("Try again")}
+        onContactButtonClick={action("Contact support")}
       />
     </Wrapper>
   )

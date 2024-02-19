@@ -68,15 +68,15 @@ const messages = defineMessages({
 })
 
 interface Props {
-  onRetry?: VoidFunction
+  onRetryButtonClick?: VoidFunction
   onChangeDeviceButtonClick?: VoidFunction
-  onContact?: VoidFunction
+  onContactButtonClick?: VoidFunction
 }
 
 const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
-  onRetry = noop,
+  onRetryButtonClick = noop,
   onChangeDeviceButtonClick = noop,
-  onContact = noop,
+  onContactButtonClick = noop,
 }) => {
   const [openMore, setOpenMore] = useState(false)
   const handleClick: () => void = () => {
@@ -169,7 +169,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           <ButtonComponent
             type={ButtonType.Button}
             labelMessage={messages.troubleshootingButton}
-            onClick={onRetry}
+            onClick={onRetryButtonClick}
             data-testid={OnboardingTroubleshootingUiTestIds.Retry}
           />
         </MainActionsContainer>
@@ -182,7 +182,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           <ButtonComponent
             displayStyle={DisplayStyle.ActionLink}
             labelMessage={messages.supportButton}
-            onClick={onContact}
+            onClick={onContactButtonClick}
             data-testid={OnboardingTroubleshootingUiTestIds.ContactSupport}
           />
         </SupportButtonContainer>
