@@ -10,6 +10,8 @@ const APIEndpoints = {
   DataSynchronization: "DATA_SYNC",
   MenuConfiguration: "MENU_CONFIGURATION",
   Outbox: "OUTBOX",
+  PreBackup: "PRE_BACKUP",
+  PostBackup: "POST_BACKUP",
 } as const
 
 export type APIEndpointType = (typeof APIEndpoints)[keyof typeof APIEndpoints]
@@ -30,6 +32,8 @@ const APIRequests = {
   FEATURE_CONFIGURATION: [APIMethods.GET],
   API_CONFIGURATION: [APIMethods.GET],
   OUTBOX: [APIMethods.GET],
+  PRE_BACKUP: [APIMethods.POST, APIMethods.GET],
+  POST_BACKUP: [APIMethods.POST],
 } as const
 
 interface APIRequestConfig<
