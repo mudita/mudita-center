@@ -71,12 +71,14 @@ interface Props {
   onRetryButtonClick?: VoidFunction
   onChangeDeviceButtonClick?: VoidFunction
   onContactButtonClick?: VoidFunction
+  changeDeviceButtonVisible?: boolean
 }
 
 const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
   onRetryButtonClick = noop,
   onChangeDeviceButtonClick = noop,
   onContactButtonClick = noop,
+  changeDeviceButtonVisible,
 }) => {
   const [openMore, setOpenMore] = useState(false)
   const handleClick: () => void = () => {
@@ -160,12 +162,14 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
       </Content>
       <ActionsContainer>
         <MainActionsContainer>
-          <ButtonComponent
-            type={ButtonType.Button}
-            labelMessage={messages.changeDeviceButton}
-            onClick={onChangeDeviceButtonClick}
-            displayStyle={DisplayStyle.Secondary}
-          />
+          {changeDeviceButtonVisible && (
+            <ButtonComponent
+              type={ButtonType.Button}
+              labelMessage={messages.changeDeviceButton}
+              onClick={onChangeDeviceButtonClick}
+              displayStyle={DisplayStyle.Secondary}
+            />
+          )}
           <ButtonComponent
             type={ButtonType.Button}
             labelMessage={messages.troubleshootingButton}
