@@ -78,7 +78,7 @@ describe("RestoreValidator", () => {
     expect(result.success && result.data.progress).toBe(0)
   })
   it("should return success when message is passed", () => {
-    const restore: any = {
+    const restore = {
       ...minimumRestore,
       message: "dummy-text",
     }
