@@ -18,7 +18,6 @@ import {
   uploadFile,
   setUploadBlocked,
   setDeletingFileCount,
-  setPendingFilesToUpload,
   setDuplicatedFiles,
   resetUploadingStateAfterSuccess,
   resetFiles,
@@ -27,7 +26,6 @@ import {
 import { changeLocation } from "App/core/actions"
 import { FilesManagerState } from "App/files-manager/reducers/files-manager.interface"
 import { deleteFiles } from "App/files-manager/actions/delete-files.action"
-import { continuePendingUpload } from "../actions/continue-pending-upload.action"
 
 export const initialState: FilesManagerState = {
   files: null,
@@ -41,7 +39,6 @@ export const initialState: FilesManagerState = {
   },
   uploadBlocked: false,
   error: null,
-  uploadPendingFiles: [],
   duplicatedFiles: [],
   invalidFiles: [],
 }
@@ -91,13 +88,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           }
         }
 
-        return {
-          ...state,
-          uploading: State.Failed,
-          error: action.payload as AppError,
-        }
-      })
-      .addCase(continuePendingUpload.rejected, (state, action) => {
         return {
           ...state,
           uploading: State.Failed,
@@ -195,12 +185,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         return {
           ...state,
           deletingFileCount: action.payload,
-        }
-      })
-      .addCase(setPendingFilesToUpload, (state, action) => {
-        return {
-          ...state,
-          uploadPendingFiles: action.payload,
         }
       })
       .addCase(setDuplicatedFiles, (state, action) => {

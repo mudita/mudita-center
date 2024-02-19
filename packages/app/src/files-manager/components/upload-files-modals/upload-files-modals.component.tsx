@@ -13,7 +13,6 @@ import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
-import PendingUploadModal from "App/files-manager/components/pending-upload-modal/pending-upload-modal.component"
 import DuplicatedFilesModal from "App/files-manager/components/duplicated-files-modal/duplicated-files-modal.component"
 import UnsupportedFileFormatModal from "App/files-manager/components/unsupported-file-format-modal/unsupported-file-format-modal.component"
 import UnsupportedFileSizeModal from "App/files-manager/components/unsupported-file-size-modal/unsupported-file-size-modal.component"
@@ -44,10 +43,6 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
   uploading,
   uploadingInfo,
   onCloseUploadingErrorModal,
-  pendingUpload,
-  pendingFilesCount,
-  onAbortPendingUpload,
-  onContinuePendingUpload,
 }) => {
   const errorTitle =
     error?.type === FilesManagerError.NotEnoughSpace
@@ -60,13 +55,6 @@ export const UploadFilesModals: FunctionComponent<UploadFilesModalProps> = ({
 
   return (
     <>
-      {pendingUpload && (
-        <PendingUploadModal
-          filesCount={pendingFilesCount}
-          onClose={onAbortPendingUpload}
-          onOk={onContinuePendingUpload}
-        />
-      )}
       {uploading && (
         <LoaderModal
           testId={UploadFilesModalsTestIds.LoadingModal}
