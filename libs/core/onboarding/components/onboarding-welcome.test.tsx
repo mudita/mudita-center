@@ -16,7 +16,7 @@ test("onboarding: welcome Not now button works properly", async () => {
     <OnboardingWelcome onCancel={onCancel} />
   )
 
-  fireEvent.click(getByText("[value] module.onboarding.welcomeButton"))
+  fireEvent.click(getByText("[value] module.onboarding.primaryButton"))
   expect(onCancel).toBeCalled()
 })
 
@@ -29,7 +29,7 @@ test("onboarding: phone doesn't show up button works properly button works prope
   )
 
   fireEvent.click(
-    getByText("[value] module.onboarding.welcomeTroubleshootingButton")
+    getByText("[value] module.onboarding.secondaryButton")
   )
   expect(onTroubleshooting).toBeCalled()
 })
