@@ -7,35 +7,30 @@ import React from "react"
 import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import OnboardingTroubleshootingUI from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui.component"
+import { OnboardingTroubleshootingUiTestIds } from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui-test-ids"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/require-await
-test("troubleshooting retry button works properly", async () => {
+test("troubleshooting retry button works properly", () => {
   const onRetry = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
     <OnboardingTroubleshootingUI onRetry={onRetry} />
   )
 
-  fireEvent.click(getByTestId("retry"))
+  fireEvent.click(getByTestId(OnboardingTroubleshootingUiTestIds.Retry))
   expect(onRetry).toBeCalled()
 })
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/require-await
-test("troubleshooting contact button works properly", async () => {
+test("troubleshooting contact button works properly", () => {
   const onContact = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
     <OnboardingTroubleshootingUI onContact={onContact} />
   )
 
-  fireEvent.click(getByTestId("contact-support"))
+  fireEvent.click(getByTestId(OnboardingTroubleshootingUiTestIds.ContactSupport))
   expect(onContact).toBeCalled()
 })
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/require-await
-test("troubleshooting more instructions button works properly", async () => {
+test("troubleshooting more instructions button works properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(<OnboardingTroubleshootingUI />)
-  fireEvent.click(getByTestId("more-instructions"))
-  expect(getByTestId("more-steps")).toBeInTheDocument()
+  fireEvent.click(getByTestId(OnboardingTroubleshootingUiTestIds.MoreInstructions))
+  expect(getByTestId(OnboardingTroubleshootingUiTestIds.MoreSteps)).toBeInTheDocument()
 })

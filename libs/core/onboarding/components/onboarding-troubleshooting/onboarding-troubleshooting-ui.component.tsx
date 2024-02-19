@@ -29,6 +29,7 @@ import {
   Support,
   TextSorry,
 } from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui.styled"
+import { OnboardingTroubleshootingUiTestIds } from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui-test-ids"
 
 const messages = defineMessages({
   troubleshootingSorry: { id: "module.onboarding.troubleshootingSorry" },
@@ -117,7 +118,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
         <AccordionButton
           onClick={handleClick}
           openMore={openMore}
-          data-testid="more-instructions"
+          data-testid={OnboardingTroubleshootingUiTestIds.MoreInstructions}
         >
           <Text
             displayStyle={TextDisplayStyle.Button}
@@ -127,7 +128,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           <Icon type={IconType.Arrow} size={IconSize.Small} />
         </AccordionButton>
         {openMore && (
-          <MoreSteps data-testid="more-steps">
+          <MoreSteps data-testid={OnboardingTroubleshootingUiTestIds.MoreSteps}>
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.Paragraph4}
@@ -156,7 +157,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           type={ButtonType.Button}
           labelMessage={messages.troubleshootingButton}
           onClick={onRetry}
-          data-testid="retry"
+          data-testid={OnboardingTroubleshootingUiTestIds.Retry}
         />
         <Support>
           <Text
@@ -168,7 +169,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
             displayStyle={DisplayStyle.ActionLink}
             labelMessage={messages.supportButton}
             onClick={onContact}
-            data-testid="contact-support"
+            data-testid={OnboardingTroubleshootingUiTestIds.ContactSupport}
           />
         </Support>
       </footer>
