@@ -18,16 +18,15 @@ import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import { Title } from "Core/__deprecated__/renderer/components/core/text/title-text.styled"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import {
-  AccordionButton,
-  Instruction,
-  MoreSteps,
-  OnboardingTroubleshootingWrapper,
-  Steps,
-  Support,
-  TextSorry,
+  MoreInstructionsButton,
+  InstructionTitle,
+  MoreStepsContent,
+  Container,
+  StepsContent,
+  SupportButtonContainer,
+  SubheaderTitle, HeaderTitle, Content, ButtonsContainer,
 } from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui.styled"
 import { OnboardingTroubleshootingUiTestIds } from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui-test-ids"
 
@@ -77,23 +76,21 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
     setOpenMore((openMore) => !openMore)
   }
   return (
-    <OnboardingTroubleshootingWrapper>
-      <header>
-        <TextSorry
+    <Container>
+      <Content>
+        <HeaderTitle
           displayStyle={TextDisplayStyle.Paragraph1}
           message={messages.troubleshootingSorry}
         />
-        <Title
+        <SubheaderTitle
           displayStyle={TextDisplayStyle.Headline1}
           message={messages.troubleshootingTitle}
         />
-        <Instruction
+        <InstructionTitle
           displayStyle={TextDisplayStyle.Paragraph1}
           message={messages.troubleshootingInstruction}
         />
-      </header>
-      <main>
-        <Steps>
+        <StepsContent>
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
@@ -114,8 +111,8 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.Paragraph1}
             message={messages.troubleshootingSteps4}
           />
-        </Steps>
-        <AccordionButton
+        </StepsContent>
+        <MoreInstructionsButton
           onClick={handleClick}
           openMore={openMore}
           data-testid={OnboardingTroubleshootingUiTestIds.MoreInstructions}
@@ -126,9 +123,9 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
             message={messages.troubleshootingMoreInstructions}
           />
           <Icon type={IconType.Arrow} size={IconSize.Small} />
-        </AccordionButton>
+        </MoreInstructionsButton>
         {openMore && (
-          <MoreSteps data-testid={OnboardingTroubleshootingUiTestIds.MoreSteps}>
+          <MoreStepsContent data-testid={OnboardingTroubleshootingUiTestIds.MoreSteps}>
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.Paragraph4}
@@ -149,17 +146,17 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
               displayStyle={TextDisplayStyle.Paragraph4}
               message={messages.troubleshootingMoreSteps4}
             />
-          </MoreSteps>
+          </MoreStepsContent>
         )}
-      </main>
-      <footer>
+      </Content>
+      <ButtonsContainer>
         <ButtonComponent
           type={ButtonType.Button}
           labelMessage={messages.troubleshootingButton}
           onClick={onRetry}
           data-testid={OnboardingTroubleshootingUiTestIds.Retry}
         />
-        <Support>
+        <SupportButtonContainer>
           <Text
             displayStyle={TextDisplayStyle.Label}
             color="disabled"
@@ -171,9 +168,9 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
             onClick={onContact}
             data-testid={OnboardingTroubleshootingUiTestIds.ContactSupport}
           />
-        </Support>
-      </footer>
-    </OnboardingTroubleshootingWrapper>
+        </SupportButtonContainer>
+      </ButtonsContainer>
+    </Container>
   )
 }
 

@@ -3,53 +3,49 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { backgroundColor, fontWeight, textColor } from "Core/core/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  fontWeight,
+  textColor,
+} from "Core/core/styles/theming/theme-getters"
 
-export const OnboardingTroubleshootingWrapper = styled.section`
+const baseContainerStyles = css`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+`
+
+export const Container = styled.section`
   display: grid;
-  grid-template-areas: "Header" "Main" "Footer";
+  grid-template-areas: "Content" "ButtonsContainer";
   grid-row-gap: 0;
-  grid-template-rows: 12.7rem 1fr 14rem;
+  grid-template-rows: auto 14rem;
+  width: 100%;
+`
+export const Content = styled.main`
+  ${baseContainerStyles};
+  grid-area: Content;`
 
-  header,
-  main,
-  footer {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  header {
-    grid-area: Header;
-
-    p {
-      font-weight: ${fontWeight("light")};
-    }
-  }
-
-  main {
-    grid-area: Main;
-  }
-
-  footer {
-    grid-area: Footer;
-  }
+export const HeaderTitle = styled(Text)`
+  margin-bottom: 0.8rem;
 `
 
-export const MoreSteps = styled.ul`
-  list-style-type: "- ";
-  text-align: left;
-  li {
-    color: ${textColor("primary")};
-    margin-bottom: 0.8rem;
-    font-weight: ${fontWeight("light")};
-  }
+export const SubheaderTitle = styled(Text)`
+  font-size: 3rem;
+  margin-bottom: 0.8rem;
+  font-weight: ${fontWeight("default")};
 `
 
-export const Steps = styled.ol`
+export const InstructionTitle = styled(Text)`
+  margin-bottom: 2.4rem;
+  margin-top: 1.6rem;
+  color: ${textColor("secondary")};
+`
+
+export const StepsContent = styled.ol`
   min-width: 38rem;
   text-align: left;
   background-color: ${backgroundColor("main")};
@@ -64,32 +60,7 @@ export const Steps = styled.ol`
   }
 `
 
-export const Support = styled.div`
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-weight: ${fontWeight("light")};
-
-  button {
-    margin-left: 0.4rem;
-    padding: 0.4rem;
-    width: auto;
-    height: auto;
-  }
-`
-
-export const TextSorry = styled(Text)`
-  margin-bottom: 0.8rem;
-`
-
-export const Instruction = styled(Text)`
-  margin-bottom: 2.4rem;
-  margin-top: 1.6rem;
-  color: ${textColor("secondary")};
-`
-
-export const AccordionButton = styled.button<{ openMore?: boolean }>`
+export const MoreInstructionsButton = styled.button<{ openMore?: boolean }>`
   border: none;
   background: none;
   display: flex;
@@ -106,5 +77,35 @@ export const AccordionButton = styled.button<{ openMore?: boolean }>`
     svg {
       transform: rotate(${({ openMore }) => (openMore ? 270 : 90)}deg);
     }
+  }
+`
+
+export const MoreStepsContent = styled.ul`
+  list-style-type: "- ";
+  text-align: left;
+  li {
+    color: ${textColor("primary")};
+    margin-bottom: 0.8rem;
+    font-weight: ${fontWeight("light")};
+  }
+`
+
+export const ButtonsContainer = styled.div`
+  ${baseContainerStyles};
+  grid-area: ButtonsContainer;
+`
+
+export const SupportButtonContainer = styled.div`
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: ${fontWeight("light")};
+
+  button {
+    margin-left: 0.4rem;
+    padding: 0.4rem;
+    width: auto;
+    height: auto;
   }
 `
