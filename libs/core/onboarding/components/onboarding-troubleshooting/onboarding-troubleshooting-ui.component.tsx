@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from "react"
+import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
@@ -13,123 +14,57 @@ import {
   DisplayStyle,
   Type as ButtonType,
 } from "Core/__deprecated__/renderer/components/core/button/button.config"
-import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
-import styled from "styled-components"
-import {
-  backgroundColor,
-  fontWeight,
-  textColor,
-} from "Core/core/styles/theming/theme-getters"
 import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { Title } from "Core/__deprecated__/renderer/components/core/text/title-text.styled"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
+import {
+  AccordionButton,
+  Instruction,
+  MoreSteps,
+  OnboardingTroubleshootingWrapper,
+  Steps,
+  Support,
+  TextSorry,
+} from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui.styled"
 
-export const OnboardingTroubleshootingWrapper = styled.section`
-  display: grid;
-  grid-template-areas: "Header" "Main" "Footer";
-  grid-row-gap: 0;
-  grid-template-rows: 12.7rem 1fr 14rem;
-
-  header,
-  main,
-  footer {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  header {
-    grid-area: Header;
-
-    p {
-      font-weight: ${fontWeight("light")};
-    }
-  }
-
-  main {
-    grid-area: Main;
-  }
-
-  footer {
-    grid-area: Footer;
-  }
-`
-
-const MoreSteps = styled.ul`
-  list-style-type: "- ";
-  text-align: left;
-  li {
-    color: ${textColor("primary")};
-    margin-bottom: 0.8rem;
-    font-weight: ${fontWeight("light")};
-  }
-`
-
-const Steps = styled.ol`
-  min-width: 38rem;
-  text-align: left;
-  background-color: ${backgroundColor("main")};
-  padding: 2.4rem;
-  margin: 0;
-  > li {
-    margin-left: 1.6rem;
-
-    &:not(:first-of-type) {
-      margin-top: 1.6rem;
-    }
-  }
-`
-
-const Support = styled.div`
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-weight: ${fontWeight("light")};
-
-  button {
-    margin-left: 0.4rem;
-    padding: 0.4rem;
-    width: auto;
-    height: auto;
-  }
-`
-const TextSorry = styled(Text)`
-  margin-bottom: 0.8rem;
-`
-
-const Instruction = styled(Text)`
-  margin-bottom: 2.4rem;
-  margin-top: 1.6rem;
-  color: ${textColor("secondary")};
-`
-const AccordionButton = styled.button<{ openMore?: boolean }>`
-  border: none;
-  background: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  margin-top: 2.9rem;
-  margin-bottom: 1.4rem;
-  &:focus {
-    outline: none;
-  }
-  span {
-    margin-left: 0.8rem;
-    svg {
-      transform: rotate(${({ openMore }) => (openMore ? 270 : 90)}deg);
-    }
-  }
-`
+const messages = defineMessages({
+  troubleshootingSorry: { id: "module.onboarding.troubleshootingSorry" },
+  troubleshootingTitle: { id: "module.onboarding.troubleshootingTitle" },
+  troubleshootingInstruction: {
+    id: "module.onboarding.troubleshootingInstruction",
+  },
+  troubleshootingSteps1: { id: "module.onboarding.troubleshootingSteps1" },
+  troubleshootingSteps2: { id: "module.onboarding.troubleshootingSteps2" },
+  troubleshootingSteps3: { id: "module.onboarding.troubleshootingSteps3" },
+  troubleshootingSteps4: { id: "module.onboarding.troubleshootingSteps4" },
+  troubleshootingMoreInstructions: {
+    id: "module.onboarding.troubleshootingMoreInstructions",
+  },
+  troubleshootingMoreSteps1: {
+    id: "module.onboarding.troubleshootingMoreSteps1",
+  },
+  troubleshootingMoreSteps2: {
+    id: "module.onboarding.troubleshootingMoreSteps2",
+  },
+  troubleshootingMoreSteps3: {
+    id: "module.onboarding.troubleshootingMoreSteps3",
+  },
+  troubleshootingMoreSteps4: {
+    id: "module.onboarding.troubleshootingMoreSteps4",
+  },
+  troubleshootingButton: { id: "module.onboarding.troubleshootingButton" },
+  troubleshootingSupportMessage: {
+    id: "module.onboarding.troubleshootingSupportMessage",
+  },
+  supportButton: { id: "module.onboarding.supportButton" },
+})
 
 interface Props {
-  onRetry?: () => void
-  onContact?: () => void
+  onRetry?: VoidFunction
+  onContact?: VoidFunction
 }
 
 const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
@@ -145,18 +80,15 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
       <header>
         <TextSorry
           displayStyle={TextDisplayStyle.Paragraph1}
-          message={{ id: "module.onboarding.troubleshootingSorry" }}
+          message={messages.troubleshootingSorry}
         />
         <Title
           displayStyle={TextDisplayStyle.Headline1}
-          message={{
-            id: "module.onboarding.troubleshootingTitle",
-            values: textFormatters,
-          }}
+          message={messages.troubleshootingTitle}
         />
         <Instruction
           displayStyle={TextDisplayStyle.Paragraph1}
-          message={{ id: "module.onboarding.troubleshootingInstruction" }}
+          message={messages.troubleshootingInstruction}
         />
       </header>
       <main>
@@ -164,22 +96,22 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
-            message={{ id: "module.onboarding.troubleshootingSteps1" }}
+            message={messages.troubleshootingSteps1}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
-            message={{ id: "module.onboarding.troubleshootingSteps2" }}
+            message={messages.troubleshootingSteps2}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
-            message={{ id: "module.onboarding.troubleshootingSteps3" }}
+            message={messages.troubleshootingSteps3}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
-            message={{ id: "module.onboarding.troubleshootingSteps4" }}
+            message={messages.troubleshootingSteps4}
           />
         </Steps>
         <AccordionButton
@@ -190,9 +122,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           <Text
             displayStyle={TextDisplayStyle.Button}
             color="action"
-            message={{
-              id: "module.onboarding.troubleshootingMoreInstructions",
-            }}
+            message={messages.troubleshootingMoreInstructions}
           />
           <Icon type={IconType.Arrow} size={IconSize.Small} />
         </AccordionButton>
@@ -201,22 +131,22 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.Paragraph4}
-              message={{ id: "module.onboarding.troubleshootingMoreSteps1" }}
+              message={messages.troubleshootingMoreSteps1}
             />
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.Paragraph4}
-              message={{ id: "module.onboarding.troubleshootingMoreSteps2" }}
+              message={messages.troubleshootingMoreSteps2}
             />
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.Paragraph4}
-              message={{ id: "module.onboarding.troubleshootingMoreSteps3" }}
+              message={messages.troubleshootingMoreSteps3}
             />
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.Paragraph4}
-              message={{ id: "module.onboarding.troubleshootingMoreSteps4" }}
+              message={messages.troubleshootingMoreSteps4}
             />
           </MoreSteps>
         )}
@@ -224,9 +154,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
       <footer>
         <ButtonComponent
           type={ButtonType.Button}
-          label={intl.formatMessage({
-            id: "module.onboarding.troubleshootingButton",
-          })}
+          labelMessage={messages.troubleshootingButton}
           onClick={onRetry}
           data-testid="retry"
         />
@@ -234,15 +162,11 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           <Text
             displayStyle={TextDisplayStyle.Label}
             color="disabled"
-            message={{
-              id: "module.onboarding.troubleshootingSupportMessage",
-            }}
+            message={messages.troubleshootingSupportMessage}
           />
           <ButtonComponent
             displayStyle={DisplayStyle.ActionLink}
-            labelMessage={{
-              id: "module.onboarding.supportButton",
-            }}
+            labelMessage={messages.supportButton}
             onClick={onContact}
             data-testid="contact-support"
           />
