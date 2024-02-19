@@ -77,7 +77,7 @@ const getValidatorByComponentName = (component: string) => {
       return null
   }
 }
-const cleanKeyName = (key: string) => {
+const fixKeyName = (key: string) => {
   return key.replace("modal-content", "").replace("updateversion", "update")
 }
 
@@ -97,7 +97,7 @@ export const OverviewDataBaseValidator = (config: View) => {
     if (!item) return acc
     const { key, component } = item
 
-    const cleanKey = cleanKeyName(key)
+    const cleanKey = fixKeyName(key)
     const validator = getValidatorByComponentName(component)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return {

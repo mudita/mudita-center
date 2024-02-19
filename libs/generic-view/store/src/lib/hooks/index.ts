@@ -6,3 +6,4 @@
 export * from "./use-api-serial-port-listeners"
 export * from "./use-outbox"
 export * from "./use-screen-title"
+export * from "./use-locked-device-handler"
