@@ -8,11 +8,13 @@ import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
+import { ApiResponse } from "Core/device/types/mudita-os"
 import {
   APIBackupServiceEvents,
   GeneralError,
   PreBackup,
-  PreBackupValidator,
+  PreBackupValidator200,
+  PreBackupValidator202,
 } from "device/models"
 import { random } from "lodash"
 
@@ -46,22 +48,7 @@ export class APIBackupService {
       },
     })
 
-    if (response.ok) {
-      const startBackupResponse = PreBackupValidator(features).safeParse(
-        response.data.body
-      )
-
-      const success =
-        startBackupResponse.success &&
-        ((response.data.status === 200 && startBackupResponse.data.features) ||
-          (response.data.status === 202 && !startBackupResponse.data.features))
-
-      return success
-        ? Result.success(startBackupResponse.data as PreBackup)
-        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
-    }
-
-    return Result.failed(response.error)
+    return this.parsePreBackupResponse(response, features)
   }
 
   @IpcEvent(APIBackupServiceEvents.CheckPreBackup)
@@ -90,22 +77,7 @@ export class APIBackupService {
       },
     })
 
-    if (response.ok) {
-      const startBackupResponse = PreBackupValidator(features).safeParse(
-        response.data.body
-      )
-
-      const success =
-        startBackupResponse.success &&
-        ((response.data.status === 200 && startBackupResponse.data.features) ||
-          (response.data.status === 202 && !startBackupResponse.data.features))
-
-      return success
-        ? Result.success(startBackupResponse.data as PreBackup)
-        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
-    }
-
-    return Result.failed(response.error)
+    return this.parsePreBackupResponse(response, features)
   }
 
   @IpcEvent(APIBackupServiceEvents.PostBackup)
@@ -137,5 +109,35 @@ export class APIBackupService {
     }
 
     return Result.failed(response.error)
+  }
+
+  private parsePreBackupResponse(
+    response: ResultObject<ApiResponse<unknown>, string, unknown>,
+    features: string[]
+  ) {
+    if (!response.ok) {
+      return Result.failed(response.error)
+    }
+
+    if (response.data.status === 200) {
+      const parsedResponse200 = PreBackupValidator200(features).safeParse(
+        response.data.body
+      )
+
+      if (parsedResponse200.success) {
+        return Result.success(parsedResponse200.data)
+      }
+    }
+    if (response.data.status === 202) {
+      const parsedResponse202 = PreBackupValidator202(features).safeParse(
+        response.data.body
+      )
+
+      if (parsedResponse202.success) {
+        return Result.success(parsedResponse202.data)
+      }
+    }
+
+    return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
   }
 }
