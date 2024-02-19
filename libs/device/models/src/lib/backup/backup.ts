@@ -5,7 +5,20 @@
 
 import { z } from "zod"
 
-export const PreBackupValidator = (features: string[]) => {
+export const PreBackupValidator200 = (features: string[]) => {
+  const featuresValidator = features.reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: z.string().min(1),
+    }
+  }, {} as Record<string, z.ZodString>)
+
+  return z.object({
+    backupId: z.number().min(1),
+    features: z.object(featuresValidator),
+  })
+}
+export const PreBackupValidator202 = (features: string[]) => {
   const featuresValidator = features.reduce((acc, key) => {
     return {
       ...acc,
@@ -19,4 +32,4 @@ export const PreBackupValidator = (features: string[]) => {
   })
 }
 
-export type PreBackup = z.infer<ReturnType<typeof PreBackupValidator>>
+export type PreBackup = z.infer<ReturnType<typeof PreBackupValidator202>>

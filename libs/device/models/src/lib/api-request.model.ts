@@ -12,6 +12,8 @@ const APIEndpoints = {
   Outbox: "OUTBOX",
   PreBackup: "PRE_BACKUP",
   PostBackup: "POST_BACKUP",
+  PreRestore: "PRE_RESTORE",
+  Restore: "RESTORE",
 } as const
 
 export type APIEndpointType = (typeof APIEndpoints)[keyof typeof APIEndpoints]
@@ -34,6 +36,8 @@ const APIRequests = {
   OUTBOX: [APIMethods.GET],
   PRE_BACKUP: [APIMethods.POST, APIMethods.GET],
   POST_BACKUP: [APIMethods.POST],
+  PRE_RESTORE: [APIMethods.POST],
+  RESTORE: [APIMethods.POST, APIMethods.GET],
 } as const
 
 interface APIRequestConfig<
