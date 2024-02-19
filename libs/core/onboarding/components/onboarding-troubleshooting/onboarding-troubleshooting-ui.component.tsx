@@ -26,7 +26,11 @@ import {
   Container,
   StepsContent,
   SupportButtonContainer,
-  SubheaderTitle, HeaderTitle, Content, ButtonsContainer,
+  SubheaderTitle,
+  HeaderTitle,
+  Content,
+  ActionsContainer,
+  MainActionsContainer,
 } from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui.styled"
 import { OnboardingTroubleshootingUiTestIds } from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting-ui-test-ids"
 
@@ -55,6 +59,7 @@ const messages = defineMessages({
   troubleshootingMoreSteps4: {
     id: "module.onboarding.troubleshootingMoreSteps4",
   },
+  changeDeviceButton: { id: "module.onboarding.changeDeviceButton" },
   troubleshootingButton: { id: "module.onboarding.troubleshootingButton" },
   troubleshootingSupportMessage: {
     id: "module.onboarding.troubleshootingSupportMessage",
@@ -64,11 +69,13 @@ const messages = defineMessages({
 
 interface Props {
   onRetry?: VoidFunction
+  onChangeDeviceButtonClick?: VoidFunction
   onContact?: VoidFunction
 }
 
 const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
   onRetry = noop,
+  onChangeDeviceButtonClick = noop,
   onContact = noop,
 }) => {
   const [openMore, setOpenMore] = useState(false)
@@ -83,11 +90,11 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           message={messages.troubleshootingSorry}
         />
         <SubheaderTitle
-          displayStyle={TextDisplayStyle.Headline1}
+          displayStyle={TextDisplayStyle.Headline2}
           message={messages.troubleshootingTitle}
         />
         <InstructionTitle
-          displayStyle={TextDisplayStyle.Paragraph1}
+          displayStyle={TextDisplayStyle.Paragraph2}
           message={messages.troubleshootingInstruction}
         />
         <StepsContent>
@@ -125,7 +132,9 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           <Icon type={IconType.Arrow} size={IconSize.Small} />
         </MoreInstructionsButton>
         {openMore && (
-          <MoreStepsContent data-testid={OnboardingTroubleshootingUiTestIds.MoreSteps}>
+          <MoreStepsContent
+            data-testid={OnboardingTroubleshootingUiTestIds.MoreSteps}
+          >
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.Paragraph4}
@@ -149,13 +158,21 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
           </MoreStepsContent>
         )}
       </Content>
-      <ButtonsContainer>
-        <ButtonComponent
-          type={ButtonType.Button}
-          labelMessage={messages.troubleshootingButton}
-          onClick={onRetry}
-          data-testid={OnboardingTroubleshootingUiTestIds.Retry}
-        />
+      <ActionsContainer>
+        <MainActionsContainer>
+          <ButtonComponent
+            type={ButtonType.Button}
+            labelMessage={messages.changeDeviceButton}
+            onClick={onChangeDeviceButtonClick}
+            displayStyle={DisplayStyle.Secondary}
+          />
+          <ButtonComponent
+            type={ButtonType.Button}
+            labelMessage={messages.troubleshootingButton}
+            onClick={onRetry}
+            data-testid={OnboardingTroubleshootingUiTestIds.Retry}
+          />
+        </MainActionsContainer>
         <SupportButtonContainer>
           <Text
             displayStyle={TextDisplayStyle.Label}
@@ -169,7 +186,7 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
             data-testid={OnboardingTroubleshootingUiTestIds.ContactSupport}
           />
         </SupportButtonContainer>
-      </ButtonsContainer>
+      </ActionsContainer>
     </Container>
   )
 }
