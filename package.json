@@ -259,6 +259,7 @@
     "npm": "9.5.1"
   },
   "dependencies": {
+    "crc-32": "^1.2.2",
     "react-is": "18.2.0",
     "react-markdown": "^9.0.1",
     "serialport": "10.1.0",
