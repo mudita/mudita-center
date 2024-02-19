@@ -87,15 +87,12 @@ describe("RestoreValidator", () => {
     expect(result.success).toBeTruthy()
   })
   describe("RestoreValidator.progress", () => {
-    it.each([-1, 101])(
-      "should return fail when progress is to %s",
-      (progress) => {
-        const restore = { progress }
+    it.each([-1, 101])("should return fail when progress is %s", (progress) => {
+      const restore = { progress }
 
-        const result = RestoreValidator.safeParse(restore)
-        expect(result.success).toBeFalsy()
-      }
-    )
+      const result = RestoreValidator.safeParse(restore)
+      expect(result.success).toBeFalsy()
+    })
     it.each([0, 99])(
       "should return success when progress is %s",
       (progress) => {
