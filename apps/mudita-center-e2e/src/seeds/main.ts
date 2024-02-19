@@ -9,7 +9,7 @@ import { SeedDataResult } from "./types"
 
 const seedService = new SeedServiceFactory().create()
 
-let seedResult: SeedDataResult
+let seedResult: SeedDataResult | undefined
 
 export const seedData = async (specFileName: string) => {
   const data = resolveSeedData(specFileName)
