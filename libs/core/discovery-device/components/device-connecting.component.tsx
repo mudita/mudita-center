@@ -13,6 +13,7 @@ import { TmpDispatch } from "Core/__deprecated__/renderer/store"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 import {
   URL_DEVICE_INITIALIZATION,
+  URL_DISCOVERY_DEVICE,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { connectDevice } from "Core/device-manager/actions/connect-device.action"
@@ -35,6 +36,8 @@ const DeviceConnecting: FunctionComponent = () => {
           await delay(500)
           history.push(URL_ONBOARDING.troubleshooting)
         }
+      } else {
+        history.push(URL_DISCOVERY_DEVICE.root)
       }
     }
 

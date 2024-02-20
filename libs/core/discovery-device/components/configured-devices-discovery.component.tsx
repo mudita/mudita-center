@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -70,7 +70,21 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
     noNewDevicesDetectedState,
   ])
 
+  const isAnyDeviceAttachedOnInitialRender = useRef<boolean | undefined>(undefined)
   useEffect(() => {
+    if(isAnyDeviceAttachedOnInitialRender.current !== undefined){
+      return
+    }
+
+    isAnyDeviceAttachedOnInitialRender.current = devices.length > 0;
+  }, [devices])
+
+  useEffect(() => {
+    if(!isAnyDeviceAttachedOnInitialRender.current && noNewDevicesDetectedState){
+      history.push(URL_ONBOARDING.troubleshooting)
+      return
+    }
+
     if (devices.length === 0 && noNewDevicesDetectedState) {
       dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
       history.push(URL_MAIN.news)
