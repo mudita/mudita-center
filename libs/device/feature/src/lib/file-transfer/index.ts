@@ -6,3 +6,4 @@
 export * from "./file-transfer.service"
 export * from "./start-pre-send-file.request"
 export * from "./send-file.request"
+export * from "./send-clear.request"

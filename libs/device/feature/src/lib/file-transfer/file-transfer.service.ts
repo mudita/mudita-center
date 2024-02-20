@@ -30,7 +30,7 @@ export class APIFileTransferService {
     private transfers: Record<string, Transfer> = {}
   ) {}
 
-  private prepareFile(path: string) {
+  private prepareFileBeforeSend(path: string) {
     const file = readFileSync(path, {
       encoding: "base64",
     })
@@ -63,7 +63,7 @@ export class APIFileTransferService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-    const { crc32, file } = this.prepareFile(filePath)
+    const { crc32, file } = this.prepareFileBeforeSend(filePath)
 
     const response = await device.request({
       endpoint: "PRE_FILE_TRANSFER",
@@ -110,10 +110,12 @@ export class APIFileTransferService {
     transferId,
     chunkNumber,
     deviceId,
+    repeats = 0,
   }: {
     transferId: number
     chunkNumber: number
     deviceId?: DeviceId
+    repeats: number
   }): Promise<ResultObject<TransferSend>> {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
@@ -136,6 +138,14 @@ export class APIFileTransferService {
     })
 
     if (!response.ok) {
+      if (repeats < 2) {
+        await this.transferSend({
+          transferId,
+          chunkNumber,
+          deviceId,
+          repeats: repeats + 1,
+        })
+      }
       return Result.failed(response.error)
     }
 

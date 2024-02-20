@@ -5,7 +5,11 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { sendFileRequest, startPreSendFileRequest } from "device/feature"
+import {
+  sendClearRequest,
+  sendFileRequest,
+  startPreSendFileRequest,
+} from "device/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ActionName } from "../action-names"
 import { fileTransferChunkSent, fileTransferPrepared } from "./actions"
@@ -42,6 +46,7 @@ export const sendFile = createAsyncThunk<
           })
         )
       }
+      await sendClearRequest(transferId)
       return { transferId }
     } else {
       return rejectWithValue({
