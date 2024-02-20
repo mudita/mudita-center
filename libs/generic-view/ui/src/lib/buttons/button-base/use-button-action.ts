@@ -9,16 +9,20 @@ import {
   closeModal,
   openModal,
   replaceModal,
+  selectActiveDevice,
+  sendFile,
   useScreenTitle,
 } from "generic-view/store"
 import { ButtonAction } from "generic-view/utils"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 export const useButtonAction = (viewKey: string) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<Dispatch>()
   const navigate = useHistory()
   const currentViewName = useScreenTitle(viewKey)
+  const deviceId = useSelector(selectActiveDevice)
 
   return (action: ButtonAction) => {
     switch (action.type) {
@@ -57,6 +61,14 @@ export const useButtonAction = (viewKey: string) => {
           },
         })
         break
+      case "backup-data":
+        dispatch(
+          sendFile({
+            deviceId: deviceId!,
+            filePath: "/Users/mike/Desktop/test.png",
+            targetPath: "/storage/emulated/0/Documents/example.png",
+          })
+        )
     }
   }
 }

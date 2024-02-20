@@ -89,6 +89,7 @@
     "@types/electron-localshortcut": "^3.1.0",
     "@types/history": "^4.7.9",
     "@types/jest": "^29.5.6",
+    "@types/js-crc": "^0.2.3",
     "@types/lodash": "^4.14.182",
     "@types/mime-types": "2.1.2",
     "@types/mock-fs": "^4.13.1",
@@ -259,7 +260,7 @@
     "npm": "9.5.1"
   },
   "dependencies": {
-    "crc-32": "^1.2.2",
+    "js-crc": "^0.2.0",
     "react-is": "18.2.0",
     "react-markdown": "^9.0.1",
     "serialport": "10.1.0",

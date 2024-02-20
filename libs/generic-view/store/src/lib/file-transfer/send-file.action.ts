@@ -12,13 +12,14 @@ import { fileTransferChunkSent, fileTransferPrepared } from "./actions"
 
 export const sendFile = createAsyncThunk<
   { transferId: number },
-  { deviceId: DeviceId; filePath: string },
+  { deviceId: DeviceId; filePath: string; targetPath: string },
   { state: ReduxRootState }
 >(
   ActionName.FileTransferSend,
-  async ({ deviceId, filePath }, { rejectWithValue, dispatch }) => {
+  async ({ deviceId, filePath, targetPath }, { rejectWithValue, dispatch }) => {
     const preTransferResponse = await startPreSendFileRequest(
       filePath,
+      targetPath,
       deviceId
     )
 

@@ -10,6 +10,7 @@ import { APIBackupService } from "./backup"
 import { APIMenuService } from "./menu"
 import { APIOutboxService } from "./outbox/outbox.service"
 import { ServerService } from "./server/server.service"
+import { APIFileTransferService } from "./file-transfer"
 
 export class APIModule {
   private apiConfigService: APIConfigService
@@ -18,6 +19,7 @@ export class APIModule {
   private apiMenuService: APIMenuService
   private serverService: ServerService
   private backupService: APIBackupService
+  private fileTransferService: APIFileTransferService
 
   constructor(deviceManager: DeviceManager) {
     this.apiConfigService = new APIConfigService(deviceManager)
@@ -26,6 +28,7 @@ export class APIModule {
     this.apiMenuService = new APIMenuService(deviceManager)
     this.serverService = new ServerService()
     this.backupService = new APIBackupService(deviceManager)
+    this.fileTransferService = new APIFileTransferService(deviceManager)
   }
 
   public getAPIServices() {
@@ -36,6 +39,7 @@ export class APIModule {
       this.apiMenuService,
       this.serverService,
       this.backupService,
+      this.fileTransferService,
     ]
   }
 }

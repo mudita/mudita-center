@@ -10,6 +10,7 @@ import { ResultObject } from "Core/core/builder"
 
 export const startPreSendFileRequest = (
   filePath: string,
+  targetPath: string,
   deviceId?: DeviceId
 ): Promise<
   ResultObject<{
@@ -19,6 +20,7 @@ export const startPreSendFileRequest = (
 > => {
   return ipcRenderer.callMain(ApiFileTransferServiceEvents.PreSend, {
     filePath,
+    targetPath,
     deviceId,
   })
 }

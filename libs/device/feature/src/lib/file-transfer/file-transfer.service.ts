@@ -16,10 +16,10 @@ import {
   TransferSendValidator,
 } from "device/models"
 import { readFileSync } from "fs-extra"
-import crc32 from "crc-32"
+import crc from "js-crc"
 
 interface Transfer {
-  crc32: number
+  crc32: string
   fileSize: number
   chunks: string[]
 }
@@ -31,12 +31,12 @@ export class APIFileTransferService {
   ) {}
 
   private prepareFile(path: string) {
-    const file = readFileSync(path, "utf8")
-    const base64File = Buffer.from(file).toString("base64")
-
+    const file = readFileSync(path, {
+      encoding: "base64",
+    })
     return {
-      file: base64File,
-      crc32: crc32.str(base64File),
+      file,
+      crc32: crc.crc32(file),
     }
   }
 
@@ -44,9 +44,11 @@ export class APIFileTransferService {
   @IpcEvent(ApiFileTransferServiceEvents.PreSend)
   public async preTransferSend({
     filePath,
+    targetPath,
     deviceId,
   }: {
     filePath: string
+    targetPath: string
     deviceId?: DeviceId
   }): Promise<
     ResultObject<{
@@ -67,7 +69,7 @@ export class APIFileTransferService {
       endpoint: "PRE_FILE_TRANSFER",
       method: "POST",
       body: {
-        filePath,
+        filePath: targetPath,
         fileSize: file.length,
         crc32,
       },
@@ -85,8 +87,8 @@ export class APIFileTransferService {
           crc32,
           fileSize: file.length,
           chunks:
-            new RegExp(`/.{1,${preTransferResponse.data.chunkSize}}/g`).exec(
-              file
+            file.match(
+              new RegExp(`.{1,${preTransferResponse.data.chunkSize}}`, "g")
             ) || [],
         }
       }
