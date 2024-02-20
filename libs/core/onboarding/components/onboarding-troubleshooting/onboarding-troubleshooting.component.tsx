@@ -19,8 +19,7 @@ const OnboardingTroubleshooting: FunctionComponent = () => {
   const devices = useSelector(getDevicesSelector)
 
   const handleRetryButtonClick = useCallback(() => {
-    // TODO: do some logic to retry connection
-    history.push(URL_DISCOVERY_DEVICE.root)
+    history.push(URL_DISCOVERY_DEVICE.deviceConnecting)
   }, [history])
 
   const handleContactButtonClick = useCallback(() => {

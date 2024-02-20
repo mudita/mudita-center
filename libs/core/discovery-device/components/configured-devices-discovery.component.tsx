@@ -37,27 +37,28 @@ const ConfiguredDevicesDiscovery: FunctionComponent = () => {
   const noNewDevicesDetectedState = useNoNewDevicesDetectedHook()
 
   useEffect(() => {
-    if (
-      devices.length === 1 &&
-      failedDevices.length === 1 &&
-      noNewDevicesDetectedState
-    ) {
-      history.push(URL_ONBOARDING.troubleshooting)
-      return
-    }
-
     const handleDeviceActivation = async () => {
-      await dispatch(handleDeviceActivated(devices[0].id))
-      history.push(URL_DEVICE_INITIALIZATION.root)
+      if (
+        devices.length === 1 &&
+        failedDevices.length === 1 &&
+        noNewDevicesDetectedState
+      ) {
+        await dispatch(handleDeviceActivated(devices[0].id))
+        history.push(URL_ONBOARDING.troubleshooting)
+        return
+      }
+
+      if (
+        devices.length === 1 &&
+        availableDevices.length === 1 &&
+        noNewDevicesDetectedState
+      ) {
+        await dispatch(handleDeviceActivated(devices[0].id))
+        history.push(URL_DEVICE_INITIALIZATION.root)
+      }
     }
 
-    if (
-      devices.length === 1 &&
-      availableDevices.length === 1 &&
-      noNewDevicesDetectedState
-    ) {
-      void handleDeviceActivation()
-    }
+    void handleDeviceActivation()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
