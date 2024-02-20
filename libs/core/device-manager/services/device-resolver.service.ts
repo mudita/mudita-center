@@ -33,10 +33,7 @@ export class DeviceResolverService {
       )
     }
 
-    if (
-      !descriptor &&
-      process.env.FEATURE_TOGGLE_ENVIRONMENT === "development"
-    ) {
+    if (!descriptor) {
       //TODO: temporary, remove in future
       return new APIDevice(portInfo, DeviceType.APIDevice)
     }
