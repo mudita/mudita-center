@@ -9,6 +9,7 @@ import { AppInitializationEvent } from "Core/app-initialization/constants/event.
 import { initAnalyticDataTracker } from "Core/analytic-data-tracker/helpers"
 import { checkUpdateAvailable, loadSettings } from "Core/settings/actions"
 import { checkAppRequiresSerialPortGroup } from "Core/modals-manager/actions"
+import { loadNews } from "Core/news/actions"
 
 export const startInitializingApp = createAsyncThunk<
   void,
@@ -19,4 +20,5 @@ export const startInitializingApp = createAsyncThunk<
   await dispatch(loadSettings())
   await dispatch(checkUpdateAvailable())
   await dispatch(checkAppRequiresSerialPortGroup())
+  await dispatch(loadNews())
 })

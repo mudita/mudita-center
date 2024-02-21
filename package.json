@@ -27,7 +27,7 @@
     "lint:typecheck": "tsc --noEmit",
     "app:storybook:serve": "nx storybook:serve mudita-center",
     "app:storybook:build": "nx storybook:build mudita-center",
-    "e2e:test": "nx test mudita-center-e2e"
+    "e2e:test": "nx e2e:test mudita-center-e2e"
   },
   "repository": {
     "type": "git",
@@ -127,6 +127,7 @@
     "@wdio/mocha-framework": "^7.16.13",
     "@wdio/reporter": "^7.16.14",
     "@wdio/spec-reporter": "^7.16.14",
+    "@wdio/types": "^8.31.0",
     "archiver": "^5.3.1",
     "async-mutex": "^0.4.0",
     "axios": "^0.27.2",
@@ -243,7 +244,7 @@
     "util": "^0.12.4",
     "uuid": "^9.0.1",
     "vcf": "^2.1.1",
-    "wdio-chromedriver-service": "^7.2.6",
+    "wdio-chromedriver-service": "^8.1.1",
     "wdio-json-reporter": "^3.0.0",
     "wdio-wait-for": "^2.2.1",
     "webpack": "^5.74.0",

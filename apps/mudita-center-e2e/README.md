@@ -1,29 +1,6 @@
-# `@mudita/mudita-center-e2e`
+# Mudita Center e2e
 
-The E2E testing for Mudita Center application
+This document serves as a comprehensive guide for configuring the Mudita Center project, covering the installation of necessary tools, setting up the project environment, as well as launching and troubleshooting end-to-end (e2e) tests. It is emphasized that detailed instructions for running e2e tests are available on the project's Confluence, ensuring documentation is centralized and access to a uniform knowledge base is facilitated.
 
-## Usage
+For detailed instructions on setting up and executing the e2e test environment, please refer to the following Confluence page: [E2E Test Environment Setup & Execution Guide](https://appnroll.atlassian.net/wiki/spaces/CP/pages/2168815779/E2E+test+environment+setup+execution+guide+14.02.2024).
 
-`npm run test`
-
-# Setup info
-
-https://appnroll.atlassian.net/wiki/spaces/CP/pages/1681096705/E2E+test+environment+setup+execution+guide+v2
-
-# Data seeding
-
-### What is data seeding?
-
-Adding data (contacts etc.) to the phone in order to execute tests under particular conditions.
-
-### Technical issues
-
-- We cannot seed the data when the MC application is already running (the SerialPort connection can be opened once - the application uses it to communicate with the phone).
-- It is impossible to seed data in Mocha hooks that are defined on the test level (`before`, `beforeEach` etc.) - those hooks are executed while the MC application is already running.
-- Seeding messages is a problematic matter - we cannot add them easily because it might send the messages to real people. This issue should be solved in a different way.
-
-To solve above problems, `wdio` hooks `beforeSession` and `afterSession` are used to add data to the phone and remove it after executing all tests from the file.
-
-### How to seed data for particular tests?
-
-Open `resolve-seed-data.ts` and follow the pattern to add data for tests.

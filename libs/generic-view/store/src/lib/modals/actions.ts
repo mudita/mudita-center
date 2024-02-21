@@ -5,11 +5,12 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { Modal } from "./reducer"
+import { ActionName } from "../action-names"
 
-export const openModal = createAction<Modal>("generic-modals/open-modal")
-export const closeModal = createAction<Modal>("generic-modals/close-modal")
-export const closeAllModals = createAction("generic-modals/close-all-modals")
-export const replaceModal = createAction<Modal>("generic-modals/replace-modal")
+export const openModal = createAction<Modal>(ActionName.OpenModal)
+export const closeModal = createAction<Modal>(ActionName.CloseModal)
+export const closeAllModals = createAction(ActionName.CloseAllModals)
+export const replaceModal = createAction<Modal>(ActionName.ReplaceModal)
 export const closeDomainModals = createAction<Required<Pick<Modal, "domain">>>(
-  "generic-modals/close-domain-modals"
+  ActionName.CloseDomainModals
 )

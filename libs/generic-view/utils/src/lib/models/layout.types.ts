@@ -13,6 +13,16 @@ interface Gap {
 export interface GridLayout extends Gap {
   rows: PrimitiveValue[]
   columns: PrimitiveValue[]
+  justifyContent?:
+    | "start"
+    | "end"
+    | "center"
+    | "stretch"
+    | "space-around"
+    | "space-between"
+    | "space-evenly"
+  justifyItems?: "start" | "end" | "center" | "stretch"
+  alignItems?: "start" | "end" | "center" | "stretch" | "baseline"
 }
 
 export interface GridPlacement {

@@ -87,6 +87,7 @@ export const generateMcOverviewSummaryLayout: ViewGenerator<
                 type: "navigate",
                 viewKey: "mc-overview/mc-about",
               },
+              modifiers: ["uppercase"],
             },
           },
         }

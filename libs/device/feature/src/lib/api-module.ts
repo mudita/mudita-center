@@ -6,20 +6,26 @@
 import { DeviceManager } from "Core/device-manager/services"
 import { APIConfigService } from "./api-config/api-config.service"
 import { APIFeaturesService } from "./api-features/api-features.service"
+import { APIBackupService } from "./backup"
 import { APIMenuService } from "./menu"
 import { APIOutboxService } from "./outbox/outbox.service"
+import { ServerService } from "./server/server.service"
 
 export class APIModule {
   private apiConfigService: APIConfigService
   private apiFeaturesService: APIFeaturesService
   private apiOutboxService: APIOutboxService
   private apiMenuService: APIMenuService
+  private serverService: ServerService
+  private backupService: APIBackupService
 
   constructor(deviceManager: DeviceManager) {
     this.apiConfigService = new APIConfigService(deviceManager)
     this.apiFeaturesService = new APIFeaturesService(deviceManager)
     this.apiOutboxService = new APIOutboxService(deviceManager)
     this.apiMenuService = new APIMenuService(deviceManager)
+    this.serverService = new ServerService()
+    this.backupService = new APIBackupService(deviceManager)
   }
 
   public getAPIServices() {
@@ -28,6 +34,8 @@ export class APIModule {
       this.apiFeaturesService,
       this.apiOutboxService,
       this.apiMenuService,
+      this.serverService,
+      this.backupService,
     ]
   }
 }

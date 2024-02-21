@@ -10,10 +10,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
-import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import {
-  getAPIConfig,
   selectActiveDevice,
   selectActiveDeviceMenuElements,
   selectApiError,
@@ -34,7 +31,15 @@ import { IconType } from "generic-view/utils"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import ReactModal from "react-modal"
 import styled from "styled-components"
-import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_DEVICE_INITIALIZATION,
+  URL_DISCOVERY_DEVICE,
+  URL_MAIN,
+  URL_ONBOARDING,
+} from "Core/__deprecated__/renderer/constants/urls"
+import { useFilteredRoutesHistory } from "shared/utils"
+import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
+import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 
 const messages = defineMessages({
   connectingModalParagraph: {
@@ -49,27 +54,24 @@ const messages = defineMessages({
 })
 
 export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
-  const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
+  const dispatch = useDispatch<Dispatch>()
   const firstRenderTime = useRef(Date.now())
   const deviceLocked = useSelector((state: ReduxRootState) => {
     return selectApiError(state, ApiError.DeviceLocked)
   })
   const menuElements = useSelector(selectActiveDeviceMenuElements)
   const deviceId = useSelector(selectActiveDevice)
+  const [pathToGoBack] = useFilteredRoutesHistory([
+    URL_MAIN.root,
+    ...Object.values(URL_ONBOARDING),
+    ...Object.values(URL_DISCOVERY_DEVICE),
+    ...Object.values(URL_DEVICE_INITIALIZATION),
+  ])
 
   const onModalClose = () => {
-    // TODO: handle modal close
+    history.push(pathToGoBack || URL_MAIN.news)
   }
-
-  useEffect(() => {
-    if (!deviceLocked && deviceId) {
-      dispatch(getAPIConfig({ deviceId }))
-      dispatch(
-        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
-      )
-    }
-  }, [deviceId, deviceLocked, dispatch])
 
   useEffect(() => {
     let timeout: NodeJS.Timeout
@@ -78,14 +80,17 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
       const elapsedTime = Date.now() - firstRenderTime.current
       const delay = Math.max(0, 1000 - elapsedTime)
 
+      dispatch(
+        setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
+      )
       timeout = setTimeout(() => {
-        history.push(firstMenuItemUrl || URL_MAIN.news)
+        history.push(pathToGoBack || firstMenuItemUrl || URL_MAIN.news)
       }, delay)
     }
     return () => {
       clearTimeout(timeout)
     }
-  }, [deviceId, deviceLocked, history, menuElements])
+  }, [dispatch, deviceId, deviceLocked, history, menuElements, pathToGoBack])
 
   return (
     <GenericThemeProvider>

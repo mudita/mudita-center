@@ -33,6 +33,9 @@ describe("when there is an internet connection", () => {
       networkStatus: {
         online: true,
       },
+      news: {
+        newsItems: [],
+      },
     })
     const {
       meta: { requestId },
@@ -47,12 +50,38 @@ describe("when there is an internet connection", () => {
       loadNews.fulfilled(undefined, requestId, undefined),
     ])
   })
+
+  test("fetches and dispatches only updated news to the reducer when news items already exist", async () => {
+    const store = createMockStore([thunk])({
+      networkStatus: {
+        online: true,
+      },
+      news: {
+        newsItems: mockedNewsItems,
+      },
+    })
+    const {
+      meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await store.dispatch(loadNews() as unknown as AnyAction)
+
+    expect(store.getActions()).toEqual([
+      loadNews.pending(requestId, undefined),
+      { type: NewsEvent.SetNews, payload: updatedDataResponse.newsItems },
+      loadNews.fulfilled(undefined, requestId, undefined),
+    ])
+  })
 })
+
 describe("when the internet is disconnected", () => {
   test("only offline news are fetched and dispatched to reducer", async () => {
     const store = createMockStore([thunk])({
       networkStatus: {
         online: false,
+      },
+      news: {
+        newsItems: [],
       },
     })
     const {

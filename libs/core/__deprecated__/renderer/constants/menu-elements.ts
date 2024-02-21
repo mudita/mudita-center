@@ -55,22 +55,6 @@ const YOUR_PURE_BUTTONS = [
     viewKey: View.Tools,
   },
   {
-    button: views.music,
-    icon: IconType.MenuMusic,
-    testId: MenuGroupTestIds.Music,
-    hidden: !flags.get(Feature.MusicTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Music,
-  },
-  {
-    button: views.meditation,
-    icon: IconType.MenuMeditation,
-    testId: MenuGroupTestIds.Meditation,
-    hidden: !flags.get(Feature.MeditationTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Meditation,
-  },
-  {
     button: views.filesManager,
     icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
@@ -80,13 +64,6 @@ const YOUR_PURE_BUTTONS = [
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [
-  {
-    button: views.tethering,
-    icon: IconType.MenuTethering,
-    testId: MenuGroupTestIds.Tethering,
-    hidden: !flags.get(Feature.TetheringEnabled),
-    visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-  },
   {
     button: views.settings,
     icon: IconType.MenuSettings,
