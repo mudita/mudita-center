@@ -5,10 +5,11 @@
 
 import { Result, ResultObject, SuccessResult } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
-import { AppError } from "Core/core/errors"
+import { AppError, AppErrorType } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
 import {
+  ApiFileTransferError,
   ApiFileTransferServiceEvents,
   GeneralError,
   PreTransferSendValidator,
@@ -21,8 +22,11 @@ import crc from "js-crc"
 interface Transfer {
   crc32: string
   fileSize: number
+  filePath: string
   chunks: string[]
 }
+
+const DEFAULT_MAX_REPEATS = 0
 
 export class APIFileTransferService {
   constructor(
@@ -30,7 +34,7 @@ export class APIFileTransferService {
     private transfers: Record<string, Transfer> = {}
   ) {}
 
-  private prepareFileBeforeSend(path: string) {
+  private prepareFile(path: string) {
     const file = readFileSync(path, {
       encoding: "base64",
     })
@@ -63,7 +67,7 @@ export class APIFileTransferService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-    const { crc32, file } = this.prepareFileBeforeSend(filePath)
+    const { crc32, file } = this.prepareFile(filePath)
 
     const response = await device.request({
       endpoint: "PRE_FILE_TRANSFER",
@@ -82,27 +86,28 @@ export class APIFileTransferService {
 
       const success = preTransferResponse.success
 
-      if (success) {
-        this.transfers[preTransferResponse.data.transferId] = {
-          crc32,
-          fileSize: file.length,
-          chunks:
-            file.match(
-              new RegExp(`.{1,${preTransferResponse.data.chunkSize}}`, "g")
-            ) || [],
-        }
+      if (!success) {
+        return handleError(response.data.status)
       }
 
-      return success
-        ? Result.success({
-            transferId: preTransferResponse.data.transferId,
-            chunksCount:
-              this.transfers[preTransferResponse.data.transferId].chunks.length,
-          })
-        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+      this.transfers[preTransferResponse.data.transferId] = {
+        crc32,
+        fileSize: file.length,
+        filePath,
+        chunks:
+          file.match(
+            new RegExp(`.{1,${preTransferResponse.data.chunkSize}}`, "g")
+          ) || [],
+      }
+
+      return Result.success({
+        transferId: preTransferResponse.data.transferId,
+        chunksCount:
+          this.transfers[preTransferResponse.data.transferId].chunks.length,
+      })
     }
 
-    return Result.failed(response.error)
+    return handleError(response.error.type)
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.Send)
@@ -111,11 +116,13 @@ export class APIFileTransferService {
     chunkNumber,
     deviceId,
     repeats = 0,
+    maxRepeats = DEFAULT_MAX_REPEATS,
   }: {
     transferId: number
     chunkNumber: number
     deviceId?: DeviceId
     repeats: number
+    maxRepeats: number
   }): Promise<ResultObject<TransferSend>> {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
@@ -138,15 +145,17 @@ export class APIFileTransferService {
     })
 
     if (!response.ok) {
-      if (repeats < 2) {
-        await this.transferSend({
+      if (repeats < maxRepeats) {
+        return this.transferSend({
           transferId,
           chunkNumber,
           deviceId,
           repeats: repeats + 1,
+          maxRepeats,
         })
+      } else {
+        return handleError(response.error.type)
       }
-      return Result.failed(response.error)
     }
 
     const transferResponse = TransferSendValidator.safeParse(response.data.body)
@@ -154,9 +163,11 @@ export class APIFileTransferService {
     const success =
       transferResponse.success && [200, 206].includes(response.data.status)
 
-    return success
-      ? Result.success(transferResponse.data as TransferSend)
-      : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+    if (!success) {
+      return handleError(response.data.status)
+    }
+
+    return Result.success(transferResponse.data as TransferSend)
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.SendClear)
@@ -167,5 +178,21 @@ export class APIFileTransferService {
   }): Promise<ResultObject<true>> {
     delete this.transfers[transferId]
     return Result.success(true) as SuccessResult<true>
+  }
+}
+
+const handleError = (responseStatus: AppErrorType) => {
+  if (ApiFileTransferError[responseStatus as ApiFileTransferError]) {
+    return Result.failed<
+      { transferId?: number; filePath: string },
+      AppErrorType
+    >(
+      new AppError(
+        responseStatus,
+        ApiFileTransferError[responseStatus as ApiFileTransferError]
+      )
+    )
+  } else {
+    return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
   }
 }

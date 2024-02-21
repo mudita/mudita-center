@@ -13,11 +13,24 @@ import {
 import { DeviceId } from "Core/device/constants/device-id"
 import { ActionName } from "../action-names"
 import { fileTransferChunkSent, fileTransferPrepared } from "./actions"
+import { AppError, AppErrorType } from "Core/core/errors"
+import { GeneralError } from "device/models"
+
+interface SendFileError {
+  deviceId: DeviceId
+  error: AppError<
+    AppErrorType,
+    {
+      transferId?: number
+      filePath: string
+    }
+  >
+}
 
 export const sendFile = createAsyncThunk<
   { transferId: number },
   { deviceId: DeviceId; filePath: string; targetPath: string },
-  { state: ReduxRootState }
+  { state: ReduxRootState; rejectValue: SendFileError }
 >(
   ActionName.FileTransferSend,
   async ({ deviceId, filePath, targetPath }, { rejectWithValue, dispatch }) => {
@@ -38,7 +51,20 @@ export const sendFile = createAsyncThunk<
 
       for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
         // TODO: consider using signal to abort
-        await sendFileRequest(transferId, chunkNumber)
+        const { ok, error } = await sendFileRequest(transferId, chunkNumber)
+        if (!ok) {
+          await sendClearRequest(transferId)
+          return rejectWithValue({
+            deviceId,
+            error: {
+              ...error,
+              payload: {
+                transferId,
+                filePath,
+              },
+            },
+          })
+        }
         dispatch(
           fileTransferChunkSent({
             transferId,
@@ -51,7 +77,15 @@ export const sendFile = createAsyncThunk<
     } else {
       return rejectWithValue({
         deviceId,
-        data: preTransferResponse.error,
+        error: {
+          type: GeneralError.IncorrectResponse,
+          payload: {
+            transferId: preTransferResponse.error.payload,
+            filePath,
+          },
+          message: "Incorrect response",
+          name: GeneralError.IncorrectResponse,
+        },
       })
     }
   }

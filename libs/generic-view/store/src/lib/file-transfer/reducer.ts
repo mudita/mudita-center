@@ -6,6 +6,14 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { sendFile } from "./send-file.action"
 import { fileTransferChunkSent, fileTransferPrepared } from "./actions"
+import { AppErrorType } from "Core/core/errors"
+
+export interface FileTransferError {
+  code?: AppErrorType
+  message?: string
+  filePath?: string
+  transferId?: number
+}
 
 export interface FileProgress {
   transferId: number
@@ -17,14 +25,18 @@ interface FileTransferState {
   sendingFilesProgress: {
     [transferId: number]: FileProgress
   }
+  sendingErrors?: FileTransferError[]
   receivingFilesProgress: {
     [transferId: number]: FileProgress
   }
+  receivingErrors?: FileTransferError[]
 }
 
 const initialState: FileTransferState = {
   sendingFilesProgress: {},
+  sendingErrors: [],
   receivingFilesProgress: {},
+  receivingErrors: [],
 }
 
 export const genericFileTransferReducer = createReducer(
@@ -43,6 +55,18 @@ export const genericFileTransferReducer = createReducer(
     })
     builder.addCase(sendFile.fulfilled, (state, action) => {
       delete state.sendingFilesProgress[action.payload.transferId]
+    })
+    builder.addCase(sendFile.rejected, (state, action) => {
+      const { transferId, filePath } = action.payload?.error.payload || {}
+      if (transferId) {
+        delete state.sendingFilesProgress[transferId]
+      }
+      state.sendingErrors?.push({
+        code: action.payload?.error.type,
+        message: action.payload?.error.message,
+        transferId,
+        filePath,
+      })
     })
   }
 )
