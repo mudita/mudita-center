@@ -5,7 +5,11 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { sendFile } from "./send-file.action"
-import { fileTransferChunkSent, fileTransferPrepared } from "./actions"
+import {
+  clearSendingErrors,
+  fileTransferChunkSent,
+  fileTransferPrepared,
+} from "./actions"
 import { AppErrorType } from "Core/core/errors"
 
 export interface FileTransferError {
@@ -67,6 +71,11 @@ export const genericFileTransferReducer = createReducer(
         transferId,
         filePath,
       })
+    })
+    builder.addCase(clearSendingErrors, (state, action) => {
+      state.sendingErrors = state.sendingErrors?.filter(
+        (error) => error.transferId !== action.payload.transferId
+      )
     })
   }
 )

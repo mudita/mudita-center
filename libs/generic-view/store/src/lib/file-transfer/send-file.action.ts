@@ -16,15 +16,14 @@ import { fileTransferChunkSent, fileTransferPrepared } from "./actions"
 import { AppError, AppErrorType } from "Core/core/errors"
 import { GeneralError } from "device/models"
 
+export type SendFileErrorPayload = {
+  transferId?: number
+  filePath: string
+}
+
 interface SendFileError {
   deviceId: DeviceId
-  error: AppError<
-    AppErrorType,
-    {
-      transferId?: number
-      filePath: string
-    }
-  >
+  error: AppError<AppErrorType, SendFileErrorPayload>
 }
 
 export const sendFile = createAsyncThunk<
