@@ -84,6 +84,7 @@
     "@testing-library/user-event": "^14.5.1",
     "@types/archiver": "^5.3.1",
     "@types/chai": "^4.3.3",
+    "@types/crypto-js": "^4.2.2",
     "@types/elasticlunr": "^0.9.5",
     "@types/electron-devtools-installer": "^2.2.2",
     "@types/electron-localshortcut": "^3.1.0",
@@ -260,6 +261,7 @@
     "npm": "9.5.1"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "js-crc": "^0.2.0",
     "react-is": "18.2.0",
     "react-markdown": "^9.0.1",

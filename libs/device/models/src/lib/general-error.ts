@@ -6,6 +6,7 @@
 export enum GeneralError {
   NoDevice = "no-device",
   IncorrectResponse = "incorrect-response",
+  InternalError = "internal-error",
 }
 
 export enum ApiError {
