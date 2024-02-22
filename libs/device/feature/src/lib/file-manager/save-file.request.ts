@@ -9,7 +9,7 @@ import { ipcRenderer } from "electron-better-ipc"
 
 export const saveFileRequest = (
   filePath: string,
-  transferId: string
+  transferId: number
 ): Promise<ResultObject<undefined>> => {
   return ipcRenderer.callMain(FileManagerServiceEvents.SaveFile, {
     filePath,

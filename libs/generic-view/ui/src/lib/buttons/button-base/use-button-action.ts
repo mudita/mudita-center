@@ -113,11 +113,11 @@ const useButtonBackupAction = () => {
 
   return async () => {
     if (deviceId) {
-      dispatch(
+      await dispatch(
         getFile({
           deviceId: deviceId,
           filePath: `/storage/emulated/0/Documents/example3.png`,
-          targetPath: `/Users/mike/Downloads/example-get.png`,
+          targetPath: `/Users/mike/Downloads/example.png`,
         })
       )
     }
