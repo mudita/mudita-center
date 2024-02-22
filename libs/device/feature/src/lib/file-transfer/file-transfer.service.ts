@@ -48,6 +48,10 @@ export class APIFileTransferService {
     }
   }
 
+  public getFileByTransferId(transferId: number) {
+    return this.transfers[transferId]
+  }
+
   // Sending files to device
   @IpcEvent(ApiFileTransferServiceEvents.PreSend)
   public async preTransferSend({
@@ -309,7 +313,6 @@ export class APIFileTransferService {
         )
       }
     }
-
     return Result.success(undefined)
   }
 
