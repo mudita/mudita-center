@@ -10,7 +10,7 @@ import { ButtonBase } from "../../buttons/button-base/button-base"
 import { useModalsQueue } from "./use-modals-queue"
 import { withData } from "../../utils/with-data"
 import { withConfig } from "../../utils/with-config"
-import { ModalCloseIcon, ModalBase, ModalHeader } from "./modal-base"
+import { ModalBase, ModalCloseIcon, ModalHeader } from "./modal-base"
 import { iconButtonStyles } from "../../shared/button"
 
 interface Config {
@@ -31,7 +31,7 @@ export const Modal: BaseGenericComponent<
     : { type: "close-modal", modalKey: componentKey }
 
   return (
-    <ModalBase opened={opened} variant={config?.variant}>
+    <ModalBase opened={opened} variant={config?.variant} headerDisabled>
       <ModalHeader>
         <ModalClose action={closeAction} test-id={"close-button"}>
           <ModalCloseIcon />

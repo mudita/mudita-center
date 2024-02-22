@@ -28,4 +28,6 @@ export enum IconType {
   Device = "device",
   Mudita = "mudita",
   Spinner = "spinner",
+  Backup = "backup",
+  Settings = "settings",
 }
