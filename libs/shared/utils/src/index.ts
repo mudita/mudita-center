@@ -6,4 +6,5 @@
 export * from "./lib/answer-main"
 export * from "./lib/delay"
 export * from "./lib/get-main-app-window"
+export * from "./lib/routes-history.context"
 export * from "./lib/main-event.constant"
