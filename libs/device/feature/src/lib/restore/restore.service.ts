@@ -10,25 +10,27 @@ import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ApiResponse } from "Core/device/types/mudita-os"
 import {
-  APIBackupServiceEvents,
+  APIRestoreServiceEvents,
   GeneralError,
-  PreBackup,
-  PreBackupValidator200,
-  PreBackupValidator202,
+  PreRestore,
+  PreRestoreValidator,
+  Restore,
+  RestoreValidator200,
+  RestoreValidator202,
 } from "device/models"
 import random from "lodash/random"
 
-export class APIBackupService {
+export class APIRestoreService {
   constructor(private deviceManager: DeviceManager) {}
 
-  @IpcEvent(APIBackupServiceEvents.StartPreBackup)
-  public async startPreBackup({
+  @IpcEvent(APIRestoreServiceEvents.PreRestore)
+  public async preRestore({
     features,
     deviceId,
   }: {
     features: string[]
     deviceId?: DeviceId
-  }): Promise<ResultObject<PreBackup>> {
+  }): Promise<ResultObject<PreRestore>> {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
       : this.deviceManager.apiDevice
@@ -37,107 +39,107 @@ export class APIBackupService {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
-    const backupId = random(1, 100000)
+    const restoreId = random(1, 100000)
 
     const response = await device.request({
-      endpoint: "PRE_BACKUP",
+      endpoint: "PRE_RESTORE",
       method: "POST",
       body: {
-        backupId,
+        restoreId,
         features,
       },
     })
 
-    return this.parsePreBackupResponse(response, features)
-  }
-
-  @IpcEvent(APIBackupServiceEvents.CheckPreBackup)
-  public async checkPreBackup({
-    backupId,
-    features,
-    deviceId,
-  }: {
-    backupId: number
-    features: string[]
-    deviceId?: DeviceId
-  }): Promise<ResultObject<PreBackup>> {
-    const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
-
-    if (!device) {
-      return Result.failed(new AppError(GeneralError.NoDevice, ""))
-    }
-
-    const response = await device.request({
-      endpoint: "PRE_BACKUP",
-      method: "GET",
-      body: {
-        backupId,
-      },
-    })
-
-    return this.parsePreBackupResponse(response, features)
-  }
-
-  @IpcEvent(APIBackupServiceEvents.PostBackup)
-  public async postBackup({
-    backupId,
-    deviceId,
-  }: {
-    backupId: number
-    deviceId?: DeviceId
-  }): Promise<ResultObject<undefined>> {
-    const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
-
-    if (!device) {
-      return Result.failed(new AppError(GeneralError.NoDevice, ""))
-    }
-
-    const response = await device.request({
-      endpoint: "POST_BACKUP",
-      method: "POST",
-      body: {
-        backupId,
-      },
-    })
-
     if (response.ok) {
-      return Result.success(undefined)
+      const startBackupResponse = PreRestoreValidator(features).safeParse(
+        response.data.body
+      )
+
+      return startBackupResponse.success
+        ? Result.success(startBackupResponse.data)
+        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     }
 
     return Result.failed(response.error)
   }
 
-  private parsePreBackupResponse(
-    response: ResultObject<ApiResponse<unknown>, string, unknown>,
-    features: string[]
+  @IpcEvent(APIRestoreServiceEvents.StartRestore)
+  public async startRestore({
+    restoreId,
+    deviceId,
+  }: {
+    restoreId: number
+    deviceId?: DeviceId
+  }): Promise<ResultObject<Restore>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "RESTORE",
+      method: "POST",
+      body: {
+        restoreId,
+      },
+    })
+
+    return this.parseRestoreResponse(response)
+  }
+
+  @IpcEvent(APIRestoreServiceEvents.CheckRestore)
+  public async checkRestore({
+    restoreId,
+    deviceId,
+  }: {
+    restoreId: number
+    deviceId?: DeviceId
+  }): Promise<ResultObject<Restore>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "RESTORE",
+      method: "GET",
+      body: {
+        restoreId,
+      },
+    })
+
+    return this.parseRestoreResponse(response)
+  }
+
+  private parseRestoreResponse(
+    response: ResultObject<ApiResponse<unknown>, string, unknown>
   ) {
     if (!response.ok) {
       return Result.failed(response.error)
     }
 
     if (response.data.status === 200) {
-      const parsedResponse200 = PreBackupValidator200(features).safeParse(
-        response.data.body
-      )
+      const response200 = RestoreValidator200.safeParse(response.data.body)
 
-      if (parsedResponse200.success) {
-        return Result.success(parsedResponse200.data)
+      if (response200.success) {
+        return Result.success(response200.data)
       }
     }
+
     if (response.data.status === 202) {
-      const parsedResponse202 = PreBackupValidator202(features).safeParse(
-        response.data.body
-      )
+      const response202 = RestoreValidator202.safeParse(response.data.body)
 
-      if (parsedResponse202.success) {
-        return Result.success(parsedResponse202.data)
+      if (response202.success) {
+        return Result.success(response202.data)
       }
     }
 
-    return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+    return Result.failed(new AppError(GeneralError.IncorrectResponse))
   }
 }

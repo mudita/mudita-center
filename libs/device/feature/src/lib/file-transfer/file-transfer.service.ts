@@ -3,15 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Result, ResultObject, SuccessResult } from "Core/core/builder"
+import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
-import { AppError } from "Core/core/errors"
+import { AppError, AppErrorType } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
 import {
+  ApiFileTransferError,
   ApiFileTransferServiceEvents,
+  FileTransferStatuses,
   GeneralError,
+  PreTransferGet,
+  PreTransferGetValidator,
   PreTransferSendValidator,
+  TransferGetValidator,
   TransferSend,
   TransferSendValidator,
 } from "device/models"
@@ -24,8 +29,11 @@ const file =
 interface Transfer {
   crc32: string
   fileSize: number
+  filePath: string
   chunks: string[]
 }
+
+const DEFAULT_MAX_REPEATS = 2
 
 export class APIFileTransferService {
   constructor(
@@ -95,27 +103,28 @@ export class APIFileTransferService {
 
       const success = preTransferResponse.success
 
-      if (success) {
-        this.transfers[preTransferResponse.data.transferId] = {
-          crc32,
-          fileSize: file.length,
-          chunks:
-            file.match(
-              new RegExp(`.{1,${preTransferResponse.data.chunkSize}}`, "g")
-            ) || [],
-        }
+      if (!success) {
+        return handleError(response.data.status)
       }
 
-      return success
-        ? Result.success({
-            transferId: preTransferResponse.data.transferId,
-            chunksCount:
-              this.transfers[preTransferResponse.data.transferId].chunks.length,
-          })
-        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+      this.transfers[preTransferResponse.data.transferId] = {
+        crc32,
+        fileSize: file.length,
+        filePath,
+        chunks:
+          file.match(
+            new RegExp(`.{1,${preTransferResponse.data.chunkSize}}`, "g")
+          ) || [],
+      }
+
+      return Result.success({
+        transferId: preTransferResponse.data.transferId,
+        chunksCount:
+          this.transfers[preTransferResponse.data.transferId].chunks.length,
+      })
     }
 
-    return Result.failed(response.error)
+    return handleError(response.error.type)
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.Send)
@@ -123,10 +132,14 @@ export class APIFileTransferService {
     transferId,
     chunkNumber,
     deviceId,
+    repeats = 0,
+    maxRepeats = DEFAULT_MAX_REPEATS,
   }: {
     transferId: number
     chunkNumber: number
     deviceId?: DeviceId
+    repeats: number
+    maxRepeats: number
   }): Promise<ResultObject<TransferSend>> {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
@@ -149,26 +162,188 @@ export class APIFileTransferService {
     })
 
     if (!response.ok) {
-      return Result.failed(response.error)
+      if (repeats < maxRepeats) {
+        return this.transferSend({
+          deviceId,
+          transferId,
+          chunkNumber,
+          repeats: repeats + 1,
+          maxRepeats,
+        })
+      } else {
+        return handleError(response.error.type)
+      }
     }
 
     const transferResponse = TransferSendValidator.safeParse(response.data.body)
 
     const success =
-      transferResponse.success && [200, 206].includes(response.data.status)
+      transferResponse.success &&
+      [
+        FileTransferStatuses.WholeFileTransferred,
+        FileTransferStatuses.FileChunkTransferred,
+      ].includes(response.data.status as number)
 
-    return success
-      ? Result.success(transferResponse.data as TransferSend)
-      : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+    if (!success) {
+      return handleError(response.data.status)
+    }
+
+    return Result.success(transferResponse.data)
   }
 
-  @IpcEvent(ApiFileTransferServiceEvents.SendClear)
-  public async transferSendClear({
-    transferId,
+  private validateChecksum(transferId: number) {
+    const transfer = this.transfers[transferId]
+    const data = transfer.chunks.join("")
+    const crc32 = crc.crc32(data)
+    return crc32.toLowerCase() === transfer.crc32.toLowerCase()
+  }
+
+  @IpcEvent(ApiFileTransferServiceEvents.PreGet)
+  public async preTransferGet({
+    filePath,
+    deviceId,
   }: {
+    filePath: string
+    deviceId?: DeviceId
+  }): Promise<ResultObject<PreTransferGet>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "PRE_FILE_TRANSFER",
+      method: "GET",
+      body: {
+        filePath,
+      },
+    })
+
+    if (response.ok) {
+      const preTransferResponse = PreTransferGetValidator.safeParse(
+        response.data.body
+      )
+
+      const success = preTransferResponse.success
+
+      if (!success) {
+        return handleError(response.data.status)
+      }
+
+      this.transfers[preTransferResponse.data.transferId] = {
+        crc32: preTransferResponse.data.crc32,
+        fileSize: preTransferResponse.data.fileSize,
+        filePath,
+        chunks: [],
+      }
+
+      return Result.success(preTransferResponse.data)
+    }
+
+    return handleError(response.error.type)
+  }
+
+  @IpcEvent(ApiFileTransferServiceEvents.Get)
+  public async transferGet({
+    deviceId,
+    transferId,
+    chunkNumber,
+    repeats = 0,
+    maxRepeats = DEFAULT_MAX_REPEATS,
+  }: {
+    deviceId?: DeviceId
     transferId: number
-  }): Promise<ResultObject<true>> {
+    chunkNumber: number
+    repeats: number
+    maxRepeats: number
+  }): Promise<ResultObject<undefined>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "FILE_TRANSFER",
+      method: "GET",
+      body: {
+        transferId,
+        chunkNumber,
+      },
+    })
+
+    if (!response.ok) {
+      if (repeats < maxRepeats) {
+        return this.transferGet({
+          deviceId,
+          transferId,
+          chunkNumber,
+          repeats: repeats + 1,
+          maxRepeats,
+        })
+      } else {
+        return handleError(response.error.type)
+      }
+    }
+
+    const transferResponse = TransferGetValidator.safeParse(response.data.body)
+
+    const success =
+      transferResponse.success &&
+      [
+        FileTransferStatuses.WholeFileTransferred,
+        FileTransferStatuses.FileChunkTransferred,
+      ].includes(response.data.status as number)
+
+    if (!success) {
+      return handleError(response.data.status)
+    }
+
+    this.transfers[transferId].chunks[chunkNumber - 1] =
+      transferResponse.data.data
+
+    if (
+      (response.data.status as number) ===
+      FileTransferStatuses.WholeFileTransferred
+    ) {
+      if (this.validateChecksum(transferId)) {
+        return Result.success(undefined)
+      } else {
+        return Result.failed(
+          new AppError(
+            ApiFileTransferError.CRCMismatch,
+            ApiFileTransferError[ApiFileTransferError.CRCMismatch]
+          )
+        )
+      }
+    }
+
+    return Result.success(undefined)
+  }
+
+  @IpcEvent(ApiFileTransferServiceEvents.Clear)
+  public transferClear({ transferId }: { transferId: number }) {
     delete this.transfers[transferId]
-    return Result.success(true) as SuccessResult<true>
+  }
+}
+
+const handleError = (responseStatus: AppErrorType) => {
+  if (ApiFileTransferError[responseStatus as ApiFileTransferError]) {
+    return Result.failed<
+      { transferId?: number; filePath: string },
+      AppErrorType
+    >(
+      new AppError(
+        responseStatus,
+        ApiFileTransferError[responseStatus as ApiFileTransferError]
+      )
+    )
+  } else {
+    return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
   }
 }

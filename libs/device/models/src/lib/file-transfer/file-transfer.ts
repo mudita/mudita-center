@@ -10,11 +10,24 @@ export const PreTransferSendValidator = z.object({
   chunkSize: z.number().positive(),
 })
 
-export type PreTransferSend = z.infer<typeof PreTransferSendValidator>
-
 export const TransferSendValidator = z.object({
   transferId: z.number(),
   chunkNumber: z.number().positive(),
 })
 
 export type TransferSend = z.infer<typeof TransferSendValidator>
+
+export const PreTransferGetValidator = z.object({
+  transferId: z.number(),
+  chunkSize: z.number().positive(),
+  fileSize: z.number().positive(),
+  crc32: z.string(),
+})
+
+export type PreTransferGet = z.infer<typeof PreTransferGetValidator>
+
+export const TransferGetValidator = z.object({
+  transferId: z.number(),
+  chunkNumber: z.number().positive(),
+  data: z.string().min(1),
+})

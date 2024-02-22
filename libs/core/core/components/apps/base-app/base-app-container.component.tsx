@@ -9,12 +9,15 @@ import history from "Core/core/history"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import BaseRoutes from "Core/core/components/apps/base-app/base-app-routes"
 import BaseApp from "Core/core/components/apps/base-app/base-app.component"
+import { RoutesHistoryProvider } from "shared/utils"
 
 const BaseAppContainer: FunctionComponent = () => {
   return (
     <Router history={history}>
       <BaseApp />
-      <BaseRoutes />
+      <RoutesHistoryProvider>
+        <BaseRoutes />
+      </RoutesHistoryProvider>
     </Router>
   )
 }

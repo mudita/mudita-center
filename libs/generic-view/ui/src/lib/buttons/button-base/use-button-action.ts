@@ -7,6 +7,7 @@ import {
   closeAllModals,
   closeDomainModals,
   closeModal,
+  getFile,
   openModal,
   replaceModal,
   selectActiveDevice,
@@ -16,13 +17,18 @@ import {
 import { ButtonAction } from "generic-view/utils"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { getPaths } from "shared/app-state"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { ResultObject } from "Core/core/builder"
+import { platform } from "Core/__deprecated__/renderer/utils/platform"
 
 export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
   const navigate = useHistory()
   const currentViewName = useScreenTitle(viewKey)
-  const deviceId = useSelector(selectActiveDevice)
+  const restore = useButtonRestoreAction()
+  const backup = useButtonBackupAction()
 
   return (action: ButtonAction) => {
     switch (action.type) {
@@ -61,14 +67,59 @@ export const useButtonAction = (viewKey: string) => {
           },
         })
         break
+      case "restore-data":
+        void restore()
+        break
       case "backup-data":
-        dispatch(
-          sendFile({
-            deviceId: deviceId!,
-            filePath: "/Users/mike/Desktop/test.png",
-            targetPath: "/storage/emulated/0/Documents/example.png",
-          })
-        )
+        void backup()
+        break
+    }
+  }
+}
+
+const useButtonRestoreAction = () => {
+  const dispatch = useDispatch<Dispatch>()
+  const osBackupLocation = useSelector(
+    (state: ReduxRootState) => state.settings.osBackupLocation
+  )
+  const deviceId = useSelector(selectActiveDevice)
+
+  return async () => {
+    const { payload: getPathsPayload } = (await dispatch(
+      getPaths({
+        properties: ["openFile"],
+        defaultPath: osBackupLocation,
+      })
+    )) as PayloadAction<ResultObject<string[] | undefined>>
+    const location = getPathsPayload.ok && (getPathsPayload.data as string[])[0]
+    if (location && deviceId) {
+      const [fileName] = location
+        .split(platform.windows() ? "\\" : "/")
+        .reverse()
+      dispatch(
+        sendFile({
+          deviceId: deviceId,
+          filePath: location,
+          targetPath: `/storage/emulated/0/Documents/${fileName}`,
+        })
+      )
+    }
+  }
+}
+
+const useButtonBackupAction = () => {
+  const dispatch = useDispatch<Dispatch>()
+  const deviceId = useSelector(selectActiveDevice)
+
+  return async () => {
+    if (deviceId) {
+      dispatch(
+        getFile({
+          deviceId: deviceId,
+          filePath: `/storage/emulated/0/Documents/example3.png`,
+          targetPath: `/Users/mike/Downloads/example-get.png`,
+        })
+      )
     }
   }
 }
