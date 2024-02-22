@@ -4,13 +4,17 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { sendFile } from "./send-file.action"
-import {
-  clearSendingErrors,
-  fileTransferChunkSent,
-  fileTransferPrepared,
-} from "./actions"
 import { AppErrorType } from "Core/core/errors"
+import {
+  clearGetErrors,
+  clearSendErrors,
+  fileTransferChunkGet,
+  fileTransferChunkSent,
+  fileTransferGetPrepared,
+  fileTransferSendPrepared,
+} from "./actions"
+import { sendFile } from "./send-file.action"
+import { getFile } from "./get-file.action"
 
 export interface FileTransferError {
   code?: AppErrorType
@@ -46,7 +50,7 @@ const initialState: FileTransferState = {
 export const genericFileTransferReducer = createReducer(
   initialState,
   (builder) => {
-    builder.addCase(fileTransferPrepared, (state, action) => {
+    builder.addCase(fileTransferSendPrepared, (state, action) => {
       state.sendingFilesProgress[action.payload.transferId] = {
         transferId: action.payload.transferId,
         chunksCount: action.payload.chunksCount,
@@ -72,8 +76,40 @@ export const genericFileTransferReducer = createReducer(
         filePath,
       })
     })
-    builder.addCase(clearSendingErrors, (state, action) => {
+    builder.addCase(clearSendErrors, (state, action) => {
       state.sendingErrors = state.sendingErrors?.filter(
+        (error) => error.transferId !== action.payload.transferId
+      )
+    })
+    builder.addCase(fileTransferGetPrepared, (state, action) => {
+      state.receivingFilesProgress[action.payload.transferId] = {
+        transferId: action.payload.transferId,
+        chunksCount: action.payload.chunksCount,
+        chunksTransferred: 0,
+      }
+    })
+    builder.addCase(fileTransferChunkGet, (state, action) => {
+      state.receivingFilesProgress[
+        action.payload.transferId
+      ].chunksTransferred = action.payload.chunksTransferred
+    })
+    builder.addCase(getFile.fulfilled, (state, action) => {
+      delete state.receivingFilesProgress[action.payload.transferId]
+    })
+    builder.addCase(getFile.rejected, (state, action) => {
+      const { transferId, filePath } = action.payload?.error.payload || {}
+      if (transferId) {
+        delete state.receivingFilesProgress[transferId]
+      }
+      state.receivingErrors?.push({
+        code: action.payload?.error.type,
+        message: action.payload?.error.message,
+        transferId,
+        filePath,
+      })
+    })
+    builder.addCase(clearGetErrors, (state, action) => {
+      state.receivingErrors = state.receivingErrors?.filter(
         (error) => error.transferId !== action.payload.transferId
       )
     })

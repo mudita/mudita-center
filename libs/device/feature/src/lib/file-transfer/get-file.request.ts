@@ -5,12 +5,17 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { ApiFileTransferServiceEvents } from "device/models"
+import { DeviceId } from "Core/device/constants/device-id"
 import { ResultObject } from "Core/core/builder"
 
-export const sendClearRequest = (
-  transferId: number
-): Promise<ResultObject<true>> => {
-  return ipcRenderer.callMain(ApiFileTransferServiceEvents.Clear, {
+export const getFileRequest = (
+  transferId: number,
+  chunkNumber: number,
+  deviceId?: DeviceId
+): Promise<ResultObject<{ transferId: number; chunkNumber: number }>> => {
+  return ipcRenderer.callMain(ApiFileTransferServiceEvents.Get, {
     transferId,
+    chunkNumber,
+    deviceId,
   })
 }

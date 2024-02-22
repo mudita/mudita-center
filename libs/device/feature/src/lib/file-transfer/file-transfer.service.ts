@@ -12,7 +12,10 @@ import {
   ApiFileTransferError,
   ApiFileTransferServiceEvents,
   GeneralError,
+  PreTransferGet,
+  PreTransferGetValidator,
   PreTransferSendValidator,
+  TransferGetValidator,
   TransferSend,
   TransferSendValidator,
 } from "device/models"
@@ -38,6 +41,7 @@ export class APIFileTransferService {
     const file = readFileSync(path, {
       encoding: "base64",
     })
+    console.log(file, crc.crc32(file))
     return {
       file,
       crc32: crc.crc32(file),
@@ -147,9 +151,9 @@ export class APIFileTransferService {
     if (!response.ok) {
       if (repeats < maxRepeats) {
         return this.transferSend({
+          deviceId,
           transferId,
           chunkNumber,
-          deviceId,
           repeats: repeats + 1,
           maxRepeats,
         })
@@ -167,11 +171,147 @@ export class APIFileTransferService {
       return handleError(response.data.status)
     }
 
-    return Result.success(transferResponse.data as TransferSend)
+    return Result.success(transferResponse.data)
   }
 
-  @IpcEvent(ApiFileTransferServiceEvents.SendClear)
-  public async transferSendClear({
+  private validateChecksum(transferId: number) {
+    const transfer = this.transfers[transferId]
+    const data = transfer.chunks.join("")
+    const crc32 = crc.crc32(data)
+    console.log(crc32, transfer.crc32)
+    return crc32 === transfer.crc32
+  }
+
+  @IpcEvent(ApiFileTransferServiceEvents.PreGet)
+  public async preTransferGet({
+    filePath,
+    deviceId,
+  }: {
+    filePath: string
+    deviceId?: DeviceId
+  }): Promise<ResultObject<PreTransferGet>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "PRE_FILE_TRANSFER",
+      method: "GET",
+      body: {
+        filePath,
+      },
+    })
+
+    if (response.ok) {
+      const preTransferResponse = PreTransferGetValidator.safeParse(
+        response.data.body
+      )
+
+      const success = preTransferResponse.success
+
+      if (!success) {
+        return handleError(response.data.status)
+      }
+
+      this.transfers[preTransferResponse.data.transferId] = {
+        crc32: preTransferResponse.data.crc32,
+        fileSize: preTransferResponse.data.fileSize,
+        filePath,
+        chunks: [],
+      }
+
+      return Result.success(preTransferResponse.data)
+    }
+
+    return handleError(response.error.type)
+  }
+
+  @IpcEvent(ApiFileTransferServiceEvents.Get)
+  public async transferGet({
+    deviceId,
+    transferId,
+    chunkNumber,
+    repeats = 0,
+    maxRepeats = DEFAULT_MAX_REPEATS,
+  }: {
+    deviceId?: DeviceId
+    transferId: number
+    chunkNumber: number
+    repeats: number
+    maxRepeats: number
+  }): Promise<
+    ResultObject<{
+      transferId: number
+      chunkNumber: number
+    }>
+  > {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "FILE_TRANSFER",
+      method: "GET",
+      body: {
+        transferId,
+        chunkNumber,
+      },
+    })
+
+    if (!response.ok) {
+      if (repeats < maxRepeats) {
+        return this.transferGet({
+          deviceId,
+          transferId,
+          chunkNumber,
+          repeats: repeats + 1,
+          maxRepeats,
+        })
+      } else {
+        return handleError(response.error.type)
+      }
+    }
+
+    const transferResponse = TransferGetValidator.safeParse(response.data.body)
+
+    const success =
+      transferResponse.success && [200, 206].includes(response.data.status)
+
+    if (!success) {
+      return handleError(response.data.status)
+    }
+
+    this.transfers[transferId].chunks[chunkNumber - 1] =
+      transferResponse.data.data
+
+    if (response.data.status === 200) {
+      console.log(this.transfers[transferId].chunks.join(""))
+      if (this.validateChecksum(transferId)) {
+        return Result.success({
+          transferId,
+          chunkNumber,
+        })
+      } else {
+        return Result.failed(new AppError(ApiFileTransferError.CRCMismatch, ApiFileTransferError[ApiFileTransferError.CRCMismatch]))
+      }
+    }
+
+    return Result.success({
+      transferId,
+      chunkNumber,
+    })
+  }
+
+  @IpcEvent(ApiFileTransferServiceEvents.Clear)
+  public async transferClear({
     transferId,
   }: {
     transferId: number

@@ -7,6 +7,7 @@ import {
   closeAllModals,
   closeDomainModals,
   closeModal,
+  getFile,
   openModal,
   replaceModal,
   selectActiveDevice,
@@ -26,7 +27,8 @@ export const useButtonAction = (viewKey: string) => {
   const dispatch = useDispatch<Dispatch>()
   const navigate = useHistory()
   const currentViewName = useScreenTitle(viewKey)
-  const backupAction = useButtonBackupAction()
+  const restore = useButtonRestoreAction()
+  const backup = useButtonBackupAction()
 
   return (action: ButtonAction) => {
     switch (action.type) {
@@ -65,13 +67,17 @@ export const useButtonAction = (viewKey: string) => {
           },
         })
         break
+      case "restore-data":
+        void restore()
+        break
       case "backup-data":
-        void backupAction()
+        void backup()
+        break
     }
   }
 }
 
-const useButtonBackupAction = () => {
+const useButtonRestoreAction = () => {
   const dispatch = useDispatch<Dispatch>()
   const osBackupLocation = useSelector(
     (state: ReduxRootState) => state.settings.osBackupLocation
@@ -95,6 +101,23 @@ const useButtonBackupAction = () => {
           deviceId: deviceId,
           filePath: location,
           targetPath: `/storage/emulated/0/Documents/${fileName}`,
+        })
+      )
+    }
+  }
+}
+
+const useButtonBackupAction = () => {
+  const dispatch = useDispatch<Dispatch>()
+  const deviceId = useSelector(selectActiveDevice)
+
+  return async () => {
+    if (deviceId) {
+      dispatch(
+        getFile({
+          deviceId: deviceId,
+          filePath: `/storage/emulated/0/Documents/example.png`,
+          targetPath: `/Users/mike/Downloads/example-get.png`,
         })
       )
     }
