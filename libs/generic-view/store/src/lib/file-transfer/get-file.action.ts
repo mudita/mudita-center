@@ -36,8 +36,7 @@ export const getFile = createAsyncThunk<
     const preTransferResponse = await startPreGetFileRequest(filePath, deviceId)
 
     if (preTransferResponse.ok) {
-      const { transferId, chunkSize, crc32, fileSize } =
-        preTransferResponse.data
+      const { transferId, chunkSize, fileSize } = preTransferResponse.data
       const chunksCount = Math.ceil(fileSize / chunkSize)
       dispatch(
         fileTransferGetPrepared({

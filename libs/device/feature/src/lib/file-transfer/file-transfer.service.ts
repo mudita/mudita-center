@@ -41,7 +41,6 @@ export class APIFileTransferService {
     const file = readFileSync(path, {
       encoding: "base64",
     })
-    console.log(file, crc.crc32(file))
     return {
       file,
       crc32: crc.crc32(file),
@@ -178,8 +177,7 @@ export class APIFileTransferService {
     const transfer = this.transfers[transferId]
     const data = transfer.chunks.join("")
     const crc32 = crc.crc32(data)
-    console.log(crc32, transfer.crc32)
-    return crc32 === transfer.crc32
+    return crc32.toLowerCase() === transfer.crc32.toLowerCase()
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.PreGet)
@@ -293,14 +291,18 @@ export class APIFileTransferService {
       transferResponse.data.data
 
     if (response.data.status === 200) {
-      console.log(this.transfers[transferId].chunks.join(""))
       if (this.validateChecksum(transferId)) {
         return Result.success({
           transferId,
           chunkNumber,
         })
       } else {
-        return Result.failed(new AppError(ApiFileTransferError.CRCMismatch, ApiFileTransferError[ApiFileTransferError.CRCMismatch]))
+        return Result.failed(
+          new AppError(
+            ApiFileTransferError.CRCMismatch,
+            ApiFileTransferError[ApiFileTransferError.CRCMismatch]
+          )
+        )
       }
     }
 
