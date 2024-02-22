@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
-  getFileRequest,
+  getFileRequest, saveFileRequest,
   sendClearRequest,
   startPreGetFileRequest,
 } from "device/feature"
@@ -69,6 +69,7 @@ export const getFile = createAsyncThunk<
         )
       }
 
+      await saveFileRequest(targetPath, transferId)
       await sendClearRequest(transferId)
       return { transferId }
     } else {

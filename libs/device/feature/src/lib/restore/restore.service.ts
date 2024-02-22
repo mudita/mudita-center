@@ -118,7 +118,7 @@ export class APIRestoreService {
   }
 
   private parseRestoreResponse(
-    response: ResultObject<ApiResponse<unknown>, string, unknown>
+    response: ResultObject<ApiResponse<unknown>, string | number, unknown>
   ) {
     if (!response.ok) {
       return Result.failed(response.error)

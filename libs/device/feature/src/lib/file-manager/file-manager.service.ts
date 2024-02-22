@@ -26,7 +26,7 @@ export class FileManager {
     transferId,
   }: {
     filePath: string
-    transferId: string
+    transferId: number
   }): ResultObject<undefined> {
     try {
       const file =
@@ -46,7 +46,7 @@ export class FileManager {
     password,
   }: {
     deviceId?: DeviceId
-    featureToTransferId: Record<string, string>
+    featureToTransferId: Record<string, number>
     password?: string
   }) {
     const device = deviceId
