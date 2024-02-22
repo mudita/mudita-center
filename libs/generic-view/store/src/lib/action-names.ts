@@ -19,4 +19,12 @@ export enum ActionName {
   ReplaceModal = "generic-modals/replace-modal",
   CloseDomainModals = "generic-modals/close-domain-modals",
   AddBackupFiles = "generic-backups/add-backup-files",
+  FileTransferSend = "generic-file-transfer/send",
+  PreFileTransferSend = "generic-file-transfer/pre-send",
+  ChunkFileTransferSend = "generic-file-transfer/chunk-sent",
+  ClearFileTransferSendError = "generic-file-transfer/clear-send-errors",
+  PreFileTransferGet = "generic-file-transfer/pre-get",
+  FileTransferGet = "generic-file-transfer/get",
+  ChunkFileTransferGet = "generic-file-transfer/chunk-get",
+  ClearFileTransferGetError = "generic-file-transfer/clear-get-errors",
 }

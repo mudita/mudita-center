@@ -5,33 +5,11 @@
 
 import path from "path"
 import { Schema } from "electron-store"
-import getMAC from "getmac"
 import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 import { Settings } from "Core/settings/dto"
 import { ConversionFormat, Convert } from "Core/settings/constants"
 import translationConfig from "App/translations.config.json"
-
-const generateApplicationId = (): string | null => {
-  const maxApplicationIdLength = 16
-
-  const mac = getMACOrNull()
-  if (mac !== null) {
-    const uniqueValue = mac.replace(/:/g, "").slice(-maxApplicationIdLength)
-    const padLength = maxApplicationIdLength - uniqueValue.length
-    const pad = Math.random().toString(16).slice(-padLength)
-    return `${pad}${uniqueValue}`
-  } else {
-    return null
-  }
-}
-
-const getMACOrNull = (): string | null => {
-  try {
-    return getMAC()
-  } catch (ex) {
-    return null
-  }
-}
+import { generateApplicationId } from "Core/settings/store/schemas/generate-application-id"
 
 export const settingsSchema: Schema<Settings> = {
   applicationId: {

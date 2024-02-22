@@ -16,6 +16,10 @@ import { Provider } from "react-redux"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 import { CaseColour } from "Core/device"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("Core/feature-flags")
 
 jest.mock("@electron/remote", () => ({

@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppError } from "Core/core/errors"
+import { AppError, AppErrorType } from "Core/core/errors"
 
 export type ResultObject<
   Data,
-  ErrorType extends string = string,
+  ErrorType extends AppErrorType = AppErrorType,
   ErrorData = unknown
 > = SuccessResult<Data> | FailedResult<ErrorData, ErrorType>
 
@@ -18,7 +18,7 @@ export class SuccessResult<Data> {
   constructor(public data: Data) {}
 }
 
-export class FailedResult<Data, ErrorType extends string = string> {
+export class FailedResult<Data, ErrorType extends AppErrorType = AppErrorType> {
   public ok: false = false
 
   constructor(
@@ -32,7 +32,7 @@ export class Result {
     return new SuccessResult<Data>(data)
   }
 
-  static failed<Data, ErrorType extends string = string>(
+  static failed<Data, ErrorType extends AppErrorType = AppErrorType>(
     error: AppError<ErrorType>,
     data?: Data
   ): FailedResult<Data, ErrorType> {

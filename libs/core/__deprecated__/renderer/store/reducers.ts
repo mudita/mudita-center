@@ -24,6 +24,7 @@ import { appInitializationReducer } from "Core/app-initialization/reducers/app-i
 import { deviceManagerReducer } from "Core/device-manager/reducers/device-manager.reducer"
 import {
   genericBackupsReducer,
+  genericFileTransferReducer,
   genericModalsReducer,
   genericViewsReducer,
 } from "generic-view/store"
@@ -51,6 +52,7 @@ export const reducers = {
   genericViews: genericViewsReducer,
   genericModals: genericModalsReducer,
   genericBackups: genericBackupsReducer,
+  genericFileTransfer: genericFileTransferReducer,
   appState: appStateReducer,
 }
 

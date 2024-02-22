@@ -27,6 +27,10 @@ import {
 } from "Core/device-initialization/reducers/device-initialization.interface"
 import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("Core/feature-flags")
 
 type Props = MenuProps

@@ -7,9 +7,13 @@ import { DeviceManager } from "Core/device-manager/services"
 import { APIConfigService } from "./api-config/api-config.service"
 import { APIFeaturesService } from "./api-features/api-features.service"
 import { APIBackupService } from "./backup"
+import { FileManager } from "./file-manager"
 import { APIMenuService } from "./menu"
 import { APIOutboxService } from "./outbox/outbox.service"
 import { ServerService } from "./server/server.service"
+import { APIFileTransferService } from "./file-transfer"
+import { ServiceBridge } from "./service-bridge"
+import { createSettingsService } from "Core/settings/containers/settings.container"
 
 export class APIModule {
   private apiConfigService: APIConfigService
@@ -18,14 +22,22 @@ export class APIModule {
   private apiMenuService: APIMenuService
   private serverService: ServerService
   private backupService: APIBackupService
+  private fileTransferService: APIFileTransferService
+  private fileManager: FileManager
+  private serviceBridge: ServiceBridge
 
   constructor(deviceManager: DeviceManager) {
+    this.serviceBridge = new ServiceBridge()
     this.apiConfigService = new APIConfigService(deviceManager)
     this.apiFeaturesService = new APIFeaturesService(deviceManager)
     this.apiOutboxService = new APIOutboxService(deviceManager)
     this.apiMenuService = new APIMenuService(deviceManager)
     this.serverService = new ServerService()
     this.backupService = new APIBackupService(deviceManager)
+    this.fileTransferService = new APIFileTransferService(deviceManager)
+    this.fileManager = new FileManager(deviceManager, this.serviceBridge)
+    this.serviceBridge.fileTransfer = this.fileTransferService
+    this.serviceBridge.settingsService = createSettingsService()
   }
 
   public getAPIServices() {
@@ -36,6 +48,8 @@ export class APIModule {
       this.apiMenuService,
       this.serverService,
       this.backupService,
+      this.fileTransferService,
+      this.fileManager,
     ]
   }
 }
