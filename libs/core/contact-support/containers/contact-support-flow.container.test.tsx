@@ -11,6 +11,10 @@ import ModalsManager from "Core/modals-manager/components/modals-manager.contain
 import ContactSupportFlow from "Core/contact-support/containers/contact-support-flow.container"
 import { ContactSupportFlowTestIds } from "Core/contact-support/components/contact-support-flow-test-ids.component"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 type Props = ComponentProps<typeof ModalsManager>
 
 const defaultProps: Props = {}
