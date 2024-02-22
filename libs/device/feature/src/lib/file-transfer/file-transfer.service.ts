@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Result, ResultObject, SuccessResult } from "Core/core/builder"
+import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import { AppError, AppErrorType } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
@@ -11,6 +11,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import {
   ApiFileTransferError,
   ApiFileTransferServiceEvents,
+  FileTransferStatuses,
   GeneralError,
   PreTransferGet,
   PreTransferGetValidator,
@@ -29,7 +30,7 @@ interface Transfer {
   chunks: string[]
 }
 
-const DEFAULT_MAX_REPEATS = 0
+const DEFAULT_MAX_REPEATS = 2
 
 export class APIFileTransferService {
   constructor(
@@ -164,7 +165,11 @@ export class APIFileTransferService {
     const transferResponse = TransferSendValidator.safeParse(response.data.body)
 
     const success =
-      transferResponse.success && [200, 206].includes(response.data.status)
+      transferResponse.success &&
+      [
+        FileTransferStatuses.WholeFileTransferred,
+        FileTransferStatuses.FileChunkTransferred,
+      ].includes(response.data.status as number)
 
     if (!success) {
       return handleError(response.data.status)
@@ -241,12 +246,7 @@ export class APIFileTransferService {
     chunkNumber: number
     repeats: number
     maxRepeats: number
-  }): Promise<
-    ResultObject<{
-      transferId: number
-      chunkNumber: number
-    }>
-  > {
+  }): Promise<ResultObject<undefined>> {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
       : this.deviceManager.apiDevice
@@ -281,7 +281,11 @@ export class APIFileTransferService {
     const transferResponse = TransferGetValidator.safeParse(response.data.body)
 
     const success =
-      transferResponse.success && [200, 206].includes(response.data.status)
+      transferResponse.success &&
+      [
+        FileTransferStatuses.WholeFileTransferred,
+        FileTransferStatuses.FileChunkTransferred,
+      ].includes(response.data.status as number)
 
     if (!success) {
       return handleError(response.data.status)
@@ -290,12 +294,12 @@ export class APIFileTransferService {
     this.transfers[transferId].chunks[chunkNumber - 1] =
       transferResponse.data.data
 
-    if (response.data.status === 200) {
+    if (
+      (response.data.status as number) ===
+      FileTransferStatuses.WholeFileTransferred
+    ) {
       if (this.validateChecksum(transferId)) {
-        return Result.success({
-          transferId,
-          chunkNumber,
-        })
+        return Result.success(undefined)
       } else {
         return Result.failed(
           new AppError(
@@ -306,20 +310,12 @@ export class APIFileTransferService {
       }
     }
 
-    return Result.success({
-      transferId,
-      chunkNumber,
-    })
+    return Result.success(undefined)
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.Clear)
-  public async transferClear({
-    transferId,
-  }: {
-    transferId: number
-  }): Promise<ResultObject<true>> {
+  public transferClear({ transferId }: { transferId: number }) {
     delete this.transfers[transferId]
-    return Result.success(true) as SuccessResult<true>
   }
 }
 

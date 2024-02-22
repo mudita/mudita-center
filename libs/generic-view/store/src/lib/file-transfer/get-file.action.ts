@@ -68,7 +68,7 @@ export const getFile = createAsyncThunk<
           })
         )
       }
-      console.log("file received", targetPath)
+
       await sendClearRequest(transferId)
       return { transferId }
     } else {

@@ -116,7 +116,7 @@ const useButtonBackupAction = () => {
       dispatch(
         getFile({
           deviceId: deviceId,
-          filePath: `/storage/emulated/0/Documents/example.png`,
+          filePath: `/storage/emulated/0/Documents/example3.png`,
           targetPath: `/Users/mike/Downloads/example-get.png`,
         })
       )

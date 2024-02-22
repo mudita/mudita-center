@@ -17,6 +17,6 @@ export enum ApiFileTransferError {
   IncorrectPath = 404,
   FileAlreadyExists = 409,
   CRCMismatch = 422,
-  NotEnoughSpace = 507,
   Unknown = 500,
+  NotEnoughSpace = 507,
 }

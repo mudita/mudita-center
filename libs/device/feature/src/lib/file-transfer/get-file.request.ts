@@ -12,7 +12,7 @@ export const getFileRequest = (
   transferId: number,
   chunkNumber: number,
   deviceId?: DeviceId
-): Promise<ResultObject<{ transferId: number; chunkNumber: number }>> => {
+): Promise<ResultObject<undefined>> => {
   return ipcRenderer.callMain(ApiFileTransferServiceEvents.Get, {
     transferId,
     chunkNumber,
