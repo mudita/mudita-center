@@ -9,6 +9,7 @@ import { showModal } from "Core/modals-manager/actions/base.action"
 import { ModalStateKey } from "Core/modals-manager/reducers"
 import { isUserInSerialPortGroup } from "Core/desktop/requests/is-user-in-serial-port-group.request"
 import { isLinux } from "Core/desktop/requests/is-linux.request"
+import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
 
 export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   void,
@@ -21,6 +22,8 @@ export const checkAppRequiresSerialPortGroup = createAsyncThunk<
 
       if (!userInGroup) {
         dispatch(showModal(ModalStateKey.UsbAccessFlowShow))
+      } else {
+        await dispatch(setUSBAccessRestart(false))
       }
     }
   }

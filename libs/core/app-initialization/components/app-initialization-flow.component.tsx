@@ -11,21 +11,18 @@ import { shouldPrivacyPolicyVisible } from "Core/app-initialization/selectors/sh
 import { shouldAppUpdateFlowVisible } from "Core/app-initialization/selectors/should-app-update-flow-visible.selector"
 import { AppUpdateFlow } from "Core/settings/components/app-update-flow/app-update-flow.component"
 import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
+import { modalsManagerStateSelector } from "Core/modals-manager/selectors"
+import { appInitializationState } from "Core/app-initialization/selectors/app-initialization-state.selector"
 
 const AppInitializationFlow: FunctionComponent = () => {
   const privacyPolicyVisible = useSelector(shouldPrivacyPolicyVisible)
   const appUpdateFlowVisible = useSelector(shouldAppUpdateFlowVisible)
-  const { usbAccessFlowShow } = useSelector(
-    (state: ReduxRootState): ModalsManagerState => state.modalsManager
-  )
-  const appInitPrepFinished = useSelector(
-    (state: ReduxRootState): boolean =>
-      state.appInitialization.appInitializationPreparationFinished
+  const { usbAccessFlowShow } = useSelector(modalsManagerStateSelector)
+  const { appInitializationPreparationFinished } = useSelector(
+    appInitializationState
   )
 
-  if (!appInitPrepFinished) {
+  if (!appInitializationPreparationFinished) {
     return <></>
   }
 

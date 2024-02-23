@@ -5,7 +5,7 @@
 
 import React, { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { ReduxRootState, AppDispatch } from "Core/__deprecated__/renderer/store"
+import { AppDispatch } from "Core/__deprecated__/renderer/store"
 import { hideModals } from "Core/modals-manager/actions/base.action"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import AllowUSBPortAccessModal from "Core/settings/components/usb-access/allow-usb-port-access.modal"
@@ -13,9 +13,9 @@ import USBAccessGrantedModal from "Core/settings/components/usb-access/usb-acces
 import RestartYourComputerToConnectModal from "Core/settings/components/usb-access/restart-your-computer-to-connect.modal"
 import CantConnectWithoutUSBPortAccessModal from "Core/settings/components/usb-access/cant-connect-without-usb-port-access.modal"
 import { addUserToSerialPortGroup } from "Core/desktop/requests/add-user-to-serial-port-group.request"
-import { SettingsState } from "Core/settings/reducers"
 import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
 import { UsbAccessFlowTestIds } from "Core/settings/components/usb-access/usb-access-flow-test-ids.enum"
+import { isUsbAccessRestartSelector } from "Core/settings/selectors/is-usb-access-restart.selector"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -26,9 +26,7 @@ enum USBAccessState {
 
 const USBAccessFlowContainer = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const { usbAccessRestart } = useSelector(
-    (state: ReduxRootState): SettingsState => state.settings
-  )
+  const usbAccessRestart = useSelector(isUsbAccessRestartSelector)
   const [accessState, setAccessState] = useState<USBAccessState>(
     usbAccessRestart
       ? USBAccessState.grantedNeedsRestart
@@ -47,7 +45,7 @@ const USBAccessFlowContainer = () => {
         layer={ModalLayers.LinuxSerialPortGroup}
         onActionButtonClick={async () => {
           await addUserToSerialPortGroup()
-          dispatch(setUSBAccessRestart(true))
+          await dispatch(setUSBAccessRestart(true))
           setAccessState(USBAccessState.granted)
         }}
         actionButtonLabel="ALLOW"
