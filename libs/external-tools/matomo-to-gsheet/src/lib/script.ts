@@ -33,8 +33,6 @@ async function script() {
       "Mudita Harmony - MD"
     )
 
-    console.log("Dane zaktualizowane w Google Sheets dla Mudita Harmony")
-
     const muditaPureSheetLastDate = await statsSheetService.getLastDate(
       "Mudita Pure - MD"
     )
@@ -49,8 +47,6 @@ async function script() {
       muditaPureMatomoData,
       "Mudita Pure - MD"
     )
-
-    console.log("Dane zaktualizowane w Google Sheets dla Mudita Pure")
 
   } catch (error) {
     console.error(error)
