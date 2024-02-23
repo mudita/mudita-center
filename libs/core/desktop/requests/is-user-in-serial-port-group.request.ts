@@ -6,6 +6,6 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcDesktopEvent } from "Core/desktop/desktop.constants"
 
-export const isUserInSerialPortGroup = (): Promise<boolean> => {
-  return ipcRenderer.callMain(IpcDesktopEvent.IsUserInSerialPortGroup)
+export const hasUserSerialPortAccess = (): Promise<boolean> => {
+  return ipcRenderer.callMain(IpcDesktopEvent.HasUserSerialPortAccess)
 }

@@ -15,9 +15,9 @@ export class DesktopController {
     return this.desktopService.isLinux()
   }
 
-  @IpcEvent(IpcDesktopEvent.IsUserInSerialPortGroup)
-  public async isUserInSerialPortGroup(): Promise<boolean> {
-    return this.desktopService.isUserInSerialPortGroup()
+  @IpcEvent(IpcDesktopEvent.HasUserSerialPortAccess)
+  public async hasUserSerialPortAccess(): Promise<boolean> {
+    return this.desktopService.hasUserSerialPortAccess()
   }
 
   @IpcEvent(IpcDesktopEvent.AddUserToSerialPortGroup)
