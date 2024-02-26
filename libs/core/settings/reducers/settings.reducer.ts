@@ -26,8 +26,7 @@ import {
   setCheckingForUpdate,
 } from "Core/settings/actions"
 import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
-import { setCheckingForUpdateFailed } from "../actions/set-checking-for-update-failed.action"
-import { skipAvailableUpdate } from "Core/settings/actions/skip-available-update.action"
+import { setCheckingForUpdateFailed, skipAvailableUpdate } from "Core/settings/actions/base.action"
 import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
 
 export const initialState: SettingsState = {
