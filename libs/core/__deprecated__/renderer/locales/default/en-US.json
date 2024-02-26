@@ -554,6 +554,7 @@
   "module.onboarding.connectingMessage": "Checking connection, please wait...",
   "module.onboarding.mainTitle": "Mudita Center",
   "module.onboarding.supportButton": "Contact support",
+  "module.onboarding.changeDeviceButton": "Change Device",
   "module.onboarding.troubleshootingButton": "Try again",
   "module.onboarding.troubleshootingInstruction": "Follow the instructions below",
   "module.onboarding.troubleshootingMoreInstructions": "This didn’t solve the problem",

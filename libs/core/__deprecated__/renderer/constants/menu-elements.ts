@@ -106,18 +106,6 @@ export const baseMenuElements: MenuElement[] = [
   {
     items: [
       {
-        button: views[View.Connecting],
-        icon: IconType.Send,
-        testId: MenuGroupTestIds.Connecting,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-      },
-    ],
-    viewKey: View.Connecting,
-    simulatePhoneConnection: true,
-  },
-  {
-    items: [
-      {
         button: views[View.Onboarding],
         icon: IconType.Send,
         visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],

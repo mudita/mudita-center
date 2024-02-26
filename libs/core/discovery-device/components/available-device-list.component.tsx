@@ -56,6 +56,7 @@ const AvailableDeviceList: FunctionComponent = () => {
   const handleDeviceClick = async (id: string) => {
     const device = devices.find((device) => device.id === id)
     if (device?.state === DeviceState.Failed) {
+      await dispatch(handleDeviceActivated(id))
       history.push(URL_ONBOARDING.troubleshooting)
     } else {
       await dispatch(handleDeviceActivated(id))

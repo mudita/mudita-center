@@ -7,7 +7,7 @@ import React from "react"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
-import OnboardingTroubleshooting from "Core/__deprecated__/troubleshooting/components/onboarding-troubleshooting.component"
+import OnboardingUI from "Core/onboarding/components/onboarding/onboarding-ui.component"
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -16,12 +16,12 @@ const Wrapper = styled.div`
   justify-items: stretch;
 `
 
-storiesOf("Components/Troubleshooting", module).add("Troubleshooting", () => {
+storiesOf("Components/Onboarding", module).add("Welcome", () => {
   return (
     <Wrapper>
-      <OnboardingTroubleshooting
-        onRetry={action("Try again")}
-        onContact={action("Contact support")}
+      <OnboardingUI
+        onCancel={action("Cancel")}
+        onTroubleshooting={action("TroubleshootingInfo")}
       />
     </Wrapper>
   )

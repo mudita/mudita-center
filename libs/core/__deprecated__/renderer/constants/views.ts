@@ -26,7 +26,6 @@ const messages = defineMessages({
 
 export enum View {
   Onboarding = "onboarding",
-  Connecting = "connecting",
   News = "news",
   Overview = "overview",
   Messages = "messages",
@@ -55,10 +54,6 @@ export const views: Views = {
   [View.Onboarding]: {
     label: messages.onboarding,
     url: URL_ONBOARDING.root,
-  },
-  [View.Connecting]: {
-    label: messages.connecting,
-    url: URL_ONBOARDING.connecting,
   },
   [View.News]: {
     label: messages.news,
