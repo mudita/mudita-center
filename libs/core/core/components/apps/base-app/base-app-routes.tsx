@@ -20,8 +20,6 @@ import {
 } from "Core/__deprecated__/renderer/constants/urls"
 import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
 import Dial from "Core/__deprecated__/renderer/modules/phone/tabs/dial.component"
-import VoiceRecorder from "Core/__deprecated__/renderer/modules/tools/tabs/voice-recorder.component"
-import Notes from "Core/__deprecated__/renderer/modules/tools/tabs/notes.container"
 import Onboarding from "Core/onboarding/onboarding.container"
 import Troubleshooting from "Core/__deprecated__/troubleshooting/troubleshooting.container"
 import LayoutDesktopWrapper from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
@@ -123,11 +121,6 @@ export default () => (
           <Route
             path={`${URL_MAIN.settings}${URL_TABS.about}`}
             component={AboutContainer}
-          />
-          <Route path={URL_MAIN.tools} component={Notes} exact />
-          <Route
-            path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
-            component={VoiceRecorder}
           />
         </Switch>
       </LayoutDesktopWrapper>

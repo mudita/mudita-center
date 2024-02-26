@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
 import { defineMessages } from "react-intl"
+import { DeviceType } from "Core/device/constants"
 import { View, views } from "Core/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import { Feature, flags } from "Core/feature-flags"
@@ -45,14 +45,6 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Contacts,
     visibleOn: [DeviceType.MuditaPure],
     viewKey: View.Contacts,
-  },
-  {
-    button: views.tools,
-    icon: IconType.MenuTools,
-    testId: MenuGroupTestIds.Tools,
-    hidden: !flags.get(Feature.ToolsTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Tools,
   },
   {
     button: views.filesManager,

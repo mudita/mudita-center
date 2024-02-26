@@ -36,7 +36,6 @@ import MenuOverview from "Core/__deprecated__/renderer/svg/menu-overview.svg"
 import MenuPhone from "Core/__deprecated__/renderer/svg/menu-phone.svg"
 import MenuSettings from "Core/__deprecated__/renderer/svg/menu-settings.svg"
 import MenuTethering from "Core/__deprecated__/renderer/svg/menu-tethering.svg"
-import MenuTools from "Core/__deprecated__/renderer/svg/menu-tools.svg"
 import ExternalLink from "Core/__deprecated__/renderer/svg/external-link.svg"
 import MuditaLogo from "Core/__deprecated__/renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Core/__deprecated__/renderer/svg/mudita_logo.svg"
@@ -232,9 +231,6 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.MenuTethering]: MenuTethering,
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  [IconType.MenuTools]: MenuTools,
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.Message]: Message,
