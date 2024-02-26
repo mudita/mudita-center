@@ -15,7 +15,7 @@ import CantConnectWithoutUSBPortAccessModal from "Core/settings/components/usb-a
 import { addUserToSerialPortGroup } from "Core/desktop/requests/add-user-to-serial-port-group.request"
 import { setUSBAccessRestartRequired } from "Core/settings/actions/set-usb-access-restart-needed.action"
 import { UsbAccessFlowTestIds } from "Core/settings/components/usb-access/usb-access-flow-test-ids.enum"
-import { isUSBAccessRestartRequiredSelector } from "Core/settings/selectors/is-usb-access-restart-requaired.selector"
+import { settingsStateSelector } from "Core/settings/selectors"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -26,9 +26,11 @@ enum USBAccessState {
 
 const USBAccessFlowContainer = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const usbAccessRestartRequired = useSelector(isUSBAccessRestartRequiredSelector)
+  const { userHasSerialPortAccess, usbAccessRestartRequired } = useSelector(
+    settingsStateSelector
+  )
   const [accessState, setAccessState] = useState<USBAccessState>(
-    usbAccessRestartRequired
+    usbAccessRestartRequired && !userHasSerialPortAccess
       ? USBAccessState.grantedNeedsRestart
       : USBAccessState.notGranted
   )

@@ -13,8 +13,7 @@ import { isInitializationDeviceInProgress } from "Core/device-initialization/sel
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { getAppInitializationStatus } from "Core/app-initialization/selectors/get-app-initialization-status.selector"
 import { AppInitializationStatus } from "Core/app-initialization/reducers/app-initialization.interface"
-import { isUSBAccessRestartRequiredSelector } from "Core/settings/selectors/is-usb-access-restart-requaired.selector"
-import { modalsManagerStateSelector } from "Core/modals-manager"
+import { isUsbAccessGrantedSelector } from "Core/settings/selectors/is-usb-access-granted.selector"
 
 export const useDiscoveryRedirectEffect = () => {
   const history = useHistory()
@@ -25,8 +24,7 @@ export const useDiscoveryRedirectEffect = () => {
     isInitializationDeviceInProgress
   )
   const appInitializationStatus = useSelector(getAppInitializationStatus)
-  const usbAccessRestartRequired = useSelector(isUSBAccessRestartRequiredSelector)
-  const { usbAccessFlowShow } = useSelector(modalsManagerStateSelector)
+  const usbAccessGranted = useSelector(isUsbAccessGrantedSelector)
   const previousAppInitializationStatus = useRef(appInitializationStatus)
 
   useEffect(() => {
@@ -48,8 +46,7 @@ export const useDiscoveryRedirectEffect = () => {
       activeDeviceSet ||
       discoveryDeviceInProgress ||
       initializationDeviceInProgress ||
-      usbAccessRestartRequired ||
-      usbAccessFlowShow
+      !usbAccessGranted
     ) {
       return
     }
@@ -63,7 +60,6 @@ export const useDiscoveryRedirectEffect = () => {
     history,
     initializationDeviceInProgress,
     previousAppInitializationStatus,
-    usbAccessRestartRequired,
-    usbAccessFlowShow,
+    usbAccessGranted,
   ])
 }

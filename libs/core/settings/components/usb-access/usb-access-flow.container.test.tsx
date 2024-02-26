@@ -36,7 +36,6 @@ const defaultState = {
     appUpdateFlowShow: false,
     contactSupportFlowShow: false,
     deviceInitializationFailedModalShow: false,
-    usbAccessFlowShow: false,
   },
 } as ReduxRootState
 
@@ -54,10 +53,7 @@ describe("USBAccessFlowContainer", () => {
   test("User allows to add his account to serial port group", async () => {
     const { queryByTestId, getByTestId } = render({
       settings: {
-        usbAccessRestartRequired: false,
-      },
-      modalsManager: {
-        usbAccessFlowShow: true,
+        userHasSerialPortAccess: false,
       },
     } as ReduxRootState)
 
@@ -81,7 +77,7 @@ describe("USBAccessFlowContainer", () => {
   test("User refuses to add his account to serial port group", async () => {
     const { queryByTestId, getByTestId } = render({
       settings: {
-        usbAccessRestartRequired: false,
+        userHasSerialPortAccess: false,
       },
     } as ReduxRootState)
 
@@ -106,9 +102,7 @@ describe("USBAccessFlowContainer", () => {
     const { queryByTestId, getByTestId } = render({
       settings: {
         usbAccessRestartRequired: true,
-      },
-      modalsManager: {
-        usbAccessFlowShow: true,
+        userHasSerialPortAccess: false,
       },
     } as ReduxRootState)
 

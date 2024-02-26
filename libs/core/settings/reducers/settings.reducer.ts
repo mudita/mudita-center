@@ -24,9 +24,13 @@ import {
   setNonStandardAudioFilesConversion,
   setLowBattery,
   setCheckingForUpdate,
+  setUserHasSerialPortAccess,
 } from "Core/settings/actions"
 import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
-import { setCheckingForUpdateFailed, skipAvailableUpdate } from "Core/settings/actions/base.action"
+import {
+  setCheckingForUpdateFailed,
+  skipAvailableUpdate,
+} from "Core/settings/actions/base.action"
 import { setUSBAccessRestartRequired } from "Core/settings/actions/set-usb-access-restart-needed.action"
 
 export const initialState: SettingsState = {
@@ -149,6 +153,9 @@ export const settingsReducer = createReducer<SettingsState>(
       })
       .addCase(setCheckingForUpdateFailed, (state, action) => {
         state.checkingForUpdateFailed = action.payload
+      })
+      .addCase(setUserHasSerialPortAccess, (state, action) => {
+        state.userHasSerialPortAccess = action.payload
       })
       .addCase(skipAvailableUpdate, (state) => {
         state.updateAvailableSkipped = true
