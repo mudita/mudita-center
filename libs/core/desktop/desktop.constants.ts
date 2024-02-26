@@ -5,6 +5,6 @@
 
 export enum IpcDesktopEvent {
   IsLinux = "desktop_is-linux",
-  IsUserInSerialPortGroup = "desktop_is-user-in-serial-port-group",
+  HasUserSerialPortAccess = "desktop_has-user-serial-port-access",
   AddUserToSerialPortGroup = "desktop_add-user-to-serial-port-group",
 }

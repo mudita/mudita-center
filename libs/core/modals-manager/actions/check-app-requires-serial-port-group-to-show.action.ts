@@ -7,8 +7,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ModalsManagerEvent } from "Core/modals-manager/constants"
 import { showModal } from "Core/modals-manager/actions/base.action"
 import { ModalStateKey } from "Core/modals-manager/reducers"
-import { isUserInSerialPortGroup } from "Core/desktop/requests/is-user-in-serial-port-group.request"
+import { hasUserSerialPortAccess } from "Core/desktop/requests/is-user-in-serial-port-group.request"
 import { isLinux } from "Core/desktop/requests/is-linux.request"
+import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
 
 export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   void,
@@ -17,10 +18,12 @@ export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   ModalsManagerEvent.ShowAppRequiresSerialPortGroup,
   async (_, { dispatch }) => {
     if (await isLinux()) {
-      const userInGroup = await isUserInSerialPortGroup()
+      const userHasSerialPortAccess = await hasUserSerialPortAccess()
 
-      if (!userInGroup) {
+      if (!userHasSerialPortAccess) {
         dispatch(showModal(ModalStateKey.UsbAccessFlowShow))
+      } else {
+        await dispatch(setUSBAccessRestart(false))
       }
     }
   }

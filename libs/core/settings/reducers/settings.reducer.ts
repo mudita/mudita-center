@@ -28,6 +28,7 @@ import {
 import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
 import { setCheckingForUpdateFailed } from "../actions/set-checking-for-update-failed.action"
 import { skipAvailableUpdate } from "Core/settings/actions/skip-available-update.action"
+import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
 
 export const initialState: SettingsState = {
   applicationId: "",
@@ -140,6 +141,9 @@ export const settingsReducer = createReducer<SettingsState>(
       .addCase(setIncomingCalls.fulfilled, (state, action) => {
         state.incomingCalls = action.payload
       })
+      .addCase(setUSBAccessRestart.fulfilled, (state, action) => {
+        state.usbAccessRestart = action.payload
+      })
 
       .addCase(setCheckingForUpdate, (state, action) => {
         state.checkingForUpdate = action.payload
@@ -147,7 +151,7 @@ export const settingsReducer = createReducer<SettingsState>(
       .addCase(setCheckingForUpdateFailed, (state, action) => {
         state.checkingForUpdateFailed = action.payload
       })
-      .addCase(skipAvailableUpdate, (state, action) => {
+      .addCase(skipAvailableUpdate, (state) => {
         state.updateAvailableSkipped = true
       })
   }

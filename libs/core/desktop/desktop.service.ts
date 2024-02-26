@@ -11,83 +11,49 @@ enum SerialPortGroup {
   uucp = "uucp",
 }
 
-const hardwareSerialPort = "/dev/ttyACM0"
+const POTENTIAL_GROUPS = [SerialPortGroup.dialout, SerialPortGroup.uucp];
 
 export class DesktopService {
   public async isLinux(): Promise<boolean> {
     return process.platform === "linux"
   }
 
-  private async getSerialPortGroup(): Promise<string> {
-    const serialPortGroup = await this.getGroupsAssignedToSerialPort()
-
-    const isDialout = serialPortGroup.includes(SerialPortGroup.dialout)
-    const isUUCP = serialPortGroup.includes(SerialPortGroup.uucp)
-    let group = ""
-    if (isDialout) {
-      group = SerialPortGroup.dialout
-    } else if (isUUCP) {
-      group = SerialPortGroup.uucp
-    }
-
-    return group
-  }
-
-  public async isUserInSerialPortGroup(): Promise<boolean> {
-    const userGroups = await this.getUserGroups()
-    const serialPortGroup = await this.getSerialPortGroup()
-
-    const isInGroup =
-      serialPortGroup !== "" ? userGroups.includes(serialPortGroup) : false
-
-    return isInGroup
-  }
-
-  public async getGroupsAssignedToSerialPort(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      exec(`ls -l ${hardwareSerialPort}`, (error, stdout, stderr) => {
-        if (error) {
-          reject(`${error.name} - ${error.message}`)
-        } else if (stderr) {
-          reject(stderr)
-        } else {
-          resolve(stdout)
-        }
-      })
-    })
-  }
-
-  public async getUserGroups(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      exec("groups", (error, stdout, stderr) => {
-        if (error) {
-          reject(`${error.name} - ${error.message}`)
-        } else if (stderr) {
-          reject(stderr)
-        } else {
-          resolve(stdout)
-        }
-      })
-    })
+  public async hasUserSerialPortAccess(): Promise<boolean> {
+    const userGroups = await this.getUserGroups();
+    return POTENTIAL_GROUPS.some(group => userGroups.includes(group));
   }
 
   public async addUserToSerialPortGroup(): Promise<void> {
-    const serialPortGroup = await this.getSerialPortGroup()
-    return new Promise((resolve, reject) => {
-      if (serialPortGroup !== "") {
-        const command = `usermod -aG ${serialPortGroup} $USER`
+    const userGroups = await this.getUserGroups();
+    const groupName = POTENTIAL_GROUPS.find(group => !userGroups.includes(group));
 
-        //set simpler process.title, otherwise there is en error from sudoPrompt.exec - 'process.title cannot be used as a valid name.'
-        process.title = "dummy"
+    if (groupName) {
+      const command = `usermod -aG ${groupName} $USER`;
+      // Set simpler process.title, otherwise, there is an error from sudoPrompt.exec - 'process.title cannot be used as a valid name.'
+      process.title = "Mudita Center: assign serial port access";
 
-        sudoPrompt.exec(command, (error) => {
+      return new Promise<void>((resolve, reject) => {
+        sudoPrompt.exec(command, { name: 'User Serial Port Access' }, (error) => {
           if (error === null) {
-            resolve()
+            resolve();
           } else {
-            reject("Could not add user")
+            reject("Could not add user to serial port group");
           }
-        })
-      }
-    })
+        });
+      });
+    }
+  }
+
+  private async getUserGroups(): Promise<string[]> {
+    return new Promise<string[]>((resolve, reject) => {
+      exec("groups", (error, stdout, stderr) => {
+        if (error || stderr) {
+          reject(`${error?.name} - ${error?.message} - ${stderr}`);
+        } else {
+          const groups = stdout.trim().split(/\s+/);
+          resolve(groups);
+        }
+      });
+    });
   }
 }
