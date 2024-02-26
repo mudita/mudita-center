@@ -72,3 +72,5 @@ apps/mudita-center/static/sql-wasm*
 
 # Nx local files
 .nx
+
+matomo-to-gsheet-*.json
