@@ -29,7 +29,7 @@ useDispatchMock.mockImplementation(() => dispatch)
 
 const defaultState = {
   settings: {
-    usbAccessRestart: false,
+    usbAccessRestartRequired: false,
   },
   modalsManager: {
     appForcedUpdateFlowShow: false,
@@ -54,7 +54,7 @@ describe("USBAccessFlowContainer", () => {
   test("User allows to add his account to serial port group", async () => {
     const { queryByTestId, getByTestId } = render({
       settings: {
-        usbAccessRestart: false,
+        usbAccessRestartRequired: false,
       },
       modalsManager: {
         usbAccessFlowShow: true,
@@ -81,7 +81,7 @@ describe("USBAccessFlowContainer", () => {
   test("User refuses to add his account to serial port group", async () => {
     const { queryByTestId, getByTestId } = render({
       settings: {
-        usbAccessRestart: false,
+        usbAccessRestartRequired: false,
       },
     } as ReduxRootState)
 
@@ -105,7 +105,7 @@ describe("USBAccessFlowContainer", () => {
   test("User allowed for action, but didnt restart computer", async () => {
     const { queryByTestId, getByTestId } = render({
       settings: {
-        usbAccessRestart: true,
+        usbAccessRestartRequired: true,
       },
       modalsManager: {
         usbAccessFlowShow: true,

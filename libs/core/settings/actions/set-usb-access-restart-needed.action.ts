@@ -7,10 +7,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { SettingsEvent } from "Core/settings/constants"
 import { updateSettings } from "Core/settings/requests"
 
-export const setUSBAccessRestart = createAsyncThunk<boolean, boolean>(
-  SettingsEvent.SetUSBAccessRestart,
+export const setUSBAccessRestartRequired = createAsyncThunk<boolean, boolean>(
+  SettingsEvent.SetUSBAccessRestartRequired,
   async (payload) => {
-    await updateSettings({ key: "usbAccessRestart", value: payload })
+    await updateSettings({ key: "usbAccessRestartRequired", value: payload })
 
     return payload
   }

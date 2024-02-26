@@ -6,9 +6,9 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { settingsStateSelector } from "Core/settings/selectors/get-settings-state.selector"
 
-export const isUsbAccessRestartSelector = createSelector(
+export const isUSBAccessRestartRequiredSelector = createSelector(
   settingsStateSelector,
-  ({ usbAccessRestart }): boolean => {
-    return usbAccessRestart
+  ({ usbAccessRestartRequired }): boolean => {
+    return usbAccessRestartRequired
   }
 )

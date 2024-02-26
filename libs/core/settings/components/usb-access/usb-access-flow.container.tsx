@@ -13,9 +13,9 @@ import USBAccessGrantedModal from "Core/settings/components/usb-access/usb-acces
 import RestartYourComputerToConnectModal from "Core/settings/components/usb-access/restart-your-computer-to-connect.modal"
 import CantConnectWithoutUSBPortAccessModal from "Core/settings/components/usb-access/cant-connect-without-usb-port-access.modal"
 import { addUserToSerialPortGroup } from "Core/desktop/requests/add-user-to-serial-port-group.request"
-import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
+import { setUSBAccessRestartRequired } from "Core/settings/actions/set-usb-access-restart-needed.action"
 import { UsbAccessFlowTestIds } from "Core/settings/components/usb-access/usb-access-flow-test-ids.enum"
-import { isUsbAccessRestartSelector } from "Core/settings/selectors/is-usb-access-restart.selector"
+import { isUSBAccessRestartRequiredSelector } from "Core/settings/selectors/is-usb-access-restart-requaired.selector"
 
 enum USBAccessState {
   notGranted = "not-granted",
@@ -26,9 +26,9 @@ enum USBAccessState {
 
 const USBAccessFlowContainer = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const usbAccessRestart = useSelector(isUsbAccessRestartSelector)
+  const usbAccessRestartRequired = useSelector(isUSBAccessRestartRequiredSelector)
   const [accessState, setAccessState] = useState<USBAccessState>(
-    usbAccessRestart
+    usbAccessRestartRequired
       ? USBAccessState.grantedNeedsRestart
       : USBAccessState.notGranted
   )
@@ -45,7 +45,7 @@ const USBAccessFlowContainer = () => {
         layer={ModalLayers.LinuxSerialPortGroup}
         onActionButtonClick={async () => {
           await addUserToSerialPortGroup()
-          await dispatch(setUSBAccessRestart(true))
+          await dispatch(setUSBAccessRestartRequired(true))
           setAccessState(USBAccessState.granted)
         }}
         actionButtonLabel="ALLOW"

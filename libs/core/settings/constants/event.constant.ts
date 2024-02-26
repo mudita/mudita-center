@@ -27,5 +27,5 @@ export enum SettingsEvent {
   SetCheckingForUpdate = "settings_set-checking-for-update",
   SetCheckingForUpdateFailed = "settings_set-checking-for-update-failed",
   SkipAvailableUpdate = "settings_skip-available-update",
-  SetUSBAccessRestart = "settings_set-usb-access-restart",
+  SetUSBAccessRestartRequired = "settings_set-usb-access-restart-required",
 }

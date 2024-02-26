@@ -27,7 +27,7 @@ import {
 } from "Core/settings/actions"
 import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
 import { setCheckingForUpdateFailed, skipAvailableUpdate } from "Core/settings/actions/base.action"
-import { setUSBAccessRestart } from "Core/settings/actions/set-usb-access-restart-needed.action"
+import { setUSBAccessRestartRequired } from "Core/settings/actions/set-usb-access-restart-needed.action"
 
 export const initialState: SettingsState = {
   applicationId: "",
@@ -59,7 +59,7 @@ export const initialState: SettingsState = {
   loading: false,
   checkingForUpdate: false,
   checkingForUpdateFailed: false,
-  usbAccessRestart: false,
+  usbAccessRestartRequired: false,
 }
 
 export const settingsReducer = createReducer<SettingsState>(
@@ -140,8 +140,8 @@ export const settingsReducer = createReducer<SettingsState>(
       .addCase(setIncomingCalls.fulfilled, (state, action) => {
         state.incomingCalls = action.payload
       })
-      .addCase(setUSBAccessRestart.fulfilled, (state, action) => {
-        state.usbAccessRestart = action.payload
+      .addCase(setUSBAccessRestartRequired.fulfilled, (state, action) => {
+        state.usbAccessRestartRequired = action.payload
       })
 
       .addCase(setCheckingForUpdate, (state, action) => {
