@@ -30,7 +30,8 @@ export const useButtonAction = (viewKey: string) => {
   const restore = useButtonRestoreAction()
   const backup = useButtonBackupAction()
 
-  return (action: ButtonAction) => {
+  return (action?: ButtonAction) => {
+    if (!action) return
     switch (action.type) {
       case "open-modal":
         dispatch(
@@ -72,6 +73,11 @@ export const useButtonAction = (viewKey: string) => {
         break
       case "backup-data":
         void backup()
+        break
+      case "custom":
+        action.callback()
+        break
+      default:
         break
     }
   }

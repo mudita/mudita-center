@@ -49,7 +49,7 @@ export const ModalBase: FunctionComponent<Props> = ({
           width: config?.width || (variant === "small" ? 408 : 614),
           zIndex: ModalLayers.Default,
           // @ts-ignore
-          "--modal-padding": variant === "small" ? "3.6rem" : "4.8rem",
+          "--modal-padding": variant === "small" ? "2.4rem" : "4.8rem",
         },
       }}
       closeTimeoutMS={400}

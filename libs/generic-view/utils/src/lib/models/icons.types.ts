@@ -30,4 +30,6 @@ export enum IconType {
   Spinner = "spinner",
   Backup = "backup",
   Settings = "settings",
+  PasswordShow = "password-show",
+  PasswordHide = "password-hide",
 }

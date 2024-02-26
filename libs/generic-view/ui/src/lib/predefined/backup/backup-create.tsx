@@ -3,15 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
-import { APIFC, IconType } from "generic-view/utils"
+import { APIFC, ButtonAction } from "generic-view/utils"
 import { withConfig } from "../../utils/with-config"
-import { RoundIconWrapper } from "../../shared/shared"
-import Icon from "../../icon/icon"
+import { BackupFeatures, Feature } from "./backup-features"
+import { BackupPassword } from "./backup-password"
+import { FormProvider, useForm } from "react-hook-form"
+
+enum Step {
+  Features,
+  Password,
+  Progress,
+  Success,
+  Error,
+}
 
 interface Config {
-  features: string[]
+  features: Feature[]
+  modalKey: string
 }
 
 export const BackupCreate: APIFC<undefined, Config> = ({
@@ -20,93 +30,63 @@ export const BackupCreate: APIFC<undefined, Config> = ({
   children,
   ...props
 }) => {
+  const methods = useForm({ mode: "onBlur", reValidateMode: "onChange" })
+  const [step, setStep] = useState<Step>(Step.Features)
+  const closeAction: ButtonAction = {
+    type: "close-modal",
+    modalKey: config!.modalKey,
+  }
+
+  const createBackup: ButtonAction = {
+    type: "custom",
+    callback: () => setStep(Step.Password),
+  }
+
+  const skipPassword: ButtonAction = {
+    type: "custom",
+    callback: () => {
+      setStep(Step.Progress)
+    },
+  }
+
+  const confirmPassword: ButtonAction = {
+    type: "custom",
+    callback: () => {
+      methods.handleSubmit((data) => console.log(data))()
+      // setStep(Step.Progress)
+    },
+  }
+
   return (
-    <Wrapper {...props}>
-      <Header>
-        <RoundIconWrapper>
-          <Icon
-            data={{
-              type: IconType.Backup,
-            }}
+    <FormProvider {...methods}>
+      <Wrapper {...props}>
+        {step === Step.Features && (
+          <BackupFeatures
+            features={config!.features}
+            closeAction={closeAction}
+            nextAction={createBackup}
           />
-        </RoundIconWrapper>
-        <Headline>Create backup</Headline>
-      </Header>
-      <Main>
-        <p>All backup data stays on your computer.</p>
-        <ul>
-          <li>Contact list</li>
-          <li>Call log</li>
-          <li>Messages</li>
-          <li>Notes</li>
-          <li>Calendar events</li>
-          <li>OS version & OS Settings</li>
-          <li>App settings: Phone, Messages</li>
-        </ul>
-      </Main>
-      <Buttons>{children}</Buttons>
-    </Wrapper>
+        )}
+        {step === Step.Password && (
+          <BackupPassword
+            skipAction={skipPassword}
+            nextAction={confirmPassword}
+          />
+        )}
+      </Wrapper>
+    </FormProvider>
   )
 }
 
 export default withConfig(BackupCreate)
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
+  --mainGap: 2.4rem;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 3.6rem 3.6rem;
-  gap: 4rem;
-`
-
-const Header = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.4rem;
-`
-
-const Headline = styled.h1`
-  font-size: ${({ theme }) => theme.fontSize.headline3};
-  line-height: ${({ theme }) => theme.lineHeight.headline3};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  margin: 0;
-`
-
-const Main = styled.article`
-  width: 100%;
-
-  p {
-    color: ${({ theme }) => theme.color.grey1};
-    font-size: ${({ theme }) => theme.fontSize.paragraph1};
-    line-height: ${({ theme }) => theme.lineHeight.paragraph1};
-    letter-spacing: 0.02em;
-    text-align: center;
-    margin: 0 0 2.4rem;
-  }
-
-  ul {
-    margin: 0;
-    padding-left: 3.1rem;
-
-    li {
-      font-size: ${({ theme }) => theme.fontSize.paragraph3};
-      line-height: 3.2rem;
-      letter-spacing: 0.05em;
-      padding-left: 1.6rem;
-      color: ${({ theme }) => theme.color.grey1};
-    }
-  }
-`
-
-const Buttons = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 2.4rem;
-
-  & > * {
-    flex: 1;
-  }
+  padding: 0 var(--modal-padding) var(--modal-padding);
+  gap: var(--mainGap);
 `

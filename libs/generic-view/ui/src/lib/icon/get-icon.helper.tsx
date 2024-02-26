@@ -32,6 +32,8 @@ import Spinner from "Core/__deprecated__/renderer/svg/spinner.svg"
 
 import Backup from "./svg/backup.svg"
 import Settings from "./svg/settings.svg"
+import PasswordShow from "./svg/password-show.svg"
+import PasswordHide from "./svg/password-hide.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -62,6 +64,8 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Spinner]: Spinner,
   [IconType.Backup]: Backup,
   [IconType.Settings]: Settings,
+  [IconType.PasswordShow]: PasswordShow,
+  [IconType.PasswordHide]: PasswordHide,
 }
 
 export const getIcon = (

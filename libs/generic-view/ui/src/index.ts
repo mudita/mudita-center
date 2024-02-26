@@ -27,4 +27,3 @@ const apiComponents = {
 export default apiComponents
 
 export type APIComponents = typeof apiComponents
-
