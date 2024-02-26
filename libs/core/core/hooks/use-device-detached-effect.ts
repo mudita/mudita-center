@@ -23,6 +23,7 @@ import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overvie
 import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { useDebouncedEventsHandler } from "Core/core/hooks/use-debounced-events-handler"
 import { selectDialogOpenState } from "shared/app-state"
+import { closeContactSupportFlow } from "Core/contact-support"
 
 export const useDeviceDetachedEffect = () => {
   const handleDevicesDetached = useHandleDevicesDetached()
@@ -71,6 +72,7 @@ const useProcessActiveDevicesDetachment = () => {
       )
 
       if (activeDeviceDetached) {
+        dispatch(closeContactSupportFlow())
         await modalService.closeModal(true)
 
         if (activeDeviceProcessing) {

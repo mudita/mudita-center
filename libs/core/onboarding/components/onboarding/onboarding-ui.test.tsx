@@ -6,26 +6,22 @@
 import React from "react"
 import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import OnboardingWelcome from "Core/onboarding/components/onboarding-welcome.component"
+import OnboardingUI from "Core/onboarding/components/onboarding/onboarding-ui.component"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/require-await
-test("onboarding: welcome Not now button works properly", async () => {
+test("onboarding: welcome Not now button works properly", () => {
   const onCancel = jest.fn()
   const { getByText } = renderWithThemeAndIntl(
-    <OnboardingWelcome onCancel={onCancel} />
+    <OnboardingUI onCancel={onCancel} />
   )
 
   fireEvent.click(getByText("[value] module.onboarding.primaryButton"))
   expect(onCancel).toBeCalled()
 })
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/require-await
-test("onboarding: phone doesn't show up button works properly button works properly", async () => {
+test("onboarding: phone doesn't show up button works properly button works properly", () => {
   const onTroubleshooting = jest.fn()
   const { getByText } = renderWithThemeAndIntl(
-    <OnboardingWelcome onTroubleshooting={onTroubleshooting} />
+    <OnboardingUI onTroubleshooting={onTroubleshooting} />
   )
 
   fireEvent.click(

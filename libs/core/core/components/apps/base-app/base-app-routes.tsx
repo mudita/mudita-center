@@ -22,8 +22,8 @@ import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-contain
 import Dial from "Core/__deprecated__/renderer/modules/phone/tabs/dial.component"
 import VoiceRecorder from "Core/__deprecated__/renderer/modules/tools/tabs/voice-recorder.component"
 import Notes from "Core/__deprecated__/renderer/modules/tools/tabs/notes.container"
-import Onboarding from "Core/onboarding/onboarding.container"
-import Troubleshooting from "Core/__deprecated__/troubleshooting/troubleshooting.container"
+import Onboarding from "Core/onboarding/components/onboarding/onboarding.component"
+import OnboardingTroubleshooting from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting.component"
 import LayoutDesktopWrapper from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "Core/__deprecated__/renderer/wrappers/layout-blank-wrapper"
 import {
@@ -38,6 +38,7 @@ import TemplatesContainer from "Core/templates/template.container"
 import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configured-devices-discovery.component"
 import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
+import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
 import { GenericView } from "generic-view/feature"
 import { APIConnectionDemo } from "generic-view/ui"
 
@@ -53,7 +54,7 @@ export default () => (
         <Route path={URL_ONBOARDING.welcome} component={Onboarding} />
         <Route
           path={URL_ONBOARDING.troubleshooting}
-          component={Troubleshooting}
+          component={OnboardingTroubleshooting}
         />
       </LayoutBlankWrapper>
     </Route>
@@ -69,6 +70,11 @@ export default () => (
         <Route
           path={URL_DISCOVERY_DEVICE.root}
           component={ConfiguredDevicesDiscovery}
+          exact
+        />
+        <Route
+          path={URL_DISCOVERY_DEVICE.deviceConnecting}
+          component={DeviceConnecting}
           exact
         />
         <Route

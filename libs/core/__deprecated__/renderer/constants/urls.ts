@@ -36,12 +36,12 @@ export const URL_TABS = {
 export const URL_ONBOARDING = {
   root: "/onboarding",
   welcome: "/onboarding/welcome",
-  connecting: "/onboarding/connecting",
   troubleshooting: "/onboarding/troubleshooting",
 } as const
 
 export const URL_DISCOVERY_DEVICE = {
   root: "/discovery-device",
+  deviceConnecting: "/discovery-device/device-connecting",
   availableDeviceListModal: "/discovery-device/available-device-list-modal",
 }
 
