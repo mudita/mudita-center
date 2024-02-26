@@ -11,26 +11,26 @@ enum SerialPortGroup {
   uucp = "uucp",
 }
 
-export class DesktopService {
-  private potentialGroups = [SerialPortGroup.dialout, SerialPortGroup.uucp];
+const POTENTIAL_GROUPS = [SerialPortGroup.dialout, SerialPortGroup.uucp];
 
+export class DesktopService {
   public async isLinux(): Promise<boolean> {
     return process.platform === "linux"
   }
 
   public async hasUserSerialPortAccess(): Promise<boolean> {
     const userGroups = await this.getUserGroups();
-    return this.potentialGroups.some(group => userGroups.includes(group));
+    return POTENTIAL_GROUPS.some(group => userGroups.includes(group));
   }
 
   public async addUserToSerialPortGroup(): Promise<void> {
     const userGroups = await this.getUserGroups();
-    const groupName = this.potentialGroups.find(group => !userGroups.includes(group));
+    const groupName = POTENTIAL_GROUPS.find(group => !userGroups.includes(group));
 
     if (groupName) {
       const command = `usermod -aG ${groupName} $USER`;
       // Set simpler process.title, otherwise, there is an error from sudoPrompt.exec - 'process.title cannot be used as a valid name.'
-      process.title = "dummy";
+      process.title = "Mudita Center: assign serial port access";
 
       return new Promise<void>((resolve, reject) => {
         sudoPrompt.exec(command, { name: 'User Serial Port Access' }, (error) => {
