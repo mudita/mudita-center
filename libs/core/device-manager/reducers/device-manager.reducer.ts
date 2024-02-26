@@ -18,6 +18,7 @@ import { setActiveDevice } from "Core/device-manager/actions/set-active-device.a
 import { configureDevice } from "Core/device-manager/actions/configure-device.action"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
+import { connectDevice } from "Core/device-manager/actions/connect-device.action"
 
 export const initialState: DeviceManagerState = {
   devices: [],
@@ -75,6 +76,31 @@ export const deviceManagerReducer = createReducer<DeviceManagerState>(
                 caseColour: payload.caseColour ?? device.caseColour,
                 serialNumber: payload.serialNumber ?? device.serialNumber,
                 state: DeviceState.Configured,
+              },
+            ]
+          } else {
+            return [...prev, device]
+          }
+        }, [] as Device[])
+
+        return {
+          ...state,
+          devices,
+        }
+      })
+      .addCase(connectDevice.fulfilled, (state, action) => {
+        if(!action.payload){
+          return { ...state }
+        }
+
+        const devices = state.devices.reduce((prev, device) => {
+          const id = action.meta.arg
+          if (device.id === id) {
+            return [
+              ...prev,
+              {
+                ...device,
+                state: DeviceState.Connected,
               },
             ]
           } else {
