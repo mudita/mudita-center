@@ -65,4 +65,9 @@ export class DeviceManagerController {
       return result
     }
   }
+
+  @IpcEvent(IpcDeviceManagerEvent.ConnectDevice)
+  public connectDevice(id: DeviceId): Promise<ResultObject<undefined>> {
+    return this.deviceManager.connectDevice(id)
+  }
 }

@@ -26,7 +26,7 @@ import {
   TroubleshootingButton,
   CancelButton,
   DeviceName,
-} from "Core/onboarding/components/onboarding-welcome.styled"
+} from "Core/onboarding/components/onboarding/onboarding-ui.styled"
 
 const messages = defineMessages({
   headerTitle: { id: "module.onboarding.headerTitle" },
@@ -42,7 +42,7 @@ export interface Props {
 
 const deviceNames = ["Harmony 1", "Harmony 2", "Pure", "Kompakt"]
 
-const OnboardingWelcome: FunctionComponent<Props> = ({
+const OnboardingUI: FunctionComponent<Props> = ({
   onCancel = noop,
   onTroubleshooting = noop,
 }) => (
@@ -87,4 +87,4 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
   </Container>
 )
 
-export default OnboardingWelcome
+export default OnboardingUI

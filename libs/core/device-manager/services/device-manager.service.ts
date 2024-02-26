@@ -139,6 +139,13 @@ export class DeviceManager {
     return device.request(config)
   }
 
+  public connectDevice(
+    id: DeviceId
+  ): Promise<ResultObject<undefined>> {
+    const device = this.devicesMap.get(id) as CoreDevice
+    return device.connect()
+  }
+
   private async addDeviceTask(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
 
