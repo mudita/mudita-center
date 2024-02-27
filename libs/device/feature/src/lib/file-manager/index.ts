@@ -5,3 +5,4 @@
 
 export * from "./file-manager.service"
 export * from "./save-file.request"
+export * from "./save-backup-file.request"
