@@ -44,6 +44,7 @@ import { MessageType } from "Core/messages/constants"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Threads } from "Core/messages/components/thread-list.component"
 import {
+  Container,
   SearchResultContainer,
   SearchResultQueryWrapper,
   SearchTitle,
@@ -98,7 +99,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
 
   return (
-    <div {...restProps}>
+    <Container {...restProps}>
       <SearchResultQueryWrapper>
         <SearchTitle displayStyle={TextDisplayStyle.Headline4}>
           {intl.formatMessage(messages.searchResultsTitle, {
@@ -224,7 +225,7 @@ const MessagesSearchResults: FunctionComponent<MessagesSearchResultProps> = ({
           />
         )}
       </Threads>
-    </div>
+    </Container>
   )
 }
 
