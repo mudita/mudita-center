@@ -90,7 +90,7 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
                 id: "module.genericBackup.restoreButtonLabel",
               }),
               action: {
-                type: "restore-data",
+                type: "backup-data",
                 features: config.restoreFeatures,
               },
             },

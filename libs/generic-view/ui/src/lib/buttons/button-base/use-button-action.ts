@@ -7,6 +7,7 @@ import {
   closeAllModals,
   closeDomainModals,
   closeModal,
+  createBackup,
   getFile,
   openModal,
   replaceModal,
@@ -114,11 +115,12 @@ const useButtonBackupAction = () => {
   return async () => {
     if (deviceId) {
       await dispatch(
-        getFile({
-          deviceId: deviceId,
-          filePath: `/storage/emulated/0/Documents/example3.png`,
-          targetPath: `/Users/mike/Downloads/example.png`,
-        })
+        // getFile({
+        //   deviceId: deviceId,
+        //   filePath: `/storage/emulated/0/Documents/example3.png`,
+        //   targetPath: `/Users/mike/Downloads/example.png`,
+        // })
+        createBackup({ features: ["CONTACTS_LIST", "MESSAGES", "CALL_LOG"] })
       )
     }
   }

@@ -25,6 +25,7 @@ export const createBackup = createAsyncThunk<
 >(
   ActionName.CreateBackup,
   async ({ features, password }, { getState, dispatch }) => {
+    console.log("start createBackup")
     const deviceId = getState().genericViews.activeDevice
 
     if (deviceId === undefined) {
@@ -38,6 +39,7 @@ export const createBackup = createAsyncThunk<
     )
 
     if (!startPreBackupResponse.ok) {
+      console.log(startPreBackupResponse.error)
       console.log("Error while starting pre backup")
       return undefined
     }
@@ -45,7 +47,12 @@ export const createBackup = createAsyncThunk<
     const backupId = startPreBackupResponse.data.backupId
     let backupFeaturesFiles = startPreBackupResponse.data.features
 
+    console.log("1")
+
     while (backupFeaturesFiles === undefined) {
+      console.log("1.a")
+      await new Promise((resolve) => setTimeout(resolve, 10000))
+      console.log("1.b")
       const checkPreBackupResponse = await checkPreBackupRequest(
         backupId,
         features,
@@ -53,12 +60,14 @@ export const createBackup = createAsyncThunk<
       )
 
       if (!checkPreBackupResponse.ok) {
+        console.log(checkPreBackupResponse.error)
         console.log("Error while checking pre backup")
         return undefined
       }
 
       backupFeaturesFiles = checkPreBackupResponse.data.features
     }
+    console.log("2")
 
     const featureToTransferId: Record<string, number> = {}
 
