@@ -4,12 +4,15 @@
  */
 
 import React, { useState } from "react"
-import styled from "styled-components"
 import { APIFC, ButtonAction } from "generic-view/utils"
 import { withConfig } from "../../utils/with-config"
 import { BackupFeatures, Feature } from "./backup-features"
 import { BackupPassword } from "./backup-password"
 import { FormProvider, useForm } from "react-hook-form"
+import { BackupProgress } from "./backup-progress"
+import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
+import { BackupSuccess } from "./backup-success"
+import { BackupFailure } from "./backup-failure"
 
 enum Step {
   Features,
@@ -30,7 +33,9 @@ export const BackupCreate: APIFC<undefined, Config> = ({
   children,
   ...props
 }) => {
-  const methods = useForm({ mode: "onBlur", reValidateMode: "onChange" })
+  const methods = useForm({
+    mode: "onTouched",
+  })
   const [step, setStep] = useState<Step>(Step.Features)
   const closeAction: ButtonAction = {
     type: "close-modal",
@@ -53,13 +58,24 @@ export const BackupCreate: APIFC<undefined, Config> = ({
     type: "custom",
     callback: () => {
       methods.handleSubmit((data) => console.log(data))()
-      // setStep(Step.Progress)
+      setStep(Step.Progress)
     },
+  }
+
+  const onSuccess = () => {
+    setStep(Step.Success)
+  }
+
+  const onFail = () => {
+    setStep(Step.Error)
   }
 
   return (
     <FormProvider {...methods}>
-      <Wrapper {...props}>
+      {[Step.Features, Step.Password, Step.Progress].includes(step) && (
+        <ModalCloseButton action={closeAction} />
+      )}
+      <ModalCenteredContent {...props}>
         {step === Step.Features && (
           <BackupFeatures
             features={config!.features}
@@ -73,20 +89,14 @@ export const BackupCreate: APIFC<undefined, Config> = ({
             nextAction={confirmPassword}
           />
         )}
-      </Wrapper>
+        {step === Step.Progress && (
+          <BackupProgress onSuccess={onSuccess} onFail={onFail} />
+        )}
+        {step === Step.Success && <BackupSuccess />}
+        {step === Step.Error && <BackupFailure modalKey={config!.modalKey} />}
+      </ModalCenteredContent>
     </FormProvider>
   )
 }
 
 export default withConfig(BackupCreate)
-
-const Wrapper = styled.form`
-  --mainGap: 2.4rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0 var(--modal-padding) var(--modal-padding);
-  gap: var(--mainGap);
-`

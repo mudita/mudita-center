@@ -58,5 +58,10 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.color.black + "26"};
     display: flex;
     flex-direction: column;
+    position: relative;
+
+    .modal-close-button:nth-child(2) {
+      display: none;
+    }
   }
 `

@@ -6,9 +6,9 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { ButtonAction, IconType } from "generic-view/utils"
-import { RoundIconWithTitle } from "../../shared/shared"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
+import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 
 export interface Feature {
   label: string
@@ -28,7 +28,8 @@ export const BackupFeatures: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <RoundIconWithTitle icon={IconType.Backup} title={"Create backup"} />
+      <ModalTitleIcon data={{ type: IconType.Backup }} />
+      <h1>Create backup</h1>
       <Main>
         <p>All backup data stays on your computer.</p>
         <ul>
@@ -41,7 +42,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
           <li>App settings: Phone, Messages</li>
         </ul>
       </Main>
-      <Buttons>
+      <ModalButtons>
         <ButtonSecondary
           config={{
             text: "Cancel",
@@ -54,7 +55,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
             action: nextAction,
           }}
         />
-      </Buttons>
+      </ModalButtons>
     </>
   )
 }
@@ -62,36 +63,17 @@ export const BackupFeatures: FunctionComponent<Props> = ({
 const Main = styled.article`
   width: 100%;
 
-  p {
-    color: ${({ theme }) => theme.color.grey1};
-    font-size: ${({ theme }) => theme.fontSize.paragraph1};
-    line-height: ${({ theme }) => theme.lineHeight.paragraph1};
-    letter-spacing: 0.02em;
-    text-align: center;
-    margin: 0 0 2.4rem;
-  }
-
   ul {
-    margin: 0;
+    margin: 1.4rem 0 0;
     padding-left: 3.1rem;
 
     li {
       font-size: ${({ theme }) => theme.fontSize.paragraph3};
-      line-height: 3.2rem;
+      line-height: ${({ theme }) => theme.space.xxl};
       letter-spacing: 0.05em;
-      padding-left: 1.6rem;
+      padding-left: ${({ theme }) => theme.space.lg};
       color: ${({ theme }) => theme.color.grey1};
+      text-align: left;
     }
-  }
-`
-
-const Buttons = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 2.4rem;
-
-  & > * {
-    flex: 1;
   }
 `

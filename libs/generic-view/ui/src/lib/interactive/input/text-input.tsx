@@ -56,7 +56,7 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
     <Wrapper>
       <Label
         htmlFor={"input-" + id}
-        $active={value.length > 0}
+        $inactive={value.length === 0}
         $withError={!!error}
       >
         {config?.label}
@@ -69,7 +69,11 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
           {...register(config!.name, { ...config?.validation })}
         />
         {value.length > 0 && (
-          <IconButton type={"button"} onClick={togglePasswordVisibility}>
+          <IconButton
+            type={"button"}
+            onClick={togglePasswordVisibility}
+            aria-label={passwordVisible ? "Hide password" : "Show password"}
+          >
             <Icon
               data={{
                 type: passwordVisible
@@ -90,33 +94,30 @@ export default withData(withConfig(TextInput))
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `
 
-const Label = styled.label<{ $active: boolean; $withError?: boolean }>`
+const Label = styled.label<{ $inactive: boolean; $withError?: boolean }>`
   color: ${({ theme }) => theme.color.grey2};
-  font-size: ${({ theme }) => theme.fontSize.paragraph3};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
-  letter-spacing: 0.05em;
-  pointer-events: none;
-  transform: translateY(2.7rem);
+  letter-spacing: 0.04em;
+  font-size: ${({ theme }) => theme.fontSize.labelText};
+  line-height: ${({ theme }) => theme.lineHeight.labelText};
   transition: all 0.2s ease-in-out;
   position: relative;
   z-index: 1;
 
-  ${({ $active, theme }) =>
-    $active &&
+  ${({ $inactive, theme }) =>
+    $inactive &&
     css`
-      transform: translateY(0);
-      letter-spacing: 0.04em;
-      font-size: ${theme.fontSize.labelText};
-      line-height: ${theme.lineHeight.labelText};
-      margin-top: calc(
-        ${theme.lineHeight.paragraph3} - ${theme.lineHeight.labelText}
-      );
+      pointer-events: none;
+      font-size: ${theme.fontSize.paragraph3};
+      letter-spacing: 0.05em;
+      transform: translateY(2.6rem);
     `}
 
-  ${({ $withError, theme }) =>
+  ${({ $withError, $inactive, theme }) =>
     $withError &&
+    !$inactive &&
     css`
       color: ${theme.color.red1};
     `}
@@ -135,9 +136,16 @@ const Input = styled.input<{ $withError?: boolean }>`
   min-height: 3.2rem;
   border: none;
   border-bottom: 0.1rem solid ${({ theme }) => theme.color.grey4};
+  box-sizing: content-box;
   flex: 1;
   outline: none;
   transition: border-bottom-color 0.2s ease-in-out;
+
+  &[type="password"] {
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.15em;
+    font-weight: bold;
+  }
 
   &:focus {
     ${inputFocusStyles};

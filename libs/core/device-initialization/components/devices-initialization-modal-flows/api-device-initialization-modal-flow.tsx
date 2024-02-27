@@ -19,6 +19,7 @@ import { ApiError } from "device/models"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import {
+  closeButtonStyles,
   IconButton,
   ModalBase,
   ModalCenteredContent,
@@ -122,9 +123,11 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
           variant={"small"}
           overlayHidden
           closeButton={
-            <IconButton onClick={onModalClose}>
-              <ModalCloseIcon />
-            </IconButton>
+            <CloseButton>
+              <IconButton onClick={onModalClose}>
+                <ModalCloseIcon />
+              </IconButton>
+            </CloseButton>
           }
         >
           <ModalCenteredContent>
@@ -150,4 +153,8 @@ const ConnectingText = styled.p`
   color: ${({ theme }) => theme.color.white};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   margin: 2.4rem 0 0;
+`
+
+const CloseButton = styled.div`
+  ${closeButtonStyles};
 `

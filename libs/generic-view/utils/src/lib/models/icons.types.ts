@@ -32,4 +32,6 @@ export enum IconType {
   Settings = "settings",
   PasswordShow = "password-show",
   PasswordHide = "password-hide",
+  Success = "success",
+  Failure = "failure",
 }
