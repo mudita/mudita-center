@@ -11,11 +11,12 @@ import { DefaultButton } from "../../shared/button"
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   action: ButtonAction
   viewKey?: string
+  disabled?: boolean
 }
 
 export const ButtonBase: FunctionComponent<Props> = ({ action, ...props }) => {
   const callButtonAction = useButtonAction(props.viewKey as string)
   const callAction = () => callButtonAction(action)
 
-  return <DefaultButton {...props} onClick={callAction} />
+  return <DefaultButton {...props} onClick={callAction} type={"button"} />
 }

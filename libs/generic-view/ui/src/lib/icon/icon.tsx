@@ -9,7 +9,7 @@ import React from "react"
 import styled from "styled-components"
 import { getIcon } from "./get-icon.helper"
 
-interface IconProps {
+interface Data {
   type: IconType
 }
 
@@ -23,7 +23,7 @@ const StyledIcon = styled.div`
   }
 `
 
-const Icon: APIFC<IconProps> = ({ className, data, ...rest }) => {
+const Icon: APIFC<Data> = ({ className, data, ...rest }) => {
   if (!data) {
     return null
   }

@@ -6,12 +6,11 @@
 import React, { UIEventHandler, useState } from "react"
 import { BaseGenericComponent, ModalAction } from "generic-view/utils"
 import styled, { css } from "styled-components"
-import { ButtonBase } from "../../buttons/button-base/button-base"
 import { useModalsQueue } from "./use-modals-queue"
 import { withData } from "../../utils/with-data"
 import { withConfig } from "../../utils/with-config"
-import { ModalCloseIcon, ModalBase, ModalHeader } from "./modal-base"
-import { iconButtonStyles } from "../../shared/button"
+import { ModalBase } from "./modal-base"
+import { ModalCloseButton } from "./modal-helpers"
 
 interface Config {
   closeButtonAction?: ModalAction
@@ -41,13 +40,10 @@ export const TextModal: BaseGenericComponent<
       config={{
         width: config?.width || 678,
       }}
-      headerDisabled
     >
-      <TextModalHeader $active={contentScrolled}>
-        <ModalClose action={closeAction} test-id={"close-button"}>
-          <ModalCloseIcon />
-        </ModalClose>
-      </TextModalHeader>
+      <Header $active={contentScrolled}>
+        <ModalCloseButton action={closeAction} test-id={"close-button"} />
+      </Header>
       <ScrollContainer onScroll={handleScroll}>{children}</ScrollContainer>
     </ModalBase>
   )
@@ -55,19 +51,28 @@ export const TextModal: BaseGenericComponent<
 
 export default withConfig(withData(TextModal))
 
-const ModalClose = styled(ButtonBase)`
-  ${iconButtonStyles};
-`
-
 const headerWhileScrollingStyles = css`
   box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
 `
 
-const TextModalHeader = styled(ModalHeader)<{ $active: boolean }>`
+const Header = styled.header<{ $active: boolean }>`
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  min-height: 8rem;
   padding: ${({ theme }) => theme.space.xl};
   transition: box-shadow 0.3s ease-in-out;
   background-color: ${({ theme }) => theme.color.white};
   ${({ $active }) => $active && headerWhileScrollingStyles};
+
+  button {
+    position: relative;
+    top: 0;
+    right: 0;
+  }
 `
 
 const ScrollContainer = styled.div`

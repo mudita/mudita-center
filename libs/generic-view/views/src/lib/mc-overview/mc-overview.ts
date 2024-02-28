@@ -44,6 +44,26 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         label: "Call log",
         key: "call-log",
       },
+      {
+        label: "Messages",
+        key: "messages",
+      },
+      {
+        label: "Notes",
+        key: "notes",
+      },
+      {
+        label: "Calendar events",
+        key: "calendar-events",
+      },
+      {
+        label: "OS version & OS Settings",
+        key: "os-version",
+      },
+      {
+        label: "App settings: Phone, Messages",
+        key: "app-settings",
+      },
     ],
     restoreFeatures: [
       {
