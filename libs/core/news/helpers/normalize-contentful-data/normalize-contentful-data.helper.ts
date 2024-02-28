@@ -3,47 +3,36 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Asset, Entry, EntryCollection } from "contentful"
+import { EntryCollection } from "contentful"
 import { NewsEntry } from "../../dto"
 import { getBase64 } from "../get-base-64/get-base64.helper"
+import { getAssetForEntry } from "Core/news/helpers/normalize-contentful-data/get-asset-for-entry.helper"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const normalizeContentfulData = async (
   data: EntryCollection<NewsEntry>
-) => {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+): Promise<{ newsItems: NewsEntry[]; lastUpdate: string }> => {
   const { items, includes } = data
-  const news = items.map(({ fields, sys }: Entry<NewsEntry>) => {
-    return {
+  const newsItems: NewsEntry[] = []
+
+  for (const item of items) {
+    const { fields, sys } = item
+    const { title, url } = getAssetForEntry(includes.Asset, fields?.image?.sys?.id);
+
+    const imageSource = await getBase64(url)
+    const imageAlt = title
+    newsItems.push({
       ...fields,
       newsId: sys.id,
       updatedAt: sys.updatedAt,
       createdAt: sys.createdAt,
       imageId: fields?.image?.sys?.id,
-    }
-  })
-  for (const item of news) {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const {
-      fields: {
-        title,
-        file: { url },
-      },
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    } = includes.Asset.find((asset: Asset) => {
-      return item?.image?.sys?.id === asset.sys.id
+      imageSource,
+      imageAlt,
     })
-    item.imageSource = await getBase64(url)
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    item.imageAlt = title
   }
+
   return {
-    newsItems: news,
+    newsItems,
     lastUpdate: new Date().toISOString(),
   }
 }
