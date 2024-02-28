@@ -9,7 +9,7 @@ import { FileManagerServiceEvents } from "device/models"
 import { ipcRenderer } from "electron-better-ipc"
 
 export const saveBackupFileRequest = (
-  featureToTransferId: Record<string, string>,
+  featureToTransferId: Record<string, number>,
   deviceId?: DeviceId,
   password?: string
 ): Promise<ResultObject<undefined>> => {
