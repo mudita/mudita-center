@@ -19,6 +19,12 @@ const messages = defineMessages({
   description: {
     id: "module.genericViews.backup.features.description",
   },
+  cancelButtonLabel: {
+    id: "module.genericViews.backup.features.cancelButtonLabel",
+  },
+  createButtonLabel: {
+    id: "module.genericViews.backup.features.createButtonLabel",
+  },
 })
 
 export interface Feature {
@@ -52,13 +58,13 @@ export const BackupFeatures: FunctionComponent<Props> = ({
       <ModalButtons>
         <ButtonSecondary
           config={{
-            text: "Cancel",
+            text: intl.formatMessage(messages.cancelButtonLabel),
             action: closeAction,
           }}
         />
         <ButtonPrimary
           config={{
-            text: "Create backup",
+            text: intl.formatMessage(messages.createButtonLabel),
             action: nextAction,
           }}
         />

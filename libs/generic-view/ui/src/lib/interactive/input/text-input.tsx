@@ -69,11 +69,7 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
           {...register(config!.name, { ...config?.validation })}
         />
         {value.length > 0 && (
-          <IconButton
-            type={"button"}
-            onClick={togglePasswordVisibility}
-            aria-label={passwordVisible ? "Hide password" : "Show password"}
-          >
+          <IconButton type={"button"} onClick={togglePasswordVisibility}>
             <Icon
               data={{
                 type: passwordVisible

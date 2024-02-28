@@ -916,6 +916,8 @@
   "module.genericViews.update.actionLabel": "You can update it on your device.",
   "module.genericViews.backup.features.title": "Create backup",
   "module.genericViews.backup.features.description": "All backup data stays on your computer.",
+  "module.genericViews.backup.features.cancelButtonLabel": "Cancel",
+  "module.genericViews.backup.features.createButtonLabel": "Create backup",
   "module.genericViews.backup.password.title": "Create password for backup",
   "module.genericViews.backup.password.subtitle": "(optional)",
   "module.genericViews.backup.password.description": "You can protect backup with a new password.",
