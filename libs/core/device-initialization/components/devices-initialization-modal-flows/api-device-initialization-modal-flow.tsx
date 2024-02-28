@@ -123,10 +123,8 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
           variant={"small"}
           overlayHidden
           closeButton={
-            <CloseButton>
-              <IconButton onClick={onModalClose}>
-                <ModalCloseIcon />
-              </IconButton>
+            <CloseButton onClick={onModalClose}>
+              <ModalCloseIcon />
             </CloseButton>
           }
         >
@@ -155,6 +153,6 @@ const ConnectingText = styled.p`
   margin: 2.4rem 0 0;
 `
 
-const CloseButton = styled.div`
+const CloseButton = styled(IconButton)`
   ${closeButtonStyles};
 `

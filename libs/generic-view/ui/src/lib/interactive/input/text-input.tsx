@@ -68,7 +68,7 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
           $withError={!!error}
           {...register(config!.name, { ...config?.validation })}
         />
-        {value.length > 0 && (
+        {config?.type === "password" && value.length > 0 && (
           <IconButton type={"button"} onClick={togglePasswordVisibility}>
             <Icon
               data={{
