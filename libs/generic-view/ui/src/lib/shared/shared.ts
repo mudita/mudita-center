@@ -6,4 +6,3 @@
 export * from "./tag"
 export * from "./button"
 export * from "./spinner-loader"
-export * from "./round-icon-wrapper"
