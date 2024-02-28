@@ -10,6 +10,7 @@ import {
   checkPreBackupRequest,
   startPreBackupRequest,
   sendClearRequest,
+  postBackupRequest,
 } from "device/feature"
 
 import { ActionName } from "../action-names"
@@ -47,12 +48,9 @@ export const createBackup = createAsyncThunk<
     const backupId = startPreBackupResponse.data.backupId
     let backupFeaturesFiles = startPreBackupResponse.data.features
 
-    console.log("1")
-
     while (backupFeaturesFiles === undefined) {
-      console.log("1.a")
-      await new Promise((resolve) => setTimeout(resolve, 10000))
-      console.log("1.b")
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       const checkPreBackupResponse = await checkPreBackupRequest(
         backupId,
         features,
@@ -67,7 +65,6 @@ export const createBackup = createAsyncThunk<
 
       backupFeaturesFiles = checkPreBackupResponse.data.features
     }
-    console.log("2")
 
     const featureToTransferId: Record<string, number> = {}
 
@@ -95,6 +92,7 @@ export const createBackup = createAsyncThunk<
             await sendClearRequest(transferId)
           })
         )
+        await postBackupRequest(backupId, deviceId)
         return undefined
       }
     }
@@ -112,9 +110,11 @@ export const createBackup = createAsyncThunk<
           await sendClearRequest(transferId)
         })
       )
+      await postBackupRequest(backupId, deviceId)
       return undefined
     }
 
+    await postBackupRequest(backupId, deviceId)
     return undefined
   }
 )

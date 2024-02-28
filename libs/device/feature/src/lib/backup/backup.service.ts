@@ -76,7 +76,7 @@ export class APIBackupService {
         backupId,
       },
     })
-    console.log(response)
+
     return this.parsePreBackupResponse(response, features)
   }
 

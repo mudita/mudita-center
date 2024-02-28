@@ -40,6 +40,7 @@ export class FileManager {
     }
   }
 
+  @IpcEvent(FileManagerServiceEvents.SaveBackupFile)
   public saveBackupFile({
     deviceId,
     featureToTransferId,
