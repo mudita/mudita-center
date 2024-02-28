@@ -6,13 +6,11 @@
 import Modal from "./modal/modal"
 import { TextModal } from "./modal/text-modal"
 import { TextInput } from "./input/text-input"
-import Form from "./form/form"
 import ProgressBar from "./progress-bar/progress-bar"
 
 export const interactive = {
   modal: Modal,
   "text-modal": TextModal,
   "text-input": TextInput,
-  form: Form,
   "progress-bar": ProgressBar,
 }
