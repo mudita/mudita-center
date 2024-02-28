@@ -6,7 +6,16 @@
 import { EntryCollection } from "contentful"
 import { NewsEntry } from "../../dto"
 import { getBase64 } from "../get-base-64/get-base64.helper"
-import { getAssetForEntry } from "Core/news/helpers/normalize-contentful-data/get-asset-for-entry.helper"
+import { getAssetForEntry } from "./get-asset-for-entry.helper"
+import {
+  CARD_IMAGE_MAX_HEIGHT_PIXEL,
+  CARD_IMAGE_MAX_WIDTH_PIXEL,
+} from "../../../news/components/card/card.constans"
+
+const DPI = 2
+const WIDTH = CARD_IMAGE_MAX_WIDTH_PIXEL * DPI
+const HEIGHT = CARD_IMAGE_MAX_HEIGHT_PIXEL * DPI
+const QUALITY = 100
 
 export const normalizeContentfulData = async (
   data: EntryCollection<NewsEntry>
@@ -16,8 +25,11 @@ export const normalizeContentfulData = async (
 
   for (const item of items) {
     const { fields, sys } = item
-    const { title, url } = getAssetForEntry(includes.Asset, fields?.image?.sys?.id);
-
+    const { title, url: relativeUrl } = getAssetForEntry(
+      includes.Asset,
+      fields?.image?.sys?.id
+    )
+    const url = `https:${relativeUrl}?w=${WIDTH}&h=${HEIGHT}&fit=fill&q=${QUALITY}`
     const imageSource = await getBase64(url)
     const imageAlt = title
     newsItems.push({
