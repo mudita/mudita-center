@@ -3,16 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
+import React, { FunctionComponent, useState } from "react"
 import { APIFC, ButtonAction } from "generic-view/utils"
 import { withConfig } from "../../utils/with-config"
 import { BackupFeatures, Feature } from "./backup-features"
 import { BackupPassword } from "./backup-password"
-import { FormProvider, useForm } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
 import { BackupProgress } from "./backup-progress"
 import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
 import { BackupSuccess } from "./backup-success"
 import { BackupFailure } from "./backup-failure"
+import { Form } from "../../interactive/form/form"
 
 enum Step {
   Features,
@@ -23,23 +24,19 @@ enum Step {
 }
 
 interface Config {
-  features: Feature[]
-  modalKey: string
+  features?: Feature[]
+  modalKey?: string
 }
 
-export const BackupCreate: APIFC<undefined, Config> = ({
-  data,
-  config,
-  children,
-  ...props
+const BackupCreateForm: FunctionComponent<Config> = ({
+  features,
+  modalKey,
 }) => {
-  const methods = useForm({
-    mode: "onTouched",
-  })
+  const { handleSubmit } = useFormContext()
   const [step, setStep] = useState<Step>(Step.Features)
   const closeAction: ButtonAction = {
     type: "close-modal",
-    modalKey: config!.modalKey,
+    modalKey: modalKey!,
   }
 
   const createBackup: ButtonAction = {
@@ -57,7 +54,7 @@ export const BackupCreate: APIFC<undefined, Config> = ({
   const confirmPassword: ButtonAction = {
     type: "custom",
     callback: () => {
-      methods.handleSubmit((data) => console.log(data))()
+      handleSubmit((data) => console.log(data))()
       setStep(Step.Progress)
     },
   }
@@ -78,12 +75,12 @@ export const BackupCreate: APIFC<undefined, Config> = ({
   ].includes(step)
 
   return (
-    <FormProvider {...methods}>
+    <>
       {showCloseButton && <ModalCloseButton action={closeAction} />}
-      <ModalCenteredContent {...props}>
+      <ModalCenteredContent>
         {step === Step.Features && (
           <BackupFeatures
-            features={config!.features}
+            features={features || []}
             closeAction={closeAction}
             nextAction={createBackup}
           />
@@ -98,9 +95,22 @@ export const BackupCreate: APIFC<undefined, Config> = ({
           <BackupProgress onSuccess={onSuccess} onFail={onFail} />
         )}
         {step === Step.Success && <BackupSuccess />}
-        {step === Step.Error && <BackupFailure modalKey={config!.modalKey} />}
+        {step === Step.Error && <BackupFailure modalKey={modalKey!} />}
       </ModalCenteredContent>
-    </FormProvider>
+    </>
+  )
+}
+
+export const BackupCreate: APIFC<undefined, Config> = ({
+  data,
+  config,
+  children,
+  ...props
+}) => {
+  return (
+    <Form {...props}>
+      <BackupCreateForm {...config} />
+    </Form>
   )
 }
 
