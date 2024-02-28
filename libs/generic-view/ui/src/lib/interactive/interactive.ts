@@ -5,7 +5,7 @@
 
 import Modal from "./modal/modal"
 import { TextModal } from "./modal/text-modal"
-import { TextInput } from "./input/text-input"
+import TextInput from "./input/text-input"
 import ProgressBar from "./progress-bar/progress-bar"
 
 export const interactive = {

@@ -16,6 +16,7 @@ interface Data {
 
 interface Config {
   maxValue: number
+  valueUnit?: string
 }
 
 export const ProgressBar: APIFC<Data, Config> = ({
@@ -32,7 +33,10 @@ export const ProgressBar: APIFC<Data, Config> = ({
         max={config?.maxValue}
         value={data?.value}
       />
-      <Label htmlFor={"progress-" + id}>50%</Label>
+      <Label htmlFor={"progress-" + id}>
+        {data?.value}
+        {config?.valueUnit || "%"}
+      </Label>
     </Wrapper>
   )
 }

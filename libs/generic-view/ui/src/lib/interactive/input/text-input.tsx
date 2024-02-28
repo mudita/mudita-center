@@ -47,8 +47,8 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
   }
 
   useEffect(() => {
-    if (data?.value && config?.name) {
-      setValue(config.name, data.value)
+    if (config?.name) {
+      setValue(config.name, data?.value)
     }
   }, [config?.name, data?.value, setValue])
 

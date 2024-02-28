@@ -70,11 +70,16 @@ export const BackupCreate: APIFC<undefined, Config> = ({
     setStep(Step.Error)
   }
 
+  const showCloseButton = [
+    Step.Features,
+    Step.Password,
+    Step.Progress,
+    Step.Success,
+  ].includes(step)
+
   return (
     <FormProvider {...methods}>
-      {[Step.Features, Step.Password, Step.Progress].includes(step) && (
-        <ModalCloseButton action={closeAction} />
-      )}
+      {showCloseButton && <ModalCloseButton action={closeAction} />}
       <ModalCenteredContent {...props}>
         {step === Step.Features && (
           <BackupFeatures

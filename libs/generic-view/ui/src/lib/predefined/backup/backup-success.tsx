@@ -7,15 +7,30 @@ import React, { FunctionComponent } from "react"
 import { IconType } from "generic-view/utils"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  title: {
+    id: "module.genericViews.backup.success.title",
+  },
+  description: {
+    id: "module.genericViews.backup.success.description",
+  },
+  description2: {
+    id: "module.genericViews.backup.success.description2",
+  },
+  openBackupButtonLabel: {
+    id: "module.genericViews.backup.success.openBackupButtonLabel",
+  },
+})
 
 export interface Feature {
   label: string
   key: string
 }
 
-interface Props {}
-
-export const BackupSuccess: FunctionComponent<Props> = () => {
+export const BackupSuccess: FunctionComponent = () => {
   const openBackupDirectory = () => {}
   return (
     <>
@@ -24,15 +39,13 @@ export const BackupSuccess: FunctionComponent<Props> = () => {
           type: IconType.Success,
         }}
       />
-      <h1>Backup complete</h1>
-      <p>Your data has been successfully secured.</p>
-      <p>
-        Open the backup folder to see your backup data or close this window.
-      </p>
+      <h1>{intl.formatMessage(messages.title)}</h1>
+      <p>{intl.formatMessage(messages.description)}</p>
+      <p>{intl.formatMessage(messages.description2)}</p>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
-            text: "Open backup",
+            text: intl.formatMessage(messages.openBackupButtonLabel),
             action: {
               type: "custom",
               callback: openBackupDirectory,

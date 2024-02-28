@@ -9,6 +9,17 @@ import { ButtonAction, IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  title: {
+    id: "module.genericViews.backup.features.title",
+  },
+  description: {
+    id: "module.genericViews.backup.features.description",
+  },
+})
 
 export interface Feature {
   label: string
@@ -29,17 +40,13 @@ export const BackupFeatures: FunctionComponent<Props> = ({
   return (
     <>
       <ModalTitleIcon data={{ type: IconType.Backup }} />
-      <h1>Create backup</h1>
+      <h1>{intl.formatMessage(messages.title)}</h1>
       <Main>
-        <p>All backup data stays on your computer.</p>
+        <p>{intl.formatMessage(messages.description)}</p>
         <ul>
-          <li>Contact list</li>
-          <li>Call log</li>
-          <li>Messages</li>
-          <li>Notes</li>
-          <li>Calendar events</li>
-          <li>OS version & OS Settings</li>
-          <li>App settings: Phone, Messages</li>
+          {features.map((feature) => (
+            <li key={feature.key}>{feature.label}</li>
+          ))}
         </ul>
       </Main>
       <ModalButtons>
