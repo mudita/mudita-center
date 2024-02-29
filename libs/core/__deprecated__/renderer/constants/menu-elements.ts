@@ -47,14 +47,6 @@ const YOUR_PURE_BUTTONS = [
     viewKey: View.Contacts,
   },
   {
-    button: views.tools,
-    icon: IconType.MenuTools,
-    testId: MenuGroupTestIds.Tools,
-    hidden: !flags.get(Feature.ToolsTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Tools,
-  },
-  {
     button: views.filesManager,
     icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,

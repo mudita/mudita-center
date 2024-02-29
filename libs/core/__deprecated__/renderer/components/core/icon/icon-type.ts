@@ -36,7 +36,6 @@ export enum IconType {
   MenuPhone,
   MenuSettings,
   MenuTethering,
-  MenuTools,
   MenuRange,
   MenuBattery,
   Message,

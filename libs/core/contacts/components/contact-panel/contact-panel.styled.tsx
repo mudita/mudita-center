@@ -10,7 +10,7 @@ import {
   transitionTimingFunction,
 } from "Core/core/styles/theming/theme-getters"
 import SelectionManager from "Core/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
-import { showToggleableElement } from "Core/__deprecated__/renderer/modules/tools/tabs/notes.styled"
+import { fadeInAnimation } from "Core/ui/utils/fade-in-animation"
 
 export const Panel = styled.div<{
   selectionMode?: boolean
@@ -30,7 +30,7 @@ export const Panel = styled.div<{
 `
 
 export const ContactSelectionManager = styled(SelectionManager)`
-  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
+  animation: ${fadeInAnimation} ${transitionTime("quick")} forwards
     ${transitionTimingFunction("easeInOut")};
   grid-template-columns: 2.8rem 1fr;
 `

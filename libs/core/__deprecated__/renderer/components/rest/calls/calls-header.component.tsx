@@ -21,7 +21,7 @@ import {
 } from "Core/__deprecated__/renderer/models/calls/calls.interface"
 import SelectionManager from "Core/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
 import { UseTableSelect } from "Core/__deprecated__/renderer/utils/hooks/useTableSelect"
-import { showToggleableElement } from "Core/__deprecated__/renderer/modules/tools/tabs/notes.styled"
+import { fadeInAnimation } from "Core/ui/utils/fade-in-animation"
 import {
   transitionTime,
   transitionTimingFunction,
@@ -73,7 +73,7 @@ const CallsFiltersWrapper = styled(FiltersWrapper)<{
 `
 
 const CallsSelectionManager = styled(SelectionManager)`
-  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
+  animation: ${fadeInAnimation} ${transitionTime("quick")} forwards
     ${transitionTimingFunction("easeInOut")};
   grid-template-columns: 4.8rem 1fr;
   padding: 0 1.6rem;
