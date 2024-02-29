@@ -33,7 +33,7 @@ export const fakeAppSettings: Settings = {
   privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
-  usbAccessRestart: false,
+  usbAccessRestartRequired: false,
 }
 
 jest.mock("lodash/debounce", () => (fn: unknown) => fn)

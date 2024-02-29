@@ -22,5 +22,5 @@ export interface SettingsState extends Settings {
   updateAvailableSkipped: boolean | undefined
   checkingForUpdate: boolean
   checkingForUpdateFailed: boolean
-  usbAccessRestart: boolean
+  userHasSerialPortAccess?: boolean
 }

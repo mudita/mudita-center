@@ -110,7 +110,7 @@ export const settingsSchema: Schema<Settings> = {
     type: "array",
     default: [],
   },
-  usbAccessRestart: {
+  usbAccessRestartRequired: {
     type: "boolean",
     default: false,
   },
