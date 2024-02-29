@@ -5,6 +5,7 @@
 
 import { SettingsService } from "Core/settings/services"
 import { APIFileTransferService } from "../file-transfer"
+import { SystemUtilsModule } from "system-utils/feature"
 
 export class ServiceBridge {
   private _fileTransfer?: APIFileTransferService
@@ -33,6 +34,21 @@ export class ServiceBridge {
   }
   set settingsService(value: SettingsService) {
     this._settingsService = value
+  }
+
+  private _systemUtilsModule?: SystemUtilsModule
+
+  get systemUtilsModule(): SystemUtilsModule {
+    if (!this._systemUtilsModule) {
+      throw new Error(
+        "SystemUtilsService reference has not been set in ServiceBridge"
+      )
+    }
+    return this._systemUtilsModule
+  }
+
+  set systemUtilsModule(value: SystemUtilsModule) {
+    this._systemUtilsModule = value
   }
 
   constructor() {}

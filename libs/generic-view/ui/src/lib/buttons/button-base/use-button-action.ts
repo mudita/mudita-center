@@ -8,7 +8,6 @@ import {
   closeDomainModals,
   closeModal,
   createBackup,
-  getFile,
   openModal,
   replaceModal,
   selectActiveDevice,

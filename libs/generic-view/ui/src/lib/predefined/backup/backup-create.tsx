@@ -94,7 +94,7 @@ const BackupCreateForm: FunctionComponent<Config> = ({
         {step === Step.Progress && (
           <BackupProgress onSuccess={onSuccess} onFail={onFail} />
         )}
-        {step === Step.Success && <BackupSuccess />}
+        {step === Step.Success && <BackupSuccess modalKey={modalKey!} />}
         {step === Step.Error && <BackupFailure modalKey={modalKey!} />}
       </ModalCenteredContent>
     </>
