@@ -15,8 +15,6 @@ const messages = defineMessages({
   contacts: { id: "module.contacts" },
   calls: { id: "module.phone.calls" },
   dial: { id: "module.dial" },
-  notes: { id: "module.tools.notes" },
-  voiceRecorder: { id: "module.tools.voiceRecorder" },
   connection: { id: "module.settings.connection" },
   notifications: { id: "module.settings.notifications" },
   audioConversion: { id: "module.settings.audioConversion" },
@@ -67,21 +65,6 @@ export const tabElements: TabElement[] = [
         url: `${URL_MAIN.phone}${URL_TABS.dial}`,
         icon: IconType.Dial,
         hidden: !flags.get(Feature.PhoneDialTabEnabled),
-      },
-    ],
-  },
-  {
-    parentUrl: URL_MAIN.tools,
-    tabs: [
-      {
-        label: messages.notes,
-        url: URL_MAIN.tools,
-        icon: IconType.Notes,
-      },
-      {
-        label: messages.voiceRecorder,
-        url: `${URL_MAIN.tools}${URL_TABS.voiceRecorder}`,
-        icon: IconType.VoiceRecorder,
       },
     ],
   },
