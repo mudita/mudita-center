@@ -16,7 +16,6 @@ import thunk from "redux-thunk"
 import { models, RootModel } from "Core/__deprecated__/renderer/models/models"
 import { filesManagerSeed } from "Core/__deprecated__/seeds/filesManager"
 import { helpSeed } from "Core/__deprecated__/seeds/help"
-import { notesSeed } from "Core/__deprecated__/seeds/notes"
 
 import { reducers, combinedReducers } from "./reducers"
 
@@ -41,7 +40,6 @@ if (process.env.NODE_ENV !== "test") {
     initialState: {
       filesManager: filesManagerSeed,
       help: helpSeed,
-      notes: notesSeed,
     },
   }
 }

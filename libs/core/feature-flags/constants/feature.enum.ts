@@ -18,7 +18,6 @@ export enum Feature {
   SettingsAudioConversionTabEnabled = "settings-audio-conversion-tab-enabled",
   PhoneTabEnabled = "phone-tab-enabled",
   PhoneDialTabEnabled = "phone-dial-tab-enabled",
-  ToolsTabEnabled = "tools-tab-enabled",
   CalendarTabEnabled = "calendar-tab-enabled",
   YourPureIconsEnabled = "your-pure-icons-enabled",
   AlphaRelaseWarning = "alpha-release-warning",
