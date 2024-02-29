@@ -32,14 +32,6 @@ const YOUR_PURE_BUTTONS = [
     viewKey: View.Messages,
   },
   {
-    button: views.phone,
-    icon: IconType.MenuPhone,
-    testId: MenuGroupTestIds.Phone,
-    hidden: !flags.get(Feature.PhoneTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Phone,
-  },
-  {
     button: views.contacts,
     icon: IconType.MenuContacts,
     testId: MenuGroupTestIds.Contacts,
