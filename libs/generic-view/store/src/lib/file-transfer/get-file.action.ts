@@ -15,7 +15,8 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { ActionName } from "../action-names"
 import { fileTransferChunkGet, fileTransferGetPrepared } from "./actions"
 import { AppError, AppErrorType } from "Core/core/errors"
-import { GeneralError } from "device/models"
+import { GeneralError, PreTransferGet } from "device/models"
+import { Result } from "Core/core/builder"
 
 export type GetFileErrorPayload = {
   transferId?: number
@@ -29,12 +30,22 @@ interface GetFileError {
 
 export const getFile = createAsyncThunk<
   { transferId: number },
-  { deviceId: DeviceId; filePath: string; targetPath: string },
+  {
+    deviceId: DeviceId
+    filePath: string
+    targetPath: string
+    preTransfer?: PreTransferGet
+  },
   { state: ReduxRootState; rejectValue: GetFileError }
 >(
   ActionName.FileTransferGet,
-  async ({ deviceId, filePath, targetPath }, { rejectWithValue, dispatch }) => {
-    const preTransferResponse = await startPreGetFileRequest(filePath, deviceId)
+  async (
+    { deviceId, filePath, targetPath, preTransfer },
+    { rejectWithValue, dispatch }
+  ) => {
+    const preTransferResponse = preTransfer
+      ? Result.success(preTransfer)
+      : await startPreGetFileRequest(filePath, deviceId)
 
     if (preTransferResponse.ok) {
       const { transferId, chunkSize, fileSize } = preTransferResponse.data

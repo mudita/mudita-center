@@ -14,6 +14,12 @@ import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
 import { BackupSuccess } from "./backup-success"
 import { BackupFailure } from "./backup-failure"
 import { Form } from "../../interactive/form/form"
+import { useDispatch } from "react-redux"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import {
+  cleanBackupProcess,
+  createBackup as createBackupAction,
+} from "generic-view/store"
 
 enum Step {
   Features,
@@ -32,6 +38,7 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   features,
   modalKey,
 }) => {
+  const dispatch = useDispatch<Dispatch>()
   const { handleSubmit } = useFormContext()
   const [step, setStep] = useState<Step>(Step.Features)
   const closeAction: ButtonAction = {
@@ -41,12 +48,23 @@ const BackupCreateForm: FunctionComponent<Config> = ({
 
   const createBackup: ButtonAction = {
     type: "custom",
-    callback: () => setStep(Step.Password),
+    callback: () => {
+      dispatch(cleanBackupProcess())
+      setStep(Step.Password)
+    },
   }
 
   const skipPassword: ButtonAction = {
     type: "custom",
     callback: () => {
+      handleSubmit((data) => {
+        console.log(data)
+        dispatch(
+          createBackupAction({
+            features: ["CONTACTS_LIST", "MESSAGES", "CALL_LOG"],
+          })
+        )
+      })()
       setStep(Step.Progress)
     },
   }
@@ -54,7 +72,15 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   const confirmPassword: ButtonAction = {
     type: "custom",
     callback: () => {
-      handleSubmit((data) => console.log(data))()
+      handleSubmit((data) => {
+        console.log(data)
+        dispatch(
+          createBackupAction({
+            features: ["CONTACTS_LIST", "MESSAGES", "CALL_LOG"],
+            password: data.password,
+          })
+        )
+      })()
       setStep(Step.Progress)
     },
   }
@@ -92,7 +118,11 @@ const BackupCreateForm: FunctionComponent<Config> = ({
           />
         )}
         {step === Step.Progress && (
-          <BackupProgress onSuccess={onSuccess} onFail={onFail} />
+          <BackupProgress
+            features={features || []}
+            onSuccess={onSuccess}
+            onFail={onFail}
+          />
         )}
         {step === Step.Success && <BackupSuccess />}
         {step === Step.Error && <BackupFailure modalKey={modalKey!} />}

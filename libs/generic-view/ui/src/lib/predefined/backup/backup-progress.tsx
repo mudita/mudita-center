@@ -3,13 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect, useState } from "react"
+import React, { FunctionComponent, useEffect } from "react"
 import styled from "styled-components"
 import { IconType } from "generic-view/utils"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import { ModalTitleIcon } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { useSelector } from "react-redux"
+import { backupProgress } from "generic-view/store"
 
 const messages = defineMessages({
   title: {
@@ -17,6 +19,12 @@ const messages = defineMessages({
   },
   description: {
     id: "module.genericViews.backup.progress.description",
+  },
+  progressDetails: {
+    id: "module.genericViews.backup.progress.progressDetails",
+  },
+  progressDetailsForFeature: {
+    id: "module.genericViews.backup.progress.progressDetailsForFeature",
   },
 })
 
@@ -28,47 +36,28 @@ export interface Feature {
 interface Props {
   onSuccess: VoidFunction
   onFail: VoidFunction
+  features: Feature[]
 }
 
 export const BackupProgress: FunctionComponent<Props> = ({
   onSuccess,
   onFail,
+  features,
 }) => {
-  const [progress, setProgress] = useState(0)
-
-  // TODO: replace with real backup progress
-  const steps = {
-    0: "Backing up contacts",
-    30: "Backing up messages",
-    50: "Backing up notes",
-    70: "Backing up calendar events",
-    90: "Backing up settings",
-    100: "Backup complete",
-  }
-
-  const [step, setStep] = useState(steps[0])
+  const progressStatus = useSelector(backupProgress)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          onSuccess()
-          return 100
-        }
-        const nextProgress = prev + Math.ceil(Math.random() * 30)
+    if (progressStatus.progress >= 100) {
+      onSuccess()
+    }
+  }, [progressStatus.progress])
 
-        for (const [stepProgress, stepMessage] of Object.entries(steps)) {
-          if (nextProgress >= parseInt(stepProgress)) {
-            setStep(stepMessage)
-          }
-        }
-
-        return nextProgress
-      })
-    }, 500)
-    return () => clearInterval(interval)
-  })
+  const featureLabel = features.find(
+    (item) => item.key === progressStatus.featureInProgress
+  )?.label
+  const detailMessage = featureLabel
+    ? intl.formatMessage(messages.progressDetailsForFeature, { featureLabel })
+    : intl.formatMessage(messages.progressDetails)
 
   return (
     <>
@@ -80,8 +69,8 @@ export const BackupProgress: FunctionComponent<Props> = ({
           maxValue: 100,
         }}
         data={{
-          value: progress,
-          message: step,
+          value: progressStatus.progress,
+          message: detailMessage,
         }}
       />
     </>

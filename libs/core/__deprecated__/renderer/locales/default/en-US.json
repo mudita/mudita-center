@@ -929,6 +929,8 @@
   "module.genericViews.backup.password.skipButtonLabel": "Skip password",
   "module.genericViews.backup.progress.title": "Creating backup",
   "module.genericViews.backup.progress.description": "Please wait and do not unplug your device from computer.",
+  "module.genericViews.backup.progress.progressDetails": "This might take a few minutes",
+  "module.genericViews.backup.progress.progressDetailsForFeature": "Backing up {featureLabel}",
   "module.genericViews.backup.success.title": "Backup complete",
   "module.genericViews.backup.success.description": "Your data has been successfully secured.",
   "module.genericViews.backup.success.description2": "Open the backup folder to see your backup data or close this window.",

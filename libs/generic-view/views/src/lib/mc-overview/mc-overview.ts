@@ -38,15 +38,15 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
     backupFeatures: [
       {
         label: "Contacts list",
-        key: "contacts-list",
+        key: "CONTACTS_LIST",
       },
       {
         label: "Call log",
-        key: "call-log",
+        key: "CALL_LOG",
       },
       {
         label: "Messages",
-        key: "messages",
+        key: "MESSAGES",
       },
       {
         label: "Notes",

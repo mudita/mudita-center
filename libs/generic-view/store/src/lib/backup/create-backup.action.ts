@@ -15,6 +15,11 @@ import {
 
 import { ActionName } from "../action-names"
 import { getFile } from "../file-transfer/get-file.action"
+import {
+  setBackupProcess,
+  setBackupProcessStatus,
+  setBackupProcessFileStatus,
+} from "./actions"
 
 export const createBackup = createAsyncThunk<
   undefined,
@@ -25,13 +30,23 @@ export const createBackup = createAsyncThunk<
   { state: ReduxRootState }
 >(
   ActionName.CreateBackup,
-  async ({ features, password }, { getState, dispatch }) => {
+  async ({ features, password }, { getState, dispatch, rejectWithValue }) => {
     console.log("start createBackup")
+
+    dispatch(
+      setBackupProcess({
+        status: "PRE_BACKUP",
+        featureFilesTransfer: features.reduce((acc, item) => {
+          return { ...acc, [item]: { done: false } }
+        }, {}),
+      })
+    )
+
     const deviceId = getState().genericViews.activeDevice
 
     if (deviceId === undefined) {
       console.log("No device")
-      return undefined
+      return rejectWithValue(undefined)
     }
 
     const startPreBackupResponse = await startPreBackupRequest(
@@ -42,7 +57,7 @@ export const createBackup = createAsyncThunk<
     if (!startPreBackupResponse.ok) {
       console.log(startPreBackupResponse.error)
       console.log("Error while starting pre backup")
-      return undefined
+      return rejectWithValue(undefined)
     }
 
     const backupId = startPreBackupResponse.data.backupId
@@ -60,17 +75,19 @@ export const createBackup = createAsyncThunk<
       if (!checkPreBackupResponse.ok) {
         console.log(checkPreBackupResponse.error)
         console.log("Error while checking pre backup")
-        return undefined
+        return rejectWithValue(undefined)
       }
 
       backupFeaturesFiles = checkPreBackupResponse.data.features
     }
+    dispatch(setBackupProcessStatus("FILES_TRANSFER"))
 
     const featureToTransferId: Record<string, number> = {}
 
     for (let i = 0; i < features.length; ++i) {
       const feature = features[i]
 
+      dispatch(setBackupProcessFileStatus({ feature, status: "IN_PROGRESS" }))
       const file = await dispatch(
         getFile({
           deviceId,
@@ -85,6 +102,7 @@ export const createBackup = createAsyncThunk<
       ) {
         const transferId = file.payload.transferId
         featureToTransferId[feature] = transferId
+        dispatch(setBackupProcessFileStatus({ feature, status: "DONE" }))
       } else {
         console.log("Error while downloading file")
         await Promise.all(
@@ -93,10 +111,10 @@ export const createBackup = createAsyncThunk<
           })
         )
         await postBackupRequest(backupId, deviceId)
-        return undefined
+        return rejectWithValue(undefined)
       }
     }
-
+    dispatch(setBackupProcessStatus("SAVE_FILE"))
     const saveBackupFileResponse = await saveBackupFileRequest(
       featureToTransferId,
       deviceId,
@@ -111,7 +129,7 @@ export const createBackup = createAsyncThunk<
         })
       )
       await postBackupRequest(backupId, deviceId)
-      return undefined
+      return rejectWithValue(undefined)
     }
 
     await postBackupRequest(backupId, deviceId)
