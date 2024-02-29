@@ -11,13 +11,11 @@ const {
   devserver,
   optimization,
 } = require("./webpack/common")
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 const { woff, woff2, tff, eot, tsx, css, scss, img, svg, js } = rules
 
 const config = {
-  node: {
-    Buffer: false,
-    process: false,
-  },
   mode: production ? "production" : "development",
   entry: entry(true),
   node,
@@ -32,6 +30,7 @@ const config = {
     plugins.minify,
     plugins.define,
     plugins.env,
+    new ReactRefreshWebpackPlugin(),
   ],
   module: {
     rules: [

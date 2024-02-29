@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "MAIN COMMANDS": "=========================================================",
-    "develop": "cross-env START_HOT=1 npm run dev:start:renderer",
+    "develop": "cross-env START_HOT=1 NODE_ENV=development npm run dev:start:renderer",
     "start": "electron .",
     "BUILD COMMANDS": "========================================================",
     "build": "npm run build:main && npm run build:renderer",
