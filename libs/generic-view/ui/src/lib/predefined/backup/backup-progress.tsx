@@ -50,7 +50,7 @@ export const BackupProgress: FunctionComponent<Props> = ({
     if (progressStatus.progress >= 100) {
       onSuccess()
     }
-  }, [progressStatus.progress])
+  }, [progressStatus.progress, onSuccess])
 
   const featureLabel = features.find(
     (item) => item.key === progressStatus.featureInProgress
