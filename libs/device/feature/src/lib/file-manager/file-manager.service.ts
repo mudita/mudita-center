@@ -105,8 +105,7 @@ export class FileManager {
 
       const backupFilePath = path.join(
         backupDirectory.data,
-        `${timestamp}_${vendorId}`,
-        `${productId}_${serialNumber}.mcbackup`
+        `${timestamp}_${serialNumber}.mcbackup`
       )
 
       const data = Object.entries(featureToTransferId).reduce(
