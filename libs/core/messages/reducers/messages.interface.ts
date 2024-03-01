@@ -13,12 +13,9 @@ import {
   VisibilityFilter,
 } from "Core/messages/constants"
 import { Message, Thread } from "Core/messages/dto"
-import { Caller } from "Core/__deprecated__/renderer/models/calls/calls.interface"
 import { SearchEvent } from "Core/search/constants"
 import { SearchResult } from "Core/search/dto"
 import { State } from "Core/core/constants"
-
-export type Author = Pick<Caller, "id">
 
 export type MessageMap = { [id: string]: Message }
 
