@@ -64,4 +64,17 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
       display: none;
     }
   }
+
+  *::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  *::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.color.grey2};
+    border-radius: 0.25rem;
+  }
 `
