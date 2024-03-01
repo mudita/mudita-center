@@ -4,11 +4,10 @@
  */
 
 import findThreadBySearchParams from "Core/messages/components/find-thread-by-search-params"
-import { Caller } from "Core/__deprecated__/renderer/models/calls/calls.interface"
 import { MessageType } from "Core/messages/constants"
 import { Thread } from "Core/messages/dto"
 
-const caller: Caller = {
+const caller = {
   id: "1",
   phoneNumber: "+33999999999",
 }
