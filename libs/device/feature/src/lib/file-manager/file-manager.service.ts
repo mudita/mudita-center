@@ -13,6 +13,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import packageInfo from "../../../../../../apps/mudita-center/package.json"
 import { writeFileSync, writeJSONSync } from "fs-extra"
 import AES from "crypto-js/aes"
+import path from "path"
 
 export class FileManager {
   constructor(
@@ -40,6 +41,39 @@ export class FileManager {
     }
   }
 
+  @IpcEvent(FileManagerServiceEvents.GetBackupPath)
+  public getBackupPath({ deviceId }: { deviceId?: DeviceId }) {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const vendorId = device.portInfo.vendorId ?? "unknown"
+    const productId = device.portInfo.productId ?? "unknown"
+
+    const { osBackupLocation } =
+      this.serviceBridge.settingsService.getSettings()
+    const backupLocation = path.join(
+      osBackupLocation,
+      `${vendorId}-${productId}`
+    )
+    return Result.success(backupLocation)
+  }
+
+  @IpcEvent(FileManagerServiceEvents.OpenBackupDirectory)
+  public openBackupDirectory({ deviceId }: { deviceId?: DeviceId }) {
+    const backupDirectory = this.getBackupPath({ deviceId })
+    if (!backupDirectory.ok) {
+      return Result.failed(new AppError(GeneralError.InternalError, ""))
+    }
+    return this.serviceBridge.systemUtilsModule.directory.open({
+      path: backupDirectory.data,
+    })
+  }
+
   @IpcEvent(FileManagerServiceEvents.SaveBackupFile)
   public saveBackupFile({
     deviceId,
@@ -63,8 +97,16 @@ export class FileManager {
       const serialNumber = device.portInfo.serialNumber ?? ""
       const timestamp = new Date().getTime()
       const appVersion = packageInfo.version
-      const settings = this.serviceBridge.settingsService.getSettings()
-      const filePath = `${settings.osBackupLocation}/${timestamp}_${vendorId}_${productId}_${serialNumber}.mcbackup`
+      const backupDirectory = this.getBackupPath({ deviceId })
+
+      if (!backupDirectory.ok) {
+        return Result.failed(new AppError(GeneralError.InternalError, ""))
+      }
+
+      const backupFilePath = path.join(
+        backupDirectory.data,
+        `${timestamp}_${serialNumber}.mcbackup`
+      )
 
       const data = Object.entries(featureToTransferId).reduce(
         (acc, [feature, transferId]) => {
@@ -91,7 +133,7 @@ export class FileManager {
         data,
       }
 
-      writeJSONSync(filePath, fileToSave)
+      writeJSONSync(backupFilePath, fileToSave)
 
       return Result.success(undefined)
     } catch (e) {

@@ -13,6 +13,7 @@ import { APIOutboxService } from "./outbox/outbox.service"
 import { ServerService } from "./server/server.service"
 import { APIFileTransferService } from "./file-transfer"
 import { ServiceBridge } from "./service-bridge"
+import { SystemUtilsModule } from "system-utils/feature"
 import { createSettingsService } from "Core/settings/containers/settings.container"
 
 export class APIModule {
@@ -26,7 +27,10 @@ export class APIModule {
   private fileManager: FileManager
   private serviceBridge: ServiceBridge
 
-  constructor(deviceManager: DeviceManager) {
+  constructor(
+    deviceManager: DeviceManager,
+    systemUtilsModule: SystemUtilsModule
+  ) {
     this.serviceBridge = new ServiceBridge()
     this.apiConfigService = new APIConfigService(deviceManager)
     this.apiFeaturesService = new APIFeaturesService(deviceManager)
@@ -36,6 +40,7 @@ export class APIModule {
     this.backupService = new APIBackupService(deviceManager)
     this.fileTransferService = new APIFileTransferService(deviceManager)
     this.fileManager = new FileManager(deviceManager, this.serviceBridge)
+    this.serviceBridge.systemUtilsModule = systemUtilsModule
     this.serviceBridge.fileTransfer = this.fileTransferService
     this.serviceBridge.settingsService = createSettingsService()
   }

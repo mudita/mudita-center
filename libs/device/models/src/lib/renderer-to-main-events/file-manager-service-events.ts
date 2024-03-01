@@ -6,4 +6,6 @@
 export enum FileManagerServiceEvents {
   SaveFile = "apiservice_file_manager-save-file",
   SaveBackupFile = "apiservice_file_manager-save-backup-file",
+  GetBackupPath = "apiservice_file_manager-get-backup-path",
+  OpenBackupDirectory = "apiservice_file_manager-open-directory",
 }

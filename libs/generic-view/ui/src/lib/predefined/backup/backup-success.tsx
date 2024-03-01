@@ -9,6 +9,10 @@ import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { useDispatch } from "react-redux"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { openBackupDirectoryRequest } from "device/feature"
+import { closeModal } from "generic-view/store"
 
 const messages = defineMessages({
   title: {
@@ -30,8 +34,22 @@ export interface Feature {
   key: string
 }
 
-export const BackupSuccess: FunctionComponent = () => {
-  const openBackupDirectory = () => {}
+interface Props {
+  modalKey: string
+}
+
+export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
+  const dispatch = useDispatch<Dispatch>()
+
+  const openBackupCallback = async () => {
+    const openDirectoryResponse = await openBackupDirectoryRequest()
+    if (openDirectoryResponse.ok) {
+      dispatch(closeModal({ key: modalKey! }))
+    } else {
+      // TODO: replace with proper modal
+      alert(openDirectoryResponse.error.message)
+    }
+  }
   return (
     <>
       <ModalTitleIcon
@@ -48,7 +66,7 @@ export const BackupSuccess: FunctionComponent = () => {
             text: intl.formatMessage(messages.openBackupButtonLabel),
             action: {
               type: "custom",
-              callback: openBackupDirectory,
+              callback: openBackupCallback,
             },
           }}
         />
