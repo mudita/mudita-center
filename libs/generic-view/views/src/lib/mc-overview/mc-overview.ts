@@ -31,51 +31,51 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
   const summary = generateMcOverviewSummaryLayout(config.summary)
 
   // Push a demo data for backup section
-  config.sections?.push({
-    type: "mc-overview-backup",
-    dataKey: "backup",
-    title: "Backup",
-    backupFeatures: [
-      {
-        label: "Contacts list",
-        key: "CONTACTS_LIST",
-      },
-      {
-        label: "Call log",
-        key: "CALL_LOG",
-      },
-      {
-        label: "Messages",
-        key: "MESSAGES",
-      },
-      {
-        label: "Notes",
-        key: "notes",
-      },
-      {
-        label: "Calendar events",
-        key: "calendar-events",
-      },
-      {
-        label: "OS version & OS Settings",
-        key: "os-version",
-      },
-      {
-        label: "App settings: Phone, Messages",
-        key: "app-settings",
-      },
-    ],
-    restoreFeatures: [
-      {
-        label: "Contacts list",
-        keys: ["contacts-list"],
-      },
-      {
-        label: "Call log",
-        keys: ["call-log"],
-      },
-    ],
-  })
+  // config.sections?.push({
+  //   type: "mc-overview-backup",
+  //   dataKey: "backup",
+  //   title: "Backup",
+  //   backupFeatures: [
+  //     {
+  //       label: "Contacts list",
+  //       key: "CONTACTS_LIST",
+  //     },
+  //     {
+  //       label: "Call log",
+  //       key: "CALL_LOG",
+  //     },
+  //     {
+  //       label: "Messages",
+  //       key: "MESSAGES",
+  //     },
+  //     {
+  //       label: "Notes",
+  //       key: "notes",
+  //     },
+  //     {
+  //       label: "Calendar events",
+  //       key: "calendar-events",
+  //     },
+  //     {
+  //       label: "OS version & OS Settings",
+  //       key: "os-version",
+  //     },
+  //     {
+  //       label: "App settings: Phone, Messages",
+  //       key: "app-settings",
+  //     },
+  //   ],
+  //   restoreFeatures: [
+  //     {
+  //       label: "Contacts list",
+  //       keys: ["contacts-list"],
+  //     },
+  //     {
+  //       label: "Call log",
+  //       keys: ["call-log"],
+  //     },
+  //   ],
+  // })
 
   const sections =
     config.sections?.map((section) => {

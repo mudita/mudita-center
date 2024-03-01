@@ -46,6 +46,8 @@ const BackupCreateForm: FunctionComponent<Config> = ({
     modalKey: modalKey!,
   }
 
+  const featuresKeys = features?.map((item) => item.key) ?? []
+
   const createBackup: ButtonAction = {
     type: "custom",
     callback: () => {
@@ -61,7 +63,7 @@ const BackupCreateForm: FunctionComponent<Config> = ({
         console.log(data)
         dispatch(
           createBackupAction({
-            features: ["CONTACTS_LIST", "MESSAGES", "CALL_LOG"],
+            features: featuresKeys,
           })
         )
       })()
@@ -76,7 +78,7 @@ const BackupCreateForm: FunctionComponent<Config> = ({
         console.log(data)
         dispatch(
           createBackupAction({
-            features: ["CONTACTS_LIST", "MESSAGES", "CALL_LOG"],
+            features: featuresKeys,
             password: data.password,
           })
         )
