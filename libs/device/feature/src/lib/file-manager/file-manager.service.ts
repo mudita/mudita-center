@@ -11,7 +11,7 @@ import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
 import packageInfo from "../../../../../../apps/mudita-center/package.json"
-import { writeFileSync, writeJSONSync } from "fs-extra"
+import { writeFileSync, writeJSONSync, mkdirSync } from "fs-extra"
 import AES from "crypto-js/aes"
 import path from "path"
 
@@ -132,6 +132,8 @@ export class FileManager {
         },
         data,
       }
+
+      mkdirSync(backupDirectory.data, { recursive: true })
 
       writeJSONSync(backupFilePath, fileToSave)
 
