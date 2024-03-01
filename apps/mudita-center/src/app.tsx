@@ -24,6 +24,11 @@ document.body.appendChild(mainElement)
 Modal.setAppElement("#app")
 const root = createRoot(mainElement)
 
+if (module.hot !== undefined) {
+  module.hot.accept("App/app.component", () => {
+    root.render(<App />)
+  })
+}
 root.render(<App />)
 
 // Setup modal service

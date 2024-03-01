@@ -11,7 +11,7 @@ import {
   Name,
   NameWrapper,
 } from "Core/__deprecated__/renderer/components/rest/messages/threads-table.component"
-import getPrettyCaller from "Core/__deprecated__/renderer/models/calls/get-pretty-caller"
+import getPrettyCaller from "Core/messages/helpers/get-pretty-caller"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import React from "react"
 

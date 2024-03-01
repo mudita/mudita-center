@@ -21,5 +21,10 @@
         "messagesDir": "./tmp/extractedMessages"
       }
     ]
-  ]
+  ],
+  "env": {
+    "development": {
+      "plugins": [["react-refresh/babel"]]
+    }
+  }
 }
