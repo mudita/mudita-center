@@ -27,6 +27,7 @@ export interface FileProgress {
   transferId: number
   chunksCount: number
   chunksTransferred: number
+  filePath?: string
 }
 
 interface FileTransferState {
@@ -86,6 +87,7 @@ export const genericFileTransferReducer = createReducer(
         transferId: action.payload.transferId,
         chunksCount: action.payload.chunksCount,
         chunksTransferred: 0,
+        filePath: action.payload.filePath,
       }
     })
     builder.addCase(fileTransferChunkGet, (state, action) => {
@@ -97,16 +99,26 @@ export const genericFileTransferReducer = createReducer(
       delete state.receivingFilesProgress[action.payload.transferId]
     })
     builder.addCase(getFile.rejected, (state, action) => {
-      const { transferId, filePath } = action.payload?.error.payload || {}
-      if (transferId) {
-        delete state.receivingFilesProgress[transferId]
+      if (action.meta.aborted) {
+        const transfer = Object.entries(state.receivingFilesProgress).find(
+          ([, item]) => item.filePath === action.meta.arg.filePath
+        )
+        if (transfer) {
+          const transferId = Number(transfer[0])
+          delete state.receivingFilesProgress[transferId]
+        }
+      } else {
+        const { transferId, filePath } = action.payload?.error.payload || {}
+        if (transferId) {
+          delete state.receivingFilesProgress[transferId]
+        }
+        state.receivingErrors?.push({
+          code: action.payload?.error.type,
+          message: action.payload?.error.message,
+          transferId,
+          filePath: action.payload?.error.payload?.filePath,
+        })
       }
-      state.receivingErrors?.push({
-        code: action.payload?.error.type,
-        message: action.payload?.error.message,
-        transferId,
-        filePath,
-      })
     })
     builder.addCase(clearGetErrors, (state, action) => {
       state.receivingErrors = state.receivingErrors?.filter(

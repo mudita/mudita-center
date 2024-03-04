@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useState } from "react"
+import React, { FunctionComponent, useRef, useState } from "react"
 import { APIFC, ButtonAction } from "generic-view/utils"
 import { withConfig } from "../../utils/with-config"
 import { BackupFeatures, Feature } from "./backup-features"
@@ -38,12 +38,22 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   features,
   modalKey,
 }) => {
+  const backupProcess = useRef<{ abort: VoidFunction }>()
   const dispatch = useDispatch<Dispatch>()
   const { handleSubmit } = useFormContext()
   const [step, setStep] = useState<Step>(Step.Features)
-  const closeAction: ButtonAction = {
+
+  const modalCloseAction: ButtonAction = {
     type: "close-modal",
     modalKey: modalKey!,
+  }
+
+  const backupCancelAction: ButtonAction = {
+    type: "custom",
+    callback: () => {
+      backupProcess.current?.abort()
+      setStep(Step.Error)
+    },
   }
 
   const featuresKeys = features?.map((item) => item.key) ?? []
@@ -59,13 +69,15 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   const skipPassword: ButtonAction = {
     type: "custom",
     callback: () => {
-      handleSubmit((data) => {
-        console.log(data)
-        dispatch(
+      handleSubmit(async () => {
+        const promise = dispatch(
           createBackupAction({
             features: featuresKeys,
           })
         )
+        backupProcess.current = promise as unknown as {
+          abort: (reason?: string) => void
+        }
       })()
       setStep(Step.Progress)
     },
@@ -75,13 +87,15 @@ const BackupCreateForm: FunctionComponent<Config> = ({
     type: "custom",
     callback: () => {
       handleSubmit((data) => {
-        console.log(data)
-        dispatch(
+        const promise = dispatch(
           createBackupAction({
             features: featuresKeys,
             password: data.password,
           })
         )
+        backupProcess.current = promise as unknown as {
+          abort: (reason?: string) => void
+        }
       })()
       setStep(Step.Progress)
     },
@@ -95,21 +109,21 @@ const BackupCreateForm: FunctionComponent<Config> = ({
     setStep(Step.Error)
   }
 
-  const showCloseButton = [
-    Step.Features,
-    Step.Password,
-    Step.Progress,
-    Step.Success,
-  ].includes(step)
+  const showCloseButton = [Step.Features, Step.Password, Step.Success].includes(
+    step
+  )
+
+  const showCancelButton = step === Step.Progress
 
   return (
     <>
-      {showCloseButton && <ModalCloseButton action={closeAction} />}
+      {showCloseButton && <ModalCloseButton action={modalCloseAction} />}
+      {showCancelButton && <ModalCloseButton action={backupCancelAction} />}
       <ModalCenteredContent>
         {step === Step.Features && (
           <BackupFeatures
             features={features || []}
-            closeAction={closeAction}
+            closeAction={modalCloseAction}
             nextAction={createBackup}
           />
         )}

@@ -6,7 +6,7 @@
 import React, { FunctionComponent } from "react"
 import styled, { css } from "styled-components"
 import Icon from "../../icon/icon"
-import { IconType, ModalAction } from "generic-view/utils"
+import { ButtonAction, IconType } from "generic-view/utils"
 import { iconButtonStyles } from "../../shared/button"
 import { ButtonBase } from "../../buttons/button-base/button-base"
 
@@ -120,7 +120,7 @@ const ModalClose = styled(ButtonBase)`
 `
 
 export const ModalCloseButton: FunctionComponent<{
-  action?: ModalAction
+  action?: ButtonAction
 }> = ({ action }) => {
   if (!action) return null
   return (

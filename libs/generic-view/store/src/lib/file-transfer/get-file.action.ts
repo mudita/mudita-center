@@ -41,11 +41,19 @@ export const getFile = createAsyncThunk<
   ActionName.FileTransferGet,
   async (
     { deviceId, filePath, targetPath, preTransfer },
-    { rejectWithValue, dispatch }
+    { rejectWithValue, dispatch, signal }
   ) => {
     const preTransferResponse = preTransfer
       ? Result.success(preTransfer)
       : await startPreGetFileRequest(filePath, deviceId)
+
+    signal.addEventListener("abort", async () => {
+      await sendClearRequest(
+        preTransferResponse.ok
+          ? preTransferResponse.data.transferId
+          : preTransferResponse.error.payload
+      )
+    })
 
     if (preTransferResponse.ok) {
       const { transferId, chunkSize, fileSize } = preTransferResponse.data
@@ -54,11 +62,11 @@ export const getFile = createAsyncThunk<
         fileTransferGetPrepared({
           transferId,
           chunksCount,
+          filePath,
         })
       )
 
       for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
-        // TODO: consider using signal to abort
         const { ok, error } = await getFileRequest(transferId, chunkNumber)
         if (!ok) {
           await sendClearRequest(transferId)
