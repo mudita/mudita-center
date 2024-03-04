@@ -18,11 +18,33 @@ export const ModalTitleIcon = styled(Icon)`
   background-color: ${({ theme }) => theme.color.grey5};
 `
 
+export const ModalScrollableContent = styled.div`
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.color.grey2};
+  }
+`
+
+const listBulletStyle = css`
+  content: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle fill="%233B3F42" r="3.5" cx="5" cy="4"/></svg>');
+`
+
 export const ModalCenteredContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: var(--modal-padding);
+  height: 100%;
+  overflow: hidden;
   gap: ${({ theme }) => theme.space.xl};
 
   ${ModalTitleIcon} {
@@ -39,12 +61,41 @@ export const ModalCenteredContent = styled.div`
 
   & > p,
   article p {
-    margin: 0;
     font-size: ${({ theme }) => theme.fontSize.paragraph1};
     line-height: ${({ theme }) => theme.lineHeight.paragraph1};
     text-align: center;
     color: ${({ theme }) => theme.color.grey1};
     letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  & > ul,
+  article ul {
+    margin: 0;
+    padding-left: 2.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    li {
+      padding: 0.4rem 1.2rem 0.4rem 2.1rem;
+      font-size: ${({ theme }) => theme.fontSize.paragraph1};
+      line-height: ${({ theme }) => theme.lineHeight.paragraph1};
+      letter-spacing: 0.02em;
+      color: ${({ theme }) => theme.color.grey1};
+      text-align: left;
+
+      &::marker {
+        ${listBulletStyle};
+      }
+    }
+  }
+
+  *:has(${ModalScrollableContent}) {
+    overflow: hidden;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
   }
 `
 

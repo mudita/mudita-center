@@ -42,6 +42,7 @@ export const ModalBase: FunctionComponent<Props> = ({
         },
         content: {
           width: config?.width || (variant === "small" ? 384 : 614),
+          maxHeight: 574,
           zIndex: ModalLayers.Default,
           // @ts-ignore
           "--modal-padding": variant === "small" ? "2.4rem" : "4.8rem",
