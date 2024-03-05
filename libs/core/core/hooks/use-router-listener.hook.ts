@@ -28,7 +28,6 @@ type Actions = { [key in Values]?: Array<() => void> }
 
 const defaultActions: Actions = {
   [URL_MAIN.contacts]: [],
-  [URL_MAIN.phone]: [],
   [URL_OVERVIEW.root]: [],
   [URL_MAIN.messages]: [],
 }

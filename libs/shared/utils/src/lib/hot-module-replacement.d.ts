@@ -3,7 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum CallsHeaderTestIds {
-  SelectionManager = "selection-manager",
-  UnreadFilters = "unread-filters",
+declare global {
+  interface NodeModule {
+    hot?: {
+      accept(path: string, callback: () => void): void;
+    };
+  }
 }
+
+export {};
