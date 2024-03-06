@@ -5,7 +5,7 @@
 
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { answerMain, AppEvents, DeviceManagerMainEvent } from "shared/utils"
+import { answerMain, AppEvents } from "shared/utils"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { refreshBackupList } from "../backup/refresh-backup-list.action"
 
