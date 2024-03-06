@@ -36,26 +36,38 @@ export const getFile = createAsyncThunk<
     targetPath: string
     preTransfer?: PreTransferGet
   },
-  { state: ReduxRootState; rejectValue: GetFileError }
+  { state: ReduxRootState; rejectValue: GetFileError | undefined }
 >(
   ActionName.FileTransferGet,
   async (
     { deviceId, filePath, targetPath, preTransfer },
     { rejectWithValue, dispatch, signal }
   ) => {
+    let aborted = false
+
+    signal.addEventListener("abort", async () => {
+      aborted = true
+      const transferId = preTransferResponse?.ok
+        ? preTransferResponse.data.transferId
+        : preTransferResponse?.error.payload
+      if (transferId) {
+        await sendClearRequest(transferId)
+      }
+    })
+
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
+
     const preTransferResponse = preTransfer
       ? Result.success(preTransfer)
       : await startPreGetFileRequest(filePath, deviceId)
 
-    signal.addEventListener("abort", async () => {
-      await sendClearRequest(
-        preTransferResponse.ok
-          ? preTransferResponse.data.transferId
-          : preTransferResponse.error.payload
-      )
-    })
-
     if (preTransferResponse.ok) {
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
+
       const { transferId, chunkSize, fileSize } = preTransferResponse.data
       const chunksCount = Math.ceil(fileSize / chunkSize)
       dispatch(
@@ -67,6 +79,9 @@ export const getFile = createAsyncThunk<
       )
 
       for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
+        if (aborted) {
+          return rejectWithValue(undefined)
+        }
         const { ok, error } = await getFileRequest(transferId, chunkNumber)
         if (!ok) {
           await sendClearRequest(transferId)
@@ -87,6 +102,10 @@ export const getFile = createAsyncThunk<
             chunksTransferred: chunkNumber,
           })
         )
+      }
+
+      if (aborted) {
+        return rejectWithValue(undefined)
       }
 
       if (targetPath) {

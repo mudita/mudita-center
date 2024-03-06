@@ -39,9 +39,6 @@ export const useAPISerialPortListeners = () => {
           return
         }
         dispatch(getAPIConfig({ deviceId: id }))
-        if (backupProcess) {
-          dispatch(cleanBackupProcess())
-        }
       }
     )
     const unregisterDetachedListener = answerMain(

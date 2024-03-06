@@ -133,6 +133,12 @@ const BackupCreateForm: FunctionComponent<Config> = ({
     }
   }, [backupProcessStatus])
 
+  useEffect(() => {
+    return () => {
+      backupAbortReference.current?.()
+    }
+  }, [])
+
   return (
     <>
       {closeButtonVisible && (
