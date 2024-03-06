@@ -37,14 +37,16 @@ export const createBackup = createAsyncThunk<
   ) => {
     let aborted = false
 
-    signal.addEventListener("abort", async () => {
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
       aborted = true
       abortFileRequest?.()
-      await clearTransfers()
+      await clearTransfers?.()
       if (backupId && deviceId) {
         await postBackupRequest(backupId, deviceId)
       }
-    })
+    }
+    signal.addEventListener("abort", abortListener)
 
     if (aborted) {
       return rejectWithValue(undefined)
@@ -130,7 +132,7 @@ export const createBackup = createAsyncThunk<
       ) {
         featureToTransferId[feature] = file.payload.transferId
         dispatch(setBackupProcessFileStatus({ feature, status: "DONE" }))
-      } else {
+      } else if (!aborted) {
         console.log("Error while downloading file")
         await clearTransfers()
         await postBackupRequest(backupId, deviceId)

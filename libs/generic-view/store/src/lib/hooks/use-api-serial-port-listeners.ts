@@ -11,7 +11,7 @@ import { detachDevice } from "../views/actions"
 import { getAPIConfig } from "../get-api-config"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { DeviceType } from "Core/device"
-import { cleanBackupProcess, setBackupProcessStatus } from "../backup/actions"
+import { setBackupProcessStatus } from "../backup/actions"
 import { closeAllModals } from "../modals/actions"
 import { selectBackupProcessStatus } from "../selectors"
 

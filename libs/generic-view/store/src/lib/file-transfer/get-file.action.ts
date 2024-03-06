@@ -45,7 +45,8 @@ export const getFile = createAsyncThunk<
   ) => {
     let aborted = false
 
-    signal.addEventListener("abort", async () => {
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
       aborted = true
       const transferId = preTransferResponse?.ok
         ? preTransferResponse.data.transferId
@@ -53,7 +54,8 @@ export const getFile = createAsyncThunk<
       if (transferId) {
         await sendClearRequest(transferId)
       }
-    })
+    }
+    signal.addEventListener("abort", abortListener)
 
     if (aborted) {
       return rejectWithValue(undefined)
@@ -63,11 +65,7 @@ export const getFile = createAsyncThunk<
       ? Result.success(preTransfer)
       : await startPreGetFileRequest(filePath, deviceId)
 
-    if (preTransferResponse.ok) {
-      if (aborted) {
-        return rejectWithValue(undefined)
-      }
-
+    if (preTransferResponse.ok && !aborted) {
       const { transferId, chunkSize, fileSize } = preTransferResponse.data
       const chunksCount = Math.ceil(fileSize / chunkSize)
       dispatch(
@@ -121,7 +119,7 @@ export const getFile = createAsyncThunk<
           type: GeneralError.IncorrectResponse,
           message: "Incorrect response",
           payload: {
-            transferId: preTransferResponse.error.payload,
+            transferId: preTransferResponse.error?.payload,
             filePath,
           },
         },
