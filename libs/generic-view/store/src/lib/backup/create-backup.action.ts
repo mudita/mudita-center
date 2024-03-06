@@ -20,6 +20,7 @@ import {
   setBackupProcessFileStatus,
   setBackupProcessStatus,
 } from "./actions"
+import { refreshBackupList } from "./refresh-backup-list.action"
 
 export const createBackup = createAsyncThunk<
   undefined,
@@ -152,6 +153,8 @@ export const createBackup = createAsyncThunk<
       await postBackupRequest(backupId, deviceId)
       return rejectWithValue(undefined)
     }
+
+    dispatch(refreshBackupList())
 
     if (!aborted) {
       await postBackupRequest(backupId, deviceId)

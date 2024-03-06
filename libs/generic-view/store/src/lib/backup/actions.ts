@@ -12,8 +12,6 @@ import {
 } from "./reducer"
 import { ActionName } from "../action-names"
 
-export const setBackupFiles = createAction<Backup[]>(ActionName.AddBackupFiles)
-
 export const setBackupProcess = createAction<BackupProcess>(
   ActionName.SetBackupProcess
 )

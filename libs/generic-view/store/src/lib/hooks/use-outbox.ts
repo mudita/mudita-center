@@ -4,7 +4,7 @@
  */
 
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { selectActiveDevice } from "../selectors/active-device"
@@ -30,4 +30,9 @@ export const useOutbox = () => {
     return
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeDevice, lastRefreshTimestamp])
+}
+
+export const OutboxWrapper = () => {
+  useOutbox()
+  return null
 }
