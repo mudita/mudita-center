@@ -13,6 +13,8 @@ import { useDispatch } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { openBackupDirectoryRequest } from "device/feature"
 import { closeModal } from "generic-view/store"
+import styled from "styled-components"
+import { ButtonText } from "../../buttons/button-text"
 
 const messages = defineMessages({
   title: {
@@ -21,11 +23,11 @@ const messages = defineMessages({
   description: {
     id: "module.genericViews.backup.success.description",
   },
-  description2: {
-    id: "module.genericViews.backup.success.description2",
-  },
   openBackupButtonLabel: {
     id: "module.genericViews.backup.success.openBackupButtonLabel",
+  },
+  closeButtonLabel: {
+    id: "module.genericViews.backup.success.closeButtonLabel",
   },
 })
 
@@ -45,9 +47,6 @@ export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
     const openDirectoryResponse = await openBackupDirectoryRequest()
     if (openDirectoryResponse.ok) {
       dispatch(closeModal({ key: modalKey! }))
-    } else {
-      // TODO: replace with proper modal
-      alert(openDirectoryResponse.error.message)
     }
   }
   return (
@@ -58,15 +57,25 @@ export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
         }}
       />
       <h1>{intl.formatMessage(messages.title)}</h1>
-      <p>{intl.formatMessage(messages.description)}</p>
-      <p>{intl.formatMessage(messages.description2)}</p>
+      <Main>
+        <p>{intl.formatMessage(messages.description)}</p>
+        <ButtonText
+          config={{
+            text: intl.formatMessage(messages.openBackupButtonLabel),
+            action: { type: "custom", callback: openBackupCallback },
+            modifiers: ["uppercase", "link"],
+            icon: IconType.Folder,
+          }}
+        />
+      </Main>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
-            text: intl.formatMessage(messages.openBackupButtonLabel),
+            text: intl.formatMessage(messages.closeButtonLabel),
+            // Will be changed after merging with CP-2496-backup-error
             action: {
-              type: "custom",
-              callback: openBackupCallback,
+              type: "close-modal",
+              modalKey,
             },
           }}
         />
@@ -74,3 +83,14 @@ export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
     </>
   )
 }
+
+const Main = styled.article`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+
+  button {
+    height: 3.2rem;
+  }
+`
