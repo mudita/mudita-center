@@ -162,23 +162,16 @@ export class FileManager {
   }: {
     deviceId?: DeviceId
   }): ResultObject<string[]> {
-    try {
-      const device = deviceId
-        ? this.deviceManager.getAPIDeviceById(deviceId)
-        : this.deviceManager.apiDevice
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
 
-      const pathResult = this.getBackupPath({ deviceId })
+    const pathResult = this.getBackupPath({ deviceId })
 
-      if (!pathResult.ok) {
-        return Result.failed(new AppError(GeneralError.InternalError))
-      }
-
-      const result = readdirSync(pathResult.data)
-
-      return Result.success(result)
-    } catch (e) {
-      console.log(e)
+    if (!pathResult.ok) {
       return Result.failed(new AppError(GeneralError.InternalError))
     }
+
+    return this.readDirectory({ path: pathResult.data })
   }
 }
