@@ -35,7 +35,7 @@ export const refreshBackupList = createAsyncThunk<
       (backupsList.data
         .map((item) => {
           const isFormatValid =
-            item.match(/^\d+[_][a-zA-Z0-9]+[.]mcbackup$/i) !== null
+            /^\d+[_][a-zA-Z0-9]+[.]mcbackup$/.exec(item) !== null
 
           if (!isFormatValid) {
             return null

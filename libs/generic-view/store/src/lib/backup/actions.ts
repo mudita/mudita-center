@@ -5,7 +5,6 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import {
-  Backup,
   BackupProcess,
   BackupProcessFileStatus,
   BackupProcessStatus,

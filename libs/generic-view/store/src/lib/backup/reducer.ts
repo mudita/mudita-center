@@ -4,7 +4,6 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { DeviceId } from "Core/device/constants/device-id"
 import {
   cleanBackupProcess,
   setBackupProcess,

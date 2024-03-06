@@ -32,8 +32,6 @@ export const createBackup = createAsyncThunk<
 >(
   ActionName.CreateBackup,
   async ({ features, password }, { getState, dispatch, rejectWithValue }) => {
-    console.log("start createBackup")
-
     dispatch(
       setBackupProcess({
         status: "PRE_BACKUP",
