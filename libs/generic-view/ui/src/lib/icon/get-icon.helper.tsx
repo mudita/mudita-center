@@ -36,6 +36,7 @@ import PasswordShow from "./svg/password-show.svg"
 import PasswordHide from "./svg/password-hide.svg"
 import Success from "./svg/confirm.svg"
 import Failure from "./svg/failed.svg"
+import Folder from "./svg/folder.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -70,6 +71,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.PasswordHide]: PasswordHide,
   [IconType.Success]: Success,
   [IconType.Failure]: Failure,
+  [IconType.Folder]: Folder
 }
 
 export const getIcon = (

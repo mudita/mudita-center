@@ -67,6 +67,7 @@ export const ModalCenteredContent = styled.div`
     color: ${({ theme }) => theme.color.grey1};
     letter-spacing: 0.02em;
     margin: 0;
+    white-space: pre-line;
   }
 
   & > ul,
