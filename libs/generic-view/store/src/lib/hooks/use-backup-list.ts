@@ -18,7 +18,7 @@ export const useBackupList = () => {
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [dispatch])
 
   return undefined
 }
