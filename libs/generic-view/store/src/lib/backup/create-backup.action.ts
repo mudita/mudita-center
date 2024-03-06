@@ -20,6 +20,7 @@ import {
   setBackupProcessStatus,
   setBackupProcessFileStatus,
 } from "./actions"
+import { refreshBackupList } from "./refresh-backup-list.action"
 
 export const createBackup = createAsyncThunk<
   undefined,
@@ -133,6 +134,7 @@ export const createBackup = createAsyncThunk<
     }
 
     await postBackupRequest(backupId, deviceId)
+    dispatch(refreshBackupList())
     return undefined
   }
 )

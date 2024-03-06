@@ -4,25 +4,20 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
+import { DeviceId } from "Core/device/constants/device-id"
 import {
   cleanBackupProcess,
   setBackupProcess,
-  setBackupFiles,
   setBackupProcessFileStatus,
   setBackupProcessStatus,
 } from "./actions"
 import { createBackup } from "./create-backup.action"
+import { refreshBackupList } from "./refresh-backup-list.action"
 
 export interface Backup {
   fileName: string
   date: Date
-  features: string[]
-  device: {
-    serialNumber: string
-    vendorId: string
-    productId: string
-    osVersion: string
-  }
+  serialNumber: string
 }
 
 export type BackupProcessStatus =
@@ -43,31 +38,17 @@ export interface BackupProcess {
 }
 
 interface BackupState {
-  files: Backup[]
+  lastBackupRefresh: number
+  backups: Backup[]
   backupProcess?: BackupProcess
 }
 
 const initialState: BackupState = {
-  // Demo data
-  files: [
-    {
-      fileName: "backup1.json",
-      date: new Date(),
-      features: ["calls", "messages"],
-      device: {
-        serialNumber: "0123456789ABCDEF",
-        vendorId: "0e8d",
-        productId: "2006",
-        osVersion: "12",
-      },
-    },
-  ],
+  lastBackupRefresh: 0,
+  backups: [],
 }
 
 export const genericBackupsReducer = createReducer(initialState, (builder) => {
-  builder.addCase(setBackupFiles, (state, action) => {
-    state.files = action.payload
-  })
   builder.addCase(cleanBackupProcess, (state, action) => {
     delete state.backupProcess
   })
@@ -103,6 +84,12 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
         status: "DONE",
         featureFilesTransfer: {},
       }
+    }
+  })
+  builder.addCase(refreshBackupList.fulfilled, (state, action) => {
+    if (state.lastBackupRefresh < action.payload.refreshTimestamp) {
+      state.lastBackupRefresh = action.payload.refreshTimestamp
+      state.backups = action.payload.backups
     }
   })
 })

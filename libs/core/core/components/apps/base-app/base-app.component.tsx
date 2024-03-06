@@ -18,8 +18,11 @@ import { useDeviceDetachedEffect } from "Core/core/hooks/use-device-detached-eff
 import { useDeviceConnectFailedEffect } from "Core/core/hooks/use-device-connect-failed-effect"
 import { useDiscoveryRedirectEffect } from "Core/core/hooks/use-discovery-redirect-effect"
 import { useRouterListener } from "Core/core/hooks"
-import { useAPISerialPortListeners, useOutbox } from "generic-view/store"
-
+import {
+  OutboxWrapper,
+  useAPISerialPortListeners,
+  useBackupList,
+} from "generic-view/store"
 
 const BaseApp: FunctionComponent = () => {
   useRouterListener()
@@ -33,10 +36,10 @@ const BaseApp: FunctionComponent = () => {
   useDiscoveryRedirectEffect()
   // API
   useAPISerialPortListeners()
-  useOutbox()
-
+  useBackupList()
   return (
     <>
+      <OutboxWrapper />
       <CrashDump />
       <NetworkStatusChecker />
       <ModalsManager />
