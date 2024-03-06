@@ -44,7 +44,7 @@ export const refreshBackupList = createAsyncThunk<
           const [fileName] = item.split(".")
           const [timestamp, serialNumber] = fileName.split("_")
           const result: Backup = {
-            date: new Date(+timestamp),
+            date: new Date(Number(timestamp)),
             fileName: item,
             serialNumber,
           }
