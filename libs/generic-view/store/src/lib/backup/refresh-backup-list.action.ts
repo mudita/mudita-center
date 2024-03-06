@@ -18,8 +18,6 @@ export const refreshBackupList = createAsyncThunk<
 >(
   ActionName.RefreshBackupList,
   async (_, { getState, dispatch, rejectWithValue }) => {
-    console.log("start RefreshBackupList")
-
     const refreshTimestamp = new Date().getTime()
 
     const deviceId = getState().genericViews.activeDevice
@@ -28,7 +26,6 @@ export const refreshBackupList = createAsyncThunk<
     }
 
     const backupsList = await readBackupDirectoryRequest(deviceId)
-    console.log(backupsList)
 
     if (!backupsList.ok) {
       return rejectWithValue(undefined)

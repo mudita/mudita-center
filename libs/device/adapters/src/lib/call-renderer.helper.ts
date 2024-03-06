@@ -6,13 +6,18 @@
 import { LoggerFactory } from "Core/core/factories"
 import { ipcMain } from "electron-better-ipc"
 import { ApiSerialPortToRendererEvents } from "device/models"
-import { DeviceManagerMainEvent, getMainAppWindow } from "shared/utils"
+import {
+  DeviceManagerMainEvent,
+  getMainAppWindow,
+  AppEvents,
+} from "shared/utils"
 
 const logger = LoggerFactory.getInstance()
 
 export type CallRendererEvent =
   | ApiSerialPortToRendererEvents
   | DeviceManagerMainEvent
+  | AppEvents
 
 export const callRenderer = (event: CallRendererEvent, payload?: unknown) => {
   const win = getMainAppWindow()
