@@ -13,7 +13,6 @@ import { BackupProgress } from "./backup-progress"
 import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
 import { BackupSuccess } from "./backup-success"
 import { BackupError } from "./backup-error"
-import { BackupDirectoryFailure } from "./backup-directory-failure"
 import { Form } from "../../interactive/form/form"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -30,7 +29,6 @@ enum Step {
   Progress,
   Success,
   Error,
-  DirectoryError,
 }
 
 interface Config {
@@ -59,10 +57,6 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   const closeModal = () => {
     dispatch(closeModalAction({ key: modalKey! }))
     dispatch(cleanBackupProcess())
-  }
-
-  const showDirectoryOpenError = () => {
-    setStep(Step.DirectoryError)
   }
 
   const startBackup = (password?: string) => {
@@ -163,16 +157,10 @@ const BackupCreateForm: FunctionComponent<Config> = ({
         )}
         {step === Step.Progress && <BackupProgress features={features} />}
         {step === Step.Success && (
-          <BackupSuccess
-            onClose={backupCloseButtonAction.callback}
-            onOpenDirectoryFailure={showDirectoryOpenError}
-          />
+          <BackupSuccess onClose={backupCloseButtonAction.callback} />
         )}
         {step === Step.Error && (
           <BackupError closeAction={backupCloseButtonAction} />
-        )}
-        {step === Step.DirectoryError && (
-          <BackupDirectoryFailure closeAction={backupCloseButtonAction} />
         )}
       </ModalCenteredContent>
     </>

@@ -22,6 +22,7 @@ import {
   OutboxWrapper,
   useAPISerialPortListeners,
   useBackupList,
+  useAppEventsListeners,
 } from "generic-view/store"
 
 const BaseApp: FunctionComponent = () => {
@@ -36,6 +37,7 @@ const BaseApp: FunctionComponent = () => {
   useDiscoveryRedirectEffect()
   // API
   useAPISerialPortListeners()
+  useAppEventsListeners()
   useBackupList()
   return (
     <>

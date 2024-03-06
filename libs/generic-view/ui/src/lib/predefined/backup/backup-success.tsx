@@ -10,6 +10,8 @@ import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { openBackupDirectoryRequest } from "device/feature"
+import styled from "styled-components"
+import { ButtonText } from "../../buttons/button-text"
 
 const messages = defineMessages({
   title: {
@@ -18,11 +20,11 @@ const messages = defineMessages({
   description: {
     id: "module.genericViews.backup.success.description",
   },
-  description2: {
-    id: "module.genericViews.backup.success.description2",
-  },
   openBackupButtonLabel: {
     id: "module.genericViews.backup.success.openBackupButtonLabel",
+  },
+  closeButtonLabel: {
+    id: "module.genericViews.backup.success.closeButtonLabel",
   },
 })
 
@@ -33,19 +35,13 @@ export interface Feature {
 
 interface Props {
   onClose: VoidFunction
-  onOpenDirectoryFailure: VoidFunction
 }
 
-export const BackupSuccess: FunctionComponent<Props> = ({
-  onClose,
-  onOpenDirectoryFailure,
-}) => {
+export const BackupSuccess: FunctionComponent<Props> = ({ onClose }) => {
   const openBackupCallback = async () => {
     const openDirectoryResponse = await openBackupDirectoryRequest()
     if (openDirectoryResponse.ok) {
       onClose()
-    } else {
-      onOpenDirectoryFailure()
     }
   }
   return (
@@ -56,15 +52,24 @@ export const BackupSuccess: FunctionComponent<Props> = ({
         }}
       />
       <h1>{intl.formatMessage(messages.title)}</h1>
-      <p>{intl.formatMessage(messages.description)}</p>
-      <p>{intl.formatMessage(messages.description2)}</p>
+      <Article>
+        <p>{intl.formatMessage(messages.description)}</p>
+        <ButtonText
+          config={{
+            text: intl.formatMessage(messages.openBackupButtonLabel),
+            action: { type: "custom", callback: openBackupCallback },
+            modifiers: ["uppercase", "link"],
+            icon: IconType.Folder,
+          }}
+        />
+      </Article>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
-            text: intl.formatMessage(messages.openBackupButtonLabel),
+            text: intl.formatMessage(messages.closeButtonLabel),
             action: {
               type: "custom",
-              callback: openBackupCallback,
+              callback: onClose,
             },
           }}
         />
@@ -72,3 +77,14 @@ export const BackupSuccess: FunctionComponent<Props> = ({
     </>
   )
 }
+
+const Article = styled.article`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+
+  button {
+    height: 3.2rem;
+  }
+`

@@ -18,8 +18,6 @@ export const refreshBackupList = createAsyncThunk<
 >(
   ActionName.RefreshBackupList,
   async (_, { getState, dispatch, rejectWithValue }) => {
-    console.log("start RefreshBackupList")
-
     const refreshTimestamp = new Date().getTime()
 
     const deviceId = getState().genericViews.activeDevice
@@ -28,7 +26,6 @@ export const refreshBackupList = createAsyncThunk<
     }
 
     const backupsList = await readBackupDirectoryRequest(deviceId)
-    console.log(backupsList)
 
     if (!backupsList.ok) {
       return rejectWithValue(undefined)
@@ -37,8 +34,7 @@ export const refreshBackupList = createAsyncThunk<
     const backups =
       (backupsList.data
         .map((item) => {
-          const isFormatValid =
-            item.match(/^\d+[_][a-zA-Z0-9]+[.]mcbackup$/i) !== null
+          const isFormatValid = /^\d+[_][a-zA-Z0-9]+[.]mcbackup$/i.test(item)
 
           if (!isFormatValid) {
             return null
@@ -47,7 +43,7 @@ export const refreshBackupList = createAsyncThunk<
           const [fileName] = item.split(".")
           const [timestamp, serialNumber] = fileName.split("_")
           const result: Backup = {
-            date: new Date(+timestamp),
+            date: new Date(Number(timestamp)),
             fileName: item,
             serialNumber,
           }
