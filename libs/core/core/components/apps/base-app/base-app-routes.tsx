@@ -35,7 +35,7 @@ import ConfiguredDevicesDiscovery from "Core/discovery-device/components/configu
 import DevicesInitialization from "Core/device-initialization/components/devices-initialization.component"
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
-import { GenericView } from "generic-view/feature"
+import { ApiDeviceModals, GenericView } from "generic-view/feature"
 import { APIConnectionDemo } from "generic-view/ui"
 
 // AUTO DISABLED - fix me if you like :)
@@ -125,9 +125,9 @@ export default () => (
             component={AboutContainer}
           />
         </Switch>
+        <ApiDeviceModals />
       </LayoutDesktopWrapper>
     </Route>
-
     <Redirect to={URL_OVERVIEW.root} />
   </Switch>
 )

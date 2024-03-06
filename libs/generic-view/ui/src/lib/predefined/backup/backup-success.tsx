@@ -9,10 +9,7 @@ import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { useDispatch } from "react-redux"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { openBackupDirectoryRequest } from "device/feature"
-import { closeModal } from "generic-view/store"
 
 const messages = defineMessages({
   title: {
@@ -35,19 +32,20 @@ export interface Feature {
 }
 
 interface Props {
-  modalKey: string
+  onClose: VoidFunction
+  onOpenDirectoryFailure: VoidFunction
 }
 
-export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
-  const dispatch = useDispatch<Dispatch>()
-
+export const BackupSuccess: FunctionComponent<Props> = ({
+  onClose,
+  onOpenDirectoryFailure,
+}) => {
   const openBackupCallback = async () => {
     const openDirectoryResponse = await openBackupDirectoryRequest()
     if (openDirectoryResponse.ok) {
-      dispatch(closeModal({ key: modalKey! }))
+      onClose()
     } else {
-      // TODO: replace with proper modal
-      alert(openDirectoryResponse.error.message)
+      onOpenDirectoryFailure()
     }
   }
   return (

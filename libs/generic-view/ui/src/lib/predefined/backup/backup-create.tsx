@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useRef, useState } from "react"
+import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { APIFC, ButtonAction } from "generic-view/utils"
 import { withConfig } from "../../utils/with-config"
 import { BackupFeatures, Feature } from "./backup-features"
@@ -12,13 +12,16 @@ import { useFormContext } from "react-hook-form"
 import { BackupProgress } from "./backup-progress"
 import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
 import { BackupSuccess } from "./backup-success"
-import { BackupFailure } from "./backup-failure"
+import { BackupError } from "./backup-error"
+import { BackupDirectoryFailure } from "./backup-directory-failure"
 import { Form } from "../../interactive/form/form"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   cleanBackupProcess,
-  createBackup as createBackupAction,
+  closeModal as closeModalAction,
+  createBackup,
+  selectBackupProcessStatus,
 } from "generic-view/store"
 
 enum Step {
@@ -27,6 +30,7 @@ enum Step {
   Progress,
   Success,
   Error,
+  DirectoryError,
 }
 
 interface Config {
@@ -35,30 +39,59 @@ interface Config {
 }
 
 const BackupCreateForm: FunctionComponent<Config> = ({
-  features,
+  features = [],
   modalKey,
 }) => {
-  const backupProcess = useRef<{ abort: VoidFunction }>()
   const dispatch = useDispatch<Dispatch>()
   const { handleSubmit } = useFormContext()
+  const backupProcessStatus = useSelector(selectBackupProcessStatus)
+  const backupAbortReference = useRef<VoidFunction>()
   const [step, setStep] = useState<Step>(Step.Features)
 
-  const modalCloseAction: ButtonAction = {
-    type: "close-modal",
-    modalKey: modalKey!,
+  const featuresKeys = features?.map((item) => item.key) ?? []
+  const closeButtonVisible = [
+    Step.Features,
+    Step.Password,
+    Step.Success,
+  ].includes(step)
+  const abortButtonVisible = step === Step.Progress
+
+  const closeModal = () => {
+    dispatch(closeModalAction({ key: modalKey! }))
+    dispatch(cleanBackupProcess())
   }
 
-  const backupCancelAction: ButtonAction = {
+  const showDirectoryOpenError = () => {
+    setStep(Step.DirectoryError)
+  }
+
+  const startBackup = (password?: string) => {
+    const promise = dispatch(
+      createBackup({
+        features: featuresKeys,
+        password,
+      })
+    )
+    backupAbortReference.current = (
+      promise as unknown as {
+        abort: VoidFunction
+      }
+    ).abort
+  }
+
+  const backupCloseButtonAction: ButtonAction = {
+    type: "custom",
+    callback: closeModal,
+  }
+
+  const backupAbortButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      backupProcess.current?.abort()
-      setStep(Step.Error)
+      backupAbortReference.current?.()
     },
   }
 
-  const featuresKeys = features?.map((item) => item.key) ?? []
-
-  const createBackup: ButtonAction = {
+  const backupCreateButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
       dispatch(cleanBackupProcess())
@@ -66,82 +99,75 @@ const BackupCreateForm: FunctionComponent<Config> = ({
     },
   }
 
-  const skipPassword: ButtonAction = {
+  const passwordSkipButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      handleSubmit(async () => {
-        const promise = dispatch(
-          createBackupAction({
-            features: featuresKeys,
-          })
-        )
-        backupProcess.current = promise as unknown as {
-          abort: (reason?: string) => void
-        }
+      handleSubmit(() => {
+        startBackup()
       })()
-      setStep(Step.Progress)
     },
   }
 
-  const confirmPassword: ButtonAction = {
+  const passwordConfirmButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
       handleSubmit((data) => {
-        const promise = dispatch(
-          createBackupAction({
-            features: featuresKeys,
-            password: data.password,
-          })
-        )
-        backupProcess.current = promise as unknown as {
-          abort: (reason?: string) => void
-        }
+        startBackup(data.password)
       })()
-      setStep(Step.Progress)
     },
   }
 
-  const onSuccess = () => {
-    setStep(Step.Success)
-  }
-
-  const onFail = () => {
-    setStep(Step.Error)
-  }
-
-  const showCloseButton = [Step.Features, Step.Password, Step.Success].includes(
-    step
-  )
-
-  const showCancelButton = step === Step.Progress
+  useEffect(() => {
+    switch (backupProcessStatus) {
+      case "DONE":
+        setStep(Step.Success)
+        break
+      case "FAILED":
+        setStep(Step.Error)
+        break
+      case "PRE_BACKUP":
+      case "FILES_TRANSFER":
+      case "SAVE_FILE":
+        setStep(Step.Progress)
+        break
+    }
+  }, [backupProcessStatus])
 
   return (
     <>
-      {showCloseButton && <ModalCloseButton action={modalCloseAction} />}
-      {showCancelButton && <ModalCloseButton action={backupCancelAction} />}
+      {closeButtonVisible && (
+        <ModalCloseButton action={backupCloseButtonAction} />
+      )}
+      {abortButtonVisible && (
+        <ModalCloseButton action={backupAbortButtonAction} />
+      )}
       <ModalCenteredContent>
         {step === Step.Features && (
           <BackupFeatures
-            features={features || []}
-            closeAction={modalCloseAction}
-            nextAction={createBackup}
+            features={features}
+            closeAction={backupCloseButtonAction}
+            nextAction={backupCreateButtonAction}
           />
         )}
         {step === Step.Password && (
           <BackupPassword
-            skipAction={skipPassword}
-            nextAction={confirmPassword}
+            skipAction={passwordSkipButtonAction}
+            nextAction={passwordConfirmButtonAction}
           />
         )}
-        {step === Step.Progress && (
-          <BackupProgress
-            features={features || []}
-            onSuccess={onSuccess}
-            onFail={onFail}
+        {step === Step.Progress && <BackupProgress features={features} />}
+        {step === Step.Success && (
+          <BackupSuccess
+            onClose={backupCloseButtonAction.callback}
+            onOpenDirectoryFailure={showDirectoryOpenError}
           />
         )}
-        {step === Step.Success && <BackupSuccess modalKey={modalKey!} />}
-        {step === Step.Error && <BackupFailure modalKey={modalKey!} />}
+        {step === Step.Error && (
+          <BackupError closeAction={backupCloseButtonAction} />
+        )}
+        {step === Step.DirectoryError && (
+          <BackupDirectoryFailure closeAction={backupCloseButtonAction} />
+        )}
       </ModalCenteredContent>
     </>
   )

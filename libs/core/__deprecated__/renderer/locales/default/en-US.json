@@ -886,5 +886,8 @@
   "module.genericViews.backup.success.openBackupButtonLabel": "Open backup",
   "module.genericViews.backup.failure.title": "Backup failed",
   "module.genericViews.backup.failure.defaultErrorMessage": "The backup process was interrupted.",
-  "module.genericViews.backup.failure.closeButtonLabel": "Close"
+  "module.genericViews.backup.failure.closeButtonLabel": "Close",
+  "module.genericViews.backup.directoryOpenFailure.title": "Directory open failed",
+  "module.genericViews.backup.directoryOpenFailure.defaultErrorMessage": "The directory could not be opened.\n\nYou can still try to find the backup in the default location:",
+  "module.genericViews.backup.directoryOpenFailure.closeButtonLabel": "Close"
 }

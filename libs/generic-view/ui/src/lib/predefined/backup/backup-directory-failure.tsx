@@ -4,29 +4,34 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { IconType } from "generic-view/utils"
+import { ButtonAction, IconType } from "generic-view/utils"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { useSelector } from "react-redux"
+import { selectBackupLocation } from "generic-view/store"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.backup.failure.title",
+    id: "module.genericViews.backup.directoryOpenFailure.title",
   },
   defaultErrorMessage: {
-    id: "module.genericViews.backup.failure.defaultErrorMessage",
+    id: "module.genericViews.backup.directoryOpenFailure.defaultErrorMessage",
   },
   closeButtonLabel: {
-    id: "module.genericViews.backup.failure.closeButtonLabel",
+    id: "module.genericViews.backup.directoryOpenFailure.closeButtonLabel",
   },
 })
 
-export const BackupFailure: FunctionComponent<{ modalKey: string }> = ({
-  modalKey,
+interface Props {
+  closeAction: ButtonAction
+}
+
+export const BackupDirectoryFailure: FunctionComponent<Props> = ({
+  closeAction,
 }) => {
-  // TODO: read error message from the store
-  const message = ""
+  const backupLocation = useSelector(selectBackupLocation)
   return (
     <>
       <ModalTitleIcon
@@ -35,15 +40,13 @@ export const BackupFailure: FunctionComponent<{ modalKey: string }> = ({
         }}
       />
       <h1>{intl.formatMessage(messages.title)}</h1>
-      <p>{message || intl.formatMessage(messages.defaultErrorMessage)}</p>
+      <p>{intl.formatMessage(messages.defaultErrorMessage)}</p>
+      <p>{backupLocation}</p>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
-            action: {
-              type: "close-modal",
-              modalKey,
-            },
+            action: closeAction,
           }}
         />
       </ModalButtons>

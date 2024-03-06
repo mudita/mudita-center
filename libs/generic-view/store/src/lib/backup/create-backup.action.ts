@@ -20,7 +20,6 @@ import {
   setBackupProcessFileStatus,
   setBackupProcessStatus,
 } from "./actions"
-import { isEmpty } from "lodash"
 
 export const createBackup = createAsyncThunk<
   undefined,
@@ -35,6 +34,21 @@ export const createBackup = createAsyncThunk<
     { features, password },
     { getState, dispatch, rejectWithValue, signal }
   ) => {
+    let aborted = false
+
+    signal.addEventListener("abort", async () => {
+      aborted = true
+      abortFileRequest?.()
+      await clearTransfers()
+      if (backupId && deviceId) {
+        await postBackupRequest(backupId, deviceId)
+      }
+    })
+
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
+
     dispatch(
       setBackupProcess({
         status: "PRE_BACKUP",
@@ -46,7 +60,7 @@ export const createBackup = createAsyncThunk<
 
     const deviceId = getState().genericViews.activeDevice
 
-    if (deviceId === undefined) {
+    if (deviceId === undefined || aborted) {
       return rejectWithValue(undefined)
     }
 
@@ -55,7 +69,7 @@ export const createBackup = createAsyncThunk<
       deviceId
     )
 
-    if (!startPreBackupResponse.ok) {
+    if (!startPreBackupResponse.ok || aborted) {
       console.log(startPreBackupResponse.error)
       return rejectWithValue(undefined)
     }
@@ -73,17 +87,10 @@ export const createBackup = createAsyncThunk<
       )
     }
 
-    signal.addEventListener("abort", async () => {
-      abortFileRequest?.()
-      await clearTransfers()
-      if (isEmpty(featureToTransferId)) {
-        await postBackupRequest(backupId, deviceId)
-      }
-    })
-
     while (backupFeaturesFiles === undefined) {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
       const checkPreBackupResponse = await checkPreBackupRequest(
         backupId,
         features,
@@ -100,6 +107,9 @@ export const createBackup = createAsyncThunk<
     dispatch(setBackupProcessStatus("FILES_TRANSFER"))
 
     for (let i = 0; i < features.length; ++i) {
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
       const feature = features[i]
 
       dispatch(setBackupProcessFileStatus({ feature, status: "IN_PROGRESS" }))
@@ -126,6 +136,9 @@ export const createBackup = createAsyncThunk<
         return rejectWithValue(undefined)
       }
     }
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
     dispatch(setBackupProcessStatus("SAVE_FILE"))
     const saveBackupFileResponse = await saveBackupFileRequest(
       featureToTransferId,
@@ -140,7 +153,9 @@ export const createBackup = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
-    await postBackupRequest(backupId, deviceId)
+    if (!aborted) {
+      await postBackupRequest(backupId, deviceId)
+    }
     return undefined
   }
 )
