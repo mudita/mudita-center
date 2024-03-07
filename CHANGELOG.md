@@ -14,7 +14,7 @@ straightforward as possible.
 
 ### Changed
 
-- Removed the 100 files upload limit for Relaxation audio files in Mudita Center, aligning with Harmony's unlimited songs capacity and eliminating the modal warning about exceeding the limit.
+- Removed the 100 files upload limit for Relaxation audio files in Mudita Center, aligning with Harmony's unlimited songs capacity.
 
 ### Fixed
 
