@@ -6,8 +6,8 @@
 import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
 import { removeSeededData, seedData } from "./src/seeds"
-import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 import { CleanUpFactory } from "./src/cleanup"
+import SPECS from "./src/suites.constant"
 
 dotenv.config()
 
@@ -55,29 +55,7 @@ export const config: Options.Testrunner = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: [
-    toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
-    toRelativePath(TestFilesPaths.checkForUpdateTest),
-    toRelativePath(TestFilesPaths.deviceUpdateTest),
-    toRelativePath(TestFilesPaths.mcVersionCheckTest),
-    toRelativePath(TestFilesPaths.contactsListTest),
-    toRelativePath(TestFilesPaths.contactsInAppNavigationTest),
-    toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
-    toRelativePath(TestFilesPaths.newsInAppNavigationTest),
-    toRelativePath(TestFilesPaths.overviewInAppNavigationTest),
-    toRelativePath(TestFilesPaths.settingsInAppNavigationTest),
-    toRelativePath(TestFilesPaths.helpWindowCheckTest),
-    toRelativePath(TestFilesPaths.sarWindowCheckTest),
-    toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
-    toRelativePath(TestFilesPaths.messageSendTest),
-  ],
-  suites: {
-    update: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
-      toRelativePath(TestFilesPaths.checkForUpdateTest),
-      toRelativePath(TestFilesPaths.deviceUpdateTest),
-    ],
-  },
+  specs: SPECS,
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -100,8 +78,6 @@ export const config: Options.Testrunner = {
   // from the same test should run tests.
   //
   maxInstances: 1,
-
-  headless: true,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -115,10 +91,9 @@ export const config: Options.Testrunner = {
       // maxInstances: 5,
       //
       browserName: "chrome",
-      // acceptInsecureCerts: true,
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
-        args: ["--headless", "--no-sandbox"],
+        args: [],
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
