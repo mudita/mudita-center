@@ -6,10 +6,8 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { ButtonAction, IconType } from "generic-view/utils"
-import { withConfig } from "../../utils/with-config"
 import { TextInput } from "../../interactive/input/text-input"
 import { ButtonPrimary } from "../../buttons/button-primary"
-import { ButtonText } from "../../buttons/button-text"
 import { useFormContext } from "react-hook-form"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
@@ -46,19 +44,19 @@ const messages = defineMessages({
 })
 
 interface Props {
-  skipAction: ButtonAction
   nextAction: ButtonAction
 }
 
-export const BackupPassword: FunctionComponent<Props> = ({
-  skipAction,
+export const BackupRestorePassword: FunctionComponent<Props> = ({
   nextAction,
 }) => {
   const { watch, formState } = useFormContext()
   const password = watch("password")
-  const passwordRepeat = watch("passwordRepeat")
 
-  const passwordsMatching = password === passwordRepeat
+  const validatePassword = async (value: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 500))
+    return value === "1234" || "Wrong password, try again"
+  }
 
   return (
     <>
@@ -67,35 +65,16 @@ export const BackupPassword: FunctionComponent<Props> = ({
           type: IconType.Settings,
         }}
       />
-      <h1>
-        {intl.formatMessage(messages.title)}
-        <HeadlineOptional>
-          {intl.formatMessage(messages.subtitle)}
-        </HeadlineOptional>
-      </h1>
-      <Text>
-        {intl.formatMessage(messages.description)}
-        <span>{intl.formatMessage(messages.description2)}</span>
-      </Text>
+      <h1>Password</h1>
+      <Text>Enter the backup password.</Text>
       <TextInput
         config={{
           name: "password",
           label: intl.formatMessage(messages.passwordPlaceholder),
           type: "password",
-        }}
-      />
-      <TextInput
-        config={{
-          name: "passwordRepeat",
-          label: intl.formatMessage(messages.passwordRepeatPlaceholder),
-          type: "password",
           validation: {
-            validate: (value: string, formValues) => {
-              return (
-                value === formValues.password ||
-                intl.formatMessage(messages.passwordRepeatNotMatchingError)
-              )
-            },
+            required: "Password should contain minimum one character",
+            validate: validatePassword,
           },
         }}
       />
@@ -104,30 +83,13 @@ export const BackupPassword: FunctionComponent<Props> = ({
           config={{
             text: intl.formatMessage(messages.confirmButtonLabel),
             action: nextAction,
-            disabled: !password || !passwordsMatching,
-          }}
-        />
-        <ButtonText
-          config={{
-            text: intl.formatMessage(messages.skipButtonLabel),
-            action: skipAction,
-            modifiers: ["link", "uppercase"],
+            disabled: !password || !formState.isValid,
           }}
         />
       </ModalButtons>
     </>
   )
 }
-
-const HeadlineOptional = styled.span`
-  margin: -0.2rem 0 0;
-  display: block;
-  text-align: center;
-  font-size: ${({ theme }) => theme.fontSize.paragraph1};
-  line-height: ${({ theme }) => theme.lineHeight.paragraph1};
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
-  letter-spacing: 0.02em;
-`
 
 const Text = styled.p`
   span {

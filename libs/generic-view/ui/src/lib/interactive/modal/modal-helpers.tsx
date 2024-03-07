@@ -72,6 +72,7 @@ export const ModalCenteredContent = styled.div`
 
   & > ul,
   article ul {
+    width: 100%;
     margin: 0;
     padding-left: 2.9rem;
     display: flex;

@@ -142,4 +142,9 @@ export class APIRestoreService {
 
     return Result.failed(new AppError(GeneralError.IncorrectResponse))
   }
+
+  public getBackupMetadata(id: string) {
+    // validate backup file
+    // return metadata header + features keys
+  }
 }
