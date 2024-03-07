@@ -16,6 +16,8 @@ import AES from "crypto-js/aes"
 import path from "path"
 
 export class FileManager {
+  private files: Record<string, unknown> = {}
+
   constructor(
     private deviceManager: DeviceManager,
     private serviceBridge: ServiceBridge
@@ -162,10 +164,6 @@ export class FileManager {
   }: {
     deviceId?: DeviceId
   }): ResultObject<string[]> {
-    const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
-
     const pathResult = this.getBackupPath({ deviceId })
 
     if (!pathResult.ok) {
@@ -173,5 +171,19 @@ export class FileManager {
     }
 
     return this.readDirectory({ path: pathResult.data })
+  }
+
+  public getFile(id: string) {
+    return this.files[id]
+  }
+
+  public readFile() {
+    this.files[""] = ""
+    //
+  }
+
+  public clearFile(id: string) {
+    //
+    delete this.files[id]
   }
 }

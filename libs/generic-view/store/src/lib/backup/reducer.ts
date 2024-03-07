@@ -29,17 +29,43 @@ export type BackupProcessStatus =
 export type BackupProcessFileStatus = "PENDING" | "IN_PROGRESS" | "DONE"
 
 export interface BackupProcess {
-  status: "PRE_BACKUP" | "FILES_TRANSFER" | "SAVE_FILE" | "DONE" | "FAILED"
+  status: BackupProcessStatus
   featureFilesTransfer: Record<
     string,
     { transferId?: number; status: BackupProcessFileStatus }
   >
 }
 
+export interface RestoreMetadata {
+  header: {
+    vendorId: string
+    productId: string
+    serialNumber: string
+    appVersion: string
+    password?: string
+    crypto?: "AES"
+  }
+  features: string[]
+}
+
+export type RestoreProcessStatus =
+  | "PENDING"
+  | "INVALID_PASSWORD"
+  | "PRE_RESTORE"
+  | "FILES_TRANSFER"
+  | "DONE"
+  | "FAILED"
+
+export interface RestoreProcess {
+  status: RestoreProcessStatus
+  metadata?: RestoreMetadata
+}
+
 interface BackupState {
   lastBackupRefresh: number
   backups: Backup[]
   backupProcess?: BackupProcess
+  restoreProcess?: RestoreProcess
 }
 
 const initialState: BackupState = {
