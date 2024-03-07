@@ -54,6 +54,4 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb
-          Xvfb :99 &
-          export DISPLAY=:99
-          npm run e2e:test
+          npm run e2e:test:linux
