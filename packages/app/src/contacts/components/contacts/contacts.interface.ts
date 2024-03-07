@@ -59,7 +59,9 @@ export interface ContactsProps {
   importContact: (
     contact: NewContact
   ) => Promise<PayloadAction<Error | Contact>>
-  editContact: (contact: Contact) => Promise<PayloadAction<Error | undefined>>
+  editContact: (
+    contact: Contact
+  ) => Promise<PayloadAction<ContactErrorResponse | undefined>>
   deleteContacts: (
     ids: ContactID[]
   ) => Promise<PayloadAction<Error | undefined>>

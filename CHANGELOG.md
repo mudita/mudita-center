@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.2.8] - 2024-02-22
+
+### Changed
+
+- Removed the 100 files upload limit for Relaxation audio files in Mudita Center, aligning with Harmony's unlimited songs capacity.
+
+### Fixed
+
+- Implemented validation to ensure contact numbers are unique, preventing duplication and resolving the issue with endless synchronization when editing contacts.
+
+
 ## [2.2.7] - 2023-12-07
 
 ### Fixed

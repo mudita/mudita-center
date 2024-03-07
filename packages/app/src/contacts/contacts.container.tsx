@@ -5,7 +5,6 @@
 
 import { connect } from "react-redux"
 import { History, LocationState } from "history"
-import { PayloadAction } from "@reduxjs/toolkit"
 import Contacts from "App/contacts/components/contacts/contacts.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
@@ -110,7 +109,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
       contact: Contact
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/require-await
-    ): Promise<PayloadAction<ContactErrorResponse | undefined>> =>
+    ): Promise<ContactErrorResponse | void> =>
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       dispatch(editContact(contact)),
