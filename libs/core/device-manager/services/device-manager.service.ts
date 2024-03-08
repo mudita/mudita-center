@@ -149,11 +149,6 @@ export class DeviceManager {
   private async addDeviceTask(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
 
-    const alreadyInitializedDevices = this.getDevicePaths()
-    if (alreadyInitializedDevices.includes(port.path ?? "")) {
-      return
-    }
-
     if (!device) {
       return
     }
@@ -211,9 +206,5 @@ export class DeviceManager {
 
   private getDeviceByPath(path: string): BaseDevice | undefined {
     return this.devices.find((device) => device.portInfo.path === path)
-  }
-
-  private getDevicePaths(): string[] {
-    return this.devices.map(({ portInfo }) => portInfo.path)
   }
 }
