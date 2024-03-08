@@ -3,12 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useRef, useState } from "react"
+import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { APIFC, ButtonAction } from "generic-view/utils"
 import { Form } from "../../interactive/form/form"
 import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
-import { closeModal as closeModalAction } from "generic-view/store"
-import { useDispatch } from "react-redux"
+import {
+  cleanRestoreProcess,
+  closeModal as closeModalAction,
+  getBackupMetadata,
+  selectBackupRestoreStatus,
+} from "generic-view/store"
+import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { BackupRestoreSelect } from "./backup-restore-select"
 import { useFormContext } from "react-hook-form"
@@ -40,8 +45,9 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   modalKey,
 }) => {
   const dispatch = useDispatch<Dispatch>()
-  const { handleSubmit } = useFormContext()
+  const { handleSubmit, getValues } = useFormContext()
   const restoreAbortReference = useRef<VoidFunction>()
+  const restoreStatus = useSelector(selectBackupRestoreStatus)
 
   const [step, setStep] = useState<Step>(Step.Select)
   const closeButtonVisible = [
@@ -53,9 +59,11 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
 
   const closeModal = () => {
     dispatch(closeModalAction({ key: modalKey! }))
+    dispatch(cleanRestoreProcess())
   }
 
   const startRestore = (password?: string) => {
+    setStep(Step.Progress)
     // const promise = dispatch(
     //
     // )
@@ -71,17 +79,18 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
     callback: closeModal,
   }
 
-  const selectionConfirmButtonAction: ButtonAction = {
+  const abortButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      setStep(Step.Password)
+      restoreAbortReference.current?.()
+      closeModal()
     },
   }
 
-  const passwordConfirmButtonAction: ButtonAction = {
+  const selectionConfirmButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      setStep(Step.Progress)
+      dispatch(getBackupMetadata({ filePath: getValues("file") }))
     },
   }
 
@@ -93,19 +102,38 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
     type: "custom",
     callback: () => {
       handleSubmit((data) => {
-        console.log(data)
+        startRestore(data.password)
       })()
     },
   }
+
+  useEffect(() => {
+    switch (restoreStatus) {
+      case "PASSWORD_NOT_REQUIRED":
+        startRestore()
+        break
+      case "PASSWORD_REQUIRED":
+        setStep(Step.Password)
+        break
+      case "FAILED":
+        setStep(Step.Error)
+        break
+      case "DONE":
+        setStep(Step.Success)
+        break
+      case "PRE_RESTORE":
+      case "FILES_TRANSFER":
+        setStep(Step.Progress)
+        break
+    }
+  }, [restoreStatus])
 
   return (
     <>
       {closeButtonVisible && (
         <ModalCloseButton action={restoreCloseButtonAction} />
       )}
-      {abortButtonVisible && (
-        <ModalCloseButton action={restoreCloseButtonAction} />
-      )}
+      {abortButtonVisible && <ModalCloseButton action={abortButtonAction} />}
       <ModalCenteredContent>
         {step === Step.Select && (
           <BackupRestoreSelect
@@ -114,36 +142,14 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
           />
         )}
         {step === Step.Password && (
-          <BackupRestorePassword nextAction={passwordConfirmButtonAction} />
+          <BackupRestorePassword nextAction={confirmAction} />
         )}
         {step === Step.Progress && (
-          <BackupRestoreProgress
-            onSuccess={onSuccess}
-            features={[
-              {
-                key: "contacts",
-                label: "Contacts",
-              },
-              {
-                key: "messages",
-                label: "Messages",
-              },
-              {
-                key: "notes",
-                label: "Notes",
-              },
-              {
-                key: "calendar",
-                label: "Calendar",
-              },
-              {
-                key: "settings",
-                label: "Settings",
-              },
-            ]}
-          />
+          <BackupRestoreProgress onSuccess={onSuccess} />
         )}
-        {step === Step.Success && <BackupRestoreSuccess onClose={closeModal} />}
+        {step === Step.Success && (
+          <BackupRestoreSuccess onClose={restoreCloseButtonAction.callback} />
+        )}
         {step === Step.Error && (
           <BackupRestoreError closeAction={restoreCloseButtonAction} />
         )}

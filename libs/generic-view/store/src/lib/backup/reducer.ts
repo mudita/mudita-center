@@ -6,12 +6,15 @@
 import { createReducer } from "@reduxjs/toolkit"
 import {
   cleanBackupProcess,
+  cleanRestoreProcess,
   setBackupProcess,
   setBackupProcessFileStatus,
   setBackupProcessStatus,
 } from "./actions"
 import { createBackup } from "./create-backup.action"
 import { refreshBackupList } from "./refresh-backup-list.action"
+import { RestoreMetadata } from "device/models"
+import { getBackupMetadata } from "./get-backup.metadata"
 
 export interface Backup {
   fileName: string
@@ -36,21 +39,9 @@ export interface BackupProcess {
   >
 }
 
-export interface RestoreMetadata {
-  header: {
-    vendorId: string
-    productId: string
-    serialNumber: string
-    appVersion: string
-    password?: string
-    crypto?: "AES"
-  }
-  features: string[]
-}
-
 export type RestoreProcessStatus =
-  | "PENDING"
-  | "INVALID_PASSWORD"
+  | "PASSWORD_NOT_REQUIRED"
+  | "PASSWORD_REQUIRED"
   | "PRE_RESTORE"
   | "FILES_TRANSFER"
   | "DONE"
@@ -116,5 +107,22 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
       state.lastBackupRefresh = action.payload.refreshTimestamp
       state.backups = action.payload.backups
     }
+  })
+  builder.addCase(getBackupMetadata.fulfilled, (state, action) => {
+    state.restoreProcess = {
+      status: action.payload.header.password
+        ? "PASSWORD_REQUIRED"
+        : "PASSWORD_NOT_REQUIRED",
+      metadata: action.payload,
+    }
+  })
+  builder.addCase(getBackupMetadata.rejected, (state, action) => {
+    console.log(action)
+    state.restoreProcess = {
+      status: "FAILED",
+    }
+  })
+  builder.addCase(cleanRestoreProcess, (state, action) => {
+    delete state.restoreProcess
   })
 })
