@@ -6,8 +6,8 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
+import { answerMain, DeviceManagerMainEvent } from "shared/utils"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
@@ -56,10 +56,7 @@ export const useDeviceConnectedEffect = () => {
       }
     }
 
-    const unregister = registerDeviceConnectedListener(handler)
-    return () => {
-      unregister()
-    }
+    return answerMain<DeviceBaseProperties>(DeviceManagerMainEvent.DeviceConnected, handler)
   }, [
     history,
     dispatch,

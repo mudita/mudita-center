@@ -4,7 +4,6 @@
  */
 
 import SerialPort, { PortInfo as SerialPortInfo } from "serialport"
-import { MainProcessIpc } from "electron-better-ipc"
 import { Mutex } from "async-mutex"
 import { EventEmitter } from "events"
 import { DeviceResolverService } from "Core/device-manager/services/device-resolver.service"
@@ -33,7 +32,6 @@ export class DeviceManager {
 
   constructor(
     private deviceResolver: DeviceResolverService,
-    private ipc: MainProcessIpc,
     protected eventEmitter: EventEmitter
   ) {}
 
@@ -117,7 +115,6 @@ export class DeviceManager {
 
     const data = device.toSerializableObject()
     callRenderer(DeviceManagerMainEvent.DeviceDetached, data)
-    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, data)
     logger.info(`Detached device with path: ${path}`)
   }
 
@@ -139,9 +136,7 @@ export class DeviceManager {
     return device.request(config)
   }
 
-  public connectDevice(
-    id: DeviceId
-  ): Promise<ResultObject<undefined>> {
+  public connectDevice(id: DeviceId): Promise<ResultObject<undefined>> {
     const device = this.devicesMap.get(id) as CoreDevice
     return device.connect()
   }
@@ -159,10 +154,8 @@ export class DeviceManager {
 
     if (result.ok) {
       callRenderer(DeviceManagerMainEvent.DeviceConnected, data)
-      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected, data)
     } else {
       callRenderer(DeviceManagerMainEvent.DeviceConnectFailed, data)
-      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnectFailed, data)
     }
   }
 

@@ -3,13 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ipcMain } from "electron-better-ipc"
-import {
-  DeviceCommunicationError,
-  Endpoint,
-  Method,
-  PhoneLockCategory,
-} from "Core/device/constants"
+import { callRenderer } from "device/adapters"
+import { DeviceCommunicationError } from "Core/device/constants"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import {
   RequestResponse,
@@ -39,7 +34,7 @@ export class PureStrategy implements DeviceStrategy {
     const serializedResponse = ResponsePresenter.toResponseObject(response)
 
     if (serializedResponse.status === RequestResponseStatus.PhoneLocked) {
-      ipcMain.sendToRenderers(PureStrategyMainEvent.ActiveDeviceLocked, {
+      callRenderer(PureStrategyMainEvent.ActiveDeviceLocked, {
         path: this.adapter.path,
       })
     }
@@ -89,24 +84,5 @@ export class PureStrategy implements DeviceStrategy {
     } else {
       return Result.success(response.data as ResponseType)
     }
-  }
-
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private isEndpointSecure(config: RequestConfig<any>): boolean {
-    const isConfigEndpointSecurity = config.endpoint === Endpoint.Security
-    const iSetPhoneLockOffEndpoint =
-      isConfigEndpointSecurity && config.method === Method.Put
-    const isPhoneLockTimeEndpoint =
-      isConfigEndpointSecurity &&
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      config.body.category === PhoneLockCategory.Time
-
-    if (!(iSetPhoneLockOffEndpoint || isPhoneLockTimeEndpoint)) {
-      return true
-    }
-
-    return false
   }
 }

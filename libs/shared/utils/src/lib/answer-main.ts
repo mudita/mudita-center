@@ -4,11 +4,10 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { CallRendererEvent } from "device/adapters"
 
-export const answerMain = (
-  event: CallRendererEvent,
-  callback: (data: unknown) => void | PromiseLike<void>
+export const answerMain = <DataType = unknown>(
+  event: string,
+  callback: (data: DataType) => void | PromiseLike<void>
 ) => {
   return ipcRenderer.answerMain(event, callback)
 }
