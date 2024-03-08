@@ -39,3 +39,17 @@ export const RestoreValidator = z.union([
 ])
 
 export type Restore = z.infer<typeof RestoreValidator>
+
+export const RestoreMetadataValidator = z.object({
+  header: z.object({
+    vendorId: z.string().min(1),
+    productId: z.string().min(1),
+    serialNumber: z.string().min(1),
+    appVersion: z.string().min(1),
+    password: z.string().min(1).optional(),
+    crypto: z.literal("AES").optional(),
+  }),
+  features: z.array(z.string().min(1)),
+})
+
+export type RestoreMetadata = z.infer<typeof RestoreMetadataValidator>

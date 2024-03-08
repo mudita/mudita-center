@@ -6,6 +6,7 @@
 import { SettingsService } from "Core/settings/services"
 import { APIFileTransferService } from "../file-transfer"
 import { SystemUtilsModule } from "system-utils/feature"
+import { FileManager } from "device/feature"
 
 export class ServiceBridge {
   private _fileTransfer?: APIFileTransferService
@@ -49,6 +50,21 @@ export class ServiceBridge {
 
   set systemUtilsModule(value: SystemUtilsModule) {
     this._systemUtilsModule = value
+  }
+
+  private _fileManager?: FileManager
+
+  get fileManager(): FileManager {
+    if (!this._fileManager) {
+      throw new Error(
+        "FileManagerService reference has not been set in ServiceBridge"
+      )
+    }
+    return this._fileManager
+  }
+
+  set fileManager(value: FileManager) {
+    this._fileManager = value
   }
 
   constructor() {}

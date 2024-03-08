@@ -11,35 +11,26 @@ import { ButtonPrimary } from "../../buttons/button-primary"
 import { useFormContext } from "react-hook-form"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
+import { selectBackupRestorePassword } from "generic-view/store"
+import { useSelector } from "react-redux"
+import { secureBackupPasswordRequest } from "device/feature"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.backup.password.title",
-  },
-  subtitle: {
-    id: "module.genericViews.backup.password.subtitle",
+    id: "module.genericViews.restore.password.title",
   },
   description: {
-    id: "module.genericViews.backup.password.description",
-  },
-  description2: {
-    id: "module.genericViews.backup.password.description2",
+    id: "module.genericViews.restore.password.description",
   },
   passwordPlaceholder: {
-    id: "module.genericViews.backup.password.passwordPlaceholder",
-  },
-  passwordRepeatPlaceholder: {
-    id: "module.genericViews.backup.password.passwordRepeatPlaceholder",
+    id: "module.genericViews.restore.password.passwordPlaceholder",
   },
   confirmButtonLabel: {
-    id: "module.genericViews.backup.password.confirmButtonLabel",
+    id: "module.genericViews.restore.password.confirmButtonLabel",
   },
-  skipButtonLabel: {
-    id: "module.genericViews.backup.password.skipButtonLabel",
-  },
-  passwordRepeatNotMatchingError: {
-    id: "module.genericViews.backup.password.passwordRepeatNotMatchingError",
+  wrongPasswordError: {
+    id: "module.genericViews.restore.password.wrongPasswordError",
   },
 })
 
@@ -52,10 +43,12 @@ export const BackupRestorePassword: FunctionComponent<Props> = ({
 }) => {
   const { watch, formState } = useFormContext()
   const password = watch("password")
+  const backupPassword = useSelector(selectBackupRestorePassword)
 
   const validatePassword = async (value: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    return value === "1234" || "Wrong password, try again"
+    const passwordResponse = await secureBackupPasswordRequest(value)
+    const isPasswordValid = passwordResponse.data === backupPassword
+    return isPasswordValid || intl.formatMessage(messages.wrongPasswordError)
   }
 
   return (
@@ -65,15 +58,15 @@ export const BackupRestorePassword: FunctionComponent<Props> = ({
           type: IconType.Settings,
         }}
       />
-      <h1>Password</h1>
-      <Text>Enter the backup password.</Text>
+      <h1>{intl.formatMessage(messages.title)}</h1>
+      <Text>{intl.formatMessage(messages.description)}</Text>
       <TextInput
         config={{
           name: "password",
           label: intl.formatMessage(messages.passwordPlaceholder),
           type: "password",
           validation: {
-            required: "Password should contain minimum one character",
+            required: true,
             validate: validatePassword,
           },
         }}
@@ -83,7 +76,7 @@ export const BackupRestorePassword: FunctionComponent<Props> = ({
           config={{
             text: intl.formatMessage(messages.confirmButtonLabel),
             action: nextAction,
-            disabled: !password || !formState.isValid,
+            disabled: !password,
           }}
         />
       </ModalButtons>

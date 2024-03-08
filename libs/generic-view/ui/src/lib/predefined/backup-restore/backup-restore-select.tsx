@@ -17,6 +17,26 @@ import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { RadioInput } from "../../interactive/input/radio-input"
 import { useFormContext } from "react-hook-form"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  title: {
+    id: "module.genericViews.restore.select.title",
+  },
+  singleDescription: {
+    id: "module.genericViews.restore.select.single.description",
+  },
+  multipleDescription: {
+    id: "module.genericViews.restore.select.multiple.description",
+  },
+  cancelButtonLabel: {
+    id: "module.genericViews.restore.select.cancelButtonLabel",
+  },
+  restoreButtonLabel: {
+    id: "module.genericViews.restore.select.restoreButtonLabel",
+  },
+})
 
 interface Props {
   closeAction: ButtonAction
@@ -40,20 +60,18 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
   return (
     <>
       <ModalTitleIcon data={{ type: IconType.Backup }} />
-      <h1>Restore from backup</h1>
+      <h1>{intl.formatMessage(messages.title)}</h1>
       <Article>
         {backups.length === 1 ? (
           <>
-            <p>
-              You have one backup available. Would you like to restore it now?
-            </p>
+            <p>{intl.formatMessage(messages.singleDescription)}</p>
             <ul>
               <li>{formatDate(backups[0].date)}</li>
             </ul>
           </>
         ) : (
           <>
-            <p>Select one of the backups you want to restore.</p>
+            <p>{intl.formatMessage(messages.multipleDescription)}</p>
             <ModalScrollableContent>
               {backups.map((backup) => (
                 <RadioInput
@@ -73,10 +91,15 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
         )}
       </Article>
       <ModalButtons>
-        <ButtonSecondary config={{ text: "Cancel", action: closeAction }} />
+        <ButtonSecondary
+          config={{
+            text: intl.formatMessage(messages.cancelButtonLabel),
+            action: closeAction,
+          }}
+        />
         <ButtonPrimary
           config={{
-            text: "Restore from backup",
+            text: intl.formatMessage(messages.restoreButtonLabel),
             action: nextAction,
             disabled: !formState.isValid,
           }}
