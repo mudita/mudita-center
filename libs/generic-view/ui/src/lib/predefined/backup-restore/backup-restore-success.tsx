@@ -8,19 +8,17 @@ import { IconType } from "generic-view/utils"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.backup.success.title",
+    id: "module.genericViews.restore.success.title",
   },
   description: {
-    id: "module.genericViews.backup.success.description",
+    id: "module.genericViews.restore.success.description",
   },
-  openBackupButtonLabel: {
-    id: "module.genericViews.backup.success.openBackupButtonLabel",
-  },
-  closeButtonLabel: {
-    id: "module.genericViews.backup.success.closeButtonLabel",
+  okButtonLabel: {
+    id: "module.genericViews.restore.success.okButtonLabel",
   },
 })
 
@@ -41,12 +39,12 @@ export const BackupRestoreSuccess: FunctionComponent<Props> = ({ onClose }) => {
           type: IconType.Success,
         }}
       />
-      <h1>Restore complete</h1>
-      <p>If your phone needs to restart it will happen automatically.</p>
+      <h1>{intl.formatMessage(messages.title)}</h1>
+      <p>{intl.formatMessage(messages.description)}</p>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
-            text: "OK",
+            text: intl.formatMessage(messages.okButtonLabel),
             action: {
               type: "custom",
               callback: onClose,

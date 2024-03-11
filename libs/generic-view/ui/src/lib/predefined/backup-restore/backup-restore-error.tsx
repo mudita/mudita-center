@@ -9,23 +9,15 @@ import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 
-const messages = defineMessages({
-  title: {
-    id: "module.genericViews.backup.failure.title",
-  },
-  defaultErrorMessage: {
-    id: "module.genericViews.backup.failure.defaultErrorMessage",
-  },
-  closeButtonLabel: {
-    id: "module.genericViews.backup.failure.closeButtonLabel",
-  },
-})
+const messages = defineMessages({})
 
 interface Props {
   closeAction: ButtonAction
 }
 
-export const BackupRestoreError: FunctionComponent<Props> = ({ closeAction }) => {
+export const BackupRestoreError: FunctionComponent<Props> = ({
+  closeAction,
+}) => {
   return (
     <>
       <ModalTitleIcon

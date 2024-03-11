@@ -10,4 +10,7 @@ export enum FileManagerServiceEvents {
   OpenBackupDirectory = "apiservice_file_manager-open-directory",
   ReadDirectory = "apiservice_file_manager-read-directory",
   ReadBackupDirectory = "apiservice_file_manager-read-backup-directory",
+  SecureBackupPassword = "apiservice_file_manager-secure-backup-password",
+  ReadFile = "apiservice_file_manager-read-file",
+  ClearFile = "apiservice_file_manager-clear-file",
 }

@@ -13,16 +13,10 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.backup.progress.title",
+    id: "module.genericViews.restore.progress.title",
   },
   description: {
-    id: "module.genericViews.backup.progress.description",
-  },
-  progressDetails: {
-    id: "module.genericViews.backup.progress.progressDetails",
-  },
-  progressDetailsForFeature: {
-    id: "module.genericViews.backup.progress.progressDetailsForFeature",
+    id: "module.genericViews.restore.progress.description",
   },
 })
 
@@ -32,12 +26,10 @@ export interface Feature {
 }
 
 interface Props {
-  features: Feature[]
   onSuccess: VoidFunction
 }
 
 export const BackupRestoreProgress: FunctionComponent<Props> = ({
-  features,
   onSuccess,
 }) => {
   const [progress, setProgress] = useState(0)
