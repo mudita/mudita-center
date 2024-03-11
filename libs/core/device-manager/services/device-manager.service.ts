@@ -192,7 +192,7 @@ export class DeviceManager {
     })
   }
 
-  @log("==== device manager: list ====")
+  @log("==== device manager: list ====", { space: 0 })
   private getSerialPortList(): Promise<SerialPortInfo[]> {
     return SerialPort.list()
   }
