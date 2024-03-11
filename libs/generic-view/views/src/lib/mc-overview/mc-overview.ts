@@ -44,11 +44,13 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
             restoreFeatures: [
               {
                 label: "Contacts list",
-                keys: ["contacts-list"],
+                feature: "contacts",
+                keys: ["CONTACTS_LIST"],
               },
               {
                 label: "Call log",
-                keys: ["call-log"],
+                feature: "calls",
+                keys: ["CALL_LOG"],
               },
             ],
           })

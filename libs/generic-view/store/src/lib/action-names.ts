@@ -27,7 +27,7 @@ export enum ActionName {
   RestoreBackup = "generic-backups/restore-backup",
   ChooseRestoreFile = "generic-backups/choose-restore-file",
   RefreshBackupList = "generic-backups/refresh-backup-list",
-  GetBackupMetadata = "generic-backups/load-backup-to-restore",
+  LoadBackupMetadata = "generic-backups/load-backup-metadata",
   FileTransferSend = "generic-file-transfer/send",
   PreFileTransferSend = "generic-file-transfer/pre-send",
   ChunkFileTransferSend = "generic-file-transfer/chunk-sent",
