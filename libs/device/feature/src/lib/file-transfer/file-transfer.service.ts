@@ -320,6 +320,74 @@ export class APIFileTransferService {
   public transferClear({ transferId }: { transferId: number }) {
     delete this.transfers[transferId]
   }
+
+  @IpcEvent(ApiFileTransferServiceEvents.RestorePreSend)
+  public async restorePreTransferSend({
+    feature,
+    password,
+    targetPath,
+    deviceId,
+  }: {
+    feature: string
+    targetPath: string
+    deviceId?: DeviceId
+    password?: string
+  }): Promise<
+    ResultObject<{
+      transferId: number
+      chunksCount: number
+    }>
+  > {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+    return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+    // const { crc32, file } = this.prepareFile(filePath)
+
+    // const response = await device.request({
+    //   endpoint: "PRE_FILE_TRANSFER",
+    //   method: "POST",
+    //   body: {
+    //     filePath: targetPath,
+    //     fileSize: file.length,
+    //     crc32,
+    //   },
+    // })
+
+    // if (response.ok) {
+    //   const preTransferResponse = PreTransferSendValidator.safeParse(
+    //     response.data.body
+    //   )
+
+    //   const success = preTransferResponse.success
+
+    //   if (!success) {
+    //     return handleError(response.data.status)
+    //   }
+
+    //   this.transfers[preTransferResponse.data.transferId] = {
+    //     crc32,
+    //     fileSize: file.length,
+    //     filePath,
+    //     chunks:
+    //       file.match(
+    //         new RegExp(`.{1,${preTransferResponse.data.chunkSize}}`, "g")
+    //       ) || [],
+    //   }
+
+    //   return Result.success({
+    //     transferId: preTransferResponse.data.transferId,
+    //     chunksCount:
+    //       this.transfers[preTransferResponse.data.transferId].chunks.length,
+    //   })
+    // }
+
+    // return handleError(response.error.type)
+  }
 }
 
 const handleError = (responseStatus: AppErrorType) => {

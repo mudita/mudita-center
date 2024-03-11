@@ -23,6 +23,8 @@ export enum ActionName {
   BackupProcessStatus = "generic-backups/backup-process-status",
   SetBackupProcessFileStatus = "generic-backups/set-backup-process-file-status",
   CreateBackup = "generic-backups/create-backup",
+  RestoreBackup = "generic-backups/restore-backup",
+  ChooseRestoreFile = "generic-backups/choose-restore-file",
   RefreshBackupList = "generic-backups/refresh-backup-list",
   FileTransferSend = "generic-file-transfer/send",
   PreFileTransferSend = "generic-file-transfer/pre-send",

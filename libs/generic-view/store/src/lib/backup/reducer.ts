@@ -10,6 +10,7 @@ import {
   setBackupProcessFileStatus,
   setBackupProcessStatus,
 } from "./actions"
+import { chooseRestoreFile } from "./choose-restore-file.action"
 import { createBackup } from "./create-backup.action"
 import { refreshBackupList } from "./refresh-backup-list.action"
 
@@ -115,6 +116,18 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
     if (state.lastBackupRefresh < action.payload.refreshTimestamp) {
       state.lastBackupRefresh = action.payload.refreshTimestamp
       state.backups = action.payload.backups
+    }
+  })
+  builder.addCase(chooseRestoreFile.pending, (state, action) => {
+    state.restoreProcess = {
+      ...state.restoreProcess,
+      status: "PENDING",
+    }
+  })
+  builder.addCase(chooseRestoreFile.rejected, (state, action) => {
+    state.restoreProcess = {
+      ...state.restoreProcess,
+      status: "FAILED",
     }
   })
 })
