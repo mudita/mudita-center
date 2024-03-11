@@ -12,7 +12,7 @@ import {
   CARD_IMAGE_MAX_WIDTH_PIXEL,
 } from "../../../news/components/card/card.constans"
 
-const DPI = 2
+const DPI = 3
 const WIDTH = CARD_IMAGE_MAX_WIDTH_PIXEL * DPI
 const HEIGHT = CARD_IMAGE_MAX_HEIGHT_PIXEL * DPI
 const QUALITY = 100
