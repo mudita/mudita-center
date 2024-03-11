@@ -117,13 +117,8 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
     }
   })
   builder.addCase(loadBackupMetadata.rejected, (state, action) => {
-    console.log(action)
-    if ("status" in state.restoreProcess!) {
-      state.restoreProcess.status = "FAILED"
-    } else {
-      state.restoreProcess = {
-        status: "FAILED",
-      }
+    state.restoreProcess = {
+      status: "FAILED",
     }
   })
   builder.addCase(cleanRestoreProcess, (state, action) => {
