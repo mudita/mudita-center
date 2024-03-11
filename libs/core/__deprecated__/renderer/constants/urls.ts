@@ -7,9 +7,7 @@ export const URL_MAIN = {
   root: "/",
   news: "/news",
   messages: "/messages",
-  phone: "/phone",
   contacts: "/contacts",
-  tools: "/tools",
   filesManager: "/files-manager",
   settings: "/settings",
   help: "/help",
@@ -23,10 +21,6 @@ export const URL_MAIN = {
 
 export const URL_TABS = {
   templates: "/templates",
-  calls: "/calls",
-  dial: "/dial",
-  voiceRecorder: "/voice-recorder",
-  notes: "/notes",
   connection: "/connection",
   notifications: "/notifications",
   audioConversion: "/audio-conversion",

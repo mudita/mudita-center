@@ -4,59 +4,10 @@
  */
 
 import { faker } from "@faker-js/faker"
-import { groupBy, random, sample, times } from "lodash"
-import {
-  Call,
-  CallStatus,
-} from "Core/__deprecated__/renderer/models/calls/calls.interface"
-import { resolveCallType } from "Core/__deprecated__/renderer/components/rest/calls/call-details.helpers"
+import { groupBy, random, times } from "lodash"
 import { Message, Thread } from "Core/messages/dto"
 import { MessageType } from "Core/messages/constants/message-type.constant"
 import { createFakeContact } from "Core/messages/helpers/create-fake-contact"
-
-const createCall = (): Call => {
-  const status = sample([
-    CallStatus.Missed,
-    CallStatus.Incoming,
-    CallStatus.Outgoing,
-    CallStatus.Conference,
-  ]) as CallStatus
-  return {
-    id: faker.datatype.uuid(),
-    caller: {
-      id: faker.datatype.uuid(),
-      firstName: Math.random() < 0.6 ? faker.name.firstName() : "",
-      lastName: Math.random() < 0.6 ? faker.name.lastName() : "",
-      phoneNumber: faker.phone.number("+## ### ### ###"),
-    },
-    duration: status === CallStatus.Missed ? 0 : faker.datatype.number(500),
-    date: Math.random() < 0.6 ? faker.date.past() : faker.date.recent(),
-    status,
-    ...resolveCallType(status),
-    timesMissed:
-      status === CallStatus.Missed
-        ? faker.datatype.number({
-            min: 2,
-            max: 20,
-          })
-        : 0,
-  }
-}
-
-export const calls = times(random(5, 15), createCall)
-export const unknownCalls = calls.map(
-  ({ caller: { id, phoneNumber }, ...rest }) => ({
-    caller: { id, phoneNumber },
-    ...rest,
-  })
-)
-
-const createText = () => ({
-  id: faker.datatype.uuid(),
-  content: faker.lorem.paragraphs(random(1, 3)),
-})
-
-export const templates = times(random(15, 25), createText)
 
 const createMessage = ({ id }: Thread): Message => {
   return {
