@@ -14,7 +14,7 @@ import {
 import { createBackup } from "./create-backup.action"
 import { refreshBackupList } from "./refresh-backup-list.action"
 import { RestoreMetadata } from "device/models"
-import { getBackupMetadata } from "./get-backup.metadata"
+import { loadBackupMetadata } from "./load-backup.metadata"
 
 export interface Backup {
   fileName: string
@@ -108,7 +108,7 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
       state.backups = action.payload.backups
     }
   })
-  builder.addCase(getBackupMetadata.fulfilled, (state, action) => {
+  builder.addCase(loadBackupMetadata.fulfilled, (state, action) => {
     state.restoreProcess = {
       status: action.payload.header.password
         ? "PASSWORD_REQUIRED"
@@ -116,10 +116,14 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
       metadata: action.payload,
     }
   })
-  builder.addCase(getBackupMetadata.rejected, (state, action) => {
+  builder.addCase(loadBackupMetadata.rejected, (state, action) => {
     console.log(action)
-    state.restoreProcess = {
-      status: "FAILED",
+    if ("status" in state.restoreProcess!) {
+      state.restoreProcess.status = "FAILED"
+    } else {
+      state.restoreProcess = {
+        status: "FAILED",
+      }
     }
   })
   builder.addCase(cleanRestoreProcess, (state, action) => {

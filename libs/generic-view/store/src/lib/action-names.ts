@@ -25,7 +25,7 @@ export enum ActionName {
   SetBackupProcessFileStatus = "generic-backups/set-backup-process-file-status",
   CreateBackup = "generic-backups/create-backup",
   RefreshBackupList = "generic-backups/refresh-backup-list",
-  GetBackupMetadata = "generic-backups/load-backup-to-restore",
+  LoadBackupMetadata = "generic-backups/load-backup-metadata",
   FileTransferSend = "generic-file-transfer/send",
   PreFileTransferSend = "generic-file-transfer/pre-send",
   ChunkFileTransferSend = "generic-file-transfer/chunk-sent",
