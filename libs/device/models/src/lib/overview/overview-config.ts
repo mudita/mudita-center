@@ -75,6 +75,7 @@ export const BackupTileConfigValidator = z.object({
     .array(
       z.object({
         label: z.string().min(1),
+        feature: z.string().min(1),
         keys: z.array(z.string()).min(1),
       })
     )
