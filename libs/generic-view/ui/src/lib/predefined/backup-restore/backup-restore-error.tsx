@@ -8,8 +8,19 @@ import { ButtonAction, IconType } from "generic-view/utils"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
-const messages = defineMessages({})
+const messages = defineMessages({
+  title: {
+    id: "module.genericViews.restore.failure.title",
+  },
+  defaultErrorMessage: {
+    id: "module.genericViews.restore.failure.defaultErrorMessage",
+  },
+  closeButtonLabel: {
+    id: "module.genericViews.restore.failure.closeButtonLabel",
+  },
+})
 
 interface Props {
   closeAction: ButtonAction
@@ -25,12 +36,12 @@ export const BackupRestoreError: FunctionComponent<Props> = ({
           type: IconType.Failure,
         }}
       />
-      <h1>Restore failed</h1>
-      <p>The process was interrupted.</p>
+      <h1>{intl.formatMessage(messages.title)}</h1>
+      <p>{intl.formatMessage(messages.defaultErrorMessage)}</p>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
-            text: "Close",
+            text: intl.formatMessage(messages.closeButtonLabel),
             action: closeAction,
           }}
         />

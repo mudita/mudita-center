@@ -10,7 +10,7 @@ import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
 import {
   cleanRestoreProcess,
   closeModal as closeModalAction,
-  getBackupMetadata,
+  loadBackupMetadata,
   selectBackupRestoreStatus,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -90,7 +90,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   const selectionConfirmButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      dispatch(getBackupMetadata({ filePath: getValues("file") }))
+      dispatch(loadBackupMetadata({ filePath: getValues("file") }))
     },
   }
 

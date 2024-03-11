@@ -13,13 +13,13 @@ import {
 import { ActionName } from "../action-names"
 import { RestoreMetadata } from "device/models"
 
-export const getBackupMetadata = createAsyncThunk<
+export const loadBackupMetadata = createAsyncThunk<
   RestoreMetadata,
   {
     filePath: string
   },
   { state: ReduxRootState; rejectValue: undefined }
->(ActionName.GetBackupMetadata, async ({ filePath }, { rejectWithValue }) => {
+>(ActionName.LoadBackupMetadata, async ({ filePath }, { rejectWithValue }) => {
   const backupPathResponse = await getBackupPathRequest()
   if (!backupPathResponse.ok) {
     return rejectWithValue(undefined)
