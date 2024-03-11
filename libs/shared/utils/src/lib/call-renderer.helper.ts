@@ -5,11 +5,19 @@
 
 import { ipcMain } from "electron-better-ipc"
 import { LoggerFactory } from "Core/core/factories"
-import { getMainAppWindow } from "shared/utils"
+import { ApiSerialPortToRendererEvents } from "device/models"
+import { PureStrategyMainEvent } from "Core/device/strategies"
+import { getMainAppWindow } from "./get-main-app-window"
+import { DeviceManagerMainEvent } from "./main-event.constant"
 
 const logger = LoggerFactory.getInstance()
 
-export const callRenderer = (event: string, payload?: unknown) => {
+export type CallRendererEvent =
+  | ApiSerialPortToRendererEvents
+  | DeviceManagerMainEvent
+  | PureStrategyMainEvent
+
+export const callRenderer = (event: CallRendererEvent, payload?: unknown) => {
   const win = getMainAppWindow()
 
   if (win) {

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { callRenderer } from "device/adapters"
+import { callRenderer } from "shared/utils"
 import { DeviceCommunicationError } from "Core/device/constants"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import {

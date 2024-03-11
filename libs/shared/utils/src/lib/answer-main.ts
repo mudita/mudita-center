@@ -4,9 +4,10 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
+import { CallRendererEvent } from "./call-renderer.helper"
 
 export const answerMain = <DataType = unknown>(
-  event: string,
+  event: CallRendererEvent,
   callback: (data: DataType) => void | PromiseLike<void>
 ) => {
   return ipcRenderer.answerMain(event, callback)

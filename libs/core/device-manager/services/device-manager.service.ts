@@ -22,7 +22,7 @@ import { CoreDevice } from "Core/device/modules/core-device"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import { DeviceCommunicationError, DeviceType } from "Core/device"
 import { MockCoreDevice } from "Core/device/modules/mock-core-device"
-import { callRenderer } from "device/adapters"
+import { callRenderer } from "shared/utils"
 
 export class DeviceManager {
   public activeDevice: BaseDevice | undefined
