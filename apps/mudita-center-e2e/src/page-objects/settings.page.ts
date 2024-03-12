@@ -47,6 +47,14 @@ class SettingsPage extends Page {
     return $("p*=Mudita Center - installed version:")
   }
 
+  get aboutUpToDateLabel() {
+    return $("p=You’re up to date.")
+  }
+
+  get aboutCheckForUpdatesButton() {
+    return $('[data-testid="about-update-button"]')
+  }
+
   public get aboutTermsOfServiceTextLabel(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
