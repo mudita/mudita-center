@@ -64,14 +64,12 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
 
   const startRestore = (password?: string) => {
     setStep(Step.Progress)
-    // const promise = dispatch(
-    //
-    // )
-    // restoreAbortReference.current = (
-    //   promise as unknown as {
-    //     abort: VoidFunction
-    //   }
-    // ).abort
+    const promise = dispatch()
+    restoreAbortReference.current = (
+      promise as unknown as {
+        abort: VoidFunction
+      }
+    ).abort
   }
 
   const restoreCloseButtonAction: ButtonAction = {

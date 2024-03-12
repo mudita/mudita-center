@@ -14,7 +14,7 @@ import {
 import { createBackup } from "./create-backup.action"
 import { refreshBackupList } from "./refresh-backup-list.action"
 import { RestoreMetadata } from "device/models"
-import { loadBackupMetadata } from "./load-backup.metadata"
+import { loadBackupMetadata } from "./load-backup-metadata.action"
 
 export interface Backup {
   fileName: string

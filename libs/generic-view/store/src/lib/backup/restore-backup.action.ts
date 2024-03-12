@@ -53,6 +53,8 @@ export const restoreBackup = createAsyncThunk<
     //   return rejectWithValue(undefined)
     // }
 
+    console.log("restore start")
+
     const deviceId = getState().genericViews.activeDevice
 
     const preRestoreResponse = await preRestoreRequest(features, deviceId)
