@@ -70,11 +70,24 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.sarWindowCheckTest),
     toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
     toRelativePath(TestFilesPaths.messageSendTest),
+    toRelativePath(TestFilesPaths.homePageTest)
   ],
   suites: {
+    mcstandalone: [
+      toRelativePath(TestFilesPaths.homePageTest)
+    ],
     cicd: [
       toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
     ],
+    kompakt: [
+
+    ], 
+    pure: [
+
+    ],
+    harmony: [
+
+    ]
   },
   // Patterns to exclude.
   exclude: [
