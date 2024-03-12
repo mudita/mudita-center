@@ -139,9 +139,7 @@ export class DeviceManager {
     return device.request(config)
   }
 
-  public connectDevice(
-    id: DeviceId
-  ): Promise<ResultObject<undefined>> {
+  public connectDevice(id: DeviceId): Promise<ResultObject<undefined>> {
     const device = this.devicesMap.get(id) as CoreDevice
     return device.connect()
   }
@@ -204,7 +202,7 @@ export class DeviceManager {
     })
   }
 
-  @log("==== device manager: list ====")
+  @log("==== device manager: list ====", { space: 0 })
   private getSerialPortList(): Promise<SerialPortInfo[]> {
     return SerialPort.list()
   }
