@@ -70,6 +70,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.sarWindowCheckTest),
     toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
     toRelativePath(TestFilesPaths.messageSendTest),
+    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
   ],
   suites: {
     cicd: [
