@@ -6,8 +6,8 @@
 import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
 import { removeSeededData, seedData } from "./src/seeds"
+import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 import { CleanUpFactory } from "./src/cleanup"
-import SPECS from "./src/suites.constant"
 
 dotenv.config()
 
@@ -55,7 +55,27 @@ export const config: Options.Testrunner = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: SPECS,
+  specs: [
+    toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+    toRelativePath(TestFilesPaths.checkForUpdateTest),
+    toRelativePath(TestFilesPaths.deviceUpdateTest),
+    toRelativePath(TestFilesPaths.mcVersionCheckTest),
+    toRelativePath(TestFilesPaths.contactsListTest),
+    toRelativePath(TestFilesPaths.contactsInAppNavigationTest),
+    toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
+    toRelativePath(TestFilesPaths.newsInAppNavigationTest),
+    toRelativePath(TestFilesPaths.overviewInAppNavigationTest),
+    toRelativePath(TestFilesPaths.settingsInAppNavigationTest),
+    toRelativePath(TestFilesPaths.helpWindowCheckTest),
+    toRelativePath(TestFilesPaths.sarWindowCheckTest),
+    toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
+    toRelativePath(TestFilesPaths.messageSendTest),
+  ],
+  suites: {
+    cicd: [
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
+    ],
+  },
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
