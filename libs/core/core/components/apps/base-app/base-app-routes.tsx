@@ -18,10 +18,6 @@ import {
   URL_DEVICE_INITIALIZATION,
   URL_TABS,
 } from "Core/__deprecated__/renderer/constants/urls"
-import Calls from "Core/__deprecated__/renderer/modules/phone/tabs/calls-container.component"
-import Dial from "Core/__deprecated__/renderer/modules/phone/tabs/dial.component"
-import VoiceRecorder from "Core/__deprecated__/renderer/modules/tools/tabs/voice-recorder.component"
-import Notes from "Core/__deprecated__/renderer/modules/tools/tabs/notes.container"
 import Onboarding from "Core/onboarding/components/onboarding/onboarding.component"
 import OnboardingTroubleshooting from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting.component"
 import LayoutDesktopWrapper from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
@@ -115,8 +111,6 @@ export default () => (
           <Route path={URL_MAIN.news} component={News} />
           <Route path={URL_OVERVIEW.root} component={Overview} exact />
           <Route path={URL_MAIN.contacts} component={Contacts} exact />
-          <Route path={URL_MAIN.phone} component={Calls} />
-          <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
           <Route path={URL_MAIN.settings} component={BackupContainer} exact />
           <Route
             path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
@@ -129,11 +123,6 @@ export default () => (
           <Route
             path={`${URL_MAIN.settings}${URL_TABS.about}`}
             component={AboutContainer}
-          />
-          <Route path={URL_MAIN.tools} component={Notes} exact />
-          <Route
-            path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
-            component={VoiceRecorder}
           />
         </Switch>
       </LayoutDesktopWrapper>

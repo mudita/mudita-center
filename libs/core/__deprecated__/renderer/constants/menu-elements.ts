@@ -32,27 +32,11 @@ const YOUR_PURE_BUTTONS = [
     viewKey: View.Messages,
   },
   {
-    button: views.phone,
-    icon: IconType.MenuPhone,
-    testId: MenuGroupTestIds.Phone,
-    hidden: !flags.get(Feature.PhoneTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Phone,
-  },
-  {
     button: views.contacts,
     icon: IconType.MenuContacts,
     testId: MenuGroupTestIds.Contacts,
     visibleOn: [DeviceType.MuditaPure],
     viewKey: View.Contacts,
-  },
-  {
-    button: views.tools,
-    icon: IconType.MenuTools,
-    testId: MenuGroupTestIds.Tools,
-    hidden: !flags.get(Feature.ToolsTabEnabled),
-    visibleOn: [DeviceType.MuditaPure],
-    viewKey: View.Tools,
   },
   {
     button: views.filesManager,
