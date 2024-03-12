@@ -40,8 +40,14 @@ export class APIModule {
     this.apiMenuService = new APIMenuService(deviceManager)
     this.serverService = new ServerService()
     this.backupService = new APIBackupService(deviceManager)
-    this.restoreService = new APIRestoreService(deviceManager, this.serviceBridge)
-    this.fileTransferService = new APIFileTransferService(deviceManager)
+    this.restoreService = new APIRestoreService(
+      deviceManager,
+      this.serviceBridge
+    )
+    this.fileTransferService = new APIFileTransferService(
+      deviceManager,
+      this.serviceBridge
+    )
     this.fileManager = new FileManager(deviceManager, this.serviceBridge)
     this.serviceBridge.systemUtilsModule = systemUtilsModule
     this.serviceBridge.fileTransfer = this.fileTransferService

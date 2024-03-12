@@ -11,6 +11,7 @@ import {
   cleanRestoreProcess,
   closeModal as closeModalAction,
   loadBackupMetadata,
+  restoreBackup,
   selectBackupRestoreStatus,
 } from "generic-view/store"
 import { useDispatch, useSelector } from "react-redux"
@@ -21,6 +22,8 @@ import { BackupRestorePassword } from "./backup-restore-password"
 import { BackupRestoreProgress } from "./backup-restore-progress"
 import { BackupRestoreSuccess } from "./backup-restore-success"
 import { BackupRestoreError } from "./backup-restore-error"
+import { RestoreFeature } from "device/models"
+import { withConfig } from "../../utils/with-config"
 
 enum Step {
   Select,
@@ -30,13 +33,13 @@ enum Step {
   Error,
 }
 
-interface Feature {
-  label: string
-  keys: string[]
-}
+// interface Feature {
+//   label: string
+//   keys: string[]
+// }
 
 interface Config {
-  features?: Feature[]
+  features?: RestoreFeature[]
   modalKey?: string
 }
 
@@ -63,8 +66,10 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   }
 
   const startRestore = (password?: string) => {
+    if (!features) return
+    console.log("asdf")
     setStep(Step.Progress)
-    const promise = dispatch()
+    const promise = dispatch(restoreBackup({ features, password }))
     restoreAbortReference.current = (
       promise as unknown as {
         abort: VoidFunction
@@ -177,4 +182,4 @@ const BackupRestore: APIFC<undefined, Config> = ({
   )
 }
 
-export default BackupRestore
+export default withConfig(BackupRestore)

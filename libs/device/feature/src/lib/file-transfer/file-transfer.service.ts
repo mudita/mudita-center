@@ -22,6 +22,8 @@ import {
 } from "device/models"
 import { readFileSync } from "fs-extra"
 import crc from "js-crc"
+import { APIDevice } from "../api-device"
+import { ServiceBridge } from "../service-bridge"
 
 interface Transfer {
   crc32: string
@@ -35,6 +37,7 @@ const DEFAULT_MAX_REPEATS = 2
 export class APIFileTransferService {
   constructor(
     private deviceManager: DeviceManager,
+    private serviceBridge: ServiceBridge,
     private transfers: Record<string, Transfer> = {}
   ) {}
 
@@ -52,31 +55,13 @@ export class APIFileTransferService {
     return this.transfers[transferId]
   }
 
-  // Sending files to device
-  @IpcEvent(ApiFileTransferServiceEvents.PreSend)
-  public async preTransferSend({
-    filePath,
-    targetPath,
-    deviceId,
-  }: {
-    filePath: string
-    targetPath: string
-    deviceId?: DeviceId
-  }): Promise<
-    ResultObject<{
-      transferId: number
-      chunksCount: number
-    }>
-  > {
-    const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
-
-    if (!device) {
-      return Result.failed(new AppError(GeneralError.NoDevice, ""))
-    }
-    const { crc32, file } = this.prepareFile(filePath)
-
+  private async preTransferSendRequest(
+    device: APIDevice,
+    targetPath: string,
+    filePath: string,
+    file: string,
+    crc32: string
+  ) {
     const response = await device.request({
       endpoint: "PRE_FILE_TRANSFER",
       method: "POST",
@@ -116,6 +101,80 @@ export class APIFileTransferService {
     }
 
     return handleError(response.error.type)
+  }
+
+  // Sending files to device
+  @IpcEvent(ApiFileTransferServiceEvents.PreSend)
+  public async preTransferSend({
+    filePath,
+    targetPath,
+    deviceId,
+  }: {
+    filePath: string
+    targetPath: string
+    deviceId?: DeviceId
+  }): Promise<
+    ResultObject<{
+      transferId: number
+      chunksCount: number
+    }>
+  > {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+    const { crc32, file } = this.prepareFile(filePath)
+
+    return await this.preTransferSendRequest(
+      device,
+      targetPath,
+      filePath,
+      file,
+      crc32
+    )
+
+    // const response = await device.request({
+    //   endpoint: "PRE_FILE_TRANSFER",
+    //   method: "POST",
+    //   body: {
+    //     filePath: targetPath,
+    //     fileSize: file.length,
+    //     crc32,
+    //   },
+    // })
+
+    // if (response.ok) {
+    //   const preTransferResponse = PreTransferSendValidator.safeParse(
+    //     response.data.body
+    //   )
+
+    //   const success = preTransferResponse.success
+
+    //   if (!success) {
+    //     return handleError(response.data.status)
+    //   }
+
+    //   this.transfers[preTransferResponse.data.transferId] = {
+    //     crc32,
+    //     fileSize: file.length,
+    //     filePath,
+    //     chunks:
+    //       file.match(
+    //         new RegExp(`.{1,${preTransferResponse.data.chunkSize}}`, "g")
+    //       ) || [],
+    //   }
+
+    //   return Result.success({
+    //     transferId: preTransferResponse.data.transferId,
+    //     chunksCount:
+    //       this.transfers[preTransferResponse.data.transferId].chunks.length,
+    //   })
+    // }
+
+    // return handleError(response.error.type)
   }
 
   @IpcEvent(ApiFileTransferServiceEvents.Send)
@@ -323,15 +382,17 @@ export class APIFileTransferService {
 
   @IpcEvent(ApiFileTransferServiceEvents.RestorePreSend)
   public async restorePreTransferSend({
+    restoreFileId,
     feature,
     password,
     targetPath,
     deviceId,
   }: {
+    restoreFileId: string
     feature: string
     targetPath: string
-    deviceId?: DeviceId
     password?: string
+    deviceId?: DeviceId
   }): Promise<
     ResultObject<{
       transferId: number
@@ -345,7 +406,28 @@ export class APIFileTransferService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-    return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+
+    const wholeBackupFile =
+      this.serviceBridge.fileManager.getFile(restoreFileId)
+    const backup = JSON.parse(wholeBackupFile as string)
+
+    const file: string = backup.data[feature]
+
+    if (!file) {
+      return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+    }
+
+    const crc32 = crc.crc32(file)
+
+    return await this.preTransferSendRequest(
+      device,
+      targetPath,
+      restoreFileId,
+      file,
+      crc32
+    )
+
+    // return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     // const { crc32, file } = this.prepareFile(filePath)
 
     // const response = await device.request({

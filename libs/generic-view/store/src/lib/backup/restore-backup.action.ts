@@ -6,27 +6,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
-  checkPreBackupRequest,
-  postBackupRequest,
+  checkRestoreRequest,
   preRestoreRequest,
-  saveBackupFileRequest,
   sendClearRequest,
-  startPreBackupRequest,
+  startRestorePreSendFileRequest,
+  startRestoreRequest,
 } from "device/feature"
-
+import { RestoreFeature } from "device/models"
+import intersection from "lodash/intersection"
 import { ActionName } from "../action-names"
-import { getFile } from "../file-transfer/get-file.action"
-import {
-  setBackupProcess,
-  setBackupProcessFileStatus,
-  setBackupProcessStatus,
-} from "./actions"
-import { refreshBackupList } from "./refresh-backup-list.action"
+import { sendFile } from "../file-transfer/send-file.action"
 
 export const restoreBackup = createAsyncThunk<
   undefined,
   {
-    features: string[]
+    features: RestoreFeature[]
     password?: string
   },
   { state: ReduxRootState }
@@ -36,143 +30,129 @@ export const restoreBackup = createAsyncThunk<
     { features, password },
     { getState, dispatch, rejectWithValue, signal }
   ) => {
-    // let aborted = false
-
-    // const abortListener = async () => {
-    //   signal.removeEventListener("abort", abortListener)
-    //   aborted = true
-    //   abortFileRequest?.()
-    //   await clearTransfers?.()
-    //   if (backupId && deviceId) {
-    //     await postBackupRequest(backupId, deviceId)
-    //   }
-    // }
-    // signal.addEventListener("abort", abortListener)
-
-    // if (aborted) {
-    //   return rejectWithValue(undefined)
-    // }
-
     console.log("restore start")
+    console.log(features, password)
 
     const deviceId = getState().genericViews.activeDevice
+    const restoreFileId =
+      getState().genericBackups.restoreProcess?.restoreFileId
 
-    const preRestoreResponse = await preRestoreRequest(features, deviceId)
+    const fileKeys =
+      getState().genericBackups.restoreProcess?.metadata?.features
+
+    if (!deviceId || !restoreFileId || !fileKeys) {
+      console.log("invalid deviceId, restoreFileId, or fileKeys")
+      return rejectWithValue(undefined)
+    }
+
+    const featuresWithKeys = features
+      .map((item) => {
+        const keys = intersection(item.keys, fileKeys)
+        return { feature: item.feature, key: keys[0] ?? "" }
+      })
+      .filter((item) => item.key !== "")
+
+    if (featuresWithKeys.length === 0) {
+      console.log(`restore keys are incompatible with backup keys`)
+      return rejectWithValue(undefined)
+    }
+
+    const preRestoreResponse = await preRestoreRequest(
+      featuresWithKeys,
+      deviceId
+    )
 
     if (!preRestoreResponse.ok) {
       console.log(`preRestore failed`)
-      rejectWithValue(undefined)
+      return rejectWithValue(undefined)
     }
 
-    // dispatch(
-    //   setBackupProcess({
-    //     status: "PRE_BACKUP",
-    //     featureFilesTransfer: features.reduce((acc, item) => {
-    //       return { ...acc, [item]: { done: false } }
-    //     }, {}),
-    //   })
-    // )
+    const { restoreId, features: featuresPathMap } = preRestoreResponse.data
 
-    // const deviceId = getState().genericViews.activeDevice
+    const featuresPaths: {
+      feature: string
+      path: string
+      transfer?: {
+        transferId: number
+        chunksCount: number
+      }
+    }[] = Object.entries(featuresPathMap).map(([feature, path]) => {
+      return { feature, path }
+    })
 
-    // if (deviceId === undefined || aborted) {
-    //   return rejectWithValue(undefined)
-    // }
+    const clearTransfers = () => {
+      return Promise.all(
+        featuresPaths.map(async (feature) => {
+          feature.transfer?.transferId &&
+            (await sendClearRequest(feature.transfer.transferId))
+        })
+      )
+    }
 
-    // const startPreBackupResponse = await startPreBackupRequest(
-    //   features,
-    //   deviceId
-    // )
+    for (let i = 0; i < features.length; ++i) {
+      const featurePath = featuresPaths[i]
 
-    // if (!startPreBackupResponse.ok || aborted) {
-    //   console.log(startPreBackupResponse.error)
-    //   return rejectWithValue(undefined)
-    // }
+      const preSendResponse = await startRestorePreSendFileRequest(
+        restoreFileId,
+        featurePath.feature,
+        featurePath.path,
+        password,
+        deviceId
+      )
 
-    // const backupId = startPreBackupResponse.data.backupId
-    // let backupFeaturesFiles = startPreBackupResponse.data.features
-    // let abortFileRequest: VoidFunction
-    // const featureToTransferId: Record<string, number> = {}
+      console.log(preSendResponse)
 
-    // const clearTransfers = () => {
-    //   return Promise.all(
-    //     Object.values(featureToTransferId).map(async (transferId) => {
-    //       await sendClearRequest(transferId)
-    //     })
-    //   )
-    // }
+      if (!preSendResponse.ok) {
+        console.log("cannot start pre send")
+        clearTransfers()
+        return rejectWithValue(undefined)
+      }
 
-    // while (backupFeaturesFiles === undefined) {
-    //   if (aborted) {
-    //     return rejectWithValue(undefined)
-    //   }
-    //   const checkPreBackupResponse = await checkPreBackupRequest(
-    //     backupId,
-    //     features,
-    //     deviceId
-    //   )
+      featuresPaths[i].transfer = preSendResponse.data
+    }
 
-    //   if (!checkPreBackupResponse.ok) {
-    //     console.log(checkPreBackupResponse.error)
-    //     return rejectWithValue(undefined)
-    //   }
+    for (let i = 0; i < features.length; ++i) {
+      const featurePath = featuresPaths[i]
 
-    //   backupFeaturesFiles = checkPreBackupResponse.data.features
-    // }
-    // dispatch(setBackupProcessStatus("FILES_TRANSFER"))
+      const sendFileResponse = await dispatch(
+        sendFile({
+          deviceId,
+          transferId: featurePath.transfer?.transferId!,
+          chunksCount: featurePath.transfer?.chunksCount!,
+        })
+      )
 
-    // for (let i = 0; i < features.length; ++i) {
-    //   if (aborted) {
-    //     return rejectWithValue(undefined)
-    //   }
-    //   const feature = features[i]
+      if (sendFileResponse.meta.requestStatus !== "fulfilled") {
+        clearTransfers()
+        return rejectWithValue(undefined)
+      }
+    }
 
-    //   dispatch(setBackupProcessFileStatus({ feature, status: "IN_PROGRESS" }))
-    //   const filePromise = dispatch(
-    //     getFile({
-    //       deviceId,
-    //       filePath: backupFeaturesFiles[feature],
-    //       targetPath: "",
-    //     })
-    //   )
-    //   abortFileRequest = filePromise.abort
-    //   const file = await filePromise
-    //   if (
-    //     file.meta.requestStatus === "fulfilled" &&
-    //     file.payload &&
-    //     "transferId" in file.payload
-    //   ) {
-    //     featureToTransferId[feature] = file.payload.transferId
-    //     dispatch(setBackupProcessFileStatus({ feature, status: "DONE" }))
-    //   } else if (!aborted) {
-    //     console.log("Error while downloading file")
-    //     await clearTransfers()
-    //     await postBackupRequest(backupId, deviceId)
-    //     return rejectWithValue(undefined)
-    //   }
-    // }
-    // if (aborted) {
-    //   return rejectWithValue(undefined)
-    // }
-    // dispatch(setBackupProcessStatus("SAVE_FILE"))
-    // const saveBackupFileResponse = await saveBackupFileRequest(
-    //   featureToTransferId,
-    //   deviceId,
-    //   password
-    // )
+    clearTransfers()
 
-    // if (!saveBackupFileResponse.ok) {
-    //   console.log("Error while saving file")
-    //   await clearTransfers()
-    //   await postBackupRequest(backupId, deviceId)
-    //   return rejectWithValue(undefined)
-    // }
+    const startRestoreResponse = await startRestoreRequest(restoreId, deviceId)
 
-    // dispatch(refreshBackupList())
+    if (startRestoreResponse.ok) {
+      console.log("start restore failed")
+      return rejectWithValue(undefined)
+    }
 
-    // if (!aborted) {
-    //   await postBackupRequest(backupId, deviceId)
-    // }
+    let restoreProgress = 0
+
+    while (restoreProgress < 100) {
+      const checkPreRestoreResponse = await checkRestoreRequest(
+        restoreId,
+        deviceId
+      )
+
+      if (!checkPreRestoreResponse.ok) {
+        console.log(checkPreRestoreResponse.error)
+        return rejectWithValue(undefined)
+      }
+
+      restoreProgress = checkPreRestoreResponse.data.progress
+    }
+
     return undefined
   }
 )

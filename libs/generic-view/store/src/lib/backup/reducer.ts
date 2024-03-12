@@ -50,6 +50,7 @@ export type RestoreProcessStatus =
 export interface RestoreProcess {
   status: RestoreProcessStatus
   metadata?: RestoreMetadata
+  restoreFileId?: string
 }
 
 interface BackupState {
@@ -110,10 +111,11 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
   })
   builder.addCase(loadBackupMetadata.fulfilled, (state, action) => {
     state.restoreProcess = {
-      status: action.payload.header.password
+      status: action.payload.restoreMetadata.header.password
         ? "PASSWORD_REQUIRED"
         : "PASSWORD_NOT_REQUIRED",
-      metadata: action.payload,
+      metadata: action.payload.restoreMetadata,
+      restoreFileId: action.payload.restoreFileId,
     }
   })
   builder.addCase(loadBackupMetadata.rejected, (state, action) => {
