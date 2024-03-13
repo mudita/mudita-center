@@ -41,93 +41,95 @@ import { APIConnectionDemo } from "generic-view/ui"
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => (
-  <Switch>
-    <Redirect exact from={URL_MAIN.root} to={URL_ONBOARDING.root} />
-    <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
+  <>
+    <Switch>
+      <Redirect exact from={URL_MAIN.root} to={URL_ONBOARDING.root} />
+      <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
-    <Route exact path={[...Object.values(URL_ONBOARDING)]}>
-      <LayoutBlankWrapper>
-        <Route path={URL_ONBOARDING.welcome} component={Onboarding} />
-        <Route
-          path={URL_ONBOARDING.troubleshooting}
-          component={OnboardingTroubleshooting}
-        />
-      </LayoutBlankWrapper>
-    </Route>
+      <Route exact path={[...Object.values(URL_ONBOARDING)]}>
+        <LayoutBlankWrapper>
+          <Route path={URL_ONBOARDING.welcome} component={Onboarding} />
+          <Route
+            path={URL_ONBOARDING.troubleshooting}
+            component={OnboardingTroubleshooting}
+          />
+        </LayoutBlankWrapper>
+      </Route>
 
-    <Route exact path={URL_OVERVIEW.pureSystem}>
-      <LayoutDesktopWrapperWithoutHeader>
-        <Route path={URL_OVERVIEW.pureSystem} component={PureSystem} />
-      </LayoutDesktopWrapperWithoutHeader>
-    </Route>
+      <Route exact path={URL_OVERVIEW.pureSystem}>
+        <LayoutDesktopWrapperWithoutHeader>
+          <Route path={URL_OVERVIEW.pureSystem} component={PureSystem} />
+        </LayoutDesktopWrapperWithoutHeader>
+      </Route>
 
-    <Route exact path={[...Object.values(URL_DISCOVERY_DEVICE)]}>
-      <LayoutBlankWrapper>
-        <Route
-          path={URL_DISCOVERY_DEVICE.root}
-          component={ConfiguredDevicesDiscovery}
-          exact
-        />
-        <Route
-          path={URL_DISCOVERY_DEVICE.deviceConnecting}
-          component={DeviceConnecting}
-          exact
-        />
-        <Route
-          path={URL_DISCOVERY_DEVICE.availableDeviceListModal}
-          component={AvailableDeviceListContainer}
-          exact
-        />
-      </LayoutBlankWrapper>
-    </Route>
+      <Route exact path={[...Object.values(URL_DISCOVERY_DEVICE)]}>
+        <LayoutBlankWrapper>
+          <Route
+            path={URL_DISCOVERY_DEVICE.root}
+            component={ConfiguredDevicesDiscovery}
+            exact
+          />
+          <Route
+            path={URL_DISCOVERY_DEVICE.deviceConnecting}
+            component={DeviceConnecting}
+            exact
+          />
+          <Route
+            path={URL_DISCOVERY_DEVICE.availableDeviceListModal}
+            component={AvailableDeviceListContainer}
+            exact
+          />
+        </LayoutBlankWrapper>
+      </Route>
 
-    <Route exact path={[...Object.values(URL_DEVICE_INITIALIZATION)]}>
-      <LayoutBlankWrapper>
-        <Route
-          path={URL_DEVICE_INITIALIZATION.root}
-          component={DevicesInitialization}
-        />
-      </LayoutBlankWrapper>
-    </Route>
+      <Route exact path={[...Object.values(URL_DEVICE_INITIALIZATION)]}>
+        <LayoutBlankWrapper>
+          <Route
+            path={URL_DEVICE_INITIALIZATION.root}
+            component={DevicesInitialization}
+          />
+        </LayoutBlankWrapper>
+      </Route>
 
-    <Route>
-      <LayoutDesktopWrapper>
-        <Switch>
-          <Route
-            path={"/generic/api-connection-demo"}
-            component={APIConnectionDemo}
-          />
-          <Route
-            path={"/generic/:viewKey/:subviewKey"}
-            component={GenericView}
-          />
-          <Route path={"/generic/:viewKey"} component={GenericView} />
-          <Route path={URL_MAIN.filesManager} component={FilesManager} />
-          <Route path={URL_MAIN.messages} component={Messages} exact />
-          <Route
-            path={`${URL_MAIN.messages}${URL_TABS.templates}`}
-            component={TemplatesContainer}
-          />
-          <Route path={URL_MAIN.news} component={News} />
-          <Route path={URL_OVERVIEW.root} component={Overview} exact />
-          <Route path={URL_MAIN.contacts} component={Contacts} exact />
-          <Route path={URL_MAIN.settings} component={BackupContainer} exact />
-          <Route
-            path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
-            component={NotificationsContainer}
-          />
-          <Route
-            path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
-            component={AudioConversionContainer}
-          />
-          <Route
-            path={`${URL_MAIN.settings}${URL_TABS.about}`}
-            component={AboutContainer}
-          />
-        </Switch>
-        <ApiDeviceModals />
-      </LayoutDesktopWrapper>
-    </Route>
-    <Redirect to={URL_OVERVIEW.root} />
-  </Switch>
+      <Route>
+        <LayoutDesktopWrapper>
+          <Switch>
+            <Route
+              path={"/generic/api-connection-demo"}
+              component={APIConnectionDemo}
+            />
+            <Route
+              path={"/generic/:viewKey/:subviewKey"}
+              component={GenericView}
+            />
+            <Route path={"/generic/:viewKey"} component={GenericView} />
+            <Route path={URL_MAIN.filesManager} component={FilesManager} />
+            <Route path={URL_MAIN.messages} component={Messages} exact />
+            <Route
+              path={`${URL_MAIN.messages}${URL_TABS.templates}`}
+              component={TemplatesContainer}
+            />
+            <Route path={URL_MAIN.news} component={News} />
+            <Route path={URL_OVERVIEW.root} component={Overview} exact />
+            <Route path={URL_MAIN.contacts} component={Contacts} exact />
+            <Route path={URL_MAIN.settings} component={BackupContainer} exact />
+            <Route
+              path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
+              component={NotificationsContainer}
+            />
+            <Route
+              path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
+              component={AudioConversionContainer}
+            />
+            <Route
+              path={`${URL_MAIN.settings}${URL_TABS.about}`}
+              component={AboutContainer}
+            />
+          </Switch>
+        </LayoutDesktopWrapper>
+      </Route>
+      <Redirect to={URL_OVERVIEW.root} />
+    </Switch>
+    <ApiDeviceModals />
+  </>
 )

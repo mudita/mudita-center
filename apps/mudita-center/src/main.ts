@@ -81,8 +81,7 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
-import { callRenderer } from "device/adapters"
-import { AppEvents } from "shared/utils"
+import { AppEvents, callRenderer } from "shared/utils"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
