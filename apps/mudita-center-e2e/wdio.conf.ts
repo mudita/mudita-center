@@ -72,10 +72,8 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.messageSendTest),
   ],
   suites: {
-    update: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
-      toRelativePath(TestFilesPaths.checkForUpdateTest),
-      toRelativePath(TestFilesPaths.deviceUpdateTest),
+    cicd: [
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
     ],
   },
   // Patterns to exclude.
@@ -100,8 +98,6 @@ export const config: Options.Testrunner = {
   // from the same test should run tests.
   //
   maxInstances: 1,
-
-  headless: true,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -115,10 +111,9 @@ export const config: Options.Testrunner = {
       // maxInstances: 5,
       //
       browserName: "chrome",
-      // acceptInsecureCerts: true,
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
-        args: ["--headless", "--no-sandbox"],
+        args: [],
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
