@@ -54,4 +54,4 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb
-          npm run e2e:test:linux -- -- --suite cicd
+          npm run e2e:test:linux --suite cicd
