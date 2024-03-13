@@ -106,8 +106,6 @@ export const restoreBackup = createAsyncThunk<
         deviceId
       )
 
-      console.log(preSendResponse)
-
       if (!preSendResponse.ok) {
         console.log("cannot start pre send")
         clearTransfers()

@@ -24,6 +24,8 @@ import { readFileSync } from "fs-extra"
 import crc from "js-crc"
 import { APIDevice } from "../api-device"
 import { ServiceBridge } from "../service-bridge"
+import AES from "crypto-js/aes"
+import encUtf8 from "crypto-js/enc-utf8"
 
 interface Transfer {
   crc32: string
@@ -370,7 +372,9 @@ export class APIFileTransferService {
       this.serviceBridge.fileManager.getFile(restoreFileId)
     const backup = JSON.parse(wholeBackupFile as string)
 
-    const file: string = backup.data[key]
+    const file: string = password
+      ? AES.decrypt(backup.data[key], password).toString()
+      : backup.data[key]
 
     if (!file) {
       return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
