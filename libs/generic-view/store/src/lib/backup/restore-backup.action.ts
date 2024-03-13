@@ -81,6 +81,7 @@ export const restoreBackup = createAsyncThunk<
       return {
         feature,
         path,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         key: featuresWithKeys.find((item) => item.feature === feature)?.key!,
       }
     })
@@ -122,7 +123,9 @@ export const restoreBackup = createAsyncThunk<
       const sendFileResponse = await dispatch(
         sendFile({
           deviceId,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           transferId: featurePath.transfer?.transferId!,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           chunksCount: featurePath.transfer?.chunksCount!,
         })
       )

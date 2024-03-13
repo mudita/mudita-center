@@ -129,6 +129,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
         setStep(Step.Progress)
         break
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restoreStatus])
 
   return (
