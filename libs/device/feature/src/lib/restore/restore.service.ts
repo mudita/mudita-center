@@ -54,7 +54,7 @@ export class APIRestoreService {
       method: "POST",
       body: {
         restoreId,
-        features: ["CALL_LOG", "CONTACTS_LIST"],
+        features,
       },
     })
 
