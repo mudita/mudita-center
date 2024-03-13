@@ -1,13 +1,13 @@
 import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 import MCModalPage from "../../page-objects/mc-update-modal.page"
+import HomePage from "../../page-objects/home.page"
 
 describe("Checking for Mudita Center updates", () => {
   before(async () => {
-    // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
+    const notNowButton = await HomePage.notNowButton
+    await notNowButton.waitForDisplayed()
+    await notNowButton.click()
   })
 
   it("Application is up to date", async () => {
