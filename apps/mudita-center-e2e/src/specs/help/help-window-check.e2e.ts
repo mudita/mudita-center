@@ -5,23 +5,57 @@
 
 import NavigationTabs from "../../page-objects/tabs.page"
 import HelpPage from "../../page-objects/help.page"
+import HomePage from "../../page-objects/home.page"
 
-describe("Check new window display in Help", () => {
+describe("Check Help window", () => {
   before(async () => {
-    // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
+    const notNowButton = await HomePage.notNowButton
+    await notNowButton.waitForDisplayed()
+    await notNowButton.click()
   })
-  it("Clicks help tab, switches to new window and checks if help topic is displayed in new window", async () => {
+
+  it("Open Help window", async () => {
     const helpTab = await NavigationTabs.helpTab
     await helpTab.waitForDisplayed({ timeout: 15000 })
     await helpTab.click()
 
     await browser.switchWindow("#/help")
+  })
 
-    const helpTopic = await HelpPage.helpListElement
-    await helpTopic.waitForDisplayed({ timeout: 15000 })
+  it("Check contents of Mudita Help", async () => {
+    // Check window title
+    const helpTitle = await HelpPage.windowTitle
+    await helpTitle.waitForDisplayed({ timeout: 15000 })
+    await expect(helpTitle).toBeDisplayed()
+    await expect(helpTitle).toHaveText("Mudita Center Help")
+
+    // Check presence of the search engine
+    const searchIcon = await HelpPage.searchIcon
+    await searchIcon.waitForDisplayed()
+    await expect(searchIcon).toBeDisplayed()
+
+    // Check Contact support button
+    const contactSupportButton = await HelpPage.contactSupportButton
+    await contactSupportButton.waitForDisplayed()
+    await expect(contactSupportButton).toBeDisplayed()
+    await expect(contactSupportButton).toBeClickable()
+
+    // Check presence of the list element
+    const helpTopic = await HelpPage.listElement
+    await helpTopic.waitForDisplayed()
     await expect(helpTopic).toBeDisplayed()
+  })
+
+  it("Check content of first article", async () => {
+    const helpTopic = await HelpPage.listElement
+    await expect(helpTopic).toHaveText("How to import my iCloud contacts into Mudita Pure by using .vcf file?")
+    await helpTopic.click()
+    const helpTopicContent = await HelpPage.topicContent
+    await expect(helpTopicContent).toBeDisplayed()
+    await expect(helpTopicContent).toHaveTextContaining('Click on the “Import” button.')
+    const backLink = await HelpPage.articleBackLink
+    await backLink.click()
+    const helpTitle = await HelpPage.windowTitle
+    await expect(helpTitle).toHaveText("Mudita Center Help")
   })
 })
