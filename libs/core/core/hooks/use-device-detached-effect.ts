@@ -6,9 +6,9 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
+import { answerMain, DeviceManagerMainEvent } from "shared/utils"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
-import { registerDeviceDetachedListener } from "Core/device-manager/listeners"
 import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import { removeDevice } from "Core/device-manager/actions/base.action"
@@ -32,7 +32,10 @@ export const useDeviceDetachedEffect = () => {
     useDebouncedEventsHandler<DeviceBaseProperties>(handleDevicesDetached)
 
   useEffect(() => {
-    return registerDeviceDetachedListener(batchDeviceDetachedEvents)
+    return answerMain(
+      DeviceManagerMainEvent.DeviceDetached,
+      batchDeviceDetachedEvents
+    )
   }, [batchDeviceDetachedEvents])
 }
 

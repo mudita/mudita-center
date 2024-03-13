@@ -10,6 +10,7 @@ import {
   borderRadius,
 } from "Core/core/styles/theming/theme-getters"
 import styled from "styled-components"
+import { CARD_IMAGE_MAX_HEIGHT_PIXEL } from "Core/news/components/card/card.constans"
 
 export const CardContainer = styled.div`
   max-width: 27.5rem;
@@ -21,7 +22,7 @@ export const CardContainer = styled.div`
 
 export const CardImage = styled(Image)`
   object-fit: cover;
-  height: 22rem;
+  height: ${CARD_IMAGE_MAX_HEIGHT_PIXEL / 10}rem;
   width: 100%;
 `
 

@@ -9,8 +9,7 @@ import { useCallback } from "react"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
 import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import {
-  URL_DISCOVERY_DEVICE,
-  URL_MAIN,
+  URL_DISCOVERY_DEVICE, URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { selectDialogOpenState } from "shared/app-state"
 
@@ -23,7 +22,7 @@ export const useDeactivateDeviceAndRedirect = () => {
     const { payload: devices } = await dispatch(deactivateDevice())
 
     if (dialogOpen) {
-      history.push(URL_MAIN.news)
+      history.push(URL_ONBOARDING.root)
       return
     }
 
@@ -32,7 +31,7 @@ export const useDeactivateDeviceAndRedirect = () => {
     } else if (devices.length === 1) {
       history.push(URL_DISCOVERY_DEVICE.root)
     } else {
-      history.push(URL_MAIN.news)
+      history.push(URL_ONBOARDING.root)
     }
   }, [history, dispatch, dialogOpen])
 }
