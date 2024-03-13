@@ -6,14 +6,15 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { useHistory } from "react-router-dom"
+import { answerMain } from "shared/utils"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { getDeviceInitializationStatus } from "Core/device-initialization/selectors/get-device-initialization-status.selector"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { deviceUnlockedStatusSelector } from "Core/device/selectors/device-unlocked-status.selector"
 import { URL_DEVICE_INITIALIZATION } from "Core/__deprecated__/renderer/constants/urls"
-import { registerActiveDeviceLockedListener } from "Core/device-manager/listeners/active-device-locked.listener"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { PureStrategyMainEvent } from "Core/device/strategies"
 
 export const useDeviceLockedEffect = () => {
   const history = useHistory()
@@ -41,20 +42,19 @@ export const useDeviceLockedEffect = () => {
 
   // Redirect to device initialization when it becomes locked (Main layer event)
   useEffect(() => {
-    const handler = ({ path }: { path: string }) => {
-      if (
-        deviceInitializationStatus === DeviceInitializationStatus.Initialized &&
-        activeDevice?.path === path &&
-        !activeDeviceProcessing
-      ) {
-        history.push(URL_DEVICE_INITIALIZATION.root)
+    return answerMain<{ path: string }>(
+      PureStrategyMainEvent.ActiveDeviceLocked,
+      ({ path }) => {
+        if (
+          deviceInitializationStatus ===
+            DeviceInitializationStatus.Initialized &&
+          activeDevice?.path === path &&
+          !activeDeviceProcessing
+        ) {
+          history.push(URL_DEVICE_INITIALIZATION.root)
+        }
       }
-    }
-
-    const unregister = registerActiveDeviceLockedListener(handler)
-    return () => {
-      unregister()
-    }
+    )
   }, [
     dispatch,
     history,

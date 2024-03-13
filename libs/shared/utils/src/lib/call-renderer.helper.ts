@@ -3,14 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { LoggerFactory } from "Core/core/factories"
 import { ipcMain } from "electron-better-ipc"
+import { LoggerFactory } from "Core/core/factories"
 import { ApiSerialPortToRendererEvents } from "device/models"
-import {
-  DeviceManagerMainEvent,
-  getMainAppWindow,
-  AppEvents,
-} from "shared/utils"
+import { PureStrategyMainEvent } from "Core/device/strategies"
+import { getMainAppWindow } from "./get-main-app-window"
+import { AppEvents, DeviceManagerMainEvent } from "./main-event.constant"
 
 const logger = LoggerFactory.getInstance()
 
@@ -18,13 +16,14 @@ export type CallRendererEvent =
   | ApiSerialPortToRendererEvents
   | DeviceManagerMainEvent
   | AppEvents
+  | PureStrategyMainEvent
 
 export const callRenderer = (event: CallRendererEvent, payload?: unknown) => {
   const win = getMainAppWindow()
 
   if (win) {
     logger.info(JSON.stringify({ event, payload }, null, 2))
-    ipcMain.callRenderer(win, event, payload)
+    void ipcMain.callRenderer(win, event, payload)
   } else {
     logger.info(
       JSON.stringify(

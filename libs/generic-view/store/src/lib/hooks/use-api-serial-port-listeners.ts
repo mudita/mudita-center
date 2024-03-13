@@ -20,10 +20,10 @@ export const useAPISerialPortListeners = () => {
   const backupProcess = useSelector(selectBackupProcessStatus)
 
   useEffect(() => {
-    const unregisterFailListener = answerMain(
+    const unregisterFailListener = answerMain<Device>(
       DeviceManagerMainEvent.DeviceConnectFailed,
       (properties) => {
-        const { deviceType } = properties as Device
+        const { deviceType } = properties
         if (deviceType !== DeviceType.APIDevice) {
           return
         }
@@ -31,20 +31,20 @@ export const useAPISerialPortListeners = () => {
         console.log(properties)
       }
     )
-    const unregisterConnectListener = answerMain(
+    const unregisterConnectListener = answerMain<Device>(
       DeviceManagerMainEvent.DeviceConnected,
       (properties) => {
-        const { id, deviceType } = properties as Device
+        const { id, deviceType } = properties
         if (deviceType !== DeviceType.APIDevice) {
           return
         }
         dispatch(getAPIConfig({ deviceId: id }))
       }
     )
-    const unregisterDetachedListener = answerMain(
+    const unregisterDetachedListener = answerMain<Device>(
       DeviceManagerMainEvent.DeviceDetached,
       async (properties) => {
-        const { id, deviceType } = properties as Device
+        const { id, deviceType } = properties
         if (deviceType !== DeviceType.APIDevice) {
           return
         }

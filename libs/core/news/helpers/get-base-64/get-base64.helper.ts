@@ -5,12 +5,10 @@
 
 import axios from "axios"
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getBase64 = async (url: string) => {
+export const getBase64 = async (url: string): Promise<string> => {
   try {
     return await axios
-      .get("https:" + url, {
+      .get(url, {
         responseType: "arraybuffer",
       })
       .then(
