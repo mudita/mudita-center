@@ -87,7 +87,6 @@ export class ApplicationModule {
 
   private deviceManager = new DeviceManager(
     new DeviceResolverService(),
-    this.ipc,
     this.eventEmitter
   )
 

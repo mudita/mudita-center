@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState } from "react"
-import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
+import { answerMain, DeviceManagerMainEvent } from "shared/utils"
 
 export const useNoNewDevicesDetectedHook = () => {
   const [noNewDevicesDetectedState, setNoNewDevicesDetectedState] =
@@ -21,9 +21,12 @@ export const useNoNewDevicesDetectedHook = () => {
       }, 3000)
     }
     handler()
-    const deviceConnected = registerDeviceConnectedListener(handler)
+    const unregisterDeviceConnectedListener = answerMain(
+      DeviceManagerMainEvent.DeviceConnected,
+      handler
+    )
     return () => {
-      deviceConnected()
+      unregisterDeviceConnectedListener()
       clearTimeout(timeoutId)
     }
   }, [])
