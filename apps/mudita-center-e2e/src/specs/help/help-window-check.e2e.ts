@@ -34,11 +34,20 @@ describe("Check Help window", () => {
     await searchIcon.waitForDisplayed()
     await expect(searchIcon).toBeDisplayed()
 
+    const searchPlaceholder = await HelpPage.searchPlaceholder
+    console.log(searchPlaceholder)
+    await expect(searchPlaceholder).toHaveAttributeContaining("placeholder", "Search")
+
     // Check Contact support button
     const contactSupportButton = await HelpPage.contactSupportButton
     await contactSupportButton.waitForDisplayed()
     await expect(contactSupportButton).toBeDisplayed()
     await expect(contactSupportButton).toBeClickable()
+
+    const contactSupportTooltip = await HelpPage.contactSupportButtonTooltip
+    contactSupportButton.moveTo()
+    await expect(contactSupportTooltip).toBeDisplayed()
+    await expect(contactSupportTooltip).toHaveText("Contact support")
 
     // Check presence of the list element
     const helpTopic = await HelpPage.listElement

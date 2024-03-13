@@ -25,6 +25,12 @@ class HelpPage extends Page {
     return $('[data-testid="icon-Magnifier"]')
   }
 
+  public get searchPlaceholder(): ChainablePromiseElement<
+  Promise<WebdriverIO.Element>
+  > {
+    return $('[type="search"]')
+  }
+
   public get topicContent(): ChainablePromiseElement<
   Promise<WebdriverIO.Element>
   > {
@@ -42,6 +48,12 @@ class HelpPage extends Page {
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="help-support-button"]')
+  }
+
+  public get contactSupportButtonTooltip(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-button-with-tooltip-description"]')
   }
 }
 
