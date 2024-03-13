@@ -71,13 +71,18 @@ export const restoreBackup = createAsyncThunk<
 
     const featuresPaths: {
       feature: string
+      key: string
       path: string
       transfer?: {
         transferId: number
         chunksCount: number
       }
     }[] = Object.entries(featuresPathMap).map(([feature, path]) => {
-      return { feature, path }
+      return {
+        feature,
+        path,
+        key: featuresWithKeys.find((item) => item.feature === feature)?.key!,
+      }
     })
 
     const clearTransfers = () => {
@@ -94,7 +99,7 @@ export const restoreBackup = createAsyncThunk<
 
       const preSendResponse = await startRestorePreSendFileRequest(
         restoreFileId,
-        featurePath.feature,
+        featurePath.key,
         featurePath.path,
         password,
         deviceId

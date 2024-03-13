@@ -58,7 +58,6 @@ export class APIRestoreService {
       },
     })
 
-    console.log(response)
     if (response.ok) {
       const startBackupResponse = PreRestoreValidator(
         features.map((item) => item.feature)

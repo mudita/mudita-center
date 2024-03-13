@@ -10,7 +10,7 @@ import { ResultObject } from "Core/core/builder"
 
 export const startRestorePreSendFileRequest = (
   restoreFileId: string,
-  feature: string,
+  key: string,
   targetPath: string,
   password?: string,
   deviceId?: DeviceId
@@ -23,7 +23,7 @@ export const startRestorePreSendFileRequest = (
   return ipcRenderer.callMain(ApiFileTransferServiceEvents.RestorePreSend, {
     restoreFileId,
     targetPath,
-    feature,
+    key,
     password,
     deviceId,
   })

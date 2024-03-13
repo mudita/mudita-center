@@ -343,13 +343,13 @@ export class APIFileTransferService {
   @IpcEvent(ApiFileTransferServiceEvents.RestorePreSend)
   public async restorePreTransferSend({
     restoreFileId,
-    feature,
+    key,
     password,
     targetPath,
     deviceId,
   }: {
     restoreFileId: string
-    feature: string
+    key: string
     targetPath: string
     password?: string
     deviceId?: DeviceId
@@ -366,12 +366,11 @@ export class APIFileTransferService {
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
-
     const wholeBackupFile =
       this.serviceBridge.fileManager.getFile(restoreFileId)
     const backup = JSON.parse(wholeBackupFile as string)
 
-    const file: string = backup.data[feature]
+    const file: string = backup.data[key]
 
     if (!file) {
       return Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
