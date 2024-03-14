@@ -15,6 +15,10 @@ import { flags } from "Core/feature-flags"
 import store from "Core/__deprecated__/renderer/store"
 import { Provider } from "react-redux"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("Core/feature-flags")
 jest.mock("electron-better-ipc", () => {
   return {

@@ -50,6 +50,7 @@ interface GenericState {
   lastResponse: unknown
   lastRefresh?: number
   activeDevice?: DeviceId
+  pendingDevice?: DeviceId
   devicesConfiguration: Record<string, DeviceConfiguration>
   apiErrors: Record<ApiError, boolean>
 }
@@ -152,12 +153,17 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
           : {}),
       }
     }
+    if (state.activeDevice === undefined && state.pendingDevice === deviceId) {
+      state.activeDevice = deviceId
+      state.pendingDevice = undefined
+    }
   })
   builder.addCase(activateDevice, (state, action) => {
     const { deviceId } = action.payload
     state.activeDevice = state.devicesConfiguration?.[deviceId]?.apiConfig
       ? deviceId
       : undefined
+    state.pendingDevice = deviceId
   })
   builder.addCase(detachDevice, (state, action) => {
     const { deviceId } = action.payload
@@ -166,6 +172,9 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
     if (state.activeDevice === deviceId) {
       state.activeDevice = undefined
+    }
+    if (state.pendingDevice === deviceId) {
+      state.pendingDevice = undefined
     }
   })
   builder.addCase(getOutboxData.fulfilled, (state, action) => {

@@ -20,6 +20,10 @@ import { CheckForUpdateState } from "Core/update/constants/check-for-update-stat
 
 // TODO [mw] add integration tests for update process - scope of the next PR (after all the changes from CP-1681 are done)
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("Core/feature-flags")
 
 jest.mock("@electron/remote", () => ({

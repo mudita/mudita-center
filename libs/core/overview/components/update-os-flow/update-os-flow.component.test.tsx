@@ -22,6 +22,10 @@ import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/rende
 import React from "react"
 import { CheckForUpdateState } from "Core/update/constants/check-for-update-state.constant"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("@electron/remote", () => ({
   Menu: () => ({
     popup: jest.fn(),

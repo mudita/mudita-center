@@ -8,7 +8,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { APIBackupServiceEvents, PreBackup } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 
-export const getStartPreBackupRequest = (
+export const startPreBackupRequest = (
   features: string[],
   deviceId?: DeviceId
 ): Promise<ResultObject<PreBackup>> => {

@@ -17,6 +17,10 @@ import { AppUpdateStepModalTestIds } from "Core/__deprecated__/renderer/wrappers
 import { Provider } from "react-redux"
 import store from "../../store"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 const onCloseMock = jest.fn()
 const openExternalMock = jest.fn()
 

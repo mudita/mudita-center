@@ -17,4 +17,6 @@ export const fontSize = {
   buttonLink: "1.4rem",
   buttonText: "1.2rem",
   detailText: "1.2rem",
+  labelText: "1.2rem",
+  modalTitle: "2rem",
 } as const
