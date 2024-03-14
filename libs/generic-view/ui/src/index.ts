@@ -13,7 +13,9 @@ import { buttons } from "./lib/buttons/buttons"
 export { default as Icon } from "./lib/icon/icon"
 export * from "./lib/api-connection-demo"
 export * from "./lib/interactive/modal/modal-base"
+export * from "./lib/interactive/modal/modal-helpers"
 export * from "./lib/shared/shared"
+export * from "./lib/predefined/backup/backup-error"
 
 const apiComponents = {
   ...predefinedComponents,
@@ -27,4 +29,3 @@ const apiComponents = {
 export default apiComponents
 
 export type APIComponents = typeof apiComponents
-

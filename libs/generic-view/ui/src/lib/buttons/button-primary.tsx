@@ -10,10 +10,11 @@ import { ButtonBase } from "./button-base/button-base"
 import Icon from "../icon/icon"
 import { withConfig } from "../utils/with-config"
 
-interface Config {
+export interface Config {
   text: string
   icon?: IconType
   action: ButtonAction
+  disabled?: boolean
 }
 
 export const ButtonPrimary: APIFC<undefined, Config> = ({
@@ -22,7 +23,7 @@ export const ButtonPrimary: APIFC<undefined, Config> = ({
   ...props
 }) => {
   return (
-    <Button {...props} action={config!.action}>
+    <Button {...props} disabled={config?.disabled} action={config!.action}>
       {config?.icon && <Icon data={{ type: config.icon }} />}
       <span>{config?.text}</span>
     </Button>

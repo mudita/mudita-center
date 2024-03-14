@@ -5,3 +5,4 @@
 
 export * from "./lib/generic-view"
 export * from "./lib/recursive-layout"
+export * from "./lib/api-device-modals"

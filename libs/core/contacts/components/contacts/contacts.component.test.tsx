@@ -38,6 +38,10 @@ window.IntersectionObserver = jest
 
 type Props = ComponentProps<typeof Contacts>
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("@electron/remote", () => ({
   Menu: () => ({
     popup: jest.fn(),

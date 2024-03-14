@@ -25,12 +25,8 @@ export const ButtonText: APIFC<undefined, Config> = ({
   ...props
 }) => {
   return (
-    <Button
-      {...props}
-      action={config!.action}
-      $modifiers={config?.modifiers}
-    >
-      {config?.icon && <Icon data={{ type: config.icon }} />}
+    <Button {...props} action={config!.action} $modifiers={config?.modifiers}>
+      {config?.icon && <Icon className={"icon"} data={{ type: config.icon }} />}
       <span>{config?.text}</span>
     </Button>
   )
@@ -39,16 +35,18 @@ export const ButtonText: APIFC<undefined, Config> = ({
 export default withConfig(ButtonText)
 
 const Button = styled(ButtonBase)<{ $modifiers?: ButtonModifiers[] }>`
+  color: ${({ theme }) => theme.color.grey1};
+
+  &:hover {
+    color: ${({ theme }) => theme.color.black};
+  }
+
   span {
     font-size: ${({ theme }) => theme.fontSize.buttonLink};
     line-height: ${({ theme }) => theme.lineHeight.buttonLink};
-    color: ${({ theme }) => theme.color.grey1};
     letter-spacing: 0.05em;
     text-transform: unset;
     transition: color 0.15s ease-in-out;
-  }
-  &:hover span {
-    color: ${({ theme }) => theme.color.black};
   }
 
   ${({ $modifiers }) => $modifiers?.includes("link") && buttonLinkModifier};
@@ -56,13 +54,20 @@ const Button = styled(ButtonBase)<{ $modifiers?: ButtonModifiers[] }>`
     $modifiers?.includes("uppercase") && buttonUpperCaseModifier};
   ${({ $modifiers }) =>
     $modifiers?.includes("hover-underline") && buttonHoverUnderlineModifier};
+
+  .icon {
+    width: 2.2rem;
+    height: 2.2rem;
+
+    svg * {
+      fill: currentColor;
+    }
+  }
 `
 
 const buttonLinkModifier = css`
-  span {
-    color: ${({ theme }) => theme.color.blue2};
-  }
-  &:hover span {
+  color: ${({ theme }) => theme.color.blue2};
+  &:hover {
     color: ${({ theme }) => theme.color.blue2};
   }
 `
@@ -73,6 +78,7 @@ const buttonUpperCaseModifier = css`
     font-size: ${({ theme }) => theme.fontSize.buttonText};
     line-height: ${({ theme }) => theme.lineHeight.buttonText};
     letter-spacing: 0.1em;
+    margin-top: 0.1rem;
   }
 `
 

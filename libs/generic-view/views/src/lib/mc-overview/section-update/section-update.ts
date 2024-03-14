@@ -73,6 +73,7 @@ export const generateMcOverviewUpdateData = (
         semver.coerce(baseUpdateData.version as string)?.raw ?? ""
       )
     } catch {
+      console.log("error")
       updateAvailable = false
     }
     if (updateAvailable) {

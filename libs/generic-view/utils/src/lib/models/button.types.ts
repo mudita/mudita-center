@@ -48,4 +48,13 @@ export interface NavigateAction {
   viewKey: string
 }
 
-export type ButtonAction = ModalAction | NavigateAction | BackupAction
+export interface CustomAction {
+  type: "custom"
+  callback: VoidFunction
+}
+
+export type ButtonAction =
+  | ModalAction
+  | NavigateAction
+  | BackupAction
+  | CustomAction
