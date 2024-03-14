@@ -9,10 +9,7 @@ import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { useDispatch } from "react-redux"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { openBackupDirectoryRequest } from "device/feature"
-import { closeModal } from "generic-view/store"
 import styled from "styled-components"
 import { ButtonText } from "../../buttons/button-text"
 
@@ -37,16 +34,14 @@ export interface Feature {
 }
 
 interface Props {
-  modalKey: string
+  onClose: VoidFunction
 }
 
-export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
-  const dispatch = useDispatch<Dispatch>()
-
+export const BackupSuccess: FunctionComponent<Props> = ({ onClose }) => {
   const openBackupCallback = async () => {
     const openDirectoryResponse = await openBackupDirectoryRequest()
     if (openDirectoryResponse.ok) {
-      dispatch(closeModal({ key: modalKey! }))
+      onClose()
     }
   }
   return (
@@ -57,7 +52,7 @@ export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
         }}
       />
       <h1>{intl.formatMessage(messages.title)}</h1>
-      <Main>
+      <Article>
         <p>{intl.formatMessage(messages.description)}</p>
         <ButtonText
           config={{
@@ -67,15 +62,14 @@ export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
             icon: IconType.Folder,
           }}
         />
-      </Main>
+      </Article>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
-            // Will be changed after merging with CP-2496-backup-error
             action: {
-              type: "close-modal",
-              modalKey,
+              type: "custom",
+              callback: onClose,
             },
           }}
         />
@@ -84,7 +78,7 @@ export const BackupSuccess: FunctionComponent<Props> = ({ modalKey }) => {
   )
 }
 
-const Main = styled.article`
+const Article = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;

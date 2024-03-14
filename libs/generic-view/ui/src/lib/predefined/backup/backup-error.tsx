@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { IconType } from "generic-view/utils"
+import { ButtonAction, IconType } from "generic-view/utils"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
@@ -22,11 +22,11 @@ const messages = defineMessages({
   },
 })
 
-export const BackupFailure: FunctionComponent<{ modalKey: string }> = ({
-  modalKey,
-}) => {
-  // TODO: read error message from the store
-  const message = ""
+interface Props {
+  closeAction: ButtonAction
+}
+
+export const BackupError: FunctionComponent<Props> = ({ closeAction }) => {
   return (
     <>
       <ModalTitleIcon
@@ -35,15 +35,12 @@ export const BackupFailure: FunctionComponent<{ modalKey: string }> = ({
         }}
       />
       <h1>{intl.formatMessage(messages.title)}</h1>
-      <p>{message || intl.formatMessage(messages.defaultErrorMessage)}</p>
+      <p>{intl.formatMessage(messages.defaultErrorMessage)}</p>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
-            action: {
-              type: "close-modal",
-              modalKey,
-            },
+            action: closeAction,
           }}
         />
       </ModalButtons>

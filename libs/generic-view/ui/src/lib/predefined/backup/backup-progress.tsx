@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect } from "react"
+import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { IconType } from "generic-view/utils"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
@@ -34,23 +34,11 @@ export interface Feature {
 }
 
 interface Props {
-  onSuccess: VoidFunction
-  onFail: VoidFunction
   features: Feature[]
 }
 
-export const BackupProgress: FunctionComponent<Props> = ({
-  onSuccess,
-  onFail,
-  features,
-}) => {
+export const BackupProgress: FunctionComponent<Props> = ({ features }) => {
   const progressStatus = useSelector(backupProgress)
-
-  useEffect(() => {
-    if (progressStatus.progress >= 100) {
-      onSuccess()
-    }
-  }, [progressStatus.progress, onSuccess])
 
   const featureLabel = features.find(
     (item) => item.key === progressStatus.featureInProgress

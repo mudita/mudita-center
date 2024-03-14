@@ -36,29 +36,50 @@ export const getFile = createAsyncThunk<
     targetPath: string
     preTransfer?: PreTransferGet
   },
-  { state: ReduxRootState; rejectValue: GetFileError }
+  { state: ReduxRootState; rejectValue: GetFileError | undefined }
 >(
   ActionName.FileTransferGet,
   async (
     { deviceId, filePath, targetPath, preTransfer },
-    { rejectWithValue, dispatch }
+    { rejectWithValue, dispatch, signal }
   ) => {
+    let aborted = false
+
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
+      aborted = true
+      const transferId = preTransferResponse?.ok
+        ? preTransferResponse.data.transferId
+        : preTransferResponse?.error.payload
+      if (transferId) {
+        await sendClearRequest(transferId)
+      }
+    }
+    signal.addEventListener("abort", abortListener)
+
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
+
     const preTransferResponse = preTransfer
       ? Result.success(preTransfer)
       : await startPreGetFileRequest(filePath, deviceId)
 
-    if (preTransferResponse.ok) {
+    if (preTransferResponse.ok && !aborted) {
       const { transferId, chunkSize, fileSize } = preTransferResponse.data
       const chunksCount = Math.ceil(fileSize / chunkSize)
       dispatch(
         fileTransferGetPrepared({
           transferId,
           chunksCount,
+          filePath,
         })
       )
 
       for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
-        // TODO: consider using signal to abort
+        if (aborted) {
+          return rejectWithValue(undefined)
+        }
         const { ok, error } = await getFileRequest(transferId, chunkNumber)
         if (!ok) {
           await sendClearRequest(transferId)
@@ -81,6 +102,10 @@ export const getFile = createAsyncThunk<
         )
       }
 
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
+
       if (targetPath) {
         await saveFileRequest(targetPath, transferId)
         await sendClearRequest(transferId)
@@ -94,7 +119,7 @@ export const getFile = createAsyncThunk<
           type: GeneralError.IncorrectResponse,
           message: "Incorrect response",
           payload: {
-            transferId: preTransferResponse.error.payload,
+            transferId: preTransferResponse.error?.payload,
             filePath,
           },
         },

@@ -16,7 +16,7 @@ export const fileTransferChunkSent = createAction<
   Pick<FileProgress, "chunksTransferred" | "transferId">
 >(ActionName.ChunkFileTransferSend)
 export const fileTransferGetPrepared = createAction<
-  Pick<FileProgress, "chunksCount" | "transferId">
+  Pick<FileProgress, "chunksCount" | "transferId" | "filePath">
 >(ActionName.PreFileTransferGet)
 export const fileTransferChunkGet = createAction<
   Pick<FileProgress, "chunksTransferred" | "transferId">
