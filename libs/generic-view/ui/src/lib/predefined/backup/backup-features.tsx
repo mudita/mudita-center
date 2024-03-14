@@ -51,7 +51,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
     <>
       <ModalTitleIcon data={{ type: IconType.Backup }} />
       <h1>{intl.formatMessage(messages.title)}</h1>
-      <Main>
+      <Article>
         <p>{intl.formatMessage(messages.description)}</p>
         <ModalScrollableContent>
           <ul>
@@ -60,7 +60,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
             ))}
           </ul>
         </ModalScrollableContent>
-      </Main>
+      </Article>
       <ModalButtons>
         <ButtonSecondary
           config={{
@@ -79,7 +79,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
   )
 }
 
-const Main = styled.article`
+const Article = styled.article`
   width: 100%;
 
   & > p {

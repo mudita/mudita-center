@@ -11,7 +11,7 @@ import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
 import packageInfo from "../../../../../../apps/mudita-center/package.json"
-import { writeFileSync, writeJSONSync, mkdirSync } from "fs-extra"
+import { writeFileSync, writeJSONSync, mkdirSync, readdirSync } from "fs-extra"
 import AES from "crypto-js/aes"
 import path from "path"
 
@@ -142,5 +142,36 @@ export class FileManager {
       console.log(e)
       return Result.failed(new AppError(GeneralError.InternalError))
     }
+  }
+
+  @IpcEvent(FileManagerServiceEvents.ReadDirectory)
+  public readDirectory({ path }: { path: string }): ResultObject<string[]> {
+    try {
+      const result = readdirSync(path)
+
+      return Result.success(result)
+    } catch (e) {
+      console.log(e)
+      return Result.failed(new AppError(GeneralError.InternalError))
+    }
+  }
+
+  @IpcEvent(FileManagerServiceEvents.ReadBackupDirectory)
+  public readBackupDirectory({
+    deviceId,
+  }: {
+    deviceId?: DeviceId
+  }): ResultObject<string[]> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    const pathResult = this.getBackupPath({ deviceId })
+
+    if (!pathResult.ok) {
+      return Result.failed(new AppError(GeneralError.InternalError))
+    }
+
+    return this.readDirectory({ path: pathResult.data })
   }
 }
