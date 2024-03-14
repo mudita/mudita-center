@@ -22,7 +22,7 @@ import {
   ApiSerialPortEvents,
   ApiSerialPortToRendererEvents,
 } from "device/models"
-import { callRenderer } from "./call-renderer.helper"
+import { callRenderer } from "shared/utils"
 
 const generateRequestID = () => {
   return Math.floor(Math.random() * 10000)

@@ -11,14 +11,31 @@ export enum LogConfig {
   ReturnValue,
 }
 
+interface LogOptions {
+  logConfig?: LogConfig
+  space?: number
+}
+
+const resolveLogOptions = (options?: LogOptions | LogConfig): LogOptions => {
+  const defaultOptions: LogOptions = { logConfig: LogConfig.ReturnValue, space: 2 };
+
+  if (typeof options === "number") {
+    return { ...defaultOptions, logConfig: options };
+  }
+
+  return { ...defaultOptions, ...options };
+}
+
 const logger = LoggerFactory.getInstance()
 
-export function log(message: string, logConfig = LogConfig.ReturnValue) {
+export function log(message: string, options?: LogOptions | LogConfig) {
   return function (
     target: unknown,
     propertyKey: string,
     descriptor: PropertyDescriptor
   ): PropertyDescriptor {
+    const { logConfig, space } = resolveLogOptions(options)
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const targetMethod = descriptor.value
@@ -39,13 +56,17 @@ export function log(message: string, logConfig = LogConfig.ReturnValue) {
             Object.prototype.hasOwnProperty.call(value, "ok")
           ) {
             logger.info(
-              JSON.stringify([(value as ResultObject<unknown>).data], null, 2)
+              JSON.stringify(
+                [(value as ResultObject<unknown>).data],
+                null,
+                space
+              )
             )
           } else {
-            logger.info(JSON.stringify([value], null, 2))
+            logger.info(JSON.stringify([value], null, space))
           }
         } else {
-          logger.info(JSON.stringify(args, null, 2))
+          logger.info(JSON.stringify(args, null, space))
         }
       })
 

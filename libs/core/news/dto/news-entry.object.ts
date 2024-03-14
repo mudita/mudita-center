@@ -22,4 +22,5 @@ export interface NewsEntry {
   imageAlt?: string
   commentsCount?: number
   date: string
+  imageId?: string
 }
