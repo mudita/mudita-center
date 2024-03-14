@@ -6,6 +6,8 @@
 import NavigationTabs from "../../page-objects/tabs.page"
 import HelpPage from "../../page-objects/help.page"
 import HomePage from "../../page-objects/home.page"
+import HelpModalPage from "../../page-objects/help-modal.page"
+import NewsPage from "../../page-objects/news.page"
 
 describe("Check Help window", () => {
   before(async () => {
@@ -35,10 +37,9 @@ describe("Check Help window", () => {
     await expect(searchIcon).toBeDisplayed()
 
     const searchPlaceholder = await HelpPage.searchPlaceholder
-    console.log(searchPlaceholder)
     await expect(searchPlaceholder).toHaveAttributeContaining("placeholder", "Search")
 
-    // Check Contact support button
+    // Check presence of Contact support button
     const contactSupportButton = await HelpPage.contactSupportButton
     await contactSupportButton.waitForDisplayed()
     await expect(contactSupportButton).toBeDisplayed()
@@ -49,10 +50,12 @@ describe("Check Help window", () => {
     await expect(contactSupportTooltip).toBeDisplayed()
     await expect(contactSupportTooltip).toHaveText("Contact support")
 
-    // Check presence of the list element
+    // Check accordion
     const helpTopic = await HelpPage.listElement
     await helpTopic.waitForDisplayed()
     await expect(helpTopic).toBeDisplayed()
+    const no_of_articles = await $$('[data-testid="help-component-question"]').length
+    await expect(no_of_articles).toEqual(25)
   })
 
   it("Check content of first article", async () => {
@@ -66,5 +69,33 @@ describe("Check Help window", () => {
     await backLink.click()
     const helpTitle = await HelpPage.windowTitle
     await expect(helpTitle).toHaveText("Mudita Center Help")
+  })
+
+  it("Search for questions & check search results", async () => {
+    const searchPlaceholder = await HelpPage.searchPlaceholder
+    searchPlaceholder.setValue("fail")
+    browser.keys("\uE007")
+    const helpTopic = await HelpPage.listElement
+    await expect(helpTopic).toHaveText("OS update failed")
+    searchPlaceholder.setValue("harMony")
+    browser.keys("\uE007")
+    const helpTopic = await HelpPage.listElement
+    await expect(helpTopic).toHaveText("How to connect my Mudita Harmony to Center?")
+    const no_of_articles = await $$('[data-testid="help-component-question"]').length
+    await expect(no_of_articles).toEqual(4)
+  })
+
+  it("Check Contact support modal", async () => {
+    const contactSupportButton = await HelpPage.contactSupportButton
+    await contactSupportButton.click()
+    const modalHeader = await HelpModalPage.modalHeader
+    await expect(modalHeader).toBeDisplayed
+    const closeButton = await HelpModalPage.closeModalButton
+    await closeButton.click()
+
+    await browser.switchWindow("#/news")
+    const newsHeader = await NewsPage.newsHeader
+    await expect(newsHeader).toBeDisplayed
+    await expect(newsHeader).toHaveText("Mudita News")
   })
 })
