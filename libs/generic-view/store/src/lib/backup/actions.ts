@@ -25,3 +25,5 @@ export const setBackupProcessFileStatus = createAction<{
 export const setBackupProcessStatus = createAction<BackupProcessStatus>(
   ActionName.BackupProcessStatus
 )
+
+export const cleanRestoreProcess = createAction(ActionName.CleanRestoreProcess)

@@ -6,7 +6,6 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { ButtonAction, IconType } from "generic-view/utils"
-import { withConfig } from "../../utils/with-config"
 import { TextInput } from "../../interactive/input/text-input"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { ButtonText } from "../../buttons/button-text"
@@ -118,8 +117,6 @@ export const BackupPassword: FunctionComponent<Props> = ({
     </>
   )
 }
-
-export default withConfig(BackupPassword)
 
 const HeadlineOptional = styled.span`
   margin: -0.2rem 0 0;

@@ -15,13 +15,18 @@ import {
   PreRestore,
   PreRestoreValidator,
   Restore,
+  RestoreMetadataValidator,
   RestoreValidator200,
   RestoreValidator202,
 } from "device/models"
 import random from "lodash/random"
+import { ServiceBridge } from "Libs/device/feature/src/lib/service-bridge"
 
 export class APIRestoreService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(
+    private deviceManager: DeviceManager,
+    private serviceBridge: ServiceBridge
+  ) {}
 
   @IpcEvent(APIRestoreServiceEvents.PreRestore)
   public async preRestore({
@@ -141,5 +146,33 @@ export class APIRestoreService {
     }
 
     return Result.failed(new AppError(GeneralError.IncorrectResponse))
+  }
+
+  @IpcEvent(APIRestoreServiceEvents.LoadBackupMetadata)
+  public loadBackupMetadata({ id }: { id: string }) {
+    try {
+      const file = this.serviceBridge.fileManager.getFile(id)
+      const backup = JSON.parse(file as string)
+
+      const response = RestoreMetadataValidator.safeParse({
+        header: backup.header,
+        features: Object.keys(backup.data),
+      })
+
+      if (response.success) {
+        return Result.success(response.data)
+      }
+      return Result.failed(
+        new AppError(GeneralError.IncorrectResponse, response.error.message)
+      )
+    } catch (error) {
+      console.error(error)
+      return Result.failed(
+        new AppError(
+          GeneralError.InternalError,
+          "Backup metadata could not be parsed"
+        )
+      )
+    }
   }
 }

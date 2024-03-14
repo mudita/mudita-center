@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { IconType } from "generic-view/utils"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
@@ -12,35 +12,43 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.restore.failure.title",
+    id: "module.genericViews.restore.success.title",
   },
-  defaultErrorMessage: {
-    id: "module.genericViews.restore.failure.defaultErrorMessage",
+  description: {
+    id: "module.genericViews.restore.success.description",
   },
-  closeButtonLabel: {
-    id: "module.genericViews.restore.failure.closeButtonLabel",
+  okButtonLabel: {
+    id: "module.genericViews.restore.success.okButtonLabel",
   },
 })
 
-interface Props {
-  closeAction: ButtonAction
+export interface Feature {
+  label: string
+  key: string
 }
 
-export const BackupError: FunctionComponent<Props> = ({ closeAction }) => {
+interface Props {
+  onClose: VoidFunction
+}
+
+export const BackupRestoreSuccess: FunctionComponent<Props> = ({ onClose }) => {
   return (
     <>
       <ModalTitleIcon
         data={{
-          type: IconType.Failure,
+          type: IconType.Success,
         }}
       />
       <h1>{intl.formatMessage(messages.title)}</h1>
-      <p>{intl.formatMessage(messages.defaultErrorMessage)}</p>
+      <p>{intl.formatMessage(messages.description)}</p>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
-            text: intl.formatMessage(messages.closeButtonLabel),
-            action: closeAction,
+            text: intl.formatMessage(messages.okButtonLabel),
+            action: {
+              type: "custom",
+              callback: onClose,
+            },
           }}
         />
       </ModalButtons>

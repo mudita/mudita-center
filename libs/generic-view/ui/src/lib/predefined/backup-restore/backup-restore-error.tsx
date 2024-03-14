@@ -26,7 +26,9 @@ interface Props {
   closeAction: ButtonAction
 }
 
-export const BackupError: FunctionComponent<Props> = ({ closeAction }) => {
+export const BackupRestoreError: FunctionComponent<Props> = ({
+  closeAction,
+}) => {
   return (
     <>
       <ModalTitleIcon
