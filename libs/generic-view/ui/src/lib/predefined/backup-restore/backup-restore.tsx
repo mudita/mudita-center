@@ -33,11 +33,6 @@ enum Step {
   Error,
 }
 
-// interface Feature {
-//   label: string
-//   keys: string[]
-// }
-
 interface Config {
   features?: RestoreFeature[]
   modalKey?: string
@@ -67,8 +62,6 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
 
   const startRestore = (password?: string) => {
     if (!features) return
-    console.log("asdf")
-    setStep(Step.Progress)
     const promise = dispatch(restoreBackup({ features, password }))
     restoreAbortReference.current = (
       promise as unknown as {
