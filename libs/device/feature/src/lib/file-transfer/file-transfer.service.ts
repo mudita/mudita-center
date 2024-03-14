@@ -373,7 +373,7 @@ export class APIFileTransferService {
     const backup = JSON.parse(wholeBackupFile as string)
 
     const file: string = password
-      ? AES.decrypt(backup.data[key], password).toString()
+      ? AES.decrypt(backup.data[key], password).toString(encUtf8)
       : backup.data[key]
 
     if (!file) {
