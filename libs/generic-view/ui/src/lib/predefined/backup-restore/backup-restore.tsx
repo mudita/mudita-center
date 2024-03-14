@@ -91,7 +91,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   }
 
   const onSuccess = () => {
-    setStep(Step.Success)
+    // setStep(Step.Success)
   }
 
   const confirmAction: ButtonAction = {
@@ -119,6 +119,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
         break
       case "PRE_RESTORE":
       case "FILES_TRANSFER":
+      case "RESTORING":
         setStep(Step.Progress)
         break
     }
@@ -142,7 +143,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
           <BackupRestorePassword nextAction={confirmAction} />
         )}
         {step === Step.Progress && (
-          <BackupRestoreProgress onSuccess={onSuccess} />
+          <BackupRestoreProgress features={features!} />
         )}
         {step === Step.Success && (
           <BackupRestoreSuccess onClose={restoreCloseButtonAction.callback} />

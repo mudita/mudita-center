@@ -880,6 +880,8 @@
   "module.genericViews.backup.progress.description": "Please wait and do not unplug your device from computer.",
   "module.genericViews.backup.progress.progressDetails": "This might take a few minutes",
   "module.genericViews.backup.progress.progressDetailsForFeature": "Backing up {featureLabel}",
+  "module.genericViews.restore.progress.progressDetails": "This might take a few minutes",
+  "module.genericViews.restore.progress.progressDetailsForFeature": "Restoring {featureLabel}",
   "module.genericViews.backup.success.title": "Backup complete",
   "module.genericViews.backup.success.description": "Your data was successfully secured.\nOpen the backup folder to see your backup data or close this window.",
   "module.genericViews.backup.success.openBackupButtonLabel": "Open backup folder",

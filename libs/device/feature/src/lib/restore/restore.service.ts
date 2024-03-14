@@ -134,7 +134,6 @@ export class APIRestoreService {
 
     if (response.data.status === 200) {
       const response200 = RestoreValidator200.safeParse(response.data.body)
-
       if (response200.success) {
         return Result.success(response200.data)
       }
