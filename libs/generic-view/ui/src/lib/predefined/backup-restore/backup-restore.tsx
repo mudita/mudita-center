@@ -90,10 +90,6 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
     },
   }
 
-  const onSuccess = () => {
-    // setStep(Step.Success)
-  }
-
   const confirmAction: ButtonAction = {
     type: "custom",
     callback: () => {
