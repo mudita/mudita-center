@@ -20,7 +20,7 @@ import {
   RestoreValidator202,
 } from "device/models"
 import random from "lodash/random"
-import { ServiceBridge } from "Libs/device/feature/src/lib/service-bridge"
+import { ServiceBridge } from "../service-bridge"
 
 export class APIRestoreService {
   constructor(
@@ -33,7 +33,10 @@ export class APIRestoreService {
     features,
     deviceId,
   }: {
-    features: string[]
+    features: {
+      feature: string
+      key: string
+    }[]
     deviceId?: DeviceId
   }): Promise<ResultObject<PreRestore>> {
     const device = deviceId
@@ -56,9 +59,9 @@ export class APIRestoreService {
     })
 
     if (response.ok) {
-      const startBackupResponse = PreRestoreValidator(features).safeParse(
-        response.data.body
-      )
+      const startBackupResponse = PreRestoreValidator(
+        features.map((item) => item.feature)
+      ).safeParse(response.data.body)
 
       return startBackupResponse.success
         ? Result.success(startBackupResponse.data)
