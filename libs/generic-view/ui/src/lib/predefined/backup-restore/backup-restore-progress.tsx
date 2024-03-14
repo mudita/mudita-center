@@ -37,41 +37,7 @@ export const BackupRestoreProgress: FunctionComponent<Props> = ({
   features,
 }) => {
   const progressStatus = useSelector(selectBackupRestoreProgress)
-  // const [progress, setProgress] = useState(0)
 
-  // TODO: replace with real backup progress
-  // const steps = {
-  //   0: "Restoring contacts",
-  //   30: "Restoring messages",
-  //   50: "Restoring notes",
-  //   70: "Restoring calendar events",
-  //   90: "Restoring settings",
-  //   100: "Backup complete",
-  // }
-
-  // const [step, setStep] = useState(steps[0])
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setProgress((prev) => {
-  //       if (prev >= 100) {
-  //         clearInterval(interval)
-  //         onSuccess()
-  //         return 100
-  //       }
-  //       const nextProgress = prev + Math.ceil(Math.random() * 30)
-
-  //       for (const [stepProgress, stepMessage] of Object.entries(steps)) {
-  //         if (nextProgress >= parseInt(stepProgress)) {
-  //           setStep(stepMessage)
-  //         }
-  //       }
-
-  //       return nextProgress
-  //     })
-  //   }, 100)
-  //   return () => clearInterval(interval)
-  // })
   const featureLabel = features.find(
     (item) => item.feature === progressStatus.featureInProgress
   )?.label
