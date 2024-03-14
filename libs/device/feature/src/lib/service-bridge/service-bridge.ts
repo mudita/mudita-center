@@ -6,11 +6,11 @@
 import { SettingsService } from "Core/settings/services"
 import { APIFileTransferService } from "../file-transfer"
 import { SystemUtilsModule } from "system-utils/feature"
-import { FileManager } from "device/feature"
+import { FileManager } from "../file-manager"
+import { DeviceSystemActionsService } from "../device-system-actions/device-system-actions.service"
 
 export class ServiceBridge {
   private _fileTransfer?: APIFileTransferService
-
   get fileTransfer(): APIFileTransferService {
     if (!this._fileTransfer) {
       throw new Error(
@@ -24,7 +24,6 @@ export class ServiceBridge {
   }
 
   private _settingsService?: SettingsService
-
   get settingsService(): SettingsService {
     if (!this._settingsService) {
       throw new Error(
@@ -38,7 +37,6 @@ export class ServiceBridge {
   }
 
   private _systemUtilsModule?: SystemUtilsModule
-
   get systemUtilsModule(): SystemUtilsModule {
     if (!this._systemUtilsModule) {
       throw new Error(
@@ -47,13 +45,11 @@ export class ServiceBridge {
     }
     return this._systemUtilsModule
   }
-
   set systemUtilsModule(value: SystemUtilsModule) {
     this._systemUtilsModule = value
   }
 
   private _fileManager?: FileManager
-
   get fileManager(): FileManager {
     if (!this._fileManager) {
       throw new Error(
@@ -62,9 +58,21 @@ export class ServiceBridge {
     }
     return this._fileManager
   }
-
   set fileManager(value: FileManager) {
     this._fileManager = value
+  }
+
+  private _deviceSystemActions?: DeviceSystemActionsService
+  get deviceSystemActions(): DeviceSystemActionsService {
+    if (!this._deviceSystemActions) {
+      throw new Error(
+        "SystemActionsService reference has not been set in ServiceBridge"
+      )
+    }
+    return this._deviceSystemActions
+  }
+  set deviceSystemActions(value: DeviceSystemActionsService) {
+    this._deviceSystemActions = value
   }
 
   constructor() {}
