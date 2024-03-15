@@ -88,4 +88,8 @@ export const settingsSchema: Schema<Settings> = {
     type: "array",
     default: [],
   },
+  usbAccessRestartRequired: {
+    type: "boolean",
+    default: false,
+  },
 }
