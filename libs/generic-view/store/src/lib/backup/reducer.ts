@@ -10,11 +10,14 @@ import {
   setBackupProcess,
   setBackupProcessFileStatus,
   setBackupProcessStatus,
+  setRestoreProcessFileStatus,
+  setRestoreProcessStatus,
 } from "./actions"
 import { createBackup } from "./create-backup.action"
 import { refreshBackupList } from "./refresh-backup-list.action"
 import { RestoreMetadata } from "device/models"
 import { loadBackupMetadata } from "./load-backup-metadata.action"
+import { restoreBackup } from "./restore-backup.action"
 
 export interface Backup {
   fileName: string
@@ -44,6 +47,7 @@ export type RestoreProcessStatus =
   | "PASSWORD_REQUIRED"
   | "PRE_RESTORE"
   | "FILES_TRANSFER"
+  | "RESTORING"
   | "DONE"
   | "FAILED"
 
@@ -51,6 +55,10 @@ export interface RestoreProcess {
   status: RestoreProcessStatus
   metadata?: RestoreMetadata
   restoreFileId?: string
+  featureFilesTransfer?: Record<
+    string,
+    { transferId?: number; status: BackupProcessFileStatus }
+  >
 }
 
 interface BackupState {
@@ -118,12 +126,37 @@ export const genericBackupsReducer = createReducer(initialState, (builder) => {
       restoreFileId: action.payload.restoreFileId,
     }
   })
+  builder.addCase(cleanRestoreProcess, (state, action) => {
+    delete state.restoreProcess
+  })
   builder.addCase(loadBackupMetadata.rejected, (state, action) => {
     state.restoreProcess = {
       status: "FAILED",
     }
   })
-  builder.addCase(cleanRestoreProcess, (state, action) => {
-    delete state.restoreProcess
+  builder.addCase(restoreBackup.pending, (state, action) => {
+    state.restoreProcess = {
+      ...state.restoreProcess,
+      status: "PRE_RESTORE",
+    }
+  })
+  builder.addCase(restoreBackup.rejected, (state, action) => {
+    state.restoreProcess = {
+      status: "FAILED",
+    }
+  })
+  builder.addCase(setRestoreProcessStatus, (state, action) => {
+    state.restoreProcess = {
+      ...state.restoreProcess,
+      status: action.payload.status,
+    }
+  })
+  builder.addCase(setRestoreProcessFileStatus, (state, action) => {
+    if (state.restoreProcess) {
+      state.restoreProcess.featureFilesTransfer = {
+        ...state.restoreProcess.featureFilesTransfer,
+        [action.payload.feature]: { status: action.payload.status },
+      }
+    }
   })
 })

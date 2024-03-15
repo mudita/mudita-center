@@ -16,6 +16,7 @@ import { RestoreFeature } from "device/models"
 import intersection from "lodash/intersection"
 import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
+import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
 
 export const restoreBackup = createAsyncThunk<
   undefined,
@@ -113,10 +114,24 @@ export const restoreBackup = createAsyncThunk<
       }
 
       featuresPaths[i].transfer = preSendResponse.data
+      dispatch(
+        setRestoreProcessFileStatus({
+          feature: featurePath.feature,
+          status: "PENDING",
+        })
+      )
     }
 
+    dispatch(setRestoreProcessStatus({ status: "FILES_TRANSFER" }))
+    console.log("start file transfer")
     for (let i = 0; i < features.length; ++i) {
       const featurePath = featuresPaths[i]
+      dispatch(
+        setRestoreProcessFileStatus({
+          feature: featurePath.feature,
+          status: "IN_PROGRESS",
+        })
+      )
 
       const sendFileResponse = await dispatch(
         sendFile({
@@ -132,18 +147,27 @@ export const restoreBackup = createAsyncThunk<
         clearTransfers()
         return rejectWithValue(undefined)
       }
+      dispatch(
+        setRestoreProcessFileStatus({
+          feature: featurePath.feature,
+          status: "DONE",
+        })
+      )
     }
 
     clearTransfers()
+    console.log("restoring")
+
+    dispatch(setRestoreProcessStatus({ status: "RESTORING" }))
 
     const startRestoreResponse = await startRestoreRequest(restoreId, deviceId)
 
-    if (startRestoreResponse.ok) {
+    if (!startRestoreResponse.ok) {
       console.log("start restore failed")
       return rejectWithValue(undefined)
     }
 
-    let restoreProgress = 0
+    let restoreProgress = startRestoreResponse.data.progress
 
     while (restoreProgress < 100) {
       const checkPreRestoreResponse = await checkRestoreRequest(
@@ -158,7 +182,9 @@ export const restoreBackup = createAsyncThunk<
 
       restoreProgress = checkPreRestoreResponse.data.progress
     }
+    console.log("done")
 
+    dispatch(setRestoreProcessStatus({ status: "DONE" }))
     return undefined
   }
 )
