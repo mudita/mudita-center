@@ -3,13 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect, useState } from "react"
+import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { IconType } from "generic-view/utils"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import { ModalTitleIcon } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { useSelector } from "react-redux"
+import { selectBackupRestoreProgress } from "generic-view/store"
+import { RestoreFeature } from "device/models"
 
 const messages = defineMessages({
   title: {
@@ -18,55 +21,30 @@ const messages = defineMessages({
   description: {
     id: "module.genericViews.restore.progress.description",
   },
+  progressDetails: {
+    id: "module.genericViews.restore.progress.progressDetails",
+  },
+  progressDetailsForFeature: {
+    id: "module.genericViews.restore.progress.progressDetailsForFeature",
+  },
 })
 
-export interface Feature {
-  label: string
-  key: string
-}
-
 interface Props {
-  onSuccess: VoidFunction
+  features: RestoreFeature[]
 }
 
 export const BackupRestoreProgress: FunctionComponent<Props> = ({
-  onSuccess,
+  features,
 }) => {
-  const [progress, setProgress] = useState(0)
+  const progressStatus = useSelector(selectBackupRestoreProgress)
 
-  // TODO: replace with real backup progress
-  const steps = {
-    0: "Restoring contacts",
-    30: "Restoring messages",
-    50: "Restoring notes",
-    70: "Restoring calendar events",
-    90: "Restoring settings",
-    100: "Backup complete",
-  }
+  const featureLabel = features.find(
+    (item) => item.feature === progressStatus.featureInProgress
+  )?.label
+  const detailMessage = featureLabel
+    ? intl.formatMessage(messages.progressDetailsForFeature, { featureLabel })
+    : intl.formatMessage(messages.progressDetails)
 
-  const [step, setStep] = useState(steps[0])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          onSuccess()
-          return 100
-        }
-        const nextProgress = prev + Math.ceil(Math.random() * 30)
-
-        for (const [stepProgress, stepMessage] of Object.entries(steps)) {
-          if (nextProgress >= parseInt(stepProgress)) {
-            setStep(stepMessage)
-          }
-        }
-
-        return nextProgress
-      })
-    }, 100)
-    return () => clearInterval(interval)
-  })
   return (
     <>
       <ModalTitleIcon data={{ type: IconType.Backup }} />
@@ -77,8 +55,8 @@ export const BackupRestoreProgress: FunctionComponent<Props> = ({
           maxValue: 100,
         }}
         data={{
-          value: progress,
-          message: step,
+          value: progressStatus.progress,
+          message: detailMessage,
         }}
       />
     </>

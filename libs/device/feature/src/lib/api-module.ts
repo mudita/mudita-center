@@ -46,7 +46,10 @@ export class APIModule {
       deviceManager,
       this.serviceBridge
     )
-    this.fileTransferService = new APIFileTransferService(deviceManager)
+    this.fileTransferService = new APIFileTransferService(
+      deviceManager,
+      this.serviceBridge
+    )
     this.fileManager = new FileManager(deviceManager, this.serviceBridge)
     this.deviceSystemActionsService = new DeviceSystemActionsService(
       deviceManager

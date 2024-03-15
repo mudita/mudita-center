@@ -14,7 +14,7 @@ import { ActionName } from "../action-names"
 import { RestoreMetadata } from "device/models"
 
 export const loadBackupMetadata = createAsyncThunk<
-  RestoreMetadata,
+  { restoreMetadata: RestoreMetadata; restoreFileId: string },
   {
     filePath: string
   },
@@ -42,5 +42,8 @@ export const loadBackupMetadata = createAsyncThunk<
     return rejectWithValue(undefined)
   }
 
-  return metadataResponse.data
+  return {
+    restoreMetadata: metadataResponse.data,
+    restoreFileId: readFileResponse.data,
+  }
 })
