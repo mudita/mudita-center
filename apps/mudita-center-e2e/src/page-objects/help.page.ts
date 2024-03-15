@@ -7,52 +7,39 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class HelpPage extends Page {
-  public get listElement(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get listElement(): ChainablePromiseElement<WebdriverIO.Element> {
     return $('[data-testid="help-component-question"]')
   }
 
-  public get windowTitle(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get listElements(): ChainablePromiseElement<WebdriverIO.ElementArray> {
+    return $$('[data-testid="help-component-question"]')
+  }
+
+  public get windowTitle(): ChainablePromiseElement<WebdriverIO.Element> {
     return $('[data-testid="help-component-title"]')
   }
 
-  public get searchIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get searchIcon(): ChainablePromiseElement<WebdriverIO.Element> {
     return $('[data-testid="icon-Magnifier"]')
   }
 
-  public get searchPlaceholder(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get searchPlaceholder(): ChainablePromiseElement<WebdriverIO.Element> {
     return $('[type="search"]')
   }
 
-  public get topicContent(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get topicContent(): ChainablePromiseElement<WebdriverIO.Element> {
     return $('[data-testid="content"]')
   }
 
-  public get articleBackLink(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get articleBackLink(): ChainablePromiseElement<WebdriverIO.Element> {
     return $('[data-testid="back-link"]')
   }
 
-  /**[Selector]  Contact support button  */
-  public get contactSupportButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get contactSupportButton(): ChainablePromiseElement<WebdriverIO.Element> {
     return $('[data-testid="help-support-button"]')
   }
 
-  public get contactSupportButtonTooltip(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get contactSupportButtonTooltip(): ChainablePromiseElement<WebdriverIO.Element> {
     return $('[data-testid="icon-button-with-tooltip-description"]')
   }
 }
