@@ -114,7 +114,7 @@ export const restoreBackup = createAsyncThunk<
       }
 
       featuresPaths[i].transfer = preSendResponse.data
-      await dispatch(
+      dispatch(
         setRestoreProcessFileStatus({
           feature: featurePath.feature,
           status: "PENDING",
@@ -122,11 +122,11 @@ export const restoreBackup = createAsyncThunk<
       )
     }
 
-    await dispatch(setRestoreProcessStatus({ status: "FILES_TRANSFER" }))
+    dispatch(setRestoreProcessStatus({ status: "FILES_TRANSFER" }))
     console.log("start file transfer")
     for (let i = 0; i < features.length; ++i) {
       const featurePath = featuresPaths[i]
-      await dispatch(
+      dispatch(
         setRestoreProcessFileStatus({
           feature: featurePath.feature,
           status: "IN_PROGRESS",
@@ -147,7 +147,7 @@ export const restoreBackup = createAsyncThunk<
         clearTransfers()
         return rejectWithValue(undefined)
       }
-      await dispatch(
+      dispatch(
         setRestoreProcessFileStatus({
           feature: featurePath.feature,
           status: "DONE",
@@ -158,7 +158,7 @@ export const restoreBackup = createAsyncThunk<
     clearTransfers()
     console.log("restoring")
 
-    await dispatch(setRestoreProcessStatus({ status: "RESTORING" }))
+    dispatch(setRestoreProcessStatus({ status: "RESTORING" }))
 
     const startRestoreResponse = await startRestoreRequest(restoreId, deviceId)
 
@@ -184,7 +184,7 @@ export const restoreBackup = createAsyncThunk<
     }
     console.log("done")
 
-    await dispatch(setRestoreProcessStatus({ status: "DONE" }))
+    dispatch(setRestoreProcessStatus({ status: "DONE" }))
     return undefined
   }
 )
