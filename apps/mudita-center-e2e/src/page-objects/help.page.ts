@@ -20,25 +20,25 @@ class HelpPage extends Page {
   }
 
   public get searchIcon(): ChainablePromiseElement<
-  Promise<WebdriverIO.Element>
+    Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-Magnifier"]')
   }
 
   public get searchPlaceholder(): ChainablePromiseElement<
-  Promise<WebdriverIO.Element>
+    Promise<WebdriverIO.Element>
   > {
     return $('[type="search"]')
   }
 
   public get topicContent(): ChainablePromiseElement<
-  Promise<WebdriverIO.Element>
+    Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="content"]')
   }
-  
+
   public get articleBackLink(): ChainablePromiseElement<
-  Promise<WebdriverIO.Element>
+    Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="back-link"]')
   }

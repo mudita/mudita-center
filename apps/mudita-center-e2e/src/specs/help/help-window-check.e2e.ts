@@ -54,8 +54,8 @@ describe("Check Help window", () => {
     const helpTopic = await HelpPage.listElement
     await helpTopic.waitForDisplayed()
     await expect(helpTopic).toBeDisplayed()
-    const no_of_articles = await $$('[data-testid="help-component-question"]').length
-    await expect(no_of_articles).toEqual(25)
+    const noOfArticles = await $$('[data-testid="help-component-question"]').length
+    await expect(noOfArticles).toEqual(25)
   })
 
   it("Check content of first article", async () => {
@@ -81,8 +81,8 @@ describe("Check Help window", () => {
     browser.keys("\uE007")
     const helpTopic = await HelpPage.listElement
     await expect(helpTopic).toHaveText("How to connect my Mudita Harmony to Center?")
-    const no_of_articles = await $$('[data-testid="help-component-question"]').length
-    await expect(no_of_articles).toEqual(4)
+    const noOfArticles = await $$('[data-testid="help-component-question"]').length
+    await expect(noOfArticles).toEqual(4)
   })
 
   it("Check Contact support modal", async () => {
