@@ -48,3 +48,16 @@ export const URL_OVERVIEW = {
   pureSystem: "/overview/pure-system",
   sar: "/overview/pure-system/sar",
 } as const
+
+const allUrls = [
+  URL_MAIN,
+  URL_TABS,
+  URL_ONBOARDING,
+  URL_DISCOVERY_DEVICE,
+  URL_DEVICE_INITIALIZATION,
+  URL_OVERVIEW,
+].flatMap((obj) => Object.values(obj))
+
+export const isValidPath = (path: string): boolean => {
+  return allUrls.includes(path)
+}
