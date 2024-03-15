@@ -28,6 +28,14 @@ export const selectBackupRestoreProgress = createSelector(
       return { progress: 0 }
     }
 
+    if (
+      restoreProcess.status === "PASSWORD_NOT_REQUIRED" ||
+      restoreProcess.status === "PASSWORD_REQUIRED" ||
+      restoreProcess.status === "PRE_RESTORE"
+    ) {
+      return { progress: 0 }
+    }
+
     if (restoreProcess.status === "DONE") {
       return { progress: 100 }
     }

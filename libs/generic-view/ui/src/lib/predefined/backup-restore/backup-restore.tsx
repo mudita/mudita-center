@@ -79,7 +79,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
     type: "custom",
     callback: () => {
       restoreAbortReference.current?.()
-      closeModal()
+      // closeModal()
     },
   }
 
@@ -98,6 +98,14 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
       })()
     },
   }
+
+  useEffect(() => {
+    return () => {
+      console.log("elo elo")
+      restoreAbortReference.current?.()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     switch (restoreStatus) {
