@@ -26,6 +26,20 @@ Please keep in mind that we can not give full access to all environments to the 
 
 If you are Mudita employee please follow these [instructions](https://appnroll.atlassian.net/l/c/aSD9NC1u).
 
+### Initialize Configuration Files
+Before you start developing, you need to set up the initial configuration files. Run the following commands to copy the example configuration files to their usable versions. These files are ignored by Git to ensure that your local changes do not affect the global project setup.
+
+```bash
+Copy code
+cp libs/core/news/default-news.json.example libs/core/news/default-news.json
+cp libs/core/help/default-help.json.example libs/core/help/default-help.json
+cp libs/core/settings/static/app-configuration.json.example libs/core/settings/static/app-configuration.json
+```
+
+Please adjust the contents of these files as necessary for your local development environment.
+
+
+
 ## Run Mudita Center development environment
 
 Please run the following command to start the Mudita Center dev environment:
