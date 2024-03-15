@@ -12,6 +12,10 @@ import { HelpComponentTestIds } from "Core/help/components/help.enum"
 import Help from "Core/help/components/help.component"
 import { data } from "Core/__deprecated__/seeds/help"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("@electron/remote", () => ({
   dialog: {
     showOpenDialog: jest.fn(),
