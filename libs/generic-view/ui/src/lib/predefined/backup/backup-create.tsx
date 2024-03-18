@@ -12,7 +12,7 @@ import { useFormContext } from "react-hook-form"
 import { BackupProgress } from "./backup-progress"
 import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
 import { BackupSuccess } from "./backup-success"
-import { BackupError } from "./backup-error"
+import { BackupError, CustomError } from "./backup-error"
 import { Form } from "../../interactive/form/form"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -22,6 +22,17 @@ import {
   createBackup,
   selectBackupProcessStatus,
 } from "generic-view/store"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  cancellationErrorTitle: {
+    id: "module.genericViews.backup.cancellation.title",
+  },
+  cancellationErrorMessage: {
+    id: "module.genericViews.backup.cancellation.message",
+  },
+})
 
 enum Step {
   Features,
@@ -45,6 +56,7 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   const backupProcessStatus = useSelector(selectBackupProcessStatus)
   const backupAbortReference = useRef<VoidFunction>()
   const [step, setStep] = useState<Step>(Step.Features)
+  const [error, setError] = useState<CustomError>()
 
   const featuresKeys = features?.map((item) => item.key) ?? []
   const closeButtonVisible = [
@@ -81,6 +93,10 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   const backupAbortButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
+      setError({
+        title: intl.formatMessage(messages.cancellationErrorTitle),
+        message: intl.formatMessage(messages.cancellationErrorMessage),
+      })
       backupAbortReference.current?.()
     },
   }
@@ -160,7 +176,10 @@ const BackupCreateForm: FunctionComponent<Config> = ({
           <BackupSuccess onClose={backupCloseButtonAction.callback} />
         )}
         {step === Step.Error && (
-          <BackupError closeAction={backupCloseButtonAction} />
+          <BackupError
+            closeAction={backupCloseButtonAction}
+            customError={error}
+          />
         )}
       </ModalCenteredContent>
     </>

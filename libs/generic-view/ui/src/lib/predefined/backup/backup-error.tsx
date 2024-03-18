@@ -22,11 +22,20 @@ const messages = defineMessages({
   },
 })
 
-interface Props {
-  closeAction: ButtonAction
+export interface CustomError {
+  title: string
+  message: string
 }
 
-export const BackupError: FunctionComponent<Props> = ({ closeAction }) => {
+interface Props {
+  closeAction: ButtonAction
+  customError?: CustomError
+}
+
+export const BackupError: FunctionComponent<Props> = ({
+  closeAction,
+  customError,
+}) => {
   return (
     <>
       <ModalTitleIcon
@@ -34,8 +43,11 @@ export const BackupError: FunctionComponent<Props> = ({ closeAction }) => {
           type: IconType.Failure,
         }}
       />
-      <h1>{intl.formatMessage(messages.title)}</h1>
-      <p>{intl.formatMessage(messages.defaultErrorMessage)}</p>
+      <h1>{customError?.title || intl.formatMessage(messages.title)}</h1>
+      <p>
+        {customError?.message ||
+          intl.formatMessage(messages.defaultErrorMessage)}
+      </p>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{
