@@ -7,16 +7,40 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class HelpPage extends Page {
-  public get helpListElement(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get listElement() {
     return $('[data-testid="help-component-question"]')
   }
-  /**[Selector]  Contact support button  */
-  public get contactSupportButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+
+  public get listElements() {
+    return $$('[data-testid="help-component-question"]')
+  }
+
+  public get windowTitle() {
+    return $('[data-testid="help-component-title"]')
+  }
+
+  public get searchIcon() {
+    return $('[data-testid="icon-Magnifier"]')
+  }
+
+  public get searchPlaceholder() {
+    return $('[type="search"]')
+  }
+
+  public get topicContent() {
+    return $('[data-testid="content"]')
+  }
+
+  public get articleBackLink() {
+    return $('[data-testid="back-link"]')
+  }
+
+  public get contactSupportButton() {
     return $('[data-testid="help-support-button"]')
+  }
+
+  public get contactSupportButtonTooltip() {
+    return $('[data-testid="icon-button-with-tooltip-description"]')
   }
 }
 

@@ -73,7 +73,8 @@ export const config: Options.Testrunner = {
   ],
   suites: {
     cicd: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+      toRelativePath(TestFilesPaths.helpWindowCheckTest)
     ],
   },
   // Patterns to exclude.
