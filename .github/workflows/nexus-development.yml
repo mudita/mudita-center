@@ -181,7 +181,7 @@ jobs:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
           echo $TOKEN > ./TOKEN
-          echo ${{ sectets.MC_GITHUB_ACCESS_TOKEN }} > ./MC_TOKEN
+          echo ${{ secrets.MC_GITHUB_ACCESS_TOKEN }} > ./MC_TOKEN
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
           export ENVIRONMENT_CATALOG_NAME=development
