@@ -21,9 +21,23 @@ import { useFormContext } from "react-hook-form"
 import { BackupRestorePassword } from "./backup-restore-password"
 import { BackupRestoreProgress } from "./backup-restore-progress"
 import { BackupRestoreSuccess } from "./backup-restore-success"
-import { BackupRestoreError } from "./backup-restore-error"
+import {
+  BackupRestoreError,
+  BackupRestoreCustomError,
+} from "./backup-restore-error"
 import { RestoreFeature } from "device/models"
 import { withConfig } from "../../utils/with-config"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  cancellationErrorTitle: {
+    id: "module.genericViews.restore.cancellation.title",
+  },
+  cancellationErrorMessage: {
+    id: "module.genericViews.restore.cancellation.message",
+  },
+})
 
 enum Step {
   Select,
@@ -46,6 +60,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   const { handleSubmit, getValues } = useFormContext()
   const restoreAbortReference = useRef<VoidFunction>()
   const restoreStatus = useSelector(selectBackupRestoreStatus)
+  const [error, setError] = useState<BackupRestoreCustomError>()
 
   const [step, setStep] = useState<Step>(Step.Select)
   const closeButtonVisible = [
@@ -78,8 +93,11 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   const abortButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
+      setError({
+        title: intl.formatMessage(messages.cancellationErrorTitle),
+        message: intl.formatMessage(messages.cancellationErrorMessage),
+      })
       restoreAbortReference.current?.()
-      // closeModal()
     },
   }
 
@@ -101,7 +119,6 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
 
   useEffect(() => {
     return () => {
-      console.log("elo elo")
       restoreAbortReference.current?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -153,7 +170,10 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
           <BackupRestoreSuccess onClose={restoreCloseButtonAction.callback} />
         )}
         {step === Step.Error && (
-          <BackupRestoreError closeAction={restoreCloseButtonAction} />
+          <BackupRestoreError
+            closeAction={restoreCloseButtonAction}
+            customError={error}
+          />
         )}
       </ModalCenteredContent>
     </>

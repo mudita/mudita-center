@@ -901,6 +901,8 @@
   "module.genericViews.backup.failure.defaultErrorMessage": "The backup process was interrupted.",
   "module.genericViews.backup.cancellation.title": "Backup canceled",
   "module.genericViews.backup.cancellation.message": "No changes were made.",
+  "module.genericViews.restore.cancellation.title": "Restore cancelled",
+  "module.genericViews.restore.cancellation.message": "No changes were made to your phone.",
   "module.genericViews.backup.failure.closeButtonLabel": "Close",
   "module.genericViews.backup.directoryOpenFailure.title": "Directory open failed",
   "module.genericViews.backup.directoryOpenFailure.defaultErrorMessage": "The directory could not be opened.\n\nYou can still try to find the backup in the default location:",
