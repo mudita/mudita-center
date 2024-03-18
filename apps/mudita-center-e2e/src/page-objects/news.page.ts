@@ -7,15 +7,15 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class NewsPage extends Page {
-  public get newsHeader(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get newsHeader() {
     return $('[data-testid="location"]')
   }
 
-  public get moreNewsButton(): ChainablePromiseElement<WebdriverIO.Element> {
-    return $('p*=More news')
+  public get moreNewsButton() {
+    return $("p*=More news")
   }
 
-  public get newsCardElement(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get newsCardElement() {
     return $('[data-testid="news-card"]')
   }
 }

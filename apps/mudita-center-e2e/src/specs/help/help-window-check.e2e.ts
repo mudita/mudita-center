@@ -21,31 +21,35 @@ describe("Check Help window", () => {
     await helpTab.waitForDisplayed({ timeout: 15000 })
     await helpTab.click()
 
-    await browser.switchWindow('#/help')
-  })
+    await browser.switchWindow("#/help")
 
-  it("Check contents of Mudita Help", async () => {
     // Check window title
     const helpTitle = await HelpPage.windowTitle
     await helpTitle.waitForDisplayed({ timeout: 15000 })
-    await expect(helpTitle).toHaveText('Mudita Center Help')
+    await expect(helpTitle).toHaveText("Mudita Center Help")
+  })
 
+  it("Check contents of Mudita Help", async () => {
     // Check presence of the search engine
     const searchIcon = await HelpPage.searchIcon
     await expect(searchIcon).toBeDisplayed()
 
     const searchPlaceholder = await HelpPage.searchPlaceholder
-    await expect(searchPlaceholder).toHaveAttributeContaining('placeholder', 'Search')
+    await expect(searchPlaceholder).toHaveAttributeContaining(
+      "placeholder",
+      "Search"
+    )
 
     // Check presence of Contact support button
     const contactSupportButton = await HelpPage.contactSupportButton
     await expect(contactSupportButton).toBeDisplayed()
     await expect(contactSupportButton).toBeClickable()
 
-    const contactSupportButtonTooltip = await HelpPage.contactSupportButtonTooltip
+    const contactSupportButtonTooltip =
+      await HelpPage.contactSupportButtonTooltip
     contactSupportButton.moveTo()
     await expect(contactSupportButtonTooltip).toBeDisplayed()
-    await expect(contactSupportButtonTooltip).toHaveText('Contact support')
+    await expect(contactSupportButtonTooltip).toHaveText("Contact support")
 
     // Check accordion
     const helpTopic = await HelpPage.listElement
@@ -56,26 +60,32 @@ describe("Check Help window", () => {
 
   it("Check content of first article", async () => {
     const helpTopic = await HelpPage.listElement
-    await expect(helpTopic).toHaveText('How to import my iCloud contacts into Mudita Pure by using .vcf file?')
+    await expect(helpTopic).toHaveText(
+      "How to import my iCloud contacts into Mudita Pure by using .vcf file?"
+    )
     await helpTopic.click()
     const helpTopicContent = await HelpPage.topicContent
     await expect(helpTopicContent).toBeDisplayed()
-    await expect(helpTopicContent).toHaveTextContaining('Click on the “Import” button.')
+    await expect(helpTopicContent).toHaveTextContaining(
+      "Click on the “Import” button."
+    )
     const backLink = await HelpPage.articleBackLink
     await backLink.click()
     const helpTitle = await HelpPage.windowTitle
-    await expect(helpTitle).toHaveText('Mudita Center Help')
+    await expect(helpTitle).toHaveText("Mudita Center Help")
   })
 
   it("Search for questions & check search results", async () => {
     const searchPlaceholder = await HelpPage.searchPlaceholder
-    searchPlaceholder.setValue('fail')
-    browser.keys('\uE007')
+    searchPlaceholder.setValue("fail")
+    browser.keys("\uE007")
     const helpTopic = await HelpPage.listElement
-    await expect(helpTopic).toHaveText('OS update failed')
-    searchPlaceholder.setValue('harMony')
+    await expect(helpTopic).toHaveText("OS update failed")
+    searchPlaceholder.setValue("harMony")
     await helpTopic.waitForDisplayed({ timeout: 15000 })
-    await expect(helpTopic).toHaveText('How to connect my Mudita Harmony to Center?')
+    await expect(helpTopic).toHaveText(
+      "How to connect my Mudita Harmony to Center?"
+    )
     const noOfArticles = await HelpPage.listElements
     await expect(noOfArticles).toBeElementsArrayOfSize({ gte: 4 })
   })
@@ -88,9 +98,9 @@ describe("Check Help window", () => {
     const closeButton = await HelpModalPage.closeModalButton
     await closeButton.click()
 
-    await browser.switchWindow('#/news')
+    await browser.switchWindow("#/news")
     const newsHeader = await NewsPage.newsHeader
     await expect(newsHeader).toBeDisplayed
-    await expect(newsHeader).toHaveText('Mudita News')
+    await expect(newsHeader).toHaveText("Mudita News")
   })
 })

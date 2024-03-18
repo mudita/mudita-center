@@ -4,15 +4,15 @@
  */
 
 import { ChainablePromiseElement } from "webdriverio"
-import Page from "./page";
+import Page from "./page"
 
 class HomePage extends Page {
-  get homeHeader(): ChainablePromiseElement<WebdriverIO.Element> {
-    return $('h2*=Welcome to Mudita Center')
+  get homeHeader() {
+    return $("h2*=Welcome to Mudita Center")
   }
 
-  get notNowButton(): ChainablePromiseElement<WebdriverIO.Element> {
-    return $('button*=Not now')
+  get notNowButton() {
+    return $("button*=Not now")
   }
 }
 

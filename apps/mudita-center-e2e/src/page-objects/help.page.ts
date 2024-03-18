@@ -7,39 +7,39 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class HelpPage extends Page {
-  public get listElement(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get listElement() {
     return $('[data-testid="help-component-question"]')
   }
 
-  public get listElements(): ChainablePromiseElement<WebdriverIO.ElementArray> {
+  public get listElements() {
     return $$('[data-testid="help-component-question"]')
   }
 
-  public get windowTitle(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get windowTitle() {
     return $('[data-testid="help-component-title"]')
   }
 
-  public get searchIcon(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get searchIcon() {
     return $('[data-testid="icon-Magnifier"]')
   }
 
-  public get searchPlaceholder(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get searchPlaceholder() {
     return $('[type="search"]')
   }
 
-  public get topicContent(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get topicContent() {
     return $('[data-testid="content"]')
   }
 
-  public get articleBackLink(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get articleBackLink() {
     return $('[data-testid="back-link"]')
   }
 
-  public get contactSupportButton(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get contactSupportButton() {
     return $('[data-testid="help-support-button"]')
   }
 
-  public get contactSupportButtonTooltip(): ChainablePromiseElement<WebdriverIO.Element> {
+  public get contactSupportButtonTooltip() {
     return $('[data-testid="icon-button-with-tooltip-description"]')
   }
 }
