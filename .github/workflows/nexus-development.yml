@@ -3,7 +3,7 @@ name: Build & deploy to development
 on:
   push:
     branches:
-      - git-fix
+      - nexus-debug
 jobs:
   build:
     runs-on: ${{ matrix.os }}
