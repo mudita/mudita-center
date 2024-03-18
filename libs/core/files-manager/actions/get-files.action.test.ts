@@ -18,16 +18,18 @@ import * as loadDeviceDataActionModule from "Core/device/actions/load-device-dat
 import { fulfilledAction } from "Core/__deprecated__/renderer/store"
 import { DeviceEvent } from "Core/device"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("Core/files-manager/requests/get-files.request")
 
-jest
-  .spyOn(loadDeviceDataActionModule, "loadDeviceData")
-  .mockImplementation(
-    () =>
-      ({
-        type: fulfilledAction(DeviceEvent.LoadDeviceData),
-      } as unknown as jest.Mock)
-  )
+jest.spyOn(loadDeviceDataActionModule, "loadDeviceData").mockImplementation(
+  () =>
+    ({
+      type: fulfilledAction(DeviceEvent.LoadDeviceData),
+    } as unknown as jest.Mock)
+)
 
 const successObjectResult: ResultObject<File[]> = Result.success([
   {

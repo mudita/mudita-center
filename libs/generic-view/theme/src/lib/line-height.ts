@@ -17,4 +17,6 @@ export const lineHeight = {
   buttonLink: "2.2rem",
   buttonText: "2rem",
   detailText: "2rem",
+  labelText: "2rem",
+  modalTitle: "3.2rem",
 } as const

@@ -12,10 +12,17 @@ import { Result, ResultObject } from "Core/core/builder"
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
 import { AppError } from "Core/core/errors"
 import { testError } from "Core/__deprecated__/renderer/store/constants"
-import { fulfilledAction, pendingAction } from "Core/__deprecated__/renderer/store"
+import {
+  fulfilledAction,
+  pendingAction,
+} from "Core/__deprecated__/renderer/store"
 import * as loadStorageInfoActionModule from "Core/device/actions/load-storage-info.action"
 import * as loadDeviceDataActionModule from "Core/device/actions/load-device-data.action"
 import { DeviceEvent } from "Core/device"
+
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
 
 jest.mock("Core/files-manager/requests/delete-files.request")
 jest
@@ -26,14 +33,12 @@ jest
         type: pendingAction(DeviceEvent.LoadStorageInfo),
       } as unknown as jest.Mock)
   )
-jest
-  .spyOn(loadDeviceDataActionModule, "loadDeviceData")
-  .mockImplementation(
-    () =>
-      ({
-        type: fulfilledAction(DeviceEvent.LoadDeviceData),
-      } as unknown as jest.Mock)
-  )
+jest.spyOn(loadDeviceDataActionModule, "loadDeviceData").mockImplementation(
+  () =>
+    ({
+      type: fulfilledAction(DeviceEvent.LoadDeviceData),
+    } as unknown as jest.Mock)
+)
 const filePaths = [
   "user/music/example_file_name.mp3",
   "user/music/second_example_file_name.wav",

@@ -8,13 +8,14 @@ import { LoggerFactory } from "Core/core/factories"
 import { ApiSerialPortToRendererEvents } from "device/models"
 import { PureStrategyMainEvent } from "Core/device/strategies"
 import { getMainAppWindow } from "./get-main-app-window"
-import { DeviceManagerMainEvent } from "./main-event.constant"
+import { AppEvents, DeviceManagerMainEvent } from "./main-event.constant"
 
 const logger = LoggerFactory.getInstance()
 
 export type CallRendererEvent =
   | ApiSerialPortToRendererEvents
   | DeviceManagerMainEvent
+  | AppEvents
   | PureStrategyMainEvent
 
 export const callRenderer = (event: CallRendererEvent, payload?: unknown) => {

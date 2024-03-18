@@ -45,7 +45,9 @@ import {
   DeviceResolverService,
 } from "Core/device-manager/services"
 import { APIModule } from "device/feature"
+import { DesktopModule } from "Core/desktop/desktop.module"
 import { FileSystemDialogModule } from "shared/app-state"
+import { SystemUtilsModule } from "system-utils/feature"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -65,10 +67,12 @@ export class ApplicationModule {
     DeviceLogModule,
     DeviceModule,
   ]
+
   public lateModules: Module[] = [
     DeviceManagerModule,
     DataSyncModule,
     CrashDumpModule,
+    DesktopModule,
   ]
 
   private deviceLogger: DeviceLogger = LoggerFactory.getInstance()
@@ -89,6 +93,7 @@ export class ApplicationModule {
     new DeviceResolverService(),
     this.eventEmitter
   )
+  private systemUtilsModule = new SystemUtilsModule()
 
   constructor(
     private ipc: MainProcessIpc,
@@ -105,11 +110,12 @@ export class ApplicationModule {
     this.initializeInitializer = new InitializeInitializer()
 
     this.modules.forEach(this.initModule)
-    this.apiModule = new APIModule(this.deviceManager)
+    this.apiModule = new APIModule(this.deviceManager, this.systemUtilsModule)
     this.controllerInitializer.initialize(this.apiModule.getAPIServices())
     this.controllerInitializer.initialize(
       FileSystemDialogModule.getControllers()
     )
+    this.controllerInitializer.initialize(this.systemUtilsModule.getServices())
   }
 
   lateInitialization(): void {

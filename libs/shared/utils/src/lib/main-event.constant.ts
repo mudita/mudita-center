@@ -8,3 +8,7 @@ export enum DeviceManagerMainEvent {
   DeviceConnected = "device-manager-device-connected",
   DeviceConnectFailed = "device-manager-device-connect-failed",
 }
+
+export enum AppEvents {
+  WindowFocused = "app-events-window-focused",
+}

@@ -23,6 +23,10 @@ import { CheckForUpdateState } from "Core/update/constants/check-for-update-stat
 
 type Props = ComponentProps<typeof Overview>
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 jest.mock("@electron/remote", () => ({
   Menu: () => ({
     popup: jest.fn(),
