@@ -6,6 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
+  cancelRestoreRequest,
   checkRestoreRequest,
   preRestoreRequest,
   sendClearRequest,
@@ -31,7 +32,6 @@ export const restoreBackup = createAsyncThunk<
     { features, password },
     { getState, dispatch, rejectWithValue, signal }
   ) => {
-    console.log("restore start")
     let aborted = false
     let abortFileRequest: VoidFunction
 
@@ -40,9 +40,10 @@ export const restoreBackup = createAsyncThunk<
       aborted = true
       abortFileRequest?.()
       await clearTransfers?.()
-      // if (backupId && deviceId) {
-      //   await postBackupRequest(backupId, deviceId)
-      // }
+      if (restoreId && deviceId) {
+        console.log("cancel restore")
+        await cancelRestoreRequest(restoreId, deviceId)
+      }
     }
     signal.addEventListener("abort", abortListener)
 
@@ -176,7 +177,6 @@ export const restoreBackup = createAsyncThunk<
     }
 
     clearTransfers()
-    console.log("restoring")
 
     dispatch(setRestoreProcessStatus({ status: "RESTORING" }))
 
@@ -209,7 +209,6 @@ export const restoreBackup = createAsyncThunk<
 
       restoreProgress = checkPreRestoreResponse.data.progress
     }
-    console.log("done")
 
     if (aborted) {
       return rejectWithValue(undefined)

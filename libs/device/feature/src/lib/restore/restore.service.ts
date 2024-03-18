@@ -98,6 +98,37 @@ export class APIRestoreService {
     return this.parseRestoreResponse(response)
   }
 
+  @IpcEvent(APIRestoreServiceEvents.CancelRestore)
+  public async cancelRestore({
+    restoreId,
+    deviceId,
+  }: {
+    restoreId: number
+    deviceId?: DeviceId
+  }): Promise<ResultObject<undefined>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const response = await device.request({
+      endpoint: "RESTORE",
+      method: "DELETE",
+      body: {
+        restoreId,
+      },
+    })
+
+    console.log(response)
+
+    return response.ok && response.data.status === 200
+      ? Result.success(undefined)
+      : Result.failed(new AppError(GeneralError.IncorrectResponse))
+  }
+
   @IpcEvent(APIRestoreServiceEvents.CheckRestore)
   public async checkRestore({
     restoreId,
