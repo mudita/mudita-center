@@ -122,8 +122,6 @@ export class APIRestoreService {
       },
     })
 
-    console.log(response)
-
     return response.ok && response.data.status === 200
       ? Result.success(undefined)
       : Result.failed(new AppError(GeneralError.IncorrectResponse))

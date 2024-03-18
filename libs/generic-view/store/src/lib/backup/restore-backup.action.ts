@@ -41,7 +41,6 @@ export const restoreBackup = createAsyncThunk<
       abortFileRequest?.()
       await clearTransfers?.()
       if (restoreId && deviceId) {
-        console.log("cancel restore")
         await cancelRestoreRequest(restoreId, deviceId)
       }
     }
