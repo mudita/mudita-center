@@ -91,7 +91,8 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.deviceUpdateTest),
     ],
     cicd: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+      toRelativePath(TestFilesPaths.helpWindowCheckTest)
     ],
 
   },
