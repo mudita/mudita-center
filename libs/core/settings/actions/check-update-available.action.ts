@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { SettingsEvent } from "Core/settings/constants"
 import checkAppUpdateRequest from "Core/__deprecated__/renderer/requests/check-app-update.request"
-import { setCheckingForUpdate } from "Core/settings/actions/set-checking-for-update-action"
+import { setCheckingForUpdate } from "Core/settings/actions/base.action"
 
 export const checkUpdateAvailable = createAsyncThunk<void, void>(
   SettingsEvent.CheckUpdateAvailable,
