@@ -22,12 +22,19 @@ const messages = defineMessages({
   },
 })
 
+export interface BackupRestoreCustomError {
+  title: string
+  message: string
+}
+
 interface Props {
   closeAction: ButtonAction
+  customError?: BackupRestoreCustomError
 }
 
 export const BackupRestoreError: FunctionComponent<Props> = ({
   closeAction,
+  customError,
 }) => {
   return (
     <>
@@ -36,8 +43,11 @@ export const BackupRestoreError: FunctionComponent<Props> = ({
           type: IconType.Failure,
         }}
       />
-      <h1>{intl.formatMessage(messages.title)}</h1>
-      <p>{intl.formatMessage(messages.defaultErrorMessage)}</p>
+      <h1>{customError?.title || intl.formatMessage(messages.title)}</h1>
+      <p>
+        {customError?.message ||
+          intl.formatMessage(messages.defaultErrorMessage)}
+      </p>
       <ModalButtons $vertical>
         <ButtonSecondary
           config={{

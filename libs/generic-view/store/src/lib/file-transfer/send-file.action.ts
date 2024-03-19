@@ -30,15 +30,31 @@ export const sendFile = createAsyncThunk<
   { transferId: number },
   | { deviceId: DeviceId; filePath: string; targetPath: string }
   | { deviceId: DeviceId; transferId: number; chunksCount: number },
-  { state: ReduxRootState; rejectValue: SendFileError }
+  { state: ReduxRootState; rejectValue: SendFileError | undefined }
 >(
   ActionName.FileTransferSend,
-  async (params, { rejectWithValue, dispatch }) => {
+  async (params, { rejectWithValue, dispatch, signal }) => {
+    let aborted = false
+
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
+      aborted = true
+      const transferId = transfer.transferId
+      if (transferId) {
+        await sendClearRequest(transferId)
+      }
+    }
+    signal.addEventListener("abort", abortListener)
+
     const { deviceId } = params
 
     const transfer: { transferId: number; chunksCount: number } = {
       transferId: 0,
       chunksCount: 0,
+    }
+
+    if (aborted) {
+      return rejectWithValue(undefined)
     }
 
     if ("transferId" in params) {
@@ -67,6 +83,10 @@ export const sendFile = createAsyncThunk<
       }
       transfer.transferId = preTransferResponse.data.transferId
       transfer.chunksCount = preTransferResponse.data.chunksCount
+      if (aborted) {
+        await sendClearRequest(transfer.transferId)
+        return rejectWithValue(undefined)
+      }
     }
 
     const { transferId, chunksCount } = transfer

@@ -6,6 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
+  cancelRestoreRequest,
   checkRestoreRequest,
   preRestoreRequest,
   sendClearRequest,
@@ -31,8 +32,19 @@ export const restoreBackup = createAsyncThunk<
     { features, password },
     { getState, dispatch, rejectWithValue, signal }
   ) => {
-    console.log("restore start")
-    console.log(features, password)
+    let aborted = false
+    let abortFileRequest: VoidFunction
+
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
+      aborted = true
+      abortFileRequest?.()
+      await clearTransfers?.()
+      if (restoreId && deviceId) {
+        await cancelRestoreRequest(restoreId, deviceId)
+      }
+    }
+    signal.addEventListener("abort", abortListener)
 
     const deviceId = getState().genericViews.activeDevice
     const restoreFileId =
@@ -41,7 +53,7 @@ export const restoreBackup = createAsyncThunk<
     const fileKeys =
       getState().genericBackups.restoreProcess?.metadata?.features
 
-    if (!deviceId || !restoreFileId || !fileKeys) {
+    if (!deviceId || !restoreFileId || !fileKeys || aborted) {
       console.log("invalid deviceId, restoreFileId, or fileKeys")
       return rejectWithValue(undefined)
     }
@@ -53,7 +65,7 @@ export const restoreBackup = createAsyncThunk<
       })
       .filter((item) => item.key !== "")
 
-    if (featuresWithKeys.length === 0) {
+    if (featuresWithKeys.length === 0 || aborted) {
       console.log(`restore keys are incompatible with backup keys`)
       return rejectWithValue(undefined)
     }
@@ -63,7 +75,7 @@ export const restoreBackup = createAsyncThunk<
       deviceId
     )
 
-    if (!preRestoreResponse.ok) {
+    if (!preRestoreResponse.ok || aborted) {
       console.log(`preRestore failed`)
       return rejectWithValue(undefined)
     }
@@ -97,6 +109,9 @@ export const restoreBackup = createAsyncThunk<
     }
 
     for (let i = 0; i < features.length; ++i) {
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
       const featurePath = featuresPaths[i]
 
       const preSendResponse = await startRestorePreSendFileRequest(
@@ -123,8 +138,11 @@ export const restoreBackup = createAsyncThunk<
     }
 
     dispatch(setRestoreProcessStatus({ status: "FILES_TRANSFER" }))
-    console.log("start file transfer")
+
     for (let i = 0; i < features.length; ++i) {
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
       const featurePath = featuresPaths[i]
       dispatch(
         setRestoreProcessFileStatus({
@@ -132,8 +150,7 @@ export const restoreBackup = createAsyncThunk<
           status: "IN_PROGRESS",
         })
       )
-
-      const sendFileResponse = await dispatch(
+      const sendFilePromise = dispatch(
         sendFile({
           deviceId,
           // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
@@ -142,23 +159,29 @@ export const restoreBackup = createAsyncThunk<
           chunksCount: featurePath.transfer?.chunksCount!,
         })
       )
-
+      abortFileRequest = sendFilePromise.abort
+      const sendFileResponse = await sendFilePromise
       if (sendFileResponse.meta.requestStatus !== "fulfilled") {
         clearTransfers()
         return rejectWithValue(undefined)
       }
-      dispatch(
-        setRestoreProcessFileStatus({
-          feature: featurePath.feature,
-          status: "DONE",
-        })
-      )
+      if (!aborted) {
+        dispatch(
+          setRestoreProcessFileStatus({
+            feature: featurePath.feature,
+            status: "DONE",
+          })
+        )
+      }
     }
 
     clearTransfers()
-    console.log("restoring")
 
     dispatch(setRestoreProcessStatus({ status: "RESTORING" }))
+
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
 
     const startRestoreResponse = await startRestoreRequest(restoreId, deviceId)
 
@@ -170,6 +193,9 @@ export const restoreBackup = createAsyncThunk<
     let restoreProgress = startRestoreResponse.data.progress
 
     while (restoreProgress < 100) {
+      if (aborted) {
+        return rejectWithValue(undefined)
+      }
       const checkPreRestoreResponse = await checkRestoreRequest(
         restoreId,
         deviceId
@@ -182,8 +208,10 @@ export const restoreBackup = createAsyncThunk<
 
       restoreProgress = checkPreRestoreResponse.data.progress
     }
-    console.log("done")
 
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
     dispatch(setRestoreProcessStatus({ status: "DONE" }))
     return undefined
   }

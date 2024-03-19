@@ -16,6 +16,7 @@ export * from "./lib/interactive/modal/modal-base"
 export * from "./lib/interactive/modal/modal-helpers"
 export * from "./lib/shared/shared"
 export * from "./lib/predefined/backup/backup-error"
+export * from "./lib/predefined/backup-restore/backup-restore-error"
 
 const apiComponents = {
   ...predefinedComponents,
