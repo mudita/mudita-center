@@ -33,7 +33,7 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useDispatch, useSelector } from "react-redux"
 import { ModalStateKey, showModal } from "Core/modals-manager"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { setCheckingForUpdateFailed } from "Core/settings/actions/base.action"
+import { setCheckingForUpdateFailed } from "Core/settings/actions/set-checking-for-update-failed.action"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;

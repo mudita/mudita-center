@@ -28,7 +28,6 @@ export const fakeSettings: Settings = {
   privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
-  usbAccessRestartRequired: false,
 }
 
 const settingsService = {

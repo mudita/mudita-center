@@ -25,5 +25,4 @@ export interface Settings {
   incomingMessages: boolean
   autostart: boolean
   tethering: boolean
-  usbAccessRestartRequired: boolean
 }

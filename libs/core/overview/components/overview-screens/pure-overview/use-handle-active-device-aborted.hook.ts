@@ -11,7 +11,6 @@ import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.
 import {
   URL_DISCOVERY_DEVICE,
   URL_MAIN,
-  URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
@@ -28,12 +27,7 @@ export const useHandleActiveDeviceAborted = () => {
 
     dispatch(setDiscoveryStatus(DiscoveryStatus.Aborted))
     dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Aborted))
-    if (pathname === URL_ONBOARDING.welcome) {
-      history.push(URL_MAIN.news)
-    } else if (
-      devices.length > 1 &&
-      !pathname.includes(URL_DISCOVERY_DEVICE.root)
-    ) {
+    if (devices.length > 1 && !pathname.includes(URL_DISCOVERY_DEVICE.root)) {
       history.push(URL_DISCOVERY_DEVICE.availableDeviceListModal)
     } else {
       history.push(URL_MAIN.news)
