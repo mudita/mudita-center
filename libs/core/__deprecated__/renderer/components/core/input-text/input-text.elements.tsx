@@ -220,7 +220,7 @@ const PasscodeInput = styled.input<{
 }>`
   border: solid 0.1rem ${borderColor("secondary")};
   border-radius: ${borderRadius("medium")};
-  width: 4.6rem;
+  width: 8rem;
   height: 7.6rem;
   margin: 0 1.2rem;
   padding-left: 3rem;
