@@ -227,7 +227,7 @@ export class SerialPortDeviceAPIAdapter {
         ApiSerialPortToRendererEvents.Closed,
         Result.success(`Device ${this.path} closed`)
       )
-      ipcMain.emit(ApiSerialPortToRendererEvents.Closed, this.path);
+      ipcMain.emit(ApiSerialPortToRendererEvents.Closed, this.path)
     })
   }
 }
