@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import Page from "./page"
 
 class HomePage extends Page {
@@ -9,4 +14,5 @@ class HomePage extends Page {
     return $("button*=Not now")
   }
 }
+
 export default new HomePage()

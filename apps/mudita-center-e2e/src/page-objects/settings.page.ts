@@ -3,47 +3,34 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class SettingsPage extends Page {
-  public get locationTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get locationTextLabel() {
     return $('[data-testid="location"]')
   }
 
-  public get generalTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get generalTab() {
     return $('a[href="#/settings"] [data-testid="icon-Connection"]')
   }
 
-  public get backupTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get backupTab() {
     return $('a[href="#/settings/backup"]')
   }
 
-  public get aboutTab(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
+  public get aboutTab() {
     return $('a[href="#/settings/about"]')
   }
 
-  public get generalSendLogsTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get generalSendLogsTextLabel() {
     return $("p*=Send Mudita Center logs to Mudita")
   }
 
-  public get backupLocationPathTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get backupLocationPathTextLabel() {
     return $('[data-testid="backup-location"]')
   }
 
-  public get aboutInstalledVersionTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutInstalledVersionTextLabel() {
     return $("p*=Mudita Center - installed version:")
   }
 
@@ -55,87 +42,59 @@ class SettingsPage extends Page {
     return $('[data-testid="about-update-button"]')
   }
 
-  public get aboutTermsOfServiceTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutTermsOfServiceTextLabel() {
     return $("p*=Terms of service")
   }
 
-  public get aboutTermsOfServiceButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutTermsOfServiceButton() {
     return $('[data-testid="terms-of-service-button"]')
   }
 
-  public get aboutTermsOfServiceComponentWrapper(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutTermsOfServiceComponentWrapper() {
     return $('[data-testid="terms-of-service-component-wrapper"]')
   }
 
-  public get aboutPrivacyPolicyTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutPrivacyPolicyTextLabel() {
     return $("p*=Privacy Policy")
   }
 
-  public get aboutPrivacyPolicyButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutPrivacyPolicyButton() {
     return $('[data-testid="about-privacy-policy-button"]')
   }
 
-  public get aboutPrivacyPolicyComponentWrapper(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutPrivacyPolicyComponentWrapper() {
     return $('[data-testid="privacy-policy-component-wrapper"]')
   }
 
-  public get aboutLicenseTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutLicenseTextLabel() {
     return $("p*=License")
   }
 
-  public get aboutLicenseButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutLicenseButton() {
     return $('[data-testid="about-license-button"]')
   }
 
-  public get aboutLicenseComponentWrapper(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutLicenseComponentWrapper() {
     return $('[data-testid="License-component-wrapper"]')
   }
 
-  public get closeButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get closeButton() {
     return $('[data-testid="icon-Close"]')
   }
 
-  public get addToFavouritessCheckbox(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get addToFavouritessCheckbox() {
     return $('[name="favourite"]')
   }
 
-  public get cancelButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get cancelButton() {
     return $("p*=Cancel")
   }
 
-  public get saveButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get saveButton() {
     return $('[data-testid="save-button"]')
   }
 
-  public get noContactsText(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get noContactsText() {
     return $('[data-testid="contact-list-no-result]')
   }
 }
