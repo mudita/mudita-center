@@ -12,6 +12,7 @@ import { AppInitializationStatus } from "Core/app-initialization/reducers/app-in
 import { isAppUpdateProcessPassed } from "Core/app-initialization/selectors/is-app-update-process-passed.selector"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ModalsManagerState } from "Core/modals-manager/reducers/modals-manager.interface"
+import { settingsStateSelector } from "Core/settings/selectors"
 
 export const useInitializingAppEffects = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -19,14 +20,24 @@ export const useInitializingAppEffects = () => {
   const { usbAccessFlowShow } = useSelector(
     (state: ReduxRootState): ModalsManagerState => state.modalsManager
   )
+  const { userHasSerialPortAccess } = useSelector(settingsStateSelector)
 
   useEffect(() => {
     dispatch(startInitializingApp())
   }, [dispatch])
 
   useEffect(() => {
-    if (appUpdateProcessPassed && !usbAccessFlowShow) {
+    if (
+      appUpdateProcessPassed &&
+      userHasSerialPortAccess &&
+      !usbAccessFlowShow
+    ) {
       dispatch(setAppInitializationStatus(AppInitializationStatus.Initialized))
     }
-  }, [dispatch, appUpdateProcessPassed, usbAccessFlowShow])
+  }, [
+    dispatch,
+    appUpdateProcessPassed,
+    usbAccessFlowShow,
+    userHasSerialPortAccess,
+  ])
 }
