@@ -42,7 +42,7 @@ const APIRequests = {
   PRE_FILE_TRANSFER: [APIMethods.POST, APIMethods.GET],
   FILE_TRANSFER: [APIMethods.POST, APIMethods.GET],
   PRE_RESTORE: [APIMethods.POST],
-  RESTORE: [APIMethods.POST, APIMethods.GET],
+  RESTORE: [APIMethods.POST, APIMethods.GET, APIMethods.DELETE],
   SYSTEM: [APIMethods.POST],
 } as const
 
