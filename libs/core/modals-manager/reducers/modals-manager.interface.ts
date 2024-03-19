@@ -8,7 +8,6 @@ export enum ModalStateKey {
   AppUpdateFlow = "appUpdateFlowShow",
   ContactSupportFlow = "contactSupportFlowShow",
   DeviceInitializationFailedModalShow = "deviceInitializationFailedModalShow",
-  UsbAccessFlowShow = "usbAccessFlowShow",
 }
 
 export interface ModalsManagerState extends Record<ModalStateKey, boolean> {
@@ -16,5 +15,4 @@ export interface ModalsManagerState extends Record<ModalStateKey, boolean> {
   appUpdateFlowShow: boolean
   contactSupportFlowShow: boolean
   deviceInitializationFailedModalShow: boolean
-  usbAccessFlowShow: boolean
 }

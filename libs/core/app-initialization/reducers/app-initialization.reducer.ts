@@ -13,7 +13,6 @@ import { startInitializingApp } from "Core/app-initialization/actions/start-init
 
 export const initialState: AppInitializationState = {
   appInitializationStatus: AppInitializationStatus.Idle,
-  appInitializationPreparationFinished: false,
 }
 
 export const appInitializationReducer = createReducer<AppInitializationState>(
@@ -31,9 +30,6 @@ export const appInitializationReducer = createReducer<AppInitializationState>(
           ...state,
           appInitializationStatus: AppInitializationStatus.Initializing,
         }
-      })
-      .addCase(startInitializingApp.fulfilled, (state) => {
-        return { ...state, appInitializationPreparationFinished: true }
       })
   }
 )

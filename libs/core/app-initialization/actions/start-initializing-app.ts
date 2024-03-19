@@ -8,7 +8,6 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { AppInitializationEvent } from "Core/app-initialization/constants/event.constant"
 import { initAnalyticDataTracker } from "Core/analytic-data-tracker/helpers"
 import { checkUpdateAvailable, loadSettings } from "Core/settings/actions"
-import { checkAppRequiresSerialPortGroup } from "Core/modals-manager/actions"
 import { loadNews } from "Core/news/actions"
 
 export const startInitializingApp = createAsyncThunk<
@@ -17,8 +16,9 @@ export const startInitializingApp = createAsyncThunk<
   { state: ReduxRootState }
 >(AppInitializationEvent.StartInitializingApp, async (_, { dispatch }) => {
   await initAnalyticDataTracker()
+
   await dispatch(loadSettings())
+
   await dispatch(checkUpdateAvailable())
-  await dispatch(checkAppRequiresSerialPortGroup())
   await dispatch(loadNews())
 })

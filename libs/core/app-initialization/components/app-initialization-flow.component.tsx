@@ -10,25 +10,10 @@ import PrivacyPolicyModal from "Core/settings/components/privacy-policy-modal/pr
 import { shouldPrivacyPolicyVisible } from "Core/app-initialization/selectors/should-privacy-policy-visible.selector"
 import { shouldAppUpdateFlowVisible } from "Core/app-initialization/selectors/should-app-update-flow-visible.selector"
 import { AppUpdateFlow } from "Core/settings/components/app-update-flow/app-update-flow.component"
-import USBAccessFlowContainer from "Core/settings/components/usb-access/usb-access-flow.container"
-import { modalsManagerStateSelector } from "Core/modals-manager/selectors"
-import { appInitializationState } from "Core/app-initialization/selectors/app-initialization-state.selector"
 
 const AppInitializationFlow: FunctionComponent = () => {
   const privacyPolicyVisible = useSelector(shouldPrivacyPolicyVisible)
   const appUpdateFlowVisible = useSelector(shouldAppUpdateFlowVisible)
-  const { usbAccessFlowShow } = useSelector(modalsManagerStateSelector)
-  const { appInitializationPreparationFinished } = useSelector(
-    appInitializationState
-  )
-
-  if (!appInitializationPreparationFinished) {
-    return <></>
-  }
-
-  if (usbAccessFlowShow) {
-    return <USBAccessFlowContainer />
-  }
 
   if (privacyPolicyVisible) {
     return <PrivacyPolicyModal />

@@ -7,7 +7,7 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import registerAvailableAppUpdateListener from "Core/__deprecated__/main/functions/register-avaible-app-update-listener"
-import { setCheckingForUpdateFailed } from "Core/settings/actions/base.action"
+import { setCheckingForUpdateFailed } from "Core/settings/actions/set-checking-for-update-failed.action"
 import {
   setCheckingForUpdate,
   setLatestVersion,

@@ -39,7 +39,6 @@ const BaseApp: FunctionComponent = () => {
   useAPISerialPortListeners()
   useAppEventsListeners()
   useBackupList()
-
   return (
     <>
       <OutboxWrapper />
