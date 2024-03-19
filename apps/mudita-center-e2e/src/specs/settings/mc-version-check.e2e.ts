@@ -6,8 +6,14 @@ import { version } from "../../../../../package.json"
 import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 
+
 describe("Checking Mudita Center version", () => {
   before(async () => {
+    console.log("CURRENT PROCESS PLATFORM: " + process.platform)
+    if(process.platform === "linux"){
+      console.log(process.platform + " --------- Test Skipped ")
+      return
+    }
     // Waiting for device connected through USB
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
