@@ -3,9 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Selector } from "reselect"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ModalsManagerState } from "Core/modals-manager/reducers"
 
-export const modalsManagerStateSelector = (
-  state: ReduxRootState
-): ModalsManagerState => state.modalsManager
+export const modalsManagerStateSelector: Selector<
+  ReduxRootState,
+  ModalsManagerState
+> = (state) => state.modalsManager

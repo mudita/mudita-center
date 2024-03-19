@@ -51,8 +51,7 @@ const settings: SettingsState = {
   loading: false,
   updateAvailable: undefined,
   latestVersion: undefined,
-  updateAvailableSkipped: undefined,
-  usbAccessRestartRequired: false,
+  updateAvailableSkipped: undefined
 }
 
 test("empty event returns initial state", () => {

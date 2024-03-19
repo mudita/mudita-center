@@ -4,4 +4,3 @@
  */
 
 export * from "./base.action"
-export * from "./check-app-requires-serial-port-group-to-show.action"

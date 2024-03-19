@@ -24,14 +24,10 @@ import {
   setNonStandardAudioFilesConversion,
   setLowBattery,
   setCheckingForUpdate,
-  setUserHasSerialPortAccess,
 } from "Core/settings/actions"
 import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
-import {
-  setCheckingForUpdateFailed,
-  skipAvailableUpdate,
-} from "Core/settings/actions/base.action"
-import { setUSBAccessRestartRequired } from "Core/settings/actions/set-usb-access-restart-needed.action"
+import { setCheckingForUpdateFailed } from "../actions/set-checking-for-update-failed.action"
+import { skipAvailableUpdate } from "Core/settings/actions/skip-available-update.action"
 
 export const initialState: SettingsState = {
   applicationId: "",
@@ -63,7 +59,6 @@ export const initialState: SettingsState = {
   loading: false,
   checkingForUpdate: false,
   checkingForUpdateFailed: false,
-  usbAccessRestartRequired: false,
 }
 
 export const settingsReducer = createReducer<SettingsState>(
@@ -74,14 +69,34 @@ export const settingsReducer = createReducer<SettingsState>(
         state.loaded = false
         state.loading = true
       })
+      .addCase(setSettings, (state, action) => {
+        state.loaded = true
+        state.loading = false
 
-      .addCase(setSettings, (state, action): SettingsState => {
-        return {
-          ...state,
-          ...action.payload,
-          loaded: true,
-          loading: false,
-        }
+        state.autostart = action.payload.autostart
+        state.tethering = action.payload.tethering
+        state.incomingCalls = action.payload.incomingCalls
+        state.incomingMessages = action.payload.incomingMessages
+        state.lowBattery = action.payload.lowBattery
+        state.osUpdates = action.payload.osUpdates
+        state.nonStandardAudioFilesConversion =
+          action.payload.nonStandardAudioFilesConversion
+        state.convert = action.payload.convert
+        state.conversionFormat = action.payload.conversionFormat
+        state.tray = action.payload.tray
+        state.osBackupLocation = action.payload.osBackupLocation
+        state.osDownloadLocation = action.payload.osDownloadLocation
+        state.language = action.payload.language
+        state.neverConnected = action.payload.neverConnected
+        state.collectingData = action.payload.collectingData
+        state.diagnosticSentTimestamp = action.payload.diagnosticSentTimestamp
+        state.applicationId = action.payload.applicationId
+        state.ignoredCrashDumps = action.payload.ignoredCrashDumps
+        state.updateRequired = action.payload.updateRequired
+        state.lowestSupportedVersions = action.payload.lowestSupportedVersions
+        state.currentVersion = action.payload.currentVersion
+        state.privacyPolicyAccepted = action.payload.privacyPolicyAccepted
+        state.checkingForUpdate = action.payload.checkingForUpdate
       })
 
       .addCase(setLatestVersion, (state, action) => {
@@ -144,9 +159,6 @@ export const settingsReducer = createReducer<SettingsState>(
       .addCase(setIncomingCalls.fulfilled, (state, action) => {
         state.incomingCalls = action.payload
       })
-      .addCase(setUSBAccessRestartRequired.fulfilled, (state, action) => {
-        state.usbAccessRestartRequired = action.payload
-      })
 
       .addCase(setCheckingForUpdate, (state, action) => {
         state.checkingForUpdate = action.payload
@@ -154,10 +166,7 @@ export const settingsReducer = createReducer<SettingsState>(
       .addCase(setCheckingForUpdateFailed, (state, action) => {
         state.checkingForUpdateFailed = action.payload
       })
-      .addCase(setUserHasSerialPortAccess, (state, action) => {
-        state.userHasSerialPortAccess = action.payload
-      })
-      .addCase(skipAvailableUpdate, (state) => {
+      .addCase(skipAvailableUpdate, (state, action) => {
         state.updateAvailableSkipped = true
       })
   }

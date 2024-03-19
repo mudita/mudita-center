@@ -167,7 +167,8 @@ export class SerialPortDeviceAdapter extends BaseAdapter {
     })
 
     this.serialPort.on("close", () => {
-      ipcMain.emit(SerialPortDeviceAdapterEvent.Closed, this.path)
+      ipcMain.emit(SerialPortDeviceAdapterEvent.Closed, this.path);
     })
+
   }
 }

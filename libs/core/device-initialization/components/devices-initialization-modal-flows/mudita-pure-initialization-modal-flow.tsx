@@ -16,6 +16,7 @@ import PasscodeModalContainer from "Core/device-initialization/components/passco
 
 export const MuditaPureInitializationModalFlow: FunctionComponent = () => {
   const deviceStatus = useSelector(deviceStatusSelector)
+
   const previousUnlockedStatus = useRef(deviceStatus?.unlocked)
   const initializeDevice = useDeviceInitializer(initializeMuditaPure)
 
