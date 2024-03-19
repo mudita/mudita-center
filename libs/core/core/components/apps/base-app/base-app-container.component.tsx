@@ -10,6 +10,7 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import BaseRoutes from "Core/core/components/apps/base-app/base-app-routes"
 import BaseApp from "Core/core/components/apps/base-app/base-app.component"
 import { RoutesHistoryProvider } from "shared/utils"
+import { ApiDeviceModals } from "generic-view/feature"
 
 const BaseAppContainer: FunctionComponent = () => {
   return (
@@ -18,6 +19,7 @@ const BaseAppContainer: FunctionComponent = () => {
       <RoutesHistoryProvider>
         <BaseRoutes />
       </RoutesHistoryProvider>
+      <ApiDeviceModals />
     </Router>
   )
 }
