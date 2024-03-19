@@ -58,6 +58,7 @@ export type RejectableThunk = {
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TmpDispatch = any
+export type AppDispatch = typeof store.dispatch
 
 export type ReduxRootState = ReturnType<typeof combinedReducers>
 
