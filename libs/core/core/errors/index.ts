@@ -4,3 +4,4 @@
  */
 
 export { AppError } from "./app-error"
+export type { AppErrorType } from "./app-error"

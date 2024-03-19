@@ -31,3 +31,8 @@ export const useOutbox = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeDevice, lastRefreshTimestamp])
 }
+
+export const OutboxWrapper = () => {
+  useOutbox()
+  return null
+}

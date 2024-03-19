@@ -7,12 +7,11 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
+import { answerMain, DeviceManagerMainEvent } from "shared/utils"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { registerDeviceConnectedListener } from "Core/device-manager/listeners/device-connected.listener"
-import { registerDeviceConnectFailedListener } from "Core/device-manager/listeners/device-connect-failed.listener"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
@@ -47,10 +46,14 @@ const ConnectingLoaderModal: FunctionComponent = () => {
       }
     }
 
-    const unregisterDeviceConnectedListener =
-      registerDeviceConnectedListener(handler)
-    const unregisterDeviceConnectFailedListener =
-      registerDeviceConnectFailedListener(handler)
+    const unregisterDeviceConnectedListener = answerMain(
+      DeviceManagerMainEvent.DeviceConnected,
+      handler
+    )
+    const unregisterDeviceConnectFailedListener = answerMain(
+      DeviceManagerMainEvent.DeviceConnectFailed,
+      handler
+    )
 
     return () => {
       unregisterDeviceConnectedListener()

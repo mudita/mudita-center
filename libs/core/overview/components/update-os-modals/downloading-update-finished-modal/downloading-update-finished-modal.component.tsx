@@ -70,7 +70,7 @@ export const DownloadingUpdateFinishedModal: FunctionComponent<
         message={{
           ...messages.downloadCompletedDescription,
           values: {
-            versionsAmount: formattedVersionsText.length,
+            versionsAmount: downloadedReleases.length,
             data: formattedVersionsText,
             ...textFormatters,
           },

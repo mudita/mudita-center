@@ -112,7 +112,7 @@ export class APIBackupService {
   }
 
   private parsePreBackupResponse(
-    response: ResultObject<ApiResponse<unknown>, string, unknown>,
+    response: ResultObject<ApiResponse<unknown>, string | number, unknown>,
     features: string[]
   ) {
     if (!response.ok) {

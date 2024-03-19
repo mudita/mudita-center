@@ -15,6 +15,10 @@ import { initialState as update } from "Core/update/reducers"
 import { OsRelease } from "Core/update/dto"
 import { OsReleaseType, Product } from "Core/update/constants"
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 const defaultProps: SystemUpdateTextProps = {
   checkForUpdateFailed: false,
   checkForUpdateInProgress: false,

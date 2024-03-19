@@ -18,14 +18,14 @@
   },
   "scripts": {
     "e2e:test": "npm run validate-test-paths && npx wdio run wdio.conf.ts",
+    "e2e:test:headless": "npm run validate-test-paths && npx wdio run wdio.conf.ts --suite cicd",
     "lint:typecheck:to-fix": "tsc --noEmit",
     "validate-test-paths": "ts-node ./scripts/validate-test-paths.ts"
   },
   "bugs": {
     "url": "https://github.com/mudita/mudita-center/issues"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "engines": {
     "node": "18.16.1",
     "npm": "9.5.1"

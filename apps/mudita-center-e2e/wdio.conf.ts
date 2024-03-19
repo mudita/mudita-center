@@ -77,7 +77,8 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.homePageTest)
     ],
     cicd: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+      toRelativePath(TestFilesPaths.helpWindowCheckTest)
     ],
     kompakt: [
 
