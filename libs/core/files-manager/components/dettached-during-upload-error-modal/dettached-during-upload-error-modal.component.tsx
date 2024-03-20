@@ -5,7 +5,7 @@
 
 import React from "react"
 import styled from "styled-components"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { defineMessages } from "react-intl"
 import {
   ModalContent,
@@ -21,6 +21,7 @@ import Text, {
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { resetUploadingState } from "Core/files-manager/actions/base.action"
+import { isDettachedDuringUploadErrorSelector } from "Core/files-manager/selectors/is-dettached-during-upload-error.selector"
 
 const messages = defineMessages({
   detachedDuringUploadErrorModalTitle: {
@@ -43,12 +44,13 @@ const DuplicatedFilesDetailText = styled(Text)`
 
 const DetachedDuringUploadErrorModal: FunctionComponent = ({ ...props }) => {
   const dispatch = useDispatch()
+  const open = useSelector(isDettachedDuringUploadErrorSelector)
 
   return (
     <ModalDialog
       size={ModalSize.Small}
       title={intl.formatMessage(messages.detachedDuringUploadErrorModalTitle)}
-      open
+      open={open}
       closeButton={false}
       actionButtonLabel={intl.formatMessage(
         messages.detachedDuringUploadErrorModalActionButton
