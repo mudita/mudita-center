@@ -9,16 +9,16 @@ import { Route, Router } from "react-router"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { URL_MAIN } from "Core/__deprecated__/renderer/constants/urls"
 import { TermsOfServiceUI } from "Core/settings/components"
-import AltLinkDownloadPreventer from "Core/core/components/alt-link-download-preventer.component"
+import useAltLinkDownloadPreventerEffect from "Core/core/components/use-alt-link-download-preventer-effect.hook"
 
 const TermsOfServiceApp: FunctionComponent = () => {
+  useAltLinkDownloadPreventerEffect()
+
   return (
     <Router history={history}>
-      <AltLinkDownloadPreventer>
-        <Route path={URL_MAIN.termsOfService}>
-          <TermsOfServiceUI />
-        </Route>
-      </AltLinkDownloadPreventer>
+      <Route path={URL_MAIN.termsOfService}>
+        <TermsOfServiceUI />
+      </Route>
     </Router>
   )
 }

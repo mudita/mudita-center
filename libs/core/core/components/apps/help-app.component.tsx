@@ -16,7 +16,7 @@ import { useHelpSearch } from "Core/__deprecated__/renderer/utils/hooks/use-help
 import ContextMenu from "Core/__deprecated__/context-menu/context-menu"
 import { Feature, flags } from "Core/feature-flags"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
-import AltLinkDownloadPreventer from "Core/core/components/alt-link-download-preventer.component"
+import useAltLinkDownloadPreventerEffect from "Core/core/components/use-alt-link-download-preventer-effect.hook"
 
 const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
 
@@ -26,6 +26,8 @@ const getStoreData = async (key?: string) =>
   await ipcRenderer.callMain(HelpActions.GetStore, key)
 
 const HelpApp: FunctionComponent = () => {
+  useAltLinkDownloadPreventerEffect()
+
   const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
   const [searchInputValue, setSearchInputValue] = useState("")
   useEffect(() => {
@@ -43,21 +45,19 @@ const HelpApp: FunctionComponent = () => {
 
   return (
     <Router history={history}>
-      <AltLinkDownloadPreventer>
-        <Switch>
-          <Route
-            path={`${URL_MAIN.help}/:questionId`}
-            render={(props) => renderAnswer(data, props)}
+      <Switch>
+        <Route
+          path={`${URL_MAIN.help}/:questionId`}
+          render={(props) => renderAnswer(data, props)}
+        />
+        <Route path={URL_MAIN.help}>
+          <Help
+            list={data}
+            searchQuestion={setSearchInputValue}
+            searchValue={searchInputValue}
           />
-          <Route path={URL_MAIN.help}>
-            <Help
-              list={data}
-              searchQuestion={setSearchInputValue}
-              searchValue={searchInputValue}
-            />
-          </Route>
-        </Switch>
-      </AltLinkDownloadPreventer>
+        </Route>
+      </Switch>
     </Router>
   )
 }
