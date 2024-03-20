@@ -18,16 +18,20 @@ export const checkAppRequiresSerialPortGroup = createAsyncThunk<
 >(
   ModalsManagerEvent.ShowAppRequiresSerialPortGroup,
   async (_, { dispatch }) => {
-    if (await isLinux()) {
-      const userHasSerialPortAccess = await hasUserSerialPortAccess()
-
-      dispatch(setUserHasSerialPortAccess(userHasSerialPortAccess))
-
-      if (!userHasSerialPortAccess) {
-        dispatch(showModal(ModalStateKey.UsbAccessFlowShow))
-      }
-
-      await updateSettings({ key: "usbAccessRestartRequired", value: false })
+    const runningOnLinux = await isLinux()
+    if (!runningOnLinux) {
+      dispatch(setUserHasSerialPortAccess(true))
+      return
     }
+
+    const userHasSerialPortAccess = await hasUserSerialPortAccess()
+
+    dispatch(setUserHasSerialPortAccess(userHasSerialPortAccess))
+
+    if (!userHasSerialPortAccess) {
+      dispatch(showModal(ModalStateKey.UsbAccessFlowShow))
+    }
+
+    await updateSettings({ key: "usbAccessRestartRequired", value: false })
   }
 )
