@@ -58,6 +58,14 @@ export const DataSyncTileConfigValidator = z.object({
 
 export type DataSyncTileConfig = z.infer<typeof DataSyncTileConfigValidator>
 
+const restoreFeatureValidator = z.object({
+  label: z.string().min(1),
+  feature: z.string().min(1),
+  keys: z.array(z.string()).min(1),
+})
+
+export type RestoreFeature = z.infer<typeof restoreFeatureValidator>
+
 // TODO: Implement proper validation
 export const BackupTileConfigValidator = z.object({
   type: z.literal("mc-overview-backup"),
@@ -71,14 +79,7 @@ export const BackupTileConfigValidator = z.object({
       })
     )
     .optional(),
-  restoreFeatures: z
-    .array(
-      z.object({
-        label: z.string().min(1),
-        keys: z.array(z.string()).min(1),
-      })
-    )
-    .optional(),
+  restoreFeatures: z.array(restoreFeatureValidator).optional(),
 })
 
 export type BackupTileConfig = z.infer<typeof BackupTileConfigValidator>

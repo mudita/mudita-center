@@ -38,7 +38,22 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
         case "mc-overview-update":
           return generateMcOverviewUpdateLayout(section)
         case "mc-overview-backup":
-          return generateMcOverviewBackupLayout(section)
+          return generateMcOverviewBackupLayout({
+            ...section,
+            // Demo code
+            restoreFeatures: [
+              {
+                label: "Contacts list",
+                feature: "contacts",
+                keys: ["CONTACTS_LIST"],
+              },
+              {
+                label: "Call log",
+                feature: "calls",
+                keys: ["CALL_LOG"],
+              },
+            ],
+          })
         default:
           return undefined
       }

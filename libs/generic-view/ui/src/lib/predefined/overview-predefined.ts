@@ -8,6 +8,7 @@ import AboutDataBox from "./about-data-box"
 import LastBackupDate from "./last-backup-date"
 import BackupRestoreAvailable from "./backup-restore-available"
 import BackupCreate from "./backup/backup-create"
+import BackupRestore from "./backup-restore/backup-restore"
 
 export const predefinedComponents = {
   "overview-os-version": OverviewOsVersion,
@@ -15,4 +16,5 @@ export const predefinedComponents = {
   "last-backup-date": LastBackupDate,
   "backup-restore-available": BackupRestoreAvailable,
   "backup-create": BackupCreate,
+  "backup-restore": BackupRestore,
 }
