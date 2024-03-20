@@ -11,11 +11,22 @@ import { AppError } from "Core/core/errors"
 import { DeviceManager } from "Core/device-manager/services"
 import { DeviceId } from "Core/device/constants/device-id"
 import packageInfo from "../../../../../../apps/mudita-center/package.json"
-import { writeFileSync, writeJSONSync, mkdirSync, readdirSync } from "fs-extra"
+import {
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+  writeJSONSync,
+} from "fs-extra"
 import AES from "crypto-js/aes"
+import SHA3 from "crypto-js/sha3"
+import encBase64 from "crypto-js/enc-base64"
+import { v4 as uuid } from "uuid"
 import path from "path"
 
 export class FileManager {
+  private files: Record<string, unknown> = {}
+
   constructor(
     private deviceManager: DeviceManager,
     private serviceBridge: ServiceBridge
@@ -42,7 +53,7 @@ export class FileManager {
   }
 
   @IpcEvent(FileManagerServiceEvents.GetBackupPath)
-  public getBackupPath({ deviceId }: { deviceId?: DeviceId }) {
+  public getBackupPath({ deviceId }: { deviceId?: DeviceId } = {}) {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
       : this.deviceManager.apiDevice
@@ -72,6 +83,11 @@ export class FileManager {
     return this.serviceBridge.systemUtilsModule.directory.open({
       path: backupDirectory.data,
     })
+  }
+
+  @IpcEvent(FileManagerServiceEvents.SecureBackupPassword)
+  public secureBackupPassword({ password }: { password: string }) {
+    return Result.success(SHA3(password).toString(encBase64))
   }
 
   @IpcEvent(FileManagerServiceEvents.SaveBackupFile)
@@ -128,7 +144,10 @@ export class FileManager {
           productId,
           serialNumber,
           appVersion,
-          ...(password && { crypto: "AES" }),
+          ...(password && {
+            password: this.secureBackupPassword({ password }).data,
+            crypto: "AES",
+          }),
         },
         data,
       }
@@ -162,10 +181,6 @@ export class FileManager {
   }: {
     deviceId?: DeviceId
   }): ResultObject<string[]> {
-    const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
-
     const pathResult = this.getBackupPath({ deviceId })
 
     if (!pathResult.ok) {
@@ -173,5 +188,28 @@ export class FileManager {
     }
 
     return this.readDirectory({ path: pathResult.data })
+  }
+
+  public getFile(id: string) {
+    return this.files[id]
+  }
+
+  @IpcEvent(FileManagerServiceEvents.ReadFile)
+  public readFile({ filePath }: { filePath: string | string[] }) {
+    try {
+      const id = uuid()
+      this.files[id] = readFileSync(
+        typeof filePath === "string" ? filePath : path.join(...filePath)
+      )
+      return Result.success(id)
+    } catch (error) {
+      console.error(error)
+      return Result.failed(new AppError(GeneralError.InternalError))
+    }
+  }
+
+  @IpcEvent(FileManagerServiceEvents.ClearFile)
+  public clearFile(id: string) {
+    delete this.files[id]
   }
 }

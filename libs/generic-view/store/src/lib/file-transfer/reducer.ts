@@ -59,23 +59,43 @@ export const genericFileTransferReducer = createReducer(
       }
     })
     builder.addCase(fileTransferChunkSent, (state, action) => {
-      state.sendingFilesProgress[action.payload.transferId].chunksTransferred =
-        action.payload.chunksTransferred
+      if (state.sendingFilesProgress[action.payload.transferId]) {
+        state.sendingFilesProgress[
+          action.payload.transferId
+        ].chunksTransferred = action.payload.chunksTransferred
+      }
     })
     builder.addCase(sendFile.fulfilled, (state, action) => {
       delete state.sendingFilesProgress[action.payload.transferId]
     })
     builder.addCase(sendFile.rejected, (state, action) => {
-      const { transferId, filePath } = action.payload?.error.payload || {}
-      if (transferId) {
-        delete state.sendingFilesProgress[transferId]
+      if (action.meta.aborted && "filePath" in action.meta.arg) {
+        const transfer = Object.entries(state.receivingFilesProgress).find(
+          ([, item]) =>
+            "filePath" in action.meta.arg &&
+            item.filePath === action.meta.arg.filePath
+        )
+        if (transfer) {
+          const transferId = Number(transfer[0])
+          delete state.receivingFilesProgress[transferId]
+        }
+      } else {
+        const { transferId, filePath } =
+          action.payload?.error.payload ||
+          ("transferId" in action.meta.arg && {
+            transferId: action.meta.arg.transferId,
+          }) ||
+          {}
+        if (transferId) {
+          delete state.sendingFilesProgress[transferId]
+        }
+        state.sendingErrors?.push({
+          code: action.payload?.error.type,
+          message: action.payload?.error.message,
+          transferId,
+          filePath,
+        })
       }
-      state.sendingErrors?.push({
-        code: action.payload?.error.type,
-        message: action.payload?.error.message,
-        transferId,
-        filePath,
-      })
     })
     builder.addCase(clearSendErrors, (state, action) => {
       state.sendingErrors = state.sendingErrors?.filter(
