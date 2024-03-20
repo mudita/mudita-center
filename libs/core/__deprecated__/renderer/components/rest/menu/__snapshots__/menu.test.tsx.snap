@@ -124,8 +124,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c5.active svg {
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
 }
 
 .c5:hover {
@@ -140,8 +138,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c5:hover svg {
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
 }
 
 .c5 svg {
@@ -201,8 +197,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c12.active svg {
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
 }
 
 .c12:hover {
@@ -217,8 +211,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c12:hover svg {
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
 }
 
 .c12 svg {
@@ -529,8 +521,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c5.active svg {
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
 }
 
 .c5:hover {
@@ -545,8 +535,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c5:hover svg {
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
 }
 
 .c5 svg {
@@ -606,8 +594,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c12.active svg {
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
 }
 
 .c12:hover {
@@ -622,8 +608,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c12:hover svg {
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
 }
 
 .c12 svg {
