@@ -8,6 +8,7 @@ import {
   BackupProcess,
   BackupProcessFileStatus,
   BackupProcessStatus,
+  RestoreProcessStatus,
 } from "./reducer"
 import { ActionName } from "../action-names"
 
@@ -25,3 +26,14 @@ export const setBackupProcessFileStatus = createAction<{
 export const setBackupProcessStatus = createAction<BackupProcessStatus>(
   ActionName.BackupProcessStatus
 )
+
+export const cleanRestoreProcess = createAction(ActionName.CleanRestoreProcess)
+
+export const setRestoreProcessStatus = createAction<{
+  status: RestoreProcessStatus
+}>(ActionName.SetRestoreProcessStatus)
+
+export const setRestoreProcessFileStatus = createAction<{
+  feature: string
+  status: BackupProcessFileStatus
+}>(ActionName.SetRestoreProcessFileStatus)

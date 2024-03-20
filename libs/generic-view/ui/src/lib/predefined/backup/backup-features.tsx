@@ -82,7 +82,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
 const Article = styled.article`
   width: 100%;
 
-  & > p {
+  p {
     padding-bottom: 1.4rem;
   }
 `
