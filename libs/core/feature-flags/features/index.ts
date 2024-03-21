@@ -9,11 +9,6 @@ import { Environment, Feature } from "Core/feature-flags/constants"
 const loggerEnabled = process.env.DEV_DEVICE_LOGGER_ENABLED !== "0"
 
 export const features: EnvironmentConfig = {
-  [Feature.MessagesForwardEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
-  },
   [Feature.LoggerEnabled]: {
     [Environment.Development]: loggerEnabled,
     [Environment.Production]: loggerEnabled,

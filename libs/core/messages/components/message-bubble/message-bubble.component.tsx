@@ -31,7 +31,6 @@ import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/butto
 import { MessageBubbleTestIds } from "Core/messages/components/message-bubble/message-bubble-test-ids.enum"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { MessageType } from "Core/messages/constants"
-import { flags, Feature } from "Core/feature-flags"
 import { SearchResultAccent } from "Core/search/components"
 import Loader from "Core/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "Core/__deprecated__/renderer/components/core/loader/loader.interface"
@@ -44,7 +43,6 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   date,
   interlocutor = false,
   displayAvatar = false,
-  forwardMessage = noop,
   removeMessage = noop,
   resendMessage = noop,
   messageType,
@@ -57,9 +55,6 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   const [clicked, setClicked] = useState<string>("")
   const open = () => setClicked(id)
   const close = () => setClicked("")
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  const forward = () => forwardMessage(id)
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const remove = () => removeMessage(id)
@@ -115,17 +110,6 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
                   onClick={resend}
                   displayStyle={DisplayStyle.Dropdown}
                   data-testid={MessageBubbleTestIds.ResendMessageButton}
-                />
-              )}
-              {flags.get(Feature.MessagesForwardEnabled) && (
-                <ButtonComponent
-                  labelMessage={{
-                    id: "module.messages.messageDropdownForward",
-                  }}
-                  Icon={IconType.Forward}
-                  onClick={forward}
-                  displayStyle={DisplayStyle.Dropdown}
-                  data-testid={MessageBubbleTestIds.ForwardMessageButton}
                 />
               )}
               <ButtonComponent
