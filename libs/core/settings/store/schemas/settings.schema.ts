@@ -7,7 +7,6 @@ import path from "path"
 import { Schema } from "electron-store"
 import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 import { Settings } from "Core/settings/dto"
-import { ConversionFormat, Convert } from "Core/settings/constants"
 import translationConfig from "App/translations.config.json"
 import { generateApplicationId } from "Core/settings/store/schemas/generate-application-id"
 
@@ -39,18 +38,6 @@ export const settingsSchema: Schema<Settings> = {
   osUpdates: {
     type: "boolean",
     default: false,
-  },
-  nonStandardAudioFilesConversion: {
-    type: "boolean",
-    default: false,
-  },
-  convert: {
-    type: "string",
-    default: Convert.AlwaysAsk,
-  },
-  conversionFormat: {
-    type: "string",
-    default: ConversionFormat.WAV,
   },
   tray: {
     type: "boolean",

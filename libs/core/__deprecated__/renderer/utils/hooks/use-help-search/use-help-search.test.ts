@@ -10,7 +10,6 @@ import {
   testQuestion,
   testSeedCollectionIds,
 } from "Core/__deprecated__/seeds/help"
-import { ConversionFormat, Convert } from "Core/settings/constants"
 import { Settings } from "Core/settings/dto"
 
 export const fakeAppSettings: Settings = {
@@ -21,9 +20,6 @@ export const fakeAppSettings: Settings = {
   incomingMessages: false,
   lowBattery: false,
   osUpdates: false,
-  nonStandardAudioFilesConversion: false,
-  convert: Convert.ConvertAutomatically,
-  conversionFormat: ConversionFormat.WAV,
   tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,

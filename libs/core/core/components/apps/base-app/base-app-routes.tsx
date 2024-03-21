@@ -26,7 +26,6 @@ import {
   AboutContainer,
   NotificationsContainer,
   BackupContainer,
-  AudioConversionContainer,
 } from "Core/settings/components"
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
@@ -116,10 +115,6 @@ export default () => (
             <Route
               path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
               component={NotificationsContainer}
-            />
-            <Route
-              path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
-              component={AudioConversionContainer}
             />
             <Route
               path={`${URL_MAIN.settings}${URL_TABS.about}`}

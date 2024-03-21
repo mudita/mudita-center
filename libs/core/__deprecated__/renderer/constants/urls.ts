@@ -23,7 +23,6 @@ export const URL_TABS = {
   templates: "/templates",
   connection: "/connection",
   notifications: "/notifications",
-  audioConversion: "/audio-conversion",
   about: "/about",
 } as const
 

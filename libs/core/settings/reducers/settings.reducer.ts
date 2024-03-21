@@ -4,7 +4,6 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { ConversionFormat, Convert } from "Core/settings/constants"
 import { SettingsState } from "Core/settings/reducers/settings.interface"
 import {
   loadSettings,
@@ -19,9 +18,6 @@ import {
   toggleApplicationUpdateAvailable,
   toggleCollectionData,
   togglePrivacyPolicyAccepted,
-  setConversionFormat,
-  setConvert,
-  setNonStandardAudioFilesConversion,
   setLowBattery,
   setCheckingForUpdate,
   setUserHasSerialPortAccess,
@@ -38,8 +34,6 @@ export const initialState: SettingsState = {
   lowestSupportedVersions: undefined,
   currentVersion: undefined,
   latestVersion: undefined,
-  conversionFormat: ConversionFormat.WAV,
-  convert: Convert.AlwaysAsk,
   osBackupLocation: "",
   osDownloadLocation: "",
   language: "",
@@ -49,7 +43,6 @@ export const initialState: SettingsState = {
   privacyPolicyAccepted: undefined,
   neverConnected: false,
   tray: false,
-  nonStandardAudioFilesConversion: false,
   osUpdates: false,
   lowBattery: false,
   incomingCalls: false,
@@ -113,21 +106,6 @@ export const settingsReducer = createReducer<SettingsState>(
       .addCase(setOsBackupLocation.fulfilled, (state, action) => {
         state.osBackupLocation = action.payload
       })
-
-      .addCase(setConversionFormat.fulfilled, (state, action) => {
-        state.conversionFormat = action.payload
-      })
-
-      .addCase(setConvert.fulfilled, (state, action) => {
-        state.convert = action.payload
-      })
-
-      .addCase(
-        setNonStandardAudioFilesConversion.fulfilled,
-        (state, action) => {
-          state.nonStandardAudioFilesConversion = action.payload
-        }
-      )
 
       .addCase(setOsUpdates.fulfilled, (state, action) => {
         state.osUpdates = action.payload

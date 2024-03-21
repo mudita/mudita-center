@@ -15,7 +15,6 @@ const messages = defineMessages({
   contacts: { id: "module.contacts" },
   connection: { id: "module.settings.connection" },
   notifications: { id: "module.settings.notifications" },
-  audioConversion: { id: "module.settings.audioConversion" },
   backup: { id: "module.settings.backup" },
   about: { id: "module.settings.about" },
 })
@@ -58,12 +57,6 @@ export const tabElements: TabElement[] = [
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
         icon: IconType.Notifications,
         hidden: !flags.get(Feature.SettingsNotificationTabEnabled),
-      },
-      {
-        label: messages.audioConversion,
-        url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
-        icon: IconType.MenuMusic,
-        hidden: !flags.get(Feature.SettingsAudioConversionTabEnabled),
       },
       {
         label: messages.backup,

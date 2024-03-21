@@ -4,7 +4,6 @@
  */
 
 import { SettingsController } from "Core/settings/controllers/settings.controller"
-import { ConversionFormat, Convert } from "Core/settings/constants"
 import { Settings } from "Core/settings/dto"
 import { SettingsService } from "Core/settings/services"
 
@@ -16,9 +15,6 @@ export const fakeSettings: Settings = {
   incomingMessages: false,
   lowBattery: false,
   osUpdates: false,
-  nonStandardAudioFilesConversion: false,
-  convert: Convert.ConvertAutomatically,
-  conversionFormat: ConversionFormat.WAV,
   tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,

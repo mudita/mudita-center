@@ -13,7 +13,6 @@ import {
   pendingAction,
 } from "Core/__deprecated__/renderer/store/helpers"
 import { SettingsState } from "Core/settings/reducers"
-import { ConversionFormat, Convert } from "Core/settings/constants"
 
 const settings: SettingsState = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
@@ -23,9 +22,6 @@ const settings: SettingsState = {
   incomingMessages: false,
   lowBattery: false,
   osUpdates: false,
-  nonStandardAudioFilesConversion: false,
-  convert: Convert.ConvertAutomatically,
-  conversionFormat: ConversionFormat.WAV,
   tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,
@@ -173,68 +169,6 @@ describe("Functionality: os backup location", () => {
     ).toEqual({
       ...initialState,
       osBackupLocation: "/path/#2",
-    })
-  })
-})
-
-describe("Functionality: conversion format", () => {
-  test("Event: SetConversionFormat/fulfilled set `conversionFormat` value", () => {
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          conversionFormat: ConversionFormat.FLAC,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.SetConversionFormat),
-          payload: ConversionFormat.MP3,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      conversionFormat: ConversionFormat.MP3,
-    })
-  })
-})
-
-describe("Functionality: convert", () => {
-  test("Event: SetConvert/fulfilled set `convert` value", () => {
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          convert: Convert.AlwaysAsk,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.SetConvert),
-          payload: Convert.ConvertAutomatically,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      convert: Convert.ConvertAutomatically,
-    })
-  })
-})
-
-describe("Functionality: non standard audio files conversion", () => {
-  test("Event: SetNonStandardAudioFilesConversion/fulfilled set `nonStandardAudioFilesConversion` value", () => {
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          nonStandardAudioFilesConversion: false,
-        },
-        {
-          type: fulfilledAction(
-            SettingsEvent.SetNonStandardAudioFilesConversion
-          ),
-          payload: true,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      nonStandardAudioFilesConversion: true,
     })
   })
 })
