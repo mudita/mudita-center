@@ -3,10 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { HiddenButton } from "Core/contacts/components/contact-list/contact-list.styled"
 import { Contact } from "Core/contacts/reducers/contacts.interface"
-import { Feature } from "Core/feature-flags/constants/feature.enum"
-import { flags } from "Core/feature-flags/helpers/feature-flag.helpers"
 import { ThreadListTestIds } from "Core/messages/components/thread-list-test-ids.enum"
 import ThreadRowName from "Core/messages/components/thread-row-name"
 import { MessageType } from "Core/messages/constants"
@@ -35,7 +32,6 @@ import {
   UseTableSelect,
 } from "Core/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { isToday } from "Core/__deprecated__/renderer/utils/is-today"
-import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import moment from "moment"
 import React from "react"
 import { defineMessages } from "react-intl"
@@ -192,19 +188,6 @@ const ThreadRow: FunctionComponent<Props> = ({
               />
             }
           >
-            <HiddenButton
-              labelMessage={{
-                id: "component.dropdownCall",
-                values: {
-                  name: contact?.firstName || phoneNumber,
-                },
-              }}
-              Icon={IconType.Calls}
-              onClick={noop}
-              displayStyle={DisplayStyle.Dropdown}
-              data-testid="dropdown-call"
-              hide={!flags.get(Feature.MessagesCallFromThreadEnabled)}
-            />
             {contactCreated ? (
               <ButtonComponent
                 labelMessage={{
