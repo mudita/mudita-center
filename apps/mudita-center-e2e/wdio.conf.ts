@@ -73,6 +73,26 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
   ],
   suites: {
+    standalone: [
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+      toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
+    ],
+    multidevicePureHarmony: [],
+    multideviceSingleHarmony: [],
+    multideviceSinglePure: [],
+    multideviceSingleKompakt: [],
+    multidevicePureKompakt: [],
+    multideviceHarmonyKompakt: [],
+    multideviceGeneral: [],    
+    harmony: [],
+    pure: [],
+    kompakt: [],
+    deviceUpdate: [
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+      toRelativePath(TestFilesPaths.checkForUpdateTest),
+      toRelativePath(TestFilesPaths.deviceUpdateTest),
+    ],
     cicd: [
       toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
     ],
