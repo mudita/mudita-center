@@ -26,9 +26,7 @@ import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/butto
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import Dropdown from "Core/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
-import { HiddenButton } from "Core/contacts/components/contact-list/contact-list.styled"
 import { ContactSearchResultsTestIdsEnum } from "Core/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
-import { flags, Feature } from "Core/feature-flags"
 import { Contact, ResultState } from "Core/contacts/reducers/contacts.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -169,14 +167,13 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
                   <Col>
                     <Actions>
                       <Dropdown onOpen={disableScroll} onClose={enableScroll}>
-                        <HiddenButton
+                        <ButtonComponent
                           labelMessage={{
                             id: "module.contacts.exportAsVcard",
                           }}
                           Icon={IconType.Upload}
                           onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
-                          hide={!flags.get(Feature.ContactExportEnabled)}
                         />
                         <ButtonComponent
                           labelMessage={{
