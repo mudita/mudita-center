@@ -34,7 +34,6 @@ import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },
   speedDial: { id: "module.contacts.speedDial" },
-  blocked: { id: "module.contacts.detailsBlocked" },
   information: { id: "module.contacts.information" },
   address: { id: "module.contacts.detailsAddress" },
   notes: { id: "module.contacts.notes" },
@@ -51,18 +50,12 @@ const messages = defineMessages({
   forwardTooltipDescription: {
     id: "module.contacts.forwardTooltipDescription",
   },
-  unblockTooltipDescription: {
-    id: "module.contacts.unblockTooltipDescription",
-  },
-  blockTooltipDescription: { id: "module.contacts.blockTooltipDescription" },
 })
 
 interface ContactDetailsProps {
   contact?: Contact
   onExport: (ids: string[]) => void
   onForward: (contact: Contact) => void
-  onBlock: (contact: Contact) => void
-  onUnblock: (contact: Contact) => void
   onDelete: (id: string) => void
   onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
@@ -102,8 +95,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onEdit,
   onExport,
   onForward,
-  onUnblock,
-  onBlock,
   onDelete,
   onCall,
   onMessage,
@@ -114,8 +105,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleEdit = () => onEdit(contact)
     const handleExport = () => onExport([contact.id])
     const handleForward = () => onForward(contact)
-    const handleBlock = () => onBlock(contact)
-    const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact.id)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
 
@@ -144,20 +133,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           iconType={IconType.Edit}
           onClick={handleEdit}
         />
-        {flags.get(Feature.ContactBlockingEnabled) &&
-          (contact.blocked ? (
-            <SidebarHeaderButton
-              description={messages.unblockTooltipDescription}
-              iconType={IconType.Blocked}
-              onClick={handleUnblock}
-            />
-          ) : (
-            <SidebarHeaderButton
-              description={messages.blockTooltipDescription}
-              iconType={IconType.Blocked}
-              onClick={handleBlock}
-            />
-          ))}
       </>
     )
 

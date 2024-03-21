@@ -21,7 +21,6 @@ const contact: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: true,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
@@ -32,8 +31,6 @@ const renderer = (extraProps?: Partial<VirtualizedContactListItemProps>) => {
     onExport: jest.fn(),
     onEdit: jest.fn(),
     onForward: jest.fn(),
-    onBlock: jest.fn(),
-    onUnblock: jest.fn(),
     onDelete: jest.fn(),
     onSelect: jest.fn(),
     disableScroll: jest.fn(),
@@ -65,30 +62,6 @@ test("renders unnamed contact label if contact has not defined name", () => {
   expect(
     queryByText("[value] module.contacts.listUnnamedContact")
   ).toBeInTheDocument()
-})
-
-test("renders blocked icon if contact is blocked", () => {
-  const { queryByTestId } = renderer({
-    contact: {
-      ...contact,
-      blocked: true,
-    },
-  })
-  expect(
-    queryByTestId(VirtualizedContactListItemTestIds.BlockedIcon)
-  ).toBeInTheDocument()
-})
-
-test("does not render blocked icon if contact is not blocked", () => {
-  const { queryByTestId } = renderer({
-    contact: {
-      ...contact,
-      blocked: false,
-    },
-  })
-  expect(
-    queryByTestId(VirtualizedContactListItemTestIds.BlockedIcon)
-  ).not.toBeInTheDocument()
 })
 
 test("renders primary and secondary phone number if defined", () => {
@@ -130,35 +103,6 @@ describe("dropdown", () => {
     ).toBeInTheDocument()
     expect(
       queryByTestId(VirtualizedContactListItemTestIds.ContactForwardButton)
-    ).toBeInTheDocument()
-  })
-
-  test("renders unblock button in dropdown if contact is blocked", () => {
-    const { queryByTestId } = renderer({
-      contact: {
-        ...contact,
-        blocked: true,
-      },
-    })
-    expect(
-      queryByTestId(VirtualizedContactListItemTestIds.ContactUnblockButton)
-    ).toBeInTheDocument()
-    expect(
-      queryByTestId(VirtualizedContactListItemTestIds.ContactBlockButton)
-    ).not.toBeInTheDocument()
-  })
-  test("renders block button in dropdown if contact is not blocked", () => {
-    const { queryByTestId } = renderer({
-      contact: {
-        ...contact,
-        blocked: false,
-      },
-    })
-    expect(
-      queryByTestId(VirtualizedContactListItemTestIds.ContactUnblockButton)
-    ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(VirtualizedContactListItemTestIds.ContactBlockButton)
     ).toBeInTheDocument()
   })
 })

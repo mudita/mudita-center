@@ -24,7 +24,6 @@ const contacts: NewContact[] = [
     firstAddressLine: "6 Czeczota St.",
     secondAddressLine: "02600 Warsaw",
     favourite: true,
-    blocked: false,
     ice: false,
   },
 ]

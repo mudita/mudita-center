@@ -19,7 +19,6 @@ import Avatar, {
   basicAvatarStyles,
 } from "Core/__deprecated__/renderer/components/core/avatar/avatar.component"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
-import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import useTableScrolling from "Core/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "Core/contacts/helpers/contacts.helpers"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -64,12 +63,6 @@ const Actions = styled.div`
   box-sizing: border-box;
 `
 
-const BlockedIcon = styled(Icon).attrs(() => ({
-  type: IconType.Blocked,
-}))`
-  margin-left: 1.6rem;
-`
-
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   min-width: 32rem;
   flex: 1;
@@ -94,8 +87,6 @@ interface ContactSearchResultProps {
   selectedItems: string[]
   onExport: (ids: string[]) => void
   onForward: (contact: Contact) => void
-  onBlock: (contact: Contact) => void
-  onUnblock: (contact: Contact) => void
   onDelete: (id: string) => void
 }
 
@@ -104,8 +95,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
   onSelect,
   onExport,
   onForward,
-  onBlock,
-  onUnblock,
   onDelete,
   resultsState,
   selectedItems,
@@ -136,8 +125,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
               const selected = selectedItems.includes(contact.id)
               const handleExport = () => onExport([contact.id])
               const handleForward = () => onForward(contact)
-              const handleBlock = () => onBlock(contact)
-              const handleUnblock = () => onUnblock(contact)
               const handleDelete = () => onDelete(contact.id)
               const handleSelect = () => onSelect(contact)
 
@@ -175,9 +162,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
                       intl.formatMessage({
                         id: "module.contacts.listUnnamedContact",
                       })}
-                    {contact.blocked && (
-                      <BlockedIcon width={1.4} height={1.4} />
-                    )}
                   </ClickableCol>
                   <Col>{phoneNumber}</Col>
                   <Col>
@@ -206,27 +190,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
                           displayStyle={DisplayStyle.Dropdown}
                           hide={!flags.get(Feature.ContactForwardEnabled)}
                         />
-                        {contact.blocked ? (
-                          <HiddenButton
-                            labelMessage={{
-                              id: "module.contacts.unblock",
-                            }}
-                            Icon={IconType.Blocked}
-                            onClick={handleUnblock}
-                            displayStyle={DisplayStyle.Dropdown}
-                            hide={!flags.get(Feature.ContactBlockingEnabled)}
-                          />
-                        ) : (
-                          <HiddenButton
-                            labelMessage={{
-                              id: "module.contacts.block",
-                            }}
-                            Icon={IconType.Blocked}
-                            onClick={handleBlock}
-                            displayStyle={DisplayStyle.Dropdown}
-                            hide={!flags.get(Feature.ContactBlockingEnabled)}
-                          />
-                        )}
                         <ButtonComponent
                           labelMessage={{
                             id: "module.contacts.delete",

@@ -80,7 +80,6 @@ const contactOne: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: true,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
@@ -95,7 +94,6 @@ const contactTwo: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: true,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Jasna 3, Coruscant",
   secondAddressLine: "",
 }
@@ -111,7 +109,6 @@ const contactsData: Contact[] = [
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   },
@@ -167,8 +164,6 @@ const defaultProps: Props = {
   setProviderData: jest.fn(),
   onEdit: jest.fn(),
   onForward: jest.fn(),
-  onBlock: jest.fn(),
-  onUnblock: jest.fn(),
   onDelete: jest.fn(),
   resultState: ResultState.Loaded,
   speedDialChosenList: [],

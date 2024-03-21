@@ -46,8 +46,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   onExport,
   onEdit,
   onForward,
-  onBlock,
-  onUnblock,
   onDelete,
   resultsState,
   editMode,
@@ -103,8 +101,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             onExport={onExport}
             onEdit={onEdit}
             onForward={onForward}
-            onBlock={onBlock}
-            onUnblock={onUnblock}
             onDelete={onDelete}
             onSelect={onSelect}
             selectedItems={selectedItems}

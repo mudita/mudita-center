@@ -74,8 +74,6 @@ const ContactsComponent = ({
     onManageButtonClick={dummyPromise(action("Manage contact"))}
     onEdit={action("Edit contact")}
     onForward={action("Forward contact")}
-    onUnblock={action("Unblock contact")}
-    onBlock={action("Block contact")}
     onDelete={action("Delete contact")}
     onMessage={action("Send message")}
     onCall={action("Call")}
@@ -125,7 +123,6 @@ storiesOf("Views|Phone", module)
 
 const singleContact = ({
   favourite = false,
-  blocked = false,
   speedDial,
 }: Partial<Contact> = {}) => ({
   ...defaultContact,
@@ -139,7 +136,6 @@ const singleContact = ({
   firstAddressLine: "50856 Mabelle Motorway",
   secondAddressLine: "USA",
   favourite,
-  blocked,
   speedDial,
   ice: true,
 })
@@ -151,8 +147,6 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
@@ -166,8 +160,6 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
@@ -181,8 +173,6 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
@@ -196,23 +186,6 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
-      onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
-      onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
-    />
-  ))
-  .add("Blocked", () => (
-    <ContactDetails
-      contact={singleContact({ blocked: true })}
-      onEdit={action("Edit contact")}
-      onExport={action("Export contact")}
-      onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}

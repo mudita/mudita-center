@@ -6,7 +6,6 @@
 export interface Contact {
   address: string
   altName: string
-  blocked: boolean
   favourite: boolean
   id: number
   numbers: string[]

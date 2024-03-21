@@ -9,7 +9,6 @@ import { NewContact as PureNewContact } from "../../pure/types"
 export class ContactPresenter {
   static mapToPureContact(contact: NewContact): PureNewContact {
     const {
-      blocked = false,
       favourite = false,
       firstName = "",
       lastName = "",
@@ -27,7 +26,6 @@ export class ContactPresenter {
     }
 
     return {
-      blocked,
       favourite,
       numbers: numbers,
       priName: firstName,

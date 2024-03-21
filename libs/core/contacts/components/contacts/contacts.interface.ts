@@ -60,7 +60,9 @@ export interface ContactsProps {
   importContact: (
     arg: ImportContactArg
   ) => Promise<PayloadAction<Error | Contact>>
-  editContact: (contact: Contact) => Promise<PayloadAction<Error | undefined>>
+  editContact: (
+    contact: Contact
+  ) => Promise<PayloadAction<ContactErrorResponse | undefined>>
   deleteContacts: (
     ids: ContactID[]
   ) => Promise<PayloadAction<Error | undefined>>
@@ -70,13 +72,13 @@ export interface ContactsProps {
   onCall: (phoneNumber: string) => void
   onEdit: (contacts: Contact) => void
   onForward: (contact: Contact) => void
-  onBlock: (contact: Contact) => void
-  onUnblock: (contact: Contact) => void
   onDelete: (id: string) => void
   resultState: ResultState
   contactList: ContactCategory[]
   closeImportWindow: (provider: ExternalProvider) => Promise<void>
-  getPaths: (options: OpenDialogOptions) => Promise<PayloadAction<ResultObject<string[] | undefined>>>
+  getPaths: (
+    options: OpenDialogOptions
+  ) => Promise<PayloadAction<ResultObject<string[] | undefined>>>
 }
 
 export interface NewContactResponse extends NewContact {

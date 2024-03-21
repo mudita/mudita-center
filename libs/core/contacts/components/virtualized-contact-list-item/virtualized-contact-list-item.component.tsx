@@ -5,7 +5,6 @@
 
 import {
   Actions,
-  BlockedIcon,
   Checkbox,
   ClickableCol,
   ContactListRow,
@@ -37,12 +36,6 @@ const messages = defineMessages({
   forwardNamecard: {
     id: "module.contacts.forwardNamecard",
   },
-  unblock: {
-    id: "module.contacts.unblock",
-  },
-  block: {
-    id: "module.contacts.block",
-  },
   exportAsVcard: {
     id: "module.contacts.exportAsVcard",
   },
@@ -66,8 +59,6 @@ export const VirtualizedContactListItem: FunctionComponent<
   onExport,
   onEdit,
   onForward,
-  onBlock,
-  onUnblock,
   onDelete,
   onSelect,
   contact,
@@ -82,8 +73,6 @@ export const VirtualizedContactListItem: FunctionComponent<
   const handleExport = () => onExport([contact.id])
   const handleEdit = () => onEdit(contact)
   const handleForward = () => onForward(contact)
-  const handleBlock = () => onBlock(contact)
-  const handleUnblock = () => onUnblock(contact)
   const handleDelete = () => onDelete(contact.id)
   const handleSelect = () => onSelect(contact)
 
@@ -137,13 +126,6 @@ export const VirtualizedContactListItem: FunctionComponent<
         >
           {createStyledFullName() ||
             intl.formatMessage(messages.listUnnamedContact)}
-          {contact.blocked && (
-            <BlockedIcon
-              data-testid={VirtualizedContactListItemTestIds.BlockedIcon}
-              width={1.4}
-              height={1.4}
-            />
-          )}
         </ClickableCol>
         <Col>
           <Text
@@ -175,31 +157,6 @@ export const VirtualizedContactListItem: FunctionComponent<
                   VirtualizedContactListItemTestIds.ContactForwardButton
                 }
               />
-              {contact.blocked ? (
-                <HiddenButton
-                  labelMessage={messages.unblock}
-                  Icon={IconType.Blocked}
-                  onClick={handleUnblock}
-                  displayStyle={DisplayStyle.Dropdown}
-                  hide={!flags.get(Feature.ContactBlockingEnabled)}
-                  iconSize={IconSize.Medium}
-                  data-testid={
-                    VirtualizedContactListItemTestIds.ContactUnblockButton
-                  }
-                />
-              ) : (
-                <HiddenButton
-                  labelMessage={messages.block}
-                  Icon={IconType.Blocked}
-                  onClick={handleBlock}
-                  displayStyle={DisplayStyle.Dropdown}
-                  hide={!flags.get(Feature.ContactBlockingEnabled)}
-                  iconSize={IconSize.Medium}
-                  data-testid={
-                    VirtualizedContactListItemTestIds.ContactBlockButton
-                  }
-                />
-              )}
               <ButtonComponent
                 labelMessage={messages.editBulkAction}
                 iconSize={IconSize.Medium}

@@ -17,7 +17,6 @@ import ContactEdit, {
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Core/contacts/components/speed-dial-modal/speed-dial-modal.container"
-import BlockContactModal from "Core/contacts/components/block-contact-modal/block-contact-modal.component"
 import { createFullName } from "Core/contacts/helpers/contacts.helpers"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import DeleteModal from "Core/__deprecated__/renderer/components/core/modal/delete-modal.component"
@@ -349,57 +348,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     )
   }
 
-  const handleUnblock = async (contact: Contact) => {
-    const unblockedContact: Contact = {
-      ...contact,
-      blocked: false,
-    }
-    try {
-      await editContactWithRetry(unblockedContact)
-    } catch (error) {
-      logger.error(
-        `Contacts: editing (unblock) process throw error. Data: ${JSON.stringify(
-          error
-        )}`
-      )
-    }
-
-    if (detailsEnabled) {
-      openSidebar(unblockedContact)
-    }
-  }
-
-  const openBlockModal = (contact: Contact) => {
-    const handleBlock = async () => {
-      modalService.rerenderModal(
-        <BlockContactModal contact={contact} blocking />
-      )
-      const blockedContact: Contact = {
-        ...contact,
-        blocked: true,
-        favourite: false,
-      }
-
-      try {
-        await editContactWithRetry(blockedContact)
-      } catch (error) {
-        logger.error(
-          `Contacts: editing process (block) throw error. Data: ${JSON.stringify(
-            error
-          )}`
-        )
-      }
-
-      if (detailsEnabled) {
-        openSidebar(blockedContact)
-      }
-    }
-
-    void modalService.openModal(
-      <BlockContactModal contact={contact} onBlock={handleBlock} />
-    )
-  }
-
   const openSpeedDialModal = () => {
     void modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
@@ -720,8 +668,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
             onSelect={handleContactSelect}
             onExport={handleExport}
             onForward={noop}
-            onUnblock={handleUnblock}
-            onBlock={openBlockModal}
             onDelete={openDeleteModal}
             resultsState={resultState}
             selectedContact={selectedContact}
@@ -735,8 +681,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
               onSelect={openSidebar}
               onExport={handleExport}
               onForward={noop}
-              onUnblock={handleUnblock}
-              onBlock={openBlockModal}
               onDelete={openDeleteModal}
               onEdit={handleEditingContact}
               editMode={Boolean(editedContact || newContact)}
@@ -771,8 +715,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
                 onClose={closeSidebar}
                 onExport={handleExport}
                 onForward={noop}
-                onUnblock={handleUnblock}
-                onBlock={openBlockModal}
                 onDelete={openDeleteModal}
                 onEdit={handleEditingContact}
                 onCall={onCall}
