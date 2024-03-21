@@ -24,11 +24,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  [Feature.ContactPhoneFieldIconsEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
-  },
   [Feature.ContactExportEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,

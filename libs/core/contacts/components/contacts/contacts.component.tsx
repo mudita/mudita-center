@@ -21,7 +21,6 @@ import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import DeleteModal from "Core/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "Core/contacts/components/contacts/contacts.styled"
 import { defineMessages } from "react-intl"
-import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Core/__deprecated__/renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Core/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
 import {
@@ -95,16 +94,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   contactList = [],
   contacts,
   speedDialChosenList,
-  isThreadOpened,
   loadContacts,
   addNewContact,
   importContact,
   editContact,
   deleteContacts,
   authorize,
-  onCall,
   getPaths,
-  onMessage,
   exportContacts,
   addNewContactsToState,
   resetAllItems,
@@ -114,7 +110,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   allItemsSelected,
   closeImportWindow,
 }) => {
-  const history = useHistory()
   const searchParams = useURLSearchParams()
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const phoneNumber = searchParams.get("phoneNumber") || ""
@@ -309,8 +304,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       )
     }
   }
-
-  const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
 
   const openDeleteModal = (id: string) => {
     const contact = contacts.find((contact) => contact.id === id)
@@ -713,9 +706,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
                 onExport={handleExport}
                 onDelete={openDeleteModal}
                 onEdit={handleEditingContact}
-                onCall={onCall}
-                onMessage={handleMessage}
-                isThreadOpened={isThreadOpened}
               />
             )}
           </TableWithSidebarWrapper>

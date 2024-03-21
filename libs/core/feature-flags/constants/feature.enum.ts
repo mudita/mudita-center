@@ -7,7 +7,6 @@ export enum Feature {
   LoggerEnabled = "logger-enabled",
   LogsScrubbingEnabled = "logs-scrubbing-enabled",
   DeveloperModeEnabled = "developer-mode-enabled",
-  ContactPhoneFieldIconsEnabled = "contact-phone-field-icons-enabled",
   ContactExportEnabled = "contact-export-enabled",
   AlphaRelaseWarning = "alpha-release-warning",
   ForceUpdate = "force-update",

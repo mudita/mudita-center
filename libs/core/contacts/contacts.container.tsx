@@ -29,7 +29,6 @@ import {
 } from "Core/contacts/helpers/contacts.helpers"
 import { exportContacts } from "Core/contacts/helpers/export-contacts/export-contacts"
 import { ContactErrorResponse } from "Core/contacts/components/contacts/contacts.interface"
-import { isThreadOpenedSelector } from "Core/messages/selectors"
 import { createNewContact } from "Core/contacts/actions/create-new-contacts.action"
 import { deleteContacts } from "Core/contacts/actions/delete-contacts.action"
 import {
@@ -64,8 +63,6 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     contacts: contactsSelector(state),
     speedDialChosenList: speedDialChosenListSelector(state),
     getContact: (id: string) => getContactSelector(id)(state),
-    isThreadOpened: (phoneNumber: string) =>
-      isThreadOpenedSelector(phoneNumber)(state),
   }
 }
 

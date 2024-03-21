@@ -47,7 +47,6 @@ const labeledContactList: any = getSortedContactList(contactsSeed)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const contacts: any = getContacts(contactsSeed)
 const speedDialChosenList: number[] = getSpeedDialChosenList(contactsSeed)
-const isThreadOpened = () => true
 
 const ContactsWrapper = styled.div`
   max-width: 97.5rem;
@@ -74,12 +73,9 @@ const ContactsComponent = ({
     onManageButtonClick={dummyPromise(action("Manage contact"))}
     onEdit={action("Edit contact")}
     onDelete={action("Delete contact")}
-    onMessage={action("Send message")}
-    onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
     resultState={resultState}
     setProviderData={noop}
-    isThreadOpened={isThreadOpened}
     addNewContactsToState={asyncNoop}
     addNewContact={asyncNoop}
     importContact={asyncNoop}
@@ -146,10 +142,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Favourite, speed dial", () => (
@@ -158,10 +151,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Favourite only", () => (
@@ -170,10 +160,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Speed dial only", () => (
@@ -182,10 +169,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
     />
   ))
 

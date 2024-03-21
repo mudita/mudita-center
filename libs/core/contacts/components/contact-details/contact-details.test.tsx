@@ -12,13 +12,10 @@ import { Contact } from "Core/contacts/reducers"
 type Props = ComponentProps<typeof ContactDetails>
 
 const defaultProps: Props = {
-  onCall: jest.fn(),
   onDelete: jest.fn(),
   onEdit: jest.fn(),
   onExport: jest.fn(),
-  onMessage: jest.fn(),
   onClose: jest.fn(),
-  isThreadOpened: () => false,
 }
 
 const contactRich: Contact = {
