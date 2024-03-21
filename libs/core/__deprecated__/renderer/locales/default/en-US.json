@@ -464,7 +464,6 @@
   "module.messages.attachTemplateTooltipDescription": "Attach Template",
   "module.messages.browseContactsButton": "Browse Contacts",
   "module.messages.browseContactsModalTitle": "Browse Contacts",
-  "module.messages.callsTooltipDescription": "Call contact",
   "module.messages.contactTooltipDescription": "Contact details",
   "module.messages.conversationDelete": "1 conversation was deleted.",
   "module.messages.conversationGroup": "Conversations",
