@@ -63,7 +63,6 @@ test("empty event returns initial state", () => {
       "checkForUpdateState": 0,
       "checkedForForceUpdateNeed": false,
       "data": Object {
-        "allReleases": null,
         "availableReleasesForUpdate": null,
         "downloadedProcessedReleases": null,
         "updateProcessedReleases": null,
@@ -255,7 +254,6 @@ describe("checkForUpdate", () => {
             },
             payload: {
               availableReleasesForUpdate: [mockedRelease],
-              allReleases: [mockedRelease],
             },
           }
         )
@@ -265,7 +263,6 @@ describe("checkForUpdate", () => {
         data: {
           ...initialState.data,
           availableReleasesForUpdate: [mockedRelease],
-          allReleases: [mockedRelease],
         },
       })
     })
@@ -308,7 +305,6 @@ describe("checkForUpdate", () => {
             },
             payload: {
               availableReleasesForUpdate: [mockedRelease],
-              allReleases: [mockedRelease],
               areAllReleasesAlreadyDownloaded: true,
             },
           }
@@ -319,7 +315,6 @@ describe("checkForUpdate", () => {
         data: {
           ...initialState.data,
           availableReleasesForUpdate: [mockedRelease],
-          allReleases: [mockedRelease],
           downloadedProcessedReleases: [
             { release: mockedRelease, state: ReleaseProcessState.Done },
           ],
@@ -560,7 +555,6 @@ describe("closeUpdateFlow", () => {
         { release: mockedRelease, state: ReleaseProcessState.Done },
       ],
       availableReleasesForUpdate: [mockedRelease],
-      allReleases: [mockedRelease],
       updateProcessedReleases: [
         { release: mockedRelease, state: ReleaseProcessState.Initial },
       ],
@@ -612,7 +606,6 @@ describe("clearStateAndData", () => {
         { release: mockedRelease, state: ReleaseProcessState.Done },
       ],
       availableReleasesForUpdate: [mockedRelease],
-      allReleases: [mockedRelease],
       updateProcessedReleases: [
         { release: mockedRelease, state: ReleaseProcessState.Initial },
       ],
