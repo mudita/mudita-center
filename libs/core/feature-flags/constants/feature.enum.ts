@@ -17,7 +17,6 @@ export enum Feature {
   SettingsNotificationTabEnabled = "settings-notification-tab-enabled",
   SettingsAudioConversionTabEnabled = "settings-audio-conversion-tab-enabled",
   CalendarTabEnabled = "calendar-tab-enabled",
-  YourPureIconsEnabled = "your-pure-icons-enabled",
   AlphaRelaseWarning = "alpha-release-warning",
   ForceUpdate = "force-update",
 }
