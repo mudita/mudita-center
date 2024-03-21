@@ -23,22 +23,6 @@ export const settingsSchema: Schema<Settings> = {
     type: "boolean",
     default: false,
   },
-  incomingCalls: {
-    type: "boolean",
-    default: false,
-  },
-  incomingMessages: {
-    type: "boolean",
-    default: false,
-  },
-  lowBattery: {
-    type: "boolean",
-    default: false,
-  },
-  osUpdates: {
-    type: "boolean",
-    default: false,
-  },
   tray: {
     type: "boolean",
     default: false,

@@ -9,16 +9,12 @@ import {
   loadSettings,
   setLatestVersion,
   setOsBackupLocation,
-  setOsUpdates,
   setSettings,
   setDiagnosticTimestamp,
-  setIncomingCalls,
-  setIncomingMessages,
   toggleTethering,
   toggleApplicationUpdateAvailable,
   toggleCollectionData,
   togglePrivacyPolicyAccepted,
-  setLowBattery,
   setCheckingForUpdate,
   setUserHasSerialPortAccess,
 } from "Core/settings/actions"
@@ -43,10 +39,6 @@ export const initialState: SettingsState = {
   privacyPolicyAccepted: undefined,
   neverConnected: false,
   tray: false,
-  osUpdates: false,
-  lowBattery: false,
-  incomingCalls: false,
-  incomingMessages: false,
   autostart: false,
   tethering: false,
   updateRequired: false,
@@ -107,21 +99,6 @@ export const settingsReducer = createReducer<SettingsState>(
         state.osBackupLocation = action.payload
       })
 
-      .addCase(setOsUpdates.fulfilled, (state, action) => {
-        state.osUpdates = action.payload
-      })
-
-      .addCase(setLowBattery.fulfilled, (state, action) => {
-        state.lowBattery = action.payload
-      })
-
-      .addCase(setIncomingMessages.fulfilled, (state, action) => {
-        state.incomingMessages = action.payload
-      })
-
-      .addCase(setIncomingCalls.fulfilled, (state, action) => {
-        state.incomingCalls = action.payload
-      })
       .addCase(setUSBAccessRestartRequired.fulfilled, (state, action) => {
         state.usbAccessRestartRequired = action.payload
       })

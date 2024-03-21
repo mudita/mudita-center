@@ -19,10 +19,6 @@ type Props = ComponentProps<typeof Backup>
 const defaultProps: Props = {
   autostart: false,
   collectingData: undefined,
-  incomingCalls: false,
-  incomingMessages: false,
-  lowBattery: false,
-  osUpdates: false,
   tethering: false,
   tray: false,
   diagnosticSentTimestamp: 0,

@@ -6,7 +6,6 @@
 export * from "./about"
 export * from "./app-update-flow"
 export * from "./backup"
-export * from "./notifications"
 export * from "./privacy-policy"
 export * from "./settings"
 export * from "./settings-toggler"

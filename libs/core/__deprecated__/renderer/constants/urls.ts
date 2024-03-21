@@ -22,7 +22,6 @@ export const URL_MAIN = {
 export const URL_TABS = {
   templates: "/templates",
   connection: "/connection",
-  notifications: "/notifications",
   about: "/about",
 } as const
 

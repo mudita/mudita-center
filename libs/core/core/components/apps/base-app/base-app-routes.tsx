@@ -22,11 +22,7 @@ import Onboarding from "Core/onboarding/components/onboarding/onboarding.compone
 import OnboardingTroubleshooting from "Core/onboarding/components/onboarding-troubleshooting/onboarding-troubleshooting.component"
 import LayoutDesktopWrapper from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "Core/__deprecated__/renderer/wrappers/layout-blank-wrapper"
-import {
-  AboutContainer,
-  NotificationsContainer,
-  BackupContainer,
-} from "Core/settings/components"
+import { AboutContainer, BackupContainer } from "Core/settings/components"
 import PureSystem from "Core/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Core/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "Core/templates/template.container"
@@ -112,10 +108,6 @@ export default () => (
             <Route path={URL_OVERVIEW.root} component={Overview} exact />
             <Route path={URL_MAIN.contacts} component={Contacts} exact />
             <Route path={URL_MAIN.settings} component={BackupContainer} exact />
-            <Route
-              path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
-              component={NotificationsContainer}
-            />
             <Route
               path={`${URL_MAIN.settings}${URL_TABS.about}`}
               component={AboutContainer}

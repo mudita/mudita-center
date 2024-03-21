@@ -18,10 +18,6 @@ const settings: SettingsState = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
   autostart: false,
   tethering: false,
-  incomingCalls: false,
-  incomingMessages: false,
-  lowBattery: false,
-  osUpdates: false,
   tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,
@@ -169,86 +165,6 @@ describe("Functionality: os backup location", () => {
     ).toEqual({
       ...initialState,
       osBackupLocation: "/path/#2",
-    })
-  })
-})
-
-describe("Functionality: os updates", () => {
-  test("Event: SetOsUpdates/fulfilled set `osUpdates` value", () => {
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          osUpdates: false,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.SetOsUpdates),
-          payload: true,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      osUpdates: true,
-    })
-  })
-})
-
-describe("Functionality: low battery level", () => {
-  test("Event: SetLowBattery/fulfilled set `lowBattery` value", () => {
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          lowBattery: false,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.SetLowBattery),
-          payload: true,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      lowBattery: true,
-    })
-  })
-})
-
-describe("Functionality: incoming messages", () => {
-  test("Event: SetIncomingMessages/fulfilled set `incomingMessages` value", () => {
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          incomingMessages: false,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.SetIncomingMessages),
-          payload: true,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      incomingMessages: true,
-    })
-  })
-})
-
-describe("Functionality: incoming calls", () => {
-  test("Event: SetIncomingCalls/fulfilled set `incomingCalls` value", () => {
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          incomingCalls: false,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.SetIncomingCalls),
-          payload: true,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      incomingCalls: true,
     })
   })
 })

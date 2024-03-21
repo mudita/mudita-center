@@ -14,10 +14,6 @@ export interface Settings {
   privacyPolicyAccepted: boolean | undefined
   neverConnected: boolean
   tray: boolean
-  osUpdates: boolean
-  lowBattery: boolean
-  incomingCalls: boolean
-  incomingMessages: boolean
   autostart: boolean
   tethering: boolean
   usbAccessRestartRequired: boolean

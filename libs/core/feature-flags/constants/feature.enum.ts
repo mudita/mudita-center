@@ -14,7 +14,6 @@ export enum Feature {
   ContactBlockingEnabled = "contact-blocking-enabled",
   ContactPhoneFieldIconsEnabled = "contact-phone-field-icons-enabled",
   ContactExportEnabled = "contact-export-enabled",
-  SettingsNotificationTabEnabled = "settings-notification-tab-enabled",
   CalendarTabEnabled = "calendar-tab-enabled",
   AlphaRelaseWarning = "alpha-release-warning",
   ForceUpdate = "force-update",
