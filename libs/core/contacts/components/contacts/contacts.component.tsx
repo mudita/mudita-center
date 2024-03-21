@@ -14,7 +14,6 @@ import useTableSidebar from "Core/__deprecated__/renderer/utils/hooks/use-table-
 import ContactEdit, {
   defaultContact,
 } from "Core/contacts/components/contact-edit/contact-edit.component"
-import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Core/contacts/components/speed-dial-modal/speed-dial-modal.container"
 import { createFullName } from "Core/contacts/helpers/contacts.helpers"
@@ -667,7 +666,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
             results={results}
             onSelect={handleContactSelect}
             onExport={handleExport}
-            onForward={noop}
             onDelete={openDeleteModal}
             resultsState={resultState}
             selectedContact={selectedContact}
@@ -680,7 +678,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
               contactList={contactList}
               onSelect={openSidebar}
               onExport={handleExport}
-              onForward={noop}
               onDelete={openDeleteModal}
               onEdit={handleEditingContact}
               editMode={Boolean(editedContact || newContact)}
@@ -714,7 +711,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
                 contact={contactFreshData(activeRow)}
                 onClose={closeSidebar}
                 onExport={handleExport}
-                onForward={noop}
                 onDelete={openDeleteModal}
                 onEdit={handleEditingContact}
                 onCall={onCall}

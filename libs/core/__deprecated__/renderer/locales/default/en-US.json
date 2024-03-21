@@ -329,8 +329,6 @@
   "module.contacts.favourites": "Favorites",
   "module.contacts.firstAddressLine": "Address line 1",
   "module.contacts.firstName": "First name",
-  "module.contacts.forwardNamecard": "Forward namecard",
-  "module.contacts.forwardTooltipDescription": "Forward namecard",
   "module.contacts.googleButtonText": "Log in to Google",
   "module.contacts.ice": "ICE",
   "module.contacts.iceContact": "ICE contact",

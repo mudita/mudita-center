@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React from "react"
+import { defineMessages } from "react-intl"
 import {
   Actions,
   Checkbox,
@@ -11,8 +13,6 @@ import {
   InitialsAvatar,
   NameSpan,
 } from "Core/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item.styled"
-import { HiddenButton } from "Core/contacts/components/contact-list/contact-list.styled"
-import { Feature, flags } from "Core/feature-flags"
 import { AvatarSize } from "Core/__deprecated__/renderer/components/core/avatar/avatar.component"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
@@ -25,17 +25,11 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import React from "react"
-import { defineMessages } from "react-intl"
-
 import { VirtualizedContactListItemProps } from "Core/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { VirtualizedContactListItemTestIds } from "Core/contacts/components/virtualized-contact-list-item/virtualized-contact-list-item-test-ids"
 
 const messages = defineMessages({
-  forwardNamecard: {
-    id: "module.contacts.forwardNamecard",
-  },
   exportAsVcard: {
     id: "module.contacts.exportAsVcard",
   },
@@ -58,7 +52,6 @@ export const VirtualizedContactListItem: FunctionComponent<
   toggleRow,
   onExport,
   onEdit,
-  onForward,
   onDelete,
   onSelect,
   contact,
@@ -72,7 +65,6 @@ export const VirtualizedContactListItem: FunctionComponent<
   const onChange = () => toggleRow(contact.id)
   const handleExport = () => onExport([contact.id])
   const handleEdit = () => onEdit(contact)
-  const handleForward = () => onForward(contact)
   const handleDelete = () => onDelete(contact.id)
   const handleSelect = () => onSelect(contact)
 
@@ -146,17 +138,6 @@ export const VirtualizedContactListItem: FunctionComponent<
                 VirtualizedContactListItemTestIds.ContactRowDropdownToggler
               }
             >
-              <HiddenButton
-                labelMessage={messages.forwardNamecard}
-                Icon={IconType.Forward}
-                onClick={handleForward}
-                displayStyle={DisplayStyle.Dropdown}
-                hide={!flags.get(Feature.ContactForwardEnabled)}
-                iconSize={IconSize.Medium}
-                data-testid={
-                  VirtualizedContactListItemTestIds.ContactForwardButton
-                }
-              />
               <ButtonComponent
                 labelMessage={messages.editBulkAction}
                 iconSize={IconSize.Medium}

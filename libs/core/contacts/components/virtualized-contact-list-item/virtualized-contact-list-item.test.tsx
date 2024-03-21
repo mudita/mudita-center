@@ -30,7 +30,6 @@ const renderer = (extraProps?: Partial<VirtualizedContactListItemProps>) => {
     toggleRow: jest.fn(),
     onExport: jest.fn(),
     onEdit: jest.fn(),
-    onForward: jest.fn(),
     onDelete: jest.fn(),
     onSelect: jest.fn(),
     disableScroll: jest.fn(),
@@ -100,9 +99,6 @@ describe("dropdown", () => {
     ).toBeInTheDocument()
     expect(
       queryByTestId(VirtualizedContactListItemTestIds.ContactExportButton)
-    ).toBeInTheDocument()
-    expect(
-      queryByTestId(VirtualizedContactListItemTestIds.ContactForwardButton)
     ).toBeInTheDocument()
   })
 })

@@ -10,5 +10,4 @@ export enum VirtualizedContactListItemTestIds {
   ContactRowDropdownToggler = "virtualized-contact-dropdown-toggler",
   ContactEditButton = "virtualized-contact-list-item-contact-edit-button",
   ContactDeleteButton = "virtualized-contact-list-item-contact-delete-button",
-  ContactForwardButton = "virtualized-contact-list-item-contact-forward-button",
 }

@@ -4,13 +4,13 @@
  */
 
 import React from "react"
+import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { SidebarHeaderButton } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { defineMessages } from "react-intl"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import {
   AdditionalInfo,
@@ -47,15 +47,11 @@ const messages = defineMessages({
   exportTooltipDescription: { id: "module.contacts.exportTooltipDescription" },
   deleteTooltipDescription: { id: "module.contacts.deleteTooltipDescription" },
   editTooltipDescription: { id: "module.contacts.editTooltipDescription" },
-  forwardTooltipDescription: {
-    id: "module.contacts.forwardTooltipDescription",
-  },
 })
 
 interface ContactDetailsProps {
   contact?: Contact
   onExport: (ids: string[]) => void
-  onForward: (contact: Contact) => void
   onDelete: (id: string) => void
   onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
@@ -94,7 +90,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   contact,
   onEdit,
   onExport,
-  onForward,
   onDelete,
   onCall,
   onMessage,
@@ -104,7 +99,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   if (contact) {
     const handleEdit = () => onEdit(contact)
     const handleExport = () => onExport([contact.id])
-    const handleForward = () => onForward(contact)
     const handleDelete = () => onDelete(contact.id)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
 
@@ -121,13 +115,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           onClick={handleExport}
           data-testid={ContactDetailsTestIds.ExportButton}
         />
-        {flags.get(Feature.ContactForwardEnabled) && (
-          <SidebarHeaderButton
-            description={messages.forwardTooltipDescription}
-            iconType={IconType.Forward}
-            onClick={handleForward}
-          />
-        )}
         <SidebarHeaderButton
           description={messages.editTooltipDescription}
           iconType={IconType.Edit}

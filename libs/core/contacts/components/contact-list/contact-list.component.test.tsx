@@ -27,7 +27,6 @@ const defaultProps: Props = {
   onEdit: jest.fn(),
   onDelete: jest.fn(),
   onExport: jest.fn(),
-  onForward: jest.fn(),
   onSelect: jest.fn(),
   toggleRow: jest.fn(),
   selectedContact: null,

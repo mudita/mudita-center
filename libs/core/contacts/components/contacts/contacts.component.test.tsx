@@ -163,7 +163,6 @@ const defaultProps: Props = {
   onSpeedDialSettingsSave: jest.fn(),
   setProviderData: jest.fn(),
   onEdit: jest.fn(),
-  onForward: jest.fn(),
   onDelete: jest.fn(),
   resultState: ResultState.Loaded,
   speedDialChosenList: [],

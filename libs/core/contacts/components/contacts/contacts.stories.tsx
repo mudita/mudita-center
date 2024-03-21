@@ -73,7 +73,6 @@ const ContactsComponent = ({
     speedDialChosenList={speedDialChosenList}
     onManageButtonClick={dummyPromise(action("Manage contact"))}
     onEdit={action("Edit contact")}
-    onForward={action("Forward contact")}
     onDelete={action("Delete contact")}
     onMessage={action("Send message")}
     onCall={action("Call")}
@@ -146,7 +145,6 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       contact={singleContact()}
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
-      onForward={action("Forward contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
@@ -159,7 +157,6 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       contact={singleContact({ favourite: true, speedDial: 3 })}
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
-      onForward={action("Forward contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
@@ -172,7 +169,6 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       contact={singleContact({ favourite: true })}
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
-      onForward={action("Forward contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
@@ -185,7 +181,6 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       contact={singleContact({ speedDial: 3 })}
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
-      onForward={action("Forward contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}

@@ -45,7 +45,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   onSelect,
   onExport,
   onEdit,
-  onForward,
   onDelete,
   resultsState,
   editMode,
@@ -100,7 +99,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             toggleRow={toggleRow}
             onExport={onExport}
             onEdit={onEdit}
-            onForward={onForward}
             onDelete={onDelete}
             onSelect={onSelect}
             selectedItems={selectedItems}

@@ -29,7 +29,6 @@ const renderer = (extraProps?: Partial<VirtualizedContactListProps>) => {
     toggleRow: jest.fn(),
     onExport: jest.fn(),
     onEdit: jest.fn(),
-    onForward: jest.fn(),
     onDelete: jest.fn(),
     onSelect: jest.fn(),
     disableScroll: jest.fn(),

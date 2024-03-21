@@ -16,7 +16,6 @@ const defaultProps: Props = {
   onDelete: jest.fn(),
   onEdit: jest.fn(),
   onExport: jest.fn(),
-  onForward: jest.fn(),
   onMessage: jest.fn(),
   onClose: jest.fn(),
   isThreadOpened: () => false,

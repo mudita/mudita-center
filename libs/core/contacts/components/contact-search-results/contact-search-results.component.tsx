@@ -86,7 +86,6 @@ interface ContactSearchResultProps {
   results: Contact[]
   selectedItems: string[]
   onExport: (ids: string[]) => void
-  onForward: (contact: Contact) => void
   onDelete: (id: string) => void
 }
 
@@ -94,7 +93,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
   results,
   onSelect,
   onExport,
-  onForward,
   onDelete,
   resultsState,
   selectedItems,
@@ -124,7 +122,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
           ? results.map((contact) => {
               const selected = selectedItems.includes(contact.id)
               const handleExport = () => onExport([contact.id])
-              const handleForward = () => onForward(contact)
               const handleDelete = () => onDelete(contact.id)
               const handleSelect = () => onSelect(contact)
 
@@ -180,15 +177,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
                           onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
                           hide={!flags.get(Feature.ContactExportEnabled)}
-                        />
-                        <HiddenButton
-                          labelMessage={{
-                            id: "module.contacts.forwardNamecard",
-                          }}
-                          Icon={IconType.Forward}
-                          onClick={handleForward}
-                          displayStyle={DisplayStyle.Dropdown}
-                          hide={!flags.get(Feature.ContactForwardEnabled)}
                         />
                         <ButtonComponent
                           labelMessage={{

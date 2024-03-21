@@ -25,7 +25,6 @@ const defaultProps: Props = {
   selectedItems: [],
   onDelete: jest.fn(),
   onExport: jest.fn(),
-  onForward: jest.fn(),
   onSelect: jest.fn(),
   selectedContact: null,
   resultsState: ResultState.Empty,

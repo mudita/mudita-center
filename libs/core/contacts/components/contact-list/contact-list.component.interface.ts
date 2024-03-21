@@ -18,7 +18,6 @@ export interface ContactListProps {
   toggleRow: (id: string) => void
   selectedItems: string[]
   onExport: (ids: string[]) => void
-  onForward: (contact: Contact) => void
   onDelete: (id: string) => void
   onEdit: (contact: Contact) => void
   contactList: ContactCategory[]

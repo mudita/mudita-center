@@ -71,7 +71,6 @@ export interface ContactsProps {
   exportContacts: (contacts: Contact[]) => Promise<ExportContactsResult>
   onCall: (phoneNumber: string) => void
   onEdit: (contacts: Contact) => void
-  onForward: (contact: Contact) => void
   onDelete: (id: string) => void
   resultState: ResultState
   contactList: ContactCategory[]
