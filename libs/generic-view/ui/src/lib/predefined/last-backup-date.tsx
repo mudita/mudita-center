@@ -65,7 +65,7 @@ const NoBackupLabel = styled.p`
   line-height: ${({ theme }) => theme.lineHeight.paragraph3};
   color: ${({ theme }) => theme.color.grey2};
   white-space: pre;
-  margin: 0;
+  margin: 0.6rem 0 0 0;
 `
 
 const BackupAvailable = styled.div`

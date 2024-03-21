@@ -8,7 +8,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceManagerEvent } from "Core/device-manager/constants"
 import { setActiveDeviceRequest } from "Core/device-manager/requests"
 import { DeviceId } from "Core/device/constants/device-id"
-import { cleanBackupProcess } from "generic-view/store"
+import { cleanBackupProcess, cleanRestoreProcess } from "generic-view/store"
 
 export const setActiveDevice = createAsyncThunk<
   DeviceId | undefined,
@@ -17,5 +17,6 @@ export const setActiveDevice = createAsyncThunk<
 >(DeviceManagerEvent.SetActiveDevice, async (payload, { dispatch }) => {
   await setActiveDeviceRequest(payload)
   dispatch(cleanBackupProcess())
+  dispatch(cleanRestoreProcess())
   return payload
 })

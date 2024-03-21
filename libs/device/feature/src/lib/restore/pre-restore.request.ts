@@ -9,7 +9,10 @@ import { APIRestoreServiceEvents, PreRestore } from "device/models"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export const preRestoreRequest = (
-  features: string[],
+  features: {
+    feature: string
+    key: string
+  }[],
   deviceId?: DeviceId
 ): Promise<ResultObject<PreRestore>> => {
   return ipcRenderer.callMain(APIRestoreServiceEvents.PreRestore, {

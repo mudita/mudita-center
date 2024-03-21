@@ -16,6 +16,7 @@ const APIEndpoints = {
   FileTransfer: "FILE_TRANSFER",
   PreRestore: "PRE_RESTORE",
   Restore: "RESTORE",
+  System: "SYSTEM",
 } as const
 
 export type APIEndpointType = (typeof APIEndpoints)[keyof typeof APIEndpoints]
@@ -41,7 +42,8 @@ const APIRequests = {
   PRE_FILE_TRANSFER: [APIMethods.POST, APIMethods.GET],
   FILE_TRANSFER: [APIMethods.POST, APIMethods.GET],
   PRE_RESTORE: [APIMethods.POST],
-  RESTORE: [APIMethods.POST, APIMethods.GET],
+  RESTORE: [APIMethods.POST, APIMethods.GET, APIMethods.DELETE],
+  SYSTEM: [APIMethods.POST],
 } as const
 
 interface APIRequestConfig<
