@@ -11,6 +11,7 @@ import BaseRoutes from "Core/core/components/apps/base-app/base-app-routes"
 import BaseApp from "Core/core/components/apps/base-app/base-app.component"
 import { RoutesHistoryProvider } from "shared/utils"
 import useAltLinkDownloadPreventer from "Core/core/components/use-alt-link-download-preventer.hook"
+import { ApiDeviceModals } from "generic-view/feature"
 
 const BaseAppContainer: FunctionComponent = () => {
   useAltLinkDownloadPreventer()
@@ -21,6 +22,7 @@ const BaseAppContainer: FunctionComponent = () => {
       <RoutesHistoryProvider>
         <BaseRoutes />
       </RoutesHistoryProvider>
+      <ApiDeviceModals />
     </Router>
   )
 }

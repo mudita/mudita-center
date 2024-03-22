@@ -4,11 +4,16 @@
  */
 
 import { BrowserWindow, dialog, OpenDialogOptions } from "electron"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
 import { FileSystemDialogError } from "./error.constant"
 
-const defaultOptions: OpenDialogOptions = { filters: [], properties: [] }
+const defaultOptions: OpenDialogOptions = {
+  title: intl.formatMessage({ id: "component.dialog.title" }),
+  filters: [],
+  properties: [],
+}
 
 export class FileSystemDialogService {
   private lastSelectedPath: string | undefined
@@ -18,7 +23,11 @@ export class FileSystemDialogService {
     options: OpenDialogOptions = defaultOptions
   ): Promise<ResultObject<string[] | undefined>> {
     try {
-      const openDialogOptions = this.getOpenDialogOptions(options)
+      const openDialogOptions = {
+        ...defaultOptions,
+        ...options,
+        defaultPath: options.defaultPath || this.lastSelectedPath
+      }
       const result = await dialog.showOpenDialog(
         this.mainApplicationWindow,
         openDialogOptions
@@ -32,18 +41,6 @@ export class FileSystemDialogService {
           error ? (error as Error).message : "Something went wrong"
         )
       )
-    }
-  }
-
-  private getOpenDialogOptions(options: OpenDialogOptions): OpenDialogOptions {
-    if (this.lastSelectedPath === undefined || options.defaultPath) {
-      return options
-    } else {
-      const defaultPath = this.lastSelectedPath
-      return {
-        ...options,
-        defaultPath,
-      }
     }
   }
 }

@@ -12,13 +12,13 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.backup.failure.title",
+    id: "module.genericViews.restore.failure.title",
   },
   defaultErrorMessage: {
-    id: "module.genericViews.backup.failure.defaultErrorMessage",
+    id: "module.genericViews.restore.failure.defaultErrorMessage",
   },
   closeButtonLabel: {
-    id: "module.genericViews.backup.failure.closeButtonLabel",
+    id: "module.genericViews.restore.failure.closeButtonLabel",
   },
 })
 
