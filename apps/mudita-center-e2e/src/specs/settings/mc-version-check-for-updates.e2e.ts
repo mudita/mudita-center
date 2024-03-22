@@ -2,9 +2,9 @@ import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 import MCModalPage from "../../page-objects/mc-update-modal.page"
 import HomePage from "../../page-objects/home.page"
-import { isNotLinux } from "E2E/helpers/tests.helper"
+import TestHelper from "../../helpers/tests.helper"
 
-if (isNotLinux()) {
+if (TestHelper.isNotLinux()) {
   describe("Checking for Mudita Center updates", () => {
     before(async () => {
       const notNowButton = await HomePage.notNowButton

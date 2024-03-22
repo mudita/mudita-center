@@ -5,13 +5,17 @@
 
 /**
  * Checks if current operating system is Linux
- * @returns
+ * @returns boolean
  */
-export function isNotLinux() {
-  if (process.platform === "linux") {
-    console.log("CURRENT PLATFORM: " + process.platform)
-    console.log(process.platform + " = Test Skipped ")
-    return false
+class TestHelper {
+  isNotLinux() {
+    if (process.platform === "linux") {
+      console.log("CURRENT PLATFORM: " + process.platform)
+      console.log(process.platform + " = Test Skipped ")
+      return false
+    }
+    return true
   }
-  return true
 }
+
+export default new TestHelper()
