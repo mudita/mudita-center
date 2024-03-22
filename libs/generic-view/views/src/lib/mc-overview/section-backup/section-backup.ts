@@ -6,6 +6,14 @@
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { BackupTileConfig } from "device/models"
 import { Subview, ViewGenerator } from "generic-view/utils"
+import {
+  BackupModalsKeys,
+  generateBackupCreateModalLayout,
+} from "./backup-create-modal"
+import {
+  BackupRestoreModalsKeys,
+  generateBackupRestoreModalLayout,
+} from "./backup-restore-modal"
 
 enum BackupKeys {
   BackupInfo = "backup-info",
@@ -90,11 +98,13 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
                 id: "module.genericBackup.restoreButtonLabel",
               }),
               action: {
-                type: "restore-data",
-                features: config.restoreFeatures,
+                type: "open-modal",
+                modalKey: config.dataKey + BackupRestoreModalsKeys.Restore,
+                domain: BackupRestoreModalsKeys.Domain,
               },
             },
           },
+          ...generateBackupRestoreModalLayout(config),
         }
       : {}),
     ...(config.backupFeatures
@@ -106,11 +116,13 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
                 id: "module.genericBackup.createButtonLabel",
               }),
               action: {
-                type: "backup-data",
-                features: config.backupFeatures,
+                type: "open-modal",
+                modalKey: config.dataKey + BackupModalsKeys.Create,
+                domain: BackupModalsKeys.Domain,
               },
             },
           },
+          ...generateBackupCreateModalLayout(config),
         }
       : {}),
   }

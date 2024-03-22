@@ -6,8 +6,8 @@
 import { useEffect, useCallback } from "react"
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
+import { answerMain, DeviceManagerMainEvent } from "shared/utils"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
-import { registerDeviceConnectFailedListener } from "Core/device-manager/listeners/device-connect-failed.listener"
 import { addDevice } from "Core/device-manager/actions/base.action"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
@@ -67,13 +67,9 @@ export const useDeviceConnectFailedEffect = () => {
   )
 
   useEffect(() => {
-    const handler = async (properties: DeviceBaseProperties) => {
-      await handleDeviceConnectFailed(properties)
-    }
-
-    const unregister = registerDeviceConnectFailedListener(handler)
-    return () => {
-      unregister()
-    }
+    return answerMain<DeviceBaseProperties>(
+      DeviceManagerMainEvent.DeviceConnectFailed,
+      handleDeviceConnectFailed
+    )
   }, [handleDeviceConnectFailed])
 }

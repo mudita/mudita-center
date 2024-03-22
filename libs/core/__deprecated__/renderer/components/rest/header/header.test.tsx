@@ -16,6 +16,10 @@ import store from "Core/__deprecated__/renderer/store"
 
 jest.mock("Core/feature-flags")
 
+jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
+  generateApplicationId: () => "123",
+}))
+
 test("matches snapshot without tabs", () => {
   const currentLocation = "/overview"
   const { container } = renderWithThemeAndIntl(

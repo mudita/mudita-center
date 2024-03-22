@@ -4,7 +4,6 @@
  */
 
 import SerialPort, { PortInfo as SerialPortInfo } from "serialport"
-import { MainProcessIpc } from "electron-better-ipc"
 import { Mutex } from "async-mutex"
 import { EventEmitter } from "events"
 import { DeviceResolverService } from "Core/device-manager/services/device-resolver.service"
@@ -23,7 +22,7 @@ import { CoreDevice } from "Core/device/modules/core-device"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import { DeviceCommunicationError, DeviceType } from "Core/device"
 import { MockCoreDevice } from "Core/device/modules/mock-core-device"
-import { callRenderer } from "device/adapters"
+import { callRenderer } from "shared/utils"
 
 export class DeviceManager {
   public activeDevice: BaseDevice | undefined
@@ -33,7 +32,6 @@ export class DeviceManager {
 
   constructor(
     private deviceResolver: DeviceResolverService,
-    private ipc: MainProcessIpc,
     protected eventEmitter: EventEmitter
   ) {}
 
@@ -117,7 +115,6 @@ export class DeviceManager {
 
     const data = device.toSerializableObject()
     callRenderer(DeviceManagerMainEvent.DeviceDetached, data)
-    this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceDetached, data)
     logger.info(`Detached device with path: ${path}`)
   }
 
@@ -147,11 +144,6 @@ export class DeviceManager {
   private async addDeviceTask(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
 
-    const alreadyInitializedDevices = this.getDevicePaths()
-    if (alreadyInitializedDevices.includes(port.path ?? "")) {
-      return
-    }
-
     if (!device) {
       return
     }
@@ -162,10 +154,8 @@ export class DeviceManager {
 
     if (result.ok) {
       callRenderer(DeviceManagerMainEvent.DeviceConnected, data)
-      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnected, data)
     } else {
       callRenderer(DeviceManagerMainEvent.DeviceConnectFailed, data)
-      this.ipc.sendToRenderers(DeviceManagerMainEvent.DeviceConnectFailed, data)
     }
   }
 
@@ -209,9 +199,5 @@ export class DeviceManager {
 
   private getDeviceByPath(path: string): BaseDevice | undefined {
     return this.devices.find((device) => device.portInfo.path === path)
-  }
-
-  private getDevicePaths(): string[] {
-    return this.devices.map(({ portInfo }) => portInfo.path)
   }
 }

@@ -14,13 +14,15 @@ import {
 import { ButtonAction } from "generic-view/utils"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 export const useButtonAction = (viewKey: string) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<Dispatch>()
   const navigate = useHistory()
   const currentViewName = useScreenTitle(viewKey)
 
-  return (action: ButtonAction) => {
+  return (action?: ButtonAction) => {
+    if (!action) return
     switch (action.type) {
       case "open-modal":
         dispatch(
@@ -56,6 +58,11 @@ export const useButtonAction = (viewKey: string) => {
             previousViewName: currentViewName,
           },
         })
+        break
+      case "custom":
+        action.callback()
+        break
+      default:
         break
     }
   }

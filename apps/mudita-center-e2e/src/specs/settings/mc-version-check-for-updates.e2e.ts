@@ -1,6 +1,11 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
-import MCModalPage from "../../page-objects/mc-update-modal.page"
+import ModalPage from "../../page-objects/mc-update-modal.page"
 import HomePage from "../../page-objects/home.page"
 import TestHelper from "../../helpers/tests.helper"
 
@@ -13,47 +18,46 @@ if (TestHelper.isNotLinux()) {
     })
 
     it("Application is up to date", async () => {
-      const newsTab = await NavigationTabs.settingsTab
-      await newsTab.waitForDisplayed()
-      await newsTab.click()
+      const settingsTab = await NavigationTabs.settingsTab
+      await settingsTab.waitForDisplayed()
+      await settingsTab.click()
 
-      const tabAbout = await SettingsPage.aboutTab
-      await tabAbout.waitForDisplayed()
-      await tabAbout.click()
+      const aboutTab = await SettingsPage.aboutTab
+      await aboutTab.waitForDisplayed()
+      await aboutTab.click()
 
-      const upToDateLabel = await SettingsPage.aboutUpToDateLabel
-      await upToDateLabel.executeAsync((done) => {
-        setTimeout(done, 5000)
+      const aboutUpToDateLabel = await SettingsPage.aboutUpToDateLabel
+      await browser.executeAsync((done) => {
+        setTimeout(done, 10000)
       })
-      await expect(upToDateLabel).toBeDisplayed()
-      await expect(upToDateLabel).toHaveText("You’re up to date.")
+      await expect(aboutUpToDateLabel).toBeDisplayed()
+      await expect(aboutUpToDateLabel).toHaveText("You’re up to date.")
+    })
+
+    it("Check 'Check for updates' button", async () => {
+      const aboutCheckForUpdatesButton =
+        await SettingsPage.aboutCheckForUpdatesButton
+      await aboutCheckForUpdatesButton.waitForDisplayed()
+      await expect(aboutCheckForUpdatesButton).toHaveTextContaining(
+        "CHECK FOR UPDATES"
+      )
+      await aboutCheckForUpdatesButton.click()
+
+      const modalHeader = await ModalPage.modalHeader
+      await expect(modalHeader).toBeDisplayed()
+      await expect(modalHeader).toHaveText("Mudita Center")
     })
 
     it("Check for updates", async () => {
-      const newsTab = await NavigationTabs.settingsTab
-      await newsTab.waitForDisplayed()
-      await newsTab.click()
-
-      const tabAbout = await SettingsPage.aboutTab
-      await tabAbout.waitForDisplayed()
-      await tabAbout.click()
-
-      const checkButton = await SettingsPage.aboutCheckForUpdatesButton
-      await checkButton.waitForDisplayed()
-      await expect(checkButton).toHaveTextContaining("CHECK FOR UPDATES")
-      await checkButton.click()
-
-      const modalHeader = await MCModalPage.modalHeader
-      await expect(modalHeader).toBeDisplayed()
-      await expect(modalHeader).toHaveText("Mudita Center")
-
-      // // Waiting to check if an update is available
-      // await browser.executeAsync((done) => {
-      //   setTimeout(done, 10000)
-      // })
-      // const modalContentUpToDate = await MCModalPage.modalContentUpToDate
-      // await expect(modalContentUpToDate).toBeDisplayed()
-      // await expect(modalContentUpToDate).toHaveTextContaining("Your Mudita Center is up to date!");
+      // Waiting to check if an update is available
+      await browser.executeAsync((done) => {
+        setTimeout(done, 10000)
+      })
+      const modalContentUpToDate = await ModalPage.modalContentUpToDate
+      await expect(modalContentUpToDate).toBeDisplayed()
+      await expect(modalContentUpToDate).toHaveTextContaining(
+        "Your Mudita Center is up to date!"
+      )
     })
   })
 }

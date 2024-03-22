@@ -6,5 +6,7 @@
 export enum APIRestoreServiceEvents {
   PreRestore = "apiservice_restore-pre-restore",
   StartRestore = "apiservice_restore-start-restore",
+  CancelRestore = "apiservice_restore-cancel-restore",
   CheckRestore = "apiservice_restore-check-restore",
+  LoadBackupMetadata = "apiservice_restore-get-metadata",
 }

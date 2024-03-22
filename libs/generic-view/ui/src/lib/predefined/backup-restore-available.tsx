@@ -23,3 +23,5 @@ export const BackupRestoreAvailable: APIFC<undefined, Config> = ({
 
   return children
 }
+
+export default BackupRestoreAvailable

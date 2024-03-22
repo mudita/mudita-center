@@ -22,7 +22,7 @@ import {
   ApiSerialPortEvents,
   ApiSerialPortToRendererEvents,
 } from "device/models"
-import { callRenderer } from "./call-renderer.helper"
+import { callRenderer } from "shared/utils"
 
 const generateRequestID = () => {
   return Math.floor(Math.random() * 10000)
@@ -227,7 +227,7 @@ export class SerialPortDeviceAPIAdapter {
         ApiSerialPortToRendererEvents.Closed,
         Result.success(`Device ${this.path} closed`)
       )
-      ipcMain.emit(ApiSerialPortToRendererEvents.Closed, this.path);
+      ipcMain.emit(ApiSerialPortToRendererEvents.Closed, this.path)
     })
   }
 }
