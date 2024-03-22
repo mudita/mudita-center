@@ -5,19 +5,15 @@
 
 import { useCallback, useEffect } from "react"
 
-const useAltLinkDownloadPreventerEffect = () => {
+const useAltLinkDownloadPreventer = () => {
   const handleClick = useCallback((event: MouseEvent) => {
-    if (event.altKey && !event.target) {
-      return
+    const parentAnchor = event.target
+      ? (event.target as HTMLElement)?.closest("a")
+      : undefined
+
+    if (event.altKey && parentAnchor) {
+      event.preventDefault()
     }
-
-    const parentAnchor = (event.target as HTMLElement).closest("a")
-
-    if (!parentAnchor) {
-      return
-    }
-
-    event.preventDefault()
   }, [])
 
   useEffect(() => {
@@ -26,4 +22,4 @@ const useAltLinkDownloadPreventerEffect = () => {
   }, [handleClick])
 }
 
-export default useAltLinkDownloadPreventerEffect
+export default useAltLinkDownloadPreventer

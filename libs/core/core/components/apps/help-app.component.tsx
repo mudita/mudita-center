@@ -16,7 +16,7 @@ import { useHelpSearch } from "Core/__deprecated__/renderer/utils/hooks/use-help
 import ContextMenu from "Core/__deprecated__/context-menu/context-menu"
 import { Feature, flags } from "Core/feature-flags"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
-import useAltLinkDownloadPreventerEffect from "Core/core/components/use-alt-link-download-preventer-effect.hook"
+import useAltLinkDownloadPreventer from "Core/core/components/use-alt-link-download-preventer.hook"
 
 const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
 
@@ -26,7 +26,7 @@ const getStoreData = async (key?: string) =>
   await ipcRenderer.callMain(HelpActions.GetStore, key)
 
 const HelpApp: FunctionComponent = () => {
-  useAltLinkDownloadPreventerEffect()
+  useAltLinkDownloadPreventer()
 
   const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
   const [searchInputValue, setSearchInputValue] = useState("")

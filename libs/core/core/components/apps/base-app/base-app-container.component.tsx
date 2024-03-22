@@ -10,10 +10,10 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import BaseRoutes from "Core/core/components/apps/base-app/base-app-routes"
 import BaseApp from "Core/core/components/apps/base-app/base-app.component"
 import { RoutesHistoryProvider } from "shared/utils"
-import useAltLinkDownloadPreventerEffect from "Core/core/components/use-alt-link-download-preventer-effect.hook"
+import useAltLinkDownloadPreventer from "Core/core/components/use-alt-link-download-preventer.hook"
 
 const BaseAppContainer: FunctionComponent = () => {
-  useAltLinkDownloadPreventerEffect()
+  useAltLinkDownloadPreventer()
 
   return (
     <Router history={history}>
