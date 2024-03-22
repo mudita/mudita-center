@@ -56,7 +56,6 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     backupError: state.backup.error,
     restoreDeviceState: state.backup.restoringState,
     backups: state.backup.data.backups,
-    ...state.devMode,
     syncState: state.dataSync.status,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
     updatingState: state.update.updateOsState,
@@ -64,7 +63,6 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     availableReleasesForUpdate: state.update.data.availableReleasesForUpdate,
     downloadingState: state.update.downloadState,
     silentCheckForUpdateState: state.update.silentCheckForUpdate,
-    allReleases: state.update.data.allReleases,
     updateOsError: state.update.error,
     downloadingReleasesProcessStates:
       state.update.data.downloadedProcessedReleases,

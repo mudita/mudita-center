@@ -86,7 +86,6 @@ export interface MenuElement {
     | string
   icons?: IconType[]
   connectedPhoneOnly?: boolean
-  devModeOnly?: boolean
   simulatePhoneConnection?: boolean
   openHelpWindow?: () => void
   visibleOn?: DeviceType[]
@@ -103,7 +102,6 @@ export const baseMenuElements: MenuElement[] = [
       },
     ],
     viewKey: View.Onboarding,
-    devModeOnly: true,
   },
   {
     items: [

@@ -4,7 +4,6 @@
  */
 
 export enum IpcReleaseEvent {
-  GetAllReleases = "os-release_get-all-releases",
   GetLatestRelease = "os-release_get-latest-release",
   GetReleasesByVersions = "os-release_get-releases-by-versions",
 }

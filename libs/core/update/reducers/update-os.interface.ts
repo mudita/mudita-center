@@ -24,7 +24,6 @@ export interface UpdateOsState {
   needsForceUpdate: boolean
   checkedForForceUpdateNeed: boolean
   data: {
-    allReleases: OsRelease[] | null
     availableReleasesForUpdate: OsRelease[] | null
     downloadedProcessedReleases: ProcessedRelease[] | null
     updateProcessedReleases: ProcessedRelease[] | null
