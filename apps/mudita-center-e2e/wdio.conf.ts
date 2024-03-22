@@ -70,12 +70,32 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.sarWindowCheckTest),
     toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
     toRelativePath(TestFilesPaths.messageSendTest),
+    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
   ],
   suites: {
-    cicd: [
+    standalone: [
       toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
-      toRelativePath(TestFilesPaths.helpWindowCheckTest)
+      toRelativePath(TestFilesPaths.helpWindowCheckTest),
     ],
+    multidevicePureHarmony: [],
+    multideviceSingleHarmony: [],
+    multideviceSinglePure: [],
+    multideviceSingleKompakt: [],
+    multidevicePureKompakt: [],
+    multideviceHarmonyKompakt: [],
+    multideviceGeneral: [],    
+    harmony: [],
+    pure: [],
+    kompakt: [],
+    deviceUpdate: [
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+      toRelativePath(TestFilesPaths.checkForUpdateTest),
+      toRelativePath(TestFilesPaths.deviceUpdateTest),
+    ],
+    cicd: [
+      toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
+    ],
+
   },
   // Patterns to exclude.
   exclude: [
