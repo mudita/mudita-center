@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class HomePage extends Page {
