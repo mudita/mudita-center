@@ -6,6 +6,5 @@
 export enum Feature {
   LoggerEnabled = "logger-enabled",
   LogsScrubbingEnabled = "logs-scrubbing-enabled",
-  AlphaRelaseWarning = "alpha-release-warning",
   ForceUpdate = "force-update",
 }
