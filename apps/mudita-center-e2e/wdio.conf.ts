@@ -73,7 +73,9 @@ export const config: Options.Testrunner = {
     pure: [],
     kompakt: [],
     deviceUpdate: [],
-    cicd: [],
+    cicd: [
+      toRelativePath(TestFilesPaths.helpWindowCheckTest)
+    ],
 
   },
   // Patterns to exclude.
