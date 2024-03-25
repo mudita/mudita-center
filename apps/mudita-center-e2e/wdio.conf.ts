@@ -54,7 +54,6 @@ export const config: Options.Testrunner = {
   // will be called from there.
   //
   specs: [
-    toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
     toRelativePath(TestFilesPaths.checkForUpdateTest),
     toRelativePath(TestFilesPaths.deviceUpdateTest),
     toRelativePath(TestFilesPaths.mcVersionCheckTest),
@@ -71,7 +70,6 @@ export const config: Options.Testrunner = {
   ],
   suites: {
     standalone: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
     ],
     multidevicePureHarmony: [],
@@ -85,13 +83,10 @@ export const config: Options.Testrunner = {
     pure: [],
     kompakt: [],
     deviceUpdate: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
       toRelativePath(TestFilesPaths.checkForUpdateTest),
       toRelativePath(TestFilesPaths.deviceUpdateTest),
     ],
-    cicd: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
-    ],
+    cicd: [],
 
   },
   // Patterns to exclude.
