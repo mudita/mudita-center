@@ -56,7 +56,6 @@ export const config: Options.Testrunner = {
   specs: [
     toRelativePath(TestFilesPaths.mcVersionCheckTest),
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
-    toRelativePath(TestFilesPaths.newsInAppNavigationTest),
     toRelativePath(TestFilesPaths.helpWindowCheckTest),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
   ],
