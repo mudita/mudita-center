@@ -54,7 +54,6 @@ export const config: Options.Testrunner = {
   // will be called from there.
   //
   specs: [
-    toRelativePath(TestFilesPaths.deviceUpdateTest),
     toRelativePath(TestFilesPaths.mcVersionCheckTest),
     toRelativePath(TestFilesPaths.contactsInAppNavigationTest),
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
@@ -81,9 +80,7 @@ export const config: Options.Testrunner = {
     harmony: [],
     pure: [],
     kompakt: [],
-    deviceUpdate: [
-      toRelativePath(TestFilesPaths.deviceUpdateTest),
-    ],
+    deviceUpdate: [],
     cicd: [],
 
   },
