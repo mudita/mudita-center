@@ -17,7 +17,11 @@ export const editContact = createAsyncThunk<Error | undefined, Contact>(
 
     if (error || !data) {
       return rejectWithValue(
-        new AppError(ContactsEvent.EditContact, "Edit Contact request failed")
+        new AppError(
+          ContactsEvent.EditContact,
+          error?.message ?? "Edit Contact request failed",
+          error?.data
+        )
       )
     }
 

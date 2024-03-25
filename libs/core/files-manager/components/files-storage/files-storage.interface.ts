@@ -5,7 +5,6 @@
 
 import { File } from "Core/files-manager/dto"
 import { State } from "Core/core/constants"
-import { DeviceType } from "Core/device"
 
 export interface FilesStorageProps {
   state: State
@@ -22,5 +21,4 @@ export interface FilesStorageProps {
   onDeleteClick: (ids: string[]) => void
   onManagerDeleteClick: () => void
   disableUpload: boolean
-  deviceType: DeviceType
 }

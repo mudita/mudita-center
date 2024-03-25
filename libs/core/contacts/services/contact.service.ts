@@ -179,12 +179,36 @@ export class ContactService {
       }
     }
 
-    const { ok, data } = result
+    const { ok, data, error } = result
 
     if (ok) {
       this.contactRepository.update(contact, true)
 
       return { status: RequestResponseStatus.Ok, data: contact }
+      // error type cannot be typed correctly, response method needs enhancement
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    } else if (error?.payload?.status === "phone-number-duplicated") {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const errorPayloadData = (error?.payload?.data ?? {
+        duplicateNumbers: [],
+      }) as CreateContactErrorResponseBody
+
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "phone-number-duplicated",
+          data: {
+            primaryPhoneNumberIsDuplicated:
+              errorPayloadData.duplicateNumbers.includes(
+                contact.primaryPhoneNumber ?? ""
+              ),
+            secondaryPhoneNumberIsDuplicated:
+              errorPayloadData.duplicateNumbers.includes(
+                contact.secondaryPhoneNumber ?? ""
+              ),
+          },
+        },
+      }
     } else {
       return {
         status: RequestResponseStatus.Error,

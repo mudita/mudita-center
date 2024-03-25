@@ -10,7 +10,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
-## [2.2.5] - 2023-11-30
+## [2.2.8] - 2024-02-22
+
+### Changed
+
+- Removed the 100 files upload limit for Relaxation audio files in Mudita Center, aligning with Harmony's unlimited songs capacity.
+
+### Fixed
+
+- Implemented validation to ensure contact numbers are unique, preventing duplication and resolving the issue with endless synchronization when editing contacts.
+
+
+## [2.2.7] - 2023-12-07
+
+### Fixed
+
+- Resolved an issue with updating from version 2.2.5 to 2.2.6 on Windows, requiring administrator rights for a successful update.
+- Fixed the problem with clicking links in Terms of Service, preventing the opening of additional Electron windows.
+
+
+## [2.2.6] - 2023-11-30
 
 ### Changed
 

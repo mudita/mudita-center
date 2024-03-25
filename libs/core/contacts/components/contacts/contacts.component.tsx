@@ -138,6 +138,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const detailsEnabled = activeRow && !newContact && !editedContact
 
+  const contact = getContact(activeRow?.id ?? "")
+
   useEffect(() => {
     if (editedContact) {
       const newData = contacts.find(
@@ -174,10 +176,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   }, [contacts])
 
   const closeModal = () => modalService.closeModal()
-
-  const contactFreshData = ({ id }: Contact) => {
-    return getContact(id)
-  }
 
   const handleAddingContact = () => {
     closeSidebar()
@@ -279,8 +277,52 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           true
         )
 
-        const { payload } = await delayResponse(editContact(contact))
+        const { message, payload } =
+          (await delayResponse(editContact(contact))).payload ?? {}
 
+        if (payload || message) {
+          const newError: FormError[] = []
+          if (
+            message === "phone-number-duplicated" &&
+            payload?.primaryPhoneNumberIsDuplicated
+          ) {
+            newError.push({
+              field: "primaryPhoneNumber",
+              error: "component.formErrorNumberUnique",
+            })
+          }
+          if (
+            message === "phone-number-duplicated" &&
+            payload?.secondaryPhoneNumberIsDuplicated
+          ) {
+            newError.push({
+              field: "secondaryPhoneNumber",
+              error: "component.formErrorNumberUnique",
+            })
+          }
+          if (message === "Create contact: Empty primary phone number") {
+            newError.push({
+              field: "primaryPhoneNumber",
+              error: "component.formErrorRequiredPrimaryPhone",
+            })
+          }
+          if (newError.length === 0) {
+            newError.push({
+              field: "primaryPhoneNumber",
+              error: "component.formErrorNumberUnique",
+            })
+          }
+
+          const cleanedErrors = differenceWith(
+            formErrors,
+            allPossibleFormErrorCausedByAPI,
+            (a, b) => isEqual(a, b)
+          )
+
+          setFormErrors([...cleanedErrors, ...newError])
+          await closeModal()
+          return
+        }
         if (payload && !retried) {
           void modalService.openModal(
             <ErrorWithRetryDataModal onRetry={() => edit(true)} />,
@@ -767,7 +809,7 @@ const Contacts: FunctionComponent<ContactsProps> = ({
             )}
             {detailsEnabled && (
               <ContactDetails
-                contact={contactFreshData(activeRow)}
+                contact={contact}
                 onClose={closeSidebar}
                 onExport={handleExport}
                 onForward={noop}
