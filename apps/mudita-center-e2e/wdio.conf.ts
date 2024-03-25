@@ -70,7 +70,9 @@ export const config: Options.Testrunner = {
     multideviceHarmonyKompakt: [],
     multideviceGeneral: [],
     harmony: [],
-    pure: [],
+    pure: [
+      toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
+    ],
     kompakt: [],
     deviceUpdate: [],
     cicd: [
