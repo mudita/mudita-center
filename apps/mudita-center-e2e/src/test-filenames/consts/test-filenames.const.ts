@@ -5,7 +5,6 @@
 
 // the format should stay as it is - it should contain `./` at the beginning
 export enum TestFilesPaths {
-  checkForUpdateTest = "src/specs/overview/check-for-update.e2e.ts",
   deviceUpdateTest = "src/specs/overview/device-update.e2e.ts",
   mcVersionCheckTest = "src/specs/settings/mc-version-check.e2e.ts",
   contactsInAppNavigationTest = "src/specs/contacts/contacts-in-app-navigation.e2e.ts",
