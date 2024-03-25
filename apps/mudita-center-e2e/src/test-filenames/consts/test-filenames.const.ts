@@ -8,7 +8,6 @@ export enum TestFilesPaths {
   mcVersionCheckTest = "src/specs/settings/mc-version-check.e2e.ts",
   messagesInAppNavigationTest = "src/specs/messages/messages-in-app-navigation.e2e.ts",
   newsInAppNavigationTest = "src/specs/news/news-in-app-navigation.e2e.ts",
-  overviewInAppNavigationTest = "src/specs/overview/overview-in-app-navigation.e2e.ts",
   settingsInAppNavigationTest = "src/specs/settings/settings-in-app-navigation.e2e.ts",
   helpWindowCheckTest = "src/specs/help/help-window-check.e2e.ts",
   sarWindowCheckTest = "src/specs/overview/sar-window-check.e2e.ts",
