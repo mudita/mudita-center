@@ -26,6 +26,22 @@ Please keep in mind that we can not give full access to all environments to the 
 
 If you are Mudita employee please follow these [instructions](https://appnroll.atlassian.net/l/c/aSD9NC1u).
 
+### Initial Git configuration
+
+Please do not commit changes in the following files:
+
+- libs/core/news/default-news.json
+- libs/core/help/default-help.json
+- libs/core/settings/static/app-configuration.json
+
+To ensure that files will be excluded from commits you can use the following git commands.
+
+```bash
+ git update-index --assume-unchanged libs/core/news/default-news.json
+ git update-index --assume-unchanged libs/core/help/default-help.json
+ git update-index --assume-unchanged libs/core/settings/static/app-configuration.json
+```
+
 ## Run Mudita Center development environment
 
 Please run the following command to start the Mudita Center dev environment:
@@ -80,7 +96,6 @@ For example, building for Windows and Linux:
 npm run dist -- -wl
 ```
 
-
 ### Feature toggle environment separation
 
 Also you are able to distribute an application with in specific predefined environment. The environment is responsible for hendeling the sets of feature toggles predefined for each release/test case.
@@ -119,7 +134,6 @@ npm version CURRENT_VERSION + 1
 ```
 
 ## Troubleshooting common errors
-
 
 ### Font during development is slightly different from what I see in official app
 
