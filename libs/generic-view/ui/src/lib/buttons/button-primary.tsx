@@ -35,11 +35,12 @@ export default withConfig(ButtonPrimary)
 const Button = styled(ButtonBase)`
   justify-content: center;
   background-color: ${({ theme }) => theme.color.grey1};
-  height: 4rem;
   padding: 0 1rem;
   transition: background-color 0.15s ease-in-out;
   border-radius: ${({ theme }) => theme.radius.sm};
-
+  && {
+    height: 4rem;
+  }
   span {
     font-size: ${({ theme }) => theme.fontSize.buttonText};
     line-height: ${({ theme }) => theme.lineHeight.buttonText};
