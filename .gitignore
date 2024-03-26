@@ -58,15 +58,6 @@ tmp/**/*
 apps/mudita-center/src/fonts/main/**/*
 !apps/mudita-center/src/fonts/main/.gitkeep
 
-# Fetched news
-apps/mudita-center/src/news/default-news.json
-
-# Fetched help items
-apps/mudita-center/src/help/default-help.json
-
-# Fetched appplication configuration
-apps/mudita-center/src/settings/static/app-configuration.json
-
 # Fetched wasm sql lib
 apps/mudita-center/static/sql-wasm*
 
