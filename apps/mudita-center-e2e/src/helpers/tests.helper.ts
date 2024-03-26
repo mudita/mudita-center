@@ -9,12 +9,12 @@
  */
 class TestHelper {
   isLinux() {
-    if (process.platform !== "linux") {
+    if (process.platform === "linux") {
       console.log("CURRENT PLATFORM: " + process.platform)
       console.log(process.platform + " = Test Skipped ")
-      return false
+      return true
     }
-    return true
+    return false
   }
 }
 
