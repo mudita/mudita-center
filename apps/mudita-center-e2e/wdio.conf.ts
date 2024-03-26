@@ -7,7 +7,6 @@ import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
 import { removeSeededData, seedData } from "./src/seeds"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
-import { CleanUpFactory } from "./src/cleanup"
 
 dotenv.config()
 
@@ -83,7 +82,7 @@ export const config: Options.Testrunner = {
     multideviceSingleKompakt: [],
     multidevicePureKompakt: [],
     multideviceHarmonyKompakt: [],
-    multideviceGeneral: [],    
+    multideviceGeneral: [],
     harmony: [],
     pure: [],
     kompakt: [],
@@ -242,9 +241,7 @@ export const config: Options.Testrunner = {
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  onPrepare: async function (_config, _capabilities) {
-    await new CleanUpFactory().create().cleanUpDevice()
-  },
+  // onPrepare: async function (_config, _capabilities) {},
   /**
    * Gets executed before a worker process is spawned and can be used to initialise specific service
    * for that worker as well as modify runtime environments in an async fashion.
