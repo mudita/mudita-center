@@ -61,6 +61,7 @@ export const config: Options.Testrunner = {
   suites: {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -76,7 +77,8 @@ export const config: Options.Testrunner = {
     kompakt: [],
     deviceUpdate: [],
     cicd: [
-      toRelativePath(TestFilesPaths.helpWindowCheckTest)
+      toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
     ],
 
   },
