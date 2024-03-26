@@ -69,12 +69,13 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.sarWindowCheckTest),
     toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
     toRelativePath(TestFilesPaths.messageSendTest),
-    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
+    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
   ],
   suites: {
     standalone: [
       toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -91,10 +92,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.checkForUpdateTest),
       toRelativePath(TestFilesPaths.deviceUpdateTest),
     ],
-    cicd: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest)
-    ],
-
+    cicd: [toRelativePath(TestFilesPaths.displayInitialOsVersionTest)],
   },
   // Patterns to exclude.
   exclude: [
