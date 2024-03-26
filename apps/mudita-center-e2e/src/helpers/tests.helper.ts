@@ -8,8 +8,8 @@
  * @returns boolean
  */
 class TestHelper {
-  isNotLinux() {
-    if (process.platform === "linux") {
+  isLinux() {
+    if (process.platform !== "linux") {
       console.log("CURRENT PLATFORM: " + process.platform)
       console.log(process.platform + " = Test Skipped ")
       return false
