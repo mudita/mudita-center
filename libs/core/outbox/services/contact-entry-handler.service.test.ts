@@ -16,7 +16,6 @@ import { ContactEntryHandlerService } from "Core/outbox/services/contact-entry-h
 import { Contact } from "Core/contacts/reducers"
 
 const contactMock: Contact = {
-  blocked: false,
   email: "",
   favourite: true,
   firstAddressLine: "6 Czeczota St.",

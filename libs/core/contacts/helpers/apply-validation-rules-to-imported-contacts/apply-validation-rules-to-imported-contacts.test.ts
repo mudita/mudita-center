@@ -16,7 +16,6 @@ const contacts: NewContact[] = [
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   },
@@ -29,7 +28,6 @@ const contacts: NewContact[] = [
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   },
@@ -42,7 +40,6 @@ const contacts: NewContact[] = [
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   },
@@ -53,7 +50,6 @@ test("contacts are mapped according to validation rules", () => {
     .toMatchInlineSnapshot(`
     Array [
       Object {
-        "blocked": false,
         "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "Malczewskiego 3, Warszawa",
@@ -66,7 +62,6 @@ test("contacts are mapped according to validation rules", () => {
         "secondaryPhoneNumber": "",
       },
       Object {
-        "blocked": false,
         "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "Malczewskiego 3, Warszawa",
@@ -79,7 +74,6 @@ test("contacts are mapped according to validation rules", () => {
         "secondaryPhoneNumber": "",
       },
       Object {
-        "blocked": false,
         "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "Malczewskiego 3, Warszawa",

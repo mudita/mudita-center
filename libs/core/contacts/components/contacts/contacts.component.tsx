@@ -14,16 +14,13 @@ import useTableSidebar from "Core/__deprecated__/renderer/utils/hooks/use-table-
 import ContactEdit, {
   defaultContact,
 } from "Core/contacts/components/contact-edit/contact-edit.component"
-import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Core/contacts/components/speed-dial-modal/speed-dial-modal.container"
-import BlockContactModal from "Core/contacts/components/block-contact-modal/block-contact-modal.component"
 import { createFullName } from "Core/contacts/helpers/contacts.helpers"
 import { intl, textFormatters } from "Core/__deprecated__/renderer/utils/intl"
 import DeleteModal from "Core/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "Core/contacts/components/contacts/contacts.styled"
 import { defineMessages } from "react-intl"
-import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Core/__deprecated__/renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Core/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
 import {
@@ -45,7 +42,6 @@ import {
   FileService,
   NewContactResponse,
 } from "Core/contacts/components/contacts/contacts.interface"
-import appContextMenu from "Core/__deprecated__/renderer/wrappers/app-context-menu"
 import ContactSearchResults from "Core/contacts/components/contact-search-results/contact-search-results.component"
 import ImportContactsFlow, {
   ImportContactsFlowState,
@@ -97,16 +93,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   contactList = [],
   contacts,
   speedDialChosenList,
-  isThreadOpened,
   loadContacts,
   addNewContact,
   importContact,
   editContact,
   deleteContacts,
   authorize,
-  onCall,
   getPaths,
-  onMessage,
   exportContacts,
   addNewContactsToState,
   resetAllItems,
@@ -116,7 +109,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   allItemsSelected,
   closeImportWindow,
 }) => {
-  const history = useHistory()
   const searchParams = useURLSearchParams()
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const phoneNumber = searchParams.get("phoneNumber") || ""
@@ -312,8 +304,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     }
   }
 
-  const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
-
   const openDeleteModal = (id: string) => {
     const contact = contacts.find((contact) => contact.id === id)
     const handleDelete = async () => {
@@ -349,88 +339,9 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     )
   }
 
-  const handleUnblock = async (contact: Contact) => {
-    const unblockedContact: Contact = {
-      ...contact,
-      blocked: false,
-    }
-    try {
-      await editContactWithRetry(unblockedContact)
-    } catch (error) {
-      logger.error(
-        `Contacts: editing (unblock) process throw error. Data: ${JSON.stringify(
-          error
-        )}`
-      )
-    }
-
-    if (detailsEnabled) {
-      openSidebar(unblockedContact)
-    }
-  }
-
-  const openBlockModal = (contact: Contact) => {
-    const handleBlock = async () => {
-      modalService.rerenderModal(
-        <BlockContactModal contact={contact} blocking />
-      )
-      const blockedContact: Contact = {
-        ...contact,
-        blocked: true,
-        favourite: false,
-      }
-
-      try {
-        await editContactWithRetry(blockedContact)
-      } catch (error) {
-        logger.error(
-          `Contacts: editing process (block) throw error. Data: ${JSON.stringify(
-            error
-          )}`
-        )
-      }
-
-      if (detailsEnabled) {
-        openSidebar(blockedContact)
-      }
-    }
-
-    void modalService.openModal(
-      <BlockContactModal contact={contact} onBlock={handleBlock} />
-    )
-  }
-
   const openSpeedDialModal = () => {
     void modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
-
-  // Synchronization, dev mode: toggle contacts saving failure
-  const [syncShouldFail, setSyncFailure] = useState(false)
-
-  useEffect(() => {
-    const unregisterItem = appContextMenu.registerItem("Contacts", {
-      labelCreator: () =>
-        `${syncShouldFail ? "Disable" : "Enable"} saving failure`,
-      click: () => setSyncFailure((prevState) => !prevState),
-    })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return () => unregisterItem()
-  }, [syncShouldFail])
-
-  // Synchronization, dev mode: toggle contacts importing failure
-  const [parseShouldFail, setParseFailure] = useState(false)
-
-  useEffect(() => {
-    const unregisterItem = appContextMenu.registerItem("Contacts", {
-      labelCreator: () =>
-        `${parseShouldFail ? "Disable" : "Enable"} parsing failure`,
-      click: () => setParseFailure((prevState) => !prevState),
-    })
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return () => unregisterItem()
-  }, [parseShouldFail])
 
   const [importContactsFlowState, setImportContactsFlowState] =
     useState<ImportContactsFlowState>()
@@ -543,10 +454,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       // eslint-disable-next-line @typescript-eslint/await-thenable
       await showDownloadingLoader()
 
-      if (parseShouldFail) {
-        handleError()
-        return
-      }
       const importedContacts =
         service.type === "files"
           ? await mapVCFsToContacts(service.data)
@@ -719,9 +626,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
             results={results}
             onSelect={handleContactSelect}
             onExport={handleExport}
-            onForward={noop}
-            onUnblock={handleUnblock}
-            onBlock={openBlockModal}
             onDelete={openDeleteModal}
             resultsState={resultState}
             selectedContact={selectedContact}
@@ -734,9 +638,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
               contactList={contactList}
               onSelect={openSidebar}
               onExport={handleExport}
-              onForward={noop}
-              onUnblock={handleUnblock}
-              onBlock={openBlockModal}
               onDelete={openDeleteModal}
               onEdit={handleEditingContact}
               editMode={Boolean(editedContact || newContact)}
@@ -770,14 +671,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
                 contact={contactFreshData(activeRow)}
                 onClose={closeSidebar}
                 onExport={handleExport}
-                onForward={noop}
-                onUnblock={handleUnblock}
-                onBlock={openBlockModal}
                 onDelete={openDeleteModal}
                 onEdit={handleEditingContact}
-                onCall={onCall}
-                onMessage={handleMessage}
-                isThreadOpened={isThreadOpened}
               />
             )}
           </TableWithSidebarWrapper>

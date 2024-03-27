@@ -39,7 +39,6 @@ const defaultProps: UpdateOsFlowProps = {
   downloadState: DownloadState.Initial,
   updateState: State.Initial,
   silentCheckForUpdateState: SilentCheckForUpdateState.Initial,
-  allReleases: [],
   availableReleasesForUpdate: null,
   currentOsVersion: "1.2.0",
   error: null,

@@ -6,18 +6,5 @@
 export enum Feature {
   LoggerEnabled = "logger-enabled",
   LogsScrubbingEnabled = "logs-scrubbing-enabled",
-  DeveloperModeEnabled = "developer-mode-enabled",
-  MessagesForwardEnabled = "messages-forward-enabled",
-  MessagesThreadCallsEnabled = "messages-thread-calls-enabled",
-  MessagesCallFromThreadEnabled = "messages-call-from-thread-enabled",
-  ContactForwardEnabled = "contact-forward-enabled",
-  ContactBlockingEnabled = "contact-blocking-enabled",
-  ContactPhoneFieldIconsEnabled = "contact-phone-field-icons-enabled",
-  ContactExportEnabled = "contact-export-enabled",
-  SettingsNotificationTabEnabled = "settings-notification-tab-enabled",
-  SettingsAudioConversionTabEnabled = "settings-audio-conversion-tab-enabled",
-  CalendarTabEnabled = "calendar-tab-enabled",
-  YourPureIconsEnabled = "your-pure-icons-enabled",
-  AlphaRelaseWarning = "alpha-release-warning",
   ForceUpdate = "force-update",
 }

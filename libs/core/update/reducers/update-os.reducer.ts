@@ -19,7 +19,8 @@ import {
   closeForceUpdateFlow,
   startUpdateOs,
   forceUpdate,
-  checkForForceUpdateNeed, setTmpMuditaHarmonyPortInfo,
+  checkForForceUpdateNeed,
+  setTmpMuditaHarmonyPortInfo,
 } from "Core/update/actions"
 
 import {
@@ -41,12 +42,11 @@ export const initialState: UpdateOsState = {
   needsForceUpdate: false,
   checkedForForceUpdateNeed: false,
   data: {
-    allReleases: null,
     availableReleasesForUpdate: null,
     downloadedProcessedReleases: null,
     updateProcessedReleases: null,
   },
-  tmpMuditaHarmonyPortInfo: undefined
+  tmpMuditaHarmonyPortInfo: undefined,
 }
 
 export const updateOsReducer = createReducer<UpdateOsState>(
@@ -93,7 +93,7 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(clearStateAndData, (state) => {
       return {
         ...initialState,
-        tmpMuditaHarmonyPortInfo: state.tmpMuditaHarmonyPortInfo
+        tmpMuditaHarmonyPortInfo: state.tmpMuditaHarmonyPortInfo,
       }
     })
     builder.addCase(setStateForDownloadedRelease, (state, action) => {
@@ -153,7 +153,6 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(checkForUpdate.pending, (state, payload) => {
       state.error = null
       state.data = {
-        allReleases: null,
         availableReleasesForUpdate: null,
         downloadedProcessedReleases: null,
         updateProcessedReleases: null,
@@ -178,7 +177,6 @@ export const updateOsReducer = createReducer<UpdateOsState>(
     builder.addCase(checkForUpdate.fulfilled, (state, action) => {
       state.data.availableReleasesForUpdate =
         action.payload.availableReleasesForUpdate
-      state.data.allReleases = action.payload.allReleases
       if (action.meta.arg.mode === CheckForUpdateMode.SilentCheck) {
         state.silentCheckForUpdate = SilentCheckForUpdateState.Loaded
       } else {

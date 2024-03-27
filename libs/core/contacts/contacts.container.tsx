@@ -5,7 +5,6 @@
 
 import { connect } from "react-redux"
 import { History, LocationState } from "history"
-import { PayloadAction } from "@reduxjs/toolkit"
 import { OpenDialogOptions } from "electron"
 import Contacts from "Core/contacts/components/contacts/contacts.component"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
@@ -30,7 +29,6 @@ import {
 } from "Core/contacts/helpers/contacts.helpers"
 import { exportContacts } from "Core/contacts/helpers/export-contacts/export-contacts"
 import { ContactErrorResponse } from "Core/contacts/components/contacts/contacts.interface"
-import { isThreadOpenedSelector } from "Core/messages/selectors"
 import { createNewContact } from "Core/contacts/actions/create-new-contacts.action"
 import { deleteContacts } from "Core/contacts/actions/delete-contacts.action"
 import {
@@ -65,8 +63,6 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     contacts: contactsSelector(state),
     speedDialChosenList: speedDialChosenListSelector(state),
     getContact: (id: string) => getContactSelector(id)(state),
-    isThreadOpened: (phoneNumber: string) =>
-      isThreadOpenedSelector(phoneNumber)(state),
   }
 }
 
@@ -119,7 +115,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
       contact: Contact
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/require-await
-    ): Promise<PayloadAction<ContactErrorResponse | undefined>> =>
+    ): Promise<ContactErrorResponse | void> =>
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       dispatch(editContact(contact)),
@@ -150,7 +146,6 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     toggleItem: (id: string) => dispatch(toggleItem(id)),
     // TODO: Add proper actions
-    onForward: noop,
     onBlock: noop,
     onSelect: noop,
     onCall: noop,

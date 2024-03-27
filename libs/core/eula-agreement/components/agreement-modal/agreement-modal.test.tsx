@@ -26,7 +26,6 @@ const render = (extraProps?: Partial<AgreementModalProps>) => {
 
   return {
     ...outcome,
-
     rerender: (newExtraProps: Partial<AgreementModalProps>) => {
       const newProps = {
         ...defaultProps,

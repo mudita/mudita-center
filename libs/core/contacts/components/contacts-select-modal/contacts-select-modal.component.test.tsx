@@ -46,7 +46,6 @@ const contacts: Record<string, Contact> = {
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   },
@@ -60,7 +59,6 @@ const contacts: Record<string, Contact> = {
     note: "temporibus molestiae",
     ice: true,
     favourite: false,
-    blocked: false,
     firstAddressLine: "016 McClure Curve",
     secondAddressLine: "",
   },
@@ -74,7 +72,6 @@ const contacts: Record<string, Contact> = {
     note: "",
     ice: true,
     favourite: false,
-    blocked: false,
     firstAddressLine: "",
     secondAddressLine: "",
   },
@@ -88,7 +85,6 @@ const contacts: Record<string, Contact> = {
     note: "",
     ice: true,
     favourite: false,
-    blocked: false,
     firstAddressLine: "",
     secondAddressLine: "",
   },
@@ -283,7 +279,6 @@ describe("Functionality: contacts list", () => {
       expect(contactListProps.contacts.flat()).toMatchInlineSnapshot(`
         Array [
           Object {
-            "blocked": false,
             "email": "",
             "favourite": false,
             "firstAddressLine": "016 McClure Curve",
@@ -297,7 +292,6 @@ describe("Functionality: contacts list", () => {
             "secondaryPhoneNumber": "",
           },
           Object {
-            "blocked": false,
             "email": "",
             "favourite": false,
             "firstAddressLine": "",
@@ -311,7 +305,6 @@ describe("Functionality: contacts list", () => {
             "secondaryPhoneNumber": "",
           },
           Object {
-            "blocked": false,
             "email": "example@mudita.com",
             "favourite": false,
             "firstAddressLine": "Malczewskiego 3, Warszawa",
@@ -336,7 +329,6 @@ describe("Functionality: contacts list", () => {
             "secondaryPhoneNumber": "32 123 44 55",
           },
           Object {
-            "blocked": false,
             "email": "",
             "favourite": false,
             "firstAddressLine": "",
@@ -375,7 +367,6 @@ describe("Functionality: contacts list", () => {
       expect(contactListProps.contacts.flat()).toMatchInlineSnapshot(`
         Array [
           Object {
-            "blocked": false,
             "email": "",
             "favourite": false,
             "firstAddressLine": "016 McClure Curve",
@@ -389,7 +380,6 @@ describe("Functionality: contacts list", () => {
             "secondaryPhoneNumber": "",
           },
           Object {
-            "blocked": false,
             "email": "",
             "favourite": false,
             "firstAddressLine": "",
@@ -403,7 +393,6 @@ describe("Functionality: contacts list", () => {
             "secondaryPhoneNumber": "",
           },
           Object {
-            "blocked": false,
             "email": "example@mudita.com",
             "favourite": false,
             "firstAddressLine": "Malczewskiego 3, Warszawa",
