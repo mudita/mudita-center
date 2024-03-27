@@ -95,7 +95,7 @@ const GoogleSignIn = () => {
 const GoogleButtonStyled = styled.button`
   background-color: WHITE;
   background-image: none;
-  border: 1px solid #747775;
+  border: 0.1rem solid #747775;
   border-radius: 0.4rem;
   box-sizing: border-box;
   color: #1f1f1f;
