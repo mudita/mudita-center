@@ -13,13 +13,13 @@ export const GenericThemeProvider: FunctionComponent<PropsWithChildren> = ({
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      {children}
+      <div className="box-sizing-wrapper">{children}</div>
     </ThemeProvider>
   )
 }
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
-  * {
+  .box-sizing-wrapper * {
     box-sizing: border-box;
   }
 
@@ -49,6 +49,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   }
 
   .generic-modal {
+    box-sizing: border-box;
     background-color: ${({ theme }) => theme.color.white};
     border-radius: ${({ theme }) => theme.radius.sm};
     width: 100%;
@@ -62,6 +63,9 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
 
     .modal-close-button:nth-child(2) {
       display: none;
+    }
+    * {
+      box-sizing: border-box;
     }
   }
 

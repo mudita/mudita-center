@@ -28,64 +28,99 @@ interface SendFileError {
 
 export const sendFile = createAsyncThunk<
   { transferId: number },
-  { deviceId: DeviceId; filePath: string; targetPath: string },
-  { state: ReduxRootState; rejectValue: SendFileError }
+  | { deviceId: DeviceId; filePath: string; targetPath: string }
+  | { deviceId: DeviceId; transferId: number; chunksCount: number },
+  { state: ReduxRootState; rejectValue: SendFileError | undefined }
 >(
   ActionName.FileTransferSend,
-  async ({ deviceId, filePath, targetPath }, { rejectWithValue, dispatch }) => {
-    const preTransferResponse = await startPreSendFileRequest(
-      filePath,
-      targetPath,
-      deviceId
+  async (params, { rejectWithValue, dispatch, signal }) => {
+    let aborted = false
+
+    const abortListener = async () => {
+      signal.removeEventListener("abort", abortListener)
+      aborted = true
+      const transferId = transfer.transferId
+      if (transferId) {
+        await sendClearRequest(transferId)
+      }
+    }
+    signal.addEventListener("abort", abortListener)
+
+    const { deviceId } = params
+
+    const transfer: { transferId: number; chunksCount: number } = {
+      transferId: 0,
+      chunksCount: 0,
+    }
+
+    if (aborted) {
+      return rejectWithValue(undefined)
+    }
+
+    if ("transferId" in params) {
+      transfer.transferId = params.transferId
+      transfer.chunksCount = params.chunksCount
+    } else {
+      const { filePath, targetPath } = params
+      const preTransferResponse = await startPreSendFileRequest(
+        filePath,
+        targetPath,
+        deviceId
+      )
+      if (!preTransferResponse.ok) {
+        return rejectWithValue({
+          deviceId,
+          error: {
+            name: GeneralError.IncorrectResponse,
+            type: GeneralError.IncorrectResponse,
+            message: "Incorrect response",
+            payload: {
+              transferId: preTransferResponse.error.payload,
+              filePath,
+            },
+          },
+        })
+      }
+      transfer.transferId = preTransferResponse.data.transferId
+      transfer.chunksCount = preTransferResponse.data.chunksCount
+      if (aborted) {
+        await sendClearRequest(transfer.transferId)
+        return rejectWithValue(undefined)
+      }
+    }
+
+    const { transferId, chunksCount } = transfer
+    dispatch(
+      fileTransferSendPrepared({
+        transferId,
+        chunksCount,
+      })
     )
 
-    if (preTransferResponse.ok) {
-      const { transferId, chunksCount } = preTransferResponse.data
+    for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
+      // TODO: consider using signal to abort
+      const { ok, error } = await sendFileRequest(transferId, chunkNumber)
+      if (!ok) {
+        await sendClearRequest(transferId)
+        return rejectWithValue({
+          deviceId,
+          error: {
+            ...error,
+            payload: {
+              transferId,
+              filePath: "filePath" in params ? params.filePath : "",
+            },
+          },
+        })
+      }
       dispatch(
-        fileTransferSendPrepared({
+        fileTransferChunkSent({
           transferId,
-          chunksCount,
+          chunksTransferred: chunkNumber,
         })
       )
-
-      for (let chunkNumber = 1; chunkNumber <= chunksCount; chunkNumber++) {
-        // TODO: consider using signal to abort
-        const { ok, error } = await sendFileRequest(transferId, chunkNumber)
-        if (!ok) {
-          await sendClearRequest(transferId)
-          return rejectWithValue({
-            deviceId,
-            error: {
-              ...error,
-              payload: {
-                transferId,
-                filePath,
-              },
-            },
-          })
-        }
-        dispatch(
-          fileTransferChunkSent({
-            transferId,
-            chunksTransferred: chunkNumber,
-          })
-        )
-      }
-      await sendClearRequest(transferId)
-      return { transferId }
-    } else {
-      return rejectWithValue({
-        deviceId,
-        error: {
-          name: GeneralError.IncorrectResponse,
-          type: GeneralError.IncorrectResponse,
-          message: "Incorrect response",
-          payload: {
-            transferId: preTransferResponse.error.payload,
-            filePath,
-          },
-        },
-      })
     }
+    await sendClearRequest(transferId)
+    return { transferId }
   }
 )

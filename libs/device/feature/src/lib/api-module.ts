@@ -15,6 +15,8 @@ import { APIFileTransferService } from "./file-transfer"
 import { ServiceBridge } from "./service-bridge"
 import { SystemUtilsModule } from "system-utils/feature"
 import { createSettingsService } from "Core/settings/containers/settings.container"
+import { APIRestoreService } from "./restore"
+import { DeviceSystemActionsService } from "./device-system-actions/device-system-actions.service"
 
 export class APIModule {
   private apiConfigService: APIConfigService
@@ -23,8 +25,10 @@ export class APIModule {
   private apiMenuService: APIMenuService
   private serverService: ServerService
   private backupService: APIBackupService
+  private restoreService: APIRestoreService
   private fileTransferService: APIFileTransferService
   private fileManager: FileManager
+  private deviceSystemActionsService: DeviceSystemActionsService
   private serviceBridge: ServiceBridge
 
   constructor(
@@ -38,11 +42,23 @@ export class APIModule {
     this.apiMenuService = new APIMenuService(deviceManager)
     this.serverService = new ServerService()
     this.backupService = new APIBackupService(deviceManager)
-    this.fileTransferService = new APIFileTransferService(deviceManager)
+    this.restoreService = new APIRestoreService(
+      deviceManager,
+      this.serviceBridge
+    )
+    this.fileTransferService = new APIFileTransferService(
+      deviceManager,
+      this.serviceBridge
+    )
     this.fileManager = new FileManager(deviceManager, this.serviceBridge)
+    this.deviceSystemActionsService = new DeviceSystemActionsService(
+      deviceManager
+    )
     this.serviceBridge.systemUtilsModule = systemUtilsModule
     this.serviceBridge.fileTransfer = this.fileTransferService
     this.serviceBridge.settingsService = createSettingsService()
+    this.serviceBridge.fileManager = this.fileManager
+    this.serviceBridge.deviceSystemActions = this.deviceSystemActionsService
   }
 
   public getAPIServices() {
@@ -53,8 +69,10 @@ export class APIModule {
       this.apiMenuService,
       this.serverService,
       this.backupService,
+      this.restoreService,
       this.fileTransferService,
       this.fileManager,
+      this.deviceSystemActionsService,
     ]
   }
 }

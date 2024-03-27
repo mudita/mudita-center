@@ -5,9 +5,7 @@
 
 import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
-import { removeSeededData, seedData } from "./src/seeds"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
-import { CleanUpFactory } from "./src/cleanup"
 
 dotenv.config()
 
@@ -56,42 +54,36 @@ export const config: Options.Testrunner = {
   // will be called from there.
   //
   specs: [
-    toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
-    toRelativePath(TestFilesPaths.checkForUpdateTest),
-    toRelativePath(TestFilesPaths.deviceUpdateTest),
-    toRelativePath(TestFilesPaths.mcVersionCheckTest),
-    toRelativePath(TestFilesPaths.contactsListTest),
-    toRelativePath(TestFilesPaths.contactsInAppNavigationTest),
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
-    toRelativePath(TestFilesPaths.newsInAppNavigationTest),
-    toRelativePath(TestFilesPaths.overviewInAppNavigationTest),
-    toRelativePath(TestFilesPaths.settingsInAppNavigationTest),
     toRelativePath(TestFilesPaths.helpWindowCheckTest),
-    toRelativePath(TestFilesPaths.sarWindowCheckTest),
-    toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
-    toRelativePath(TestFilesPaths.messageSendTest),
-    toRelativePath(TestFilesPaths.homePageTest),
+    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
   ],
   suites: {
-    mcstandalone: [
-      toRelativePath(TestFilesPaths.homePageTest),
-      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
-    ],
-    cicd: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
+    standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
     ],
-    kompakt: [
-
-    ], 
+    multidevicePureHarmony: [],
+    multideviceSingleHarmony: [],
+    multideviceSinglePure: [],
+    multideviceSingleKompakt: [],
+    multidevicePureKompakt: [],
+    multideviceHarmonyKompakt: [],
+    multideviceGeneral: [],
+    harmony: [],
     pure: [
-
+      toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
     ],
-    harmony: [
+    kompakt: [],
+    deviceUpdate: [],
+    cicd: [
+      toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
+    ],
 
-    ]
   },
   // Patterns to exclude.
   exclude: [
@@ -238,9 +230,7 @@ export const config: Options.Testrunner = {
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  onPrepare: async function (_config, _capabilities) {
-    await new CleanUpFactory().create().cleanUpDevice()
-  },
+  // onPrepare: async function (_config, _capabilities) {},
   /**
    * Gets executed before a worker process is spawned and can be used to initialise specific service
    * for that worker as well as modify runtime environments in an async fashion.
@@ -259,10 +249,7 @@ export const config: Options.Testrunner = {
    * @param {Array.<String>} specs List of spec file paths that are to be run
    * @param {String} cid worker id (e.g. 0-0)
    */
-  beforeSession: async function (_config, _capabilities, specs, _cid) {
-    // in the current config, the "specs" array only contains one file path
-    await seedData(specs[0])
-  },
+  // beforeSession: async function (_config, _capabilities, specs, _cid) {},
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
@@ -345,9 +332,7 @@ export const config: Options.Testrunner = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
    */
-  afterSession: async function (_config, _capabilities, _specs) {
-    await removeSeededData()
-  },
+  // afterSession: async function (_config, _capabilities, _specs) {},
   /**
    * Gets executed after all workers got shut down and the process is about to exit. An error
    * thrown in the onComplete hook will result in the test run failing.

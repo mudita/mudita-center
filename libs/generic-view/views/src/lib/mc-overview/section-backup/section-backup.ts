@@ -10,6 +10,10 @@ import {
   BackupModalsKeys,
   generateBackupCreateModalLayout,
 } from "./backup-create-modal"
+import {
+  BackupRestoreModalsKeys,
+  generateBackupRestoreModalLayout,
+} from "./backup-restore-modal"
 
 enum BackupKeys {
   BackupInfo = "backup-info",
@@ -94,11 +98,13 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
                 id: "module.genericBackup.restoreButtonLabel",
               }),
               action: {
-                type: "backup-data",
-                features: config.restoreFeatures,
+                type: "open-modal",
+                modalKey: config.dataKey + BackupRestoreModalsKeys.Restore,
+                domain: BackupRestoreModalsKeys.Domain,
               },
             },
           },
+          ...generateBackupRestoreModalLayout(config),
         }
       : {}),
     ...(config.backupFeatures

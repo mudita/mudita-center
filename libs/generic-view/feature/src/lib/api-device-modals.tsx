@@ -5,36 +5,14 @@
 
 import React, { FunctionComponent } from "react"
 import { GenericThemeProvider } from "generic-view/theme"
-import { BackupError, ModalBase, ModalCenteredContent } from "generic-view/ui"
-import { useDispatch, useSelector } from "react-redux"
-import {
-  cleanBackupProcess,
-  selectActiveDevice,
-  selectBackupProcessStatus,
-} from "generic-view/store"
+import BackupErrorModal from "./modals/backup-error-modal"
+import RestoreErrorModal from "./modals/restore-error-modal"
 
 export const ApiDeviceModals: FunctionComponent = () => {
   return (
     <GenericThemeProvider>
       <BackupErrorModal />
+      <RestoreErrorModal />
     </GenericThemeProvider>
-  )
-}
-
-const BackupErrorModal: FunctionComponent = () => {
-  const dispatch = useDispatch()
-  const activeDevice = useSelector(selectActiveDevice)
-  const backupStatus = useSelector(selectBackupProcessStatus)
-  const opened = backupStatus === "FAILED" && !activeDevice
-
-  const onClose = () => {
-    dispatch(cleanBackupProcess())
-  }
-  return (
-    <ModalBase opened={opened} variant={"small"}>
-      <ModalCenteredContent>
-        <BackupError closeAction={{ type: "custom", callback: onClose }} />
-      </ModalCenteredContent>
-    </ModalBase>
   )
 }
