@@ -39,6 +39,7 @@ import PasswordHide from "./svg/password-hide.svg"
 import Success from "./svg/confirm.svg"
 import Failure from "./svg/failed.svg"
 import Folder from "./svg/folder.svg"
+import SpinnerDark from "./svg/spinner-dark.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -67,6 +68,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Device]: Device,
   [IconType.Mudita]: Mudita,
   [IconType.Spinner]: Spinner,
+  [IconType.SpinnerDark]: SpinnerDark,
   [IconType.Backup]: Backup,
   [IconType.Settings]: Settings,
   [IconType.PasswordShow]: PasswordShow,

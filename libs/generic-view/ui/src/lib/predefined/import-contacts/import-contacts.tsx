@@ -15,6 +15,7 @@ import {
   importStatusSelector,
 } from "generic-view/store"
 import { ImportContactsProvider } from "./import-contacts-provider"
+import { ImportContactsLoader } from "./import-contats-loader"
 
 interface Config {
   modalKey?: string
@@ -38,7 +39,8 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
     <>
       <ModalCloseButton action={backupCloseButtonAction} />
       <ModalCenteredContent>
-        <ImportContactsProvider />
+        {importStatus === undefined && <ImportContactsProvider />}
+        {importStatus === "PENDING-AUTH" && <ImportContactsLoader />}
       </ModalCenteredContent>
     </>
   )
