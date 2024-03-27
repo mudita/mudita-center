@@ -70,15 +70,18 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.sarWindowCheckTest),
     toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
     toRelativePath(TestFilesPaths.messageSendTest),
-    toRelativePath(TestFilesPaths.homePageTest)
+    toRelativePath(TestFilesPaths.homePageTest),
+    toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
   ],
   suites: {
     mcstandalone: [
-      toRelativePath(TestFilesPaths.homePageTest)
+      toRelativePath(TestFilesPaths.homePageTest),
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
     ],
     cicd: [
       toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
-      toRelativePath(TestFilesPaths.helpWindowCheckTest)
+      toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
     ],
     kompakt: [
 
