@@ -33,7 +33,7 @@ describe("Home Screen Page", () => {
         await expect(connectionProblemInstructions2).toHaveText('Reconnect the device to the computer'),
         await expect(connectionProblemInstructions3).toHaveText("Unlock your Mudita device's screen (if applicable)");
     })  
-    it('Click this didnt solve the problem & click Try Again', async () => {
+    it("Click this didn't solve the problem & click Try Again", async () => {
         const thisDidntSolveTheProblemButton = await HomePage.thisDidntSolve
         const tryAgainButton = await HomePage.tryAgain
         await expect(thisDidntSolveTheProblemButton).toBeDisplayed()
@@ -41,7 +41,7 @@ describe("Home Screen Page", () => {
         await expect(tryAgainButton).toBeDisplayed()
         await tryAgainButton.click()
     })
-    it('Click Contact Support & Verify Contents', async () => {
+    it("Click Contact Support & Verify Contents", async () => {
         const contactSupportBtn = await HomePage.contactSupportButton
         const muditaCenterSupportPopup = await HomePage.muditaCenterSupportModal
         const emailFormField = await HomePage.emailField
@@ -59,7 +59,7 @@ describe("Home Screen Page", () => {
         await expect(attachedFile).toBeDisplayed()
         await expect(sendButtonCheck).toBeDisplayed();
     })
-    it('Click Close Center Support Modal & Verify if modal is not present', async () => {
+    it("Click Close Center Support Modal & Verify if modal is not present", async () => {
         const closeCenterSupportModal = await HomePage.closeCenterSupportModalButton
         const centerSupportModal = await HomePage.centerSupportModal
         await expect(closeCenterSupportModal).toBeDisplayed()
