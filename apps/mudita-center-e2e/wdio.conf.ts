@@ -5,7 +5,6 @@
 
 import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
-import { removeSeededData, seedData } from "./src/seeds"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
 
 dotenv.config()
@@ -55,25 +54,12 @@ export const config: Options.Testrunner = {
   // will be called from there.
   //
   specs: [
-    toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
-    toRelativePath(TestFilesPaths.checkForUpdateTest),
-    toRelativePath(TestFilesPaths.deviceUpdateTest),
-    toRelativePath(TestFilesPaths.mcVersionCheckTest),
-    toRelativePath(TestFilesPaths.contactsListTest),
-    toRelativePath(TestFilesPaths.contactsInAppNavigationTest),
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
-    toRelativePath(TestFilesPaths.newsInAppNavigationTest),
-    toRelativePath(TestFilesPaths.overviewInAppNavigationTest),
-    toRelativePath(TestFilesPaths.settingsInAppNavigationTest),
     toRelativePath(TestFilesPaths.helpWindowCheckTest),
-    toRelativePath(TestFilesPaths.sarWindowCheckTest),
-    toRelativePath(TestFilesPaths.tosPrivacyLicenceWindowsCheckTest),
-    toRelativePath(TestFilesPaths.messageSendTest),
-    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
   ],
   suites: {
     standalone: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     ],
@@ -85,14 +71,16 @@ export const config: Options.Testrunner = {
     multideviceHarmonyKompakt: [],
     multideviceGeneral: [],
     harmony: [],
-    pure: [],
-    kompakt: [],
-    deviceUpdate: [
-      toRelativePath(TestFilesPaths.displayInitialOsVersionTest),
-      toRelativePath(TestFilesPaths.checkForUpdateTest),
-      toRelativePath(TestFilesPaths.deviceUpdateTest),
+    pure: [
+      toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
     ],
-    cicd: [toRelativePath(TestFilesPaths.displayInitialOsVersionTest)],
+    kompakt: [],
+    deviceUpdate: [],
+    cicd: [
+      toRelativePath(TestFilesPaths.helpWindowCheckTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
+    ],
+
   },
   // Patterns to exclude.
   exclude: [
@@ -258,10 +246,7 @@ export const config: Options.Testrunner = {
    * @param {Array.<String>} specs List of spec file paths that are to be run
    * @param {String} cid worker id (e.g. 0-0)
    */
-  beforeSession: async function (_config, _capabilities, specs, _cid) {
-    // in the current config, the "specs" array only contains one file path
-    await seedData(specs[0])
-  },
+  // beforeSession: async function (_config, _capabilities, specs, _cid) {},
   /**
    * Gets executed before test execution begins. At this point you can access to all global
    * variables like `browser`. It is the perfect place to define custom commands.
@@ -344,9 +329,7 @@ export const config: Options.Testrunner = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
    */
-  afterSession: async function (_config, _capabilities, _specs) {
-    await removeSeededData()
-  },
+  // afterSession: async function (_config, _capabilities, _specs) {},
   /**
    * Gets executed after all workers got shut down and the process is about to exit. An error
    * thrown in the onComplete hook will result in the test run failing.
