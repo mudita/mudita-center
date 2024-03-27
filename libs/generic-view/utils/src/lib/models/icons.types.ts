@@ -35,4 +35,6 @@ export enum IconType {
   Success = "success",
   Failure = "failure",
   Folder = "folder",
+  Contact = "contact",
+  ContactsBook = "contacts-book",
 }

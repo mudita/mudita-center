@@ -67,9 +67,28 @@ export const getGenericConfig = createAsyncThunk<
           component: "button-primary",
           config: {
             text: "import contacts",
+            action: {
+              type: "open-modal",
+              modalKey: "import-contacts-modal",
+              domain: "import-contacts",
+            },
           },
           layout: {
             margin: "16px",
+          },
+        },
+        "import-contacts-modal": {
+          component: "modal",
+          config: {
+            variant: "small",
+          },
+          childrenKeys: ["import-contacts-modal-content"],
+        },
+        "import-contacts-modal-content": {
+          component: "import-contacts",
+          config: {
+            features: [],
+            modalKey: "import-contacts-modal",
           },
         },
       },
