@@ -93,38 +93,34 @@ const GoogleSignIn = () => {
 }
 
 const GoogleButtonStyled = styled.button`
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  -webkit-appearance: none;
   background-color: WHITE;
   background-image: none;
   border: 1px solid #747775;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   box-sizing: border-box;
   color: #1f1f1f;
   cursor: pointer;
   font-family: "Roboto", arial, sans-serif;
-  font-size: 14px;
-  height: 40px;
-  letter-spacing: 0.25px;
+  font-size: 1.4rem;
+  height: 4rem;
+  letter-spacing: 0.025rem;
   outline: none;
   overflow: hidden;
-  padding: 0 12px;
+  padding: 0 1.2rem;
   position: relative;
   text-align: center;
   transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
   vertical-align: middle;
   white-space: nowrap;
-  width: 240px;
-  max-width: 400px;
+  width: 24rem;
+  max-width: 40rem;
   min-width: min-content;
 
   & .gsi-material-button-icon {
-    height: 20px;
-    margin-right: 12px;
-    min-width: 20px;
-    width: 20px;
+    height: 2rem;
+    margin-right: 1.2rem;
+    min-width: 2rem;
+    width: 2rem;
   }
 
   & .gsi-material-button-content-wrapper {
@@ -164,8 +160,8 @@ const GoogleButtonStyled = styled.button`
   }
 
   &:hover {
-    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
-      0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    box-shadow: 0 0.1rem 0.2rem 0 rgba(60, 64, 67, 0.3),
+      0 0.1rem 0.3rem 0.1rem rgba(60, 64, 67, 0.15);
   }
 
   &:hover .gsi-material-button-state {
