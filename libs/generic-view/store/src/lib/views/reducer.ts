@@ -204,16 +204,6 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(getGenericConfig.fulfilled, (state, action) => {
     const { deviceId, feature, view } = action.payload
     if (deviceId) {
-      // console.log(
-      //   state.devicesConfiguration,
-      //   deviceId,
-      //   feature,
-      //   view
-      //   // [feature]: {
-      //   //   config: view,
-      //   //   data: state.devicesConfiguration[deviceId].features?.[feature]?.data,
-      //   // },
-      // )
       state.devicesConfiguration[deviceId].features = {
         ...state.devicesConfiguration[deviceId].features,
         [feature]: {
@@ -222,9 +212,5 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
         },
       }
     }
-    //   if (state.activeDevice === undefined && state.pendingDevice === deviceId) {
-    //     state.activeDevice = deviceId
-    //     state.pendingDevice = undefined
-    //   }
   })
 })
