@@ -5,6 +5,7 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import { startGoogleAuthorization } from "./get-google-contacts.action"
+import { cleanImportProcess } from "./actions"
 
 interface ImportsState {
   providers: Partial<Record<ImportProviders, ImportProviderState>>
@@ -24,10 +25,23 @@ const initialState: ImportsState = {
 }
 
 export const importsReducer = createReducer(initialState, (builder) => {
+  builder.addCase(cleanImportProcess, (state, action) => {
+    delete state.currentImportProvider
+  })
   builder.addCase(startGoogleAuthorization.pending, (state, action) => {
     state.currentImportProvider = "GOOGLE"
     state.providers.GOOGLE = {
       status: "PENDING-AUTH",
+    }
+  })
+  builder.addCase(startGoogleAuthorization.rejected, (state, action) => {
+    state.providers.GOOGLE = {
+      status: "FAILED",
+    }
+  })
+  builder.addCase(startGoogleAuthorization.fulfilled, (state, action) => {
+    state.providers.GOOGLE = {
+      status: "AUTH",
     }
   })
 })

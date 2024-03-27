@@ -10,13 +10,12 @@ import externalProvidersStore from "Core/__deprecated__/renderer/store/external-
 import { Scope } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
 
 export const startGoogleAuthorization = createAsyncThunk<
-  undefined,
+  unknown,
   undefined,
   { state: ReduxRootState }
 >(
   ActionName.StartGoogleAuthorization,
   async (_, { getState, dispatch, rejectWithValue, signal }) => {
-    externalProvidersStore.dispatch.google.authorize(Scope.Contacts)
-    return undefined
+    return externalProvidersStore.dispatch.google.authorize(Scope.Contacts)
   }
 )

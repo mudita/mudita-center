@@ -22,10 +22,12 @@ interface Config {
 export const ButtonText: APIFC<undefined, Config> = ({
   data,
   config,
+  children,
   ...props
 }) => {
   return (
     <Button {...props} action={config!.action} $modifiers={config?.modifiers}>
+      {children}
       {config?.icon && <Icon className={"icon"} data={{ type: config.icon }} />}
       <span>{config?.text}</span>
     </Button>

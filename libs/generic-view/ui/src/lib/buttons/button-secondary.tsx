@@ -9,8 +9,11 @@ import { APIFC } from "generic-view/utils"
 import { withConfig } from "../utils/with-config"
 import { ButtonPrimary, Config } from "./button-primary"
 
-export const ButtonSecondary: APIFC<undefined, Config> = (props) => {
-  return <Button {...props} />
+export const ButtonSecondary: APIFC<undefined, Config> = ({
+  children,
+  ...props
+}) => {
+  return <Button {...props}>{children}</Button>
 }
 
 export default withConfig(ButtonSecondary)
