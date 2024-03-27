@@ -54,8 +54,12 @@ describe("Home Screen Page", () => {
         await expect(muditaCenterSupportPopup).toHaveText('Mudita Center Support')
         await expect(emailFormField).toBeDisplayed()
         await emailFormField.click()
+        await emailFormField.setValue('test@test.com')
+        await expect(emailFormField).toHaveValue('test@test.com')
         await expect(messageField).toBeDisplayed()
         await messageField.click()
+        await messageField.setValue('TEST')
+        await expect(messageField).toHaveValue('TEST')
         await expect(attachedFile).toBeDisplayed()
         await expect(sendButtonCheck).toBeDisplayed();
     })
