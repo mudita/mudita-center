@@ -9,6 +9,7 @@ import { predefinedComponents } from "./lib/predefined/overview-predefined"
 import { helpers } from "./lib/helpers/helpers"
 import { interactive } from "./lib/interactive/interactive"
 import { buttons } from "./lib/buttons/buttons"
+import { texts } from "./lib/texts"
 
 export { default as Icon } from "./lib/icon/icon"
 export * from "./lib/api-connection-demo"
@@ -25,6 +26,7 @@ const apiComponents = {
   ...helpers,
   ...interactive,
   ...buttons,
+  ...texts,
 }
 
 export default apiComponents

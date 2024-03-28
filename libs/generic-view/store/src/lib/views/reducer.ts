@@ -22,20 +22,27 @@ import { getMenuConfig } from "../get-menu-config"
 import { DeviceId } from "Core/device/constants/device-id"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { AppError } from "Core/core/errors"
+import { getGenericConfig } from "../features/get-generic-config.actions"
 
+type Features = {
+  "mc-overview"?: {
+    config?: View
+    data?: OverviewData
+  }
+  "mc-about"?: {
+    config?: View
+    data?: OverviewData
+  }
+} & {
+  [key: string]: {
+    config?: View
+    data?: Record<string, unknown>
+  }
+}
 interface DeviceConfiguration {
   apiConfig: ApiConfig
   menuConfig?: MenuConfig
-  features?: {
-    "mc-overview"?: {
-      config?: View
-      data?: OverviewData
-    }
-    "mc-about"?: {
-      config?: View
-      data?: OverviewData
-    }
-  }
+  features?: Features
 }
 
 interface GenericState {
@@ -82,6 +89,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
   })
   builder.addCase(getAPIConfig.fulfilled, (state, action) => {
+    console.log("TO TUTAJ")
     state.devicesConfiguration[action.payload.deviceId] = {
       apiConfig: action.payload.apiConfig,
     }
@@ -151,7 +159,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
               },
             }
           : {}),
-      }
+      } as Features
     }
     if (state.activeDevice === undefined && state.pendingDevice === deviceId) {
       state.activeDevice = deviceId
@@ -191,6 +199,18 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
     if (state.activeDevice === deviceId) {
       state.lastRefresh = timestamp
+    }
+  })
+  builder.addCase(getGenericConfig.fulfilled, (state, action) => {
+    const { deviceId, feature, view } = action.payload
+    if (deviceId) {
+      state.devicesConfiguration[deviceId].features = {
+        ...state.devicesConfiguration[deviceId].features,
+        [feature]: {
+          config: view,
+          data: state.devicesConfiguration[deviceId].features?.[feature]?.data,
+        },
+      }
     }
   })
 })

@@ -29,6 +29,8 @@ import CloseIcon from "Core/__deprecated__/renderer/svg/close.svg"
 import Device from "Core/__deprecated__/renderer/svg/device.svg"
 import Mudita from "Core/__deprecated__/renderer/svg/mudita.svg"
 import Spinner from "Core/__deprecated__/renderer/svg/spinner.svg"
+import Contact from "Core/__deprecated__/renderer/svg/contact.svg"
+import ContactsBook from "Core/__deprecated__/renderer/svg/menu-contacts.svg"
 
 import Backup from "./svg/backup.svg"
 import Settings from "./svg/settings.svg"
@@ -37,6 +39,7 @@ import PasswordHide from "./svg/password-hide.svg"
 import Success from "./svg/confirm.svg"
 import Failure from "./svg/failed.svg"
 import Folder from "./svg/folder.svg"
+import SpinnerDark from "./svg/spinner-dark.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -65,13 +68,16 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Device]: Device,
   [IconType.Mudita]: Mudita,
   [IconType.Spinner]: Spinner,
+  [IconType.SpinnerDark]: SpinnerDark,
   [IconType.Backup]: Backup,
   [IconType.Settings]: Settings,
   [IconType.PasswordShow]: PasswordShow,
   [IconType.PasswordHide]: PasswordHide,
   [IconType.Success]: Success,
   [IconType.Failure]: Failure,
-  [IconType.Folder]: Folder
+  [IconType.Folder]: Folder,
+  [IconType.Contact]: Contact,
+  [IconType.ContactsBook]: ContactsBook,
 }
 
 export const getIcon = (
