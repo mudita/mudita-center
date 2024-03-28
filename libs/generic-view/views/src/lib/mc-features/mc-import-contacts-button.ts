@@ -9,8 +9,6 @@ export const generateMcImportContactsButton: ViewGenerator<View> = (config) => {
   // find entries to replace
   const entriesToGenerate =
     Object.entries(config).filter(([_, value]) => {
-      console.log(value)
-
       return (value.component as string) === "mc-import-contacts-button"
     }) ?? []
 
