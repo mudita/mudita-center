@@ -20,10 +20,12 @@ export interface Config {
 export const ButtonPrimary: APIFC<undefined, Config> = ({
   data,
   config,
+  children,
   ...props
 }) => {
   return (
     <Button {...props} disabled={config?.disabled} action={config!.action}>
+      {children}
       {config?.icon && <Icon data={{ type: config.icon }} />}
       <span>{config?.text}</span>
     </Button>
