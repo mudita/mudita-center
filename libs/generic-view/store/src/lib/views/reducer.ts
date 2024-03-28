@@ -89,7 +89,6 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
   })
   builder.addCase(getAPIConfig.fulfilled, (state, action) => {
-    console.log("TO TUTAJ")
     state.devicesConfiguration[action.payload.deviceId] = {
       apiConfig: action.payload.apiConfig,
     }

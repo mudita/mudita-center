@@ -22,12 +22,10 @@ export const getGenericConfig = createAsyncThunk<
 >(
   FeaturesActions.GetGenericConfig,
   async ({ deviceId, feature }, { rejectWithValue }) => {
-    await new Promise((resolve) => setTimeout(resolve, 1))
+    const response = await getFeatureConfigRequest(deviceId, feature)
 
-    const respone = await getFeatureConfigRequest(deviceId, feature)
-
-    if (respone.ok) {
-      const fixed = generateMcImportContactsButton(respone.data)
+    if (response.ok) {
+      const fixed = generateMcImportContactsButton(response.data)
       return { deviceId, feature, view: fixed }
     }
 
