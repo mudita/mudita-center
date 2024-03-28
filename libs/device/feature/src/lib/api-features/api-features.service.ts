@@ -22,10 +22,17 @@ export class APIFeaturesService {
   constructor(private deviceManager: DeviceManager) {}
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureConfiguration)
-  public async getFeatureConfiguration(
+  public async getFeatureConfiguration({
+    feature,
+    deviceId,
+  }: {
     feature: string
-  ): Promise<ResultObject<unknown>> {
-    const device = this.deviceManager.apiDevice
+    deviceId?: DeviceId
+  }): Promise<ResultObject<unknown>> {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
