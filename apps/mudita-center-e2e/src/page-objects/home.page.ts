@@ -6,76 +6,68 @@
 import Page from "./page"
 
 class HomePage extends Page {
-    get homeHeader() {
-        return $("h1*=Welcome to Mudita Center")
-    }
+  get homeHeader() {
+    return $("h1*=Welcome to Mudita Center")
+  }
 
-    get myDevicesDoesntShowButton() {
-        return $$("button")[2].$("p*=My device");
-    }
+  get myDevicesDoesntShowButton() {
+    return $$("button")[2].$("p*=My device")
+  }
 
-    get weAreSorryPage() {
-        return $("h2*=There was a connection problem")
-    }
+  get weAreSorryPage() {
+    return $("h2*=There was a connection problem")
+  }
 
-    get weAreSorryPageFollowTheInstructions() {
-        return $("p*=Follow the instructions below")
-    }
+  get weAreSorryPageFollowTheInstructions() {
+    return $("p*=Follow the instructions below")
+  }
 
-    get weAreSorryPageInstructions() {
-        return $("li*=Disconnect the device from the computer");
-    }
+  get weAreSorryPageInstructions() {
+    return $$("ol li")
+  }
 
-    get weAreSorryPageInstructions1() {
-        return $("li*=Restart the device");
-    }
+  get thisDidntSolve() {
+    return $$("button")[1].$("p*=This did")
+  }
 
-    get weAreSorryPageInstructions2() {
-        return $("li*=Reconnect the device to the computer");
-    }
+  get tryAgain() {
+    return $("button[data-testid='onboarding-troubleshooting-ui-retry']").$(
+      "p*=Try again"
+    )
+  }
 
-    get weAreSorryPageInstructions3() {
-        return $("li*=Unlock your Mudita device's screen (if applicable)");
-    }
+  get contactSupportButton() {
+    return $(
+      "button[data-testid=onboarding-troubleshooting-ui-contact-support]"
+    )
+  }
 
-    get thisDidntSolve() {
-        return $$("button")[1].$("p*=This did");
-    }
+  get muditaCenterSupportModal() {
+    return $("h2[data-testid=modal-title]")
+  }
 
-    get tryAgain() {
-        return $("button[data-testid='onboarding-troubleshooting-ui-retry']").$("p*=Try again");
-    }
+  get emailField() {
+    return $("input[data-testid='email-input']")
+  }
 
-    get contactSupportButton() {
-        return $("button[data-testid=onboarding-troubleshooting-ui-contact-support]");
-    }
+  get messageField() {
+    return $("textarea[data-testid='description-input']")
+  }
 
-    get muditaCenterSupportModal() {
-        return $("h2[data-testid=modal-title]");
-    }
+  get attachedFile() {
+    return $("ul[data-testid='file-list']")
+  }
 
-    get emailField() {
-        return $("input[data-testid='email-input']");
-    }
+  get sendButton() {
+    return $("button[data-testid='submit-button']")
+  }
 
-    get messageTextArea() {
-        return $("textarea[data-testid='description-input']");
-    }
+  get closeCenterSupportModal() {
+    return $("button[data-testid=close-modal-button]")
+  }
 
-    get attachedFilesSection() {
-        return $("ul[data-testid='file-list']");
-    }
-
-    get sendButton() {
-        return $("button[data-testid='submit-button']");
-    }    
-    
-    get closeCenterSupportModalButton() {
-        return $("button[data-testid=close-modal-button]");
-    }
-
-    get centerSupportModal() {
-        return $("div[data-testid='contact-support-modal']");
-    }
-
-} export default new HomePage()
+  get centerSupportModal() {
+    return $("div[data-testid='contact-support-modal']")
+  }
+}
+export default new HomePage()
