@@ -56,12 +56,14 @@ export const config: Options.Testrunner = {
   specs: [
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
     toRelativePath(TestFilesPaths.helpWindowCheckTest),
-    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
+    toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+    toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
   ],
   suites: {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -78,7 +80,8 @@ export const config: Options.Testrunner = {
     deviceUpdate: [],
     cicd: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
-      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest)
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
     ],
 
   },
