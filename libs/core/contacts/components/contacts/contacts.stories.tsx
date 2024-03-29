@@ -47,7 +47,6 @@ const labeledContactList: any = getSortedContactList(contactsSeed)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const contacts: any = getContacts(contactsSeed)
 const speedDialChosenList: number[] = getSpeedDialChosenList(contactsSeed)
-const isThreadOpened = () => true
 
 const ContactsWrapper = styled.div`
   max-width: 97.5rem;
@@ -73,16 +72,10 @@ const ContactsComponent = ({
     speedDialChosenList={speedDialChosenList}
     onManageButtonClick={dummyPromise(action("Manage contact"))}
     onEdit={action("Edit contact")}
-    onForward={action("Forward contact")}
-    onUnblock={action("Unblock contact")}
-    onBlock={action("Block contact")}
     onDelete={action("Delete contact")}
-    onMessage={action("Send message")}
-    onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
     resultState={resultState}
     setProviderData={noop}
-    isThreadOpened={isThreadOpened}
     addNewContactsToState={asyncNoop}
     addNewContact={asyncNoop}
     importContact={asyncNoop}
@@ -125,7 +118,6 @@ storiesOf("Views|Phone", module)
 
 const singleContact = ({
   favourite = false,
-  blocked = false,
   speedDial,
 }: Partial<Contact> = {}) => ({
   ...defaultContact,
@@ -139,7 +131,6 @@ const singleContact = ({
   firstAddressLine: "50856 Mabelle Motorway",
   secondAddressLine: "USA",
   favourite,
-  blocked,
   speedDial,
   ice: true,
 })
@@ -150,14 +141,8 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       contact={singleContact()}
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
-      onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Favourite, speed dial", () => (
@@ -165,14 +150,8 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       contact={singleContact({ favourite: true, speedDial: 3 })}
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
-      onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Favourite only", () => (
@@ -180,14 +159,8 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       contact={singleContact({ favourite: true })}
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
-      onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Speed dial only", () => (
@@ -195,29 +168,8 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       contact={singleContact({ speedDial: 3 })}
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
-      onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
-    />
-  ))
-  .add("Blocked", () => (
-    <ContactDetails
-      contact={singleContact({ blocked: true })}
-      onEdit={action("Edit contact")}
-      onExport={action("Export contact")}
-      onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
-      onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
-      onClose={action("Close sidebar")}
-      isThreadOpened={isThreadOpened}
     />
   ))
 

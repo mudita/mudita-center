@@ -12,9 +12,6 @@ export interface VirtualizedContactListItemProps {
   toggleRow: (id: string) => void
   onExport: (ids: string[]) => void
   onEdit: (contact: Contact) => void
-  onForward: (contact: Contact) => void
-  onBlock: (contact: Contact) => void
-  onUnblock: (contact: Contact) => void
   onDelete: (id: string) => void
   onSelect: (contact: Contact) => void
   contact: Contact

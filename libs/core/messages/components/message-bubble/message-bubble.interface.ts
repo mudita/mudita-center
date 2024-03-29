@@ -13,7 +13,6 @@ export interface MessageBubbleProps {
   date: Date
   interlocutor?: boolean
   displayAvatar?: boolean
-  forwardMessage?: () => void
   removeMessage: (messageId: string) => void
   resendMessage?: (messageId: string) => void
   messageType: MessageType

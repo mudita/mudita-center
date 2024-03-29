@@ -7,7 +7,6 @@ import { defineMessages } from "react-intl"
 import { DeviceType } from "Core/device/constants"
 import { View, views } from "Core/__deprecated__/renderer/constants/views"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
-import { Feature, flags } from "Core/feature-flags"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
@@ -87,7 +86,6 @@ export interface MenuElement {
     | string
   icons?: IconType[]
   connectedPhoneOnly?: boolean
-  devModeOnly?: boolean
   simulatePhoneConnection?: boolean
   openHelpWindow?: () => void
   visibleOn?: DeviceType[]
@@ -104,7 +102,6 @@ export const baseMenuElements: MenuElement[] = [
       },
     ],
     viewKey: View.Onboarding,
-    devModeOnly: true,
   },
   {
     items: [
@@ -126,14 +123,7 @@ export const deviceMenuElements: MenuElement[] = [
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
-    icons: flags.get(Feature.YourPureIconsEnabled)
-      ? [
-          IconType.MenuRange,
-          IconType.MenuBattery,
-          IconType.Sim,
-          IconType.TetheringStatus,
-        ]
-      : [],
+    icons: [],
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaPure],
   },

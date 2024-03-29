@@ -23,12 +23,9 @@ type Props = ComponentProps<typeof ContactSearchResults>
 const defaultProps: Props = {
   results: [],
   selectedItems: [],
-  onBlock: jest.fn(),
   onDelete: jest.fn(),
   onExport: jest.fn(),
-  onForward: jest.fn(),
   onSelect: jest.fn(),
-  onUnblock: jest.fn(),
   selectedContact: null,
   resultsState: ResultState.Empty,
 }
@@ -43,7 +40,6 @@ const contact: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: false,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }

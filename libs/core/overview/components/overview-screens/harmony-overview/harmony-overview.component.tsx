@@ -30,7 +30,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   downloadingState,
   clearUpdateState,
   abortDownload,
-  allReleases,
   updateOsError,
   checkForUpdate,
   downloadUpdates,
@@ -104,7 +103,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
           updateState={updatingState}
           updateOs={updateReleases}
           openContactSupportFlow={openContactSupportFlow}
-          allReleases={allReleases}
           openHelpView={goToHelp}
           error={updateOsError}
           downloadingReleasesProcessStates={downloadingReleasesProcessStates}

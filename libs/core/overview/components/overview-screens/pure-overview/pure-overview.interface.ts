@@ -41,7 +41,6 @@ export interface PureOverviewProps {
   readonly checkingForUpdateState: CheckForUpdateState
   readonly availableReleasesForUpdate: OsRelease[] | null
   readonly downloadingState: DownloadState
-  readonly allReleases: OsRelease[] | null
   readonly updateOsError: AppError<UpdateError> | null
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null
   readonly updatingReleasesProcessStates: ProcessedRelease[] | null

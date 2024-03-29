@@ -14,7 +14,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     deviceFeaturesVisible:
       state.deviceInitialization.deviceInitializationStatus ===
       DeviceInitializationStatus.Initialized,
-    devModeEnabled: state.devMode.enabled,
     dataSyncInProgress: isDataSyncInProgressSelector(state),
   }
 }

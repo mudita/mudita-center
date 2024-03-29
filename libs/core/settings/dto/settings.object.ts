@@ -3,12 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ConversionFormat, Convert } from "Core/settings/constants"
-
 export interface Settings {
   applicationId: string | null
-  conversionFormat: ConversionFormat
-  convert: Convert
   osBackupLocation: string
   osDownloadLocation: string
   language: string
@@ -18,11 +14,6 @@ export interface Settings {
   privacyPolicyAccepted: boolean | undefined
   neverConnected: boolean
   tray: boolean
-  nonStandardAudioFilesConversion: boolean
-  osUpdates: boolean
-  lowBattery: boolean
-  incomingCalls: boolean
-  incomingMessages: boolean
   autostart: boolean
   tethering: boolean
   usbAccessRestartRequired: boolean

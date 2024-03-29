@@ -15,6 +15,9 @@ export const editContact = createAsyncThunk<Error | undefined, Contact>(
   async (contact, { dispatch, rejectWithValue }) => {
     const { data, error } = await editContactRequest(contact)
 
+    console.log("data: ", data)
+    console.log("error: ", error)
+
     if (error || !data) {
       return rejectWithValue(
         new AppError(ContactsEvent.EditContact, "Edit Contact request failed")

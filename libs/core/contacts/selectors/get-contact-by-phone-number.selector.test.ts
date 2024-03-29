@@ -30,7 +30,6 @@ describe("`getContactByPhoneNumberSelector` selector", () => {
       note: "sapiente rem dignissimos sunt",
       ice: false,
       favourite: false,
-      blocked: false,
       firstAddressLine: "Malczewskiego 3, Warszawa",
       secondAddressLine: "",
     }

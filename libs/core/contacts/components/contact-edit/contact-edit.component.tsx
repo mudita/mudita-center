@@ -77,7 +77,6 @@ export const defaultContact = {
   firstAddressLine: "",
   secondAddressLine: "",
   favourite: false,
-  blocked: false,
   speedDial: undefined,
   ice: false,
 } as NewContact

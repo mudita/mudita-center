@@ -9,7 +9,6 @@ import { connect } from "react-redux"
 import { createSelector } from "@reduxjs/toolkit"
 import { DeviceType } from "Core/device/constants"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { DevMode } from "Core/__deprecated__/dev-mode/store/dev-mode.interface"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { View } from "Core/__deprecated__/renderer/constants/views"
 import { getUnreadThreads } from "Core/messages/selectors"
@@ -34,7 +33,6 @@ export interface MenuProps {
   deviceType: DeviceType | null
   deviceFeaturesVisible?: boolean
   openHelpWindow?: () => void
-  devModeEnabled?: DevMode["enabled"]
   notifications: {
     [View.Messages]: boolean
   }

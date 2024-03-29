@@ -30,7 +30,6 @@ const contactWithBothPhoneNumbers: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: false,
   favourite: false,
-  blocked: true,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
