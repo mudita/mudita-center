@@ -50,7 +50,7 @@ export class APIFeaturesService {
       const config = FeatureConfigValidator.safeParse(response.data.body)
       return config.success
         ? Result.success(config.data)
-        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
+        : Result.failed(new AppError(GeneralError.IncorrectResponse))
     }
 
     return Result.failed(response.error)
