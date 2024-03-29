@@ -8,6 +8,7 @@ import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import {
   APIFeaturesServiceEvents,
+  FeatureConfigValidator,
   GeneralError,
   OverviewConfig,
   OverviewConfigValidator,
@@ -46,7 +47,10 @@ export class APIFeaturesService {
       },
     })
     if (response.ok) {
-      return Result.success(response.data.body)
+      const config = FeatureConfigValidator.safeParse(response.data.body)
+      return config.success
+        ? Result.success(config.data)
+        : Result.failed(new AppError(GeneralError.IncorrectResponse))
     }
 
     return Result.failed(response.error)
