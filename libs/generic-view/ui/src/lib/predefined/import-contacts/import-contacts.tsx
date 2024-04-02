@@ -18,6 +18,7 @@ import {
 import { ImportContactsProvider } from "./import-contacts-provider"
 import { ImportContactsLoader } from "./import-contats-loader"
 import { cleanImportProcess } from "generic-view/store"
+import { ImportContactsList } from "./import-contacts-list"
 
 interface Config {
   modalKey?: string
@@ -51,7 +52,7 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
         {currentStatus === undefined && <ImportContactsProvider />}
         {currentStatus === "PENDING-AUTH" && <ImportContactsLoader />}
         {currentStatus === "FAILED" && <div>FAILED</div>}
-        {currentStatus === "AUTH" && <div>SUCCESS</div>}
+        {currentStatus === "AUTH" && <ImportContactsList />}
       </ModalCenteredContent>
     </>
   )
