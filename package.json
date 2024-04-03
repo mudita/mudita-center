@@ -4,11 +4,16 @@
   "productName": "Mudita Center",
   "version": "2.2.8",
   "private": true,
-  "workspaces": [
-    "apps/mudita-center",
-    "apps/mudita-center-e2e",
-    "libs"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/mudita-center",
+      "apps/mudita-center-e2e",
+      "libs"
+    ],
+    "nohoist": [
+      "**electron**"
+    ]
+  },
   "scripts": {
     "setup": "npm ci && nx postsetup mudita-center",
     "setup-validate": "npm ci && nx copy-static-dependencies mudita-center",
