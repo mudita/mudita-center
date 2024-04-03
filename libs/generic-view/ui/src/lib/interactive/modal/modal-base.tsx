@@ -71,7 +71,6 @@ export const ModalBase: FunctionComponent<Props> = ({
           zIndex: ModalLayers.Default,
         },
         content: {
-          // width: modalWidth,
           maxHeight: config?.maxHeight || 574,
           zIndex: ModalLayers.Default,
           // @ts-ignore
