@@ -7,6 +7,7 @@ import { createReducer } from "@reduxjs/toolkit"
 import { startGoogleAuthorization } from "./get-google-contacts.action"
 import { cleanImportProcess } from "./actions"
 import { importContactsFromExternalSource } from "./import-contacts-from-external-source.action"
+import { UnifiedContact } from "Libs/device/models/src"
 
 interface ImportsState {
   providers: Partial<Record<ImportProviders, ImportProviderState>>
@@ -25,6 +26,7 @@ export type ImportStatus =
 
 interface ImportProviderState {
   status: ImportStatus
+  contacts?: UnifiedContact[]
 }
 
 const initialState: ImportsState = {
@@ -61,6 +63,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
     (state, action) => {
       state.providers.GOOGLE = {
         status: "IMPORT-INTO-MC-DONE",
+        contacts: action.payload,
       }
     }
   )

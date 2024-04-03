@@ -194,7 +194,10 @@ const google = createModel<ExternalProvidersModels>({
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const getContacts = async (_: undefined, rootState: any) => {
+    const getContacts = async (
+      params: undefined | { skipMapping?: boolean },
+      rootState: any
+    ) => {
       logger.info("Getting Google contacts")
 
       // AUTO DISABLED - fix me if you like :)
@@ -226,6 +229,10 @@ const google = createModel<ExternalProvidersModels>({
           totalItems = data.totalItems ?? 0
           nextPageToken = data.nextPageToken
           contacts = [...contacts, ...(data.connections ?? [])]
+        }
+
+        if (params?.skipMapping) {
+          resolve(contacts ?? [])
         }
 
         resolve(
