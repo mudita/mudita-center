@@ -1,7 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const { build } = require("../apps/mudita-center/package.json")
-const { notarize } = require("electron-notarize")
+const { notarize } = require("@electron/notarize")
 
 require("dotenv").config({
   path: path.join(__dirname, "../apps/mudita-center/electron-builder.env"),
