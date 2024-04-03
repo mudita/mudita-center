@@ -52,7 +52,9 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
 
   const showCloseButton = importStatus !== "PENDING-AUTH"
   const smallModal =
-    currentStatus === undefined || currentStatus === "PENDING-AUTH"
+    currentStatus === undefined ||
+    currentStatus === "PENDING-AUTH" ||
+    currentStatus === "IMPORT-INTO-MC-IN-PROGRESS"
 
   return (
     <>
@@ -65,7 +67,7 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
           <ImportContactsLoader />
         )}
         {currentStatus === "FAILED" && <div>FAILED</div>}
-        {currentStatus === "AUTH" && <ImportContactsList />}
+        {currentStatus === "IMPORT-INTO-MC-DONE" && <ImportContactsList />}
       </ModalCenteredContent>
     </>
   )

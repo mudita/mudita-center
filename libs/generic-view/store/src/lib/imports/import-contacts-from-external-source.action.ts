@@ -17,10 +17,6 @@ export const importContactsFromExternalSource = createAsyncThunk<
 >(
   ActionName.ImportContactsFromExternalSource,
   async (_, { getState, dispatch, rejectWithValue, signal }) => {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 5000)
-    })
-
     // eslint-disable-next-line @typescript-eslint/await-thenable
     const contacts = (await externalProvidersStore.dispatch.google.getContacts({
       skipMapping: true,

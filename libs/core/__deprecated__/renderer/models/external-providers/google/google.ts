@@ -196,6 +196,7 @@ const google = createModel<ExternalProvidersModels>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getContacts = async (
       params: undefined | { skipMapping?: boolean },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       rootState: any
     ) => {
       logger.info("Getting Google contacts")
