@@ -11,13 +11,13 @@ import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
-  ImportStatus,
+  cleanImportProcess,
   closeModal as closeModalAction,
+  ImportStatus,
   importStatusSelector,
 } from "generic-view/store"
 import { ImportContactsProvider } from "./import-contacts-provider"
 import { ImportContactsLoader } from "./import-contats-loader"
-import { cleanImportProcess } from "generic-view/store"
 import { ImportContactsList } from "./import-contacts-list"
 
 interface Config {
@@ -42,13 +42,14 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   }
 
   const showCloseButton = importStatus !== "PENDING-AUTH"
-
   const currentStatus = freezedStatus || importStatus
+  const smallModal =
+    currentStatus === undefined || currentStatus === "PENDING-AUTH"
 
   return (
     <>
       {showCloseButton && <ModalCloseButton action={backupCloseButtonAction} />}
-      <ModalCenteredContent>
+      <ModalCenteredContent $size={smallModal ? "small" : "medium"}>
         {currentStatus === undefined && <ImportContactsProvider />}
         {currentStatus === "PENDING-AUTH" && <ImportContactsLoader />}
         {currentStatus === "FAILED" && <div>FAILED</div>}
