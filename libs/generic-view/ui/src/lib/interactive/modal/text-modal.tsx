@@ -38,7 +38,7 @@ export const TextModal: BaseGenericComponent<
     <ModalBase
       opened={opened}
       config={{
-        width: config?.width || 678,
+        width: config?.width || 680,
       }}
     >
       <Header $active={contentScrolled}>
@@ -81,4 +81,5 @@ const ScrollContainer = styled.div`
   margin-right: 0.3rem;
   margin-bottom: 4rem;
   flex: 1;
+  width: var(--modal-width);
 `

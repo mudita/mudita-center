@@ -40,6 +40,8 @@ import Success from "./svg/confirm.svg"
 import Failure from "./svg/failed.svg"
 import Folder from "./svg/folder.svg"
 import SpinnerDark from "./svg/spinner-dark.svg"
+import Check from "./svg/check.svg"
+import Minus from "./svg/minus.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -78,6 +80,8 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Folder]: Folder,
   [IconType.Contact]: Contact,
   [IconType.ContactsBook]: ContactsBook,
+  [IconType.Check]: Check,
+  [IconType.Minus]: Minus
 }
 
 export const getIcon = (

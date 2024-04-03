@@ -58,7 +58,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     box-sizing: border-box;
     background-color: ${({ theme }) => theme.color.white};
     border-radius: ${({ theme }) => theme.radius.sm};
-    width: 100%;
+    width: auto;
     max-height: calc(100vh - 20rem);
     overflow: hidden;
     outline: none;
