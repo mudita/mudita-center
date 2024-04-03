@@ -5,13 +5,20 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { ModalTitleIcon } from "../../interactive/modal"
+import {
+  ModalButtons,
+  ModalScrollableContent,
+  ModalTitleIcon,
+} from "../../interactive/modal"
 import { IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { UnifiedContact } from "device/models"
-import { StyledP1 } from "../../texts/paragraphs"
+import { CheckboxInput } from "../../interactive/input/checkbox-input"
+import { useFormContext } from "react-hook-form"
+
+export const SELECTED_CONTACTS_FIELD = "contacts"
 
 const messages = defineMessages({
   title: {
@@ -34,66 +41,80 @@ const dummyData = new Array(102).fill(1).map((_, index) => {
 })
 
 export const ImportContactsList = () => {
+  const { watch } = useFormContext()
+  const selectedContacts = watch(SELECTED_CONTACTS_FIELD)
+
   return (
     <>
       <ModalTitleIcon data={{ type: IconType.ContactsBook }} />
       <h1>{intl.formatMessage(messages.title)}</h1>
       <Article>
-        <ContactsWrapper>
+        <ScrollableContent>
           {dummyData.map((item) => {
             return <ContactItem key={item.id} {...item} />
           })}
-        </ContactsWrapper>
-
+        </ScrollableContent>
+      </Article>
+      <CustomModalButtons>
         <ButtonPrimary
           config={{
-            text: intl.formatMessage(messages.importButtonText),
+            text: intl.formatMessage(messages.importButtonText, {
+              count: selectedContacts?.length || 0,
+            }),
             action: {
               type: "custom",
               callback: () => {
                 console.log("IMPORT")
               },
             },
+            disabled: !selectedContacts || selectedContacts.length === 0,
           }}
-        ></ButtonPrimary>
-      </Article>
+        />
+      </CustomModalButtons>
     </>
   )
 }
 
 const ContactItem: React.FC<UnifiedContact> = ({
+  id,
   displayName,
   phoneNumbers,
 }) => {
   return (
     <ContactItemWrapper>
-      <StyledP1>{displayName}</StyledP1>
-      <StyledPhoneInfoWrapper>
-        {phoneNumbers.length > 0 && <p>{phoneNumbers[0].value}</p>}
-        {
-          <div className="additionalNumbers">
-            {phoneNumbers.length > 1 ? `+${phoneNumbers.length - 1}` : ""}
-          </div>
-        }
-      </StyledPhoneInfoWrapper>
+      <CheckboxInput
+        config={{
+          value: id,
+          name: SELECTED_CONTACTS_FIELD,
+        }}
+      >
+        <ContactLabelWrapper>
+          <p>{displayName}</p>
+          <StyledPhoneInfoWrapper>
+            {phoneNumbers.length > 0 && <p>{phoneNumbers[0].value}</p>}
+            {
+              <div className="additionalNumbers">
+                {phoneNumbers.length > 1 ? `+${phoneNumbers.length - 1}` : ""}
+              </div>
+            }
+          </StyledPhoneInfoWrapper>
+        </ContactLabelWrapper>
+      </CheckboxInput>
     </ContactItemWrapper>
   )
 }
 
-const ContactsWrapper = styled.div`
-  width: 100%;
-  max-height: 25rem;
-  overflow: auto;
-`
-
 const ContactItemWrapper = styled.div`
   width: 100%;
+  padding: 0 1.4rem;
+`
+
+const ContactLabelWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 3.2rem;
-  padding: 0 1.4rem;
+  width: 100%;
 `
 
 const StyledPhoneInfoWrapper = styled.div`
@@ -115,11 +136,14 @@ const StyledPhoneInfoWrapper = styled.div`
 
 const Article = styled.article`
   width: 100%;
+`
+
+const CustomModalButtons = styled(ModalButtons).attrs({ $vertical: true })`
+  grid-template-columns: auto;
+`
+
+const ScrollableContent = styled(ModalScrollableContent)`
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  & > button {
-    margin-top: 2.4rem;
-  }
+  gap: ${({ theme }) => theme.space.xs};
 `

@@ -38,4 +38,6 @@ export enum IconType {
   Folder = "folder",
   Contact = "contact",
   ContactsBook = "contacts-book",
+  Check = "check",
+  Minus = "minus",
 }

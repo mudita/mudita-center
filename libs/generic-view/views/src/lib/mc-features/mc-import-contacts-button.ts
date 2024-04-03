@@ -73,7 +73,8 @@ const getImportContactsButtonComponents = (
     [`${mcImportContactsButtonKey}_import-contacts-modal`]: {
       component: "modal",
       config: {
-        variant: "small",
+        size: "medium",
+        maxHeight: 659,
       },
       childrenKeys: [
         `${mcImportContactsButtonKey}_import-contacts-modal-content`,
