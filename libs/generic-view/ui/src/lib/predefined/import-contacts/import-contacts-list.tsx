@@ -17,6 +17,8 @@ import { ButtonPrimary } from "../../buttons/button-primary"
 import { UnifiedContact } from "device/models"
 import { CheckboxInput } from "../../interactive/input/checkbox-input"
 import { useFormContext } from "react-hook-form"
+import { importContactsSelector } from "generic-view/store"
+import { useSelector } from "react-redux"
 
 export const SELECTED_CONTACTS_FIELD = "contacts"
 
@@ -29,20 +31,10 @@ const messages = defineMessages({
   },
 })
 
-const dummyData = new Array(102).fill(1).map((_, index) => {
-  const contact: UnifiedContact = {
-    id: index.toString(),
-    displayName: `Dummy Name ${index}`,
-    phoneNumbers: new Array(index).fill(10).map(() => {
-      return { value: "+48123123123" }
-    }),
-  }
-  return contact
-})
-
 export const ImportContactsList = () => {
   const { watch } = useFormContext()
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD)
+  const contacts = useSelector(importContactsSelector)
 
   return (
     <>
@@ -50,7 +42,7 @@ export const ImportContactsList = () => {
       <h1>{intl.formatMessage(messages.title)}</h1>
       <Article>
         <ScrollableContent>
-          {dummyData.map((item) => {
+          {contacts.map((item) => {
             return <ContactItem key={item.id} {...item} />
           })}
         </ScrollableContent>
@@ -121,7 +113,6 @@ const StyledPhoneInfoWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
-
   & > .additionalNumbers {
     width: 2.3rem;
   }
