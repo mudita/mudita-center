@@ -39,5 +39,6 @@ export enum ActionName {
   ChunkFileTransferGet = "generic-file-transfer/chunk-get",
   ClearFileTransferGetError = "generic-file-transfer/clear-get-errors",
   StartGoogleAuthorization = "generic-imports/start-google-authorization",
+  ImportContactsFromExternalSource = "generic-imports/import-contacts-from-external-source",
   CleanImportProcess = "generic-imports/clean-import-process",
 }

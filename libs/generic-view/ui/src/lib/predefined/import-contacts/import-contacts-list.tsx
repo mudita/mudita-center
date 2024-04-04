@@ -18,6 +18,8 @@ import { UnifiedContact } from "device/models"
 import { CheckboxInput } from "../../interactive/input/checkbox-input"
 import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
+import { importContactsSelector } from "generic-view/store"
+import { useSelector } from "react-redux"
 
 export const SELECTED_CONTACTS_FIELD = "contacts"
 
@@ -30,22 +32,10 @@ const messages = defineMessages({
   },
 })
 
-const dummyData = Array.from({ length: 102 }, (_, index) => {
-  const contact: UnifiedContact = {
-    id: index.toString(),
-    displayName: `Dummy Name ${index}`,
-    phoneNumbers: Array.from({ length: Math.floor(Math.random() * 5) }, () => {
-      return {
-        value: "+48" + Math.random().toString().slice(2, 11).padEnd(8, "0"),
-      }
-    }),
-  }
-  return contact
-})
-
 export const ImportContactsList = () => {
   const { watch } = useFormContext()
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD)
+  const contacts = useSelector(importContactsSelector)
 
   return (
     <>
@@ -53,7 +43,7 @@ export const ImportContactsList = () => {
       <h1>{intl.formatMessage(messages.title)}</h1>
       <Article>
         <ScrollableContent>
-          {dummyData.map((item) => {
+          {contacts.map((item) => {
             return <ContactItem key={item.id} {...item} />
           })}
         </ScrollableContent>

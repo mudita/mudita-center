@@ -4,7 +4,7 @@
  */
 
 import { APIFC, ButtonAction } from "generic-view/utils"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { withConfig } from "../../utils/with-config"
 import { Form } from "../../interactive/form/form"
 import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
@@ -13,6 +13,7 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   cleanImportProcess,
   closeModal as closeModalAction,
+  importContactsFromExternalSource,
   ImportStatus,
   importStatusSelector,
 } from "generic-view/store"
@@ -30,6 +31,14 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
 
   const dispatch = useDispatch<Dispatch>()
 
+  const currentStatus = freezedStatus || importStatus
+
+  useEffect(() => {
+    if (currentStatus === "AUTH") {
+      dispatch(importContactsFromExternalSource())
+    }
+  }, [dispatch, currentStatus])
+
   const closeModal = () => {
     setFreezedStatus(importStatus)
     dispatch(closeModalAction({ key: modalKey! }))
@@ -42,18 +51,23 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   }
 
   const showCloseButton = importStatus !== "PENDING-AUTH"
-  const currentStatus = freezedStatus || importStatus
   const smallModal =
-    currentStatus === undefined || currentStatus === "PENDING-AUTH"
+    currentStatus === undefined ||
+    currentStatus === "PENDING-AUTH" ||
+    currentStatus === "IMPORT-INTO-MC-IN-PROGRESS"
 
   return (
     <>
       {showCloseButton && <ModalCloseButton action={backupCloseButtonAction} />}
       <ModalCenteredContent $size={smallModal ? "small" : "medium"}>
         {currentStatus === undefined && <ImportContactsProvider />}
-        {currentStatus === "PENDING-AUTH" && <ImportContactsLoader />}
+        {(currentStatus === "PENDING-AUTH" ||
+          currentStatus === "AUTH" ||
+          currentStatus === "IMPORT-INTO-MC-IN-PROGRESS") && (
+          <ImportContactsLoader />
+        )}
         {currentStatus === "FAILED" && <div>FAILED</div>}
-        {currentStatus === "AUTH" && <ImportContactsList />}
+        {currentStatus === "IMPORT-INTO-MC-DONE" && <ImportContactsList />}
       </ModalCenteredContent>
     </>
   )
