@@ -90,6 +90,8 @@ const MinusIcon = styled(Icon).attrs({ data: { type: IconType.Minus } })`
 `
 
 const InputIndicator = styled.div`
+  min-width: 2.2rem;
+  min-height: 2.2rem;
   width: 2.2rem;
   height: 2.2rem;
   display: inline-block;

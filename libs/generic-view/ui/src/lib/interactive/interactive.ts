@@ -10,6 +10,7 @@ import ProgressBar from "./progress-bar/progress-bar"
 import Form from "./form/form"
 import RadioInput from "./input/radio-input"
 import CheckboxInput from "./input/checkbox-input"
+import Tooltip from "./tooltip/tooltip"
 
 export const interactive = {
   modal: Modal,
@@ -19,4 +20,7 @@ export const interactive = {
   "checkbox-input": CheckboxInput,
   "progress-bar": ProgressBar,
   form: Form,
+  tooltip: Tooltip,
+  "tooltip.anchor": Tooltip.Anchor,
+  "tooltip.content": Tooltip.Content,
 }
