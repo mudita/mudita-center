@@ -9,6 +9,8 @@ import ContactSupportFlow from "Core/contact-support/containers/contact-support-
 import { UpdateOsInterruptedFlowContainer } from "Core/update/components/update-os-interrupted-flow"
 import ErrorConnectingModal from "Core/connecting/components/error-connecting-modal"
 import ConnectingLoaderModal from "Core/modals-manager/components/connecting-loader-modal.component"
+import DetachedDuringUploadErrorModal
+  from "Core/files-manager/components/dettached-during-upload-error-modal/dettached-during-upload-error-modal.component"
 
 type Props = {
   contactSupportFlowShow: boolean
@@ -29,6 +31,7 @@ const ModalsManager: FunctionComponent<Props> = ({
       {contactSupportFlowShow && <ContactSupportFlow />}
       <UpdateOsInterruptedFlowContainer />
       <ConnectingLoaderModal />
+      <DetachedDuringUploadErrorModal />
     </>
   )
 }
