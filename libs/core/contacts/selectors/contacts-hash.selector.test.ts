@@ -33,7 +33,6 @@ const contacts: Record<string, Contact> = {
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   },
@@ -47,7 +46,6 @@ const contacts: Record<string, Contact> = {
     note: "temporibus molestiae",
     ice: true,
     favourite: false,
-    blocked: false,
     firstAddressLine: "016 McClure Curve",
     secondAddressLine: "",
   },
@@ -61,7 +59,6 @@ const contacts: Record<string, Contact> = {
     note: "",
     ice: true,
     favourite: false,
-    blocked: false,
     firstAddressLine: "",
     secondAddressLine: "",
   },
@@ -75,7 +72,6 @@ const contacts: Record<string, Contact> = {
     note: "",
     ice: true,
     favourite: false,
-    blocked: false,
     firstAddressLine: "",
     secondAddressLine: "",
   },
@@ -111,7 +107,6 @@ describe("When contacts state have records", () => {
           note: "sapiente rem dignissimos sunt",
           ice: false,
           favourite: false,
-          blocked: false,
           firstAddressLine: "Malczewskiego 3, Warszawa",
           secondAddressLine: "",
         },
@@ -140,7 +135,6 @@ describe("When contacts state have records", () => {
           note: "temporibus molestiae",
           ice: true,
           favourite: false,
-          blocked: false,
           firstAddressLine: "016 McClure Curve",
           secondAddressLine: "",
         },
@@ -156,14 +150,12 @@ describe("When contacts state have records", () => {
           note: "",
           ice: true,
           favourite: false,
-          blocked: false,
           firstAddressLine: "",
           secondAddressLine: "",
         },
       ],
       n: [
         {
-          blocked: false,
           email: "",
           favourite: false,
           firstAddressLine: "",
@@ -193,7 +185,6 @@ describe("selector can filter contact by existence of primary or secondary phone
     Object {
       "": Array [
         Object {
-          "blocked": false,
           "email": "",
           "favourite": false,
           "firstAddressLine": "",
@@ -209,7 +200,6 @@ describe("selector can filter contact by existence of primary or secondary phone
       ],
       "n": Array [
         Object {
-          "blocked": false,
           "email": "",
           "favourite": false,
           "firstAddressLine": "",
@@ -230,7 +220,6 @@ describe("selector can filter contact by existence of primary or secondary phone
     Object {
       "": Array [
         Object {
-          "blocked": false,
           "email": "",
           "favourite": false,
           "firstAddressLine": "",

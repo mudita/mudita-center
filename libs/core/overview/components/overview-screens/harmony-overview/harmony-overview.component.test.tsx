@@ -40,7 +40,6 @@ const defaultProps: Props = {
   startUpdateOs: jest.fn(),
   openContactSupportFlow: jest.fn(),
   abortDownload: jest.fn(),
-  allReleases: [],
   checkForUpdate: jest.fn(),
   updatingState: State.Initial,
   checkingForUpdateState: CheckForUpdateState.Initial,

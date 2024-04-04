@@ -5,7 +5,6 @@
 
 import { OpenDialogOptions } from "electron"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { History, LocationState } from "history"
 import { AuthProviders } from "Core/__deprecated__/renderer/models/auth/auth.typings"
 import {
   ExternalProvider,
@@ -49,8 +48,6 @@ export interface ContactsProps {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onManageButtonClick: (cb?: any) => Promise<void>
-  isThreadOpened: (phoneNumber: string) => boolean
-  onMessage: (history: History<LocationState>, phoneNumber: string) => void
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   authorize: (provider: ExternalProvider) => Promise<PayloadAction<Error | any>>
@@ -60,23 +57,23 @@ export interface ContactsProps {
   importContact: (
     arg: ImportContactArg
   ) => Promise<PayloadAction<Error | Contact>>
-  editContact: (contact: Contact) => Promise<PayloadAction<Error | undefined>>
+  editContact: (
+    contact: Contact
+  ) => Promise<PayloadAction<ContactErrorResponse | undefined>>
   deleteContacts: (
     ids: ContactID[]
   ) => Promise<PayloadAction<Error | undefined>>
   loadContacts: (provider: Provider) => Promise<Contact[]>
   addNewContactsToState: (contacts: Contact[]) => Promise<void>
   exportContacts: (contacts: Contact[]) => Promise<ExportContactsResult>
-  onCall: (phoneNumber: string) => void
   onEdit: (contacts: Contact) => void
-  onForward: (contact: Contact) => void
-  onBlock: (contact: Contact) => void
-  onUnblock: (contact: Contact) => void
   onDelete: (id: string) => void
   resultState: ResultState
   contactList: ContactCategory[]
   closeImportWindow: (provider: ExternalProvider) => Promise<void>
-  getPaths: (options: OpenDialogOptions) => Promise<PayloadAction<ResultObject<string[] | undefined>>>
+  getPaths: (
+    options: OpenDialogOptions
+  ) => Promise<PayloadAction<ResultObject<string[] | undefined>>>
 }
 
 export interface NewContactResponse extends NewContact {

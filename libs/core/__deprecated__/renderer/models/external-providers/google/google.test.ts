@@ -132,7 +132,6 @@ test("contacts are received properly", async () => {
   expect(await store.dispatch.google.getContacts()).toMatchInlineSnapshot(`
     Array [
       Object {
-        "blocked": false,
         "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "bomboladzka 1",
@@ -146,7 +145,6 @@ test("contacts are received properly", async () => {
         "secondaryPhoneNumber": "",
       },
       Object {
-        "blocked": false,
         "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "lolo 123",

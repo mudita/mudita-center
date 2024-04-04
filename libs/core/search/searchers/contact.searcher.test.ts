@@ -22,7 +22,6 @@ const contactMock: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: false,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
@@ -43,7 +42,6 @@ describe("When index exists", () => {
     indexContactMock.addField("note")
     indexContactMock.addField("ice")
     indexContactMock.addField("favourite")
-    indexContactMock.addField("blocked")
     indexContactMock.addField("firstAddressLine")
     indexContactMock.addField("secondAddressLine")
 

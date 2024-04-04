@@ -21,7 +21,6 @@ const mockContact: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: false,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
@@ -38,7 +37,6 @@ const contactsMock: ContactsCollection = {
     note: "sapiente rem dignissimos sunt",
     ice: true,
     favourite: false,
-    blocked: true,
     firstAddressLine: "3284 Klocko Plains",
     secondAddressLine: "",
   },
@@ -52,7 +50,6 @@ const contactsMock: ContactsCollection = {
     note: "voluptatem expedita vel",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "55727 Kelly Expressway",
     secondAddressLine: "",
   },

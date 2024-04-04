@@ -20,7 +20,6 @@ const contact: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: true,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
@@ -30,9 +29,6 @@ const renderer = (extraProps?: Partial<VirtualizedContactListProps>) => {
     toggleRow: jest.fn(),
     onExport: jest.fn(),
     onEdit: jest.fn(),
-    onForward: jest.fn(),
-    onBlock: jest.fn(),
-    onUnblock: jest.fn(),
     onDelete: jest.fn(),
     onSelect: jest.fn(),
     disableScroll: jest.fn(),

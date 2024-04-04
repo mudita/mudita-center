@@ -22,7 +22,6 @@ export interface UpdateOsFlowProps {
   downloadState: DownloadState
   updateState: State
   availableReleasesForUpdate: OsRelease[] | null
-  allReleases: OsRelease[] | null
   error: AppError<UpdateError> | null
   downloadingReleasesProcessStates: ProcessedRelease[] | null
   updatingReleasesProcessStates: ProcessedRelease[] | null

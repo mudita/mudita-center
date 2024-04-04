@@ -16,7 +16,6 @@ import {
 import { OsRelease } from "Core/update/dto"
 import { versionFormatter } from "Core/update/helpers"
 import {
-  getAllReleasesRequest,
   getLatestReleaseRequest,
   getReleasesByVersions,
   osUpdateAlreadyDownloadedCheck,
@@ -30,7 +29,6 @@ interface Params {
 }
 
 interface Result {
-  allReleases: OsRelease[]
   availableReleasesForUpdate: OsRelease[]
   areAllReleasesAlreadyDownloaded?: boolean
 }
@@ -75,21 +73,12 @@ export const checkForUpdate = createAsyncThunk<
       product,
       state.device.data?.serialNumber
     )
-    const allReleasesResult = await getAllReleasesRequest(
-      product,
-      state.device.data?.serialNumber
-    )
 
     if (!latestReleaseResult.ok || !latestReleaseResult.data) {
       return rejectWithValue(
         new AppError(UpdateError.CheckForUpdate, "Latest release not found")
       )
     }
-
-    const allReleases =
-      allReleasesResult.ok && allReleasesResult.data
-        ? allReleasesResult.data
-        : []
 
     if (isVersionGreaterOrEqual(osVersion, latestReleaseResult.data.version)) {
       const activeDeviceSet = isActiveDeviceSet(getState())
@@ -99,7 +88,6 @@ export const checkForUpdate = createAsyncThunk<
       }
 
       return {
-        allReleases,
         availableReleasesForUpdate: [],
       }
     }
@@ -121,7 +109,6 @@ export const checkForUpdate = createAsyncThunk<
         return rejectWithValue(new AppError(UpdateError.NoActiveDevice, ""))
       }
       return {
-        allReleases,
         availableReleasesForUpdate,
         areAllReleasesAlreadyDownloaded,
       }
@@ -150,7 +137,6 @@ export const checkForUpdate = createAsyncThunk<
     }
 
     return {
-      allReleases,
       availableReleasesForUpdate,
       areAllReleasesAlreadyDownloaded,
     }

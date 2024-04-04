@@ -10,7 +10,6 @@ export class ContactPresenter {
   static mapToContact(pureContact: PureContact): Contact {
     const {
       id,
-      blocked,
       favourite,
       address = "",
       altName,
@@ -22,7 +21,6 @@ export class ContactPresenter {
     const secondAddressLine = address.substr(address.indexOf("\n") + 1)
 
     return {
-      blocked,
       favourite,
       primaryPhoneNumber,
       secondaryPhoneNumber,
@@ -41,7 +39,6 @@ export class ContactPresenter {
 
   static mapToPureContact(contact: Contact): PureContact {
     const {
-      blocked = false,
       favourite = false,
       firstName = "",
       lastName = "",
@@ -62,7 +59,6 @@ export class ContactPresenter {
 
     return {
       id: Number(id),
-      blocked,
       favourite,
       email: email || "",
       numbers: numbers,

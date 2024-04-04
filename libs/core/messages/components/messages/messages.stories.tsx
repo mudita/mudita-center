@@ -72,7 +72,6 @@ export const attachContactFlatListData: Contact[] = [
     lastName: "Abernathy",
     primaryPhoneNumber: "+78722986805",
     note: "eum",
-    blocked: true,
   },
   {
     id: "990f38dd-1c84-4d23-a8bb-6fcfff42774b",
@@ -109,7 +108,6 @@ export const attachContactListData: ContactCategory[] = [
         lastName: "Abernathy",
         primaryPhoneNumber: "+78722986805",
         note: "eum",
-        blocked: true,
       },
     ],
   },
