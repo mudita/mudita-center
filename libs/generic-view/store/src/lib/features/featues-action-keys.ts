@@ -5,7 +5,9 @@
 
 export enum FeaturesActions {
   GetOverviewConfig = "api-actions-get-overview-config",
+  GetGenericConfig = "api-actions-get-generic-config",
   GetOverviewData = "api-actions-get-overview-data",
+  GetGenericData = "api-actions-get-generic-data",
   GetAllFeatures = "api-actions-get-all-features",
   GetSingleFeature = "api-actions-get-single-feature",
   GetSingleFeatureConfig = "api-actions-get-single-feature-config",

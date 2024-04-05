@@ -38,4 +38,6 @@ export enum ActionName {
   FileTransferGet = "generic-file-transfer/get",
   ChunkFileTransferGet = "generic-file-transfer/chunk-get",
   ClearFileTransferGetError = "generic-file-transfer/clear-get-errors",
+  StartGoogleAuthorization = "generic-imports/start-google-authorization",
+  CleanImportProcess = "generic-imports/clean-import-process",
 }
