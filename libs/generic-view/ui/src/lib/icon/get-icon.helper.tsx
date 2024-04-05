@@ -81,7 +81,7 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Contact]: Contact,
   [IconType.ContactsBook]: ContactsBook,
   [IconType.Check]: Check,
-  [IconType.Minus]: Minus
+  [IconType.Minus]: Minus,
 }
 
 export const getIcon = (
