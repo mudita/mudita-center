@@ -16,7 +16,7 @@ const Paragraph1: APIFC<undefined, Config> = ({ config, data, ...props }) => {
   return <StyledP1 {...props}>{config?.text}</StyledP1>
 }
 
-const StyledP1 = styled.p`
+export const StyledP1 = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
   line-height: ${({ theme }) => theme.lineHeight.paragraph1};
   color: ${({ theme }) => theme.color.grey2};

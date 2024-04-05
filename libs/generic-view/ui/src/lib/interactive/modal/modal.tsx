@@ -8,13 +8,12 @@ import { BaseGenericComponent, ModalAction } from "generic-view/utils"
 import { useModalsQueue } from "./use-modals-queue"
 import { withData } from "../../utils/with-data"
 import { withConfig } from "../../utils/with-config"
-import { ModalBase } from "./modal-base"
-import { ModalCloseButton } from "./modal-helpers"
+import { ModalBase, ModalBaseConfig } from "./modal-base"
+import { ModalCloseButton, ModalSize } from "./modal-helpers"
 
-interface Config {
+interface Config extends ModalBaseConfig {
   closeButtonAction?: ModalAction
-  width?: string | number
-  variant?: "default" | "small"
+  size?: ModalSize
 }
 
 export const Modal: BaseGenericComponent<
@@ -25,7 +24,15 @@ export const Modal: BaseGenericComponent<
   const { opened } = useModalsQueue(componentKey)
 
   return (
-    <ModalBase opened={opened} variant={config?.variant}>
+    <ModalBase
+      opened={opened}
+      size={config?.size}
+      config={{
+        width: config?.width,
+        maxHeight: config?.maxHeight,
+        padding: config?.padding,
+      }}
+    >
       {config?.closeButtonAction && (
         <ModalCloseButton action={config.closeButtonAction} />
       )}

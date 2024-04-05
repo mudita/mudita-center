@@ -6,6 +6,8 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { startGoogleAuthorization } from "./get-google-contacts.action"
 import { cleanImportProcess } from "./actions"
+import { importContactsFromExternalSource } from "./import-contacts-from-external-source.action"
+import { UnifiedContact } from "Libs/device/models/src"
 
 interface ImportsState {
   providers: Partial<Record<ImportProviders, ImportProviderState>>
@@ -14,10 +16,17 @@ interface ImportsState {
 
 type ImportProviders = "GOOGLE"
 
-export type ImportStatus = "PENDING-AUTH" | "AUTH" | "DONE" | "FAILED"
+export type ImportStatus =
+  | "PENDING-AUTH"
+  | "AUTH"
+  | "IMPORT-INTO-MC-IN-PROGRESS"
+  | "IMPORT-INTO-MC-DONE"
+  | "DONE"
+  | "FAILED"
 
 interface ImportProviderState {
   status: ImportStatus
+  contacts?: UnifiedContact[]
 }
 
 const initialState: ImportsState = {
@@ -44,4 +53,26 @@ export const importsReducer = createReducer(initialState, (builder) => {
       status: "AUTH",
     }
   })
+  builder.addCase(importContactsFromExternalSource.pending, (state, action) => {
+    state.providers.GOOGLE = {
+      status: "IMPORT-INTO-MC-IN-PROGRESS",
+    }
+  })
+  builder.addCase(
+    importContactsFromExternalSource.fulfilled,
+    (state, action) => {
+      state.providers.GOOGLE = {
+        status: "IMPORT-INTO-MC-DONE",
+        contacts: action.payload,
+      }
+    }
+  )
+  builder.addCase(
+    importContactsFromExternalSource.rejected,
+    (state, action) => {
+      state.providers.GOOGLE = {
+        status: "FAILED",
+      }
+    }
+  )
 })

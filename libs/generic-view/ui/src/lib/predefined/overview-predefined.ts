@@ -9,7 +9,7 @@ import LastBackupDate from "./last-backup-date"
 import BackupRestoreAvailable from "./backup-restore-available"
 import BackupCreate from "./backup/backup-create"
 import BackupRestore from "./backup-restore/backup-restore"
-import { ImportContacts } from "./import-contacts/import-contacts"
+import ImportContacts from "./import-contacts/import-contacts"
 
 export const predefinedComponents = {
   "overview-os-version": OverviewOsVersion,

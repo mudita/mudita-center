@@ -890,5 +890,7 @@
   "module.genericViews.importContacts.providerModal.title": "Import contacts",
   "module.genericViews.importContacts.providerModal.description": "Log into Google or upload CSV or vCard file to import your contacts.",
   "module.genericViews.importContacts.loaderModal.title": "Loading",
-  "module.genericViews.importContacts.loaderModal.description": "This will only take a moment..."
+  "module.genericViews.importContacts.loaderModal.description": "This will only take a moment...",
+  "module.genericViews.importContacts.contactsListModal.title": "Select contacts",
+  "module.genericViews.importContacts.contactsListModal.importButtonText": "import selected contacts ({count})"
 }
