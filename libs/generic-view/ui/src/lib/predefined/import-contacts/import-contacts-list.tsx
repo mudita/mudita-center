@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useCallback, useEffect } from "react"
 import { defineMessages } from "react-intl"
 import {
   ModalButtons,
@@ -20,8 +20,10 @@ import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
 import { importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
+import Divider from "../../helpers/divider"
 
-export const SELECTED_CONTACTS_FIELD = "contacts"
+export const SELECTED_CONTACTS_FIELD = "selected-contacts"
+export const ALL_CONTACTS_FIELD = "all-contacts"
 
 const messages = defineMessages({
   title: {
@@ -30,17 +32,63 @@ const messages = defineMessages({
   importButtonText: {
     id: "module.genericViews.importContacts.contactsListModal.importButtonText",
   },
+  selectAllButton: {
+    id: "module.genericViews.importContacts.contactsListModal.selectAllButton",
+  },
+  selectedContactsStats: {
+    id: "module.genericViews.importContacts.contactsListModal.selectedContactsStats",
+  },
 })
 
 export const ImportContactsList = () => {
-  const { watch } = useFormContext()
-  const selectedContacts = watch(SELECTED_CONTACTS_FIELD)
+  const { watch, setValue } = useFormContext()
+  const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
   const contacts = useSelector(importContactsSelector)
+
+  const contactsCount = contacts.length
+  const selectedContactsCount = selectedContacts?.length || 0
+  const allContactsSelected =
+    selectedContactsCount === contactsCount && contactsCount > 0
+
+  const toggleAll = useCallback(() => {
+    if (allContactsSelected) {
+      setValue(SELECTED_CONTACTS_FIELD, [])
+      setValue(ALL_CONTACTS_FIELD, "")
+    } else {
+      setValue(
+        SELECTED_CONTACTS_FIELD,
+        contacts.map(({ id }) => id)
+      )
+      setValue(ALL_CONTACTS_FIELD, "true")
+    }
+  }, [allContactsSelected, contacts, setValue])
+
+  useEffect(() => {
+    setValue(ALL_CONTACTS_FIELD, allContactsSelected ? "true" : "")
+  }, [allContactsSelected, setValue])
 
   return (
     <>
       <ModalTitleIcon data={{ type: IconType.ContactsBook }} />
       <h1>{intl.formatMessage(messages.title)}</h1>
+      <AllContactsSelector>
+        <AllCheckbox
+          config={{
+            name: ALL_CONTACTS_FIELD,
+            value: "true",
+            label: intl.formatMessage(messages.selectAllButton),
+            onToggle: toggleAll,
+            checked: allContactsSelected,
+          }}
+        />
+        <SelectedInfo>
+          {intl.formatMessage(messages.selectedContactsStats, {
+            selectedCount: selectedContactsCount,
+            totalCount: contactsCount,
+          })}
+        </SelectedInfo>
+        <CustomDivider />
+      </AllContactsSelector>
       <Article>
         <ScrollableContent>
           {contacts.map((item) => {
@@ -180,4 +228,35 @@ const MoreNumbersList = styled.div`
     color: ${({ theme }) => theme.color.grey1};
     text-align: left;
   }
+`
+
+const CustomDivider = styled(Divider)`
+  border-color: ${({ theme }) => theme.color.grey3};
+  margin: 1.4rem calc(var(--modal-padding) * -1) 0;
+  width: calc(100% + var(--modal-padding) * 2);
+`
+
+const AllCheckbox = styled(CheckboxInput)`
+  min-height: 2.4rem;
+  margin-left: 1.4rem;
+  flex: 1;
+`
+
+const SelectedInfo = styled.p`
+  margin: 0 1.4rem 0 0;
+  font-size: ${({ theme }) => theme.fontSize.labelText};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  line-height: ${({ theme }) => theme.lineHeight.labelText};
+  letter-spacing: 0.04em;
+  color: ${({ theme }) => theme.color.grey1};
+  text-align: right;
+`
+
+const AllContactsSelector = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `
