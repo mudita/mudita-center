@@ -4,8 +4,6 @@
  */
 
 import Avatar from "Core/__deprecated__/renderer/components/core/avatar/avatar.component"
-import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import styled from "styled-components"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 
@@ -14,12 +12,6 @@ export const InitialsAvatar = styled(Avatar)`
   height: 4rem;
   margin-right: 1.2rem;
   flex-shrink: 0;
-`
-
-export const BlockedIcon = styled(Icon).attrs(() => ({
-  type: IconType.Blocked,
-}))`
-  margin-left: 1.6rem;
 `
 
 /* stylelint-disable property-no-vendor-prefix */

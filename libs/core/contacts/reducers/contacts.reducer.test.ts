@@ -86,7 +86,6 @@ describe("Set Contacts data functionality", () => {
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   }
@@ -126,7 +125,6 @@ describe("AddNewContactToState data functionality", () => {
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   }
@@ -166,7 +164,6 @@ describe("EditContactInState data functionality", () => {
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   }
@@ -197,7 +194,6 @@ describe("EditContactInState data functionality", () => {
       collection: ["0"],
       db: {
         "0": {
-          blocked: false,
           email: "example@mudita.com",
           favourite: false,
           firstAddressLine: "Malczewskiego 3, Warszawa",
@@ -226,7 +222,6 @@ describe("DeleteContactsInState data functionality", () => {
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
-    blocked: false,
     firstAddressLine: "Malczewskiego 3, Warszawa",
     secondAddressLine: "",
   }

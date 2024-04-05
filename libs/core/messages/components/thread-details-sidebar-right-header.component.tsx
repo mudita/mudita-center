@@ -4,16 +4,13 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { noop } from "Core/__deprecated__/renderer/utils/noop"
-import { SidebarHeaderButton } from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { Feature, flags } from "Core/feature-flags"
 import { defineMessages } from "react-intl"
+import { FunctionComponent } from "Core/core/types/function-component.interface"
+import { SidebarHeaderButton } from "Core/__deprecated__/renderer/components/core/table/table.component"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { ThreadDetailsTestIds } from "Core/messages/components/thread-details-test-ids.enum"
 
 const messages = defineMessages({
-  callsTooltipDescription: { id: "module.messages.callsTooltipDescription" },
   contactTooltipDescription: {
     id: "module.messages.contactTooltipDescription",
   },
@@ -45,15 +42,6 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      {flags.get(Feature.MessagesThreadCallsEnabled) && (
-        <SidebarHeaderButton
-          description={messages.callsTooltipDescription}
-          iconType={IconType.Calls}
-          onClick={noop}
-          disabled={emptyThread}
-          data-testid={ThreadDetailsTestIds.CallButton}
-        />
-      )}
       {contactCreated ? (
         <SidebarHeaderButton
           description={messages.contactTooltipDescription}

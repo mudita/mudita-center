@@ -12,16 +12,10 @@ import { Contact } from "Core/contacts/reducers"
 type Props = ComponentProps<typeof ContactDetails>
 
 const defaultProps: Props = {
-  onUnblock: jest.fn(),
-  onBlock: jest.fn(),
-  onCall: jest.fn(),
   onDelete: jest.fn(),
   onEdit: jest.fn(),
   onExport: jest.fn(),
-  onForward: jest.fn(),
-  onMessage: jest.fn(),
   onClose: jest.fn(),
-  isThreadOpened: () => false,
 }
 
 const contactRich: Contact = {
@@ -34,7 +28,6 @@ const contactRich: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: true,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
@@ -49,7 +42,6 @@ const contactBasic: Contact = {
   note: "",
   ice: false,
   favourite: false,
-  blocked: true,
   firstAddressLine: "",
   secondAddressLine: "",
 }

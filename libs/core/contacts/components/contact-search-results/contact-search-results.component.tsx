@@ -19,7 +19,6 @@ import Avatar, {
   basicAvatarStyles,
 } from "Core/__deprecated__/renderer/components/core/avatar/avatar.component"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
-import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import useTableScrolling from "Core/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "Core/contacts/helpers/contacts.helpers"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -27,9 +26,7 @@ import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/butto
 import ButtonComponent from "Core/__deprecated__/renderer/components/core/button/button.component"
 import Dropdown from "Core/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
-import { HiddenButton } from "Core/contacts/components/contact-list/contact-list.styled"
 import { ContactSearchResultsTestIdsEnum } from "Core/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
-import { flags, Feature } from "Core/feature-flags"
 import { Contact, ResultState } from "Core/contacts/reducers/contacts.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -64,12 +61,6 @@ const Actions = styled.div`
   box-sizing: border-box;
 `
 
-const BlockedIcon = styled(Icon).attrs(() => ({
-  type: IconType.Blocked,
-}))`
-  margin-left: 1.6rem;
-`
-
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   min-width: 32rem;
   flex: 1;
@@ -93,9 +84,6 @@ interface ContactSearchResultProps {
   results: Contact[]
   selectedItems: string[]
   onExport: (ids: string[]) => void
-  onForward: (contact: Contact) => void
-  onBlock: (contact: Contact) => void
-  onUnblock: (contact: Contact) => void
   onDelete: (id: string) => void
 }
 
@@ -103,9 +91,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
   results,
   onSelect,
   onExport,
-  onForward,
-  onBlock,
-  onUnblock,
   onDelete,
   resultsState,
   selectedItems,
@@ -135,9 +120,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
           ? results.map((contact) => {
               const selected = selectedItems.includes(contact.id)
               const handleExport = () => onExport([contact.id])
-              const handleForward = () => onForward(contact)
-              const handleBlock = () => onBlock(contact)
-              const handleUnblock = () => onUnblock(contact)
               const handleDelete = () => onDelete(contact.id)
               const handleSelect = () => onSelect(contact)
 
@@ -175,9 +157,6 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
                       intl.formatMessage({
                         id: "module.contacts.listUnnamedContact",
                       })}
-                    {contact.blocked && (
-                      <BlockedIcon width={1.4} height={1.4} />
-                    )}
                   </ClickableCol>
                   <Col>{phoneNumber}</Col>
                   <Col>
@@ -188,45 +167,14 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
                   <Col>
                     <Actions>
                       <Dropdown onOpen={disableScroll} onClose={enableScroll}>
-                        <HiddenButton
+                        <ButtonComponent
                           labelMessage={{
                             id: "module.contacts.exportAsVcard",
                           }}
                           Icon={IconType.Upload}
                           onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
-                          hide={!flags.get(Feature.ContactExportEnabled)}
                         />
-                        <HiddenButton
-                          labelMessage={{
-                            id: "module.contacts.forwardNamecard",
-                          }}
-                          Icon={IconType.Forward}
-                          onClick={handleForward}
-                          displayStyle={DisplayStyle.Dropdown}
-                          hide={!flags.get(Feature.ContactForwardEnabled)}
-                        />
-                        {contact.blocked ? (
-                          <HiddenButton
-                            labelMessage={{
-                              id: "module.contacts.unblock",
-                            }}
-                            Icon={IconType.Blocked}
-                            onClick={handleUnblock}
-                            displayStyle={DisplayStyle.Dropdown}
-                            hide={!flags.get(Feature.ContactBlockingEnabled)}
-                          />
-                        ) : (
-                          <HiddenButton
-                            labelMessage={{
-                              id: "module.contacts.block",
-                            }}
-                            Icon={IconType.Blocked}
-                            onClick={handleBlock}
-                            displayStyle={DisplayStyle.Dropdown}
-                            hide={!flags.get(Feature.ContactBlockingEnabled)}
-                          />
-                        )}
                         <ButtonComponent
                           labelMessage={{
                             id: "module.contacts.delete",

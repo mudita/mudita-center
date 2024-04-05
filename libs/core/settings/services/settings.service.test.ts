@@ -6,7 +6,6 @@
 import Store from "electron-store"
 import { SettingsService } from "Core/settings/services/settings.service"
 import { Settings } from "Core/settings/dto"
-import { ConversionFormat, Convert } from "Core/settings/constants"
 
 jest.mock("Core/settings/store/schemas", () => ({
   settingsSchema: {
@@ -20,13 +19,6 @@ export const fakeSettings: Settings = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
   autostart: false,
   tethering: false,
-  incomingCalls: false,
-  incomingMessages: false,
-  lowBattery: false,
-  osUpdates: false,
-  nonStandardAudioFilesConversion: false,
-  convert: Convert.ConvertAutomatically,
-  conversionFormat: ConversionFormat.WAV,
   tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,

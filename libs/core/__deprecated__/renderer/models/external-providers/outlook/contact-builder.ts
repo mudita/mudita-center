@@ -31,7 +31,6 @@ export class ContactBuilder implements ContactBuilderInterface {
     secondAddressLine: "",
     ice: false,
     favourite: false,
-    blocked: false,
   }
   build(): Contact {
     return { ...this.contact }

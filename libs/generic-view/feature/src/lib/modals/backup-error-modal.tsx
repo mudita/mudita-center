@@ -22,7 +22,7 @@ const BackupErrorModal: FunctionComponent = () => {
     dispatch(cleanBackupProcess())
   }
   return (
-    <ModalBase opened={opened} variant={"small"}>
+    <ModalBase opened={opened} size={"small"}>
       <ModalCenteredContent>
         <BackupError closeAction={{ type: "custom", callback: onClose }} />
       </ModalCenteredContent>

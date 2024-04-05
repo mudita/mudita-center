@@ -53,16 +53,6 @@ test("after clicking button, dropdown is displayed", () => {
   expect(getByTestId(MessageBubbleTestIds.Dropdown)).toBeVisible()
 })
 
-test("forwards message", () => {
-  const forwardMessage = jest.fn()
-  const { getByTestId } = renderer({ forwardMessage })
-
-  fireEvent.click(getByTestId(MessageBubbleTestIds.DropdownActionButton))
-  fireEvent.click(getByTestId(MessageBubbleTestIds.ForwardMessageButton))
-  expect(forwardMessage).toHaveBeenCalled()
-  expect(forwardMessage).toHaveBeenCalledWith(defaultProps.id)
-})
-
 test("removes message", () => {
   const removeMessage = jest.fn()
   const { getByTestId } = renderer({ removeMessage })

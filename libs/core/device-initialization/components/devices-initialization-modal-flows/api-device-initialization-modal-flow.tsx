@@ -120,7 +120,7 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
         </ReactModal>
         <ModalBase
           opened={deviceLocked}
-          variant={"small"}
+          size={"small"}
           overlayHidden
           closeButton={
             <CloseButton onClick={onModalClose}>

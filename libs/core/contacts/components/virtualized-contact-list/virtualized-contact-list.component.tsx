@@ -20,9 +20,6 @@ export const VirtualizedContactList: FunctionComponent<
   toggleRow,
   onExport,
   onEdit,
-  onForward,
-  onBlock,
-  onUnblock,
   onDelete,
   onSelect,
   selectedContact,
@@ -71,9 +68,6 @@ export const VirtualizedContactList: FunctionComponent<
               toggleRow={toggleRow}
               onExport={onExport}
               onEdit={onEdit}
-              onForward={onForward}
-              onBlock={onBlock}
-              onUnblock={onUnblock}
               onDelete={onDelete}
               onSelect={onSelect}
               disableScroll={disableScroll}

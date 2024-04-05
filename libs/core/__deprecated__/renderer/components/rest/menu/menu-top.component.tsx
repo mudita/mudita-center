@@ -7,7 +7,6 @@ import React from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import {
   baseMenuElements,
   centerMenuElements,
@@ -15,13 +14,9 @@ import {
   MenuElement,
 } from "Core/__deprecated__/renderer/constants/menu-elements"
 import MenuGroup from "Core/__deprecated__/renderer/components/rest/menu/menu-group.component"
-import {
-  backgroundColor,
-  textColor,
-} from "Core/core/styles/theming/theme-getters"
+import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { DeviceType } from "Core/device"
-import { DevMode } from "Core/__deprecated__/dev-mode/store/dev-mode.interface"
 import { View } from "Core/__deprecated__/renderer/constants/views"
 
 const LogoWrapper = styled.div`
@@ -37,21 +32,12 @@ const SvgMuditaLogo = styled(Icon)`
   margin: 2rem 0 2.4rem;
 `
 
-const DevSign = styled.span`
-  position: absolute;
-  right: 0;
-  top: 2rem;
-  line-height: 2rem;
-  color: ${textColor("secondary")};
-`
-
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 interface Props {
   deviceType: DeviceType | null
   deviceFeaturesVisible?: boolean
   openHelpWindow?: () => void
-  devModeEnabled?: DevMode["enabled"]
   notifications: {
     [View.Messages]: boolean
   }
@@ -61,7 +47,6 @@ interface Props {
 const MenuTop: FunctionComponent<Props> = ({
   deviceType,
   deviceFeaturesVisible,
-  devModeEnabled,
   notifications,
   genericMenuElements,
 }) => {
@@ -74,7 +59,6 @@ const MenuTop: FunctionComponent<Props> = ({
     .filter(({ connectedPhoneOnly }) =>
       deviceFeaturesVisible ? true : !connectedPhoneOnly
     )
-    .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
     .filter(({ simulatePhoneConnection }) =>
       simulatePhoneConnectionEnabled ? true : !simulatePhoneConnection
     )
@@ -98,11 +82,6 @@ const MenuTop: FunctionComponent<Props> = ({
     <div>
       <LogoWrapper>
         <SvgMuditaLogo type={IconType.MuditaLogoWithText} />
-        {devModeEnabled && (
-          <DevSign>
-            {intl.formatMessage({ id: "component.devModeHeader" })}
-          </DevSign>
-        )}
       </LogoWrapper>
       {links}
     </div>

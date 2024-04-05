@@ -9,6 +9,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { FeaturesActions } from "./featues-action-keys"
 import { getOverviewConfig } from "./get-overview-config.actions"
 import { getOverviewData } from "./get-overview-data.actions"
+import { getGenericConfig } from "./get-generic-config.actions"
 
 export const getSingleFeatures = createAsyncThunk<
   undefined,
@@ -21,6 +22,9 @@ export const getSingleFeatures = createAsyncThunk<
       case "mc-overview":
         await dispatch(getOverviewConfig({ deviceId }))
         await dispatch(getOverviewData({ deviceId }))
+        break
+      default:
+        await dispatch(getGenericConfig({ deviceId, feature }))
         break
     }
 

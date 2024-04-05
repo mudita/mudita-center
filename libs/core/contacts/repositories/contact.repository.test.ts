@@ -8,7 +8,6 @@ import { ContactModel } from "Core/contacts/models"
 import { Contact } from "Core/contacts/reducers"
 
 const contact: Contact = {
-  blocked: false,
   email: "",
   favourite: true,
   firstAddressLine: "6 Czeczota St.",

@@ -15,7 +15,6 @@ import {
   CheckForUpdateMode,
 } from "Core/update/constants"
 import { OsRelease } from "Core/update/dto"
-import * as getAllReleasesRequestModule from "Core/update/requests/get-all-releases.request"
 import * as getLatestReleaseRequestModule from "Core/update/requests/get-latest-release.request"
 import * as getReleasesByVersionsModule from "Core/update/requests/get-releases-by-versions.request"
 import * as osUpdateAlreadyDownloadedCheckModule from "Core/update/requests/os-update-already-downloaded.request"
@@ -46,10 +45,6 @@ describe("when fetching latest release fails", () => {
     jest
       .spyOn(getLatestReleaseRequestModule, "getLatestReleaseRequest")
       .mockResolvedValueOnce(Result.failed(new AppError("", "")))
-
-    jest
-      .spyOn(getAllReleasesRequestModule, "getAllReleasesRequest")
-      .mockResolvedValueOnce(Result.success([mockedRelease]))
 
     const mockStore = createMockStore([thunk])({
       device: {
@@ -83,19 +78,15 @@ describe("when fetching all releases fails", () => {
       .spyOn(getLatestReleaseRequestModule, "getLatestReleaseRequest")
       .mockResolvedValueOnce(Result.success(mockedRelease))
 
-    jest
-      .spyOn(getAllReleasesRequestModule, "getAllReleasesRequest")
-      .mockResolvedValueOnce(Result.failed(new AppError("", "")))
-
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
           osVersion: "1.2.0",
         },
       },
-      deviceManager:{
-        activeDeviceId: ""
-      }
+      deviceManager: {
+        activeDeviceId: "",
+      },
     })
 
     const {
@@ -108,7 +99,6 @@ describe("when fetching all releases fails", () => {
       checkForUpdate.pending(requestId, params),
       checkForUpdate.fulfilled(
         {
-          allReleases: [],
           availableReleasesForUpdate: [],
         },
         requestId,
@@ -124,19 +114,15 @@ describe("when latest release os version is not greater than current os version"
       .spyOn(getLatestReleaseRequestModule, "getLatestReleaseRequest")
       .mockResolvedValueOnce(Result.success(mockedRelease))
 
-    jest
-      .spyOn(getAllReleasesRequestModule, "getAllReleasesRequest")
-      .mockResolvedValueOnce(Result.success([mockedRelease]))
-
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
           osVersion: "1.1.0",
         },
       },
-      deviceManager:{
-        activeDeviceId: ""
-      }
+      deviceManager: {
+        activeDeviceId: "",
+      },
     })
 
     const {
@@ -149,7 +135,6 @@ describe("when latest release os version is not greater than current os version"
       checkForUpdate.pending(requestId, params),
       checkForUpdate.fulfilled(
         {
-          allReleases: [mockedRelease],
           availableReleasesForUpdate: [],
         },
         requestId,
@@ -175,19 +160,15 @@ describe("when latest release os version is greater than current os version", ()
       .spyOn(getLatestReleaseRequestModule, "getLatestReleaseRequest")
       .mockResolvedValueOnce(Result.success(newerRelease))
 
-    jest
-      .spyOn(getAllReleasesRequestModule, "getAllReleasesRequest")
-      .mockResolvedValueOnce(Result.success([mockedRelease]))
-
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
           osVersion: "1.2.0",
         },
       },
-      deviceManager:{
-        activeDeviceId: ""
-      }
+      deviceManager: {
+        activeDeviceId: "",
+      },
     })
 
     const {
@@ -200,7 +181,6 @@ describe("when latest release os version is greater than current os version", ()
       checkForUpdate.pending(requestId, params),
       checkForUpdate.fulfilled(
         {
-          allReleases: [mockedRelease],
           availableReleasesForUpdate: [newerRelease],
           areAllReleasesAlreadyDownloaded: expectedAlreadyDownloadedResult,
         },
@@ -233,10 +213,6 @@ describe("when latest release contains information about mandatory releases", ()
       .mockResolvedValueOnce(Result.success(newerRelease))
 
     jest
-      .spyOn(getAllReleasesRequestModule, "getAllReleasesRequest")
-      .mockResolvedValueOnce(Result.success([mockedRelease]))
-
-    jest
       .spyOn(getReleasesByVersionsModule, "getReleasesByVersions")
       .mockImplementation((parmas) => {
         if (
@@ -261,9 +237,9 @@ describe("when latest release contains information about mandatory releases", ()
           osVersion: "1.2.0",
         },
       },
-      deviceManager:{
-        activeDeviceId: ""
-      }
+      deviceManager: {
+        activeDeviceId: "",
+      },
     })
 
     const {
@@ -276,7 +252,6 @@ describe("when latest release contains information about mandatory releases", ()
       checkForUpdate.pending(requestId, params),
       checkForUpdate.fulfilled(
         {
-          allReleases: [mockedRelease],
           availableReleasesForUpdate: [
             { ...mockedRelease, version: "1.3.0" },
             { ...mockedRelease, version: "1.5.0" },
@@ -304,10 +279,6 @@ describe("when fetching mandatory releases fails", () => {
       .mockResolvedValueOnce(Result.success(newerRelease))
 
     jest
-      .spyOn(getAllReleasesRequestModule, "getAllReleasesRequest")
-      .mockResolvedValueOnce(Result.success([mockedRelease]))
-
-    jest
       .spyOn(getReleasesByVersionsModule, "getReleasesByVersions")
       .mockResolvedValueOnce(Result.failed(new AppError("", "")))
 
@@ -317,9 +288,9 @@ describe("when fetching mandatory releases fails", () => {
           osVersion: "1.2.0",
         },
       },
-      deviceManager:{
-        activeDeviceId: ""
-      }
+      deviceManager: {
+        activeDeviceId: "",
+      },
     })
 
     const {

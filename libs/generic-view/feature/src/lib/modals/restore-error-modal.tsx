@@ -26,7 +26,7 @@ const RestoreErrorModal: FunctionComponent = () => {
     dispatch(cleanRestoreProcess())
   }
   return (
-    <ModalBase opened={opened} variant={"small"}>
+    <ModalBase opened={opened} size={"small"}>
       <ModalCenteredContent>
         <BackupRestoreError
           closeAction={{ type: "custom", callback: onClose }}

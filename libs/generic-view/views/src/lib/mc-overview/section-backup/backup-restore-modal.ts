@@ -20,7 +20,7 @@ export const generateBackupRestoreModalLayout: ViewGenerator<
     [config.dataKey + BackupRestoreModalsKeys.Restore]: {
       component: "modal",
       config: {
-        variant: "small",
+        size: "small",
       },
       childrenKeys: [config.dataKey + BackupRestoreModalsKeys.RestoreContent],
     },
