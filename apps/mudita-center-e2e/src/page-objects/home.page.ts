@@ -10,6 +10,10 @@ class HomePage extends Page {
     return $("h1*=Welcome to Mudita Center")
   }
 
+  get notNowButton() {
+    return $("button*=Not now")
+  }
+
   get myDevicesDoesntShowButton() {
     return $$("button")[2].$("p*=My device")
   }
