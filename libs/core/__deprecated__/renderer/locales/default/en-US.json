@@ -892,5 +892,7 @@
   "module.genericViews.importContacts.loaderModal.title": "Loading",
   "module.genericViews.importContacts.loaderModal.description": "This will only take a moment...",
   "module.genericViews.importContacts.contactsListModal.title": "Select contacts",
-  "module.genericViews.importContacts.contactsListModal.importButtonText": "import selected contacts ({count})"
+  "module.genericViews.importContacts.contactsListModal.importButtonText": "import selected contacts ({count})",
+  "module.genericViews.importContacts.contactsListModal.selectAllButton": "Select all",
+  "module.genericViews.importContacts.contactsListModal.selectedContactsStats": "Selected {selectedCount} of {totalCount}"
 }
