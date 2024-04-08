@@ -6,38 +6,38 @@
 import path from "path"
 import { existsSync, mkdirSync } from "fs"
 
-const screenshotsDir = "./screenshots"
-const viewsDir = path.join(screenshotsDir, "views")
-const elementsDir = path.join(screenshotsDir, "elements")
-
-const generateFilename = (baseName: string, elementName?: string) => {
-  const currentDate = new Date()
-  const millisecondsInMinute = 60 * 1000
-  const timezoneOffsetMs =
-    currentDate.getTimezoneOffset() * millisecondsInMinute
-  const dateAsISOString = new Date(
-    currentDate.getTime() - timezoneOffsetMs
-  ).toISOString()
-
-  let filename
-  if (elementName) {
-    filename = `${baseName}_${elementName}_${dateAsISOString}.png`
-  } else {
-    filename = `${baseName}_${dateAsISOString}.png`
-  }
-  return filename
-}
-
 class ScreenshotHelper {
+  screenshotsDir = "./screenshots"
+  viewsDir = path.join(this.screenshotsDir, "views")
+  elementsDir = path.join(this.screenshotsDir, "elements")
+
+  generateFilename = (baseName: string, elementName?: string) => {
+    const currentDate = new Date()
+    const millisecondsInMinute = 60 * 1000
+    const timezoneOffsetMs =
+      currentDate.getTimezoneOffset() * millisecondsInMinute
+    const dateAsISOString = new Date(currentDate.getTime() - timezoneOffsetMs)
+      .toISOString()
+      .slice(0, -1)
+
+    let filename
+    if (elementName) {
+      filename = `${baseName}_${elementName}_${dateAsISOString}.png`
+    } else {
+      filename = `${baseName}_${dateAsISOString}.png`
+    }
+    return filename
+  }
+
   /**
    * @brief Save a screenshot of the current browsing context to a PNG file
    */
   async makeViewScreenshot() {
-    if (!existsSync(viewsDir)) {
-      mkdirSync(viewsDir, { recursive: true })
+    if (!existsSync(this.viewsDir)) {
+      mkdirSync(this.viewsDir, { recursive: true })
     }
-    const filename = generateFilename("view")
-    await browser.saveScreenshot(path.join(viewsDir, filename))
+    const filename = this.generateFilename("view")
+    await browser.saveScreenshot(path.join(this.viewsDir, filename))
   }
 
   /**
@@ -45,12 +45,12 @@ class ScreenshotHelper {
    * @param element WebdriverIO element to take screenshot of
    */
   async makeElementScreenshot(element: WebdriverIO.Element) {
-    if (!existsSync(elementsDir)) {
-      mkdirSync(elementsDir, { recursive: true })
+    if (!existsSync(this.elementsDir)) {
+      mkdirSync(this.elementsDir, { recursive: true })
     }
     const elementTagName = await element.getTagName()
-    const filename = generateFilename("element", elementTagName)
-    await element.saveScreenshot(path.join(elementsDir, filename))
+    const filename = this.generateFilename("element", elementTagName)
+    await element.saveScreenshot(path.join(this.elementsDir, filename))
   }
 }
 
