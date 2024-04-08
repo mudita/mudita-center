@@ -40,4 +40,5 @@ export enum IconType {
   ContactsBook = "contacts-book",
   Check = "check",
   Minus = "minus",
+  Search = "search",
 }
