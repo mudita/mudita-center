@@ -20,7 +20,6 @@ import {
 import { ImportContactsProvider } from "./import-contacts-provider"
 import { ImportContactsLoader } from "./import-contats-loader"
 import { ImportContactsList } from "./import-contacts-list"
-import styled from "styled-components"
 
 interface Config {
   modalKey?: string
@@ -60,7 +59,7 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   return (
     <>
       {showCloseButton && <ModalCloseButton action={backupCloseButtonAction} />}
-      <Content $size={smallModal ? "small" : "medium"}>
+      <ModalCenteredContent $size={smallModal ? "small" : "medium"}>
         {currentStatus === undefined && <ImportContactsProvider />}
         {(currentStatus === "PENDING-AUTH" ||
           currentStatus === "AUTH" ||
@@ -69,14 +68,10 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
         )}
         {currentStatus === "FAILED" && <div>FAILED</div>}
         {currentStatus === "IMPORT-INTO-MC-DONE" && <ImportContactsList />}
-      </Content>
+      </ModalCenteredContent>
     </>
   )
 }
-
-const Content= styled(ModalCenteredContent)`
-  //min-height: var(--min-height);
-`
 
 export const ImportContacts: APIFC<undefined, Config> = ({
   data,
