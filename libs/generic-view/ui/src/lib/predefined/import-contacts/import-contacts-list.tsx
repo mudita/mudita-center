@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import { defineMessages } from "react-intl"
 import {
   ModalButtons,
@@ -21,6 +21,7 @@ import { Tooltip } from "../../interactive/tooltip/tooltip"
 import { importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
 import Divider from "../../helpers/divider"
+import { SearchInput } from "../../interactive/input/search-input"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"
 export const ALL_CONTACTS_FIELD = "all-contacts"
@@ -38,17 +39,30 @@ const messages = defineMessages({
   selectedContactsStats: {
     id: "module.genericViews.importContacts.contactsListModal.selectedContactsStats",
   },
+  noResults: {
+    id: "module.genericViews.importContacts.contactsListModal.noResults",
+  },
 })
 
 export const ImportContactsList = () => {
   const { watch, setValue } = useFormContext()
-  const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
   const contacts = useSelector(importContactsSelector)
-
-  const contactsCount = contacts.length
-  const selectedContactsCount = selectedContacts?.length || 0
+  const searchPhrase = watch("search")
+  const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
   const allContactsSelected =
-    selectedContactsCount === contactsCount && contactsCount > 0
+    selectedContacts.length === contacts?.length && contacts?.length > 0
+
+  const filteredContacts = useMemo(() => {
+    return contacts.filter(({ firstName, lastName }) => {
+      if (!searchPhrase) {
+        return true
+      }
+      return (
+        firstName?.toLowerCase().includes(searchPhrase.toLowerCase()) ||
+        lastName?.toLowerCase().includes(searchPhrase.toLowerCase())
+      )
+    })
+  }, [contacts, searchPhrase])
 
   const toggleAll = useCallback(() => {
     if (allContactsSelected) {
@@ -71,6 +85,12 @@ export const ImportContactsList = () => {
     <>
       <ModalTitleIcon data={{ type: IconType.ContactsBook }} />
       <h1>{intl.formatMessage(messages.title)}</h1>
+      <SearchInput
+        config={{
+          label: "Search contacts",
+          name: "search",
+        }}
+      />
       <AllContactsSelector>
         <AllCheckbox
           config={{
@@ -83,15 +103,18 @@ export const ImportContactsList = () => {
         />
         <SelectedInfo>
           {intl.formatMessage(messages.selectedContactsStats, {
-            selectedCount: selectedContactsCount,
-            totalCount: contactsCount,
+            selectedCount: selectedContacts?.length || 0,
+            totalCount: contacts?.length || 0,
           })}
         </SelectedInfo>
         <CustomDivider />
       </AllContactsSelector>
       <Article>
-        <ScrollableContent>
-          {contacts.map((item) => {
+        {searchPhrase && filteredContacts.length === 0 && (
+          <p>{intl.formatMessage(messages.noResults)}</p>
+        )}
+        <ScrollableContent style={{ height: "100%" }}>
+          {filteredContacts.map((item) => {
             return <ContactItem key={item.id} {...item} />
           })}
         </ScrollableContent>
@@ -167,6 +190,16 @@ const ContactLabelWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  gap: ${({ theme }) => theme.space.md};
+
+  && p {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    white-space: nowrap;
+    max-width: 17.4rem;
+  }
 `
 
 const StyledPhoneInfoWrapper = styled.div`
@@ -188,6 +221,12 @@ const StyledPhoneInfoWrapper = styled.div`
 
 const Article = styled.article`
   width: 100%;
+  margin-top: calc(var(--modal-padding) * -1);
+  min-height: 30.6rem;
+
+  && > p {
+    margin-top: 6.7rem;
+  }
 `
 
 const CustomModalButtons = styled(ModalButtons).attrs({ $vertical: true })`
@@ -198,6 +237,7 @@ const ScrollableContent = styled(ModalScrollableContent)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space.xs};
+  padding-top: var(--modal-padding);
 `
 
 const MoreNumbersButton = styled.p`
@@ -224,7 +264,7 @@ const MoreNumbersList = styled.div`
   border-radius: ${({ theme }) => theme.radius.sm};
   box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
 
-  p {
+  && > p {
     color: ${({ theme }) => theme.color.grey1};
     text-align: left;
   }
