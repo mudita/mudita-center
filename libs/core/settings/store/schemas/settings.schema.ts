@@ -64,3 +64,4 @@ export const settingsSchema: Schema<Settings> = {
     default: false,
   },
 }
+
