@@ -216,7 +216,7 @@ const google = createModel<ExternalProvidersModels>({
                 url: `${googleEndpoints.people}/people/me/connections`,
                 params: {
                   personFields:
-                    "names,addresses,phoneNumbers,emailAddresses,biographies",
+                    "names,addresses,phoneNumbers,emailAddresses,biographies,organizations,urls,nicknames",
                   pageSize: 1000,
                   ...(nextPageToken && {
                     pageToken: String(nextPageToken),
