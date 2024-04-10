@@ -6,47 +6,40 @@
 import React, { FunctionComponent } from "react"
 import { ButtonAction, IconType } from "generic-view/utils"
 import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
-import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ButtonSecondary } from "../../buttons/button-secondary"
+import { useFormContext } from "react-hook-form"
+import { SELECTED_CONTACTS_FIELD } from "./import-contacts-list"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.restore.failure.title",
+    id: "module.genericViews.importContacts.success.title",
   },
-  defaultErrorMessage: {
-    id: "module.genericViews.restore.failure.defaultErrorMessage",
+  description: {
+    id: "module.genericViews.importContacts.success.description",
   },
   closeButtonLabel: {
-    id: "module.genericViews.restore.failure.closeButtonLabel",
+    id: "module.genericViews.importContacts.success.closeButtonLabel",
   },
 })
 
-export interface CustomError {
-  title?: string
-  message?: string
-}
-
 interface Props {
   closeAction: ButtonAction
-  customError?: CustomError
 }
 
-export const BackupError: FunctionComponent<Props> = ({
+export const ImportContactsSuccess: FunctionComponent<Props> = ({
   closeAction,
-  customError,
 }) => {
+  const { getValues } = useFormContext()
   return (
     <>
-      <ModalTitleIcon
-        data={{
-          type: IconType.Failure,
-        }}
-      />
-      <h1>{customError?.title || intl.formatMessage(messages.title)}</h1>
+      <ModalTitleIcon data={{ type: IconType.Success }} />
+      <h1>{intl.formatMessage(messages.title)}</h1>
       <p>
-        {customError?.message ||
-          intl.formatMessage(messages.defaultErrorMessage)}
+        {intl.formatMessage(messages.description, {
+          count: getValues(SELECTED_CONTACTS_FIELD).length,
+        })}
       </p>
       <ModalButtons $vertical>
         <ButtonSecondary

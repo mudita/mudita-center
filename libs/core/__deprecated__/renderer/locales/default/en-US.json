@@ -895,5 +895,16 @@
   "module.genericViews.importContacts.contactsListModal.importButtonText": "import selected contacts ({count})",
   "module.genericViews.importContacts.contactsListModal.selectAllButton": "Select all",
   "module.genericViews.importContacts.contactsListModal.selectedContactsStats": "Selected {selectedCount} of {totalCount}",
-  "module.genericViews.importContacts.contactsListModal.noResults": "We couldn't find any contacts..."
+  "module.genericViews.importContacts.contactsListModal.noResults": "We couldn't find any contacts...",
+  "module.genericViews.importContacts.progress.title": "Importing",
+  "module.genericViews.importContacts.progress.description": "Please wait, this might take a few minutes.",
+  "module.genericViews.importContacts.progress.progressDetails": "Preparing contacts",
+  "module.genericViews.importContacts.success.title": "Import complete",
+  "module.genericViews.importContacts.success.description": "{count, plural, one {# contact} other {# contacts}} imported successfully.",
+  "module.genericViews.importContacts.success.closeButtonLabel": "Close",
+  "module.genericViews.importContacts.failure.title": "Import failed",
+  "module.genericViews.importContacts.failure.defaultErrorMessage": "The process was interrupted.",
+  "module.genericViews.importContacts.failure.closeButtonLabel": "Close",
+  "module.genericViews.importContacts.cancellation.title": "Import cancelled",
+  "module.genericViews.importContacts.cancellation.message": "No changes were made to your phone’s contacts."
 }
