@@ -1,5 +1,4 @@
 import HomePage from "../../page-objects/home.page"
-import { sleep } from "../../helpers/sleep.helper"
 
 describe("Home Screen Page", () => {
   before(async () => {
