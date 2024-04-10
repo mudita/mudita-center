@@ -24,8 +24,8 @@ export type UnifiedContact = {
   }[]
   addresses: {
     type?: string
-    street?: string
-    streetExtended?: string
+    streetAddress?: string
+    extendedAddress?: string
     poBox?: string
     city?: string
     region?: string

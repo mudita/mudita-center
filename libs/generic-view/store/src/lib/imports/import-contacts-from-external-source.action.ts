@@ -57,14 +57,7 @@ const mapGoogleContactsToUnifiedContacts = (
         addresses:
           contact.addresses?.map((item) => {
             return {
-              ...omit(item, [
-                "metadata",
-                "streetAddress",
-                "extendedAddress",
-                "formattedValue",
-              ]),
-              street: item.streetAddress,
-              streetExtended: item.extendedAddress,
+              ...omit(item, ["metadata", "formattedValue"]),
               ...(item.metadata.primary && { preference: 1 }),
             }
           }) ?? [],
