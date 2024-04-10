@@ -2,11 +2,6 @@ import HomePage from "../../page-objects/home.page"
 
 describe("Home Screen Page", () => {
   before(async () => {
-    // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
-  })
   it("Opens Home Page", async () => {
     const homeHeader = await HomePage.homeHeader
     await expect(homeHeader).toBeDisplayed()
