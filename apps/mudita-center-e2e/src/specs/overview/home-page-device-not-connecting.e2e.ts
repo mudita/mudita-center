@@ -1,7 +1,6 @@
 import HomePage from "../../page-objects/home.page"
 
 describe("Home Screen Page", () => {
-  before(async () => {
   it("Opens Home Page", async () => {
     const homeHeader = await HomePage.homeHeader
     await expect(homeHeader).toBeDisplayed()
