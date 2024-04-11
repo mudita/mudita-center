@@ -39,6 +39,9 @@ export interface GoogleContactResourceItem {
   names?: {
     metadata: GoogleContactMetadata
     displayNameLastFirst: string
+    displayName?: string
+    familyName?: string
+    givenName?: string
   }[]
   addresses?: {
     metadata: GoogleContactMetadata
@@ -54,6 +57,7 @@ export interface GoogleContactResourceItem {
   phoneNumbers?: {
     metadata: GoogleContactMetadata
     value: string
+    type?: string
   }[]
   biographies?: {
     metadata: GoogleContactMetadata

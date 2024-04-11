@@ -16,7 +16,6 @@ const contact: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: true,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "00-000 Somewhere",
 }

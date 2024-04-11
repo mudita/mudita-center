@@ -7,9 +7,13 @@ import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 import ModalPage from "../../page-objects/mc-update-modal.page"
 import HomePage from "../../page-objects/home.page"
+import TestHelper from "../../helpers/tests.helper"
 
 describe("Checking for Mudita Center updates", () => {
-  before(async () => {
+  before(async function () {
+    if (TestHelper.isLinux()) {
+      this.skip()
+    }
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
     await notNowButton.click()

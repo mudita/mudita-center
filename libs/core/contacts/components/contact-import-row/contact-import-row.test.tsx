@@ -20,7 +20,6 @@ const contactData: NewContact = {
   note: "sapiente rem dignissimos sunt",
   ice: false,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Baker street 221, London",
   secondAddressLine: "",
 }

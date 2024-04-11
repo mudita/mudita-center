@@ -12,7 +12,6 @@ import Menu, {
   MenuProps,
 } from "Core/__deprecated__/renderer/components/rest/menu/menu.component"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import { flags } from "Core/feature-flags"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceState } from "Core/device"
@@ -95,7 +94,6 @@ const render = (
 }
 
 describe("Device: Mudita pure", () => {
-  jest.spyOn(flags, "get").mockReturnValue(true)
 
   test("matches snapshot", () => {
     const { container } = render(defaultState)
@@ -153,7 +151,6 @@ describe("Device: Mudita pure", () => {
 })
 
 describe("Device: Mudita harmony", () => {
-  jest.spyOn(flags, "get").mockReturnValue(true)
 
   test("matches snapshot", () => {
     const { container } = render({
@@ -167,7 +164,6 @@ describe("Device: Mudita harmony", () => {
 })
 
 test("Menu should have overview item", () => {
-  jest.spyOn(flags, "get").mockReturnValue(true)
 
   const { queryByTestId } = render({
     ...defaultState,

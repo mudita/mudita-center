@@ -29,7 +29,6 @@ const contact: Contact = {
   note: "sapiente rem dignissimos sunt",
   ice: false,
   favourite: false,
-  blocked: false,
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
@@ -79,7 +78,7 @@ describe("async `editContact` ", () => {
   describe("when `editContactRequest` request return error", () => {
     test("fire async `editContact` returns `rejected` action", async () => {
       ;(editContactRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new AppError(ContactsEvent.EditContact, "I'm error")
+      const errorMock = new AppError(ContactsEvent.EditContact, "Edit Contact request failed")
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })

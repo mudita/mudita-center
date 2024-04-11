@@ -86,11 +86,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         }
       })
       .addCase(uploadFile.rejected, (state, action) => {
-        if (action.payload === undefined) {
-          return {
-            ...state,
-          }
-        }
 
         return {
           ...state,
@@ -125,7 +120,7 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           },
         }
       })
-      .addCase(changeLocation, (state) => {
+      .addCase(changeLocation, () => {
         return { ...initialState }
       })
       .addCase(deleteFiles.pending, (state) => {
