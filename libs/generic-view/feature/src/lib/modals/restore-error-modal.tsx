@@ -4,11 +4,7 @@
  */
 
 import React, { FunctionComponent } from "react"
-import {
-  BackupRestoreError,
-  ModalBase,
-  ModalCenteredContent,
-} from "generic-view/ui"
+import { BackupRestoreError, Modal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
   cleanRestoreProcess,
@@ -26,13 +22,12 @@ const RestoreErrorModal: FunctionComponent = () => {
     dispatch(cleanRestoreProcess())
   }
   return (
-    <ModalBase opened={opened} size={"small"}>
-      <ModalCenteredContent>
-        <BackupRestoreError
-          closeAction={{ type: "custom", callback: onClose }}
-        />
-      </ModalCenteredContent>
-    </ModalBase>
+    <Modal
+      config={{ defaultOpened: opened, size: "small" }}
+      componentKey={"restore-error-modal"}
+    >
+      <BackupRestoreError closeAction={{ type: "custom", callback: onClose }} />
+    </Modal>
   )
 }
 

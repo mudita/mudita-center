@@ -10,11 +10,7 @@ import React, {
   useMemo,
 } from "react"
 import { defineMessages } from "react-intl"
-import {
-  ModalButtons,
-  ModalScrollableContent,
-  ModalTitleIcon,
-} from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { ButtonAction, IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
@@ -94,8 +90,8 @@ export const ImportContactsList: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ModalTitleIcon data={{ type: IconType.ContactsBook }} />
-      <h1>{intl.formatMessage(messages.title)}</h1>
+      <Modal.TitleIcon data={{ type: IconType.ContactsBook }} />
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <SearchInput
         config={{
           label: "Search contacts",
@@ -124,13 +120,13 @@ export const ImportContactsList: FunctionComponent<Props> = ({
         {searchPhrase && filteredContacts.length === 0 && (
           <p>{intl.formatMessage(messages.noResults)}</p>
         )}
-        <ScrollableContent style={{ height: "100%" }}>
+        <ScrollableContent>
           {filteredContacts.map((item) => {
             return <ContactItem key={item.id} {...item} />
           })}
         </ScrollableContent>
       </Article>
-      <CustomModalButtons>
+      <Modal.Buttons config={{ vertical: true }}>
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.importButtonText, {
@@ -140,7 +136,8 @@ export const ImportContactsList: FunctionComponent<Props> = ({
             disabled: !selectedContacts || selectedContacts.length === 0,
           }}
         />
-      </CustomModalButtons>
+      </Modal.Buttons>
+      <Modal.SizeController config={{ size: "medium" }} />
     </>
   )
 }
@@ -235,11 +232,8 @@ const Article = styled.article`
   }
 `
 
-const CustomModalButtons = styled(ModalButtons).attrs({ $vertical: true })`
-  grid-template-columns: auto;
-`
-
-const ScrollableContent = styled(ModalScrollableContent)`
+const ScrollableContent = styled(Modal.ScrollableContent)`
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space.xs};

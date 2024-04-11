@@ -10,7 +10,7 @@ import { BackupFeatures, Feature } from "./backup-features"
 import { BackupPassword } from "./backup-password"
 import { useFormContext } from "react-hook-form"
 import { BackupProgress } from "./backup-progress"
-import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { BackupSuccess } from "./backup-success"
 import { BackupError, CustomError } from "./backup-error"
 import { Form } from "../../interactive/form/form"
@@ -152,36 +152,34 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   return (
     <>
       {closeButtonVisible && (
-        <ModalCloseButton action={backupCloseButtonAction} />
+        <Modal.CloseButton config={{ action: backupCloseButtonAction }} />
       )}
       {abortButtonVisible && (
-        <ModalCloseButton action={backupAbortButtonAction} />
+        <Modal.CloseButton config={{ action: backupAbortButtonAction }} />
       )}
-      <ModalCenteredContent>
-        {step === Step.Features && (
-          <BackupFeatures
-            features={features}
-            closeAction={backupCloseButtonAction}
-            nextAction={backupCreateButtonAction}
-          />
-        )}
-        {step === Step.Password && (
-          <BackupPassword
-            skipAction={passwordSkipButtonAction}
-            nextAction={passwordConfirmButtonAction}
-          />
-        )}
-        {step === Step.Progress && <BackupProgress features={features} />}
-        {step === Step.Success && (
-          <BackupSuccess onClose={backupCloseButtonAction.callback} />
-        )}
-        {step === Step.Error && (
-          <BackupError
-            closeAction={backupCloseButtonAction}
-            customError={error}
-          />
-        )}
-      </ModalCenteredContent>
+      {step === Step.Features && (
+        <BackupFeatures
+          features={features}
+          closeAction={backupCloseButtonAction}
+          nextAction={backupCreateButtonAction}
+        />
+      )}
+      {step === Step.Password && (
+        <BackupPassword
+          skipAction={passwordSkipButtonAction}
+          nextAction={passwordConfirmButtonAction}
+        />
+      )}
+      {step === Step.Progress && <BackupProgress features={features} />}
+      {step === Step.Success && (
+        <BackupSuccess onClose={backupCloseButtonAction.callback} />
+      )}
+      {step === Step.Error && (
+        <BackupError
+          closeAction={backupCloseButtonAction}
+          customError={error}
+        />
+      )}
     </>
   )
 }

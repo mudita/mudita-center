@@ -22,15 +22,14 @@ const StyledIcon = styled.div`
   }
 `
 
-const Icon: APIFC<Data> = ({ data, ...rest }) => {
-  if (!data) {
+const Icon: APIFC<Data, Data> = ({ data, config, ...rest }) => {
+  if (!data && !config) {
     return null
   }
-
-  const SVGToDisplay = getIcon(data.type)
-
+  const iconType = (data?.type || config?.type) as IconType
+  const SVGToDisplay = getIcon(iconType)
   return (
-    <StyledIcon data-testid={`icon-${data.type}`} {...rest}>
+    <StyledIcon data-testid={`icon-${iconType}`} {...rest}>
       <SVGToDisplay />
     </StyledIcon>
   )

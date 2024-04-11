@@ -5,11 +5,7 @@
 
 import React, { FunctionComponent, useEffect } from "react"
 import { ButtonAction, IconType } from "generic-view/utils"
-import {
-  ModalButtons,
-  ModalScrollableContent,
-  ModalTitleIcon,
-} from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { useSelector } from "react-redux"
 import { selectDeviceBackups } from "generic-view/store"
 import styled from "styled-components"
@@ -59,8 +55,8 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ModalTitleIcon data={{ type: IconType.Backup }} />
-      <h1>{intl.formatMessage(messages.title)}</h1>
+      <Modal.TitleIcon data={{ type: IconType.Backup }} />
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Article>
         {backups.length === 1 ? (
           <>
@@ -72,7 +68,7 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
         ) : (
           <>
             <p>{intl.formatMessage(messages.multipleDescription)}</p>
-            <ModalScrollableContent>
+            <ScrollableContent>
               {backups.map((backup) => (
                 <RadioInput
                   key={backup.fileName}
@@ -86,11 +82,11 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
                   }}
                 />
               ))}
-            </ModalScrollableContent>
+            </ScrollableContent>
           </>
         )}
       </Article>
-      <ModalButtons>
+      <Modal.Buttons>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
@@ -104,7 +100,7 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
             disabled: !formState.isValid,
           }}
         />
-      </ModalButtons>
+      </Modal.Buttons>
     </>
   )
 }
@@ -122,4 +118,8 @@ const Article = styled.article`
   p {
     padding-bottom: 1.4rem;
   }
+`
+
+const ScrollableContent = styled(Modal.ScrollableContent)`
+  padding: 0 1.4rem;
 `

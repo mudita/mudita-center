@@ -9,7 +9,7 @@ import { ButtonAction, IconType } from "generic-view/utils"
 import { TextInput } from "../../interactive/input/text-input"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { useFormContext } from "react-hook-form"
-import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { selectBackupRestorePassword } from "generic-view/store"
 import { useSelector } from "react-redux"
@@ -53,12 +53,12 @@ export const BackupRestorePassword: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ModalTitleIcon
+      <Modal.TitleIcon
         data={{
           type: IconType.Settings,
         }}
       />
-      <h1>{intl.formatMessage(messages.title)}</h1>
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Text>{intl.formatMessage(messages.description)}</Text>
       <TextInput
         config={{
@@ -71,7 +71,7 @@ export const BackupRestorePassword: FunctionComponent<Props> = ({
           },
         }}
       />
-      <ModalButtons $vertical>
+      <Modal.Buttons config={{ vertical: true }}>
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.confirmButtonLabel),
@@ -79,7 +79,7 @@ export const BackupRestorePassword: FunctionComponent<Props> = ({
             disabled: !password,
           }}
         />
-      </ModalButtons>
+      </Modal.Buttons>
     </>
   )
 }

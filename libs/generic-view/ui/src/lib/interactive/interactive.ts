@@ -12,9 +12,21 @@ import RadioInput from "./input/radio-input"
 import CheckboxInput from "./input/checkbox-input"
 import Tooltip from "./tooltip/tooltip"
 import SearchInput from "./input/search-input"
+import ModalButtons from "./modal/helpers/modal-buttons"
+import ModalCloseButton from "./modal/helpers/modal-close-button"
+import ModalSizeController from "./modal/helpers/modal-size-controller"
+import ModalTitle from "./modal/helpers/modal-title"
+import ModalTitleIcon from "./modal/helpers/modal-title-icon"
+import ModalScrollableContent from "./modal/helpers/modal-scrollable-content"
 
 export const interactive = {
   modal: Modal,
+  "modal.titleIcon": ModalTitleIcon,
+  "modal.title": ModalTitle,
+  "modal.scrollableContent": ModalScrollableContent,
+  "modal.buttons": ModalButtons,
+  "modal.closeButton": ModalCloseButton,
+  "modal.sizeController": ModalSizeController,
   "text-modal": TextModal,
   "text-input": TextInput,
   "search-input": SearchInput,
