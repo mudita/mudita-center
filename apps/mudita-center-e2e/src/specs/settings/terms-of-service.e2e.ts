@@ -10,6 +10,11 @@ import ModalTermsOfServicePage from "../../page-objects/modal-terms-of-service.p
 
 describe("Checking Terms of service", () => {
   before(async function () {
+    // Wait 10 seconds to allow the update checking process to potentially timeout.
+    await browser.executeAsync((done) => {
+      setTimeout(done, 10000)
+    })
+
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
     await notNowButton.click()

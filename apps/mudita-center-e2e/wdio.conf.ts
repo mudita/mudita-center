@@ -64,7 +64,7 @@ export const config: Options.Testrunner = {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
-      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
     ],
     multidevicePureHarmony: [],
