@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { APIFC, ButtonAction } from "generic-view/utils"
+import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
 import React, { useEffect, useState } from "react"
 import { withConfig } from "../../utils/with-config"
 import { Form } from "../../interactive/form/form"
@@ -21,7 +21,7 @@ import { ImportContactsLoader } from "./import-contats-loader"
 import { ImportContactsList } from "./import-contacts-list"
 import { ImportContactsProgress } from "./import-contacts-progress"
 import { ImportContactsSuccess } from "./import-contacts-success"
-import { CustomError, ImportContactsError } from "./import-contacts-error"
+import { ImportContactsError } from "./import-contacts-error"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 
@@ -51,7 +51,7 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   const dispatch = useDispatch<Dispatch>()
   const [step, setStep] = useState<Step>(Step.Providers)
   const importStatus = useSelector(importStatusSelector)
-  const [error, setError] = useState<CustomError>()
+  const [error, setError] = useState<CustomModalError>()
 
   const abortButtonVisible = step === Step.Progress
   const closeButtonVisible =

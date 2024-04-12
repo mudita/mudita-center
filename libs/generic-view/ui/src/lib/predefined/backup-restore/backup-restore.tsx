@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
-import { APIFC, ButtonAction } from "generic-view/utils"
+import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
 import { Form } from "../../interactive/form/form"
 import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
 import {
@@ -21,10 +21,7 @@ import { useFormContext } from "react-hook-form"
 import { BackupRestorePassword } from "./backup-restore-password"
 import { BackupRestoreProgress } from "./backup-restore-progress"
 import { BackupRestoreSuccess } from "./backup-restore-success"
-import {
-  BackupRestoreError,
-  BackupRestoreCustomError,
-} from "./backup-restore-error"
+import { BackupRestoreError } from "./backup-restore-error"
 import { RestoreFeature } from "device/models"
 import { withConfig } from "../../utils/with-config"
 import { defineMessages } from "react-intl"
@@ -60,7 +57,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   const { handleSubmit, getValues } = useFormContext()
   const restoreAbortReference = useRef<VoidFunction>()
   const restoreStatus = useSelector(selectBackupRestoreStatus)
-  const [error, setError] = useState<BackupRestoreCustomError>()
+  const [error, setError] = useState<CustomModalError>()
 
   const [step, setStep] = useState<Step>(Step.Select)
   const closeButtonVisible = [
