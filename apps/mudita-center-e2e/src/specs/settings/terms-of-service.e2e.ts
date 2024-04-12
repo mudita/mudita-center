@@ -7,14 +7,10 @@ import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 import HomePage from "../../page-objects/home.page"
 import ModalTermsOfServicePage from "../../page-objects/modal-terms-of-service.page"
+import ModalPage from "../../page-objects/modal.page"
 
 describe("Checking Terms of service", () => {
   before(async function () {
-    // Wait 10 seconds to allow the update checking process to potentially timeout.
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
-
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
     await notNowButton.click()
@@ -28,6 +24,10 @@ describe("Checking Terms of service", () => {
     const aboutTab = await SettingsPage.aboutTab
     await aboutTab.waitForDisplayed()
     await aboutTab.click()
+
+    // Wait 10 seconds to allow the update checking process to potentially timeout.
+    const modalOverlay = await ModalPage.modalOverlay
+    await modalOverlay.waitForDisplayed({ timeout: 10000, reverse: true });
 
     const aboutTermsOfServiceTextLabel =
       await SettingsPage.aboutTermsOfServiceTextLabel
