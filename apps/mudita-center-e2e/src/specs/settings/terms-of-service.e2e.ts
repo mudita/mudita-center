@@ -25,9 +25,9 @@ describe("Checking Terms of service", () => {
     await aboutTab.waitForDisplayed()
     await aboutTab.click()
 
-    // Wait 10 seconds to allow the update checking process to potentially timeout.
+    // Wait 15 seconds to allow the update checking process to potentially timeout.
     const modalOverlay = await ModalPage.modalOverlay
-    await modalOverlay.waitForDisplayed({ timeout: 10000, reverse: true });
+    await modalOverlay.waitForDisplayed({ timeout: 15000, reverse: true });
 
     const aboutTermsOfServiceTextLabel =
       await SettingsPage.aboutTermsOfServiceTextLabel
