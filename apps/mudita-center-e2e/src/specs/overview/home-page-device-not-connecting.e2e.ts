@@ -1,3 +1,4 @@
+import screenshotHelper from "../../helpers/screenshot.helper"
 import HomePage from "../../page-objects/home.page"
 
 describe("Home Screen Page", () => {
@@ -7,51 +8,58 @@ describe("Home Screen Page", () => {
     await expect(homeHeader).toHaveText("Welcome to Mudita Center")
   })
   it("Click on My Device doesn't show up", async () => {
-    const myDevicesDoesntShowButton = HomePage.myDevicesDoesntShowButton
+    const myDevicesDoesntShowButton = await HomePage.myDevicesDoesntShowButton
     await expect(myDevicesDoesntShowButton).toBeDisplayed()
     await myDevicesDoesntShowButton.click()
   })
   it("Verify Contents", async () => {
-    const weAreSorryPage = await HomePage.weAreSorryPage
-    const weAreSorryPageFollowTheInstructions =
-      await HomePage.weAreSorryPageFollowTheInstructions
-    const weAreSorryPageInstructions = await HomePage.weAreSorryPageInstructions
-    await expect(weAreSorryPage).toHaveText("There was a connection problem")
-    await expect(weAreSorryPageFollowTheInstructions).toHaveText(
+    const weAreSorryPageHeader = await HomePage.weAreSorryPageHeader
+    const weAreSorryPageFollowTheInstructionsParagraph =
+      await HomePage.weAreSorryPageFollowTheInstructionsParagraph
+    const weAreSorryPageInstructionsList =
+      await HomePage.weAreSorryPageInstructionsList
+    await expect(weAreSorryPageHeader).toHaveText(
+      "There was a connection problem"
+    )
+    await expect(weAreSorryPageFollowTheInstructionsParagraph).toHaveText(
       "Follow the instructions below"
     )
-    await expect(weAreSorryPageInstructions[0]).toHaveText(
+    await expect(weAreSorryPageInstructionsList[0]).toHaveText(
       "Disconnect the device from the computer"
     )
-    await expect(weAreSorryPageInstructions[1]).toHaveText(
+    await expect(weAreSorryPageInstructionsList[1]).toHaveText(
       "Restart the device"
     ),
-      await expect(weAreSorryPageInstructions[2]).toHaveText(
+      await expect(weAreSorryPageInstructionsList[2]).toHaveText(
         "Reconnect the device to the computer"
       ),
-      await expect(weAreSorryPageInstructions[3]).toHaveText(
+      await expect(weAreSorryPageInstructionsList[3]).toHaveText(
         "Unlock your Mudita device's screen (if applicable)"
       )
   })
   it("Click this didn't solve the problem & click Try Again", async () => {
-    const thisDidntSolve = await HomePage.thisDidntSolve
-    const tryAgain = await HomePage.tryAgain
-    await expect(thisDidntSolve).toBeDisplayed()
-    await thisDidntSolve.click()
-    await expect(tryAgain).toBeDisplayed()
-    await tryAgain.click()
+    const thisDidntSolveParagraph = await HomePage.thisDidntSolveParagraph
+    const tryAgainParagraph = await HomePage.tryAgainParagraph
+    await expect(thisDidntSolveParagraph).toBeDisplayed()
+    await thisDidntSolveParagraph.click()
+    await expect(tryAgainParagraph).toBeDisplayed()
+    await tryAgainParagraph.click()
   })
   it("Click Contact Support & Verify Contents", async () => {
+    screenshotHelper.makeViewScreenshot()
     const contactSupportButton = await HomePage.contactSupportButton
-    const muditaCenterSupportModal = await HomePage.muditaCenterSupportModal
+    const muditaCenterSupportModalHeader =
+      await HomePage.muditaCenterSupportModalHeader
     const emailField = await HomePage.emailField
     const messageField = await HomePage.messageField
     const attachedFile = await HomePage.attachedFile
     const sendButton = await HomePage.sendButton
     await expect(contactSupportButton).toBeDisplayed()
     await contactSupportButton.click()
-    await expect(muditaCenterSupportModal).toBeDisplayed()
-    await expect(muditaCenterSupportModal).toHaveText("Mudita Center Support")
+    await expect(muditaCenterSupportModalHeader).toBeDisplayed()
+    await expect(muditaCenterSupportModalHeader).toHaveText(
+      "Mudita Center Support"
+    )
     await expect(emailField).toBeDisplayed()
     await emailField.click()
     await expect(emailField).toBeFocused()
@@ -66,7 +74,7 @@ describe("Home Screen Page", () => {
     await expect(sendButton).toBeDisplayed()
   })
   it("Click Close Center Support Modal & Verify if modal is not present", async () => {
-    const closeCenterSupportModal = await HomePage.closeCenterSupportModal
+    const closeCenterSupportModal = await HomePage.closeCenterSupportModalButton
     const centerSupportModal = await HomePage.centerSupportModal
     await expect(closeCenterSupportModal).toBeDisplayed()
     await closeCenterSupportModal.click()
