@@ -5,13 +5,13 @@
 
 import Modal from "./modal/modal"
 import { TextModal } from "./modal/text-modal"
-import TextInput from "./input/text-input"
+import TextInput from "./form/input/text-input"
 import ProgressBar from "./progress-bar/progress-bar"
 import Form from "./form/form"
-import RadioInput from "./input/radio-input"
-import CheckboxInput from "./input/checkbox-input"
+import RadioInput from "./form/input/radio-input"
+import CheckboxInput from "./form/input/checkbox-input"
 import Tooltip from "./tooltip/tooltip"
-import SearchInput from "./input/search-input"
+import SearchInput from "./form/input/search-input"
 import ModalButtons from "./modal/helpers/modal-buttons"
 import ModalCloseButton from "./modal/helpers/modal-close-button"
 import ModalSizeController from "./modal/helpers/modal-size-controller"
@@ -28,12 +28,12 @@ export const interactive = {
   "modal.closeButton": ModalCloseButton,
   "modal.sizeController": ModalSizeController,
   "text-modal": TextModal,
-  "text-input": TextInput,
-  "search-input": SearchInput,
-  "radio-input": RadioInput,
-  "checkbox-input": CheckboxInput,
-  "progress-bar": ProgressBar,
   form: Form,
+  "form.textInput": TextInput,
+  "form.searchInput": SearchInput,
+  "form.radioInput": RadioInput,
+  "form.checkboxInput": CheckboxInput,
+  "progress-bar": ProgressBar,
   tooltip: Tooltip,
   "tooltip.anchor": Tooltip.Anchor,
   "tooltip.content": Tooltip.Content,

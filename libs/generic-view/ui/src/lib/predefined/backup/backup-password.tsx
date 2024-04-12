@@ -6,13 +6,13 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { ButtonAction, IconType } from "generic-view/utils"
-import { TextInput } from "../../interactive/input/text-input"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { ButtonText } from "../../buttons/button-text"
 import { useFormContext } from "react-hook-form"
 import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { Form } from "../../interactive/form/form"
 
 const messages = defineMessages({
   title: {
@@ -76,14 +76,14 @@ export const BackupPassword: FunctionComponent<Props> = ({
         {intl.formatMessage(messages.description)}
         <span>{intl.formatMessage(messages.description2)}</span>
       </Text>
-      <TextInput
+      <Form.TextInput
         config={{
           name: "password",
           label: intl.formatMessage(messages.passwordPlaceholder),
           type: "password",
         }}
       />
-      <TextInput
+      <Form.TextInput
         config={{
           name: "passwordRepeat",
           label: intl.formatMessage(messages.passwordRepeatPlaceholder),

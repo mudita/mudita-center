@@ -5,11 +5,11 @@
 
 import React, { useEffect, useId } from "react"
 import { APIFC, IconType } from "generic-view/utils"
-import { withConfig } from "../../utils/with-config"
-import { withData } from "../../utils/with-data"
+import { withConfig } from "../../../utils/with-config"
+import { withData } from "../../../utils/with-data"
 import styled, { css } from "styled-components"
-import { IconButton } from "../../shared/button"
-import Icon from "../../icon/icon"
+import { IconButton } from "../../../shared/button"
+import Icon from "../../../icon/icon"
 import { useFormContext } from "react-hook-form"
 
 interface Data {
