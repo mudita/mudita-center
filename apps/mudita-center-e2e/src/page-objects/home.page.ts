@@ -7,7 +7,7 @@ import Page from "./page"
 
 class HomePage extends Page {
   get homeHeader() {
-    return $("h1*=Welcome to Mudita Center")
+    return $("h1[data-testid='onboarding-title-header']")
   }
 
   get notNowButton() {
