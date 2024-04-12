@@ -21,7 +21,7 @@ export default class ModalPage {
     return $("div.ReactModal__Overlay")
   }
 
-  async closeModalButtonClick() {
+  static async closeModalButtonClick() {
     await ModalPage.modalCloseButton.waitForClickable()
     await ModalPage.modalCloseButton.click()
   }
