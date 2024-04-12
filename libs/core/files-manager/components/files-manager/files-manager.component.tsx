@@ -48,6 +48,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   error,
   setDeletingFileCount,
 }) => {
+  const dispatch = useDispatch()
   const {
     selectedItems,
     selectAllItems,
@@ -55,8 +56,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     resetAllItems
   } = useItemSelection<File>(files);
 
-
-  const dispatch = useDispatch()
   const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const { states, updateFieldState } = useLoadingState<FileServiceState>({

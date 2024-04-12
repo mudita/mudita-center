@@ -39,7 +39,6 @@ import {
   Ellipsis,
 } from "Core/files-manager/components/files-storage-list/files-storage-list.styled"
 import { DeviceType } from "Core/device/constants"
-import { VisibleOnDevice } from "Core/ui/components"
 import { useSelector } from "react-redux"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { Virtuoso } from "react-virtuoso"
@@ -156,11 +155,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
             <Col />
             <Col>{intl.formatMessage(messages.type)}</Col>
             <Col>{intl.formatMessage(messages.size)}</Col>
-            <VisibleOnDevice
-              devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}
-            >
-              <LastEmptyCol />
-            </VisibleOnDevice>
+            <LastEmptyCol />
           </FilesListLabels>
           <Virtuoso
             data={files}
@@ -175,45 +170,34 @@ const FilesStorageList: FunctionComponent<Props> = ({
                   hideCheckbox={hideCheckbox}
                 >
                   <Col>
-                    <VisibleOnDevice
-                      devices={[
-                        DeviceType.MuditaPure,
-                        DeviceType.MuditaHarmony,
-                      ]}
-                    >
-                      <Checkbox
-                        checked={selected}
-                        onChange={handleCheckboxChange}
-                        size={Size.Medium}
-                        visible={Boolean(selectedItems.length !== 0)}
-                      />
-                      {selectedItems.length === 0 && (
-                        <FileIcon iconType={IconType.MenuMusic} />
-                      )}
-                    </VisibleOnDevice>
+                    <Checkbox
+                      checked={selected}
+                      onChange={handleCheckboxChange}
+                      size={Size.Medium}
+                      visible={Boolean(selectedItems.length !== 0)}
+                    />
+                    {selectedItems.length === 0 && (
+                      <FileIcon iconType={IconType.MenuMusic} />
+                    )}
                   </Col>
                   <Col>
                     <TruncateText text={file.name} />
                   </Col>
                   <FilesStorageListTypeCol file={file} />
                   <Col>{convertBytes(file.size)}</Col>
-                  <VisibleOnDevice
-                    devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}
-                  >
-                    <Col>
-                      <Actions>
-                        <Dropdown onOpen={disableScroll} onClose={enableScroll}>
-                          <ButtonComponent
-                            labelMessage={messages.deleteAction}
-                            Icon={IconType.Delete}
-                            onClick={handleDelete}
-                            iconSize={IconSize.Medium}
-                            displayStyle={DisplayStyle.Dropdown}
-                          />
-                        </Dropdown>
-                      </Actions>
-                    </Col>
-                  </VisibleOnDevice>
+                  <Col>
+                    <Actions>
+                      <Dropdown onOpen={disableScroll} onClose={enableScroll}>
+                        <ButtonComponent
+                          labelMessage={messages.deleteAction}
+                          Icon={IconType.Delete}
+                          onClick={handleDelete}
+                          iconSize={IconSize.Medium}
+                          displayStyle={DisplayStyle.Dropdown}
+                        />
+                      </Dropdown>
+                    </Actions>
+                  </Col>
                 </FilesListRow>
               )
             }}
