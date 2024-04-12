@@ -1,14 +1,15 @@
-name: e2e on Linux for feature branch
+name: e2e on Linux for pre-production
 
 on:
   push:
-    branches:
-      - CP-*
+    tags:
+      - "*"
 
 jobs:
   e2e:
+    if: startsWith(github.event.base_ref, 'refs/heads/v') && !(endsWith(github.ref, '-latest'))
     runs-on: ubuntu-latest
-    environment: development
+    environment: pre-production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
