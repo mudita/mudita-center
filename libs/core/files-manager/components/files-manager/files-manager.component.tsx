@@ -20,10 +20,8 @@ import FilesStorage from "Core/files-manager/components/files-storage/files-stor
 import { DeleteFilesModals } from "Core/files-manager/components/delete-files-modals/delete-files-modals.component"
 import { useLoadingState } from "Core/ui"
 import { UploadFilesModals } from "Core/files-manager/components/upload-files-modals/upload-files-modals.component"
-import { useFilesFilter } from "Core/files-manager/helpers/use-files-filter.hook"
 import useSpaces from "Core/files-manager/components/files-manager/use-spaces/use-spaces.hook"
 import { resetFiles } from "Core/files-manager/actions/base.action"
-import useCancelableFileUpload from "Core/files-manager/components/files-manager/use-cancelable-file-upload"
 import useDiskSpaceCategories from "Core/files-manager/components/files-manager/use-disk-space-categories.hook"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
@@ -55,8 +53,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 }) => {
   const dispatch = useDispatch()
   const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
-    useFilesFilter({ files: files ?? [] })
+
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
     deletingFailed: false,
     deleting: false,
@@ -69,7 +66,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   const spaces = useSpaces(files, memorySpace, loading)
   const diskSpaceCategories = useDiskSpaceCategories(files, spaces)
   const { freeSpace, totalMemorySpace, usedMemorySpace } = spaces
-  const { handleUploadFiles } = useCancelableFileUpload()
+
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
   const downloadFiles = () => {
     // AUTO DISABLED - fix me if you like :)
@@ -239,7 +236,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       )}
       <FilesStorage
         state={loading}
-        files={filteredFiles}
         selectAllItems={selectAllItems}
         resetAllItems={resetAllItems}
         selectedItems={selectedItems}
@@ -247,10 +243,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         toggleItem={toggleItem}
         onDeleteClick={handleDeleteClick}
         onManagerDeleteClick={handleManagerDeleteClick}
-        uploadFiles={handleUploadFiles}
-        searchValue={searchValue}
-        onSearchValueChange={handleSearchValueChange}
-        noFoundFiles={noFoundFiles}
         disableUpload={disableUpload}
       />
     </FilesManagerContainer>

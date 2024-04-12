@@ -6,6 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
+import { useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { FilesStorageTestIds } from "Core/files-manager/components/files-storage/files-storage-test-ids.enum"
 import Text, {
@@ -15,6 +16,9 @@ import FilesStorageList from "Core/files-manager/components/files-storage-list/f
 import { FilesManagerPanel } from "Core/files-manager/components/files-manager-panel"
 import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
+import { useFilesFilter } from "Core/files-manager/helpers/use-files-filter.hook"
+import useCancelableFileUpload from "Core/files-manager/components/files-manager/use-cancelable-file-upload"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 const TitleWrapper = styled.div`
   padding: 1.6rem 3.2rem 1rem;
@@ -32,7 +36,6 @@ const messages = defineMessages({
 
 const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   state,
-  files = [],
   resetAllItems,
   selectAllItems,
   toggleItem,
@@ -40,12 +43,13 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   allItemsSelected,
   onDeleteClick,
   onManagerDeleteClick,
-  uploadFiles,
-  searchValue,
-  onSearchValueChange,
-  noFoundFiles,
   disableUpload,
 }) => {
+  const files = useSelector((state: ReduxRootState) => state.filesManager.files)
+  const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
+    useFilesFilter({ files: files ?? [] })
+  const { handleUploadFiles } = useCancelableFileUpload()
+
   return (
     <>
       <TitleWrapper>
@@ -56,7 +60,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
         />
       </TitleWrapper>
       <FilesManagerPanel
-        onUploadFile={uploadFiles}
+        onUploadFile={handleUploadFiles}
         disabled={disableUpload}
         toggleAll={selectAllItems}
         resetRows={resetAllItems}
@@ -64,11 +68,11 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
         selectedFiles={selectedItems}
         allItemsSelected={allItemsSelected}
         searchValue={searchValue}
-        onSearchValueChange={onSearchValueChange}
+        onSearchValueChange={handleSearchValueChange}
       />
       <FilesStorageList
         data-testid={FilesStorageTestIds.List}
-        files={files}
+        files={filteredFiles}
         selectedItems={selectedItems}
         toggleRow={toggleItem}
         onDelete={onDeleteClick}
