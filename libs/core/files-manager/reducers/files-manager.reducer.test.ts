@@ -16,7 +16,6 @@ import {
 } from "Core/__deprecated__/renderer/store/helpers"
 import { FilesManagerEvent } from "Core/files-manager/constants"
 import { File } from "Core/files-manager/dto"
-import { CoreEvent } from "Core/core/constants"
 
 const payload: File[] = [
   {
@@ -76,85 +75,6 @@ describe("Getting files functionality", () => {
       ...initialState,
       loading: State.Failed,
       error: errorMock,
-    })
-  })
-})
-
-describe("Select files functionality", () => {
-  test("Event: FilesManagerEven.SelectAllItems set provided ids to `selectedItems.rows`", () => {
-    expect(
-      filesManagerReducer(initialState, {
-        type: fulfilledAction(FilesManagerEvent.SelectAllItems),
-        payload: ["1", "2"],
-      })
-    ).toEqual({
-      ...initialState,
-      selectedItems: {
-        ...initialState.selectedItems,
-        rows: ["1", "2"],
-      },
-    })
-  })
-
-  test("Event: FilesManagerEven.ToggleItem set provided ids to `selectedItems.rows`", () => {
-    expect(
-      filesManagerReducer(initialState, {
-        type: fulfilledAction(FilesManagerEvent.ToggleItem),
-        payload: ["1", "2"],
-      })
-    ).toEqual({
-      ...initialState,
-      selectedItems: {
-        ...initialState.selectedItems,
-        rows: ["1", "2"],
-      },
-    })
-  })
-
-  test("Event: FilesManagerEven.ResetAllItems removes all selected items", () => {
-    expect(
-      filesManagerReducer(
-        {
-          ...initialState,
-          selectedItems: {
-            ...initialState.selectedItems,
-            rows: ["1", "2"],
-          },
-        },
-        {
-          type: FilesManagerEvent.ResetAllItems,
-          payload: undefined,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      selectedItems: {
-        ...initialState.selectedItems,
-        rows: [],
-      },
-    })
-  })
-  test("Event: CoreEvent.ChangeLocation removes all selected items", () => {
-    expect(
-      filesManagerReducer(
-        {
-          ...initialState,
-          selectedItems: {
-            ...initialState.selectedItems,
-            rows: ["1", "2"],
-          },
-        },
-        {
-          type: CoreEvent.ChangeLocation,
-          payload: undefined,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      selectedItems: {
-        ...initialState.selectedItems,
-        rows: [],
-      },
     })
   })
 })

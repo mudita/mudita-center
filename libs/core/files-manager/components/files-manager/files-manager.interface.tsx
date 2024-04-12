@@ -21,11 +21,6 @@ export interface FilesManagerProps {
   deletingFileCount: number
   files: File[] | null
   getFiles: (directory: DeviceDirectory) => void
-  resetAllItems: () => void
-  selectAllItems: () => void
-  toggleItem: (id: string) => void
-  selectedItems: string[]
-  allItemsSelected: boolean
   deleteFiles: (ids: string[]) => void
   resetDeletingState: () => void
   resetUploadingState: () => void

@@ -5,5 +5,4 @@
 
 export * from "./base.action"
 export * from "./get-files.action"
-export * from "./select-items.action"
 export * from "./upload-file.action"

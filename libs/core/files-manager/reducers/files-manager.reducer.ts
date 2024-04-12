@@ -8,13 +8,10 @@ import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import {
   getFiles,
-  resetAllItems,
   resetDeletingState,
   resetUploadingState,
-  selectAllItems,
   setUploadingFileCount,
   setUploadingState,
-  toggleItem,
   uploadFile,
   setUploadBlocked,
   setDeletingFileCount,
@@ -35,9 +32,6 @@ export const initialState: FilesManagerState = {
   deleting: State.Initial,
   uploadingFileCount: 0,
   deletingFileCount: 0,
-  selectedItems: {
-    rows: [],
-  },
   uploadBlocked: false,
   error: null,
   duplicatedFiles: [],
@@ -91,33 +85,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           ...state,
           uploading: State.Failed,
           error: action.payload as AppError,
-        }
-      })
-      .addCase(selectAllItems.fulfilled, (state, action) => {
-        return {
-          ...state,
-          selectedItems: {
-            ...state.selectedItems,
-            rows: action.payload,
-          },
-        }
-      })
-      .addCase(toggleItem.fulfilled, (state, action) => {
-        return {
-          ...state,
-          selectedItems: {
-            ...state.selectedItems,
-            rows: action.payload,
-          },
-        }
-      })
-      .addCase(resetAllItems, (state) => {
-        return {
-          ...state,
-          selectedItems: {
-            ...state.selectedItems,
-            rows: [],
-          },
         }
       })
       .addCase(changeLocation, () => {

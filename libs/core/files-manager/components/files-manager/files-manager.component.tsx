@@ -23,6 +23,8 @@ import { UploadFilesModals } from "Core/files-manager/components/upload-files-mo
 import useSpaces from "Core/files-manager/components/files-manager/use-spaces/use-spaces.hook"
 import { resetFiles } from "Core/files-manager/actions/base.action"
 import useDiskSpaceCategories from "Core/files-manager/components/files-manager/use-disk-space-categories.hook"
+import useItemSelection from "Core/files-manager/components/files-manager/use-item-selection"
+import { File } from "Core/files-manager/dto"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -36,11 +38,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   files,
   getFiles,
   deviceType,
-  resetAllItems,
-  selectAllItems,
-  toggleItem,
-  selectedItems,
-  allItemsSelected,
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
@@ -51,6 +48,14 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   error,
   setDeletingFileCount,
 }) => {
+  const {
+    selectedItems,
+    selectAllItems,
+    toggleItem,
+    resetAllItems
+  } = useItemSelection<File>(files);
+
+
   const dispatch = useDispatch()
   const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -239,7 +244,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         selectAllItems={selectAllItems}
         resetAllItems={resetAllItems}
         selectedItems={selectedItems}
-        allItemsSelected={allItemsSelected}
         toggleItem={toggleItem}
         onDeleteClick={handleDeleteClick}
         onManagerDeleteClick={handleManagerDeleteClick}
