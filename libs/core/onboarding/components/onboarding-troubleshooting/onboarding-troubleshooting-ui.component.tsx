@@ -94,31 +94,37 @@ const OnboardingTroubleshootingUI: FunctionComponent<Props> = ({
         <SubheaderTitle
           displayStyle={TextDisplayStyle.Headline2}
           message={messages.troubleshootingTitle}
+          data-testid={OnboardingTroubleshootingUiTestIds.Title}
         />
         <InstructionTitle
           displayStyle={TextDisplayStyle.Paragraph2}
           message={messages.troubleshootingInstruction}
+          data-testid={OnboardingTroubleshootingUiTestIds.Subtitle}
         />
         <StepsContent>
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
             message={messages.troubleshootingSteps1}
+            data-testid={OnboardingTroubleshootingUiTestIds.InstructionStep}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
             message={messages.troubleshootingSteps2}
+            data-testid={OnboardingTroubleshootingUiTestIds.InstructionStep}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
             message={messages.troubleshootingSteps3}
+            data-testid={OnboardingTroubleshootingUiTestIds.InstructionStep}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.Paragraph1}
             message={messages.troubleshootingSteps4}
+            data-testid={OnboardingTroubleshootingUiTestIds.InstructionStep}
           />
         </StepsContent>
         <MoreInstructionsButton
