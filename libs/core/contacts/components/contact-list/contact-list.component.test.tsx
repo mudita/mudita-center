@@ -25,12 +25,9 @@ const defaultProps: Props = {
   contactList: [],
   selectedItems: [],
   onEdit: jest.fn(),
-  onBlock: jest.fn(),
   onDelete: jest.fn(),
   onExport: jest.fn(),
-  onForward: jest.fn(),
   onSelect: jest.fn(),
-  onUnblock: jest.fn(),
   toggleRow: jest.fn(),
   selectedContact: null,
   resultsState: ResultState.Empty,
@@ -101,7 +98,6 @@ const render = (extraProps?: Partial<Props>) => {
 
   return {
     ...outcome,
-
     rerender: (newExtraProps: Partial<Props>) => {
       const newProps = {
         ...defaultProps,

@@ -25,7 +25,6 @@ export interface HarmonyOverviewProps {
   readonly checkingForUpdateState: CheckForUpdateState
   readonly downloadingState: DownloadState
   readonly forceUpdateState: State
-  readonly allReleases: OsRelease[] | null
   readonly updateOsError: AppError<UpdateError> | null
   readonly availableReleasesForUpdate: OsRelease[] | null
   readonly downloadingReleasesProcessStates: ProcessedRelease[] | null

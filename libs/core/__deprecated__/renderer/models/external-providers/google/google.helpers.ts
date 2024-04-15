@@ -72,7 +72,6 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
     email,
     ice: false,
     favourite: false,
-    blocked: false,
     note,
   }
 }

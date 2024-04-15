@@ -10,6 +10,19 @@ import { ButtonAction, IconType } from "generic-view/utils"
 import { iconButtonStyles } from "../../shared/button"
 import { ButtonBase } from "../../buttons/button-base/button-base"
 
+export type ModalSize = "small" | "medium" | "large"
+
+export const getModalSize = (size: ModalSize) => {
+  switch (size) {
+    case "small":
+      return "38.4rem"
+    case "medium":
+      return "48.8rem"
+    case "large":
+      return "61.4rem"
+  }
+}
+
 export const ModalTitleIcon = styled(Icon)`
   width: 6.8rem;
   height: 6.8rem;
@@ -38,12 +51,13 @@ const listBulletStyle = css`
   content: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle fill="%233B3F42" r="3.5" cx="5" cy="4"/></svg>');
 `
 
-export const ModalCenteredContent = styled.div`
+export const ModalCenteredContent = styled.div<{ $size?: ModalSize }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: var(--modal-padding);
   height: 100%;
+  width: ${({ $size }) => ($size ? getModalSize($size) : "var(--modal-width)")};
   overflow: hidden;
   gap: ${({ theme }) => theme.space.xl};
 

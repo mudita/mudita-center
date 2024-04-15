@@ -18,8 +18,6 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { IconSize } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-import { Feature, flags } from "Core/feature-flags"
-import AlphaReleaseWarning from "Core/__deprecated__/renderer/wrappers/components/alpha-release-warning.component"
 import DeviceSelectDrawer from "Core/device-select/components/device-select-drawer.component"
 
 const Layout = styled.div`
@@ -42,6 +40,7 @@ const MenuWrapper = styled.div`
 
 const HeaderWrapper = styled.div`
   grid-area: Header;
+  z-index: 1;
 `
 
 export const HeaderButton = styled(Button)`
@@ -62,8 +61,6 @@ const ViewWrapper = styled.div`
 `
 
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
-  const [warningOpen, setWarningOpen] = React.useState<boolean>(true)
-  const handleCloseWarning = () => setWarningOpen(false)
   return (
     <Layout>
       <MenuWrapper>
@@ -85,9 +82,6 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
         />
       </HeaderWrapper>
       <ViewWrapper>
-        {flags.get(Feature.AlphaRelaseWarning) && warningOpen && (
-          <AlphaReleaseWarning onClose={handleCloseWarning} />
-        )}
         {children}
         <DeviceSelectDrawer />
       </ViewWrapper>

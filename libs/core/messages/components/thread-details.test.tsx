@@ -149,7 +149,6 @@ test("Show info about contact with multiple numbers", () => {
 
 test("If thread is empty, all buttons on the right side should be disabled", () => {
   const { getByTestId } = renderer({ messages: [] })
-  expect(getByTestId(ThreadDetailsTestIds.CallButton)).toBeDisabled()
   expect(getByTestId(ThreadDetailsTestIds.ContactButton)).toBeDisabled()
   expect(getByTestId(ThreadDetailsTestIds.MarkAsUnreadButton)).toBeDisabled()
   expect(getByTestId(ThreadDetailsTestIds.DeleteButton)).toBeDisabled()

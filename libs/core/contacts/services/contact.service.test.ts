@@ -31,7 +31,6 @@ const pureContact: PureContact = {
   id: 19,
   address: "6 Czeczota St.\n02600 Warsaw",
   altName: "Boligłowa",
-  blocked: false,
   favourite: true,
   numbers: ["500400300"],
   priName: "Alek",
@@ -39,7 +38,6 @@ const pureContact: PureContact = {
 }
 
 const contact: Contact = {
-  blocked: false,
   email: "",
   favourite: true,
   firstAddressLine: "6 Czeczota St.",

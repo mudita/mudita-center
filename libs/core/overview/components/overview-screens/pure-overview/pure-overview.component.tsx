@@ -63,7 +63,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   downloadingState,
   clearUpdateState,
   abortDownload,
-  allReleases,
   updateOsError,
   downloadUpdates,
   downloadingReleasesProcessStates,
@@ -246,7 +245,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
           updateState={updatingState}
           updateOs={updateReleases}
           openContactSupportFlow={openContactSupportFlow}
-          allReleases={allReleases}
           openHelpView={goToHelp}
           error={updateOsError}
           downloadingReleasesProcessStates={downloadingReleasesProcessStates}

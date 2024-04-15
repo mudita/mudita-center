@@ -4,6 +4,9 @@
  */
 
 export enum OnboardingTroubleshootingUiTestIds {
+  Title = "onboarding-troubleshooting-title-header",
+  Subtitle = "onboarding-troubleshooting-subtitle-paragraph",
+  InstructionStep = "onboarding-troubleshooting-instruction-step-list-item",
   Retry = "onboarding-troubleshooting-ui-retry",
   ContactSupport = "onboarding-troubleshooting-ui-contact-support",
   MoreInstructions = "onboarding-troubleshooting-ui-more-instructions",

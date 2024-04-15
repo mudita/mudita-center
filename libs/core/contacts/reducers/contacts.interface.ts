@@ -15,7 +15,6 @@ export interface Contact {
   primaryPhoneNumber?: string
   secondaryPhoneNumber?: string
   favourite?: boolean
-  blocked?: boolean
   ice?: boolean
   speedDial?: number
   note?: string

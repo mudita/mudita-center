@@ -19,6 +19,12 @@ export const GenericThemeProvider: FunctionComponent<PropsWithChildren> = ({
 }
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
+  .box-sizing-wrapper {
+    height: 100%;
+    & > * {
+      height: 100%;
+    }
+  }
   .box-sizing-wrapper * {
     box-sizing: border-box;
   }
@@ -52,7 +58,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     box-sizing: border-box;
     background-color: ${({ theme }) => theme.color.white};
     border-radius: ${({ theme }) => theme.radius.sm};
-    width: 100%;
+    width: auto;
     max-height: calc(100vh - 20rem);
     overflow: hidden;
     outline: none;

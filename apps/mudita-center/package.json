@@ -23,7 +23,7 @@
     "storybook:build": "storybook build",
     "DATA UPDATE/OVERWRITE COMMANDS": "=========================================",
     "translations:sort": "ts-node ../../scripts/sort-translations.ts",
-    "translations:sync": "ts-node ../../scripts/sync-translations.ts",
+    "translations:sync": "ts-node ../../scripts/sync-translations/sync-translations.ts",
     "fonts:download": "node ../../scripts/downloadFonts.js",
     "copy-static-dependencies": "node ../../scripts/copy-static-sql-js-dependencies.js",
     "news:download": "ts-node ../../scripts/downloadNews.ts",

@@ -13,12 +13,8 @@ import { QuestionAndAnswer } from "Core/help/components/help.component"
 import Help from "Core/help/help.container"
 import { renderAnswer } from "Core/help/helpers/render-answer"
 import { useHelpSearch } from "Core/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
-import ContextMenu from "Core/__deprecated__/context-menu/context-menu"
-import { Feature, flags } from "Core/feature-flags"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import useAltLinkDownloadPreventer from "Core/core/components/use-alt-link-download-preventer.hook"
-
-const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
 
 const saveToStore = async (normalizeData: QuestionAndAnswer) =>
   await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
@@ -35,13 +31,6 @@ const HelpApp: FunctionComponent = () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInputValue])
-
-  useEffect(() => {
-    if (devModeEnabled) {
-      const helpContextMenu = new ContextMenu()
-      helpContextMenu.init()
-    }
-  }, [])
 
   return (
     <Router history={history}>

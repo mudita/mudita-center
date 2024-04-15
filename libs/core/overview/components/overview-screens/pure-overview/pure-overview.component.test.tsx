@@ -62,7 +62,6 @@ const defaultProps: Props = {
   syncState: SynchronizationStatus.Loaded,
   updateAllIndexes: jest.fn(),
   abortDownload: jest.fn(),
-  allReleases: [],
   checkForUpdate: jest.fn(),
   updatingState: State.Initial,
   checkingForUpdateState: CheckForUpdateState.Initial,

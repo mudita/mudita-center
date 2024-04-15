@@ -27,6 +27,7 @@ import {
   genericFileTransferReducer,
   genericModalsReducer,
   genericViewsReducer,
+  importsReducer,
 } from "generic-view/store"
 import { appStateReducer } from "shared/app-state"
 
@@ -53,6 +54,7 @@ export const reducers = {
   genericModals: genericModalsReducer,
   genericBackups: genericBackupsReducer,
   genericFileTransfer: genericFileTransferReducer,
+  genericImport: importsReducer,
   appState: appStateReducer,
 }
 

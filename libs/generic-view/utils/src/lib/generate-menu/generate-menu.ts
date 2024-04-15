@@ -30,6 +30,7 @@ const mapIcons: Partial<Record<IconType, CoreIconType>> = {
   [IconType.Close]: CoreIconType.Close,
   [IconType.Device]: CoreIconType.MenuPhone,
   [IconType.Mudita]: CoreIconType.MuditaLogo,
+  [IconType.ContactsBook]: CoreIconType.MenuContacts,
 }
 
 const mapDefaultIcons: Record<string, CoreIconType> = {
