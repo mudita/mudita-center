@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
-import { APIFC, ButtonAction } from "generic-view/utils"
+import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
 import { withConfig } from "../../utils/with-config"
 import { BackupFeatures, Feature } from "./backup-features"
 import { BackupPassword } from "./backup-password"
@@ -12,7 +12,7 @@ import { useFormContext } from "react-hook-form"
 import { BackupProgress } from "./backup-progress"
 import { Modal } from "../../interactive/modal"
 import { BackupSuccess } from "./backup-success"
-import { BackupError, CustomError } from "./backup-error"
+import { BackupError } from "./backup-error"
 import { Form } from "../../interactive/form/form"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
@@ -56,7 +56,7 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   const backupProcessStatus = useSelector(selectBackupProcessStatus)
   const backupAbortReference = useRef<VoidFunction>()
   const [step, setStep] = useState<Step>(Step.Features)
-  const [error, setError] = useState<CustomError>()
+  const [error, setError] = useState<CustomModalError>()
 
   const featuresKeys = features?.map((item) => item.key) ?? []
   const closeButtonVisible = [

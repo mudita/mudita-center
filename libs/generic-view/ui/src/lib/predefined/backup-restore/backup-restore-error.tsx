@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent } from "react"
-import { ButtonAction, IconType } from "generic-view/utils"
+import { ButtonAction, CustomModalError, IconType } from "generic-view/utils"
 import { Modal } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
@@ -22,14 +22,9 @@ const messages = defineMessages({
   },
 })
 
-export interface BackupRestoreCustomError {
-  title: string
-  message: string
-}
-
 interface Props {
   closeAction: ButtonAction
-  customError?: BackupRestoreCustomError
+  customError?: CustomModalError
 }
 
 export const BackupRestoreError: FunctionComponent<Props> = ({

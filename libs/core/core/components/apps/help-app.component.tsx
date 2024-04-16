@@ -14,6 +14,7 @@ import Help from "Core/help/help.container"
 import { renderAnswer } from "Core/help/helpers/render-answer"
 import { useHelpSearch } from "Core/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
+import useAltLinkDownloadPreventer from "Core/core/components/use-alt-link-download-preventer.hook"
 
 const saveToStore = async (normalizeData: QuestionAndAnswer) =>
   await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
@@ -21,6 +22,8 @@ const getStoreData = async (key?: string) =>
   await ipcRenderer.callMain(HelpActions.GetStore, key)
 
 const HelpApp: FunctionComponent = () => {
+  useAltLinkDownloadPreventer()
+
   const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
   const [searchInputValue, setSearchInputValue] = useState("")
   useEffect(() => {

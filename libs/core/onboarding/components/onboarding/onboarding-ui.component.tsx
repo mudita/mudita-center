@@ -27,6 +27,7 @@ import {
   CancelButton,
   DeviceName,
 } from "Core/onboarding/components/onboarding/onboarding-ui.styled"
+import { OnboardingUiTestIds } from "Core/onboarding/components/onboarding/onboarding-ui-test-ids"
 
 const messages = defineMessages({
   headerTitle: { id: "module.onboarding.headerTitle" },
@@ -53,6 +54,7 @@ const OnboardingUI: FunctionComponent<Props> = ({
           displayStyle={TextDisplayStyle.Headline1}
           message={messages.headerTitle}
           element={"h1"}
+          data-testid={OnboardingUiTestIds.Title}
         />
         <SubheaderTitle
           displayStyle={TextDisplayStyle.Paragraph1}
@@ -77,11 +79,13 @@ const OnboardingUI: FunctionComponent<Props> = ({
         labelMessage={messages.primaryButton}
         onClick={onCancel}
         displayStyle={DisplayStyle.Secondary}
+        data-testid={OnboardingUiTestIds.NotNotButton}
       />
       <TroubleshootingButton
         displayStyle={DisplayStyle.ActionLink}
         labelMessage={messages.secondaryButton}
         onClick={onTroubleshooting}
+        data-testid={OnboardingUiTestIds.MyDeviceDoesNotShowUpButton}
       />
     </ButtonsContainer>
   </Container>

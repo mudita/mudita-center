@@ -1,14 +1,15 @@
-name: e2e on Linux for feature branch
+name: e2e on Linux for production
 
 on:
   push:
-    branches:
-      - CP-*
+    tags:
+      - "*"
 
 jobs:
   e2e:
+    if: github.event.base_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment: development
+    environment: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
