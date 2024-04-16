@@ -11,6 +11,7 @@ export interface FilesStorageProps {
   selectAllItems: () => void
   toggleItem: (id: string) => void
   selectedItems: string[]
+  allItemsSelected: boolean
   onDeleteClick: (ids: string[]) => void
   onManagerDeleteClick: () => void
   disableUpload: boolean

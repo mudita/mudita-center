@@ -40,6 +40,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   selectAllItems,
   toggleItem,
   selectedItems,
+  allItemsSelected,
   onDeleteClick,
   onManagerDeleteClick,
   disableUpload,
@@ -48,7 +49,6 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files: files ?? [] })
   const { handleUploadFiles } = useCancelableFileUpload()
-  const allItemsSelected = selectedItems.length === files?.length ?? 0
 
   return (
     <>

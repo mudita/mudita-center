@@ -14,6 +14,7 @@ export interface FilesManagerState {
   uploading: State
   uploadingFileCount: number
   deletingFileCount: number
+  selectedItems: { rows: string[] }
   error: AppError | null
   uploadBlocked: boolean
   duplicatedFiles: string[]
