@@ -7,7 +7,7 @@ import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
 import React, { useEffect, useState } from "react"
 import { withConfig } from "../../utils/with-config"
 import { Form } from "../../interactive/form/form"
-import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
@@ -56,7 +56,6 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   const abortButtonVisible = step === Step.Progress
   const closeButtonVisible =
     importStatus !== "PENDING-AUTH" && !abortButtonVisible
-  const biggerModal = step === Step.Loaded
 
   const closeModal = () => {
     dispatch(closeModalAction({ key: modalKey! }))
@@ -120,30 +119,26 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   return (
     <>
       {closeButtonVisible && (
-        <ModalCloseButton action={importCloseButtonAction} />
+        <Modal.CloseButton config={{ action: importCloseButtonAction }} />
       )}
       {abortButtonVisible && (
-        <ModalCloseButton action={backupAbortButtonAction} />
+        <Modal.CloseButton config={{ action: backupAbortButtonAction }} />
       )}
-      <ModalCenteredContent $size={biggerModal ? "medium" : "small"}>
-        {step === Step.Providers && <ImportContactsProvider />}
-        {step === Step.Loading && <ImportContactsLoader />}
-        {step === Step.Loaded && (
-          <ImportContactsList nextAction={importConfirmButtonAction} />
-        )}
-        {step === Step.Progress && (
-          <ImportContactsProgress onFinish={onFinish} />
-        )}
-        {step === Step.Success && (
-          <ImportContactsSuccess closeAction={importCloseButtonAction} />
-        )}
-        {step === Step.Error && (
-          <ImportContactsError
-            closeAction={importCloseButtonAction}
-            customError={error}
-          />
-        )}
-      </ModalCenteredContent>
+      {step === Step.Providers && <ImportContactsProvider />}
+      {step === Step.Loading && <ImportContactsLoader />}
+      {step === Step.Loaded && (
+        <ImportContactsList nextAction={importConfirmButtonAction} />
+      )}
+      {step === Step.Progress && <ImportContactsProgress onFinish={onFinish} />}
+      {step === Step.Success && (
+        <ImportContactsSuccess closeAction={importCloseButtonAction} />
+      )}
+      {step === Step.Error && (
+        <ImportContactsError
+          closeAction={importCloseButtonAction}
+          customError={error}
+        />
+      )}
     </>
   )
 }

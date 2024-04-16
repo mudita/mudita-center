@@ -5,11 +5,11 @@
 
 import React, { useId } from "react"
 import { APIFC, IconType } from "generic-view/utils"
-import { withConfig } from "../../utils/with-config"
-import { withData } from "../../utils/with-data"
+import { withConfig } from "../../../utils/with-config"
+import { withData } from "../../../utils/with-data"
 import styled from "styled-components"
 import { RegisterOptions, useFormContext } from "react-hook-form"
-import Icon from "../../icon/icon"
+import Icon from "../../../icon/icon"
 
 interface Config {
   name: string

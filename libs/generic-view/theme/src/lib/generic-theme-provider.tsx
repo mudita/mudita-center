@@ -59,7 +59,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     background-color: ${({ theme }) => theme.color.white};
     border-radius: ${({ theme }) => theme.radius.sm};
     width: auto;
-    max-height: calc(100vh - 20rem);
+    max-height: var(--modal-max-height);
     overflow: hidden;
     outline: none;
     box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.color.black + "26"};
