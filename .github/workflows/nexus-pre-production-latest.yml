@@ -165,13 +165,11 @@ jobs:
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
-          cd apps/mudita-center/
           npm run app:dist
       - name: Build App for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          cd apps/mudita-center/
           npm run app:dist
       - name: Verify apple sign
         if: matrix.os == 'macOS'
