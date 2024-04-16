@@ -11,10 +11,10 @@ import { selectDeviceBackups } from "generic-view/store"
 import styled from "styled-components"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
-import { RadioInput } from "../../interactive/input/radio-input"
 import { useFormContext } from "react-hook-form"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { Form } from "../../interactive/form/form"
 
 const messages = defineMessages({
   title: {
@@ -70,7 +70,7 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
             <p>{intl.formatMessage(messages.multipleDescription)}</p>
             <ScrollableContent>
               {backups.map((backup) => (
-                <RadioInput
+                <Form.RadioInput
                   key={backup.fileName}
                   config={{
                     label: formatDate(backup.date),

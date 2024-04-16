@@ -5,8 +5,8 @@
 
 import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../../utils/with-config"
-import { withData } from "../../utils/with-data"
+import { withConfig } from "../../../utils/with-config"
+import { withData } from "../../../utils/with-data"
 import styled from "styled-components"
 import { useFormContext } from "react-hook-form"
 import { RegisterOptions } from "react-hook-form/dist/types/validator"

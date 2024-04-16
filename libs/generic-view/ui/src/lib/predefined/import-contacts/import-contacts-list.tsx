@@ -16,13 +16,12 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { UnifiedContact } from "device/models"
-import { CheckboxInput } from "../../interactive/input/checkbox-input"
 import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
 import { importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
 import Divider from "../../helpers/divider"
-import { SearchInput } from "../../interactive/input/search-input"
+import { Form } from "../../interactive/form/form"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"
 export const ALL_CONTACTS_FIELD = "all-contacts"
@@ -92,7 +91,7 @@ export const ImportContactsList: FunctionComponent<Props> = ({
     <>
       <Modal.TitleIcon data={{ type: IconType.ContactsBook }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
-      <SearchInput
+      <Form.SearchInput
         config={{
           label: "Search contacts",
           name: "search",
@@ -149,7 +148,7 @@ const ContactItem: React.FC<UnifiedContact> = ({
 }) => {
   return (
     <ContactItemWrapper>
-      <CheckboxInput
+      <Form.CheckboxInput
         config={{
           value: id,
           name: SELECTED_CONTACTS_FIELD,
@@ -177,7 +176,7 @@ const ContactItem: React.FC<UnifiedContact> = ({
             )}
           </StyledPhoneInfoWrapper>
         </ContactLabelWrapper>
-      </CheckboxInput>
+      </Form.CheckboxInput>
     </ContactItemWrapper>
   )
 }
@@ -276,7 +275,7 @@ const CustomDivider = styled(Divider)`
   width: calc(100% + var(--modal-padding) * 2);
 `
 
-const AllCheckbox = styled(CheckboxInput)`
+const AllCheckbox = styled(Form.CheckboxInput)`
   min-height: 2.4rem;
   margin-left: 1.4rem;
   flex: 1;

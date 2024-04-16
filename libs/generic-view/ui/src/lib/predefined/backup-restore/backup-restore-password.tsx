@@ -6,7 +6,6 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { ButtonAction, IconType } from "generic-view/utils"
-import { TextInput } from "../../interactive/input/text-input"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { useFormContext } from "react-hook-form"
 import { Modal } from "../../interactive/modal"
@@ -15,6 +14,7 @@ import { selectBackupRestorePassword } from "generic-view/store"
 import { useSelector } from "react-redux"
 import { secureBackupPasswordRequest } from "device/feature"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { Form } from "../../interactive/form/form"
 
 const messages = defineMessages({
   title: {
@@ -41,7 +41,7 @@ interface Props {
 export const BackupRestorePassword: FunctionComponent<Props> = ({
   nextAction,
 }) => {
-  const { watch, formState } = useFormContext()
+  const { watch } = useFormContext()
   const password = watch("password")
   const backupPassword = useSelector(selectBackupRestorePassword)
 
@@ -60,7 +60,7 @@ export const BackupRestorePassword: FunctionComponent<Props> = ({
       />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Text>{intl.formatMessage(messages.description)}</Text>
-      <TextInput
+      <Form.TextInput
         config={{
           name: "password",
           label: intl.formatMessage(messages.passwordPlaceholder),
