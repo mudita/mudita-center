@@ -6,7 +6,6 @@
 import React from "react"
 import styled, { css } from "styled-components"
 import { APIFC, ButtonAction, IconType } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
 import { ButtonBase } from "../../../buttons/button-base/button-base"
 import { iconButtonStyles } from "../../../shared/button"
 import Icon from "../../../icon/icon"
@@ -34,7 +33,7 @@ export const ModalCloseButton: APIFC<undefined, Config> = ({
   )
 }
 
-export default withConfig(ModalCloseButton)
+export default ModalCloseButton
 
 export const ModalCloseIcon = styled(Icon).attrs({
   data: { type: IconType.Close },

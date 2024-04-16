@@ -5,7 +5,6 @@
 
 import { APIFC, ButtonAction } from "generic-view/utils"
 import React, { useEffect, useState } from "react"
-import { withConfig } from "../../utils/with-config"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
@@ -156,4 +155,4 @@ export const ImportContacts: APIFC<undefined, Config> = ({
   )
 }
 
-export default withConfig(ImportContacts)
+export default ImportContacts

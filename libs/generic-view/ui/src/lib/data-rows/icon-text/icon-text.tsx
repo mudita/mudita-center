@@ -8,7 +8,6 @@ import styled from "styled-components"
 import { APIFC, IconType } from "generic-view/utils"
 import Icon from "../../icon/icon"
 import dataTestIds from "./data-test-ids"
-import { withData } from "../../utils/with-data"
 
 interface IconTextRowData {
   icon: IconType
@@ -38,7 +37,7 @@ export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
   )
 }
 
-export default withData(IconText)
+export default IconText
 
 const IconTextWrapper = styled.div`
   display: flex;

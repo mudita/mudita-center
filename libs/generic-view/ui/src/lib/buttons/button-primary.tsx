@@ -8,7 +8,6 @@ import styled from "styled-components"
 import { APIFC, ButtonAction, IconType } from "generic-view/utils"
 import { ButtonBase } from "./button-base/button-base"
 import Icon from "../icon/icon"
-import { withConfig } from "../utils/with-config"
 
 export interface Config {
   text: string
@@ -32,7 +31,7 @@ export const ButtonPrimary: APIFC<undefined, Config> = ({
   )
 }
 
-export default withConfig(ButtonPrimary)
+export default ButtonPrimary
 
 const Button = styled(ButtonBase)`
   justify-content: center;

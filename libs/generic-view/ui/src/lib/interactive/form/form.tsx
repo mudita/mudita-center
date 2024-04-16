@@ -7,7 +7,6 @@ import React from "react"
 import { APIFC } from "generic-view/utils"
 import { UseFormProps } from "react-hook-form/dist/types/form"
 import { FormProvider, useForm } from "react-hook-form"
-import { withConfig } from "../../utils/with-config"
 import { TextInput } from "./input/text-input"
 import { RadioInput } from "./input/radio-input"
 import { CheckboxInput } from "./input/checkbox-input"
@@ -34,4 +33,4 @@ Form.RadioInput = RadioInput
 Form.CheckboxInput = CheckboxInput
 Form.SearchInput = SearchInput
 
-export default withConfig(Form)
+export default Form

@@ -6,8 +6,6 @@
 import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
-import { withConfig } from "../../utils/with-config"
-import { withData } from "../../utils/with-data"
 
 interface Data {
   value: number
@@ -41,7 +39,7 @@ export const ProgressBar: APIFC<Data, Config> = ({
   )
 }
 
-export default withData(withConfig(ProgressBar))
+export default ProgressBar
 
 const Wrapper = styled.div`
   width: 100%;

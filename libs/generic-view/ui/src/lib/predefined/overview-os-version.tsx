@@ -7,8 +7,6 @@ import React from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
 import { Tag } from "../shared/tag"
-import { withData } from "../utils/with-data"
-import { withConfig } from "../utils/with-config"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
@@ -70,7 +68,7 @@ const OverviewOsVersion: APIFC<Data, Config> = ({ config, data, ...props }) => {
   )
 }
 
-export default withConfig(withData(OverviewOsVersion))
+export default OverviewOsVersion
 
 const Wrapper = styled.div`
   display: flex;

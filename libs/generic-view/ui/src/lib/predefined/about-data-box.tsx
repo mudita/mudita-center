@@ -6,8 +6,6 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withData } from "../utils/with-data"
-import { withConfig } from "../utils/with-config"
 
 interface Config {
   title: string
@@ -31,7 +29,7 @@ export const AboutDataBox: APIFC<Data, Config> = ({
   )
 }
 
-export default withData(withConfig(AboutDataBox))
+export default AboutDataBox
 
 const Wrapper = styled.div`
   display: flex;

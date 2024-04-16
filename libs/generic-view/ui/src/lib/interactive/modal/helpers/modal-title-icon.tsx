@@ -6,13 +6,12 @@
 import React from "react"
 import styled from "styled-components"
 import Icon from "../../../icon/icon"
-import { withConfig } from "../../../utils/with-config"
 
 export const ModalTitleIcon: typeof Icon = ({ children, ...rest }) => {
   return <TitleIcon {...rest} />
 }
 
-export default withConfig(ModalTitleIcon)
+export default ModalTitleIcon
 
 export const TitleIcon = styled(Icon)`
   width: 6.8rem;

@@ -5,8 +5,6 @@
 
 import React, { useEffect, useId, useState } from "react"
 import { APIFC, IconType } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
-import { withData } from "../../../utils/with-data"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
 import Icon from "../../../icon/icon"
@@ -85,7 +83,7 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
   )
 }
 
-export default withData(withConfig(TextInput))
+export default TextInput
 
 const Wrapper = styled.div`
   display: flex;

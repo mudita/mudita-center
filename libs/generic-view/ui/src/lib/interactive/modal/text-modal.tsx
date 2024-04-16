@@ -6,8 +6,6 @@
 import React, { UIEventHandler, useState } from "react"
 import { BaseGenericComponent, ModalAction } from "generic-view/utils"
 import styled, { css } from "styled-components"
-import { withData } from "../../utils/with-data"
-import { withConfig } from "../../utils/with-config"
 import { Modal } from "./modal"
 
 interface Config {
@@ -48,7 +46,7 @@ export const TextModal: BaseGenericComponent<
   )
 }
 
-export default withConfig(withData(TextModal))
+export default TextModal
 
 const headerWhileScrollingStyles = css`
   box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);

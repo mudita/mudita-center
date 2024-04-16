@@ -10,8 +10,6 @@ import {
   ModalAction,
 } from "generic-view/utils"
 import { useModalsQueue } from "./use-modals-queue"
-import { withData } from "../../utils/with-data"
-import { withConfig } from "../../utils/with-config"
 import { ModalBase, ModalBaseConfig } from "./modal-base"
 import { ModalButtons } from "./helpers/modal-buttons"
 import { ModalCloseButton } from "./helpers/modal-close-button"
@@ -69,4 +67,4 @@ Modal.Buttons = ModalButtons
 Modal.CloseButton = ModalCloseButton
 Modal.SizeController = ModalSizeController
 
-export default withConfig(withData(Modal)) as typeof Modal
+export default Modal

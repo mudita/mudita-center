@@ -12,7 +12,7 @@ import {
   selectComponentChildrenKeys,
   selectComponentName,
 } from "generic-view/store"
-import { withLayout } from "./with-layout"
+import { setupComponent } from "./setup-component"
 
 interface Properties {
   viewKey: string
@@ -36,7 +36,7 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
       return null
     }
 
-    const ApiComponent = withLayout(apiComponents[componentName] as APIFC)
+    const ApiComponent = setupComponent(apiComponents[componentName] as APIFC)
 
     return (
       <ApiComponent {...recursiveComponentMetadata}>

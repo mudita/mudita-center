@@ -5,7 +5,6 @@
 
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { APIFC, ButtonAction } from "generic-view/utils"
-import { withConfig } from "../../utils/with-config"
 import { BackupFeatures, Feature } from "./backup-features"
 import { BackupPassword } from "./backup-password"
 import { useFormContext } from "react-hook-form"
@@ -197,4 +196,4 @@ export const BackupCreate: APIFC<undefined, Config> = ({
   )
 }
 
-export default withConfig(BackupCreate)
+export default BackupCreate

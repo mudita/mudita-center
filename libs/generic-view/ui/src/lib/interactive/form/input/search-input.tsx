@@ -5,8 +5,6 @@
 
 import React, { useEffect, useId } from "react"
 import { APIFC, IconType } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
-import { withData } from "../../../utils/with-data"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
 import Icon from "../../../icon/icon"
@@ -56,7 +54,7 @@ export const SearchInput: APIFC<Data, Config> = ({ data, config }) => {
   )
 }
 
-export default withData(withConfig(SearchInput))
+export default SearchInput
 
 const Wrapper = styled.div`
   display: flex;
