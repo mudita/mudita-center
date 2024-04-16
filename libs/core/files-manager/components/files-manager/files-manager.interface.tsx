@@ -9,7 +9,6 @@ import { AppError } from "Core/core/errors"
 import { DiskSpaceCategoryType } from "Core/files-manager/constants"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { File } from "Core/files-manager/dto"
-import { DeviceDirectory } from "Core/files-manager/constants"
 
 export interface FilesManagerProps {
   deviceType: DeviceType | null
@@ -20,19 +19,11 @@ export interface FilesManagerProps {
   deleting: State
   deletingFileCount: number
   files: File[] | null
-  getFiles: (directory: DeviceDirectory) => void
-  resetAllItems: () => void
-  selectAllItems: () => void
-  toggleItem: (id: string) => void
-  selectedItems: string[]
-  allItemsSelected: boolean
-  deleteFiles: (ids: string[]) => void
-  resetDeletingState: () => void
-  resetUploadingState: () => void
-  resetUploadingStateAfterSuccess: () => void
   uploadBlocked: boolean
   error: AppError | null
-  setDeletingFileCount: (count: number) => void
+  selectAllItems: () => void
+  selectedItems: string[]
+  allItemsSelected: boolean
 }
 
 export interface DiskSpaceCategory {
