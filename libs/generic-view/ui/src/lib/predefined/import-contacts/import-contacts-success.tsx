@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import { ButtonAction, IconType } from "generic-view/utils"
-import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ButtonSecondary } from "../../buttons/button-secondary"
@@ -34,21 +34,21 @@ export const ImportContactsSuccess: FunctionComponent<Props> = ({
   const { getValues } = useFormContext()
   return (
     <>
-      <ModalTitleIcon data={{ type: IconType.Success }} />
-      <h1>{intl.formatMessage(messages.title)}</h1>
+      <Modal.TitleIcon data={{ type: IconType.Success }} />
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>
         {intl.formatMessage(messages.description, {
           count: getValues(SELECTED_CONTACTS_FIELD).length,
         })}
       </p>
-      <ModalButtons $vertical>
+      <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
             action: closeAction,
           }}
         />
-      </ModalButtons>
+      </Modal.Buttons>
     </>
   )
 }

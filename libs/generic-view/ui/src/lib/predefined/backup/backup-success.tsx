@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import { IconType } from "generic-view/utils"
-import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -46,12 +46,12 @@ export const BackupSuccess: FunctionComponent<Props> = ({ onClose }) => {
   }
   return (
     <>
-      <ModalTitleIcon
+      <Modal.TitleIcon
         data={{
           type: IconType.Success,
         }}
       />
-      <h1>{intl.formatMessage(messages.title)}</h1>
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Article>
         <p>{intl.formatMessage(messages.description)}</p>
         <ButtonText
@@ -63,7 +63,7 @@ export const BackupSuccess: FunctionComponent<Props> = ({ onClose }) => {
           }}
         />
       </Article>
-      <ModalButtons $vertical>
+      <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.closeButtonLabel),
@@ -73,7 +73,7 @@ export const BackupSuccess: FunctionComponent<Props> = ({ onClose }) => {
             },
           }}
         />
-      </ModalButtons>
+      </Modal.Buttons>
     </>
   )
 }

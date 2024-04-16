@@ -6,7 +6,7 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
 import { Form } from "../../interactive/form/form"
-import { ModalCenteredContent, ModalCloseButton } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import {
   cleanRestoreProcess,
   closeModal as closeModalAction,
@@ -147,32 +147,30 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   return (
     <>
       {closeButtonVisible && (
-        <ModalCloseButton action={restoreCloseButtonAction} />
+        <Modal.CloseButton config={{ action: restoreCloseButtonAction }} />
       )}
-      {abortButtonVisible && <ModalCloseButton action={abortButtonAction} />}
-      <ModalCenteredContent>
-        {step === Step.Select && (
-          <BackupRestoreSelect
-            closeAction={restoreCloseButtonAction}
-            nextAction={selectionConfirmButtonAction}
-          />
-        )}
-        {step === Step.Password && (
-          <BackupRestorePassword nextAction={confirmAction} />
-        )}
-        {step === Step.Progress && (
-          <BackupRestoreProgress features={features!} />
-        )}
-        {step === Step.Success && (
-          <BackupRestoreSuccess onClose={restoreCloseButtonAction.callback} />
-        )}
-        {step === Step.Error && (
-          <BackupRestoreError
-            closeAction={restoreCloseButtonAction}
-            customError={error}
-          />
-        )}
-      </ModalCenteredContent>
+      {abortButtonVisible && (
+        <Modal.CloseButton config={{ action: abortButtonAction }} />
+      )}
+      {step === Step.Select && (
+        <BackupRestoreSelect
+          closeAction={restoreCloseButtonAction}
+          nextAction={selectionConfirmButtonAction}
+        />
+      )}
+      {step === Step.Password && (
+        <BackupRestorePassword nextAction={confirmAction} />
+      )}
+      {step === Step.Progress && <BackupRestoreProgress features={features!} />}
+      {step === Step.Success && (
+        <BackupRestoreSuccess onClose={restoreCloseButtonAction.callback} />
+      )}
+      {step === Step.Error && (
+        <BackupRestoreError
+          closeAction={restoreCloseButtonAction}
+          customError={error}
+        />
+      )}
     </>
   )
 }
