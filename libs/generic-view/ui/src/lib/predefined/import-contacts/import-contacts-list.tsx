@@ -3,14 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react"
 import { defineMessages } from "react-intl"
 import {
   ModalButtons,
   ModalScrollableContent,
   ModalTitleIcon,
 } from "../../interactive/modal"
-import { IconType } from "generic-view/utils"
+import { ButtonAction, IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { ButtonPrimary } from "../../buttons/button-primary"
@@ -44,7 +49,13 @@ const messages = defineMessages({
   },
 })
 
-export const ImportContactsList = () => {
+interface Props {
+  nextAction: ButtonAction
+}
+
+export const ImportContactsList: FunctionComponent<Props> = ({
+  nextAction,
+}) => {
   const { watch, setValue } = useFormContext()
   const contacts = useSelector(importContactsSelector)
   const searchPhrase = watch("search")
@@ -125,12 +136,7 @@ export const ImportContactsList = () => {
             text: intl.formatMessage(messages.importButtonText, {
               count: selectedContacts?.length || 0,
             }),
-            action: {
-              type: "custom",
-              callback: () => {
-                console.log("IMPORT")
-              },
-            },
+            action: nextAction,
             disabled: !selectedContacts || selectedContacts.length === 0,
           }}
         />

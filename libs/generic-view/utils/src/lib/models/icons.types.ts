@@ -41,4 +41,5 @@ export enum IconType {
   Check = "check",
   Minus = "minus",
   Search = "search",
+  Import = "import",
 }

@@ -12,13 +12,13 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
   title: {
-    id: "module.genericViews.restore.failure.title",
+    id: "module.genericViews.importContacts.failure.title",
   },
   defaultErrorMessage: {
-    id: "module.genericViews.restore.failure.defaultErrorMessage",
+    id: "module.genericViews.importContacts.failure.defaultErrorMessage",
   },
   closeButtonLabel: {
-    id: "module.genericViews.restore.failure.closeButtonLabel",
+    id: "module.genericViews.importContacts.failure.closeButtonLabel",
   },
 })
 
@@ -27,7 +27,7 @@ interface Props {
   customError?: CustomModalError
 }
 
-export const BackupError: FunctionComponent<Props> = ({
+export const ImportContactsError: FunctionComponent<Props> = ({
   closeAction,
   customError,
 }) => {
