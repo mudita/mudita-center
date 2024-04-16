@@ -96,16 +96,6 @@ export const baseMenuElements: MenuElement[] = [
   {
     items: [
       {
-        button: views[View.Onboarding],
-        icon: IconType.Send,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-      },
-    ],
-    viewKey: View.Onboarding,
-  },
-  {
-    items: [
-      {
         button: views[View.News],
         icon: IconType.MenuNews,
         visibleOn: [
