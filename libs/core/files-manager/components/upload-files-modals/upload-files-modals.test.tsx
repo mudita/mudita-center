@@ -23,10 +23,6 @@ const defaultProps: UploadFilesModalProps = {
   uploadingInfo: false,
   error: null,
   onCloseUploadingErrorModal: jest.fn(),
-  pendingUpload: false,
-  pendingFilesCount: 0,
-  onAbortPendingUpload: jest.fn(),
-  onContinuePendingUpload: jest.fn(),
 }
 
 const storeMock = createMockStore([thunk])({

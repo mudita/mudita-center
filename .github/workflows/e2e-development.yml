@@ -1,10 +1,9 @@
-name: e2e on Linux for feature branch
+name: e2e on Linux for development
 
 on:
   push:
     branches:
-      - CP-*
-
+      - develop
 jobs:
   e2e:
     runs-on: ubuntu-latest

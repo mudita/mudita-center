@@ -9,6 +9,7 @@ reviewers:
   - dkarski
   - lkowalczyk87
   - mkurczewski
+  - MateuszMudita
 
 # A list of keywords to be skipped the process that add reviewers if pull requests include it
 skipKeywords:

@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device"
-
 export interface FilesManagerPanelProps {
   searchValue: string
   onSearchValueChange: (value: string) => void
@@ -15,5 +13,4 @@ export interface FilesManagerPanelProps {
   onDeleteClick: () => void
   selectedFiles: string[]
   allItemsSelected: boolean
-  deviceType: DeviceType
 }
