@@ -11,6 +11,14 @@ export const importContactsSelector = createSelector(
   (imports) => {
     if (!imports.currentImportProvider) return []
 
-    return imports.providers[imports.currentImportProvider]?.contacts ?? []
+    const contacts = [
+      ...(imports.providers[imports.currentImportProvider]?.contacts ?? []),
+    ]
+
+    return contacts?.sort((a, b) => {
+      const aName = a.firstName || a.lastName || ""
+      const bName = b.firstName || b.lastName || ""
+      return aName?.localeCompare(bName)
+    })
   }
 )
