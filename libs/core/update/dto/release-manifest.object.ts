@@ -1,0 +1,18 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { Product } from "Core/update/constants"
+
+export interface ReleaseManifest {
+  version: string
+  date: string
+  product: Product
+  file: {
+    url: string
+    size: string
+    name: string
+  }
+  mandatoryVersions: string[]
+}

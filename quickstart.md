@@ -26,6 +26,22 @@ Please keep in mind that we can not give full access to all environments to the 
 
 If you are Mudita employee please follow these [instructions](https://appnroll.atlassian.net/l/c/aSD9NC1u).
 
+### Initial Git configuration
+
+Please do not commit changes in the following files:
+
+- libs/core/news/default-news.json
+- libs/core/help/default-help.json
+- libs/core/settings/static/app-configuration.json
+
+To ensure that files will be excluded from commits you can use the following git commands.
+
+```bash
+ git update-index --assume-unchanged libs/core/news/default-news.json
+ git update-index --assume-unchanged libs/core/help/default-help.json
+ git update-index --assume-unchanged libs/core/settings/static/app-configuration.json
+```
+
 ## Run Mudita Center development environment
 
 Please run the following command to start the Mudita Center dev environment:
@@ -80,7 +96,6 @@ For example, building for Windows and Linux:
 npm run dist -- -wl
 ```
 
-
 ### Feature toggle environment separation
 
 Also you are able to distribute an application with in specific predefined environment. The environment is responsible for hendeling the sets of feature toggles predefined for each release/test case.
@@ -114,19 +129,18 @@ The Mudita Center have the next feature toggle environments:
 Remember to update npm version in `package.json` and `package-lock.json`. You can do it by following the commands:
 
 ```bash
-cd packages/app
+cd apps/mudita-center/
 npm version CURRENT_VERSION + 1
 ```
 
 ## Troubleshooting common errors
-
 
 ### Font during development is slightly different from what I see in official app
 
 That's because we're using `GT Pressura` font that can't be open-sourced, so we can't publish it in our repository.
 Instead, for development purpose outside the Mudita company, we're using a `Roboto Condensed` font from Google which is quite similar.
 
-More info about managing fonts [can be found here](packages/app/src/__deprecated__/renderer/fonts/README.md).
+More info about managing fonts [can be found here](apps/mudita-center/src/__deprecated__/renderer/fonts/README.md).
 
 ### During `npm run setup` there's an issue with `node-gyp` and `python`
 
