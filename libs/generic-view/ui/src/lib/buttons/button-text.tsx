@@ -5,21 +5,12 @@
 
 import React from "react"
 import styled, { css } from "styled-components"
-import { APIFC, ButtonAction, IconType } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
 import { ButtonBase } from "./button-base/button-base"
 import Icon from "../icon/icon"
-import { withConfig } from "../utils/with-config"
+import { ButtonTextConfig } from "generic-view/models"
 
-type ButtonModifiers = "link" | "uppercase" | "hover-underline"
-
-interface Config {
-  text: string
-  icon?: IconType
-  action: ButtonAction
-  modifiers?: ButtonModifiers[]
-}
-
-export const ButtonText: APIFC<undefined, Config> = ({
+export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
   data,
   config,
   children,
@@ -34,9 +25,11 @@ export const ButtonText: APIFC<undefined, Config> = ({
   )
 }
 
-export default withConfig(ButtonText)
+export default ButtonText
 
-const Button = styled(ButtonBase)<{ $modifiers?: ButtonModifiers[] }>`
+const Button = styled(ButtonBase)<{
+  $modifiers?: ButtonTextConfig["modifiers"]
+}>`
   color: ${({ theme }) => theme.color.grey1};
 
   &:hover {

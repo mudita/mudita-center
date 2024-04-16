@@ -6,7 +6,6 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
 import { ModalSize } from "./modal-content"
 
 interface Config {
@@ -38,4 +37,4 @@ export const ModalSizeController: APIFC<undefined, Config> = ({ config }) => {
   }
 }
 
-export default withConfig(ModalSizeController)
+export default ModalSizeController

@@ -5,8 +5,6 @@
 
 import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
-import { withData } from "../../../utils/with-data"
 import styled from "styled-components"
 import { useFormContext } from "react-hook-form"
 import { RegisterOptions } from "react-hook-form/dist/types/validator"
@@ -38,7 +36,7 @@ export const RadioInput: APIFC<undefined, Config> = ({ data, config }) => {
   )
 }
 
-export default withData(withConfig(RadioInput))
+export default RadioInput
 
 const Wrapper = styled.div`
   display: flex;

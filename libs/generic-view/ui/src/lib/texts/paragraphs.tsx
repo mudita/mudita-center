@@ -5,7 +5,6 @@
 
 import React from "react"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../utils/with-config"
 import styled from "styled-components"
 
 interface Config {
@@ -23,4 +22,4 @@ export const StyledP1 = styled.p`
   margin: 0;
 `
 
-export const Paragraph1WithConfig = withConfig(Paragraph1)
+export const Paragraph1WithConfig = Paragraph1

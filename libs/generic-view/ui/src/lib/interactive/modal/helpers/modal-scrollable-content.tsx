@@ -5,14 +5,13 @@
 
 import React from "react"
 import styled from "styled-components"
-import { withConfig } from "../../../utils/with-config"
 import { APIFC } from "generic-view/utils"
 
 export const ModalScrollableContent: APIFC = (props) => {
   return <ScrollableContent {...props} />
 }
 
-export default withConfig(ModalScrollableContent)
+export default ModalScrollableContent
 
 export const ScrollableContent = styled.div`
   overflow-y: auto;

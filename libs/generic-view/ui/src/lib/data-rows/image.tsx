@@ -5,8 +5,6 @@
 
 import { APIFC } from "generic-view/utils"
 import React from "react"
-import { withData } from "../utils/with-data"
-import { withConfig } from "../utils/with-config"
 
 interface Data {
   src: string
@@ -19,4 +17,4 @@ export const Image: APIFC<Data, Data> = ({ data, config }) => {
   return <img src={src} alt={alt} />
 }
 
-export default withConfig(withData(Image))
+export default Image

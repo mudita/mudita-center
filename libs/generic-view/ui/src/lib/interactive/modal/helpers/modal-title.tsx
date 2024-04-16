@@ -6,13 +6,12 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
 
 export const ModalTitle: APIFC = ({ data, config, children, ...rest }) => {
   return <Title {...rest}>{children}</Title>
 }
 
-export default withConfig(ModalTitle)
+export default ModalTitle
 
 const Title = styled.h1`
   margin: 0;

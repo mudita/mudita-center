@@ -7,7 +7,6 @@ import React from "react"
 import styled, { css } from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { Tag } from "../shared/tag"
-import { withData } from "../utils/with-data"
 
 interface Data {
   text: string
@@ -23,7 +22,7 @@ export const Badge: APIFC<Data> = ({ data, config, ...props }) => {
   )
 }
 
-export default withData(Badge)
+export default Badge
 
 const BadgeWrapper = styled(Tag)<{ variant: Data["variant"] }>`
   height: 2.2rem;

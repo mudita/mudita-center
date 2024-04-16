@@ -23,7 +23,6 @@ import { BackupRestoreProgress } from "./backup-restore-progress"
 import { BackupRestoreSuccess } from "./backup-restore-success"
 import { BackupRestoreError } from "./backup-restore-error"
 import { RestoreFeature } from "device/models"
-import { withConfig } from "../../utils/with-config"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 
@@ -196,4 +195,4 @@ const BackupRestore: APIFC<undefined, Config> = ({
   )
 }
 
-export default withConfig(BackupRestore)
+export default BackupRestore

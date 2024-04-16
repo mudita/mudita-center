@@ -6,8 +6,6 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withData } from "../utils/with-data"
-import { withConfig } from "../utils/with-config"
 
 interface Data {
   text: string
@@ -27,7 +25,7 @@ const LabeledText: APIFC<Data, Config> = ({ data, config, ...props }) => {
   )
 }
 
-export default withConfig(withData(LabeledText))
+export default LabeledText
 
 const Wrapper = styled.div``
 

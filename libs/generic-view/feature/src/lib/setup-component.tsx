@@ -7,10 +7,14 @@ import React, { ComponentType } from "react"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import styled, { css } from "styled-components"
 import { useSelector } from "react-redux"
-import { selectComponentLayout } from "generic-view/store"
+import {
+  selectComponentConfig,
+  selectComponentData,
+  selectComponentLayout,
+} from "generic-view/store"
 import { Layout, mapLayoutSizes, RecursiveComponent } from "generic-view/utils"
 
-export const withLayout = <P extends object>(
+export const setupComponent = <P extends object>(
   Component: ComponentType<P>
 ): RecursiveComponent => {
   return (props) => {
@@ -18,14 +22,20 @@ export const withLayout = <P extends object>(
     const layout = useSelector((state: ReduxRootState) => {
       return selectComponentLayout(state, { viewKey, componentKey })
     })
+    const config = useSelector((state: ReduxRootState) => {
+      return selectComponentConfig(state, { viewKey, componentKey })
+    })
+    const data = useSelector((state: ReduxRootState) => {
+      return selectComponentData(state, { viewKey, componentKey })
+    })
     if (layout) {
       return (
         <Wrapper $layout={layout}>
-          <Component {...(props as P)} />
+          <Component {...(props as P)} config={config} data={data} />
         </Wrapper>
       )
     }
-    return <Component {...(props as P)} />
+    return <Component {...(props as P)} config={config} data={data} />
   }
 }
 

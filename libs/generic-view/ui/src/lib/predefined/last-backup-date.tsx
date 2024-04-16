@@ -11,7 +11,6 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { selectLastBackup } from "generic-view/store"
 import { APIFC } from "generic-view/utils"
 import { defineMessages } from "react-intl"
-import { withConfig } from "../utils/with-config"
 
 interface Config {
   noBackupLabel?: string
@@ -58,7 +57,7 @@ export const LastBackupDate: APIFC<undefined, Config> = ({
   )
 }
 
-export default withConfig(LastBackupDate)
+export default LastBackupDate
 
 const NoBackupLabel = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph3};

@@ -5,7 +5,6 @@
 
 import React from "react"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../utils/with-config"
 import styled from "styled-components"
 
 interface Config {
@@ -22,4 +21,4 @@ const Header = styled.h3`
   margin: 0;
 `
 
-export const HeaderH3WithConfig = withConfig(HeaderH3)
+export const HeaderH3WithConfig = HeaderH3
