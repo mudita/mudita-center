@@ -4,31 +4,21 @@
  */
 
 import React from "react"
-import {
-  BaseGenericComponent,
-  CustomAction,
-  ModalAction,
-} from "generic-view/utils"
+import { BaseGenericComponent } from "generic-view/utils"
 import { useModalsQueue } from "./use-modals-queue"
-import { ModalBase, ModalBaseConfig } from "./modal-base"
+import { ModalBase } from "./modal-base"
 import { ModalButtons } from "./helpers/modal-buttons"
 import { ModalCloseButton } from "./helpers/modal-close-button"
 import { ModalSizeController } from "./helpers/modal-size-controller"
 import { ModalTitle } from "./helpers/modal-title"
 import { ModalTitleIcon } from "./helpers/modal-title-icon"
 import { ModalScrollableContent } from "./helpers/modal-scrollable-content"
-import { ModalContent, ModalSize } from "./helpers/modal-content"
-
-interface Config extends ModalBaseConfig {
-  closeButtonAction?: ModalAction | CustomAction
-  size?: ModalSize
-  defaultOpened?: boolean
-  overlayHidden?: boolean
-}
+import { ModalContent } from "./helpers/modal-content"
+import { ModalConfig } from "generic-view/models"
 
 export const Modal: BaseGenericComponent<
   undefined,
-  Config,
+  ModalConfig,
   { componentKey: string }
 > & {
   TitleIcon: typeof ModalTitleIcon

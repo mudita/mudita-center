@@ -8,7 +8,7 @@ import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { BlockHeadingConfig } from "generic-view/models"
 
-const BlockHeading: APIFC<undefined, BlockHeadingConfig> = ({
+export const BlockHeading: APIFC<undefined, BlockHeadingConfig> = ({
   config,
   data,
   ...props
@@ -20,8 +20,6 @@ const BlockHeading: APIFC<undefined, BlockHeadingConfig> = ({
     </div>
   )
 }
-
-export default BlockHeading
 
 const Header = styled.h3`
   font-size: ${({ theme }) => theme.fontSize.headline3};

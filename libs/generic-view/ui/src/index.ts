@@ -5,13 +5,13 @@
 
 import { blocks } from "./lib/blocks/blocks"
 import { rows } from "./lib/data-rows/data-rows"
-import { predefinedComponents } from "./lib/predefined/overview-predefined"
+import { predefinedComponents } from "./lib/predefined/predefined"
 import { helpers } from "./lib/helpers/helpers"
 import { interactive } from "./lib/interactive/interactive"
 import { buttons } from "./lib/buttons/buttons"
 import { texts } from "./lib/texts"
 
-export { default as Icon } from "./lib/icon/icon"
+export * from "./lib/icon/icon"
 export * from "./lib/api-connection-demo"
 export * from "./lib/interactive/modal/modal"
 export * from "./lib/interactive/modal/modal-base"

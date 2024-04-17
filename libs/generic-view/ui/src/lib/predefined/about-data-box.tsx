@@ -6,16 +6,9 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
+import { AboutDataBoxConfig, AboutDataBoxData } from "generic-view/models"
 
-interface Config {
-  title: string
-}
-
-interface Data {
-  text?: string
-}
-
-export const AboutDataBox: APIFC<Data, Config> = ({
+export const AboutDataBox: APIFC<AboutDataBoxData, AboutDataBoxConfig> = ({
   data,
   config,
   children,
@@ -28,8 +21,6 @@ export const AboutDataBox: APIFC<Data, Config> = ({
     </Wrapper>
   )
 }
-
-export default AboutDataBox
 
 const Wrapper = styled.div`
   display: flex;

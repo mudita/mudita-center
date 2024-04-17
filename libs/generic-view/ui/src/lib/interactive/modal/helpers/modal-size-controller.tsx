@@ -6,11 +6,7 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { ModalSize } from "./modal-content"
-
-interface Config {
-  size: ModalSize
-}
+import { ModalSizeControllerConfig } from "generic-view/models"
 
 export const ModalSizeControllerSmall = styled.div`
   display: none;
@@ -24,7 +20,10 @@ export const ModalSizeControllerLarge = styled.div`
   display: none;
 `
 
-export const ModalSizeController: APIFC<undefined, Config> = ({ config }) => {
+export const ModalSizeController: APIFC<
+  undefined,
+  ModalSizeControllerConfig
+> = ({ config }) => {
   switch (config?.size) {
     case "small":
       return <ModalSizeControllerSmall />

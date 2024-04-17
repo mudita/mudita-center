@@ -20,7 +20,7 @@ import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
 import { importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
-import Divider from "../../helpers/divider"
+import { Divider } from "../../helpers/divider"
 import { Form } from "../../interactive/form/form"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"

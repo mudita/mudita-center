@@ -5,11 +5,11 @@
 
 import { z } from "zod"
 import { IconType } from "generic-view/utils"
-import { buttonActionValidator } from "./utils"
+import { buttonActionValidator } from "./common-validators"
 
-const buttonTextDataValidator = z.undefined()
+const dataValidator = z.undefined()
 
-const buttonTextConfigValidator = z.object({
+const configValidator = z.object({
   text: z.string(),
   icon: z.nativeEnum(IconType).optional(),
   action: buttonActionValidator,
@@ -18,10 +18,10 @@ const buttonTextConfigValidator = z.object({
     .optional(),
 })
 
-export type ButtonTextConfig = z.infer<typeof buttonTextConfigValidator>
+export type ButtonTextConfig = z.infer<typeof configValidator>
 
 export const buttonText = {
   key: "button-text",
-  dataValidator: buttonTextDataValidator,
-  configValidator: buttonTextConfigValidator,
+  dataValidator,
+  configValidator,
 } as const

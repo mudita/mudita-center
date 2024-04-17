@@ -7,7 +7,7 @@ import React from "react"
 import styled, { css } from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { ButtonBase } from "./button-base/button-base"
-import Icon from "../icon/icon"
+import { Icon } from "../icon/icon"
 import { ButtonTextConfig } from "generic-view/models"
 
 export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
@@ -25,7 +25,6 @@ export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
   )
 }
 
-export default ButtonText
 
 const Button = styled(ButtonBase)<{
   $modifiers?: ButtonTextConfig["modifiers"]

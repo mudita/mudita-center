@@ -4,7 +4,7 @@
  */
 
 import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
-import React, { useEffect, useState } from "react"
+import React, { FunctionComponent, useEffect, useState } from "react"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
@@ -23,6 +23,7 @@ import { ImportContactsSuccess } from "./import-contacts-success"
 import { ImportContactsError } from "./import-contacts-error"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
+import { ImportContactsConfig } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -42,11 +43,9 @@ enum Step {
   Error,
 }
 
-interface Config {
-  modalKey?: string
-}
-
-const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
+const ImportContactsForm: FunctionComponent<Partial<ImportContactsConfig>> = ({
+  modalKey,
+}) => {
   const dispatch = useDispatch<Dispatch>()
   const [step, setStep] = useState<Step>(Step.Providers)
   const importStatus = useSelector(importStatusSelector)
@@ -142,17 +141,13 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   )
 }
 
-export const ImportContacts: APIFC<undefined, Config> = ({
-  data,
-  config,
-  children,
-  ...props
-}) => {
+export const ImportContacts: APIFC<
+  undefined,
+  Partial<ImportContactsConfig>
+> = ({ data, config, children, ...props }) => {
   return (
     <Form {...props}>
       <ImportContactsForm {...config} />
     </Form>
   )
 }
-
-export default ImportContacts

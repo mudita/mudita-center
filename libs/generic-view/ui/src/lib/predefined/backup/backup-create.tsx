@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
-import { BackupFeatures, Feature } from "./backup-features"
+import { BackupFeatures } from "./backup-features"
 import { BackupPassword } from "./backup-password"
 import { useFormContext } from "react-hook-form"
 import { BackupProgress } from "./backup-progress"
@@ -23,6 +23,7 @@ import {
 } from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { BackupCreateConfig } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -41,15 +42,10 @@ enum Step {
   Error,
 }
 
-interface Config {
-  features?: Feature[]
-  modalKey?: string
-}
-
-const BackupCreateForm: FunctionComponent<Config> = ({
+const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
   features = [],
   modalKey,
-}) => {
+} = {}) => {
   const dispatch = useDispatch<Dispatch>()
   const { handleSubmit } = useFormContext()
   const backupProcessStatus = useSelector(selectBackupProcessStatus)
@@ -183,7 +179,7 @@ const BackupCreateForm: FunctionComponent<Config> = ({
   )
 }
 
-export const BackupCreate: APIFC<undefined, Config> = ({
+export const BackupCreate: APIFC<undefined, BackupCreateConfig> = ({
   data,
   config,
   children,
@@ -195,5 +191,3 @@ export const BackupCreate: APIFC<undefined, Config> = ({
     </Form>
   )
 }
-
-export default BackupCreate

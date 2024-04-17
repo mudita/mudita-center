@@ -7,25 +7,14 @@ import React, { useEffect, useId, useState } from "react"
 import { APIFC, IconType } from "generic-view/utils"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
-import Icon from "../../../icon/icon"
+import { Icon } from "../../../icon/icon"
 import { useFormContext } from "react-hook-form"
-import { RegisterOptions } from "react-hook-form/dist/types/validator"
+import { FormTextInputConfig, FormTextInputData } from "generic-view/models"
 
-interface Data {
-  value: string
-}
-
-interface Config {
-  name: string
-  label: string
-  type: "text" | "password" | "email" | "tel" | "url"
-  validation?: Pick<
-    RegisterOptions,
-    "required" | "pattern" | "maxLength" | "minLength" | "deps" | "validate"
-  >
-}
-
-export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
+export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
+  data,
+  config,
+}) => {
   const id = useId()
   const {
     register,

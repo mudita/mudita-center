@@ -22,9 +22,9 @@ import { BackupRestorePassword } from "./backup-restore-password"
 import { BackupRestoreProgress } from "./backup-restore-progress"
 import { BackupRestoreSuccess } from "./backup-restore-success"
 import { BackupRestoreError } from "./backup-restore-error"
-import { RestoreFeature } from "device/models"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { BackupRestoreConfig } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -43,15 +43,10 @@ enum Step {
   Error,
 }
 
-interface Config {
-  features?: RestoreFeature[]
-  modalKey?: string
-}
-
-export const BackupRestoreForm: FunctionComponent<Config> = ({
+export const BackupRestoreForm: FunctionComponent<BackupRestoreConfig> = ({
   features,
   modalKey,
-}) => {
+} = {}) => {
   const dispatch = useDispatch<Dispatch>()
   const { handleSubmit, getValues } = useFormContext()
   const restoreAbortReference = useRef<VoidFunction>()
@@ -174,7 +169,7 @@ export const BackupRestoreForm: FunctionComponent<Config> = ({
   )
 }
 
-const BackupRestore: APIFC<undefined, Config> = ({
+export const BackupRestore: APIFC<undefined, BackupRestoreConfig> = ({
   data,
   config,
   children,
@@ -194,5 +189,3 @@ const BackupRestore: APIFC<undefined, Config> = ({
     </Form>
   )
 }
-
-export default BackupRestore

@@ -6,18 +6,9 @@
 import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
+import { ProgressBarConfig, ProgressBarData } from "generic-view/models"
 
-interface Data {
-  value: number
-  message?: string
-}
-
-interface Config {
-  maxValue: number
-  valueUnit?: string
-}
-
-export const ProgressBar: APIFC<Data, Config> = ({
+export const ProgressBar: APIFC<ProgressBarData, ProgressBarConfig> = ({
   data,
   config,
   ...props
@@ -38,8 +29,6 @@ export const ProgressBar: APIFC<Data, Config> = ({
     </Wrapper>
   )
 }
-
-export default ProgressBar
 
 const Wrapper = styled.div`
   width: 100%;

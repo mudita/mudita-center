@@ -5,17 +5,12 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, IconType } from "generic-view/utils"
-import Icon from "../../icon/icon"
+import { APIFC } from "generic-view/utils"
+import { Icon } from "../../icon/icon"
 import dataTestIds from "./data-test-ids"
+import { IconTextData } from "generic-view/models"
 
-interface IconTextRowData {
-  icon: IconType
-  text: string
-  subText?: string
-}
-
-export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
+export const IconText: APIFC<IconTextData> = ({ data, ...props }) => {
   if (!data) return null
 
   const { icon, text, subText } = data
@@ -36,8 +31,6 @@ export const IconText: APIFC<IconTextRowData> = ({ data, ...props }) => {
     </IconTextWrapper>
   )
 }
-
-export default IconText
 
 const IconTextWrapper = styled.div`
   display: flex;

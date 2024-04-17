@@ -11,6 +11,7 @@ import { ButtonPrimary } from "../../buttons/button-primary"
 import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { BackupFeature } from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -27,13 +28,8 @@ const messages = defineMessages({
   },
 })
 
-export interface Feature {
-  label: string
-  key: string
-}
-
 interface Props {
-  features: Feature[]
+  features: BackupFeature[]
   closeAction: ButtonAction
   nextAction: ButtonAction
 }

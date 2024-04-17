@@ -7,19 +7,14 @@ import React, { useEffect, useId } from "react"
 import { APIFC, IconType } from "generic-view/utils"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
-import Icon from "../../../icon/icon"
+import { Icon } from "../../../icon/icon"
 import { useFormContext } from "react-hook-form"
+import { FormSearchInputConfig, FormSearchInputData } from "generic-view/models"
 
-interface Data {
-  value: string
-}
-
-interface Config {
-  name: string
-  label: string
-}
-
-export const SearchInput: APIFC<Data, Config> = ({ data, config }) => {
+export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
+  data,
+  config,
+}) => {
   const id = useId()
   const { register, watch, setValue } = useFormContext()
   const value = (watch(config!.name) as string) || ""

@@ -5,12 +5,12 @@
 
 import { z } from "zod"
 
-const blockPlainDataValidator = z.undefined()
+const dataValidator = z.undefined().optional()
 
-const blockPlainConfigValidator = z.undefined()
+const configValidator = z.undefined().optional()
 
 export const blockPlain = {
   key: "block-plain",
-  dataValidator: blockPlainDataValidator,
-  configValidator: blockPlainConfigValidator,
+  dataValidator,
+  configValidator,
 } as const

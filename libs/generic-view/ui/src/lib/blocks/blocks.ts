@@ -5,7 +5,7 @@
 
 import { BlockBox } from "./block-box"
 import { BlockPlain } from "./block-plain"
-import BlockHeading from "./block-heading"
+import { BlockHeading } from "./block-heading"
 import { blockBox, blockHeading, blockPlain } from "generic-view/models"
 
 export const blocks = {

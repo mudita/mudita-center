@@ -3,18 +3,26 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import IconText from "./icon-text/icon-text"
-import Image from "./image"
-import LabeledText from "./labeled-text"
-import TextPlain from "./text-plain"
-import TextFormatted from "./text-formatted"
-import Badge from "./badge"
+import { IconText } from "./icon-text/icon-text"
+import { Image } from "./image"
+import { LabeledText } from "./labeled-text"
+import { TextPlain } from "./text-plain"
+import { TextFormatted } from "./text-formatted"
+import { Badge } from "./badge"
+import {
+  badge,
+  iconText,
+  image,
+  labeledText,
+  textFormatted,
+  textPlain,
+} from "generic-view/models"
 
 export const rows = {
-  "icon-text": IconText,
-  "labeled-text": LabeledText,
-  image: Image,
-  "text-plain": TextPlain,
-  "text-formatted": TextFormatted,
-  badge: Badge,
+  [iconText.key]: IconText,
+  [labeledText.key]: LabeledText,
+  [image.key]: Image,
+  [textPlain.key]: TextPlain,
+  [textFormatted.key]: TextFormatted,
+  [badge.key]: Badge,
 }

@@ -6,15 +6,11 @@
 import React, { useId } from "react"
 import { APIFC, IconType } from "generic-view/utils"
 import styled from "styled-components"
-import { RegisterOptions, useFormContext } from "react-hook-form"
-import Icon from "../../../icon/icon"
+import { useFormContext } from "react-hook-form"
+import { Icon } from "../../../icon/icon"
+import { FormCheckboxInputConfig } from "generic-view/models"
 
-interface Config {
-  name: string
-  value: string
-  checked?: boolean
-  label?: string
-  validation?: Pick<RegisterOptions, "required">
+interface Config extends FormCheckboxInputConfig {
   onToggle?: (checked: boolean) => void
 }
 
@@ -52,8 +48,6 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
     </Wrapper>
   )
 }
-
-export default CheckboxInput
 
 const Wrapper = styled.div`
   display: flex;

@@ -12,7 +12,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useSelector } from "react-redux"
 import { selectBackupRestoreProgress } from "generic-view/store"
-import { RestoreFeature } from "device/models"
+import { RestoreFeature } from "generic-view/models"
 
 const messages = defineMessages({
   title: {

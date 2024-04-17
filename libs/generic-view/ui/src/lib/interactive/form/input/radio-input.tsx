@@ -7,16 +7,12 @@ import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
 import { useFormContext } from "react-hook-form"
-import { RegisterOptions } from "react-hook-form/dist/types/validator"
+import { FormRadioInputConfig } from "generic-view/models"
 
-interface Config {
-  name: string
-  value: string
-  label: string
-  validation?: Pick<RegisterOptions, "required">
-}
-
-export const RadioInput: APIFC<undefined, Config> = ({ data, config }) => {
+export const RadioInput: APIFC<undefined, FormRadioInputConfig> = ({
+  data,
+  config,
+}) => {
   const id = useId()
   const { register } = useFormContext()
 
@@ -35,8 +31,6 @@ export const RadioInput: APIFC<undefined, Config> = ({ data, config }) => {
     </Wrapper>
   )
 }
-
-export default RadioInput
 
 const Wrapper = styled.div`
   display: flex;

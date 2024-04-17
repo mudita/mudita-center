@@ -5,20 +5,24 @@
 
 import { z } from "zod"
 
-const blockBoxDataValidator = z.object({
-  badgeText: z.string().optional(),
-}).optional()
+const dataValidator = z
+  .object({
+    badgeText: z.string().optional(),
+  })
+  .optional()
 
-export type BlockBoxData = z.infer<typeof blockBoxDataValidator>
+export type BlockBoxData = z.infer<typeof dataValidator>
 
-const blockBoxConfigValidator = z.object({
-  title: z.string().optional(),
-}).optional()
+const configValidator = z
+  .object({
+    title: z.string().optional(),
+  })
+  .optional()
 
-export type BlockBoxConfig = z.infer<typeof blockBoxConfigValidator>
+export type BlockBoxConfig = z.infer<typeof configValidator>
 
 export const blockBox = {
   key: "block-box",
-  dataValidator: blockBoxDataValidator,
-  configValidator: blockBoxConfigValidator,
+  dataValidator,
+  configValidator,
 } as const

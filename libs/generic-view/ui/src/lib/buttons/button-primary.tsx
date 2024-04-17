@@ -5,18 +5,12 @@
 
 import React from "react"
 import styled from "styled-components"
-import { APIFC, ButtonAction, IconType } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
 import { ButtonBase } from "./button-base/button-base"
-import Icon from "../icon/icon"
+import { Icon } from "../icon/icon"
+import { ButtonPrimaryConfig } from "generic-view/models"
 
-export interface Config {
-  text: string
-  icon?: IconType
-  action: ButtonAction
-  disabled?: boolean
-}
-
-export const ButtonPrimary: APIFC<undefined, Config> = ({
+export const ButtonPrimary: APIFC<undefined, ButtonPrimaryConfig> = ({
   data,
   config,
   children,
@@ -30,8 +24,6 @@ export const ButtonPrimary: APIFC<undefined, Config> = ({
     </Button>
   )
 }
-
-export default ButtonPrimary
 
 const Button = styled(ButtonBase)`
   justify-content: center;

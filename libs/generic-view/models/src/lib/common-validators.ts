@@ -5,6 +5,8 @@
 
 import { z } from "zod"
 
+export const modalSizeValidator = z.enum(["small", "medium", "large"])
+
 export const modalActionValidator = z.union([
   z.object({
     type: z.literal("open-modal"),

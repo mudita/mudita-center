@@ -11,8 +11,6 @@ export const ModalScrollableContent: APIFC = (props) => {
   return <ScrollableContent {...props} />
 }
 
-export default ModalScrollableContent
-
 export const ScrollableContent = styled.div`
   overflow-y: auto;
 

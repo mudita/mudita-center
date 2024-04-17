@@ -5,16 +5,13 @@
 
 import React from "react"
 import styled, { css } from "styled-components"
-import { APIFC, ButtonAction, IconType } from "generic-view/utils"
+import { APIFC, IconType } from "generic-view/utils"
 import { ButtonBase } from "../../../buttons/button-base/button-base"
 import { iconButtonStyles } from "../../../shared/button"
-import Icon from "../../../icon/icon"
+import { Icon } from "../../../icon/icon"
+import { ModalCloseButtonConfig } from "generic-view/models"
 
-interface Config {
-  action?: ButtonAction
-}
-
-export const ModalCloseButton: APIFC<undefined, Config> = ({
+export const ModalCloseButton: APIFC<undefined, ModalCloseButtonConfig> = ({
   data,
   config,
   className,
@@ -32,8 +29,6 @@ export const ModalCloseButton: APIFC<undefined, Config> = ({
     </ModalClose>
   )
 }
-
-export default ModalCloseButton
 
 export const ModalCloseIcon = styled(Icon).attrs({
   data: { type: IconType.Close },

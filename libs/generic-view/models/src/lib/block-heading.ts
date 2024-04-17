@@ -5,17 +5,17 @@
 
 import { z } from "zod"
 
-const blockHeadingDataValidator = z.undefined()
+const dataValidator = z.undefined()
 
-const blockHeadingConfigValidator = z.object({
+const configValidator = z.object({
   heading: z.string(),
   subheading: z.string().optional(),
 })
 
-export type BlockHeadingConfig = z.infer<typeof blockHeadingConfigValidator>
+export type BlockHeadingConfig = z.infer<typeof configValidator>
 
 export const blockHeading = {
   key: "block-heading",
-  dataValidator: blockHeadingDataValidator,
-  configValidator: blockHeadingConfigValidator,
+  dataValidator,
+  configValidator,
 } as const

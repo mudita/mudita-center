@@ -7,16 +7,11 @@ import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
 import Markdown from "react-markdown"
+import { TextFormattedData } from "generic-view/models"
 
-interface Data {
-  text: string
-}
-
-const TextFormatted: APIFC<Data> = ({ data }) => {
+export const TextFormatted: APIFC<TextFormattedData> = ({ data }) => {
   return <Content>{data?.text}</Content>
 }
-
-export default TextFormatted
 
 const Content = styled(Markdown)`
   color: ${({ theme }) => theme.color.black};
