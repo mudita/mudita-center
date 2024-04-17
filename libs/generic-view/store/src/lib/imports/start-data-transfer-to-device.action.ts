@@ -23,11 +23,14 @@ import {
 
 export const startDataTransferToDevice = createAsyncThunk<
   undefined,
-  { domains: DataTransferDomain[] },
+  { domains: DataTransferDomain[]; contactsIds: string[] },
   { state: ReduxRootState }
 >(
   ActionName.StartDataTransferToDevice,
-  async ({ domains }, { getState, dispatch, rejectWithValue, signal }) => {
+  async (
+    { domains, contactsIds },
+    { getState, dispatch, rejectWithValue, signal }
+  ) => {
     let aborted = false
     let abortFileRequest: VoidFunction
 
@@ -52,8 +55,9 @@ export const startDataTransferToDevice = createAsyncThunk<
     const dataToImport: Partial<Record<DataTransferDomain, UnifiedContact[]>> =
       {
         ...(domains.find((item) => item === "contacts-v1") && {
-          "contacts-v1":
-            getState().genericImport.providers[activeProvider]?.contacts,
+          "contacts-v1": getState().genericImport.providers[
+            activeProvider
+          ]?.contacts?.filter((item) => contactsIds.includes(item.id)),
         }),
       }
 
