@@ -18,7 +18,9 @@ import { UnifiedContact } from "device/models"
 import { CheckboxInput } from "../../interactive/input/checkbox-input"
 import { useFormContext } from "react-hook-form"
 import { importContactsSelector } from "generic-view/store"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { startDataTransferToDevice } from "generic-view/store"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 export const SELECTED_CONTACTS_FIELD = "contacts"
 
@@ -32,9 +34,10 @@ const messages = defineMessages({
 })
 
 export const ImportContactsList = () => {
-  const { watch } = useFormContext()
+  const { watch } = useFormContext<{ [SELECTED_CONTACTS_FIELD]?: string[] }>()
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD)
   const contacts = useSelector(importContactsSelector)
+  const dispatch = useDispatch<Dispatch>()
 
   return (
     <>
@@ -57,6 +60,9 @@ export const ImportContactsList = () => {
               type: "custom",
               callback: () => {
                 console.log("IMPORT")
+                dispatch(
+                  startDataTransferToDevice({ domains: ["contacts-v1"] })
+                )
               },
             },
             disabled: !selectedContacts || selectedContacts.length === 0,
