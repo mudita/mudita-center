@@ -4,12 +4,12 @@
  */
 
 import { useEffect, useState } from "react"
-import { DiskSpaceCategory } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import {
   DiskSpaceCategoryType,
   filesSummaryElements,
 } from "Core/files-manager/constants"
-import { Spaces } from "Core/files-manager/components/files-manager/use-spaces/spaces.interface"
+import { Spaces } from "Core/files-manager/components/files-manager-core/use-spaces/spaces.interface"
 import { File } from "Core/files-manager/dto"
 
 const useDiskSpaceCategories = (

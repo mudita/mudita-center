@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DiskSpaceCategory } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import { DiskSpaceCategoryType } from "Core/files-manager/constants/files-manager.enum"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"

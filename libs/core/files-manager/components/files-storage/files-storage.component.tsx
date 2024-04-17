@@ -17,7 +17,7 @@ import { FilesManagerPanel } from "Core/files-manager/components/files-manager-p
 import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { useFilesFilter } from "Core/files-manager/helpers/use-files-filter.hook"
-import useCancelableFileUpload from "Core/files-manager/components/files-manager/use-cancelable-file-upload"
+import useCancelableFileUpload from "Core/files-manager/components/files-manager-core/use-cancelable-file-upload"
 import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
 
 const TitleWrapper = styled.div`

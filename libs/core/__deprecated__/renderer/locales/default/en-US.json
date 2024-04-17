@@ -391,6 +391,7 @@
   "module.eula.modalDescription": "To continue please accept the MuditaOS license\nagreement on your device and complete the onboarding process.",
   "module.eula.modalTitle": "Agreement is not accepted",
   "module.filesManager": "File manager",
+  "module.manageSounds": "Manage Sounds",
   "module.filesManager.deleteButton": "Delete",
   "module.filesManager.deleteFileModalAction": "Delete",
   "module.filesManager.deleteFileModalBody": "Do you really want to delete <b>{num, plural, =-1 {all files} one {# file} other {# files}}?</b>",

@@ -44,6 +44,13 @@ const YOUR_PURE_BUTTONS = [
     visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
     viewKey: View.FilesManager,
   },
+  {
+    button: views.manageSounds,
+    icon: IconType.MenuFilesManager,
+    testId: MenuGroupTestIds.ManageSounds,
+    visibleOn: [DeviceType.MuditaHarmony],
+    viewKey: View.ManageSounds,
+  },
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [

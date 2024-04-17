@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MemorySpace } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { MemorySpace } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import { File } from "Core/files-manager/dto"
-import { Spaces } from "Core/files-manager/components/files-manager/use-spaces/spaces.interface"
+import { Spaces } from "Core/files-manager/components/files-manager-core/use-spaces/spaces.interface"
 
 /***
  * logic with the `isSizeCorrupt` property should be simplified after fix a issue in os side

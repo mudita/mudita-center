@@ -7,7 +7,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import FilesSummary from "Core/files-manager/components/files-summary/files-summary.component"
 import styled from "styled-components"
-import { DiskSpaceCategory } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import { DiskSpaceCategoryType } from "Core/files-manager/constants"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
