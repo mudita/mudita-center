@@ -40,5 +40,8 @@ export enum ActionName {
   ClearFileTransferGetError = "generic-file-transfer/clear-get-errors",
   StartGoogleAuthorization = "generic-imports/start-google-authorization",
   ImportContactsFromExternalSource = "generic-imports/import-contacts-from-external-source",
+  StartDataTransferToDevice = "generic-imports/start-data-transfer-to-device",
+  SetDataTransferProcessStatus = "generic-imports/set-data-transfer-process-status",
+  SetDataTransferProcessFileStatus = "generic-imports/set-data-transfer-process-file-status",
   CleanImportProcess = "generic-imports/clean-import-process",
 }
