@@ -12,15 +12,13 @@ import ConnectingLoaderModal from "Core/modals-manager/components/connecting-loa
 import DetachedDuringUploadErrorModal from "Core/files-manager/components/dettached-during-upload-error-modal/dettached-during-upload-error-modal.component"
 import { AppUpdateFlow } from "Core/settings/components"
 import { shouldAppUpdateVisibleSelector } from "Core/modals-manager/selectors/should-app-update-visible.selector"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-type Props = {
-  contactSupportFlowShow: boolean
-}
-
-const ModalsManager: FunctionComponent<Props> = ({
-  contactSupportFlowShow,
-}) => {
+const ModalsManager: FunctionComponent = () => {
   const appUpdateVisible = useSelector(shouldAppUpdateVisibleSelector)
+  const contactSupportFlowShow = useSelector(
+    (state: ReduxRootState) => state.modalsManager.contactSupportFlowShow
+  )
   return (
     <>
       {contactSupportFlowShow && <ContactSupportFlow />}
