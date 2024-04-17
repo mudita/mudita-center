@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useCallback } from "react"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { FilesStorageListTestIds } from "Core/files-manager/components/files-storage-list/files-storage-list-test-ids.enum"
 import {
@@ -39,8 +39,8 @@ import {
   Ellipsis,
 } from "Core/files-manager/components/files-storage-list/files-storage-list.styled"
 import { DeviceType } from "Core/device/constants"
-import { useSelector } from "react-redux"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { useDispatch, useSelector } from "react-redux"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { Virtuoso } from "react-virtuoso"
 import ElementWithTooltip, {
   ElementWithTooltipPlace,
@@ -52,6 +52,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
+import { toggleItem } from "Core/files-manager/actions"
 
 const messages = defineMessages({
   title: {
@@ -93,8 +94,6 @@ interface Props {
   state: State
   files: File[]
   noFoundFiles: boolean
-  toggleRow: (id: string) => void
-  selectedItems: string[]
   onDelete: (ids: string[]) => void
   hideCheckbox: boolean
 }
@@ -122,13 +121,16 @@ const TruncateText: FunctionComponent<{ text: string }> = ({ text }) => (
 const FilesStorageList: FunctionComponent<Props> = ({
   state,
   files = [],
-  selectedItems,
-  toggleRow,
   onDelete,
   noFoundFiles,
   hideCheckbox,
   ...rest
 }) => {
+  const dispatch = useDispatch<Dispatch>()
+  const selectedItems = useSelector(
+    (state: ReduxRootState) => state.filesManager.selectedItems.rows
+  )
+
   const { enableScroll, disableScroll } = useTableScrolling()
 
   const loadedOrInitialState = state === State.Initial || state === State.Loaded
@@ -141,6 +143,13 @@ const FilesStorageList: FunctionComponent<Props> = ({
   const filesManagerActionsEnable =
     deviceType === DeviceType.MuditaPure ||
     deviceType === DeviceType.MuditaHarmony
+
+  const toggleRow = useCallback(
+    (id: string) => {
+      dispatch(toggleItem(id))
+    },
+    [dispatch]
+  )
 
   return (
     <FilesStorageContainer {...rest}>

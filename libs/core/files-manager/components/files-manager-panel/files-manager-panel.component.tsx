@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useCallback } from "react"
 import { defineMessages } from "react-intl"
+import { useDispatch, useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
@@ -19,6 +20,8 @@ import { FilesManagerPanelTestIds } from "Core/files-manager/components/files-ma
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { Size } from "Core/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import FilesManagerSearchInput from "Core/files-manager/components/files-manager-search-input/files-manager-search-input"
+import { resetAllItems, selectAllItems } from "Core/files-manager/actions"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 const messages = defineMessages({
   uploadButton: { id: "module.filesManager.uploadButton" },
@@ -28,16 +31,31 @@ const messages = defineMessages({
 export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   disabled,
   onUploadFile,
-  selectedFiles,
-  allItemsSelected,
   onDeleteClick,
-  toggleAll,
-  resetRows,
   searchValue,
   onSearchValueChange,
 }) => {
-  const selectedItemsCount = selectedFiles.length
+  const dispatch = useDispatch<Dispatch>()
+
+  const { selectedItems, allItemsSelected } = useSelector(
+    (state: ReduxRootState) => {
+      const files = state.filesManager.files
+      const selectedItems = state.filesManager.selectedItems.rows
+      const allItemsSelected = selectedItems.length === (files?.length ?? 0)
+
+      return { files, selectedItems, allItemsSelected }
+    }
+  )
+  const selectedItemsCount = selectedItems.length
   const selectionMode = selectedItemsCount > 0
+
+  const toggleAll = useCallback(() => {
+    dispatch(selectAllItems())
+  }, [dispatch])
+
+  const resetRows = useCallback(() => {
+    dispatch(resetAllItems())
+  }, [dispatch])
 
   return (
     <PanelWrapper data-testid={FilesManagerPanelTestIds.Wrapper}>
