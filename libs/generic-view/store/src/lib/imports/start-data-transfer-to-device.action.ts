@@ -225,9 +225,6 @@ export const startDataTransferToDevice = createAsyncThunk<
       return rejectWithValue(undefined)
     }
 
-    if (aborted) {
-      return rejectWithValue(undefined)
-    }
     return undefined
   }
 )
