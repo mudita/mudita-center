@@ -52,6 +52,9 @@ describe("generateMcAboutListModalData", () => {
         key: {
           component: "about-data-box",
           childrenKeys: ["keymodal-button"],
+          config: {
+            title: "Title",
+          },
         },
         "keymodal-content": {
           component: "text-formatted",

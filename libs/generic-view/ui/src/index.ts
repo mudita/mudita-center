@@ -10,6 +10,7 @@ import { helpers } from "./lib/helpers/helpers"
 import { interactive } from "./lib/interactive/interactive"
 import { buttons } from "./lib/buttons/buttons"
 import { texts } from "./lib/texts"
+import { Icon } from "./lib/icon/icon"
 
 export * from "./lib/icon/icon"
 export * from "./lib/api-connection-demo"
@@ -27,6 +28,7 @@ const apiComponents = {
   ...interactive,
   ...buttons,
   ...texts,
+  icon: Icon,
 }
 
 export default apiComponents
