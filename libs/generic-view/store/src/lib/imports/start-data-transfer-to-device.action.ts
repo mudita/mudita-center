@@ -66,13 +66,12 @@ export const startDataTransferToDevice = createAsyncThunk<
       console.log("missing data to transfer")
       return rejectWithValue(undefined)
     }
-    console.log("123", dataToImport, availableDomainsCount)
 
     const preDataTransferResponse = await startPreDataTransferRequest(
       domains,
       deviceId
     )
-    console.log(preDataTransferResponse)
+
     if (!preDataTransferResponse.ok) {
       console.log("preDataTransfer failed")
       return rejectWithValue(undefined)
@@ -133,12 +132,12 @@ export const startDataTransferToDevice = createAsyncThunk<
       }
 
       domainsPaths[i].transfer = preSendResponse.data
-      // dispatch(
-      //   setRestoreProcessFileStatus({
-      //     feature: featurePath.feature,
-      //     status: "PENDING",
-      //   })
-      // )
+      dispatch(
+        setDataTransferProcessFileStatus({
+          domain: domain.domainKey,
+          status: "PENDING",
+        })
+      )
     }
 
     dispatch(
