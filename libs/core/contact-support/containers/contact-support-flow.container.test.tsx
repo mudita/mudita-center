@@ -7,7 +7,7 @@ import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import store from "Core/__deprecated__/renderer/store"
 import { renderWithThemeAndIntl } from "Core/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import ModalsManager from "Core/modals-manager/components/modals-manager.container"
+import ModalsManager from "Core/modals-manager/components/modals-manager.component"
 import ContactSupportFlow from "Core/contact-support/containers/contact-support-flow.container"
 import { ContactSupportFlowTestIds } from "Core/contact-support/components/contact-support-flow-test-ids.component"
 
