@@ -35,7 +35,7 @@ export const initialState: SettingsState = {
   language: "",
   ignoredCrashDumps: [],
   diagnosticSentTimestamp: 0,
-  collectingData: false,
+  collectingData: undefined,
   privacyPolicyAccepted: undefined,
   neverConnected: false,
   tray: false,

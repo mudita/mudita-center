@@ -5,7 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { ModalTitleIcon } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
@@ -27,11 +27,10 @@ export const ImportContactsProvider = () => {
   const dispatch = useDispatch<Dispatch>()
   return (
     <>
-      <ModalTitleIcon data={{ type: IconType.ContactsBook }} />
-      <h1>{intl.formatMessage(messages.title)}</h1>
-      <Article>
-        <p>{intl.formatMessage(messages.description)}</p>
-
+      <Modal.TitleIcon data={{ type: IconType.ContactsBook }} />
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
+      <p>{intl.formatMessage(messages.description)}</p>
+      <Modal.Buttons config={{ vertical: true }}>
         <ButtonSecondary
           config={{
             text: "Continue with Google",
@@ -69,21 +68,10 @@ export const ImportContactsProvider = () => {
             </svg>
           </GoogleLogoWrapperStyled>
         </ButtonSecondary>
-      </Article>
+      </Modal.Buttons>
     </>
   )
 }
-
-const Article = styled.article`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p {
-    padding-bottom: 2.4rem;
-  }
-`
 
 const GoogleLogoWrapperStyled = styled.div`
   height: 2rem;

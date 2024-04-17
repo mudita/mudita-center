@@ -13,9 +13,9 @@ jobs:
     environment: development
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 18.16.1
       - name: Setup Env for Windows
@@ -42,6 +42,7 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
+          LOCALAPPDATA: ""
         shell: cmd
         run: |
           SET > .env
@@ -138,6 +139,7 @@ jobs:
         if: matrix.os == 'Windows'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
+          $env:LOCALAPPDATA=""
           npm run app:dist
       - name: Build App for Linux/Mac
         if: matrix.os != 'Windows'

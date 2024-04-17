@@ -3,7 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./modal-base"
 export * from "./modal"
 export * from "./text-modal"
-export * from "./modal-helpers"

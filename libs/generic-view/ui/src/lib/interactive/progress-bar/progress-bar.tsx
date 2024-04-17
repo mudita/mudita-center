@@ -51,7 +51,7 @@ const Wrapper = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 `
 
-const Message = styled.p`
+const Message = styled.span`
   font-size: ${({ theme }) => theme.fontSize.paragraph4};
   line-height: ${({ theme }) => theme.lineHeight.paragraph4};
   color: ${({ theme }) => theme.color.grey2};

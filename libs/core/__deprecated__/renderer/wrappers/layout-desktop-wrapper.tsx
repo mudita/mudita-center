@@ -40,6 +40,7 @@ const MenuWrapper = styled.div`
 
 const HeaderWrapper = styled.div`
   grid-area: Header;
+  z-index: 1;
 `
 
 export const HeaderButton = styled(Button)`

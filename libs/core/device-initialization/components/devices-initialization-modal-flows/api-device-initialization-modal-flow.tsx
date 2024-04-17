@@ -18,17 +18,9 @@ import {
 import { ApiError } from "device/models"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import {
-  closeButtonStyles,
-  IconButton,
-  ModalBase,
-  ModalCenteredContent,
-  ModalCloseIcon,
-  ModalTitleIcon,
-  SpinnerLoader,
-} from "generic-view/ui"
+import { Modal, SpinnerLoader } from "generic-view/ui"
 import { GenericThemeProvider } from "generic-view/theme"
-import { IconType } from "generic-view/utils"
+import { ButtonAction, IconType } from "generic-view/utils"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import ReactModal from "react-modal"
 import styled from "styled-components"
@@ -70,8 +62,11 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
     ...Object.values(URL_DEVICE_INITIALIZATION),
   ])
 
-  const onModalClose = () => {
-    history.push(pathToGoBack || URL_MAIN.news)
+  const modalCloseAction: ButtonAction = {
+    type: "custom",
+    callback: () => {
+      history.push(pathToGoBack || URL_MAIN.news)
+    },
   }
 
   useEffect(() => {
@@ -118,22 +113,21 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
             {intl.formatMessage(messages.connectingModalParagraph)}
           </ConnectingText>
         </ReactModal>
-        <ModalBase
-          opened={deviceLocked}
-          size={"small"}
-          overlayHidden
-          closeButton={
-            <CloseButton onClick={onModalClose}>
-              <ModalCloseIcon />
-            </CloseButton>
-          }
+        <Modal
+          componentKey={"device-initialization"}
+          config={{
+            defaultOpened: deviceLocked,
+            size: "small",
+            closeButtonAction: modalCloseAction,
+            overlayHidden: true,
+          }}
         >
-          <ModalCenteredContent>
-            <ModalTitleIcon data={{ type: IconType.Mudita }} />
-            <h1>{intl.formatMessage(messages.lockedModalHeadline)}</h1>
-            <p>{intl.formatMessage(messages.lockedModalParagraph)}</p>
-          </ModalCenteredContent>
-        </ModalBase>
+          <Modal.TitleIcon data={{ type: IconType.Mudita }} />
+          <Modal.Title>
+            {intl.formatMessage(messages.lockedModalHeadline)}
+          </Modal.Title>
+          <p>{intl.formatMessage(messages.lockedModalParagraph)}</p>
+        </Modal>
       </Wrapper>
     </GenericThemeProvider>
   )
@@ -151,8 +145,4 @@ const ConnectingText = styled.p`
   color: ${({ theme }) => theme.color.white};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   margin: 2.4rem 0 0;
-`
-
-const CloseButton = styled(IconButton)`
-  ${closeButtonStyles};
 `
