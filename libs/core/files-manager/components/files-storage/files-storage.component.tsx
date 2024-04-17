@@ -18,7 +18,7 @@ import { FilesStorageProps } from "Core/files-manager/components/files-storage/f
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { useFilesFilter } from "Core/files-manager/helpers/use-files-filter.hook"
 import useCancelableFileUpload from "Core/files-manager/components/files-manager/use-cancelable-file-upload"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
 
 const TitleWrapper = styled.div`
   padding: 1.6rem 3.2rem 1rem;
@@ -40,7 +40,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   onManagerDeleteClick,
   disableUpload,
 }) => {
-  const files = useSelector((state: ReduxRootState) => state.filesManager.files)
+  const files = useSelector(getFilesByActiveSoundAppSelector)
 
   const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files: files ?? [] })

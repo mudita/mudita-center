@@ -22,6 +22,7 @@ import { Size } from "Core/__deprecated__/renderer/components/core/input-checkbo
 import FilesManagerSearchInput from "Core/files-manager/components/files-manager-search-input/files-manager-search-input"
 import { resetAllItems, selectAllItems } from "Core/files-manager/actions"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
 
 const messages = defineMessages({
   uploadButton: { id: "module.filesManager.uploadButton" },
@@ -39,7 +40,7 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
 
   const { selectedItems, allItemsSelected } = useSelector(
     (state: ReduxRootState) => {
-      const files = state.filesManager.files
+      const files = getFilesByActiveSoundAppSelector(state)
       const selectedItems = state.filesManager.selectedItems.rows
       const allItemsSelected = selectedItems.length === (files?.length ?? 0)
 

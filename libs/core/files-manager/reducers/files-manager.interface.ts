@@ -7,8 +7,15 @@ import { AppError } from "Core/core/errors"
 import { State } from "Core/core/constants"
 import { File } from "Core/files-manager/dto"
 
+export type SoundApp =
+  | "PURE_MUSIC"
+  | "HARMONY_RELAXATION"
+  | "HARMONY_SOUNDS"
+  | "UNKNOWN"
+
 export interface FilesManagerState {
-  files: File[] | null
+  filesMap: Partial<Record<SoundApp, File[]>>
+  activeSoundApp: SoundApp
   loading: State
   deleting: State
   uploading: State

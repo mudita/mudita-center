@@ -52,7 +52,10 @@ const initialStore = {
     deviceType: DeviceType.MuditaPure,
   },
   filesManager: {
-    files: [],
+    filesMap: [{
+      "PURE_MUSIC": []
+    }],
+    activeSoundApp: "PURE_MUSIC"
   },
 }
 
