@@ -5,7 +5,7 @@
 
 import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
-import FilesManager from "Core/files-manager/files-manager.container"
+import FilesManager from "Core/files-manager/components/files-manager/files-manager.component"
 import Messages from "Core/messages/messages.container"
 import News from "Core/news/news.container"
 import Overview from "Core/overview/overview.container"

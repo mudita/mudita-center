@@ -5,11 +5,9 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { DeviceType } from "Core/device/constants"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
-import { VisibleOnDevice } from "Core/ui/components"
 import { FilesManagerPanelProps } from "Core/files-manager/components/files-manager-panel/files-manager-panel.interface"
 import {
   PanelWrapper,
@@ -42,49 +40,45 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   const selectionMode = selectedItemsCount > 0
 
   return (
-    <VisibleOnDevice
-      devices={[DeviceType.MuditaPure, DeviceType.MuditaHarmony]}
-    >
-      <PanelWrapper data-testid={FilesManagerPanelTestIds.Wrapper}>
-        <Panel>
-          {selectionMode ? (
-            <FilesManagerSelectionManager
-              data-testid={FilesManagerPanelTestIds.SelectionManager}
-              selectedItemsNumber={selectedItemsCount}
-              allItemsSelected={Boolean(allItemsSelected)}
-              message={{ id: "module.filesManager.selectionNumber" }}
-              checkboxSize={Size.Medium}
-              onToggle={allItemsSelected ? resetRows : toggleAll}
-              buttons={[
-                <Button
-                  key="delete"
-                  labelMessage={messages.deleteButton}
-                  displayStyle={DisplayStyle.Link}
-                  Icon={IconType.Delete}
-                  onClick={onDeleteClick}
-                />,
-              ]}
+    <PanelWrapper data-testid={FilesManagerPanelTestIds.Wrapper}>
+      <Panel>
+        {selectionMode ? (
+          <FilesManagerSelectionManager
+            data-testid={FilesManagerPanelTestIds.SelectionManager}
+            selectedItemsNumber={selectedItemsCount}
+            allItemsSelected={Boolean(allItemsSelected)}
+            message={{ id: "module.filesManager.selectionNumber" }}
+            checkboxSize={Size.Medium}
+            onToggle={allItemsSelected ? resetRows : toggleAll}
+            buttons={[
+              <Button
+                key="delete"
+                labelMessage={messages.deleteButton}
+                displayStyle={DisplayStyle.Link}
+                Icon={IconType.Delete}
+                onClick={onDeleteClick}
+              />,
+            ]}
+          />
+        ) : (
+          <>
+            <FilesManagerSearchInput
+              data-testid={FilesManagerPanelTestIds.SearchInput}
+              searchValue={searchValue}
+              onSearchValueChange={onSearchValueChange}
             />
-          ) : (
-            <>
-              <FilesManagerSearchInput
-                data-testid={FilesManagerPanelTestIds.SearchInput}
-                searchValue={searchValue}
-                onSearchValueChange={onSearchValueChange}
+            <ButtonWrapper>
+              <Button
+                data-testid={FilesManagerPanelTestIds.Button}
+                displayStyle={DisplayStyle.Primary}
+                labelMessage={messages.uploadButton}
+                onClick={onUploadFile}
+                disabled={disabled}
               />
-              <ButtonWrapper>
-                <Button
-                  data-testid={FilesManagerPanelTestIds.Button}
-                  displayStyle={DisplayStyle.Primary}
-                  labelMessage={messages.uploadButton}
-                  onClick={onUploadFile}
-                  disabled={disabled}
-                />
-              </ButtonWrapper>
-            </>
-          )}
-        </Panel>
-      </PanelWrapper>
-    </VisibleOnDevice>
+            </ButtonWrapper>
+          </>
+        )}
+      </Panel>
+    </PanelWrapper>
   )
 }
