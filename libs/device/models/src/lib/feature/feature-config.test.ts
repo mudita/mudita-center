@@ -9,11 +9,22 @@ const featureConfig: FeatureConfig = {
   "dummy-1": {
     component: "button-text",
     config: {
-      asd: 123,
+      text: "dummy",
+      action: {
+        type: "custom",
+        callback: jest.fn,
+      },
     },
   },
   "dummy-2": {
     component: "button-primary",
+    config: {
+      text: "dummy",
+      action: {
+        type: "custom",
+        callback: jest.fn,
+      },
+    },
   },
 }
 

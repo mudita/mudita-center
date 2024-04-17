@@ -48,6 +48,9 @@ export class APIFeaturesService {
     })
     if (response.ok) {
       const config = FeatureConfigValidator.safeParse(response.data.body)
+      if (process.env.NODE_ENV === "development" && !config.success) {
+        console.log(JSON.stringify(config, null, 2))
+      }
       return config.success
         ? Result.success(config.data)
         : Result.failed(new AppError(GeneralError.IncorrectResponse))
