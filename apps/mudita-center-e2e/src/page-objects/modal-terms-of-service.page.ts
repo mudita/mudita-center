@@ -53,10 +53,6 @@ class ModalTermsOfService extends Page {
   public get termsConditionsLink() {
     return $("a=www.mudita.com/legal/terms-conditions/mudita-center/")
   }
-
-  public get closeModalButton() {
-    return $('[data-testid="close-modal-button"]')
-  }
 }
 
 export default new ModalTermsOfService()
