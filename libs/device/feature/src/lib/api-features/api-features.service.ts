@@ -7,7 +7,8 @@ import { DeviceManager } from "Core/device-manager/services"
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import {
-  APIFeaturesServiceEvents, FeatureConfig,
+  APIFeaturesServiceEvents,
+  FeatureConfig,
   featureConfigValidator,
   GeneralError,
   OverviewConfig,
