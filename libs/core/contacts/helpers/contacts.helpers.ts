@@ -20,12 +20,11 @@ import { mapToRawNumber } from "Core/messages/helpers"
 const lengthy = (input = "") => input.length > 0
 
 const inputPropertyValidator = (input: unknown, key: string): boolean => {
-  return (
-    typeof input === "object" &&
-    input !== null &&
-    key in input &&
-    lengthy(key as keyof typeof input)
-  )
+  if (!(typeof input === "object" && input !== null && key in input)) {
+    return true;
+  }
+  return lengthy(key as keyof typeof input);
+
 }
 
 const prepareData = <T = unknown>(input: T | T[]): T[] =>

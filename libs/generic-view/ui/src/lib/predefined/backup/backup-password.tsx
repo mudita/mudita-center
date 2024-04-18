@@ -6,13 +6,13 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { ButtonAction, IconType } from "generic-view/utils"
-import { TextInput } from "../../interactive/input/text-input"
 import { ButtonPrimary } from "../../buttons/button-primary"
 import { ButtonText } from "../../buttons/button-text"
 import { useFormContext } from "react-hook-form"
-import { ModalButtons, ModalTitleIcon } from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { Form } from "../../interactive/form/form"
 
 const messages = defineMessages({
   title: {
@@ -61,29 +61,29 @@ export const BackupPassword: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ModalTitleIcon
+      <Modal.TitleIcon
         data={{
           type: IconType.Settings,
         }}
       />
-      <h1>
+      <Modal.Title>
         {intl.formatMessage(messages.title)}
         <HeadlineOptional>
           {intl.formatMessage(messages.subtitle)}
         </HeadlineOptional>
-      </h1>
+      </Modal.Title>
       <Text>
         {intl.formatMessage(messages.description)}
         <span>{intl.formatMessage(messages.description2)}</span>
       </Text>
-      <TextInput
+      <Form.TextInput
         config={{
           name: "password",
           label: intl.formatMessage(messages.passwordPlaceholder),
           type: "password",
         }}
       />
-      <TextInput
+      <Form.TextInput
         config={{
           name: "passwordRepeat",
           label: intl.formatMessage(messages.passwordRepeatPlaceholder),
@@ -98,7 +98,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
           },
         }}
       />
-      <ModalButtons $vertical>
+      <Modal.Buttons config={{ vertical: true }}>
         <ButtonPrimary
           config={{
             text: intl.formatMessage(messages.confirmButtonLabel),
@@ -113,7 +113,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
             modifiers: ["link", "uppercase"],
           }}
         />
-      </ModalButtons>
+      </Modal.Buttons>
     </>
   )
 }

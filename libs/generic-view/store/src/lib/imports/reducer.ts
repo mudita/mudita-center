@@ -21,6 +21,7 @@ export type ImportStatus =
   | "AUTH"
   | "IMPORT-INTO-MC-IN-PROGRESS"
   | "IMPORT-INTO-MC-DONE"
+  | "IMPORT-INTO-DEVICE-IN-PROGRESS"
   | "DONE"
   | "FAILED"
 

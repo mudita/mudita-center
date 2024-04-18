@@ -3,20 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useId, useRef } from "react"
+import React, { useId } from "react"
 import { APIFC, IconType } from "generic-view/utils"
-import { withConfig } from "../../utils/with-config"
-import { withData } from "../../utils/with-data"
+import { withConfig } from "../../../utils/with-config"
+import { withData } from "../../../utils/with-data"
 import styled from "styled-components"
 import { RegisterOptions, useFormContext } from "react-hook-form"
-import Icon from "../../icon/icon"
+import Icon from "../../../icon/icon"
 
 interface Config {
   name: string
   value: string
+  checked?: boolean
   label?: string
   validation?: Pick<RegisterOptions, "required">
-  indeterminate?: boolean
+  onToggle?: (checked: boolean) => void
 }
 
 export const CheckboxInput: APIFC<undefined, Config> = ({
@@ -27,30 +28,27 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
 }) => {
   const id = useId()
   const { register } = useFormContext()
-  const { ref, ...rest } = register(config!.name, { ...config?.validation })
-  const inputRef = useRef<HTMLInputElement | null>(null)
-
-  useEffect(() => {
-    inputRef.current!.indeterminate = config?.indeterminate ?? false
-  }, [config?.indeterminate])
+  const { onChange, ...rest } = register(config!.name, {
+    ...config?.validation,
+  })
 
   return (
     <Wrapper {...props}>
       <Input
         id={"checkbox-" + id}
         type={"checkbox"}
-        value={config!.value}
-        ref={(e) => {
-          ref(e)
-          inputRef.current = e
+        value={config?.value}
+        checked={config?.checked}
+        onChange={(e) => {
+          config?.onToggle?.(e.target.checked)
+          void onChange(e)
         }}
         {...rest}
       />
       <Label htmlFor={"checkbox-" + id}>
-        <InputIndicator>
-          <MinusIcon />
+        <InputBox>
           <CheckIcon />
-        </InputIndicator>
+        </InputBox>
         {children || config?.label}
       </Label>
     </Wrapper>
@@ -77,6 +75,7 @@ const Label = styled.label`
   font-size: ${({ theme }) => theme.fontSize.paragraph1};
   line-height: ${({ theme }) => theme.lineHeight.paragraph1};
   cursor: pointer;
+  user-select: none;
 `
 
 const CheckIcon = styled(Icon).attrs({ data: { type: IconType.Check } })`
@@ -84,29 +83,23 @@ const CheckIcon = styled(Icon).attrs({ data: { type: IconType.Check } })`
   height: 1.8rem;
 `
 
-const MinusIcon = styled(Icon).attrs({ data: { type: IconType.Minus } })`
-  width: 1.6rem;
-  height: 1.6rem;
-`
-
-const InputIndicator = styled.div`
+const InputBox = styled.div`
+  min-width: 2.2rem;
+  min-height: 2.2rem;
   width: 2.2rem;
   height: 2.2rem;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: baseline;
   border-radius: ${({ theme }) => theme.radius.xs};
   border: 0.1rem solid ${({ theme }) => theme.color.grey4};
   margin: 0 1.4rem 0 0;
-  align-self: flex-start;
   transition: background-color 0.2s ease-in-out;
   overflow: hidden;
   box-sizing: border-box;
-  position: relative;
 
-  ${CheckIcon}, ${MinusIcon} {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  ${CheckIcon} {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
@@ -117,23 +110,11 @@ const Input = styled.input<{ $withError?: boolean }>`
   display: none;
 
   &:checked + ${Label} {
-    ${InputIndicator} {
+    ${InputBox} {
       border-color: ${({ theme }) => theme.color.grey1};
       background-color: ${({ theme }) => theme.color.grey1};
 
       ${CheckIcon} {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-  }
-
-  &:indeterminate + ${Label} {
-    ${InputIndicator} {
-      border-color: ${({ theme }) => theme.color.grey1};
-      background-color: ${({ theme }) => theme.color.grey1};
-
-      ${MinusIcon} {
         opacity: 1;
         visibility: visible;
       }

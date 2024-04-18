@@ -7,47 +7,49 @@ import Page from "./page"
 
 class HomePage extends Page {
   get homeHeader() {
-    return $("h1*=Welcome to Mudita Center")
+    return $("h1[data-testid='onboarding-title-header']")
   }
 
   get notNowButton() {
-    return $("button*=Not now")
+    return $("button[data-testid='onboarding-not-now-button']")
   }
 
   get myDevicesDoesntShowButton() {
-    return $$("button")[2].$("p*=My device")
-  }
-
-  get weAreSorryPage() {
-    return $("h2*=There was a connection problem")
-  }
-
-  get weAreSorryPageFollowTheInstructions() {
-    return $("p*=Follow the instructions below")
-  }
-
-  get weAreSorryPageInstructions() {
-    return $$("ol li")
-  }
-
-  get thisDidntSolve() {
-    return $$("button")[1].$("p*=This did")
-  }
-
-  get tryAgain() {
-    return $("button[data-testid='onboarding-troubleshooting-ui-retry']").$(
-      "p*=Try again"
+    return $(
+      "button[data-testid='onboarding-my-device-does-not-show-up-button']"
     )
+  }
+
+  get weAreSorryPageHeader() {
+    return $("h2[data-testid=onboarding-troubleshooting-title-header]")
+  }
+
+  get weAreSorryPageFollowTheInstructionsParagraph() {
+    return $("p[data-testid='onboarding-troubleshooting-subtitle-paragraph']")
+  }
+
+  get weAreSorryPageInstructionsList() {
+    return $$(
+      "ol li[data-testid='onboarding-troubleshooting-instruction-step-list-item']"
+    )
+  }
+
+  get thisDidntSolveParagraph() {
+    return $(
+      "button[data-testid='onboarding-troubleshooting-ui-more-instructions'] p"
+    )
+  }
+
+  get tryAgainParagraph() {
+    return $("button[data-testid='onboarding-troubleshooting-ui-retry'] p")
   }
 
   get contactSupportButton() {
-    return $(
-      "button[data-testid=onboarding-troubleshooting-ui-contact-support]"
-    )
+    return $("[data-testid='onboarding-troubleshooting-ui-contact-support']")
   }
 
-  get muditaCenterSupportModal() {
-    return $("h2[data-testid=modal-title]")
+  get muditaCenterSupportModalHeader() {
+    return $("h2[data-testid='modal-title']")
   }
 
   get emailField() {
@@ -66,8 +68,8 @@ class HomePage extends Page {
     return $("button[data-testid='submit-button']")
   }
 
-  get closeCenterSupportModal() {
-    return $("button[data-testid=close-modal-button]")
+  get closeCenterSupportModalButton() {
+    return $("button[data-testid='close-modal-button']")
   }
 
   get centerSupportModal() {
