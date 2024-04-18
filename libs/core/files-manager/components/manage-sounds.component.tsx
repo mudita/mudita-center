@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux"
 import FilesManagerCore from "Core/files-manager/components/files-manager-core/files-manager-core.component"
 import { setActiveSoundApp } from "Core/files-manager/actions"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
+import ManageSoundsStorage from "Core/files-manager/components/manage-sounds-storage/manage-sounds-storage.component"
 
 const ManageSounds = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -16,7 +17,11 @@ const ManageSounds = () => {
     dispatch(setActiveSoundApp("HARMONY_RELAXATION"))
   }, [dispatch])
 
-  return <FilesManagerCore />
+  return (
+    <FilesManagerCore>
+      {(props) => <ManageSoundsStorage {...props} />}
+    </FilesManagerCore>
+  )
 }
 
 export default ManageSounds

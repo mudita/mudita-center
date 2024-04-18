@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { ReactNode, useEffect, useRef, useState, FunctionComponent } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { State } from "Core/core/constants"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { FilesManagerContainer } from "Core/files-manager/components/files-manager-core/files-manager.styled"
 import FilesSummary from "Core/files-manager/components/files-summary/files-summary.component"
 import {
@@ -15,7 +14,6 @@ import {
   MemorySpace,
 } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import { FilesManagerTestIds } from "Core/files-manager/components/files-manager-core/files-manager-test-ids.enum"
-import FilesStorage from "Core/files-manager/components/files-storage/files-storage.component"
 import { DeleteFilesModals } from "Core/files-manager/components/delete-files-modals/delete-files-modals.component"
 import { useLoadingState } from "Core/ui"
 import { UploadFilesModals } from "Core/files-manager/components/upload-files-modals/upload-files-modals.component"
@@ -31,8 +29,12 @@ import useDiskSpaceCategories from "Core/files-manager/components/files-manager-
 import { getFiles, resetAllItems } from "Core/files-manager/actions"
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
 import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
+import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
 
-const FilesManagerCore: FunctionComponent = () => {
+type Props = {
+  children: (props: FilesStorageProps) => ReactNode
+};
+const FilesManagerCore: FunctionComponent<Props> = ({ children }) => {
   const dispatch = useDispatch<Dispatch>()
   const {
     memorySpace,
@@ -231,12 +233,12 @@ const FilesManagerCore: FunctionComponent = () => {
           usedMemory={usedMemorySpace}
         />
       )}
-      <FilesStorage
-        state={loading}
-        onDeleteClick={handleDeleteClick}
-        onManagerDeleteClick={handleManagerDeleteClick}
-        disableUpload={disableUpload}
-      />
+      {children({
+        state: loading,
+        disableUpload: disableUpload,
+        onDeleteClick: handleDeleteClick,
+        onManagerDeleteClick: handleManagerDeleteClick,
+      })}
     </FilesManagerContainer>
   )
 }
