@@ -16,15 +16,15 @@ export const ProgressBar: APIFC<ProgressBarData, ProgressBarConfig> = ({
   const id = useId()
   return (
     <Wrapper {...props}>
-      {data?.message && <Message>{data.message}</Message>}
+      {data.message && <Message>{data.message}</Message>}
       <Progress
         id={"progress-" + id}
-        max={config?.maxValue}
-        value={data?.value}
+        max={config.maxValue}
+        value={data.value}
       />
       <Label htmlFor={"progress-" + id}>
-        {data?.value}
-        {config?.valueUnit || "%"}
+        {data.value}
+        {config.valueUnit || "%"}
       </Label>
     </Wrapper>
   )

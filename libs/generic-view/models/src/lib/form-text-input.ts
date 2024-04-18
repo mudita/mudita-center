@@ -8,7 +8,7 @@ import { RegisterOptions } from "react-hook-form"
 
 const dataValidator = z.object({
   value: z.string(),
-})
+}).optional()
 
 export type FormTextInputData = z.infer<typeof dataValidator>
 

@@ -23,7 +23,7 @@ import { generateMcAboutDetailsLayout } from "./details/details"
 export const generateMcAboutLayout: ViewGenerator<OverviewConfig> = (
   config
 ) => {
-  const mainConfig: MainView = {
+  const mainConfig: MainView["main"] = {
     screenTitle: config.summary.aboutTitle!,
     component: "block-plain",
   }

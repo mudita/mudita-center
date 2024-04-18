@@ -12,7 +12,9 @@ const dataValidator = z.object({
 
 export type ImageData = z.infer<typeof dataValidator>
 
-const configValidator = z.undefined()
+const configValidator = dataValidator
+
+export type ImageConfig = z.infer<typeof configValidator>
 
 export const image = {
   key: "image",

@@ -9,7 +9,7 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { FeaturesActions } from "./featues-action-keys"
 import { View } from "generic-view/utils"
 import { getFeatureConfigRequest } from "device/feature"
-import { generateMcImportContactsButton } from "generic-view/views"
+import { transformGenericComponents } from "./transform-generic-components"
 
 export const getGenericConfig = createAsyncThunk<
   {
@@ -25,8 +25,8 @@ export const getGenericConfig = createAsyncThunk<
     const response = await getFeatureConfigRequest(deviceId, feature)
 
     if (response.ok) {
-      const fixed = generateMcImportContactsButton(response.data)
-      return { deviceId, feature, view: fixed }
+      const fullView = transformGenericComponents(response.data)
+      return { deviceId, feature, view: fullView }
     }
 
     return rejectWithValue(undefined)

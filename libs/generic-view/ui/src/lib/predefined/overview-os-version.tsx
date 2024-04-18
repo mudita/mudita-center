@@ -29,18 +29,18 @@ export const OverviewOsVersion: APIFC<
         <VersionLabel>{config.versionLabel}</VersionLabel>
       )}
       <VersionInfo>
-        {data?.text && <Version>{data.text}</Version>}
-        {data?.update?.available && (
+        {data.text && <Version>{data.text}</Version>}
+        {data.update?.available && (
           <Tag>
             {intl.formatMessage(messages.updateTag, {
               version: data.update.updateText,
             })}
           </Tag>
         )}
-        {config?.showBadge && !data?.update?.available && (
-          <Tag>{data?.badgeText}</Tag>
+        {config?.showBadge && !data.update?.available && (
+          <Tag>{data.badgeText}</Tag>
         )}
-        {data?.update?.available && (
+        {data.update?.available && (
           <ActionLabel>
             {data.update.actionLabel ??
               intl.formatMessage(messages.updateActionLabel)}

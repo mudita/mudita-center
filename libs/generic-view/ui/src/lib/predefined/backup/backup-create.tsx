@@ -43,9 +43,9 @@ enum Step {
 }
 
 const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
-  features = [],
+  features,
   modalKey,
-} = {}) => {
+}) => {
   const dispatch = useDispatch<Dispatch>()
   const { handleSubmit } = useFormContext()
   const backupProcessStatus = useSelector(selectBackupProcessStatus)
@@ -53,7 +53,7 @@ const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
   const [step, setStep] = useState<Step>(Step.Features)
   const [error, setError] = useState<CustomModalError>()
 
-  const featuresKeys = features?.map((item) => item.key) ?? []
+  const featuresKeys = features.map((item) => item.key) ?? []
   const closeButtonVisible = [
     Step.Features,
     Step.Password,
@@ -62,7 +62,7 @@ const BackupCreateForm: FunctionComponent<BackupCreateConfig> = ({
   const abortButtonVisible = step === Step.Progress
 
   const closeModal = () => {
-    dispatch(closeModalAction({ key: modalKey! }))
+    dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanBackupProcess())
   }
 

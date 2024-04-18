@@ -12,8 +12,8 @@ const dataValidator = z.object({
 export type LabeledTextData = z.infer<typeof dataValidator>
 
 const configValidator = z.object({
-  label: z.string(),
-  direction: z.enum(["row", "column"]),
+  label: z.string().optional(),
+  direction: z.enum(["row", "column"]).optional(),
 })
 
 export type LabeledTextConfig = z.infer<typeof configValidator>

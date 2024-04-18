@@ -10,7 +10,7 @@ import Markdown from "react-markdown"
 import { TextFormattedData } from "generic-view/models"
 
 export const TextFormatted: APIFC<TextFormattedData> = ({ data }) => {
-  return <Content>{data?.text}</Content>
+  return <Content>{data.text}</Content>
 }
 
 const Content = styled(Markdown)`

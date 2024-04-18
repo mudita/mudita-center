@@ -41,7 +41,7 @@ export const BackupFeatures: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <Modal.TitleIcon data={{ type: IconType.Backup }} />
+      <Modal.TitleIcon config={{ type: IconType.Backup }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Article>
         <p>{intl.formatMessage(messages.description)}</p>

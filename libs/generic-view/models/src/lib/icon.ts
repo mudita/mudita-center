@@ -6,11 +6,11 @@
 import { z } from "zod"
 import { IconType } from "generic-view/utils"
 
-const dataValidator = z
-  .object({
-    type: z.nativeEnum(IconType),
-  })
-  .optional()
+export const iconTypeValidator = z.object({
+  type: z.nativeEnum(IconType),
+})
+
+const dataValidator = iconTypeValidator.optional()
 
 export type IconData = z.infer<typeof dataValidator>
 

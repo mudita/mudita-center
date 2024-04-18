@@ -5,9 +5,9 @@
 
 import { z } from "zod"
 
-const dataValidator = z.undefined().optional()
+const dataValidator = z.undefined()
 
-const configValidator = z.undefined().optional()
+const configValidator = z.undefined()
 
 export const blockPlain = {
   key: "block-plain",

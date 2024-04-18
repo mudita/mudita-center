@@ -4,16 +4,17 @@
  */
 
 import { z } from "zod"
-import { iconTypeValidator } from "./icon"
 
 const dataValidator = z.undefined()
 
-const configValidator = iconTypeValidator
+const configValidator = z.object({
+  text: z.string(),
+})
 
-export type ModalTitleIconConfig = z.infer<typeof configValidator>
+export type McImportContactsButtonConfig = z.infer<typeof configValidator>
 
-export const modalTitleIcon = {
-  key: "modal.titleIcon",
+export const mcImportContactsButton = {
+  key: "mc-import-contacts-button",
   dataValidator,
   configValidator,
 } as const

@@ -22,22 +22,22 @@ export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
     setValue,
     formState: { errors },
   } = useFormContext()
-  const value = (watch(config!.name) as string) || ""
+  const value = (watch(config.name) as string) || ""
   const [passwordVisible, setPasswordVisible] = useState(false)
 
-  const error = errors[config!.name]
+  const error = errors[config.name]
   const inputType =
-    config?.type === "password" && !passwordVisible ? "password" : "text"
+    config.type === "password" && !passwordVisible ? "password" : "text"
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevState) => !prevState)
   }
 
   useEffect(() => {
-    if (config?.name) {
+    if (config.name) {
       setValue(config.name, data?.value)
     }
-  }, [config?.name, data?.value, setValue])
+  }, [config.name, data?.value, setValue])
 
   return (
     <Wrapper>
@@ -46,16 +46,16 @@ export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
         $inactive={value.length === 0}
         $withError={!!error}
       >
-        {config?.label}
+        {config.label}
       </Label>
       <InputWrapper>
         <Input
           id={"input-" + id}
           type={inputType}
           $withError={!!error}
-          {...register(config!.name, { ...config?.validation })}
+          {...register(config.name, { ...config.validation })}
         />
-        {config?.type === "password" && value.length > 0 && (
+        {config.type === "password" && value.length > 0 && (
           <IconButton type={"button"} onClick={togglePasswordVisibility}>
             <Icon
               data={{

@@ -17,17 +17,17 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
 }) => {
   const id = useId()
   const { register, watch, setValue } = useFormContext()
-  const value = (watch(config!.name) as string) || ""
+  const value = (watch(config.name) as string) || ""
 
   const clear = () => {
-    setValue(config!.name, "")
+    setValue(config.name, "")
   }
 
   useEffect(() => {
-    if (config?.name) {
+    if (config.name) {
       setValue(config.name, data?.value)
     }
-  }, [config?.name, data?.value, setValue])
+  }, [config.name, data?.value, setValue])
 
   return (
     <Wrapper>
@@ -36,8 +36,8 @@ export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
         <Input
           id={"input-" + id}
           type={"search"}
-          placeholder={config!.label}
-          {...register(config!.name)}
+          placeholder={config.label}
+          {...register(config.name)}
         />
         {value.length > 0 && (
           <ClearButton type={"button"} onClick={clear}>
