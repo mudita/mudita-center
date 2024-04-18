@@ -3,13 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect, useState } from "react"
+import React from "react"
 import styled from "styled-components"
 import { IconType } from "generic-view/utils"
 import { ProgressBar } from "../../interactive/progress-bar/progress-bar"
 import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { useSelector } from "react-redux"
+import { dataTransferProgress } from "generic-view/store"
 
 const messages = defineMessages({
   title: {
@@ -23,30 +25,8 @@ const messages = defineMessages({
   },
 })
 
-interface Props {
-  onFinish: VoidFunction
-}
-
-export const ImportContactsProgress: FunctionComponent<Props> = ({
-  onFinish,
-}) => {
-  const [progress, setProgress] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => Math.min(prev + 15, 100))
-    }, 500)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  useEffect(() => {
-    if (progress === 100) {
-      onFinish()
-    }
-  }, [progress, onFinish])
-
-  // TODO: Implement messages coming from device and leave the current one as a default
+export const ImportContactsProgress = () => {
+  const { progress } = useSelector(dataTransferProgress)
   const detailMessage = intl.formatMessage(messages.progressDetails)
 
   return (
