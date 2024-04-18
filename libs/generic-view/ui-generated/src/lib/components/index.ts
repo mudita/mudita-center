@@ -6,8 +6,6 @@
 import { mcImportContactsButton } from "generic-view/models"
 import { generateMcImportContactsButton } from "./mc-import-contacts-button"
 
-export * from "./mc-import-contacts-button"
-
-export const generated = {
+export const components = {
   [mcImportContactsButton.key]: generateMcImportContactsButton,
-}
+} as const
