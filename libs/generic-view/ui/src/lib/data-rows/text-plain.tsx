@@ -9,7 +9,7 @@ import { APIFC } from "generic-view/utils"
 import { TextPlainData } from "generic-view/models"
 
 export const TextPlain: APIFC<TextPlainData> = ({ data }) => {
-  return <Paragraph>{data.text}</Paragraph>
+  return <Paragraph>{data?.text}</Paragraph>
 }
 
 const Paragraph = styled.article`

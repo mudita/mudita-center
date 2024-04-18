@@ -9,8 +9,6 @@ type DefaultProps = Partial<
   Pick<ReactHTMLElement<HTMLElement>["props"], "className" | "style">
 >
 
-type ComponentDataProp<T> = T extends undefined ? { data?: T } : { data: T }
-
 type ComponentConfigProp<T> = T extends undefined
   ? { config?: T }
   : { config: T }
@@ -22,10 +20,7 @@ export type BaseGenericComponent<
 > = FunctionComponent<
   Readonly<
     PropsWithChildren<
-      ComponentDataProp<Data> &
-        ComponentConfigProp<Config> &
-        ExtraProps &
-        DefaultProps
+      { data?: Data } & ComponentConfigProp<Config> & ExtraProps & DefaultProps
     >
   >
 >
