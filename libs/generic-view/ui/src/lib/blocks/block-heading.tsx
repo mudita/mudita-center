@@ -10,13 +10,12 @@ import { BlockHeadingConfig } from "generic-view/models"
 
 export const BlockHeading: APIFC<undefined, BlockHeadingConfig> = ({
   config,
-  data,
   ...props
 }) => {
   return (
     <div {...props}>
-      <Header>{config?.heading}</Header>
-      {config?.subheading && <Subheader>{config?.subheading}</Subheader>}
+      <Header>{config.heading}</Header>
+      {config.subheading && <Subheader>{config.subheading}</Subheader>}
     </div>
   )
 }

@@ -7,9 +7,9 @@ import { z } from "zod"
 import { Layout } from "./layout.types"
 import componentsValidators from "generic-view/models"
 
-type ComponentConfigProp<SomeType> = SomeType extends undefined
-  ? { config?: SomeType }
-  : { config: SomeType }
+type ComponentConfigProp<T> = T extends undefined
+  ? { config?: T }
+  : { config: T }
 
 type ComponentProps<T> = T extends {
   key: string
@@ -22,7 +22,7 @@ type ComponentProps<T> = T extends {
     } & ComponentConfigProp<z.infer<T["configValidator"]>>
   : never
 
-type ComponentPropsByName = {
+export type ComponentPropsByName = {
   [K in keyof typeof componentsValidators]: ComponentProps<
     (typeof componentsValidators)[K]
   >

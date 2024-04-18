@@ -8,7 +8,8 @@ import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import {
   APIFeaturesServiceEvents,
-  FeatureConfigValidator,
+  FeatureConfig,
+  featureConfigValidator,
   GeneralError,
   OverviewConfig,
   OverviewConfigValidator,
@@ -29,7 +30,7 @@ export class APIFeaturesService {
   }: {
     feature: string
     deviceId?: DeviceId
-  }): Promise<ResultObject<unknown>> {
+  }): Promise<ResultObject<FeatureConfig>> {
     const device = deviceId
       ? this.deviceManager.getAPIDeviceById(deviceId)
       : this.deviceManager.apiDevice
@@ -47,7 +48,7 @@ export class APIFeaturesService {
       },
     })
     if (response.ok) {
-      const config = FeatureConfigValidator.safeParse(response.data.body)
+      const config = featureConfigValidator.safeParse(response.data.body)
       if (process.env.NODE_ENV === "development" && !config.success) {
         console.log(JSON.stringify(config, null, 2))
       }

@@ -89,7 +89,7 @@ export const ImportContactsList: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Modal.TitleIcon data={{ type: IconType.ContactsBook }} />
+      <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Form.SearchInput
         config={{

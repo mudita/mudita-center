@@ -10,7 +10,6 @@ import { useFormContext } from "react-hook-form"
 import { FormRadioInputConfig } from "generic-view/models"
 
 export const RadioInput: APIFC<undefined, FormRadioInputConfig> = ({
-  data,
   config,
 }) => {
   const id = useId()
@@ -21,12 +20,12 @@ export const RadioInput: APIFC<undefined, FormRadioInputConfig> = ({
       <Input
         id={"input-" + id}
         type={"radio"}
-        value={config!.value}
-        {...register(config!.name, { ...config?.validation })}
+        value={config.value}
+        {...register(config.name, { ...config.validation })}
       />
       <Label htmlFor={"input-" + id}>
         <InputIndicator />
-        {config?.label}
+        {config.label}
       </Label>
     </Wrapper>
   )

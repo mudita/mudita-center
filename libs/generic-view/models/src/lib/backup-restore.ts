@@ -15,12 +15,10 @@ const restoreFeatureValidator = z.object({
 
 export type RestoreFeature = z.infer<typeof restoreFeatureValidator>
 
-const configValidator = z
-  .object({
-    features: z.array(restoreFeatureValidator).optional(),
-    modalKey: z.string().optional(),
-  })
-  .optional()
+const configValidator = z.object({
+  features: z.array(restoreFeatureValidator),
+  modalKey: z.string(),
+})
 
 export type BackupRestoreConfig = z.infer<typeof configValidator>
 

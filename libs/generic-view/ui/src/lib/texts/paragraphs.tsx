@@ -11,11 +11,10 @@ import { isEmpty } from "lodash"
 
 export const Paragraph1: APIFC<undefined, ParagraphConfig> = ({
   config,
-  data,
   children,
   ...props
 }) => {
-  return <P1 {...props}>{isEmpty(children) ? config?.text : children}</P1>
+  return <P1 {...props}>{isEmpty(children) ? config.text : children}</P1>
 }
 
 export const P1 = styled.p`

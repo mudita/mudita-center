@@ -22,11 +22,9 @@ const StyledIcon = styled.div`
 export const Icon: APIFC<IconData, IconConfig> = ({
   data,
   config,
+  children,
   ...rest
 }) => {
-  if (!data && !config) {
-    return null
-  }
   const iconType = (data?.type || config?.type) as IconType
   const SVGToDisplay = getIcon(iconType)
   return (

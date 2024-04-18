@@ -7,7 +7,7 @@ import { z } from "zod"
 
 const dataValidator = z.object({
   value: z.string(),
-})
+}).optional()
 
 export type FormSearchInputData = z.infer<typeof dataValidator>
 
