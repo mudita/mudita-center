@@ -5,16 +5,14 @@
 
 import { useEffect, useState } from "react"
 import { DiskSpaceCategory } from "Core/files-manager/components/files-manager-core/files-manager.interface"
-import {
-  DiskSpaceCategoryType,
-  filesSummaryElements,
-} from "Core/files-manager/constants"
+import { DiskSpaceCategoryType } from "Core/files-manager/constants"
 import { Spaces } from "Core/files-manager/components/files-manager-core/use-spaces/spaces.interface"
 import { File } from "Core/files-manager/dto"
 
 const useDiskSpaceCategories = (
   files: File[] | null,
-  { freeSpace, musicSpace, otherSpace, reservedSpace }: Spaces
+  { freeSpace, musicSpace, otherSpace, reservedSpace }: Spaces,
+  filesSummaryElements: DiskSpaceCategory[]
 ): DiskSpaceCategory[] | null => {
   const [diskSpaceCategories, setDiskSpaceCategories] = useState<
     DiskSpaceCategory[] | null
@@ -42,8 +40,7 @@ const useDiskSpaceCategories = (
       const spaceCategories = filesSummaryElements.map(getDiskSpaceCategories)
       setDiskSpaceCategories(spaceCategories)
     }
-  }, [files, freeSpace, musicSpace, otherSpace, reservedSpace])
-
+  }, [files, freeSpace, musicSpace, otherSpace, reservedSpace, filesSummaryElements])
 
   return diskSpaceCategories
 }

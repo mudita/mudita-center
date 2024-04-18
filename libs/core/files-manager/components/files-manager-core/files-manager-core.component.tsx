@@ -10,6 +10,7 @@ import { State } from "Core/core/constants"
 import { FilesManagerContainer } from "Core/files-manager/components/files-manager-core/files-manager.styled"
 import FilesSummary from "Core/files-manager/components/files-summary/files-summary.component"
 import {
+  DiskSpaceCategory,
   FileServiceState,
   MemorySpace,
 } from "Core/files-manager/components/files-manager-core/files-manager.interface"
@@ -30,11 +31,14 @@ import { getFiles, resetAllItems } from "Core/files-manager/actions"
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
 import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
 import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
+import { Message } from "Core/__deprecated__/renderer/interfaces/message.interface"
 
 type Props = {
   children: (props: FilesStorageProps) => ReactNode
+  filesSummaryElements: DiskSpaceCategory[]
+  summaryTitleMessage: Message
 };
-const FilesManagerCore: FunctionComponent<Props> = ({ children }) => {
+const FilesManagerCore: FunctionComponent<Props> = ({ children, filesSummaryElements, summaryTitleMessage }) => {
   const dispatch = useDispatch<Dispatch>()
   const {
     memorySpace,
@@ -76,7 +80,7 @@ const FilesManagerCore: FunctionComponent<Props> = ({ children }) => {
   })
   const [toDeleteFileIds, setToDeleteFileIds] = useState<string[]>([])
   const spaces = useSpaces(files, memorySpace as MemorySpace, loading)
-  const diskSpaceCategories = useDiskSpaceCategories(files, spaces)
+  const diskSpaceCategories = useDiskSpaceCategories(files, spaces, filesSummaryElements)
   const { freeSpace, totalMemorySpace, usedMemorySpace } = spaces
 
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
@@ -228,6 +232,7 @@ const FilesManagerCore: FunctionComponent<Props> = ({ children }) => {
       />
       {diskSpaceCategories && (
         <FilesSummary
+          summaryTitleMessage={summaryTitleMessage}
           diskSpaceCategories={diskSpaceCategories}
           totalMemorySpace={totalMemorySpace}
           usedMemory={usedMemorySpace}

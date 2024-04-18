@@ -8,16 +8,7 @@ import { DiskSpaceCategoryType } from "Core/files-manager/constants/files-manage
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
-export const filesSummaryElements: DiskSpaceCategory[] = [
-  {
-    type: DiskSpaceCategoryType.Music,
-    color: "#E3F3FF",
-    icon: IconType.MenuMusic,
-    label: intl.formatMessage({
-      id: "component.filesManagerSummaryMusic",
-    }),
-    size: 0,
-  },
+const baseFilesSummaryElements: DiskSpaceCategory[] = [
   {
     type: DiskSpaceCategoryType.OtherSpace,
     color: "#F8EBD2",
@@ -45,4 +36,30 @@ export const filesSummaryElements: DiskSpaceCategory[] = [
     }),
     size: 0,
   },
+]
+
+export const filesManagerSummaryElements: DiskSpaceCategory[] = [
+  {
+    type: DiskSpaceCategoryType.Music,
+    color: "#E3F3FF",
+    icon: IconType.MenuMusic,
+    label: intl.formatMessage({
+      id: "component.filesManagerSummaryMusic",
+    }),
+    size: 0,
+  },
+  ...baseFilesSummaryElements
+]
+
+export const managerSoundsSummaryElements: DiskSpaceCategory[] = [
+  {
+    type: DiskSpaceCategoryType.Music,
+    color: "#E3F3FF",
+    icon: IconType.MenuMusic,
+    label: intl.formatMessage({
+      id: "component.manageSoundsSummaryMusic",
+    }),
+    size: 0,
+  },
+  ...baseFilesSummaryElements
 ]

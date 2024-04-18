@@ -9,6 +9,12 @@ import FilesManagerCore from "Core/files-manager/components/files-manager-core/f
 import { setActiveSoundApp } from "Core/files-manager/actions"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import FilesStorage from "Core/files-manager/components/files-storage/files-storage.component"
+import { filesManagerSummaryElements } from "Core/files-manager/constants"
+import { defineMessages } from "react-intl"
+
+export const messages = defineMessages({
+  summaryTitle: { id: "component.filesManagerSummaryTitle" },
+})
 
 const FilesManager = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -18,7 +24,10 @@ const FilesManager = () => {
   }, [dispatch])
 
   return (
-    <FilesManagerCore>
+    <FilesManagerCore
+      filesSummaryElements={filesManagerSummaryElements}
+      summaryTitleMessage={messages.summaryTitle}
+    >
       {(props) => <FilesStorage {...props} />}
     </FilesManagerCore>
   )
