@@ -43,7 +43,7 @@ enum Step {
   Error,
 }
 
-const ImportContactsForm: FunctionComponent<Partial<ImportContactsConfig>> = ({
+const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   modalKey,
 }) => {
   const dispatch = useDispatch<Dispatch>()
@@ -56,7 +56,7 @@ const ImportContactsForm: FunctionComponent<Partial<ImportContactsConfig>> = ({
     importStatus !== "PENDING-AUTH" && !abortButtonVisible
 
   const closeModal = () => {
-    dispatch(closeModalAction({ key: modalKey! }))
+    dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanImportProcess())
   }
 
@@ -141,10 +141,12 @@ const ImportContactsForm: FunctionComponent<Partial<ImportContactsConfig>> = ({
   )
 }
 
-export const ImportContacts: APIFC<
-  undefined,
-  Partial<ImportContactsConfig>
-> = ({ data, config, children, ...props }) => {
+export const ImportContacts: APIFC<undefined, ImportContactsConfig> = ({
+  data,
+  config,
+  children,
+  ...props
+}) => {
   return (
     <Form {...props}>
       <ImportContactsForm {...config} />

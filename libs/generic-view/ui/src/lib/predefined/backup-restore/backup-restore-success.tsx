@@ -35,7 +35,7 @@ export const BackupRestoreSuccess: FunctionComponent<Props> = ({ onClose }) => {
   return (
     <>
       <Modal.TitleIcon
-        data={{
+        config={{
           type: IconType.Success,
         }}
       />

@@ -3,11 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { icon } from "./icon"
+import { z } from "zod"
+import { iconTypeValidator } from "./icon"
 
-const dataValidator = icon.dataValidator
+const dataValidator = z.undefined()
 
-const configValidator = icon.configValidator
+const configValidator = iconTypeValidator
+
+export type ModalTitleIconConfig = z.infer<typeof configValidator>
 
 export const modalTitleIcon = {
   key: "modal.titleIcon",

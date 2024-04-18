@@ -22,8 +22,8 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
 }) => {
   const id = useId()
   const { register } = useFormContext()
-  const { onChange, ...rest } = register(config!.name, {
-    ...config?.validation,
+  const { onChange, ...rest } = register(config.name, {
+    ...config.validation,
   })
 
   return (
@@ -31,10 +31,10 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
       <Input
         id={"checkbox-" + id}
         type={"checkbox"}
-        value={config?.value}
-        checked={config?.checked}
+        value={config.value}
+        checked={config.checked}
         onChange={(e) => {
-          config?.onToggle?.(e.target.checked)
+          config.onToggle?.(e.target.checked)
           void onChange(e)
         }}
         {...rest}
@@ -43,7 +43,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         <InputBox>
           <CheckIcon />
         </InputBox>
-        {children || config?.label}
+        {children || config.label}
       </Label>
     </Wrapper>
   )

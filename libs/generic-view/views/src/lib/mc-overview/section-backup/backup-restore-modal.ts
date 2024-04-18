@@ -13,7 +13,7 @@ export enum BackupRestoreModalsKeys {
 }
 
 export const generateBackupRestoreModalLayout: ViewGenerator<
-  BackupTileConfig,
+  Required<Pick<BackupTileConfig, "dataKey" | "restoreFeatures">>,
   Subview
 > = (config) => {
   return {

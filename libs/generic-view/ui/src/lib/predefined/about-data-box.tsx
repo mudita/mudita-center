@@ -16,7 +16,7 @@ export const AboutDataBox: APIFC<AboutDataBoxData, AboutDataBoxConfig> = ({
 }) => {
   return (
     <Wrapper {...props}>
-      <Title>{config?.title}</Title>
+      <Title>{config.title}</Title>
       {children || (data?.text && <Value>{data?.text}</Value>)}
     </Wrapper>
   )

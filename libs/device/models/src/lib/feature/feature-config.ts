@@ -5,6 +5,7 @@
 
 import { z } from "zod"
 import componentValidators from "generic-view/models"
+import { ComponentPropsByName } from "generic-view/utils"
 
 const validators = Object.values(componentValidators).map(
   ({ key, configValidator }) => {
@@ -17,9 +18,9 @@ const validators = Object.values(componentValidators).map(
   }
 ) as unknown as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]]
 
-export const FeatureConfigValidator = z.record(
+export const featureConfigValidator = z.record(
   z.string().min(1),
   z.union(validators)
 )
 
-export type FeatureConfig = z.infer<typeof FeatureConfigValidator>
+export type FeatureConfig = Record<string, ComponentPropsByName>

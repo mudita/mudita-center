@@ -32,17 +32,17 @@ export const Modal: BaseGenericComponent<
 
   return (
     <ModalBase
-      overlayHidden={config?.overlayHidden}
-      opened={Boolean(opened || config?.defaultOpened)}
-      size={config?.size}
+      overlayHidden={config.overlayHidden}
+      opened={Boolean(opened || config.defaultOpened)}
+      size={config.size}
       config={{
-        width: config?.width,
-        maxHeight: config?.maxHeight,
-        padding: config?.padding,
-        gap: config?.gap,
+        width: config.width,
+        maxHeight: config.maxHeight,
+        padding: config.padding,
+        gap: config.gap,
       }}
     >
-      {config?.closeButtonAction && (
+      {config.closeButtonAction && (
         <ModalCloseButton config={{ action: config.closeButtonAction }} />
       )}
       <ModalContent>{children}</ModalContent>
