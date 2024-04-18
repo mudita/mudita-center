@@ -47,7 +47,6 @@ const LeftContainer = styled.div`
 
 const RightContainer = styled.div`
   display: flex;
-  //width: 46rem;
 `
 
 const messages = defineMessages({
