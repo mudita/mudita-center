@@ -157,7 +157,6 @@ const mapStateToProps = (state: ReduxRootState) => ({
     state.crashDump.downloadingState === State.Loaded &&
     state.crashDump.sendingState === State.Loaded,
   failed:
-    state.crashDump.loadingState === State.Failed ||
     state.crashDump.downloadingState === State.Failed ||
     state.crashDump.sendingState === State.Failed,
   deviceType: state.device.deviceType,
