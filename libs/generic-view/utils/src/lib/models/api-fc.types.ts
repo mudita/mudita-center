@@ -9,31 +9,36 @@ type DefaultProps = Partial<
   Pick<ReactHTMLElement<HTMLElement>["props"], "className" | "style">
 >
 
+type ComponentDataProp<T> = T extends undefined ? { data?: T } : { data: T }
+
+type ComponentConfigProp<T> = T extends undefined
+  ? { config?: T }
+  : { config: T }
+
 export type BaseGenericComponent<
-  Data = unknown,
-  Config = unknown,
-  ExtraProps = unknown
+  Data = undefined,
+  Config = undefined,
+  ExtraProps = undefined
 > = FunctionComponent<
   Readonly<
     PropsWithChildren<
-      {
-        config?: Config
-        data?: Data
-      } & ExtraProps &
+      ComponentDataProp<Data> &
+        ComponentConfigProp<Config> &
+        ExtraProps &
         DefaultProps
     >
   >
 >
 
-export type APIFC<Data = unknown, Config = unknown> = BaseGenericComponent<
+export type APIFC<Data = undefined, Config = undefined> = BaseGenericComponent<
   Data,
   Config,
   { viewKey?: string }
 >
 
 export type RecursiveComponent = BaseGenericComponent<
-  unknown,
-  unknown,
+  undefined,
+  undefined,
   {
     viewKey: string
     componentKey: string

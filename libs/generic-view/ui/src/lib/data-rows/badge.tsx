@@ -12,7 +12,7 @@ import { BadgeData } from "generic-view/models"
 export const Badge: APIFC<BadgeData> = ({ data, config, ...props }) => {
   if (!data) return null
   return (
-    <BadgeWrapper {...props} variant={data?.variant || "light"}>
+    <BadgeWrapper {...props} variant={data.variant || "light"}>
       {data.text}
     </BadgeWrapper>
   )

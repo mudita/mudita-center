@@ -46,7 +46,7 @@ enum Step {
 export const BackupRestoreForm: FunctionComponent<BackupRestoreConfig> = ({
   features,
   modalKey,
-} = {}) => {
+}) => {
   const dispatch = useDispatch<Dispatch>()
   const { handleSubmit, getValues } = useFormContext()
   const restoreAbortReference = useRef<VoidFunction>()
@@ -62,12 +62,11 @@ export const BackupRestoreForm: FunctionComponent<BackupRestoreConfig> = ({
   const abortButtonVisible = step === Step.Progress
 
   const closeModal = () => {
-    dispatch(closeModalAction({ key: modalKey! }))
+    dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanRestoreProcess())
   }
 
   const startRestore = (password?: string) => {
-    if (!features) return
     const promise = dispatch(restoreBackup({ features, password }))
     restoreAbortReference.current = (
       promise as unknown as {

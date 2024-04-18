@@ -11,11 +11,10 @@ import { isEmpty } from "lodash"
 
 export const Header3: APIFC<undefined, HeaderConfig> = ({
   config,
-  data,
   children,
   ...props
 }) => {
-  return <H3 {...props}>{isEmpty(children) ? config?.text : children}</H3>
+  return <H3 {...props}>{isEmpty(children) ? config.text : children}</H3>
 }
 
 const H3 = styled.h3`
