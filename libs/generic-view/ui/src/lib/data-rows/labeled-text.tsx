@@ -16,7 +16,7 @@ export const LabeledText: APIFC<LabeledTextData, LabeledTextConfig> = ({
   return (
     <div {...props}>
       <Label>{config.label}</Label>
-      <Text>{data.text}</Text>
+      <Text>{data?.text}</Text>
     </div>
   )
 }

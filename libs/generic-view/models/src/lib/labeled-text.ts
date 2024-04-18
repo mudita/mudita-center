@@ -6,7 +6,7 @@
 import { z } from "zod"
 
 const dataValidator = z.object({
-  text: z.string(),
+  text: z.string().optional(),
 })
 
 export type LabeledTextData = z.infer<typeof dataValidator>
