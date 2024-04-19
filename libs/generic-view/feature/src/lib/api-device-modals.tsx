@@ -7,12 +7,14 @@ import React, { FunctionComponent } from "react"
 import { GenericThemeProvider } from "generic-view/theme"
 import BackupErrorModal from "./modals/backup-error-modal"
 import RestoreErrorModal from "./modals/restore-error-modal"
+import ImportContactsErrorModal from "./modals/import-contacts-error-modal"
 
 export const ApiDeviceModals: FunctionComponent = () => {
   return (
     <GenericThemeProvider>
       <BackupErrorModal />
       <RestoreErrorModal />
+      <ImportContactsErrorModal />
     </GenericThemeProvider>
   )
 }
