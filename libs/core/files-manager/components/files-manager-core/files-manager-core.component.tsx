@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ReactNode, useEffect, useRef, useState, FunctionComponent } from "react"
+import React, {
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  FunctionComponent,
+} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { State } from "Core/core/constants"
@@ -29,7 +35,7 @@ import {
 import useDiskSpaceCategories from "Core/files-manager/components/files-manager-core/use-disk-space-categories.hook"
 import { getFiles, resetAllItems } from "Core/files-manager/actions"
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
-import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
+import getAllFilesSelector from "Core/files-manager/selectors/get-all-files.selector"
 import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
 import { Message } from "Core/__deprecated__/renderer/interfaces/message.interface"
 
@@ -37,8 +43,13 @@ type Props = {
   children: (props: FilesStorageProps) => ReactNode
   filesSummaryElements: DiskSpaceCategory[]
   summaryTitleMessage: Message
-};
-const FilesManagerCore: FunctionComponent<Props> = ({ children, filesSummaryElements, summaryTitleMessage }) => {
+}
+
+const FilesManagerCore: FunctionComponent<Props> = ({
+  children,
+  filesSummaryElements,
+  summaryTitleMessage,
+}) => {
   const dispatch = useDispatch<Dispatch>()
   const {
     memorySpace,
@@ -57,7 +68,7 @@ const FilesManagerCore: FunctionComponent<Props> = ({ children, filesSummaryElem
       usedUserSpace: 0,
       total: 0,
     },
-    files: getFilesByActiveSoundAppSelector(state),
+    files: getAllFilesSelector(state),
     loading: state.filesManager.loading,
     deleting: state.filesManager.deleting,
     uploading: state.filesManager.uploading,
@@ -80,7 +91,11 @@ const FilesManagerCore: FunctionComponent<Props> = ({ children, filesSummaryElem
   })
   const [toDeleteFileIds, setToDeleteFileIds] = useState<string[]>([])
   const spaces = useSpaces(files, memorySpace as MemorySpace, loading)
-  const diskSpaceCategories = useDiskSpaceCategories(files, spaces, filesSummaryElements)
+  const diskSpaceCategories = useDiskSpaceCategories(
+    files,
+    spaces,
+    filesSummaryElements
+  )
   const { freeSpace, totalMemorySpace, usedMemorySpace } = spaces
 
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0

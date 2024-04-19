@@ -13,6 +13,9 @@ import { FilesManagerPanelTestIds } from "Core/files-manager/components/files-ma
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { defineMessages } from "react-intl"
+import { useSelector } from "react-redux"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import useCancelableFileUpload from "Core/files-manager/components/files-manager-core/use-cancelable-file-upload"
 
 const messages = defineMessages({
   title: {
@@ -44,7 +47,13 @@ const Description = styled(Text)`
   margin-bottom: 2.4rem;
 `
 
-const ManageSoundsNoFiles: FunctionComponent = () => {
+interface Props {
+  disableUpload: boolean
+}
+
+const ManageSoundsNoFiles: FunctionComponent<Props> = ({disableUpload}) => {
+  const activeSoundApp = useSelector((state: ReduxRootState) => state.filesManager.activeSoundApp)
+  const { handleUploadFiles } = useCancelableFileUpload()
   return (
     <Container>
       <Title
@@ -60,7 +69,8 @@ const ManageSoundsNoFiles: FunctionComponent = () => {
         data-testid={FilesManagerPanelTestIds.Button}
         displayStyle={DisplayStyle.Primary}
         labelMessage={messages.uploadButton}
-        disabled={true}
+        disabled={disableUpload || activeSoundApp === "HARMONY_ALARMS"}
+        onClick={handleUploadFiles}
       />
     </Container>
   )

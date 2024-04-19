@@ -63,6 +63,7 @@ const ManageSoundsStorage: FunctionComponent<FilesStorageProps> = ({
         onSearchValueChange={handleSearchValueChange}
       />
       <ManageSoundsStorageList
+        disableUpload={disableUpload}
         data-testid={FilesStorageTestIds.List}
         files={filteredFiles}
         onDelete={onDeleteClick}

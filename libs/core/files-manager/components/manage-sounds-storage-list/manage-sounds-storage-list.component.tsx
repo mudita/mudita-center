@@ -38,6 +38,7 @@ interface Props {
   noFoundFiles: boolean
   onDelete: (ids: string[]) => void
   hideCheckbox: boolean
+  disableUpload: boolean
 }
 
 const ManageSoundsStorageList: FunctionComponent<Props> = ({
@@ -46,6 +47,7 @@ const ManageSoundsStorageList: FunctionComponent<Props> = ({
   onDelete,
   noFoundFiles,
   hideCheckbox,
+  disableUpload,
   ...rest
 }) => {
   const loadedOrInitialState = state === State.Initial || state === State.Loaded
@@ -73,7 +75,10 @@ const ManageSoundsStorageList: FunctionComponent<Props> = ({
         />
       )}
       {noFilesState && (
-        <ManageSoundsNoFiles data-testid={FilesStorageListTestIds.Empty} />
+        <ManageSoundsNoFiles
+          data-testid={FilesStorageListTestIds.Empty}
+          disableUpload={disableUpload}
+        />
       )}
       {noFoundFilesState && (
         <EmptyState
