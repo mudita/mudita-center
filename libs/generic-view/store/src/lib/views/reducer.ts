@@ -14,8 +14,7 @@ import {
   setViewData,
   setViewLayout,
 } from "./actions"
-import { getOverviewData } from "../features"
-import { getOverviewConfig } from "../features/get-overview-config.actions"
+// import { getOverviewData } from "../features"
 import { getAPIAny } from "../get-api-any"
 import { ApiConfig, ApiError, MenuConfig, OverviewData } from "device/models"
 import { getMenuConfig } from "../get-menu-config"
@@ -112,59 +111,59 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(getAPIAny.fulfilled, (state, action) => {
     state.lastResponse = action.payload
   })
-  builder.addCase(getOverviewData.fulfilled, (state, action) => {
-    state.lastResponse = action.payload
-    const deviceId = action.payload.deviceId
-    if (deviceId) {
-      state.devicesConfiguration[deviceId].features = {
-        ...state.devicesConfiguration[deviceId].features,
-        "mc-overview": {
-          config:
-            state.devicesConfiguration[deviceId].features?.["mc-overview"]
-              ?.config,
-          data: action.payload.overviewData,
-        },
-        ...(action.payload.aboutData
-          ? {
-              "mc-about": {
-                config:
-                  state.devicesConfiguration[deviceId].features?.["mc-about"]
-                    ?.config,
-                data: action.payload.aboutData,
-              },
-            }
-          : {}),
-      }
-    }
-  })
-  builder.addCase(getOverviewConfig.fulfilled, (state, action) => {
-    state.lastResponse = action.payload
-    const deviceId = action.payload.deviceId
-    if (deviceId) {
-      state.devicesConfiguration[deviceId].features = {
-        ...state.devicesConfiguration[deviceId].features,
-        "mc-overview": {
-          config: action.payload.overviewConfig,
-          data: state.devicesConfiguration[deviceId].features?.["mc-overview"]
-            ?.data,
-        },
-        ...(action.payload.aboutConfig
-          ? {
-              "mc-about": {
-                config: action.payload.aboutConfig,
-                data: state.devicesConfiguration[deviceId].features?.[
-                  "mc-about"
-                ]?.data,
-              },
-            }
-          : {}),
-      } as Features
-    }
-    if (state.activeDevice === undefined && state.pendingDevice === deviceId) {
-      state.activeDevice = deviceId
-      state.pendingDevice = undefined
-    }
-  })
+  // builder.addCase(getOverviewData.fulfilled, (state, action) => {
+  //   state.lastResponse = action.payload
+  //   const deviceId = action.payload.deviceId
+  //   if (deviceId) {
+  //     state.devicesConfiguration[deviceId].features = {
+  //       ...state.devicesConfiguration[deviceId].features,
+  //       "mc-overview": {
+  //         config:
+  //           state.devicesConfiguration[deviceId].features?.["mc-overview"]
+  //             ?.config,
+  //         data: action.payload.overviewData,
+  //       },
+  //       ...(action.payload.aboutData
+  //         ? {
+  //             "mc-about": {
+  //               config:
+  //                 state.devicesConfiguration[deviceId].features?.["mc-about"]
+  //                   ?.config,
+  //               data: action.payload.aboutData,
+  //             },
+  //           }
+  //         : {}),
+  //     }
+  //   }
+  // })
+  // builder.addCase(getOverviewConfig.fulfilled, (state, action) => {
+  //   state.lastResponse = action.payload
+  //   const deviceId = action.payload.deviceId
+  //   if (deviceId) {
+  //     state.devicesConfiguration[deviceId].features = {
+  //       ...state.devicesConfiguration[deviceId].features,
+  //       "mc-overview": {
+  //         config: action.payload.overviewConfig,
+  //         data: state.devicesConfiguration[deviceId].features?.["mc-overview"]
+  //           ?.data,
+  //       },
+  //       ...(action.payload.aboutConfig
+  //         ? {
+  //             "mc-about": {
+  //               config: action.payload.aboutConfig,
+  //               data: state.devicesConfiguration[deviceId].features?.[
+  //                 "mc-about"
+  //               ]?.data,
+  //             },
+  //           }
+  //         : {}),
+  //     } as Features
+  //   }
+  //   if (state.activeDevice === undefined && state.pendingDevice === deviceId) {
+  //     state.activeDevice = deviceId
+  //     state.pendingDevice = undefined
+  //   }
+  // })
   builder.addCase(activateDevice, (state, action) => {
     const { deviceId } = action.payload
     state.activeDevice = state.devicesConfiguration?.[deviceId]?.apiConfig
@@ -203,6 +202,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(getGenericConfig.fulfilled, (state, action) => {
     const { deviceId, feature, view } = action.payload
     if (deviceId) {
+      console.log("getGenericConfig.fulfilled", feature)
       state.devicesConfiguration[deviceId].features = {
         ...state.devicesConfiguration[deviceId].features,
         [feature]: {

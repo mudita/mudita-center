@@ -4,4 +4,3 @@
  */
 
 export * from "./get-overview-data.actions"
-export * from "./get-overview-config.actions"

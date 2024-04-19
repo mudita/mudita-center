@@ -11,14 +11,13 @@ import {
   FeatureConfig,
   featureConfigValidator,
   GeneralError,
-  OverviewConfig,
-  OverviewConfigValidator,
   OverviewData,
   OverviewDataValidator,
 } from "device/models"
 import { AppError } from "Core/core/errors"
 import { DeviceId } from "Core/device/constants/device-id"
 import { View } from "generic-view/utils"
+import { mcOverview } from "generic-view/models"
 
 export class APIFeaturesService {
   constructor(private deviceManager: DeviceManager) {}
@@ -43,50 +42,44 @@ export class APIFeaturesService {
       endpoint: "FEATURE_CONFIGURATION",
       method: "GET",
       body: {
-        feature,
+        feature: ["overview", "about"].includes(feature)
+          ? "mc-overview"
+          : feature,
         lang: "en-US",
       },
     })
     if (response.ok) {
-      const config = featureConfigValidator.safeParse(response.data.body)
+      console.log(feature, response.data)
+      let data = {}
+
+      switch (feature) {
+        case "overview":
+          data = {
+            main: {
+              component: mcOverview.key,
+              config: response.data.body,
+            },
+          }
+          break
+        case "about":
+          data = {
+            main: {
+              component: mcOverview.key,
+              config: response.data.body,
+            },
+          }
+          break
+        default:
+          data = response.data.body as Record<string, unknown>
+      }
+
+      const config = featureConfigValidator.safeParse(data)
       if (process.env.NODE_ENV === "development" && !config.success) {
         console.log(JSON.stringify(config, null, 2))
       }
       return config.success
         ? Result.success(config.data)
         : Result.failed(new AppError(GeneralError.IncorrectResponse))
-    }
-
-    return Result.failed(response.error)
-  }
-
-  @IpcEvent(APIFeaturesServiceEvents.GetOverviewConfiguration)
-  public async getOverviewFeatureConfiguration(
-    deviceId?: DeviceId
-  ): Promise<ResultObject<OverviewConfig>> {
-    const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
-
-    if (!device) {
-      return Result.failed(new AppError(GeneralError.NoDevice, ""))
-    }
-
-    const response = await device.request({
-      endpoint: "FEATURE_CONFIGURATION",
-      method: "GET",
-      body: {
-        feature: "mc-overview",
-        lang: "en-US",
-      },
-    })
-
-    if (response.ok) {
-      const config = OverviewConfigValidator.safeParse(response.data.body)
-
-      return config.success
-        ? Result.success(config.data)
-        : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     }
 
     return Result.failed(response.error)
@@ -103,7 +96,10 @@ export class APIFeaturesService {
       endpoint: "FEATURE_DATA",
       method: "GET",
       body: {
-        feature,
+        // TODO: Remove and replace with proper implementation on Kompakt side
+        feature: ["overview", "about"].includes(feature)
+          ? "mc-overview"
+          : feature,
         lang: "en-US",
       },
     })

@@ -37,11 +37,29 @@ export class APIMenuService {
         lang: "en-US",
       },
     })
+
+    console.log("menu", JSON.stringify(response, null, 2))
     if (response.ok) {
       const menuConfig = MenuConfigValidator.safeParse(response.data.body)
 
+      // TODO: Remove and replace with proper implementation on Kompakt side
+      const fakedData: MenuConfig | undefined = menuConfig.success
+        ? {
+            ...menuConfig.data,
+            menuItems: menuConfig.data.menuItems.map((item) => {
+              if (item.feature === "mc-overview") {
+                return {
+                  ...item,
+                  feature: "overview",
+                }
+              }
+              return item
+            }),
+          }
+        : undefined
+
       return menuConfig.success
-        ? Result.success(menuConfig.data)
+        ? Result.success(fakedData!)
         : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))
     }
 

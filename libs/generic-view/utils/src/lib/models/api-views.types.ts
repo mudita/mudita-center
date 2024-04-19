@@ -43,11 +43,25 @@ export type Subview =
 export type View = MainView & Subview
 
 export type ViewGenerator<Config, ReturnType = View> = (
-  config: Config
+  config: Config,
+  key?: string
+) => ReturnType
+
+export type ViewGenerator2<Config, ReturnType = View> = (
+  props: ComponentConfigProp<Config> & {
+    key: "main"
+  }
+) => ReturnType
+
+export type SubViewGenerator<Config, ReturnType = Subview> = (
+  props: ComponentConfigProp<Config> & {
+    key?: string
+  }
 ) => ReturnType
 
 export type ComponentGenerator<Config, ReturnType = Subview> = (
-  key: string,
-  config: Config,
-  layout?: Layout
+  props: ComponentConfigProp<Config> & {
+    key: string
+    layout?: Layout
+  }
 ) => ReturnType

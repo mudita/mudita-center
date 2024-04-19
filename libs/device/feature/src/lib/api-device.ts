@@ -28,9 +28,7 @@ export class APIDevice extends BaseDevice {
     return this.adapter.connect()
   }
 
-  public request<R, T extends APIEndpointType>(
-    config: APIRequestWithPayload<T>
-  ) {
+  public request<T extends APIEndpointType>(config: APIRequestWithPayload<T>) {
     return this.adapter.request(config as APIRequestData)
   }
 

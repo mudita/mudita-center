@@ -45,6 +45,7 @@ import { backupRestore } from "./lib/backup-restore"
 import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
 import { mcOverview } from "./lib/mc-overview"
+import { mcDeviceSummary } from "./lib/mc-device-summary"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -88,6 +89,7 @@ export * from "./lib/backup-restore"
 export * from "./lib/import-contacts"
 export * from "./lib/mc-import-contacts-button"
 export * from "./lib/mc-overview"
+export * from "./lib/mc-device-summary"
 
 export default {
   [blockBox.key]: blockBox,
@@ -132,4 +134,5 @@ export default {
   [importContacts.key]: importContacts,
   [mcImportContactsButton.key]: mcImportContactsButton,
   [mcOverview.key]: mcOverview,
+  [mcDeviceSummary.key]: mcDeviceSummary,
 } as const

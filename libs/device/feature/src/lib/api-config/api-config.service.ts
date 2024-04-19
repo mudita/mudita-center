@@ -40,8 +40,23 @@ export class APIConfigService {
     if (response.ok) {
       const apiConfig = ApiConfigValidator.safeParse(response.data.body)
 
+      // TODO: Remove and replace with proper implementation on Kompakt side
+      const fakedData: ApiConfig | undefined = apiConfig.success
+        ? {
+            ...apiConfig.data,
+            features: apiConfig.data.features.flatMap((feature) => {
+              if (feature === "mc-overview") {
+                return ["overview", "about"]
+              }
+              return [feature]
+            }),
+          }
+        : undefined
+
+      console.log("API CONFIG service", fakedData)
+
       return apiConfig.success
-        ? Result.success(apiConfig.data)
+        ? Result.success(fakedData!)
         : Result.failed(new AppError(APIConfigError.IncorrectResponse, ""))
     }
 

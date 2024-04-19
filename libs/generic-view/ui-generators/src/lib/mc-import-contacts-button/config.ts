@@ -6,9 +6,9 @@
 import { ComponentGenerator } from "generic-view/utils"
 import { McImportContactsButtonConfig } from "generic-view/models"
 
-export const generateMcImportContactsButton: ComponentGenerator<
+export const generateMcImportContactsButtonConfig: ComponentGenerator<
   McImportContactsButtonConfig
-> = (key, config, layout) => {
+> = ({ key, config, layout }) => {
   return {
     [key]: {
       component: "button-primary",

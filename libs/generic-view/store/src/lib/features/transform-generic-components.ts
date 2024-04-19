@@ -4,20 +4,22 @@
  */
 
 import { View } from "generic-view/utils"
-import { components } from "generic-view/ui-generated"
+import { uiGenerators } from "generic-view/ui-generators"
 
 export const transformGenericComponents = (view: View): View => {
   const fullView = { ...view }
   for (const [key, { component, config, layout }] of Object.entries(fullView)) {
-    const transformComponent = components[component as keyof typeof components]
+    const transformComponent =
+      uiGenerators[component as keyof typeof uiGenerators].config
     if (transformComponent) {
       Object.assign(
         fullView,
-        transformComponent(
+        transformComponent({
           key,
-          config as Parameters<typeof transformComponent>[1],
-          layout
-        )
+          config,
+          layout,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any)
       )
     }
   }

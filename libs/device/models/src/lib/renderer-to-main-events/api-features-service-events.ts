@@ -6,6 +6,5 @@
 export enum APIFeaturesServiceEvents {
   FeatureConfiguration = "apiservice_feature-configuration",
   FeatureData = "apiservice_feature-data",
-  GetOverviewConfiguration = "apiservice_feature-get-overview-configuration",
   GetOverviewData = "apiservice_feature-get-overview-data",
 }

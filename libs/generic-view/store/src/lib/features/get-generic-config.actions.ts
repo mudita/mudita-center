@@ -25,6 +25,7 @@ export const getGenericConfig = createAsyncThunk<
     const response = await getFeatureConfigRequest(deviceId, feature)
 
     if (response.ok) {
+      console.log("getGenericConfig", JSON.stringify(response.data, null, 2))
       const fullView = transformGenericComponents(response.data)
       return { deviceId, feature, view: fullView }
     }
