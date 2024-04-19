@@ -30,7 +30,9 @@ import { FilesManagerState } from "Core/files-manager/reducers/files-manager.int
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
 
 export const initialState: FilesManagerState = {
-  filesMap: {},
+  filesMap: {
+    HARMONY_SOUNDS: [],
+  },
   activeSoundApp: "UNKNOWN",
   loading: State.Initial,
   uploading: State.Initial,

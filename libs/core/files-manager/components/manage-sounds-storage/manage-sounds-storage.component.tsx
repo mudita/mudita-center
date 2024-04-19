@@ -12,13 +12,13 @@ import { FilesStorageTestIds } from "Core/files-manager/components/files-storage
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import FilesStorageList from "Core/files-manager/components/files-storage-list/files-storage-list.component"
 import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { useFilesFilter } from "Core/files-manager/helpers/use-files-filter.hook"
 import useCancelableFileUpload from "Core/files-manager/components/files-manager-core/use-cancelable-file-upload"
 import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
 import { ManageSoundsPanel } from "Core/files-manager/components/manage-sounds-panel/manage-sounds-panel.component"
+import ManageSoundsStorageList from "Core/files-manager/components/manage-sounds-storage-list/manage-sounds-storage-list.component"
 
 const TitleWrapper = styled.div`
   padding: 1.6rem 3.2rem 1rem;
@@ -62,7 +62,7 @@ const ManageSoundsStorage: FunctionComponent<FilesStorageProps> = ({
         searchValue={searchValue}
         onSearchValueChange={handleSearchValueChange}
       />
-      <FilesStorageList
+      <ManageSoundsStorageList
         data-testid={FilesStorageTestIds.List}
         files={filteredFiles}
         onDelete={onDeleteClick}
