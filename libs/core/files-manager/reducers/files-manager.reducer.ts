@@ -31,7 +31,7 @@ import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
 
 export const initialState: FilesManagerState = {
   filesMap: {
-    HARMONY_SOUNDS: [],
+    HARMONY_ALARMS: [],
   },
   activeSoundApp: "UNKNOWN",
   loading: State.Initial,

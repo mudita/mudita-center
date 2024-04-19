@@ -20,7 +20,7 @@ const ManageSounds = () => {
   const dispatch = useDispatch<Dispatch>()
 
   useEffect(() => {
-    dispatch(setActiveSoundApp("HARMONY_SOUNDS"))
+    dispatch(setActiveSoundApp("HARMONY_ALARMS"))
   }, [dispatch])
 
   return (

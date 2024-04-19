@@ -10,7 +10,7 @@ import { File } from "Core/files-manager/dto"
 export type SoundApp =
   | "PURE_MUSIC"
   | "HARMONY_RELAXATION"
-  | "HARMONY_SOUNDS"
+  | "HARMONY_ALARMS"
   | "UNKNOWN"
 
 export interface FilesManagerState {
