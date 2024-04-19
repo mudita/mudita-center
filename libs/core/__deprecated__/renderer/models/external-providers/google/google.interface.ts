@@ -42,6 +42,9 @@ export interface GoogleContactResourceItem {
     displayName?: string
     familyName?: string
     givenName?: string
+    middleName?: string
+    honorificPrefix?: string
+    honorificSuffix?: string
   }[]
   addresses?: {
     metadata: GoogleContactMetadata
@@ -49,10 +52,16 @@ export interface GoogleContactResourceItem {
     streetAddress: string
     postalCode: string
     city: string
+    type?: string
+    poBox?: string
+    country?: string
+    countryCode?: string
+    region?: string
   }[]
   emailAddresses?: {
     metadata: GoogleContactMetadata
     value: string
+    type?: string
   }[]
   phoneNumbers?: {
     metadata: GoogleContactMetadata
@@ -63,6 +72,21 @@ export interface GoogleContactResourceItem {
     metadata: GoogleContactMetadata
     value: string
     contentType: string
+  }[]
+  urls?: {
+    metadata: GoogleContactMetadata
+    value: string
+    type?: string
+  }[]
+  organizations?: {
+    metadata: GoogleContactMetadata
+    name?: string
+    department?: string
+    title?: string
+  }[]
+  nicknames?: {
+    metadata: GoogleContactMetadata
+    value: string
   }[]
 }
 
