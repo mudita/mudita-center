@@ -18,6 +18,22 @@ class NewsPage extends Page {
   public get newsCardElement() {
     return $('[data-testid="news-card"]')
   }
+
+  public get newsCardImage() {
+    return $('[data-testid="image-link"]')
+  }
+
+  public get sidebarMenuActiveItem() {
+    return $("[aria-current=page]")
+  }
+
+  public get sidebarMenuActiveItemText() {
+    return $("[aria-current=page] p")
+  }
+
+  public get newsCardList() {
+    return $$('[data-testid="news-card"]')
+  }
 }
 
 export default new NewsPage()
