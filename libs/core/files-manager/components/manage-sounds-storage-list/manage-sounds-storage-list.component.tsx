@@ -4,25 +4,20 @@
  */
 
 import React from "react"
+import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { FilesStorageListTestIds } from "Core/files-manager/components/files-storage-list/files-storage-list-test-ids.enum"
 import {
   EmptyState,
   LoadingState,
 } from "Core/__deprecated__/renderer/components/core/table/table.component"
-import { defineMessages } from "react-intl"
 import { State } from "Core/core/constants"
 import { File } from "Core/files-manager/dto"
 import { FilesStorageContainer } from "Core/files-manager/components/files-storage-list/files-storage-list.styled"
 import FilesStorageListTable from "Core/files-manager/components/files-storage-list-table/files-storage-list-table.component"
+import ManageSoundsNoFiles from "Core/files-manager/components/manage-sounds-storage-no-files/manage-sounds-storage-no-files"
 
 const messages = defineMessages({
-  emptyStateTitle: {
-    id: "component.filesManagerFilesStorageEmptyStateTitle",
-  },
-  emptyStateDescription: {
-    id: "component.filesManagerFilesStorageEmptyStateDescription",
-  },
   noFoundStateTitle: {
     id: "component.filesManagerFilesStorageNoFoundStateTitle",
   },
@@ -43,14 +38,16 @@ interface Props {
   noFoundFiles: boolean
   onDelete: (ids: string[]) => void
   hideCheckbox: boolean
+  disableUpload: boolean
 }
 
-const FilesStorageList: FunctionComponent<Props> = ({
+const ManageSoundsStorageList: FunctionComponent<Props> = ({
   state,
   files = [],
   onDelete,
   noFoundFiles,
   hideCheckbox,
+  disableUpload,
   ...rest
 }) => {
   const loadedOrInitialState = state === State.Initial || state === State.Loaded
@@ -78,10 +75,9 @@ const FilesStorageList: FunctionComponent<Props> = ({
         />
       )}
       {noFilesState && (
-        <EmptyState
+        <ManageSoundsNoFiles
           data-testid={FilesStorageListTestIds.Empty}
-          title={messages.emptyStateTitle}
-          description={messages.emptyStateDescription}
+          disableUpload={disableUpload}
         />
       )}
       {noFoundFilesState && (
@@ -95,4 +91,4 @@ const FilesStorageList: FunctionComponent<Props> = ({
   )
 }
 
-export default FilesStorageList
+export default ManageSoundsStorageList

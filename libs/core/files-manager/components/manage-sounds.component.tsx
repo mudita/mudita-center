@@ -12,7 +12,6 @@ import ManageSoundsStorage from "Core/files-manager/components/manage-sounds-sto
 import { managerSoundsSummaryElements } from "Core/files-manager/constants"
 import { defineMessages } from "react-intl"
 
-
 export const messages = defineMessages({
   summaryTitle: { id: "component.manageSoundsSummaryTitle" },
 })
@@ -21,7 +20,7 @@ const ManageSounds = () => {
   const dispatch = useDispatch<Dispatch>()
 
   useEffect(() => {
-    dispatch(setActiveSoundApp("HARMONY_RELAXATION"))
+    dispatch(setActiveSoundApp("HARMONY_ALARMS"))
   }, [dispatch])
 
   return (

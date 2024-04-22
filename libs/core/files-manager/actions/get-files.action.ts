@@ -68,10 +68,10 @@ const getFilesMapKey = (
   ) {
     return "HARMONY_RELAXATION"
   } else if (
-    directory === DeviceDirectory.Sounds &&
+    directory === DeviceDirectory.Alarms &&
     deviceType === DeviceType.MuditaHarmony
   ) {
-    return "HARMONY_SOUNDS"
+    return "HARMONY_ALARMS"
   } else {
     return "UNKNOWN"
   }

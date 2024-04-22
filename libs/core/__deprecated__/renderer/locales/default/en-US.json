@@ -451,6 +451,8 @@
   "module.manageSounds.deleteButton": "Delete",
   "module.manageSounds.relaxationTab": "Relaxation",
   "module.manageSounds.uploadButton": "Add sounds",
+  "module.manageSounds.noFilesTitle": "We couldn't find any sounds",
+  "module.manageSounds.noFilesDescription": "Add sound files from your computer and they'll automatically transfer to your device.",
   "module.messages": "Messages",
   "module.messages.allMessages": "All messages",
   "module.messages.attachContactModalTitle": "Attach Contact",
