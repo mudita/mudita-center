@@ -15,12 +15,12 @@ class NewsPage extends Page {
     return $("p*=More news")
   }
 
-  public get newsCardElement() {
-    return $('[data-testid="news-card"]')
+  public get newsCardElements() {
+    return $$('[data-testid="news-card"]')
   }
 
-  public get newsCardImage() {
-    return $('[data-testid="image-link"]')
+  public get newsCardElement() {
+    return $('[data-testid="news-card"]')
   }
 
   public get sidebarMenuActiveItem() {
@@ -29,10 +29,6 @@ class NewsPage extends Page {
 
   public get sidebarMenuActiveItemText() {
     return $("[aria-current=page] p")
-  }
-
-  public get newsCardList() {
-    return $$('[data-testid="news-card"]')
   }
 }
 

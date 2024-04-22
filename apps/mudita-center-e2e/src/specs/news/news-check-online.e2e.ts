@@ -1,8 +1,9 @@
+import exp from "constants"
 import screenshotHelper from "../../helpers/screenshot.helper"
 import HomePage from "../../page-objects/home.page"
 import NewsPage from "../../page-objects/news.page"
 
-describe("News Page", () => {
+describe("News Page Check", () => {
   it("Opens News Page", async () => {
     const notNowButton = await HomePage.notNowButton
     await expect(notNowButton).toBeClickable()
@@ -12,13 +13,13 @@ describe("News Page", () => {
   })
   it("Verify Contents of News Page", async () => {
     const moreNewsButton = await NewsPage.moreNewsButton
-    const newsCardElement = await NewsPage.newsCardElement
     await expect(moreNewsButton).toBeDisplayed()
+
+    const newsCardElement = await NewsPage.newsCardElement
     await expect(newsCardElement).toBeDisplayed()
 
     const sidebarMenuActiveItem = await NewsPage.sidebarMenuActiveItem
     await expect(sidebarMenuActiveItem).toBeClickable()
-    screenshotHelper.makeViewScreenshot()
     await expect(sidebarMenuActiveItem).toHaveElementClass("active")
     await expect(sidebarMenuActiveItem).toHaveAttrContaining(
       "displaystyle",
@@ -27,13 +28,60 @@ describe("News Page", () => {
     await expect(sidebarMenuActiveItem).toHaveAttr("href", "#/news")
     const sidebarMenuActiveItemText = await NewsPage.sidebarMenuActiveItemText
     await expect(sidebarMenuActiveItemText).toHaveText("Mudita News")
-
-    const newsCardList = await NewsPage.newsCardList
-    await expect(newsCardList).toHaveLength(6)
-    const newsCardImage = await NewsPage.newsCardImage
-    await expect(newsCardImage).toBeDisplayed()
-    await expect(newsCardImage).toBeClickable()
+  })
+  it("Check content after scroll", async () => {
+    //Test if comments of second line of news is not visible on screen
+    const lastNewsCardCommunityLinkText = await NewsPage.newsCardElements[5].$(
+      '[data-testid="community-link"] p[color="primary"]'
+    )
+    await expect(lastNewsCardCommunityLinkText).not.toBeDisplayedInViewport()
+    await lastNewsCardCommunityLinkText.scrollIntoView()
+    await expect(lastNewsCardCommunityLinkText).toBeDisplayedInViewport()
+  })
+  it("Verify News Cards", async () => {
+    const newsCardElements = await NewsPage.newsCardElements
+    await expect(newsCardElements).toHaveLength(6)
     const regex = /(^https?:\/\/forum.mudita.com\/t).*$/
-    await expect(newsCardImage).toHaveAttribute("href", regex)
+
+    for (let newsCard of newsCardElements) {
+      console.log(await newsCard.getText())
+      const newsCardImageLink = await newsCard.$('[data-testid="image-link"]')
+      await expect(newsCardImageLink).toBeClickable()
+      await expect(newsCardImageLink).toHaveAttribute("href", regex)
+
+      const newsCardImageSrc = await newsCard.$("img")
+      await expect(newsCardImageSrc).toBeDisplayed()
+      //TODO Constants move higher
+      const regexImage = /(^data:image;base64)/
+      await expect(newsCardImageSrc).toHaveAttribute("src", regexImage)
+      const newsCardTitle = await newsCard.$(
+        '[data-testid="header-link"] p[color="primary"]'
+      )
+      await expect(newsCardTitle).toBeDisplayed()
+      await expect(newsCardTitle).toHaveText(/.*/)
+      const newsCardDate = await newsCard.$(
+        '[data-testid="header-link"] p[color="secondary"]'
+      )
+      const regexDate =
+        /^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(\s{1})([1-9]|[12][0-9]|3[01])(,{1})(\s{1})([2-9][0-9][0-9][0-9])$/
+      await expect(newsCardDate).toBeDisplayed()
+      await expect(newsCardDate).toHaveText(regexDate)
+      const newsCardExcerpt = await newsCard.$('[data-testid="content"')
+      await expect(newsCardExcerpt).toBeDisplayed()
+      await expect(newsCardExcerpt).toHaveText(/.*/)
+      const newsCardCommunityLink = await newsCard.$(
+        '[data-testid="community-link"]'
+      )
+      await expect(newsCardCommunityLink).toBeDisplayed()
+      await expect(newsCardCommunityLink).toBeClickable()
+      await expect(newsCardCommunityLink).toHaveAttribute("href", regex)
+      const newsCardCommunityLinkText = await newsCard.$(
+        '[data-testid="community-link"] p[color="primary"]'
+      )
+      await expect(newsCardCommunityLinkText).toBeDisplayed()
+      await expect(newsCardCommunityLinkText).toHaveText(
+        /^(\d+)(\s{1})(COMMENTS|COMMENT)$/
+      )
+    }
   })
 })
