@@ -6,18 +6,12 @@
 import React, { UIEventHandler, useState } from "react"
 import { BaseGenericComponent, ModalAction } from "generic-view/utils"
 import styled, { css } from "styled-components"
-import { withData } from "../../utils/with-data"
-import { withConfig } from "../../utils/with-config"
 import { Modal } from "./modal"
-
-interface Config {
-  closeButtonAction?: ModalAction
-  width?: string | number
-}
+import { TextModalConfig } from "generic-view/models"
 
 export const TextModal: BaseGenericComponent<
   undefined,
-  Config,
+  TextModalConfig,
   { componentKey: string }
 > = ({ children, componentKey, config }) => {
   const [contentScrolled, setContentScrolled] = useState(false)
@@ -47,8 +41,6 @@ export const TextModal: BaseGenericComponent<
     </Modal>
   )
 }
-
-export default withConfig(withData(TextModal))
 
 const headerWhileScrollingStyles = css`
   box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);

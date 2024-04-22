@@ -20,7 +20,7 @@ import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
 import { importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
-import Divider from "../../helpers/divider"
+import { Divider } from "../../helpers/divider"
 import { Form } from "../../interactive/form/form"
 
 export const SELECTED_CONTACTS_FIELD = "selected-contacts"
@@ -89,7 +89,7 @@ export const ImportContactsList: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Modal.TitleIcon data={{ type: IconType.ContactsBook }} />
+      <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Form.SearchInput
         config={{

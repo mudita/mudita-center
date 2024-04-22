@@ -13,13 +13,7 @@ import ReactModal from "react-modal"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import { theme } from "generic-view/theme"
 import { getModalSize, ModalSize } from "./helpers/modal-content"
-
-export interface ModalBaseConfig {
-  width?: string | number
-  padding?: string | number
-  maxHeight?: string | number
-  gap?: string | number
-}
+import { ModalBaseConfig } from "generic-view/models"
 
 interface Props extends PropsWithChildren {
   opened: boolean

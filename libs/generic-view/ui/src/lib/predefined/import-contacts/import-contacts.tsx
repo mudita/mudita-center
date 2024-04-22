@@ -4,8 +4,7 @@
  */
 
 import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
-import React, { useEffect, useRef, useState } from "react"
-import { withConfig } from "../../utils/with-config"
+import React, { FunctionComponent, useRef, useEffect, useState } from "react"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
@@ -29,6 +28,7 @@ import { ImportContactsError } from "./import-contacts-error"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { useFormContext } from "react-hook-form"
+import { ImportContactsConfig } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -39,20 +39,9 @@ const messages = defineMessages({
   },
 })
 
-enum Step {
-  Providers,
-  Loading,
-  Loaded,
-  Progress,
-  Success,
-  Error,
-}
-
-interface Config {
-  modalKey?: string
-}
-
-const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
+const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
+  modalKey,
+}) => {
   const dispatch = useDispatch<Dispatch>()
   const importStatus = useSelector(importStatusSelector)
   const [error, setError] = useState<CustomModalError>()
@@ -68,7 +57,7 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
     importStatus !== "PENDING-AUTH" && !abortButtonVisible
 
   const closeModal = () => {
-    dispatch(closeModalAction({ key: modalKey! }))
+    dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanImportProcess())
   }
 
@@ -155,7 +144,7 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   )
 }
 
-export const ImportContacts: APIFC<undefined, Config> = ({
+export const ImportContacts: APIFC<undefined, ImportContactsConfig> = ({
   data,
   config,
   children,
@@ -167,5 +156,3 @@ export const ImportContacts: APIFC<undefined, Config> = ({
     </Form>
   )
 }
-
-export default withConfig(ImportContacts)

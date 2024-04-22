@@ -3,12 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import ButtonText from "./button-text"
-import ButtonPrimary from "./button-primary"
-import ButtonSecondary from "./button-secondary"
+import { ButtonText } from "./button-text"
+import { ButtonPrimary } from "./button-primary"
+import { ButtonSecondary } from "./button-secondary"
+import { buttonPrimary, buttonSecondary, buttonText } from "generic-view/models"
 
 export const buttons = {
-  "button-text": ButtonText,
-  "button-primary": ButtonPrimary,
-  "button-secondary": ButtonSecondary,
+  [buttonText.key]: ButtonText,
+  [buttonPrimary.key]: ButtonPrimary,
+  [buttonSecondary.key]: ButtonSecondary,
 }

@@ -7,18 +7,9 @@ import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
 import { Badge } from "../data-rows/badge"
-import { withData } from "../utils/with-data"
-import { withConfig } from "../utils/with-config"
+import { BlockBoxConfig, BlockBoxData } from "generic-view/models"
 
-interface Data {
-  badgeText?: string
-}
-
-interface BlockBoxParameters {
-  title?: string
-}
-
-const BlockBox: APIFC<Data, BlockBoxParameters> = ({
+export const BlockBox: APIFC<BlockBoxData, BlockBoxConfig> = ({
   config,
   data,
   children,
@@ -38,8 +29,6 @@ const BlockBox: APIFC<Data, BlockBoxParameters> = ({
     </Block>
   )
 }
-
-export default withData(withConfig(BlockBox))
 
 const Block = styled.div`
   background-color: ${({ theme }) => theme.color.white};

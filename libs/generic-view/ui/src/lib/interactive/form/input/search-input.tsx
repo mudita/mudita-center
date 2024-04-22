@@ -5,36 +5,29 @@
 
 import React, { useEffect, useId } from "react"
 import { APIFC, IconType } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
-import { withData } from "../../../utils/with-data"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
-import Icon from "../../../icon/icon"
+import { Icon } from "../../../icon/icon"
 import { useFormContext } from "react-hook-form"
+import { FormSearchInputConfig, FormSearchInputData } from "generic-view/models"
 
-interface Data {
-  value: string
-}
-
-interface Config {
-  name: string
-  label: string
-}
-
-export const SearchInput: APIFC<Data, Config> = ({ data, config }) => {
+export const SearchInput: APIFC<FormSearchInputData, FormSearchInputConfig> = ({
+  data,
+  config,
+}) => {
   const id = useId()
   const { register, watch, setValue } = useFormContext()
-  const value = (watch(config!.name) as string) || ""
+  const value = (watch(config.name) as string) || ""
 
   const clear = () => {
-    setValue(config!.name, "")
+    setValue(config.name, "")
   }
 
   useEffect(() => {
-    if (config?.name) {
+    if (config.name) {
       setValue(config.name, data?.value)
     }
-  }, [config?.name, data?.value, setValue])
+  }, [config.name, data?.value, setValue])
 
   return (
     <Wrapper>
@@ -43,8 +36,8 @@ export const SearchInput: APIFC<Data, Config> = ({ data, config }) => {
         <Input
           id={"input-" + id}
           type={"search"}
-          placeholder={config!.label}
-          {...register(config!.name)}
+          placeholder={config.label}
+          {...register(config.name)}
         />
         {value.length > 0 && (
           <ClearButton type={"button"} onClick={clear}>
@@ -56,7 +49,7 @@ export const SearchInput: APIFC<Data, Config> = ({ data, config }) => {
   )
 }
 
-export default withData(withConfig(SearchInput))
+export default SearchInput
 
 const Wrapper = styled.div`
   display: flex;

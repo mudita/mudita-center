@@ -6,30 +6,20 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withData } from "../utils/with-data"
-import { withConfig } from "../utils/with-config"
+import { LabeledTextConfig, LabeledTextData } from "generic-view/models"
 
-interface Data {
-  text: string
-}
-
-interface Config {
-  label: string
-  direction?: "row" | "column"
-}
-
-const LabeledText: APIFC<Data, Config> = ({ data, config, ...props }) => {
+export const LabeledText: APIFC<LabeledTextData, LabeledTextConfig> = ({
+  data,
+  config,
+  ...props
+}) => {
   return (
-    <Wrapper {...props}>
-      <Label>{config?.label}</Label>
+    <div {...props}>
+      <Label>{config.label}</Label>
       <Text>{data?.text}</Text>
-    </Wrapper>
+    </div>
   )
 }
-
-export default withConfig(withData(LabeledText))
-
-const Wrapper = styled.div``
 
 const Text = styled.p`
   margin: 0;
