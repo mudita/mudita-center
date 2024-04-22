@@ -30,7 +30,7 @@ export const ImportContactsProvider = () => {
       <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>{intl.formatMessage(messages.description)}</p>
-      <Modal.Buttons config={{ vertical: true }}>
+      <ButtonsWrapper config={{ vertical: true }}>
         <ButtonSecondary
           config={{
             text: "Continue with Google",
@@ -68,14 +68,35 @@ export const ImportContactsProvider = () => {
             </svg>
           </GoogleLogoWrapperStyled>
         </ButtonSecondary>
-      </Modal.Buttons>
+        <ButtonWithIconStyled
+          config={{
+            text: "Upload csv or vcard",
+            icon: IconType.Import,
+            action: {
+              type: "custom",
+              callback: () => {
+                dispatch(startGoogleAuthorization())
+              },
+            },
+          }}
+        />
+      </ButtonsWrapper>
     </>
   )
 }
 
+const ButtonsWrapper = styled(Modal.Buttons)`
+  --min-width: 22rem;
+`
+
 const GoogleLogoWrapperStyled = styled.div`
-  height: 2rem;
-  margin-right: 1.2rem;
-  min-width: 2rem;
-  width: 2rem;
+  height: 1.4rem;
+  width: 1.4rem;
+`
+
+const ButtonWithIconStyled = styled(ButtonSecondary)`
+  & > div {
+    width: 2rem;
+    height: 2rem;
+  }
 `
