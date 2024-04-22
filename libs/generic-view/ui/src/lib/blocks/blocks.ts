@@ -3,12 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import BlockBox from "./block-box"
+import { BlockBox } from "./block-box"
 import { BlockPlain } from "./block-plain"
-import BlockHeading from "./block-heading"
+import { BlockHeading } from "./block-heading"
+import { blockBox, blockHeading, blockPlain } from "generic-view/models"
 
 export const blocks = {
-  "block-plain": BlockPlain,
-  "block-box": BlockBox,
-  "block-heading": BlockHeading,
+  [blockPlain.key]: BlockPlain,
+  [blockBox.key]: BlockBox,
+  [blockHeading.key]: BlockHeading,
 }

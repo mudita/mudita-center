@@ -59,13 +59,15 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.newsPageOnlineTest),
+    toRelativePath(TestFilesPaths.termsOfServiceTest),
   ],
   suites: {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
-      toRelativePath(TestFilesPaths.newsPageOnlineTest)
+      toRelativePath(TestFilesPaths.newsPageOnlineTest),
+      toRelativePath(TestFilesPaths.termsOfServiceTest),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -76,13 +78,14 @@ export const config: Options.Testrunner = {
     multideviceGeneral: [],
     harmony: [],
     pure: [toRelativePath(TestFilesPaths.messagesInAppNavigationTest)],
-    kompakt: [toRelativePath(TestFilesPaths.kompaktPasscodeCloseModalTest)],
+    kompakt: [],
     deviceUpdate: [],
     cicd: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
+      toRelativePath(TestFilesPaths.termsOfServiceTest),
     ],
   },
   // Patterns to exclude.

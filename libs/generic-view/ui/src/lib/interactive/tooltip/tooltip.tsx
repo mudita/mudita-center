@@ -70,8 +70,8 @@ export const Tooltip: APIFC & {
 export default Tooltip
 
 const TooltipAnchor: BaseGenericComponent<
-  unknown,
-  unknown,
+  undefined,
+  undefined,
   { viewKey?: string; "data-tooltip-anchor"?: boolean }
 > = ({ data, config, children, ...rest }) => {
   return <Anchor {...rest}>{children}</Anchor>
@@ -83,8 +83,8 @@ Tooltip.Anchor.defaultProps = {
 }
 
 const TooltipContent: BaseGenericComponent<
-  unknown,
-  unknown,
+  undefined,
+  undefined,
   { viewKey?: string; "data-tooltip-content"?: boolean }
 > = ({ data, config, children, ...rest }) => {
   return <Content {...rest}>{children}</Content>

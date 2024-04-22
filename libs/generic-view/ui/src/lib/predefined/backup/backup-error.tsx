@@ -34,7 +34,7 @@ export const BackupError: FunctionComponent<Props> = ({
   return (
     <>
       <Modal.TitleIcon
-        data={{
+        config={{
           type: IconType.Failure,
         }}
       />
