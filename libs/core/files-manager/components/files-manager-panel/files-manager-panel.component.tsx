@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useCallback } from "react"
+import React from "react"
 import { defineMessages } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -21,8 +21,9 @@ import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon
 import { Size } from "Core/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import FilesManagerSearchInput from "Core/files-manager/components/files-manager-search-input/files-manager-search-input"
 import { resetAllItems, selectAllItems } from "Core/files-manager/actions"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import getFilesSelectedSelector from "Core/files-manager/selectors/get-files-selected.selector"
+import isAllFilesSelectedSelector from "Core/files-manager/selectors/is-all-files-selected.selector"
 
 const messages = defineMessages({
   uploadButton: { id: "module.filesManager.uploadButton" },
@@ -37,26 +38,18 @@ export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   onSearchValueChange,
 }) => {
   const dispatch = useDispatch<Dispatch>()
-
-  const { selectedItems, allItemsSelected } = useSelector(
-    (state: ReduxRootState) => {
-      const files = getFilesByActiveSoundAppSelector(state)
-      const selectedItems = state.filesManager.selectedItems.rows
-      const allItemsSelected = selectedItems.length === (files?.length ?? 0)
-
-      return { files, selectedItems, allItemsSelected }
-    }
-  )
+  const selectedItems = useSelector(getFilesSelectedSelector)
+  const allItemsSelected = useSelector(isAllFilesSelectedSelector)
   const selectedItemsCount = selectedItems.length
   const selectionMode = selectedItemsCount > 0
 
-  const toggleAll = useCallback(() => {
+  const toggleAll = () => {
     dispatch(selectAllItems())
-  }, [dispatch])
+  }
 
-  const resetRows = useCallback(() => {
+  const resetRows = () => {
     dispatch(resetAllItems())
-  }, [dispatch])
+  }
 
   return (
     <PanelWrapper data-testid={FilesManagerPanelTestIds.Wrapper}>

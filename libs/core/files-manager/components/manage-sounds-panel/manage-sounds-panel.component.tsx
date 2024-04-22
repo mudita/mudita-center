@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useCallback } from "react"
+import React from "react"
 import { defineMessages } from "react-intl"
 import { useDispatch, useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
@@ -22,9 +22,15 @@ import { Size } from "Core/__deprecated__/renderer/components/core/input-checkbo
 import FilesManagerSearchInput from "Core/files-manager/components/files-manager-search-input/files-manager-search-input"
 import { activeClassName } from "Core/__deprecated__/renderer/components/core/button/button.styled.elements"
 import styled from "styled-components"
-import { resetAllItems, selectAllItems } from "Core/files-manager/actions"
+import {
+  resetAllItems,
+  selectAllItems,
+  setActiveSoundApp,
+} from "Core/files-manager/actions"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
+import isAllFilesSelectedSelector from "Core/files-manager/selectors/is-all-files-selected.selector"
+import getFilesSelectedSelector from "Core/files-manager/selectors/get-files-selected.selector"
 
 const StyledButton = styled(Button)`
   width: auto;
@@ -45,8 +51,9 @@ const LeftContainer = styled.div`
   }
 `
 
-const RightContainer = styled.div`
+const RightContainer = styled.div<{ visible: boolean }>`
   display: flex;
+  visibility: ${({ visible }) => (visible ? "initial" : "hidden")};
 `
 
 const messages = defineMessages({
@@ -64,27 +71,31 @@ export const ManageSoundsPanel: FunctionComponent<FilesManagerPanelProps> = ({
   onSearchValueChange,
 }) => {
   const dispatch = useDispatch<Dispatch>()
-
-  const { selectedItems, allItemsSelected, activeSoundApp } = useSelector(
-    (state: ReduxRootState) => {
-      const files = getFilesByActiveSoundAppSelector(state)
-      const activeSoundApp = state.filesManager.activeSoundApp
-      const selectedItems = state.filesManager.selectedItems.rows
-      const allItemsSelected = selectedItems.length === (files?.length ?? 0)
-
-      return { files, selectedItems, allItemsSelected, activeSoundApp }
-    }
+  const activeSoundApp = useSelector(
+    (state: ReduxRootState) => state.filesManager.activeSoundApp
   )
+  const selectedItems = useSelector(getFilesSelectedSelector)
+  const allItemsSelected = useSelector(isAllFilesSelectedSelector)
+  const files = useSelector(getFilesByActiveSoundAppSelector)
+  const noFiles = files.length === 0
   const selectedItemsCount = selectedItems.length
   const selectionMode = selectedItemsCount > 0
 
-  const toggleAll = useCallback(() => {
+  const toggleAll = () => {
     dispatch(selectAllItems())
-  }, [dispatch])
+  }
 
-  const resetRows = useCallback(() => {
+  const resetRows = () => {
     dispatch(resetAllItems())
-  }, [dispatch])
+  }
+
+  const handleSoundsButtonTabClick = () => {
+    dispatch(setActiveSoundApp("HARMONY_ALARMS"))
+  }
+
+  const handleRelaxationButtonTabClick = () => {
+    dispatch(setActiveSoundApp("HARMONY_RELAXATION"))
+  }
 
   return (
     <PanelWrapper data-testid={FilesManagerPanelTestIds.Wrapper}>
@@ -114,8 +125,9 @@ export const ManageSoundsPanel: FunctionComponent<FilesManagerPanelProps> = ({
                 displayStyle={DisplayStyle.Tab}
                 labelMessage={messages.alarmsTab}
                 className={
-                  activeSoundApp === "HARMONY_SOUNDS" ? activeClassName : ""
+                  activeSoundApp === "HARMONY_ALARMS" ? activeClassName : ""
                 }
+                onClick={handleSoundsButtonTabClick}
               />
               <StyledButton
                 displayStyle={DisplayStyle.Tab}
@@ -123,9 +135,10 @@ export const ManageSoundsPanel: FunctionComponent<FilesManagerPanelProps> = ({
                 className={
                   activeSoundApp === "HARMONY_RELAXATION" ? activeClassName : ""
                 }
+                onClick={handleRelaxationButtonTabClick}
               />
             </LeftContainer>
-            <RightContainer>
+            <RightContainer visible={!noFiles}>
               <FilesManagerSearchInput
                 data-testid={FilesManagerPanelTestIds.SearchInput}
                 searchValue={searchValue}
