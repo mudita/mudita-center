@@ -2,6 +2,12 @@ import exp from "constants"
 import screenshotHelper from "../../helpers/screenshot.helper"
 import HomePage from "../../page-objects/home.page"
 import NewsPage from "../../page-objects/news.page"
+import {
+  commentsRegex,
+  muditaForumRegex,
+  newsDateRegex,
+  newsImageRegex,
+} from "../../consts/regex-const"
 
 describe("News Page Check", () => {
   it("Opens News Page", async () => {
@@ -41,31 +47,27 @@ describe("News Page Check", () => {
   it("Verify News Cards", async () => {
     const newsCardElements = await NewsPage.newsCardElements
     await expect(newsCardElements).toHaveLength(6)
-    const regex = /(^https?:\/\/forum.mudita.com\/t).*$/
 
     for (let newsCard of newsCardElements) {
       console.log(await newsCard.getText())
       const newsCardImageLink = await newsCard.$('[data-testid="image-link"]')
       await expect(newsCardImageLink).toBeClickable()
-      await expect(newsCardImageLink).toHaveAttribute("href", regex)
+      await expect(newsCardImageLink).toHaveAttribute("href", muditaForumRegex)
 
       const newsCardImageSrc = await newsCard.$("img")
       await expect(newsCardImageSrc).toBeDisplayed()
-      //TODO Constants move higher
-      const regexImage = /(^data:image;base64)/
-      await expect(newsCardImageSrc).toHaveAttribute("src", regexImage)
+      await expect(newsCardImageSrc).toHaveAttribute("src", newsImageRegex)
       const newsCardTitle = await newsCard.$(
         '[data-testid="header-link"] p[color="primary"]'
       )
       await expect(newsCardTitle).toBeDisplayed()
       await expect(newsCardTitle).toHaveText(/.*/)
+
       const newsCardDate = await newsCard.$(
         '[data-testid="header-link"] p[color="secondary"]'
       )
-      const regexDate =
-        /^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(\s{1})([1-9]|[12][0-9]|3[01])(,{1})(\s{1})([2-9][0-9][0-9][0-9])$/
       await expect(newsCardDate).toBeDisplayed()
-      await expect(newsCardDate).toHaveText(regexDate)
+      await expect(newsCardDate).toHaveText(newsDateRegex)
       const newsCardExcerpt = await newsCard.$('[data-testid="content"')
       await expect(newsCardExcerpt).toBeDisplayed()
       await expect(newsCardExcerpt).toHaveText(/.*/)
@@ -74,14 +76,15 @@ describe("News Page Check", () => {
       )
       await expect(newsCardCommunityLink).toBeDisplayed()
       await expect(newsCardCommunityLink).toBeClickable()
-      await expect(newsCardCommunityLink).toHaveAttribute("href", regex)
+      await expect(newsCardCommunityLink).toHaveAttribute(
+        "href",
+        muditaForumRegex
+      )
       const newsCardCommunityLinkText = await newsCard.$(
         '[data-testid="community-link"] p[color="primary"]'
       )
       await expect(newsCardCommunityLinkText).toBeDisplayed()
-      await expect(newsCardCommunityLinkText).toHaveText(
-        /^(\d+)(\s{1})(COMMENTS|COMMENT)$/
-      )
+      await expect(newsCardCommunityLinkText).toHaveText(commentsRegex)
     }
   })
 })
