@@ -11,8 +11,6 @@ export const Divider: APIFC = ({ data, config, ...props }) => {
   return <Line {...props} />
 }
 
-export default Divider
-
 export const Line = styled.hr`
   border: none;
   width: 100%;

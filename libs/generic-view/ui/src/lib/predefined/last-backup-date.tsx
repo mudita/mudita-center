@@ -11,12 +11,7 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { selectLastBackup } from "generic-view/store"
 import { APIFC } from "generic-view/utils"
 import { defineMessages } from "react-intl"
-import { withConfig } from "../utils/with-config"
-
-interface Config {
-  noBackupLabel?: string
-  backupAvailableLabel?: string
-}
+import { LastBackupDateConfig } from "generic-view/models"
 
 const messages = defineMessages({
   noBackupLabel: {
@@ -27,7 +22,7 @@ const messages = defineMessages({
   },
 })
 
-export const LastBackupDate: APIFC<undefined, Config> = ({
+export const LastBackupDate: APIFC<undefined, LastBackupDateConfig> = ({
   data,
   config,
   ...props
@@ -57,8 +52,6 @@ export const LastBackupDate: APIFC<undefined, Config> = ({
     </BackupAvailable>
   )
 }
-
-export default withConfig(LastBackupDate)
 
 const NoBackupLabel = styled.p`
   font-size: ${({ theme }) => theme.fontSize.paragraph3};

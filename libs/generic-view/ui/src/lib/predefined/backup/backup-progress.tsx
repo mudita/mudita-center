@@ -49,7 +49,7 @@ export const BackupProgress: FunctionComponent<Props> = ({ features }) => {
 
   return (
     <>
-      <Modal.TitleIcon data={{ type: IconType.Backup }} />
+      <Modal.TitleIcon config={{ type: IconType.Backup }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>{intl.formatMessage(messages.description)}</p>
       <Progress

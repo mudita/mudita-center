@@ -62,7 +62,7 @@ export const BackupPassword: FunctionComponent<Props> = ({
   return (
     <>
       <Modal.TitleIcon
-        data={{
+        config={{
           type: IconType.Settings,
         }}
       />

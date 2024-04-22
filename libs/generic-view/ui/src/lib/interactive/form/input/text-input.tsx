@@ -5,29 +5,16 @@
 
 import React, { useEffect, useId, useState } from "react"
 import { APIFC, IconType } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
-import { withData } from "../../../utils/with-data"
 import styled, { css } from "styled-components"
 import { IconButton } from "../../../shared/button"
-import Icon from "../../../icon/icon"
+import { Icon } from "../../../icon/icon"
 import { useFormContext } from "react-hook-form"
-import { RegisterOptions } from "react-hook-form/dist/types/validator"
+import { FormTextInputConfig, FormTextInputData } from "generic-view/models"
 
-interface Data {
-  value: string
-}
-
-interface Config {
-  name: string
-  label: string
-  type: "text" | "password" | "email" | "tel" | "url"
-  validation?: Pick<
-    RegisterOptions,
-    "required" | "pattern" | "maxLength" | "minLength" | "deps" | "validate"
-  >
-}
-
-export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
+export const TextInput: APIFC<FormTextInputData, FormTextInputConfig> = ({
+  data,
+  config,
+}) => {
   const id = useId()
   const {
     register,
@@ -35,22 +22,22 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
     setValue,
     formState: { errors },
   } = useFormContext()
-  const value = (watch(config!.name) as string) || ""
+  const value = (watch(config.name) as string) || ""
   const [passwordVisible, setPasswordVisible] = useState(false)
 
-  const error = errors[config!.name]
+  const error = errors[config.name]
   const inputType =
-    config?.type === "password" && !passwordVisible ? "password" : "text"
+    config.type === "password" && !passwordVisible ? "password" : "text"
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevState) => !prevState)
   }
 
   useEffect(() => {
-    if (config?.name) {
+    if (config.name) {
       setValue(config.name, data?.value)
     }
-  }, [config?.name, data?.value, setValue])
+  }, [config.name, data?.value, setValue])
 
   return (
     <Wrapper>
@@ -59,16 +46,16 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
         $inactive={value.length === 0}
         $withError={!!error}
       >
-        {config?.label}
+        {config.label}
       </Label>
       <InputWrapper>
         <Input
           id={"input-" + id}
           type={inputType}
           $withError={!!error}
-          {...register(config!.name, { ...config?.validation })}
+          {...register(config.name, { ...config.validation })}
         />
-        {config?.type === "password" && value.length > 0 && (
+        {config.type === "password" && value.length > 0 && (
           <IconButton type={"button"} onClick={togglePasswordVisibility}>
             <Icon
               data={{
@@ -85,7 +72,7 @@ export const TextInput: APIFC<Data, Config> = ({ data, config }) => {
   )
 }
 
-export default withData(withConfig(TextInput))
+export default TextInput
 
 const Wrapper = styled.div`
   display: flex;

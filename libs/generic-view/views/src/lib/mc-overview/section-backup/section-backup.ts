@@ -104,7 +104,10 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
               },
             },
           },
-          ...generateBackupRestoreModalLayout(config),
+          ...generateBackupRestoreModalLayout({
+            dataKey: config.dataKey,
+            restoreFeatures: config.restoreFeatures,
+          }),
         }
       : {}),
     ...(config.backupFeatures
@@ -122,7 +125,10 @@ export const generateMcOverviewBackupLayout: ViewGenerator<
               },
             },
           },
-          ...generateBackupCreateModalLayout(config),
+          ...generateBackupCreateModalLayout({
+            dataKey: config.dataKey,
+            backupFeatures: config.backupFeatures,
+          }),
         }
       : {}),
   }

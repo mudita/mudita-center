@@ -6,20 +6,9 @@
 import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
-import { withConfig } from "../../utils/with-config"
-import { withData } from "../../utils/with-data"
+import { ProgressBarConfig, ProgressBarData } from "generic-view/models"
 
-interface Data {
-  value: number
-  message?: string
-}
-
-interface Config {
-  maxValue: number
-  valueUnit?: string
-}
-
-export const ProgressBar: APIFC<Data, Config> = ({
+export const ProgressBar: APIFC<ProgressBarData, ProgressBarConfig> = ({
   data,
   config,
   ...props
@@ -27,21 +16,19 @@ export const ProgressBar: APIFC<Data, Config> = ({
   const id = useId()
   return (
     <Wrapper {...props}>
-      {data?.message && <Message>{data.message}</Message>}
+      {data?.message && <Message>{data?.message}</Message>}
       <Progress
         id={"progress-" + id}
-        max={config?.maxValue}
+        max={config.maxValue}
         value={data?.value}
       />
       <Label htmlFor={"progress-" + id}>
         {data?.value}
-        {config?.valueUnit || "%"}
+        {config.valueUnit || "%"}
       </Label>
     </Wrapper>
   )
 }
-
-export default withData(withConfig(ProgressBar))
 
 const Wrapper = styled.div`
   width: 100%;

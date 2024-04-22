@@ -7,14 +7,12 @@ import { useSelector } from "react-redux"
 import { isEmpty } from "lodash"
 import { selectLastBackup } from "generic-view/store"
 import { APIFC } from "generic-view/utils"
+import { BackupRestoreAvailableConfig } from "generic-view/models"
 
-interface Config {
-  buttonLabel?: string
-}
-
-export const BackupRestoreAvailable: APIFC<undefined, Config> = ({
-  children,
-}) => {
+export const BackupRestoreAvailable: APIFC<
+  undefined,
+  BackupRestoreAvailableConfig
+> = ({ children }) => {
   const lastBackup = useSelector(selectLastBackup)
 
   if (isEmpty(lastBackup)) {
@@ -23,5 +21,3 @@ export const BackupRestoreAvailable: APIFC<undefined, Config> = ({
 
   return children
 }
-
-export default BackupRestoreAvailable

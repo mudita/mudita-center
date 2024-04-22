@@ -4,8 +4,7 @@
  */
 
 import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
-import React, { useEffect, useState } from "react"
-import { withConfig } from "../../utils/with-config"
+import React, { FunctionComponent, useRef, useEffect, useState } from "react"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
@@ -15,15 +14,21 @@ import {
   closeModal as closeModalAction,
   importContactsFromExternalSource,
   importStatusSelector,
+  startDataTransferToDevice,
 } from "generic-view/store"
 import { ImportContactsProvider } from "./import-contacts-provider"
 import { ImportContactsLoader } from "./import-contats-loader"
-import { ImportContactsList } from "./import-contacts-list"
+import {
+  ImportContactsList,
+  SELECTED_CONTACTS_FIELD,
+} from "./import-contacts-list"
 import { ImportContactsProgress } from "./import-contacts-progress"
 import { ImportContactsSuccess } from "./import-contacts-success"
 import { ImportContactsError } from "./import-contacts-error"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
+import { useFormContext } from "react-hook-form"
+import { ImportContactsConfig } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
@@ -34,31 +39,25 @@ const messages = defineMessages({
   },
 })
 
-enum Step {
-  Providers,
-  Loading,
-  Loaded,
-  Progress,
-  Success,
-  Error,
-}
-
-interface Config {
-  modalKey?: string
-}
-
-const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
+const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
+  modalKey,
+}) => {
   const dispatch = useDispatch<Dispatch>()
-  const [step, setStep] = useState<Step>(Step.Providers)
   const importStatus = useSelector(importStatusSelector)
   const [error, setError] = useState<CustomModalError>()
+  const dataTransferAbortReference = useRef<VoidFunction>()
+  const { watch } = useFormContext<{ [SELECTED_CONTACTS_FIELD]?: string[] }>()
+  const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
 
-  const abortButtonVisible = step === Step.Progress
+  const abortButtonVisible =
+    importStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
+    importStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
+    importStatus === "IMPORT-DEVICE-DATA-TRANSFER"
   const closeButtonVisible =
     importStatus !== "PENDING-AUTH" && !abortButtonVisible
 
   const closeModal = () => {
-    dispatch(closeModalAction({ key: modalKey! }))
+    dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanImportProcess())
   }
 
@@ -70,8 +69,18 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
   const importConfirmButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
-      // TODO: Implement import action
-      setStep(Step.Progress)
+      const promise = dispatch(
+        startDataTransferToDevice({
+          domains: ["contacts-v1"],
+          contactsIds: selectedContacts,
+        })
+      )
+
+      dataTransferAbortReference.current = (
+        promise as unknown as {
+          abort: VoidFunction
+        }
+      ).abort
     },
   }
 
@@ -82,39 +91,22 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
         title: intl.formatMessage(messages.cancellationErrorTitle),
         message: intl.formatMessage(messages.cancellationErrorMessage),
       })
-      setStep(Step.Error)
-      // TODO: Call action abort
+      dataTransferAbortReference.current?.()
     },
   }
 
-  const onFinish = () => {
-    setStep(Step.Success)
-  }
-
   useEffect(() => {
-    switch (importStatus) {
-      case "AUTH":
-        dispatch(importContactsFromExternalSource())
-        setStep(Step.Loading)
-        break
-      case "PENDING-AUTH":
-      case "IMPORT-INTO-MC-IN-PROGRESS":
-        setStep(Step.Loading)
-        break
-      case "IMPORT-INTO-MC-DONE":
-        setStep(Step.Loaded)
-        break
-      case "IMPORT-INTO-DEVICE-IN-PROGRESS":
-        setStep(Step.Progress)
-        break
-      case "DONE":
-        setStep(Step.Success)
-        break
-      case "FAILED":
-        setStep(Step.Error)
-        break
+    if (importStatus === "AUTH") {
+      dispatch(importContactsFromExternalSource())
     }
   }, [dispatch, importStatus])
+
+  useEffect(() => {
+    return () => {
+      dataTransferAbortReference.current?.()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -124,26 +116,35 @@ const ImportContactsForm: React.FC<Config> = ({ modalKey }) => {
       {abortButtonVisible && (
         <Modal.CloseButton config={{ action: backupAbortButtonAction }} />
       )}
-      {step === Step.Providers && <ImportContactsProvider />}
-      {step === Step.Loading && <ImportContactsLoader />}
-      {step === Step.Loaded && (
+
+      {importStatus === undefined && <ImportContactsProvider />}
+      {(importStatus === "AUTH" ||
+        importStatus === "PENDING-AUTH" ||
+        importStatus === "IMPORT-INTO-MC-IN-PROGRESS") && (
+        <ImportContactsLoader />
+      )}
+      {importStatus === "IMPORT-INTO-MC-DONE" && (
         <ImportContactsList nextAction={importConfirmButtonAction} />
       )}
-      {step === Step.Progress && <ImportContactsProgress onFinish={onFinish} />}
-      {step === Step.Success && (
-        <ImportContactsSuccess closeAction={importCloseButtonAction} />
+      {(importStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
+        importStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
+        importStatus === "IMPORT-DEVICE-DATA-TRANSFER") && (
+        <ImportContactsProgress />
       )}
-      {step === Step.Error && (
+      {importStatus === "FAILED" && (
         <ImportContactsError
           closeAction={importCloseButtonAction}
           customError={error}
         />
       )}
+      {importStatus === "DONE" && (
+        <ImportContactsSuccess closeAction={importCloseButtonAction} />
+      )}
     </>
   )
 }
 
-export const ImportContacts: APIFC<undefined, Config> = ({
+export const ImportContacts: APIFC<undefined, ImportContactsConfig> = ({
   data,
   config,
   children,
@@ -155,5 +156,3 @@ export const ImportContacts: APIFC<undefined, Config> = ({
     </Form>
   )
 }
-
-export default withConfig(ImportContacts)

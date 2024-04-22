@@ -6,9 +6,9 @@
 import React from "react"
 import styled, { css } from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
+import { ModalButtonsConfig } from "generic-view/models"
 
-export const ModalButtons: APIFC<undefined, { vertical?: boolean }> = ({
+export const ModalButtons: APIFC<undefined, ModalButtonsConfig> = ({
   data,
   children,
   config,
@@ -20,8 +20,6 @@ export const ModalButtons: APIFC<undefined, { vertical?: boolean }> = ({
     </ButtonsWrapper>
   )
 }
-
-export default withConfig(ModalButtons)
 
 export const ButtonsWrapper = styled.div<{ $vertical?: boolean }>`
   display: grid;

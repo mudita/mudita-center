@@ -5,7 +5,7 @@
 
 import React, { FunctionComponent } from "react"
 import styled, { keyframes } from "styled-components"
-import Icon from "../icon/icon"
+import { Icon } from "../icon/icon"
 import { IconType } from "generic-view/utils"
 
 export const SpinnerLoader: FunctionComponent = () => {

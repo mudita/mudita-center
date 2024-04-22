@@ -12,8 +12,10 @@ import { IconText } from "./icon-text"
 import { IconType } from "generic-view/utils"
 import dataTestIds from "./data-test-ids"
 
-jest.mock("../../icon/icon", () => () => {
-  return <div>icon</div>
+jest.mock("../../icon/icon", () => {
+  return {
+    Icon: () => <div>icon</div>,
+  }
 })
 
 describe("Icon text component", () => {

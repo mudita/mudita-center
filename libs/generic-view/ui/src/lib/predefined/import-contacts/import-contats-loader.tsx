@@ -22,7 +22,7 @@ const messages = defineMessages({
 export const ImportContactsLoader = () => {
   return (
     <>
-      <StyledLoader data={{ type: IconType.SpinnerDark }} />
+      <StyledLoader config={{ type: IconType.SpinnerDark }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>{intl.formatMessage(messages.description)}</p>
     </>
