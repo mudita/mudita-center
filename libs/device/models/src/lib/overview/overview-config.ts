@@ -5,6 +5,7 @@
 
 import { IconType } from "generic-view/utils"
 import { z } from "zod"
+import { backupCreate, backupRestore } from "generic-view/models"
 
 export const DetailListTextConfigValidator = z.object({
   dataKey: z.string().min(1),
@@ -58,28 +59,13 @@ export const DataSyncTileConfigValidator = z.object({
 
 export type DataSyncTileConfig = z.infer<typeof DataSyncTileConfigValidator>
 
-const restoreFeatureValidator = z.object({
-  label: z.string().min(1),
-  feature: z.string().min(1),
-  keys: z.array(z.string()).min(1),
-})
-
-export type RestoreFeature = z.infer<typeof restoreFeatureValidator>
-
 // TODO: Implement proper validation
 export const BackupTileConfigValidator = z.object({
   type: z.literal("mc-overview-backup"),
   title: z.string().min(1),
   dataKey: z.string().min(1),
-  backupFeatures: z
-    .array(
-      z.object({
-        label: z.string().min(1),
-        key: z.string().min(1),
-      })
-    )
-    .optional(),
-  restoreFeatures: z.array(restoreFeatureValidator).optional(),
+  backupFeatures: backupCreate.configValidator.shape.features.optional(),
+  restoreFeatures: backupRestore.configValidator.shape.features.optional(),
 })
 
 export type BackupTileConfig = z.infer<typeof BackupTileConfigValidator>

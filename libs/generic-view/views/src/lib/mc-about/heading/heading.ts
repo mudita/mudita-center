@@ -18,6 +18,7 @@ export const generateMcAboutHeadingLayout: ViewGenerator<
       config: {
         heading: config.aboutTitle!,
         subheading: config.aboutSubtitle,
+        modifiers: ["none"],
       },
       layout: {
         padding: "3.2rem",

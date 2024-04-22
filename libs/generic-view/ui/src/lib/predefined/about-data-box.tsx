@@ -6,18 +6,9 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withData } from "../utils/with-data"
-import { withConfig } from "../utils/with-config"
+import { AboutDataBoxConfig, AboutDataBoxData } from "generic-view/models"
 
-interface Config {
-  title: string
-}
-
-interface Data {
-  text?: string
-}
-
-export const AboutDataBox: APIFC<Data, Config> = ({
+export const AboutDataBox: APIFC<AboutDataBoxData, AboutDataBoxConfig> = ({
   data,
   config,
   children,
@@ -25,13 +16,11 @@ export const AboutDataBox: APIFC<Data, Config> = ({
 }) => {
   return (
     <Wrapper {...props}>
-      <Title>{config?.title}</Title>
+      <Title>{config.title}</Title>
       {children || (data?.text && <Value>{data?.text}</Value>)}
     </Wrapper>
   )
 }
-
-export default withData(withConfig(AboutDataBox))
 
 const Wrapper = styled.div`
   display: flex;

@@ -5,14 +5,17 @@
 
 import React from "react"
 import styled from "styled-components"
-import Icon from "../../../icon/icon"
-import { withConfig } from "../../../utils/with-config"
+import { Icon } from "../../../icon/icon"
+import { APIFC } from "generic-view/utils"
+import { ModalTitleIconConfig } from "generic-view/models"
 
-export const ModalTitleIcon: typeof Icon = ({ children, ...rest }) => {
-  return <TitleIcon {...rest} />
+export const ModalTitleIcon: APIFC<undefined, ModalTitleIconConfig> = ({
+  config,
+  children,
+  ...rest
+}) => {
+  return <TitleIcon config={config} {...rest} />
 }
-
-export default withConfig(ModalTitleIcon)
 
 export const TitleIcon = styled(Icon)`
   width: 6.8rem;

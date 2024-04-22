@@ -5,19 +5,14 @@
 
 import React from "react"
 import { APIFC } from "generic-view/utils"
-import { UseFormProps } from "react-hook-form/dist/types/form"
 import { FormProvider, useForm } from "react-hook-form"
-import { withConfig } from "../../utils/with-config"
 import { TextInput } from "./input/text-input"
 import { RadioInput } from "./input/radio-input"
 import { CheckboxInput } from "./input/checkbox-input"
 import { SearchInput } from "./input/search-input"
+import { FormConfig } from "generic-view/models"
 
-interface Config {
-  formOptions?: Pick<UseFormProps, "mode" | "reValidateMode" | "defaultValues">
-}
-
-export const Form: APIFC<undefined, Config> & {
+export const Form: APIFC<undefined, FormConfig> & {
   TextInput: typeof TextInput
   RadioInput: typeof RadioInput
   CheckboxInput: typeof CheckboxInput
@@ -34,4 +29,4 @@ Form.RadioInput = RadioInput
 Form.CheckboxInput = CheckboxInput
 Form.SearchInput = SearchInput
 
-export default withConfig(Form)
+export default Form

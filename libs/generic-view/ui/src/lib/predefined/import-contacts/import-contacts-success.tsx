@@ -34,7 +34,7 @@ export const ImportContactsSuccess: FunctionComponent<Props> = ({
   const { getValues } = useFormContext()
   return (
     <>
-      <Modal.TitleIcon data={{ type: IconType.Success }} />
+      <Modal.TitleIcon config={{ type: IconType.Success }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>
         {intl.formatMessage(messages.description, {

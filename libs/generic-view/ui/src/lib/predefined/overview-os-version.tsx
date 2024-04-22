@@ -7,52 +7,33 @@ import React from "react"
 import { APIFC } from "generic-view/utils"
 import styled from "styled-components"
 import { Tag } from "../shared/tag"
-import { withData } from "../utils/with-data"
-import { withConfig } from "../utils/with-config"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import {
+  OverviewOsVersionConfig,
+  OverviewOsVersionData,
+} from "generic-view/models"
 
 const messages = defineMessages({
   updateTag: { id: "module.genericViews.update.tag" },
   updateActionLabel: { id: "module.genericViews.update.actionLabel" },
 })
 
-interface Config {
-  versionLabel?: string
-  showBadge?: boolean
-}
-
-interface Data {
-  version?: string
-  text?: string
-  badgeText?: string
-  update?:
-    | {
-        available?: boolean
-        actionLabel?: undefined
-        updateVersion?: string
-        updateText?: string
-      }
-    | {
-        available: true
-        actionLabel?: string
-        updateVersion: string
-        updateText: string
-      }
-}
-
-const OverviewOsVersion: APIFC<Data, Config> = ({ config, data, ...props }) => {
+export const OverviewOsVersion: APIFC<
+  OverviewOsVersionData,
+  OverviewOsVersionConfig
+> = ({ config, data, ...props }) => {
   return (
     <Wrapper {...props}>
       {config?.versionLabel && (
         <VersionLabel>{config.versionLabel}</VersionLabel>
       )}
       <VersionInfo>
-        {data?.text && <Version>{data.text}</Version>}
+        {data?.text && <Version>{data?.text}</Version>}
         {data?.update?.available && (
           <Tag>
             {intl.formatMessage(messages.updateTag, {
-              version: data.update.updateText,
+              version: data?.update.updateText,
             })}
           </Tag>
         )}
@@ -69,8 +50,6 @@ const OverviewOsVersion: APIFC<Data, Config> = ({ config, data, ...props }) => {
     </Wrapper>
   )
 }
-
-export default withConfig(withData(OverviewOsVersion))
 
 const Wrapper = styled.div`
   display: flex;

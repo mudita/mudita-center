@@ -31,7 +31,7 @@ export const ImportContactsProgress = () => {
 
   return (
     <>
-      <Modal.TitleIcon data={{ type: IconType.Import }} />
+      <Modal.TitleIcon config={{ type: IconType.Import }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>{intl.formatMessage(messages.description)}</p>
       <Progress
