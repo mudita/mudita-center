@@ -23,13 +23,15 @@ import {
   resetFiles,
   setInvalidFiles,
   setInitialFilesManagerState,
+  setActiveSoundApp,
 } from "Core/files-manager/actions"
 import { changeLocation } from "Core/core/actions"
 import { FilesManagerState } from "Core/files-manager/reducers/files-manager.interface"
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
 
 export const initialState: FilesManagerState = {
-  files: null,
+  filesMap: {},
+  activeSoundApp: "UNKNOWN",
   loading: State.Initial,
   uploading: State.Initial,
   deleting: State.Initial,
@@ -62,7 +64,7 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         return {
           ...state,
           loading: State.Loaded,
-          files: action.payload,
+          filesMap: action.payload,
         }
       })
       .addCase(getFiles.rejected, (state, action) => {
@@ -86,7 +88,6 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         }
       })
       .addCase(uploadFile.rejected, (state, action) => {
-
         return {
           ...state,
           uploading: State.Failed,
@@ -130,14 +131,15 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         }
       })
       .addCase(deleteFiles.fulfilled, (state, action) => {
+        const ids = action.payload
+        const filesMap = { ...state.filesMap }
+        const files = filesMap[state.activeSoundApp] ?? []
+        filesMap[state.activeSoundApp] = files.filter(
+          (file) => !ids.some((id) => id === file.id)
+        )
         return {
           ...state,
-          files:
-            state.files === null
-              ? null
-              : [...state.files].filter(
-                  (file) => !action.payload.some((id) => id === file.id)
-                ),
+          filesMap,
           deleting: State.Loaded,
           error: null,
         }
@@ -193,7 +195,10 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         state.invalidFiles = action.payload
       })
       .addCase(resetFiles, (state, _) => {
-        state.files = null
+        state.filesMap = {}
+      })
+      .addCase(setActiveSoundApp, (state, action) => {
+        state.activeSoundApp = action.payload
       })
   }
 )

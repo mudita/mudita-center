@@ -3,26 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
-import React, { useEffect, useRef, useState } from "react"
+import React, { ReactNode, useEffect, useRef, useState, FunctionComponent } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { State } from "Core/core/constants"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { FilesManagerContainer } from "Core/files-manager/components/files-manager/files-manager.styled"
+import { FilesManagerContainer } from "Core/files-manager/components/files-manager-core/files-manager.styled"
 import FilesSummary from "Core/files-manager/components/files-summary/files-summary.component"
 import {
+  DiskSpaceCategory,
   FileServiceState,
-  FilesManagerProps,
   MemorySpace,
-} from "Core/files-manager/components/files-manager/files-manager.interface"
-import { FilesManagerTestIds } from "Core/files-manager/components/files-manager/files-manager-test-ids.enum"
-import { DeviceDirectory } from "Core/files-manager/constants"
-import FilesStorage from "Core/files-manager/components/files-storage/files-storage.component"
+} from "Core/files-manager/components/files-manager-core/files-manager.interface"
+import { FilesManagerTestIds } from "Core/files-manager/components/files-manager-core/files-manager-test-ids.enum"
 import { DeleteFilesModals } from "Core/files-manager/components/delete-files-modals/delete-files-modals.component"
 import { useLoadingState } from "Core/ui"
 import { UploadFilesModals } from "Core/files-manager/components/upload-files-modals/upload-files-modals.component"
-import useSpaces from "Core/files-manager/components/files-manager/use-spaces/use-spaces.hook"
+import useSpaces from "Core/files-manager/components/files-manager-core/use-spaces/use-spaces.hook"
 import {
   resetDeletingState,
   resetFiles,
@@ -30,11 +26,19 @@ import {
   resetUploadingStateAfterSuccess,
   setDeletingFileCount,
 } from "Core/files-manager/actions/base.action"
-import useDiskSpaceCategories from "Core/files-manager/components/files-manager/use-disk-space-categories.hook"
+import useDiskSpaceCategories from "Core/files-manager/components/files-manager-core/use-disk-space-categories.hook"
 import { getFiles, resetAllItems } from "Core/files-manager/actions"
 import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
+import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
+import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
+import { Message } from "Core/__deprecated__/renderer/interfaces/message.interface"
 
-const FilesManager: FunctionComponent<FilesManagerProps> = () => {
+type Props = {
+  children: (props: FilesStorageProps) => ReactNode
+  filesSummaryElements: DiskSpaceCategory[]
+  summaryTitleMessage: Message
+};
+const FilesManagerCore: FunctionComponent<Props> = ({ children, filesSummaryElements, summaryTitleMessage }) => {
   const dispatch = useDispatch<Dispatch>()
   const {
     memorySpace,
@@ -44,23 +48,25 @@ const FilesManager: FunctionComponent<FilesManagerProps> = () => {
     uploading,
     uploadingFileCount,
     deletingFileCount,
-    deviceType,
     error,
     selectedItems,
-    uploadBlocked
+    uploadBlocked,
   } = useSelector((state: ReduxRootState) => ({
-    memorySpace: state.device.data?.memorySpace ?? { reservedSpace: 0, usedUserSpace: 0, total: 0 },
-    files: state.filesManager.files,
+    memorySpace: state.device.data?.memorySpace ?? {
+      reservedSpace: 0,
+      usedUserSpace: 0,
+      total: 0,
+    },
+    files: getFilesByActiveSoundAppSelector(state),
     loading: state.filesManager.loading,
     deleting: state.filesManager.deleting,
     uploading: state.filesManager.uploading,
     uploadingFileCount: state.filesManager.uploadingFileCount,
     deletingFileCount: state.filesManager.deletingFileCount,
-    deviceType: state.device.deviceType,
     error: state.filesManager.error,
     selectedItems: state.filesManager.selectedItems.rows,
     uploadBlocked: state.filesManager.uploadBlocked,
-  }));
+  }))
 
   const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -74,7 +80,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = () => {
   })
   const [toDeleteFileIds, setToDeleteFileIds] = useState<string[]>([])
   const spaces = useSpaces(files, memorySpace as MemorySpace, loading)
-  const diskSpaceCategories = useDiskSpaceCategories(files, spaces)
+  const diskSpaceCategories = useDiskSpaceCategories(files, spaces, filesSummaryElements)
   const { freeSpace, totalMemorySpace, usedMemorySpace } = spaces
 
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
@@ -86,14 +92,8 @@ const FilesManager: FunctionComponent<FilesManagerProps> = () => {
   }, [dispatch])
 
   useEffect(() => {
-    if (deviceType) {
-      if (deviceType === DeviceType.MuditaPure) {
-        dispatch(getFiles(DeviceDirectory.Music))
-      } else {
-        dispatch(getFiles(DeviceDirectory.Relaxation))
-      }
-    }
-  }, [dispatch, deviceType])
+    dispatch(getFiles())
+  }, [dispatch])
 
   useEffect(() => {
     if (deleting === State.Initial) {
@@ -232,19 +232,20 @@ const FilesManager: FunctionComponent<FilesManagerProps> = () => {
       />
       {diskSpaceCategories && (
         <FilesSummary
+          summaryTitleMessage={summaryTitleMessage}
           diskSpaceCategories={diskSpaceCategories}
           totalMemorySpace={totalMemorySpace}
           usedMemory={usedMemorySpace}
         />
       )}
-      <FilesStorage
-        state={loading}
-        onDeleteClick={handleDeleteClick}
-        onManagerDeleteClick={handleManagerDeleteClick}
-        disableUpload={disableUpload}
-      />
+      {children({
+        state: loading,
+        disableUpload: disableUpload,
+        onDeleteClick: handleDeleteClick,
+        onManagerDeleteClick: handleManagerDeleteClick,
+      })}
     </FilesManagerContainer>
   )
 }
 
-export default FilesManager
+export default FilesManagerCore

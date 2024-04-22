@@ -5,6 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
+import { useDispatch, useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import Button from "Core/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
@@ -19,6 +20,10 @@ import { FilesManagerPanelTestIds } from "Core/files-manager/components/files-ma
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import { Size } from "Core/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import FilesManagerSearchInput from "Core/files-manager/components/files-manager-search-input/files-manager-search-input"
+import { resetAllItems, selectAllItems } from "Core/files-manager/actions"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import getFilesSelectedSelector from "Core/files-manager/selectors/get-files-selected.selector"
+import isAllFilesSelectedSelector from "Core/files-manager/selectors/is-all-files-selected.selector"
 
 const messages = defineMessages({
   uploadButton: { id: "module.filesManager.uploadButton" },
@@ -28,16 +33,23 @@ const messages = defineMessages({
 export const FilesManagerPanel: FunctionComponent<FilesManagerPanelProps> = ({
   disabled,
   onUploadFile,
-  selectedFiles,
-  allItemsSelected,
   onDeleteClick,
-  toggleAll,
-  resetRows,
   searchValue,
   onSearchValueChange,
 }) => {
-  const selectedItemsCount = selectedFiles.length
+  const dispatch = useDispatch<Dispatch>()
+  const selectedItems = useSelector(getFilesSelectedSelector)
+  const allItemsSelected = useSelector(isAllFilesSelectedSelector)
+  const selectedItemsCount = selectedItems.length
   const selectionMode = selectedItemsCount > 0
+
+  const toggleAll = () => {
+    dispatch(selectAllItems())
+  }
+
+  const resetRows = () => {
+    dispatch(resetAllItems())
+  }
 
   return (
     <PanelWrapper data-testid={FilesManagerPanelTestIds.Wrapper}>
