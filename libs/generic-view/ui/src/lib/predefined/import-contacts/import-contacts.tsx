@@ -27,8 +27,8 @@ import { ImportContactsSuccess } from "./import-contacts-success"
 import { ImportContactsError } from "./import-contacts-error"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { ImportContactsConfig } from "generic-view/models"
 import { useFormContext } from "react-hook-form"
+import { ImportContactsConfig } from "generic-view/models"
 
 const messages = defineMessages({
   cancellationErrorTitle: {
