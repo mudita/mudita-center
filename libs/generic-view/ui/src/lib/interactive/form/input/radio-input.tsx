@@ -5,20 +5,13 @@
 
 import React, { useId } from "react"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
-import { withData } from "../../../utils/with-data"
 import styled from "styled-components"
 import { useFormContext } from "react-hook-form"
-import { RegisterOptions } from "react-hook-form/dist/types/validator"
+import { FormRadioInputConfig } from "generic-view/models"
 
-interface Config {
-  name: string
-  value: string
-  label: string
-  validation?: Pick<RegisterOptions, "required">
-}
-
-export const RadioInput: APIFC<undefined, Config> = ({ data, config }) => {
+export const RadioInput: APIFC<undefined, FormRadioInputConfig> = ({
+  config,
+}) => {
   const id = useId()
   const { register } = useFormContext()
 
@@ -27,18 +20,16 @@ export const RadioInput: APIFC<undefined, Config> = ({ data, config }) => {
       <Input
         id={"input-" + id}
         type={"radio"}
-        value={config!.value}
-        {...register(config!.name, { ...config?.validation })}
+        value={config.value}
+        {...register(config.name, { ...config.validation })}
       />
       <Label htmlFor={"input-" + id}>
         <InputIndicator />
-        {config?.label}
+        {config.label}
       </Label>
     </Wrapper>
   )
 }
-
-export default withData(withConfig(RadioInput))
 
 const Wrapper = styled.div`
   display: flex;

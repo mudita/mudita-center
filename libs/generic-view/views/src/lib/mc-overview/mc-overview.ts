@@ -59,7 +59,7 @@ export const generateMcOverviewLayout: ViewGenerator<OverviewConfig> = (
       }
     }) || []
 
-  const mainConfig: MainView = {
+  const mainConfig: MainView["main"] = {
     screenTitle: config.title,
     component: "block-plain",
     layout: {

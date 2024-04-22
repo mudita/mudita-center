@@ -5,18 +5,12 @@
 
 import React, { useId } from "react"
 import { APIFC, IconType } from "generic-view/utils"
-import { withConfig } from "../../../utils/with-config"
-import { withData } from "../../../utils/with-data"
 import styled from "styled-components"
-import { RegisterOptions, useFormContext } from "react-hook-form"
-import Icon from "../../../icon/icon"
+import { useFormContext } from "react-hook-form"
+import { Icon } from "../../../icon/icon"
+import { FormCheckboxInputConfig } from "generic-view/models"
 
-interface Config {
-  name: string
-  value: string
-  checked?: boolean
-  label?: string
-  validation?: Pick<RegisterOptions, "required">
+interface Config extends FormCheckboxInputConfig {
   onToggle?: (checked: boolean) => void
 }
 
@@ -28,8 +22,8 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
 }) => {
   const id = useId()
   const { register } = useFormContext()
-  const { onChange, ...rest } = register(config!.name, {
-    ...config?.validation,
+  const { onChange, ...rest } = register(config.name, {
+    ...config.validation,
   })
 
   return (
@@ -37,10 +31,10 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
       <Input
         id={"checkbox-" + id}
         type={"checkbox"}
-        value={config?.value}
-        checked={config?.checked}
+        value={config.value}
+        checked={config.checked}
         onChange={(e) => {
-          config?.onToggle?.(e.target.checked)
+          config.onToggle?.(e.target.checked)
           void onChange(e)
         }}
         {...rest}
@@ -49,13 +43,11 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
         <InputBox>
           <CheckIcon />
         </InputBox>
-        {children || config?.label}
+        {children || config.label}
       </Label>
     </Wrapper>
   )
 }
-
-export default withData(withConfig(CheckboxInput))
 
 const Wrapper = styled.div`
   display: flex;

@@ -122,7 +122,7 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
             overlayHidden: true,
           }}
         >
-          <Modal.TitleIcon data={{ type: IconType.Mudita }} />
+          <Modal.TitleIcon config={{ type: IconType.Mudita }} />
           <Modal.Title>
             {intl.formatMessage(messages.lockedModalHeadline)}
           </Modal.Title>

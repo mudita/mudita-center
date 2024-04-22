@@ -6,7 +6,7 @@
 import { MainView, Subview, View } from "generic-view/utils"
 
 export const generateViewConfig = (
-  config: Omit<MainView, "childrenKeys">,
+  config: Omit<MainView["main"], "childrenKeys">,
   mainFeatures: Subview[],
   subFeatures: Subview[] = []
 ): View => {
@@ -14,7 +14,7 @@ export const generateViewConfig = (
     main: {
       ...config,
       childrenKeys: getViewChildrenKeys(mainFeatures),
-    },
+    } as MainView["main"],
     ...[...mainFeatures, ...subFeatures].filter(Boolean).reduce(
       (acc, feature) => ({
         ...acc,

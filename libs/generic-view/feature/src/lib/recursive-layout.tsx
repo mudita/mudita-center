@@ -12,7 +12,7 @@ import {
   selectComponentChildrenKeys,
   selectComponentName,
 } from "generic-view/store"
-import { withLayout } from "./with-layout"
+import { setupComponent } from "./setup-component"
 
 interface Properties {
   viewKey: string
@@ -28,7 +28,7 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
   })
   const childrenKeys = useSelector((state: ReduxRootState) => {
     return selectComponentChildrenKeys(state, { viewKey, componentKey })
-  })
+  }) as string[] | undefined
   const childrenKeysDependency = JSON.stringify(childrenKeys)
   return useMemo(() => {
     if (!componentName) {
@@ -36,7 +36,9 @@ export const RecursiveLayout: FunctionComponent<Properties> = (
       return null
     }
 
-    const ApiComponent = withLayout(apiComponents[componentName] as APIFC)
+    const ApiComponent = setupComponent(
+      apiComponents[componentName as keyof typeof apiComponents] as APIFC
+    )
 
     return (
       <ApiComponent {...recursiveComponentMetadata}>

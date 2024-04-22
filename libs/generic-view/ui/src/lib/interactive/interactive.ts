@@ -5,36 +5,45 @@
 
 import Modal from "./modal/modal"
 import { TextModal } from "./modal/text-modal"
-import TextInput from "./form/input/text-input"
-import ProgressBar from "./progress-bar/progress-bar"
+import { ProgressBar } from "./progress-bar/progress-bar"
 import Form from "./form/form"
-import RadioInput from "./form/input/radio-input"
-import CheckboxInput from "./form/input/checkbox-input"
 import Tooltip from "./tooltip/tooltip"
-import SearchInput from "./form/input/search-input"
-import ModalButtons from "./modal/helpers/modal-buttons"
-import ModalCloseButton from "./modal/helpers/modal-close-button"
-import ModalSizeController from "./modal/helpers/modal-size-controller"
-import ModalTitle from "./modal/helpers/modal-title"
-import ModalTitleIcon from "./modal/helpers/modal-title-icon"
-import ModalScrollableContent from "./modal/helpers/modal-scrollable-content"
+import {
+  form,
+  formCheckboxInput,
+  formRadioInput,
+  formSearchInput,
+  formTextInput,
+  modal,
+  modalButtons,
+  modalCloseButton,
+  modalScrollableContent,
+  modalSizeController,
+  modalTitle,
+  modalTitleIcon,
+  progressBar,
+  textModal,
+  tooltip,
+  tooltipAnchor,
+  tooltipContent,
+} from "generic-view/models"
 
 export const interactive = {
-  modal: Modal,
-  "modal.titleIcon": ModalTitleIcon,
-  "modal.title": ModalTitle,
-  "modal.scrollableContent": ModalScrollableContent,
-  "modal.buttons": ModalButtons,
-  "modal.closeButton": ModalCloseButton,
-  "modal.sizeController": ModalSizeController,
-  "text-modal": TextModal,
-  form: Form,
-  "form.textInput": TextInput,
-  "form.searchInput": SearchInput,
-  "form.radioInput": RadioInput,
-  "form.checkboxInput": CheckboxInput,
-  "progress-bar": ProgressBar,
-  tooltip: Tooltip,
-  "tooltip.anchor": Tooltip.Anchor,
-  "tooltip.content": Tooltip.Content,
+  [modal.key]: Modal,
+  [modalTitleIcon.key]: Modal.TitleIcon,
+  [modalTitle.key]: Modal.Title,
+  [modalScrollableContent.key]: Modal.ScrollableContent,
+  [modalButtons.key]: Modal.Buttons,
+  [modalCloseButton.key]: Modal.CloseButton,
+  [modalSizeController.key]: Modal.SizeController,
+  [textModal.key]: TextModal,
+  [form.key]: Form,
+  [formTextInput.key]: Form.TextInput,
+  [formSearchInput.key]: Form.SearchInput,
+  [formRadioInput.key]: Form.RadioInput,
+  [formCheckboxInput.key]: Form.CheckboxInput,
+  [progressBar.key]: ProgressBar,
+  [tooltip.key]: Tooltip,
+  [tooltipAnchor.key]: Tooltip.Anchor,
+  [tooltipContent.key]: Tooltip.Content,
 }
