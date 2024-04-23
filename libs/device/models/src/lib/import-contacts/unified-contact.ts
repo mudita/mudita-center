@@ -13,13 +13,13 @@ export type UnifiedContact = {
   nickname?: string
   displayName: string
   phoneNumbers: {
-    type?: string
+    type?: string // "mobile" | "home" | "work" | "other"
     value: string
     preference?: number
   }[]
   emailAddresses: {
     value: string
-    type?: string
+    type?: string // "home" | "work" | "other"
     preference?: number
   }[]
   addresses: {

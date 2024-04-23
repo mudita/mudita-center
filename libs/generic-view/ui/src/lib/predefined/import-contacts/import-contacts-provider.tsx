@@ -11,7 +11,10 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { useDispatch } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { startGoogleAuthorization } from "generic-view/store"
+import {
+  importContactsFromFile,
+  startGoogleAuthorization,
+} from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 
 const messages = defineMessages({
@@ -20,6 +23,12 @@ const messages = defineMessages({
   },
   description: {
     id: "module.genericViews.importContacts.providerModal.description",
+  },
+  googleButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.googleButtonLabel",
+  },
+  fileUploadButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.fileUploadButtonLabel",
   },
 })
 
@@ -33,7 +42,7 @@ export const ImportContactsProvider = () => {
       <ButtonsWrapper config={{ vertical: true }}>
         <ButtonSecondary
           config={{
-            text: "Continue with Google",
+            text: intl.formatMessage(messages.googleButtonLabel),
             action: {
               type: "custom",
               callback: () => {
@@ -70,12 +79,12 @@ export const ImportContactsProvider = () => {
         </ButtonSecondary>
         <ButtonWithIconStyled
           config={{
-            text: "Upload csv or vcard",
+            text: intl.formatMessage(messages.fileUploadButtonLabel),
             icon: IconType.Import,
             action: {
               type: "custom",
               callback: () => {
-                dispatch(startGoogleAuthorization())
+                dispatch(importContactsFromFile())
               },
             },
           }}

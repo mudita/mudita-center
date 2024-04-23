@@ -18,7 +18,7 @@ import { ButtonPrimary } from "../../buttons/button-primary"
 import { UnifiedContact } from "device/models"
 import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
-import { importContactsSelector } from "generic-view/store"
+import { getDisplayName, importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
 import { Divider } from "../../helpers/divider"
 import { Form } from "../../interactive/form/form"
@@ -59,14 +59,13 @@ export const ImportContactsList: FunctionComponent<Props> = ({
     selectedContacts.length === contacts?.length && contacts?.length > 0
 
   const filteredContacts = useMemo(() => {
-    return contacts.filter(({ firstName, lastName }) => {
+    return contacts.filter(({ firstName, middleName, lastName }) => {
       if (!searchPhrase) {
         return true
       }
-      return (
-        firstName?.toLowerCase().includes(searchPhrase.toLowerCase()) ||
-        lastName?.toLowerCase().includes(searchPhrase.toLowerCase())
-      )
+      return getDisplayName({ firstName, middleName, lastName })
+        .toLowerCase()
+        .includes(searchPhrase.toLowerCase())
     })
   }, [contacts, searchPhrase])
 

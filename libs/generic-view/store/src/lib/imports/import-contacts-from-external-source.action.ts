@@ -9,7 +9,7 @@ import { ActionName } from "../action-names"
 import externalProvidersStore from "Core/__deprecated__/renderer/store/external-providers"
 import { GoogleContactResourceItem } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
 import { UnifiedContact } from "device/models"
-import omit from "lodash/omit"
+import { mapGoogleApi } from "./contacts-mappers/google-api/map-google-api"
 
 export const importContactsFromExternalSource = createAsyncThunk<
   UnifiedContact[],
@@ -23,83 +23,6 @@ export const importContactsFromExternalSource = createAsyncThunk<
       skipMapping: true,
     })) as unknown as GoogleContactResourceItem[]
 
-    return mapGoogleContactsToUnifiedContacts(contacts)
+    return mapGoogleApi(contacts)
   }
 )
-
-const mapGoogleContactsToUnifiedContacts = (
-  contacts: GoogleContactResourceItem[]
-): UnifiedContact[] => {
-  try {
-    return contacts.map((contact, index): UnifiedContact => {
-      const name =
-        contact.names?.find((item) => item.metadata.primary) ||
-        contact.names?.[0]
-
-      const partialResult: Omit<UnifiedContact, "displayName"> = {
-        id: contact.resourceName,
-        ...omit(name, [
-          "metadata",
-          "displayNameLastFirst",
-          "displayName",
-          "familyName",
-          "givenName",
-        ]),
-        firstName: name?.givenName,
-        lastName: name?.familyName,
-        phoneNumbers:
-          contact.phoneNumbers?.map((item) => {
-            return {
-              ...omit(item, ["metadata"]),
-              ...(item.metadata.primary && { preference: 1 }),
-            }
-          }) ?? [],
-        addresses:
-          contact.addresses?.map((item) => {
-            return {
-              ...omit(item, ["metadata", "formattedValue"]),
-              ...(item.metadata.primary && { preference: 1 }),
-            }
-          }) ?? [],
-        emailAddresses:
-          contact.emailAddresses?.map((item) => {
-            return {
-              ...omit(item, ["metadata"]),
-              ...(item.metadata.primary && { preference: 1 }),
-            }
-          }) ?? [],
-        organizations:
-          contact.organizations?.map((item) => {
-            return {
-              ...omit(item, ["metadata"]),
-            }
-          }) ?? [],
-        urls:
-          contact.urls?.map((item) => {
-            return {
-              ...omit(item, ["metadata"]),
-              ...(item.metadata.primary && { preference: 1 }),
-            }
-          }) ?? [],
-        nickname:
-          contact.nicknames?.find((item) => item.metadata.primary)?.value ||
-          contact.nicknames?.[0].value,
-      }
-
-      return {
-        displayName: getDisplayName(partialResult),
-        ...partialResult,
-      }
-    })
-  } catch {
-    return []
-  }
-}
-
-const getDisplayName = (contact: Omit<UnifiedContact, "displayName">) => {
-  const baseName = [contact.firstName, contact.lastName]
-    .filter(Boolean)
-    .join(" ")
-  if (baseName) return baseName
-  return "N/A"
-}

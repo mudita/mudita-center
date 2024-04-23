@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/directory-service-events"
-export * from "./lib/file-dialog-service-events"
+export enum FileDialogServiceEvents {
+  SelectSingleFile = "directoryservice-open-file",
+}

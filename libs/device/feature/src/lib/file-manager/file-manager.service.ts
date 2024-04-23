@@ -208,6 +208,19 @@ export class FileManager {
     }
   }
 
+  @IpcEvent(FileManagerServiceEvents.ReadAndGetFile)
+  public readAndGetFile({ filePath }: Parameters<typeof this.readFile>[0]) {
+    const fileId = this.readFile({ filePath })
+    if (!fileId.ok) {
+      return Result.failed(new AppError(GeneralError.InternalError))
+    }
+    const file = this.getFile(fileId.data)
+    if (!file) {
+      return Result.failed(new AppError(GeneralError.InternalError))
+    }
+    return Result.success(file)
+  }
+
   @IpcEvent(FileManagerServiceEvents.ClearFile)
   public clearFile(id: string) {
     delete this.files[id]

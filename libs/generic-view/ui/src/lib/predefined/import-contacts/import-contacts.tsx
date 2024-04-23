@@ -12,6 +12,7 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   cleanImportProcess,
   closeModal as closeModalAction,
+  importContactsErrorSelector,
   importContactsFromExternalSource,
   importStatusSelector,
   startDataTransferToDevice,
@@ -44,6 +45,7 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
 }) => {
   const dispatch = useDispatch<Dispatch>()
   const importStatus = useSelector(importStatusSelector)
+  const importError = useSelector(importContactsErrorSelector)
   const [error, setError] = useState<CustomModalError>()
   const dataTransferAbortReference = useRef<VoidFunction>()
   const { watch } = useFormContext<{ [SELECTED_CONTACTS_FIELD]?: string[] }>()
@@ -94,6 +96,14 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
       dataTransferAbortReference.current?.()
     },
   }
+
+  useEffect(() => {
+    if (importError) {
+      setError({
+        message: importError,
+      })
+    }
+  }, [importError])
 
   useEffect(() => {
     if (importStatus === "AUTH") {
