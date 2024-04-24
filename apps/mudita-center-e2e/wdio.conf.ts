@@ -57,13 +57,15 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
     toRelativePath(TestFilesPaths.helpWindowCheckTest),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
-    toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
+    toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+    toRelativePath(TestFilesPaths.termsOfServiceTest),
   ],
   suites: {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
-      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+      toRelativePath(TestFilesPaths.termsOfServiceTest),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -73,17 +75,15 @@ export const config: Options.Testrunner = {
     multideviceHarmonyKompakt: [],
     multideviceGeneral: [],
     harmony: [],
-    pure: [
-      toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
-    ],
+    pure: [toRelativePath(TestFilesPaths.messagesInAppNavigationTest)],
     kompakt: [],
     deviceUpdate: [],
     cicd: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
-      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest)
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+      toRelativePath(TestFilesPaths.termsOfServiceTest),
     ],
-
   },
   // Patterns to exclude.
   exclude: [
