@@ -5,10 +5,9 @@
 
 import { parse } from "papaparse"
 import { isEmpty } from "lodash"
-import { UnifiedContact } from "device/models"
-import { mapCsv } from "./map-csv"
+import { ContactRow } from "./parse.types"
 
-export const parseCsv = (csv: string): UnifiedContact[] => {
+export const parseCsv = (csv: string): ContactRow[] => {
   const fixedCsv = fixFormatting(csv)
   const result = parse(fixedCsv, {
     skipEmptyLines: true,
@@ -31,16 +30,15 @@ export const parseCsv = (csv: string): UnifiedContact[] => {
   ) {
     throw new Error("The file is not in the correct format.")
   }
-  const contacts = mapCsv(result.data)
-  if (isEmpty(contacts)) {
+  if (isEmpty(result.data)) {
     throw new Error("No contacts found in the file.")
   }
-  return contacts
+  return result.data as ContactRow[]
 }
 
 const fixFormatting = (value: string) => {
   // Replace new lines in the middle of a field with a space
-  return value.replaceAll(/("(.+[^"]*?)")/gmu, (value) => {
-    return value.replaceAll(/\s/gm, " ")
+  return value.replaceAll(/"(.*?)"/gsu, (match) => {
+    return match.replaceAll(/\s/gm, " ")
   })
 }

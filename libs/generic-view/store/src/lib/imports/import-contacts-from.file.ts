@@ -5,12 +5,13 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { AppError } from "Core/core/errors"
 import { ActionName } from "../action-names"
 import { UnifiedContact } from "device/models"
 import { readAndGetFileRequest, selectSingleFileRequest } from "device/feature"
 import { detect } from "jschardet"
 import { parseCsv } from "./contacts-mappers/csv/parse-csv"
-import { AppError } from "Core/core/errors"
+import { mapCsv } from "./contacts-mappers/csv/map-csv"
 
 export const importContactsFromFile = createAsyncThunk<
   UnifiedContact[],
@@ -43,7 +44,7 @@ export const importContactsFromFile = createAsyncThunk<
 
   if (filePathResult.data.endsWith(".csv")) {
     try {
-      return parseCsv(content)
+      return mapCsv(parseCsv(content))
     } catch (error) {
       return rejectWithValue((error as Error).message)
     }
