@@ -8,8 +8,7 @@ import { settingsStateSelector } from "Core/settings/selectors"
 
 export const shouldAppUpdateFlowVisible = createSelector(
   settingsStateSelector,
-  (settingsState): boolean => {
-    const { updateAvailable, updateAvailableSkipped } = settingsState
-    return updateAvailable === true && !updateAvailableSkipped
+  ({ updateAvailable, updateAvailableSkipped, updateRequired }): boolean => {
+    return (updateAvailable && !updateAvailableSkipped) || updateRequired
   }
 )

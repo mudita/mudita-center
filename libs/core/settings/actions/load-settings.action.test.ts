@@ -63,8 +63,6 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
     {
       type: SettingsEvent.SetSettings,
       payload: {
-        checkingForUpdate: false,
-        checkingForUpdateFailed: false,
         collectingData: false,
         currentVersion: `${packageInfo.version}`,
         lowestSupportedVersions: {
