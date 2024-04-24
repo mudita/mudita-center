@@ -12,6 +12,7 @@ import { readAndGetFileRequest, selectSingleFileRequest } from "device/feature"
 import { detect } from "jschardet"
 import { parseCsv } from "./contacts-mappers/csv/parse-csv"
 import { mapCsv } from "./contacts-mappers/csv/map-csv"
+import { isEmpty } from "lodash"
 
 export const importContactsFromFile = createAsyncThunk<
   UnifiedContact[],
@@ -44,7 +45,11 @@ export const importContactsFromFile = createAsyncThunk<
 
   if (filePathResult.data.endsWith(".csv")) {
     try {
-      return mapCsv(parseCsv(content))
+      const contacts = mapCsv(parseCsv(content))
+      if (isEmpty(contacts)) {
+        return rejectWithValue("No contacts found in the file.")
+      }
+      return contacts
     } catch (error) {
       return rejectWithValue((error as Error).message)
     }
