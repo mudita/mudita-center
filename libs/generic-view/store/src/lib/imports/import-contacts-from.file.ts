@@ -12,6 +12,8 @@ import { readAndGetFileRequest, selectSingleFileRequest } from "device/feature"
 import { detect } from "jschardet"
 import { parseCsv } from "./contacts-mappers/csv/parse-csv"
 import { mapCsv } from "./contacts-mappers/csv/map-csv"
+import { parseVcard } from "./contacts-mappers/vcard/parse-vcard"
+import { mapVcard } from "./contacts-mappers/vcard/map-vcard"
 import { isEmpty } from "lodash"
 
 export const importContactsFromFile = createAsyncThunk<
@@ -54,7 +56,15 @@ export const importContactsFromFile = createAsyncThunk<
       return rejectWithValue((error as Error).message)
     }
   } else if (filePathResult.data.endsWith(".vcf")) {
-    return []
+    try {
+      const contacts = mapVcard(parseVcard(content))
+      if (isEmpty(contacts)) {
+        return rejectWithValue("No contacts found in the file.")
+      }
+      return contacts
+    } catch (error) {
+      return rejectWithValue((error as Error).message)
+    }
   } else {
     return rejectWithValue("Unsupported file type.")
   }
