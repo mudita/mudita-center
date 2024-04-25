@@ -23,6 +23,7 @@ interface ImportsState {
 type ImportProvider = "GOOGLE" | "FILE"
 
 export type ImportStatus =
+  | "INIT"
   | "PENDING-AUTH"
   | "AUTH"
   | "IMPORT-INTO-MC-IN-PROGRESS"
@@ -35,14 +36,17 @@ export type ImportStatus =
 
 export type ProcessFileStatus = "PENDING" | "IN_PROGRESS" | "DONE"
 
-interface ImportProviderState {
+export interface ImportProviderState {
   status: ImportStatus
   contacts?: UnifiedContact[]
   domainFilesTransfer: Record<
     string,
     { transferId?: number; status: ProcessFileStatus }
   >
-  error?: string
+  error?: {
+    title?: string
+    message?: string
+  }
 }
 
 const initialState: ImportsState = {
@@ -52,6 +56,7 @@ const initialState: ImportsState = {
 export const importsReducer = createReducer(initialState, (builder) => {
   builder.addCase(cleanImportProcess, (state, action) => {
     delete state.currentImportProvider
+    state.providers = {}
   })
   builder.addCase(startGoogleAuthorization.pending, (state, action) => {
     state.currentImportProvider = "GOOGLE"
@@ -112,11 +117,22 @@ export const importsReducer = createReducer(initialState, (builder) => {
     }
   })
   builder.addCase(importContactsFromFile.rejected, (state, action) => {
-    state.providers.FILE = {
-      ...state.providers.FILE,
-      domainFilesTransfer: state.providers.FILE?.domainFilesTransfer ?? {},
-      status: "FAILED",
-      ...(typeof action.payload === "string" ? { error: action.payload } : {}),
+    if (action.payload === "cancelled") {
+      state.providers.FILE = {
+        ...state.providers.FILE,
+        domainFilesTransfer: state.providers.FILE?.domainFilesTransfer ?? {},
+        status: "INIT",
+      }
+    } else {
+      state.providers.FILE = {
+        ...state.providers.FILE,
+        domainFilesTransfer: state.providers.FILE?.domainFilesTransfer ?? {},
+        status: "FAILED",
+        ...(action.payload &&
+        ("message" in action.payload || "title" in action.payload)
+          ? { error: action.payload }
+          : {}),
+      }
     }
   })
   builder.addCase(importContactsFromFile.fulfilled, (state, action) => {

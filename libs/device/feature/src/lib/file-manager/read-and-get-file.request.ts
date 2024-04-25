@@ -9,7 +9,12 @@ import { ipcRenderer } from "electron-better-ipc"
 
 export const readAndGetFileRequest = (
   filePath: string
-): Promise<ResultObject<string>> => {
+): Promise<
+  ResultObject<{
+    id: string
+    file: string
+  }>
+> => {
   return ipcRenderer.callMain(FileManagerServiceEvents.ReadAndGetFile, {
     filePath,
   })

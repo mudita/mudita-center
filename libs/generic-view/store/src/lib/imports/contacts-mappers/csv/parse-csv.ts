@@ -28,16 +28,17 @@ export const parseCsv = (csv: string): ContactRow[] => {
       }
     })
   ) {
-    throw new Error("The file is not in the correct format.")
+    console.error(result.errors)
+    throw new Error("File could not be parsed")
   }
   if (isEmpty(result.data)) {
-    throw new Error("No contacts found in the file.")
+    throw new Error("No contacts found")
   }
   return result.data as ContactRow[]
 }
 
 const fixFormatting = (value: string) => {
-  // Replace new lines in the middle of a field with a space
+  // Replace new lines in the middle of a field with spaces
   return value.replaceAll(/"(.*?)"/gsu, (match) => {
     return match.replaceAll(/\s/gm, " ")
   })

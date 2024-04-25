@@ -99,9 +99,7 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
 
   useEffect(() => {
     if (importError) {
-      setError({
-        message: importError,
-      })
+      setError(importError)
     }
   }, [importError])
 
@@ -127,7 +125,9 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
         <Modal.CloseButton config={{ action: backupAbortButtonAction }} />
       )}
 
-      {importStatus === undefined && <ImportContactsProvider />}
+      {(importStatus === undefined || importStatus === "INIT") && (
+        <ImportContactsProvider />
+      )}
       {(importStatus === "AUTH" ||
         importStatus === "PENDING-AUTH" ||
         importStatus === "IMPORT-INTO-MC-IN-PROGRESS") && (
