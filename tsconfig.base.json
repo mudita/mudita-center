@@ -31,6 +31,7 @@
       "device/adapters": ["libs/device/adapters/src/index.ts"],
       "device/feature": ["libs/device/feature/src/index.ts"],
       "device/models": ["libs/device/models/src/index.ts"],
+      "e2e-mock-client": ["libs/e2e-mock/client/src/index.ts"],
       "e2e-mock-server": ["libs/e2e-mock/server/src/index.ts"],
       "external-tools/matomo-to-gsheet": [
         "libs/external-tools/matomo-to-gsheet/src/index.ts"
