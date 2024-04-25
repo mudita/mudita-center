@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import SerialPort, { PortInfo as SerialPortInfo } from "serialport"
+import { PortInfo as SerialPortInfo } from "serialport"
 import { Mutex } from "async-mutex"
 import { EventEmitter } from "events"
-import { DeviceResolverService } from "Core/device-manager/services/device-resolver.service"
+import { IDeviceResolverService } from "Core/device-manager/services/device-resolver.service"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
 import { PortInfo } from "Core/device-manager/types"
@@ -23,6 +23,7 @@ import { RequestConfig } from "Core/device/types/mudita-os"
 import { DeviceCommunicationError, DeviceType } from "Core/device"
 import { MockCoreDevice } from "Core/device/modules/mock-core-device"
 import { callRenderer } from "shared/utils"
+import { getSerialPortList } from "./serial-port-list.helper"
 
 export class DeviceManager {
   public activeDevice: BaseDevice | undefined
@@ -31,7 +32,7 @@ export class DeviceManager {
   private mutex = new Mutex()
 
   constructor(
-    private deviceResolver: DeviceResolverService,
+    private deviceResolver: IDeviceResolverService,
     protected eventEmitter: EventEmitter
   ) {}
 
@@ -95,6 +96,7 @@ export class DeviceManager {
   }
 
   public async addDevice(port: PortInfo): Promise<void> {
+    console.log("===== addDevice =====")
     await this.mutex.runExclusive(async () => {
       await this.addDeviceTask(port)
     })
@@ -120,6 +122,7 @@ export class DeviceManager {
 
   public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
+
     return (
       portList
         // AUTO DISABLED - fix me if you like :)
@@ -194,7 +197,7 @@ export class DeviceManager {
 
   @log("==== device manager: list ====", { space: 0 })
   private getSerialPortList(): Promise<SerialPortInfo[]> {
-    return SerialPort.list()
+    return getSerialPortList()
   }
 
   private getDeviceByPath(path: string): BaseDevice | undefined {

@@ -42,12 +42,13 @@ import { DeviceModule } from "Core/device/device.module"
 import { DeviceManagerModule } from "Core/device-manager/device-manager.module"
 import {
   DeviceManager,
-  DeviceResolverService,
+  // DeviceResolverService,
 } from "Core/device-manager/services"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
 import { FileSystemDialogModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
+import { MockDeviceResolverService } from "e2e-mock-server"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -90,7 +91,8 @@ export class ApplicationModule {
   private apiModule: APIModule
 
   private deviceManager = new DeviceManager(
-    new DeviceResolverService(),
+    // new DeviceResolverService(),
+    new MockDeviceResolverService(),
     this.eventEmitter
   )
   private systemUtilsModule = new SystemUtilsModule()
