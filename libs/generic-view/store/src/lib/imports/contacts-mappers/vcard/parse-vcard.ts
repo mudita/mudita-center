@@ -11,7 +11,6 @@ export const parseVcard = (data: string) => {
     const card = vCard.parse(fixedVcard)
     return card.map((vcard) => vcard.toJCard("4.0"))
   } catch (error) {
-    console.log(error)
     throw new Error("The file could not be parsed.")
   }
 }
