@@ -61,6 +61,7 @@ export const importContactsFromFile = createAsyncThunk<
       if (isEmpty(contacts)) {
         return rejectWithValue("No contacts found in the file.")
       }
+      console.log(contacts)
       return contacts
     } catch (error) {
       return rejectWithValue((error as Error).message)
