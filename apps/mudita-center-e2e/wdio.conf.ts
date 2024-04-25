@@ -59,6 +59,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.termsOfServiceTest),
+    toRelativePath(TestFilesPaths.backupLocationTest),
   ],
   suites: {
     standalone: [
@@ -66,6 +67,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
+      toRelativePath(TestFilesPaths.backupLocationTest),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],

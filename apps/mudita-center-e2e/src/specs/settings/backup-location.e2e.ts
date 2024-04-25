@@ -21,10 +21,15 @@ describe("Open Settings and change backup location", () => {
     const aboutTab = await SettingsPage.aboutTab
     await aboutTab.waitForDisplayed()
 
-    await browser.pause(300000)
+    const changeLocationButton = await SettingsPage.changeLocationButton
+    await changeLocationButton.waitForClickable()
   })
-  it("Change backup location to not existing folder", async () => {
-    // Linux Windows MacOS split?
+  it("Verify default backup location", async () => {
+    const changeLocationValue = await SettingsPage.changeLocationValue
+    await changeLocationValue.waitForDisplayed()
+
+    await expect(changeLocationValue).toHaveTextContaining(
+      /^(\/{1}|C\:\\)(Users|home).*(\/Library\/Application Support|\/.config|\\AppData\\Roaming)(\/@mudita\/mudita-center-app|\\@mudita\\mudita-center-app).*/gm
+    )
   })
-  it("Change backup location to existing folder", async () => {})
 })
