@@ -3,7 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export function E2eMockClient() {
-  console.log("E2eMockClient test")
-  return
+import clientEmiter from "./ipc-client/ipc-client"
+
+export const E2EMockClient = {
+  checkConnection: () => {
+    return !!clientEmiter
+  },
+  addDevice: () => {
+    clientEmiter?.("mock.add.device", {
+      path: "hello",
+      serialNumber: "world",
+    })
+  },
 }
