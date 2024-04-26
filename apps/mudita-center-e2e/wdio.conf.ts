@@ -83,6 +83,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
+      toRelativePath(TestFilesPaths.overviewMenuItemTest),
     ],
   },
   // Patterns to exclude.

@@ -6,3 +6,4 @@
 export * from "./lib/server"
 export { getMockedDevices } from "./lib/mock-descriptor/mock-descriptor"
 export * from "./lib/mock-data-resolver-service"
+export * from "./lib/mock-descriptor/mock-descriptor-validators"

@@ -3,16 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AddKompakt } from "e2e-mock-server"
 import clientEmiter from "./ipc-client/ipc-client"
 
 export const E2EMockClient = {
   checkConnection: () => {
     return !!clientEmiter
   },
-  addDevice: () => {
-    clientEmiter?.("mock.add.device", {
-      path: "hello",
-      serialNumber: "world",
-    })
+  addDevice: (kompaktPortInfo?: AddKompakt) => {
+    clientEmiter?.(
+      "mock.add.device",
+      kompaktPortInfo ?? {
+        path: "hello",
+        serialNumber: "world",
+      }
+    )
   },
 }
