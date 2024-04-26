@@ -24,6 +24,7 @@ type ImportProvider = "GOOGLE" | "FILE"
 
 export type ImportStatus =
   | "INIT"
+  | "FILE-SELECT"
   | "PENDING-AUTH"
   | "AUTH"
   | "IMPORT-INTO-MC-IN-PROGRESS"
@@ -67,7 +68,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
     state.providers.GOOGLE = {
       ...state.providers.GOOGLE,
       domainFilesTransfer: state.providers.GOOGLE?.domainFilesTransfer ?? {},
-      status: "FAILED",
+      status: "INIT",
     }
   })
   builder.addCase(startGoogleAuthorization.fulfilled, (state, action) => {
