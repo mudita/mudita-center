@@ -43,10 +43,7 @@ export interface ImportProviderState {
     string,
     { transferId?: number; status: ProcessFileStatus }
   >
-  error?: {
-    title?: string
-    message?: string
-  }
+  error?: string
 }
 
 const initialState: ImportsState = {
@@ -128,10 +125,7 @@ export const importsReducer = createReducer(initialState, (builder) => {
         ...state.providers.FILE,
         domainFilesTransfer: state.providers.FILE?.domainFilesTransfer ?? {},
         status: "FAILED",
-        ...(action.payload &&
-        ("message" in action.payload || "title" in action.payload)
-          ? { error: action.payload }
-          : {}),
+        ...(action.payload ? { error: action.payload } : {}),
       }
     }
   })

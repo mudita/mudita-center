@@ -99,7 +99,9 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
 
   useEffect(() => {
     if (importError) {
-      setError(importError)
+      setError({
+        message: importError,
+      })
     }
   }, [importError])
 
