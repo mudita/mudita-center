@@ -13,7 +13,8 @@ import {
   APIRequestWithPayload,
 } from "device/models"
 import { PortInfo } from "serialport"
-import DEFAULT_RESPONSES from "./default-responses"
+// import DEFAULT_RESPONSES from "./default-responses"
+import { mockDescriptor } from "../mock-descriptor/mock-descriptor"
 
 export class MockDevice extends BaseDevice {
   public connect(): Promise<ResultObject<undefined>> {
@@ -25,14 +26,19 @@ export class MockDevice extends BaseDevice {
   public request<R, T extends APIEndpointType>(
     config: APIRequestWithPayload<T>
   ): Promise<unknown> {
-    const responses =
-      DEFAULT_RESPONSES[config.endpoint]?.[config.method as APIMethodsType]
+    const response = mockDescriptor.getResponse(
+      this.portInfo.path,
+      config.endpoint,
+      config.method as APIMethodsType
+    )
+    // const responses =
+    //   DEFAULT_RESPONSES[config.endpoint]?.[config.method as APIMethodsType]
 
-    if (responses) {
+    if (response) {
       return new Promise<ResultObject<ApiResponse<unknown>>>((resolve) => {
         resolve(
           Result.success({
-            ...responses,
+            ...response,
             endpoint: config.endpoint,
           } as unknown as ApiResponse<unknown>)
         )

@@ -4,25 +4,31 @@
  */
 
 import ipc from "node-ipc"
-import { addKompaktValidator } from "./mock-descriptor/mock-descriptor-validators"
+import {
+  addKompaktResponseValidator,
+  addKompaktValidator,
+} from "./mock-descriptor/mock-descriptor-validators"
 import { mockDescriptor } from "./mock-descriptor/mock-descriptor"
 
 ipc.config.id = "MC"
 ipc.config.retry = 1500
 
 ipc.serve(function () {
-  ipc.server.on("app.message", function (data, socket) {
-    ipc.server.emit(socket, "app.message", {
-      //   id: ipc.config.id,
-      message: data.message + " world!",
-    })
-  })
   ipc.server.on("mock.add.device", function (data, socket) {
     const params = addKompaktValidator.safeParse(data)
-    console.log(data)
     if (params.success) {
-      console.log(params.data)
       mockDescriptor.addKompakt(params.data)
+    }
+  })
+  ipc.server.on("mock.remove.device", function (data, socket) {
+    if (typeof data === "string") {
+      mockDescriptor.removeDevice(data)
+    }
+  })
+  ipc.server.on("mock.response.every", function (data, socket) {
+    const params = addKompaktResponseValidator.safeParse(data)
+    if (params.success) {
+      mockDescriptor.addResponse(params.data)
     }
   })
 })

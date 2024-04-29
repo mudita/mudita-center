@@ -13,15 +13,9 @@ ipc.config.id = "E2E"
 ipc.config.retry = 1000
 
 ipc.connectTo("MC", function () {
-  const client = ipc.of.MC.on("connect", function () {
-    ipc.log("## connected to world ##", "delay" in ipc.config)
-    ipc.of.MC.emit("app.message", {
-      message: "hello",
-    })
-  })
+  const client = ipc.of.MC.on("connect", function () {})
   clientEmiter = client.emit.bind(client)
   ipc.of.MC.on("disconnect", function () {
-    ipc.log("disconnected from MC")
     clientEmiter = undefined
   })
 })

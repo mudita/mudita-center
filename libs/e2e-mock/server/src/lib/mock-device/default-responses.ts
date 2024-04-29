@@ -9,7 +9,9 @@ import { APIEndpointType, APIMethodsType } from "device/models"
 
 type MethodObject = Partial<Record<APIMethodsType, ApiResponse<unknown>>>
 
-const DEFAULT_RESPONSES: Partial<Record<APIEndpointType, MethodObject>> = {
+export type MockResponsesMap = Partial<Record<APIEndpointType, MethodObject>>
+
+const DEFAULT_RESPONSES: MockResponsesMap = {
   API_CONFIGURATION: {
     GET: {
       status: ResponseStatus.Ok,

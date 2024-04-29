@@ -19,4 +19,7 @@ export const E2EMockClient = {
       }
     )
   },
+  removeDevice: (path: string) => {
+    clientEmiter?.("mock.remove.device", path)
+  },
 }

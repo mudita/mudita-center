@@ -31,15 +31,12 @@ export class APIConfigService {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
-    console.log(":asdf")
-
     const response = await device.request({
       endpoint: "API_CONFIGURATION",
       method: "GET",
       body: {},
     })
 
-    console.log(response)
     if (response.ok) {
       const apiConfig = ApiConfigValidator.safeParse(response.data.body)
 

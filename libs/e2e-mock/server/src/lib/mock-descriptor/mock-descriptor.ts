@@ -5,7 +5,11 @@
 
 import { find } from "lodash"
 import { PortInfo } from "serialport"
-import { AddKompakt } from "./mock-descriptor-validators"
+import { AddKompakt, AddKompaktResponse } from "./mock-descriptor-validators"
+import DEFAULT_RESPONSES, {
+  MockResponsesMap,
+} from "../mock-device/default-responses"
+import { APIEndpointType, APIMethodsType } from "device/models"
 
 const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
   manufacturer: "Mudita",
@@ -16,6 +20,8 @@ const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
 }
 
 class MockDescriptor {
+  private _mockResponsesPerDevice: Record<string, MockResponsesMap> = {}
+
   private _devices: PortInfo[] = []
 
   get devices() {
@@ -31,6 +37,44 @@ class MockDescriptor {
     if (existingDevice === undefined) {
       this._devices = [...this.devices, portInfo]
     }
+  }
+
+  public removeDevice(path: string) {
+    this._devices = this._devices.filter((item) => item.path != path)
+    delete this._mockResponsesPerDevice[path]
+  }
+
+  public addResponse({
+    body,
+    endpoint,
+    method,
+    path,
+    status,
+  }: AddKompaktResponse) {
+    this._mockResponsesPerDevice[path] = {
+      ...this._mockResponsesPerDevice[path],
+      [endpoint]: {
+        ...this._mockResponsesPerDevice[path][endpoint],
+        [method]: {
+          status,
+          body,
+        },
+      },
+    }
+  }
+
+  public getResponse(
+    path: string,
+    endpoint: APIEndpointType,
+    method: APIMethodsType
+  ) {
+    const perDeviceResponse =
+      this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
+    if (perDeviceResponse !== undefined) return perDeviceResponse
+
+    const defaultResponse = DEFAULT_RESPONSES[endpoint]?.[method]
+
+    return defaultResponse
   }
 }
 
