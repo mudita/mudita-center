@@ -70,10 +70,10 @@ const getFilesMapKey = (
   ) {
     return "HARMONY_RELAXATION"
   } else if (
-    directory === DeviceDirectory.Alarms &&
+    directory === DeviceDirectory.Alarm &&
     deviceType === DeviceType.MuditaHarmony
   ) {
-    return "HARMONY_ALARMS"
+    return "HARMONY_ALARM"
   } else {
     return "UNKNOWN"
   }
@@ -85,6 +85,6 @@ const getDirectoriesByDeviceType = (
   if (deviceType === DeviceType.MuditaPure) {
     return [DeviceDirectory.Music]
   } else {
-    return [DeviceDirectory.Relaxation, DeviceDirectory.Alarms]
+    return [DeviceDirectory.Relaxation, DeviceDirectory.Alarm]
   }
 }

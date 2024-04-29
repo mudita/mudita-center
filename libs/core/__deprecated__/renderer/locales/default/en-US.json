@@ -447,7 +447,7 @@
   "module.help.title": "<b>Mudita Center</b> Help",
   "module.license": "License",
   "module.manageSounds": "Manage Sounds",
-  "module.manageSounds.alarmsTab": "Alarms",
+  "module.manageSounds.alarmTab": "Alarms",
   "module.manageSounds.deleteButton": "Delete",
   "module.manageSounds.relaxationTab": "Relaxation",
   "module.manageSounds.uploadButton": "Add sounds",
