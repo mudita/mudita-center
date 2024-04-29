@@ -4,6 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { delay } from "shared/utils"
 import {
   FilesManagerEvent,
   DeviceDirectory,
@@ -23,6 +24,7 @@ export const getFiles = createAsyncThunk<
 >(
   FilesManagerEvent.GetFiles,
   async (_, { rejectWithValue, dispatch, getState }) => {
+    await delay(500)
     const deviceType = getActiveDeviceTypeSelector(getState())
     if (deviceType === undefined) {
       return rejectWithValue("device Type isn't set")
@@ -83,6 +85,6 @@ const getDirectoriesByDeviceType = (
   if (deviceType === DeviceType.MuditaPure) {
     return [DeviceDirectory.Music]
   } else {
-    return [DeviceDirectory.Relaxation]
+    return [DeviceDirectory.Relaxation, DeviceDirectory.Alarms]
   }
 }
