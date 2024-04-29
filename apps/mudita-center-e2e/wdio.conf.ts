@@ -58,6 +58,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.helpWindowCheckTest),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+    toRelativePath(TestFilesPaths.newsPageOnlineTest),
     toRelativePath(TestFilesPaths.termsOfServiceTest),
   ],
   suites: {
@@ -65,6 +66,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+      toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
     ],
     multidevicePureHarmony: [],
@@ -82,6 +84,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+      toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
     ],
   },
