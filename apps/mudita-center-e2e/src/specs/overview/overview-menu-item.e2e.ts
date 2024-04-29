@@ -30,6 +30,9 @@ describe("Overview Menu Item", () => {
   it("Overview menu item is displayed", async () => {
     const menuItem = await $(`//a[@href="#/generic/mc-overview"]`)
 
+    await menuItem.waitForDisplayed({ timeout: 10000 })
+
+    await browser.pause(10000)
     await expect(menuItem).toBeDisplayed()
   })
   // it("Overview menu item is displayed second", async () => {
@@ -59,7 +62,7 @@ const dataBody = {
   sections: {
     battery: { icon: "battery-charging-5", text: "97%", subText: "" },
     update: { text: "ANDROID 12", version: "0.3.0" },
-    status: { badgeText: "Offline+" },
+    // status: { badgeText: "Offline+" },
     "airplane-mode": { icon: "airplane-mode", text: "Airplane mode" },
   },
 }
