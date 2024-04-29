@@ -909,7 +909,7 @@
   "module.genericViews.importContacts.failure.fileErrorMessage": "We didn’t recognise some of the data in the file. Check that it only contains contact data and try again.",
   "module.genericViews.importContacts.failure.closeButtonLabel": "Close",
   "module.genericViews.importContacts.cancellation.title": "Import cancelled",
-  "module.genericViews.importContacts.cancellation.message": "No changes were made to your phone’s contacts.",
+  "module.genericViews.importContacts.cancellation.message": "We imported some contacts before you cancelled the process.",
   "module.genericViews.importContacts.fileUploadDialog.title": "Import contacts",
   "module.genericViews.importContacts.fileUploadDialog.filters": "Contact files"
 }
