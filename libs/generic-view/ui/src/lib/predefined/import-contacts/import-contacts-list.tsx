@@ -281,7 +281,7 @@ const AllCheckbox = styled(Form.CheckboxInput)`
 `
 
 const SelectedInfo = styled.p`
-  margin: 0 1.4rem 0 0;
+  padding: 0 1.4rem 0 0;
   font-size: ${({ theme }) => theme.fontSize.labelText};
   font-weight: ${({ theme }) => theme.fontWeight.regular};
   line-height: ${({ theme }) => theme.lineHeight.labelText};
