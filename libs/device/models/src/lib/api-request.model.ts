@@ -3,24 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// const APIEndpoints = {
-//   APIConfig: "API_CONFIGURATION",
-//   FeatureConfiguration: "FEATURE_CONFIGURATION",
-//   FeatureData: "FEATURE_DATA",
-//   DataSynchronization: "DATA_SYNC",
-//   MenuConfiguration: "MENU_CONFIGURATION",
-//   Outbox: "OUTBOX",
-//   PreBackup: "PRE_BACKUP",
-//   PostBackup: "POST_BACKUP",
-//   PreFileTransfer: "PRE_FILE_TRANSFER",
-//   FileTransfer: "FILE_TRANSFER",
-//   PreRestore: "PRE_RESTORE",
-//   Restore: "RESTORE",
-//   System: "SYSTEM",
-//   PreDataTransfer: "PRE_DATA_TRANSFER",
-//   DataTransfer: "DATA_TRANSFER",
-// } as const
-
 export const APIEndpoints = [
   "API_CONFIGURATION",
   "FEATURE_CONFIGURATION",
@@ -39,20 +21,11 @@ export const APIEndpoints = [
   "DATA_TRANSFER",
 ] as const
 
-// export type APIEndpointType = (typeof APIEndpoints)[keyof typeof APIEndpoints]
 export type APIEndpointType = (typeof APIEndpoints)[number]
 
 export const APIMethods = ["GET", "POST", "PUT", "DELETE"] as const
 
-// export type APIMethodsType = (typeof APIMethods)[keyof typeof APIMethods]
 export type APIMethodsType = (typeof APIMethods)[number]
-
-// const APIMethods = {
-//   GET: "GET",
-//   POST: "POST",
-//   PUT: "PUT",
-//   DELETE: "DELETE",
-// } as const
 
 const APIRequests = {
   MENU_CONFIGURATION: ["GET"],

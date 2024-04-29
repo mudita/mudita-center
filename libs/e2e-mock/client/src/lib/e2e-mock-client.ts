@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AddKompakt } from "e2e-mock-server"
+import { AddKompakt, AddKompaktResponse } from "e2e-mock-server"
 import clientEmiter from "./ipc-client/ipc-client"
 
 export const E2EMockClient = {
@@ -21,5 +21,8 @@ export const E2EMockClient = {
   },
   removeDevice: (path: string) => {
     clientEmiter?.("mock.remove.device", path)
+  },
+  mockResponse: (param: AddKompaktResponse) => {
+    clientEmiter?.("mock.response.every", param)
   },
 }

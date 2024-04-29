@@ -51,16 +51,18 @@ class MockDescriptor {
     path,
     status,
   }: AddKompaktResponse) {
+    // console.log({ body, endpoint, method, path, status })
     this._mockResponsesPerDevice[path] = {
       ...this._mockResponsesPerDevice[path],
       [endpoint]: {
-        ...this._mockResponsesPerDevice[path][endpoint],
+        ...this._mockResponsesPerDevice[path]?.[endpoint],
         [method]: {
           status,
           body,
         },
       },
     }
+    // console.log(this._mockResponsesPerDevice[path])
   }
 
   public getResponse(
@@ -68,11 +70,15 @@ class MockDescriptor {
     endpoint: APIEndpointType,
     method: APIMethodsType
   ) {
+    // console.log(path, endpoint, method)
+    // console.log(this._mockResponsesPerDevice)
+
     const perDeviceResponse =
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
+    // endpoint !== "OUTBOX" && console.log(endpoint, perDeviceResponse)
     if (perDeviceResponse !== undefined) return perDeviceResponse
-
     const defaultResponse = DEFAULT_RESPONSES[endpoint]?.[method]
+    // endpoint !== "OUTBOX" && console.log(endpoint, defaultResponse)
 
     return defaultResponse
   }

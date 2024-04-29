@@ -31,6 +31,8 @@ export class MockDevice extends BaseDevice {
       config.endpoint,
       config.method as APIMethodsType
     )
+
+    // console.log(response)
     // const responses =
     //   DEFAULT_RESPONSES[config.endpoint]?.[config.method as APIMethodsType]
 
