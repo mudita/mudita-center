@@ -211,6 +211,7 @@ exports[`matches snapshot 1`] = `
       >
         <button
           class="c11 c12"
+          data-testid="settings-backup-change-location-button"
           size="1"
           type="button"
         >
