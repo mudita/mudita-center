@@ -31,6 +31,12 @@ ipc.serve(function () {
       mockDescriptor.addResponse(params.data)
     }
   })
+  ipc.server.on("mock.response.once", function (data, socket) {
+    const params = addKompaktResponseValidator.safeParse(data)
+    if (params.success) {
+      mockDescriptor.addResponseOnce(params.data)
+    }
+  })
 })
 
 export function startServer() {

@@ -3,5 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/e2e-mock-client"
-export * from "./lib/predefined-responses"
+export * from "./feature-config"

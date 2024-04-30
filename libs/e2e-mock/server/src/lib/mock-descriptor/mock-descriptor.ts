@@ -21,6 +21,7 @@ const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
 
 class MockDescriptor {
   private _mockResponsesPerDevice: Record<string, MockResponsesMap> = {}
+  private _mockResponsesPerDeviceOnce: Record<string, MockResponsesMap> = {}
 
   private _devices: PortInfo[] = []
 
@@ -51,7 +52,6 @@ class MockDescriptor {
     path,
     status,
   }: AddKompaktResponse) {
-    // console.log({ body, endpoint, method, path, status })
     this._mockResponsesPerDevice[path] = {
       ...this._mockResponsesPerDevice[path],
       [endpoint]: {
@@ -62,7 +62,25 @@ class MockDescriptor {
         },
       },
     }
-    // console.log(this._mockResponsesPerDevice[path])
+  }
+
+  public addResponseOnce({
+    body,
+    endpoint,
+    method,
+    path,
+    status,
+  }: AddKompaktResponse) {
+    this._mockResponsesPerDeviceOnce[path] = {
+      ...this._mockResponsesPerDeviceOnce[path],
+      [endpoint]: {
+        ...this._mockResponsesPerDeviceOnce[path]?.[endpoint],
+        [method]: {
+          status,
+          body,
+        },
+      },
+    }
   }
 
   public getResponse(
@@ -73,9 +91,14 @@ class MockDescriptor {
     // console.log(path, endpoint, method)
     // console.log(this._mockResponsesPerDevice)
 
+    const perDeviceOnceResponse =
+      this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
+    if (perDeviceOnceResponse !== undefined) {
+      delete this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
+      return perDeviceOnceResponse
+    }
     const perDeviceResponse =
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
-    // endpoint !== "OUTBOX" && console.log(endpoint, perDeviceResponse)
     if (perDeviceResponse !== undefined) return perDeviceResponse
     const defaultResponse = DEFAULT_RESPONSES[endpoint]?.[method]
     // endpoint !== "OUTBOX" && console.log(endpoint, defaultResponse)

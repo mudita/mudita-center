@@ -25,4 +25,7 @@ export const E2EMockClient = {
   mockResponse: (param: AddKompaktResponse) => {
     clientEmiter?.("mock.response.every", param)
   },
+  mockResponseOnce: (param: AddKompaktResponse) => {
+    clientEmiter?.("mock.response.once", param)
+  },
 }
