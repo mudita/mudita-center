@@ -95,15 +95,15 @@ class SettingsPage extends Page {
   }
 
   public get noContactsText() {
-    return $('[data-testid="contact-list-no-result]')
+    return $('[data-testid="contact-list-no-result"]')
   }
 
   public get changeLocationButton() {
-    return $('//*[@id="app"]/div[1]/div[3]/section/div/div[2]/button')
+    return $('[data-testid="settings-backup-change-location-button"]')
   }
 
   public get changeLocationValue() {
-    return $("[data-testid=backup-location]")
+    return $('[data-testid="backup-location"]')
   }
 }
 
