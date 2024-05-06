@@ -406,34 +406,28 @@ describe("mapCsv", () => {
     ])
   })
 
-  it("should omit empty contacts from google", () => {
+  it("should omit empty contacts", () => {
     const data = [
       {
         "Given Name": "",
         "Additional Name": "",
-        "Family Name": "",
-        "Name Prefix": "",
-        "Name Suffix": "",
-        Nickname: "",
         "Phone 1 - Type": "Home",
-        "Unknown field": "value",
-      } as unknown as ContactRow,
-    ]
-
-    expect(mapCsv(data)).toEqual([])
-  })
-
-  it("should omit empty contacts from outlook", () => {
-    const data = [
+        "Phone 1 - Value": "123 456 789",
+        "Phone 2 - Type": "Mobile",
+        "E-mail 1 - Type": "Home",
+        "E-mail 1 - Value": "john@doe.com",
+      },
       {
-        "First Name": "",
-        "Middle Name": "",
-        "Last Name": "",
-        "Primary Phone": "",
-        "Unknown field": "value",
-      } as unknown as ContactRow,
-    ]
+        "Given Name": "",
+        "Additional Name": "",
+        "Phone 1 - Type": "Home",
+        "Phone 1 - Value": "",
+        "Phone 2 - Type": "Mobile",
+        "E-mail 1 - Type": "Home",
+        "E-mail 1 - Value": "",
+      },
+    ] as unknown as ContactRow[]
 
-    expect(mapCsv(data)).toEqual([])
+    expect(mapCsv(data)).toHaveLength(1)
   })
 })

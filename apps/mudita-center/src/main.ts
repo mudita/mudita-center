@@ -81,7 +81,7 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
-import { AppEvents, callRenderer } from "shared/utils"
+import { AppEvents, callRenderer, getMainAppWindow } from "shared/utils"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -482,12 +482,27 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         getWindowOptions({
           width: GOOGLE_AUTH_WINDOW_SIZE.width,
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
+          movable: false,
+          minimizable: false,
+          maximizable: false,
+          resizable: false,
           title,
           webPreferences: {
             nodeIntegration: true,
           },
         })
       )
+      const mainWindowBounds = getMainAppWindow()?.getBounds()
+      if (mainWindowBounds) {
+        googleAuthWindow.setPosition(
+          mainWindowBounds.width / 2 +
+            mainWindowBounds.x -
+            GOOGLE_AUTH_WINDOW_SIZE.width / 2,
+          mainWindowBounds.height / 2 +
+            mainWindowBounds.y -
+            GOOGLE_AUTH_WINDOW_SIZE.height / 2
+        )
+      }
       googleAuthWindow.removeMenu()
 
       googleAuthWindow.on("close", () => {

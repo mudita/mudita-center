@@ -5,7 +5,6 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { AppError } from "Core/core/errors"
 import { ActionName } from "../action-names"
 import { UnifiedContact } from "device/models"
 import { readAndGetFileRequest, selectSingleFileRequest } from "device/feature"
@@ -14,58 +13,78 @@ import { parseCsv } from "./contacts-mappers/csv/parse-csv"
 import { mapCsv } from "./contacts-mappers/csv/map-csv"
 import { parseVcard } from "./contacts-mappers/vcard/parse-vcard"
 import { mapVcard } from "./contacts-mappers/vcard/map-vcard"
-import { isEmpty } from "lodash"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { ImportProviderState } from "./reducer"
+import { cleanImportProcess } from "./actions"
+
+const messages = defineMessages({
+  dialogTitle: {
+    id: "module.genericViews.importContacts.fileUploadDialog.title",
+  },
+  dialogFilters: {
+    id: "module.genericViews.importContacts.fileUploadDialog.filters",
+  },
+  errorMessage: {
+    id: "module.genericViews.importContacts.failure.fileErrorMessage",
+  },
+  cancellationTitle: {
+    id: "module.genericViews.importContacts.cancellation.title",
+  },
+  cancellationMessage: {
+    id: "module.genericViews.importContacts.cancellation.message",
+  },
+})
 
 export const importContactsFromFile = createAsyncThunk<
-  UnifiedContact[],
+  UnifiedContact[] | undefined,
   undefined,
-  { state: ReduxRootState; rejectValue: string | AppError }
+  {
+    state: ReduxRootState
+    rejectValue: ImportProviderState["error"] | "cancelled"
+  }
 >(ActionName.StartContactsFileImport, async (_, { rejectWithValue }) => {
-  const filePathResult = await selectSingleFileRequest({
-    title: "Select contacts file",
-    filters: [{ name: "Contact files", extensions: ["csv", "vcf"] }],
-  })
-
-  if (!filePathResult.ok) {
-    return rejectWithValue(filePathResult.error)
+  const handleError = () => {
+    return rejectWithValue(intl.formatMessage(messages.errorMessage))
   }
-
-  const fileResponse = await readAndGetFileRequest(filePathResult.data)
-
-  if (!fileResponse.ok) {
-    return rejectWithValue(fileResponse.error)
-  }
-
-  const fileBuffer = Buffer.from(fileResponse.data)
-
-  const { encoding } = detect(fileBuffer)
-  const content = fileBuffer.toString(encoding as BufferEncoding)
-
-  if (!content) {
-    return rejectWithValue("The file could not be read.")
-  }
-
-  if (filePathResult.data.endsWith(".csv")) {
-    try {
-      const contacts = mapCsv(parseCsv(content))
-      if (isEmpty(contacts)) {
-        return rejectWithValue("No contacts found in the file.")
-      }
-      return contacts
-    } catch (error) {
-      return rejectWithValue((error as Error).message)
+  try {
+    const filePathResult = await selectSingleFileRequest({
+      title: intl.formatMessage(messages.dialogTitle),
+      filters: [
+        {
+          name: intl.formatMessage(messages.dialogFilters),
+          extensions: ["csv", "vcf"],
+        },
+      ],
+    })
+    if (!filePathResult.ok) {
+      cleanImportProcess()
+      return rejectWithValue("cancelled")
     }
-  } else if (filePathResult.data.endsWith(".vcf")) {
-    try {
-      const contacts = mapVcard(parseVcard(content))
-      if (isEmpty(contacts)) {
-        return rejectWithValue("No contacts found in the file.")
-      }
-      return contacts
-    } catch (error) {
-      return rejectWithValue((error as Error).message)
+
+    const fileResponse = await readAndGetFileRequest(filePathResult.data)
+    if (!fileResponse.ok) {
+      return handleError()
     }
-  } else {
-    return rejectWithValue("Unsupported file type.")
+
+    const fileBuffer = Buffer.from(fileResponse.data)
+    const { encoding } = detect(fileBuffer)
+    const content = fileBuffer.toString(encoding as BufferEncoding)
+
+    if (!content) {
+      return handleError()
+    }
+
+    switch (true) {
+      case filePathResult.data.endsWith(".csv"):
+        return mapCsv(parseCsv(content))
+      case filePathResult.data.endsWith(".vcf"):
+        return mapVcard(parseVcard(content))
+      default:
+        return handleError()
+    }
+  } catch (error) {
+    console.error(error)
+    return handleError()
   }
 })

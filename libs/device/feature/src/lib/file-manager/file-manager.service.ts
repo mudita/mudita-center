@@ -215,6 +215,7 @@ export class FileManager {
       return Result.failed(new AppError(GeneralError.InternalError))
     }
     const file = this.getFile(fileId.data)
+    this.clearFile(fileId.data)
     if (!file) {
       return Result.failed(new AppError(GeneralError.InternalError))
     }

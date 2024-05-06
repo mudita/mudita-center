@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   importContactsFromFile,
+  setDataTransferProcessStatus,
   startGoogleAuthorization,
 } from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
@@ -85,6 +86,9 @@ export const ImportContactsProvider = () => {
               type: "custom",
               callback: () => {
                 dispatch(importContactsFromFile())
+                dispatch(
+                  setDataTransferProcessStatus({ status: "FILE-SELECT" })
+                )
               },
             },
           }}

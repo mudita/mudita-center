@@ -15,6 +15,7 @@ import { ModalTitleIcon } from "./helpers/modal-title-icon"
 import { ModalScrollableContent } from "./helpers/modal-scrollable-content"
 import { ModalContent } from "./helpers/modal-content"
 import { ModalConfig } from "generic-view/models"
+import { ModalVisibilityController } from "./helpers/modal-visibility-controller"
 
 export const Modal: BaseGenericComponent<
   undefined,
@@ -27,6 +28,7 @@ export const Modal: BaseGenericComponent<
   Buttons: typeof ModalButtons
   CloseButton: typeof ModalCloseButton
   SizeController: typeof ModalSizeController
+  VisibilityController: typeof ModalVisibilityController
 } = ({ children, componentKey, config }) => {
   const { opened } = useModalsQueue(componentKey)
 
@@ -45,7 +47,7 @@ export const Modal: BaseGenericComponent<
       {config.closeButtonAction && (
         <ModalCloseButton config={{ action: config.closeButtonAction }} />
       )}
-      <ModalContent>{children}</ModalContent>
+      <ModalContent className={"modal-content"}>{children}</ModalContent>
     </ModalBase>
   )
 }
@@ -56,5 +58,6 @@ Modal.ScrollableContent = ModalScrollableContent
 Modal.Buttons = ModalButtons
 Modal.CloseButton = ModalCloseButton
 Modal.SizeController = ModalSizeController
+Modal.VisibilityController = ModalVisibilityController
 
 export default Modal

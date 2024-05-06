@@ -11,10 +11,12 @@ export const parseVcard = (data: string) => {
     const card = vCard.parse(fixedVcard)
     return card.map((vcard) => vcard.toJCard("4.0"))
   } catch (error) {
-    throw new Error("The file could not be parsed.")
+    console.error(error)
+    throw new Error("File could not be parsed")
   }
 }
 
 const fixFormatting = (data: string) => {
+  // Replace new lines with CRLF
   return data.replace(/\r?\n/g, "\r\n")
 }

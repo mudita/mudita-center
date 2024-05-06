@@ -11,7 +11,7 @@ import { first, isArray, isEmpty, last } from "lodash"
 export type jCard = ReturnType<vCard["toJSON"]>
 
 export const mapVcard = (data: jCard[]): UnifiedContact[] => {
-  return data
+  const results = data
     .map((jCard, index) => {
       const id = getId(jCard) || `${index}`
       const nameFields = getNameFields(jCard)
@@ -33,6 +33,10 @@ export const mapVcard = (data: jCard[]): UnifiedContact[] => {
     .filter(
       ({ id, displayName, ...item }) => !Object.values(item).every(isEmpty)
     )
+  if (isEmpty(results)) {
+    throw new Error("No contacts found")
+  }
+  return results
 }
 
 const getFields = (item: jCard, key: string) => {

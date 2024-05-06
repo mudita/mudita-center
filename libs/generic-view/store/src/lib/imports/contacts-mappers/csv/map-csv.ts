@@ -9,7 +9,7 @@ import { isEmpty } from "lodash"
 import { ContactRow, Field } from "./parse.types"
 
 export const mapCsv = (data: ContactRow[]): UnifiedContact[] => {
-  return data
+  const results = data
     .map((item, index) => {
       const contact: Omit<UnifiedContact, "displayName"> = {
         id: `${index}`,
@@ -181,6 +181,10 @@ export const mapCsv = (data: ContactRow[]): UnifiedContact[] => {
     .filter(
       ({ id, displayName, ...item }) => !Object.values(item).every(isEmpty)
     )
+  if (isEmpty(results)) {
+    throw new Error("No contacts found")
+  }
+  return results
 }
 
 const createField = (item: ContactRow, fields: Field[]) => {
