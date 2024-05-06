@@ -14,7 +14,7 @@ export const mapVcard = (data: jCard[]): UnifiedContact[] => {
   return data
     .map((jCard, index) => {
       const id = getId(jCard) || `${index}`
-      const nameFields = getN(jCard)
+      const nameFields = getNameFields(jCard)
       const note = getNote(jCard)
       const nickName = getNickname(jCard)
       return {
@@ -51,7 +51,7 @@ const getId = (item: jCard) => {
   return field?.value as string | undefined
 }
 
-const getN = (
+const getNameFields = (
   item: jCard
 ): Pick<
   UnifiedContact,
