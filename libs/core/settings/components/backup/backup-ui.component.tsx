@@ -23,6 +23,7 @@ import ElementWithTooltip, {
 } from "Core/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 import { TextTooltip } from "Core/ui/components/text-tooltip/text-tooltip.component"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
+import { SettingsBackupTestIds } from "Core/settings/components/backup/settings-backup-test-ids.enum"
 
 const BackupTableRow = styled(SettingsTableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -92,6 +93,7 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
           label={intl.formatMessage({
             id: "module.settings.backupButtonLabel",
           })}
+          data-testid={SettingsBackupTestIds.ChangeLocationButton}
         />
       </BackupActionsWrapper>
     </BackupTableRow>
