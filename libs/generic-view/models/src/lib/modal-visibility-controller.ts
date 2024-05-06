@@ -11,7 +11,7 @@ const dataValidator = z
   })
   .optional()
 
-export type ModalVisibilityControllerData = z.infer<typeof dataValidator>
+export type ModalVisibilityControllerData = z.input<typeof dataValidator>
 
 const configValidator = dataValidator
 
