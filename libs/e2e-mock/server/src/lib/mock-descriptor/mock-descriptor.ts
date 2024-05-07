@@ -8,8 +8,10 @@ import { PortInfo } from "serialport"
 import { AddKompakt, AddKompaktResponse } from "./mock-descriptor-validators"
 import DEFAULT_RESPONSES, {
   MockResponsesMap,
+  MocksArrayResponsesMap,
 } from "../mock-device/default-responses"
 import { APIEndpointType, APIMethodsType } from "device/models"
+import { ApiResponse } from "Core/device/types/mudita-os"
 
 const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
   manufacturer: "Mudita",
@@ -21,7 +23,8 @@ const KOMPAKT_PORT_INFO: Omit<PortInfo, "path" | "serialNumber"> = {
 
 class MockDescriptor {
   private _mockResponsesPerDevice: Record<string, MockResponsesMap> = {}
-  private _mockResponsesPerDeviceOnce: Record<string, MockResponsesMap> = {}
+  private _mockResponsesPerDeviceOnce: Record<string, MocksArrayResponsesMap> =
+    {}
 
   private _devices: PortInfo[] = []
 
@@ -71,14 +74,56 @@ class MockDescriptor {
     path,
     status,
   }: AddKompaktResponse) {
+    this.setResponseOnce({
+      path,
+      endpoint,
+      method,
+      responses: [
+        ...(this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method] ?? []),
+        {
+          status,
+          body,
+        },
+      ],
+    })
+
+    // this._mockResponsesPerDeviceOnce[path] = {
+    //   ...this._mockResponsesPerDeviceOnce[path],
+    //   [endpoint]: {
+    //     ...this._mockResponsesPerDeviceOnce[path]?.[endpoint],
+    //     [method]: [
+    //       ...(this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method] ??
+    //         []),
+    //       {
+    //         status,
+    //         body,
+    //       },
+    //     ],
+    //   },
+    // }
+  }
+
+  private setResponseOnce({
+    path,
+    endpoint,
+    method,
+    responses,
+  }: Pick<AddKompaktResponse, "path" | "method" | "endpoint"> & {
+    responses: ApiResponse<unknown>[]
+  }) {
     this._mockResponsesPerDeviceOnce[path] = {
       ...this._mockResponsesPerDeviceOnce[path],
       [endpoint]: {
         ...this._mockResponsesPerDeviceOnce[path]?.[endpoint],
-        [method]: {
-          status,
-          body,
-        },
+        [method]: [
+          ...responses,
+          // ...(this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method] ??
+          //   []),
+          // {
+          //   status,
+          //   body,
+          // },
+        ],
       },
     }
   }
@@ -92,9 +137,23 @@ class MockDescriptor {
     // console.log(this._mockResponsesPerDevice)
 
     const perDeviceOnceResponse =
-      this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
-    if (perDeviceOnceResponse !== undefined) {
-      delete this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
+      this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]
+    if (
+      perDeviceOnceResponse !== undefined &&
+      perDeviceOnceResponse.length > 0
+    ) {
+      const response = perDeviceOnceResponse.pop()
+      this.setResponseOnce({
+        path,
+        endpoint,
+        method,
+        responses: perDeviceOnceResponse,
+      })
+      // if (this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]) {
+      //   this._mockResponsesPerDeviceOnce[path][endpoint][method] =
+      //     perDeviceOnceResponse
+      // }
+      // delete this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]
       return perDeviceOnceResponse
     }
     const perDeviceResponse =

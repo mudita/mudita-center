@@ -9,7 +9,12 @@ import { APIEndpointType, APIMethodsType } from "device/models"
 
 type MethodObject = Partial<Record<APIMethodsType, ApiResponse<unknown>>>
 
+type MethodArray = Partial<Record<APIMethodsType, ApiResponse<unknown>[]>>
+
 export type MockResponsesMap = Partial<Record<APIEndpointType, MethodObject>>
+export type MocksArrayResponsesMap = Partial<
+  Record<APIEndpointType, MethodArray>
+>
 
 const DEFAULT_RESPONSES: MockResponsesMap = {
   API_CONFIGURATION: {
