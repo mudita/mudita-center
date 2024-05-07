@@ -5,20 +5,25 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { settingsStateSelector } from "Core/settings/selectors"
+import { shouldAppUpdateFlowVisible } from "Core/app-initialization/selectors/should-app-update-flow-visible.selector"
 
 export const isAppUpdateProcessPassed = createSelector(
   settingsStateSelector,
-  ({
-    updateAvailable,
-    updateAvailableSkipped,
-    checkingForUpdateFailed,
-    updateRequired,
-  }): boolean => {
+  shouldAppUpdateFlowVisible,
+  (
+    {
+      updateAvailable,
+      updateAvailableSkipped,
+      checkingForUpdateFailed,
+      updateRequired,
+    },
+    appUpdateFlowVisible
+  ): boolean => {
     return (
-      !updateRequired &&
-      (checkingForUpdateFailed ||
-        updateAvailableSkipped ||
-        updateAvailable === false)
+      !appUpdateFlowVisible ||
+      (updateAvailableSkipped === undefined &&
+        updateAvailable === undefined &&
+        checkingForUpdateFailed)
     )
   }
 )
