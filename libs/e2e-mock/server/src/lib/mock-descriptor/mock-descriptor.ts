@@ -86,21 +86,6 @@ class MockDescriptor {
         },
       ],
     })
-
-    // this._mockResponsesPerDeviceOnce[path] = {
-    //   ...this._mockResponsesPerDeviceOnce[path],
-    //   [endpoint]: {
-    //     ...this._mockResponsesPerDeviceOnce[path]?.[endpoint],
-    //     [method]: [
-    //       ...(this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method] ??
-    //         []),
-    //       {
-    //         status,
-    //         body,
-    //       },
-    //     ],
-    //   },
-    // }
   }
 
   private setResponseOnce({
@@ -115,15 +100,7 @@ class MockDescriptor {
       ...this._mockResponsesPerDeviceOnce[path],
       [endpoint]: {
         ...this._mockResponsesPerDeviceOnce[path]?.[endpoint],
-        [method]: [
-          ...responses,
-          // ...(this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method] ??
-          //   []),
-          // {
-          //   status,
-          //   body,
-          // },
-        ],
+        [method]: [...responses],
       },
     }
   }
@@ -133,9 +110,6 @@ class MockDescriptor {
     endpoint: APIEndpointType,
     method: APIMethodsType
   ) {
-    // console.log(path, endpoint, method)
-    // console.log(this._mockResponsesPerDevice)
-
     const perDeviceOnceResponse =
       this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]
     if (
@@ -149,18 +123,12 @@ class MockDescriptor {
         method,
         responses: perDeviceOnceResponse,
       })
-      // if (this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]) {
-      //   this._mockResponsesPerDeviceOnce[path][endpoint][method] =
-      //     perDeviceOnceResponse
-      // }
-      // delete this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]
-      return perDeviceOnceResponse
+      return response
     }
     const perDeviceResponse =
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
     if (perDeviceResponse !== undefined) return perDeviceResponse
     const defaultResponse = DEFAULT_RESPONSES[endpoint]?.[method]
-    // endpoint !== "OUTBOX" && console.log(endpoint, defaultResponse)
 
     return defaultResponse
   }

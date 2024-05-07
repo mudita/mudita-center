@@ -4,7 +4,8 @@
  */
 
 import { Result, ResultObject } from "Core/core/builder"
-import { DeviceType } from "Core/device"
+import { DeviceType, ResponseStatus } from "Core/device"
+import { DeviceError } from "Core/device/modules/mudita-os/constants"
 import { BaseDevice } from "Core/device/modules/base-device"
 import { ApiResponse } from "Core/device/types/mudita-os"
 import {
@@ -15,6 +16,7 @@ import {
 import { PortInfo } from "serialport"
 // import DEFAULT_RESPONSES from "./default-responses"
 import { mockDescriptor } from "../mock-descriptor/mock-descriptor"
+import { AppError } from "Core/core/errors"
 
 export class MockDevice extends BaseDevice {
   public connect(): Promise<ResultObject<undefined>> {
@@ -32,22 +34,29 @@ export class MockDevice extends BaseDevice {
       config.method as APIMethodsType
     )
 
-    // console.log(response)
-    // const responses =
-    //   DEFAULT_RESPONSES[config.endpoint]?.[config.method as APIMethodsType]
+    let result: ResultObject<ApiResponse<unknown>> | undefined = undefined
 
     if (response) {
-      return new Promise<ResultObject<ApiResponse<unknown>>>((resolve) => {
-        resolve(
-          Result.success({
-            ...response,
-            endpoint: config.endpoint,
-          } as unknown as ApiResponse<unknown>)
-        )
-      })
+      result = Result.success({
+        ...response,
+        endpoint: config.endpoint,
+      } as unknown as ApiResponse<unknown>)
+    } else {
+      result = Result.failed(
+        new AppError(
+          DeviceError.TimeOut,
+          `Cannot receive response from ${this.portInfo.path}`
+        ),
+        {
+          status: ResponseStatus.Timeout,
+          ...config,
+        }
+      )
     }
 
-    throw new Error("Method not implemented.")
+    return new Promise<ResultObject<ApiResponse<unknown>>>((resolve) => {
+      resolve(result)
+    })
   }
 
   constructor(public portInfo: PortInfo, public deviceType: DeviceType) {
