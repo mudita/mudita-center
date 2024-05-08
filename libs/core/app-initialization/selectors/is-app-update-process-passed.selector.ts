@@ -7,7 +7,7 @@ import { createSelector } from "@reduxjs/toolkit"
 import { settingsStateSelector } from "Core/settings/selectors"
 import { shouldAppUpdateFlowVisible } from "Core/app-initialization/selectors/should-app-update-flow-visible.selector"
 
-const isNoDataAboutUpdateAvaible = createSelector(
+const selectNoDataAboutUpdateAvaible = createSelector(
   settingsStateSelector,
   ({
     updateAvailable,
@@ -23,7 +23,7 @@ const isNoDataAboutUpdateAvaible = createSelector(
 )
 
 export const isAppUpdateProcessPassed = createSelector(
-  isNoDataAboutUpdateAvaible,
+  selectNoDataAboutUpdateAvaible,
   shouldAppUpdateFlowVisible,
   (noDataAboutUpdateAvaible, appUpdateFlowVisible): boolean => {
     return !appUpdateFlowVisible || noDataAboutUpdateAvaible
