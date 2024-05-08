@@ -6,10 +6,11 @@
 import { find } from "lodash"
 import { PortInfo } from "serialport"
 import { AddKompakt, AddKompaktResponse } from "./mock-descriptor-validators"
-import DEFAULT_RESPONSES, {
+import {
+  DEFAULT_RESPONSES,
   MockResponsesMap,
   MocksArrayResponsesMap,
-} from "../mock-device/default-responses"
+} from "e2e-mock-responses"
 import { APIEndpointType, APIMethodsType } from "device/models"
 import { ApiResponse } from "Core/device/types/mudita-os"
 
@@ -109,14 +110,15 @@ class MockDescriptor {
     path: string,
     endpoint: APIEndpointType,
     method: APIMethodsType
-  ) {
+  ): ApiResponse<unknown> | undefined {
     const perDeviceOnceResponse =
       this._mockResponsesPerDeviceOnce[path]?.[endpoint]?.[method]
     if (
       perDeviceOnceResponse !== undefined &&
       perDeviceOnceResponse.length > 0
     ) {
-      const response = perDeviceOnceResponse.pop()
+      const response: ApiResponse<unknown> | undefined =
+        perDeviceOnceResponse.pop()
       this.setResponseOnce({
         path,
         endpoint,
@@ -125,10 +127,13 @@ class MockDescriptor {
       })
       return response
     }
-    const perDeviceResponse =
+    const perDeviceResponse: ApiResponse<unknown> | undefined =
       this._mockResponsesPerDevice[path]?.[endpoint]?.[method]
-    if (perDeviceResponse !== undefined) return perDeviceResponse
-    const defaultResponse = DEFAULT_RESPONSES[endpoint]?.[method]
+    if (perDeviceResponse !== undefined) {
+      return perDeviceResponse
+    }
+    const defaultResponse: ApiResponse<unknown> | undefined =
+      DEFAULT_RESPONSES[endpoint]?.[method]
 
     return defaultResponse
   }

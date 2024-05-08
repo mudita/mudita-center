@@ -55,7 +55,7 @@ export class MockDevice extends BaseDevice {
     }
 
     return new Promise<ResultObject<ApiResponse<unknown>>>((resolve) => {
-      resolve(result)
+      resolve(result!)
     })
   }
 

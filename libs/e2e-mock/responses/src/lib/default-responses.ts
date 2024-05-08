@@ -16,7 +16,7 @@ export type MocksArrayResponsesMap = Partial<
   Record<APIEndpointType, MethodArray>
 >
 
-const DEFAULT_RESPONSES: MockResponsesMap = {
+export const DEFAULT_RESPONSES: MockResponsesMap = {
   API_CONFIGURATION: {
     GET: {
       status: ResponseStatus.Ok,
@@ -179,5 +179,3 @@ const DEFAULT_RESPONSES: MockResponsesMap = {
     },
   },
 }
-
-export default DEFAULT_RESPONSES

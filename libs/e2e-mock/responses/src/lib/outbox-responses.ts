@@ -3,4 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/e2e-mock-client"
+import { Outbox } from "device/models"
+
+export const outboxReloadOverview: Outbox = {
+  features: ["mc-overview"],
+  data: [],
+}
