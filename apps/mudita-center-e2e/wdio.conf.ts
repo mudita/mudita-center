@@ -59,7 +59,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.termsOfServiceTest),
-    toRelativePath(TestFilesPaths.overviewMenuItemTest),
+    toRelativePath(TestFilesPaths.e2eMockSample),
   ],
   suites: {
     standalone: [
@@ -67,7 +67,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
-      toRelativePath(TestFilesPaths.overviewMenuItemTest),
+      toRelativePath(TestFilesPaths.e2eMockSample),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
@@ -85,7 +85,6 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
-      toRelativePath(TestFilesPaths.overviewMenuItemTest),
     ],
   },
   // Patterns to exclude.
