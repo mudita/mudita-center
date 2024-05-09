@@ -906,5 +906,12 @@
   "module.genericViews.importContacts.failure.defaultErrorMessage": "The process was interrupted.",
   "module.genericViews.importContacts.failure.closeButtonLabel": "Close",
   "module.genericViews.importContacts.cancellation.title": "Import cancelled",
-  "module.genericViews.importContacts.cancellation.message": "No changes were made to your phone’s contacts."
+  "module.genericViews.importContacts.cancellation.message": "No changes were made to your phone’s contacts.",
+  "module.dataMigration.features.notes": "Notes",
+  "module.dataMigration.features.alarms": "Alarms",
+  "module.dataMigration.features.callLog": "Call log",
+  "module.dataMigration.features.contacts": "Contacts",
+  "module.dataMigration.features.messages": "Messages",
+  "module.dataMigration.features.multimedia": "Multimedia",
+  "module.dataMigration.features.selectAll": "Select all"
 }

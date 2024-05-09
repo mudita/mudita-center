@@ -127,4 +127,5 @@ export enum IconType {
   MarkAsUnread,
   Conversation,
   Exclamation,
+  DataMigration,
 }

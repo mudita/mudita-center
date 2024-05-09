@@ -24,3 +24,19 @@ export const P1 = styled.p`
   letter-spacing: 0.02em;
   margin: 0;
 `
+
+export const Paragraph3: APIFC<undefined, ParagraphConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <P3 {...props}>{isEmpty(children) ? config.text : children}</P3>
+}
+
+export const P3 = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.paragraph3};
+  line-height: ${({ theme }) => theme.lineHeight.paragraph3};
+  color: ${({ theme }) => theme.color.grey2};
+  letter-spacing: 0.02em;
+  margin: 0;
+`

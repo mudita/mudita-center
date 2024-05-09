@@ -44,4 +44,6 @@ export enum ActionName {
   SetDataTransferProcessStatus = "generic-imports/set-data-transfer-process-status",
   SetDataTransferProcessFileStatus = "generic-imports/set-data-transfer-process-file-status",
   CleanImportProcess = "generic-imports/clean-import-process",
+  SetDataMigrationSourceDevice = "data-migration/set-source-device",
+  SetDataMigrationFeatures = "data-migration/set-features",
 }

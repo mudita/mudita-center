@@ -18,6 +18,7 @@ const configValidator = z.object({
   checked: z.boolean().optional(),
   label: z.string().optional(),
   validation: inputValidation.optional(),
+  disabled: z.boolean().optional(),
 })
 
 export type FormCheckboxInputConfig = z.infer<typeof configValidator>
