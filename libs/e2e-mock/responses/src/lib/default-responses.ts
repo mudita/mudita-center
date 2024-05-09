@@ -3,9 +3,31 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ResponseStatus } from "Core/device"
 import { ApiResponse } from "Core/device/types/mudita-os"
 import { APIEndpointType, APIMethodsType } from "device/models"
+
+//import from "Core/device" breaks usage in e2e
+enum ResponseStatus {
+  Ok = 200,
+  Accepted = 202,
+  Redirect = 303,
+  NoContent = 204,
+  BadRequest = 400,
+  NotFound = 404,
+  PhoneLocked = 403,
+  NotAcceptable = 406,
+  Conflict = 409,
+  InternalServerError = 500,
+  NotImplemented = 501,
+  UnprocessableEntity = 422,
+  NotAccepted = 423,
+  InsufficientStorage = 507,
+
+  // lib status
+  ConnectionError = 503,
+  ParserError = 504,
+  Timeout = 505,
+}
 
 type MethodObject = Partial<Record<APIMethodsType, ApiResponse<unknown>>>
 
