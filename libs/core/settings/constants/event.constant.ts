@@ -8,7 +8,6 @@ export enum SettingsEvent {
   SetLatestVersion = "settings_set-latest-version",
   SetSettings = "settings_set-settings",
   SetSetting = "settings_set-setting",
-  SetDiagnosticTimestamp = "settings_set-diagnostic-timestamp",
   SetOsBackupLocation = "settings_set-os-backup-location",
   ToggleUpdateAvailable = "settings_toggle-update-available",
   TogglePrivacyPolicyAccepted = "settings_toggle-privacy-policy-accepted",

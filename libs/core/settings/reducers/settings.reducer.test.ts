@@ -77,28 +77,6 @@ describe("Functionality: loading settings", () => {
   })
 })
 
-describe("Functionality: diagnostic data timestamp", () => {
-  test("Event: SetDiagnosticTimestamp/fulfilled set `diagnosticSentTimestamp` value", () => {
-    const timestamp = new Date().getDate()
-
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          diagnosticSentTimestamp: 0,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.SetDiagnosticTimestamp),
-          payload: timestamp,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      diagnosticSentTimestamp: timestamp,
-    })
-  })
-})
-
 describe("Functionality: os backup location", () => {
   test("Event: SetOsBackupLocation/fulfilled set `osBackupLocation` value", () => {
     expect(
