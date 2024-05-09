@@ -44,6 +44,7 @@ import { importContacts } from "./lib/import-contacts"
 import { backupRestore } from "./lib/backup-restore"
 import { backupRestoreAvailable } from "./lib/backup-restore-available"
 import { mcImportContactsButton } from "./lib/mc-import-contacts-button"
+import { mcDataMigration } from "./lib/mc-data-migration"
 
 export * from "./lib/block-box"
 export * from "./lib/block-plain"
@@ -86,6 +87,7 @@ export * from "./lib/backup-create"
 export * from "./lib/backup-restore"
 export * from "./lib/import-contacts"
 export * from "./lib/mc-import-contacts-button"
+export * from "./lib/mc-data-migration"
 
 export default {
   [blockBox.key]: blockBox,
@@ -129,4 +131,5 @@ export default {
   [backupRestore.key]: backupRestore,
   [importContacts.key]: importContacts,
   [mcImportContactsButton.key]: mcImportContactsButton,
+  [mcDataMigration.key]: mcDataMigration,
 } as const

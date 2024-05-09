@@ -44,6 +44,7 @@ import Check from "./svg/check.svg"
 import Minus from "./svg/minus.svg"
 import Search from "./svg/search.svg"
 import Import from "./svg/import.svg"
+import DataMigration from "./svg/data-migration.svg"
 
 import { IconType } from "generic-view/utils"
 
@@ -85,7 +86,8 @@ const typeToIcon: Record<IconType, typeof BatteryHigh> = {
   [IconType.Check]: Check,
   [IconType.Minus]: Minus,
   [IconType.Search]: Search,
-  [IconType.Import]: Import
+  [IconType.Import]: Import,
+  [IconType.DataMigration]: DataMigration,
 }
 
 export const getIcon = (
