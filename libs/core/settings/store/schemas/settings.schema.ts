@@ -19,10 +19,6 @@ export const settingsSchema: Schema<Settings> = {
     type: ["string", "null"],
     default: generateApplicationId(),
   },
-  tethering: {
-    type: "boolean",
-    default: false,
-  },
   tray: {
     type: "boolean",
     default: false,

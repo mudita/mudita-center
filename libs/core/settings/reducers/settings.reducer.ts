@@ -10,7 +10,6 @@ import {
   setLatestVersion,
   setOsBackupLocation,
   setSettings,
-  toggleTethering,
   toggleApplicationUpdateAvailable,
   togglePrivacyPolicyAccepted,
   setCheckingForUpdate,
@@ -36,7 +35,6 @@ export const initialState: SettingsState = {
   privacyPolicyAccepted: undefined,
   neverConnected: false,
   tray: false,
-  tethering: false,
   updateRequired: false,
   updateAvailable: undefined,
   updateAvailableSkipped: undefined,
@@ -67,10 +65,6 @@ export const settingsReducer = createReducer<SettingsState>(
 
       .addCase(setLatestVersion, (state, action) => {
         state.latestVersion = action.payload
-      })
-
-      .addCase(toggleTethering.fulfilled, (state, action) => {
-        state.tethering = action.payload
       })
 
       .addCase(toggleApplicationUpdateAvailable, (state, action) => {
