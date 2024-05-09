@@ -11,7 +11,6 @@ export interface Settings {
   language: string
   ignoredCrashDumps: string[]
   diagnosticSentTimestamp: number
-  collectingData: boolean | undefined
   privacyPolicyAccepted: boolean | undefined
   neverConnected: boolean
   tray: boolean

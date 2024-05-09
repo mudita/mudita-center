@@ -6,7 +6,6 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import { DeviceType } from "Core/device/constants"
 import { getConfiguration } from "Core/settings/requests"
 import { getSettings } from "Core/settings/requests"
 import { SettingsEvent } from "Core/settings/constants"
@@ -15,17 +14,6 @@ import packageInfo from "../../../../apps/mudita-center/package.json"
 
 jest.mock("../../../../apps/mudita-center/package.json", () => ({
   version: "1.0.0",
-}))
-
-jest.mock("Core/settings/requests", () => ({
-  getSettings: jest.fn().mockReturnValue({ collectingData: false }),
-  getConfiguration: jest.fn().mockReturnValue({
-    centerVersion: "1.0.0",
-    productVersions: {
-      [DeviceType.MuditaHarmony]: "1.0.0",
-      [DeviceType.MuditaPure]: "1.0.0",
-    },
-  }),
 }))
 
 jest.mock("Core/backup/actions/load-backup-data.action", () => ({
@@ -63,7 +51,6 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
     {
       type: SettingsEvent.SetSettings,
       payload: {
-        collectingData: false,
         currentVersion: `${packageInfo.version}`,
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: "1.0.0",

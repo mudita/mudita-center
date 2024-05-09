@@ -22,7 +22,6 @@ export const fakeAppSettings: Settings = {
   osDownloadLocation: `fake/path/pure/os/downloads/`,
   language: "en-US",
   neverConnected: true,
-  collectingData: undefined,
   privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],

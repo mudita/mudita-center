@@ -24,7 +24,6 @@ const settings: SettingsState = {
   osDownloadLocation: `fake/path/pure/os/downloads/`,
   language: "en-US",
   neverConnected: true,
-  collectingData: false,
   privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
@@ -101,29 +100,6 @@ describe("Functionality: toggle tethering", () => {
     ).toEqual({
       ...initialState,
       tethering: false,
-    })
-  })
-})
-
-describe("Functionality: toggle data collection", () => {
-  test("Event: ToggleCollectionData/fulfilled set `collectingData` value", () => {
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleCollectionData),
-        payload: true,
-      })
-    ).toEqual({
-      ...initialState,
-      collectingData: true,
-    })
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleCollectionData),
-        payload: false,
-      })
-    ).toEqual({
-      ...initialState,
-      collectingData: false,
     })
   })
 })

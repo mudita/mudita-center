@@ -18,7 +18,6 @@ type Props = ComponentProps<typeof Backup>
 
 const defaultProps: Props = {
   autostart: false,
-  collectingData: undefined,
   tethering: false,
   tray: false,
   diagnosticSentTimestamp: 0,

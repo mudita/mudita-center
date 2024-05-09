@@ -47,13 +47,9 @@ export const settingsSchema: Schema<Settings> = {
     type: "boolean",
     default: true,
   },
-  collectingData: {
-    type: "boolean",
-    default: undefined,
-  },
   privacyPolicyAccepted: {
     type: "boolean",
-    default: false,
+    default: true,
   },
   diagnosticSentTimestamp: {
     type: "number",
