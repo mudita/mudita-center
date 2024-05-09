@@ -17,8 +17,6 @@ const lastBackupDate = new Date("2020-01-15T07:35:01.562Z")
 type Props = ComponentProps<typeof Backup>
 
 const defaultProps: Props = {
-  tethering: false,
-  tray: false,
   diagnosticSentTimestamp: 0,
   language: "en-US",
   onBackupCreate: noop,

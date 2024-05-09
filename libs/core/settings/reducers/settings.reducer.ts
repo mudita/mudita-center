@@ -34,7 +34,6 @@ export const initialState: SettingsState = {
   diagnosticSentTimestamp: 0,
   privacyPolicyAccepted: undefined,
   neverConnected: false,
-  tray: false,
   updateRequired: false,
   updateAvailable: undefined,
   updateAvailableSkipped: undefined,

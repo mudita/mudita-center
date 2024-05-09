@@ -17,8 +17,6 @@ import { SettingsState } from "Core/settings/reducers"
 const settings: SettingsState = {
   settingsSchemaVersion: 1,
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
-  tethering: false,
-  tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,
   language: "en-US",
@@ -76,29 +74,6 @@ describe("Functionality: loading settings", () => {
       ...settings,
       loaded: true,
       loading: false,
-    })
-  })
-})
-
-describe("Functionality: toggle tethering", () => {
-  test("Event: ToggleTethering/fulfilled set `tethering` value", () => {
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleTethering),
-        payload: true,
-      })
-    ).toEqual({
-      ...initialState,
-      tethering: true,
-    })
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleTethering),
-        payload: false,
-      })
-    ).toEqual({
-      ...initialState,
-      tethering: false,
     })
   })
 })

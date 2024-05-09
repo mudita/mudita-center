@@ -19,10 +19,6 @@ export const settingsSchema: Schema<Settings> = {
     type: ["string", "null"],
     default: generateApplicationId(),
   },
-  tray: {
-    type: "boolean",
-    default: false,
-  },
   osBackupLocation: {
     type: "string",
     default: path.join(getAppPath(), "pure", "phone", "backups"),

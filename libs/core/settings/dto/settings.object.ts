@@ -13,7 +13,5 @@ export interface Settings {
   diagnosticSentTimestamp: number
   privacyPolicyAccepted: boolean | undefined
   neverConnected: boolean
-  tray: boolean
-  tethering: boolean
   usbAccessRestartRequired: boolean
 }

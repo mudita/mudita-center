@@ -10,7 +10,6 @@ export enum SettingsEvent {
   SetSetting = "settings_set-setting",
   SetDiagnosticTimestamp = "settings_set-diagnostic-timestamp",
   SetOsBackupLocation = "settings_set-os-backup-location",
-  ToggleTethering = "settings_toggle-tethering",
   ToggleUpdateAvailable = "settings_toggle-update-available",
   TogglePrivacyPolicyAccepted = "settings_toggle-privacy-policy-accepted",
   CheckUpdateAvailable = "settings_check-update-available",
