@@ -26,6 +26,7 @@ import {
 import { setUSBAccessRestartRequired } from "Core/settings/actions/set-usb-access-restart-needed.action"
 
 export const initialState: SettingsState = {
+  settingsSchemaVersion: 1,
   applicationId: "",
   lowestSupportedVersions: undefined,
   currentVersion: undefined,
