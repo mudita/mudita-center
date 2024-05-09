@@ -19,10 +19,6 @@ export const settingsSchema: Schema<Settings> = {
     type: ["string", "null"],
     default: generateApplicationId(),
   },
-  autostart: {
-    type: "boolean",
-    default: false,
-  },
   tethering: {
     type: "boolean",
     default: false,

@@ -15,7 +15,6 @@ import { Settings } from "Core/settings/dto"
 export const fakeAppSettings: Settings = {
   settingsSchemaVersion: 1,
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
-  autostart: false,
   tethering: false,
   tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,

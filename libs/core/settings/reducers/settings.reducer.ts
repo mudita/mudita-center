@@ -36,7 +36,6 @@ export const initialState: SettingsState = {
   privacyPolicyAccepted: undefined,
   neverConnected: false,
   tray: false,
-  autostart: false,
   tethering: false,
   updateRequired: false,
   updateAvailable: undefined,

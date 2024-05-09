@@ -14,7 +14,6 @@ export interface Settings {
   privacyPolicyAccepted: boolean | undefined
   neverConnected: boolean
   tray: boolean
-  autostart: boolean
   tethering: boolean
   usbAccessRestartRequired: boolean
 }
