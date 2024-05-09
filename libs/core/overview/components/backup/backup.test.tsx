@@ -20,7 +20,6 @@ const defaultProps: Props = {
   diagnosticSentTimestamp: 0,
   language: "en-US",
   onBackupCreate: noop,
-  neverConnected: false,
   osBackupLocation: "",
   osDownloadLocation: "",
   backupActionDisabled: false,

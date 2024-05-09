@@ -31,10 +31,6 @@ export const settingsSchema: Schema<Settings> = {
     type: "string",
     default: translationConfig.defaultLanguage,
   },
-  neverConnected: {
-    type: "boolean",
-    default: true,
-  },
   privacyPolicyAccepted: {
     type: "boolean",
     default: true,

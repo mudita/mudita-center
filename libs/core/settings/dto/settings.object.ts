@@ -12,6 +12,5 @@ export interface Settings {
   ignoredCrashDumps: string[]
   diagnosticSentTimestamp: number
   privacyPolicyAccepted: boolean | undefined
-  neverConnected: boolean
   usbAccessRestartRequired: boolean
 }

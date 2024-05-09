@@ -13,7 +13,6 @@ export const fakeSettings: Settings = {
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,
   language: "en-US",
-  neverConnected: true,
   privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],

@@ -33,7 +33,6 @@ export const initialState: SettingsState = {
   ignoredCrashDumps: [],
   diagnosticSentTimestamp: 0,
   privacyPolicyAccepted: undefined,
-  neverConnected: false,
   updateRequired: false,
   updateAvailable: undefined,
   updateAvailableSkipped: undefined,
