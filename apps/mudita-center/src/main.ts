@@ -92,8 +92,9 @@ require("dotenv").config()
 //  There is almost always a better way to accomplish your task than using this module.
 //  You can read more in https://github.com/electron/remote#migrating-from-remote
 require("@electron/remote/main").initialize()
+const MOCK_DEVICE_ENABLED = "1"
 
-if (process.env.MOCK_DEVICE_ENABLED === "1") {
+if (MOCK_DEVICE_ENABLED === "1") {
   startServer()
 }
 
