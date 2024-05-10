@@ -14,7 +14,6 @@ import {
   APIRequestWithPayload,
 } from "device/models"
 import { PortInfo } from "serialport"
-// import DEFAULT_RESPONSES from "./default-responses"
 import { mockDescriptor } from "../mock-descriptor/mock-descriptor"
 import { AppError } from "Core/core/errors"
 

@@ -122,7 +122,6 @@ export class DeviceManager {
 
   public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
-    console.log(portList)
     return (
       portList
         // AUTO DISABLED - fix me if you like :)
