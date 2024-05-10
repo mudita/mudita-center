@@ -5,8 +5,10 @@
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-export const privacyPolicyAcceptedMigration = (store: any) => {
-  if (store.get("settingsSchemaVersion") === undefined) {
-    store.set("privacyPolicyAccepted", false)
-  }
+export const removeDeprecatedFieldsMigration = (store: any) => {
+  store.set("settingsSchemaVersion", 4)
+  store.delete("collectingData")
+  store.delete("autostart")
+  store.delete("tray")
+  store.delete("neverConnected")
 }

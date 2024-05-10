@@ -4,7 +4,7 @@
  */
 
 export interface Settings {
-  settingsSchemaVersion: number
+  settingsSchemaVersion?: number
   applicationId: string | null
   osBackupLocation: string
   osDownloadLocation: string

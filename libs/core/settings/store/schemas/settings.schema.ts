@@ -13,7 +13,6 @@ import { generateApplicationId } from "Core/settings/store/schemas/generate-appl
 export const settingsSchema: Schema<Settings> = {
   settingsSchemaVersion: {
     type: "number",
-    default: 1,
   },
   applicationId: {
     type: ["string", "null"],

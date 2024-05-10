@@ -15,7 +15,6 @@ import {
 import { SettingsState } from "Core/settings/reducers"
 
 const settings: SettingsState = {
-  settingsSchemaVersion: 1,
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,
