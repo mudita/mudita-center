@@ -48,6 +48,7 @@ import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
 import { FileSystemDialogModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
+import { MockDeviceResolverService } from "e2e-mock-server"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -90,7 +91,9 @@ export class ApplicationModule {
   private apiModule: APIModule
 
   private deviceManager = new DeviceManager(
-    new DeviceResolverService(),
+    process.env.MOCK_DEVICE_ENABLED === "1"
+      ? new MockDeviceResolverService()
+      : new DeviceResolverService(),
     this.eventEmitter
   )
   private systemUtilsModule = new SystemUtilsModule()
