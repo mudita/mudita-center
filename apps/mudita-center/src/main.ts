@@ -80,7 +80,7 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
-import { AppEvents, callRenderer, getMainAppWindow } from "shared/utils"
+import { AppEvents, callRenderer } from "shared/utils"
 import { startServer } from "e2e-mock-server"
 
 // AUTO DISABLED - fix me if you like :)
