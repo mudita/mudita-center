@@ -86,7 +86,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
   const onKeyDownHandler =
     (number: number) =>
     (e: { key: string; code: string; preventDefault: () => void }) => {
-      if (/[0-9]/.test(e.key)) {
+      if (/^[0-9]$/.test(e.key)) {
         const backspaceEdgeCase = activeInput === 0 && e.key === ""
         if (
           activeInput !== undefined &&
