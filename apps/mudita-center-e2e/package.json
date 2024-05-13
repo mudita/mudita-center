@@ -19,6 +19,7 @@
   "scripts": {
     "e2e:test": "npm run validate-test-paths && npx wdio run wdio.conf.ts",
     "e2e:test:cicd": "npm run validate-test-paths && npx wdio run wdio.conf.ts --suite cicd",
+    "e2e:test:mock": "npm run validate-test-paths && npx wdio run wdio.conf.ts --suite mock",
     "e2e:test:standalone": "npm run validate-test-paths && npx wdio run wdio.conf.ts --suite standalone",
     "lint:typecheck:to-fix": "tsc --noEmit",
     "validate-test-paths": "ts-node ./scripts/validate-test-paths.ts"
