@@ -91,7 +91,9 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     this.visitorMetadata = visitorMetadata
   }
 
-  private trackRequest(event: TrackEvent): Promise<AxiosResponse | undefined> {
+  private async trackRequest(
+    event: TrackEvent
+  ): Promise<AxiosResponse | undefined> {
     const params: AxiosRequestConfig["params"] = {
       rec: 1,
       apiv: 1,
@@ -101,10 +103,12 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
       ...event,
     }
 
-    return this.httpClient.post(this.apiUrl, undefined, {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      params,
-    })
+    try {
+      return await this.httpClient.post(this.apiUrl, undefined, {
+        params,
+      })
+    } catch {
+      return undefined
+    }
   }
 }
