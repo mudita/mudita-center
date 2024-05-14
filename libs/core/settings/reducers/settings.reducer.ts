@@ -10,15 +10,11 @@ import {
   setLatestVersion,
   setOsBackupLocation,
   setSettings,
-  setDiagnosticTimestamp,
-  toggleTethering,
   toggleApplicationUpdateAvailable,
-  toggleCollectionData,
   togglePrivacyPolicyAccepted,
   setCheckingForUpdate,
   setUserHasSerialPortAccess,
 } from "Core/settings/actions"
-import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
 import {
   setCheckingForUpdateFailed,
   skipAvailableUpdate,
@@ -35,12 +31,7 @@ export const initialState: SettingsState = {
   language: "",
   ignoredCrashDumps: [],
   diagnosticSentTimestamp: 0,
-  collectingData: undefined,
   privacyPolicyAccepted: undefined,
-  neverConnected: false,
-  tray: false,
-  autostart: false,
-  tethering: false,
   updateRequired: false,
   updateAvailable: undefined,
   updateAvailableSkipped: undefined,
@@ -73,26 +64,12 @@ export const settingsReducer = createReducer<SettingsState>(
         state.latestVersion = action.payload
       })
 
-      .addCase(toggleTethering.fulfilled, (state, action) => {
-        state.tethering = action.payload
-      })
-
       .addCase(toggleApplicationUpdateAvailable, (state, action) => {
         state.updateAvailable = action.payload
       })
 
-      .addCase(toggleCollectionData.fulfilled, (state, action) => {
-        state.collectingData = action.payload
-      })
-
       .addCase(togglePrivacyPolicyAccepted.fulfilled, (state, action) => {
         state.privacyPolicyAccepted = action.payload
-      })
-      .addCase(deleteCollectingData.fulfilled, (state, _) => {
-        state.collectingData = undefined
-      })
-      .addCase(setDiagnosticTimestamp.fulfilled, (state, action) => {
-        state.diagnosticSentTimestamp = action.payload
       })
 
       .addCase(setOsBackupLocation.fulfilled, (state, action) => {

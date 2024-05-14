@@ -13,6 +13,7 @@ import {
   removeUnusedFields,
   osDownloadLocationMigration,
 } from "Core/settings/store/migrations"
+import { removeDeprecatedFieldsMigration } from "Core/settings/store/migrations/004-remove-deprecated-fields.migration"
 
 export const settingsStore = new Store({
   name: "settings",
@@ -27,5 +28,6 @@ export const settingsStore = new Store({
     ">=1.4.1": removeUnusedFields,
     ">=2.0.2": privacyPolicyAcceptedMigration,
     ">=2.1.0": osDownloadLocationMigration,
+    ">=2.3.0": removeDeprecatedFieldsMigration,
   },
 })
