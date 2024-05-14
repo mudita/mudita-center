@@ -25,10 +25,9 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 
 const Device = styled("div")<{ active: boolean }>`
-  padding: 1.8rem 2.4rem 1.8rem 1rem;
+  padding: 1.8rem 2.1rem;
   display: flex;
-  min-width: 27.2rem;
-  max-width: 27.2rem;
+  width: 100%;
 
   &:hover {
     background: ${backgroundColor("main")};
@@ -55,7 +54,7 @@ const DeviceImageContainer = styled("div")`
   justify-content: center;
   min-height: 9.6rem;
   min-width: 9.1rem;
-  padding: 0 2.4rem 0 0rem;
+  padding: 0 2.8rem 0 0;
 `
 
 export const DeviceImageStyled = styled(DeviceImage)`
@@ -101,7 +100,7 @@ const ActiveDot = styled("span")`
   background-color: ${textColor("primary")};
   border-radius: 50%;
   display: inline-block;
-  margin: 0rem 0.5rem 0.8rem 0.5rem;
+  margin: 0 0.5rem 0.8rem 0.5rem;
 `
 
 const DeviceName = styled(Text)`
