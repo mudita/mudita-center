@@ -60,6 +60,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.newsPageOnlineTest),
     toRelativePath(TestFilesPaths.termsOfServiceTest),
+    toRelativePath(TestFilesPaths.e2eMockSample),
   ],
   suites: {
     standalone: [
@@ -68,6 +69,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
+      toRelativePath(TestFilesPaths.e2eMockSample),
     ],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],

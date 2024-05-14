@@ -82,6 +82,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
 import { AppEvents, callRenderer, getMainAppWindow } from "shared/utils"
+import { startServer } from "e2e-mock-server"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -91,6 +92,10 @@ require("dotenv").config()
 //  There is almost always a better way to accomplish your task than using this module.
 //  You can read more in https://github.com/electron/remote#migrating-from-remote
 require("@electron/remote/main").initialize()
+
+if (process.env.MOCK_DEVICE_ENABLED === "1") {
+  startServer()
+}
 
 logger.info("Starting the app")
 
