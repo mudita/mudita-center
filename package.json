@@ -276,7 +276,7 @@
     "@vscode/sudo-prompt": "^9.3.1",
     "crypto-js": "^4.2.0",
     "js-crc": "^0.2.0",
-    "node-ipc": "^11.1.0",
+    "node-ipc": "10.1.0",
     "react-is": "18.2.0",
     "react-markdown": "^9.0.1",
     "serialport": "10.1.0",
