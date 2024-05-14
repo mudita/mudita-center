@@ -18,6 +18,7 @@ import { createSettingsService } from "Core/settings/containers/settings.contain
 import { APIRestoreService } from "./restore"
 import { DeviceSystemActionsService } from "./device-system-actions/device-system-actions.service"
 import { APIDataTransferService } from "./data-transfer"
+import { APIContactsService } from "./contacts/contacts.service"
 
 export class APIModule {
   private apiConfigService: APIConfigService
@@ -32,6 +33,7 @@ export class APIModule {
   private deviceSystemActionsService: DeviceSystemActionsService
   private serviceBridge: ServiceBridge
   private apiDataTransferService: APIDataTransferService
+  private apiContactsService: APIContactsService
 
   constructor(
     deviceManager: DeviceManager,
@@ -57,6 +59,7 @@ export class APIModule {
     this.deviceSystemActionsService = new DeviceSystemActionsService(
       deviceManager
     )
+    this.apiContactsService = new APIContactsService(deviceManager)
     this.serviceBridge.systemUtilsModule = systemUtilsModule
     this.serviceBridge.fileTransfer = this.fileTransferService
     this.serviceBridge.settingsService = createSettingsService()
@@ -77,6 +80,7 @@ export class APIModule {
       this.fileManager,
       this.deviceSystemActionsService,
       this.apiDataTransferService,
+      this.apiContactsService,
     ]
   }
 }
