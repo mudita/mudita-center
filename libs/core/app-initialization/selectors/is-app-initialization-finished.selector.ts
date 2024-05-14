@@ -6,11 +6,17 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { isAppUpdateProcessPassed } from "Core/app-initialization/selectors/is-app-update-process-passed.selector"
 import { isUsbAccessGrantedSelector } from "Core/settings/selectors/is-usb-access-granted.selector"
+import { settingsStateSelector } from "Core/settings/selectors"
 
 export const isAppInitializationFinishedSelector = createSelector(
   isAppUpdateProcessPassed,
   isUsbAccessGrantedSelector,
-  (appUpdateProcessPassed, usbAccessGranted): boolean => {
-    return appUpdateProcessPassed && usbAccessGranted
+  settingsStateSelector,
+  (
+    appUpdateProcessPassed,
+    usbAccessGranted,
+    { privacyPolicyAccepted }
+  ): boolean => {
+    return appUpdateProcessPassed && usbAccessGranted && Boolean(privacyPolicyAccepted)
   }
 )

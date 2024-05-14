@@ -17,14 +17,9 @@ jest.mock("Core/settings/store/schemas", () => ({
 
 export const fakeSettings: Settings = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
-  autostart: false,
-  tethering: false,
-  tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,
   language: "en-US",
-  neverConnected: true,
-  collectingData: false,
   privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],

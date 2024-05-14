@@ -37,8 +37,6 @@ export const loadSettings = createAsyncThunk<
     )
   }
 
-  settings.collectingData ? logger.enableRollbar() : logger.disableRollbar()
-
   dispatch(
     setSettings({
       ...settings,
