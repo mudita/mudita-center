@@ -13,11 +13,13 @@ const selectNoDataAboutUpdateAvaible = createSelector(
     updateAvailable,
     updateAvailableSkipped,
     checkingForUpdateFailed,
+    updateRequired,
   }): boolean => {
     return (
       updateAvailableSkipped === undefined &&
       updateAvailable === undefined &&
-      checkingForUpdateFailed
+      checkingForUpdateFailed &&
+      !updateRequired
     )
   }
 )
