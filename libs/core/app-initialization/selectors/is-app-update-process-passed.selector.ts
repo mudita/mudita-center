@@ -22,10 +22,18 @@ const selectNoDataAboutUpdateAvaible = createSelector(
   }
 )
 
+const selectAppUpdateFlowPassed = createSelector(
+  settingsStateSelector,
+  shouldAppUpdateFlowVisible,
+  ({ updateAvailable }, appUpdateFlowVisible): boolean => {
+    return updateAvailable !== undefined && !appUpdateFlowVisible
+  }
+)
+
 export const isAppUpdateProcessPassed = createSelector(
   selectNoDataAboutUpdateAvaible,
-  shouldAppUpdateFlowVisible,
-  (noDataAboutUpdateAvaible, appUpdateFlowVisible): boolean => {
-    return !appUpdateFlowVisible || noDataAboutUpdateAvaible
+  selectAppUpdateFlowPassed,
+  (noDataAboutUpdateAvaible, appUpdateFlowPassed): boolean => {
+    return appUpdateFlowPassed || noDataAboutUpdateAvaible
   }
 )
