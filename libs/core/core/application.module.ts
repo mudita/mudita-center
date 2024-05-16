@@ -49,6 +49,7 @@ import { DesktopModule } from "Core/desktop/desktop.module"
 import { FileSystemDialogModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
 import { MockDeviceResolverService } from "e2e-mock-server"
+import { ApplicationUpdaterModule } from "electron/application-updater"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -119,6 +120,9 @@ export class ApplicationModule {
       FileSystemDialogModule.getControllers()
     )
     this.controllerInitializer.initialize(this.systemUtilsModule.getServices())
+    this.controllerInitializer.initialize(
+      new ApplicationUpdaterModule().controllers
+    )
   }
 
   lateInitialization(): void {

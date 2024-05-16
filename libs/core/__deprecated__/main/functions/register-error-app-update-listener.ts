@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { AppUpdateEvent } from "Core/__deprecated__/main/autoupdate"
+import { AppUpdateEvent } from "electron/application-updater"
 
 const registerErrorAppUpdateListener = (
   listener: (data: unknown) => void

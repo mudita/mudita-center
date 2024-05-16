@@ -13,8 +13,10 @@ import {
 } from "Core/__deprecated__/renderer/wrappers/app-update-step-modal/app-update.modals"
 import registerDownloadedAppUpdateListener from "Core/__deprecated__/main/functions/register-downloaded-app-update-listener"
 import registerErrorAppUpdateListener from "Core/__deprecated__/main/functions/register-error-app-update-listener"
-import installAppUpdateRequest from "Core/__deprecated__/renderer/requests/install-app-update.request"
-import downloadAppUpdateRequest from "Core/__deprecated__/renderer/requests/download-app-update.request"
+import {
+  downloadAppUpdateRequest,
+  installAppUpdateRequest,
+} from "electron/application-updater"
 import { ModalDialogProps } from "Core/ui/components/modal-dialog"
 import {
   trackCenterUpdate,
