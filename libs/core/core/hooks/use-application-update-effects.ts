@@ -4,7 +4,7 @@
  */
 
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import registerAvailableAppUpdateListener from "Core/__deprecated__/main/functions/register-avaible-app-update-listener"
 import { setCheckingForUpdateFailed } from "Core/settings/actions/base.action"
@@ -15,9 +15,11 @@ import {
 } from "Core/settings/actions"
 import registerNotAvailableAppUpdateListener from "Core/__deprecated__/main/functions/register-not-avaible-app-update-listener"
 import registerErrorAppUpdateListener from "Core/__deprecated__/main/functions/register-error-app-update-listener"
+import { settingsStateSelector } from "Core/settings/selectors"
 
 export const useApplicationUpdateEffects = () => {
   const dispatch = useDispatch<Dispatch>()
+  const { checkingForUpdate } = useSelector(settingsStateSelector)
 
   useEffect(() => {
     const unregister = registerErrorAppUpdateListener(() => {
@@ -26,6 +28,17 @@ export const useApplicationUpdateEffects = () => {
     })
     return () => unregister()
   }, [dispatch])
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (checkingForUpdate) {
+        dispatch(setCheckingForUpdateFailed(true))
+        dispatch(setCheckingForUpdate(false))
+      }
+    }, 10000)
+
+    return () => clearTimeout(timeoutId)
+  }, [dispatch, checkingForUpdate])
 
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {

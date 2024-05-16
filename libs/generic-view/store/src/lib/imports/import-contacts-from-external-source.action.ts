@@ -84,6 +84,9 @@ const mapGoogleContactsToUnifiedContacts = (
         nickname:
           contact.nicknames?.find((item) => item.metadata.primary)?.value ||
           contact.nicknames?.[0].value,
+        note:
+          contact.biographies?.find((item) => item.metadata.primary)?.value ||
+          contact.biographies?.[0].value,
       }
 
       return {

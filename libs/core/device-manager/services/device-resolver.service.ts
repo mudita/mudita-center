@@ -13,7 +13,11 @@ import { APIDevice } from "device/feature"
 import { DeviceType } from "Core/device"
 import { BaseDevice } from "Core/device/modules/base-device"
 
-export class DeviceResolverService {
+export interface IDeviceResolverService {
+  resolve(portInfo: PortInfo): BaseDevice | undefined
+}
+
+export class DeviceResolverService implements IDeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
 
   public resolve(portInfo: PortInfo): BaseDevice | undefined {
