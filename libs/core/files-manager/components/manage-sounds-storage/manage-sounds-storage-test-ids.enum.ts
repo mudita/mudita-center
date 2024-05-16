@@ -3,8 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
-
-export interface VisibleOnDeviceProps {
-  devices: DeviceType[]
+export enum FilesStorageTestIds {
+  Title = "files-storage-title",
+  List = "files-storage-list",
 }

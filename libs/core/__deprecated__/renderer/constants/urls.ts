@@ -9,6 +9,7 @@ export const URL_MAIN = {
   messages: "/messages",
   contacts: "/contacts",
   filesManager: "/files-manager",
+  manageSounds: "/manage-sounds",
   settings: "/settings",
   help: "/help",
   error: "/error",

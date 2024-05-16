@@ -12,13 +12,13 @@ import { FilesStorageTestIds } from "Core/files-manager/components/files-storage
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import FilesStorageList from "Core/files-manager/components/files-storage-list/files-storage-list.component"
-import { FilesManagerPanel } from "Core/files-manager/components/files-manager-panel"
 import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
 import { backgroundColor } from "Core/core/styles/theming/theme-getters"
 import { useFilesFilter } from "Core/files-manager/helpers/use-files-filter.hook"
 import useCancelableFileUpload from "Core/files-manager/components/files-manager-core/use-cancelable-file-upload"
 import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
+import { ManageSoundsPanel } from "Core/files-manager/components/manage-sounds-panel/manage-sounds-panel.component"
+import ManageSoundsStorageList from "Core/files-manager/components/manage-sounds-storage-list/manage-sounds-storage-list.component"
 
 const TitleWrapper = styled.div`
   padding: 1.6rem 3.2rem 1rem;
@@ -30,11 +30,11 @@ const TitleWrapper = styled.div`
 
 const messages = defineMessages({
   title: {
-    id: "component.filesManagerFilesStorageTitle",
+    id: "component.manageSoundsStorageTitle",
   },
 })
 
-const FilesStorage: FunctionComponent<FilesStorageProps> = ({
+const ManageSoundsStorage: FunctionComponent<FilesStorageProps> = ({
   state,
   onDeleteClick,
   onManagerDeleteClick,
@@ -55,14 +55,15 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
           message={messages.title}
         />
       </TitleWrapper>
-      <FilesManagerPanel
+      <ManageSoundsPanel
         onUploadFile={handleUploadFiles}
         disabled={disableUpload}
         onDeleteClick={onManagerDeleteClick}
         searchValue={searchValue}
         onSearchValueChange={handleSearchValueChange}
       />
-      <FilesStorageList
+      <ManageSoundsStorageList
+        disableUpload={disableUpload}
         data-testid={FilesStorageTestIds.List}
         files={filteredFiles}
         onDelete={onDeleteClick}
@@ -74,4 +75,4 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   )
 }
 
-export default FilesStorage
+export default ManageSoundsStorage

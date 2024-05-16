@@ -41,6 +41,7 @@ export const Panel = styled.div<{
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  width: 15.6rem;
 `
 
 export const FilesManagerSelectionManager = styled(SelectionManager)`

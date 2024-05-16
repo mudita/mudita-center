@@ -4,11 +4,11 @@
  */
 
 import { useEffect, useRef, useState } from "react"
-import { MemorySpace } from "Core/files-manager/components/files-manager/files-manager.interface"
-import { getSpaces } from "Core/files-manager/components/files-manager/use-spaces/get-spaces.helper"
+import { MemorySpace } from "Core/files-manager/components/files-manager-core/files-manager.interface"
+import { getSpaces } from "Core/files-manager/components/files-manager-core/use-spaces/get-spaces.helper"
 import { State } from "Core/core/constants"
 import { File } from "Core/files-manager/dto"
-import { Spaces } from "Core/files-manager/components/files-manager/use-spaces/spaces.interface"
+import { Spaces } from "Core/files-manager/components/files-manager-core/use-spaces/spaces.interface"
 
 const useSpaces = (
   files: File[] | null,

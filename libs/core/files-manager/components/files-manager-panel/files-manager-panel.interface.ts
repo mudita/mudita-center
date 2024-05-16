@@ -8,9 +8,5 @@ export interface FilesManagerPanelProps {
   onSearchValueChange: (value: string) => void
   onUploadFile: () => void
   disabled: boolean
-  toggleAll: () => void
-  resetRows: () => void
   onDeleteClick: () => void
-  selectedFiles: string[]
-  allItemsSelected: boolean
 }

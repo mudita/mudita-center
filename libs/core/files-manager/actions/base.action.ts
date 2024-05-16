@@ -6,6 +6,7 @@
 import { createAction } from "@reduxjs/toolkit"
 import { State } from "Core/core/constants"
 import { FilesManagerEvent } from "Core/files-manager/constants"
+import { SoundApp } from "Core/files-manager/reducers"
 
 export const setInitialFilesManagerState = createAction(
   FilesManagerEvent.SetInitialFilesManagerState
@@ -46,4 +47,7 @@ export const resetFiles = createAction(FilesManagerEvent.ResetFiles)
 
 export const setInvalidFiles = createAction<string[]>(
   FilesManagerEvent.SetInvalidFiles
+)
+export const setActiveSoundApp = createAction<SoundApp>(
+  FilesManagerEvent.SetActiveSoundApp
 )

@@ -22,4 +22,5 @@ export enum FilesManagerEvent {
   SetDuplicatedFiles = "FILES_MANAGER_SET_DUPLICATED_FILES",
   SetInvalidFiles = "FILES_MANAGER_SET_INVALID_FILES",
   ResetFiles = "FILES_MANAGER_RESET_FILES",
+  SetActiveSoundApp = "FILES_MANAGER_SET_ACTIVE_SOUND_APP",
 }
