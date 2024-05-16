@@ -3,5 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./visible-on-device.component"
-export * from "./visible-on-device.interface"
+export enum FilesStorageListTableTestIds {
+  Loaded = "files-storage-list-table-loaded",
+  Row = "files-storage-list-table-row",
+}
