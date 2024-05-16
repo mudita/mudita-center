@@ -20,9 +20,6 @@ import useTableScrolling from "Core/__deprecated__/renderer/utils/hooks/use-tabl
 import { isEqual } from "lodash"
 import React, { createRef, useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
-import { useDispatch } from "react-redux"
-import { startGoogleAuthorization } from "generic-view/store"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
 
 const messages = defineMessages({
   emptyListTitle: {
@@ -55,7 +52,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   toggleRow,
   contactList,
 }) => {
-  const dispatch = useDispatch<Dispatch>()
   const [componentContactList, setComponentContactList] =
     useState<ContactCategory[]>(contactList)
 
@@ -83,8 +79,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editMode])
-
-  // googleAuthorization 
 
   return (
     <SelectableContacts
@@ -114,16 +108,11 @@ const ContactList: FunctionComponent<ContactListProps> = ({
         )}
       {resultsState === ResultState.Loaded &&
         componentContactList.length === 0 && (
-          <>
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListNoResult}
             title={messages.noContactsListTitle}
             description={messages.noContactsListDescription}
           />
-          <button onClick={()=> dispatch(startGoogleAuthorization())}>
-            Google
-          </button>
-          </>
         )}
       {(resultsState === ResultState.Empty ||
         resultsState === ResultState.Error) && (
