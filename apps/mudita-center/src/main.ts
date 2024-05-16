@@ -500,12 +500,16 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
       const mainWindowBounds = getMainAppWindow()?.getBounds()
       if (mainWindowBounds) {
         googleAuthWindow.setPosition(
-          mainWindowBounds.width / 2 +
-            mainWindowBounds.x -
-            GOOGLE_AUTH_WINDOW_SIZE.width / 2,
-          mainWindowBounds.height / 2 +
-            mainWindowBounds.y -
-            GOOGLE_AUTH_WINDOW_SIZE.height / 2
+          Math.round(
+            mainWindowBounds.width / 2 +
+              mainWindowBounds.x -
+              GOOGLE_AUTH_WINDOW_SIZE.width / 2
+          ),
+          Math.round(
+            mainWindowBounds.height / 2 +
+              mainWindowBounds.y -
+              GOOGLE_AUTH_WINDOW_SIZE.height / 2
+          )
         )
       }
       googleAuthWindow.removeMenu()
