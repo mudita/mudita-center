@@ -19,25 +19,25 @@ import {
 
 const messages = defineMessages({
   [DataMigrationFeature.Notes]: {
-    id: "module.dataMigration.features.notes",
+    id: "module.genericViews.dataMigration.features.notes",
   },
   [DataMigrationFeature.Alarms]: {
-    id: "module.dataMigration.features.alarms",
+    id: "module.genericViews.dataMigration.features.alarms",
   },
   [DataMigrationFeature.CallLog]: {
-    id: "module.dataMigration.features.callLog",
+    id: "module.genericViews.dataMigration.features.callLog",
   },
   [DataMigrationFeature.Contacts]: {
-    id: "module.dataMigration.features.contacts",
+    id: "module.genericViews.dataMigration.features.contacts",
   },
   [DataMigrationFeature.Messages]: {
-    id: "module.dataMigration.features.messages",
+    id: "module.genericViews.dataMigration.features.messages",
   },
   [DataMigrationFeature.Multimedia]: {
-    id: "module.dataMigration.features.multimedia",
+    id: "module.genericViews.dataMigration.features.multimedia",
   },
   selectAll: {
-    id: "module.dataMigration.features.selectAll",
+    id: "module.genericViews.dataMigration.features.selectAll",
   },
 })
 

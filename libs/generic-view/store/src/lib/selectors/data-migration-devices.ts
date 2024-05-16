@@ -12,36 +12,25 @@ import { kompaktImg } from "Root/demo-data/kompakt-img"
 
 export const selectDataMigrationSourceDevices = createSelector(
   (state: ReduxRootState) => state.deviceManager.devices,
-  // TODO: Update to use Pure devices from the store
-  (devices) => [
-    {
-      name: "Pure",
-      image: pureBlackImage,
-      serialNumber: "2077502072",
-    },
-    // {
-    //   name: "Pure",
-    //   image: pureGreyImage,
-    //   serialNumber: "1234567890",
-    // },
-    // {
-    //   name: "Pure",
-    //   image: pureGreyImage,
-    //   serialNumber: "0987654321",
-    // },
-  ]
+  (devices) =>
+    devices
+      .filter(({ deviceType }) => deviceType === "MuditaPure")
+      .map(mapDevice)
 )
 
 export const selectDataMigrationTargetDevices = createSelector(
   (state: ReduxRootState) => state.genericViews.devicesConfiguration,
   (devices) => {
-    return Object.values(devices).map((device) => {
-      return {
-        name: device.menuConfig!.title!,
-        image: kompaktImg, // TODO: Add variant support
-        serialNumber: device.apiConfig.serialNumber!,
-      }
-    })
+    return Object.values(devices)
+      .map((device) => {
+        if (!device.menuConfig || !device.apiConfig) return undefined
+        return {
+          name: device.menuConfig.title,
+          image: kompaktImg, // TODO: Add variant support
+          serialNumber: device.apiConfig.serialNumber,
+        }
+      })
+      .filter(Boolean)
   }
 )
 

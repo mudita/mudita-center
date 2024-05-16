@@ -44,6 +44,13 @@ const YOUR_PURE_BUTTONS = [
     visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
     viewKey: View.FilesManager,
   },
+  {
+    button: views.dataMigration,
+    icon: IconType.DataMigration,
+    testId: MenuGroupTestIds.DataMigration,
+    visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.DataMigration,
+  }
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [

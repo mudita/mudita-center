@@ -907,11 +907,12 @@
   "module.genericViews.importContacts.failure.closeButtonLabel": "Close",
   "module.genericViews.importContacts.cancellation.title": "Import cancelled",
   "module.genericViews.importContacts.cancellation.message": "No changes were made to your phone’s contacts.",
-  "module.dataMigration.features.notes": "Notes",
-  "module.dataMigration.features.alarms": "Alarms",
-  "module.dataMigration.features.callLog": "Call log",
-  "module.dataMigration.features.contacts": "Contacts",
-  "module.dataMigration.features.messages": "Messages",
-  "module.dataMigration.features.multimedia": "Multimedia",
-  "module.dataMigration.features.selectAll": "Select all"
+  "module.dataMigration.title": "Data Migration",
+  "module.genericViews.dataMigration.features.notes": "Notes",
+  "module.genericViews.dataMigration.features.alarms": "Alarms",
+  "module.genericViews.dataMigration.features.callLog": "Call log",
+  "module.genericViews.dataMigration.features.contacts": "Contacts",
+  "module.genericViews.dataMigration.features.messages": "Messages",
+  "module.genericViews.dataMigration.features.multimedia": "Multimedia",
+  "module.genericViews.dataMigration.features.selectAll": "Select all"
 }

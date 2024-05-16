@@ -17,6 +17,7 @@ export const URL_MAIN = {
   privacyPolicy: "/privacy-policy",
   overviewDemo: "/overview-demo",
   apiConnectionDemo: "/api-connection-demo",
+  dataMigration: "/data-migration"
 } as const
 
 export const URL_TABS = {

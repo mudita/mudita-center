@@ -23,16 +23,22 @@ import { ButtonPrimary } from "../../buttons/button-primary"
 import { FeaturesSelector } from "./components/features-selector"
 import { TransferSetup } from "./transfer-setup"
 import { kompaktImg } from "Root/demo-data/kompakt-img"
+import { GenericThemeProvider } from "generic-view/theme"
+import { Device } from "./components/device-card"
 
-export const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
+const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   dataTypes,
 }) => {
-  const sourceDevices = useSelector(selectDataMigrationSourceDevices)
-  const targetDevices = useSelector(selectDataMigrationTargetDevices)
+  const sourceDevices = useSelector(
+    selectDataMigrationSourceDevices
+  ) as Device[]
+  const targetDevices = useSelector(
+    selectDataMigrationTargetDevices
+  ) as Device[]
   const { sourceDevice, targetDevice } = useSelector(
     selectCurrentDataMigrationDevices
   )
-  console.log(sourceDevices.length, targetDevice)
+  console.log(sourceDevices, targetDevices)
   const singleDeviceConnected = !sourceDevices.length || !targetDevices.length
   const noSourceDeviceSelected = !sourceDevice
   const noTargetDeviceSelected = !targetDevice
@@ -49,7 +55,9 @@ export const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
       </Header>
       <Content>
         {singleDeviceConnected && <Instruction />}
-        {noTargetDeviceSelected && <TargetSelector />}
+        {!singleDeviceConnected && noTargetDeviceSelected && (
+          <TargetSelector devices={targetDevices} />
+        )}
         {!singleDeviceConnected && !noTargetDeviceSelected && (
           <TransferSetup
             features={dataTypes}
@@ -68,6 +76,14 @@ export const DataMigration: APIFC<undefined, McDataMigrationConfig> = ({
     <Form>
       <DataMigrationUI {...config} />
     </Form>
+  )
+}
+
+export const DataMigrationPage: FunctionComponent = () => {
+  return (
+    <GenericThemeProvider>
+      <DataMigration config={{ dataTypes: [] }} />
+    </GenericThemeProvider>
   )
 }
 

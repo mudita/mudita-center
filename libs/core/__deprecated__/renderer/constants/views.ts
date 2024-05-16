@@ -21,6 +21,7 @@ const messages = defineMessages({
   help: { id: "module.help" },
   error: { id: "module.error" },
   pureSystem: { id: "module.overview.pureSystem" },
+  dataMigration: { id: "module.dataMigration.title" },
 })
 
 export enum View {
@@ -34,6 +35,7 @@ export enum View {
   Help = "help",
   Error = "error",
   PureSystem = "pure-system",
+  DataMigration = "dataMigration",
 }
 
 export type Views = {
@@ -89,5 +91,9 @@ export const views: Views = {
   [View.PureSystem]: {
     label: messages.pureSystem,
     url: URL_OVERVIEW.pureSystem,
+  },
+  [View.DataMigration]: {
+    label: messages.dataMigration,
+    url: URL_MAIN.dataMigration,
   },
 }

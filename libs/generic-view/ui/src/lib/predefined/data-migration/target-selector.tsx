@@ -6,10 +6,13 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { P3 } from "../../texts/paragraphs"
-import { DeviceCard } from "./components/device-card"
-import { kompaktImg } from "Root/demo-data/kompakt-img"
+import { Device, DeviceCard } from "./components/device-card"
 
-export const TargetSelector: FunctionComponent = () => {
+interface Props {
+  devices: Device[]
+}
+
+export const TargetSelector: FunctionComponent<Props> = ({ devices }) => {
   return (
     <TargetSelectorWrapper>
       <Header>
@@ -17,38 +20,19 @@ export const TargetSelector: FunctionComponent = () => {
         <P3>The active device will receive the data you transfer.</P3>
       </Header>
       <Devices>
-        <DeviceCard
-          image={kompaktImg}
-          name={"Kompakt"}
-          serialNumber={"01234567890A"}
-          onSelect={() => {
-            console.log("select Kompakt")
-          }}
-        />
-        <DeviceCard
-          image={kompaktImg}
-          name={"Kompakt"}
-          serialNumber={"01234567890A"}
-          onSelect={() => {
-            console.log("select Kompakt")
-          }}
-        />
-        <DeviceCard
-          image={kompaktImg}
-          name={"Kompakt"}
-          serialNumber={"01234567890A"}
-          onSelect={() => {
-            console.log("select Kompakt")
-          }}
-        />
-        <DeviceCard
-          image={kompaktImg}
-          name={"Kompakt"}
-          serialNumber={"01234567890A"}
-          onSelect={() => {
-            console.log("select Kompakt")
-          }}
-        />
+        {devices.map((device) => {
+          return (
+            <DeviceCard
+              key={device.serialNumber}
+              image={device.image}
+              name={device.name}
+              serialNumber={device.serialNumber}
+              onSelect={() => {
+                console.log("select Kompakt")
+              }}
+            />
+          )
+        })}
       </Devices>
     </TargetSelectorWrapper>
   )

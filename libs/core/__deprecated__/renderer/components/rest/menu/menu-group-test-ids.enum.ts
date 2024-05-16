@@ -15,4 +15,5 @@ export enum MenuGroupTestIds {
   Calendar = "calendar-link",
   Backup = "backup-and-recovery-link",
   Sync = "sync-info",
+  DataMigration = "data-migration-link",
 }
