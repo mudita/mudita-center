@@ -3,60 +3,84 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
-import React, { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import React, {
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  FunctionComponent,
+} from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { State } from "Core/core/constants"
-import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { FilesManagerContainer } from "Core/files-manager/components/files-manager/files-manager.styled"
+import { FilesManagerContainer } from "Core/files-manager/components/files-manager-core/files-manager.styled"
 import FilesSummary from "Core/files-manager/components/files-summary/files-summary.component"
 import {
+  DiskSpaceCategory,
   FileServiceState,
-  FilesManagerProps,
-} from "Core/files-manager/components/files-manager/files-manager.interface"
-import { FilesManagerTestIds } from "Core/files-manager/components/files-manager/files-manager-test-ids.enum"
-import { DeviceDirectory } from "Core/files-manager/constants"
-import FilesStorage from "Core/files-manager/components/files-storage/files-storage.component"
+  MemorySpace,
+} from "Core/files-manager/components/files-manager-core/files-manager.interface"
+import { FilesManagerTestIds } from "Core/files-manager/components/files-manager-core/files-manager-test-ids.enum"
 import { DeleteFilesModals } from "Core/files-manager/components/delete-files-modals/delete-files-modals.component"
 import { useLoadingState } from "Core/ui"
 import { UploadFilesModals } from "Core/files-manager/components/upload-files-modals/upload-files-modals.component"
-import { useFilesFilter } from "Core/files-manager/helpers/use-files-filter.hook"
-import useSpaces from "Core/files-manager/components/files-manager/use-spaces/use-spaces.hook"
-import { resetFiles } from "Core/files-manager/actions/base.action"
-import useCancelableFileUpload from "Core/files-manager/components/files-manager/use-cancelable-file-upload"
-import useDiskSpaceCategories from "Core/files-manager/components/files-manager/use-disk-space-categories.hook"
-
-const FilesManager: FunctionComponent<FilesManagerProps> = ({
-  memorySpace = {
-    reservedSpace: 0,
-    usedUserSpace: 0,
-    total: 0,
-  },
-  loading,
-  uploading,
-  deleting,
-  files,
-  getFiles,
-  deviceType,
-  resetAllItems,
-  selectAllItems,
-  toggleItem,
-  selectedItems,
-  allItemsSelected,
-  deleteFiles,
+import useSpaces from "Core/files-manager/components/files-manager-core/use-spaces/use-spaces.hook"
+import {
   resetDeletingState,
+  resetFiles,
   resetUploadingState,
   resetUploadingStateAfterSuccess,
-  uploadingFileCount,
-  deletingFileCount,
-  uploadBlocked,
-  error,
   setDeletingFileCount,
+} from "Core/files-manager/actions/base.action"
+import useDiskSpaceCategories from "Core/files-manager/components/files-manager-core/use-disk-space-categories.hook"
+import { getFiles, resetAllItems } from "Core/files-manager/actions"
+import { deleteFiles } from "Core/files-manager/actions/delete-files.action"
+import getAllFilesSelector from "Core/files-manager/selectors/get-all-files.selector"
+import { FilesStorageProps } from "Core/files-manager/components/files-storage/files-storage.interface"
+import { Message } from "Core/__deprecated__/renderer/interfaces/message.interface"
+
+type Props = {
+  children: (props: FilesStorageProps) => ReactNode
+  filesSummaryElements: DiskSpaceCategory[]
+  summaryTitleMessage: Message
+}
+
+const FilesManagerCore: FunctionComponent<Props> = ({
+  children,
+  filesSummaryElements,
+  summaryTitleMessage,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<Dispatch>()
+  const {
+    memorySpace,
+    files,
+    loading,
+    deleting,
+    uploading,
+    uploadingFileCount,
+    deletingFileCount,
+    error,
+    selectedItems,
+    uploadBlocked,
+  } = useSelector((state: ReduxRootState) => ({
+    memorySpace: state.device.data?.memorySpace ?? {
+      reservedSpace: 0,
+      usedUserSpace: 0,
+      total: 0,
+    },
+    files: getAllFilesSelector(state),
+    loading: state.filesManager.loading,
+    deleting: state.filesManager.deleting,
+    uploading: state.filesManager.uploading,
+    uploadingFileCount: state.filesManager.uploadingFileCount,
+    deletingFileCount: state.filesManager.deletingFileCount,
+    error: state.filesManager.error,
+    selectedItems: state.filesManager.selectedItems.rows,
+    uploadBlocked: state.filesManager.uploadBlocked,
+  }))
+
   const uploadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
-    useFilesFilter({ files: files ?? [] })
+
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
     deletingFailed: false,
     deleting: false,
@@ -66,36 +90,25 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     uploadingInfo: false,
   })
   const [toDeleteFileIds, setToDeleteFileIds] = useState<string[]>([])
-  const spaces = useSpaces(files, memorySpace, loading)
-  const diskSpaceCategories = useDiskSpaceCategories(files, spaces)
+  const spaces = useSpaces(files, memorySpace as MemorySpace, loading)
+  const diskSpaceCategories = useDiskSpaceCategories(
+    files,
+    spaces,
+    filesSummaryElements
+  )
   const { freeSpace, totalMemorySpace, usedMemorySpace } = spaces
-  const { handleUploadFiles } = useCancelableFileUpload()
+
   const disableUpload = uploadBlocked ? uploadBlocked : freeSpace === 0
-  const downloadFiles = () => {
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/await-thenable
-    if (deviceType === DeviceType.MuditaPure) {
-      getFiles(DeviceDirectory.Music)
-    } else {
-      getFiles(DeviceDirectory.Relaxation)
-    }
-  }
 
   useEffect(() => {
     return () => {
       dispatch(resetFiles())
     }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
-    if (deviceType) {
-      void downloadFiles()
-    }
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deviceType])
+    dispatch(getFiles())
+  }, [dispatch])
 
   useEffect(() => {
     if (deleting === State.Initial) {
@@ -141,7 +154,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 
     const hideInfoPopupsTimeout = setTimeout(() => {
       updateFieldState("deletingInfo", false)
-      resetDeletingState()
+      dispatch(resetDeletingState())
     }, 5000)
 
     return () => {
@@ -149,11 +162,13 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [states.deletingInfo])
+  }, [states.deletingInfo, dispatch])
 
   useEffect(() => {
-    return () => resetDeletingState()
-  }, [resetDeletingState])
+    return () => {
+      dispatch(resetDeletingState())
+    }
+  }, [dispatch])
 
   useEffect(() => {
     if (!states.uploadingInfo) {
@@ -162,7 +177,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 
     uploadTimeoutRef.current = setTimeout(() => {
       updateFieldState("uploadingInfo", false)
-      resetUploadingStateAfterSuccess()
+      dispatch(resetUploadingStateAfterSuccess())
     }, 5000)
 
     return () => {
@@ -174,41 +189,41 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 
   useEffect(() => {
     return () => {
-      resetUploadingState()
+      dispatch(resetUploadingState())
     }
-  }, [resetUploadingState])
+  }, [dispatch])
 
   const openDeleteModal = (ids: string[]) => {
     updateFieldState("deletingInfo", false)
     updateFieldState("uploadingInfo", false)
     updateFieldState("deletingConfirmation", true)
     setToDeleteFileIds(ids)
-    setDeletingFileCount(ids.length)
+    dispatch(setDeletingFileCount(ids.length))
   }
 
   const handleDeleteClick = (ids: string[]) => {
     openDeleteModal(ids)
-    resetAllItems()
+    dispatch(resetAllItems())
   }
   const handleManagerDeleteClick = () => {
     openDeleteModal(selectedItems)
   }
   const handleCloseUploadingErrorModal = () => {
-    resetUploadingState()
+    dispatch(resetUploadingState())
   }
   const handleCloseDeletingConfirmationModal = () => {
     updateFieldState("deletingConfirmation", false)
     setToDeleteFileIds([])
-    setDeletingFileCount(0)
+    dispatch(setDeletingFileCount(0))
   }
   const handleConfirmFilesDelete = () => {
-    resetAllItems()
-    void deleteFiles(toDeleteFileIds)
+    dispatch(resetAllItems())
+    dispatch(deleteFiles(toDeleteFileIds))
   }
   const handleCloseDeletingErrorModal = () => {
     setToDeleteFileIds([])
-    setDeletingFileCount(0)
-    resetDeletingState()
+    dispatch(setDeletingFileCount(0))
+    dispatch(resetDeletingState())
   }
 
   return (
@@ -232,29 +247,20 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       />
       {diskSpaceCategories && (
         <FilesSummary
+          summaryTitleMessage={summaryTitleMessage}
           diskSpaceCategories={diskSpaceCategories}
           totalMemorySpace={totalMemorySpace}
           usedMemory={usedMemorySpace}
         />
       )}
-      <FilesStorage
-        state={loading}
-        files={filteredFiles}
-        selectAllItems={selectAllItems}
-        resetAllItems={resetAllItems}
-        selectedItems={selectedItems}
-        allItemsSelected={allItemsSelected}
-        toggleItem={toggleItem}
-        onDeleteClick={handleDeleteClick}
-        onManagerDeleteClick={handleManagerDeleteClick}
-        uploadFiles={handleUploadFiles}
-        searchValue={searchValue}
-        onSearchValueChange={handleSearchValueChange}
-        noFoundFiles={noFoundFiles}
-        disableUpload={disableUpload}
-      />
+      {children({
+        state: loading,
+        disableUpload: disableUpload,
+        onDeleteClick: handleDeleteClick,
+        onManagerDeleteClick: handleManagerDeleteClick,
+      })}
     </FilesManagerContainer>
   )
 }
 
-export default FilesManager
+export default FilesManagerCore

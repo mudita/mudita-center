@@ -13,7 +13,7 @@ import {
   RenderHookResult,
   RenderOptions,
 } from "@testing-library/react"
-import useCancelableFileUpload from "Core/files-manager/components/files-manager/use-cancelable-file-upload"
+import useCancelableFileUpload from "Core/files-manager/components/files-manager-core/use-cancelable-file-upload"
 import { AnyAction, createAsyncThunk, PreloadedState } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { uploadFile } from "Core/files-manager/actions"
