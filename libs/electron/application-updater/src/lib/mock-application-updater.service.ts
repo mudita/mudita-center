@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ConnectionStateService } from "e2e-mock-server"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
 
 export class MockApplicationUpdaterService extends BaseApplicationUpdaterService {
-  constructor(private connectionStateService: ConnectionStateService) {
+  constructor() {
     super()
   }
   public quitAndInstall(): void {
@@ -19,10 +18,10 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
   }
 
   public async checkForUpdatesAndNotify(): Promise<void> {
-    if (this.connectionStateService.online) {
+    // if (navigator.onLine) {
       this.onUpdateNotAvailable()
-    } else {
-      this.onError()
-    }
+    // } else {
+    //   this.onError()
+    // }
   }
 }

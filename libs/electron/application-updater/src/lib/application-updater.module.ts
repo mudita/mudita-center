@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { connectionStateService } from "e2e-mock-server"
 import { ApplicationUpdaterController } from "./application-updater.controller"
 import { ApplicationUpdaterService } from "./application-updater.service"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
@@ -27,7 +26,7 @@ export class ApplicationUpdaterModule {
     ) {
       return new ApplicationUpdaterService()
     } else {
-      return new MockApplicationUpdaterService(connectionStateService)
+      return new MockApplicationUpdaterService()
     }
   }
 }

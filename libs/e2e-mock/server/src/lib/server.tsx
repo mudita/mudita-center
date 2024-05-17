@@ -9,7 +9,6 @@ import {
   addKompaktValidator,
 } from "./mock-descriptor/mock-descriptor-validators"
 import { mockDescriptor } from "./mock-descriptor/mock-descriptor"
-import { connectionStateService } from "./connection-state.service"
 
 ipc.config.id = "MC"
 ipc.config.retry = 1500
@@ -37,9 +36,6 @@ ipc.serve(function () {
     if (params.success) {
       mockDescriptor.addResponseOnce(params.data)
     }
-  })
-  ipc.server.on("mock.toggle.connection.state", function (data: boolean) {
-    connectionStateService.online = data
   })
 })
 

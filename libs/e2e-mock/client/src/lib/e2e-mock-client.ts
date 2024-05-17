@@ -28,7 +28,4 @@ export const E2EMockClient = {
   mockResponseOnce: (param: AddKompaktResponse) => {
     clientEmiter?.("mock.response.once", param)
   },
-  toggleConnectionState: (param: boolean) => {
-    clientEmiter?.("mock.toggle.connection.state", param)
-  },
 }
