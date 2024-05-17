@@ -10,23 +10,26 @@ import {
   getOfflineNews,
   getUpdatedNews,
 } from "Core/news/requests/get-news.request"
-import { ReduxRootState, RootState } from "Core/__deprecated__/renderer/store"
+import { selectOnlineStatusSelector } from "shared/app-state"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
-export const loadNews = createAsyncThunk<void, undefined>(
-  NewsEvent.LoadNews,
-  async (_, { dispatch, getState }) => {
-    const state = getState() as RootState & ReduxRootState
+export const loadNews = createAsyncThunk<
+  void,
+  undefined,
+  { state: ReduxRootState }
+>(NewsEvent.LoadNews, async (_, { dispatch, getState }) => {
+  const state = getState()
+  const onlineStatus = selectOnlineStatusSelector(getState())
 
-    if (state.news.newsItems.length === 0) {
-      const offlineNews = await getOfflineNews()
-      dispatch(setNews(offlineNews.newsItems))
-    }
+  if (state.news.newsItems.length === 0) {
+    const offlineNews = await getOfflineNews()
+    dispatch(setNews(offlineNews.newsItems))
+  }
 
-    if (state.networkStatus.online) {
-      const updatedNews = await getUpdatedNews()
-      if (updatedNews?.newsItems) {
-        dispatch(setNews(updatedNews.newsItems))
-      }
+  if (onlineStatus) {
+    const updatedNews = await getUpdatedNews()
+    if (updatedNews?.newsItems) {
+      dispatch(setNews(updatedNews.newsItems))
     }
   }
-)
+})
