@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface Store {
-  online?: boolean
+export enum IpcOnlineStatusEvent {
+  UpdateOnlineStatus = "online-status/update-online-status",
 }

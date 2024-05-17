@@ -8,6 +8,8 @@ import { QuestionAndAnswer } from "Core/help/components/help.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
 import debounce from "lodash/debounce"
+import { useSelector } from "react-redux"
+import { selectOnlineStatusSelector } from "shared/app-state"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -19,7 +21,7 @@ export const useHelpSearch = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getStoreData?: (key?: string) => Promise<any>
 ): { data: QuestionAndAnswer; searchQuestion: (value: string) => void } => {
-  const [networkStatus, setNetworkStatus] = useState(window.navigator.onLine)
+  const onlineStatus = useSelector(selectOnlineStatusSelector)
   const [data, setData] = useState<QuestionAndAnswer>({
     collection: [],
     items: {},
@@ -56,26 +58,14 @@ export const useHelpSearch = (
   }
 
   useEffect(() => {
-    if (networkStatus) {
+    if (onlineStatus) {
       void fetchDataAndSaveToStore()
     } else {
       void setDefaultHelpItemsAndSaveToStore()
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [networkStatus])
-
-  useEffect(() => {
-    const handleOnlineStatus = () => setNetworkStatus(window.navigator.onLine)
-
-    window.addEventListener("online", handleOnlineStatus)
-    window.addEventListener("offline", handleOnlineStatus)
-
-    return () => {
-      window.removeEventListener("online", handleOnlineStatus)
-      window.removeEventListener("offline", handleOnlineStatus)
-    }
-  }, [])
+  }, [onlineStatus])
 
   const searchQuestion = (value: string) => {
     if (value) {
