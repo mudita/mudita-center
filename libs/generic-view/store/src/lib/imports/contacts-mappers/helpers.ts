@@ -15,3 +15,14 @@ export const getDisplayName = (
   return "N/A"
 }
 
+export const addMissingFields = (contact: UnifiedContact): UnifiedContact => {
+  return {
+    ...contact,
+    phoneNumbers: contact.phoneNumbers?.map((number, index) => {
+      return {
+        ...number,
+        preference: number?.preference ?? index + 1,
+      }
+    }),
+  }
+}

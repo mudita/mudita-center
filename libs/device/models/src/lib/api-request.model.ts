@@ -22,16 +22,11 @@ const APIEndpoints = {
   Contacts: "CONTACTS",
 } as const
 
-export type APIEndpointType = (typeof APIEndpoints)[keyof typeof APIEndpoints]
+export type APIEndpointType = (typeof APIEndpoints)[number]
 
-const APIMethods = {
-  GET: "GET",
-  POST: "POST",
-  PUT: "PUT",
-  DELETE: "DELETE",
-} as const
+export const APIMethods = ["GET", "POST", "PUT", "DELETE"] as const
 
-export type APIMethodsType = (typeof APIMethods)[keyof typeof APIMethods]
+export type APIMethodsType = (typeof APIMethods)[number]
 
 const APIRequests = {
   MENU_CONFIGURATION: [APIMethods.GET],
