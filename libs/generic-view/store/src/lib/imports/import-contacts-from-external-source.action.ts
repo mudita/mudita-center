@@ -10,6 +10,7 @@ import externalProvidersStore from "Core/__deprecated__/renderer/store/external-
 import { GoogleContactResourceItem } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
 import { UnifiedContact } from "device/models"
 import { mapGoogleApi } from "./contacts-mappers/google-api/map-google-api"
+import { addMissingFields } from "./contacts-mappers/helpers"
 
 export const importContactsFromExternalSource = createAsyncThunk<
   UnifiedContact[],
@@ -23,6 +24,6 @@ export const importContactsFromExternalSource = createAsyncThunk<
       skipMapping: true,
     })) as unknown as GoogleContactResourceItem[]
 
-    return mapGoogleApi(contacts)
+    return mapGoogleApi(contacts).map(addMissingFields)
   }
 )

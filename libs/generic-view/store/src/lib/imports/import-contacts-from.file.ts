@@ -17,6 +17,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ImportProviderState } from "./reducer"
 import { cleanImportProcess } from "./actions"
+import { addMissingFields } from "./contacts-mappers/helpers"
 
 const messages = defineMessages({
   dialogTitle: {
@@ -77,9 +78,9 @@ export const importContactsFromFile = createAsyncThunk<
 
     switch (true) {
       case filePathResult.data.endsWith(".csv"):
-        return mapCsv(parseCsv(content))
+        return mapCsv(parseCsv(content)).map(addMissingFields)
       case filePathResult.data.endsWith(".vcf"):
-        return mapVcard(parseVcard(content))
+        return mapVcard(parseVcard(content)).map(addMissingFields)
       default:
         return handleError()
     }
