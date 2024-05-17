@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { connectionStateService } from "e2e-mock-server"
 import { ApplicationUpdaterController } from "./application-updater.controller"
 import { ApplicationUpdaterService } from "./application-updater.service"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
@@ -20,10 +21,13 @@ export class ApplicationUpdaterModule {
   }
 
   private resolveApplicationUpdaterService(): BaseApplicationUpdaterService {
-    if (process.env.NODE_ENV === "production") {
+    if (
+      process.env.MOCK_UPDATER_ENABLED === "0" &&
+      process.env.NODE_ENV === "production"
+    ) {
       return new ApplicationUpdaterService()
     } else {
-      return new MockApplicationUpdaterService()
+      return new MockApplicationUpdaterService(connectionStateService)
     }
   }
 }
