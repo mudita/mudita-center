@@ -46,7 +46,7 @@ import {
 } from "Core/device-manager/services"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
-import { FileSystemDialogModule } from "shared/app-state"
+import { FileSystemDialogModule, OnlineStatusModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
 import { MockDeviceResolverService } from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
@@ -123,6 +123,7 @@ export class ApplicationModule {
     this.controllerInitializer.initialize(
       new ApplicationUpdaterModule().controllers
     )
+    this.controllerInitializer.initialize(new OnlineStatusModule().controllers)
   }
 
   lateInitialization(): void {

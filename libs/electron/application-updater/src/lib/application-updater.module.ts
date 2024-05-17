@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { onlineStatusService } from "shared/app-state"
 import { ApplicationUpdaterController } from "./application-updater.controller"
 import { ApplicationUpdaterService } from "./application-updater.service"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
@@ -26,7 +27,7 @@ export class ApplicationUpdaterModule {
     ) {
       return new ApplicationUpdaterService()
     } else {
-      return new MockApplicationUpdaterService()
+      return new MockApplicationUpdaterService(onlineStatusService)
     }
   }
 }

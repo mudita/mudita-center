@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { OnlineStatusService } from "shared/app-state"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
 
 export class MockApplicationUpdaterService extends BaseApplicationUpdaterService {
-  constructor() {
+  constructor(private onlineStatusService: OnlineStatusService) {
     super()
   }
   public quitAndInstall(): void {
@@ -18,10 +19,10 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
   }
 
   public async checkForUpdatesAndNotify(): Promise<void> {
-    // if (navigator.onLine) {
+    if (this.onlineStatusService.online) {
       this.onUpdateNotAvailable()
-    // } else {
-    //   this.onError()
-    // }
+    } else {
+      this.onError()
+    }
   }
 }

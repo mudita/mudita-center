@@ -5,11 +5,16 @@
 
 import { useEffect } from "react"
 import { updateOnlineStatus } from "./base.action"
+import { updateOnlineStatusRequest } from "./online-status.requests"
 
 export const useOnlineListener = () => {
   useEffect(() => {
     updateOnlineStatus(window.navigator.onLine)
-    const handleOnlineStatus = () => updateOnlineStatus(window.navigator.onLine)
+    void updateOnlineStatusRequest(window.navigator.onLine)
+    const handleOnlineStatus = () => {
+      updateOnlineStatus(window.navigator.onLine)
+      void updateOnlineStatusRequest(window.navigator.onLine)
+    }
 
     window.addEventListener("online", handleOnlineStatus)
     window.addEventListener("offline", handleOnlineStatus)
