@@ -5,5 +5,7 @@
 
 export * from "./lib/dialog-file-system/get-paths.action"
 export * from "./lib/dialog-file-system/file-system-dialog.module"
+export * from "./lib/online-status/use-online-listener"
 export * from "./lib/selectors/select-dialog-open-state.selector"
+export * from "./lib/selectors/select-online-status.selector"
 export * from "./lib/app-state.reducer"
