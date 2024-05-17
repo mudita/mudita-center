@@ -18,7 +18,7 @@ import { ButtonPrimary } from "../../buttons/button-primary"
 import { UnifiedContact } from "device/models"
 import { useFormContext } from "react-hook-form"
 import { Tooltip } from "../../interactive/tooltip/tooltip"
-import { importContactsSelector } from "generic-view/store"
+import { getDisplayName, importContactsSelector } from "generic-view/store"
 import { useSelector } from "react-redux"
 import { Divider } from "../../helpers/divider"
 import { Form } from "../../interactive/form/form"
@@ -59,14 +59,13 @@ export const ImportContactsList: FunctionComponent<Props> = ({
     selectedContacts.length === contacts?.length && contacts?.length > 0
 
   const filteredContacts = useMemo(() => {
-    return contacts.filter(({ firstName, lastName }) => {
+    return contacts.filter(({ firstName, middleName, lastName }) => {
       if (!searchPhrase) {
         return true
       }
-      return (
-        firstName?.toLowerCase().includes(searchPhrase.toLowerCase()) ||
-        lastName?.toLowerCase().includes(searchPhrase.toLowerCase())
-      )
+      return getDisplayName({ firstName, middleName, lastName })
+        .toLowerCase()
+        .includes(searchPhrase.toLowerCase())
     })
   }, [contacts, searchPhrase])
 
@@ -282,7 +281,7 @@ const AllCheckbox = styled(Form.CheckboxInput)`
 `
 
 const SelectedInfo = styled.p`
-  margin: 0 1.4rem 0 0;
+  padding: 0 1.4rem 0 0;
   font-size: ${({ theme }) => theme.fontSize.labelText};
   font-weight: ${({ theme }) => theme.fontWeight.regular};
   line-height: ${({ theme }) => theme.lineHeight.labelText};
