@@ -55,7 +55,6 @@ import {
   WINDOW_SIZE,
   DEFAULT_WINDOWS_SIZE,
 } from "Core/__deprecated__/main/config"
-import autoupdate, { mockAutoupdate } from "Core/__deprecated__/main/autoupdate"
 import {
   URL_MAIN,
   URL_OVERVIEW,
@@ -235,14 +234,12 @@ const createWindow = async () => {
         slashes: true,
       })
     )
-    autoupdate(win)
   } else {
     await installElectronDevToolExtensions()
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     win.loadURL(`http://localhost:2003`)
-    mockAutoupdate(win)
   }
 
   win.webContents.setWindowOpenHandler(({ url }) => {
