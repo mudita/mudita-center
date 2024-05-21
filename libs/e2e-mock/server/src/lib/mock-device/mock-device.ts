@@ -16,9 +16,11 @@ import {
 import { PortInfo } from "serialport"
 import { mockDescriptor } from "../mock-descriptor/mock-descriptor"
 import { AppError } from "Core/core/errors"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class MockDevice extends BaseDevice {
   public connect(): Promise<ResultObject<undefined>> {
+    logger.info(`API_MOCK_DEVICE adapter - connect: ${this.portInfo.path}`)
     return new Promise((resolve) => {
       resolve(Result.success(undefined))
     })

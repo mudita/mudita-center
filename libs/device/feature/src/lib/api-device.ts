@@ -14,6 +14,7 @@ import {
 import { BaseDevice } from "Core/device/modules/base-device"
 import { DeviceType } from "Core/device"
 import { ResultObject } from "Core/core/builder"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class APIDevice extends BaseDevice {
   private adapter: SerialPortDeviceAPIAdapter
@@ -25,6 +26,7 @@ export class APIDevice extends BaseDevice {
     )
   }
   connect(): Promise<ResultObject<undefined>> {
+    logger.info(`API_DEVICE adapter - connect: ${this.portInfo.path}`)
     return this.adapter.connect()
   }
 

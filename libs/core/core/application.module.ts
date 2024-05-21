@@ -42,7 +42,7 @@ import { DeviceModule } from "Core/device/device.module"
 import { DeviceManagerModule } from "Core/device-manager/device-manager.module"
 import {
   DeviceManager,
-  DeviceResolverService,
+  // DeviceResolverService,
 } from "Core/device-manager/services"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
@@ -92,9 +92,10 @@ export class ApplicationModule {
   private apiModule: APIModule
 
   private deviceManager = new DeviceManager(
-    process.env.MOCK_DEVICE_ENABLED === "1"
-      ? new MockDeviceResolverService()
-      : new DeviceResolverService(),
+    // process.env.MOCK_DEVICE_ENABLED === "1"
+    //   ? new MockDeviceResolverService()
+    //   : new DeviceResolverService(),
+    new MockDeviceResolverService(),
     this.eventEmitter
   )
   private systemUtilsModule = new SystemUtilsModule()

@@ -11,7 +11,8 @@ import {
 import { mockDescriptor } from "./mock-descriptor/mock-descriptor"
 
 ipc.config.id = "MC"
-ipc.config.retry = 1500
+// ipc.config.retry = 1500
+ipc.config.retry = 15
 
 ipc.serve(function () {
   ipc.server.on("mock.add.device", function (data, socket) {
