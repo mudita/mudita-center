@@ -42,7 +42,7 @@ import { DeviceModule } from "Core/device/device.module"
 import { DeviceManagerModule } from "Core/device-manager/device-manager.module"
 import {
   DeviceManager,
-  DeviceResolverService,
+  // DeviceResolverService,
 } from "Core/device-manager/services"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
