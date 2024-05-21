@@ -4,13 +4,17 @@
  */
 
 import { getMockedDevices } from "e2e-mock-server"
-import SerialPort, { PortInfo } from "serialport"
+// import SerialPort, { PortInfo } from "serialport"
+import { PortInfo } from "serialport"
 
 export const getSerialPortList = () => {
-  if (process.env.MOCK_DEVICE_ENABLED === "1") {
-    return new Promise<PortInfo[]>((resolve) => {
-      resolve(getMockedDevices())
-    })
-  }
-  return SerialPort.list()
+  // if (process.env.MOCK_DEVICE_ENABLED === "1") {
+  //   return new Promise<PortInfo[]>((resolve) => {
+  //     resolve(getMockedDevices())
+  //   })
+  // }
+  // return SerialPort.list()
+  return new Promise<PortInfo[]>((resolve) => {
+    resolve(getMockedDevices())
+  })
 }
