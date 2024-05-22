@@ -10,7 +10,7 @@ import { useDeviceConnectedEffect } from "Core/core/hooks/use-device-connected-e
 import { useApplicationUpdateEffects } from "Core/core/hooks/use-application-update-effects"
 import { CrashDump } from "Core/crash-dump"
 import NetworkStatusChecker from "Core/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.container"
-import ModalsManager from "Core/modals-manager/components/modals-manager.container"
+import ModalsManager from "Core/modals-manager/components/modals-manager.component"
 import { useWatchOutboxEntriesEffect } from "Core/core/hooks/use-watch-outbox-entries-effect"
 import { useWatchUnlockStatus } from "Core/core/hooks/use-watch-unlock-status-effect"
 import { useDeviceLockedEffect } from "Core/core/hooks/use-device-locked-effect"

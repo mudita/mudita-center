@@ -44,21 +44,24 @@ const DrawerWrapper = styled("div")`
   .EZDrawer .EZDrawer__checkbox:checked ~ .EZDrawer__container {
     transition: transform 500ms;
   }
+  * {
+    box-sizing: border-box;
+  }
 `
 
 const DrawerChildrenContainer = styled("div")`
-  padding: 1.3rem 1.8rem 1.3rem 1.8rem;
+  padding: 1.8rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 3.2rem;
+  gap: 3.4rem;
   height: 100%;
 `
 
 const Header = styled("div")`
   display: flex;
   justify-content: space-between;
-  padding-right: 1.8rem;
+  padding-right: 0.7rem;
 `
 
 const DevicesContainer = styled("div")`

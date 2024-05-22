@@ -18,7 +18,7 @@ jest.mock("../../../../apps/mudita-center/package.json", () => ({
 }))
 
 jest.mock("Core/settings/requests", () => ({
-  getSettings: jest.fn().mockReturnValue({ collectingData: false }),
+  getSettings: jest.fn().mockReturnValue({}),
   getConfiguration: jest.fn().mockReturnValue({
     centerVersion: "1.0.0",
     productVersions: {
@@ -63,9 +63,6 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
     {
       type: SettingsEvent.SetSettings,
       payload: {
-        checkingForUpdate: false,
-        checkingForUpdateFailed: false,
-        collectingData: false,
         currentVersion: `${packageInfo.version}`,
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: "1.0.0",

@@ -61,7 +61,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
     })
 
     return () => unregister()
-  })
+  }, [appCurrentVersion, appLatestVersion])
 
   useEffect(() => {
     const unregister = registerErrorAppUpdateListener(() => {
@@ -70,10 +70,15 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
         toCenterVersion: appLatestVersion,
         state: TrackCenterUpdateState.Fail,
       })
-      setAppUpdateStep(AppUpdateStep.Error)
+      setAppUpdateStep((prevAppUpdateStep) => {
+        // allow user to try updating before throw error to handle no network connection
+        return prevAppUpdateStep === AppUpdateStep.Updating
+          ? AppUpdateStep.Error
+          : prevAppUpdateStep
+      })
     })
     return () => unregister()
-  })
+  }, [appCurrentVersion, appLatestVersion])
 
   const handleProcessDownload = () => {
     void trackCenterUpdate({
