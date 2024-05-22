@@ -10,6 +10,43 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.3.0] - 2024-05-22
+
+### Changed
+
+- Added the ability to identify Harmony by color.
+- Added supports multiple devices, allowing users to launch applications simultaneously and select a device from
+- Added notifications for when a new device appears.
+- Added the ability to switch to another device.
+- Removed the `Disconnect` button for device disconnection.
+- Enhanced error handling with notifications for connection errors, consolidated into a single troubleshooting view.
+- Mudita Center now properly handles Mudita Device connection by resolving missing user group inclusion.
+- Updated the Mudita Center application Start screen.
+
+### Fixed
+
+- Fixed pixelation and aliasing of Mudita News thumbnails on 1920x1080 resolution at 100% scaling.
+- Fixed issue where VCF import did not restrict file type.
+- Fixed issue with the white background shrinking on 'No search result' message.
+- Fixed white screen issue when opening the Center app on Ubuntu.
+- Fixed flickering white screen during the first load of the News view.
+- Fixed issue allowing Mudita Center to be saved into an index.html file by clicking Alt + Left Click on menu items.
+- Fixed issue where Mudita Center did not recognize lost internet connection while checking for device updates.
+- Fixed issue where the 'Upload failed' popup was not displayed.
+- Fixed unexpected animation of menu items in Mudita Center.
+- Fixed issue where the 'Select file' window on Linux Ubuntu did not display at the front after the first opening.
+- Fixed typo in vCard extension in "Import contacts" modal. 
+- Fixed issue where device color changed from white to black in the overview tab while creating Restore or Backup. 
+- Fixed issue where black Harmony 2 device was displayed as gray in MC overview. 
+- Fixed issue where Help Report was not sent, resulting in infinite sending. 
+- Fixed text error in "MuditaOS v*** were downloaded". 
+- Fixed white screen issue when opening Center app on Ubuntu - WebFrame. 
+- Fixed issue where news partially overlapped the Mudita News Header. 
+- Fixed issue with two dots appearing after pressing F1, F2, etc., while entering the password. 
+- Updated outdated copyright on macOS. 
+- Fixed issue where gray highlight was faster than the scroll tool on the right side of the contact search list.
+
+
 ## [2.2.8] - 2024-02-22
 
 ### Changed
