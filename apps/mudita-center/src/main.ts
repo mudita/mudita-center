@@ -82,7 +82,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
 import { AppEvents, callRenderer } from "shared/utils"
-import { startServer } from "e2e-mock-server"
+import { startServer, stopServer } from "e2e-mock-server"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -98,7 +98,7 @@ require("@electron/remote/main").initialize()
 // }
 startServer()
 
-logger.info("Starting the app")
+logger.info("Starting the app!")
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
@@ -285,7 +285,20 @@ if (!gotTheLock) {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.on("ready", createWindow)
 
+  app.on("before-quit", () => {
+    console.log("before-quit")
+    logger.info("before-quit")
+    stopServer()
+  })
+  app.on("will-quit", () => {
+    console.log("will-quit")
+    logger.info("will-quit")
+  })
+
   app.on("window-all-closed", () => {
+    console.log("window-all-closed")
+    logger.info("window-all-closed")
+    // stopServer()
     app.quit()
   })
 
