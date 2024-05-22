@@ -16,6 +16,7 @@ ipc.connectTo("MC", function () {
   const client = ipc.of.MC.on("connect", function () {})
   clientEmiter = client.emit.bind(client)
   ipc.of.MC.on("disconnect", function () {
+    console.log("e2e client disconnect")
     clientEmiter = undefined
   })
 })

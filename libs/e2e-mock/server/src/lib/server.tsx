@@ -9,13 +9,17 @@ import {
   addKompaktValidator,
 } from "./mock-descriptor/mock-descriptor-validators"
 import { mockDescriptor } from "./mock-descriptor/mock-descriptor"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 ipc.config.id = "MC"
 // ipc.config.retry = 1500
 ipc.config.retry = 15
 
+const instanceID = Math.floor(Math.random() * 10000)
+
 ipc.serve(function () {
   ipc.server.on("mock.add.device", function (data, socket) {
+    logger.info(`mock.add.device fro instanceID: ${instanceID}`)
     const params = addKompaktValidator.safeParse(data)
     if (params.success) {
       mockDescriptor.addKompakt(params.data)
@@ -42,4 +46,12 @@ ipc.serve(function () {
 
 export function startServer() {
   ipc.server.start()
+}
+
+export function stopServer() {
+  logger.info("stopping mock server")
+  console.log("stopping mock server")
+  ipc.server.stop()
+  logger.info("mock server stopped")
+  console.log("mock server stopped")
 }
