@@ -9,6 +9,14 @@ import pureBlackImage from "Core/__deprecated__/renderer/images/pure-black-rende
 import pureGreyImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
 import { Device } from "Core/device-manager/reducers/device-manager.interface"
 import { kompaktImg } from "Root/demo-data/kompakt-img"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  "0e8d.2006": {
+    id: "devices.0e8d.2006.name",
+  },
+})
 
 export const selectDataMigrationSourceDevices = createSelector(
   (state: ReduxRootState) => state.deviceManager.devices,
@@ -23,9 +31,14 @@ export const selectDataMigrationTargetDevices = createSelector(
   (devices) => {
     return Object.values(devices)
       .map((device) => {
-        if (!device.menuConfig || !device.apiConfig) return undefined
+        if (!device.apiConfig) return undefined
+        const name = intl.formatMessage(
+          messages[
+            `${device.apiConfig.vendorId}.${device.apiConfig.productId}` as keyof typeof messages
+          ]
+        )
         return {
-          name: device.menuConfig.title,
+          name,
           image: kompaktImg, // TODO: Add variant support
           serialNumber: device.apiConfig.serialNumber,
         }
@@ -40,8 +53,14 @@ export const selectDataMigrationTargetDevice = createSelector(
   (devicesConfiguration, activeDevice) => {
     const device = activeDevice ? devicesConfiguration[activeDevice] : undefined
     if (device) {
+      if (!device.apiConfig) return undefined
+      const name = intl.formatMessage(
+        messages[
+          `${device.apiConfig.vendorId}.${device.apiConfig.productId}` as keyof typeof messages
+        ]
+      )
       return {
-        name: device.menuConfig!.title!,
+        name,
         image: kompaktImg, // TODO: Add variant support
         serialNumber: device.apiConfig.serialNumber!,
       }
@@ -51,15 +70,11 @@ export const selectDataMigrationTargetDevice = createSelector(
 )
 
 export const selectCurrentDataMigrationDevices = createSelector(
-  selectDataMigrationSourceDevices,
-  selectDataMigrationTargetDevice,
-  (state: ReduxRootState) => state.dataMigration.sourceDevice,
-  (devices, targetDevice, sourceDevice) => {
+  (state: ReduxRootState) => state.dataMigration,
+  ({ sourceDevice, targetDevice }) => {
     return {
-      sourceDevice: devices.find(
-        (device) => device.serialNumber === sourceDevice
-      ),
-      targetDevice: targetDevice,
+      sourceDevice,
+      targetDevice,
     }
   }
 )

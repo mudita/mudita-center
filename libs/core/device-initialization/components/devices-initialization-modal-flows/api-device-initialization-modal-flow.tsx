@@ -5,15 +5,16 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
-import React, { useEffect, useRef } from "react"
+import React, { useCallback, useEffect, useMemo, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
-  selectActiveDevice,
+  resetDataMigration,
   selectActiveDeviceMenuElements,
   selectApiError,
+  selectCurrentDataMigrationDevices,
 } from "generic-view/store"
 import { ApiError } from "device/models"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -33,6 +34,7 @@ import {
 import { useFilteredRoutesHistory } from "shared/utils"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
+import { useDeviceSelector } from "shared/feature"
 
 const messages = defineMessages({
   connectingModalParagraph: {
@@ -49,30 +51,77 @@ const messages = defineMessages({
 export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
+  const selectDevice = useDeviceSelector()
   const firstRenderTime = useRef(Date.now())
   const deviceLocked = useSelector((state: ReduxRootState) => {
     return selectApiError(state, ApiError.DeviceLocked)
   })
   const menuElements = useSelector(selectActiveDeviceMenuElements)
-  const deviceId = useSelector(selectActiveDevice)
   const [pathToGoBack] = useFilteredRoutesHistory([
     URL_MAIN.root,
     ...Object.values(URL_ONBOARDING),
     ...Object.values(URL_DISCOVERY_DEVICE),
     ...Object.values(URL_DEVICE_INITIALIZATION),
   ])
+  const dataMigrationDevices = useSelector(selectCurrentDataMigrationDevices)
+
+  const targetPath = useMemo(() => {
+    const firstMenuItemUrl = menuElements?.[0]?.items?.[0]?.button.url
+    const commonPaths = [
+      URL_MAIN.root,
+      URL_MAIN.news,
+      URL_MAIN.settings,
+      URL_ONBOARDING.root,
+      URL_ONBOARDING.welcome,
+    ]
+    if (commonPaths.includes(pathToGoBack as (typeof commonPaths)[number])) {
+      return pathToGoBack
+    }
+    if (
+      pathToGoBack === URL_MAIN.dataMigration &&
+      dataMigrationDevices.sourceDevice &&
+      dataMigrationDevices.targetDevice
+    ) {
+      return "/generic/mc-data-migration"
+    }
+    return firstMenuItemUrl
+  }, [
+    dataMigrationDevices.sourceDevice,
+    dataMigrationDevices.targetDevice,
+    menuElements,
+    pathToGoBack,
+  ])
+
+  const onModalClose = useCallback(async () => {
+    if (
+      pathToGoBack === URL_MAIN.dataMigration &&
+      dataMigrationDevices.sourceDevice
+    ) {
+      await selectDevice(
+        dataMigrationDevices.sourceDevice,
+        URL_MAIN.dataMigration
+      )
+      dispatch(resetDataMigration())
+    } else {
+      history.push(pathToGoBack || URL_MAIN.news)
+    }
+  }, [
+    dataMigrationDevices.sourceDevice,
+    dispatch,
+    history,
+    pathToGoBack,
+    selectDevice,
+  ])
 
   const modalCloseAction: ButtonAction = {
     type: "custom",
-    callback: () => {
-      history.push(pathToGoBack || URL_MAIN.news)
-    },
+    callback: onModalClose,
   }
 
   useEffect(() => {
     let timeout: NodeJS.Timeout
-    if (!deviceLocked && menuElements) {
-      const firstMenuItemUrl = menuElements[0]?.items?.[0]?.button.url
+    if (!deviceLocked && menuElements && targetPath) {
+      // const firstMenuItemUrl = menuElements[0]?.items?.[0]?.button.url
       const elapsedTime = Date.now() - firstRenderTime.current
       const delay = Math.max(0, 1000 - elapsedTime)
 
@@ -80,13 +129,13 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
         setDeviceInitializationStatus(DeviceInitializationStatus.Initialized)
       )
       timeout = setTimeout(() => {
-        history.push(pathToGoBack || firstMenuItemUrl || URL_MAIN.news)
+        history.push(targetPath)
       }, delay)
     }
     return () => {
       clearTimeout(timeout)
     }
-  }, [dispatch, deviceId, deviceLocked, history, menuElements, pathToGoBack])
+  }, [deviceLocked, dispatch, history, menuElements, targetPath])
 
   return (
     <GenericThemeProvider>

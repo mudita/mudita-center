@@ -4,14 +4,7 @@
  */
 
 import React, { FunctionComponent, useRef, useState } from "react"
-import {
-  Device,
-  DeviceCardProps,
-  deviceCardStyles,
-  Image,
-  Info,
-  Tag,
-} from "./device-card"
+import { Device, deviceCardStyles, Image, Info, Tag } from "./device-card"
 import styled, { css } from "styled-components"
 import { H4, H5 } from "../../../texts/headers"
 import { P3 } from "../../../texts/paragraphs"
@@ -22,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   selectCurrentDataMigrationDevices,
   setSourceDevice,
+  setTargetDevice,
 } from "generic-view/store"
 import { DeviceId } from "Core/device/constants/device-id"
 
@@ -45,7 +39,7 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
     getDeviceField(type)
   ]
   const currentDevice = devices.find(
-    (device) => device.serialNumber === selectedDevice?.serialNumber
+    (device) => device.serialNumber === selectedDevice
   )
   const dropdownVisible = devices.length > 1
 
@@ -56,7 +50,12 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
 
   const selectDevice = (serialNumber: DeviceId) => {
     setOpened(false)
-    dispatch(setSourceDevice(serialNumber))
+    if (type === "source") {
+      dispatch(setSourceDevice(serialNumber))
+    }
+    if (type === "target") {
+      dispatch(setTargetDevice(serialNumber))
+    }
   }
 
   return (
@@ -85,7 +84,7 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
                 name={device.name}
                 serialNumber={device.serialNumber}
                 onSelect={onSelect}
-                active={selectedDevice?.serialNumber === device.serialNumber}
+                active={selectedDevice === device.serialNumber}
               />
             )
           })}
@@ -95,13 +94,9 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
   )
 }
 
-const ListItem: FunctionComponent<DeviceCardProps & { active?: boolean }> = ({
-  image,
-  name,
-  serialNumber,
-  onSelect,
-  active,
-}) => {
+const ListItem: FunctionComponent<
+  Device & { active?: boolean; onSelect: VoidFunction }
+> = ({ image, name, serialNumber, onSelect, active }) => {
   return (
     <ListItemCard onClick={onSelect}>
       <Image>

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect } from "react"
+import React, { FunctionComponent } from "react"
 import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
 import { useSelector } from "react-redux"
@@ -17,18 +17,16 @@ import styled from "styled-components"
 import { H3 } from "../../texts/headers"
 import { Divider } from "../../helpers/divider"
 import { TargetSelector, TargetSelectorWrapper } from "./target-selector"
-import { SourceSelector } from "./components/source-selector"
 import Form from "../../interactive/form/form"
-import { ButtonPrimary } from "../../buttons/button-primary"
-import { FeaturesSelector } from "./components/features-selector"
 import { TransferSetup } from "./transfer-setup"
-import { kompaktImg } from "Root/demo-data/kompakt-img"
 import { GenericThemeProvider } from "generic-view/theme"
 import { Device } from "./components/device-card"
+import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 
 const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   dataTypes,
 }) => {
+  const activeDevice = useSelector(getActiveDevice)
   const sourceDevices = useSelector(
     selectDataMigrationSourceDevices
   ) as Device[]
@@ -38,14 +36,18 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const { sourceDevice, targetDevice } = useSelector(
     selectCurrentDataMigrationDevices
   )
-  console.log(sourceDevices, targetDevices)
   const singleDeviceConnected = !sourceDevices.length || !targetDevices.length
-  const noSourceDeviceSelected = !sourceDevice
   const noTargetDeviceSelected = !targetDevice
 
   const startMigration = () => {
     console.log("Start migration")
   }
+
+  const displayInstruction = singleDeviceConnected
+  const displayTargetSelector =
+    !displayInstruction &&
+    (noTargetDeviceSelected || activeDevice?.serialNumber === sourceDevice)
+  const displayTransferSetup = !displayInstruction && !displayTargetSelector
 
   return (
     <Wrapper>
@@ -54,11 +56,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         <Divider />
       </Header>
       <Content>
-        {singleDeviceConnected && <Instruction />}
-        {!singleDeviceConnected && noTargetDeviceSelected && (
-          <TargetSelector devices={targetDevices} />
-        )}
-        {!singleDeviceConnected && !noTargetDeviceSelected && (
+        {displayInstruction && <Instruction />}
+        {displayTargetSelector && <TargetSelector devices={targetDevices} />}
+        {displayTransferSetup && (
           <TransferSetup
             features={dataTypes}
             onStartMigration={startMigration}

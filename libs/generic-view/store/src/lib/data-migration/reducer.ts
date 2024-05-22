@@ -4,12 +4,18 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { setDataMigrationFeatures, setSourceDevice } from "./actions"
+import {
+  resetDataMigration,
+  setDataMigrationFeatures,
+  setSourceDevice,
+  setTargetDevice,
+} from "./actions"
 import { DeviceId } from "Core/device/constants/device-id"
 import { DataMigrationFeature } from "generic-view/models"
 
 interface DataMigrationState {
   sourceDevice?: DeviceId
+  targetDevice?: DeviceId
   selectedFeatures: DataMigrationFeature[]
 }
 
@@ -21,7 +27,14 @@ export const dataMigrationReducer = createReducer(initialState, (builder) => {
   builder.addCase(setSourceDevice, (state, action) => {
     state.sourceDevice = action.payload
   })
+  builder.addCase(setTargetDevice, (state, action) => {
+    state.targetDevice = action.payload
+  })
   builder.addCase(setDataMigrationFeatures, (state, action) => {
     state.selectedFeatures = action.payload
+  })
+  builder.addCase(resetDataMigration, (state) => {
+    state.sourceDevice = undefined
+    state.targetDevice = undefined
   })
 })

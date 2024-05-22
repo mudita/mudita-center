@@ -7,12 +7,15 @@ import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { P3 } from "../../texts/paragraphs"
 import { Device, DeviceCard } from "./components/device-card"
+import { useDeviceSelector } from "shared/feature"
 
 interface Props {
   devices: Device[]
 }
 
 export const TargetSelector: FunctionComponent<Props> = ({ devices }) => {
+  const selectDevice = useDeviceSelector()
+
   return (
     <TargetSelectorWrapper>
       <Header>
@@ -21,15 +24,14 @@ export const TargetSelector: FunctionComponent<Props> = ({ devices }) => {
       </Header>
       <Devices>
         {devices.map((device) => {
+          const onSelect = () => selectDevice(device.serialNumber)
           return (
             <DeviceCard
               key={device.serialNumber}
               image={device.image}
               name={device.name}
               serialNumber={device.serialNumber}
-              onSelect={() => {
-                console.log("select Kompakt")
-              }}
+              onSelect={onSelect}
             />
           )
         })}

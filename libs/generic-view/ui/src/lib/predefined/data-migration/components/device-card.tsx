@@ -13,19 +13,11 @@ export interface Device {
   name: string
   image: string
   serialNumber: string
-
 }
 
-export interface DeviceCardProps extends Device {
-  onSelect: VoidFunction
-}
-
-export const DeviceCard: FunctionComponent<DeviceCardProps> = ({
-  image,
-  name,
-  serialNumber,
-  onSelect,
-}) => {
+export const DeviceCard: FunctionComponent<
+  Device & { onSelect: VoidFunction }
+> = ({ image, name, serialNumber, onSelect }) => {
   return (
     <Wrapper>
       <Tag>Ready for Data Migration</Tag>

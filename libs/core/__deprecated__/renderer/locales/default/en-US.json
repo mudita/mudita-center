@@ -914,5 +914,6 @@
   "module.genericViews.dataMigration.features.contacts": "Contacts",
   "module.genericViews.dataMigration.features.messages": "Messages",
   "module.genericViews.dataMigration.features.multimedia": "Multimedia",
-  "module.genericViews.dataMigration.features.selectAll": "Select all"
+  "module.genericViews.dataMigration.features.selectAll": "Select all",
+  "devices.0e8d.2006.name": "Kompakt"
 }
