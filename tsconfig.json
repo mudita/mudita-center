@@ -1,1 +1,20 @@
-{}
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "downlevelIteration": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "types": ["jest", "node", "@testing-library/jest-dom", "webpack-env"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "include": ["./apps/mudita-center/src", "./libs"],
+  "extends": "./tsconfig.base.json"
+}

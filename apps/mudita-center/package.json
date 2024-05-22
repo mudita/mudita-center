@@ -1,0 +1,109 @@
+{
+  "name": "mudita-center",
+  "version": "2.3.0",
+  "description": "Mudita Center",
+  "main": "./dist/main.js",
+  "productName": "Mudita Center",
+  "private": true,
+  "scripts": {
+    "MAIN COMMANDS": "=========================================================",
+    "develop": "cross-env START_HOT=1 NODE_ENV=development npm run dev:start:renderer",
+    "start": "electron .",
+    "BUILD COMMANDS": "========================================================",
+    "build": "npm run build:main && npm run build:renderer",
+    "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.js",
+    "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.config.renderer.js",
+    "DEV COMMANDS": "==========================================================",
+    "dev:start:main": "nodemon --config electron-nodemon.json",
+    "dev:start:renderer": "webpack serve --config webpack.config.renderer.js",
+    "DIST COMMANDS": "=========================================================",
+    "dist": "npm run build && electron-builder --publish never",
+    "STORYBOOK COMMANDS": "====================================================",
+    "storybook:serve": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
+    "DATA UPDATE/OVERWRITE COMMANDS": "=========================================",
+    "translations:sort": "ts-node ../../scripts/sort-translations.ts",
+    "translations:sync": "ts-node ../../scripts/sync-translations/sync-translations.ts",
+    "fonts:download": "node ../../scripts/downloadFonts.js",
+    "copy-static-dependencies": "node ../../scripts/copy-static-sql-js-dependencies.js",
+    "news:download": "ts-node ../../scripts/downloadNews.ts",
+    "help:download": "ts-node ../../scripts/downloadHelpItems.ts",
+    "app-configuration:download": "ts-node ../../scripts/download-configuration.ts",
+    "UTILITY/AUTO COMMANDS": "=================================================",
+    "prestart": "npm run build",
+    "posttranslations:sync": "npm run translations:sort",
+    "posttranslations:sort": "prettier --write src/**/*.json",
+    "posttest:coverage": "prettier --write ./jest.coverage.json",
+    "postsetup": "npm run fonts:download && npm run news:download && npm run app-configuration:download && npm run copy-static-dependencies"
+  },
+  "build": {
+    "productName": "Mudita Center",
+    "appId": "com.mudita.center",
+    "copyright": "Copyright (c) 2017-2024, Mudita sp. z o.o. All rights reserved.",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "icon": "./icons/mac/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "artifactName": "Mudita-Center.${ext}",
+      "hardenedRuntime": true,
+      "entitlements": "./entitlements.mac.plist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "./icons/win/icon.ico"
+    },
+    "nsis": {
+      "include": "installer.nsh",
+      "artifactName": "Mudita-Center.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": true,
+      "license": "resources/license_en.txt"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility",
+      "executableName": "Mudita Center",
+      "artifactName": "Mudita-Center.${ext}"
+    },
+    "appImage": {
+      "license": "resources/license_en.txt"
+    },
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
+    },
+    "files": [
+      "dist/",
+      "../../node_modules/",
+      "package.json"
+    ],
+    "afterSign": "../../scripts/notarize.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mudita/mudita-center"
+  },
+  "author": {
+    "name": "Mudita",
+    "email": "contact@mudita.com"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Mudita/mudita-center/issues"
+  },
+  "homepage": "https://github.com/Mudita/mudita-center",
+  "devDependencies": {},
+  "dependencies": {
+    "serialport": "10.1.0"
+  },
+  "engines": {
+    "node": "18.16.1",
+    "npm": "9.5.1"
+  }
+}

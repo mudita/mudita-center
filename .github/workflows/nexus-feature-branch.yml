@@ -13,14 +13,15 @@ jobs:
     environment: development
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 18.16.1
       - name: Setup Env for Windows
         if: matrix.os == 'Windows'
         env:
+          E2ECI: "false"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
           PHRASE_API_KEY_DEV: ${{ secrets.PHRASE_API_KEY_DEV }}
@@ -46,7 +47,7 @@ jobs:
         shell: cmd
         run: |
           SET > .env
-          jq -r -j .version packages/app/package.json > packages/app/version
+          jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
       - name: Setup Env for Mac
         if: matrix.os == 'macOS'
         env:
@@ -102,96 +103,98 @@ jobs:
       - name: Changing app version in packages.json for Linux
         if: matrix.os == 'Linux'
         run: |
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
+          sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.os == 'macOS'
         run: |
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
           export "BUILD_VERSION=-dev.${{ github.run_number }}"
-          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" packages/app/package.json
+          sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
         run: |
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
           $BUILD_VERSION = "-dev.${{ github.run_number }}"
-          $APP_VERSION = (Get-Content -Path "packages/app/version") + $BUILD_VERSION
-          (Get-Content -Path 'packages/app/package.json') | ForEach-Object {
+          $APP_VERSION = (Get-Content -Path "apps/mudita-center/version") + $BUILD_VERSION
+          (Get-Content -Path 'apps/mudita-center/package.json') | ForEach-Object {
             $_ -replace '"version": ".*",' , "`"version`"`: `"$APP_VERSION`","
-          } | Set-Content -Path 'packages/app/package.json'
+          } | Set-Content -Path 'apps/mudita-center/package.json'
       - name: Setup depedencies
         run: npm run setup
       - name: Copy electron-builder environment file for Windows
         if: matrix.os == 'Windows'
         run: |
-          copy C:\actions-runner\envs\electron-builder.env packages/app/electron-builder.env
+          copy C:\actions-runner\envs\electron-builder.env apps/mudita-center/electron-builder.env
       - name: Copy electron-builder environment file for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
-          cp ~/actions-runner/envs/electron-builder.env packages/app/electron-builder.env
+          cp ~/actions-runner/envs/electron-builder.env apps/mudita-center/electron-builder.env
       - name: Build App for Windows
         if: matrix.os == 'Windows'
         run: |
           $env:NODE_OPTIONS="--max-old-space-size=4096"
           $env:LOCALAPPDATA=""
-          cd packages/app/
-          npm run dist
+          npm run app:dist
       - name: Build App for Linux/Mac
         if: matrix.os != 'Windows'
         run: |
           export NODE_OPTIONS="--max-old-space-size=4096"
-          cd packages/app/
-          npm run dist
+          npm run app:dist
+      - name: Verify apple sign
+        if: matrix.os == 'macOS'
+        run: |
+          codesign -v -v apps/mudita-center/release/mac/Mudita\ Center.app
       - name: Push artifacts to nexus registry from Windows
         if: matrix.os == 'Windows'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          jq -r -j .version packages/app/package.json > packages/app/version
-          $APP_VERSION = Get-Content -Path "packages/app/version"
+          jq -r -j .version apps/mudita-center/package.json > apps/mudita-center/version
+          $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
           $SOURCE_BRANCH = "${{ github.ref_name }}"
           $ENVIRONMENT_CATALOG_NAME = "feature-branch/${{ github.ref_name }}"
           $NEXUS_USERNAME = "$env:NEXUS_USERNAME"
           $NEXUS_PASSWORD = ConvertTo-SecureString "$env:NEXUS_PASSWORD" -AsPlainText -Force
           $AUTH = New-Object System.Management.Automation.PSCredential ($NEXUS_USERNAME, $NEXUS_PASSWORD)
-          copy ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-win.yml
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./packages/app/release/Mudita-Center.exe -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./packages/app/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./packages/app/release/latest.yml -Method Put -Credential $AUTH
-          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./packages/app/release/builder-debug-win.yml -Method Put -Credential $AUTH
+          copy ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-win.yml
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe -InFile ./apps/mudita-center/release/Mudita-Center.exe -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/Mudita-Center.exe.blockmap -InFile ./apps/mudita-center/release/Mudita-Center.exe.blockmap -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/latest.yml -InFile ./apps/mudita-center/release/latest.yml -Method Put -Credential $AUTH
+          Invoke-WebRequest -Uri https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$($APP_VERSION)/builder-debug-win.yml -InFile ./apps/mudita-center/release/builder-debug-win.yml -Method Put -Credential $AUTH
       - name: Push artifacts to nexus registry from Linux
         if: matrix.os == 'Linux'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-          cp ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-linux.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
+          cp ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.AppImage  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.AppImage
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-linux.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-linux.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-linux.yml
       - name: Push artifacts to nexus registry from macOS
         if: matrix.os == 'macOS'
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          export APP_VERSION=`cat packages/app/package.json | jq -r .version`
+          export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
           export SOURCE_BRANCH=${{ github.ref_name }}
           export "ENVIRONMENT_CATALOG_NAME=feature-branch/${{ github.ref_name }}"
-          cp ./packages/app/release/builder-debug.yml ./packages/app/release/builder-debug-mac.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
-          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./packages/app/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
+          cp ./apps/mudita-center/release/builder-debug.yml ./apps/mudita-center/release/builder-debug-mac.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.zip.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.zip.blockmap
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/Mudita-Center.dmg.blockmap  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/Mudita-Center.dmg.blockmap
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/latest-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/latest-mac.yml
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ./apps/mudita-center/release/builder-debug-mac.yml  https://nexus.mudita.com/repository/mudita-center/releases/$ENVIRONMENT_CATALOG_NAME/$APP_VERSION/builder-debug-mac.yml
