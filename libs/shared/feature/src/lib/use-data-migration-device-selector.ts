@@ -14,7 +14,7 @@ import { getActiveDevice } from "Core/device-manager/selectors/get-active-device
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { useHistory } from "react-router-dom"
 
-export const useDeviceSelector = () => {
+export const useDataMigrationDeviceSelector = () => {
   const activeDevice = useSelector(getActiveDevice)
   const dispatch = useDispatch<Dispatch>()
   const history = useHistory()

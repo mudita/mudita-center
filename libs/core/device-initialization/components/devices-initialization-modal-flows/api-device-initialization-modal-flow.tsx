@@ -34,7 +34,7 @@ import {
 import { useFilteredRoutesHistory } from "shared/utils"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { useDeviceSelector } from "shared/feature"
+import { useDataMigrationDeviceSelector } from "shared/feature"
 
 const messages = defineMessages({
   connectingModalParagraph: {
@@ -51,7 +51,7 @@ const messages = defineMessages({
 export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
-  const selectDevice = useDeviceSelector()
+  const selectDevice = useDataMigrationDeviceSelector()
   const firstRenderTime = useRef(Date.now())
   const deviceLocked = useSelector((state: ReduxRootState) => {
     return selectApiError(state, ApiError.DeviceLocked)

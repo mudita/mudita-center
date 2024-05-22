@@ -3,14 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useEffect } from "react"
 import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import {
+  resetDataMigration,
   selectCurrentDataMigrationDevices,
   selectDataMigrationSourceDevices,
   selectDataMigrationTargetDevices,
+  setSourceDevice,
+  setTargetDevice,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
 import styled from "styled-components"
@@ -26,6 +29,7 @@ import { getActiveDevice } from "Core/device-manager/selectors/get-active-device
 const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   dataTypes,
 }) => {
+  const dispatch = useDispatch()
   const activeDevice = useSelector(getActiveDevice)
   const sourceDevices = useSelector(
     selectDataMigrationSourceDevices
@@ -36,18 +40,36 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const { sourceDevice, targetDevice } = useSelector(
     selectCurrentDataMigrationDevices
   )
-  const singleDeviceConnected = !sourceDevices.length || !targetDevices.length
+  const singleDeviceConnected =
+    sourceDevices.length + targetDevices.length === 1
+  const noSourceDeviceSelected = !sourceDevice
   const noTargetDeviceSelected = !targetDevice
-
-  const startMigration = () => {
-    console.log("Start migration")
-  }
 
   const displayInstruction = singleDeviceConnected
   const displayTargetSelector =
-    !displayInstruction &&
-    (noTargetDeviceSelected || activeDevice?.serialNumber === sourceDevice)
+    activeDevice?.deviceType === "MuditaPure" && targetDevices.length > 0
   const displayTransferSetup = !displayInstruction && !displayTargetSelector
+
+  const startMigration = () => {
+    // TODO: implement data migration process
+    console.log("Start migration")
+  }
+
+  useEffect(() => {
+    if (activeDevice?.deviceType === "APIDevice") {
+      dispatch(setTargetDevice(activeDevice.serialNumber))
+
+      if (noSourceDeviceSelected && sourceDevices.length > 0) {
+        dispatch(setSourceDevice(sourceDevices[0].serialNumber))
+      }
+    }
+  }, [
+    activeDevice?.deviceType,
+    activeDevice?.serialNumber,
+    dispatch,
+    noSourceDeviceSelected,
+    sourceDevices,
+  ])
 
   return (
     <Wrapper>

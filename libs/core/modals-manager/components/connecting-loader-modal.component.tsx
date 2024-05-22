@@ -12,7 +12,10 @@ import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import LoaderModal from "Core/ui/components/loader-modal/loader-modal.component"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  URL_DISCOVERY_DEVICE,
+  URL_MAIN,
+} from "Core/__deprecated__/renderer/constants/urls"
 import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
@@ -69,7 +72,11 @@ const ConnectingLoaderModal: FunctionComponent = () => {
         setOpenModal(false)
         const pathname = history.location.pathname
         if (
-          !pathname.includes(URL_DISCOVERY_DEVICE.root) &&
+          ![
+            URL_DISCOVERY_DEVICE.root,
+            URL_MAIN.dataMigration,
+            "/generic/mc-data-migration",
+          ].includes(pathname) &&
           discoveryStatus !== DiscoveryStatus.Aborted
         ) {
           dispatch(setSelectDeviceDrawerOpen(true))

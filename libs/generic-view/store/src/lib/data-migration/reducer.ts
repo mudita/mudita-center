@@ -12,6 +12,7 @@ import {
 } from "./actions"
 import { DeviceId } from "Core/device/constants/device-id"
 import { DataMigrationFeature } from "generic-view/models"
+import { detachDevice } from "../views/actions"
 
 interface DataMigrationState {
   sourceDevice?: DeviceId
@@ -36,5 +37,13 @@ export const dataMigrationReducer = createReducer(initialState, (builder) => {
   builder.addCase(resetDataMigration, (state) => {
     state.sourceDevice = undefined
     state.targetDevice = undefined
+  })
+  builder.addCase(detachDevice, (state, action) => {
+    if (state.sourceDevice === action.payload.deviceId) {
+      state.sourceDevice = undefined
+    }
+    if (state.targetDevice === action.payload.deviceId) {
+      state.targetDevice = undefined
+    }
   })
 })
