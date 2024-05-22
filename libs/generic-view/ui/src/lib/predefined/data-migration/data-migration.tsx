@@ -8,12 +8,10 @@ import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  resetDataMigration,
-  selectCurrentDataMigrationDevices,
+  selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
   selectDataMigrationTargetDevices,
   setSourceDevice,
-  setTargetDevice,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
 import styled from "styled-components"
@@ -37,13 +35,12 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const targetDevices = useSelector(
     selectDataMigrationTargetDevices
   ) as Device[]
-  const { sourceDevice, targetDevice } = useSelector(
-    selectCurrentDataMigrationDevices
-  )
+  const sourceDevice = useSelector(selectDataMigrationSourceDevice)
   const singleDeviceConnected =
     sourceDevices.length + targetDevices.length === 1
   const noSourceDeviceSelected = !sourceDevice
-  const noTargetDeviceSelected = !targetDevice
+
+  console.log(targetDevices)
 
   const displayInstruction = singleDeviceConnected
   const displayTargetSelector =
@@ -56,16 +53,15 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   }
 
   useEffect(() => {
-    if (activeDevice?.deviceType === "APIDevice") {
-      dispatch(setTargetDevice(activeDevice.serialNumber))
-
-      if (noSourceDeviceSelected && sourceDevices.length > 0) {
+    if (activeDevice?.deviceType === "APIDevice" && noSourceDeviceSelected) {
+      if (sourceDevices.length > 0) {
         dispatch(setSourceDevice(sourceDevices[0].serialNumber))
+      } else {
+        dispatch(setSourceDevice(undefined))
       }
     }
   }, [
     activeDevice?.deviceType,
-    activeDevice?.serialNumber,
     dispatch,
     noSourceDeviceSelected,
     sourceDevices,

@@ -11,10 +11,11 @@ import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
-  resetDataMigration,
   selectActiveDeviceMenuElements,
   selectApiError,
-  selectCurrentDataMigrationDevices,
+  selectDataMigrationSourceDevice,
+  selectDataMigrationTargetDevice,
+  setSourceDevice,
 } from "generic-view/store"
 import { ApiError } from "device/models"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
@@ -63,7 +64,8 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
     ...Object.values(URL_DISCOVERY_DEVICE),
     ...Object.values(URL_DEVICE_INITIALIZATION),
   ])
-  const dataMigrationDevices = useSelector(selectCurrentDataMigrationDevices)
+  const dataMigrationSourceDevice = useSelector(selectDataMigrationSourceDevice)
+  const dataMigrationTargetDevice = useSelector(selectDataMigrationTargetDevice)
 
   const targetPath = useMemo(() => {
     const firstMenuItemUrl = menuElements?.[0]?.items?.[0]?.button.url
@@ -79,39 +81,27 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
     }
     if (
       pathToGoBack === URL_MAIN.dataMigration &&
-      dataMigrationDevices.sourceDevice &&
-      dataMigrationDevices.targetDevice
+      dataMigrationSourceDevice &&
+      dataMigrationTargetDevice
     ) {
       return "/generic/mc-data-migration"
     }
     return firstMenuItemUrl
   }, [
-    dataMigrationDevices.sourceDevice,
-    dataMigrationDevices.targetDevice,
+    dataMigrationSourceDevice,
+    dataMigrationTargetDevice,
     menuElements,
     pathToGoBack,
   ])
 
   const onModalClose = useCallback(async () => {
-    if (
-      pathToGoBack === URL_MAIN.dataMigration &&
-      dataMigrationDevices.sourceDevice
-    ) {
-      await selectDevice(
-        dataMigrationDevices.sourceDevice,
-        URL_MAIN.dataMigration
-      )
-      dispatch(resetDataMigration())
+    if (pathToGoBack === URL_MAIN.dataMigration && dataMigrationSourceDevice) {
+      await selectDevice(dataMigrationSourceDevice.serialNumber, URL_MAIN.dataMigration)
+      dispatch(setSourceDevice(undefined))
     } else {
       history.push(pathToGoBack || URL_MAIN.news)
     }
-  }, [
-    dataMigrationDevices.sourceDevice,
-    dispatch,
-    history,
-    pathToGoBack,
-    selectDevice,
-  ])
+  }, [dataMigrationSourceDevice, dispatch, history, pathToGoBack, selectDevice])
 
   const modalCloseAction: ButtonAction = {
     type: "custom",

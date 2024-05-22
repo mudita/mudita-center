@@ -13,17 +13,13 @@ import * as CheckSvg from "../check.svg"
 import useOutsideClick from "Core/__deprecated__/renderer/utils/hooks/useOutsideClick"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  selectCurrentDataMigrationDevices,
+  selectDataMigrationSourceDevice,
+  selectDataMigrationTargetDevice,
   setSourceDevice,
-  setTargetDevice,
 } from "generic-view/store"
 import { DeviceId } from "Core/device/constants/device-id"
 
 type DeviceType = "source" | "target"
-
-export const getDeviceField: (type: DeviceType) => `${DeviceType}Device` = (
-  type
-) => `${type}Device`
 
 interface Props {
   type: DeviceType
@@ -35,12 +31,10 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
   const dispatch = useDispatch()
   const [opened, setOpened] = useState(false)
   useOutsideClick(ref, () => setOpened(false))
-  const selectedDevice = useSelector(selectCurrentDataMigrationDevices)[
-    getDeviceField(type)
-  ]
-  const currentDevice = devices.find(
-    (device) => device.serialNumber === selectedDevice
-  )
+
+  const sourceDevice = useSelector(selectDataMigrationSourceDevice)
+  const targetDevice = useSelector(selectDataMigrationTargetDevice)
+  const selectedDevice = type === "source" ? sourceDevice : targetDevice
   const dropdownVisible = devices.length > 1
 
   const toggleDropdown = () => {
@@ -53,9 +47,6 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
     if (type === "source") {
       dispatch(setSourceDevice(serialNumber))
     }
-    if (type === "target") {
-      dispatch(setTargetDevice(serialNumber))
-    }
   }
 
   return (
@@ -64,18 +55,18 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
         {type === "source" && <BlueTag>Source Device</BlueTag>}
         {type === "target" && <Tag>Destination Device</Tag>}
         <Image>
-          <img src={currentDevice?.image} alt={""} />
+          <img src={selectedDevice?.image} alt={""} />
         </Image>
         <Info>
-          <H4>{currentDevice?.name}</H4>
+          <H4>{selectedDevice?.name}</H4>
           <P3>Serial number</P3>
-          <H5>{currentDevice?.serialNumber}</H5>
+          <H5>{selectedDevice?.serialNumber}</H5>
         </Info>
         <Arrow>{dropdownVisible && <DropdownArrowSvg />}</Arrow>
       </CardWrapper>
       {dropdownVisible && (
         <DropdownWrapper $opened={opened}>
-          {devices.map((device, index) => {
+          {devices.map((device) => {
             const onSelect = () => selectDevice(device.serialNumber)
             return (
               <ListItem
@@ -84,7 +75,7 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
                 name={device.name}
                 serialNumber={device.serialNumber}
                 onSelect={onSelect}
-                active={selectedDevice === device.serialNumber}
+                active={selectedDevice?.serialNumber === device.serialNumber}
               />
             )
           })}

@@ -45,7 +45,6 @@ export enum ActionName {
   SetDataTransferProcessFileStatus = "generic-imports/set-data-transfer-process-file-status",
   CleanImportProcess = "generic-imports/clean-import-process",
   SetDataMigrationSourceDevice = "data-migration/set-source-device",
-  SetDataMigrationTargetDevice = "data-migration/set-target-device",
   SetDataMigrationFeatures = "data-migration/set-features",
-  ResetDataMigration = "data-migration/reset",
+  ClearDataMigrationDevice = "data-migration/clear-device",
 }
