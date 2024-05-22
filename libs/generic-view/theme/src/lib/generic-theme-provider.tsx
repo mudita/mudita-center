@@ -30,6 +30,10 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   }
 
   .generic-modal-overlay {
+    --modal-transition-duration: 400ms;
+    --modal-transition-timing-function: ease-out;
+    --modal-opacity: 1;
+    --modal-visibility: visible;
     position: fixed;
     top: 0;
     left: 0;
@@ -40,7 +44,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 400ms ease-out;
+    transition: opacity var(--modal-transition-duration) var(--modal-transition-timing-function);
 
     &.hidden {
       background-color: transparent;
@@ -54,18 +58,23 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     }
   }
 
-  .generic-modal {
+  .generic-modal  {
     box-sizing: border-box;
-    background-color: ${({ theme }) => theme.color.white};
-    border-radius: ${({ theme }) => theme.radius.sm};
+
     width: auto;
     max-height: var(--modal-max-height);
     overflow: hidden;
     outline: none;
-    box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.color.black + "26"};
     display: flex;
     flex-direction: column;
     position: relative;
+
+    .modal-content {
+      background-color: ${({ theme }) => theme.color.white};
+      border-radius: ${({ theme }) => theme.radius.sm};
+      overflow: hidden;
+      box-shadow: 0 2rem 10rem 0 ${({ theme }) => theme.color.black + "26"};
+    }
 
     .modal-close-button:nth-child(2) {
       display: none;

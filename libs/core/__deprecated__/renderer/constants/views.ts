@@ -17,6 +17,7 @@ const messages = defineMessages({
   messages: { id: "module.messages" },
   calendar: { id: "module.calendar" },
   filesManager: { id: "module.filesManager" },
+  manageSounds: { id: "module.manageSounds" },
   settings: { id: "module.settings" },
   help: { id: "module.help" },
   error: { id: "module.error" },
@@ -30,6 +31,7 @@ export enum View {
   Messages = "messages",
   Contacts = "contacts",
   FilesManager = "filesManager",
+  ManageSounds = "manageSounds",
   Settings = "settings",
   Help = "help",
   Error = "error",
@@ -73,6 +75,10 @@ export const views: Views = {
   [View.FilesManager]: {
     label: messages.filesManager,
     url: URL_MAIN.filesManager,
+  },
+  [View.ManageSounds]: {
+    label: messages.manageSounds,
+    url: URL_MAIN.manageSounds,
   },
   [View.Settings]: {
     label: messages.settings,

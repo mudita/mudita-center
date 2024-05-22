@@ -35,5 +35,3 @@ export const ModalSizeController: APIFC<
       return null
   }
 }
-
-export default ModalSizeController

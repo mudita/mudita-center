@@ -27,6 +27,7 @@ import { loadStorageInfoAction } from "Core/device/actions/load-storage-info.act
 import { getDuplicatedFiles } from "Core/files-manager/helpers/get-duplicated-files.helper"
 import { AppError } from "Core/core/errors/app-error"
 import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
+import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
 
 export const uploadFile = createAsyncThunk<
   void,
@@ -52,7 +53,7 @@ export const uploadFile = createAsyncThunk<
       return rejectWithValue("device Type isn't set")
     }
 
-    if (state.filesManager.files === null) {
+    if (state.filesManager.loading === State.Initial) {
       return rejectWithValue("files are not yet loaded")
     }
 
@@ -80,10 +81,9 @@ export const uploadFile = createAsyncThunk<
       )
     }
 
-    const duplicatedFiles = getDuplicatedFiles(
-      state.filesManager.files,
-      validFiles
-    )
+    const files = getFilesByActiveSoundAppSelector(getState())
+
+    const duplicatedFiles = getDuplicatedFiles(files, validFiles)
 
     if (duplicatedFiles.length > 0) {
       dispatch(setDuplicatedFiles(duplicatedFiles))
@@ -109,7 +109,7 @@ export const uploadFile = createAsyncThunk<
       filePaths: validFiles,
     })
 
-    void dispatch(getFiles(directory))
+    void dispatch(getFiles())
 
     if (!result.ok) {
       return rejectWithValue(result.error)

@@ -7,7 +7,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import FilesSummaryItem from "Core/files-manager/components/files-summary-item/files-summary-item.component"
 import { DiskSpaceCategoryType } from "Core/files-manager/constants"
-import { DiskSpaceCategory } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
 const fakeData: DiskSpaceCategory = {

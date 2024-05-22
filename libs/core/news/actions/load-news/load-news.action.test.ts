@@ -30,7 +30,7 @@ jest.mock("Core/news/requests/get-news.request", () => ({
 describe("when there is an internet connection", () => {
   test("offline news and updated news are fetched and dispatched to reducer", async () => {
     const store = createMockStore([thunk])({
-      networkStatus: {
+      appState: {
         online: true,
       },
       news: {
@@ -53,7 +53,7 @@ describe("when there is an internet connection", () => {
 
   test("fetches and dispatches only updated news to the reducer when news items already exist", async () => {
     const store = createMockStore([thunk])({
-      networkStatus: {
+      appState: {
         online: true,
       },
       news: {
@@ -77,7 +77,7 @@ describe("when there is an internet connection", () => {
 describe("when the internet is disconnected", () => {
   test("only offline news are fetched and dispatched to reducer", async () => {
     const store = createMockStore([thunk])({
-      networkStatus: {
+      appState: {
         online: false,
       },
       news: {

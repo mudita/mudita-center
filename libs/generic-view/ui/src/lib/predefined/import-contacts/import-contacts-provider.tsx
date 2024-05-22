@@ -11,7 +11,11 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { useDispatch } from "react-redux"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { startGoogleAuthorization } from "generic-view/store"
+import {
+  importContactsFromFile,
+  setDataTransferProcessStatus,
+  startGoogleAuthorization,
+} from "generic-view/store"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 
 const messages = defineMessages({
@@ -20,6 +24,12 @@ const messages = defineMessages({
   },
   description: {
     id: "module.genericViews.importContacts.providerModal.description",
+  },
+  googleButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.googleButtonLabel",
+  },
+  fileUploadButtonLabel: {
+    id: "module.genericViews.importContacts.providerModal.fileUploadButtonLabel",
   },
 })
 
@@ -30,10 +40,10 @@ export const ImportContactsProvider = () => {
       <Modal.TitleIcon config={{ type: IconType.ContactsBook }} />
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>{intl.formatMessage(messages.description)}</p>
-      <Modal.Buttons config={{ vertical: true }}>
+      <ButtonsWrapper config={{ vertical: true }}>
         <ButtonSecondary
           config={{
-            text: "Continue with Google",
+            text: intl.formatMessage(messages.googleButtonLabel),
             action: {
               type: "custom",
               callback: () => {
@@ -68,14 +78,38 @@ export const ImportContactsProvider = () => {
             </svg>
           </GoogleLogoWrapperStyled>
         </ButtonSecondary>
-      </Modal.Buttons>
+        <ButtonWithIconStyled
+          config={{
+            text: intl.formatMessage(messages.fileUploadButtonLabel),
+            icon: IconType.Import,
+            action: {
+              type: "custom",
+              callback: () => {
+                dispatch(importContactsFromFile())
+                dispatch(
+                  setDataTransferProcessStatus({ status: "FILE-SELECT" })
+                )
+              },
+            },
+          }}
+        />
+      </ButtonsWrapper>
     </>
   )
 }
 
+const ButtonsWrapper = styled(Modal.Buttons)`
+  --min-width: 22rem;
+`
+
 const GoogleLogoWrapperStyled = styled.div`
-  height: 2rem;
-  margin-right: 1.2rem;
-  min-width: 2rem;
-  width: 2rem;
+  height: 1.4rem;
+  width: 1.4rem;
+`
+
+const ButtonWithIconStyled = styled(ButtonSecondary)`
+  & > div {
+    width: 2rem;
+    height: 2rem;
+  }
 `

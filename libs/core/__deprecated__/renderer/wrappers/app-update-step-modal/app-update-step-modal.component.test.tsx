@@ -11,8 +11,8 @@ import AppUpdateStepModal from "Core/__deprecated__/renderer/wrappers/app-update
 import { ModalTestIds } from "Core/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import {
   AppUpdateEvent,
-  AppUpdateAction,
-} from "Core/__deprecated__/main/autoupdate"
+  IpcApplicationUpdaterEvent,
+} from "electron/application-updater"
 import { AppUpdateStepModalTestIds } from "Core/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 import { Provider } from "react-redux"
 import store from "../../store"
@@ -28,9 +28,9 @@ jest.mock(
   "electron-better-ipc",
   () => {
     const mockIpcRenderer = {
-      callMain: (channel: AppUpdateAction) => {
+      callMain: (channel: IpcApplicationUpdaterEvent) => {
         switch (channel) {
-          case AppUpdateAction.Install:
+          case IpcApplicationUpdaterEvent.Install:
             return jest.fn()
           default:
             return false

@@ -15,7 +15,7 @@ import {
   BackupInfo,
 } from "Core/overview/components/overview/overview.styles"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
-import { MemorySpace } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { MemorySpace } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 
 interface OverviewContentProps {
   batteryLevel: number

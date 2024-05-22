@@ -9,7 +9,7 @@ import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import { SynchronizationStatus } from "Core/data-sync/reducers"
 import { CaseColour, DeviceType } from "Core/device/constants"
-import { MemorySpace } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { MemorySpace } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import {
   CheckForUpdateMode,
   DownloadState,

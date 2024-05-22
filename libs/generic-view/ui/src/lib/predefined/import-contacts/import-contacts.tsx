@@ -4,7 +4,7 @@
  */
 
 import { APIFC, ButtonAction, CustomModalError } from "generic-view/utils"
-import React, { FunctionComponent, useRef, useEffect, useState } from "react"
+import React, { FunctionComponent, useEffect, useRef, useState } from "react"
 import { Form } from "../../interactive/form/form"
 import { Modal } from "../../interactive/modal"
 import { useDispatch, useSelector } from "react-redux"
@@ -12,7 +12,9 @@ import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   cleanImportProcess,
   closeModal as closeModalAction,
+  importContactsErrorSelector,
   importContactsFromExternalSource,
+  ImportStatus,
   importStatusSelector,
   startDataTransferToDevice,
 } from "generic-view/store"
@@ -44,19 +46,23 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
 }) => {
   const dispatch = useDispatch<Dispatch>()
   const importStatus = useSelector(importStatusSelector)
+  const [freezedStatus, setFreezedStatus] = useState<ImportStatus | undefined>()
+  const importError = useSelector(importContactsErrorSelector)
   const [error, setError] = useState<CustomModalError>()
   const dataTransferAbortReference = useRef<VoidFunction>()
   const { watch } = useFormContext<{ [SELECTED_CONTACTS_FIELD]?: string[] }>()
   const selectedContacts = watch(SELECTED_CONTACTS_FIELD) || []
 
+  const currentStatus = freezedStatus || importStatus
   const abortButtonVisible =
-    importStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
-    importStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
-    importStatus === "IMPORT-DEVICE-DATA-TRANSFER"
+    currentStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
+    currentStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
+    currentStatus === "IMPORT-DEVICE-DATA-TRANSFER"
   const closeButtonVisible =
-    importStatus !== "PENDING-AUTH" && !abortButtonVisible
+    currentStatus !== "PENDING-AUTH" && !abortButtonVisible
 
   const closeModal = () => {
+    setFreezedStatus(importStatus)
     dispatch(closeModalAction({ key: modalKey }))
     dispatch(cleanImportProcess())
   }
@@ -84,7 +90,7 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
     },
   }
 
-  const backupAbortButtonAction: ButtonAction = {
+  const importAbortButtonAction: ButtonAction = {
     type: "custom",
     callback: () => {
       setError({
@@ -96,12 +102,21 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
   }
 
   useEffect(() => {
-    if (importStatus === "AUTH") {
-      dispatch(importContactsFromExternalSource())
+    if (importError) {
+      setError({
+        message: importError,
+      })
     }
-  }, [dispatch, importStatus])
+  }, [importError])
 
   useEffect(() => {
+    if (currentStatus === "AUTH") {
+      dispatch(importContactsFromExternalSource())
+    }
+  }, [dispatch, currentStatus])
+
+  useEffect(() => {
+    dispatch(cleanImportProcess())
     return () => {
       dataTransferAbortReference.current?.()
     }
@@ -114,30 +129,37 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
         <Modal.CloseButton config={{ action: importCloseButtonAction }} />
       )}
       {abortButtonVisible && (
-        <Modal.CloseButton config={{ action: backupAbortButtonAction }} />
+        <Modal.CloseButton config={{ action: importAbortButtonAction }} />
       )}
-
-      {importStatus === undefined && <ImportContactsProvider />}
-      {(importStatus === "AUTH" ||
-        importStatus === "PENDING-AUTH" ||
-        importStatus === "IMPORT-INTO-MC-IN-PROGRESS") && (
+      {(currentStatus === undefined || currentStatus === "INIT") && (
+        <ImportContactsProvider />
+      )}
+      {(currentStatus === "AUTH" ||
+        currentStatus === "PENDING-AUTH" ||
+        currentStatus === "FILE-SELECT") && (
+        <>
+          <ImportContactsProvider />
+          <Modal.VisibilityController config={{ visible: false }} />
+        </>
+      )}
+      {currentStatus === "IMPORT-INTO-MC-IN-PROGRESS" && (
         <ImportContactsLoader />
       )}
-      {importStatus === "IMPORT-INTO-MC-DONE" && (
+      {currentStatus === "IMPORT-INTO-MC-DONE" && (
         <ImportContactsList nextAction={importConfirmButtonAction} />
       )}
-      {(importStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
-        importStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
-        importStatus === "IMPORT-DEVICE-DATA-TRANSFER") && (
+      {(currentStatus === "IMPORT-INTO-DEVICE-IN-PROGRESS" ||
+        currentStatus === "IMPORT-INTO-DEVICE-FILES-TRANSFER" ||
+        currentStatus === "IMPORT-DEVICE-DATA-TRANSFER") && (
         <ImportContactsProgress />
       )}
-      {importStatus === "FAILED" && (
+      {currentStatus === "FAILED" && (
         <ImportContactsError
           closeAction={importCloseButtonAction}
           customError={error}
         />
       )}
-      {importStatus === "DONE" && (
+      {currentStatus === "DONE" && (
         <ImportContactsSuccess closeAction={importCloseButtonAction} />
       )}
     </>

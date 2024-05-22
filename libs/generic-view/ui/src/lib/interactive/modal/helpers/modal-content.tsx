@@ -13,6 +13,7 @@ import {
 } from "./modal-size-controller"
 import { TitleIcon } from "./modal-title-icon"
 import { ScrollableContent } from "./modal-scrollable-content"
+import { ModalVisibilityControllerHidden } from "./modal-visibility-controller"
 
 export type ModalSize = "small" | "medium" | "large"
 
@@ -38,6 +39,11 @@ export const ModalContent = styled.div`
   flex-direction: column;
   padding: var(--modal-padding);
   height: 100%;
+  opacity: var(--modal-opacity);
+  visibility: var(--modal-visibility);
+  transition-duration: var(--modal-transition-duration);
+  transition-timing-function: var(--modal-transition-timing-function);
+  transition-property: opacity, visibility;
 
   overflow: hidden;
   gap: var(--modal-gap);
@@ -50,6 +56,11 @@ export const ModalContent = styled.div`
   }
   &:has(${ModalSizeControllerLarge}) {
     --modal-width: ${getModalSize("large")};
+  }
+
+  &:has(${ModalVisibilityControllerHidden}) {
+    --modal-opacity: 0;
+    --modal-visibility: hidden;
   }
 
   width: var(--modal-width);

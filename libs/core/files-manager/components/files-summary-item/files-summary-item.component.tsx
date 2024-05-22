@@ -7,7 +7,7 @@ import React from "react"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import { DiskSpaceCategory } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import {
   backgroundColor,
   borderRadius,

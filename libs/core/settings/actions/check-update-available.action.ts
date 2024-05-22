@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { SettingsEvent } from "Core/settings/constants"
-import checkAppUpdateRequest from "Core/__deprecated__/renderer/requests/check-app-update.request"
+import { checkAppUpdateRequest } from "electron/application-updater"
 import { setCheckingForUpdate } from "Core/settings/actions/base.action"
 
 export const checkUpdateAvailable = createAsyncThunk<void, void>(

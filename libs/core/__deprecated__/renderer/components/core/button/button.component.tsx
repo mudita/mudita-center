@@ -101,10 +101,9 @@ const ButtonComponent: FunctionComponent<ButtonComponentProps> = ({
 
   const getButtonTextDisplayStyle = (style: DisplayStyle): TextDisplayStyle => {
     if (
-      style ===
-        (DisplayStyle.MenuLink ||
-          DisplayStyle.Tab ||
-          DisplayStyle.LinkWithParagraph) ||
+      style === DisplayStyle.MenuLink ||
+      style === DisplayStyle.Tab ||
+      style === DisplayStyle.LinkWithParagraph ||
       style === DisplayStyle.BorderlessButton
     ) {
       return TextDisplayStyle.Paragraph1

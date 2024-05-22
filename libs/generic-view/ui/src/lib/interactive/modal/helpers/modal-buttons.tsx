@@ -24,11 +24,12 @@ export const ModalButtons: APIFC<undefined, ModalButtonsConfig> = ({
 export const ButtonsWrapper = styled.div<{ $vertical?: boolean }>`
   display: grid;
   align-self: center;
+  --min-width: 15.6rem;
 
   ${({ $vertical }) =>
     $vertical
       ? css`
-          grid-template-columns: minmax(15.6rem, 1fr);
+          grid-template-columns: minmax(var(--min-width), 1fr);
           grid-auto-flow: row;
           grid-auto-rows: auto;
           row-gap: 1.4rem;
