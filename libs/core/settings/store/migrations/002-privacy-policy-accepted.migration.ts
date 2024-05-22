@@ -6,7 +6,7 @@
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const privacyPolicyAcceptedMigration = (store: any) => {
-  if (store.get("settingsSchemaVersion") === undefined) {
+  if (store.get("collectingData") !== undefined) {
     store.set("privacyPolicyAccepted", false)
   }
 }
