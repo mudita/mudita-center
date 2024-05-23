@@ -26,6 +26,7 @@ import { modalCloseButton } from "./lib/modal-close-button"
 import { textModal } from "./lib/text-modal"
 import { form } from "./lib/form"
 import { modalSizeController } from "./lib/modal-size-controller"
+import { modalVisibilityController } from "./lib/modal-visibility-controller"
 import { formTextInput } from "./lib/form-text-input"
 import { formSearchInput } from "./lib/form-search-input"
 import { formRadioInput } from "./lib/form-radio-input"
@@ -87,6 +88,7 @@ export * from "./lib/backup-create"
 export * from "./lib/backup-restore"
 export * from "./lib/import-contacts"
 export * from "./lib/mc-import-contacts-button"
+export * from "./lib/modal-visibility-controller"
 export * from "./lib/mc-data-migration"
 
 export default {
@@ -111,6 +113,7 @@ export default {
   [modalButtons.key]: modalButtons,
   [modalCloseButton.key]: modalCloseButton,
   [modalSizeController.key]: modalSizeController,
+  [modalVisibilityController.key]: modalVisibilityController,
   [textModal.key]: textModal,
   [form.key]: form,
   [formTextInput.key]: formTextInput,

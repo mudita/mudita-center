@@ -5,7 +5,7 @@
 
 import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
-import FilesManager from "Core/files-manager/files-manager.container"
+import FilesManager from "Core/files-manager/components/files-manager.component"
 import Messages from "Core/messages/messages.container"
 import News from "Core/news/news.container"
 import Overview from "Core/overview/overview.container"
@@ -32,6 +32,7 @@ import AvailableDeviceListContainer from "Core/discovery-device/components/avail
 import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
 import { GenericView } from "generic-view/feature"
 import { APIConnectionDemo, DataMigrationPage } from "generic-view/ui"
+import ManageSounds from "Core/files-manager/components/manage-sounds.component"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -103,6 +104,7 @@ export default () => (
               component={DataMigrationPage}
             />
             <Route path={URL_MAIN.filesManager} component={FilesManager} />
+            <Route path={URL_MAIN.manageSounds} component={ManageSounds} />
             <Route path={URL_MAIN.messages} component={Messages} exact />
             <Route
               path={`${URL_MAIN.messages}${URL_TABS.templates}`}

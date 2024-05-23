@@ -57,6 +57,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.messagesInAppNavigationTest),
     toRelativePath(TestFilesPaths.helpWindowCheckTest),
     toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+    toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
     toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
     toRelativePath(TestFilesPaths.newsPageOnlineTest),
     toRelativePath(TestFilesPaths.termsOfServiceTest),
@@ -66,6 +67,7 @@ export const config: Options.Testrunner = {
     standalone: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
@@ -85,6 +87,7 @@ export const config: Options.Testrunner = {
     cicd: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
