@@ -41,7 +41,7 @@ export interface Props {
   onTroubleshooting?: VoidFunction
 }
 
-const deviceNames = ["Harmony 1", "Harmony 2", "Pure", "Kompakt"]
+const deviceNames = ["Harmony 1", "Harmony 2", "Pure"]
 
 const OnboardingUI: FunctionComponent<Props> = ({
   onCancel = noop,

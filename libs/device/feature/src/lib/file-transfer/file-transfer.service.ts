@@ -164,8 +164,7 @@ export class APIFileTransferService {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
 
-    const file = Buffer.from(data, "binary").toString("base64")
-
+    const file = Buffer.from(data, "utf8").toString("base64")
     const crc32 = crc.crc32(file)
 
     return await this.preTransferSendRequest(

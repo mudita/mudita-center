@@ -10,6 +10,47 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
 
+## [2.3.0] - 2024-05-22
+
+In this update, we have released the functionality of Multidevice support, the feature allows to support multiple Mudita devices in the Mudita Center application simultaneously without switching it. Moreover, we've successfully addressed 20 bugs across various features.
+
+### Added
+
+- Added the ability to identify Harmony by color.
+- Added supports multiple devices, allowing users to launch applications simultaneously and select a device.
+- Added notifications when a new device appears.
+- Added the ability to switch to another device.
+
+### Changed
+
+- Removed the `Disconnect` button for device disconnection.
+- Enhanced error handling with notifications for connection errors, consolidated into a single troubleshooting view.
+- Mudita Center now properly handles Mudita Device connection by resolving missing user group inclusion.
+- Updated the Mudita Center application Start screen.
+
+### Fixed
+
+- Fixed pixelation and aliasing of Mudita News thumbnails on 1920x1080 resolution at 100% scaling.
+- Fixed issue where VCF import did not restrict file type.
+- Fixed issue with the white background shrinking on 'No search result' message.
+- Fixed the white screen issue when opening the Center app on Ubuntu.
+- Fixed flickering white screen during the first load of the News view.
+- Fixed issue allowing Mudita Center to be saved into an index.html file by clicking Alt + Left Click on menu items.
+- Fixed an issue where Mudita Center did not recognize lost internet connection while checking for device updates.
+- Fixed an issue where the 'Upload failed' popup was not displayed.
+- Fixed unexpected animation of menu items in Mudita Center.
+- Fixed an issue where the 'Select file' window on Linux Ubuntu did not display at the front after the first opening.
+- Fixed a typo in the vCard extension in the "Import contacts" modal.
+- Fixed an issue where the device color changed from white to black in the overview tab while creating Restore or Backup.
+- Fixed the issue where the black Harmony 2 device was displayed as grey in the MC overview.
+- Fixed issue where Help Report was not sent, resulting in infinite sending.
+- Fixed text error in "MuditaOS v\*\*\* was downloaded".
+- Fixed white screen issue when opening Center app on Ubuntu - WebFrame.
+- Fixed the issue where news partially overlapped the Mudita News Header.
+- Fixed issue with two dots appearing after pressing F1, F2, etc., while entering the password.
+- Updated outdated copyright on macOS.
+- Fixed the issue where gray highlight was faster than the scroll tool on the right side of the contact search list.
+
 ## [2.2.8] - 2024-02-22
 
 ### Changed
@@ -20,14 +61,12 @@ straightforward as possible.
 
 - Implemented validation to ensure contact numbers are unique, preventing duplication and resolving the issue with endless synchronization when editing contacts.
 
-
 ## [2.2.7] - 2023-12-07
 
 ### Fixed
 
 - Resolved an issue with updating from version 2.2.5 to 2.2.6 on Windows, requiring administrator rights for a successful update.
 - Fixed the problem with clicking links in Terms of Service, preventing the opening of additional Electron windows.
-
 
 ## [2.2.6] - 2023-11-30
 
@@ -50,7 +89,6 @@ straightforward as possible.
 ### Fixed
 
 - Outlook import shows Mudita Center as verified publisher
-
 
 ## [2.2.4] - 2023-10-26
 

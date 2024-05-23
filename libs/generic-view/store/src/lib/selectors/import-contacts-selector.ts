@@ -22,3 +22,11 @@ export const importContactsSelector = createSelector(
     })
   }
 )
+
+export const importContactsErrorSelector = createSelector(
+  (state: ReduxRootState) => state.genericImport.providers,
+  (state: ReduxRootState) => state.genericImport.currentImportProvider,
+  (providers, currentProvider) => {
+    return currentProvider ? providers[currentProvider]?.error : undefined
+  }
+)

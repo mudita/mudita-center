@@ -38,6 +38,10 @@ class SettingsPage extends Page {
     return $("p=You’re up to date.")
   }
 
+  get aboutCheckForUpdateFailedLabel() {
+    return $("p=Checking for updates failed")
+  }
+
   get aboutCheckForUpdatesButton() {
     return $('[data-testid="about-update-button"]')
   }

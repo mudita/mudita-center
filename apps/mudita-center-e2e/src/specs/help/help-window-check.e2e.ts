@@ -53,6 +53,7 @@ describe("Check Help window", () => {
 
     // Check accordion
     const helpTopic = await HelpPage.listElement
+
     await expect(helpTopic).toBeDisplayed()
     const noOfArticles = await HelpPage.listElements
     await expect(noOfArticles).toBeElementsArrayOfSize({ gte: 25 })

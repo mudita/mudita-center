@@ -6,7 +6,7 @@
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export const privacyPolicyAcceptedMigration = (store: any) => {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  store.set("privacyPolicyAccepted", false)
+  if (store.get("collectingData") !== undefined) {
+    store.set("privacyPolicyAccepted", false)
+  }
 }

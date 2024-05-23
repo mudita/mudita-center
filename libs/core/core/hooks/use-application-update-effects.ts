@@ -4,46 +4,53 @@
  */
 
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { answerMain } from "shared/utils"
+import { AppUpdateEvent } from "electron/application-updater"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import registerAvailableAppUpdateListener from "Core/__deprecated__/main/functions/register-avaible-app-update-listener"
 import { setCheckingForUpdateFailed } from "Core/settings/actions/base.action"
 import {
   setCheckingForUpdate,
   setLatestVersion,
   toggleApplicationUpdateAvailable,
 } from "Core/settings/actions"
-import registerNotAvailableAppUpdateListener from "Core/__deprecated__/main/functions/register-not-avaible-app-update-listener"
-import registerErrorAppUpdateListener from "Core/__deprecated__/main/functions/register-error-app-update-listener"
+import { settingsStateSelector } from "Core/settings/selectors"
 
 export const useApplicationUpdateEffects = () => {
   const dispatch = useDispatch<Dispatch>()
+  const { checkingForUpdate } = useSelector(settingsStateSelector)
 
   useEffect(() => {
-    const unregister = registerErrorAppUpdateListener(() => {
+    return answerMain(AppUpdateEvent.Error, () => {
       dispatch(setCheckingForUpdateFailed(true))
       dispatch(setCheckingForUpdate(false))
     })
-    return () => unregister()
   }, [dispatch])
 
   useEffect(() => {
-    const unregister = registerAvailableAppUpdateListener((version) => {
+    const timeoutId = setTimeout(() => {
+      if (checkingForUpdate) {
+        dispatch(setCheckingForUpdateFailed(true))
+        dispatch(setCheckingForUpdate(false))
+      }
+    }, 10000)
+
+    return () => clearTimeout(timeoutId)
+  }, [dispatch, checkingForUpdate])
+
+  useEffect(() => {
+    return answerMain(AppUpdateEvent.Available, (version) => {
       dispatch(setCheckingForUpdateFailed(false))
       dispatch(setCheckingForUpdate(false))
       dispatch(toggleApplicationUpdateAvailable(true))
       dispatch(setLatestVersion(version as string))
     })
-
-    return () => unregister()
   }, [dispatch])
 
   useEffect(() => {
-    const unregister = registerNotAvailableAppUpdateListener(() => {
+    return answerMain(AppUpdateEvent.NotAvailable, () => {
       dispatch(toggleApplicationUpdateAvailable(false))
       dispatch(setCheckingForUpdate(false))
     })
-
-    return () => unregister()
   }, [dispatch])
 }

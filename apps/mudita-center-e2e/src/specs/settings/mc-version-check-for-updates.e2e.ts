@@ -55,7 +55,7 @@ describe("Checking for Mudita Center updates", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-    const modalContentUpToDate = await ModalPage.modalContentUpToDate
+    const modalContentUpToDate = await ModalPage.updateNotAvailable
     await expect(modalContentUpToDate).toBeDisplayed()
     await expect(modalContentUpToDate).toHaveTextContaining(
       "Your Mudita Center is up to date!"

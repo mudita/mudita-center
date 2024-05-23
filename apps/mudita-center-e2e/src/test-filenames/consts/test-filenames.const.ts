@@ -8,6 +8,10 @@ export enum TestFilesPaths {
   messagesInAppNavigationTest = "src/specs/messages/messages-in-app-navigation.e2e.ts",
   helpWindowCheckTest = "src/specs/help/help-window-check.e2e.ts",
   homePageTestDeviceNotConnectedTest = "src/specs/overview/home-page-device-not-connecting.e2e.ts",
-  mcCheckForUpdatesTest = "src/specs/settings/mc-version-check-for-updates.e2e.ts"
+  e2eMockSample = "src/specs/overview/e2e-mock-sample.e2e.ts",
+  mcCheckForUpdatesTest = "src/specs/settings/mc-version-check-for-updates.e2e.ts",
+  mcCheckForUpdatesOfflineTest = "src/specs/settings/mc-version-check-for-updates-offline.e2e.ts",
+  newsPageOnlineTest = "src/specs/news/news-check-online.e2e.ts",
+  termsOfServiceTest = "src/specs/settings/terms-of-service.e2e.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`

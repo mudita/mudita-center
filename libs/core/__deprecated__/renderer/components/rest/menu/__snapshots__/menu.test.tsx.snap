@@ -306,33 +306,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
         <a
           class="c5"
           displaystyle="7"
-          href="#/onboarding"
-          size="1"
-        >
-          <span
-            class="c6 c7"
-            data-testid="icon-Send"
-            height="3.2"
-            width="3.2"
-          >
-            <test-file-stub
-              image="test-file-stub"
-            />
-          </span>
-          <p
-            class="c8 c9"
-            color="primary"
-          >
-            [value] module.onboarding
-          </p>
-        </a>
-      </div>
-      <div
-        class="c4"
-      >
-        <a
-          class="c5"
-          displaystyle="7"
           href="#/news"
           size="1"
         >
@@ -723,33 +696,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
             image="test-file-stub"
           />
         </span>
-      </div>
-      <div
-        class="c4"
-      >
-        <a
-          class="c5"
-          displaystyle="7"
-          href="#/onboarding"
-          size="1"
-        >
-          <span
-            class="c6 c7"
-            data-testid="icon-Send"
-            height="3.2"
-            width="3.2"
-          >
-            <test-file-stub
-              image="test-file-stub"
-            />
-          </span>
-          <p
-            class="c8 c9"
-            color="primary"
-          >
-            [value] module.onboarding
-          </p>
-        </a>
       </div>
       <div
         class="c4"
