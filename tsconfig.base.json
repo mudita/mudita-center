@@ -47,7 +47,6 @@
       "generic-view/ui": ["libs/generic-view/ui/src/index.ts"],
       "generic-view/utils": ["libs/generic-view/utils/src/index.ts"],
       "generic-view/views": ["libs/generic-view/views/src/index.ts"],
-      "generic-view/models": ["libs/generic-view/models/src/index.ts"],
       "shared/app-state": ["libs/shared/app-state/src/index.ts"],
       "shared/utils": ["libs/shared/utils/src/index.ts"],
       "system-utils/feature": ["libs/system-utils/feature/src/index.ts"],
