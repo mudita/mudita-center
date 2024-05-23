@@ -38,7 +38,7 @@ export const ImportContactsSuccess: FunctionComponent<Props> = ({
       <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <p>
         {intl.formatMessage(messages.description, {
-          count: getValues(SELECTED_CONTACTS_FIELD).length,
+          count: getValues(SELECTED_CONTACTS_FIELD)?.length || -1,
         })}
       </p>
       <Modal.Buttons config={{ vertical: true }}>

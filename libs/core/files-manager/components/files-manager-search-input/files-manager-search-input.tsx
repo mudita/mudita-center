@@ -17,6 +17,7 @@ const messages = defineMessages({
 
 export const Input = styled(InputComponent)`
   width: 28rem;
+  margin-right: 2.4rem;
 `
 
 interface Props {

@@ -11,10 +11,12 @@ import {
   AppUpdateError,
   AppUpdateProgress,
 } from "Core/__deprecated__/renderer/wrappers/app-update-step-modal/app-update.modals"
-import registerDownloadedAppUpdateListener from "Core/__deprecated__/main/functions/register-downloaded-app-update-listener"
-import registerErrorAppUpdateListener from "Core/__deprecated__/main/functions/register-error-app-update-listener"
-import installAppUpdateRequest from "Core/__deprecated__/renderer/requests/install-app-update.request"
-import downloadAppUpdateRequest from "Core/__deprecated__/renderer/requests/download-app-update.request"
+import { answerMain } from "shared/utils"
+import {
+  AppUpdateEvent,
+  downloadAppUpdateRequest,
+  installAppUpdateRequest,
+} from "electron/application-updater"
 import { ModalDialogProps } from "Core/ui/components/modal-dialog"
 import {
   trackCenterUpdate,
@@ -51,7 +53,7 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    const unregister = registerDownloadedAppUpdateListener(() => {
+    return answerMain(AppUpdateEvent.Downloaded, () => {
       void trackCenterUpdate({
         fromCenterVersion: appCurrentVersion,
         toCenterVersion: appLatestVersion,
@@ -59,12 +61,10 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
       })
       void installAppUpdateRequest()
     })
-
-    return () => unregister()
   })
 
   useEffect(() => {
-    const unregister = registerErrorAppUpdateListener(() => {
+    return answerMain(AppUpdateEvent.Error, () => {
       void trackCenterUpdate({
         fromCenterVersion: appCurrentVersion,
         toCenterVersion: appLatestVersion,
@@ -72,7 +72,6 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
       })
       setAppUpdateStep(AppUpdateStep.Error)
     })
-    return () => unregister()
   })
 
   const handleProcessDownload = () => {

@@ -7,13 +7,13 @@ import React from "react"
 import FilesSummaryItem from "Core/files-manager/components/files-summary-item/files-summary-item.component"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import styled from "styled-components"
-import { DiskSpaceCategory } from "Core/files-manager/components/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "Core/files-manager/components/files-manager-core/files-manager.interface"
 import { FilesSummaryTestIds } from "Core/files-manager/components/files-summary/files-summary-test-ids.enum"
 import {
   FilesSummaryContainer,
   FilesSummaryHeading,
   StatsContainer,
-} from "Core/files-manager/components/files-manager/files-manager.styled"
+} from "Core/files-manager/components/files-manager-core/files-manager.styled"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -21,8 +21,8 @@ import StackedBarChart, {
   DisplayStyle,
   ChartItem,
 } from "Core/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import { defineMessages } from "react-intl"
 import { convertBytes } from "Core/core/helpers/convert-bytes/convert-bytes"
+import { Message } from "Core/__deprecated__/renderer/interfaces/message.interface"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -32,14 +32,11 @@ const FilesSummaryWrapper = styled.div`
   }
 `
 
-export const messages = defineMessages({
-  summaryTitle: { id: "component.filesManagerSummaryTitle" },
-})
-
 interface Props {
   diskSpaceCategories: DiskSpaceCategory[]
   usedMemory: number
   totalMemorySpace: number
+  summaryTitleMessage: Message
 }
 
 const memoryToStackedBarChartData = (
@@ -58,6 +55,7 @@ const FilesSummary: FunctionComponent<Props> = ({
   diskSpaceCategories,
   usedMemory,
   totalMemorySpace,
+  summaryTitleMessage,
 }) => {
   const usedMemoryPercent = Math.floor((usedMemory / totalMemorySpace) * 100)
 
@@ -66,14 +64,12 @@ const FilesSummary: FunctionComponent<Props> = ({
       <FilesSummaryHeading
         data-testid={FilesSummaryTestIds.Title}
         displayStyle={TextDisplayStyle.Headline3}
-        message={messages.summaryTitle}
+        message={summaryTitleMessage}
       />
       <FilesSummaryWrapper data-testid={FilesSummaryTestIds.Wrapper}>
-        {diskSpaceCategories.map(
-          (diskSpaceCategory, index: number) => (
-            <FilesSummaryItem {...diskSpaceCategory} key={index} />
-          )
-        )}
+        {diskSpaceCategories.map((diskSpaceCategory, index: number) => (
+          <FilesSummaryItem {...diskSpaceCategory} key={index} />
+        ))}
       </FilesSummaryWrapper>
       <StackedBarChart
         displayStyle={DisplayStyle.Thick}

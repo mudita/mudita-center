@@ -9,6 +9,7 @@ import { ApiSerialPortToRendererEvents } from "device/models"
 import { PureStrategyMainEvent } from "Core/device/strategies"
 import { getMainAppWindow } from "./get-main-app-window"
 import { AppEvents, DeviceManagerMainEvent } from "./main-event.constant"
+import { AppUpdateEvent } from "electron/application-updater"
 
 const logger = LoggerFactory.getInstance()
 
@@ -17,6 +18,7 @@ export type CallRendererEvent =
   | DeviceManagerMainEvent
   | AppEvents
   | PureStrategyMainEvent
+  | AppUpdateEvent
 
 export const callRenderer = (event: CallRendererEvent, payload?: unknown) => {
   const win = getMainAppWindow()
