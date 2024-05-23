@@ -8,9 +8,18 @@ import screenshotHelper from "../../helpers/screenshot.helper"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
+    E2EMockClient.connect()
     //wait for a connection to be established
-    await browser.waitUntil(() => E2EMockClient.checkConnection())
+    await browser.waitUntil(() => {
+      console.log("test 123123")
+      return E2EMockClient.checkConnection()
+    })
   })
+
+  after(() => {
+    E2EMockClient.disconnect()
+  })
+
   it("Test Tomasz #1 - addDevice", async () => {
     E2EMockClient.addDevice({
       path: "path-1",
