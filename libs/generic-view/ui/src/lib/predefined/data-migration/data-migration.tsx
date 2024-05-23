@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+/* stylelint-disable no-duplicate-selectors */
+
 import React, { FunctionComponent, useEffect } from "react"
 import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
