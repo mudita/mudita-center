@@ -15,16 +15,16 @@ ipc.config.id = "E2E"
 ipc.config.retry = 1000
 
 export const connect = () => {
-  console.log("start connection 0")
+  console.log("start connecting")
   ipc.connectTo(SERVER_ID, () => {
-    console.log("start connection 1")
+    console.log("start connectTo")
     const client = ipc.of.MC.on("connect", () => {
-      console.log("start connection 3")
+      console.log("connected")
     })
     console.log(clientEmiter)
     clientEmiter = client.emit.bind(client)
     console.log(clientEmiter)
-    console.log("start connection 2")
+    console.log("emiter set")
     ipc.of.MC.on("disconnect", function () {
       console.log("e2e client disconnect")
       clientEmiter = undefined
@@ -41,5 +41,3 @@ export const disconnect = () => {
 export const getClientEmiter = () => {
   return clientEmiter
 }
-
-// export default clientEmiter

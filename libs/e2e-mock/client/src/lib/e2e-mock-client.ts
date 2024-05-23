@@ -4,11 +4,7 @@
  */
 
 import { AddKompakt, AddKompaktResponse } from "e2e-mock-server"
-import clientEmiter, {
-  connect,
-  disconnect,
-  getClientEmiter,
-} from "./ipc-client/ipc-client"
+import { connect, disconnect, getClientEmiter } from "./ipc-client/ipc-client"
 
 export const E2EMockClient = {
   checkConnection: () => {
