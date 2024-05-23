@@ -8,18 +8,23 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import ModalPage from "../../page-objects/mc-update-modal.page"
 import HomePage from "../../page-objects/home.page"
 import TestHelper from "../../helpers/tests.helper"
+import dns from "node:dns"
 
 describe("Checking for Mudita Center updates", () => {
   before(async function () {
     if (TestHelper.isLinux()) {
       this.skip()
     }
+
+    dns.setDefaultResultOrder("ipv4first")
+    await browser.throttle("offline")
+
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
     await notNowButton.click()
   })
 
-  it("Application is up to date", async () => {
+  it("Open Settings -> About", async () => {
     const settingsTab = await NavigationTabs.settingsTab
     await settingsTab.waitForDisplayed()
     await settingsTab.click()
@@ -28,12 +33,16 @@ describe("Checking for Mudita Center updates", () => {
     await aboutTab.waitForDisplayed()
     await aboutTab.click()
 
-    const aboutUpToDateLabel = await SettingsPage.aboutUpToDateLabel
+    const aboutCheckForUpdateFailedLabel =
+      await SettingsPage.aboutCheckForUpdateFailedLabel
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-    await expect(aboutUpToDateLabel).toBeDisplayed()
-    await expect(aboutUpToDateLabel).toHaveText("You’re up to date.")
+
+    await expect(aboutCheckForUpdateFailedLabel).toBeDisplayed()
+    await expect(aboutCheckForUpdateFailedLabel).toHaveText(
+      "Checking for updates failed"
+    )
   })
 
   it("Check 'Check for updates' button", async () => {
@@ -51,14 +60,15 @@ describe("Checking for Mudita Center updates", () => {
   })
 
   it("Check for updates", async () => {
-    // Waiting to check if an update is available
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
-    const modalContentUpToDate = await ModalPage.updateNotAvailable
-    await expect(modalContentUpToDate).toBeDisplayed()
-    await expect(modalContentUpToDate).toHaveTextContaining(
-      "Your Mudita Center is up to date!"
+    const checkingFailedUpdateSubtitle =
+      await ModalPage.checkingFailedUpdateSubtitle
+    await expect(checkingFailedUpdateSubtitle).toBeDisplayed()
+    await expect(checkingFailedUpdateSubtitle).toHaveText("Checking failed")
+
+    const checkingFailedUpdateBody = await ModalPage.checkingFailedUpdateBody
+    await expect(checkingFailedUpdateBody).toBeDisplayed()
+    await expect(checkingFailedUpdateBody).toHaveText(
+      "Opps, something went wrong. \nPlease check your internet connection"
     )
   })
 })
