@@ -47,4 +47,6 @@ export enum ActionName {
   StartContactsFileImport = "generic-imports/start-contacts-file-import",
   GetContactsFromCSV = "generic-imports/get-contacts-from-csv",
   GoogleAuthorizeProcess = "google-authorization-process",
+  GoogleGetContactsProcess = "google-get-contacts-process",
+  SetAuthDataProcess = "set-auth-data-process",
 }

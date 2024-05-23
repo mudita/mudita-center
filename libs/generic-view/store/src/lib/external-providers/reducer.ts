@@ -6,6 +6,7 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { ExternalProvidersState } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
 import { googleAuthorize } from "./google/google-authorize.action"
+import { setAuthData } from "./actions"
 
 const initialState: ExternalProvidersState = {
   google: {
@@ -28,6 +29,11 @@ export const externalProvidersReducer = createReducer(
   initialState,
   (builder) => {
     builder.addCase(googleAuthorize.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.google.contacts = { ...action.payload }
+      }
+    })
+    builder.addCase(setAuthData, (state, action) => {
       if (action.payload) {
         state.google.contacts = { ...action.payload }
       }

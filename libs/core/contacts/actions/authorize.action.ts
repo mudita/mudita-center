@@ -12,8 +12,8 @@ import {
 import externalProvidersStore from "Core/__deprecated__/renderer/store/external-providers"
 import { Scope } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
 import { OutLookScope } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
-import { googleAuthorize } from "generic-view/store"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { googleAuthorize } from "generic-view/store"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
