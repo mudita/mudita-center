@@ -102,7 +102,7 @@ class SettingsPage extends Page {
     return $('[data-testid="settings-backup-change-location-button"]')
   }
 
-  public get changeLocationValue() {
+  public get backupLocationValue() {
     return $('[data-testid="backup-location"]')
   }
 }

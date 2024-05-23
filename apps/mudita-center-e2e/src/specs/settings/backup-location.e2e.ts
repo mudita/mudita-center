@@ -7,7 +7,7 @@ import HomePage from "../../page-objects/home.page"
 import SettingsPage from "../../page-objects/settings.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 
-describe("Open Settings and change backup location", () => {
+describe("Open Settings and check if change location button is clickable", () => {
   before(async function () {
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
@@ -25,10 +25,10 @@ describe("Open Settings and change backup location", () => {
     await changeLocationButton.waitForClickable()
   })
   it("Verify default backup location", async () => {
-    const changeLocationValue = await SettingsPage.changeLocationValue
-    await changeLocationValue.waitForDisplayed()
+    const backupLocationValue = await SettingsPage.backupLocationValue
+    await backupLocationValue.waitForDisplayed()
 
-    await expect(changeLocationValue).toHaveTextContaining(
+    await expect(backupLocationValue).toHaveTextContaining(
       /^(\/{1}|C\:\\)(Users|home).*(\/Library\/Application Support|\/.config|\\AppData\\Roaming)(\/@mudita\/mudita-center-app|\\@mudita\\mudita-center-app).*/gm
     )
   })
