@@ -1,6 +1,6 @@
 {
   "name": "mudita-center",
-  "version": "2.2.8",
+  "version": "2.3.0",
   "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
@@ -39,7 +39,7 @@
   "build": {
     "productName": "Mudita Center",
     "appId": "com.mudita.center",
-    "copyright": "Copyright (c) 2017-2023, Mudita sp. z o.o. All rights reserved.",
+    "copyright": "Copyright (c) 2017-2024, Mudita sp. z o.o. All rights reserved.",
     "mac": {
       "category": "public.app-category.utilities",
       "icon": "./icons/mac/icon.icns",

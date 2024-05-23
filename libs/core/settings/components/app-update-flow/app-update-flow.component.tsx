@@ -12,6 +12,7 @@ import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import { settingsStateSelector } from "Core/settings/selectors"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { skipAvailableUpdate } from "Core/settings/actions/base.action"
+import { hideModals } from "Core/modals-manager"
 
 export const AppUpdateFlow: FunctionComponent = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -21,6 +22,7 @@ export const AppUpdateFlow: FunctionComponent = () => {
 
   const handleCloseModal = () => {
     dispatch(skipAvailableUpdate())
+    dispatch(hideModals())
   }
 
   return (

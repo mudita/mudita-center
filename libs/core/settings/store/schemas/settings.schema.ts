@@ -11,21 +11,12 @@ import translationConfig from "App/translations.config.json"
 import { generateApplicationId } from "Core/settings/store/schemas/generate-application-id"
 
 export const settingsSchema: Schema<Settings> = {
+  settingsSchemaVersion: {
+    type: "number",
+  },
   applicationId: {
     type: ["string", "null"],
     default: generateApplicationId(),
-  },
-  autostart: {
-    type: "boolean",
-    default: false,
-  },
-  tethering: {
-    type: "boolean",
-    default: false,
-  },
-  tray: {
-    type: "boolean",
-    default: false,
   },
   osBackupLocation: {
     type: "string",
@@ -39,17 +30,9 @@ export const settingsSchema: Schema<Settings> = {
     type: "string",
     default: translationConfig.defaultLanguage,
   },
-  neverConnected: {
-    type: "boolean",
-    default: true,
-  },
-  collectingData: {
-    type: "boolean",
-    default: undefined,
-  },
   privacyPolicyAccepted: {
     type: "boolean",
-    default: false,
+    default: true,
   },
   diagnosticSentTimestamp: {
     type: "number",

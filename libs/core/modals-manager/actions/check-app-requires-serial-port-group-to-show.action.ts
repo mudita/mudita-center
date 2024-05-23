@@ -19,9 +19,9 @@ export const checkAppRequiresSerialPortGroup = createAsyncThunk<
   ModalsManagerEvent.ShowAppRequiresSerialPortGroup,
   async (_, { dispatch }) => {
     const runningOnLinux = await isLinux()
-    const runningOnCI = process.env.CI === "true"
+    const runningOnE2ECI = process.env.E2ECI === "true"
 
-    if (!runningOnLinux || runningOnCI) {
+    if (!runningOnLinux || runningOnE2ECI) {
       dispatch(setUserHasSerialPortAccess(true))
       return
     }

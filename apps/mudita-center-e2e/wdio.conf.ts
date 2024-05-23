@@ -61,6 +61,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.newsPageOnlineTest),
     toRelativePath(TestFilesPaths.termsOfServiceTest),
     toRelativePath(TestFilesPaths.backupLocationTest),
+    toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
     toRelativePath(TestFilesPaths.e2eMockSample),
   ],
   suites: {
@@ -71,6 +72,10 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.backupLocationTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
+      toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
+      toRelativePath(TestFilesPaths.newsPageOnlineTest),
+      toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.e2eMockSample),
     ],
     multidevicePureHarmony: [],
@@ -87,6 +92,7 @@ export const config: Options.Testrunner = {
     cicd: [
       toRelativePath(TestFilesPaths.helpWindowCheckTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesTest),
+      toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
       toRelativePath(TestFilesPaths.newsPageOnlineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
