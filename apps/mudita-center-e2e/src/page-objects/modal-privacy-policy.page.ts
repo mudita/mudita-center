@@ -10,45 +10,45 @@ class ModalPrivacyPolicy extends Page {
     return $('[data-testid="privacy-policy-component-title"]')
   }
 
-  public get first() {
+  public get controllerQuestion() {
     return $(
       "p*=Who is the controller of your personal data and who can you contact about it?"
     )
   }
 
-  public get second() {
+  public get purposesQuestion() {
     return $(
       "p*=For what purposes and on what grounds do we process your personal data?"
     )
   }
 
-  public get third() {
+  public get accessQuestion() {
     return $("p*=Who has access to your personal data?")
   }
 
-  public get fourth() {
+  public get storageLengthQuestion() {
     return $("p*=How long is your personal data stored?")
   }
 
-  public get fifth() {
+  public get rightsQuestion() {
     return $(
       "p*=What rights do you have in relation to the processing of your personal data?"
     )
   }
 
-  public get sixth() {
+  public get rightsExcerciseQuestion() {
     return $("p*=How to exercise your personal data rights?")
   }
 
-  public get seventh() {
+  public get dataProvidingMandatoryQuestion() {
     return $("p*=Is providing personal data mandatory?")
   }
 
-  public get eighth() {
+  public get cookiesParagraph() {
     return $("p*=Cookies")
   }
 
-  public get nineth() {
+  public get addInformationParagraph() {
     return $("p*=Additional information")
   }
 
@@ -60,8 +60,12 @@ class ModalPrivacyPolicy extends Page {
     return $("p*=legal basis for the processing")
   }
 
-  public get firstParagraph() {
+  public get firstPoint() {
     return $("p*=The Controller of your personal data")
+  }
+
+  public get cookiesInfoLinks() {
+    return $$("#app > div > ul > li")
   }
 }
 

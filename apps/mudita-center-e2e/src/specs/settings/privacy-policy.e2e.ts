@@ -47,7 +47,7 @@ describe("Checking Privacy Policy", () => {
   })
 
   it("Check keywords", async () => {
-    const firstParagraph = modalPrivacyPolicyPage.firstParagraph
+    const firstParagraph = modalPrivacyPolicyPage.firstPoint
     await expect(firstParagraph).toHaveTextContaining(
       "KRS [National Court Register Number] 0000467620"
     )
@@ -60,47 +60,74 @@ describe("Checking Privacy Policy", () => {
   })
 
   it("Check Privacy Policy sections", async () => {
-    const first = await modalPrivacyPolicyPage.first
-    await expect(first).toHaveText(
+    const controllerQuestion = await modalPrivacyPolicyPage.controllerQuestion
+    await expect(controllerQuestion).toHaveText(
       "Who is the controller of your personal data and who can you contact about it?"
     )
 
-    const second = await modalPrivacyPolicyPage.second
-    await expect(second).toHaveText(
+    const purposesQuestion = await modalPrivacyPolicyPage.purposesQuestion
+    await expect(purposesQuestion).toHaveText(
       "For what purposes and on what grounds do we process your personal data?"
     )
 
-    const third = await modalPrivacyPolicyPage.third
-    await expect(third).toHaveText("Who has access to your personal data?")
+    const firstColumnHeader = await modalPrivacyPolicyPage.firstColumnHeader
+    await expect(firstColumnHeader).toHaveText("the purpose of the processing")
+    const firstColumnHeaderBorder = (
+      await firstColumnHeader.getCSSProperty("border")
+    ).value
+    await expect(firstColumnHeaderBorder).toBe("1px solid rgb(0, 0, 0)")
 
-    const fourth = await modalPrivacyPolicyPage.fourth
-    await expect(fourth).toHaveText("How long is your personal data stored?")
+    const accessQuestion = await modalPrivacyPolicyPage.accessQuestion
+    await expect(accessQuestion).toHaveText(
+      "Who has access to your personal data?"
+    )
 
-    const fifth = await modalPrivacyPolicyPage.fifth
-    await expect(fifth).toHaveText(
+    const storageLengthQuestion =
+      await modalPrivacyPolicyPage.storageLengthQuestion
+    await expect(storageLengthQuestion).toHaveText(
+      "How long is your personal data stored?"
+    )
+
+    const rightsQuestion = await modalPrivacyPolicyPage.rightsQuestion
+    await expect(rightsQuestion).toHaveText(
       "What rights do you have in relation to the processing of your personal data?"
     )
 
-    const sixth = await modalPrivacyPolicyPage.sixth
-    await expect(sixth).toHaveText("How to exercise your personal data rights?")
+    const rightsExcerciseQuestion =
+      await modalPrivacyPolicyPage.rightsExcerciseQuestion
+    await expect(rightsExcerciseQuestion).toHaveText(
+      "How to exercise your personal data rights?"
+    )
 
-    const seventh = await modalPrivacyPolicyPage.seventh
-    await expect(seventh).toHaveText("Is providing personal data mandatory?")
+    const dataProvidingMandatoryQuestion =
+      await modalPrivacyPolicyPage.dataProvidingMandatoryQuestion
+    await expect(dataProvidingMandatoryQuestion).toHaveText(
+      "Is providing personal data mandatory?"
+    )
 
-    const eighth = await modalPrivacyPolicyPage.eighth
-    await expect(eighth).toHaveText("Cookies")
+    const cookiesParagraph = await modalPrivacyPolicyPage.cookiesParagraph
+    await expect(cookiesParagraph).toHaveText("Cookies")
 
-    const nineth = await modalPrivacyPolicyPage.nineth
-    await expect(nineth).toHaveText("Additional information")
+    const cookiesInfoLinks = await modalPrivacyPolicyPage.cookiesInfoLinks
+    await expect(cookiesInfoLinks).toBeElementsArrayOfSize({ gte: 5 })
+    for (let cookiesInfoLink of cookiesInfoLinks) {
+      const link = await cookiesInfoLink.$("a")
+      await expect(link).toHaveAttribute("href")
+      await expect(link).toBeClickable()
+    }
+
+    const addInformationParagraph =
+      await modalPrivacyPolicyPage.addInformationParagraph
+    await expect(addInformationParagraph).toHaveText("Additional information")
   })
 
   it("Check content after scroll", async () => {
     const firstColumnHeader = await modalPrivacyPolicyPage.firstColumnHeader
     await firstColumnHeader.scrollIntoView()
-    const second = await modalPrivacyPolicyPage.second
-    await expect(second).toBeDisplayedInViewport
-    const third = await modalPrivacyPolicyPage.third
-    await expect(third).toBeDisplayedInViewport
+    const purposesQuestion = await modalPrivacyPolicyPage.purposesQuestion
+    await expect(purposesQuestion).toBeDisplayedInViewport
+    const accessQuestion = await modalPrivacyPolicyPage.accessQuestion
+    await expect(accessQuestion).toBeDisplayedInViewport
   })
 
   it("Close modal", async () => {
