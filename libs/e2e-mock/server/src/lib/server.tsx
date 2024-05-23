@@ -42,6 +42,13 @@ ipc.serve(function () {
       mockDescriptor.addResponseOnce(params.data)
     }
   })
+  ipc.server.on("server.stop", function (data, socket) {
+    logger.info("server.stop")
+    console.log("server.stop")
+    stopServer()
+    logger.info("server.stop 1")
+    console.log("server.stop 1")
+  })
 })
 
 export function startServer() {
