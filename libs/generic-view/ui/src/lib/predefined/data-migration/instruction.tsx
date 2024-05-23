@@ -7,44 +7,52 @@ import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { P1, P3 } from "../../texts/paragraphs"
 import * as ConnectionSvg from "./connection.svg"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  title: {
+    id: "module.genericViews.dataMigration.instruction.title",
+  },
+  description: {
+    id: "module.genericViews.dataMigration.instruction.description",
+  },
+  step: {
+    id: "module.genericViews.dataMigration.instruction.step",
+  },
+  step1: {
+    id: "module.genericViews.dataMigration.instruction.step1",
+  },
+  step2: {
+    id: "module.genericViews.dataMigration.instruction.step2",
+  },
+  step3: {
+    id: "module.genericViews.dataMigration.instruction.step3",
+  },
+})
 
 export const Instruction: FunctionComponent = () => {
   return (
     <InstructionWrapper>
       <Header>
-        <h2>Connect your devices</h2>
-        <P3>
-          Data can only be transferred from Pure to Kompakt
-          <br /> and not vice versa.
-        </P3>
+        <h2>{intl.formatMessage(messages.title)}</h2>
+        <P3>{intl.formatMessage(messages.description)}</P3>
       </Header>
       <Image>
         <ConnectionSvg />
       </Image>
       <Steps>
         <Step>
-          <P1>Step 1</P1>
-          <P3>
-            Connect a Pure and a Kompakt
-            <br />
-            to this computer
-          </P3>
+          <P1>{intl.formatMessage(messages.step, { number: 1 })}</P1>
+          <P3>{intl.formatMessage(messages.step1)}</P3>
         </Step>
         <Step>
-          <P1>Step 2</P1>
-          <P3>
-            Select the data to transfer
-            <br />
-            to the Kompakt
-          </P3>
+          <P1>{intl.formatMessage(messages.step, { number: 2 })}</P1>
+          <P3>{intl.formatMessage(messages.step2)}</P3>
         </Step>
         <Step>
-          <P1>Step 3</P1>
-          <P3>
-            Start the data transfer and wait
-            <br />
-            for it to finish
-          </P3>
+          <P1>{intl.formatMessage(messages.step, { number: 3 })}</P1>
+          <P3>{intl.formatMessage(messages.step3)}</P3>
         </Step>
       </Steps>
     </InstructionWrapper>

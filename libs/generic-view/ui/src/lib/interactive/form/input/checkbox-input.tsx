@@ -117,9 +117,5 @@ const Input = styled.input<{ $withError?: boolean }>`
   &:disabled + ${Label} {
     color: ${({ theme }) => theme.color.grey4};
     cursor: default;
-
-    ${InputBox} {
-      opacity: 0.5;
-    }
   }
 `

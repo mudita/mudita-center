@@ -96,7 +96,10 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
 
   const onModalClose = useCallback(async () => {
     if (pathToGoBack === URL_MAIN.dataMigration && dataMigrationSourceDevice) {
-      await selectDevice(dataMigrationSourceDevice.serialNumber, URL_MAIN.dataMigration)
+      await selectDevice(
+        dataMigrationSourceDevice.serialNumber,
+        URL_MAIN.dataMigration
+      )
       dispatch(setSourceDevice(undefined))
     } else {
       history.push(pathToGoBack || URL_MAIN.news)
@@ -111,7 +114,6 @@ export const APIDeviceInitializationModalFlow: FunctionComponent = () => {
   useEffect(() => {
     let timeout: NodeJS.Timeout
     if (!deviceLocked && menuElements && targetPath) {
-      // const firstMenuItemUrl = menuElements[0]?.items?.[0]?.button.url
       const elapsedTime = Date.now() - firstRenderTime.current
       const delay = Math.max(0, 1000 - elapsedTime)
 

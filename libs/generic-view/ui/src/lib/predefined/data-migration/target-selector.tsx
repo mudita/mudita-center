@@ -8,6 +8,17 @@ import styled from "styled-components"
 import { P3 } from "../../texts/paragraphs"
 import { Device, DeviceCard } from "./components/device-card"
 import { useDataMigrationDeviceSelector } from "shared/feature"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  title: {
+    id: "module.genericViews.dataMigration.targetSelector.title",
+  },
+  description: {
+    id: "module.genericViews.dataMigration.targetSelector.description",
+  },
+})
 
 interface Props {
   devices: Device[]
@@ -19,8 +30,8 @@ export const TargetSelector: FunctionComponent<Props> = ({ devices }) => {
   return (
     <TargetSelectorWrapper>
       <Header>
-        <h2>Please select a Kompakt as your active device</h2>
-        <P3>The active device will receive the data you transfer.</P3>
+        <h2>{intl.formatMessage(messages.title)}</h2>
+        <P3>{intl.formatMessage(messages.description)}</P3>
       </Header>
       <Devices>
         {devices.map((device) => {

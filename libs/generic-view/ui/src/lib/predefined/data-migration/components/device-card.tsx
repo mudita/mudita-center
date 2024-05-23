@@ -8,6 +8,20 @@ import styled, { css } from "styled-components"
 import { H4, H5 } from "../../../texts/headers"
 import { P3 } from "../../../texts/paragraphs"
 import { ButtonPrimary } from "../../../buttons/button-primary"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  label: {
+    id: "module.genericViews.dataMigration.targetSelector.deviceCard.label",
+  },
+  serialNumber: {
+    id: "module.genericViews.dataMigration.targetSelector.deviceCard.serialNumber",
+  },
+  selectButton: {
+    id: "module.genericViews.dataMigration.targetSelector.deviceCard.selectButton",
+  },
+})
 
 export interface Device {
   name: string
@@ -20,18 +34,18 @@ export const DeviceCard: FunctionComponent<
 > = ({ image, name, serialNumber, onSelect }) => {
   return (
     <Wrapper>
-      <Tag>Ready for Data Migration</Tag>
+      <Tag>{intl.formatMessage(messages.label)}</Tag>
       <Image>
         <img src={image} alt={name} />
       </Image>
       <Info>
         <H4>{name}</H4>
-        <P3>Serial number</P3>
+        <P3>{intl.formatMessage(messages.serialNumber)}</P3>
         <H5>{serialNumber}</H5>
       </Info>
       <SelectButton
         config={{
-          text: "Select",
+          text: intl.formatMessage(messages.selectButton),
           action: { type: "custom", callback: onSelect },
         }}
       />

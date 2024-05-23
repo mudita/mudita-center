@@ -11,6 +11,17 @@ import { DataMigrationFeature } from "generic-view/models"
 import styled from "styled-components"
 import { useSelector } from "react-redux"
 import { selectDataMigrationFeatures } from "generic-view/store"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  unlockInfo: {
+    id: "module.genericViews.dataMigration.transferSetup.unlockInfo",
+  },
+  transferButton: {
+    id: "module.genericViews.dataMigration.transferSetup.transferButton",
+  },
+})
 
 interface Props {
   features: DataMigrationFeature[]
@@ -30,10 +41,10 @@ export const TransferSetup: FunctionComponent<Props> = ({
         <FeaturesSelector features={features} />
       </Wrapper>
       <Footer>
-        <p>You may need to unlock your Pure before data transfer can start.</p>
+        <p>{intl.formatMessage(messages.unlockInfo)}</p>
         <ButtonPrimary
           config={{
-            text: "Start transfer",
+            text: intl.formatMessage(messages.transferButton),
             action: {
               type: "custom",
               callback: onStartMigration,

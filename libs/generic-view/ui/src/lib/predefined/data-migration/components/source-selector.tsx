@@ -13,6 +13,17 @@ import {
   selectDataMigrationSourceDevices,
   selectDataMigrationTargetDevice,
 } from "generic-view/store"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  from: {
+    id: "module.genericViews.dataMigration.transferSetup.from",
+  },
+  to: {
+    id: "module.genericViews.dataMigration.transferSetup.to",
+  },
+})
 
 export const SourceSelector: FunctionComponent = () => {
   const sourceDevices = useSelector(selectDataMigrationSourceDevices)
@@ -20,7 +31,7 @@ export const SourceSelector: FunctionComponent = () => {
   return (
     <Wrapper>
       <Column>
-        <H4>From</H4>
+        <H4>{intl.formatMessage(messages.from)}</H4>
         <DeviceSelector type={"source"} devices={sourceDevices} />
       </Column>
       <Column>
@@ -28,7 +39,7 @@ export const SourceSelector: FunctionComponent = () => {
         <ArrowSvg />
       </Column>
       <Column>
-        <H4>To</H4>
+        <H4>{intl.formatMessage(messages.to)}</H4>
         <DeviceSelector
           type={"target"}
           devices={targetDevice ? [targetDevice] : []}

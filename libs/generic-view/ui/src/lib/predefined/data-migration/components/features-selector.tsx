@@ -18,6 +18,9 @@ import {
 } from "generic-view/store"
 
 const messages = defineMessages({
+  title: {
+    id: "module.genericViews.dataMigration.features.title",
+  },
   [DataMigrationFeature.Notes]: {
     id: "module.genericViews.dataMigration.features.notes",
   },
@@ -67,7 +70,7 @@ export const FeaturesSelector: FunctionComponent<Props> = ({ features }) => {
 
   return (
     <Wrapper>
-      <H4>Select the data you want to transfer</H4>
+      <H4>{intl.formatMessage(messages.title)}</H4>
       <AllCheckbox
         config={{
           name: "all-features",

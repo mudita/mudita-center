@@ -18,6 +18,20 @@ import {
   setSourceDevice,
 } from "generic-view/store"
 import { DeviceId } from "Core/device/constants/device-id"
+import { defineMessages } from "react-intl"
+import { intl } from "Core/__deprecated__/renderer/utils/intl"
+
+const messages = defineMessages({
+  sourceLabel: {
+    id: "module.genericViews.dataMigration.transferSetup.deviceSelector.sourceLabel",
+  },
+  targetLabel: {
+    id: "module.genericViews.dataMigration.transferSetup.deviceSelector.targetLabel",
+  },
+  serialNumber: {
+    id: "module.genericViews.dataMigration.targetSelector.deviceCard.serialNumber",
+  },
+})
 
 type DeviceType = "source" | "target"
 
@@ -52,14 +66,18 @@ export const DeviceSelector: FunctionComponent<Props> = ({ type, devices }) => {
   return (
     <Wrapper ref={ref}>
       <CardWrapper onClick={toggleDropdown} $opened={opened}>
-        {type === "source" && <BlueTag>Source Device</BlueTag>}
-        {type === "target" && <Tag>Destination Device</Tag>}
+        {type === "source" && (
+          <BlueTag>{intl.formatMessage(messages.sourceLabel)}</BlueTag>
+        )}
+        {type === "target" && (
+          <Tag>{intl.formatMessage(messages.targetLabel)}</Tag>
+        )}
         <Image>
           <img src={selectedDevice?.image} alt={""} />
         </Image>
         <Info>
           <H4>{selectedDevice?.name}</H4>
-          <P3>Serial number</P3>
+          <P3>{intl.formatMessage(messages.serialNumber)}</P3>
           <H5>{selectedDevice?.serialNumber}</H5>
         </Info>
         <Arrow>{dropdownVisible && <DropdownArrowSvg />}</Arrow>
@@ -95,7 +113,7 @@ const ListItem: FunctionComponent<
       </Image>
       <Info>
         <H4>{name}</H4>
-        <P3>Serial number</P3>
+        <P3>{intl.formatMessage(messages.serialNumber)}</P3>
         <H5>{serialNumber}</H5>
       </Info>
       <Check>{active && <CheckSvg />}</Check>

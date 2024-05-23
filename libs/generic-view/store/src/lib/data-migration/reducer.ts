@@ -19,7 +19,6 @@ const initialState: DataMigrationState = {
 
 export const dataMigrationReducer = createReducer(initialState, (builder) => {
   builder.addCase(setSourceDevice, (state, action) => {
-    console.log("Setting source device", action.payload)
     state.sourceDevice = action.payload
   })
   builder.addCase(setDataMigrationFeatures, (state, action) => {
