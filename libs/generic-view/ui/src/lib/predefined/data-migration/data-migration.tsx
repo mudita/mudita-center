@@ -44,12 +44,10 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     selectDataMigrationTargetDevices
   ) as Device[]
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
+
   const singleDeviceConnected =
     sourceDevices.length + targetDevices.length === 1
   const noSourceDeviceSelected = !sourceDevice
-
-  console.log(targetDevices)
-
   const displayInstruction = singleDeviceConnected
   const displayTargetSelector =
     activeDevice?.deviceType === "MuditaPure" && targetDevices.length > 0
