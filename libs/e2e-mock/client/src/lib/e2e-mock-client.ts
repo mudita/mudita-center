@@ -4,14 +4,20 @@
  */
 
 import { AddKompakt, AddKompaktResponse } from "e2e-mock-server"
-import clientEmiter, { connect, disconnect } from "./ipc-client/ipc-client"
+import clientEmiter, {
+  connect,
+  disconnect,
+  getClientEmiter,
+} from "./ipc-client/ipc-client"
 
 export const E2EMockClient = {
   checkConnection: () => {
-    return !!clientEmiter
+    // console.log(clientEmiter)
+    // console.log(getClientEmiter())
+    return !!getClientEmiter()
   },
   addDevice: (kompaktPortInfo?: AddKompakt) => {
-    clientEmiter?.(
+    getClientEmiter()?.(
       "mock.add.device",
       kompaktPortInfo ?? {
         path: "hello",
@@ -20,14 +26,17 @@ export const E2EMockClient = {
     )
   },
   removeDevice: (path: string) => {
-    clientEmiter?.("mock.remove.device", path)
+    getClientEmiter()?.("mock.remove.device", path)
   },
   mockResponse: (param: AddKompaktResponse) => {
-    clientEmiter?.("mock.response.every", param)
+    getClientEmiter()?.("mock.response.every", param)
   },
   mockResponseOnce: (param: AddKompaktResponse) => {
-    clientEmiter?.("mock.response.once", param)
+    getClientEmiter()?.("mock.response.once", param)
   },
-  connect,
+  connect: () => {
+    console.log("test")
+    connect()
+  },
   disconnect,
 }
