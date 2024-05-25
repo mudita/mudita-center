@@ -46,7 +46,7 @@ export const getFiles = createAsyncThunk<
 
       const filesMapKey = getFilesMapKey(directory, deviceType)
 
-      getFilesResults[filesMapKey] = result.data as File[]
+      getFilesResults[filesMapKey] = [...result.data].reverse() as File[]
     }
 
     await dispatch(loadDeviceData())
