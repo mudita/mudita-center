@@ -16,4 +16,5 @@ export enum MenuGroupTestIds {
   Calendar = "calendar-link",
   Backup = "backup-and-recovery-link",
   Sync = "sync-info",
+  DeviceSelectionButton = "menu-group_device-selection-button",
 }
