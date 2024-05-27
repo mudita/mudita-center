@@ -30,7 +30,7 @@ export const initializeMuditaHarmony = createAsyncThunk<
     )
     await dispatch(loadSettings())
     // Handle LOAD DEVICE DATA as an initializing step
-    const result = await dispatch(loadDeviceData(true))
+    const result = await dispatch(loadDeviceData({ forceProcessOnLoad: true }))
 
     if ("error" in result) {
       return rejectWithValue(

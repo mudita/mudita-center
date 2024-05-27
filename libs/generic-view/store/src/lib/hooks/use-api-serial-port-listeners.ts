@@ -14,7 +14,7 @@ import { DeviceType } from "Core/device"
 import { setBackupProcessStatus } from "../backup/actions"
 import { closeAllModals } from "../modals/actions"
 import { selectBackupProcessStatus } from "../selectors"
-import { clearDataMigrationDevice } from "../data-migration/clear-data-migration-device.action"
+import { clearDataMigrationDevice } from "../data-migration/clear-data-migration.action"
 
 export const useAPISerialPortListeners = () => {
   const dispatch = useDispatch<Dispatch>()

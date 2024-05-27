@@ -5,7 +5,7 @@
 
 /* stylelint-disable no-duplicate-selectors */
 
-import React, { FunctionComponent, useEffect } from "react"
+import React, { FunctionComponent, useEffect, useState } from "react"
 import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
 import { useDispatch, useSelector } from "react-redux"
@@ -13,10 +13,11 @@ import {
   selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
   selectDataMigrationTargetDevices,
+  setDataMigrationStatus,
   setSourceDevice,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
-import styled from "styled-components"
+import styled, { DefaultTheme, ThemeProvider } from "styled-components"
 import { H3 } from "../../texts/headers"
 import { Divider } from "../../helpers/divider"
 import { TargetSelector, TargetSelectorWrapper } from "./target-selector"
@@ -27,6 +28,11 @@ import { Device } from "./components/device-card"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { getDeviceInfoRequest } from "Core/device-info/requests"
+import theme from "Core/core/styles/theming/theme"
+import { PurePasscode } from "./components/pure-passcode"
+import { DeviceCommunicationError } from "Core/device"
 
 const messages = defineMessages({
   header: {
@@ -37,7 +43,7 @@ const messages = defineMessages({
 const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   dataTypes,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<Dispatch>()
   const activeDevice = useSelector(getActiveDevice)
   const sourceDevices = useSelector(
     selectDataMigrationSourceDevices
@@ -47,6 +53,8 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   ) as Device[]
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
 
+  const [purePasscodeRequired, setPurePasscodeRequired] = useState(false)
+
   const singleDeviceConnected =
     sourceDevices.length + targetDevices.length === 1
   const noSourceDeviceSelected = !sourceDevice
@@ -55,9 +63,23 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     activeDevice?.deviceType === "MuditaPure" && targetDevices.length > 0
   const displayTransferSetup = !displayInstruction && !displayTargetSelector
 
-  const startMigration = () => {
+  const closePasscodeModal = () => {
+    setPurePasscodeRequired(false)
+  }
+
+  const onUnlock = () => {
+    closePasscodeModal()
+  }
+
+  const startMigration = async () => {
     // TODO: implement data migration process
     console.log("Start migration")
+    // dispatch(startDataMigrationAction())
+    const deviceInfo = await getDeviceInfoRequest(sourceDevice?.serialNumber)
+    if (deviceInfo.error?.type === DeviceCommunicationError.DeviceLocked) {
+      setPurePasscodeRequired(true)
+    }
+    console.log(deviceInfo)
   }
 
   useEffect(() => {
@@ -91,6 +113,16 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
           />
         )}
       </Content>
+      {sourceDevice && purePasscodeRequired && (
+        <ThemeProvider theme={theme as unknown as DefaultTheme}>
+          <PurePasscode
+            deviceId={sourceDevice?.serialNumber}
+            opened={purePasscodeRequired}
+            onClose={closePasscodeModal}
+            onUnlock={onUnlock}
+          />
+        </ThemeProvider>
+      )}
     </Wrapper>
   )
 }

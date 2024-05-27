@@ -76,7 +76,9 @@ export const initializeMuditaPure = createAsyncThunk<
       )
       return DeviceInitializationStatus.Aborted
     }
-    const loadDeviceDataResult = await dispatch(loadDeviceData(true))
+    const loadDeviceDataResult = await dispatch(
+      loadDeviceData({ forceProcessOnLoad: true })
+    )
     if ("error" in loadDeviceDataResult) {
       return rejectWithValue(
         new AppError(DeviceInitializationError.InitializingDeviceError)

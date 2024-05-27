@@ -68,6 +68,14 @@ export class DeviceManager {
     return device as APIDevice
   }
 
+  public getCoreDeviceById(id: DeviceId) {
+    const device = this.devicesMap.get(id)
+    if (!device || device.deviceType === DeviceType.APIDevice) {
+      return null
+    }
+    return device as CoreDevice
+  }
+
   get devices(): BaseDevice[] {
     return Array.from(this.devicesMap.values())
   }
