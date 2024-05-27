@@ -50,7 +50,6 @@ describe("News Page Check", () => {
     await expect(newsCardElements).toHaveLength(6)
 
     for (let newsCard of newsCardElements) {
-      console.log(await newsCard.getText())
       const newsCardImageLink = await newsCard.$('[data-testid="image-link"]')
       await expect(newsCardImageLink).toBeClickable()
       await expect(newsCardImageLink).toHaveAttribute("href", linkRegex)
