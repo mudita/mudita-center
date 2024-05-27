@@ -49,6 +49,7 @@ import {
   toggleItem,
 } from "Core/contacts/actions"
 import { getPaths } from "shared/app-state"
+import { googleGetContacts } from "generic-view/store"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
@@ -85,7 +86,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
           contacts =
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/await-thenable
-            (await externalProvidersStore.dispatch.google.getContacts()) as unknown as Contact[]
+            (await dispatch(googleGetContacts())).payload as unknown as Contact[]
           return getContacts(contactDatabaseFactory(contacts))
         case Provider.Apple:
           return
