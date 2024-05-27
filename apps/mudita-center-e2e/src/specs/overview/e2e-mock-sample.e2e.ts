@@ -17,6 +17,7 @@ describe("E2E mock sample - overview view", () => {
   })
 
   after(() => {
+    E2EMockClient.stopServer()
     E2EMockClient.disconnect()
   })
 
