@@ -79,13 +79,17 @@ export const googleAuthorize = createAsyncThunk<
       processResponse
     )
 
-    await new Promise<void>((resolve) =>
-      setInterval(() => {
+    let resultInterval: NodeJS.Timeout | null = null
+
+    await new Promise<void>((resolve) => {
+      resultInterval = setInterval(() => {
         result !== undefined && resolve()
       }, 100)
-    )
+    })
 
-    console.log(result)
+    if (resultInterval !== null) {
+      clearInterval(resultInterval)
+    }
     if (result?.state === "success") {
       return result.data
     }
