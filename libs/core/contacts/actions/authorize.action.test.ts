@@ -9,8 +9,16 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { initialState } from "Core/contacts/reducers"
 import { authorize } from "Core/contacts/actions/authorize.action"
 import { Provider } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
+import { fulfilledAction } from "Core/__deprecated__/renderer/store"
 
 jest.mock("Core/__deprecated__/renderer/store/external-providers")
+
+jest.mock("generic-view/store", () => ({
+  googleAuthorize: () =>
+    ({
+      type: fulfilledAction("google-authorization-process"),
+    } as unknown as jest.Mock),
+}))
 
 afterEach(() => {
   jest.resetAllMocks()
@@ -32,7 +40,16 @@ describe("async `authorize` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         authorize.pending(requestId, Provider.Google),
-        authorize.fulfilled(undefined, requestId, Provider.Google),
+        {
+          type: fulfilledAction("google-authorization-process"),
+        },
+        authorize.fulfilled(
+          {
+            type: fulfilledAction("google-authorization-process"),
+          },
+          requestId,
+          Provider.Google
+        ),
       ])
     })
   })

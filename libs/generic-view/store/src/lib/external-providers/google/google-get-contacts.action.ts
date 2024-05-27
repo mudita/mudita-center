@@ -28,8 +28,6 @@ export const googleGetContacts = createAsyncThunk<
 >(
   ActionName.GoogleGetContactsProcess,
   async (payload, { getState, dispatch, rejectWithValue, signal }) => {
-    console.log("Getting Google contacts")
-
     let contacts: GoogleContactResourceItem[] = []
     let totalItems = null
     let nextPageToken = null
