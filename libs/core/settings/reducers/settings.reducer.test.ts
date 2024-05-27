@@ -16,14 +16,9 @@ import { SettingsState } from "Core/settings/reducers"
 
 const settings: SettingsState = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
-  autostart: false,
-  tethering: false,
-  tray: true,
   osBackupLocation: `fake/path/pure/phone/backups/`,
   osDownloadLocation: `fake/path/pure/os/downloads/`,
   language: "en-US",
-  neverConnected: true,
-  collectingData: false,
   privacyPolicyAccepted: false,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
@@ -77,74 +72,6 @@ describe("Functionality: loading settings", () => {
       ...settings,
       loaded: true,
       loading: false,
-    })
-  })
-})
-
-describe("Functionality: toggle tethering", () => {
-  test("Event: ToggleTethering/fulfilled set `tethering` value", () => {
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleTethering),
-        payload: true,
-      })
-    ).toEqual({
-      ...initialState,
-      tethering: true,
-    })
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleTethering),
-        payload: false,
-      })
-    ).toEqual({
-      ...initialState,
-      tethering: false,
-    })
-  })
-})
-
-describe("Functionality: toggle data collection", () => {
-  test("Event: ToggleCollectionData/fulfilled set `collectingData` value", () => {
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleCollectionData),
-        payload: true,
-      })
-    ).toEqual({
-      ...initialState,
-      collectingData: true,
-    })
-    expect(
-      settingsReducer(undefined, {
-        type: fulfilledAction(SettingsEvent.ToggleCollectionData),
-        payload: false,
-      })
-    ).toEqual({
-      ...initialState,
-      collectingData: false,
-    })
-  })
-})
-
-describe("Functionality: diagnostic data timestamp", () => {
-  test("Event: SetDiagnosticTimestamp/fulfilled set `diagnosticSentTimestamp` value", () => {
-    const timestamp = new Date().getDate()
-
-    expect(
-      settingsReducer(
-        {
-          ...initialState,
-          diagnosticSentTimestamp: 0,
-        },
-        {
-          type: fulfilledAction(SettingsEvent.SetDiagnosticTimestamp),
-          payload: timestamp,
-        }
-      )
-    ).toEqual({
-      ...initialState,
-      diagnosticSentTimestamp: timestamp,
     })
   })
 })

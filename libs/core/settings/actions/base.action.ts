@@ -15,6 +15,8 @@ export const setSettings = createAction<
     | "updateAvailable"
     | "latestVersion"
     | "updateAvailableSkipped"
+    | "checkingForUpdate"
+    | "checkingForUpdateFailed"
   >
 >(SettingsEvent.SetSettings)
 

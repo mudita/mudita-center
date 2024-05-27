@@ -436,7 +436,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   useEffect(() => {
     if (listRef.current) {
       listRef.current.children[activeItemIndex]?.scrollIntoView({
-        behavior: "smooth",
+        behavior: "auto",
         block: "nearest",
       })
     }

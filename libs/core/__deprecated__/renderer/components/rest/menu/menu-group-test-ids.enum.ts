@@ -17,4 +17,5 @@ export enum MenuGroupTestIds {
   Backup = "backup-and-recovery-link",
   Sync = "sync-info",
   DataMigration = "data-migration-link",
+  DeviceSelectionButton = "menu-group_device-selection-button",
 }

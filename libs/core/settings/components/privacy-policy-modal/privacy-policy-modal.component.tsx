@@ -3,6 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React from "react"
+import { defineMessages } from "react-intl"
+import { useDispatch } from "react-redux"
+import { ipcRenderer } from "electron-better-ipc"
+import styled from "styled-components"
 import {
   ModalContent,
   ModalDialog,
@@ -10,24 +15,17 @@ import {
 } from "Core/ui/components/modal-dialog"
 import { ModalSize } from "Core/__deprecated__/renderer/components/core/modal/modal.interface"
 import Icon from "Core/__deprecated__/renderer/components/core/icon/icon.component"
-
-import React, { useEffect } from "react"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 import Text from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { TextDisplayStyle } from "Core/__deprecated__/renderer/components/core/text/text.component"
-import styled from "styled-components"
 import {
   fontWeight,
   textColor,
 } from "Core/core/styles/theming/theme-getters"
-import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { ipcRenderer } from "electron-better-ipc"
 import { AboutActions } from "Core/__deprecated__/common/enums/about-actions.enum"
-import { useDispatch, useSelector } from "react-redux"
 import { togglePrivacyPolicyAccepted } from "Core/settings/actions"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { deleteCollectingData } from "Core/settings/actions/delete-collecting-data.action"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
@@ -55,28 +53,13 @@ export const DescriptionText = styled(Text)`
 `
 
 const PrivacyPolicyModal: FunctionComponent = () => {
-  const { collectingData } = useSelector(
-    (state: ReduxRootState) => state.settings
-  )
-
   const dispatch = useDispatch<Dispatch>()
 
   const openPrivacyPolicyWindow = () =>
     ipcRenderer.callMain(AboutActions.PolicyOpenBrowser)
 
   const handleAgreeButtonClick = (): void => {
-    void dispatch(deleteCollectingData())
     void dispatch(togglePrivacyPolicyAccepted(true))
-  }
-
-  useEffect(() => {
-    if (collectingData === undefined) {
-      void dispatch(togglePrivacyPolicyAccepted(true))
-    }
-  }, [collectingData, dispatch])
-
-  if (collectingData === undefined) {
-    return null
   }
 
   return (

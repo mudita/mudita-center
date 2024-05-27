@@ -274,6 +274,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
         if (payload || message) {
           const newError: FormError[] = []
+
+          if (message === "Edit Contact request failed") {
+            void modalService.openModal(<ErrorDataModal />, true)
+            reject()
+            return
+          }
+
           if (
             message === "phone-number-duplicated" &&
             payload?.primaryPhoneNumberIsDuplicated

@@ -25,8 +25,7 @@ import Icon, {
   IconSize,
 } from "Core/__deprecated__/renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "Core/__deprecated__/renderer/utils/contentful/normalize-help-data"
-import ModalsManager from "Core/modals-manager/components/modals-manager.container"
-import { fontWeight } from "Core/core/styles/theming/theme-getters"
+import ModalsManager from "Core/modals-manager/components/modals-manager.component"
 import { IconButtonWithSecondaryTooltip } from "Core/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { defineMessages } from "react-intl"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
@@ -89,10 +88,6 @@ const Question = styled(Link)`
 
 const ArrowIcon = styled(Icon)`
   transform: rotate(270deg);
-`
-
-const NormalHeading = styled(Text)`
-  font-weight: ${fontWeight("default")};
 `
 
 const Help: FunctionComponent<Props> = ({

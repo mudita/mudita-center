@@ -46,6 +46,13 @@ const letterKeyEvent = {
   charCode: 0,
 } as KeyboardEvent
 
+const F1KeyEvent = {
+  key: "F1",
+  code: "F1",
+  keyCode: 112,
+  charCode: 0,
+} as KeyboardEvent
+
 const backspaceKeyEvent = {
   key: "Backspace",
   code: "Backspace",
@@ -88,9 +95,19 @@ test("Passcode inputs are disabled when filled", () => {
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 })
 
-test("Show typing error message", async () => {
+test("Show typing error message when a latter is typed", async () => {
   const { inputsList, errorMessage } = renderer()
   fireEvent.keyDown(inputsList()[0] as Element, letterKeyEvent)
+  await waitFor(() =>
+    expect(errorMessage()).toHaveTextContent(
+      "[value] component.passcodeModalErrorTyping"
+    )
+  )
+})
+
+test("Show typing error message when F1 is typed", async () => {
+  const { inputsList, errorMessage } = renderer()
+  fireEvent.keyDown(inputsList()[0] as Element, F1KeyEvent)
   await waitFor(() =>
     expect(errorMessage()).toHaveTextContent(
       "[value] component.passcodeModalErrorTyping"
