@@ -34,5 +34,8 @@ export const E2EMockClient = {
     console.log("test")
     connect()
   },
+  stopServer: () => {
+    getClientEmiter()?.("server.stop", undefined)
+  },
   disconnect,
 }
