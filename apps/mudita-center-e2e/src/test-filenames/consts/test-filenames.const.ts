@@ -14,5 +14,6 @@ export enum TestFilesPaths {
   termsOfServiceTest = "src/specs/settings/terms-of-service.e2e.ts",
   backupLocationTest = "src/specs/settings/backup-location.e2e.ts",
   mcCheckForUpdatesOfflineTest = "src/specs/settings/mc-version-check-for-updates-offline.e2e.ts",
+  privacyPolicyTest = "src/specs/settings/privacy-policy.e2e.ts",
 }
 export const toRelativePath = (path: string) => `./${path}`
