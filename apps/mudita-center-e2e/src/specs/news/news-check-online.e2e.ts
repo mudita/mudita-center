@@ -44,7 +44,6 @@ describe("News Page Check", () => {
     await lastNewsCardCommunityLinkText.scrollIntoView()
     await expect(lastNewsCardCommunityLinkText).toBeDisplayedInViewport()
   })
-  // TODO: to fix
   it.skip("Verify News Cards", async () => {
     const newsCardElements = await NewsPage.newsCardElements
     await expect(newsCardElements).toHaveLength(6)
