@@ -943,6 +943,5 @@
   "module.genericViews.dataMigration.transferSetup.transferButton": "Start transfer",
   "module.genericViews.dataMigration.transferSetup.unlockInfo": "You may need to unlock your Pure before data transfer can start.",
   "module.genericViews.dataMigration.transferSetup.deviceSelector.sourceLabel": "Source Device",
-  "module.genericViews.dataMigration.transferSetup.deviceSelector.targetLabel": "Destination Device",
-  "devices.0e8d.2006.name": "Kompakt"
+  "module.genericViews.dataMigration.transferSetup.deviceSelector.targetLabel": "Destination Device"
 }
