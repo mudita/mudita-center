@@ -54,3 +54,5 @@ export function startServer() {
 export function stopServer() {
   ipc.server.stop()
 }
+
+export const mockServiceEnabled = process.env.MOCK_DEVICE_ENABLED === "1"
