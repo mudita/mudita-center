@@ -26,7 +26,11 @@ import {
   unlockDeviceRequest,
   unlockDeviceStatusRequest,
 } from "Core/device/requests"
-import { getUnlockStatus, unlockDeviceById } from "Core/device"
+import {
+  DeviceCommunicationError,
+  getUnlockStatus,
+  unlockDeviceById,
+} from "Core/device"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { delay } from "shared/utils"
 
@@ -55,8 +59,8 @@ export const PurePasscode: FunctionComponent<Props> = ({
   const lockTimeMonitorInterval = useRef<NodeJS.Timeout>()
 
   const handleModalClose = () => {
-    onClose()
     setValues(initValue)
+    onClose()
   }
 
   const onNotAllowedKeyDown = (): void => {
@@ -67,64 +71,71 @@ export const PurePasscode: FunctionComponent<Props> = ({
     }, 1500)
   }
 
-  const unlockDevice = useCallback(
-    async (code: number[]): Promise<void> => {
-      const deviceUnlockResponse = await dispatch(
-        unlockDeviceById({
-          code,
-          deviceId,
-        })
-      )
-
-      console.log({ deviceUnlockResponse })
-      // await delay(500)
-      //
-      // const unlockStatus = await unlockDeviceStatusRequest(deviceId)
-      //
-      // console.log({ unlockStatus })
-      // if (!unlockStatus.ok) {
-      //   setErrorState(ErrorState.BadPasscode)
-      //   monitorLockStatus()
-      //   return
-      // }
-      // if (!unlockStatus.data) {
-      //   setErrorState(ErrorState.InternalServerError)
-      //   return
-      // }
-      //
-      // onUnlock()
-    },
-    [deviceId, dispatch]
-  )
-
   const monitorLockStatus = useCallback(() => {
+    console.log("start monitoring lock status")
     lockTimeMonitorInterval.current = setInterval(async () => {
       const response = await deviceLockTimeRequest(deviceId)
+      console.log({ response })
       if (response.ok) {
         const timeLeft = response.data?.timeLeftToNextAttempt
         setLeftTime(timeLeft)
-        if (!timeLeft) {
+        if (timeLeft && timeLeft <= 1) {
           clearInterval(lockTimeMonitorInterval.current)
         }
+      } else {
+        setLeftTime(undefined)
+        clearInterval(lockTimeMonitorInterval.current)
       }
     }, 500)
 
     return () => clearInterval(lockTimeMonitorInterval.current)
   }, [deviceId])
 
-  useEffect(() => {
-    void (async () => {
-      const lockTimeResponse = await deviceLockTimeRequest(deviceId)
-      const lockStatusResponse = await unlockDeviceStatusRequest(deviceId)
+  const unlockDevice = useCallback(
+    async (code: number[]): Promise<void> => {
+      const deviceUnlockResponse = (await dispatch(
+        unlockDeviceById({
+          code,
+          deviceId,
+        })
+      )) as PayloadAction<"ok" | DeviceCommunicationError>
 
-      console.log(lockTimeResponse, lockStatusResponse)
+      console.log({ deviceUnlockResponse })
 
-      if (!lockStatusResponse.ok && lockTimeResponse.ok) {
-        setErrorState(ErrorState.BadPasscode)
-        monitorLockStatus()
+      switch (deviceUnlockResponse.payload) {
+        case "ok":
+          onUnlock()
+          break
+        case DeviceCommunicationError.DeviceLocked:
+          setErrorState(ErrorState.BadPasscode)
+          monitorLockStatus()
+          break
+        default:
+          setErrorState(ErrorState.InternalServerError)
       }
-    })()
-  }, [deviceId, dispatch, monitorLockStatus])
+    },
+    [deviceId, dispatch, monitorLockStatus, onUnlock]
+  )
+
+  useEffect(() => {
+    if (values.every((value) => value !== "")) {
+      void unlockDevice(values.map((value) => parseInt(value)))
+    }
+  }, [unlockDevice, values])
+
+  // useEffect(() => {
+  //   void (async () => {
+  //     const lockTimeResponse = await deviceLockTimeRequest(deviceId)
+  //     const lockStatusResponse = await unlockDeviceStatusRequest(deviceId)
+  //
+  //     console.log(lockTimeResponse, lockStatusResponse)
+  //
+  //     if (!lockStatusResponse.ok && lockTimeResponse.ok) {
+  //       setErrorState(ErrorState.BadPasscode)
+  //       monitorLockStatus()
+  //     }
+  //   })()
+  // }, [deviceId, dispatch, monitorLockStatus])
 
   // useEffect(() => {
   //   const intervalId = setInterval(async () => {
@@ -140,18 +151,36 @@ export const PurePasscode: FunctionComponent<Props> = ({
   //   return () => clearInterval(intervalId)
   // }, [deviceId, dispatch])
 
-  useEffect(() => {
-    if (values[values.length - 1] !== "") {
-      const code = values.map((value) => parseInt(value))
+  // useEffect(() => {
+  //   if (values[values.length - 1] !== "") {
+  //     const code = values.map((value) => parseInt(value))
+  //
+  //     if (leftTime === undefined) {
+  //       void unlockDevice(code)
+  //     }
+  //   } else {
+  //     setErrorState(ErrorState.NoError)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [values])
 
-      if (leftTime === undefined) {
-        void unlockDevice(code)
-      }
-    } else {
-      setErrorState(ErrorState.NoError)
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+
+    if (
+      errorState === ErrorState.BadPasscode ||
+      errorState === ErrorState.InternalServerError
+    ) {
+      timeout = setTimeout(() => {
+        setErrorState(ErrorState.NoError)
+        setValues(initValue)
+      }, 1500)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values])
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [errorState])
 
   // useEffect(() => {
   //   let timeoutId: NodeJS.Timeout
@@ -170,24 +199,6 @@ export const PurePasscode: FunctionComponent<Props> = ({
   //     clearTimeout(timeoutId)
   //   }
   // }, [errorState])
-
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout
-
-    if (
-      errorState === ErrorState.BadPasscode ||
-      errorState === ErrorState.InternalServerError
-    ) {
-      timeoutId = setTimeout(() => {
-        setErrorState(ErrorState.NoError)
-        setValues(initValue)
-      }, 1500)
-    }
-
-    return () => {
-      clearTimeout(timeoutId)
-    }
-  }, [errorState])
 
   return (
     <PasscodeModalUI

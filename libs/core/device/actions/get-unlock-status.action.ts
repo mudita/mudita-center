@@ -39,9 +39,10 @@ export const getUnlockStatusInactive = createAsyncThunk<
   DeviceId | undefined,
   { state: ReduxRootState }
 >(DeviceEvent.GetUnlockedStatusInactive, async (deviceId) => {
+  const unlockStatus = await unlockDeviceStatusRequest(deviceId)
   const leftTimeResponse = await deviceLockTimeRequest(deviceId)
 
-  console.log(leftTimeResponse)
+  console.log({ unlockStatus, leftTimeResponse })
   if (
     leftTimeResponse.ok &&
     leftTimeResponse.data.timeLeftToNextAttempt !== undefined

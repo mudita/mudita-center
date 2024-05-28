@@ -79,7 +79,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     if (deviceInfo.error?.type === DeviceCommunicationError.DeviceLocked) {
       setPurePasscodeRequired(true)
     }
-    console.log(deviceInfo)
+    console.log({ deviceInfo })
   }
 
   useEffect(() => {

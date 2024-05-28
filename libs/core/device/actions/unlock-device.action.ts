@@ -5,8 +5,16 @@
 
 import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import { delay } from "shared/utils"
-import { DeviceError, DeviceEvent } from "Core/device/constants"
-import { unlockDeviceRequest } from "Core/device/requests"
+import {
+  DeviceCommunicationError,
+  DeviceError,
+  DeviceEvent,
+} from "Core/device/constants"
+import {
+  deviceLockTimeRequest,
+  unlockDeviceRequest,
+  unlockDeviceStatusRequest,
+} from "Core/device/requests"
 import { AppError } from "Core/core/errors"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
@@ -42,7 +50,7 @@ export const unlockDevice = createAsyncThunk<
 })
 
 export const unlockDeviceById = createAsyncThunk<
-  boolean,
+  "ok" | DeviceCommunicationError,
   { code: number[]; deviceId: DeviceId },
   { state: ReduxRootState }
 >(
@@ -62,12 +70,15 @@ export const unlockDeviceById = createAsyncThunk<
 
     await delay(500)
 
-    const unlockStatus = (await dispatch(
-      getUnlockStatusInactive(deviceId)
-    )) as PayloadAction<boolean>
+    const unlockStatus = await unlockDeviceStatusRequest(deviceId)
+    const leftTimeResponse = await deviceLockTimeRequest(deviceId)
 
-    console.log(unlockStatus)
+    console.log({ unlockStatus, leftTimeResponse })
 
-    return unlockStatus.payload
+    if (!unlockStatus.ok) {
+      return unlockStatus.error.type
+    }
+
+    return "ok"
   }
 )
