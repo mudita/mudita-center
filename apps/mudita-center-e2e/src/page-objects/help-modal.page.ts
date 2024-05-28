@@ -33,9 +33,6 @@ class HelpModalPage extends Page {
   public get singleAttachment() {
     return $('[data-testid="file-list-file"]')
   }
-  public get singleAttachmentName() {
-    return $('[data-testid="file-list-file"] p')
-  }
   public get sentSuccessModal() {
     return $('[data-testid="contact-support-modal-success"]')
   }
