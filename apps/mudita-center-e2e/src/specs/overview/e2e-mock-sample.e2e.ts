@@ -1,8 +1,5 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import {
-  outboxReloadOverview,
-  overviewDataWithoutBadge,
-} from "../../../../../libs/e2e-mock/responses/src"
+import { outboxReloadOverview } from "../../../../../libs/e2e-mock/responses/src"
 import { mockResponseTomasz } from "../../consts/mockresponse-const"
 import screenshotHelper from "../../helpers/screenshot.helper"
 
@@ -11,7 +8,6 @@ describe("E2E mock sample - overview view", () => {
     E2EMockClient.connect()
     //wait for a connection to be established
     await browser.waitUntil(() => {
-      console.log("test 123123")
       return E2EMockClient.checkConnection()
     })
   })

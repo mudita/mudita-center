@@ -8,8 +8,6 @@ import { connect, disconnect, getClientEmiter } from "./ipc-client/ipc-client"
 
 export const E2EMockClient = {
   checkConnection: () => {
-    // console.log(clientEmiter)
-    // console.log(getClientEmiter())
     return !!getClientEmiter()
   },
   addDevice: (kompaktPortInfo?: AddKompakt) => {
@@ -31,7 +29,6 @@ export const E2EMockClient = {
     getClientEmiter()?.("mock.response.once", param)
   },
   connect: () => {
-    console.log("test")
     connect()
   },
   stopServer: () => {

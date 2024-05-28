@@ -43,11 +43,7 @@ ipc.serve(function () {
     }
   })
   ipc.server.on("server.stop", function (data, socket) {
-    logger.info("server.stop")
-    console.log("server.stop")
     stopServer()
-    logger.info("server.stop 1")
-    console.log("server.stop 1")
   })
 })
 
@@ -56,9 +52,5 @@ export function startServer() {
 }
 
 export function stopServer() {
-  logger.info("stopping mock server")
-  console.log("stopping mock server")
   ipc.server.stop()
-  logger.info("mock server stopped")
-  console.log("mock server stopped")
 }

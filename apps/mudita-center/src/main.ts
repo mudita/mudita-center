@@ -283,19 +283,11 @@ if (!gotTheLock) {
   app.on("ready", createWindow)
 
   app.on("before-quit", () => {
-    console.log("before-quit")
-    logger.info("before-quit")
     stopServer()
   })
-  app.on("will-quit", () => {
-    console.log("will-quit")
-    logger.info("will-quit")
-  })
+  app.on("will-quit", () => {})
 
   app.on("window-all-closed", () => {
-    console.log("window-all-closed")
-    logger.info("window-all-closed")
-    // stopServer()
     app.quit()
   })
 
