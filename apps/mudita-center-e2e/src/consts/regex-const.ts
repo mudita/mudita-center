@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const LinkRegex: RegExp =
+export const linkRegex: RegExp =
   /^(https?:\/\/)(mudita.com\/community|forum.mudita.com\/t).*$/
 export const newsImageRegex: RegExp = /(^data:image;base64)/
 export const newsDateRegex: RegExp =
