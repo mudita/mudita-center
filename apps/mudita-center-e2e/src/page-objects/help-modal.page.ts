@@ -7,62 +7,42 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class HelpModalPage extends Page {
-  /**[Selector]  Modal close button  */
-  public get closeModalButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get closeModalButton() {
     return $('[data-testid="close-modal-button"]')
   }
-  /**[Selector]  Modal title  */
-  public get modalHeader(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get modalHeader() {
     return $('[data-testid="modal-header"]')
   }
-  /**[Selector]  Contact support email input  */
-  public get emailInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
-    return $('[data-testid="email-input"]')
-  }
-  /**[Selector]  Contact support message input  */
-  public get descriptionInput(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
-    return $('[data-testid="description-input"]')
-  }
-  /**[Selector]  Send button */
-  public get sendButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
-    return $('[data-testid="submit-button"]')
+  public get modalHeaderTitle() {
+    return $('[data-testid="modal-title"]')
   }
 
-  /** returns an Array containing list of attached files */
+  public get emailInput() {
+    return $('[data-testid="email-input"]')
+  }
+
+  public get descriptionInput() {
+    return $('[data-testid="description-input"]')
+  }
+  public get sendButton() {
+    return $('[data-testid="submit-button"]')
+  }
   async attachmentsList() {
     return $('[data-testid="file-list"]').$$('[data-testid="file-list-file"]')
   }
-  /**[Selector]  single attachment element */
-  public get singleAttachment(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get singleAttachment() {
     return $('[data-testid="file-list-file"]')
   }
-  /**[Selector] Success sent message modal */
-  public get sentSuccessModal(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get singleAttachmentName() {
+    return $('[data-testid="file-list-file"] p')
+  }
+  public get sentSuccessModal() {
     return $('[data-testid="contact-support-modal-success"]')
   }
-  /**[Selector] Close bottom button */
-  public get closeBottomButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get closeBottomButton() {
     return $('[data-testid="close-bottom-button"]')
   }
-  public get invalidEmailTextElement(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get invalidEmailTextElement() {
     return $('//input[@data-testid="email-input"]/following-sibling::*[1]')
   }
 }
