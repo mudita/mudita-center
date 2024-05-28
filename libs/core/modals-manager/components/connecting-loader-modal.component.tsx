@@ -75,7 +75,7 @@ const ConnectingLoaderModal: FunctionComponent = () => {
           ![
             URL_DISCOVERY_DEVICE.root,
             URL_MAIN.dataMigration,
-            "/generic/mc-data-migration",
+            URL_MAIN.dataMigrationKompakt,
           ].includes(pathname) &&
           discoveryStatus !== DiscoveryStatus.Aborted
         ) {
