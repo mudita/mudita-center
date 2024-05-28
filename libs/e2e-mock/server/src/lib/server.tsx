@@ -4,12 +4,13 @@
  */
 
 import ipc from "node-ipc"
+import logger from "Core/__deprecated__/main/utils/logger"
 import {
   addKompaktResponseValidator,
   addKompaktValidator,
 } from "./mock-descriptor/mock-descriptor-validators"
 import { mockDescriptor } from "./mock-descriptor/mock-descriptor"
-import logger from "Core/__deprecated__/main/utils/logger"
+import { mockUpdaterStateService } from "./mock-updater-state.service"
 
 ipc.config.id = "MC"
 ipc.config.retry = 15
@@ -43,6 +44,9 @@ ipc.serve(function () {
   })
   ipc.server.on("server.stop", function (data, socket) {
     stopServer()
+  })
+  ipc.server.on("set.mock.updater.enabled.state", function (data: boolean) {
+    mockUpdaterStateService.enabled = data
   })
 })
 
