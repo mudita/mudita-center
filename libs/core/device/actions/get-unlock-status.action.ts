@@ -5,10 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceEvent } from "Core/device/constants"
-import {
-  deviceLockTimeRequest,
-  unlockDeviceStatusRequest,
-} from "Core/device/requests"
+import { unlockDeviceStatusRequest } from "Core/device/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { setLockTime } from "Core/device/actions/base.action"
 import { getLeftTimeSelector } from "Core/device/selectors"
@@ -32,23 +29,4 @@ export const getUnlockStatus = createAsyncThunk<
   }
 
   return ok
-})
-
-export const getUnlockStatusInactive = createAsyncThunk<
-  number | undefined,
-  DeviceId | undefined,
-  { state: ReduxRootState }
->(DeviceEvent.GetUnlockedStatusInactive, async (deviceId) => {
-  const unlockStatus = await unlockDeviceStatusRequest(deviceId)
-  const leftTimeResponse = await deviceLockTimeRequest(deviceId)
-
-  console.log({ unlockStatus, leftTimeResponse })
-  if (
-    leftTimeResponse.ok &&
-    leftTimeResponse.data.timeLeftToNextAttempt !== undefined
-  ) {
-    return leftTimeResponse.data.timeLeftToNextAttempt
-  }
-
-  return undefined
 })

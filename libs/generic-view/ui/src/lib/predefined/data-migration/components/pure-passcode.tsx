@@ -21,22 +21,13 @@ import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 import PasscodeModalUI from "Core/device-initialization/components/passcode-modal/passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Core/__deprecated__/common/enums/help-actions.enum"
-import {
-  deviceLockTimeRequest,
-  unlockDeviceRequest,
-  unlockDeviceStatusRequest,
-} from "Core/device/requests"
-import {
-  DeviceCommunicationError,
-  getUnlockStatus,
-  unlockDeviceById,
-} from "Core/device"
+import { deviceLockTimeRequest } from "Core/device/requests"
+import { DeviceCommunicationError, unlockDeviceById } from "Core/device"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { delay } from "shared/utils"
+import { getDeviceInfoRequest } from "Core/device-info/requests"
 
 interface Props {
   deviceId: DeviceId
-  opened: boolean
   onClose: VoidFunction
   onUnlock: VoidFunction
 }
@@ -45,7 +36,6 @@ const initValue = ["", "", "", ""]
 
 export const PurePasscode: FunctionComponent<Props> = ({
   deviceId,
-  opened,
   onClose,
   onUnlock,
 }) => {
@@ -53,10 +43,12 @@ export const PurePasscode: FunctionComponent<Props> = ({
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
   const [values, setValues] = useState<string[]>(initValue)
   const [leftTime, setLeftTime] = useState<number | undefined>(undefined)
-  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
-  let timeoutId3: NodeJS.Timeout
+  const notAllowedTimeout = useRef<NodeJS.Timeout>()
   const lockTimeMonitorInterval = useRef<NodeJS.Timeout>()
+  const unlockMonitorInterval = useRef<NodeJS.Timeout>()
+
+  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
   const handleModalClose = () => {
     setValues(initValue)
@@ -64,31 +56,34 @@ export const PurePasscode: FunctionComponent<Props> = ({
   }
 
   const onNotAllowedKeyDown = (): void => {
-    clearTimeout(timeoutId3)
+    clearTimeout(notAllowedTimeout.current)
     setErrorState(ErrorState.TypingError)
-    timeoutId3 = setTimeout(() => {
+    notAllowedTimeout.current = setTimeout(() => {
       setErrorState(ErrorState.NoError)
     }, 1500)
   }
 
-  const monitorLockStatus = useCallback(() => {
-    console.log("start monitoring lock status")
-    lockTimeMonitorInterval.current = setInterval(async () => {
+  const monitorLockStatus = useCallback(async () => {
+    const checkStatus = async () => {
       const response = await deviceLockTimeRequest(deviceId)
-      console.log({ response })
       if (response.ok) {
         const timeLeft = response.data?.timeLeftToNextAttempt
         setLeftTime(timeLeft)
         if (timeLeft && timeLeft <= 1) {
+          setLeftTime(undefined)
           clearInterval(lockTimeMonitorInterval.current)
         }
       } else {
         setLeftTime(undefined)
         clearInterval(lockTimeMonitorInterval.current)
       }
-    }, 500)
+    }
+    await checkStatus()
+    lockTimeMonitorInterval.current = setInterval(checkStatus, 5000)
 
-    return () => clearInterval(lockTimeMonitorInterval.current)
+    return () => {
+      clearInterval(lockTimeMonitorInterval.current)
+    }
   }, [deviceId])
 
   const unlockDevice = useCallback(
@@ -100,15 +95,13 @@ export const PurePasscode: FunctionComponent<Props> = ({
         })
       )) as PayloadAction<"ok" | DeviceCommunicationError>
 
-      console.log({ deviceUnlockResponse })
-
       switch (deviceUnlockResponse.payload) {
         case "ok":
           onUnlock()
           break
         case DeviceCommunicationError.DeviceLocked:
           setErrorState(ErrorState.BadPasscode)
-          monitorLockStatus()
+          void monitorLockStatus()
           break
         default:
           setErrorState(ErrorState.InternalServerError)
@@ -123,46 +116,18 @@ export const PurePasscode: FunctionComponent<Props> = ({
     }
   }, [unlockDevice, values])
 
-  // useEffect(() => {
-  //   void (async () => {
-  //     const lockTimeResponse = await deviceLockTimeRequest(deviceId)
-  //     const lockStatusResponse = await unlockDeviceStatusRequest(deviceId)
-  //
-  //     console.log(lockTimeResponse, lockStatusResponse)
-  //
-  //     if (!lockStatusResponse.ok && lockTimeResponse.ok) {
-  //       setErrorState(ErrorState.BadPasscode)
-  //       monitorLockStatus()
-  //     }
-  //   })()
-  // }, [deviceId, dispatch, monitorLockStatus])
+  useEffect(() => {
+    unlockMonitorInterval.current = setInterval(async () => {
+      const response = await getDeviceInfoRequest(deviceId)
+      if (response.ok) {
+        onUnlock()
+      }
+    }, 1000)
 
-  // useEffect(() => {
-  //   const intervalId = setInterval(async () => {
-  //     const result = await unlockDeviceStatusRequest(deviceId)
-  //
-  //     console.log({ result })
-  //     if (!result.ok) {
-  //       const response = await dispatch(deviceLockTimeRequest(deviceId))
-  //       console.log({ response })
-  //     }
-  //   }, 15000)
-  //
-  //   return () => clearInterval(intervalId)
-  // }, [deviceId, dispatch])
-
-  // useEffect(() => {
-  //   if (values[values.length - 1] !== "") {
-  //     const code = values.map((value) => parseInt(value))
-  //
-  //     if (leftTime === undefined) {
-  //       void unlockDevice(code)
-  //     }
-  //   } else {
-  //     setErrorState(ErrorState.NoError)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [values])
+    return () => {
+      clearInterval(unlockMonitorInterval.current)
+    }
+  }, [deviceId, onUnlock])
 
   useEffect(() => {
     let timeout: NodeJS.Timeout
@@ -182,27 +147,9 @@ export const PurePasscode: FunctionComponent<Props> = ({
     }
   }, [errorState])
 
-  // useEffect(() => {
-  //   let timeoutId: NodeJS.Timeout
-  //
-  //   if (
-  //     errorState === ErrorState.BadPasscode ||
-  //     errorState === ErrorState.InternalServerError
-  //   ) {
-  //     timeoutId = setTimeout(() => {
-  //       setErrorState(ErrorState.NoError)
-  //       setValues(initValue)
-  //     }, 1500)
-  //   }
-  //
-  //   return () => {
-  //     clearTimeout(timeoutId)
-  //   }
-  // }, [errorState])
-
   return (
     <PasscodeModalUI
-      openModal={opened}
+      openModal={true}
       close={handleModalClose}
       errorMessage={ErrorMessageMap[errorState]}
       values={values}

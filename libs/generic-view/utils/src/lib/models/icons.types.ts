@@ -43,4 +43,5 @@ export enum IconType {
   Search = "search",
   Import = "import",
   DataMigration = "data-migration",
+  Information = "information",
 }

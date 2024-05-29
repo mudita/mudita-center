@@ -11,16 +11,12 @@ import {
   DeviceEvent,
 } from "Core/device/constants"
 import {
-  deviceLockTimeRequest,
   unlockDeviceRequest,
   unlockDeviceStatusRequest,
 } from "Core/device/requests"
 import { AppError } from "Core/core/errors"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import {
-  getUnlockStatus,
-  getUnlockStatusInactive,
-} from "Core/device/actions/get-unlock-status.action"
+import { getUnlockStatus } from "Core/device/actions/get-unlock-status.action"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export const unlockDevice = createAsyncThunk<
@@ -54,7 +50,7 @@ export const unlockDeviceById = createAsyncThunk<
   { code: number[]; deviceId: DeviceId },
   { state: ReduxRootState }
 >(
-  DeviceEvent.UnlockInactive,
+  DeviceEvent.UnlockById,
   async ({ code, deviceId }, { rejectWithValue, dispatch }) => {
     const unlockDeviceResult = await unlockDeviceRequest(code, deviceId)
 
@@ -71,9 +67,6 @@ export const unlockDeviceById = createAsyncThunk<
     await delay(500)
 
     const unlockStatus = await unlockDeviceStatusRequest(deviceId)
-    const leftTimeResponse = await deviceLockTimeRequest(deviceId)
-
-    console.log({ unlockStatus, leftTimeResponse })
 
     if (!unlockStatus.ok) {
       return unlockStatus.error.type

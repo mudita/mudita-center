@@ -15,8 +15,10 @@ import { DataMigrationFeature } from "generic-view/models"
 export type DataMigrationStatus =
   | "idle"
   | "pure-password-required"
-  | "pure-os-update-required"
-  | "pure-eula-required"
+  | "pure-critical-battery"
+  | "pure-onboarding-required"
+  | "pure-update-required"
+  | "pure-connection-failed"
   | "in-progress"
 
 interface DataMigrationState {
