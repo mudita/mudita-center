@@ -15,17 +15,17 @@ import { handleCommunicationError } from "Core/device/actions/handle-communicati
 
 export const loadDeviceData = createAsyncThunk<
   DeviceInfo & Pick<DeviceState, "deviceType">,
-  { forceProcessOnLoad?: boolean; deviceId?: string } | undefined,
+  boolean | undefined,
   { state: ReduxRootState }
 >(
   DeviceEvent.LoadDeviceData,
   async (
-    { forceProcessOnLoad = false, deviceId } = {},
+    forceProcessOnLoad = false,
     { dispatch, rejectWithValue, getState }
   ) => {
     try {
       const deviceType = getActiveDeviceTypeSelector(getState())
-      const { ok, data, error } = await getDeviceInfoRequest(deviceId)
+      const { ok, data, error } = await getDeviceInfoRequest()
 
       if (ok) {
         if (forceProcessOnLoad) {

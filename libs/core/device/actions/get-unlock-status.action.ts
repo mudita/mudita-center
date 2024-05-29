@@ -10,16 +10,15 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { setLockTime, setUnlockedStatus } from "Core/device/actions/base.action"
 import { getLeftTimeSelector } from "Core/device/selectors"
 import { handleCommunicationError } from "Core/device/actions/handle-communication-error.action"
-import { DeviceId } from "Core/device/constants/device-id"
 
 export type UnlockStatus = "UNLOCKED" | "LOCKED" | "ABORTED"
 
 export const getUnlockStatus = createAsyncThunk<
   UnlockStatus,
-  DeviceId | undefined,
+  void,
   { state: ReduxRootState }
->(DeviceEvent.GetUnlockedStatus, async (deviceId, { dispatch, getState }) => {
-  const result = await unlockDeviceStatusRequest(deviceId)
+>(DeviceEvent.GetUnlockedStatus, async (_, { dispatch, getState }) => {
+  const result = await unlockDeviceStatusRequest()
   const { ok, error } = result
   const leftTime = getLeftTimeSelector(getState())
 

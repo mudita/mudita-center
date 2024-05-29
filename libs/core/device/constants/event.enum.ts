@@ -12,7 +12,6 @@ export enum DeviceEvent {
   Unlocked = "DEVICE_UNLOCKED",
   SetLockTime = "DEVICE_SET_LOCK_TIME",
   GetUnlockedStatus = "DEVICE_GET_UNLOCKED_STATUS",
-  GetUnlockedStatusInactive = "DEVICE_GET_UNLOCKED_STATUS_INACTIVE",
   SetUnlockedStatus = "DEVICE_SET_UNLOCKED_STATUS",
 
   GetOnboardingStatus = "DEVICE_GET_ONBOARDING_STATUS",
