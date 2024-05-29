@@ -17,7 +17,7 @@ jobs:
           node-version: 18.16.1
       - name: Setup environment variables
         env:
-          CI: "true"
+          E2ECI: "true"
           TEST_GITHUB_TOKEN: ${{ secrets.MC_GITHUB_ACCESS_TOKEN }}
           TEST_BINARY_PATH: "../mudita-center/release/linux-unpacked/Mudita Center"
           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}

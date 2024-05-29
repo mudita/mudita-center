@@ -55,13 +55,28 @@ exports.config = {
         (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.messagesInAppNavigationTest),
         (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.helpWindowCheckTest),
         (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.mcCheckForUpdatesTest),
-        (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.homePageTestDeviceNotConnectedTest)
+        (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.homePageTestDeviceNotConnectedTest),
+        (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.newsPageOnlineTest),
+        (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.termsOfServiceTest),
+        (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.backupLocationTest),
+        (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.mcCheckForUpdatesOfflineTest),
+        (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.e2eMockSample),
+        (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.privacyPolicyTest),
     ],
     suites: {
         standalone: [
             (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.helpWindowCheckTest),
             (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.mcCheckForUpdatesTest),
-            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.homePageTestDeviceNotConnectedTest)
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.homePageTestDeviceNotConnectedTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.newsPageOnlineTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.termsOfServiceTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.backupLocationTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.mcCheckForUpdatesOfflineTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.homePageTestDeviceNotConnectedTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.newsPageOnlineTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.termsOfServiceTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.e2eMockSample),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.privacyPolicyTest),
         ],
         multidevicePureHarmony: [],
         multideviceSingleHarmony: [],
@@ -71,15 +86,17 @@ exports.config = {
         multideviceHarmonyKompakt: [],
         multideviceGeneral: [],
         harmony: [],
-        pure: [
-            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.messagesInAppNavigationTest),
-        ],
+        pure: [(0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.messagesInAppNavigationTest)],
         kompakt: [],
         deviceUpdate: [],
         cicd: [
             (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.helpWindowCheckTest),
             (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.mcCheckForUpdatesTest),
-            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.homePageTestDeviceNotConnectedTest)
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.mcCheckForUpdatesOfflineTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.homePageTestDeviceNotConnectedTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.newsPageOnlineTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.termsOfServiceTest),
+            (0, test_filenames_1.toRelativePath)(test_filenames_1.TestFilesPaths.privacyPolicyTest),
         ],
     },
     // Patterns to exclude.

@@ -4,17 +4,13 @@
  */
 
 export interface Settings {
+  settingsSchemaVersion?: number
   applicationId: string | null
   osBackupLocation: string
   osDownloadLocation: string
   language: string
   ignoredCrashDumps: string[]
   diagnosticSentTimestamp: number
-  collectingData: boolean | undefined
   privacyPolicyAccepted: boolean | undefined
-  neverConnected: boolean
-  tray: boolean
-  autostart: boolean
-  tethering: boolean
   usbAccessRestartRequired: boolean
 }

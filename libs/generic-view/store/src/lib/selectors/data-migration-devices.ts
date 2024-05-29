@@ -8,14 +8,11 @@ import { createSelector } from "@reduxjs/toolkit"
 import pureBlackImage from "Core/__deprecated__/renderer/images/pure-black-render.png"
 import pureGreyImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
 import { kompaktImg } from "Root/demo-data/kompakt-img"
-import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { defineMessages } from "react-intl"
 
-const messages = defineMessages({
-  "0e8d.2006": {
-    id: "devices.0e8d.2006.name",
-  },
-})
+// FIXME: The device name should be moved to the API config response of API device
+const messages = {
+  "0e8d.2006": "Kompakt",
+}
 
 export const selectDataMigrationSourceDevices = createSelector(
   (state: ReduxRootState) => state.deviceManager.devices,
@@ -35,11 +32,10 @@ export const selectDataMigrationTargetDevices = createSelector(
     return Object.values(devices)
       .map((device) => {
         if (!device.apiConfig) return undefined
-        const name = intl.formatMessage(
+        const name =
           messages[
             `${device.apiConfig.vendorId}.${device.apiConfig.productId}` as keyof typeof messages
           ]
-        )
         return {
           name,
           image: kompaktImg, // TODO: Add variant support

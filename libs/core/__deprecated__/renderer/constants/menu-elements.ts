@@ -57,7 +57,7 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.DataMigration,
     visibleOn: [DeviceType.MuditaPure],
     viewKey: View.DataMigration,
-  }
+  },
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [
@@ -107,16 +107,6 @@ export interface MenuElement {
 }
 
 export const baseMenuElements: MenuElement[] = [
-  {
-    items: [
-      {
-        button: views[View.Onboarding],
-        icon: IconType.Send,
-        visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
-      },
-    ],
-    viewKey: View.Onboarding,
-  },
   {
     items: [
       {

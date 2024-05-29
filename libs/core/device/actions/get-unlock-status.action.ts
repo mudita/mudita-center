@@ -4,20 +4,23 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceEvent } from "Core/device/constants"
+import { DeviceCommunicationError, DeviceEvent } from "Core/device/constants"
 import { unlockDeviceStatusRequest } from "Core/device/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { setLockTime } from "Core/device/actions/base.action"
+import { setLockTime, setUnlockedStatus } from "Core/device/actions/base.action"
 import { getLeftTimeSelector } from "Core/device/selectors"
 import { handleCommunicationError } from "Core/device/actions/handle-communication-error.action"
 import { DeviceId } from "Core/device/constants/device-id"
 
+export type UnlockStatus = "UNLOCKED" | "LOCKED" | "ABORTED"
+
 export const getUnlockStatus = createAsyncThunk<
-  boolean,
+  UnlockStatus,
   DeviceId | undefined,
   { state: ReduxRootState }
 >(DeviceEvent.GetUnlockedStatus, async (deviceId, { dispatch, getState }) => {
-  const { ok, error } = await unlockDeviceStatusRequest(deviceId)
+  const result = await unlockDeviceStatusRequest(deviceId)
+  const { ok, error } = result
   const leftTime = getLeftTimeSelector(getState())
 
   if (ok && leftTime !== undefined) {
@@ -28,5 +31,15 @@ export const getUnlockStatus = createAsyncThunk<
     await dispatch(handleCommunicationError(error))
   }
 
-  return ok
+  if (error?.type === DeviceCommunicationError.DeviceLocked) {
+    dispatch(setUnlockedStatus(false))
+    return "LOCKED"
+  }
+
+  if (ok) {
+    dispatch(setUnlockedStatus(true))
+    return "UNLOCKED"
+  } else {
+    return "ABORTED"
+  }
 })

@@ -55,11 +55,9 @@ export const initializeMuditaPure = createAsyncThunk<
       return DeviceInitializationStatus.Aborted
     }
     const unlockStatus = await dispatch(getUnlockStatus())
-    if (!unlockStatus.payload) {
+    if (unlockStatus.payload === "LOCKED") {
       return DeviceInitializationStatus.Initializing
-    }
-
-    if (!isActiveDeviceAttachedSelector(getState())) {
+    } else if (unlockStatus.payload === "ABORTED") {
       dispatch(
         setDeviceInitializationStatus(DeviceInitializationStatus.Aborted)
       )
