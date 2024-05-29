@@ -90,7 +90,7 @@ export const ManageSoundsPanel: FunctionComponent<FilesManagerPanelProps> = ({
   }
 
   const handleSoundsButtonTabClick = () => {
-    dispatch(setActiveSoundApp("HARMONY_ALARMS"))
+    dispatch(setActiveSoundApp("HARMONY_ALARM"))
   }
 
   const handleRelaxationButtonTabClick = () => {
@@ -125,7 +125,7 @@ export const ManageSoundsPanel: FunctionComponent<FilesManagerPanelProps> = ({
                 displayStyle={DisplayStyle.Tab}
                 labelMessage={messages.alarmsTab}
                 className={
-                  activeSoundApp === "HARMONY_ALARMS" ? activeClassName : ""
+                  activeSoundApp === "HARMONY_ALARM" ? activeClassName : ""
                 }
                 onClick={handleSoundsButtonTabClick}
               />
