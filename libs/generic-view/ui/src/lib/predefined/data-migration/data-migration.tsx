@@ -14,12 +14,11 @@ import {
   selectDataMigrationSourceDevices,
   selectDataMigrationStatus,
   selectDataMigrationTargetDevices,
-  setDataMigrationStatus,
   setSourceDevice,
   startDataMigration,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
-import styled, { DefaultTheme, ThemeProvider } from "styled-components"
+import styled from "styled-components"
 import { H3 } from "../../texts/headers"
 import { Divider } from "../../helpers/divider"
 import { TargetSelector, TargetSelectorWrapper } from "./target-selector"
@@ -31,10 +30,10 @@ import { getActiveDevice } from "Core/device-manager/selectors/get-active-device
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import theme from "Core/core/styles/theming/theme"
-import { PurePasscode } from "./components/pure-passcode"
 import { PureErrorModal } from "./components/pure-error-modal"
 import { TransferErrorModal } from "./components/transfer-error-modal"
+import { PurePasscodeModal } from "./components/pure-passcode-modal"
+import { ProgressModal } from "./components/progress-modal"
 
 const messages = defineMessages({
   header: {
@@ -63,16 +62,8 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     activeDevice?.deviceType === "MuditaPure" && targetDevices.length > 0
   const displayTransferSetup = !displayInstruction && !displayTargetSelector
 
-  const closePasscodeModal = () => {
-    dispatch(setDataMigrationStatus("idle"))
-  }
-
   const startMigration = () => {
     dispatch(startDataMigration())
-  }
-
-  const onUnlock = () => {
-    startMigration()
   }
 
   useEffect(() => {
@@ -106,17 +97,13 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
           />
         )}
       </Content>
-      {sourceDevice && dataMigrationStatus === "pure-password-required" && (
-        <ThemeProvider theme={theme as unknown as DefaultTheme}>
-          <PurePasscode
-            deviceId={sourceDevice?.serialNumber}
-            onClose={closePasscodeModal}
-            onUnlock={onUnlock}
-          />
-        </ThemeProvider>
-      )}
+      <PurePasscodeModal
+        deviceId={sourceDevice?.serialNumber}
+        onUnlock={startMigration}
+      />
       <PureErrorModal />
       <TransferErrorModal />
+      <ProgressModal />
     </Wrapper>
   )
 }

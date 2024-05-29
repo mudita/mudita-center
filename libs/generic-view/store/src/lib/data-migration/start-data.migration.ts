@@ -21,18 +21,20 @@ export const startDataMigration = createAsyncThunk<
   const { dataMigration, settings } = getState()
 
   const { error } = await unlockDeviceStatusRequest(dataMigration.sourceDevice)
-  switch (error?.type) {
-    case DeviceCommunicationError.DeviceLocked:
-      dispatch(setDataMigrationStatus("pure-password-required"))
-      return
-    case DeviceCommunicationError.BatteryCriticalLevel:
-      dispatch(setDataMigrationStatus("pure-critical-battery"))
-      return
-    case DeviceCommunicationError.DeviceOnboardingNotFinished:
-      dispatch(setDataMigrationStatus("pure-onboarding-required"))
-      break
-    default:
-      dispatch(setDataMigrationStatus("pure-connection-failed"))
+  if (error) {
+    switch (error.type) {
+      case DeviceCommunicationError.DeviceLocked:
+        dispatch(setDataMigrationStatus("pure-password-required"))
+        return
+      case DeviceCommunicationError.BatteryCriticalLevel:
+        dispatch(setDataMigrationStatus("pure-critical-battery"))
+        return
+      case DeviceCommunicationError.DeviceOnboardingNotFinished:
+        dispatch(setDataMigrationStatus("pure-onboarding-required"))
+        break
+      default:
+        dispatch(setDataMigrationStatus("pure-connection-failed"))
+    }
   }
 
   const deviceInfo = await getDeviceInfoRequest(dataMigration.sourceDevice)
