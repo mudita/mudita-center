@@ -34,7 +34,7 @@ export class ApplicationUpdaterModule {
       return new DynamicMockApplicationUpdaterService(
         mockUpdaterStateService,
         applicationUpdaterService,
-        new MockApplicationUpdaterService(onlineStatusService)
+        new MockApplicationUpdaterService(onlineStatusService, mockUpdaterStateService)
       )
     }
   }

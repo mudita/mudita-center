@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AddKompakt, AddKompaktResponse } from "e2e-mock-server"
+import { AddKompakt, AddKompaktResponse, UpdateState } from "e2e-mock-server"
 import { connect, disconnect, getClientEmiter } from "./ipc-client/ipc-client"
 
 export const E2EMockClient = {
@@ -36,6 +36,9 @@ export const E2EMockClient = {
   },
   disconnect,
   setMockUpdaterEnabledState: (param: boolean) => {
-    clientEmiter?.("set.mock.updater.enabled.state", param)
+    getClientEmiter?.("set.mock.updater.enabled.state", param)
+  },
+  setMockUpdateState: (param: UpdateState) => {
+    getClientEmiter?.("set.mock.update.state", param)
   },
 }
