@@ -925,7 +925,7 @@
   "module.genericViews.dataMigration.features.callLog": "Call log",
   "module.genericViews.dataMigration.features.contacts": "Contacts",
   "module.genericViews.dataMigration.features.messages": "Messages",
-  "module.genericViews.dataMigration.features.multimedia": "Multimedia",
+  "module.genericViews.dataMigration.features.multimedia": "Multimedia files",
   "module.genericViews.dataMigration.features.selectAll": "Select all",
   "module.genericViews.dataMigration.instruction.title": "Connect your devices",
   "module.genericViews.dataMigration.instruction.description": "Data can only be transferred from Pure to Kompakt\nand not vice versa.",
