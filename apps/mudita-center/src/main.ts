@@ -284,7 +284,6 @@ if (!gotTheLock) {
   app.on("before-quit", () => {
     stopServer()
   })
-  app.on("will-quit", () => {})
 
   app.on("window-all-closed", () => {
     app.quit()

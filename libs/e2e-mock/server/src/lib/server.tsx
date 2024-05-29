@@ -12,7 +12,6 @@ import { mockDescriptor } from "./mock-descriptor/mock-descriptor"
 import logger from "Core/__deprecated__/main/utils/logger"
 
 ipc.config.id = "MC"
-// ipc.config.retry = 1500
 ipc.config.retry = 15
 
 const instanceID = Math.floor(Math.random() * 10000)
