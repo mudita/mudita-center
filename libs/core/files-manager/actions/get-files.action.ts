@@ -4,6 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { delay } from "shared/utils"
 import {
   FilesManagerEvent,
   DeviceDirectory,
@@ -23,6 +24,7 @@ export const getFiles = createAsyncThunk<
 >(
   FilesManagerEvent.GetFiles,
   async (_, { rejectWithValue, dispatch, getState }) => {
+    await delay(500)
     const deviceType = getActiveDeviceTypeSelector(getState())
     if (deviceType === undefined) {
       return rejectWithValue("device Type isn't set")
@@ -44,7 +46,7 @@ export const getFiles = createAsyncThunk<
 
       const filesMapKey = getFilesMapKey(directory, deviceType)
 
-      getFilesResults[filesMapKey] = result.data as File[]
+      getFilesResults[filesMapKey] = [...result.data].reverse() as File[]
     }
 
     await dispatch(loadDeviceData())
@@ -68,10 +70,10 @@ const getFilesMapKey = (
   ) {
     return "HARMONY_RELAXATION"
   } else if (
-    directory === DeviceDirectory.Alarms &&
+    directory === DeviceDirectory.Alarm &&
     deviceType === DeviceType.MuditaHarmony
   ) {
-    return "HARMONY_ALARMS"
+    return "HARMONY_ALARM"
   } else {
     return "UNKNOWN"
   }
@@ -83,6 +85,6 @@ const getDirectoriesByDeviceType = (
   if (deviceType === DeviceType.MuditaPure) {
     return [DeviceDirectory.Music]
   } else {
-    return [DeviceDirectory.Relaxation]
+    return [DeviceDirectory.Relaxation, DeviceDirectory.Alarm]
   }
 }
