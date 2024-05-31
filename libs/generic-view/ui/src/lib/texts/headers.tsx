@@ -17,8 +17,39 @@ export const Header3: APIFC<undefined, HeaderConfig> = ({
   return <H3 {...props}>{isEmpty(children) ? config.text : children}</H3>
 }
 
-const H3 = styled.h3`
+export const H3 = styled.h3`
   font-size: ${({ theme }) => theme.fontSize.headline3};
   line-height: ${({ theme }) => theme.lineHeight.headline3};
+  margin: 0;
+`
+
+export const Header4: APIFC<undefined, HeaderConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <H4 {...props}>{isEmpty(children) ? config.text : children}</H4>
+}
+
+export const H4 = styled.h4`
+  font-size: ${({ theme }) => theme.fontSize.headline4};
+  line-height: ${({ theme }) => theme.lineHeight.headline4};
+  letter-spacing: 0.02em;
+  margin: 0;
+`
+
+export const Header5: APIFC<undefined, HeaderConfig> = ({
+  config,
+  children,
+  ...props
+}) => {
+  return <H5 {...props}>{isEmpty(children) ? config.text : children}</H5>
+}
+
+export const H5 = styled.h5`
+  font-size: ${({ theme }) => theme.fontSize.headline5};
+  line-height: ${({ theme }) => theme.lineHeight.headline5};
+  letter-spacing: 0.04em;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
   margin: 0;
 `

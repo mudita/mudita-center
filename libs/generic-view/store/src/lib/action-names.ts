@@ -46,4 +46,7 @@ export enum ActionName {
   CleanImportProcess = "generic-imports/clean-import-process",
   StartContactsFileImport = "generic-imports/start-contacts-file-import",
   GetContactsFromCSV = "generic-imports/get-contacts-from-csv",
+  SetDataMigrationSourceDevice = "data-migration/set-source-device",
+  SetDataMigrationFeatures = "data-migration/set-features",
+  ClearDataMigrationDevice = "data-migration/clear-device",
 }
