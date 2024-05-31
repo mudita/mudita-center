@@ -1,6 +1,8 @@
 import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
-import { outboxReloadOverview } from "../../../../../libs/e2e-mock/responses/src"
-import { mockResponseTomasz } from "../../consts/mockresponse-const"
+import {
+  outboxReloadOverview,
+  overviewDataWithoutBadge,
+} from "../../../../../libs/e2e-mock/responses/src"
 import screenshotHelper from "../../helpers/screenshot.helper"
 
 describe("E2E mock sample - overview view", () => {
@@ -17,19 +19,19 @@ describe("E2E mock sample - overview view", () => {
     E2EMockClient.disconnect()
   })
 
-  it("Test Tomasz #1 - addDevice", async () => {
+  it("Connect device", async () => {
     E2EMockClient.addDevice({
       path: "path-1",
-      serialNumber: "FLL700000029",
+      serialNumber: "first-serial-number",
     })
 
-    await browser.pause(15000)
+    await browser.pause(6000)
     const menuItem = await $(`//a[@href="#/generic/mc-overview"]`)
 
     await menuItem.waitForDisplayed({ timeout: 10000 })
     await expect(menuItem).toBeDisplayed()
   })
-  it("Test Tomasz #2 - mockDevice Response", async () => {
+  it("Overwrite device response", async () => {
     const badge = $(`//p[contains(text(), 'Offline')]`)
 
     await badge.waitForDisplayed()
@@ -38,7 +40,7 @@ describe("E2E mock sample - overview view", () => {
     // overwrite default response for given device
     E2EMockClient.mockResponse({
       path: "path-1",
-      body: mockResponseTomasz,
+      body: overviewDataWithoutBadge,
       endpoint: "FEATURE_DATA",
       method: "GET",
       status: 200,
@@ -57,5 +59,28 @@ describe("E2E mock sample - overview view", () => {
     screenshotHelper.makeViewScreenshot()
     await expect(badge).not.toBeDisplayed()
     await browser.pause(10000)
+  })
+
+  it("Add second device", async () => {
+    E2EMockClient.addDevice({
+      path: "path-2",
+      serialNumber: "second-serial-number",
+    })
+    await browser.pause(6000)
+
+    const drawerHeader = $(`//*[text()='Select a device']`)
+    await drawerHeader.waitForDisplayed()
+    await expect(drawerHeader).toBeDisplayed()
+  })
+  it("Remove first device", async () => {
+    E2EMockClient.removeDevice("path-1")
+    await browser.pause(6000)
+
+    const badge = $(`//p[contains(text(), 'Offline')]`)
+
+    await badge.waitForDisplayed()
+    // Notice that the Status badge is once again visible, which proves that response overwrite works only for a given device.
+    await expect(badge).toBeDisplayed()
+    await browser.pause(4000)
   })
 })
