@@ -7,5 +7,5 @@ export enum DeviceDirectory {
   DB = "/system/db",
   Music = "/user/media/app/music_player",
   Relaxation = "/user/media/app/relaxation",
-  Alarms = "/user/media/app/alarms",
+  Alarm = "/user/media/app/alarm",
 }

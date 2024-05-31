@@ -37,6 +37,7 @@ export const CheckboxInput: APIFC<undefined, Config> = ({
           config.onToggle?.(e.target.checked)
           void onChange(e)
         }}
+        disabled={config.disabled}
         {...rest}
       />
       <Label htmlFor={"checkbox-" + id}>
@@ -111,5 +112,10 @@ const Input = styled.input<{ $withError?: boolean }>`
         visibility: visible;
       }
     }
+  }
+
+  &:disabled + ${Label} {
+    color: ${({ theme }) => theme.color.grey4};
+    cursor: default;
   }
 `
