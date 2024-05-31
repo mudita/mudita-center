@@ -31,6 +31,7 @@ describe("E2E mock sample - overview view", () => {
     await menuItem.waitForDisplayed({ timeout: 10000 })
     await expect(menuItem).toBeDisplayed()
   })
+
   it("Overwrite device response", async () => {
     const badge = $(`//p[contains(text(), 'Offline')]`)
 
@@ -72,6 +73,7 @@ describe("E2E mock sample - overview view", () => {
     await drawerHeader.waitForDisplayed()
     await expect(drawerHeader).toBeDisplayed()
   })
+
   it("Remove first device", async () => {
     E2EMockClient.removeDevice("path-1")
     await browser.pause(6000)
