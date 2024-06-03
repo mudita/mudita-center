@@ -33,8 +33,6 @@ Verify Result - check if Contact Support modal is not visible.
 describe("Mock Using Contact Support Form", () => {
   before(async () => {
     dns.setDefaultResultOrder("ipv4first")
-    await browser.throttle("offline")
-
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
     await notNowButton.click()
@@ -111,36 +109,17 @@ describe("Mock Using Contact Support Form", () => {
     console.log(await browser.getUrl())
     console.log(await browser.getTitle())
     console.log(await browser.getWindowHandle())
-    // const helpSupportRequestMock = await browser.mock(
-    //   "https://mudita.freshdesk.com/api/v2/",
-    //   {
-    //     method: "post",
-    //   }
-    // )
-    //console.warn("helpSupportRequestMock.calls.length")
-    //console.warn(helpSupportRequestMock.calls.length)
 
-    //TODO temporary statusCode: 500 to use online but still see respondOverwrite
-    //TODO move to fixtures
-    const strictResponseMock = await browser.mock("**", {
-      // mock all json responses
-    })
+    const strictResponseMock = await browser.mock(
+      "https://mudita.freshdesk.com/api/v2/tickets"
+    )
 
-    await strictResponseMock.respond([{ statusCode: 500 }])
-    await strictResponseMock.abort("Failed")
-
-    // helpSupportRequestMock.respond(
-    //   {
-    //     id: 23058,
-    //     statusCode: 500,
-    //   },
-    //   {
-    //     statusCode: 500,
-    //     headers: {
-    //       contentType: "application/json; charset=utf-8",
-    //     },
-    //   }
-    // )
+    await strictResponseMock.respond(
+      { dummyBody: "body" },
+      {
+        statusCode: 501,
+      }
+    )
 
     await sendButton.click()
     await sleep(3000)
