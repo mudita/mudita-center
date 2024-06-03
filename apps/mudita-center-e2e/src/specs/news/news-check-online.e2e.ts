@@ -4,7 +4,7 @@ import HomePage from "../../page-objects/home.page"
 import NewsPage from "../../page-objects/news.page"
 import {
   commentsRegex,
-  muditaForumRegex,
+  linkRegex,
   newsDateRegex,
   newsImageRegex,
 } from "../../consts/regex-const"
@@ -44,16 +44,14 @@ describe("News Page Check", () => {
     await lastNewsCardCommunityLinkText.scrollIntoView()
     await expect(lastNewsCardCommunityLinkText).toBeDisplayedInViewport()
   })
-  // TODO: to fix
-  it.skip("Verify News Cards", async () => {
+  it("Verify News Cards", async () => {
     const newsCardElements = await NewsPage.newsCardElements
     await expect(newsCardElements).toHaveLength(6)
 
     for (let newsCard of newsCardElements) {
-      console.log(await newsCard.getText())
       const newsCardImageLink = await newsCard.$('[data-testid="image-link"]')
       await expect(newsCardImageLink).toBeClickable()
-      await expect(newsCardImageLink).toHaveAttribute("href", muditaForumRegex)
+      await expect(newsCardImageLink).toHaveAttribute("href", linkRegex)
 
       const newsCardImageSrc = await newsCard.$("img")
       await expect(newsCardImageSrc).toBeDisplayed()
@@ -77,10 +75,7 @@ describe("News Page Check", () => {
       )
       await expect(newsCardCommunityLink).toBeDisplayed()
       await expect(newsCardCommunityLink).toBeClickable()
-      await expect(newsCardCommunityLink).toHaveAttribute(
-        "href",
-        muditaForumRegex
-      )
+      await expect(newsCardCommunityLink).toHaveAttribute("href", linkRegex)
       const newsCardCommunityLinkText = await newsCard.$(
         '[data-testid="community-link"] p[color="primary"]'
       )
