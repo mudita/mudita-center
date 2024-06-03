@@ -118,7 +118,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
           </Text>
         </SyncProgressWrapper>
       )}
-      {isSelectDevice && SelectDeviceButton}
+      {isSelectDevice && !isChangeDevice && SelectDeviceButton}
       {isChangeDevice && ChangeDeviceButton}
     </>
   )
