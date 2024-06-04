@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./lib/base-http-client.service"
-export * from "./lib/http-client.container"
+import { BaseHttpClientService } from "./base-http-client.service"
+
+export class HttpClientService extends BaseHttpClientService {}
