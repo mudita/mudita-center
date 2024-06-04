@@ -28,6 +28,8 @@ export class MockHttpStateService {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getMockResponsesByUrl<T = any, R = AxiosResponse<T>>(
     url: string
   ): Promise<R | undefined> {

@@ -6,7 +6,8 @@
 import https from "https"
 import { Axios, AxiosResponse } from "axios"
 
-// @ts-ignore
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface BaseHttpAxiosResponse<T = any, D = any>
   extends AxiosResponse<T, D> {}
 
