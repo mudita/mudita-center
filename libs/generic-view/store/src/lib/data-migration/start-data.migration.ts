@@ -31,9 +31,10 @@ export const startDataMigration = createAsyncThunk<
         return
       case DeviceCommunicationError.DeviceOnboardingNotFinished:
         dispatch(setDataMigrationStatus("pure-onboarding-required"))
-        break
+        return
       default:
         dispatch(setDataMigrationStatus("pure-connection-failed"))
+        return
     }
   }
 
