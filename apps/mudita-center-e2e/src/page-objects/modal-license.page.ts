@@ -10,6 +10,10 @@ class ModalLicense extends Page {
     return $('h2[data-testid="license-component-title"]')
   }
 
+  public get noteParagraph() {
+    return $("p*=NOTE:")
+  }
+
   public get definitionsParagraph() {
     return $("p*=Definitions:")
   }

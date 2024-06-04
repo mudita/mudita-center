@@ -57,6 +57,11 @@ describe("Checking License", () => {
   })
 
   it("Check License sections", async () => {
+    const noteParagraph = ModalLicense.noteParagraph
+    await expect(noteParagraph).toHaveTextContaining(
+      "BY USING THE MUDITA CENTER SOFTWARE, YOU AGREE TO COMPLY WITH THE TERMS LISTED BELOW."
+    )
+
     const definitionsParagraph = await ModalLicense.definitionsParagraph
     await expect(definitionsParagraph).toHaveText("Definitions:")
 
