@@ -25,16 +25,16 @@ export class ApplicationUpdaterModule {
   private resolveApplicationUpdaterService(): BaseApplicationUpdaterService {
     const applicationUpdaterService = new ApplicationUpdaterService()
 
-    if (
-      process.env.MOCK_UPDATER_ENABLED !== "1" &&
-      process.env.NODE_ENV === "production"
-    ) {
+    if (process.env.MOCK_SERVICE_ENABLED !== "1") {
       return applicationUpdaterService
     } else {
       return new DynamicMockApplicationUpdaterService(
         mockUpdaterStateService,
         applicationUpdaterService,
-        new MockApplicationUpdaterService(onlineStatusService, mockUpdaterStateService)
+        new MockApplicationUpdaterService(
+          onlineStatusService,
+          mockUpdaterStateService
+        )
       )
     }
   }

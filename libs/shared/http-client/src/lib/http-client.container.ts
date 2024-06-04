@@ -8,7 +8,7 @@ import { BaseHttpClientService } from "./base-http-client.service"
 import { MockHttpClientService } from "./mock-http-client.service"
 
 const httpClientService =
-  process.env.MOCK_DEVICE_ENABLED === "1"
+  process.env.MOCK_SERVICE_ENABLED === "1"
     ? new MockHttpClientService(mockHttpStateService)
     : new HttpClientService()
 
