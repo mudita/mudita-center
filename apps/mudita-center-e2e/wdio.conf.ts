@@ -80,6 +80,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.e2eMockSample),
       toRelativePath(TestFilesPaths.privacyPolicyTest),
     ],
+    mock: [toRelativePath(TestFilesPaths.e2eMockSample)],
     multidevicePureHarmony: [],
     multideviceSingleHarmony: [],
     multideviceSinglePure: [],
