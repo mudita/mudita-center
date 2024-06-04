@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
-  selectDataMigrationStatus,
   selectDataMigrationTargetDevices,
   setSourceDevice,
   startDataMigration,
@@ -46,7 +45,6 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
 }) => {
   const dispatch = useDispatch<Dispatch>()
   const activeDevice = useSelector(getActiveDevice)
-  const dataMigrationStatus = useSelector(selectDataMigrationStatus)
   const sourceDevices = useSelector(
     selectDataMigrationSourceDevices
   ) as Device[]
