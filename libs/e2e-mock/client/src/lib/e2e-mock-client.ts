@@ -36,6 +36,7 @@ export const E2EMockClient = {
   },
   disconnect,
   setMockUpdaterEnabledState: (param: boolean) => {
+    console.log("setMockUpdaterEnabledStateparam", param)
     getClientEmiter()?.("set.mock.updater.enabled.state", param)
   },
   setMockUpdateState: (param: UpdateState) => {

@@ -7,6 +7,7 @@ import { MockUpdaterStateService } from "e2e-mock-server"
 import { ApplicationUpdaterService } from "./application-updater.service"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
 import { MockApplicationUpdaterService } from "./mock-application-updater.service"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class DynamicMockApplicationUpdaterService extends BaseApplicationUpdaterService {
   constructor(
@@ -18,6 +19,7 @@ export class DynamicMockApplicationUpdaterService extends BaseApplicationUpdater
   }
 
   private get updaterService(): BaseApplicationUpdaterService {
+    logger.info(`updaterService this.mockUpdaterStateService.enabled: ${this.mockUpdaterStateService.enabled}`)
     if (this.mockUpdaterStateService.enabled) {
       return this.mockApplicationUpdaterService
     } else {

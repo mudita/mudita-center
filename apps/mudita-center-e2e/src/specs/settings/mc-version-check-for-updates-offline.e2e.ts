@@ -9,6 +9,7 @@ import ModalPage from "../../page-objects/mc-update-modal.page"
 import HomePage from "../../page-objects/home.page"
 import TestHelper from "../../helpers/tests.helper"
 import dns from "node:dns"
+import { E2EMockClient } from "../../../../../libs/e2e-mock/client/src"
 
 describe("Checking for Mudita Center updates", () => {
   before(async function () {
@@ -16,6 +17,7 @@ describe("Checking for Mudita Center updates", () => {
       this.skip()
     }
 
+    // E2EMockClient.setMockUpdateState({ available: false })
     dns.setDefaultResultOrder("ipv4first")
     await browser.throttle("offline")
 

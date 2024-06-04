@@ -6,6 +6,7 @@
 import { MockUpdaterStateService } from "e2e-mock-server"
 import { OnlineStatusService } from "shared/app-state"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class MockApplicationUpdaterService extends BaseApplicationUpdaterService {
   constructor(
@@ -23,6 +24,7 @@ export class MockApplicationUpdaterService extends BaseApplicationUpdaterService
   }
 
   public async checkForUpdatesAndNotify(): Promise<void> {
+    logger.info(`checkForUpdatesAndNotify this.onlineStatusService.online: ${this.onlineStatusService.online}`)
     if (!this.onlineStatusService.online) {
       return this.onError()
     }
