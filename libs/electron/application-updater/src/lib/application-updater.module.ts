@@ -26,6 +26,7 @@ export class ApplicationUpdaterModule {
   private resolveApplicationUpdaterService(): BaseApplicationUpdaterService {
     const applicationUpdaterService = new ApplicationUpdaterService()
 
+    logger.info(`resolveApplicationUpdaterService: ${process.env.MOCK_SERVICE_ENABLED}`)
     if (process.env.MOCK_SERVICE_ENABLED !== "1") {
       logger.info(`resolveApplicationUpdaterService: ${1}`)
       return applicationUpdaterService
