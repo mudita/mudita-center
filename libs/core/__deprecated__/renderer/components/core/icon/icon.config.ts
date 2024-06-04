@@ -125,6 +125,7 @@ import Warning from "Core/__deprecated__/renderer/svg/warning.svg"
 import MarkAsUnread from "Core/__deprecated__/renderer/svg/mark-as-unread.svg"
 import Conversation from "Core/__deprecated__/renderer/svg/conversation.svg"
 import Exclamation from "Core/__deprecated__/renderer/svg/exclamation.svg"
+import DataMigration from "../../../../../../generic-view/ui/src/lib/icon/svg/data-migration.svg"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -492,6 +493,7 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   [IconType.Exclamation]: Exclamation,
+  [IconType.DataMigration]: DataMigration,
 }
 
 export const getIconType = (

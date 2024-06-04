@@ -20,6 +20,7 @@ export * from "./lib/shared/shared"
 export * from "./lib/predefined/backup/backup-error"
 export * from "./lib/predefined/backup-restore/backup-restore-error"
 export * from "./lib/predefined/import-contacts/import-contacts-error"
+export { DataMigrationPage } from "./lib/predefined/data-migration/data-migration"
 
 const apiComponents = {
   ...predefinedComponents,
