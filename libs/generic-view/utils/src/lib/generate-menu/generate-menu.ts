@@ -31,10 +31,12 @@ const mapIcons: Partial<Record<IconType, CoreIconType>> = {
   [IconType.Device]: CoreIconType.MenuPhone,
   [IconType.Mudita]: CoreIconType.MuditaLogo,
   [IconType.ContactsBook]: CoreIconType.MenuContacts,
+  [IconType.DataMigration]: CoreIconType.DataMigration,
 }
 
 const mapDefaultIcons: Record<string, CoreIconType> = {
   "mc-overview": CoreIconType.MenuOverview,
+  "mc-data-migration": CoreIconType.DataMigration,
 }
 
 const getIcon = (feature: string, iconType?: IconType) => {

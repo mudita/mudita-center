@@ -11,11 +11,11 @@ import News from "Core/news/news.container"
 import Overview from "Core/overview/overview.container"
 import Contacts from "Core/contacts/contacts.container"
 import {
+  URL_DEVICE_INITIALIZATION,
+  URL_DISCOVERY_DEVICE,
   URL_MAIN,
   URL_ONBOARDING,
   URL_OVERVIEW,
-  URL_DISCOVERY_DEVICE,
-  URL_DEVICE_INITIALIZATION,
   URL_TABS,
 } from "Core/__deprecated__/renderer/constants/urls"
 import Onboarding from "Core/onboarding/components/onboarding/onboarding.component"
@@ -31,7 +31,7 @@ import DevicesInitialization from "Core/device-initialization/components/devices
 import AvailableDeviceListContainer from "Core/discovery-device/components/available-device-list.container"
 import DeviceConnecting from "Core/discovery-device/components/device-connecting.component"
 import { GenericView } from "generic-view/feature"
-import { APIConnectionDemo } from "generic-view/ui"
+import { APIConnectionDemo, DataMigrationPage } from "generic-view/ui"
 import ManageSounds from "Core/files-manager/components/manage-sounds.component"
 
 // AUTO DISABLED - fix me if you like :)
@@ -99,6 +99,10 @@ export default () => (
               component={GenericView}
             />
             <Route path={"/generic/:viewKey"} component={GenericView} />
+            <Route
+              path={URL_MAIN.dataMigration}
+              component={DataMigrationPage}
+            />
             <Route path={URL_MAIN.filesManager} component={FilesManager} />
             <Route path={URL_MAIN.manageSounds} component={ManageSounds} />
             <Route path={URL_MAIN.messages} component={Messages} exact />
