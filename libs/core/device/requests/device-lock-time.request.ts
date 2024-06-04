@@ -7,9 +7,10 @@ import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "Core/core/builder"
 import { IpcDeviceEvent } from "Core/device/constants"
 import { PhoneLockTime } from "Core/device/dto"
+import { DeviceId } from "Core/device/constants/device-id"
 
-export const deviceLockTimeRequest = async (): Promise<
-  ResultObject<PhoneLockTime>
-> => {
-  return ipcRenderer.callMain(IpcDeviceEvent.LockTime)
+export const deviceLockTimeRequest = async (
+  deviceId?: DeviceId
+): Promise<ResultObject<PhoneLockTime>> => {
+  return ipcRenderer.callMain(IpcDeviceEvent.LockTime, deviceId)
 }

@@ -6,9 +6,10 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "Core/core/builder"
 import { DeviceCommunicationError, IpcDeviceEvent } from "Core/device/constants"
+import { DeviceId } from "Core/device/constants/device-id"
 
-export const unlockDeviceStatusRequest = async (): Promise<
-  ResultObject<unknown, DeviceCommunicationError>
-> => {
-  return ipcRenderer.callMain(IpcDeviceEvent.UnlockStatus)
+export const unlockDeviceStatusRequest = async (
+  deviceId?: DeviceId
+): Promise<ResultObject<unknown, DeviceCommunicationError>> => {
+  return ipcRenderer.callMain(IpcDeviceEvent.UnlockStatus, deviceId)
 }

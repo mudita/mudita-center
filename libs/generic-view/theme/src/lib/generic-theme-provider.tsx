@@ -18,6 +18,8 @@ export const GenericThemeProvider: FunctionComponent<PropsWithChildren> = ({
   )
 }
 
+export const modalTransitionDuration = 400
+
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   .box-sizing-wrapper {
     height: 100%;
@@ -30,7 +32,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   }
 
   .generic-modal-overlay {
-    --modal-transition-duration: 400ms;
+    --modal-transition-duration: ${modalTransitionDuration}ms;
     --modal-transition-timing-function: ease-out;
     --modal-opacity: 1;
     --modal-visibility: visible;

@@ -49,4 +49,6 @@ export enum ActionName {
   SetDataMigrationSourceDevice = "data-migration/set-source-device",
   SetDataMigrationFeatures = "data-migration/set-features",
   ClearDataMigrationDevice = "data-migration/clear-device",
+  SetDataMigrationStatus = "data-migration/set-status",
+  StartDataMigration = "data-migration/start",
 }

@@ -14,6 +14,7 @@ import {
   selectDataMigrationSourceDevices,
   selectDataMigrationTargetDevices,
   setSourceDevice,
+  startDataMigration,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
 import styled from "styled-components"
@@ -27,6 +28,11 @@ import { Device } from "./components/device-card"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { PureErrorModal } from "./components/pure-error-modal"
+import { TransferErrorModal } from "./components/transfer-error-modal"
+import { PurePasscodeModal } from "./components/pure-passcode-modal"
+import { ProgressModal } from "./components/progress-modal"
 
 const messages = defineMessages({
   header: {
@@ -37,7 +43,7 @@ const messages = defineMessages({
 const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   dataTypes,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<Dispatch>()
   const activeDevice = useSelector(getActiveDevice)
   const sourceDevices = useSelector(
     selectDataMigrationSourceDevices
@@ -55,8 +61,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
   const displayTransferSetup = !displayInstruction && !displayTargetSelector
 
   const startMigration = () => {
-    // TODO: implement data migration process
-    console.log("Start migration")
+    dispatch(startDataMigration())
   }
 
   useEffect(() => {
@@ -90,6 +95,13 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
           />
         )}
       </Content>
+      <PurePasscodeModal
+        deviceId={sourceDevice?.serialNumber}
+        onUnlock={startMigration}
+      />
+      <PureErrorModal />
+      <TransferErrorModal />
+      <ProgressModal />
     </Wrapper>
   )
 }

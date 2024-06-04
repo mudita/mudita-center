@@ -7,7 +7,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { setSourceDevice } from "./actions"
+import {
+  setDataMigrationFeatures,
+  setDataMigrationStatus,
+  setSourceDevice,
+} from "./actions"
 
 export const clearDataMigrationDevice = createAsyncThunk<
   void,
@@ -17,5 +21,7 @@ export const clearDataMigrationDevice = createAsyncThunk<
   const { sourceDevice } = getState().dataMigration
   if (sourceDevice && sourceDevice === deviceId) {
     dispatch(setSourceDevice(undefined))
+    dispatch(setDataMigrationFeatures([]))
+    dispatch(setDataMigrationStatus("idle"))
   }
 })
