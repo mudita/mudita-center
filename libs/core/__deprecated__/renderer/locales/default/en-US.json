@@ -411,7 +411,7 @@
   "module.filesManager.invalidFiledModalHelpInfo": "To find out more about which files work on your device, visit our {link}.",
   "module.filesManager.invalidFiledModalTitle": "Upload files",
   "module.filesManager.invalidFiledModalUploadInfo": "To avoid problems we only uploaded the files that will work.",
-  "module.filesManager.panelSearchPlaceholder": "Search music files",
+  "module.filesManager.panelSearchPlaceholder": "Search",
   "module.filesManager.selectionNumber": "{num, plural, =-1 {All Files} one {# File} other {# Files}} selected",
   "module.filesManager.unsupportedFileFormatUploadModalActionButton": "OK",
   "module.filesManager.unsupportedFileFormatUploadModalHeader": "Unsupported file format",
