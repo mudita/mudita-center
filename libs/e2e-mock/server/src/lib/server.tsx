@@ -4,6 +4,7 @@
  */
 
 import ipc from "node-ipc"
+import { AxiosResponse } from "axios"
 import logger from "Core/__deprecated__/main/utils/logger"
 import {
   addKompaktResponseValidator,
@@ -14,6 +15,7 @@ import {
   mockUpdaterStateService,
   UpdateState,
 } from "./mock-updater-state.service"
+import { mockHttpStateService } from "./mock-http-state.service"
 
 ipc.config.id = "MC"
 ipc.config.retry = 15
@@ -54,6 +56,12 @@ ipc.serve(function () {
   ipc.server.on("set.mock.update.state", function (data: UpdateState) {
     mockUpdaterStateService.updateState = data
   })
+  ipc.server.on(
+    "mock.app.configuration.response",
+    function (data: AxiosResponse) {
+      mockHttpStateService.mockAppConfigurationResponse(data)
+    }
+  )
 })
 
 export function startServer() {

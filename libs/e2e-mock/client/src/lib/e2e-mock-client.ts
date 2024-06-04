@@ -41,4 +41,7 @@ export const E2EMockClient = {
   setMockUpdateState: (param: UpdateState) => {
     getClientEmiter?.("set.mock.update.state", param)
   },
+  mockAppConfigurationResponse: (param: UpdateState) => {
+    clientEmiter?.("mock.app.configuration.response", param)
+  },
 }
