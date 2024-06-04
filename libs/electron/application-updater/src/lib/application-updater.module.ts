@@ -10,6 +10,7 @@ import { ApplicationUpdaterService } from "./application-updater.service"
 import { BaseApplicationUpdaterService } from "./base-application-updater.service"
 import { MockApplicationUpdaterService } from "./mock-application-updater.service"
 import { DynamicMockApplicationUpdaterService } from "./dynamic-mock-application-updater.service"
+import logger from "Core/__deprecated__/main/utils/logger"
 
 export class ApplicationUpdaterModule {
   public controllers
@@ -26,8 +27,10 @@ export class ApplicationUpdaterModule {
     const applicationUpdaterService = new ApplicationUpdaterService()
 
     if (process.env.MOCK_SERVICE_ENABLED !== "1") {
+      logger.info(`resolveApplicationUpdaterService: ${1}`)
       return applicationUpdaterService
     } else {
+      logger.info(`resolveApplicationUpdaterService: ${2}`)
       return new DynamicMockApplicationUpdaterService(
         mockUpdaterStateService,
         applicationUpdaterService,
