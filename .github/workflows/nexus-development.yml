@@ -43,7 +43,6 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
-          MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
           LOCALAPPDATA: ""
         shell: cmd
         run: |
@@ -73,7 +72,6 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
-          MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
         run: |
           printenv > .env
       - name: Setup Env for Linux
@@ -100,7 +98,6 @@ jobs:
           DEV_DEVICE_LOGGER_ENABLED: ${{ secrets.DEV_DEVICE_LOGGER_ENABLED }}
           FEATURE_TOGGLE_RELEASE_ENVIRONMENT: ${{ secrets.FEATURE_TOGGLE_RELEASE_ENVIRONMENT }}
           MUDITA_CENTER_PRERELEASE_ENABLED: ${{ secrets.MUDITA_CENTER_PRERELEASE_ENABLED }}
-          MOCK_SERVICE_ENABLED: ${{ secrets.MOCK_SERVICE_ENABLED }}
         run: |
           printenv > .env
       - name: Changing app version in packages.json for Linux

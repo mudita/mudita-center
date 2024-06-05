@@ -35,9 +35,6 @@ export const E2EMockClient = {
     getClientEmiter()?.("server.stop", undefined)
   },
   disconnect,
-  setMockUpdaterEnabledState: (param: boolean) => {
-    getClientEmiter()?.("set.mock.updater.enabled.state", param)
-  },
   setMockUpdateState: (param: UpdateState) => {
     getClientEmiter()?.("set.mock.update.state", param)
   },

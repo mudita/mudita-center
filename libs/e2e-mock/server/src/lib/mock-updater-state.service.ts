@@ -9,17 +9,8 @@ export interface UpdateState {
 }
 
 export class MockUpdaterStateService {
-  private _enabled = false
   private _updateState: UpdateState = {
     available: false,
-  }
-
-  get enabled(): boolean {
-    return this._enabled
-  }
-
-  set enabled(value) {
-    this._enabled = value
   }
 
   get updateState(): UpdateState {

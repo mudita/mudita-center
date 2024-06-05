@@ -52,9 +52,6 @@ ipc.serve(function () {
   ipc.server.on("server.stop", function (data, socket) {
     stopServer()
   })
-  ipc.server.on("set.mock.updater.enabled.state", function (data: boolean) {
-    mockUpdaterStateService.enabled = data
-  })
   ipc.server.on("set.mock.update.state", function (data: UpdateState) {
     mockUpdaterStateService.updateState = data
   })
