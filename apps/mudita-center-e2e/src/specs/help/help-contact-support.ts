@@ -32,6 +32,7 @@ Verify Result - check if Contact Support modal is not visible.
  */
 describe("Mock Using Contact Support Form", () => {
   before(async () => {
+    console.log("TEST TEST TEST")
     dns.setDefaultResultOrder("ipv4first")
     const notNowButton = await HomePage.notNowButton
     await notNowButton.waitForDisplayed()
@@ -44,6 +45,7 @@ describe("Mock Using Contact Support Form", () => {
     await helpTab.click()
     console.log("first window handle")
     console.log(await browser.getWindowHandle())
+
     await browser.switchWindow("#/help")
 
     const contactSupportButton = await HelpPage.contactSupportButton
@@ -90,6 +92,20 @@ describe("Mock Using Contact Support Form", () => {
   })
 
   it("Fill the form correctly", async () => {
+    const strictResponseMock = await browser.mock(
+      "https://mudita.freshdesk.com/api/v2/tickets"
+      // "**"
+    )
+
+    // browser.on("network.beforeRequestSent", (param) => {
+    //   console.log("TRAFIENIE ")
+    //   console.log(param)
+    // })
+    // strictResponseMock.on("request", ({ request }) => {
+    //   console.log("TRAFIENIE")
+    //   console.log(request)
+    // })
+
     await testsHelper.insertTextToElement(
       await HelpModalPage.emailInput,
       "tomasz.malecki@mudita.com"
@@ -110,9 +126,7 @@ describe("Mock Using Contact Support Form", () => {
     console.log(await browser.getTitle())
     console.log(await browser.getWindowHandle())
 
-    const strictResponseMock = await browser.mock(
-      "https://mudita.freshdesk.com/api/v2/tickets"
-    )
+    console.log(`BROWSER URL: ${await browser.getUrl()}`)
 
     await strictResponseMock.respond(
       { dummyBody: "body" },
@@ -120,9 +134,15 @@ describe("Mock Using Contact Support Form", () => {
         statusCode: 501,
       }
     )
-
-    await sendButton.click()
+    sendButton.click()
+    // await strictResponseMock.waitForResponse()
     await sleep(3000)
+
+    // await browser.waitUntil(() => {
+    //   return strictResponseMock.calls.length > 0
+    // })
+
+    console.log(strictResponseMock)
 
     expect(strictResponseMock.calls.length).toBe(1)
   })
