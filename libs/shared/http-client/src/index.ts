@@ -4,4 +4,4 @@
  */
 
 export * from "./lib/base-http-client.service"
-export * from "./lib/http-client.container"
+export * from "./lib/http-client.factory"

@@ -3,10 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  BaseHttpAxiosResponse,
-  BaseHttpClientService,
-} from "shared/http-client"
+import https from "https"
+import { Axios, AxiosResponse } from "axios"
+import { HttpClient } from "shared/http-client"
 import defaultConfiguration from "Core/settings/static/default-app-configuration.json"
 import { Configuration } from "Core/settings/dto"
 import { MuditaCenterServerRoutes } from "Core/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
@@ -21,11 +20,18 @@ export interface getNewConfigurationParams {
 }
 
 export class ConfigurationService {
-  private baseURL = process.env.MUDITA_CENTER_SERVER_URL ?? ""
+  private instance: Axios
   private defaultConfiguration: Configuration =
     defaultConfiguration as unknown as Configuration
 
-  constructor(private httpClientService: BaseHttpClientService) {}
+  constructor() {
+    this.instance = HttpClient.create({
+      baseURL: process.env.MUDITA_CENTER_SERVER_URL,
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+      }),
+    })
+  }
 
   public async getConfiguration(): Promise<Configuration> {
     try {
@@ -46,9 +52,9 @@ export class ConfigurationService {
 
   private async getNewConfiguration(
     params: getNewConfigurationParams
-  ): Promise<BaseHttpAxiosResponse<Configuration>> {
-    return this.httpClientService.get<Configuration>(
-      `${this.baseURL}/${MuditaCenterServerRoutes.AppConfigurationV2}`,
+  ): Promise<AxiosResponse<Configuration>> {
+    return this.instance.get<Configuration>(
+      MuditaCenterServerRoutes.AppConfigurationV2,
       {
         params,
       }

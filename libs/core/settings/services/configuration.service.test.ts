@@ -3,12 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { getHttpClientService } from "shared/http-client"
+import MockAdapter from "axios-mock-adapter"
+import axios from "axios"
 import { Configuration } from "Core/settings/dto"
 import { ConfigurationService } from "Core/settings/services/configuration.service"
 
+const createMockAdapter = (): MockAdapter => {
+  return new MockAdapter(axios)
+}
+
+let axiosMock: MockAdapter = createMockAdapter()
+
 const previousEnvironment = { ...process.env }
-const httpClientService = getHttpClientService()
+
+beforeEach(() => {
+  axiosMock = createMockAdapter()
+})
 
 beforeAll(() => {
   process.env = {
@@ -46,13 +56,11 @@ jest.mock(
 
 describe("When API return success status code", () => {
   test("returns API response", async () => {
-    jest
-      .spyOn(httpClientService, "get")
-      .mockReturnValueOnce(
-        Promise.resolve({ status: 200, data: configuration })
-      )
+    axiosMock
+      .onGet("http://localhost/v2-app-configuration")
+      .replyOnce(200, configuration)
 
-    const subject = new ConfigurationService(httpClientService)
+    const subject = new ConfigurationService()
     const result = await subject.getConfiguration()
     expect(result).toEqual(configuration)
   })
@@ -60,18 +68,13 @@ describe("When API return success status code", () => {
 
 describe("When API return failed status code", () => {
   test("returns default configuration value", async () => {
-    jest.spyOn(httpClientService, "get").mockReturnValueOnce(
-      Promise.resolve({
-        status: 500,
-        data: {
-          error: "Luke, I'm your error",
-        },
-      })
-    )
+    axiosMock.onGet("http://localhost/v2-app-configuration").replyOnce(500, {
+      error: "Luke, I'm your error",
+    })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const appConfiguration = require("../static/app-configuration.json")
-    const subject = new ConfigurationService(httpClientService)
+    const subject = new ConfigurationService()
     const result = await subject.getConfiguration()
     if (appConfiguration) {
       expect(result).toEqual(appConfiguration)

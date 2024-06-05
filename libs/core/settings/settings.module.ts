@@ -5,7 +5,6 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { getHttpClientService } from "shared/http-client"
 import { MetadataStore } from "Core/metadata/services"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { AppLogger } from "Core/__deprecated__/main/utils/logger"
@@ -45,7 +44,7 @@ export class SettingsModule extends BaseModule {
       throw new Error("Initialize `SettingsService` before get it")
     }
 
-    const configurationService = new ConfigurationService(getHttpClientService())
+    const configurationService = new ConfigurationService()
     const settingsController = new SettingsController(settingsService)
     const configurationController = new ConfigurationController(
       configurationService
