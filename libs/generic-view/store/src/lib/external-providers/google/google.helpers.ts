@@ -10,7 +10,7 @@ import { Contact } from "Core/contacts/reducers/contacts.interface"
 import axios, { AxiosResponse } from "axios"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { googleAuthorize } from "./google-authorize.action"
-import { setAuthData } from "../actions"
+import { setGoogleAuthData } from "../actions"
 
 export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   let firstName = ""
@@ -104,7 +104,7 @@ export const requestWrapper = async <ReturnType>(
 
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-refresh-token`
       const { data } = await axios.post(`${url}?refreshToken=${refreshToken}`)
-      await dispatch(setAuthData({ scope, data }))
+      await dispatch(setGoogleAuthData({ scope, data }))
       return requestWrapper(
         { scope, axiosProps, tries: tries + 1 },
         getState,

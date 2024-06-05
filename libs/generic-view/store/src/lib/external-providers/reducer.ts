@@ -6,7 +6,9 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { ExternalProvidersState } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
 import { googleAuthorize } from "./google/google-authorize.action"
-import { setAuthData } from "./actions"
+import { setGoogleAuthData, setOutlookAuthData } from "./actions"
+import { outlookAuthorize } from "./outlook/outlook-authorize.action"
+import { TokenPayload } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
 
 const initialState: ExternalProvidersState = {
   google: {
@@ -33,9 +35,23 @@ export const externalProvidersReducer = createReducer(
         state.google.contacts = { ...action.payload }
       }
     })
-    builder.addCase(setAuthData, (state, action) => {
+    builder.addCase(setGoogleAuthData, (state, action) => {
       if (action.payload) {
         state.google.contacts = { ...action.payload }
+      }
+    })
+    builder.addCase(outlookAuthorize.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.outlook.contacts = {
+          accessToken: (action.payload as unknown as TokenPayload).accessToken,
+          refreshToken: (action.payload as unknown as TokenPayload)
+            .refreshToken,
+        }
+      }
+    })
+    builder.addCase(setOutlookAuthData, (state, action) => {
+      if (action.payload) {
+        state.outlook.contacts = { ...action.payload.data }
       }
     })
   }

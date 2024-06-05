@@ -23,7 +23,6 @@ export const googleAuthorize = createAsyncThunk<
   ActionName.GoogleAuthorizeProcess,
   async (payload, { getState, dispatch, rejectWithValue, signal }) => {
     console.log("Authorizing in Google")
-    console.log("test authorize", getState())
 
     const token = getState().externalProviders.google[payload]
 

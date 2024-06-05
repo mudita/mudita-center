@@ -9,8 +9,10 @@ import {
   ExternalProvider,
   Provider,
 } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import externalProvidersStore from "Core/__deprecated__/renderer/store/external-providers"
-import { googleCloseWindowRequest } from "generic-view/store"
+import {
+  googleCloseWindowRequest,
+  outlookCloseWindowRequest,
+} from "generic-view/store"
 
 export const closeWindow = createAsyncThunk<unknown, ExternalProvider>(
   ContactsEvent.CloseWindow,
@@ -21,7 +23,7 @@ export const closeWindow = createAsyncThunk<unknown, ExternalProvider>(
       case Provider.Apple:
         return undefined
       case Provider.Outlook:
-        return externalProvidersStore.dispatch.outlook.closeWindow()
+        return outlookCloseWindowRequest()
       default:
         return undefined
     }

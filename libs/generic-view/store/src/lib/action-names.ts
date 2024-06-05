@@ -48,5 +48,8 @@ export enum ActionName {
   GetContactsFromCSV = "generic-imports/get-contacts-from-csv",
   GoogleAuthorizeProcess = "google-authorization-process",
   GoogleGetContactsProcess = "google-get-contacts-process",
-  SetAuthDataProcess = "set-auth-data-process",
+  SetGoogleAuthDataProcess = "set-google-auth-data-process",
+  OutlookAuthorizeProcess = "outlook-authorization-process",
+  OutlookGetContactsProcess = "outlook-get-contacts-process",
+  SetOutlookAuthDataProcess = "set-outlook-auth-data-process",
 }
