@@ -6,7 +6,6 @@
 import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
-import { waitUntil } from "./src/helpers/wait-until.helper"
 import { E2EMockClient } from "../../libs/e2e-mock/client/src"
 
 dotenv.config()
@@ -279,14 +278,8 @@ export const config: Options.Testrunner = {
    * @param {Array.<String>} specs        List of spec file paths that are to be run
    * @param {Object}         browser      instance of created browser/device session
    */
-  before: async function (capabilities, specs) {
-    E2EMockClient.connect()
-
-    await waitUntil(() => {
-      return E2EMockClient.checkConnection()
-    })
-    E2EMockClient.setMockUpdaterEnabledState(true)
-  },
+  // before: function (capabilities, specs) {
+  // },
   /**
    * Runs before a WebdriverIO command gets executed.
    * @param {String} commandName hook command name

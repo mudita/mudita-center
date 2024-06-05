@@ -1,5 +1,3 @@
-Rozumiem, oto zaktualizowana dokumentacja uwzględniająca poprawny interfejs `MockHttpResponse`:
-
 # e2e-mock-server
 
 This documentation explains how to use the mock mechanism with `E2EMockClient` to test various scenarios in the application. The mock mechanism allows you to simulate different conditions of the application's operation, including device mocking, native updater behavior, and HTTP requests.
