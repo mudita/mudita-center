@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { mockUpdaterStateService } from "e2e-mock-server"
+import { mockServiceEnabled, mockUpdaterStateService } from "e2e-mock-server"
 import { onlineStatusService } from "shared/app-state"
 import { ApplicationUpdaterController } from "./application-updater.controller"
 import { ApplicationUpdaterService } from "./application-updater.service"
@@ -22,13 +22,13 @@ export class ApplicationUpdaterModule {
   }
 
   private resolveApplicationUpdaterService(): BaseApplicationUpdaterService {
-    if (process.env.MOCK_SERVICE_ENABLED !== "1") {
-      return new ApplicationUpdaterService()
-    } else {
+    if (mockServiceEnabled) {
       return new MockApplicationUpdaterService(
         onlineStatusService,
         mockUpdaterStateService
       )
+    } else {
+      return new ApplicationUpdaterService()
     }
   }
 }

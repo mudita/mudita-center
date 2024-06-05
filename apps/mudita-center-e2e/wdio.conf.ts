@@ -6,7 +6,6 @@
 import type { Options } from "@wdio/types"
 import * as dotenv from "dotenv"
 import { TestFilesPaths, toRelativePath } from "./src/test-filenames"
-import { E2EMockClient } from "../../libs/e2e-mock/client/src"
 
 dotenv.config()
 
