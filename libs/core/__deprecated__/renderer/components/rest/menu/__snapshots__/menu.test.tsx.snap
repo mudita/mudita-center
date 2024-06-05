@@ -148,6 +148,10 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   color: #6a6a6a;
 }
 
+.c5.active {
+  pointer-events: none;
+}
+
 .c12 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -543,6 +547,10 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c5 p {
   color: #6a6a6a;
+}
+
+.c5.active {
+  pointer-events: none;
 }
 
 .c12 {
