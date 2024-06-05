@@ -18,10 +18,10 @@ export class MockHttpClientService extends BaseHttpClientService {
     url: string,
     config?: AxiosRequestConfig<D>
   ): Promise<R> {
-    const response = await this.mockHttpStateService.getMockResponsesByUrl<
-      T,
-      R
-    >(url)
+    const response = await this.mockHttpStateService.getMockResponse<T, R>(
+      url,
+      "GET"
+    )
     if (response === undefined) {
       return super.get<T, R>(url, config)
     } else {

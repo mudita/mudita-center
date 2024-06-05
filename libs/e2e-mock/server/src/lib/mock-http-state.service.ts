@@ -5,7 +5,12 @@
 
 import { AxiosRequestConfig, AxiosResponse, AxiosResponseHeaders } from "axios"
 
-const url = process.env.MUDITA_CENTER_SERVER_URL ?? ""
+export type MockHttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH"
+
+export interface MockHttpResponse extends Partial<AxiosResponse> {
+  url: string
+  method: MockHttpMethod
+}
 
 const defaultResponse: AxiosResponse = {
   status: 200,
@@ -16,12 +21,13 @@ const defaultResponse: AxiosResponse = {
 }
 
 export class MockHttpStateService {
-  private mockResponses: Record<string, AxiosResponse> = {}
+  private mockResponses: Record<string, MockHttpResponse> = {}
 
-  mockAppConfigurationResponse(response: Partial<AxiosResponse>) {
+  mockHttpResponse(response: MockHttpResponse) {
+    const key = this.buildKey(response)
     this.mockResponses = {
       ...this.mockResponses,
-      [`${url}/v2-app-configuration`]: {
+      [key]: {
         ...defaultResponse,
         ...response,
       },
@@ -30,11 +36,18 @@ export class MockHttpStateService {
 
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getMockResponsesByUrl<T = any, R = AxiosResponse<T>>(
-    url: string
+  getMockResponse<T = any, R = AxiosResponse<T>>(
+    url: string,
+    method: MockHttpMethod
   ): Promise<R | undefined> {
-    return Promise.resolve(this.mockResponses[url] as R | undefined)
+    const key = this.buildKey({ url, method })
+    return Promise.resolve(this.mockResponses[key] as R | undefined)
   }
+
+  private buildKey({ method, url }: MockHttpResponse): string {
+    return `${method}:${url}`
+  }
+
 }
 
 export const mockHttpStateService = new MockHttpStateService()
