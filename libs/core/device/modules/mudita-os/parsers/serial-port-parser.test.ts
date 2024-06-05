@@ -21,36 +21,59 @@ describe("`Parser.createValidRequest`", () => {
 })
 
 describe("`Parser.parse`", () => {
+  describe("when header is split into multiple packets", () => {
+    const parser = new SerialPortParser()
+    const endpoint = Buffer.from([35])
+    const payload = { entry: [] }
+    const payloadStringify = JSON.stringify(payload)
+    const payloadStringifyLength = JSON.stringify(payload).length
+    const size = Buffer.from(
+      String(payloadStringifyLength).padStart(9, "0"),
+      "utf-8"
+    )
+
+    const payloadAsBuffer = Buffer.from(payloadStringify, 'utf-8')
+    const fullPacket = Buffer.concat([endpoint, size, payloadAsBuffer])
+    const splitPoint = 3
+    const firstBuffer = fullPacket.subarray(0, splitPoint)
+    const secondBuffer = fullPacket.subarray(splitPoint)
+
+    test("method correctly parse message split at header", () => {
+      parser.parse(firstBuffer)
+      expect(parser.parse(secondBuffer)).toEqual(payload)
+    })
+  })
+
   describe("when data is packed in single packet", () => {
     const parser = new SerialPortParser()
     const endpoint = Buffer.from([35])
-    const paylaod = { entry: [] }
-    const payloadStringify = JSON.stringify(paylaod)
+    const payload = { entry: [] }
+    const payloadStringify = JSON.stringify(payload)
     const payloadStringifyLength = payloadStringify.length
     const size = Buffer.from(
       String(payloadStringifyLength).padStart(9, "0"),
       "utf-8"
     )
-    const payload = Buffer.from(payloadStringify, "utf-8")
-    const buffer = Buffer.concat([endpoint, size, payload])
+    const payloadAsBuffer = Buffer.from(payloadStringify, "utf-8")
+    const buffer = Buffer.concat([endpoint, size, payloadAsBuffer])
 
     test("payload is return properly", () => {
-      expect(parser.parse(buffer)).toEqual(paylaod)
+      expect(parser.parse(buffer)).toEqual(payload)
     })
   })
 
   describe("when endpoint is unknown", () => {
     const parser = new SerialPortParser()
     const endpoint = Buffer.from([999])
-    const paylaod = { entry: [] }
-    const payloadStringify = JSON.stringify(paylaod)
+    const payload = { entry: [] }
+    const payloadStringify = JSON.stringify(payload)
     const payloadStringifyLength = payloadStringify.length
     const size = Buffer.from(
       String(payloadStringifyLength).padStart(9, "0"),
       "utf-8"
     )
-    const payload = Buffer.from(payloadStringify, "utf-8")
-    const buffer = Buffer.concat([endpoint, size, payload])
+    const payloadAsBuffer = Buffer.from(payloadStringify, "utf-8")
+    const buffer = Buffer.concat([endpoint, size, payloadAsBuffer])
 
     test("method thrown error", () => {
       expect(() => parser.parse(buffer)).toThrow()
@@ -60,11 +83,11 @@ describe("`Parser.parse`", () => {
   describe("when size is NaN", () => {
     const parser = new SerialPortParser()
     const endpoint = Buffer.from([35])
-    const paylaod = { entry: [] }
-    const payloadStringify = JSON.stringify(paylaod)
+    const payload = { entry: [] }
+    const payloadStringify = JSON.stringify(payload)
     const size = Buffer.from(String("bad_number").padStart(9, "0"), "utf-8")
-    const payload = Buffer.from(payloadStringify, "utf-8")
-    const buffer = Buffer.concat([endpoint, size, payload])
+    const payloadAsBuffer = Buffer.from(payloadStringify, "utf-8")
+    const buffer = Buffer.concat([endpoint, size, payloadAsBuffer])
 
     test("method thrown error", () => {
       expect(() => parser.parse(buffer)).toThrow()
@@ -74,9 +97,9 @@ describe("`Parser.parse`", () => {
   describe("when data is chunks to more than one packet", () => {
     const parser = new SerialPortParser()
     const endpoint = Buffer.from([35])
-    const paylaod = { entry: [] }
-    const payloadStringify = JSON.stringify(paylaod)
-    const payloadStringifyLength = JSON.stringify(paylaod).length
+    const payload = { entry: [] }
+    const payloadStringify = JSON.stringify(payload)
+    const payloadStringifyLength = JSON.stringify(payload).length
     const firstPayload = payloadStringify.slice(0, 6)
     const secondPayload = payloadStringify.slice(6)
     const size = Buffer.from(
@@ -90,7 +113,7 @@ describe("`Parser.parse`", () => {
 
     test("method concatenate whole payload", () => {
       parser.parse(firstBuffer)
-      expect(parser.parse(secondBuffer)).toEqual(paylaod)
+      expect(parser.parse(secondBuffer)).toEqual(payload)
     })
   })
 })
