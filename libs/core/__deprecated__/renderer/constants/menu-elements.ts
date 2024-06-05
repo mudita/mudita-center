@@ -51,6 +51,13 @@ const YOUR_PURE_BUTTONS = [
     visibleOn: [DeviceType.MuditaHarmony],
     viewKey: View.ManageSounds,
   },
+  {
+    button: views.dataMigration,
+    icon: IconType.DataMigration,
+    testId: MenuGroupTestIds.DataMigration,
+    visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.DataMigration,
+  },
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [

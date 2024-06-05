@@ -5,6 +5,8 @@
 
 import ipc from "node-ipc"
 
+const SERVER_ID = "MC"
+
 type clientEmiterType = (event: string, data: unknown) => void
 
 let clientEmiter: clientEmiterType | undefined = undefined
@@ -12,12 +14,21 @@ let clientEmiter: clientEmiterType | undefined = undefined
 ipc.config.id = "E2E"
 ipc.config.retry = 1000
 
-ipc.connectTo("MC", function () {
-  const client = ipc.of.MC.on("connect", function () {})
-  clientEmiter = client.emit.bind(client)
-  ipc.of.MC.on("disconnect", function () {
-    clientEmiter = undefined
+export const connect = () => {
+  ipc.connectTo(SERVER_ID, () => {
+    const client = ipc.of.MC.on("connect", () => {})
+    clientEmiter = client.emit.bind(client)
+    ipc.of.MC.on("disconnect", function () {
+      clientEmiter = undefined
+    })
   })
-})
+}
 
-export default clientEmiter
+export const disconnect = () => {
+  clientEmiter = undefined
+  ipc.disconnect(SERVER_ID)
+}
+
+export const getClientEmiter = () => {
+  return clientEmiter
+}

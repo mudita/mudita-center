@@ -23,6 +23,7 @@ import { deviceInitializationReducer } from "Core/device-initialization/reducers
 import { appInitializationReducer } from "Core/app-initialization/reducers/app-initialization.reducer"
 import { deviceManagerReducer } from "Core/device-manager/reducers/device-manager.reducer"
 import {
+  dataMigrationReducer,
   genericBackupsReducer,
   genericFileTransferReducer,
   genericModalsReducer,
@@ -56,6 +57,7 @@ export const reducers = {
   genericFileTransfer: genericFileTransferReducer,
   genericImport: importsReducer,
   appState: appStateReducer,
+  dataMigration: dataMigrationReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

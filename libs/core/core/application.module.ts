@@ -48,7 +48,7 @@ import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
 import { FileSystemDialogModule, OnlineStatusModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
-import { MockDeviceResolverService } from "e2e-mock-server"
+import { MockDeviceResolverService, mockServiceEnabled } from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
 
 export class ApplicationModule {
@@ -92,7 +92,7 @@ export class ApplicationModule {
   private apiModule: APIModule
 
   private deviceManager = new DeviceManager(
-    process.env.MOCK_DEVICE_ENABLED === "1"
+    mockServiceEnabled
       ? new MockDeviceResolverService()
       : new DeviceResolverService(),
     this.eventEmitter
