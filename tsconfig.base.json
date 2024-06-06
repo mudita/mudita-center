@@ -28,6 +28,7 @@
       "E2E/*": ["./apps/mudita-center-e2e/src/*"],
       "Libs/*": ["./libs/*"],
       "Root/*": ["./*"],
+      "device-manager": ["libs/device-manager/src/index.ts"],
       "device/adapters": ["libs/device/adapters/src/index.ts"],
       "device/feature": ["libs/device/feature/src/index.ts"],
       "device/models": ["libs/device/models/src/index.ts"],
