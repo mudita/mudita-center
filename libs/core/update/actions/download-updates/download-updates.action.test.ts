@@ -25,7 +25,8 @@ import * as osUpdateAlreadyDownloadedCheckModule from "Core/update/requests/os-u
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { trackOsDownload } from "Core/analytic-data-tracker/helpers/track-os-download"
-import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
+import { CoreDeviceState } from "core-device/models"
+import { DeviceManagerState } from "device-manager/models"
 
 jest.mock("Core/analytic-data-tracker/helpers/track-os-download")
 
@@ -63,8 +64,11 @@ const mockedRelease2: OsRelease = {
   mandatoryVersions: [],
 }
 
-const mockedDeviceManagerState = {
+const mockedCoreDeviceState = {
   devices: [{ id: "1" }],
+} as unknown as CoreDeviceState
+
+const mockedDeviceManagerState = {
   activeDeviceId: "1",
 } as unknown as DeviceManagerState
 
@@ -128,6 +132,7 @@ describe("when some of the updates have been downloaded before", () => {
           batteryLevel: 0.55,
         },
       },
+      coreDevice: mockedCoreDeviceState,
       deviceManager: mockedDeviceManagerState,
     })
 
@@ -187,6 +192,7 @@ describe("when update downloads successfully", () => {
           batteryLevel: 0.55,
         },
       },
+      coreDevice: mockedCoreDeviceState,
       deviceManager: mockedDeviceManagerState,
     })
 
@@ -242,6 +248,7 @@ describe("when download is cancelled by user", () => {
           batteryLevel: 0.55,
         },
       },
+      coreDevice: mockedCoreDeviceState,
       deviceManager: mockedDeviceManagerState,
     })
 
@@ -290,6 +297,7 @@ describe("when download failed", () => {
           batteryLevel: 0.55,
         },
       },
+      coreDevice: mockedCoreDeviceState,
       deviceManager: mockedDeviceManagerState,
     })
 

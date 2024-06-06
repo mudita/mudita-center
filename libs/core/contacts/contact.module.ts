@@ -14,12 +14,12 @@ import { ContactModel } from "Core/contacts/models"
 import { ContactController } from "Core/contacts/controllers"
 import { ContactService } from "Core/contacts/services"
 import { ContactRepository } from "Core/contacts/repositories"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class ContactModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceManager: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,

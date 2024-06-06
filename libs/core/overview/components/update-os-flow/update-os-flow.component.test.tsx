@@ -5,7 +5,7 @@
 
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { UpdateOsFlow } from "Core/overview/components/update-os-flow"
 import { UpdateOsFlowTestIds } from "Core/overview/components/update-os-flow/update-os-flow-test-ids.enum"
 import { UpdateOsFlowProps } from "Core/overview/components/update-os-flow/update-os-flow.component.interface"

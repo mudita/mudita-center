@@ -10,7 +10,7 @@ import Drawer from "react-modern-drawer"
 import "react-modern-drawer/dist/index.css"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { isSelectDeviceDrawerOpenSelector } from "Core/device-select/selectors/is-select-device-drawer-open.selector"
-import { setSelectDeviceDrawerOpen } from "Core/device-select/actions/set-select-device-drawer-open.action"
+import { setSelectDeviceDrawerOpen } from "device-manager/feature"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -18,12 +18,14 @@ import styled from "styled-components"
 import { Close } from "Core/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import { DisplayStyle } from "Core/__deprecated__/renderer/components/core/button/button.config"
 import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon-type"
-import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
+import {
+  getAvailableDevicesSelector,
+  deactivateDevice,
+  activeDeviceIdSelector,
+  handleDeviceActivated,
+} from "device-manager/feature"
 import { useHistory } from "react-router-dom"
-import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
-import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
-import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
+import { DeviceState } from "core-device/models"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_ONBOARDING,

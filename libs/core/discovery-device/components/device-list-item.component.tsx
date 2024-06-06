@@ -7,7 +7,7 @@ import React from "react"
 import { defineMessages } from "react-intl"
 import styled, { css } from "styled-components"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Device } from "Core/device-manager/reducers/device-manager.interface"
+import { Device } from "core-device/models"
 import {
   backgroundColor,
   borderColor,
@@ -20,7 +20,7 @@ import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 

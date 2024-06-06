@@ -17,14 +17,14 @@ import {
   FileUploadCommand,
 } from "Core/device-file-system/commands"
 import { FileDeleteCommand } from "Core/device-file-system/commands/file-delete.command"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class FilesManagerModule extends BaseModule {
   private readonly filesManagerController: FilesManagerController
 
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceManager: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,

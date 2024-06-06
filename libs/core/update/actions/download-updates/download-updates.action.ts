@@ -23,7 +23,7 @@ import {
 } from "Core/update/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { RELEASE_SPACE } from "Core/update/constants/release-space.constant"
-import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
+import { isActiveDeviceAttachedSelector } from "device-manager/feature"
 
 interface Params {
   releases: OsRelease[]

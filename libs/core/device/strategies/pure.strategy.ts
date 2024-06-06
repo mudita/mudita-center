@@ -4,7 +4,7 @@
  */
 
 import { callRenderer } from "shared/utils"
-import { DeviceCommunicationError } from "Core/device/constants"
+import { DeviceCommunicationError } from "core-device/models"
 import { RequestConfig } from "Core/device/types/mudita-os"
 import {
   RequestResponse,

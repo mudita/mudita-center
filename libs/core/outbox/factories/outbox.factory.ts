@@ -5,7 +5,7 @@
 
 import { EventEmitter } from "events"
 import { OutboxEntryType } from "Core/device/constants"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { IndexStorage } from "Core/index-storage/types"
 import {
   EntryHandlersMapType,
@@ -25,7 +25,7 @@ export class OutboxFactory {
   static create(
     index: IndexStorage,
     eventEmitter: EventEmitter,
-    deviceManager: DeviceManager
+    deviceManager: DeviceProtocolService
   ): OutboxService {
     const contactModel = new ContactModel(index, eventEmitter)
     const contactRepository = new ContactRepository(contactModel)

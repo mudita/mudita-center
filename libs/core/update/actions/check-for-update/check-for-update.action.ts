@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppError } from "Core/core/errors"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import isVersionGreaterOrEqual from "Core/utils/is-version-greater-or-equal"
 import {
   CheckForUpdateMode,
@@ -21,7 +21,7 @@ import {
   osUpdateAlreadyDownloadedCheck,
 } from "Core/update/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { isActiveDeviceSet } from "Core/device-manager/selectors/is-active-device-set.selector"
+import { isActiveDeviceSet } from "device-manager/feature"
 
 interface Params {
   deviceType: DeviceType

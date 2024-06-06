@@ -6,13 +6,9 @@
 import fs from "fs"
 import path from "path"
 import mock from "mock-fs"
-import {
-  Endpoint,
-  Method,
-  DeviceCommunicationError,
-} from "Core/device/constants"
+import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import { FileUploadCommand } from "Core/device-file-system/commands/file-upload.command"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
@@ -23,7 +19,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const fileSystemService = {
   readFile: jest.fn(),

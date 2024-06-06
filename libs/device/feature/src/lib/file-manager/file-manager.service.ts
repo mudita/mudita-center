@@ -8,7 +8,7 @@ import { IpcEvent } from "Core/core/decorators"
 import { ServiceBridge } from "../service-bridge"
 import { FileManagerServiceEvents, GeneralError } from "device/models"
 import { AppError } from "Core/core/errors"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import packageInfo from "../../../../../../apps/mudita-center/package.json"
 import {
@@ -28,7 +28,7 @@ export class FileManager {
   private files: Record<string, unknown> = {}
 
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceManager: DeviceProtocolService,
     private serviceBridge: ServiceBridge
   ) {}
 

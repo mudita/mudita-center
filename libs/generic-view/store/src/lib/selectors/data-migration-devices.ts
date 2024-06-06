@@ -16,7 +16,7 @@ const messages = {
 }
 
 export const selectDataMigrationSourceDevices = createSelector(
-  (state: ReduxRootState) => state.deviceManager.devices,
+  (state: ReduxRootState) => state.coreDevice.devices,
   (devices) =>
     devices
       .filter(({ deviceType }) => deviceType === "MuditaPure")

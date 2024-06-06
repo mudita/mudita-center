@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { GeneralError, DeviceSystemActionsServiceEvents } from "device/models"
 import { IpcEvent } from "Core/core/decorators"
 
 export class DeviceSystemActionsService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceManager: DeviceProtocolService) {}
 
   private async sendSystemRequest(
     action: string,

@@ -14,12 +14,12 @@ import { TemplateModel } from "Core/templates/models"
 import { TemplateRepository } from "Core/templates/repositories"
 import { TemplateService } from "Core/templates/services"
 import { TemplateController } from "Core/templates/controllers"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class TemplateModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceManager: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,

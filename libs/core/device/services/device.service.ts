@@ -4,19 +4,15 @@
  */
 
 import { Result, ResultObject } from "Core/core/builder"
-import {
-  DeviceCommunicationError,
-  Endpoint,
-  Method,
-  PhoneLockCategory,
-} from "Core/device/constants"
+import { PhoneLockCategory } from "Core/device/constants"
+import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import { PhoneLockTime } from "Core/device/dto"
 import { GetPhoneLockTimeResponseBody } from "Core/device/types/mudita-os"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceManager: DeviceProtocolService) {}
 
   public async unlock(
     code: string,

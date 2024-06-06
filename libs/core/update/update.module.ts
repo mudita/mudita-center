@@ -22,14 +22,14 @@ import {
   ReleasesController,
   DeviceUpdateController,
 } from "Core/update/controllers"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { DeviceInfoService } from "Core/device-info/services"
 import { RELEASE_TIMEOUT } from "Core/update/constants/get-release-timeout.constant"
 
 export class UpdateModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceManager: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
