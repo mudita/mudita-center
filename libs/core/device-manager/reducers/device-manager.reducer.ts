@@ -4,7 +4,6 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import {
   Device,
   DeviceManagerState,
@@ -30,12 +29,6 @@ export const deviceManagerReducer = createReducer<DeviceManagerState>(
   initialState,
   (builder) => {
     builder
-      .addCase(setDiscoveryStatus, (state, action) => {
-        return {
-          ...state,
-          discoveryStatus: action.payload,
-        }
-      })
       .addCase(addDevice, (state, action) => {
         const devices = [...state.devices]
         devices.push({
