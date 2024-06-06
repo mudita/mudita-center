@@ -26,9 +26,11 @@ import {
   trackOsUpdate,
   TrackOsUpdateState,
 } from "Core/analytic-data-tracker/helpers"
-import { DeviceType, setRestartingStatus } from "Core/device"
-import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
+import { setRestartingStatus } from "Core/device"
+import { DeviceType } from "device-protocol/models"
+import { CoreDeviceState } from "core-device/models"
 import { startUpdateOs } from "Core/update/actions"
+import { DeviceManagerState } from "device-manager/models"
 
 jest.mock("Core/update/requests/remove-downloaded-os-updates.request")
 jest.mock("Core/analytic-data-tracker/helpers/track-os-update")
@@ -169,14 +171,16 @@ describe("when all updating os requests return success status", () => {
         osVersion: "1.0.0",
       },
     },
-    deviceManager: {
+    coreDevice: {
       devices: [
         {
           id: "1",
           deviceType: DeviceType.MuditaPure,
         },
       ],
-      activeDeviceId: "1"
+    } as unknown as CoreDeviceState,
+    deviceManager: {
+      activeDeviceId: "1",
     } as unknown as DeviceManagerState,
   })
 
@@ -281,14 +285,16 @@ describe("when updating os request return failure status", () => {
         osVersion: "1.0.0",
       },
     },
-    deviceManager: {
+    coreDevice: {
       devices: [
         {
           id: "1",
           deviceType: DeviceType.MuditaPure,
         },
       ],
-      activeDeviceId: "1"
+    } as unknown as CoreDeviceState,
+    deviceManager: {
+      activeDeviceId: "1",
     } as unknown as DeviceManagerState,
   })
 

@@ -4,9 +4,9 @@
  */
 
 import path from "path"
-import { Endpoint, Method } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import { PutFileSystemResponseBody } from "Core/device/types/mudita-os"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
@@ -16,7 +16,7 @@ import { DeviceFileSystemError } from "Core/device-file-system/constants"
 
 export class FileUploadCommand extends BaseCommand {
   constructor(
-    public deviceManager: DeviceManager,
+    public deviceManager: DeviceProtocolService,
     public fileSystemService: FileSystemService
   ) {
     super(deviceManager)

@@ -5,14 +5,14 @@
 
 import { ResultObject, Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { DeviceCommunicationError } from "Core/device/constants"
+import { DeviceCommunicationError } from "core-device/models"
 import { Thread as PureThread } from "Core/device/types/mudita-os"
 import {
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "Core/core/types/request-response.interface"
 import { ThreadService } from "Core/messages/services/thread.service"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { ThreadPresenter } from "Core/messages/presenters"
 import { ThreadRepository } from "Core/messages/repositories"
 import { Thread } from "Core/messages/dto"
@@ -22,7 +22,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const threadRepository = {
   create: jest.fn(),

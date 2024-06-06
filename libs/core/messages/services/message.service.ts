@@ -5,11 +5,10 @@
 
 import { ResultObject } from "Core/core/builder"
 import {
-  Endpoint,
-  Method,
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
 } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import {
   GetMessagesRequestConfig as PureGetMessagesBody,
   Message as PureMessage,
@@ -31,7 +30,7 @@ import {
 } from "Core/messages/presenters"
 import { MessageRepository } from "Core/messages/repositories"
 import { ThreadService } from "Core/messages/services/thread.service"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { mapToRawNumber, splitMessageByBytesSize } from "Core/messages/helpers"
 
 export interface GetMessagesByThreadIdResponse {
@@ -50,7 +49,7 @@ export interface CreateMessageDataResponse {
 
 export class MessageService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceManager: DeviceProtocolService,
     private threadService: ThreadService,
     private messageRepository: MessageRepository
   ) {}

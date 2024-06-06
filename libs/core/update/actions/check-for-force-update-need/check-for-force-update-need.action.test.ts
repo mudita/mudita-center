@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 import { checkForForceUpdateNeed } from "Core/update/actions/check-for-force-update-need/check-for-force-update-need.action"
 import { CheckForUpdateMode, UpdateOsEvent } from "Core/update/constants"
 import { pendingAction } from "Core/__deprecated__/renderer/store/helpers"

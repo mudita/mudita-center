@@ -3,12 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  DeviceCommunicationError,
-} from "Core/device/constants"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject, SuccessResult } from "Core/core/builder"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
@@ -18,7 +14,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const subject = new FileDeleteCommand(deviceManager)
 

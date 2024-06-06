@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import {
@@ -21,7 +21,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { View } from "generic-view/utils"
 
 export class APIFeaturesService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceManager: DeviceProtocolService) {}
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureConfiguration)
   public async getFeatureConfiguration({

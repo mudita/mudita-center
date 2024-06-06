@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint, Method } from "core-device/models"
 import { Result, ResultObject } from "Core/core/builder"
-import { MessagesCategory, Method, Endpoint } from "Core/device/constants"
+import { MessagesCategory } from "Core/device/constants"
 import { TemplateService } from "Core/templates/services/template.service"
 import { TemplateRepository } from "Core/templates/repositories"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,
@@ -24,7 +25,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const subject = new TemplateService(deviceManager, templateRepository)
 

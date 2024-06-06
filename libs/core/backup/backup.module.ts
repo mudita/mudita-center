@@ -17,7 +17,7 @@ import {
   LoadBackupService,
 } from "Core/backup/services"
 import { BackupController } from "Core/backup/controllers"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { FileManagerService } from "Core/files-manager/services"
 import { FileDeleteCommand } from "Core/device-file-system/commands/file-delete.command"
 import {
@@ -29,7 +29,7 @@ import { DeviceInfoService } from "Core/device-info/services"
 export class BackupModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceManager: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,

@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DiagnosticsFileList, Endpoint, Method } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
+import { DiagnosticsFileList } from "Core/device/constants"
 import { GetDeviceFilesResponseBody } from "Core/device/types/mudita-os"
 import path from "path"
 import { ResultObject } from "Core/core/builder"
@@ -13,11 +14,11 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "Core/core/types/request-response.interface"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class CrashDumpService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceManager: DeviceProtocolService,
     private deviceFileSystem: DeviceFileSystemService
   ) {}
 

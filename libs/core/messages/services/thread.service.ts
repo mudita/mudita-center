@@ -4,18 +4,15 @@
  */
 
 import { Thread } from "Core/messages/dto"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import {
   GetThreadsRequestConfig,
   PaginationBody,
   GetThreadResponseBody,
   GetThreadsResponseBody,
 } from "Core/device/types/mudita-os"
-import {
-  Endpoint,
-  Method,
-  MessagesCategory as PureMessagesCategory,
-} from "Core/device/constants"
+import { MessagesCategory as PureMessagesCategory } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -32,7 +29,7 @@ export interface GetThreadsResponse {
 
 export class ThreadService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceManager: DeviceProtocolService,
     private threadRepository: ThreadRepository
   ) {}
 

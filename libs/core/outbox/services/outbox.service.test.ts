@@ -3,25 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint, Method } from "core-device/models"
 import { Result } from "Core/core/builder"
 import {
   EntryHandlersMapType,
   OutboxService,
 } from "Core/outbox/services/outbox.service"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { OutboxEntry } from "Core/device/types/mudita-os"
-import {
-  OutboxEntryChange,
-  OutboxEntryType,
-  Endpoint,
-  Method,
-} from "Core/device/constants"
+import { OutboxEntryChange, OutboxEntryType } from "Core/device/constants"
 
 const deviceManager = {
   device: {
     request: jest.fn().mockResolvedValue(Result.success({ entries: [] })),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 const entryHandlersMap = {
   [OutboxEntryType.Contact]: {
     handleEntry: jest.fn(),

@@ -3,20 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint, Method } from "core-device/models"
 import { ResultObject, Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import { Endpoint, Method, DiagnosticsFileList } from "Core/device/constants"
+import { DiagnosticsFileList } from "Core/device/constants"
 import { GetDeviceFilesResponseBody } from "Core/device/types/mudita-os"
 import { transformDeviceFilesByOption } from "Core/device-log/helpers"
 import { DeviceFile } from "Core/device-file-system/dto"
 import { DeviceEnumError } from "Core/device-log/constants"
 import { DeviceFilesOption } from "Core/device-file-system/types"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class DeviceLogService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceManager: DeviceProtocolService,
     private deviceFileSystem: DeviceFileSystemService
   ) {}
 

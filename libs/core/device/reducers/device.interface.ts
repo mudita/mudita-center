@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour, DeviceType, OnboardingState } from "Core/device/constants"
+import { CaseColour } from "core-device/models"
+import { DeviceType } from "device-protocol/models"
+import { OnboardingState } from "Core/device/constants"
 import { SimCard } from "Core/__deprecated__/renderer/models/basic-info/basic-info.typings"
 
 export interface KompaktDeviceData {

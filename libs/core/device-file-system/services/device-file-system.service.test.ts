@@ -6,8 +6,8 @@
 import path from "path"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { DeviceCommunicationError } from "Core/device/constants"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceCommunicationError } from "core-device/models"
+import { DeviceProtocolService } from "device-protocol/feature"
 import {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
@@ -27,7 +27,7 @@ const deviceManager = {
   device: {
     id: "abc123",
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const deviceFileSystem = new DeviceFileSystemService(deviceManager)
 

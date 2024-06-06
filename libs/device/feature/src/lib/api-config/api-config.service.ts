@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import {
@@ -17,7 +17,7 @@ import { AppError } from "Core/core/errors"
 import { APIConfigError } from "./api-config-error"
 
 export class APIConfigService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceManager: DeviceProtocolService) {}
 
   @IpcEvent(APIConfigServiceEvents.APIConfig)
   public async getAPIConfig(

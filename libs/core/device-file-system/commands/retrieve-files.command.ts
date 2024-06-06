@@ -8,7 +8,7 @@ import { AppError } from "Core/core/errors"
 import { BaseCommand } from "Core/device-file-system/commands/base.command"
 import { DeviceFileSystemError } from "Core/device-file-system/constants"
 import { DirectoryFile } from "Core/device-file-system/types"
-import { Endpoint, Method } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import { GetFileSystemDirectoryResponseBody } from "Core/device/types/mudita-os"
 
 export class RetrieveFilesCommand extends BaseCommand {

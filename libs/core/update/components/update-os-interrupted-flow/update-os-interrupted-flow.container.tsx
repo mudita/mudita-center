@@ -16,8 +16,10 @@ import {
   RootState,
   TmpDispatch,
 } from "Core/__deprecated__/renderer/store"
-import { isActiveDeviceAttachedSelector } from "Core/device-manager/selectors/is-active-device-attached.selector"
-import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
+import {
+  deactivateDevice,
+  isActiveDeviceAttachedSelector,
+} from "device-manager/feature"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {

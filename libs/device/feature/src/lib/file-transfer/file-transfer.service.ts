@@ -6,7 +6,7 @@
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import { AppError, AppErrorType } from "Core/core/errors"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import {
   ApiFileTransferError,
@@ -38,7 +38,7 @@ const DEFAULT_MAX_REPEATS = 2
 
 export class APIFileTransferService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceManager: DeviceProtocolService,
     private serviceBridge: ServiceBridge,
     private transfers: Record<string, Transfer> = {}
   ) {}

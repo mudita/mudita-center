@@ -19,12 +19,12 @@ import {
 import { SearcherMediator } from "Core/search/mediators"
 import { SearchService } from "Core/search/services/search.service"
 import { SearchController } from "Core/search/controllers/search.controller"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class SearchModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceManager: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,

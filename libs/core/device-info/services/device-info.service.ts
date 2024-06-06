@@ -7,12 +7,8 @@ import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { DeviceInfo } from "Core/device-info/dto"
 import { DeviceInfoPresenter } from "Core/device-info/presenters"
-import { DeviceManager } from "Core/device-manager/services"
-import {
-  DeviceCommunicationError,
-  Endpoint,
-  Method,
-} from "Core/device/constants"
+import { DeviceProtocolService } from "device-protocol/feature"
+import { Endpoint, Method, DeviceCommunicationError } from "core-device/models"
 import {
   DeviceInfo as DeviceInfoRaw,
   NotSupportedDeviceInfo,
@@ -20,7 +16,7 @@ import {
 import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceInfoService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceManager: DeviceProtocolService) {}
 
   private async getDeviceInfoRequest<TResult>(
     deviceId: DeviceId = this.deviceManager.device.id

@@ -7,12 +7,12 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
-import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
-import { DeviceType } from "Core/device"
+import { getActiveDevice } from "device-manager/feature"
+import { DeviceType } from "device-protocol/models"
 import { MuditaPureInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-pure-initialization-modal-flow"
 import { MuditaHarmonyInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-harmony-initialization-modal-flow"
 import { APIDeviceInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/api-device-initialization-modal-flow"
-import { Device } from "Core/device-manager/reducers/device-manager.interface"
+import { Device } from "core-device/models"
 
 const DevicesInitializationModalFlow: FunctionComponent<{
   activeDevice?: Device

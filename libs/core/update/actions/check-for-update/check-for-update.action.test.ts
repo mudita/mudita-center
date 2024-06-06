@@ -6,7 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { checkForUpdate } from "Core/update/actions"
 import {
   Product,

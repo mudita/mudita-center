@@ -5,16 +5,12 @@
 
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import {
-  Endpoint,
-  Method,
-  DiagnosticsFileList,
-  DeviceCommunicationError,
-} from "Core/device/constants"
+import { DiagnosticsFileList } from "Core/device/constants"
+import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import { GetDeviceFilesResponseBody } from "Core/device/types/mudita-os"
 import { DeviceLogService } from "Core/device-log/services/device-log.service"
 import { DeviceEnumError } from "Core/device-log/constants"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import {
@@ -26,7 +22,7 @@ const deviceManagerMock = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const deviceFileSystemMock = {
   downloadDeviceFiles: jest.fn(),

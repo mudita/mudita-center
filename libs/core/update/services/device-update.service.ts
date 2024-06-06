@@ -3,29 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "device-protocol/models"
+import { Endpoint, Method } from "core-device/models"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import {
-  DeviceType,
-  Endpoint,
-  Method,
-  OnboardingState,
-  PhoneLockCategory,
-} from "Core/device/constants"
+import { OnboardingState, PhoneLockCategory } from "Core/device/constants"
 import { SettingsService } from "Core/settings/services"
 import { UpdateErrorServiceErrors } from "Core/update/constants"
 import { UpdateOS } from "Core/update/dto"
 import { join } from "path"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import * as fs from "fs"
 import { DeviceInfoService } from "Core/device-info/services"
 
 export class DeviceUpdateService {
   constructor(
     private settingsService: SettingsService,
-    private deviceManager: DeviceManager,
+    private deviceManager: DeviceProtocolService,
     private deviceFileSystem: DeviceFileSystemService,
     private deviceInfoService: DeviceInfoService
   ) {}

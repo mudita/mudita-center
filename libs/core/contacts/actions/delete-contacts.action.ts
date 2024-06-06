@@ -4,12 +4,12 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { isActiveDeviceSet } from "device-manager/feature"
 import { deleteContactsInState } from "Core/contacts/actions/base.action"
 import { ContactsEvent } from "Core/contacts/constants"
 import { ContactID } from "Core/contacts/reducers"
 import { deleteContactsRequest } from "Core/contacts/requests"
 import { AppError } from "Core/core/errors"
-import { isActiveDeviceSet } from "Core/device-manager/selectors/is-active-device-set.selector"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export const deleteContacts = createAsyncThunk<

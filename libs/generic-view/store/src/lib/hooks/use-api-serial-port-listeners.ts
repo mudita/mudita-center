@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Device } from "Core/device-manager/reducers/device-manager.interface"
 import { useEffect } from "react"
+import { Device } from "core-device/models"
+import { DeviceProtocolMainEvent, DeviceType } from "device-protocol/models"
 import { useDispatch, useSelector } from "react-redux"
-import { answerMain, DeviceManagerMainEvent } from "shared/utils"
+import { answerMain } from "shared/utils"
 import { detachDevice } from "../views/actions"
 import { getAPIConfig } from "../get-api-config"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { DeviceType } from "Core/device"
 import { setBackupProcessStatus } from "../backup/actions"
 import { closeAllModals } from "../modals/actions"
 import { selectBackupProcessStatus } from "../selectors"
@@ -22,7 +22,7 @@ export const useAPISerialPortListeners = () => {
 
   useEffect(() => {
     const unregisterFailListener = answerMain<Device>(
-      DeviceManagerMainEvent.DeviceConnectFailed,
+      DeviceProtocolMainEvent.DeviceConnectFailed,
       (properties) => {
         const { deviceType } = properties
         if (deviceType !== DeviceType.APIDevice) {
@@ -33,7 +33,7 @@ export const useAPISerialPortListeners = () => {
       }
     )
     const unregisterConnectListener = answerMain<Device>(
-      DeviceManagerMainEvent.DeviceConnected,
+      DeviceProtocolMainEvent.DeviceConnected,
       (properties) => {
         const { id, deviceType } = properties
         if (deviceType !== DeviceType.APIDevice) {
@@ -43,7 +43,7 @@ export const useAPISerialPortListeners = () => {
       }
     )
     const unregisterDetachedListener = answerMain<Device>(
-      DeviceManagerMainEvent.DeviceDetached,
+      DeviceProtocolMainEvent.DeviceDetached,
       async (properties) => {
         const { id, deviceType } = properties
         dispatch(clearDataMigrationDevice(id))

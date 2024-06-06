@@ -8,8 +8,8 @@ import stream from "stream"
 import path from "path"
 import { AppError } from "Core/core/errors"
 import { ResultObject, Result } from "Core/core/builder"
-import { Endpoint, Method } from "Core/device/constants"
-import { DeviceManager } from "Core/device-manager/services"
+import { Endpoint, Method } from "core-device/models"
+import { DeviceProtocolService } from "device-protocol/feature"
 import logger from "Core/__deprecated__/main/utils/logger"
 import countCRC32 from "Core/device-file-system/helpers/count-crc32"
 import { FileSystemService } from "Core/file-system/services/file-system.service"
@@ -27,7 +27,7 @@ import {
 } from "Core/device-file-system/dto"
 
 export class DeviceFileSystemService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceManager: DeviceProtocolService) {}
 
   public async downloadDeviceFilesLocally(
     filePaths: string[],

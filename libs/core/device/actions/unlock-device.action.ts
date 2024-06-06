@@ -5,11 +5,8 @@
 
 import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import { delay } from "shared/utils"
-import {
-  DeviceCommunicationError,
-  DeviceError,
-  DeviceEvent,
-} from "Core/device/constants"
+import { DeviceCommunicationError } from "core-device/models"
+import { DeviceError, DeviceEvent } from "Core/device/constants"
 import {
   unlockDeviceRequest,
   unlockDeviceStatusRequest,
