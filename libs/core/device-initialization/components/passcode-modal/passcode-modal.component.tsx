@@ -25,14 +25,14 @@ interface Props extends Omit<ModalDialogProps, "close" | "open"> {
   canBeClosed: boolean
 }
 
-enum ErrorState {
+export enum ErrorState {
   NoError = "no-error",
   TypingError = "typing-error",
   BadPasscode = "bad-passcode",
   InternalServerError = "internal-server-error",
 }
 
-const ErrorMessageMap: Record<ErrorState, string> = {
+export const ErrorMessageMap: Record<ErrorState, string> = {
   [ErrorState.NoError]: "",
   [ErrorState.TypingError]: "component.passcodeModalErrorTyping",
   [ErrorState.BadPasscode]: "component.passcodeModalError",
