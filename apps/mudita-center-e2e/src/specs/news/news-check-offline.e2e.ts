@@ -9,7 +9,27 @@ import {
   newsImageRegex,
 } from "../../consts/regex-const"
 
-describe("News Page Check", () => {
+describe("News Page Check in Offline Mode", () => {
+  before(async () => {
+    // Switch to offline mode before starting the tests
+    await browser.setNetworkConditions({
+      offline: true,
+      latency: 0,
+      download_throughput: 0,
+      upload_throughput: 0,
+    })
+  })
+
+  after(async () => {
+    // Switch back to online mode after finishing the tests
+    await browser.setNetworkConditions({
+      offline: false,
+      latency: 0,
+      download_throughput: -1,
+      upload_throughput: -1,
+    })
+  })
+
   it("Opens News Page", async () => {
     const notNowButton = await HomePage.notNowButton
     await expect(notNowButton).toBeClickable()
