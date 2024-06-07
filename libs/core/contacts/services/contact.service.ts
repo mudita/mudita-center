@@ -23,6 +23,7 @@ import {
   RequestResponseStatus,
 } from "Core/core/types/request-response.interface"
 import { ResultObject } from "Core/core/builder"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export class ContactService {
   constructor(
@@ -53,12 +54,16 @@ export class ContactService {
     }
   }
 
-  public async getContacts(): Promise<RequestResponse<Contact[]>> {
-    const response =
-      await this.deviceManager.device.request<GetContactsResponseBody>({
+  public async getContacts(
+    deviceId: DeviceId = this.deviceManager.device.id
+  ): Promise<RequestResponse<Contact[]>> {
+    const response = await this.deviceManager.request<GetContactsResponseBody>(
+      deviceId,
+      {
         endpoint: Endpoint.Contacts,
         method: Method.Get,
-      })
+      }
+    )
 
     if (response.ok && response.data) {
       return {

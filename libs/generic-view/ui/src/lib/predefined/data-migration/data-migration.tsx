@@ -12,9 +12,11 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
+  selectDataMigrationStatus,
   selectDataMigrationTargetDevices,
   setSourceDevice,
   startDataMigration,
+  performDataMigration,
 } from "generic-view/store"
 import { Instruction, InstructionWrapper } from "./instruction"
 import styled from "styled-components"
@@ -52,6 +54,7 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     selectDataMigrationTargetDevices
   ) as Device[]
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
+  const dataMigrationStatus = useSelector(selectDataMigrationStatus)
 
   const noSourceDeviceSelected = !sourceDevice
   const displayInstruction =
@@ -78,6 +81,13 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     noSourceDeviceSelected,
     sourceDevices,
   ])
+
+  useEffect(() => {
+    switch (dataMigrationStatus) {
+      case "in-progress":
+        dispatch(performDataMigration())
+    }
+  }, [dataMigrationStatus, dispatch])
 
   return (
     <Wrapper>

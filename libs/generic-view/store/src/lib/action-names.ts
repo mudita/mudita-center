@@ -51,4 +51,8 @@ export enum ActionName {
   ClearDataMigrationDevice = "data-migration/clear-device",
   SetDataMigrationStatus = "data-migration/set-status",
   StartDataMigration = "data-migration/start",
+  PerformDataMigration = "data-migration/perform",
+  SetDataMigrationTransferProgress = "data-migration/set-transfer-progress",
+  IncrementDataMigrationTransferProgress = "data-migration/increment-transfer-progress",
+  SetDataMigrationTransferProgressLabel = "data-migration/set-transfer-progress-label",
 }

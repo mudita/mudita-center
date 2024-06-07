@@ -31,7 +31,8 @@ export class DeviceFileSystemService {
 
   public async downloadDeviceFilesLocally(
     filePaths: string[],
-    options: DownloadDeviceFileLocallyOptions
+    options: DownloadDeviceFileLocallyOptions,
+    deviceId = this.deviceManager.device.id
   ): Promise<ResultObject<string[]>> {
     const data: string[] = []
 
@@ -44,7 +45,8 @@ export class DeviceFileSystemService {
     for (let i = 0; i < filePaths.length; i++) {
       const response = await this.downloadDeviceFileLocally(
         filePaths[i],
-        options
+        options,
+        deviceId
       )
 
       if (response.ok && response.data) {
@@ -58,12 +60,13 @@ export class DeviceFileSystemService {
   }
 
   public async downloadDeviceFiles(
-    filePaths: string[]
+    filePaths: string[],
+    deviceId = this.deviceManager.device.id
   ): Promise<ResultObject<DeviceFile[]>> {
     const data: DeviceFile[] = []
     for (let i = 0; i < filePaths.length; i++) {
       const filePath = filePaths[i]
-      const response = await this.downloadFile(filePath)
+      const response = await this.downloadFile(filePath, deviceId)
 
       if (response.ok && response.data) {
         const name = filePath.split("/").pop() as string
@@ -76,10 +79,13 @@ export class DeviceFileSystemService {
     return Result.success(data)
   }
 
-  public async downloadFile(filePath: string): Promise<ResultObject<Buffer>> {
+  public async downloadFile(
+    filePath: string,
+    deviceId = this.deviceManager.device.id
+  ): Promise<ResultObject<Buffer>> {
     try {
       const { ok, data } =
-        await this.deviceManager.device.request<GetFileSystemResponseBody>({
+        await this.deviceManager.request<GetFileSystemResponseBody>(deviceId, {
           endpoint: Endpoint.FileSystem,
           method: Method.Get,
           body: {
@@ -100,7 +106,10 @@ export class DeviceFileSystemService {
       const chunkLength = fileSize > chunkSize ? fileSize / chunkSize : 1
       const downloadFileResponse = await this.downloadEncodedFile(
         rxID,
-        chunkLength
+        chunkLength,
+        undefined,
+        undefined,
+        deviceId
       )
 
       if (
@@ -237,9 +246,10 @@ export class DeviceFileSystemService {
 
   private async downloadDeviceFileLocally(
     filePath: string,
-    options: DownloadDeviceFileLocallyOptions
+    options: DownloadDeviceFileLocallyOptions,
+    deviceId = this.deviceManager.device.id
   ): Promise<ResultObject<string[]>> {
-    const { data: result, ok } = await this.downloadFile(filePath)
+    const { data: result, ok } = await this.downloadFile(filePath, deviceId)
 
     if (!ok || result === undefined) {
       return Result.failed(new AppError("", ""))
@@ -393,17 +403,21 @@ export class DeviceFileSystemService {
     rxID: string,
     chunkLength: number,
     chunkNo = 1,
-    chunkedString = ""
+    chunkedString = "",
+    deviceId = this.deviceManager.device.id
   ): Promise<ResultObject<EncodedFile>> {
     const { ok, data } =
-      await this.deviceManager.device.request<DownloadFileSystemResponseBody>({
-        endpoint: Endpoint.FileSystem,
-        method: Method.Get,
-        body: {
-          rxID,
-          chunkNo,
-        },
-      })
+      await this.deviceManager.request<DownloadFileSystemResponseBody>(
+        deviceId,
+        {
+          endpoint: Endpoint.FileSystem,
+          method: Method.Get,
+          body: {
+            rxID,
+            chunkNo,
+          },
+        }
+      )
 
     if (!ok || data === undefined) {
       return Result.failed(
@@ -415,7 +429,13 @@ export class DeviceFileSystemService {
     const string = `${chunkedString}${downloadData}`
 
     if (chunkNo < chunkLength) {
-      return this.downloadEncodedFile(rxID, chunkLength, chunkNo + 1, string)
+      return this.downloadEncodedFile(
+        rxID,
+        chunkLength,
+        chunkNo + 1,
+        string,
+        deviceId
+      )
     } else {
       return Result.success({
         file: string,

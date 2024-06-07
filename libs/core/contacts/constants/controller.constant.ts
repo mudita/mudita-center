@@ -4,6 +4,7 @@
  */
 
 export enum IpcContactEvent {
+  GetContacts = "contact_get-contacts",
   CreateContact = "contact_create-contact",
   EditContact = "contact_edit-contact",
   DeleteContacts = "contact_delete-contacts",

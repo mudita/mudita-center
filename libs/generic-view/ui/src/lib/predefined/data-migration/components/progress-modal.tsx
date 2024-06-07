@@ -3,12 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { FunctionComponent, useEffect, useState } from "react"
+import React, { FunctionComponent, useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Modal } from "../../../interactive/modal/modal"
 import { ButtonAction, IconType } from "generic-view/utils"
 import { ButtonSecondary } from "../../../buttons/button-secondary"
 import {
+  DataTransferProgressLabel,
+  selectDataMigrationProgress,
   selectDataMigrationStatus,
   setDataMigrationStatus,
 } from "generic-view/store"
@@ -17,6 +19,10 @@ import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { ProgressBar } from "../../../interactive/progress-bar/progress-bar"
 import styled from "styled-components"
+import {
+  DataMigrationFeature,
+  DataMigrationProgressStep,
+} from "generic-view/models"
 
 const messages = defineMessages({
   title: {
@@ -28,6 +34,9 @@ const messages = defineMessages({
   cancelButtonLabel: {
     id: "module.genericViews.dataMigration.progress.cancelButtonLabel",
   },
+  collectingData: {
+    id: "module.genericViews.dataMigration.progress.collectingData",
+  },
 })
 
 interface Props {
@@ -37,6 +46,7 @@ interface Props {
 export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
   const dispatch = useDispatch()
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
+  const dataMigrationProgress = useSelector(selectDataMigrationProgress)
   const [opened, setOpened] = useState(false)
 
   const cancelAction: ButtonAction = {
@@ -49,6 +59,20 @@ export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
       }, modalTransitionDuration)
     },
   }
+
+  const label = useMemo(() => {
+    if (isDataMigrationFeature(dataMigrationProgress.feature)) {
+      return intl.formatMessage({
+        id: `module.genericViews.dataMigration.features.${dataMigrationProgress.feature}`,
+      })
+    }
+    switch (dataMigrationProgress.feature) {
+      case DataMigrationProgressStep.CollectingData:
+        return intl.formatMessage(messages.collectingData)
+      default:
+        return ""
+    }
+  }, [dataMigrationProgress.feature])
 
   useEffect(() => {
     if (dataMigrationStatus === "in-progress") {
@@ -67,7 +91,10 @@ export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
       <ProgressWrapper>
         <ProgressBar
           config={{ maxValue: 100 }}
-          data={{ message: "Contacts", value: 1 }}
+          data={{
+            message: label,
+            value: dataMigrationProgress.progress,
+          }}
         />
       </ProgressWrapper>
       <Modal.Buttons config={{ vertical: true }}>
@@ -80,6 +107,12 @@ export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
       </Modal.Buttons>
     </Modal>
   )
+}
+
+const isDataMigrationFeature = (
+  feature?: DataTransferProgressLabel
+): feature is DataMigrationFeature => {
+  return !!feature && Object.keys(DataMigrationFeature).includes(feature)
 }
 
 const ProgressWrapper = styled.div`

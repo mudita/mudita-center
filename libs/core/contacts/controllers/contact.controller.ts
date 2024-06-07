@@ -8,9 +8,15 @@ import { ContactService } from "Core/contacts/services"
 import { RequestResponse } from "Core/core/types/request-response.interface"
 import { IpcContactEvent } from "Core/contacts/constants"
 import { Contact, ContactID } from "Core/contacts/reducers"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export class ContactController {
   constructor(private contactService: ContactService) {}
+
+  @IpcEvent(IpcContactEvent.GetContacts)
+  public getContacts(deviceId: DeviceId): Promise<RequestResponse<Contact[]>> {
+    return this.contactService.getContacts(deviceId)
+  }
 
   @IpcEvent(IpcContactEvent.CreateContact)
   public createContact(contact: Contact): Promise<RequestResponse<Contact>> {
