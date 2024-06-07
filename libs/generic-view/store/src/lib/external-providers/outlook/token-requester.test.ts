@@ -6,7 +6,7 @@
 import { TokenRequester } from "./token-requester"
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
-import { OutLookScope } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+import { OutLookScope } from "./outlook.interface"
 
 const axiosInstance = axios.create()
 

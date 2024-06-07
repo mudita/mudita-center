@@ -5,7 +5,7 @@
 
 import { GoogleProviderState, Scope } from "./google/google.interface"
 import { AxiosRequestConfig } from "axios"
-import { OutlookProviderState } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+import { OutlookProviderState } from "./outlook/outlook.interface"
 
 export enum Provider {
   Google = "google",

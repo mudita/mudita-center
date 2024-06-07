@@ -5,7 +5,6 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "Core/contacts/constants"
-import { OutLookScope } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
   Scope,
@@ -13,6 +12,7 @@ import {
   outlookAuthorize,
   ExternalProvider,
   Provider,
+  OutLookScope,
 } from "generic-view/store"
 
 // AUTO DISABLED - fix me if you like :)

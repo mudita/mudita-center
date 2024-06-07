@@ -9,7 +9,7 @@ import {
   OutlookAuthSuccessResponse,
   OutlookContactResource,
   OutlookContactResourceItem,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+} from "./outlook.interface"
 import {
   apiBaseUrl,
   baseGraphUrl,

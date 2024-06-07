@@ -9,7 +9,7 @@ import {
   OutLookScope,
   OutlookAuthErrorResponse,
   OutlookAuthSuccessResponse,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+} from "./outlook.interface"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"

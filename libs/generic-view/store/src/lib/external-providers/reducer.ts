@@ -8,7 +8,7 @@ import { ExternalProvidersState } from "./external-providers.interface"
 import { googleAuthorize } from "./google/google-authorize.action"
 import { setGoogleAuthData, setOutlookAuthData } from "./actions"
 import { outlookAuthorize } from "./outlook/outlook-authorize.action"
-import { TokenPayload } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+import { TokenPayload } from "./outlook/outlook.interface"
 
 const initialState: ExternalProvidersState = {
   google: {
