@@ -13,6 +13,7 @@ import { fulfilledAction } from "Core/__deprecated__/renderer/store"
 
 jest.mock("generic-view/store", () => {
   const actualModule = jest.requireActual("generic-view/store")
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...actualModule,
     googleAuthorize: () =>
