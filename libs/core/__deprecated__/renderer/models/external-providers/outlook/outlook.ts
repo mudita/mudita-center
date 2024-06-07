@@ -5,10 +5,12 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { ExternalProvidersState } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { createModel } from "@rematch/core"
-import { ExternalProvidersModels } from "Core/__deprecated__/renderer/models/external-providers/external-providers.models"
+import {
+  ExternalProvidersModels,
+  ExternalProvidersState,
+} from "generic-view/store"
 import { RootState } from "Core/__deprecated__/renderer/store/external-providers"
 import { OutlookAuthActions } from "Core/__deprecated__/common/enums/outlook-auth-actions.enum"
 import {

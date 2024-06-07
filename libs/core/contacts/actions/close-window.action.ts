@@ -6,12 +6,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "Core/contacts/constants"
 import {
-  ExternalProvider,
-  Provider,
-} from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import {
   googleCloseWindowRequest,
   outlookCloseWindowRequest,
+  ExternalProvider,
+  Provider,
 } from "generic-view/store"
 
 export const closeWindow = createAsyncThunk<unknown, ExternalProvider>(

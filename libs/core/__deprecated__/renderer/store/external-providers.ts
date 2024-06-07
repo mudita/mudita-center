@@ -5,10 +5,7 @@
 
 import { init, RematchDispatch, RematchRootState } from "@rematch/core"
 import selectPlugin from "@rematch/select"
-import {
-  ExternalProvidersModels,
-  models,
-} from "Core/__deprecated__/renderer/models/external-providers/external-providers.models"
+import { ExternalProvidersModels, models } from "generic-view/store"
 
 const externalProvidersStore = init({
   name: "External providers",

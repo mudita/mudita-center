@@ -4,7 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { ExternalProvidersState } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
+import { ExternalProvidersState } from "./external-providers.interface"
 import { googleAuthorize } from "./google/google-authorize.action"
 import { setGoogleAuthData, setOutlookAuthData } from "./actions"
 import { outlookAuthorize } from "./outlook/outlook-authorize.action"

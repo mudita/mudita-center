@@ -5,7 +5,7 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
-import { Scope } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
+import { Scope } from "./google/google.interface"
 import { TokenPayload } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
 
 export const setGoogleAuthData = createAction<{ scope: Scope; data: unknown }>(

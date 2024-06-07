@@ -5,14 +5,15 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "Core/contacts/constants"
-import {
-  ExternalProvider,
-  Provider,
-} from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import { Scope } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
 import { OutLookScope } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { googleAuthorize, outlookAuthorize } from "generic-view/store"
+import {
+  Scope,
+  googleAuthorize,
+  outlookAuthorize,
+  ExternalProvider,
+  Provider,
+} from "generic-view/store"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

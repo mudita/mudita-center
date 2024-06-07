@@ -43,7 +43,7 @@ import {
   killAuthServer,
 } from "Core/__deprecated__/main/auth-server"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { Scope } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
+import { Scope } from "generic-view/store"
 import { OutlookAuthActions } from "Core/__deprecated__/common/enums/outlook-auth-actions.enum"
 import {
   clientId,

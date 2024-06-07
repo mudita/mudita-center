@@ -19,10 +19,6 @@ import {
 } from "Core/contacts/reducers/contacts.interface"
 
 import {
-  ExternalProvider,
-  Provider,
-} from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import {
   contactDatabaseFactory,
   getContacts,
 } from "Core/contacts/helpers/contacts.helpers"
@@ -48,7 +44,8 @@ import {
   toggleItem,
 } from "Core/contacts/actions"
 import { getPaths } from "shared/app-state"
-import { googleGetContacts, outlookGetContacts } from "generic-view/store"
+import { googleGetContacts, outlookGetContacts, ExternalProvider,
+  Provider, } from "generic-view/store"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state

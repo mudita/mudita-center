@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { RequestWrapperPayload } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import { GoogleContactResourceItem } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
+import { RequestWrapperPayload } from "../external-providers.interface"
+import { GoogleContactResourceItem } from "./google.interface"
 import { ReduxRootState, TmpDispatch } from "Core/__deprecated__/renderer/store"
 import { Contact } from "Core/contacts/reducers/contacts.interface"
 import axios, { AxiosResponse } from "axios"

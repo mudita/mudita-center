@@ -10,7 +10,7 @@ import {
   GoogleAuthFailedResponse,
   GoogleAuthSuccessResponse,
   Scope,
-} from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
+} from "./google.interface"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
 import { GoogleAuthActions } from "Core/__deprecated__/common/enums/google-auth-actions.enum"
