@@ -3,18 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  DeviceCommunicationError,
-  Endpoint,
-  Method,
-} from "Core/device/constants"
+import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import {
   GetContactResponseBody,
   GetContactsResponseBody,
   CreateContactResponseBody,
   CreateContactErrorResponseBody,
 } from "Core/device/types/mudita-os"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { Contact, ContactID } from "Core/contacts/reducers"
 import { ContactRepository } from "Core/contacts/repositories"
 import { ContactPresenter } from "Core/contacts/presenters"
@@ -27,7 +23,7 @@ import { ResultObject } from "Core/core/builder"
 export class ContactService {
   constructor(
     private contactRepository: ContactRepository,
-    private deviceManager: DeviceManager
+    private deviceManager: DeviceProtocolService
   ) {}
 
   public async getContact(id: string): Promise<RequestResponse<Contact>> {

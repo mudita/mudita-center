@@ -6,7 +6,7 @@
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import {
   APIMenuServiceEvents,
   GeneralError,
@@ -16,7 +16,7 @@ import {
 import { DeviceId } from "Core/device/constants/device-id"
 
 export class APIMenuService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceManager: DeviceProtocolService) {}
 
   @IpcEvent(APIMenuServiceEvents.GetMenuConfig)
   public async getMenuConfig(

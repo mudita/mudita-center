@@ -3,14 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method, BackupCategory } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
+import { DeviceProtocolService } from "device-protocol/feature"
+import { BackupCategory } from "Core/device/constants"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { BackupError, Operation } from "Core/backup/constants"
 import { MetadataStore, MetadataKey } from "Core/metadata"
 import { CreateDeviceBackup } from "Core/backup/types"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import { DeviceManager } from "Core/device-manager/services"
 import { BaseBackupService } from "Core/backup/services/base-backup.service"
 import { FileManagerService } from "Core/files-manager/services"
 import { DeviceDirectory } from "Core/files-manager/constants"
@@ -18,7 +19,7 @@ import { DeviceInfoService } from "Core/device-info/services"
 
 export class BackupCreateService extends BaseBackupService {
   constructor(
-    protected deviceManager: DeviceManager,
+    protected deviceManager: DeviceProtocolService,
     protected deviceFileSystem: DeviceFileSystemService,
     protected fileManagerService: FileManagerService,
     protected deviceInfoService: DeviceInfoService,

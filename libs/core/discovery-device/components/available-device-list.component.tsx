@@ -9,19 +9,21 @@ import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { DeviceState } from "Core/device-manager/reducers/device-manager.interface"
+import { DeviceState } from "core-device/models"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
 import { fontWeight } from "Core/core/styles/theming/theme-getters"
 import DeviceList from "Core/discovery-device/components/device-list.component"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { getAvailableDevicesSelector } from "Core/device-manager/selectors/get-available-devices.selector"
+import {
+  getAvailableDevicesSelector,
+  handleDeviceActivated,
+} from "device-manager/feature"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { handleDeviceActivated } from "Core/device-manager/actions/handle-device-activated.action"
 
 const messages = defineMessages({
   headerTitle: { id: "module.availableDeviceList.headerTitle" },

@@ -5,8 +5,8 @@
 
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { DeviceCommunicationError } from "Core/device/constants"
-import { DeviceManager } from "Core/device-manager/services/device-manager.service"
+import { DeviceCommunicationError } from "core-device/models"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { CrashDumpService } from "Core/crash-dump/services/crash-dump.service"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
@@ -15,7 +15,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const deviceFileSystemMock = {
   downloadDeviceFilesLocally: jest.fn(),
@@ -133,9 +133,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
       .mockReturnValueOnce(Result.success(undefined))
     ;(
       deviceFileSystemMock.downloadDeviceFilesLocally as jest.Mock
-    ).mockReturnValueOnce(
-      Result.success([])
-    )
+    ).mockReturnValueOnce(Result.success([]))
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -148,7 +146,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     expect(await subject.downloadDeviceCrashDumpFiles()).toEqual({
       status: RequestResponseStatus.Ok,
-      data: []
+      data: [],
     })
 
     // AUTO DISABLED - fix me if you like :)

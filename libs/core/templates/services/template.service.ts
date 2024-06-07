@@ -3,9 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint, Method } from "core-device/models"
 import { NewTemplate, Template } from "Core/templates/dto"
-import { DeviceManager } from "Core/device-manager/services"
-import { Endpoint, Method, MessagesCategory } from "Core/device/constants"
+import { DeviceProtocolService } from "device-protocol/feature"
+import { MessagesCategory } from "Core/device/constants"
 import {
   CreateTemplateResponseBody,
   PureTemplate,
@@ -23,7 +24,7 @@ import {
 
 export class TemplateService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceManager: DeviceProtocolService,
     private templateRepository: TemplateRepository
   ) {}
 

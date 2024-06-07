@@ -3,20 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceProtocolService } from "device-protocol/feature"
+import { Endpoint, Method } from "core-device/models"
+import { BackupCategory, PhoneLockCategory } from "Core/device"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { BackupCreateService } from "Core/backup/services/backup-create.service"
 import { MetadataStore, MetadataKey } from "Core/metadata"
 import { BackupError, Operation } from "Core/backup/constants"
 import { UpdaterStatus } from "Core/backup/dto"
-import { DeviceManager } from "Core/device-manager/services"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import {
-  BackupCategory,
-  Endpoint,
-  Method,
-  PhoneLockCategory,
-} from "Core/device"
 import { FileManagerService } from "Core/files-manager/services"
 import { DeviceInfoService } from "Core/device-info/services"
 
@@ -33,7 +29,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const deviceFileSystemAdapter = {
   downloadDeviceFilesLocally: jest.fn(),

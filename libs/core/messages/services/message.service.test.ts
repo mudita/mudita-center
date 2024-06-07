@@ -6,12 +6,11 @@
 import { Result } from "Core/core/builder"
 import { Message as PureMessage } from "Core/device/types/mudita-os"
 import {
-  Endpoint,
-  Method,
   MessagesCategory as PureMessagesCategory,
   MessageType,
   MessageType as PureMessageType,
 } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,
@@ -25,7 +24,7 @@ import {
 import { MessageRepository } from "Core/messages/repositories"
 import { MessageService } from "Core/messages/services/message.service"
 import { ThreadService } from "Core/messages/services/thread.service"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import assert from "assert"
 import { MessageType as MessageTypeFromDTO } from "Core/messages/constants"
 
@@ -33,7 +32,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const threadService = {
   getThreads: jest.fn(),

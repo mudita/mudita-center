@@ -11,13 +11,13 @@ import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { OutboxFactory } from "Core/outbox/factories"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { IndexStorageController } from "Core/outbox/controllers"
 
 export class OutboxModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceModule: DeviceManager,
+    public deviceModule: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,

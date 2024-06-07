@@ -4,7 +4,7 @@
  */
 
 import { PortInfo } from "serialport"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 
 export interface DeviceBaseProperties extends PortInfo {
   id: string

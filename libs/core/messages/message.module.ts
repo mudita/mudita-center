@@ -14,12 +14,12 @@ import { MessageModel, ThreadModel } from "Core/messages/models"
 import { MessageService, ThreadService } from "Core/messages/services"
 import { MessageController, ThreadController } from "Core/messages/controllers"
 import { MessageRepository, ThreadRepository } from "Core/messages/repositories"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class MessageModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceModule: DeviceManager,
+    public deviceModule: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,

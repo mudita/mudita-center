@@ -6,9 +6,11 @@
 /* stylelint-disable no-duplicate-selectors */
 
 import React, { FunctionComponent, useEffect } from "react"
+import { defineMessages } from "react-intl"
+import { useDispatch, useSelector } from "react-redux"
 import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
-import { useDispatch, useSelector } from "react-redux"
+import { getActiveDevice } from "device-manager/feature"
 import {
   selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
@@ -25,8 +27,6 @@ import Form from "../../interactive/form/form"
 import { TransferSetup } from "./transfer-setup"
 import { GenericThemeProvider } from "generic-view/theme"
 import { Device } from "./components/device-card"
-import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
-import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { PureErrorModal } from "./components/pure-error-modal"

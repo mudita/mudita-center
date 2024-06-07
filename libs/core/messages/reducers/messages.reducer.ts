@@ -6,6 +6,7 @@
 // TODO: CP-1494, CP-1495
 
 import { createReducer } from "@reduxjs/toolkit"
+import { DeviceManagerEvent } from "device-manager/models"
 import {
   fulfilledAction,
   pendingAction,
@@ -43,7 +44,6 @@ import assert from "assert"
 import { State } from "Core/core/constants"
 import { AppError } from "Core/core/errors"
 import { search, searchPreview } from "Core/search/actions/search.action"
-import { setInitialMessagesState } from "Core/messages/actions/base.action"
 
 export const initialState: MessagesState = {
   data: {
@@ -67,7 +67,7 @@ export const messagesReducer = createReducer<MessagesState>(
   initialState,
   (builder) => {
     builder
-      .addCase(setInitialMessagesState, (state) => {
+      .addCase(pendingAction(DeviceManagerEvent.DeactivateDevice), () => {
         return { ...initialState }
       })
       .addCase(

@@ -6,7 +6,7 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { getFilesManager } from "Core/files-manager/selectors/get-files-manager.selector"
 import { State } from "Core/core/constants"
-import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
+import { getActiveDevice } from "device-manager/feature"
 
 export const isDettachedDuringUploadErrorSelector = createSelector(
   getFilesManager,

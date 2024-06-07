@@ -6,7 +6,7 @@
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import {
   APIOutboxServiceEvents,
@@ -16,7 +16,7 @@ import {
 } from "device/models"
 
 export class APIOutboxService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceManager: DeviceProtocolService) {}
 
   @IpcEvent(APIOutboxServiceEvents.GetOutboxData)
   public async getOutboxData(

@@ -10,7 +10,7 @@ import { action } from "@storybook/addon-actions"
 import { css } from "styled-components"
 import StoryContainer from "Core/__deprecated__/renderer/components/storybook/story-container.component"
 import Story from "Core/__deprecated__/renderer/components/storybook/story.component"
-import { DeviceType } from "Core/device"
+import { DeviceType } from "device-protocol/models"
 
 const storyStyle = css`
   > * {

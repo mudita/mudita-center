@@ -5,6 +5,8 @@
 
 import fs from "fs"
 import path from "path"
+import { Endpoint, Method } from "core-device/models"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { BackupRestoreService } from "Core/backup/services/backup-restore.service"
@@ -12,9 +14,8 @@ import CryptoFileService from "Core/file-system/services/crypto-file-service/cry
 import { BackupError, Operation } from "Core/backup/constants"
 import { UpdaterStatus } from "Core/backup/dto"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
-import { DeviceManager } from "Core/device-manager/services"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import { Endpoint, Method, PhoneLockCategory } from "Core/device"
+import { PhoneLockCategory } from "Core/device"
 import { DeviceInfoService } from "Core/device-info/services"
 
 const arrayBufferToBuffer = (unitArray: Uint8Array): Buffer => {
@@ -64,7 +65,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const deviceFileSystemAdapter = {
   uploadFile: jest.fn(),

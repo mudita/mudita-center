@@ -3,21 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import CryptoFileService from "Core/file-system/services/crypto-file-service/crypto-file-service"
 import { RestoreDeviceBackup } from "Core/backup/types"
 import { BackupError, Operation } from "Core/backup/constants"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { BaseBackupService } from "Core/backup/services/base-backup.service"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { DeviceInfoService } from "Core/device-info/services"
 
 export class BackupRestoreService extends BaseBackupService {
   constructor(
-    protected deviceManager: DeviceManager,
+    protected deviceManager: DeviceProtocolService,
     protected deviceFileSystem: DeviceFileSystemService,
     protected deviceInfoService: DeviceInfoService,
     private fileSystem: FileSystemService

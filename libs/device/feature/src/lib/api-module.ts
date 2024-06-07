@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { APIConfigService } from "./api-config/api-config.service"
 import { APIFeaturesService } from "./api-features/api-features.service"
 import { APIBackupService } from "./backup"
@@ -14,10 +14,10 @@ import { ServerService } from "./server/server.service"
 import { APIFileTransferService } from "./file-transfer"
 import { ServiceBridge } from "./service-bridge"
 import { SystemUtilsModule } from "system-utils/feature"
-import { createSettingsService } from "Core/settings/containers/settings.container"
 import { APIRestoreService } from "./restore"
 import { DeviceSystemActionsService } from "./device-system-actions/device-system-actions.service"
 import { APIDataTransferService } from "./data-transfer"
+import { ISettingsService } from "shared/utils"
 
 export class APIModule {
   private apiConfigService: APIConfigService
@@ -34,8 +34,9 @@ export class APIModule {
   private apiDataTransferService: APIDataTransferService
 
   constructor(
-    deviceManager: DeviceManager,
-    systemUtilsModule: SystemUtilsModule
+    deviceManager: DeviceProtocolService,
+    systemUtilsModule: SystemUtilsModule,
+    settingsService: ISettingsService
   ) {
     this.serviceBridge = new ServiceBridge()
     this.apiConfigService = new APIConfigService(deviceManager)
@@ -59,7 +60,8 @@ export class APIModule {
     )
     this.serviceBridge.systemUtilsModule = systemUtilsModule
     this.serviceBridge.fileTransfer = this.fileTransferService
-    this.serviceBridge.settingsService = createSettingsService()
+    // @ts-ignore
+    this.serviceBridge.settingsService = settingsService
     this.serviceBridge.fileManager = this.fileManager
     this.serviceBridge.deviceSystemActions = this.deviceSystemActionsService
   }

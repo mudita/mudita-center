@@ -5,10 +5,10 @@
 
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
-import { DeviceCommunicationError } from "Core/device/constants"
+import { DeviceCommunicationError } from "core-device/models"
 import { ContactService } from "Core/contacts/services/contact.service"
 import { ContactRepository } from "Core/contacts/repositories"
-import { DeviceManager } from "Core/device-manager/services/device-manager.service"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { Contact as PureContact } from "Core/device/types/mudita-os"
 import { Contact } from "Core/contacts/reducers"
@@ -23,7 +23,7 @@ const deviceManager = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const subject = new ContactService(contactRepository, deviceManager)
 
