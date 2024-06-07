@@ -10,8 +10,6 @@ import { initialState } from "Core/contacts/reducers"
 import { closeWindow } from "Core/contacts/actions/close-window.action"
 import { Provider } from "generic-view/store"
 
-// jest.mock("Core/__deprecated__/renderer/store/external-providers")
-
 afterEach(() => {
   jest.resetAllMocks()
 })
