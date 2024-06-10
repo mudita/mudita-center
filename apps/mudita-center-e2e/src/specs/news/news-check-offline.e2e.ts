@@ -103,4 +103,13 @@ describe("News Page Check in Offline Mode", () => {
       await expect(newsCardCommunityLinkText).toHaveText(commentsRegex)
     }
   })
+  after(async () => {
+    // Switch back to online mode after finishing the tests
+    await browser.setNetworkConditions({
+      offline: false,
+      latency: 0,
+      download_throughput: -1,
+      upload_throughput: -1,
+    })
+  })
 })
