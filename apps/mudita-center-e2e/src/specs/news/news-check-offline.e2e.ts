@@ -28,24 +28,7 @@ describe("News Page Check in Offline Mode", () => {
 
     // Verify network conditions
     const isOnline = await browser.execute(() => navigator.onLine)
-    console.log("Is browser online:", isOnline)
-  })
-
-  after(async () => {
-    // Switch back to online mode after finishing the tests
-    await browser.setNetworkConditions({
-      offline: false,
-      latency: 0,
-      download_throughput: -1,
-      upload_throughput: -1,
-    })
-
-    // Add a small delay to ensure network conditions are applied
-    await browser.pause(1000)
-
-    // Verify network conditions
-    const isOnline = await browser.execute(() => navigator.onLine)
-    console.log("Is browser online:", isOnline)
+    console.log("Is browser online (should be false):", isOnline)
   })
 
   it("Opens News Page", async () => {
@@ -129,5 +112,22 @@ describe("News Page Check in Offline Mode", () => {
       await expect(newsCardCommunityLinkText).toBeDisplayed()
       await expect(newsCardCommunityLinkText).toHaveText(commentsRegex)
     }
+  })
+
+  it("Switch back to online mode after finishing the tests", async () => {
+    // Switch back to online mode
+    await browser.setNetworkConditions({
+      offline: false,
+      latency: 0,
+      download_throughput: -1,
+      upload_throughput: -1,
+    })
+
+    // Add a small delay to ensure network conditions are applied
+    await browser.pause(1000)
+
+    // Verify network conditions
+    const isOnline = await browser.execute(() => navigator.onLine)
+    console.log("Is browser online (should be true):", isOnline)
   })
 })
