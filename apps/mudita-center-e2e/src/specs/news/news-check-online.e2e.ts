@@ -25,7 +25,7 @@ describe("News Page Check", () => {
     await expect(newsCardElement).toBeDisplayed()
 
     const sidebarMenuActiveItem = await NewsPage.sidebarMenuActiveItem
-    await expect(sidebarMenuActiveItem).toBeClickable()
+    await expect(sidebarMenuActiveItem).not.toBeClickable()
     await expect(sidebarMenuActiveItem).toHaveElementClass("active")
     await expect(sidebarMenuActiveItem).toHaveAttrContaining(
       "displaystyle",
