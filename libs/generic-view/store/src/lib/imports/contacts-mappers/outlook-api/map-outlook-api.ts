@@ -6,7 +6,6 @@
 import { UnifiedContact } from "device/models"
 import { Contact } from "Core/contacts/reducers/contacts.interface"
 import { getDisplayName } from "../helpers"
-// import { getDisplayName } from "../helpers"
 
 export const mapOutlookApi = (contacts: Contact[]): UnifiedContact[] => {
   try {
@@ -22,7 +21,6 @@ export const mapOutlookApi = (contacts: Contact[]): UnifiedContact[] => {
                 {
                   value: contact.primaryPhoneNumber,
                   preference: 1,
-                  type: "other",
                 },
               ]
             : []),
@@ -31,7 +29,6 @@ export const mapOutlookApi = (contacts: Contact[]): UnifiedContact[] => {
                 {
                   value: contact.secondaryPhoneNumber,
                   preference: contact.primaryPhoneNumber ? 2 : 1,
-                  type: "other",
                 },
               ]
             : []),
@@ -42,7 +39,6 @@ export const mapOutlookApi = (contacts: Contact[]): UnifiedContact[] => {
                 {
                   value: contact.email,
                   preference: 1,
-                  type: "other",
                 },
               ]
             : []),
@@ -57,13 +53,14 @@ export const mapOutlookApi = (contacts: Contact[]): UnifiedContact[] => {
                     contact.secondAddressLine && {
                       extendedAddress: contact.secondAddressLine,
                     }),
-                  type: "other",
                 },
               ]
             : []),
         ],
         note: contact.note,
-      } as UnifiedContact
+        organizations: [],
+        urls: [],
+      }
     })
   } catch {
     return []
