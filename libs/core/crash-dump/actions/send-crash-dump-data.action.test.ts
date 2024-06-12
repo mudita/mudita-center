@@ -28,20 +28,20 @@ const payload: CrashDump = {
   email: "",
 }
 
-jest.doMock(
+jest.mock(
   "Core/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 )
-jest.doMock("Core/device-file-system", () => ({
-  removeFile: jest.fn().mockReturnValue({
+jest.mock("Core/device-file-system", () => ({
+  removeFile: jest.fn().mockImplementation(() => ({
     type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
     payload: crashDumpsMock,
-  }),
+  })),
 }))
-jest.doMock("Core/__deprecated__/renderer/utils/create-file/create-file")
-jest.doMock("Core/contact-support/helpers/downloading-logs", () => ({
-  downloadingLogs: jest.fn().mockReturnValue(logsFiles),
+jest.mock("Core/__deprecated__/renderer/utils/create-file/create-file")
+jest.mock("Core/contact-support/helpers/downloading-logs", () => ({
+  downloadingLogs: jest.fn().mockImplementation(() => logsFiles),
 }))
-jest.doMock("Core/__deprecated__/renderer/requests/archive-files.request")
+jest.mock("Core/__deprecated__/renderer/requests/archive-files.request")
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -145,7 +145,7 @@ describe("when Crash dumps downloaded", () => {
     expect(mockStore.getActions()).toEqual([
       sendCrashDumpData.pending(requestId, payload),
       {
-        payload: undefined,
+        payload: ["/pure/logs/crash-dumps/file.hex"],
         type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
       },
       sendCrashDumpData.fulfilled(undefined, requestId, payload),
@@ -278,7 +278,7 @@ describe("when serialNumber is undefined", () => {
     expect(mockStore.getActions()).toEqual([
       sendCrashDumpData.pending(requestId, payload),
       {
-        payload: undefined,
+        payload: ["/pure/logs/crash-dumps/file.hex"],
         type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
       },
       sendCrashDumpData.fulfilled(undefined, requestId, payload),
