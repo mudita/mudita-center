@@ -24,6 +24,7 @@ import { DataMigrationStatus } from "./reducer"
 export enum DataMigrationPercentageProgress {
   CollectingData = 1,
   TransferringData = 10,
+  Finished = 100,
 }
 
 export const performDataMigration = createAsyncThunk<
@@ -139,7 +140,12 @@ export const performDataMigration = createAsyncThunk<
     if (response.meta.requestStatus === "rejected") {
       return handleError("Error transferring data")
     }
-    dispatch(setDataMigrationStatus("COMPLETED"))
+    dispatch(setTransferProgress(DataMigrationPercentageProgress.Finished))
+
+    setTimeout(() => {
+      dispatch(setDataMigrationStatus("COMPLETED"))
+    }, 500)
+
     return
   }
 )

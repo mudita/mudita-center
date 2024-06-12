@@ -54,9 +54,10 @@ export const ProgressModal: FunctionComponent<Props> = ({ onCancel }) => {
   }
 
   const label = useMemo(() => {
-    if (isDataMigrationFeature(dataMigrationProgress.label)) {
+    const feature = dataMigrationProgress.label?.split("-")[0]
+    if (isDataMigrationFeature(feature)) {
       return intl.formatMessage({
-        id: `module.genericViews.dataMigration.features.${dataMigrationProgress.label}`,
+        id: `module.genericViews.dataMigration.features.${feature}`,
       })
     }
     return intl.formatMessage(messages.genericMessage)
