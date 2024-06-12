@@ -6,6 +6,7 @@ import {
   newsDateRegex,
   newsImageRegex,
 } from "../../consts/regex-const"
+import testsHelper from "../../helpers/tests.helper"
 
 describe("News Page Check in Offline Mode", () => {
   before(async () => {
@@ -26,7 +27,7 @@ describe("News Page Check in Offline Mode", () => {
     await browser.pause(1000)
 
     // Verify network conditions
-    const isOnline = await browser.execute(() => navigator.onLine)
+    const isOnline = await testsHelper.isOnline()
     await expect(isOnline).toBeFalsy()
   })
 
@@ -112,8 +113,8 @@ describe("News Page Check in Offline Mode", () => {
     }
   })
 
-  it("Switch back to online mode after finishing the tests", async () => {
-    // Switch back to online mode
+  after(async () => {
+    // Switch back to online mode after finishing the tests
     await browser.setNetworkConditions({
       offline: false,
       latency: 0,
@@ -125,7 +126,7 @@ describe("News Page Check in Offline Mode", () => {
     await browser.pause(1000)
 
     // Verify network conditions
-    const isOnline = await browser.execute(() => navigator.onLine)
+    const isOnline = await testsHelper.isOnline()
     await expect(isOnline).toBeTruthy()
   })
 })
