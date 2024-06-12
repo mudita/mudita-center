@@ -13,13 +13,13 @@ import { indexAllRequest } from "Core/data-sync/requests"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
 import { isEmpty } from "lodash"
 import { AllIndexes } from "Core/data-sync/types"
-import { transformContacts } from "./contacts/transform-contacts"
+import { transformContacts } from "./transformers/transform-contacts"
 import {
   DomainData,
   transferDataToDevice,
 } from "../data-transfer/transfer-data-to-device.action"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { DataMigrationStatus } from "Libs/generic-view/store/src"
+import { DataMigrationStatus } from "./reducer"
 
 export enum DataMigrationPercentageProgress {
   CollectingData = 1,
