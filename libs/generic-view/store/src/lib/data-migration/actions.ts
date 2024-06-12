@@ -6,7 +6,7 @@
 import { createAction } from "@reduxjs/toolkit"
 import { ActionName } from "../action-names"
 import { DataMigrationFeature } from "generic-view/models"
-import { DataMigrationStatus, DataTransferProgressLabel } from "./reducer"
+import { DataMigrationStatus } from "./reducer"
 
 export const setSourceDevice = createAction<string | undefined>(
   ActionName.SetDataMigrationSourceDevice
@@ -24,10 +24,6 @@ export const setTransferProgress = createAction<number | undefined>(
   ActionName.SetDataMigrationTransferProgress
 )
 
-export const incrementTransferProgress = createAction<number>(
-  ActionName.IncrementDataMigrationTransferProgress
-)
-
-export const setTransferProgressLabel = createAction<DataTransferProgressLabel | undefined>(
-  ActionName.SetDataMigrationTransferProgressLabel
+export const clearDataMigrationProgress = createAction(
+  ActionName.ClearDataMigrationProgress
 )

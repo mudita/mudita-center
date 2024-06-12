@@ -14,10 +14,6 @@ export enum DataMigrationFeature {
   Multimedia = "multimedia",
 }
 
-export enum DataMigrationProgressStep {
-  CollectingData,
-}
-
 const dataValidator = z.undefined()
 
 const configValidator = z.object({

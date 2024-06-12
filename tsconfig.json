@@ -13,7 +13,7 @@
     "noImplicitReturns": true,
     "types": ["jest", "node", "@testing-library/jest-dom", "webpack-env"],
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
   },
   "include": ["./apps/mudita-center/src", "./libs"],
   "extends": "./tsconfig.base.json"
