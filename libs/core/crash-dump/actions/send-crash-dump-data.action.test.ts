@@ -28,20 +28,20 @@ const payload: CrashDump = {
   email: "",
 }
 
-jest.mock(
+jest.doMock(
   "Core/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 )
-jest.mock("Core/device-file-system", () => ({
+jest.doMock("Core/device-file-system", () => ({
   removeFile: jest.fn().mockReturnValue({
     type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
     payload: crashDumpsMock,
   }),
 }))
-jest.mock("Core/__deprecated__/renderer/utils/create-file/create-file")
-jest.mock("Core/contact-support/helpers/downloading-logs", () => ({
+jest.doMock("Core/__deprecated__/renderer/utils/create-file/create-file")
+jest.doMock("Core/contact-support/helpers/downloading-logs", () => ({
   downloadingLogs: jest.fn().mockReturnValue(logsFiles),
 }))
-jest.mock("Core/__deprecated__/renderer/requests/archive-files.request")
+jest.doMock("Core/__deprecated__/renderer/requests/archive-files.request")
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -245,7 +245,7 @@ describe("when logs downloaded", () => {
 describe("when serialNumber is undefined", () => {
   test("freshdesk ticket contains info about unknown serial number", async () => {
     ;(createFile as jest.Mock).mockReturnValue(
-      new File([new Buffer("hello world")], "hello.world")
+      new File([Buffer.alloc(11, "hello world")], "hello.world")
     )
     ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from("hello world"))
     ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
