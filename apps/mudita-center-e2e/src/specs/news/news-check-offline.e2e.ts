@@ -1,4 +1,3 @@
-import screenshotHelper from "../../helpers/screenshot.helper"
 import HomePage from "../../page-objects/home.page"
 import NewsPage from "../../page-objects/news.page"
 import {
