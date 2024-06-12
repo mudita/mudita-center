@@ -127,6 +127,6 @@ describe("News Page Check in Offline Mode", () => {
 
     // Verify network conditions
     const isOnline = await browser.execute(() => navigator.onLine)
-    console.log("Is browser online (should be true):", isOnline)
+    await expect(isOnline).toBeTruthy()
   })
 })
