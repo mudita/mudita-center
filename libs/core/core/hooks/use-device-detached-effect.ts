@@ -25,7 +25,7 @@ import {
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
-import { useDebouncedEventsHandler } from "Core/core/hooks/use-debounced-events-handler"
+import { useDebouncedEventsHandler } from "shared/utils"
 import { closeContactSupportFlow } from "Core/contact-support"
 
 export const useDeviceDetachedEffect = () => {
