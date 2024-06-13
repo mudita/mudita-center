@@ -16,6 +16,9 @@ class TestHelper {
     }
     return false
   }
+  isOnline() {
+    return browser.execute(() => navigator.onLine)
+  }
 }
 
 export default new TestHelper()
