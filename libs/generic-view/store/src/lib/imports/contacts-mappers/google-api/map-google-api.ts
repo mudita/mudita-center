@@ -11,71 +11,73 @@ import { omit } from "lodash"
 export const mapGoogleApi = (
   contacts: GoogleContactResourceItem[]
 ): UnifiedContact[] => {
-  try {
-    return contacts.map((contact, index): UnifiedContact => {
-      const name =
-        contact.names?.find((item) => item.metadata.primary) ||
-        contact.names?.[0]
+  return contacts
+    .map((contact, index): UnifiedContact | null => {
+      try {
+        const name =
+          contact.names?.find((item) => item.metadata.primary) ||
+          contact.names?.[0]
 
-      const partialResult: Omit<UnifiedContact, "displayName"> = {
-        id: contact.resourceName,
-        ...omit(name, [
-          "metadata",
-          "displayNameLastFirst",
-          "displayName",
-          "familyName",
-          "givenName",
-        ]),
-        firstName: name?.givenName,
-        lastName: name?.familyName,
-        phoneNumbers:
-          contact.phoneNumbers?.map((item) => {
-            return {
-              ...omit(item, ["metadata"]),
-              ...(item.metadata.primary && { preference: 1 }),
-            }
-          }) ?? [],
-        addresses:
-          contact.addresses?.map((item) => {
-            return {
-              ...omit(item, ["metadata", "formattedValue"]),
-              ...(item.metadata.primary && { preference: 1 }),
-            }
-          }) ?? [],
-        emailAddresses:
-          contact.emailAddresses?.map((item) => {
-            return {
-              ...omit(item, ["metadata"]),
-              ...(item.metadata.primary && { preference: 1 }),
-            }
-          }) ?? [],
-        organizations:
-          contact.organizations?.map((item) => {
-            return {
-              ...omit(item, ["metadata"]),
-            }
-          }) ?? [],
-        urls:
-          contact.urls?.map((item) => {
-            return {
-              ...omit(item, ["metadata"]),
-              ...(item.metadata.primary && { preference: 1 }),
-            }
-          }) ?? [],
-        nickname:
-          contact.nicknames?.find((item) => item.metadata.primary)?.value ||
-          contact.nicknames?.[0].value,
-        note:
-          contact.biographies?.find((item) => item.metadata.primary)?.value ||
-          contact.biographies?.[0].value,
-      }
+        const partialResult: Omit<UnifiedContact, "displayName"> = {
+          id: contact.resourceName,
+          ...omit(name, [
+            "metadata",
+            "displayNameLastFirst",
+            "displayName",
+            "familyName",
+            "givenName",
+          ]),
+          firstName: name?.givenName,
+          lastName: name?.familyName,
+          phoneNumbers:
+            contact.phoneNumbers?.map((item) => {
+              return {
+                ...omit(item, ["metadata"]),
+                ...(item.metadata.primary && { preference: 1 }),
+              }
+            }) ?? [],
+          addresses:
+            contact.addresses?.map((item) => {
+              return {
+                ...omit(item, ["metadata", "formattedValue"]),
+                ...(item.metadata.primary && { preference: 1 }),
+              }
+            }) ?? [],
+          emailAddresses:
+            contact.emailAddresses?.map((item) => {
+              return {
+                ...omit(item, ["metadata"]),
+                ...(item.metadata.primary && { preference: 1 }),
+              }
+            }) ?? [],
+          organizations:
+            contact.organizations?.map((item) => {
+              return {
+                ...omit(item, ["metadata"]),
+              }
+            }) ?? [],
+          urls:
+            contact.urls?.map((item) => {
+              return {
+                ...omit(item, ["metadata"]),
+                ...(item.metadata.primary && { preference: 1 }),
+              }
+            }) ?? [],
+          nickname:
+            contact.nicknames?.find((item) => item.metadata.primary)?.value ||
+            contact.nicknames?.[0].value,
+          note:
+            contact.biographies?.find((item) => item.metadata.primary)?.value ||
+            contact.biographies?.[0].value,
+        }
 
-      return {
-        displayName: getDisplayName(partialResult),
-        ...partialResult,
+        return {
+          displayName: getDisplayName(partialResult),
+          ...partialResult,
+        }
+      } catch {
+        return null
       }
     })
-  } catch {
-    return []
-  }
+    .filter((contact): contact is UnifiedContact => contact != null)
 }
