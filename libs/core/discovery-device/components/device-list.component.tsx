@@ -6,11 +6,11 @@
 import React from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { Device } from "core-device/models"
+import { AvailableDeviceProperties } from "device-manager/models"
 import DeviceListItem from "Core/discovery-device/components/device-list-item.component"
 
 interface Props {
-  devices: Device[]
+  devices: AvailableDeviceProperties[]
   onDeviceClick: (id: string) => void
 }
 

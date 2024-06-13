@@ -17,10 +17,13 @@ import {
   configureDevice,
   getDeviceConfigurationRequest,
 } from "core-device/feature"
-import { DeviceProtocolMainEvent, DeviceType } from "device-protocol/models"
+import {
+  DeviceProtocolMainEvent,
+  DeviceType,
+  DeviceBaseProperties,
+} from "device-protocol/models"
 import { selectDialogOpenState } from "shared/app-state"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"

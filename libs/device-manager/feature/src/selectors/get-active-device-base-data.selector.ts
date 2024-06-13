@@ -5,7 +5,7 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { getCoreDevicesSelector } from "core-device/feature"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
+import { DeviceBaseProperties } from "device-protocol/models"
 import {
   DeviceState,
   HarmonyDeviceData,

@@ -4,14 +4,14 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { Device } from "core-device/models"
+import { AvailableDeviceProperties } from "device-manager/models"
 import { getFailedDevicesSelector } from "./get-failed-devices.selector"
 import { getConfiguredDevicesSelector } from "./get-configured-devices.selector"
 
 export const getAvailableDevicesSelector = createSelector(
   getConfiguredDevicesSelector,
   getFailedDevicesSelector,
-  (configuredDevices, failedDevices): Device[] => {
+  (configuredDevices, failedDevices): AvailableDeviceProperties[] => {
     return [...configuredDevices, ...failedDevices]
   }
 )

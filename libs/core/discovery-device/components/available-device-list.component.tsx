@@ -18,6 +18,7 @@ import DeviceList from "Core/discovery-device/components/device-list.component"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import {
   getAvailableDevicesSelector,
+  getFailedDevicesSelector,
   handleDeviceActivated,
 } from "device-manager/feature"
 import {
@@ -54,10 +55,11 @@ const AvailableDeviceList: FunctionComponent = () => {
   const history = useHistory()
   const dispatch = useDispatch<Dispatch>()
   const devices = useSelector(getAvailableDevicesSelector)
+  const failedDevices = useSelector(getFailedDevicesSelector)
 
   const handleDeviceClick = async (id: string) => {
-    const device = devices.find((device) => device.id === id)
-    if (device?.state === DeviceState.Failed) {
+    const failedDevice = failedDevices.find((device) => device.id === id)
+    if (failedDevice !== undefined) {
       await dispatch(handleDeviceActivated(id))
       history.push(URL_ONBOARDING.troubleshooting)
     } else {
