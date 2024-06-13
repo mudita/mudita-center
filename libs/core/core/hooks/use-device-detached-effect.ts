@@ -6,8 +6,8 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { answerMain } from "shared/utils"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
+import { answerMain, useDebouncedEventsHandler } from "shared/utils"
+import { DeviceBaseProperties } from "device-protocol/models"
 import { removeDevice } from "core-device/feature"
 import { getDevicesSelector } from "device-manager/feature"
 import { selectDialogOpenState } from "shared/app-state"
@@ -25,7 +25,6 @@ import {
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
-import { useDebouncedEventsHandler } from "shared/utils"
 import { closeContactSupportFlow } from "Core/contact-support"
 
 export const useDeviceDetachedEffect = () => {

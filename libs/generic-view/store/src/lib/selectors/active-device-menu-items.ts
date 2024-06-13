@@ -4,18 +4,15 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { generateMenu } from "generic-view/utils"
+import { selectActiveDevice } from "./active-device"
+import { selectConfiguredDevices } from "./select-configured-devices"
 
 export const activeDeviceMenuItems = createSelector(
-  [
-    (state: ReduxRootState) => state.genericViews.activeDevice,
-    (state: ReduxRootState) => state.genericViews.devicesConfiguration,
-  ],
-  (activeDevice, devicesConfiguration) => {
+  [selectActiveDevice, selectConfiguredDevices],
+  (activeDevice, configuredDevices) => {
     if (activeDevice) {
-      return devicesConfiguration[activeDevice].menuConfig
+      return configuredDevices[activeDevice].menuConfig
     }
     return undefined
   }

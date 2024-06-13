@@ -4,7 +4,6 @@
  */
 
 export * from "./active-device-menu-items"
-export * from "./select-configured-device-ids"
 export * from "./screen-title-selector"
 export * from "./active-device"
 export * from "./active-device-features"
@@ -22,3 +21,7 @@ export * from "./data-transfer-progress"
 export * from "./data-migration-devices"
 export * from "./data-migration-features"
 export * from "./data-migration-status"
+export * from "./select-configured-devices"
+export * from "./select-devices"
+export * from "./select-failed-devices"
+export * from "./select-generic-view-state"
