@@ -5,9 +5,8 @@
 
 import { PortInfo } from "serialport"
 import { ResultObject } from "Core/core/builder"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
+import { DeviceBaseProperties, DeviceType } from "device-protocol/models"
 import { DeviceId } from "Core/device/constants/device-id"
-import { DeviceType } from "device-protocol/models"
 import { unknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
 
 const uniqueId = (length = 16): DeviceId => {

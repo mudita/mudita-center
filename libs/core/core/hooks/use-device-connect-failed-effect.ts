@@ -7,11 +7,13 @@ import { useEffect, useCallback } from "react"
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { answerMain } from "shared/utils"
-import { DeviceProtocolMainEvent } from "device-protocol/models"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
-import { activeDeviceIdSelector } from "device-manager/feature"
+import {
+  DeviceProtocolMainEvent,
+  DeviceBaseProperties,
+} from "device-protocol/models"
 import { DeviceState } from "core-device/models"
 import { addDevice, getDeviceConfigurationRequest } from "core-device/feature"
+import { activeDeviceIdSelector } from "device-manager/feature"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
