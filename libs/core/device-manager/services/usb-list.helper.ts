@@ -7,6 +7,8 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { mockServiceEnabled } from "e2e-mock-server"
+import logger from "Core/__deprecated__/main/utils/logger"
 import usb from "usb"
 
 interface USBDeviceDescriptor {
@@ -104,7 +106,8 @@ const getUSBDeviceInfo = async (device: USBDevice): Promise<USBDeviceInfo> => {
 }
 
 export async function getUsbList(): Promise<USBDeviceInfo[]> {
-  const deviceList = usb.getDeviceList()
+  const deviceList = mockServiceEnabled ? [] : usb.getDeviceList()
+
   const deviceInfoPromises = deviceList.map(async (device: USBDevice) => {
     try {
       return await getUSBDeviceInfo(device)
@@ -115,5 +118,9 @@ export async function getUsbList(): Promise<USBDeviceInfo[]> {
   })
 
   const deviceInfos = await Promise.all(deviceInfoPromises)
+  const harmonyMSCDevice = deviceInfos.find((device: USBDeviceInfo) =>
+    device.product!.includes("MSC mode")
+  )
+  logger.info("Found Device with: ", harmonyMSCDevice.product)
   return deviceInfos.filter((info): info is USBDeviceInfo => info !== null)
 }
