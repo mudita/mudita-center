@@ -35,13 +35,13 @@ export class UsbDeviceDetectionObserver implements Observer {
   private mountListeners() {
     ipcMain.on(ApiSerialPortToRendererEvents.Closed, () => {
       void this.detectDeviceStateChange()
-    });
+    })
     ipcMain.on(SerialPortDeviceAdapterEvent.Closed, () => {
       void this.detectDeviceStateChange()
-    });
+    })
   }
 
-  private async detectDeviceStateChange(): Promise<void>  {
+  private async detectDeviceStateChange(): Promise<void> {
     const attachedDevices = await this.deviceManager.getAttachedDevices()
     const detachedDevicePaths = Array.from(
       this.previousAttachedDevicePaths
