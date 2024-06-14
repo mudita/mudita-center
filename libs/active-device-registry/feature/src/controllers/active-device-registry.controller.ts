@@ -7,13 +7,13 @@ import { IpcEvent } from "Core/core/decorators"
 import { DeviceProtocolService } from "device-protocol/feature"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
-import { IpcDeviceManagerEvent } from "../constants"
+import { IpcActiveDeviceRegistryEvent } from "../constants"
 
-export class DeviceManagerController {
+export class ActiveDeviceRegistryController {
   constructor(private deviceProtocolService: DeviceProtocolService) {}
 
-  @IpcEvent(IpcDeviceManagerEvent.ConnectDevice)
-  public connectDevice(id: DeviceId): Promise<ResultObject<undefined>> {
-    return this.deviceProtocolService.connectDevice(id)
+  @IpcEvent(IpcActiveDeviceRegistryEvent.SetActiveDevice)
+  public setActiveDevice(id: DeviceId | undefined): ResultObject<boolean> {
+    return this.deviceProtocolService.setActiveDevice(id)
   }
 }

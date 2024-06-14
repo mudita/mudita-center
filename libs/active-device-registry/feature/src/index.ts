@@ -3,4 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// export * from "./lib/active-device-registry-feature"
+export * from "./actions"
+export * from "./reducers"
+export * from "./selectors"
+export * from "./active-device-registry.module"
