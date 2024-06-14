@@ -84,6 +84,17 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     }
     state.lastResponse = action.payload
   })
+  builder.addCase(getAPIConfig.rejected, (state, action) => {
+    const id = action.meta.arg.deviceId
+    const device = state.devices[id]
+
+    state.devices[id] = {
+      ...device,
+      state: DeviceState.Failed,
+    }
+
+    state.lastResponse = action.payload
+  })
   builder.addCase(getMenuConfig.fulfilled, (state, action) => {
     state.devices[action.payload.deviceId].menuConfig =
       action.payload.menuConfig
