@@ -6,5 +6,5 @@
 export * from "./connect-device.action"
 export * from "./deactivate-device.action"
 export * from "./handle-device-activated.action"
-export * from "./set-active-device.action"
+export * from "../../../../active-device-registry/feature/src/actions/set-active-device.action"
 export * from "./set-select-device-drawer-open.action"

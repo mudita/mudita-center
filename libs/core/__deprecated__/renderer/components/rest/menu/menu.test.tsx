@@ -26,6 +26,7 @@ import {
   DeviceInitializationState,
   DeviceInitializationStatus,
 } from "Core/device-initialization/reducers/device-initialization.interface"
+import { ActiveDeviceRegistryState } from "active-device-registry/models"
 
 jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
   generateApplicationId: () => "123",
@@ -40,6 +41,9 @@ const defaultState = {
     deviceType: DeviceType.MuditaPure,
   } as unknown as DeviceState,
   deviceManager: {} as unknown as DeviceManagerState,
+  activeDeviceRegistry: {
+    activeDeviceId: undefined,
+  } as unknown as ActiveDeviceRegistryState,
   coreDevice: {
     devices: [],
   } as unknown as CoreDeviceState,
@@ -51,6 +55,7 @@ const defaultState = {
   },
   genericViews: {
     menu: [],
+    devices: [],
   },
 } as unknown as ReduxRootState
 
@@ -139,9 +144,9 @@ describe("Device: Mudita pure", () => {
             },
           ],
         } as unknown as CoreDeviceState,
-        deviceManager: {
-          activeDeviceId: "1",
-        } as unknown as DeviceManagerState,
+        activeDeviceRegistry: {
+          activeDeviceId: undefined,
+        } as unknown as ActiveDeviceRegistryState,
       },
       {
         deviceFeaturesVisible: true,
