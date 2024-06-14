@@ -7,7 +7,17 @@ import { createAction } from "@reduxjs/toolkit"
 import { DeviceId } from "Core/device/constants/device-id"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { View } from "generic-view/utils"
+import { DeviceBaseProperties } from "device-protocol/models"
+import { DeviceState } from "generic-view/models"
 import { ActionName } from "../action-names"
+
+export const addDevice = createAction<
+  DeviceBaseProperties & Partial<{ state: DeviceState.Failed }>
+>(ActionName.AddDevice)
+
+export const removeDevice = createAction<DeviceBaseProperties>(
+  ActionName.RemoveDevice
+)
 
 export const setMenu = createAction<MenuElement[]>(ActionName.SetMenu)
 export const setViewLayout = createAction<{
@@ -23,7 +33,3 @@ export const setViewData = createAction<{
 export const activateDevice = createAction<{
   deviceId: DeviceId
 }>(ActionName.ActivateDevice)
-
-export const detachDevice = createAction<{
-  deviceId: DeviceId
-}>(ActionName.DetachDevice)

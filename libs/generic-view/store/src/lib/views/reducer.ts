@@ -19,7 +19,8 @@ import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
   activateDevice,
-  detachDevice,
+  addDevice,
+  removeDevice,
   setMenu,
   setViewData,
   setViewLayout,
@@ -37,7 +38,6 @@ export interface GenericState {
   lastResponse: unknown
   lastRefresh?: number
   activeDevice?: DeviceId
-  pendingDevice?: DeviceId
   devices: Record<string, Device>
   apiErrors: Record<ApiError, boolean>
 }
@@ -66,6 +66,12 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.views[action.payload.feature] = {
       ...state.views[action.payload.feature],
       data: action.payload.data,
+    }
+  })
+  builder.addCase(addDevice, (state, action) => {
+    state.devices[action.payload.id] = {
+      ...action.payload,
+      state: DeviceState.Connected,
     }
   })
   builder.addCase(getAPIConfig.fulfilled, (state, action) => {
@@ -137,9 +143,8 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
           : {}),
       } as Features
     }
-    if (state.activeDevice === undefined && state.pendingDevice === deviceId) {
+    if (state.activeDevice === undefined) {
       state.activeDevice = deviceId
-      state.pendingDevice = undefined
     }
   })
   builder.addCase(activateDevice, (state, action) => {
@@ -147,19 +152,9 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.activeDevice = state.devices?.[deviceId]?.apiConfig
       ? deviceId
       : undefined
-    state.pendingDevice = deviceId
   })
-  builder.addCase(detachDevice, (state, action) => {
-    const { deviceId } = action.payload
-    if (state.devices[deviceId]?.apiConfig) {
-      delete state.devices[deviceId]
-    }
-    if (state.activeDevice === deviceId) {
-      state.activeDevice = undefined
-    }
-    if (state.pendingDevice === deviceId) {
-      state.pendingDevice = undefined
-    }
+  builder.addCase(removeDevice, (state, action) => {
+    delete state.devices[action.payload.id]
   })
   builder.addCase(getOutboxData.fulfilled, (state, action) => {
     const { deviceId, timestamp } = action.payload
