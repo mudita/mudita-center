@@ -24,6 +24,7 @@ import {
   useAppEventsListeners,
 } from "generic-view/store"
 import { useOnlineListener } from "shared/app-state"
+import { useCoreDeviceProtocolListeners } from "core-device/feature"
 
 const BaseApp: FunctionComponent = () => {
   useRouterListener()
@@ -36,6 +37,7 @@ const BaseApp: FunctionComponent = () => {
   useWatchOutboxEntriesEffect()
   useWatchUnlockStatus()
   useDiscoveryRedirectEffect()
+  useCoreDeviceProtocolListeners()
   // API
   useAPISerialPortListeners()
   useAppEventsListeners()

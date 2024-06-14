@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { answerMain, useDebouncedEventsHandler } from "shared/utils"
 import { DeviceBaseProperties } from "device-protocol/models"
-import { removeDevice } from "core-device/feature"
 import { getDevicesSelector } from "device-manager/feature"
 import { selectDialogOpenState } from "shared/app-state"
 import { DeviceProtocolMainEvent } from "device-protocol/models"
@@ -48,14 +47,10 @@ const useHandleDevicesDetached = () => {
 
   return useCallback(
     async (deviceDetachedEvents: DeviceBaseProperties[]) => {
-      for (const event of deviceDetachedEvents) {
-        dispatch(removeDevice(event))
-      }
-
       await processActiveDevicesDetachment(deviceDetachedEvents)
       processSingleDeviceRemaining(deviceDetachedEvents)
     },
-    [dispatch, processActiveDevicesDetachment, processSingleDeviceRemaining]
+    [processActiveDevicesDetachment, processSingleDeviceRemaining]
   )
 }
 
