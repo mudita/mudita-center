@@ -22,13 +22,8 @@ const getDomainProgress = (status: DomainTransferStatus) => {
   }
 }
 
-export const selectDataTransferStatus = createSelector(
-  (state: ReduxRootState) => state.genericDataTransfer.status,
-  (status) => status
-)
-
 export const selectDataTransferProgress = createSelector(
-  selectDataTransferStatus,
+  (state: ReduxRootState) => state.genericDataTransfer.status,
   (state: ReduxRootState) => state.genericDataTransfer.transfer,
   (mainStatus, dataTransfer) => {
     if (mainStatus === "IDLE") {

@@ -16,7 +16,7 @@ import {
   importContactsFromExternalSource,
   ImportStatus,
   importStatusSelector,
-  startDataTransferToDevice,
+  startContactsImportToDevice,
 } from "generic-view/store"
 import { ImportContactsProvider } from "./import-contacts-provider"
 import { ImportContactsLoader } from "./import-contats-loader"
@@ -76,10 +76,7 @@ const ImportContactsForm: FunctionComponent<ImportContactsConfig> = ({
     type: "custom",
     callback: () => {
       const promise = dispatch(
-        startDataTransferToDevice({
-          domains: ["contacts-v1"],
-          contactsIds: selectedContacts,
-        })
+        startContactsImportToDevice(selectedContacts)
       )
 
       dataTransferAbortReference.current = (
