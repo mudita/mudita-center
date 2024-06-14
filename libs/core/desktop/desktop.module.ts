@@ -17,7 +17,7 @@ import { DesktopService } from "Core/desktop/desktop.service"
 export class DesktopModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -26,7 +26,7 @@ export class DesktopModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,

@@ -18,7 +18,7 @@ export class BaseBackupService {
   private REQUEST_TIME_OUT = 5000
 
   constructor(
-    protected deviceManager: DeviceProtocolService,
+    protected deviceProtocolService: DeviceProtocolService,
     protected deviceFileSystem: DeviceFileSystemService,
     protected deviceInfoService: DeviceInfoService
   ) {}
@@ -127,7 +127,7 @@ export class BaseBackupService {
       return false
     }
 
-    const response = await this.deviceManager.device.request({
+    const response = await this.deviceProtocolService.device.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },

@@ -29,7 +29,7 @@ import { DeviceInfoService } from "Core/device-info/services"
 export class BackupModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -38,7 +38,7 @@ export class BackupModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -46,30 +46,32 @@ export class BackupModule extends BaseModule {
       fileSystem
     )
 
-    const deviceFileSystem = new DeviceFileSystemService(this.deviceManager)
+    const deviceFileSystem = new DeviceFileSystemService(
+      this.deviceProtocolService
+    )
     const fileManagerService = new FileManagerService(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileDeleteCommand(this.deviceManager),
+      new FileDeleteCommand(this.deviceProtocolService),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new RetrieveFilesCommand(this.deviceManager),
+      new RetrieveFilesCommand(this.deviceProtocolService),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileUploadCommand(this.deviceManager, this.fileSystem)
+      new FileUploadCommand(this.deviceProtocolService, this.fileSystem)
     )
 
-    const deviceInfoService = new DeviceInfoService(this.deviceManager)
+    const deviceInfoService = new DeviceInfoService(this.deviceProtocolService)
 
     const backupCreateService = new BackupCreateService(
-      this.deviceManager,
+      this.deviceProtocolService,
       deviceFileSystem,
       fileManagerService,
       deviceInfoService,
       this.keyStorage
     )
     const backupRestoreService = new BackupRestoreService(
-      this.deviceManager,
+      this.deviceProtocolService,
       deviceFileSystem,
       deviceInfoService,
       fileSystem

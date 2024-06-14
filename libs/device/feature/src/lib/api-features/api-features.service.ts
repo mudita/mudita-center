@@ -21,7 +21,7 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { View } from "generic-view/utils"
 
 export class APIFeaturesService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureConfiguration)
   public async getFeatureConfiguration({
@@ -32,8 +32,8 @@ export class APIFeaturesService {
     deviceId?: DeviceId
   }): Promise<ResultObject<FeatureConfig>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -65,8 +65,8 @@ export class APIFeaturesService {
     deviceId?: DeviceId
   ): Promise<ResultObject<OverviewConfig>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -94,7 +94,7 @@ export class APIFeaturesService {
 
   @IpcEvent(APIFeaturesServiceEvents.FeatureData)
   public async getFeatureData(feature: string): Promise<ResultObject<unknown>> {
-    const device = this.deviceManager.apiDevice
+    const device = this.deviceProtocolService.apiDevice
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }
@@ -125,8 +125,8 @@ export class APIFeaturesService {
     about: View
   }): Promise<ResultObject<OverviewData>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

@@ -27,7 +27,7 @@ export interface createSyncBackupOptions
 
 export class SyncBackupCreateService {
   constructor(
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public deviceFileSystem: DeviceFileSystemService,
     private keyStorage: MetadataStore
   ) {}
@@ -81,10 +81,11 @@ export class SyncBackupCreateService {
   private async runDeviceSyncBackup(): Promise<
     ResultObject<string | undefined>
   > {
-    const deviceResponse = await this.deviceManager.device.request<DeviceInfo>({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
+    const deviceResponse =
+      await this.deviceProtocolService.device.request<DeviceInfo>({
+        endpoint: Endpoint.DeviceInfo,
+        method: Method.Get,
+      })
 
     if (!deviceResponse.ok || !deviceResponse.data) {
       return Result.failed(
@@ -96,7 +97,7 @@ export class SyncBackupCreateService {
     }
 
     // id field as backup response is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
-    const backupResponse = await this.deviceManager.device.request<{
+    const backupResponse = await this.deviceProtocolService.device.request<{
       id?: string
     }>({
       endpoint: Endpoint.Backup,
@@ -167,7 +168,7 @@ export class SyncBackupCreateService {
   public async getBackupDeviceStatus(
     config: GetBackupDeviceStatusRequestConfigBody
   ): Promise<ResultObject<GetBackupDeviceStatusResponseBody>> {
-    return await this.deviceManager.device.request({
+    return await this.deviceProtocolService.device.request({
       endpoint: Endpoint.Backup,
       method: Method.Get,
       body: {

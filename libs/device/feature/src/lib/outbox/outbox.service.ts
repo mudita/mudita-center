@@ -16,13 +16,13 @@ import {
 } from "device/models"
 
 export class APIOutboxService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   @IpcEvent(APIOutboxServiceEvents.GetOutboxData)
   public async getOutboxData(
     deviceId: DeviceId
   ): Promise<ResultObject<Outbox>> {
-    const device = this.deviceManager.getAPIDeviceById(deviceId)
+    const device = this.deviceProtocolService.getAPIDeviceById(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }

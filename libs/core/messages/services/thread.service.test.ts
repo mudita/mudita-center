@@ -18,7 +18,7 @@ import { ThreadRepository } from "Core/messages/repositories"
 import { Thread } from "Core/messages/dto"
 import { MessageType } from "Core/messages/constants"
 
-const deviceManager = {
+const deviceProtocolService = {
   device: {
     request: jest.fn(),
   },
@@ -30,7 +30,7 @@ const threadRepository = {
   delete: jest.fn(),
 } as unknown as ThreadRepository
 
-const subject = new ThreadService(deviceManager, threadRepository)
+const subject = new ThreadService(deviceProtocolService, threadRepository)
 
 const pureThread: PureThread = {
   contactID: 1,
@@ -78,21 +78,25 @@ beforeEach(() => {
 describe("`ThreadService`", () => {
   describe("`getThread` method", () => {
     // test skipped until os part will be implemented CP-1232
-    test.skip("map data and returns success when `deviceManager.device.request` returns success", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(successResponse)
+    test.skip("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockReturnValue(successResponse)
       const response = await subject.getThread("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
-    test("returns error  when `deviceManager.device.request` returns error", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error  when `deviceProtocolService.device.request` returns error", async () => {
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockReturnValue(errorResponse)
       const response = await subject.getThread("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response).toEqual({
         status: RequestResponseStatus.Error,
         error: {
@@ -103,14 +107,14 @@ describe("`ThreadService`", () => {
   })
 
   describe("`getThreads` method", () => {
-    test("map data and returns success when `deviceManager.device.request` returns success", async () => {
-      deviceManager.device.request = jest
+    test("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
+      deviceProtocolService.device.request = jest
         .fn()
         .mockReturnValue(getThreadsSuccessResponse)
       const response = await subject.getThreads({ limit: 1, offset: 0 })
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
       expect(response.data).toMatchInlineSnapshot(`
         Object {
@@ -132,12 +136,14 @@ describe("`ThreadService`", () => {
       `)
     })
 
-    test("returns error when `deviceManager.device.request` returns error", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error when `deviceProtocolService.device.request` returns error", async () => {
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockReturnValue(errorResponse)
       const response = await subject.getThreads({ limit: 1, offset: 0 })
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response).toEqual({
         status: RequestResponseStatus.Error,
         error: {
@@ -148,25 +154,27 @@ describe("`ThreadService`", () => {
   })
 
   describe("`deleteThreads` method", () => {
-    test("map data and returns success when `deviceManager.device.request` returns success", async () => {
-      deviceManager.device.request = jest
+    test("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
+      deviceProtocolService.device.request = jest
         .fn()
         .mockReturnValue(Result.success({ id: "1" }))
       const response = await subject.deleteThreads(["1"])
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response).toEqual({
         status: RequestResponseStatus.Ok,
       })
     })
 
-    test("returns error when `deviceManager.device.request` returns error", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error when `deviceProtocolService.device.request` returns error", async () => {
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockReturnValue(errorResponse)
       const response = await subject.deleteThreads(["1"])
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response).toMatchInlineSnapshot(`
         Object {
           "error": Object {
@@ -182,25 +190,27 @@ describe("`ThreadService`", () => {
   })
 
   describe("`toggleThreadsReadStatus` method", () => {
-    test("map data and returns success when `deviceManager.device.request` returns success", async () => {
-      deviceManager.device.request = jest
+    test("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
+      deviceProtocolService.device.request = jest
         .fn()
         .mockReturnValue(Result.success([thread]))
       const response = await subject.toggleThreadsReadStatus([thread])
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response).toEqual({
         status: RequestResponseStatus.Ok,
       })
     })
 
-    test("returns error when `deviceManager.device.request` returns error", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error when `deviceProtocolService.device.request` returns error", async () => {
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockReturnValue(errorResponse)
       const response = await subject.toggleThreadsReadStatus([thread])
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response).toMatchInlineSnapshot(`
         Object {
           "error": Object {
@@ -226,7 +236,9 @@ describe("`ThreadService`", () => {
 
   describe("`refreshThread` method", () => {
     test("returns error when fetching thread failed", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockReturnValue(errorResponse)
       const response = await subject.refreshThread("1")
       expect(response).toEqual({
         status: RequestResponseStatus.Error,
@@ -238,7 +250,7 @@ describe("`ThreadService`", () => {
 
     describe("when the thread was not found in the device", () => {
       test("removes thread from the repository and returns success response", async () => {
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(getThreadsSuccessResponse)
         const response = await subject.refreshThread("6666")
@@ -257,7 +269,7 @@ describe("`ThreadService`", () => {
 
     describe("when the thread was found in the device", () => {
       test("updates the thread and returns success response", async () => {
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(getThreadsSuccessResponse)
         const response = await subject.refreshThread("1")

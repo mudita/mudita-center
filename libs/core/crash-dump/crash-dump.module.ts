@@ -22,7 +22,7 @@ export class CrashDumpModule extends BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -31,7 +31,7 @@ export class CrashDumpModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -46,8 +46,8 @@ export class CrashDumpModule extends BaseModule {
     }
 
     this.crashDumpService = new CrashDumpService(
-      this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager)
+      this.deviceProtocolService,
+      new DeviceFileSystemService(this.deviceProtocolService)
     )
     this.crashDumpController = new CrashDumpController(
       this.crashDumpService,

@@ -24,7 +24,7 @@ export class FilesManagerModule extends BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -33,7 +33,7 @@ export class FilesManagerModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -44,13 +44,13 @@ export class FilesManagerModule extends BaseModule {
     const fileManagerService = new FileManagerService(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileDeleteCommand(this.deviceManager),
+      new FileDeleteCommand(this.deviceProtocolService),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new RetrieveFilesCommand(this.deviceManager),
+      new RetrieveFilesCommand(this.deviceProtocolService),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileUploadCommand(this.deviceManager, this.fileSystem)
+      new FileUploadCommand(this.deviceProtocolService, this.fileSystem)
     )
 
     this.filesManagerController = new FilesManagerController(fileManagerService)

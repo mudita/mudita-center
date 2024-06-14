@@ -21,7 +21,7 @@ export interface Module {
   // eslint-disable-next-line @typescript-eslint/no-misused-new
   new (
     index: IndexStorage,
-    deviceManager: DeviceProtocolService,
+    deviceProtocolService: DeviceProtocolService,
     keyStorage: MetadataStore,
     logger: AppLogger,
     ipc: MainProcessIpc,

@@ -18,7 +18,7 @@ import { DeviceProtocolService } from "device-protocol/feature"
 export class DeviceLogModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -27,7 +27,7 @@ export class DeviceLogModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -36,8 +36,8 @@ export class DeviceLogModule extends BaseModule {
     )
 
     const deviceLogService = new DeviceLogService(
-      this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager)
+      this.deviceProtocolService,
+      new DeviceFileSystemService(this.deviceProtocolService)
     )
     const deviceLogController = new DeviceLogController(deviceLogService)
 

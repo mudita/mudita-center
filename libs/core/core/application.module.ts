@@ -94,7 +94,7 @@ export class ApplicationModule {
 
   private apiModule: APIModule
 
-  private deviceManager = new DeviceProtocolService(
+  private deviceProtocolService = new DeviceProtocolService(
     mockServiceEnabled
       ? new MockDeviceResolverService()
       : new DeviceResolverService(),
@@ -118,7 +118,7 @@ export class ApplicationModule {
 
     this.modules.forEach(this.initModule)
     this.apiModule = new APIModule(
-      this.deviceManager,
+      this.deviceProtocolService,
       this.systemUtilsModule,
       createSettingsService()
     )
@@ -132,10 +132,11 @@ export class ApplicationModule {
     )
     this.controllerInitializer.initialize(new OnlineStatusModule().controllers)
     this.controllerInitializer.initialize(
-      new CoreDeviceModule(this.deviceManager, this.fileSystem).controllers
+      new CoreDeviceModule(this.deviceProtocolService, this.fileSystem)
+        .controllers
     )
     this.controllerInitializer.initialize(
-      new DeviceManagerModule(this.deviceManager).controllers
+      new DeviceManagerModule(this.deviceProtocolService).controllers
     )
   }
 
@@ -146,7 +147,7 @@ export class ApplicationModule {
   private initModule = (module: Module): void => {
     const instance = new module(
       this.index,
-      this.deviceManager,
+      this.deviceProtocolService,
       this.keyStorage,
       this.logger,
       this.ipc,

@@ -27,7 +27,7 @@ import {
 } from "Core/device-file-system/dto"
 
 export class DeviceFileSystemService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   public async downloadDeviceFilesLocally(
     filePaths: string[],
@@ -79,13 +79,15 @@ export class DeviceFileSystemService {
   public async downloadFile(filePath: string): Promise<ResultObject<Buffer>> {
     try {
       const { ok, data } =
-        await this.deviceManager.device.request<GetFileSystemResponseBody>({
-          endpoint: Endpoint.FileSystem,
-          method: Method.Get,
-          body: {
-            fileName: filePath,
-          },
-        })
+        await this.deviceProtocolService.device.request<GetFileSystemResponseBody>(
+          {
+            endpoint: Endpoint.FileSystem,
+            method: Method.Get,
+            body: {
+              fileName: filePath,
+            },
+          }
+        )
 
       if (!ok || data === undefined) {
         return Result.failed(
@@ -148,15 +150,17 @@ export class DeviceFileSystemService {
     const fileSize = Buffer.byteLength(data)
     const fileCrc32 = countCRC32(data)
     const response =
-      await this.deviceManager.device.request<PutFileSystemResponseBody>({
-        endpoint: Endpoint.FileSystem,
-        method: Method.Put,
-        body: {
-          fileSize,
-          fileCrc32,
-          fileName: targetPath,
-        },
-      })
+      await this.deviceProtocolService.device.request<PutFileSystemResponseBody>(
+        {
+          endpoint: Endpoint.FileSystem,
+          method: Method.Put,
+          body: {
+            fileSize,
+            fileCrc32,
+            fileName: targetPath,
+          },
+        }
+      )
 
     if (!response.ok || response.data === undefined) {
       return Result.failed(
@@ -181,15 +185,17 @@ export class DeviceFileSystemService {
       const fileCrc32 = countCRC32(fileBuffer)
 
       const { ok, data } =
-        await this.deviceManager.device.request<PutFileSystemResponseBody>({
-          endpoint: Endpoint.FileSystem,
-          method: Method.Put,
-          body: {
-            fileSize,
-            fileCrc32,
-            fileName: targetPath,
-          },
-        })
+        await this.deviceProtocolService.device.request<PutFileSystemResponseBody>(
+          {
+            endpoint: Endpoint.FileSystem,
+            method: Method.Put,
+            body: {
+              fileSize,
+              fileCrc32,
+              fileName: targetPath,
+            },
+          }
+        )
 
       if (!ok || data === undefined) {
         return Result.failed(
@@ -220,7 +226,7 @@ export class DeviceFileSystemService {
       return Result.failed(new AppError("", ""))
     }
 
-    const { ok } = await this.deviceManager.device.request({
+    const { ok } = await this.deviceProtocolService.device.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Delete,
       body: {
@@ -307,7 +313,7 @@ export class DeviceFileSystemService {
       const chunkedBufferSize = Buffer.byteLength(chunkedBuffer)
       const lastChunk = chunkedBufferSize < chunkSize
 
-      const response = await this.deviceManager.device.request({
+      const response = await this.deviceProtocolService.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -358,7 +364,7 @@ export class DeviceFileSystemService {
       const lastChunk = nread < chunkSize
       const dataBuffer = lastChunk ? buffer.slice(0, nread) : buffer
 
-      const response = await this.deviceManager.device.request({
+      const response = await this.deviceProtocolService.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -396,14 +402,16 @@ export class DeviceFileSystemService {
     chunkedString = ""
   ): Promise<ResultObject<EncodedFile>> {
     const { ok, data } =
-      await this.deviceManager.device.request<DownloadFileSystemResponseBody>({
-        endpoint: Endpoint.FileSystem,
-        method: Method.Get,
-        body: {
-          rxID,
-          chunkNo,
-        },
-      })
+      await this.deviceProtocolService.device.request<DownloadFileSystemResponseBody>(
+        {
+          endpoint: Endpoint.FileSystem,
+          method: Method.Get,
+          body: {
+            rxID,
+            chunkNo,
+          },
+        }
+      )
 
     if (!ok || data === undefined) {
       return Result.failed(
