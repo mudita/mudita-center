@@ -25,11 +25,14 @@ export class OutboxFactory {
   static create(
     index: IndexStorage,
     eventEmitter: EventEmitter,
-    deviceManager: DeviceProtocolService
+    deviceProtocolService: DeviceProtocolService
   ): OutboxService {
     const contactModel = new ContactModel(index, eventEmitter)
     const contactRepository = new ContactRepository(contactModel)
-    const contactService = new ContactService(contactRepository, deviceManager)
+    const contactService = new ContactService(
+      contactRepository,
+      deviceProtocolService
+    )
     const contactEntryHandlerService = new ContactEntryHandlerService(
       contactService,
       contactRepository
@@ -40,9 +43,12 @@ export class OutboxFactory {
 
     const messageModel = new MessageModel(index, eventEmitter)
     const messageRepository = new MessageRepository(messageModel)
-    const threadService = new ThreadService(deviceManager, threadRepository)
+    const threadService = new ThreadService(
+      deviceProtocolService,
+      threadRepository
+    )
     const messageService = new MessageService(
-      deviceManager,
+      deviceProtocolService,
       threadService,
       messageRepository
     )
@@ -65,6 +71,6 @@ export class OutboxFactory {
       [OutboxEntryType.Thread]: threadEntryHandlerService,
     }
 
-    return new OutboxService(deviceManager, entryHandlersMap)
+    return new OutboxService(deviceProtocolService, entryHandlersMap)
   }
 }

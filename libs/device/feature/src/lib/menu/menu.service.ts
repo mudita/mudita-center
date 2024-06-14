@@ -16,15 +16,15 @@ import {
 import { DeviceId } from "Core/device/constants/device-id"
 
 export class APIMenuService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   @IpcEvent(APIMenuServiceEvents.GetMenuConfig)
   public async getMenuConfig(
     deviceId?: DeviceId
   ): Promise<ResultObject<MenuConfig>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

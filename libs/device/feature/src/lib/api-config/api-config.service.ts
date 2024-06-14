@@ -17,15 +17,15 @@ import { AppError } from "Core/core/errors"
 import { APIConfigError } from "./api-config-error"
 
 export class APIConfigService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   @IpcEvent(APIConfigServiceEvents.APIConfig)
   public async getAPIConfig(
     deviceId?: DeviceId
   ): Promise<ResultObject<ApiConfig>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -51,7 +51,7 @@ export class APIConfigService {
   //to remove
   @IpcEvent(APIConfigServiceEvents.APIAny)
   public async getAPIAny(payload: unknown): Promise<ResultObject<unknown>> {
-    const device = this.deviceManager.apiDevice
+    const device = this.deviceProtocolService.apiDevice
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }

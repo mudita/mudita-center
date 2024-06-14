@@ -23,12 +23,12 @@ import { ResultObject } from "Core/core/builder"
 export class ContactService {
   constructor(
     private contactRepository: ContactRepository,
-    private deviceManager: DeviceProtocolService
+    private deviceProtocolService: DeviceProtocolService
   ) {}
 
   public async getContact(id: string): Promise<RequestResponse<Contact>> {
     const response =
-      await this.deviceManager.device.request<GetContactResponseBody>({
+      await this.deviceProtocolService.device.request<GetContactResponseBody>({
         endpoint: Endpoint.Contacts,
         method: Method.Get,
         body: {
@@ -51,7 +51,7 @@ export class ContactService {
 
   public async getContacts(): Promise<RequestResponse<Contact[]>> {
     const response =
-      await this.deviceManager.device.request<GetContactsResponseBody>({
+      await this.deviceProtocolService.device.request<GetContactsResponseBody>({
         endpoint: Endpoint.Contacts,
         method: Method.Get,
       })
@@ -90,14 +90,16 @@ export class ContactService {
     //workaround
 
     const result =
-      await this.deviceManager.device.request<CreateContactResponseBody>({
-        endpoint: Endpoint.Contacts,
-        method: Method.Post,
-        body: ContactPresenter.mapToPureContact(newContact),
-        options: {
-          connectionTimeOut: 5000,
-        },
-      })
+      await this.deviceProtocolService.device.request<CreateContactResponseBody>(
+        {
+          endpoint: Endpoint.Contacts,
+          method: Method.Post,
+          body: ContactPresenter.mapToPureContact(newContact),
+          options: {
+            connectionTimeOut: 5000,
+          },
+        }
+      )
 
     if (this.isInternalServerError(result)) {
       return {
@@ -160,7 +162,7 @@ export class ContactService {
       return isContactValidResponse
     }
 
-    const result = await this.deviceManager.device.request({
+    const result = await this.deviceProtocolService.device.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
       body: ContactPresenter.mapToPureContact(contact),
@@ -220,7 +222,7 @@ export class ContactService {
     const successIds = []
 
     for (const id of contactIds) {
-      const result = await this.deviceManager.device.request({
+      const result = await this.deviceProtocolService.device.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
         body: { id: Number(id) },

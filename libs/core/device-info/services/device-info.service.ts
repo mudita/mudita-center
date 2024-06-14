@@ -16,12 +16,12 @@ import {
 import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceInfoService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   private async getDeviceInfoRequest<TResult>(
-    deviceId: DeviceId = this.deviceManager.device.id
+    deviceId: DeviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<TResult, DeviceCommunicationError>> {
-    return this.deviceManager.request<TResult>(deviceId, {
+    return this.deviceProtocolService.request<TResult>(deviceId, {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
@@ -37,8 +37,8 @@ export class DeviceInfoService {
         return response
       }
       const device = deviceId
-        ? this.deviceManager.getCoreDeviceById(deviceId)
-        : this.deviceManager.device
+        ? this.deviceProtocolService.getCoreDeviceById(deviceId)
+        : this.deviceProtocolService.device
 
       if (!device) {
         return Result.failed(new AppError("", ""))

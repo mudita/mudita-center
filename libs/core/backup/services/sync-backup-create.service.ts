@@ -27,14 +27,14 @@ export interface createSyncBackupOptions
 
 export class SyncBackupCreateService {
   constructor(
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public deviceFileSystem: DeviceFileSystemService,
     private keyStorage: MetadataStore
   ) {}
 
   public async createSyncBackup(
     options: createSyncBackupOptions,
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<string[] | undefined>> {
     if (this.keyStorage.getValue(MetadataKey.BackupInProgress)) {
       return Result.failed(
@@ -81,9 +81,9 @@ export class SyncBackupCreateService {
   }
 
   private async runDeviceSyncBackup(
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<string | undefined>> {
-    const deviceResponse = await this.deviceManager.request<DeviceInfo>(
+    const deviceResponse = await this.deviceProtocolService.request<DeviceInfo>(
       deviceId,
       {
         endpoint: Endpoint.DeviceInfo,
@@ -101,7 +101,7 @@ export class SyncBackupCreateService {
     }
 
     // id field as backup response is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
-    const backupResponse = await this.deviceManager.request<{
+    const backupResponse = await this.deviceProtocolService.request<{
       id?: string
     }>(deviceId, {
       endpoint: Endpoint.Backup,
@@ -151,7 +151,7 @@ export class SyncBackupCreateService {
   private async waitUntilBackupDeviceFinished(
     id: string,
     iteration = 0,
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<GetBackupDeviceStatusResponseBody>> {
     try {
       const result = await this.getBackupDeviceStatus(
@@ -181,9 +181,9 @@ export class SyncBackupCreateService {
 
   public async getBackupDeviceStatus(
     config: GetBackupDeviceStatusRequestConfigBody,
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<GetBackupDeviceStatusResponseBody>> {
-    return await this.deviceManager.request(deviceId, {
+    return await this.deviceProtocolService.request(deviceId, {
       endpoint: Endpoint.Backup,
       method: Method.Get,
       body: {

@@ -22,21 +22,21 @@ import {
 } from "Root/jest/testing-support/mocks/diagnostic-data.mock"
 import { DeviceFileSystemService } from "Core/device-file-system/services/device-file-system.service"
 
-const deviceManager = {
+const deviceProtocolService = {
   request: jest.fn(),
   device: {
     id: "abc123",
   },
 } as unknown as DeviceProtocolService
 
-const deviceFileSystem = new DeviceFileSystemService(deviceManager)
+const deviceFileSystem = new DeviceFileSystemService(deviceProtocolService)
 
 beforeEach(() => {
   jest.clearAllMocks()
 })
 
 test("downloading file handle properly chunks data", async () => {
-  deviceManager.request = jest
+  deviceProtocolService.request = jest
     .fn()
     .mockImplementation(
       (
@@ -84,7 +84,7 @@ test("downloading file handle properly chunks data", async () => {
 })
 
 test("downloading file handle properly chunks data if fileSize is less than chunkSize", async () => {
-  deviceManager.request = jest
+  deviceProtocolService.request = jest
     .fn()
     .mockImplementation(
       (
@@ -125,7 +125,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
 })
 
 test("downloading file return error when part of the chunks data is broken", async () => {
-  deviceManager.request = jest
+  deviceProtocolService.request = jest
     .fn()
     .mockImplementation(
       (
@@ -169,7 +169,7 @@ test("downloading file return error when part of the chunks data is broken", asy
 })
 
 test("downloading file returns error properly", async () => {
-  deviceManager.request = jest.fn().mockImplementation(() => {
+  deviceProtocolService.request = jest.fn().mockImplementation(() => {
     return Result.failed(
       new AppError(
         DeviceCommunicationError.RequestFailed,
@@ -185,7 +185,7 @@ test("downloading file returns error properly", async () => {
 })
 
 test("upload file file handle properly chunks data", async () => {
-  deviceManager.request = jest
+  deviceProtocolService.request = jest
     .fn()
     .mockImplementation(
       (

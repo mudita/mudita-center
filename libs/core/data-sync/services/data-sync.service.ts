@@ -35,13 +35,13 @@ export class DataSyncService {
 
   constructor(
     private index: IndexStorage,
-    private deviceManager: DeviceProtocolService,
+    private deviceProtocolService: DeviceProtocolService,
     private keyStorage: MetadataStore,
     private fileSystemStorage: FileSystemService
   ) {
     this.syncBackupCreateService = new SyncBackupCreateService(
-      this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager),
+      this.deviceProtocolService,
+      new DeviceFileSystemService(this.deviceProtocolService),
       this.keyStorage
     )
 

@@ -12,11 +12,11 @@ export class CoreDeviceModule {
   public controllers
 
   constructor(
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public fileSystem: FileSystemService
   ) {
     const deviceManagerController = new CoreDeviceController(
-      this.deviceManager,
+      this.deviceProtocolService,
       new DeviceCacheConfigurationService(this.fileSystem)
     )
 

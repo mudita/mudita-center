@@ -20,7 +20,7 @@ export class DataSyncModule extends BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -29,7 +29,7 @@ export class DataSyncModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -39,7 +39,7 @@ export class DataSyncModule extends BaseModule {
 
     this.dataSyncService = new DataSyncService(
       this.index,
-      this.deviceManager,
+      this.deviceProtocolService,
       this.keyStorage,
       this.fileSystem
     )

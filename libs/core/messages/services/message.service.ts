@@ -49,7 +49,7 @@ export interface CreateMessageDataResponse {
 
 export class MessageService {
   constructor(
-    private deviceManager: DeviceProtocolService,
+    private deviceProtocolService: DeviceProtocolService,
     private threadService: ThreadService,
     private messageRepository: MessageRepository
   ) {}
@@ -58,7 +58,7 @@ export class MessageService {
 
   public async getMessage(id: string): Promise<RequestResponse<Message>> {
     const response =
-      await this.deviceManager.device.request<GetMessageResponseBody>({
+      await this.deviceProtocolService.device.request<GetMessageResponseBody>({
         endpoint: Endpoint.Messages,
         method: Method.Get,
         body: {
@@ -93,7 +93,7 @@ export class MessageService {
     }
 
     const response =
-      await this.deviceManager.device.request<GetMessagesResponseBody>({
+      await this.deviceProtocolService.device.request<GetMessagesResponseBody>({
         body,
         endpoint: Endpoint.Messages,
         method: Method.Get,
@@ -172,11 +172,13 @@ export class MessageService {
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessagePartDataResponse>> {
     const result =
-      await this.deviceManager.device.request<CreateMessageResponseBody>({
-        body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
-        endpoint: Endpoint.Messages,
-        method: Method.Post,
-      })
+      await this.deviceProtocolService.device.request<CreateMessageResponseBody>(
+        {
+          body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
+          endpoint: Endpoint.Messages,
+          method: Method.Post,
+        }
+      )
 
     if (!result.ok) {
       return {
@@ -240,7 +242,7 @@ export class MessageService {
       }
     }
 
-    const result = await this.deviceManager.device.request({
+    const result = await this.deviceProtocolService.device.request({
       body: {
         category: PureMessagesCategory.message,
         messageID: Number(messageId),
@@ -302,7 +304,7 @@ export class MessageService {
   }
 
   public async updateMessage(message: Message): Promise<ResultObject<unknown>> {
-    return this.deviceManager.device.request({
+    return this.deviceProtocolService.device.request({
       body: MessagePresenter.mapToUpdatePureMessagesBody(message),
       endpoint: Endpoint.Messages,
       method: Method.Put,
