@@ -4,6 +4,5 @@
  */
 
 export enum IpcDeviceManagerEvent {
-  SetActiveDevice = "device-manager_set-active-device",
   ConnectDevice = "device-manager_connect-device",
 }

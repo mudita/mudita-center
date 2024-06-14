@@ -6,6 +6,9 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
+import { DeviceType } from "device-protocol/models"
+import { ActiveDeviceRegistryState } from "active-device-registry/models"
+import { GenericState } from "generic-view/store"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import {
@@ -27,10 +30,8 @@ import {
   TrackOsUpdateState,
 } from "Core/analytic-data-tracker/helpers"
 import { setRestartingStatus } from "Core/device"
-import { DeviceType } from "device-protocol/models"
 import { CoreDeviceState } from "core-device/models"
 import { startUpdateOs } from "Core/update/actions"
-import { DeviceManagerState } from "device-manager/models"
 
 jest.mock("Core/update/requests/remove-downloaded-os-updates.request")
 jest.mock("Core/analytic-data-tracker/helpers/track-os-update")
@@ -179,9 +180,12 @@ describe("when all updating os requests return success status", () => {
         },
       ],
     } as unknown as CoreDeviceState,
-    deviceManager: {
+    genericViews: {
+      devices: []
+    } as unknown as GenericState,
+    activeDeviceRegistry: {
       activeDeviceId: "1",
-    } as unknown as DeviceManagerState,
+    } as unknown as ActiveDeviceRegistryState,
   })
 
   beforeEach(() => {
@@ -293,9 +297,12 @@ describe("when updating os request return failure status", () => {
         },
       ],
     } as unknown as CoreDeviceState,
-    deviceManager: {
+    genericViews: {
+      devices: []
+    } as unknown as GenericState,
+    activeDeviceRegistry: {
       activeDeviceId: "1",
-    } as unknown as DeviceManagerState,
+    } as unknown as ActiveDeviceRegistryState,
   })
 
   test("action is rejected", async () => {

@@ -6,6 +6,7 @@
 import { createSelector } from "@reduxjs/toolkit"
 import { getCoreDevicesSelector } from "core-device/feature"
 import { DeviceBaseProperties } from "device-protocol/models"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   DeviceState,
   HarmonyDeviceData,
@@ -13,7 +14,6 @@ import {
   PureDeviceData,
 } from "Core/device"
 import { deviceStateSelector } from "Core/device/selectors"
-import { deviceManagerState } from "./device-manager-state.selector"
 
 export interface DeviceBaseData
   extends DeviceBaseProperties,
@@ -23,10 +23,9 @@ export interface DeviceBaseData
 
 export const getActiveDeviceBaseDataSelector = createSelector(
   getCoreDevicesSelector,
-  deviceManagerState,
+  activeDeviceIdSelector,
   deviceStateSelector,
-  (coreDevices, deviceManager, deviceState): DeviceBaseData | undefined => {
-    const { activeDeviceId } = deviceManager
+  (coreDevices, activeDeviceId, deviceState): DeviceBaseData | undefined => {
     const activeDevice = coreDevices.find(({ id }) => id === activeDeviceId)
 
     if (activeDevice === undefined) {

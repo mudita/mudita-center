@@ -32,6 +32,7 @@ import {
   importsReducer,
 } from "generic-view/store"
 import { appStateReducer } from "shared/app-state"
+import { activeDeviceRegistryReducer } from "active-device-registry/feature"
 
 export const reducers = {
   device: deviceReducer,
@@ -53,6 +54,7 @@ export const reducers = {
   appInitialization: appInitializationReducer,
   coreDevice: coreDeviceReducer,
   deviceManager: deviceManagerReducer,
+  activeDeviceRegistry: activeDeviceRegistryReducer,
   genericViews: genericViewsReducer,
   genericModals: genericModalsReducer,
   genericBackups: genericBackupsReducer,

@@ -4,13 +4,13 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { activateDevice } from "generic-view/store"
+import { activateDevice, cleanBackupProcess, cleanRestoreProcess } from "generic-view/store"
 import { DeviceManagerEvent } from "device-manager/models"
+import { setActiveDevice } from "active-device-registry/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
-import { setActiveDevice } from "./set-active-device.action"
 
 export const handleDeviceActivated = createAsyncThunk<
   void,
@@ -18,6 +18,8 @@ export const handleDeviceActivated = createAsyncThunk<
   { state: ReduxRootState }
 >(DeviceManagerEvent.HandleDeviceActivated, async (deviceId, { dispatch }) => {
   await dispatch(setActiveDevice(deviceId))
+  dispatch(cleanBackupProcess())
+  dispatch(cleanRestoreProcess())
   setDiscoveryStatus(DiscoveryStatus.Discovered)
   dispatch(activateDevice({ deviceId }))
 })
