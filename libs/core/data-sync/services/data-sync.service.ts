@@ -77,11 +77,14 @@ export class DataSyncService {
     }
 
     const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
-    const { ok } = await this.syncBackupCreateService.createSyncBackup({
-      token,
-      extract: true,
-      cwd: syncFileDir,
-    })
+    const { ok } = await this.syncBackupCreateService.createSyncBackup(
+      {
+        token,
+        extract: true,
+        cwd: syncFileDir,
+      },
+      serialNumber
+    )
 
     if (!ok) {
       return false

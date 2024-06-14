@@ -5,14 +5,24 @@
 
 /* stylelint-disable no-duplicate-selectors */
 
-import React, { FunctionComponent, useEffect } from "react"
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { APIFC } from "generic-view/utils"
 import { McDataMigrationConfig } from "generic-view/models"
 import { useDispatch, useSelector } from "react-redux"
 import {
+  clearDataMigrationProgress,
+  performDataMigration,
   selectDataMigrationSourceDevice,
   selectDataMigrationSourceDevices,
+  selectDataMigrationStatus,
   selectDataMigrationTargetDevices,
+  setDataMigrationFeatures,
   setSourceDevice,
   startDataMigration,
 } from "generic-view/store"
@@ -23,7 +33,10 @@ import { Divider } from "../../helpers/divider"
 import { TargetSelector, TargetSelectorWrapper } from "./target-selector"
 import Form from "../../interactive/form/form"
 import { TransferSetup } from "./transfer-setup"
-import { GenericThemeProvider } from "generic-view/theme"
+import {
+  GenericThemeProvider,
+  modalTransitionDuration,
+} from "generic-view/theme"
 import { Device } from "./components/device-card"
 import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
 import { defineMessages } from "react-intl"
@@ -33,6 +46,8 @@ import { PureErrorModal } from "./components/pure-error-modal"
 import { TransferErrorModal } from "./components/transfer-error-modal"
 import { PurePasscodeModal } from "./components/pure-passcode-modal"
 import { ProgressModal } from "./components/progress-modal"
+import { SuccessModal } from "./components/success-modal"
+import { Modal } from "../../interactive/modal"
 
 const messages = defineMessages({
   header: {
@@ -52,6 +67,9 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     selectDataMigrationTargetDevices
   ) as Device[]
   const sourceDevice = useSelector(selectDataMigrationSourceDevice)
+  const dataMigrationStatus = useSelector(selectDataMigrationStatus)
+  const dataMigrationAbortReference = useRef<VoidFunction>()
+  const [modalOpened, setModalOpened] = useState(false)
 
   const noSourceDeviceSelected = !sourceDevice
   const displayInstruction =
@@ -62,6 +80,28 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
 
   const startMigration = () => {
     dispatch(startDataMigration())
+  }
+
+  const startTransfer = useCallback(() => {
+    const promise = dispatch(performDataMigration())
+    dataMigrationAbortReference.current = (
+      promise as unknown as {
+        abort: VoidFunction
+      }
+    ).abort
+  }, [dispatch])
+
+  const cancelMigration = () => {
+    // TODO: add confirmation modal support
+    dataMigrationAbortReference.current?.()
+  }
+
+  const onFinish = () => {
+    setModalOpened(false)
+    setTimeout(() => {
+      dispatch(clearDataMigrationProgress())
+      dispatch(setDataMigrationFeatures([]))
+    }, modalTransitionDuration)
   }
 
   useEffect(() => {
@@ -78,6 +118,18 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
     noSourceDeviceSelected,
     sourceDevices,
   ])
+
+  useEffect(() => {
+    if (dataMigrationStatus === "IN-PROGRESS") {
+      startTransfer()
+    }
+    if (
+      dataMigrationStatus !== "IDLE" &&
+      dataMigrationStatus !== "PURE-PASSWORD-REQUIRED"
+    ) {
+      setModalOpened(true)
+    }
+  }, [dataMigrationStatus, startTransfer])
 
   return (
     <Wrapper>
@@ -99,9 +151,21 @@ const DataMigrationUI: FunctionComponent<McDataMigrationConfig> = ({
         deviceId={sourceDevice?.serialNumber}
         onUnlock={startMigration}
       />
-      <PureErrorModal />
-      <TransferErrorModal />
-      <ProgressModal />
+      <Modal
+        config={{ defaultOpened: modalOpened, size: "small" }}
+        componentKey={"data-migration-modal"}
+      >
+        {(dataMigrationStatus === "PURE-CRITICAL-BATTERY" ||
+          dataMigrationStatus === "PURE-ONBOARDING-REQUIRED" ||
+          dataMigrationStatus === "PURE-UPDATE-REQUIRED") && <PureErrorModal />}
+        {dataMigrationStatus === "FAILED" && <TransferErrorModal />}
+        {dataMigrationStatus === "IN-PROGRESS" && (
+          <ProgressModal onCancel={cancelMigration} />
+        )}
+        {dataMigrationStatus === "COMPLETED" && (
+          <SuccessModal onButtonClick={onFinish} />
+        )}
+      </Modal>
     </Wrapper>
   )
 }
