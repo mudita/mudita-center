@@ -11,13 +11,13 @@ import { Result, ResultObject } from "Core/core/builder"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { DeviceFileSystemError } from "Core/device-file-system/constants"
 
-const deviceManager = {
+const deviceProtocolService = {
   device: {
     request: jest.fn(),
   },
 } as unknown as DeviceProtocolService
 
-const subject = new RetrieveFilesCommand(deviceManager)
+const subject = new RetrieveFilesCommand(deviceProtocolService)
 
 const responseData: Record<string, string[]> = {
   ["/test/directory"]: [
@@ -46,7 +46,7 @@ beforeEach(() => {
 
 describe("When `DeviceManager.device.request` returns success response", () => {
   beforeEach(() => {
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockResolvedValueOnce(successResponse)
   })
@@ -56,7 +56,7 @@ describe("When `DeviceManager.device.request` returns success response", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalledWith({
+    expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {
@@ -69,7 +69,7 @@ describe("When `DeviceManager.device.request` returns success response", () => {
 
 describe("When `DeviceManager.device.request` returns failed response", () => {
   beforeEach(() => {
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockResolvedValueOnce(failedResponse)
   })
@@ -79,7 +79,7 @@ describe("When `DeviceManager.device.request` returns failed response", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalledWith({
+    expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {

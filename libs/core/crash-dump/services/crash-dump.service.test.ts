@@ -11,7 +11,7 @@ import { CrashDumpService } from "Core/crash-dump/services/crash-dump.service"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 
-const deviceManager = {
+const deviceProtocolService = {
   device: {
     request: jest.fn(),
   },
@@ -21,7 +21,10 @@ const deviceFileSystemMock = {
   downloadDeviceFilesLocally: jest.fn(),
 } as unknown as DeviceFileSystemService
 
-const subject = new CrashDumpService(deviceManager, deviceFileSystemMock)
+const subject = new CrashDumpService(
+  deviceProtocolService,
+  deviceFileSystemMock
+)
 
 afterEach(() => {
   jest.resetAllMocks()
@@ -29,7 +32,7 @@ afterEach(() => {
 
 describe("Method: getDeviceCrashDumpFiles", () => {
   test("returns list of files if `Endpoint.DeviceInfo` endpoint returns `success` and list of files", async () => {
-    deviceManager.device.request = jest.fn().mockReturnValueOnce(
+    deviceProtocolService.device.request = jest.fn().mockReturnValueOnce(
       Result.success({
         files: ["/sys/crash_dumps/crashdump.hex"],
       })
@@ -37,35 +40,35 @@ describe("Method: getDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
     expect(await subject.getDeviceCrashDumpFiles()).toEqual({
       data: ["/sys/crash_dumps/crashdump.hex"],
       status: RequestResponseStatus.Ok,
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).toHaveBeenCalled()
   })
 
   test("returns empty list of files if  if data key isn't exists", async () => {
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockReturnValueOnce(Result.success(undefined))
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
     expect(await subject.getDeviceCrashDumpFiles()).toEqual({
       data: [],
       status: RequestResponseStatus.Ok,
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).toHaveBeenCalled()
   })
 
   test("returns an `Error` status if status isn't equal to `Ok`", async () => {
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockReturnValueOnce(
         Result.failed(
@@ -78,19 +81,19 @@ describe("Method: getDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
     expect(await subject.getDeviceCrashDumpFiles()).toEqual({
       status: RequestResponseStatus.Error,
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).toHaveBeenCalled()
   })
 })
 
 describe("Method: downloadDeviceCrashDumpFiles", () => {
   test("returns local files urls if `downloadDeviceFilesLocally` returns `success` status and files list exists", async () => {
-    deviceManager.device.request = jest.fn().mockReturnValueOnce(
+    deviceProtocolService.device.request = jest.fn().mockReturnValueOnce(
       Result.success({
         files: ["/sys/crash_dumps/crashdump.hex"],
       })
@@ -103,7 +106,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -117,7 +120,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -128,7 +131,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
   })
 
   test("returns an `success` status if `getDeviceFiles` returns empty data", async () => {
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockReturnValueOnce(Result.success(undefined))
     ;(
@@ -137,7 +140,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -151,7 +154,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -160,13 +163,13 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
   })
 
   test("returns an `Error` status if `getDeviceFiles` returns `Error` status", async () => {
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockReturnValueOnce(Result.failed({} as AppError))
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -179,7 +182,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -188,7 +191,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
   })
 
   test("returns an `Error` status if `downloadDeviceFilesLocally` returns empty data", async () => {
-    deviceManager.device.request = jest.fn().mockReturnValueOnce(
+    deviceProtocolService.device.request = jest.fn().mockReturnValueOnce(
       Result.success({
         files: ["/sys/crash_dumps/crashdump.hex"],
       })
@@ -202,7 +205,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -215,7 +218,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -226,7 +229,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
   })
 
   test("returns an `Error` status if `downloadDeviceFilesLocally` returns `Error` status", async () => {
-    deviceManager.device.request = jest.fn().mockReturnValueOnce(
+    deviceProtocolService.device.request = jest.fn().mockReturnValueOnce(
       Result.success({
         files: ["/sys/crash_dumps/crashdump.hex"],
       })
@@ -239,7 +242,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -252,7 +255,7 @@ describe("Method: downloadDeviceCrashDumpFiles", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenCalled()
+    expect(deviceProtocolService.device.request).toHaveBeenCalled()
     expect(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method

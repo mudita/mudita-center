@@ -19,13 +19,13 @@ import { DeviceInfoService } from "Core/device-info/services"
 
 export class BackupCreateService extends BaseBackupService {
   constructor(
-    protected deviceManager: DeviceProtocolService,
+    protected deviceProtocolService: DeviceProtocolService,
     protected deviceFileSystem: DeviceFileSystemService,
     protected fileManagerService: FileManagerService,
     protected deviceInfoService: DeviceInfoService,
     private keyStorage: MetadataStore
   ) {
-    super(deviceManager, deviceFileSystem, deviceInfoService)
+    super(deviceProtocolService, deviceFileSystem, deviceInfoService)
   }
 
   public async createBackup(
@@ -109,7 +109,7 @@ export class BackupCreateService extends BaseBackupService {
       )
     }
 
-    const backupResponse = await this.deviceManager.device.request({
+    const backupResponse = await this.deviceProtocolService.device.request({
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {

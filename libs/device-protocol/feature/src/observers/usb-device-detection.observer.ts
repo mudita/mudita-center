@@ -13,7 +13,7 @@ const intervalTime = 3000
 
 export class UsbDeviceDetectionObserver implements Observer {
   private previousAttachedDevicePaths = new Set<string>()
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   public observe(): void {
     void this.watchAttachedDevices()
@@ -42,7 +42,8 @@ export class UsbDeviceDetectionObserver implements Observer {
   }
 
   private async detectDeviceStateChange(): Promise<void> {
-    const attachedDevices = await this.deviceManager.getAttachedDevices()
+    const attachedDevices =
+      await this.deviceProtocolService.getAttachedDevices()
     const detachedDevicePaths = Array.from(
       this.previousAttachedDevicePaths
     ).filter(
@@ -53,12 +54,12 @@ export class UsbDeviceDetectionObserver implements Observer {
     )
 
     detachedDevicePaths.forEach((detachedDevicePath) => {
-      void this.deviceManager.removeDevice(detachedDevicePath)
+      void this.deviceProtocolService.removeDevice(detachedDevicePath)
     })
 
     attachedDevices.forEach((attachedDevice) => {
       if (!this.previousAttachedDevicePaths.has(attachedDevice.path)) {
-        void this.deviceManager.addDevice(attachedDevice)
+        void this.deviceProtocolService.addDevice(attachedDevice)
       }
     })
 

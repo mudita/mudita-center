@@ -34,29 +34,34 @@ export class APIModule {
   private apiDataTransferService: APIDataTransferService
 
   constructor(
-    deviceManager: DeviceProtocolService,
+    deviceProtocolService: DeviceProtocolService,
     systemUtilsModule: SystemUtilsModule,
     settingsService: ISettingsService
   ) {
     this.serviceBridge = new ServiceBridge()
-    this.apiConfigService = new APIConfigService(deviceManager)
-    this.apiFeaturesService = new APIFeaturesService(deviceManager)
-    this.apiOutboxService = new APIOutboxService(deviceManager)
-    this.apiMenuService = new APIMenuService(deviceManager)
+    this.apiConfigService = new APIConfigService(deviceProtocolService)
+    this.apiFeaturesService = new APIFeaturesService(deviceProtocolService)
+    this.apiOutboxService = new APIOutboxService(deviceProtocolService)
+    this.apiMenuService = new APIMenuService(deviceProtocolService)
     this.serverService = new ServerService()
-    this.backupService = new APIBackupService(deviceManager)
-    this.apiDataTransferService = new APIDataTransferService(deviceManager)
+    this.backupService = new APIBackupService(deviceProtocolService)
+    this.apiDataTransferService = new APIDataTransferService(
+      deviceProtocolService
+    )
     this.restoreService = new APIRestoreService(
-      deviceManager,
+      deviceProtocolService,
       this.serviceBridge
     )
     this.fileTransferService = new APIFileTransferService(
-      deviceManager,
+      deviceProtocolService,
       this.serviceBridge
     )
-    this.fileManager = new FileManager(deviceManager, this.serviceBridge)
+    this.fileManager = new FileManager(
+      deviceProtocolService,
+      this.serviceBridge
+    )
     this.deviceSystemActionsService = new DeviceSystemActionsService(
-      deviceManager
+      deviceProtocolService
     )
     this.serviceBridge.systemUtilsModule = systemUtilsModule
     this.serviceBridge.fileTransfer = this.fileTransferService

@@ -20,7 +20,7 @@ const siteId = Number(process.env.ANALYTICS_API_SITE_ID)
 export class AnalyticDataTrackerModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceProtocolService,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -29,7 +29,7 @@ export class AnalyticDataTrackerModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,

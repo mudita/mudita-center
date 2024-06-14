@@ -20,7 +20,7 @@ export type EntryChangesEvent = { entry: OutboxEntry; payload: unknown }
 
 export class OutboxService {
   constructor(
-    private deviceManager: DeviceProtocolService,
+    private deviceProtocolService: DeviceProtocolService,
     private entryHandlersMap: EntryHandlersMapType
   ) {}
 
@@ -52,7 +52,7 @@ export class OutboxService {
   private async getOutboxEntriesRequest(): Promise<
     ResultObject<GetEntriesResponseBody>
   > {
-    return this.deviceManager.device.request<GetEntriesResponseBody>({
+    return this.deviceProtocolService.device.request<GetEntriesResponseBody>({
       endpoint: Endpoint.Outbox,
       method: Method.Get,
       body: {
@@ -64,7 +64,7 @@ export class OutboxService {
   private async deleteOutboxEntriesRequest(
     uids: number[]
   ): Promise<ResultObject<unknown>> {
-    return this.deviceManager.device.request({
+    return this.deviceProtocolService.device.request({
       endpoint: Endpoint.Outbox,
       method: Method.Delete,
       body: {

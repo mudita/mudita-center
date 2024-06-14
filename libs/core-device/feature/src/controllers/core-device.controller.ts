@@ -24,7 +24,7 @@ export interface DeviceConfiguration {
 
 export class CoreDeviceController {
   constructor(
-    private deviceManager: DeviceProtocolService,
+    private deviceProtocolService: DeviceProtocolService,
     private deviceCacheConfigurationService: DeviceCacheConfigurationService
   ) {}
 
@@ -38,7 +38,7 @@ export class CoreDeviceController {
       return Result.success(deviceConfigurationCached)
     }
 
-    const result = await this.deviceManager.request<DeviceInfo>(id, {
+    const result = await this.deviceProtocolService.request<DeviceInfo>(id, {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       options: {

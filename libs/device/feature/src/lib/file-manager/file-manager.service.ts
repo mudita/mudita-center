@@ -28,7 +28,7 @@ export class FileManager {
   private files: Record<string, unknown> = {}
 
   constructor(
-    private deviceManager: DeviceProtocolService,
+    private deviceProtocolService: DeviceProtocolService,
     private serviceBridge: ServiceBridge
   ) {}
 
@@ -55,8 +55,8 @@ export class FileManager {
   @IpcEvent(FileManagerServiceEvents.GetBackupPath)
   public getBackupPath({ deviceId }: { deviceId?: DeviceId } = {}) {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -101,8 +101,8 @@ export class FileManager {
     password?: string
   }) {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

@@ -9,9 +9,9 @@ import { DeviceManagerController } from "./controllers"
 export class DeviceManagerModule {
   public controllers
 
-  constructor(public deviceManager: DeviceProtocolService) {
+  constructor(public deviceProtocolService: DeviceProtocolService) {
     const deviceManagerController = new DeviceManagerController(
-      this.deviceManager
+      this.deviceProtocolService
     )
 
     this.controllers = [deviceManagerController]

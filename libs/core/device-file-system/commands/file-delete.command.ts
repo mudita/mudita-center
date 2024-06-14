@@ -14,13 +14,15 @@ import { DeviceFileSystemError } from "Core/device-file-system/constants"
 export class FileDeleteCommand extends BaseCommand {
   public async exec(path: string): Promise<ResultObject<string>> {
     const { ok, error } =
-      await this.deviceManager.device.request<RemoveFileSystemRequestConfig>({
-        endpoint: Endpoint.FileSystem,
-        method: Method.Delete,
-        body: {
-          removeFile: path,
-        },
-      })
+      await this.deviceProtocolService.device.request<RemoveFileSystemRequestConfig>(
+        {
+          endpoint: Endpoint.FileSystem,
+          method: Method.Delete,
+          body: {
+            removeFile: path,
+          },
+        }
+      )
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

@@ -17,7 +17,7 @@ import { DeviceProtocolService } from "device-protocol/feature"
 
 export class DeviceLogService {
   constructor(
-    private deviceManager: DeviceProtocolService,
+    private deviceProtocolService: DeviceProtocolService,
     private deviceFileSystem: DeviceFileSystemService
   ) {}
 
@@ -26,13 +26,15 @@ export class DeviceLogService {
   ): Promise<ResultObject<DeviceFile[]>> {
     try {
       const files =
-        await this.deviceManager.device.request<GetDeviceFilesResponseBody>({
-          endpoint: Endpoint.DeviceInfo,
-          method: Method.Get,
-          body: {
-            fileList: DiagnosticsFileList.LOGS,
-          },
-        })
+        await this.deviceProtocolService.device.request<GetDeviceFilesResponseBody>(
+          {
+            endpoint: Endpoint.DeviceInfo,
+            method: Method.Get,
+            body: {
+              fileList: DiagnosticsFileList.LOGS,
+            },
+          }
+        )
 
       if (!files.data || !files.ok) {
         return Result.failed(

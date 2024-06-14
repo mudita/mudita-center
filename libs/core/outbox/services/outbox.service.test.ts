@@ -13,7 +13,7 @@ import { DeviceProtocolService } from "device-protocol/feature"
 import { OutboxEntry } from "Core/device/types/mudita-os"
 import { OutboxEntryChange, OutboxEntryType } from "Core/device/constants"
 
-const deviceManager = {
+const deviceProtocolService = {
   device: {
     request: jest.fn().mockResolvedValue(Result.success({ entries: [] })),
   },
@@ -23,7 +23,7 @@ const entryHandlersMap = {
     handleEntry: jest.fn(),
   },
 } as unknown as EntryHandlersMapType
-const subject = new OutboxService(deviceManager, entryHandlersMap)
+const subject = new OutboxService(deviceProtocolService, entryHandlersMap)
 
 const entriesMock: OutboxEntry[] = [
   {
@@ -41,14 +41,14 @@ beforeEach(() => {
 describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Contact Entry", () => {
     test("outbox `delete` request was called", async () => {
-      deviceManager.device.request = jest
+      deviceProtocolService.device.request = jest
         .fn()
         .mockResolvedValueOnce(Result.success({ entries: entriesMock }))
 
       await subject.readOutboxEntries()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.Outbox,
         method: Method.Delete,
         body: {
@@ -58,7 +58,7 @@ describe("`OutboxService`", () => {
     })
 
     test("contact handler was called", async () => {
-      deviceManager.device.request = jest
+      deviceProtocolService.device.request = jest
         .fn()
         .mockResolvedValueOnce(Result.success({ entries: entriesMock }))
 

@@ -22,7 +22,7 @@ import {
 import random from "lodash/random"
 
 export class APIDataTransferService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   @IpcEvent(APIDataTransferServiceEvents.StartPreDataTransfer)
   public async startPreDataTransfer({
@@ -33,8 +33,8 @@ export class APIDataTransferService {
     deviceId?: DeviceId
   }): Promise<ResultObject<PreDataTransfer>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -73,8 +73,8 @@ export class APIDataTransferService {
     deviceId?: DeviceId
   }): Promise<ResultObject<DataTransfer>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -100,8 +100,8 @@ export class APIDataTransferService {
     deviceId?: DeviceId
   }): Promise<ResultObject<DataTransfer>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -127,8 +127,8 @@ export class APIDataTransferService {
     deviceId?: DeviceId
   }): Promise<ResultObject<undefined>> {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

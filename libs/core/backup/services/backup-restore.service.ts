@@ -17,12 +17,12 @@ import { DeviceInfoService } from "Core/device-info/services"
 
 export class BackupRestoreService extends BaseBackupService {
   constructor(
-    protected deviceManager: DeviceProtocolService,
+    protected deviceProtocolService: DeviceProtocolService,
     protected deviceFileSystem: DeviceFileSystemService,
     protected deviceInfoService: DeviceInfoService,
     private fileSystem: FileSystemService
   ) {
-    super(deviceManager, deviceFileSystem, deviceInfoService)
+    super(deviceProtocolService, deviceFileSystem, deviceInfoService)
   }
 
   public async restoreBackup({
@@ -74,7 +74,7 @@ export class BackupRestoreService extends BaseBackupService {
       )
     }
 
-    const restoreResult = await this.deviceManager.device.request({
+    const restoreResult = await this.deviceProtocolService.device.request({
       endpoint: Endpoint.Restore,
       method: Method.Post,
       body: {

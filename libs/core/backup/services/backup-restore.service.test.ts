@@ -61,7 +61,7 @@ const updaterStatusSuccessForAnotherOperationMock: UpdaterStatus = {
   successful: true,
 }
 
-const deviceManager = {
+const deviceProtocolService = {
   device: {
     request: jest.fn(),
   },
@@ -84,7 +84,7 @@ const deviceInfoService = {
 } as unknown as DeviceInfoService
 
 const subject = new BackupRestoreService(
-  deviceManager,
+  deviceProtocolService,
   deviceFileSystemAdapter,
   deviceInfoService,
   fileSystemServiceMock
@@ -111,7 +111,7 @@ describe("Restore process happy path", () => {
       .mockResolvedValueOnce(
         Result.success(JSON.stringify(updaterStatusSuccessMock))
       )
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
@@ -162,14 +162,14 @@ describe("Restore process happy path", () => {
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenNthCalledWith(1, {
+    expect(deviceProtocolService.device.request).toHaveBeenNthCalledWith(1, {
       endpoint: Endpoint.Restore,
       method: Method.Post,
       body: { restore: "fileBase.tar" },
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceManager.device.request).toHaveBeenNthCalledWith(2, {
+    expect(deviceProtocolService.device.request).toHaveBeenNthCalledWith(2, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
@@ -263,7 +263,7 @@ describe("Backup restoring failed path", () => {
     deviceFileSystemAdapter.uploadFile = jest
       .fn()
       .mockResolvedValueOnce(Result.success(true))
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
@@ -275,7 +275,7 @@ describe("Backup restoring failed path", () => {
 
         return Result.failed(new AppError("", ""))
       })
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockResolvedValue(Result.failed(new AppError("", "")))
     deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
@@ -310,7 +310,7 @@ describe("Backup restoring failed path", () => {
     deviceFileSystemAdapter.downloadFile = jest
       .fn()
       .mockResolvedValueOnce(Result.failed(new AppError("", "")))
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
@@ -371,7 +371,7 @@ describe("Backup restoring failed path", () => {
           JSON.stringify(updaterStatusSuccessForAnotherOperationMock)
         )
       )
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
@@ -430,7 +430,7 @@ describe("Backup restoring failed path", () => {
       .mockResolvedValueOnce(
         Result.success(JSON.stringify(updaterStatusFailedMock))
       )
-    deviceManager.device.request = jest
+    deviceProtocolService.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (

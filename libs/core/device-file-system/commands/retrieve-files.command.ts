@@ -16,7 +16,7 @@ export class RetrieveFilesCommand extends BaseCommand {
     directory: string
   ): Promise<ResultObject<Record<string, DirectoryFile[]> | undefined>> {
     const result =
-      await this.deviceManager.device.request<GetFileSystemDirectoryResponseBody>(
+      await this.deviceProtocolService.device.request<GetFileSystemDirectoryResponseBody>(
         {
           endpoint: Endpoint.FileSystem,
           method: Method.Get,

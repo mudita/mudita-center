@@ -10,15 +10,15 @@ import { GeneralError, DeviceSystemActionsServiceEvents } from "device/models"
 import { IpcEvent } from "Core/core/decorators"
 
 export class DeviceSystemActionsService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   private async sendSystemRequest(
     action: string,
     { deviceId }: { deviceId?: string } = {}
   ) {
     const device = deviceId
-      ? this.deviceManager.getAPIDeviceById(deviceId)
-      : this.deviceManager.apiDevice
+      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
+      : this.deviceProtocolService.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

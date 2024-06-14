@@ -12,13 +12,13 @@ import { DeviceProtocolService } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceService {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   public async unlock(
     code: string,
-    deviceId: DeviceId = this.deviceManager.device.id
+    deviceId: DeviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<boolean>> {
-    const response = await this.deviceManager.request(deviceId, {
+    const response = await this.deviceProtocolService.request(deviceId, {
       endpoint: Endpoint.Security,
       method: Method.Put,
       body: {
@@ -30,9 +30,9 @@ export class DeviceService {
   }
 
   public async unlockStatus(
-    deviceId: DeviceId = this.deviceManager.device.id
+    deviceId: DeviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<unknown, DeviceCommunicationError>> {
-    return this.deviceManager.request(deviceId, {
+    return this.deviceProtocolService.request(deviceId, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
@@ -40,12 +40,15 @@ export class DeviceService {
   }
 
   public async unlockTime(
-    deviceId: DeviceId = this.deviceManager.device.id
+    deviceId: DeviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<PhoneLockTime>> {
-    return this.deviceManager.request<GetPhoneLockTimeResponseBody>(deviceId, {
-      endpoint: Endpoint.Security,
-      method: Method.Get,
-      body: { category: PhoneLockCategory.Time },
-    })
+    return this.deviceProtocolService.request<GetPhoneLockTimeResponseBody>(
+      deviceId,
+      {
+        endpoint: Endpoint.Security,
+        method: Method.Get,
+        body: { category: PhoneLockCategory.Time },
+      }
+    )
   }
 }

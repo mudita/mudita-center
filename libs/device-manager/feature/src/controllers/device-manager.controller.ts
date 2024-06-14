@@ -10,15 +10,15 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { IpcDeviceManagerEvent } from "../constants"
 
 export class DeviceManagerController {
-  constructor(private deviceManager: DeviceProtocolService) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   @IpcEvent(IpcDeviceManagerEvent.SetActiveDevice)
   public setActiveDevice(id: DeviceId | undefined): ResultObject<boolean> {
-    return this.deviceManager.setActiveDevice(id)
+    return this.deviceProtocolService.setActiveDevice(id)
   }
 
   @IpcEvent(IpcDeviceManagerEvent.ConnectDevice)
   public connectDevice(id: DeviceId): Promise<ResultObject<undefined>> {
-    return this.deviceManager.connectDevice(id)
+    return this.deviceProtocolService.connectDevice(id)
   }
 }
