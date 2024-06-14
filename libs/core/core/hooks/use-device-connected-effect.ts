@@ -12,16 +12,8 @@ import {
   setActiveDevice,
   getDevicesSelector,
 } from "device-manager/feature"
-import {
-  addDevice,
-  configureDevice,
-  getDeviceConfigurationRequest,
-} from "core-device/feature"
-import {
-  DeviceProtocolMainEvent,
-  DeviceType,
-  DeviceBaseProperties,
-} from "device-protocol/models"
+import { getDeviceConfigurationRequest } from "core-device/feature"
+import { DeviceProtocolMainEvent, DeviceType, DeviceBaseProperties } from "device-protocol/models"
 import { selectDialogOpenState } from "shared/app-state"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
@@ -50,9 +42,6 @@ export const useDeviceConnectedEffect = () => {
 
   useEffect(() => {
     const handler = async (properties: DeviceBaseProperties) => {
-      dispatch(addDevice(properties))
-      dispatch(configureDevice(properties.id))
-
       if (activeDeviceId) {
         await continueProcess(properties)
         return

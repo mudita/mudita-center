@@ -29,7 +29,6 @@ import {
   activeDeviceIdSelector,
   handleDeviceActivated,
 } from "device-manager/feature"
-import { DeviceState } from "core-device/models"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_ONBOARDING,
