@@ -9,7 +9,6 @@ import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-import { DeviceState } from "core-device/models"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
