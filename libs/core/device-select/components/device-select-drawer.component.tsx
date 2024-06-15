@@ -26,9 +26,9 @@ import { IconType } from "Core/__deprecated__/renderer/components/core/icon/icon
 import {
   getAvailableDevicesSelector,
   deactivateDevice,
-  activeDeviceIdSelector,
   handleDeviceActivated,
 } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_ONBOARDING,

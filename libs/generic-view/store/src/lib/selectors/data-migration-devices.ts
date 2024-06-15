@@ -9,6 +9,7 @@ import pureBlackImage from "Core/__deprecated__/renderer/images/pure-black-rende
 import pureGreyImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
 import { kompaktImg } from "Root/demo-data/kompakt-img"
 import { selectConfiguredDevices } from "./select-configured-devices"
+import { selectActiveApiDeviceId } from "./select-active-api-device-id"
 import { getDeviceTypeName } from "Core/discovery-device/utils/get-device-type-name"
 
 // FIXME: The device name should be moved to the API config response of API device
@@ -57,7 +58,7 @@ export const selectDataMigrationSourceDevice = createSelector(
 
 export const selectDataMigrationTargetDevice = createSelector(
   selectDataMigrationTargetDevices,
-  (state: ReduxRootState) => state.genericViews.activeDevice,
+  selectActiveApiDeviceId,
   (devices, activeDeviceId) => {
     return devices.find((device) => device?.serialNumber === activeDeviceId)
   }

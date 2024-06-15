@@ -57,7 +57,7 @@ import { filterContacts } from "Core/contacts/helpers/filter-contacts/filter-con
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types"
 import createFile from "Core/__deprecated__/renderer/utils/create-file/create-file"
-import { activeDeviceIdSelector } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 
 const allPossibleFormErrorCausedByAPI: FormError[] = [
   {

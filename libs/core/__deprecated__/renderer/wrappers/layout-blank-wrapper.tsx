@@ -87,7 +87,7 @@ const mapStateToProps = (
       state.update.needsForceUpdate ||
       state.update.forceUpdateState === State.Loading ||
       state.update.updateOsState === State.Loading ||
-      state.genericViews.activeDevice
+      state.activeDeviceRegistry.activeDeviceId
     ),
     recoveryMode: ownProps.recoveryMode,
     onClose: ownProps.onClose,

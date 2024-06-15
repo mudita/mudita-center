@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
+import intersection from "lodash/intersection"
 import {
   cancelRestoreRequest,
   checkRestoreRequest,
@@ -13,11 +13,12 @@ import {
   startRestorePreSendFileRequest,
   startRestoreRequest,
 } from "device/feature"
-import intersection from "lodash/intersection"
+import { RestoreFeature } from "generic-view/models"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
+import { selectActiveApiDeviceId } from "../selectors"
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
-import { RestoreFeature } from "generic-view/models"
 
 export const restoreBackup = createAsyncThunk<
   undefined,
@@ -46,7 +47,7 @@ export const restoreBackup = createAsyncThunk<
     }
     signal.addEventListener("abort", abortListener)
 
-    const deviceId = getState().genericViews.activeDevice
+    const deviceId = selectActiveApiDeviceId(getState())
     const restoreFileId =
       getState().genericBackups.restoreProcess?.restoreFileId
 
