@@ -23,6 +23,7 @@ import {
 } from "./actions"
 import { isEmpty } from "lodash"
 import { DataTransfer } from "./reducer"
+import { selectActiveApiDeviceId } from "generic-view/store"
 
 export type DomainData = {
   domain: Extract<DataTransferDomain, "contacts-v1">
@@ -56,7 +57,7 @@ export const transferDataToDevice = createAsyncThunk<
     }
     signal.addEventListener("abort", abortListener)
 
-    const deviceId = getState().genericViews.activeDevice
+    const deviceId = selectActiveApiDeviceId(getState())
 
     if (!deviceId) {
       return handleError()

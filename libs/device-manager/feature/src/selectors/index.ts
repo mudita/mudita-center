@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "../../../../active-device-registry/feature/src/selectors/active-device-id.selector"
 export * from "./device-manager-state.selector"
 export * from "./get-active-device-type.selector"
 export * from "./get-active-device.selector"
@@ -14,5 +13,4 @@ export * from "./get-configured-devices.selector"
 export * from "./get-devices.selector"
 export * from "./get-failed-devices.selector"
 export * from "./is-active-device-attached.selector"
-export * from "../../../../active-device-registry/feature/src/selectors/is-active-device-set.selector"
 export * from "./is-device-list-empty.selector"

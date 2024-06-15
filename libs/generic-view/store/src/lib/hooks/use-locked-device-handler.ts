@@ -8,7 +8,7 @@ import { setDeviceInitializationStatus } from "Core/device-initialization/action
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { useDispatch, useSelector } from "react-redux"
 import {
-  selectActiveDevice,
+  selectActiveApiDeviceId,
   selectActiveDeviceFeatures,
   selectApiError,
 } from "../selectors"
@@ -18,7 +18,7 @@ import { getAPIConfig } from "../get-api-config"
 
 export const useLockedDeviceHandler = () => {
   const dispatch = useDispatch<Dispatch>()
-  const deviceId = useSelector(selectActiveDevice)
+  const deviceId = useSelector(selectActiveApiDeviceId)
   const deviceLocked = useSelector((state: ReduxRootState) => {
     return selectApiError(state, ApiError.DeviceLocked)
   })

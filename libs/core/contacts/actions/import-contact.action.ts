@@ -12,7 +12,7 @@ import {
 } from "Core/contacts/requests"
 import { AppError } from "Core/core/errors"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
-import { activeDeviceIdSelector } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 
 export interface ImportContactArg {

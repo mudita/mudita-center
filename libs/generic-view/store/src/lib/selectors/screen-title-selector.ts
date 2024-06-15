@@ -5,16 +5,17 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { selectActiveDevice } from "./active-device"
+import { selectActiveApiDeviceId } from "./select-active-api-device-id"
 import { selectConfiguredDevices } from "./select-configured-devices"
 
 export const screenTitleSelector = createSelector(
-  selectActiveDevice,
+  selectActiveApiDeviceId,
   selectConfiguredDevices,
   (state: ReduxRootState, viewKey: string) => viewKey,
-  (activeDevice, devices, viewKey) => {
-    const features = devices[activeDevice as keyof typeof devices]?.features
-    return features?.[viewKey as keyof typeof features]?.config?.main
-      .screenTitle
+  (activeDeviceId, devices, viewKey) => {
+    const features = activeDeviceId
+      ? devices[activeDeviceId]?.features
+      : undefined
+    return features?.[viewKey]?.config?.main.screenTitle
   }
 )

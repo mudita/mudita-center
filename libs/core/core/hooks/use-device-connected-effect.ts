@@ -7,11 +7,11 @@ import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { answerMain } from "shared/utils"
+import { getDevicesSelector } from "device-manager/feature"
 import {
-  activeDeviceIdSelector,
   setActiveDevice,
-  getDevicesSelector,
-} from "device-manager/feature"
+  activeDeviceIdSelector,
+} from "active-device-registry/feature"
 import { getDeviceConfigurationRequest } from "core-device/feature"
 import {
   DeviceProtocolMainEvent,
