@@ -5,7 +5,7 @@
 
 export * from "./active-device-menu-items"
 export * from "./screen-title-selector"
-export * from "./active-device"
+export * from "./select-active-api-device-id"
 export * from "./active-device-features"
 export * from "./component"
 export * from "./view"

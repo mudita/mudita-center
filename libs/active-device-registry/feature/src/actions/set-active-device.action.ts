@@ -9,7 +9,6 @@ import { DeviceId } from "Core/device/constants/device-id"
 import { setActiveDeviceRequest } from "../requests"
 import { ActiveDeviceRegistryEvent } from "../constants"
 
-
 export const setActiveDevice = createAsyncThunk<
   DeviceId | undefined,
   DeviceId | undefined,

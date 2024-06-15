@@ -21,7 +21,7 @@ import {
   osUpdateAlreadyDownloadedCheck,
 } from "Core/update/requests"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { isActiveDeviceSet } from "device-manager/feature"
+import { isActiveDeviceSet } from "active-device-registry/feature"
 
 interface Params {
   deviceType: DeviceType

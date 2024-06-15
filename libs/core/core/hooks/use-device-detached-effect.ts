@@ -12,10 +12,8 @@ import { getDevicesSelector } from "device-manager/feature"
 import { selectDialogOpenState } from "shared/app-state"
 import { DeviceProtocolMainEvent } from "device-protocol/models"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
-import {
-  activeDeviceIdSelector,
-  deactivateDevice,
-} from "device-manager/feature"
+import { deactivateDevice } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
 import { cancelOsDownload } from "Core/update/requests"

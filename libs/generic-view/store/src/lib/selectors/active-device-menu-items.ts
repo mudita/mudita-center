@@ -5,14 +5,14 @@
 
 import { createSelector } from "@reduxjs/toolkit"
 import { generateMenu } from "generic-view/utils"
-import { selectActiveDevice } from "./active-device"
+import { selectActiveApiDeviceId } from "./select-active-api-device-id"
 import { selectConfiguredDevices } from "./select-configured-devices"
 
 export const activeDeviceMenuItems = createSelector(
-  [selectActiveDevice, selectConfiguredDevices],
-  (activeDevice, configuredDevices) => {
-    if (activeDevice) {
-      return configuredDevices[activeDevice].menuConfig
+  [selectActiveApiDeviceId, selectConfiguredDevices],
+  (activeDeviceId, configuredDevices) => {
+    if (activeDeviceId) {
+      return configuredDevices[activeDeviceId].menuConfig
     }
     return undefined
   }

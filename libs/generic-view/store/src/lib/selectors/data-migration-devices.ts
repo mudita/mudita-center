@@ -10,6 +10,7 @@ import { createSelector } from "@reduxjs/toolkit"
 // import pureGreyImage from "Core/__deprecated__/renderer/images/pure-gray-render.png"
 import { kompaktImg } from "Root/demo-data/kompakt-img"
 import { selectConfiguredDevices } from "./select-configured-devices"
+import { selectActiveApiDeviceId } from "./select-active-api-device-id"
 
 // FIXME: The device name should be moved to the API config response of API device
 const messages = {
@@ -58,7 +59,7 @@ export const selectDataMigrationSourceDevice = createSelector(
 
 export const selectDataMigrationTargetDevice = createSelector(
   selectDataMigrationTargetDevices,
-  (state: ReduxRootState) => state.genericViews.activeDevice,
+  selectActiveApiDeviceId,
   (devices, activeDeviceId) => {
     return devices.find((device) => device?.serialNumber === activeDeviceId)
   }

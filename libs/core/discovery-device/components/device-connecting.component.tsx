@@ -10,7 +10,8 @@ import { delay } from "shared/utils"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
 import { TmpDispatch } from "Core/__deprecated__/renderer/store"
-import { activeDeviceIdSelector, connectDevice } from "device-manager/feature"
+import { connectDevice } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_DISCOVERY_DEVICE,

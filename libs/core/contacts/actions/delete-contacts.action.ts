@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { isActiveDeviceSet } from "device-manager/feature"
+import { isActiveDeviceSet } from "active-device-registry/feature"
 import { deleteContactsInState } from "Core/contacts/actions/base.action"
 import { ContactsEvent } from "Core/contacts/constants"
 import { ContactID } from "Core/contacts/reducers"

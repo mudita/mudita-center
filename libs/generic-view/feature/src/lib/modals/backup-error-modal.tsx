@@ -8,15 +8,15 @@ import { BackupError, Modal } from "generic-view/ui"
 import { useDispatch, useSelector } from "react-redux"
 import {
   cleanBackupProcess,
-  selectActiveDevice,
+  selectActiveApiDeviceId,
   selectBackupProcessStatus,
 } from "generic-view/store"
 
 const BackupErrorModal: FunctionComponent = () => {
   const dispatch = useDispatch()
-  const activeDevice = useSelector(selectActiveDevice)
+  const activeDeviceId = useSelector(selectActiveApiDeviceId)
   const backupStatus = useSelector(selectBackupProcessStatus)
-  const opened = backupStatus === "FAILED" && !activeDevice
+  const opened = backupStatus === "FAILED" && !activeDeviceId
 
   const onClose = () => {
     dispatch(cleanBackupProcess())
