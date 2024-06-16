@@ -4,14 +4,12 @@
  */
 
 import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
-import { useDispatch, useSelector } from "react-redux"
-import {
-  selectActiveApiDeviceId,
-  selectActiveDeviceFeatures,
-  selectApiError,
-} from "../selectors"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
+import { selectActiveDeviceFeatures } from "../selectors/active-device-features"
+import { selectApiError } from "../selectors/api-error"
 import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ApiError } from "device/models"
 import { getAPIConfig } from "../get-api-config"

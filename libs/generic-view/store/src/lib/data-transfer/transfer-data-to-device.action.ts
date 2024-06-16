@@ -23,7 +23,7 @@ import {
 } from "./actions"
 import { isEmpty } from "lodash"
 import { DataTransfer } from "./reducer"
-import { selectActiveApiDeviceId } from "generic-view/store"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 
 export type DomainData = {
   domain: Extract<DataTransferDomain, "contacts-v1">

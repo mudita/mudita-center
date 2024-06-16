@@ -17,7 +17,7 @@ import { RestoreFeature } from "generic-view/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
 import { sendFile } from "../file-transfer/send-file.action"
-import { selectActiveApiDeviceId } from "../selectors"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import { setRestoreProcessFileStatus, setRestoreProcessStatus } from "./actions"
 
 export const restoreBackup = createAsyncThunk<

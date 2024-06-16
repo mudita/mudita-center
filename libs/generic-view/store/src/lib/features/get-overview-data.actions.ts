@@ -9,7 +9,7 @@ import { generateMcAboutData, generateMcOverviewData } from "generic-view/views"
 import { View } from "generic-view/utils"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
-import { selectConfiguredDevice } from "../selectors"
+import { selectConfiguredDevice } from "../selectors/select-configured-devices"
 import { FeaturesActions } from "./featues-action-keys"
 
 export const getOverviewData = createAsyncThunk<
