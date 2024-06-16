@@ -14,7 +14,7 @@ import {
 } from "device/feature"
 import { ActionName } from "../action-names"
 import { getFile } from "../file-transfer/get-file.action"
-import { selectActiveApiDeviceId } from "../selectors"
+import { selectActiveApiDeviceId } from "../selectors/select-active-api-device-id"
 import {
   setBackupProcess,
   setBackupProcessFileStatus,

@@ -14,7 +14,7 @@ import { addDevice, removeDevice } from "../views/actions"
 import { getAPIConfig } from "../get-api-config"
 import { setBackupProcessStatus } from "../backup/actions"
 import { closeAllModals } from "../modals/actions"
-import { selectBackupProcessStatus } from "../selectors"
+import { selectBackupProcessStatus } from "../selectors/backup-process-status"
 import { clearDataMigrationDevice } from "../data-migration/clear-data-migration.action"
 
 export const useAPISerialPortListeners = () => {
