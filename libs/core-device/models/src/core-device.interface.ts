@@ -5,7 +5,7 @@
 
 import { CaseColour } from "core-device/models"
 import { DeviceType } from "device-protocol/models"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
+import { AvailableDeviceProperties } from "device-manager/models"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export enum DeviceState {
@@ -15,7 +15,7 @@ export enum DeviceState {
   Failed = "FAILED",
 }
 
-export interface Device extends DeviceBaseProperties {
+export interface Device extends AvailableDeviceProperties {
   id: DeviceId
   serialNumber: string | undefined
   deviceType: DeviceType

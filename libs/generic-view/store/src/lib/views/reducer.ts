@@ -6,46 +6,27 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { View } from "generic-view/utils"
+import { Device, DeviceState, Features } from "generic-view/models"
+import { ApiError } from "device/models"
+import { DeviceId } from "Core/device/constants/device-id"
+import { AppError } from "Core/core/errors"
 import { getAPIConfig } from "../get-api-config"
+import { getOverviewData } from "../features"
+import { getOverviewConfig } from "../features/get-overview-config.actions"
+import { getAPIAny } from "../get-api-any"
+import { getMenuConfig } from "../get-menu-config"
+import { getOutboxData } from "../outbox/get-outbox-data.action"
+import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
   activateDevice,
-  detachDevice,
+  addDevice,
+  removeDevice,
   setMenu,
   setViewData,
   setViewLayout,
 } from "./actions"
-import { getOverviewData } from "../features"
-import { getOverviewConfig } from "../features/get-overview-config.actions"
-import { getAPIAny } from "../get-api-any"
-import { ApiConfig, ApiError, MenuConfig, OverviewData } from "device/models"
-import { getMenuConfig } from "../get-menu-config"
-import { DeviceId } from "Core/device/constants/device-id"
-import { getOutboxData } from "../outbox/get-outbox-data.action"
-import { AppError } from "Core/core/errors"
-import { getGenericConfig } from "../features/get-generic-config.actions"
 
-type Features = {
-  "mc-overview"?: {
-    config?: View
-    data?: OverviewData
-  }
-  "mc-about"?: {
-    config?: View
-    data?: OverviewData
-  }
-} & {
-  [key: string]: {
-    config?: View
-    data?: Record<string, unknown>
-  }
-}
-interface DeviceConfiguration {
-  apiConfig: ApiConfig
-  menuConfig?: MenuConfig
-  features?: Features
-}
-
-interface GenericState {
+export interface GenericState {
   menu: MenuElement[] | undefined
   views: Record<
     string,
@@ -57,8 +38,7 @@ interface GenericState {
   lastResponse: unknown
   lastRefresh?: number
   activeDevice?: DeviceId
-  pendingDevice?: DeviceId
-  devicesConfiguration: Record<string, DeviceConfiguration>
+  devices: Record<string, Device>
   apiErrors: Record<ApiError, boolean>
 }
 
@@ -66,7 +46,7 @@ const initialState: GenericState = {
   menu: undefined,
   views: {},
   lastResponse: {},
-  devicesConfiguration: {},
+  devices: {},
   apiErrors: {
     [ApiError.DeviceLocked]: false,
   },
@@ -88,14 +68,35 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       data: action.payload.data,
     }
   })
+  builder.addCase(addDevice, (state, action) => {
+    state.devices[action.payload.id] = {
+      ...action.payload,
+      state: DeviceState.Connected,
+    }
+  })
   builder.addCase(getAPIConfig.fulfilled, (state, action) => {
-    state.devicesConfiguration[action.payload.deviceId] = {
+    const device = state.devices[action.payload.deviceId]
+
+    state.devices[action.payload.deviceId] = {
+      ...device,
+      state: DeviceState.Configured,
       apiConfig: action.payload.apiConfig,
     }
     state.lastResponse = action.payload
   })
+  builder.addCase(getAPIConfig.rejected, (state, action) => {
+    const id = action.meta.arg.deviceId
+    const device = state.devices[id]
+
+    state.devices[id] = {
+      ...device,
+      state: DeviceState.Failed,
+    }
+
+    state.lastResponse = action.payload
+  })
   builder.addCase(getMenuConfig.fulfilled, (state, action) => {
-    state.devicesConfiguration[action.payload.deviceId].menuConfig =
+    state.devices[action.payload.deviceId].menuConfig =
       action.payload.menuConfig
     state.lastResponse = action.payload
     state.apiErrors[ApiError.DeviceLocked] = false
@@ -116,20 +117,16 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.lastResponse = action.payload
     const deviceId = action.payload.deviceId
     if (deviceId) {
-      state.devicesConfiguration[deviceId].features = {
-        ...state.devicesConfiguration[deviceId].features,
+      state.devices[deviceId].features = {
+        ...state.devices[deviceId].features,
         "mc-overview": {
-          config:
-            state.devicesConfiguration[deviceId].features?.["mc-overview"]
-              ?.config,
+          config: state.devices[deviceId].features?.["mc-overview"]?.config,
           data: action.payload.overviewData,
         },
         ...(action.payload.aboutData
           ? {
               "mc-about": {
-                config:
-                  state.devicesConfiguration[deviceId].features?.["mc-about"]
-                    ?.config,
+                config: state.devices[deviceId].features?.["mc-about"]?.config,
                 data: action.payload.aboutData,
               },
             }
@@ -141,48 +138,34 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
     state.lastResponse = action.payload
     const deviceId = action.payload.deviceId
     if (deviceId) {
-      state.devicesConfiguration[deviceId].features = {
-        ...state.devicesConfiguration[deviceId].features,
+      state.devices[deviceId].features = {
+        ...state.devices[deviceId].features,
         "mc-overview": {
           config: action.payload.overviewConfig,
-          data: state.devicesConfiguration[deviceId].features?.["mc-overview"]
-            ?.data,
+          data: state.devices[deviceId].features?.["mc-overview"]?.data,
         },
         ...(action.payload.aboutConfig
           ? {
               "mc-about": {
                 config: action.payload.aboutConfig,
-                data: state.devicesConfiguration[deviceId].features?.[
-                  "mc-about"
-                ]?.data,
+                data: state.devices[deviceId].features?.["mc-about"]?.data,
               },
             }
           : {}),
       } as Features
     }
-    if (state.activeDevice === undefined && state.pendingDevice === deviceId) {
+    if (state.activeDevice === undefined) {
       state.activeDevice = deviceId
-      state.pendingDevice = undefined
     }
   })
   builder.addCase(activateDevice, (state, action) => {
     const { deviceId } = action.payload
-    state.activeDevice = state.devicesConfiguration?.[deviceId]?.apiConfig
+    state.activeDevice = state.devices?.[deviceId]?.apiConfig
       ? deviceId
       : undefined
-    state.pendingDevice = deviceId
   })
-  builder.addCase(detachDevice, (state, action) => {
-    const { deviceId } = action.payload
-    if (state.devicesConfiguration[deviceId]?.apiConfig) {
-      delete state.devicesConfiguration[deviceId]
-    }
-    if (state.activeDevice === deviceId) {
-      state.activeDevice = undefined
-    }
-    if (state.pendingDevice === deviceId) {
-      state.pendingDevice = undefined
-    }
+  builder.addCase(removeDevice, (state, action) => {
+    delete state.devices[action.payload.id]
   })
   builder.addCase(getOutboxData.fulfilled, (state, action) => {
     const { deviceId, timestamp } = action.payload
@@ -203,11 +186,11 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(getGenericConfig.fulfilled, (state, action) => {
     const { deviceId, feature, view } = action.payload
     if (deviceId) {
-      state.devicesConfiguration[deviceId].features = {
-        ...state.devicesConfiguration[deviceId].features,
+      state.devices[deviceId].features = {
+        ...state.devices[deviceId].features,
         [feature]: {
           config: view,
-          data: state.devicesConfiguration[deviceId].features?.[feature]?.data,
+          data: state.devices[deviceId].features?.[feature]?.data,
         },
       }
     }

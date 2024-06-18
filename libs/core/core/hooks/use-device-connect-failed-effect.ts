@@ -8,10 +8,8 @@ import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { answerMain } from "shared/utils"
 import { DeviceProtocolMainEvent } from "device-protocol/models"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
+import { DeviceBaseProperties } from "device-protocol/models"
 import { activeDeviceIdSelector } from "device-manager/feature"
-import { DeviceState } from "core-device/models"
-import { addDevice, getDeviceConfigurationRequest } from "core-device/feature"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
@@ -44,27 +42,17 @@ export const useDeviceConnectFailedEffect = () => {
     activeDeviceProcessing,
   ])
 
-  const handleDeviceConnectFailed = useCallback(
-    async (properties: DeviceBaseProperties) => {
-      const result = await getDeviceConfigurationRequest(properties.id)
-      const caseColour = result.ok ? result.data.caseColour : undefined
+  const handleDeviceConnectFailed = useCallback(async () => {
+    if (activeDeviceId) {
+      return
+    }
 
-      dispatch(
-        addDevice({ ...properties, caseColour, state: DeviceState.Failed })
-      )
+    if (shouldSkipProcessing()) {
+      return
+    }
 
-      if (activeDeviceId) {
-        return
-      }
-
-      if (shouldSkipProcessing()) {
-        return
-      }
-
-      history.push(URL_DISCOVERY_DEVICE.root)
-    },
-    [dispatch, activeDeviceId, shouldSkipProcessing, history]
-  )
+    history.push(URL_DISCOVERY_DEVICE.root)
+  }, [activeDeviceId, shouldSkipProcessing, history])
 
   useEffect(() => {
     return answerMain<DeviceBaseProperties>(

@@ -3,14 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import "react-modern-drawer/dist/index.css"
+import Drawer from "react-modern-drawer"
 import * as React from "react"
 import { useSelector, useDispatch } from "react-redux"
+import { useHistory } from "react-router-dom"
+import { defineMessages } from "react-intl"
+import {
+  getFailedDevicesSelector,
+  setSelectDeviceDrawerOpen,
+} from "device-manager/feature"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import Drawer from "react-modern-drawer"
-import "react-modern-drawer/dist/index.css"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { isSelectDeviceDrawerOpenSelector } from "Core/device-select/selectors/is-select-device-drawer-open.selector"
-import { setSelectDeviceDrawerOpen } from "device-manager/feature"
 import Text, {
   TextDisplayStyle,
 } from "Core/__deprecated__/renderer/components/core/text/text.component"
@@ -24,14 +29,11 @@ import {
   activeDeviceIdSelector,
   handleDeviceActivated,
 } from "device-manager/feature"
-import { useHistory } from "react-router-dom"
-import { DeviceState } from "core-device/models"
 import {
   URL_DEVICE_INITIALIZATION,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { DrawerDevice } from "Core/device-select/components/drawer-device.component"
-import { defineMessages } from "react-intl"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ModalLayers } from "Core/modals-manager/constants/modal-layers.enum"
 
@@ -77,14 +79,15 @@ const DevicesContainer = styled("div")`
 const DeviceSelectDrawer: FunctionComponent = () => {
   const isOpen = useSelector(isSelectDeviceDrawerOpenSelector)
   const devices = useSelector(getAvailableDevicesSelector)
+  const failedDevices = useSelector(getFailedDevicesSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const dispatch = useDispatch<Dispatch>()
   const history = useHistory()
 
   const handleDrawerDeviceClick = async (id: DeviceId) => {
     dispatch(setSelectDeviceDrawerOpen(false))
-    const device = devices.find((device) => device.id === id)
-    if (device?.state === DeviceState.Failed) {
+    const failedDevice = failedDevices.find((device) => device.id === id)
+    if (failedDevice !== undefined) {
       await dispatch(handleDeviceActivated(id))
       history.push(URL_ONBOARDING.troubleshooting)
     } else {

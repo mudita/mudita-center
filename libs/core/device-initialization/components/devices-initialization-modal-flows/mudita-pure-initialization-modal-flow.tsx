@@ -6,7 +6,6 @@
 import React, { useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
-
 import { deviceStatusSelector } from "Core/device/selectors/device-status.selector"
 import { useDeviceInitializer } from "Core/device-initialization/components/devices-initialization-modal-flows/handle-initialize-device.helper"
 import { initializeMuditaPure } from "Core/device-initialization/actions/initialize-mudita-pure.action"

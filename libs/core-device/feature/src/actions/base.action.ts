@@ -4,7 +4,7 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
+import { DeviceBaseProperties } from "device-protocol/models"
 import { DeviceState, CaseColour } from "core-device/models"
 import { CoreDeviceEvent } from "../constants"
 
