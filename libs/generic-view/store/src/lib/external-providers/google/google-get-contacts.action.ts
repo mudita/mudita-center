@@ -9,10 +9,9 @@ import {
   GoogleContactResourceItem,
   GoogleContacts,
   Scope,
-} from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
+} from "./google.interface"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
-import { mapContact } from "Core/__deprecated__/renderer/models/external-providers/google/google.helpers"
-import { requestWrapper } from "./google.helpers"
+import { mapContact, requestWrapper } from "./google.helpers"
 import { AxiosResponse } from "axios"
 import { Contact } from "Core/contacts/reducers/contacts.interface"
 

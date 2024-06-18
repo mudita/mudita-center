@@ -6,7 +6,7 @@
 import { PayloadAction, createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
-import { GoogleContactResourceItem } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
+import { GoogleContactResourceItem } from "generic-view/store"
 import { UnifiedContact } from "device/models"
 import { mapGoogleApi } from "./contacts-mappers/google-api/map-google-api"
 import { addMissingFields } from "./contacts-mappers/helpers"

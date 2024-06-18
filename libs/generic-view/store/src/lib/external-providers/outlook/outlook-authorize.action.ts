@@ -4,67 +4,66 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../../action-names"
 import {
-  GoogleAuthFailedResponse,
-  GoogleAuthSuccessResponse,
-  Scope,
-} from "./google.interface"
+  OutLookScope,
+  OutlookAuthErrorResponse,
+  OutlookAuthSuccessResponse,
+} from "./outlook.interface"
+import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { noop } from "Core/__deprecated__/renderer/utils/noop"
 import { ipcRenderer } from "electron-better-ipc"
-import { GoogleAuthActions } from "Core/__deprecated__/common/enums/google-auth-actions.enum"
+import { OutlookAuthActions } from "Core/__deprecated__/common/enums/outlook-auth-actions.enum"
+import {
+  getAuthorizationUrl,
+  getOutlookEndpoint,
+  isOutlookErrorResponse,
+} from "./outlook.helpers"
 
-export const googleAuthorize = createAsyncThunk<
-  GoogleAuthSuccessResponse | undefined,
-  Scope,
+export const outlookAuthorize = createAsyncThunk<
+  OutlookAuthSuccessResponse | OutlookAuthErrorResponse | undefined,
+  OutLookScope,
   { state: ReduxRootState }
 >(
-  ActionName.GoogleAuthorizeProcess,
-  async (payload, { getState, dispatch, rejectWithValue, signal }) => {
-    console.log("Authorizing in Google")
+  ActionName.OutlookAuthorizeProcess,
+  async (payload, { getState, dispatch, rejectWithValue }) => {
+    const token = getState().externalProviders.outlook[payload]
 
-    const token = getState().externalProviders.google[payload]
-
-    if (
-      token &&
-      token.access_token &&
-      new Date().getTime() < token.expires_in!
-    ) {
+    if (token.accessToken) {
       return
     }
 
     let unregisterMainListener = noop
 
     let result:
-      | { state: "success"; data: GoogleAuthSuccessResponse }
+      | { state: "success"; data: OutlookAuthSuccessResponse }
       | { state: "failed"; data: string }
       | undefined
 
-    void ipcRenderer.callMain(GoogleAuthActions.OpenWindow, payload)
+    void ipcRenderer.callMain(OutlookAuthActions.OpenWindow, {
+      authorizationUrl: getAuthorizationUrl(payload),
+      scope: getOutlookEndpoint(payload),
+    })
 
-    const processResponse = (response: string) => {
-      const responseData = JSON.parse(response)
-
-      if (responseData.error) {
+    const processResponse = (
+      response: OutlookAuthSuccessResponse | OutlookAuthErrorResponse
+    ) => {
+      if (isOutlookErrorResponse(response)) {
         result = {
           state: "failed",
-          data: (responseData as GoogleAuthFailedResponse).error,
+          data: (response as OutlookAuthErrorResponse).error,
         }
       } else {
         result = {
           state: "success",
-          data: {
-            ...responseData,
-            expires_in: new Date().getTime() + responseData.expires_in * 1000,
-          },
+          data: response as OutlookAuthSuccessResponse,
         }
       }
-      void ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
+      void ipcRenderer.callMain(OutlookAuthActions.CloseWindow)
       unregisterMainListener()
     }
 
-    ipcRenderer.answerMain(GoogleAuthActions.CloseWindow, () => {
+    ipcRenderer.answerMain(OutlookAuthActions.CloseWindow, () => {
       if (result === undefined) {
         result = {
           state: "failed",
@@ -74,7 +73,7 @@ export const googleAuthorize = createAsyncThunk<
     })
 
     unregisterMainListener = ipcRenderer.answerMain(
-      GoogleAuthActions.GotCredentials,
+      OutlookAuthActions.GotCredentials,
       processResponse
     )
 
@@ -89,6 +88,7 @@ export const googleAuthorize = createAsyncThunk<
     if (resultInterval !== null) {
       clearInterval(resultInterval)
     }
+
     if (result?.state === "success") {
       return result.data
     }

@@ -19,11 +19,6 @@ import {
 } from "Core/contacts/reducers/contacts.interface"
 
 import {
-  ExternalProvider,
-  Provider,
-} from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import externalProvidersStore from "Core/__deprecated__/renderer/store/external-providers"
-import {
   contactDatabaseFactory,
   getContacts,
 } from "Core/contacts/helpers/contacts.helpers"
@@ -49,7 +44,8 @@ import {
   toggleItem,
 } from "Core/contacts/actions"
 import { getPaths } from "shared/app-state"
-import { googleGetContacts } from "generic-view/store"
+import { googleGetContacts, outlookGetContacts, ExternalProvider,
+  Provider, } from "generic-view/store"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
@@ -94,7 +90,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
           contacts =
             // AUTO DISABLED - fix me if you like :)
             // eslint-disable-next-line @typescript-eslint/await-thenable
-            (await externalProvidersStore.dispatch.outlook.getContacts()) as unknown as Contact[]
+            (await dispatch(outlookGetContacts())).payload as unknown as Contact[]
           return getContacts(contactDatabaseFactory(contacts))
       }
     },

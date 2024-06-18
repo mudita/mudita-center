@@ -8,9 +8,7 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { initialState } from "Core/contacts/reducers"
 import { closeWindow } from "Core/contacts/actions/close-window.action"
-import { Provider } from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
-
-jest.mock("Core/__deprecated__/renderer/store/external-providers")
+import { Provider } from "generic-view/store"
 
 afterEach(() => {
   jest.resetAllMocks()

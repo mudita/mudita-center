@@ -43,13 +43,13 @@ import {
   killAuthServer,
 } from "Core/__deprecated__/main/auth-server"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { Scope } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
-import { OutlookAuthActions } from "Core/__deprecated__/common/enums/outlook-auth-actions.enum"
 import {
+  Scope,
   clientId,
   redirectUrl,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.constants"
-import { TokenRequester } from "Core/__deprecated__/renderer/models/external-providers/outlook/token-requester"
+  TokenRequester,
+} from "generic-view/store"
+import { OutlookAuthActions } from "Core/__deprecated__/common/enums/outlook-auth-actions.enum"
 import {
   GOOGLE_AUTH_WINDOW_SIZE,
   WINDOW_SIZE,
