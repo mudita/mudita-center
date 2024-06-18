@@ -4,7 +4,7 @@
  */
 
 import { Endpoint, Method } from "core-device/models"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { BackupCategory } from "Core/device/constants"
 import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
@@ -19,13 +19,13 @@ import { DeviceInfoService } from "Core/device-info/services"
 
 export class BackupCreateService extends BaseBackupService {
   constructor(
-    protected deviceProtocolService: DeviceProtocolService,
+    protected deviceProtocol: DeviceProtocol,
     protected deviceFileSystem: DeviceFileSystemService,
     protected fileManagerService: FileManagerService,
     protected deviceInfoService: DeviceInfoService,
     private keyStorage: MetadataStore
   ) {
-    super(deviceProtocolService, deviceFileSystem, deviceInfoService)
+    super(deviceProtocol, deviceFileSystem, deviceInfoService)
   }
 
   public async createBackup(
@@ -109,7 +109,7 @@ export class BackupCreateService extends BaseBackupService {
       )
     }
 
-    const backupResponse = await this.deviceProtocolService.device.request({
+    const backupResponse = await this.deviceProtocol.device.request({
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {

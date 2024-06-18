@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { Endpoint, Method } from "core-device/models"
 import { BackupCategory, PhoneLockCategory } from "Core/device"
 import { Result } from "Core/core/builder"
@@ -25,11 +25,11 @@ const updaterStatusSuccessMock: UpdaterStatus = {
   successful: true,
 }
 
-const deviceProtocolService = {
+const deviceProtocol = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceProtocolService
+} as unknown as DeviceProtocol
 
 const deviceFileSystemAdapter = {
   downloadDeviceFilesLocally: jest.fn(),
@@ -50,7 +50,7 @@ const deviceInfoService = {
 } as unknown as DeviceInfoService
 
 const subject = new BackupCreateService(
-  deviceProtocolService,
+  deviceProtocol,
   deviceFileSystemAdapter,
   fileManagerService,
   deviceInfoService,
@@ -63,7 +63,7 @@ beforeEach(() => {
 
 describe("Backup process happy path", () => {
   test("Returns the `Result.success` object with backup data", async () => {
-    deviceProtocolService.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
@@ -114,14 +114,14 @@ describe("Backup process happy path", () => {
     expect(result).toEqual(Result.success(["/user/backup/backup.tar"]))
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceProtocolService.device.request).toHaveBeenNthCalledWith(1, {
+    expect(deviceProtocol.device.request).toHaveBeenNthCalledWith(1, {
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: { category: BackupCategory.Backup },
     })
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceProtocolService.device.request).toHaveBeenNthCalledWith(2, {
+    expect(deviceProtocol.device.request).toHaveBeenNthCalledWith(2, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
@@ -194,7 +194,7 @@ describe("Backup process failed path", () => {
   })
 
   test("Returns the `Result.failed` with `BackupError.CannotReachBackupLocation` if `DeviceInfo` endpoint return error status", async () => {
-    deviceProtocolService.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockResolvedValue(Result.failed(new AppError("", "")))
     deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
@@ -226,7 +226,7 @@ describe("Backup process failed path", () => {
   })
 
   test("Returns the `Result.failed` with `BackupError.CannotReachBackupLocation` if `Backup` endpoint return error status", async () => {
-    deviceProtocolService.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockResolvedValue(Result.failed(new AppError("", "")))
     deviceInfoService.getDeviceInfo = jest.fn().mockResolvedValue(
@@ -259,7 +259,7 @@ describe("Backup process failed path", () => {
   })
 
   test("Returns the `Result.failed` with `BackupError.BackupProcessFailed` if `deviceFileSystem.downloadFile` returns error status", async () => {
-    deviceProtocolService.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (
@@ -312,7 +312,7 @@ describe("Backup process failed path", () => {
   }, 10000)
 
   test("Returns the `Result.failed` with `BackupError.BackupDownloadFailed` if `deviceFileSystem.downloadDeviceFilesLocally` returns error status", async () => {
-    deviceProtocolService.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockImplementation((config: { endpoint: Endpoint; method: Method }) => {
         if (

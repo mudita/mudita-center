@@ -4,7 +4,7 @@
  */
 
 import { Thread } from "Core/messages/dto"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import {
   GetThreadsRequestConfig,
   PaginationBody,
@@ -29,7 +29,7 @@ export interface GetThreadsResponse {
 
 export class ThreadService {
   constructor(
-    private deviceProtocolService: DeviceProtocolService,
+    private deviceProtocol: DeviceProtocol,
     private threadRepository: ThreadRepository
   ) {}
 
@@ -55,7 +55,7 @@ export class ThreadService {
     }
 
     const response =
-      await this.deviceProtocolService.device.request<GetThreadsResponseBody>({
+      await this.deviceProtocol.device.request<GetThreadsResponseBody>({
         body,
         endpoint: Endpoint.Messages,
         method: Method.Get,
@@ -156,7 +156,7 @@ export class ThreadService {
   // the method is commented until os part will be implemented as CP-1232
   private async getThreadRequest(id: string): Promise<RequestResponse<Thread>> {
     const response =
-      await this.deviceProtocolService.device.request<GetThreadResponseBody>({
+      await this.deviceProtocol.device.request<GetThreadResponseBody>({
         endpoint: Endpoint.Messages,
         method: Method.Get,
         body: {
@@ -182,7 +182,7 @@ export class ThreadService {
     threads: Thread[]
   ): Promise<RequestResponse<Thread[]>> {
     const results = threads.map(async (thread) => {
-      const { ok } = await this.deviceProtocolService.device.request({
+      const { ok } = await this.deviceProtocol.device.request({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: {
@@ -229,7 +229,7 @@ export class ThreadService {
     threadIds: string[]
   ): Promise<RequestResponse<string[]>> {
     const results = threadIds.map(async (id) => {
-      const { ok } = await this.deviceProtocolService.device.request({
+      const { ok } = await this.deviceProtocol.device.request({
         endpoint: Endpoint.Messages,
         method: Method.Delete,
         body: { category: PureMessagesCategory.thread, threadID: Number(id) },

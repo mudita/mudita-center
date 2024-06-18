@@ -8,17 +8,17 @@ import { PhoneLockCategory } from "Core/device/constants"
 import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import { PhoneLockTime } from "Core/device/dto"
 import { GetPhoneLockTimeResponseBody } from "Core/device/types/mudita-os"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceService {
-  constructor(private deviceProtocolService: DeviceProtocolService) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   public async unlock(
     code: string,
-    deviceId: DeviceId = this.deviceProtocolService.device.id
+    deviceId: DeviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<boolean>> {
-    const response = await this.deviceProtocolService.request(deviceId, {
+    const response = await this.deviceProtocol.request(deviceId, {
       endpoint: Endpoint.Security,
       method: Method.Put,
       body: {
@@ -30,9 +30,9 @@ export class DeviceService {
   }
 
   public async unlockStatus(
-    deviceId: DeviceId = this.deviceProtocolService.device.id
+    deviceId: DeviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<unknown, DeviceCommunicationError>> {
-    return this.deviceProtocolService.request(deviceId, {
+    return this.deviceProtocol.request(deviceId, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
@@ -40,15 +40,12 @@ export class DeviceService {
   }
 
   public async unlockTime(
-    deviceId: DeviceId = this.deviceProtocolService.device.id
+    deviceId: DeviceId = this.deviceProtocol.device.id
   ): Promise<ResultObject<PhoneLockTime>> {
-    return this.deviceProtocolService.request<GetPhoneLockTimeResponseBody>(
-      deviceId,
-      {
-        endpoint: Endpoint.Security,
-        method: Method.Get,
-        body: { category: PhoneLockCategory.Time },
-      }
-    )
+    return this.deviceProtocol.request<GetPhoneLockTimeResponseBody>(deviceId, {
+      endpoint: Endpoint.Security,
+      method: Method.Get,
+      body: { category: PhoneLockCategory.Time },
+    })
   }
 }

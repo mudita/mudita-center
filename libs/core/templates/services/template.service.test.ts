@@ -8,7 +8,7 @@ import { Result, ResultObject } from "Core/core/builder"
 import { MessagesCategory } from "Core/device/constants"
 import { TemplateService } from "Core/templates/services/template.service"
 import { TemplateRepository } from "Core/templates/repositories"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,
@@ -21,13 +21,13 @@ const templateRepository = {
   delete: jest.fn(),
 } as unknown as TemplateRepository
 
-const deviceProtocolService = {
+const deviceProtocol = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceProtocolService
+} as unknown as DeviceProtocol
 
-const subject = new TemplateService(deviceProtocolService, templateRepository)
+const subject = new TemplateService(deviceProtocol, templateRepository)
 
 const errorResponse: ErrorRequestResponse = {
   status: RequestResponseStatus.Error,
@@ -65,14 +65,14 @@ beforeEach(() => {
 
 describe("`TemplateService`", () => {
   describe("`createTemplate` method", () => {
-    test("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
-      deviceProtocolService.device.request = jest
+    test("map data and returns success when `deviceProtocol.device.request` returns success", async () => {
+      deviceProtocol.device.request = jest
         .fn()
         .mockReturnValue(successResponseWithTemplate)
       const response = await subject.createTemplate(newTemplate)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenNthCalledWith(1, {
+      expect(deviceProtocol.device.request).toHaveBeenNthCalledWith(1, {
         endpoint: Endpoint.Messages,
         method: Method.Post,
         body: {
@@ -84,14 +84,12 @@ describe("`TemplateService`", () => {
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
-    test("returns error  when `deviceProtocolService.device.request` returns error", async () => {
-      deviceProtocolService.device.request = jest
-        .fn()
-        .mockReturnValue(errorResponse)
+    test("returns error  when `deviceProtocol.device.request` returns error", async () => {
+      deviceProtocol.device.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.createTemplate(newTemplate)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenLastCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Post,
         body: {
@@ -105,14 +103,12 @@ describe("`TemplateService`", () => {
   })
 
   describe("`updateTemplate` method", () => {
-    test("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
-      deviceProtocolService.device.request = jest
-        .fn()
-        .mockReturnValue(successResponse)
+    test("map data and returns success when `deviceProtocol.device.request` returns success", async () => {
+      deviceProtocol.device.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.updateTemplate(template)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenLastCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: {
@@ -124,14 +120,12 @@ describe("`TemplateService`", () => {
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
-    test("returns error  when `deviceProtocolService.device.request` returns error", async () => {
-      deviceProtocolService.device.request = jest
-        .fn()
-        .mockReturnValue(errorResponse)
+    test("returns error  when `deviceProtocol.device.request` returns error", async () => {
+      deviceProtocol.device.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.updateTemplate(template)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenLastCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: {
@@ -144,17 +138,15 @@ describe("`TemplateService`", () => {
     })
   })
   describe("`updateTemplateOrder` method", () => {
-    test("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
-      deviceProtocolService.device.request = jest
-        .fn()
-        .mockReturnValue(successResponse)
+    test("map data and returns success when `deviceProtocol.device.request` returns success", async () => {
+      deviceProtocol.device.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.updateTemplatesOrder([
         template,
         secondTemplate,
       ])
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenLastCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: {
@@ -166,20 +158,18 @@ describe("`TemplateService`", () => {
       expect(response.status).toEqual(RequestResponseStatus.Ok)
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenCalledTimes(2)
+      expect(deviceProtocol.device.request).toHaveBeenCalledTimes(2)
     })
 
-    test("returns error  when `deviceProtocolService.device.request` returns error", async () => {
-      deviceProtocolService.device.request = jest
-        .fn()
-        .mockReturnValue(errorResponse)
+    test("returns error  when `deviceProtocol.device.request` returns error", async () => {
+      deviceProtocol.device.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.updateTemplatesOrder([
         template,
         secondTemplate,
       ])
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenLastCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: {
@@ -193,9 +183,7 @@ describe("`TemplateService`", () => {
   })
 
   test("calls templateRepository update method for each updated template", async () => {
-    deviceProtocolService.device.request = jest
-      .fn()
-      .mockReturnValue(successResponse)
+    deviceProtocol.device.request = jest.fn().mockReturnValue(successResponse)
     await subject.updateTemplatesOrder([template, secondTemplate])
 
     // AUTO DISABLED - fix me if you like :)

@@ -6,7 +6,7 @@
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import {
   APIMenuServiceEvents,
   GeneralError,
@@ -16,15 +16,15 @@ import {
 import { DeviceId } from "Core/device/constants/device-id"
 
 export class APIMenuService {
-  constructor(private deviceProtocolService: DeviceProtocolService) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   @IpcEvent(APIMenuServiceEvents.GetMenuConfig)
   public async getMenuConfig(
     deviceId?: DeviceId
   ): Promise<ResultObject<MenuConfig>> {
     const device = deviceId
-      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
-      : this.deviceProtocolService.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

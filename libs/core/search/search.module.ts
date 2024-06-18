@@ -19,12 +19,12 @@ import {
 import { SearcherMediator } from "Core/search/mediators"
 import { SearchService } from "Core/search/services/search.service"
 import { SearchController } from "Core/search/controllers/search.controller"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 
 export class SearchModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceProtocolService: DeviceProtocolService,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -33,7 +33,7 @@ export class SearchModule extends BaseModule {
   ) {
     super(
       index,
-      deviceProtocolService,
+      deviceProtocol,
       keyStorage,
       logger,
       ipc,

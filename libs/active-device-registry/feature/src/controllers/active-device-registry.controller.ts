@@ -4,16 +4,16 @@
  */
 
 import { IpcEvent } from "Core/core/decorators"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
 import { IpcActiveDeviceRegistryEvent } from "../constants"
 
 export class ActiveDeviceRegistryController {
-  constructor(private deviceProtocolService: DeviceProtocolService) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   @IpcEvent(IpcActiveDeviceRegistryEvent.SetActiveDevice)
   public setActiveDevice(id: DeviceId | undefined): ResultObject<boolean> {
-    return this.deviceProtocolService.setActiveDevice(id)
+    return this.deviceProtocol.setActiveDevice(id)
   }
 }

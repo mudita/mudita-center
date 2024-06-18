@@ -25,7 +25,7 @@ import { DeviceManagerError } from "../constants"
 import { PortInfoValidator } from "../validators"
 import { IDeviceResolverService } from "./device-resolver.service"
 
-export class DeviceProtocolService {
+export class DeviceProtocol {
   public activeDevice: BaseDevice | undefined
   public devicesMap = new Map<string, BaseDevice>()
 
