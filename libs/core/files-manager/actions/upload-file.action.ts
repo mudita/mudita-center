@@ -3,12 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "Core/device/constants"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { State } from "Core/core/constants/state.constant"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
-  DeviceDirectory,
   eligibleFormat,
   FilesManagerError,
   FilesManagerEvent,
@@ -28,6 +26,7 @@ import { getDuplicatedFiles } from "Core/files-manager/helpers/get-duplicated-fi
 import { AppError } from "Core/core/errors/app-error"
 import { checkFilesExtensions } from "../helpers/check-files-extensions.helper"
 import getFilesByActiveSoundAppSelector from "Core/files-manager/selectors/get-files-by-active-sound-app.selector"
+import getDirectoryByActiveSoundAppSelector from "Core/files-manager/selectors/get-directory-by-active-sound-app.selector"
 
 export const uploadFile = createAsyncThunk<
   void,
@@ -99,10 +98,16 @@ export const uploadFile = createAsyncThunk<
     dispatch(setUploadingFileCount(validFiles.length))
     dispatch(setUploadingState(State.Loading))
 
-    const directory =
-      state.device.deviceType === DeviceType.MuditaHarmony
-        ? DeviceDirectory.Relaxation
-        : DeviceDirectory.Music
+    const directory = getDirectoryByActiveSoundAppSelector(getState())
+
+    if (directory === undefined) {
+      return rejectWithValue(
+        new AppError(
+          FilesManagerError.GetFiles,
+          "No active sound app in application"
+        )
+      )
+    }
 
     const result = await uploadFilesRequest({
       directory,

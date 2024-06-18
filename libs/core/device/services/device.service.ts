@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ResultObject, Result } from "Core/core/builder"
+import { Result, ResultObject } from "Core/core/builder"
 import {
   DeviceCommunicationError,
   Endpoint,
@@ -13,12 +13,16 @@ import {
 import { PhoneLockTime } from "Core/device/dto"
 import { GetPhoneLockTimeResponseBody } from "Core/device/types/mudita-os"
 import { DeviceManager } from "Core/device-manager/services"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceService {
   constructor(private deviceManager: DeviceManager) {}
 
-  public async unlock(code: string): Promise<ResultObject<boolean>> {
-    const response = await this.deviceManager.device.request({
+  public async unlock(
+    code: string,
+    deviceId: DeviceId = this.deviceManager.device.id
+  ): Promise<ResultObject<boolean>> {
+    const response = await this.deviceManager.request(deviceId, {
       endpoint: Endpoint.Security,
       method: Method.Put,
       body: {
@@ -29,18 +33,20 @@ export class DeviceService {
     return Result.success(response.ok)
   }
 
-  public async unlockStatus(): Promise<
-    ResultObject<unknown, DeviceCommunicationError>
-  > {
-    return this.deviceManager.device.request({
+  public async unlockStatus(
+    deviceId: DeviceId = this.deviceManager.device.id
+  ): Promise<ResultObject<unknown, DeviceCommunicationError>> {
+    return this.deviceManager.request(deviceId, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
     })
   }
 
-  public async unlockTime(): Promise<ResultObject<PhoneLockTime>> {
-    return this.deviceManager.device.request<GetPhoneLockTimeResponseBody>({
+  public async unlockTime(
+    deviceId: DeviceId = this.deviceManager.device.id
+  ): Promise<ResultObject<PhoneLockTime>> {
+    return this.deviceManager.request<GetPhoneLockTimeResponseBody>(deviceId, {
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Time },

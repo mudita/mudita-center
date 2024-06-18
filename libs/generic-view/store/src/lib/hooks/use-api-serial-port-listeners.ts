@@ -14,6 +14,7 @@ import { DeviceType } from "Core/device"
 import { setBackupProcessStatus } from "../backup/actions"
 import { closeAllModals } from "../modals/actions"
 import { selectBackupProcessStatus } from "../selectors"
+import { clearDataMigrationDevice } from "../data-migration/clear-data-migration.action"
 
 export const useAPISerialPortListeners = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -45,6 +46,8 @@ export const useAPISerialPortListeners = () => {
       DeviceManagerMainEvent.DeviceDetached,
       async (properties) => {
         const { id, deviceType } = properties
+        dispatch(clearDataMigrationDevice(id))
+
         if (deviceType !== DeviceType.APIDevice) {
           return
         }

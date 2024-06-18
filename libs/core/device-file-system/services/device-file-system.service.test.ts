@@ -23,8 +23,9 @@ import {
 import { DeviceFileSystemService } from "Core/device-file-system/services/device-file-system.service"
 
 const deviceManager = {
+  request: jest.fn(),
   device: {
-    request: jest.fn(),
+    id: "abc123",
   },
 } as unknown as DeviceManager
 
@@ -35,10 +36,11 @@ beforeEach(() => {
 })
 
 test("downloading file handle properly chunks data", async () => {
-  deviceManager.device.request = jest
+  deviceManager.request = jest
     .fn()
     .mockImplementation(
       (
+        deviceId: string,
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
@@ -82,10 +84,11 @@ test("downloading file handle properly chunks data", async () => {
 })
 
 test("downloading file handle properly chunks data if fileSize is less than chunkSize", async () => {
-  deviceManager.device.request = jest
+  deviceManager.request = jest
     .fn()
     .mockImplementation(
       (
+        deviceId: string,
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
@@ -122,10 +125,11 @@ test("downloading file handle properly chunks data if fileSize is less than chun
 })
 
 test("downloading file return error when part of the chunks data is broken", async () => {
-  deviceManager.device.request = jest
+  deviceManager.request = jest
     .fn()
     .mockImplementation(
       (
+        deviceId: string,
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
@@ -165,7 +169,7 @@ test("downloading file return error when part of the chunks data is broken", asy
 })
 
 test("downloading file returns error properly", async () => {
-  deviceManager.device.request = jest.fn().mockImplementation(() => {
+  deviceManager.request = jest.fn().mockImplementation(() => {
     return Result.failed(
       new AppError(
         DeviceCommunicationError.RequestFailed,
@@ -181,10 +185,13 @@ test("downloading file returns error properly", async () => {
 })
 
 test("upload file file handle properly chunks data", async () => {
-  deviceManager.device.request = jest
+  deviceManager.request = jest
     .fn()
     .mockImplementation(
-      (config: PutFileSystemRequestConfig | SendFileSystemRequestConfig) => {
+      (
+        deviceId: string,
+        config: PutFileSystemRequestConfig | SendFileSystemRequestConfig
+      ) => {
         if (
           (config as PutFileSystemRequestConfig).body?.fileName !== undefined
         ) {

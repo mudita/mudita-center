@@ -32,14 +32,14 @@ jest.mock(
   "Core/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 )
 jest.mock("Core/device-file-system", () => ({
-  removeFile: jest.fn().mockReturnValue({
+  removeFile: jest.fn().mockImplementation(() => ({
     type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
     payload: crashDumpsMock,
-  }),
+  })),
 }))
 jest.mock("Core/__deprecated__/renderer/utils/create-file/create-file")
 jest.mock("Core/contact-support/helpers/downloading-logs", () => ({
-  downloadingLogs: jest.fn().mockReturnValue(logsFiles),
+  downloadingLogs: jest.fn().mockImplementation(() => logsFiles),
 }))
 jest.mock("Core/__deprecated__/renderer/requests/archive-files.request")
 
@@ -145,7 +145,7 @@ describe("when Crash dumps downloaded", () => {
     expect(mockStore.getActions()).toEqual([
       sendCrashDumpData.pending(requestId, payload),
       {
-        payload: undefined,
+        payload: ["/pure/logs/crash-dumps/file.hex"],
         type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
       },
       sendCrashDumpData.fulfilled(undefined, requestId, payload),
@@ -245,7 +245,7 @@ describe("when logs downloaded", () => {
 describe("when serialNumber is undefined", () => {
   test("freshdesk ticket contains info about unknown serial number", async () => {
     ;(createFile as jest.Mock).mockReturnValue(
-      new File([new Buffer("hello world")], "hello.world")
+      new File([Buffer.alloc(11, "hello world")], "hello.world")
     )
     ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from("hello world"))
     ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
@@ -278,7 +278,7 @@ describe("when serialNumber is undefined", () => {
     expect(mockStore.getActions()).toEqual([
       sendCrashDumpData.pending(requestId, payload),
       {
-        payload: undefined,
+        payload: ["/pure/logs/crash-dumps/file.hex"],
         type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
       },
       sendCrashDumpData.fulfilled(undefined, requestId, payload),

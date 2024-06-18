@@ -3,22 +3,32 @@ import {
   outboxReloadOverview,
   overviewDataWithoutBadge,
 } from "../../../../../libs/e2e-mock/responses/src"
+import screenshotHelper from "../../helpers/screenshot.helper"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
+    E2EMockClient.connect()
     //wait for a connection to be established
-    await browser.waitUntil(() => E2EMockClient.checkConnection())
+    await browser.waitUntil(() => {
+      return E2EMockClient.checkConnection()
+    })
   })
+
+  after(() => {
+    E2EMockClient.stopServer()
+    E2EMockClient.disconnect()
+  })
+
   it("Connect device", async () => {
     E2EMockClient.addDevice({
       path: "path-1",
       serialNumber: "first-serial-number",
     })
+
     await browser.pause(6000)
     const menuItem = await $(`//a[@href="#/generic/mc-overview"]`)
 
     await menuItem.waitForDisplayed({ timeout: 10000 })
-    await browser.pause(10000)
     await expect(menuItem).toBeDisplayed()
   })
 
@@ -47,9 +57,11 @@ describe("E2E mock sample - overview view", () => {
     })
 
     await badge.waitForDisplayed({ reverse: true })
+    screenshotHelper.makeViewScreenshot()
     await expect(badge).not.toBeDisplayed()
     await browser.pause(10000)
   })
+
   it("Add second device", async () => {
     E2EMockClient.addDevice({
       path: "path-2",
@@ -61,6 +73,7 @@ describe("E2E mock sample - overview view", () => {
     await drawerHeader.waitForDisplayed()
     await expect(drawerHeader).toBeDisplayed()
   })
+
   it("Remove first device", async () => {
     E2EMockClient.removeDevice("path-1")
     await browser.pause(6000)

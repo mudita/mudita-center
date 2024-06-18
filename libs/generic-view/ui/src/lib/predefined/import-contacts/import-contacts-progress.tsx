@@ -11,7 +11,7 @@ import { Modal } from "../../interactive/modal"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { useSelector } from "react-redux"
-import { dataTransferProgress } from "generic-view/store"
+import { importContactsProgress } from "generic-view/store"
 
 const messages = defineMessages({
   title: {
@@ -26,7 +26,7 @@ const messages = defineMessages({
 })
 
 export const ImportContactsProgress = () => {
-  const { progress } = useSelector(dataTransferProgress)
+  const { progress } = useSelector(importContactsProgress)
   const detailMessage = intl.formatMessage(messages.progressDetails)
 
   return (

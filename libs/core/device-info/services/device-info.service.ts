@@ -17,32 +17,38 @@ import {
   DeviceInfo as DeviceInfoRaw,
   NotSupportedDeviceInfo,
 } from "Core/device/types/mudita-os"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceInfoService {
   constructor(private deviceManager: DeviceManager) {}
 
-  private async getDeviceInfoRequest<TResult>(): Promise<
-    ResultObject<TResult, DeviceCommunicationError>
-  > {
-    return this.deviceManager.device.request<TResult>({
+  private async getDeviceInfoRequest<TResult>(
+    deviceId: DeviceId = this.deviceManager.device.id
+  ): Promise<ResultObject<TResult, DeviceCommunicationError>> {
+    return this.deviceManager.request<TResult>(deviceId, {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
   }
 
-  public async getDeviceInfo(): Promise<ResultObject<DeviceInfo, string>> {
+  public async getDeviceInfo(
+    deviceId?: DeviceId
+  ): Promise<ResultObject<DeviceInfo, string>> {
     try {
-      const response = await this.getDeviceInfoRequest<DeviceInfoRaw>()
+      const response = await this.getDeviceInfoRequest<DeviceInfoRaw>(deviceId)
 
       if (!response.ok) {
         return response
       }
+      const device = deviceId
+        ? this.deviceManager.getCoreDeviceById(deviceId)
+        : this.deviceManager.device
 
+      if (!device) {
+        return Result.failed(new AppError("", ""))
+      }
       return Result.success(
-        DeviceInfoPresenter.toDto(
-          response.data,
-          this.deviceManager.device.deviceType
-        )
+        DeviceInfoPresenter.toDto(response.data, device.deviceType)
       )
     } catch (error) {
       return Result.failed(new AppError("", ""))
