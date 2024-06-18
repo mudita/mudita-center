@@ -43,7 +43,6 @@ export const useDeviceConnectedEffect = () => {
 
   useEffect(() => {
     const handler = async (properties: DeviceBaseProperties) => {
-      console.log(properties)
       dispatch(addDevice(properties))
       dispatch(configureDevice(properties.id))
 

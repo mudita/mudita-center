@@ -105,7 +105,6 @@ export class DeviceManager {
 
   public async addDevice(port: PortInfo): Promise<void> {
     console.log("===== addDevice =====")
-    console.log(port)
     await this.mutex.runExclusive(async () => {
       await this.addDeviceTask(port)
     })
@@ -154,7 +153,6 @@ export class DeviceManager {
 
   private async addDeviceTask(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
-    console.log(device)
     if (!device) {
       return
     }
@@ -162,7 +160,6 @@ export class DeviceManager {
     this.devicesMap.set(device.id, device)
     const result = await device.connect()
     const data = device.toSerializableObject()
-    console.log(result)
     if (result.ok) {
       callRenderer(DeviceManagerMainEvent.DeviceConnected, data)
     } else {

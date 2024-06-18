@@ -21,53 +21,6 @@ describe("E2E mock lock sample", () => {
     E2EMockClient.disconnect()
   })
 
-  // it.only("Connect locked device", async () => {
-  //   E2EMockClient.mockResponse({
-  //     path: "path-1",
-  //     body: overviewDataWithoutBadge,
-  //     endpoint: "FEATURE_DATA",
-  //     method: "GET",
-  //     status: 423,
-  //   })
-
-  //   E2EMockClient.mockResponseOnce({
-  //     path: "path-1",
-  //     body: {},
-  //     endpoint: "OUTBOX",
-  //     method: "GET",
-  //     status: 423,
-  //   })
-
-  //   E2EMockClient.addDevice({
-  //     path: "path-1",
-  //     serialNumber: "first-serial-number",
-  //   })
-
-  //   await browser.pause(10000)
-  //   const lockScreen = await $(`//*[text()="Unlock your phone"]`)
-
-  //   await lockScreen.waitForDisplayed({ timeout: 10000 })
-  //   await expect(lockScreen).toBeDisplayed()
-
-  //   E2EMockClient.mockResponse({
-  //     path: "path-1",
-  //     body: overviewDataWithoutBadge,
-  //     endpoint: "FEATURE_DATA",
-  //     method: "GET",
-  //     status: 200,
-  //   })
-  //   await browser.pause(1000)
-  //   E2EMockClient.mockResponseOnce({
-  //     path: "path-1",
-  //     body: outboxReloadOverview,
-  //     endpoint: "OUTBOX",
-  //     method: "GET",
-  //     status: 200,
-  //   })
-
-  //   await browser.pause(30000)
-  // })
-
   it.only("Connect locked device", async () => {
     E2EMockClient.mockResponse({
       path: "path-1",
@@ -107,8 +60,9 @@ describe("E2E mock lock sample", () => {
     await browser.pause(10000)
     const lockScreen = await $(`//*[text()="Unlock your phone"]`)
 
-    // await lockScreen.waitForDisplayed({ timeout: 10000 })
-    // await expect(lockScreen).toBeDisplayed()
+    await lockScreen.waitForDisplayed({ timeout: 10000 })
+    await expect(lockScreen).toBeDisplayed()
+    await browser.pause(2000)
 
     E2EMockClient.mockResponse({
       path: "path-1",
@@ -150,14 +104,7 @@ describe("E2E mock lock sample", () => {
       method: "GET",
       status: 200,
     })
-    E2EMockClient.mockResponseOnce({
-      path: "path-1",
-      body: outboxReloadOverview,
-      endpoint: "OUTBOX",
-      method: "GET",
-      status: 200,
-    })
 
-    await browser.pause(20000)
+    await browser.pause(10000)
   })
 })
