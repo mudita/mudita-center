@@ -8,8 +8,8 @@ import stream from "stream"
 import path from "path"
 import { AppError } from "Core/core/errors"
 import { ResultObject, Result } from "Core/core/builder"
-import { Endpoint, Method } from "Core/device/constants"
-import { DeviceManager } from "Core/device-manager/services"
+import { Endpoint, Method } from "core-device/models"
+import { DeviceProtocolService } from "device-protocol/feature"
 import logger from "Core/__deprecated__/main/utils/logger"
 import countCRC32 from "Core/device-file-system/helpers/count-crc32"
 import { FileSystemService } from "Core/file-system/services/file-system.service"
@@ -27,12 +27,12 @@ import {
 } from "Core/device-file-system/dto"
 
 export class DeviceFileSystemService {
-  constructor(private deviceManager: DeviceManager) {}
+  constructor(private deviceProtocolService: DeviceProtocolService) {}
 
   public async downloadDeviceFilesLocally(
     filePaths: string[],
     options: DownloadDeviceFileLocallyOptions,
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<string[]>> {
     const data: string[] = []
 
@@ -61,7 +61,7 @@ export class DeviceFileSystemService {
 
   public async downloadDeviceFiles(
     filePaths: string[],
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<DeviceFile[]>> {
     const data: DeviceFile[] = []
     for (let i = 0; i < filePaths.length; i++) {
@@ -81,11 +81,11 @@ export class DeviceFileSystemService {
 
   public async downloadFile(
     filePath: string,
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<Buffer>> {
     try {
       const { ok, data } =
-        await this.deviceManager.request<GetFileSystemResponseBody>(deviceId, {
+        await this.deviceProtocolService.request<GetFileSystemResponseBody>(deviceId, {
           endpoint: Endpoint.FileSystem,
           method: Method.Get,
           body: {
@@ -157,15 +157,17 @@ export class DeviceFileSystemService {
     const fileSize = Buffer.byteLength(data)
     const fileCrc32 = countCRC32(data)
     const response =
-      await this.deviceManager.device.request<PutFileSystemResponseBody>({
-        endpoint: Endpoint.FileSystem,
-        method: Method.Put,
-        body: {
-          fileSize,
-          fileCrc32,
-          fileName: targetPath,
-        },
-      })
+      await this.deviceProtocolService.device.request<PutFileSystemResponseBody>(
+        {
+          endpoint: Endpoint.FileSystem,
+          method: Method.Put,
+          body: {
+            fileSize,
+            fileCrc32,
+            fileName: targetPath,
+          },
+        }
+      )
 
     if (!response.ok || response.data === undefined) {
       return Result.failed(
@@ -190,15 +192,17 @@ export class DeviceFileSystemService {
       const fileCrc32 = countCRC32(fileBuffer)
 
       const { ok, data } =
-        await this.deviceManager.device.request<PutFileSystemResponseBody>({
-          endpoint: Endpoint.FileSystem,
-          method: Method.Put,
-          body: {
-            fileSize,
-            fileCrc32,
-            fileName: targetPath,
-          },
-        })
+        await this.deviceProtocolService.device.request<PutFileSystemResponseBody>(
+          {
+            endpoint: Endpoint.FileSystem,
+            method: Method.Put,
+            body: {
+              fileSize,
+              fileCrc32,
+              fileName: targetPath,
+            },
+          }
+        )
 
       if (!ok || data === undefined) {
         return Result.failed(
@@ -229,7 +233,7 @@ export class DeviceFileSystemService {
       return Result.failed(new AppError("", ""))
     }
 
-    const { ok } = await this.deviceManager.device.request({
+    const { ok } = await this.deviceProtocolService.device.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Delete,
       body: {
@@ -247,7 +251,7 @@ export class DeviceFileSystemService {
   private async downloadDeviceFileLocally(
     filePath: string,
     options: DownloadDeviceFileLocallyOptions,
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<string[]>> {
     const { data: result, ok } = await this.downloadFile(filePath, deviceId)
 
@@ -317,7 +321,7 @@ export class DeviceFileSystemService {
       const chunkedBufferSize = Buffer.byteLength(chunkedBuffer)
       const lastChunk = chunkedBufferSize < chunkSize
 
-      const response = await this.deviceManager.device.request({
+      const response = await this.deviceProtocolService.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -368,7 +372,7 @@ export class DeviceFileSystemService {
       const lastChunk = nread < chunkSize
       const dataBuffer = lastChunk ? buffer.slice(0, nread) : buffer
 
-      const response = await this.deviceManager.device.request({
+      const response = await this.deviceProtocolService.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -404,10 +408,10 @@ export class DeviceFileSystemService {
     chunkLength: number,
     chunkNo = 1,
     chunkedString = "",
-    deviceId = this.deviceManager.device.id
+    deviceId = this.deviceProtocolService.device.id
   ): Promise<ResultObject<EncodedFile>> {
     const { ok, data } =
-      await this.deviceManager.request<DownloadFileSystemResponseBody>(
+      await this.deviceProtocolService.request<DownloadFileSystemResponseBody>(
         deviceId,
         {
           endpoint: Endpoint.FileSystem,

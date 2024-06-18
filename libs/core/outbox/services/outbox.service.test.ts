@@ -3,31 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint, Method } from "core-device/models"
 import { Result } from "Core/core/builder"
 import {
   EntryHandlersMapType,
   OutboxService,
 } from "Core/outbox/services/outbox.service"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { OutboxEntry } from "Core/device/types/mudita-os"
-import {
-  OutboxEntryChange,
-  OutboxEntryType,
-  Endpoint,
-  Method,
-} from "Core/device/constants"
+import { OutboxEntryChange, OutboxEntryType } from "Core/device/constants"
 
-const deviceManager = {
+const deviceProtocolService = {
   device: {
     request: jest.fn().mockResolvedValue(Result.success({ entries: [] })),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 const entryHandlersMap = {
   [OutboxEntryType.Contact]: {
     handleEntry: jest.fn(),
   },
 } as unknown as EntryHandlersMapType
-const subject = new OutboxService(deviceManager, entryHandlersMap)
+const subject = new OutboxService(deviceProtocolService, entryHandlersMap)
 
 const entriesMock: OutboxEntry[] = [
   {
@@ -45,14 +41,14 @@ beforeEach(() => {
 describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Contact Entry", () => {
     test("outbox `delete` request was called", async () => {
-      deviceManager.device.request = jest
+      deviceProtocolService.device.request = jest
         .fn()
         .mockResolvedValueOnce(Result.success({ entries: entriesMock }))
 
       await subject.readOutboxEntries()
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.Outbox,
         method: Method.Delete,
         body: {
@@ -62,7 +58,7 @@ describe("`OutboxService`", () => {
     })
 
     test("contact handler was called", async () => {
-      deviceManager.device.request = jest
+      deviceProtocolService.device.request = jest
         .fn()
         .mockResolvedValueOnce(Result.success({ entries: entriesMock }))
 

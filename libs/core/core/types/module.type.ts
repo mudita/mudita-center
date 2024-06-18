@@ -15,13 +15,13 @@ import { Model } from "./model.type"
 import { Repository } from "./repository.type"
 import { Observer } from "./observer.type"
 import { Initializer } from "./initializer.type"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export interface Module {
   // eslint-disable-next-line @typescript-eslint/no-misused-new
   new (
     index: IndexStorage,
-    deviceManager: DeviceManager,
+    deviceProtocolService: DeviceProtocolService,
     keyStorage: MetadataStore,
     logger: AppLogger,
     ipc: MainProcessIpc,

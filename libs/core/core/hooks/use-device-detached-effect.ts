@@ -6,23 +6,26 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { answerMain, DeviceManagerMainEvent } from "shared/utils"
-import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import { answerMain } from "shared/utils"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
+import { removeDevice } from "core-device/feature"
+import { getDevicesSelector } from "device-manager/feature"
+import { selectDialogOpenState } from "shared/app-state"
+import { DeviceProtocolMainEvent } from "device-protocol/models"
+import { Dispatch, ReduxRootState } from "Core/__deprecated__/renderer/store"
+import {
+  activeDeviceIdSelector,
+  deactivateDevice,
+} from "device-manager/feature"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import modalService from "Core/__deprecated__/renderer/components/core/modal/modal.service"
-import { removeDevice } from "Core/device-manager/actions/base.action"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
-import { deactivateDevice } from "Core/device-manager/actions/deactivate-device.action"
 import { cancelOsDownload } from "Core/update/requests"
 import {
   URL_DISCOVERY_DEVICE,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
 import { useDeactivateDeviceAndRedirect } from "Core/overview/components/overview-screens/pure-overview/use-deactivate-device-and-redirect.hook"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { useDebouncedEventsHandler } from "Core/core/hooks/use-debounced-events-handler"
-import { selectDialogOpenState } from "shared/app-state"
 import { closeContactSupportFlow } from "Core/contact-support"
 
 export const useDeviceDetachedEffect = () => {
@@ -33,7 +36,7 @@ export const useDeviceDetachedEffect = () => {
 
   useEffect(() => {
     return answerMain(
-      DeviceManagerMainEvent.DeviceDetached,
+      DeviceProtocolMainEvent.DeviceDetached,
       batchDeviceDetachedEvents
     )
   }, [batchDeviceDetachedEvents])

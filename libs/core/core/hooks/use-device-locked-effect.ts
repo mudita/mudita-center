@@ -12,8 +12,8 @@ import { getDeviceInitializationStatus } from "Core/device-initialization/select
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { deviceUnlockedStatusSelector } from "Core/device/selectors/device-unlocked-status.selector"
 import { URL_DEVICE_INITIALIZATION } from "Core/__deprecated__/renderer/constants/urls"
-import { getActiveDevice } from "Core/device-manager/selectors/get-active-device.selector"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
+import { getActiveDevice } from "device-manager/feature"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { PureStrategyMainEvent } from "Core/device/strategies"
 
 export const useDeviceLockedEffect = () => {

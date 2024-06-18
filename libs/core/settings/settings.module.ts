@@ -16,12 +16,12 @@ import {
 } from "Core/settings/controllers"
 import { ConfigurationService } from "Core/settings/services"
 import { getSettingsService } from "Core/settings/containers/settings.container"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class SettingsModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -30,7 +30,7 @@ export class SettingsModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,

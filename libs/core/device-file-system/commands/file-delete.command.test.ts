@@ -3,24 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  DeviceCommunicationError,
-} from "Core/device/constants"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject, SuccessResult } from "Core/core/builder"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { FileDeleteCommand } from "Core/device-file-system/commands/file-delete.command"
 
-const deviceManager = {
+const deviceProtocolService = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
-const subject = new FileDeleteCommand(deviceManager)
+const subject = new FileDeleteCommand(deviceProtocolService)
 
 const successResponse: ResultObject<unknown> = Result.success(undefined)
 
@@ -41,7 +37,7 @@ beforeEach(() => {
 describe("`FileDeleteCommand`", () => {
   describe("when `DeviceManager.device.request` returns success response", () => {
     beforeEach(() => {
-      deviceManager.device.request = jest
+      deviceProtocolService.device.request = jest
         .fn()
         .mockResolvedValue(successResponse)
     })
@@ -51,7 +47,7 @@ describe("`FileDeleteCommand`", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Delete,
         body: {
@@ -64,7 +60,9 @@ describe("`FileDeleteCommand`", () => {
 
   describe("when `DeviceManager.device.request` returns failed response", () => {
     beforeEach(() => {
-      deviceManager.device.request = jest.fn().mockResolvedValue(failedResponse)
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockResolvedValue(failedResponse)
     })
 
     test("returns `ResultObject.failed`", async () => {
@@ -72,7 +70,7 @@ describe("`FileDeleteCommand`", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Delete,
         body: {

@@ -12,7 +12,7 @@ import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { DataSyncService } from "Core/data-sync/services/data-sync.service"
 import { DataSyncController } from "Core/data-sync/controllers"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class DataSyncModule extends BaseModule {
   private dataSyncService: DataSyncService
@@ -20,7 +20,7 @@ export class DataSyncModule extends BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -29,7 +29,7 @@ export class DataSyncModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -39,7 +39,7 @@ export class DataSyncModule extends BaseModule {
 
     this.dataSyncService = new DataSyncService(
       this.index,
-      this.deviceManager,
+      this.deviceProtocolService,
       this.keyStorage,
       this.fileSystem
     )

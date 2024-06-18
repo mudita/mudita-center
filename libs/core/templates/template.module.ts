@@ -14,12 +14,12 @@ import { TemplateModel } from "Core/templates/models"
 import { TemplateRepository } from "Core/templates/repositories"
 import { TemplateService } from "Core/templates/services"
 import { TemplateController } from "Core/templates/controllers"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class TemplateModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -28,7 +28,7 @@ export class TemplateModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -38,7 +38,7 @@ export class TemplateModule extends BaseModule {
     const templateModel = new TemplateModel(this.index, this.eventEmitter)
     const templateRepository = new TemplateRepository(templateModel)
     const templateService = new TemplateService(
-      this.deviceManager,
+      this.deviceProtocolService,
       templateRepository
     )
     const templateController = new TemplateController(templateService)

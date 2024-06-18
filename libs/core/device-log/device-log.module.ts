@@ -13,12 +13,12 @@ import { BaseModule } from "Core/core/module"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { DeviceLogService } from "Core/device-log/services"
 import { DeviceLogController } from "Core/device-log/controllers"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class DeviceLogModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -27,7 +27,7 @@ export class DeviceLogModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -36,8 +36,8 @@ export class DeviceLogModule extends BaseModule {
     )
 
     const deviceLogService = new DeviceLogService(
-      this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager)
+      this.deviceProtocolService,
+      new DeviceFileSystemService(this.deviceProtocolService)
     )
     const deviceLogController = new DeviceLogController(deviceLogService)
 

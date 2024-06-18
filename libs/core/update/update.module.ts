@@ -22,14 +22,14 @@ import {
   ReleasesController,
   DeviceUpdateController,
 } from "Core/update/controllers"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { DeviceInfoService } from "Core/device-info/services"
 import { RELEASE_TIMEOUT } from "Core/update/constants/get-release-timeout.constant"
 
 export class UpdateModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -38,7 +38,7 @@ export class UpdateModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -54,9 +54,9 @@ export class UpdateModule extends BaseModule {
 
     const deviceUpdateService = new DeviceUpdateService(
       settingsService,
-      this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager),
-      new DeviceInfoService(this.deviceManager)
+      this.deviceProtocolService,
+      new DeviceFileSystemService(this.deviceProtocolService),
+      new DeviceInfoService(this.deviceProtocolService)
     )
     const deviceUpdateFilesService = new DeviceUpdateFilesService()
     const releaseService = new ReleaseService(createClient(RELEASE_TIMEOUT))

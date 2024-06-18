@@ -39,17 +39,20 @@ import { DeviceInfoModule } from "Core/device-info/device-info.module"
 import { DeviceFileSystemModule } from "Core/device-file-system/device-file-system.module"
 import { DeviceLogModule } from "Core/device-log/device-log.module"
 import { DeviceModule } from "Core/device/device.module"
-import { DeviceManagerModule } from "Core/device-manager/device-manager.module"
 import {
-  DeviceManager,
+  DeviceProtocolModule,
+  DeviceProtocolService,
   DeviceResolverService,
-} from "Core/device-manager/services"
+} from "device-protocol/feature"
 import { APIModule } from "device/feature"
 import { DesktopModule } from "Core/desktop/desktop.module"
 import { FileSystemDialogModule, OnlineStatusModule } from "shared/app-state"
 import { SystemUtilsModule } from "system-utils/feature"
 import { MockDeviceResolverService, mockServiceEnabled } from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
+import { CoreDeviceModule } from "core-device/feature"
+import { DeviceManagerModule } from "device-manager/feature"
+import { createSettingsService } from "Core/settings/containers"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -71,7 +74,7 @@ export class ApplicationModule {
   ]
 
   public lateModules: Module[] = [
-    DeviceManagerModule,
+    DeviceProtocolModule,
     DataSyncModule,
     CrashDumpModule,
     DesktopModule,
@@ -91,7 +94,7 @@ export class ApplicationModule {
 
   private apiModule: APIModule
 
-  private deviceManager = new DeviceManager(
+  private deviceProtocolService = new DeviceProtocolService(
     mockServiceEnabled
       ? new MockDeviceResolverService()
       : new DeviceResolverService(),
@@ -114,7 +117,11 @@ export class ApplicationModule {
     this.initializeInitializer = new InitializeInitializer()
 
     this.modules.forEach(this.initModule)
-    this.apiModule = new APIModule(this.deviceManager, this.systemUtilsModule)
+    this.apiModule = new APIModule(
+      this.deviceProtocolService,
+      this.systemUtilsModule,
+      createSettingsService()
+    )
     this.controllerInitializer.initialize(this.apiModule.getAPIServices())
     this.controllerInitializer.initialize(
       FileSystemDialogModule.getControllers()
@@ -124,6 +131,13 @@ export class ApplicationModule {
       new ApplicationUpdaterModule().controllers
     )
     this.controllerInitializer.initialize(new OnlineStatusModule().controllers)
+    this.controllerInitializer.initialize(
+      new CoreDeviceModule(this.deviceProtocolService, this.fileSystem)
+        .controllers
+    )
+    this.controllerInitializer.initialize(
+      new DeviceManagerModule(this.deviceProtocolService).controllers
+    )
   }
 
   lateInitialization(): void {
@@ -133,7 +147,7 @@ export class ApplicationModule {
   private initModule = (module: Module): void => {
     const instance = new module(
       this.index,
-      this.deviceManager,
+      this.deviceProtocolService,
       this.keyStorage,
       this.logger,
       this.ipc,

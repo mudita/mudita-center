@@ -5,7 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { ModalDialog, ModalDialogProps } from "Core/ui/components/modal-dialog"

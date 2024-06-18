@@ -6,13 +6,22 @@
 import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import { answerMain, DeviceManagerMainEvent } from "shared/utils"
+import { answerMain } from "shared/utils"
+import {
+  activeDeviceIdSelector,
+  setActiveDevice,
+  getDevicesSelector,
+} from "device-manager/feature"
+import {
+  addDevice,
+  configureDevice,
+  getDeviceConfigurationRequest,
+} from "core-device/feature"
+import { DeviceProtocolMainEvent, DeviceType } from "device-protocol/models"
+import { selectDialogOpenState } from "shared/app-state"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { DeviceBaseProperties } from "Core/device/constants/device-base-properties"
-import { isActiveDeviceProcessingSelector } from "Core/device-manager/selectors/is-active-device-processing.selector"
-import { activeDeviceIdSelector } from "Core/device-manager/selectors/active-device-id.selector"
-import { addDevice } from "Core/device-manager/actions/base.action"
-import { setActiveDevice } from "Core/device-manager/actions/set-active-device.action"
+import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import {
@@ -22,15 +31,10 @@ import {
 } from "Core/__deprecated__/renderer/constants/urls"
 import { isInitializationDeviceInProgress } from "Core/device-initialization/selectors/is-initialization-device-in-progress.selector"
 import { isInitializationAppInProgress } from "Core/app-initialization/selectors/is-initialization-app-in-progress.selector"
-import { configureDevice } from "Core/device-manager/actions/configure-device.action"
-import { DeviceType } from "Core/device"
 import { getTmpMuditaHarmonyPortInfoSelector } from "Core/update/selectors/get-tmp-mudita-harmony-port-info-selector"
 import { isUnknownSerialNumber } from "Core/device/constants/unknown-serial-number.constant"
-import { getDeviceConfigurationRequest } from "Core/device-manager/requests/get-device-configuration.request"
 import { getDiscoveryStatus } from "Core/discovery-device/selectors/get-discovery-status.selector"
-import { getDevicesSelector } from "Core/device-manager/selectors/get-devices.selector"
 import { checkIsAnyModalPresent } from "Core/utils/check-is-any-other-modal-present"
-import { selectDialogOpenState } from "shared/app-state"
 
 export const useDeviceConnectedEffect = () => {
   const history = useHistory()
@@ -56,7 +60,10 @@ export const useDeviceConnectedEffect = () => {
       }
     }
 
-    return answerMain<DeviceBaseProperties>(DeviceManagerMainEvent.DeviceConnected, handler)
+    return answerMain<DeviceBaseProperties>(
+      DeviceProtocolMainEvent.DeviceConnected,
+      handler
+    )
   }, [
     history,
     dispatch,

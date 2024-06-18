@@ -7,7 +7,9 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import React from "react"
 import { Provider } from "react-redux"
-import { DeviceType } from "Core/device/constants"
+import { DeviceType } from "device-protocol/models"
+import { CoreDeviceState } from "core-device/models"
+import { DeviceManagerState } from "device-manager/models"
 import Menu, {
   MenuProps,
 } from "Core/__deprecated__/renderer/components/rest/menu/menu.component"
@@ -24,7 +26,6 @@ import {
   DeviceInitializationState,
   DeviceInitializationStatus,
 } from "Core/device-initialization/reducers/device-initialization.interface"
-import { DeviceManagerState } from "Core/device-manager/reducers/device-manager.interface"
 
 jest.mock("Core/settings/store/schemas/generate-application-id", () => ({
   generateApplicationId: () => "123",
@@ -38,9 +39,10 @@ const defaultState = {
   device: {
     deviceType: DeviceType.MuditaPure,
   } as unknown as DeviceState,
-  deviceManager: {
+  deviceManager: {} as unknown as DeviceManagerState,
+  coreDevice: {
     devices: [],
-  } as unknown as DeviceManagerState,
+  } as unknown as CoreDeviceState,
   deviceInitialization: {
     deviceInitializationStatus: DeviceInitializationStatus.Idle,
   } as unknown as DeviceInitializationState,
@@ -94,7 +96,6 @@ const render = (
 }
 
 describe("Device: Mudita pure", () => {
-
   test("matches snapshot", () => {
     const { container } = render(defaultState)
     expect(container).toMatchSnapshot()
@@ -128,7 +129,7 @@ describe("Device: Mudita pure", () => {
             },
           },
         } as unknown as MessagesState,
-        deviceManager: {
+        coreDevice: {
           devices: [
             {
               id: "1",
@@ -137,6 +138,8 @@ describe("Device: Mudita pure", () => {
               caseColour: undefined,
             },
           ],
+        } as unknown as CoreDeviceState,
+        deviceManager: {
           activeDeviceId: "1",
         } as unknown as DeviceManagerState,
       },
@@ -151,7 +154,6 @@ describe("Device: Mudita pure", () => {
 })
 
 describe("Device: Mudita harmony", () => {
-
   test("matches snapshot", () => {
     const { container } = render({
       ...defaultState,
@@ -164,7 +166,6 @@ describe("Device: Mudita harmony", () => {
 })
 
 test("Menu should have overview item", () => {
-
   const { queryByTestId } = render({
     ...defaultState,
     device: {

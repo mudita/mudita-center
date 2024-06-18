@@ -6,12 +6,11 @@
 import { Result } from "Core/core/builder"
 import { Message as PureMessage } from "Core/device/types/mudita-os"
 import {
-  Endpoint,
-  Method,
   MessagesCategory as PureMessagesCategory,
   MessageType,
   MessageType as PureMessageType,
 } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,
@@ -25,15 +24,15 @@ import {
 import { MessageRepository } from "Core/messages/repositories"
 import { MessageService } from "Core/messages/services/message.service"
 import { ThreadService } from "Core/messages/services/thread.service"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import assert from "assert"
 import { MessageType as MessageTypeFromDTO } from "Core/messages/constants"
 
-const deviceManager = {
+const deviceProtocolService = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceManager
+} as unknown as DeviceProtocolService
 
 const threadService = {
   getThreads: jest.fn(),
@@ -46,7 +45,7 @@ const messageRepository = {
 } as unknown as MessageRepository
 
 const subject = new MessageService(
-  deviceManager,
+  deviceProtocolService,
   threadService,
   messageRepository
 )
@@ -118,66 +117,70 @@ beforeEach(() => {
 
 describe("`MessageService`", () => {
   describe("`getMessage` method", () => {
-    test("map data and returns success when `deviceManager.device.request` returns success", async () => {
-      deviceManager.device.request = jest
+    test("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
+      deviceProtocolService.device.request = jest
         .fn()
         .mockReturnValue(Result.success(pureMessage))
       const response = await subject.getMessage("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
-    test("returns error  when `deviceManager.device.request` returns error", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error  when `deviceProtocolService.device.request` returns error", async () => {
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockReturnValue(errorResponse)
       const response = await subject.getMessage("1")
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 
   describe("`getMessages` method", () => {
-    test("map data and returns success when `deviceManager.device.request` returns success", async () => {
-      deviceManager.device.request = jest
+    test("map data and returns success when `deviceProtocolService.device.request` returns success", async () => {
+      deviceProtocolService.device.request = jest
         .fn()
         .mockReturnValue(Result.success({ entries: [pureMessage] }))
       const response = await subject.getMessages({ limit: 1, offset: 0 })
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
-    test("returns error when `deviceManager.device.request` returns error", async () => {
-      deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+    test("returns error when `deviceProtocolService.device.request` returns error", async () => {
+      deviceProtocolService.device.request = jest
+        .fn()
+        .mockReturnValue(errorResponse)
       const response = await subject.getMessages({ limit: 1, offset: 0 })
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceManager.device.request).toHaveBeenCalled()
+      expect(deviceProtocolService.device.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 
   describe("`createMessage` method", () => {
     describe("when message is lower than 469 bytes", () => {
-      test("the `deviceManager.device.request` is called once", async () => {
-        deviceManager.device.request = jest
+      test("the `deviceProtocolService.device.request` is called once", async () => {
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(Result.success(pureMessage))
         const response = await subject.createMessage(newMessageWithThreadId)
         expect(response.status).toEqual(RequestResponseStatus.Ok)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledTimes(1)
+        expect(deviceProtocolService.device.request).toHaveBeenCalledTimes(1)
       })
     })
 
     describe("when message is bigger than 469 bytes", () => {
-      test("the `deviceManager.device.request` is called more than once", async () => {
-        deviceManager.device.request = jest
+      test("the `deviceProtocolService.device.request` is called more than once", async () => {
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(Result.success(pureMessage))
         const newLongMessageWithThreadId: NewMessage = {
@@ -188,14 +191,14 @@ describe("`MessageService`", () => {
         expect(response.status).toEqual(RequestResponseStatus.Ok)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledTimes(2)
+        expect(deviceProtocolService.device.request).toHaveBeenCalledTimes(2)
       })
     })
 
     describe("when every part of the message is sent successfully", () => {
-      describe("when `deviceManager.device.request` returns success with acceptable pure message type", () => {
+      describe("when `deviceProtocolService.device.request` returns success with acceptable pure message type", () => {
         test("return in response just message when threadId is known", async () => {
-          deviceManager.device.request = jest
+          deviceProtocolService.device.request = jest
             .fn()
             .mockReturnValue(Result.success(pureMessage))
           const response = await subject.createMessage(
@@ -203,7 +206,7 @@ describe("`MessageService`", () => {
           )
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/unbound-method
-          expect(deviceManager.device.request).toHaveBeenCalled()
+          expect(deviceProtocolService.device.request).toHaveBeenCalled()
           expect(response.status).toEqual(RequestResponseStatus.Ok)
 
           assert(response.data?.messageParts)
@@ -214,7 +217,7 @@ describe("`MessageService`", () => {
         })
 
         test("return in response message and thread when threadId isn't known", async () => {
-          deviceManager.device.request = jest
+          deviceProtocolService.device.request = jest
             .fn()
             .mockReturnValue(Result.success(pureMessage))
           threadService.getThreads = jest.fn().mockReturnValue({
@@ -226,7 +229,7 @@ describe("`MessageService`", () => {
           )
           // AUTO DISABLED - fix me if you like :)
           // eslint-disable-next-line @typescript-eslint/unbound-method
-          expect(deviceManager.device.request).toHaveBeenCalled()
+          expect(deviceProtocolService.device.request).toHaveBeenCalled()
           expect(response.status).toEqual(RequestResponseStatus.Ok)
 
           assert(response.data?.messageParts)
@@ -238,9 +241,9 @@ describe("`MessageService`", () => {
       })
     })
 
-    describe("when `deviceManager.device.request` returns success with no acceptable pure message type", () => {
+    describe("when `deviceProtocolService.device.request` returns success with no acceptable pure message type", () => {
       test("method returns error", async () => {
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(
             Result.success({ ...pureMessage, messageType: MessageType.UNKNOWN })
@@ -248,25 +251,27 @@ describe("`MessageService`", () => {
         const response = await subject.createMessage(newMessageWithThreadId)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalled()
+        expect(deviceProtocolService.device.request).toHaveBeenCalled()
         expect(response.status).toEqual(RequestResponseStatus.Error)
       })
     })
 
-    describe("when `deviceManager.device.request` returns error", () => {
+    describe("when `deviceProtocolService.device.request` returns error", () => {
       test("method returns error", async () => {
-        deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+        deviceProtocolService.device.request = jest
+          .fn()
+          .mockReturnValue(errorResponse)
         const response = await subject.createMessage(newMessageWithThreadId)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalled()
+        expect(deviceProtocolService.device.request).toHaveBeenCalled()
         expect(response.status).toEqual(RequestResponseStatus.Error)
       })
     })
 
-    describe("when `deviceManager.device.request` returns error for the second message", () => {
+    describe("when `deviceProtocolService.device.request` returns error for the second message", () => {
       test("method returns error", async () => {
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValueOnce({
             ...successResponse,
@@ -276,7 +281,7 @@ describe("`MessageService`", () => {
         const response = await subject.createMessage(newLongMessageWithThreadId)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalled()
+        expect(deviceProtocolService.device.request).toHaveBeenCalled()
 
         expect(response.status).toEqual(RequestResponseStatus.Error)
       })
@@ -289,7 +294,7 @@ describe("`MessageService`", () => {
     describe("when everything is fine", () => {
       let result: unknown
       beforeEach(async () => {
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(Result.success(undefined))
         messageRepository.findById = jest.fn().mockReturnValue(message)
@@ -305,10 +310,10 @@ describe("`MessageService`", () => {
       test("construct proper delete request to device service and calls proper repository method", async () => {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledTimes(1)
+        expect(deviceProtocolService.device.request).toHaveBeenCalledTimes(1)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledWith({
+        expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
           body: {
             category: PureMessagesCategory.message,
             messageID: 123,
@@ -346,7 +351,7 @@ describe("`MessageService`", () => {
 
     describe("when an error appears", () => {
       test("returns error when message was not found in the repository", async () => {
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(successResponse)
         messageRepository.findById = jest.fn().mockReturnValue(undefined)
@@ -361,7 +366,9 @@ describe("`MessageService`", () => {
       })
 
       test("returns error when delete request failed", async () => {
-        deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+        deviceProtocolService.device.request = jest
+          .fn()
+          .mockReturnValue(errorResponse)
         messageRepository.findById = jest.fn().mockReturnValue(message)
         const result = await subject.deleteMessage(messageId)
         expect(result).toEqual({
@@ -373,7 +380,7 @@ describe("`MessageService`", () => {
       })
 
       test("returns error when refreshing repository failed", async () => {
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(successResponse)
         messageRepository.findById = jest.fn().mockReturnValue(message)
@@ -399,7 +406,7 @@ describe("`MessageService`", () => {
         const result = await subject.resendMessage(messageId)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledTimes(0)
+        expect(deviceProtocolService.device.request).toHaveBeenCalledTimes(0)
         expect(result).toEqual({
           status: RequestResponseStatus.Error,
           error: {
@@ -422,14 +429,14 @@ describe("`MessageService`", () => {
           phoneNumber: "+48500600700",
           messageType: MessageType.INBOX,
         })
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockResolvedValue(Result.success(pureMessage))
 
         const result = await subject.resendMessage(messageId)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenLastCalledWith({
+        expect(deviceProtocolService.device.request).toHaveBeenLastCalledWith({
           body: {
             number: "+48500600700",
             messageBody:
@@ -464,9 +471,9 @@ describe("`MessageService`", () => {
   })
 
   describe("`updateMessage` method", () => {
-    describe("`deviceManager.device` returns success status", () => {
+    describe("`deviceProtocolService.device` returns success status", () => {
       test("returns success result", async () => {
-        deviceManager.device.request = jest
+        deviceProtocolService.device.request = jest
           .fn()
           .mockReturnValue(successResponse)
         const result = await subject.updateMessage(message)
@@ -474,7 +481,7 @@ describe("`MessageService`", () => {
         expect(result).toEqual(successResponse)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledWith({
+        expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
           body: MessagePresenter.mapToUpdatePureMessagesBody(message),
           endpoint: Endpoint.Messages,
           method: Method.Put,
@@ -482,15 +489,17 @@ describe("`MessageService`", () => {
       })
     })
 
-    describe("`deviceManager.device` returns failed satus", () => {
+    describe("`deviceProtocolService.device` returns failed satus", () => {
       test("returns failed result", async () => {
-        deviceManager.device.request = jest.fn().mockReturnValue(errorResponse)
+        deviceProtocolService.device.request = jest
+          .fn()
+          .mockReturnValue(errorResponse)
         const result = await subject.updateMessage(message)
 
         expect(result).toEqual(errorResponse)
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        expect(deviceManager.device.request).toHaveBeenCalledWith({
+        expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
           body: MessagePresenter.mapToUpdatePureMessagesBody(message),
           endpoint: Endpoint.Messages,
           method: Method.Put,

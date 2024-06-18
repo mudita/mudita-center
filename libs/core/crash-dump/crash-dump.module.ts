@@ -14,7 +14,7 @@ import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { CrashDumpController } from "Core/crash-dump/controllers"
 import { CrashDumpService } from "Core/crash-dump/services"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 
 export class CrashDumpModule extends BaseModule {
   private crashDumpController: CrashDumpController
@@ -22,7 +22,7 @@ export class CrashDumpModule extends BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceManager: DeviceManager,
+    public deviceProtocolService: DeviceProtocolService,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -31,7 +31,7 @@ export class CrashDumpModule extends BaseModule {
   ) {
     super(
       index,
-      deviceManager,
+      deviceProtocolService,
       keyStorage,
       logger,
       ipc,
@@ -46,8 +46,8 @@ export class CrashDumpModule extends BaseModule {
     }
 
     this.crashDumpService = new CrashDumpService(
-      this.deviceManager,
-      new DeviceFileSystemService(this.deviceManager)
+      this.deviceProtocolService,
+      new DeviceFileSystemService(this.deviceProtocolService)
     )
     this.crashDumpController = new CrashDumpController(
       this.crashDumpService,

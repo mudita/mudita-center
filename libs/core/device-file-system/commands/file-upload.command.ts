@@ -4,9 +4,9 @@
  */
 
 import path from "path"
-import { Endpoint, Method } from "Core/device/constants"
+import { Endpoint, Method } from "core-device/models"
 import { PutFileSystemResponseBody } from "Core/device/types/mudita-os"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
@@ -16,10 +16,10 @@ import { DeviceFileSystemError } from "Core/device-file-system/constants"
 
 export class FileUploadCommand extends BaseCommand {
   constructor(
-    public deviceManager: DeviceManager,
+    public deviceProtocolService: DeviceProtocolService,
     public fileSystemService: FileSystemService
   ) {
-    super(deviceManager)
+    super(deviceProtocolService)
   }
 
   public async exec(
@@ -53,15 +53,17 @@ export class FileUploadCommand extends BaseCommand {
     const fileName = path.basename(filePath)
 
     const response =
-      await this.deviceManager.device.request<PutFileSystemResponseBody>({
-        endpoint: Endpoint.FileSystem,
-        method: Method.Put,
-        body: {
-          fileSize,
-          fileCrc32,
-          fileName: [directory, fileName].join("/"),
-        },
-      })
+      await this.deviceProtocolService.device.request<PutFileSystemResponseBody>(
+        {
+          endpoint: Endpoint.FileSystem,
+          method: Method.Put,
+          body: {
+            fileSize,
+            fileCrc32,
+            fileName: [directory, fileName].join("/"),
+          },
+        }
+      )
 
     if (!response.ok || response.data === undefined) {
       if (
@@ -103,7 +105,7 @@ export class FileUploadCommand extends BaseCommand {
       const chunkedBufferSize = Buffer.byteLength(chunkedBuffer)
       const lastChunk = chunkedBufferSize < chunkSize
 
-      const response = await this.deviceManager.device.request({
+      const response = await this.deviceProtocolService.device.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {

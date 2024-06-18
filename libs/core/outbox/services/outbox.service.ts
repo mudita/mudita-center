@@ -3,19 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint, Method } from "core-device/models"
 import { ResultObject } from "Core/core/builder"
 import {
   GetEntriesResponseBody,
   OutboxEntry,
 } from "Core/device/types/mudita-os"
-import {
-  OutboxEntryType,
-  OutboxCategory,
-  Method,
-  Endpoint,
-} from "Core/device/constants"
+import { OutboxEntryType, OutboxCategory } from "Core/device/constants"
 import { asyncNoop } from "Core/__deprecated__/renderer/utils/noop"
-import { DeviceManager } from "Core/device-manager/services"
+import { DeviceProtocolService } from "device-protocol/feature"
 import { EntryHandler } from "Core/outbox/services/entry-handler.type"
 
 export type EntryHandlersMapType = Record<OutboxEntryType, EntryHandler>
@@ -24,7 +20,7 @@ export type EntryChangesEvent = { entry: OutboxEntry; payload: unknown }
 
 export class OutboxService {
   constructor(
-    private deviceManager: DeviceManager,
+    private deviceProtocolService: DeviceProtocolService,
     private entryHandlersMap: EntryHandlersMapType
   ) {}
 
@@ -56,7 +52,7 @@ export class OutboxService {
   private async getOutboxEntriesRequest(): Promise<
     ResultObject<GetEntriesResponseBody>
   > {
-    return this.deviceManager.device.request<GetEntriesResponseBody>({
+    return this.deviceProtocolService.device.request<GetEntriesResponseBody>({
       endpoint: Endpoint.Outbox,
       method: Method.Get,
       body: {
@@ -68,7 +64,7 @@ export class OutboxService {
   private async deleteOutboxEntriesRequest(
     uids: number[]
   ): Promise<ResultObject<unknown>> {
-    return this.deviceManager.device.request({
+    return this.deviceProtocolService.device.request({
       endpoint: Endpoint.Outbox,
       method: Method.Delete,
       body: {
