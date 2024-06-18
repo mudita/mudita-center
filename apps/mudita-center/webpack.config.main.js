@@ -10,7 +10,7 @@ const {
   node,
   optimization,
 } = require("./webpack/common")
-const { woff, woff2, tff, eot, tsx } = rules
+const { woff, woff2, tff, eot, tsx, img } = rules
 
 module.exports = {
   node: {
@@ -33,7 +33,7 @@ module.exports = {
     plugins.env,
   ],
   module: {
-    rules: [woff, woff2, tff, eot, tsx(false, production)],
+    rules: [woff, woff2, tff, eot, tsx(false, production), img],
     noParse: [/node_modules\/sql\.js\/dist\/sql-wasm\.js$/, /sql.js/],
   },
 }
