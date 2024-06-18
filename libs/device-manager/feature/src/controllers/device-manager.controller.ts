@@ -4,16 +4,16 @@
  */
 
 import { IpcEvent } from "Core/core/decorators"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
 import { IpcDeviceManagerEvent } from "../constants"
 
 export class DeviceManagerController {
-  constructor(private deviceProtocolService: DeviceProtocolService) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   @IpcEvent(IpcDeviceManagerEvent.ConnectDevice)
   public connectDevice(id: DeviceId): Promise<ResultObject<undefined>> {
-    return this.deviceProtocolService.connectDevice(id)
+    return this.deviceProtocol.connectDevice(id)
   }
 }

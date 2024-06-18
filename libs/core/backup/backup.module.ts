@@ -17,7 +17,7 @@ import {
   LoadBackupService,
 } from "Core/backup/services"
 import { BackupController } from "Core/backup/controllers"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { FileManagerService } from "Core/files-manager/services"
 import { FileDeleteCommand } from "Core/device-file-system/commands/file-delete.command"
 import {
@@ -29,7 +29,7 @@ import { DeviceInfoService } from "Core/device-info/services"
 export class BackupModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceProtocolService: DeviceProtocolService,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -38,7 +38,7 @@ export class BackupModule extends BaseModule {
   ) {
     super(
       index,
-      deviceProtocolService,
+      deviceProtocol,
       keyStorage,
       logger,
       ipc,
@@ -46,32 +46,30 @@ export class BackupModule extends BaseModule {
       fileSystem
     )
 
-    const deviceFileSystem = new DeviceFileSystemService(
-      this.deviceProtocolService
-    )
+    const deviceFileSystem = new DeviceFileSystemService(this.deviceProtocol)
     const fileManagerService = new FileManagerService(
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileDeleteCommand(this.deviceProtocolService),
+      new FileDeleteCommand(this.deviceProtocol),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new RetrieveFilesCommand(this.deviceProtocolService),
+      new RetrieveFilesCommand(this.deviceProtocol),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      new FileUploadCommand(this.deviceProtocolService, this.fileSystem)
+      new FileUploadCommand(this.deviceProtocol, this.fileSystem)
     )
 
-    const deviceInfoService = new DeviceInfoService(this.deviceProtocolService)
+    const deviceInfoService = new DeviceInfoService(this.deviceProtocol)
 
     const backupCreateService = new BackupCreateService(
-      this.deviceProtocolService,
+      this.deviceProtocol,
       deviceFileSystem,
       fileManagerService,
       deviceInfoService,
       this.keyStorage
     )
     const backupRestoreService = new BackupRestoreService(
-      this.deviceProtocolService,
+      this.deviceProtocol,
       deviceFileSystem,
       deviceInfoService,
       fileSystem

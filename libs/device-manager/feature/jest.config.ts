@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: "feature",
+  displayName: "device-manager-feature",
   preset: "../../../jest.preset.js",
   transform: {
     "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "@nx/react/plugins/jest",

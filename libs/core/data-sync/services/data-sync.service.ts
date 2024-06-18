@@ -8,7 +8,7 @@ import { DeviceFileSystemService } from "Core/device-file-system/services"
 import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 import { IndexStorage } from "Core/index-storage/types"
 import { DataIndex } from "Core/index-storage/constants"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { MetadataStore } from "Core/metadata/services"
 import {
   ContactIndexer,
@@ -35,13 +35,13 @@ export class DataSyncService {
 
   constructor(
     private index: IndexStorage,
-    private deviceProtocolService: DeviceProtocolService,
+    private deviceProtocol: DeviceProtocol,
     private keyStorage: MetadataStore,
     private fileSystemStorage: FileSystemService
   ) {
     this.syncBackupCreateService = new SyncBackupCreateService(
-      this.deviceProtocolService,
-      new DeviceFileSystemService(this.deviceProtocolService),
+      this.deviceProtocol,
+      new DeviceFileSystemService(this.deviceProtocol),
       this.keyStorage
     )
 

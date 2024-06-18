@@ -7,7 +7,7 @@ import path from "path"
 import { Result } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { DeviceCommunicationError } from "core-device/models"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
@@ -22,21 +22,21 @@ import {
 } from "Root/jest/testing-support/mocks/diagnostic-data.mock"
 import { DeviceFileSystemService } from "Core/device-file-system/services/device-file-system.service"
 
-const deviceProtocolService = {
+const deviceProtocol = {
   request: jest.fn(),
   device: {
     id: "abc123",
   },
-} as unknown as DeviceProtocolService
+} as unknown as DeviceProtocol
 
-const deviceFileSystem = new DeviceFileSystemService(deviceProtocolService)
+const deviceFileSystem = new DeviceFileSystemService(deviceProtocol)
 
 beforeEach(() => {
   jest.clearAllMocks()
 })
 
 test("downloading file handle properly chunks data", async () => {
-  deviceProtocolService.request = jest
+  deviceProtocol.request = jest
     .fn()
     .mockImplementation(
       (
@@ -84,7 +84,7 @@ test("downloading file handle properly chunks data", async () => {
 })
 
 test("downloading file handle properly chunks data if fileSize is less than chunkSize", async () => {
-  deviceProtocolService.request = jest
+  deviceProtocol.request = jest
     .fn()
     .mockImplementation(
       (
@@ -125,7 +125,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
 })
 
 test("downloading file return error when part of the chunks data is broken", async () => {
-  deviceProtocolService.request = jest
+  deviceProtocol.request = jest
     .fn()
     .mockImplementation(
       (
@@ -169,7 +169,7 @@ test("downloading file return error when part of the chunks data is broken", asy
 })
 
 test("downloading file returns error properly", async () => {
-  deviceProtocolService.request = jest.fn().mockImplementation(() => {
+  deviceProtocol.request = jest.fn().mockImplementation(() => {
     return Result.failed(
       new AppError(
         DeviceCommunicationError.RequestFailed,
@@ -185,7 +185,7 @@ test("downloading file returns error properly", async () => {
 })
 
 test("upload file file handle properly chunks data", async () => {
-  deviceProtocolService.request = jest
+  deviceProtocol.request = jest
     .fn()
     .mockImplementation(
       (

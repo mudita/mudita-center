@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { APIConfigService } from "./api-config/api-config.service"
 import { APIFeaturesService } from "./api-features/api-features.service"
 import { APIBackupService } from "./backup"
@@ -34,34 +34,29 @@ export class APIModule {
   private apiDataTransferService: APIDataTransferService
 
   constructor(
-    deviceProtocolService: DeviceProtocolService,
+    deviceProtocol: DeviceProtocol,
     systemUtilsModule: SystemUtilsModule,
     settingsService: ISettingsService
   ) {
     this.serviceBridge = new ServiceBridge()
-    this.apiConfigService = new APIConfigService(deviceProtocolService)
-    this.apiFeaturesService = new APIFeaturesService(deviceProtocolService)
-    this.apiOutboxService = new APIOutboxService(deviceProtocolService)
-    this.apiMenuService = new APIMenuService(deviceProtocolService)
+    this.apiConfigService = new APIConfigService(deviceProtocol)
+    this.apiFeaturesService = new APIFeaturesService(deviceProtocol)
+    this.apiOutboxService = new APIOutboxService(deviceProtocol)
+    this.apiMenuService = new APIMenuService(deviceProtocol)
     this.serverService = new ServerService()
-    this.backupService = new APIBackupService(deviceProtocolService)
-    this.apiDataTransferService = new APIDataTransferService(
-      deviceProtocolService
-    )
+    this.backupService = new APIBackupService(deviceProtocol)
+    this.apiDataTransferService = new APIDataTransferService(deviceProtocol)
     this.restoreService = new APIRestoreService(
-      deviceProtocolService,
+      deviceProtocol,
       this.serviceBridge
     )
     this.fileTransferService = new APIFileTransferService(
-      deviceProtocolService,
+      deviceProtocol,
       this.serviceBridge
     )
-    this.fileManager = new FileManager(
-      deviceProtocolService,
-      this.serviceBridge
-    )
+    this.fileManager = new FileManager(deviceProtocol, this.serviceBridge)
     this.deviceSystemActionsService = new DeviceSystemActionsService(
-      deviceProtocolService
+      deviceProtocol
     )
     this.serviceBridge.systemUtilsModule = systemUtilsModule
     this.serviceBridge.fileTransfer = this.fileTransferService

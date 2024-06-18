@@ -4,19 +4,19 @@
  */
 
 import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject, SuccessResult } from "Core/core/builder"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { FileDeleteCommand } from "Core/device-file-system/commands/file-delete.command"
 
-const deviceProtocolService = {
+const deviceProtocol = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceProtocolService
+} as unknown as DeviceProtocol
 
-const subject = new FileDeleteCommand(deviceProtocolService)
+const subject = new FileDeleteCommand(deviceProtocol)
 
 const successResponse: ResultObject<unknown> = Result.success(undefined)
 
@@ -37,7 +37,7 @@ beforeEach(() => {
 describe("`FileDeleteCommand`", () => {
   describe("when `DeviceManager.device.request` returns success response", () => {
     beforeEach(() => {
-      deviceProtocolService.device.request = jest
+      deviceProtocol.device.request = jest
         .fn()
         .mockResolvedValue(successResponse)
     })
@@ -47,7 +47,7 @@ describe("`FileDeleteCommand`", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Delete,
         body: {
@@ -60,7 +60,7 @@ describe("`FileDeleteCommand`", () => {
 
   describe("when `DeviceManager.device.request` returns failed response", () => {
     beforeEach(() => {
-      deviceProtocolService.device.request = jest
+      deviceProtocol.device.request = jest
         .fn()
         .mockResolvedValue(failedResponse)
     })
@@ -70,7 +70,7 @@ describe("`FileDeleteCommand`", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Delete,
         body: {

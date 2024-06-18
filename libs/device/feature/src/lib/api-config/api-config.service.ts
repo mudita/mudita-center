@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import {
@@ -17,15 +17,15 @@ import { AppError } from "Core/core/errors"
 import { APIConfigError } from "./api-config-error"
 
 export class APIConfigService {
-  constructor(private deviceProtocolService: DeviceProtocolService) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   @IpcEvent(APIConfigServiceEvents.APIConfig)
   public async getAPIConfig(
     deviceId?: DeviceId
   ): Promise<ResultObject<ApiConfig>> {
     const device = deviceId
-      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
-      : this.deviceProtocolService.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -51,7 +51,7 @@ export class APIConfigService {
   //to remove
   @IpcEvent(APIConfigServiceEvents.APIAny)
   public async getAPIAny(payload: unknown): Promise<ResultObject<unknown>> {
-    const device = this.deviceProtocolService.apiDevice
+    const device = this.deviceProtocol.apiDevice
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }

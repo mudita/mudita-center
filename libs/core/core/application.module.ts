@@ -41,7 +41,7 @@ import { DeviceLogModule } from "Core/device-log/device-log.module"
 import { DeviceModule } from "Core/device/device.module"
 import {
   DeviceProtocolModule,
-  DeviceProtocolService,
+  DeviceProtocol,
   DeviceResolverService,
 } from "device-protocol/feature"
 import { APIModule } from "device/feature"
@@ -95,7 +95,7 @@ export class ApplicationModule {
 
   private apiModule: APIModule
 
-  private deviceProtocolService = new DeviceProtocolService(
+  private deviceProtocol = new DeviceProtocol(
     mockServiceEnabled
       ? new MockDeviceResolverService()
       : new DeviceResolverService(),
@@ -119,7 +119,7 @@ export class ApplicationModule {
 
     this.modules.forEach(this.initModule)
     this.apiModule = new APIModule(
-      this.deviceProtocolService,
+      this.deviceProtocol,
       this.systemUtilsModule,
       createSettingsService()
     )
@@ -133,14 +133,13 @@ export class ApplicationModule {
     )
     this.controllerInitializer.initialize(new OnlineStatusModule().controllers)
     this.controllerInitializer.initialize(
-      new CoreDeviceModule(this.deviceProtocolService, this.fileSystem)
-        .controllers
+      new CoreDeviceModule(this.deviceProtocol, this.fileSystem).controllers
     )
     this.controllerInitializer.initialize(
-      new DeviceManagerModule(this.deviceProtocolService).controllers
+      new DeviceManagerModule(this.deviceProtocol).controllers
     )
     this.controllerInitializer.initialize(
-      new ActiveDeviceRegistryModule(this.deviceProtocolService).controllers
+      new ActiveDeviceRegistryModule(this.deviceProtocol).controllers
     )
   }
 
@@ -151,7 +150,7 @@ export class ApplicationModule {
   private initModule = (module: Module): void => {
     const instance = new module(
       this.index,
-      this.deviceProtocolService,
+      this.deviceProtocol,
       this.keyStorage,
       this.logger,
       this.ipc,

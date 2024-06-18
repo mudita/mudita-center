@@ -9,7 +9,7 @@ import { Result, ResultObject } from "Core/core/builder"
 import { AppError } from "Core/core/errors"
 import { Operation, BackupError } from "Core/backup/constants"
 import { UpdaterStatus } from "Core/backup/dto"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
 import { DeviceInfoService } from "Core/device-info/services"
 
@@ -18,7 +18,7 @@ export class BaseBackupService {
   private REQUEST_TIME_OUT = 5000
 
   constructor(
-    protected deviceProtocolService: DeviceProtocolService,
+    protected deviceProtocol: DeviceProtocol,
     protected deviceFileSystem: DeviceFileSystemService,
     protected deviceInfoService: DeviceInfoService
   ) {}
@@ -127,7 +127,7 @@ export class BaseBackupService {
       return false
     }
 
-    const response = await this.deviceProtocolService.device.request({
+    const response = await this.deviceProtocol.device.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },

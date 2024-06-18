@@ -6,7 +6,7 @@
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import {
   APIOutboxServiceEvents,
@@ -16,13 +16,13 @@ import {
 } from "device/models"
 
 export class APIOutboxService {
-  constructor(private deviceProtocolService: DeviceProtocolService) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   @IpcEvent(APIOutboxServiceEvents.GetOutboxData)
   public async getOutboxData(
     deviceId: DeviceId
   ): Promise<ResultObject<Outbox>> {
-    const device = this.deviceProtocolService.getAPIDeviceById(deviceId)
+    const device = this.deviceProtocol.getAPIDeviceById(deviceId)
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
     }

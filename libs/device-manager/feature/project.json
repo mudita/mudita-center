@@ -1,7 +1,7 @@
 {
   "name": "device-manager-feature",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/device-manager-feature/src",
+  "sourceRoot": "libs/device-manager/feature/src",
   "projectType": "library",
   "tags": [],
   "targets": {

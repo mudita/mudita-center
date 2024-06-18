@@ -28,3 +28,5 @@ export const setViewData = createAction<{
   feature: string
   data: Record<string, unknown>
 }>(ActionName.SetViewData)
+
+export const setLastRefresh = createAction<number>(ActionName.SetLastRefresh)

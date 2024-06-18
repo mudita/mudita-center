@@ -66,17 +66,24 @@ const useHandleDevicesDetached = () => {
   return useCallback(
     async (deviceDetachedEvents: DeviceBaseProperties[]) => {
       for (const event of deviceDetachedEvents) {
-        const { deviceType, id } = event
-        dispatch(clearDataMigrationDevice(id))
+        dispatch(clearDataMigrationDevice(event.id))
+      }
 
-        if (deviceType !== DeviceType.APIDevice) {
-          return
-        }
+      const apiEvents = deviceDetachedEvents.filter(
+        ({ deviceType }) => deviceType !== DeviceType.APIDevice
+      )
+
+      if (apiEvents.length === 0) {
+        return
+      }
+
+      for (const event of apiEvents) {
         dispatch(removeDevice(event))
-        dispatch(closeAllModals())
-        if (backupProcess) {
-          dispatch(setBackupProcessStatus("FAILED"))
-        }
+      }
+
+      dispatch(closeAllModals())
+      if (backupProcess) {
+        dispatch(setBackupProcessStatus("FAILED"))
       }
     },
     [dispatch, backupProcess]
