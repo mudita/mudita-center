@@ -13,10 +13,8 @@ import { AppError } from "Core/core/errors"
 import { DeviceInitializationError } from "Core/device-initialization/constants/errors.enum"
 import { loadSettings } from "Core/settings/actions"
 import { configureDevice } from "core-device/feature"
-import {
-  activeDeviceIdSelector,
-  isActiveDeviceAttachedSelector,
-} from "device-manager/feature"
+import { isActiveDeviceAttachedSelector } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { getCrashDump } from "Core/crash-dump"
 import { checkForForceUpdateNeed } from "Core/update/actions"

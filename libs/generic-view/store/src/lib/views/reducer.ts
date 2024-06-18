@@ -18,7 +18,6 @@ import { getMenuConfig } from "../get-menu-config"
 import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
-  activateDevice,
   addDevice,
   removeDevice,
   setMenu,
@@ -37,7 +36,6 @@ export interface GenericState {
   >
   lastResponse: unknown
   lastRefresh?: number
-  activeDevice?: DeviceId
   devices: Record<string, Device>
   apiErrors: Record<ApiError, boolean>
 }
@@ -116,62 +114,45 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(getOverviewData.fulfilled, (state, action) => {
     state.lastResponse = action.payload
     const deviceId = action.payload.deviceId
-    if (deviceId) {
-      state.devices[deviceId].features = {
-        ...state.devices[deviceId].features,
-        "mc-overview": {
-          config: state.devices[deviceId].features?.["mc-overview"]?.config,
-          data: action.payload.overviewData,
-        },
-        ...(action.payload.aboutData
-          ? {
-              "mc-about": {
-                config: state.devices[deviceId].features?.["mc-about"]?.config,
-                data: action.payload.aboutData,
-              },
-            }
-          : {}),
-      }
+    state.devices[deviceId].features = {
+      ...state.devices[deviceId].features,
+      "mc-overview": {
+        config: state.devices[deviceId].features?.["mc-overview"]?.config,
+        data: action.payload.overviewData,
+      },
+      ...(action.payload.aboutData
+        ? {
+            "mc-about": {
+              config: state.devices[deviceId].features?.["mc-about"]?.config,
+              data: action.payload.aboutData,
+            },
+          }
+        : {}),
     }
   })
   builder.addCase(getOverviewConfig.fulfilled, (state, action) => {
     state.lastResponse = action.payload
     const deviceId = action.payload.deviceId
-    if (deviceId) {
-      state.devices[deviceId].features = {
-        ...state.devices[deviceId].features,
-        "mc-overview": {
-          config: action.payload.overviewConfig,
-          data: state.devices[deviceId].features?.["mc-overview"]?.data,
-        },
-        ...(action.payload.aboutConfig
-          ? {
-              "mc-about": {
-                config: action.payload.aboutConfig,
-                data: state.devices[deviceId].features?.["mc-about"]?.data,
-              },
-            }
-          : {}),
-      } as Features
-    }
-    if (state.activeDevice === undefined) {
-      state.activeDevice = deviceId
-    }
-  })
-  builder.addCase(activateDevice, (state, action) => {
-    const { deviceId } = action.payload
-    state.activeDevice = state.devices?.[deviceId]?.apiConfig
-      ? deviceId
-      : undefined
+    state.devices[deviceId].features = {
+      ...state.devices[deviceId].features,
+      "mc-overview": {
+        config: action.payload.overviewConfig,
+        data: state.devices[deviceId].features?.["mc-overview"]?.data,
+      },
+      ...(action.payload.aboutConfig
+        ? {
+            "mc-about": {
+              config: action.payload.aboutConfig,
+              data: state.devices[deviceId].features?.["mc-about"]?.data,
+            },
+          }
+        : {}),
+    } as Features
   })
   builder.addCase(removeDevice, (state, action) => {
     delete state.devices[action.payload.id]
   })
   builder.addCase(getOutboxData.fulfilled, (state, action) => {
-    const { deviceId, timestamp } = action.payload
-    if (state.activeDevice === deviceId) {
-      state.lastRefresh = timestamp
-    }
     state.apiErrors[ApiError.DeviceLocked] = false
   })
   builder.addCase(getOutboxData.rejected, (state, action) => {
@@ -179,20 +160,16 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       deviceId: DeviceId
       timestamp: number
     }
-    if (state.activeDevice === deviceId) {
-      state.lastRefresh = timestamp
-    }
+    state.lastRefresh = timestamp
   })
   builder.addCase(getGenericConfig.fulfilled, (state, action) => {
     const { deviceId, feature, view } = action.payload
-    if (deviceId) {
-      state.devices[deviceId].features = {
-        ...state.devices[deviceId].features,
-        [feature]: {
-          config: view,
-          data: state.devices[deviceId].features?.[feature]?.data,
-        },
-      }
+    state.devices[deviceId].features = {
+      ...state.devices[deviceId].features,
+      [feature]: {
+        config: view,
+        data: state.devices[deviceId].features?.[feature]?.data,
+      },
     }
   })
 })

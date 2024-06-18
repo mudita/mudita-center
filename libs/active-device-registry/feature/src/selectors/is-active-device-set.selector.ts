@@ -4,11 +4,11 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { deviceManagerState } from "./device-manager-state.selector"
+import { activeDeviceIdSelector } from "./active-device-id.selector"
 
 export const isActiveDeviceSet = createSelector(
-  deviceManagerState,
-  (deviceManager): boolean => {
-    return deviceManager.activeDeviceId !== undefined
+  activeDeviceIdSelector,
+  (activeDeviceId): boolean => {
+    return activeDeviceId !== undefined
   }
 )

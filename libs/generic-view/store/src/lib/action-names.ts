@@ -13,7 +13,6 @@ export enum ActionName {
   SetViewData = "generic-views/set-view-data",
   AddDevice = "generic-views/add-device",
   RemoveDevice = "generic-views/remove-device",
-  ActivateDevice = "generic-views/activate-device",
   OpenModal = "generic-modals/open-modal",
   CloseModal = "generic-modals/close-modal",
   CloseAllModals = "generic-modals/close-all-modals",

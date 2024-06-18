@@ -52,6 +52,7 @@ import { MockDeviceResolverService, mockServiceEnabled } from "e2e-mock-server"
 import { ApplicationUpdaterModule } from "electron/application-updater"
 import { CoreDeviceModule } from "core-device/feature"
 import { DeviceManagerModule } from "device-manager/feature"
+import { ActiveDeviceRegistryModule } from "active-device-registry/feature"
 import { createSettingsService } from "Core/settings/containers"
 
 export class ApplicationModule {
@@ -137,6 +138,9 @@ export class ApplicationModule {
     )
     this.controllerInitializer.initialize(
       new DeviceManagerModule(this.deviceProtocolService).controllers
+    )
+    this.controllerInitializer.initialize(
+      new ActiveDeviceRegistryModule(this.deviceProtocolService).controllers
     )
   }
 

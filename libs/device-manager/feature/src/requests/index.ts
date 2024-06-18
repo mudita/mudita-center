@@ -4,4 +4,3 @@
  */
 
 export * from "./connect-device.request"
-export * from "./set-active-device.request"

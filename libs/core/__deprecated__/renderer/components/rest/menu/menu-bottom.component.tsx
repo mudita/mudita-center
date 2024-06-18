@@ -10,8 +10,8 @@ import styled from "styled-components"
 import {
   getDevicesSelector,
   setSelectDeviceDrawerOpen,
-  activeDeviceIdSelector,
 } from "device-manager/feature"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import { MenuGroupTestIds } from "Core/__deprecated__/renderer/components/rest/menu/menu-group-test-ids.enum"
 import Loader from "Core/__deprecated__/renderer/components/core/loader/loader.component"

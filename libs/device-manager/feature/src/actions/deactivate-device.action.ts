@@ -6,13 +6,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceBaseProperties } from "device-protocol/models"
 import { DeviceManagerEvent } from "device-manager/models"
+import { setActiveDevice } from "active-device-registry/feature"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { setDiscoveryStatus } from "Core/discovery-device/actions/base.action"
 import { DiscoveryStatus } from "Core/discovery-device/reducers/discovery-device.interface"
 import { setDeviceInitializationStatus } from "Core/device-initialization/actions/base.action"
 import { DeviceInitializationStatus } from "Core/device-initialization/reducers/device-initialization.interface"
 import { MetadataKey, setValue } from "Core/metadata"
-import { setActiveDeviceRequest } from "../requests"
 import { getDevicesSelector } from "../selectors"
 import { setSelectDeviceDrawerOpen } from "./set-select-device-drawer-open.action"
 
@@ -21,7 +21,7 @@ export const deactivateDevice = createAsyncThunk<
   void,
   { state: ReduxRootState }
 >(DeviceManagerEvent.DeactivateDevice, async (_, { dispatch, getState }) => {
-  await setActiveDeviceRequest(undefined)
+  dispatch(setActiveDevice(undefined))
   dispatch(setSelectDeviceDrawerOpen(false))
   dispatch(setDiscoveryStatus(DiscoveryStatus.Idle))
   dispatch(setDeviceInitializationStatus(DeviceInitializationStatus.Idle))

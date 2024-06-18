@@ -5,12 +5,11 @@
 
 import { useEffect, useCallback } from "react"
 import { useHistory } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { answerMain } from "shared/utils"
 import { DeviceProtocolMainEvent } from "device-protocol/models"
 import { DeviceBaseProperties } from "device-protocol/models"
-import { activeDeviceIdSelector } from "device-manager/feature"
-import { Dispatch } from "Core/__deprecated__/renderer/store"
+import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { URL_DISCOVERY_DEVICE } from "Core/__deprecated__/renderer/constants/urls"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
 import { isDiscoveryDeviceInProgress } from "Core/discovery-device/selectors/is-discovery-device-in-progress.selector"
@@ -19,7 +18,6 @@ import { isInitializationAppInProgress } from "Core/app-initialization/selectors
 
 export const useDeviceConnectFailedEffect = () => {
   const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
   const activeDeviceProcessing = useSelector(isActiveDeviceProcessingSelector)
   const activeDeviceId = useSelector(activeDeviceIdSelector)
   const discoveryDeviceInProgress = useSelector(isDiscoveryDeviceInProgress)

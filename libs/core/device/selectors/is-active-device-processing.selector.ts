@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { isActiveDeviceSet } from "device-manager/feature"
+import { isActiveDeviceSet } from "active-device-registry/feature"
 import { backupStateSelector } from "Core/backup"
 import { updateStateSelector } from "Core/update/selectors/update-state-selector"
 import { State } from "Core/core/constants"
