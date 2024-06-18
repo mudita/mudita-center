@@ -4,17 +4,25 @@
  */
 
 import {
-  Days,
+  OutLookScope,
+  OutlookAuthErrorResponse,
+  OutlookAuthSuccessResponse,
   OutlookContactResource,
   OutlookContactResourceItem,
-  OutlookFreq,
-  OutLookScope,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+} from "./outlook.interface"
+import {
+  apiBaseUrl,
+  baseGraphUrl,
+  clientId,
+  redirectUrl,
+} from "./outlook.constants"
 import { Contact } from "Core/contacts/reducers/contacts.interface"
 import axios from "axios"
-import { baseGraphUrl } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.constants"
-import { ContactBuilder } from "Core/__deprecated__/renderer/models/external-providers/outlook/contact-builder"
-import { ByWeekday, Frequency, WeekdayStr } from "rrule"
+import { ContactBuilder } from "./contact-builder"
+
+type OutlookException = {
+  error: string
+}
 
 export const getOutlookEndpoint = (scope: OutLookScope): string => {
   switch (scope) {
@@ -23,6 +31,29 @@ export const getOutlookEndpoint = (scope: OutLookScope): string => {
     case OutLookScope.Calendars:
       return "offline_access, https://graph.microsoft.com/calendars.read"
   }
+}
+
+export const isOutlookErrorResponse = (
+  response: OutlookAuthSuccessResponse | OutlookAuthErrorResponse
+): response is OutlookAuthErrorResponse => {
+  return "error" in response
+}
+
+export const getAuthorizationUrl = (payload: OutLookScope) => {
+  const urlSearchParams = new URLSearchParams({
+    client_id: clientId,
+    response_type: "code",
+    redirect_uri: redirectUrl,
+    scope: getOutlookEndpoint(payload),
+  })
+
+  return `${apiBaseUrl}/authorize?${urlSearchParams.toString()}`
+}
+
+export const isOutlookException = (
+  exception: unknown
+): exception is OutlookException => {
+  return (exception as OutlookException).error !== undefined
 }
 
 export const mapContact = (contact: OutlookContactResourceItem): Contact => {
@@ -74,74 +105,4 @@ export const fetchContacts = async (
     accessToken
   )
   return items.map(mapContact)
-}
-
-export const mapDay = (day: string): WeekdayStr => {
-  switch (day) {
-    case Days.Monday:
-      return "MO"
-    case Days.Tuesday:
-      return "TU"
-    case Days.Wednesday:
-      return "WE"
-    case Days.Thursday:
-      return "TH"
-    case Days.Friday:
-      return "FR"
-    case Days.Saturday:
-      return "SA"
-    case Days.Sunday:
-      return "SU"
-    default:
-      return "MO"
-  }
-}
-
-export const mapDays = (value: string[] = []): ByWeekday[] =>
-  value.map((day) => mapDay(day))
-
-export const mapFreq = (value: string): Frequency => {
-  switch (value) {
-    case OutlookFreq.Daily:
-      return Frequency.DAILY
-    case OutlookFreq.Weekly:
-      return Frequency.WEEKLY
-    case OutlookFreq.AbsoluteMonthly:
-      return Frequency.MONTHLY
-    case OutlookFreq.RelativeMonthly:
-      return Frequency.MONTHLY
-    case OutlookFreq.AbsoluteYearly:
-      return Frequency.YEARLY
-    case OutlookFreq.RelativeYearly:
-      return Frequency.YEARLY
-    default:
-      return Frequency.YEARLY
-  }
-}
-
-export const convertTime = (time: string): string => {
-  const timezone = new Date(time).getTimezoneOffset()
-  const date = new Date(time).getTime()
-  return new Date(date + -timezone * 60000).toISOString()
-}
-
-export const mapWkst = (day: string): number => {
-  switch (day) {
-    case Days.Monday:
-      return 0
-    case Days.Tuesday:
-      return 1
-    case Days.Wednesday:
-      return 2
-    case Days.Thursday:
-      return 3
-    case Days.Friday:
-      return 4
-    case Days.Saturday:
-      return 5
-    case Days.Sunday:
-      return 6
-    default:
-      return 0
-  }
 }

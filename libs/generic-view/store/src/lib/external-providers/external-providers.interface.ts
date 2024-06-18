@@ -3,12 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  GoogleProviderState,
-  Scope,
-} from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
+import { GoogleProviderState, Scope } from "./google/google.interface"
 import { AxiosRequestConfig } from "axios"
-import { OutlookProviderState } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+import { OutlookProviderState } from "./outlook/outlook.interface"
 
 export enum Provider {
   Google = "google",

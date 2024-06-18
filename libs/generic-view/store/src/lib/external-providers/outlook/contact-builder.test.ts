@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ContactBuilder } from "Core/__deprecated__/renderer/models/external-providers/outlook/contact-builder"
+import { ContactBuilder } from "./contact-builder"
 import {
   OutlookContactAddress,
   OutlookEmailAddress,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+} from "../outlook/outlook.interface"
 
 let contactBuilder: ContactBuilder
 

@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { TokenRequester } from "Core/__deprecated__/renderer/models/external-providers/outlook/token-requester"
+import { TokenRequester } from "./token-requester"
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
-import { OutLookScope } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+import { OutLookScope } from "./outlook.interface"
 
 const axiosInstance = axios.create()
 
