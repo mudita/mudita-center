@@ -13,11 +13,11 @@ import { transformDeviceFilesByOption } from "Core/device-log/helpers"
 import { DeviceFile } from "Core/device-file-system/dto"
 import { DeviceEnumError } from "Core/device-log/constants"
 import { DeviceFilesOption } from "Core/device-file-system/types"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 
 export class DeviceLogService {
   constructor(
-    private deviceProtocolService: DeviceProtocolService,
+    private deviceProtocol: DeviceProtocol,
     private deviceFileSystem: DeviceFileSystemService
   ) {}
 
@@ -26,15 +26,13 @@ export class DeviceLogService {
   ): Promise<ResultObject<DeviceFile[]>> {
     try {
       const files =
-        await this.deviceProtocolService.device.request<GetDeviceFilesResponseBody>(
-          {
-            endpoint: Endpoint.DeviceInfo,
-            method: Method.Get,
-            body: {
-              fileList: DiagnosticsFileList.LOGS,
-            },
-          }
-        )
+        await this.deviceProtocol.device.request<GetDeviceFilesResponseBody>({
+          endpoint: Endpoint.DeviceInfo,
+          method: Method.Get,
+          body: {
+            fileList: DiagnosticsFileList.LOGS,
+          },
+        })
 
       if (!files.data || !files.ok) {
         return Result.failed(

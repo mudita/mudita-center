@@ -5,7 +5,7 @@
 
 import { EventEmitter } from "events"
 import { MainProcessIpc } from "electron-better-ipc"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { BaseModule } from "Core/core/module"
 import { IndexStorage } from "Core/index-storage/types"
 import { MetadataStore } from "Core/metadata"
@@ -20,7 +20,7 @@ const siteId = Number(process.env.ANALYTICS_API_SITE_ID)
 export class AnalyticDataTrackerModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceProtocolService: DeviceProtocolService,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -29,7 +29,7 @@ export class AnalyticDataTrackerModule extends BaseModule {
   ) {
     super(
       index,
-      deviceProtocolService,
+      deviceProtocol,
       keyStorage,
       logger,
       ipc,

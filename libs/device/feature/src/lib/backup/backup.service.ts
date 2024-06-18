@@ -6,7 +6,7 @@
 import { Result, ResultObject } from "Core/core/builder"
 import { IpcEvent } from "Core/core/decorators"
 import { AppError } from "Core/core/errors"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ApiResponse } from "Core/device/types/mudita-os"
 import {
@@ -19,7 +19,7 @@ import {
 import random from "lodash/random"
 
 export class APIBackupService {
-  constructor(private deviceProtocolService: DeviceProtocolService) {}
+  constructor(private deviceProtocol: DeviceProtocol) {}
 
   @IpcEvent(APIBackupServiceEvents.StartPreBackup)
   public async startPreBackup({
@@ -30,8 +30,8 @@ export class APIBackupService {
     deviceId?: DeviceId
   }): Promise<ResultObject<PreBackup>> {
     const device = deviceId
-      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
-      : this.deviceProtocolService.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -62,8 +62,8 @@ export class APIBackupService {
     deviceId?: DeviceId
   }): Promise<ResultObject<PreBackup>> {
     const device = deviceId
-      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
-      : this.deviceProtocolService.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))
@@ -89,8 +89,8 @@ export class APIBackupService {
     deviceId?: DeviceId
   }): Promise<ResultObject<undefined>> {
     const device = deviceId
-      ? this.deviceProtocolService.getAPIDeviceById(deviceId)
-      : this.deviceProtocolService.apiDevice
+      ? this.deviceProtocol.getAPIDeviceById(deviceId)
+      : this.deviceProtocol.apiDevice
 
     if (!device) {
       return Result.failed(new AppError(GeneralError.NoDevice, ""))

@@ -11,7 +11,7 @@ import { FileSystemService } from "Core/file-system/services/file-system.service
 import { IndexStorage } from "Core/index-storage/types"
 import { BaseModule } from "Core/core/module"
 import { IndexStorageService } from "Core/index-storage/services"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { IndexStorageController } from "Core/index-storage/controllers"
 
 export class IndexStorageModule extends BaseModule {
@@ -20,7 +20,7 @@ export class IndexStorageModule extends BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceProtocolService: DeviceProtocolService,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -29,7 +29,7 @@ export class IndexStorageModule extends BaseModule {
   ) {
     super(
       index,
-      deviceProtocolService,
+      deviceProtocol,
       keyStorage,
       logger,
       ipc,

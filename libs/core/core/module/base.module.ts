@@ -9,7 +9,7 @@ import { MetadataStore } from "Core/metadata/services"
 import { AppLogger } from "Core/__deprecated__/main/utils/logger"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { IndexStorage } from "Core/index-storage/types"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import {
   Controller,
   Model,
@@ -27,7 +27,7 @@ export class BaseModule {
 
   constructor(
     public index: IndexStorage,
-    public deviceProtocolService: DeviceProtocolService,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,

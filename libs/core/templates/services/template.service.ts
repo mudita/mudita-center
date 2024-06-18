@@ -5,7 +5,7 @@
 
 import { Endpoint, Method } from "core-device/models"
 import { NewTemplate, Template } from "Core/templates/dto"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { MessagesCategory } from "Core/device/constants"
 import {
   CreateTemplateResponseBody,
@@ -24,7 +24,7 @@ import {
 
 export class TemplateService {
   constructor(
-    private deviceProtocolService: DeviceProtocolService,
+    private deviceProtocol: DeviceProtocol,
     private templateRepository: TemplateRepository
   ) {}
 
@@ -32,17 +32,15 @@ export class TemplateService {
     template: NewTemplate
   ): Promise<RequestResponse<Template>> {
     const createResponse =
-      await this.deviceProtocolService.device.request<CreateTemplateResponseBody>(
-        {
-          endpoint: Endpoint.Messages,
-          method: Method.Post,
-          body: TemplatePresenter.mapToPureNewTemplateBody(template),
-        }
-      )
+      await this.deviceProtocol.device.request<CreateTemplateResponseBody>({
+        endpoint: Endpoint.Messages,
+        method: Method.Post,
+        body: TemplatePresenter.mapToPureNewTemplateBody(template),
+      })
 
     if (createResponse.ok && createResponse.data) {
       const getResponse =
-        await this.deviceProtocolService.device.request<PureTemplate>({
+        await this.deviceProtocol.device.request<PureTemplate>({
           endpoint: Endpoint.Messages,
           method: Method.Get,
           body: {
@@ -73,7 +71,7 @@ export class TemplateService {
     templateIds: string[]
   ): Promise<DeleteTemplateRequestResponse> {
     const results = templateIds.map(async (id) => {
-      const { ok } = await this.deviceProtocolService.device.request({
+      const { ok } = await this.deviceProtocol.device.request({
         endpoint: Endpoint.Messages,
         method: Method.Delete,
         body: {
@@ -116,7 +114,7 @@ export class TemplateService {
   public async updateTemplate(
     template: Template
   ): Promise<RequestResponse<Template>> {
-    const response = await this.deviceProtocolService.device.request({
+    const response = await this.deviceProtocol.device.request({
       endpoint: Endpoint.Messages,
       method: Method.Put,
       body: TemplatePresenter.mapToPureTemplateBody(template),
@@ -141,7 +139,7 @@ export class TemplateService {
     templates: Template[]
   ): Promise<UpdateTemplateOrderRequestResponse> {
     const results = templates.map(async (template) => {
-      const { ok } = await this.deviceProtocolService.device.request({
+      const { ok } = await this.deviceProtocol.device.request({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: TemplatePresenter.mapToPureTemplateOrder(template),

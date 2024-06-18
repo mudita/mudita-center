@@ -11,7 +11,7 @@ import {
 } from "Core/device/types/mudita-os"
 import { OutboxEntryType, OutboxCategory } from "Core/device/constants"
 import { asyncNoop } from "Core/__deprecated__/renderer/utils/noop"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { EntryHandler } from "Core/outbox/services/entry-handler.type"
 
 export type EntryHandlersMapType = Record<OutboxEntryType, EntryHandler>
@@ -20,7 +20,7 @@ export type EntryChangesEvent = { entry: OutboxEntry; payload: unknown }
 
 export class OutboxService {
   constructor(
-    private deviceProtocolService: DeviceProtocolService,
+    private deviceProtocol: DeviceProtocol,
     private entryHandlersMap: EntryHandlersMapType
   ) {}
 
@@ -52,7 +52,7 @@ export class OutboxService {
   private async getOutboxEntriesRequest(): Promise<
     ResultObject<GetEntriesResponseBody>
   > {
-    return this.deviceProtocolService.device.request<GetEntriesResponseBody>({
+    return this.deviceProtocol.device.request<GetEntriesResponseBody>({
       endpoint: Endpoint.Outbox,
       method: Method.Get,
       body: {
@@ -64,7 +64,7 @@ export class OutboxService {
   private async deleteOutboxEntriesRequest(
     uids: number[]
   ): Promise<ResultObject<unknown>> {
-    return this.deviceProtocolService.device.request({
+    return this.deviceProtocol.device.request({
       endpoint: Endpoint.Outbox,
       method: Method.Delete,
       body: {

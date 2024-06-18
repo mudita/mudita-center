@@ -14,12 +14,12 @@ import { ContactModel } from "Core/contacts/models"
 import { ContactController } from "Core/contacts/controllers"
 import { ContactService } from "Core/contacts/services"
 import { ContactRepository } from "Core/contacts/repositories"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 
 export class ContactModule extends BaseModule {
   constructor(
     public index: IndexStorage,
-    public deviceProtocolService: DeviceProtocolService,
+    public deviceProtocol: DeviceProtocol,
     public keyStorage: MetadataStore,
     public logger: AppLogger,
     public ipc: MainProcessIpc,
@@ -28,7 +28,7 @@ export class ContactModule extends BaseModule {
   ) {
     super(
       index,
-      deviceProtocolService,
+      deviceProtocol,
       keyStorage,
       logger,
       ipc,
@@ -39,7 +39,7 @@ export class ContactModule extends BaseModule {
     const contactRepository = new ContactRepository(contactModel)
     const contactService = new ContactService(
       contactRepository,
-      this.deviceProtocolService
+      this.deviceProtocol
     )
     const contactController = new ContactController(contactService)
 

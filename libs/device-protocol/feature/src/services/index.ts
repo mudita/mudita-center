@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./device-protocol.service"
+export * from "./device-protocol"
 export * from "./device-resolver.service"

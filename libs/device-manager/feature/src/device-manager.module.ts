@@ -3,15 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { DeviceManagerController } from "./controllers"
 
 export class DeviceManagerModule {
   public controllers
 
-  constructor(public deviceProtocolService: DeviceProtocolService) {
+  constructor(public deviceProtocol: DeviceProtocol) {
     const deviceManagerController = new DeviceManagerController(
-      this.deviceProtocolService
+      this.deviceProtocol
     )
 
     this.controllers = [deviceManagerController]

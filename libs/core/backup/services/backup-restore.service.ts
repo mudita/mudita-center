@@ -10,19 +10,19 @@ import CryptoFileService from "Core/file-system/services/crypto-file-service/cry
 import { RestoreDeviceBackup } from "Core/backup/types"
 import { BackupError, Operation } from "Core/backup/constants"
 import { DeviceFileSystemService } from "Core/device-file-system/services"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { BaseBackupService } from "Core/backup/services/base-backup.service"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { DeviceInfoService } from "Core/device-info/services"
 
 export class BackupRestoreService extends BaseBackupService {
   constructor(
-    protected deviceProtocolService: DeviceProtocolService,
+    protected deviceProtocol: DeviceProtocol,
     protected deviceFileSystem: DeviceFileSystemService,
     protected deviceInfoService: DeviceInfoService,
     private fileSystem: FileSystemService
   ) {
-    super(deviceProtocolService, deviceFileSystem, deviceInfoService)
+    super(deviceProtocol, deviceFileSystem, deviceInfoService)
   }
 
   public async restoreBackup({
@@ -74,7 +74,7 @@ export class BackupRestoreService extends BaseBackupService {
       )
     }
 
-    const restoreResult = await this.deviceProtocolService.device.request({
+    const restoreResult = await this.deviceProtocol.device.request({
       endpoint: Endpoint.Restore,
       method: Method.Post,
       body: {

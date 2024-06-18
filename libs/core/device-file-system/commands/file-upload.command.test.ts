@@ -8,25 +8,25 @@ import path from "path"
 import mock from "mock-fs"
 import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import { FileUploadCommand } from "Core/device-file-system/commands/file-upload.command"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { DeviceFileSystemError } from "Core/device-file-system/constants"
 
-const deviceProtocolService = {
+const deviceProtocol = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceProtocolService
+} as unknown as DeviceProtocol
 
 const fileSystemService = {
   readFile: jest.fn(),
   getFileSize: jest.fn(),
 } as unknown as FileSystemService
 
-const subject = new FileUploadCommand(deviceProtocolService, fileSystemService)
+const subject = new FileUploadCommand(deviceProtocol, fileSystemService)
 
 const successResponse: ResultObject<{
   txID: string
@@ -88,7 +88,7 @@ describe("When requested file is unreadable", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceProtocolService.device.request).not.toHaveBeenCalled()
+    expect(deviceProtocol.device.request).not.toHaveBeenCalled()
     expect(result).toEqual(
       Result.failed(
         new AppError(
@@ -130,7 +130,7 @@ describe("When requested file is valid", () => {
       mock.restore()
     })
     beforeEach(() => {
-      deviceProtocolService.device.request = jest
+      deviceProtocol.device.request = jest
         .fn()
         .mockResolvedValue(successResponse)
     })
@@ -143,7 +143,7 @@ describe("When requested file is valid", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -169,7 +169,7 @@ describe("When requested file is valid", () => {
       mock.restore()
     })
     beforeEach(() => {
-      deviceProtocolService.device.request = jest
+      deviceProtocol.device.request = jest
         .fn()
         .mockResolvedValue(failedResponse)
     })
@@ -182,7 +182,7 @@ describe("When requested file is valid", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -215,7 +215,7 @@ describe("When requested file is valid", () => {
       mock.restore()
     })
     beforeEach(() => {
-      deviceProtocolService.device.request = jest
+      deviceProtocol.device.request = jest
         .fn()
         .mockImplementation(({ body }) => {
           // AUTO DISABLED - fix me if you like :)
@@ -238,7 +238,7 @@ describe("When requested file is valid", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
@@ -271,7 +271,7 @@ describe("When requested file is valid", () => {
       mock.restore()
     })
     beforeEach(() => {
-      deviceProtocolService.device.request = jest
+      deviceProtocol.device.request = jest
         .fn()
         .mockResolvedValue(failedResponseWithInsufficientStorage)
     })
@@ -284,7 +284,7 @@ describe("When requested file is valid", () => {
 
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
+      expect(deviceProtocol.device.request).toHaveBeenCalledWith({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {

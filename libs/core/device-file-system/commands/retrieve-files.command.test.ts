@@ -5,19 +5,19 @@
 
 import { DeviceCommunicationError, Endpoint, Method } from "core-device/models"
 import { RetrieveFilesCommand } from "Core/device-file-system/commands/retrieve-files.command"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { AppError } from "Core/core/errors"
 import { Result, ResultObject } from "Core/core/builder"
 import { RequestResponseStatus } from "Core/core/types/request-response.interface"
 import { DeviceFileSystemError } from "Core/device-file-system/constants"
 
-const deviceProtocolService = {
+const deviceProtocol = {
   device: {
     request: jest.fn(),
   },
-} as unknown as DeviceProtocolService
+} as unknown as DeviceProtocol
 
-const subject = new RetrieveFilesCommand(deviceProtocolService)
+const subject = new RetrieveFilesCommand(deviceProtocol)
 
 const responseData: Record<string, string[]> = {
   ["/test/directory"]: [
@@ -46,7 +46,7 @@ beforeEach(() => {
 
 describe("When `DeviceManager.device.request` returns success response", () => {
   beforeEach(() => {
-    deviceProtocolService.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockResolvedValueOnce(successResponse)
   })
@@ -56,7 +56,7 @@ describe("When `DeviceManager.device.request` returns success response", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
+    expect(deviceProtocol.device.request).toHaveBeenCalledWith({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {
@@ -69,7 +69,7 @@ describe("When `DeviceManager.device.request` returns success response", () => {
 
 describe("When `DeviceManager.device.request` returns failed response", () => {
   beforeEach(() => {
-    deviceProtocolService.device.request = jest
+    deviceProtocol.device.request = jest
       .fn()
       .mockResolvedValueOnce(failedResponse)
   })
@@ -79,7 +79,7 @@ describe("When `DeviceManager.device.request` returns failed response", () => {
 
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(deviceProtocolService.device.request).toHaveBeenCalledWith({
+    expect(deviceProtocol.device.request).toHaveBeenCalledWith({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {

@@ -4,7 +4,7 @@
  */
 
 import { IpcEvent } from "Core/core/decorators"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 import { Result, ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
 import { DeviceInfo } from "Core/device/types/mudita-os"
@@ -24,7 +24,7 @@ export interface DeviceConfiguration {
 
 export class CoreDeviceController {
   constructor(
-    private deviceProtocolService: DeviceProtocolService,
+    private deviceProtocol: DeviceProtocol,
     private deviceCacheConfigurationService: DeviceCacheConfigurationService
   ) {}
 
@@ -38,7 +38,7 @@ export class CoreDeviceController {
       return Result.success(deviceConfigurationCached)
     }
 
-    const result = await this.deviceProtocolService.request<DeviceInfo>(id, {
+    const result = await this.deviceProtocol.request<DeviceInfo>(id, {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       options: {

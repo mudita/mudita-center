@@ -14,11 +14,11 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "Core/core/types/request-response.interface"
-import { DeviceProtocolService } from "device-protocol/feature"
+import { DeviceProtocol } from "device-protocol/feature"
 
 export class CrashDumpService {
   constructor(
-    private deviceProtocolService: DeviceProtocolService,
+    private deviceProtocol: DeviceProtocol,
     private deviceFileSystem: DeviceFileSystemService
   ) {}
 
@@ -87,12 +87,10 @@ export class CrashDumpService {
   public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
   ): Promise<ResultObject<GetDeviceFilesResponseBody>> {
-    return this.deviceProtocolService.device.request<GetDeviceFilesResponseBody>(
-      {
-        endpoint: Endpoint.DeviceInfo,
-        method: Method.Get,
-        body: { fileList },
-      }
-    )
+    return this.deviceProtocol.device.request<GetDeviceFilesResponseBody>({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+      body: { fileList },
+    })
   }
 }
