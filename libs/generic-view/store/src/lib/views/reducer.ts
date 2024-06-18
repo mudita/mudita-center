@@ -8,7 +8,6 @@ import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-element
 import { View } from "generic-view/utils"
 import { Device, DeviceState, Features } from "generic-view/models"
 import { ApiError } from "device/models"
-import { DeviceId } from "Core/device/constants/device-id"
 import { AppError } from "Core/core/errors"
 import { getAPIConfig } from "../get-api-config"
 import { getOverviewData } from "../features"
@@ -19,7 +18,7 @@ import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
   addDevice,
-  removeDevice,
+  removeDevice, setLastRefresh,
   setMenu,
   setViewData,
   setViewLayout,
@@ -152,15 +151,11 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(removeDevice, (state, action) => {
     delete state.devices[action.payload.id]
   })
+  builder.addCase(setLastRefresh, (state, action) => {
+    state.lastRefresh = action.payload
+  })
   builder.addCase(getOutboxData.fulfilled, (state, action) => {
     state.apiErrors[ApiError.DeviceLocked] = false
-  })
-  builder.addCase(getOutboxData.rejected, (state, action) => {
-    const { deviceId, timestamp } = action.payload as {
-      deviceId: DeviceId
-      timestamp: number
-    }
-    state.lastRefresh = timestamp
   })
   builder.addCase(getGenericConfig.fulfilled, (state, action) => {
     const { deviceId, feature, view } = action.payload
