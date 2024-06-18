@@ -13,7 +13,11 @@ import {
   getDevicesSelector,
 } from "device-manager/feature"
 import { getDeviceConfigurationRequest } from "core-device/feature"
-import { DeviceProtocolMainEvent, DeviceType, DeviceBaseProperties } from "device-protocol/models"
+import {
+  DeviceProtocolMainEvent,
+  DeviceType,
+  DeviceBaseProperties,
+} from "device-protocol/models"
 import { selectDialogOpenState } from "shared/app-state"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
