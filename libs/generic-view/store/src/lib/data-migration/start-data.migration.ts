@@ -24,16 +24,16 @@ export const startDataMigration = createAsyncThunk<
   if (error) {
     switch (error.type) {
       case DeviceCommunicationError.DeviceLocked:
-        dispatch(setDataMigrationStatus("pure-password-required"))
+        dispatch(setDataMigrationStatus("PURE-PASSWORD-REQUIRED"))
         return
       case DeviceCommunicationError.BatteryCriticalLevel:
-        dispatch(setDataMigrationStatus("pure-critical-battery"))
+        dispatch(setDataMigrationStatus("PURE-CRITICAL-BATTERY"))
         return
       case DeviceCommunicationError.DeviceOnboardingNotFinished:
-        dispatch(setDataMigrationStatus("pure-onboarding-required"))
+        dispatch(setDataMigrationStatus("PURE-ONBOARDING-REQUIRED"))
         return
       default:
-        dispatch(setDataMigrationStatus("pure-connection-failed"))
+        dispatch(setDataMigrationStatus("PURE-CONNECTION-FAILED"))
         return
     }
   }
@@ -46,7 +46,7 @@ export const startDataMigration = createAsyncThunk<
       settings.lowestSupportedVersions?.lowestSupportedProductVersion
 
     if (!osVersion || !lowestSupportedProductVersion) {
-      dispatch(setDataMigrationStatus("in-progress"))
+      dispatch(setDataMigrationStatus("IN-PROGRESS"))
       return
     }
 
@@ -55,12 +55,12 @@ export const startDataMigration = createAsyncThunk<
       lowestSupportedProductVersion["MuditaPure"]
     )
     if (!osVersionSupported) {
-      dispatch(setDataMigrationStatus("pure-update-required"))
+      dispatch(setDataMigrationStatus("PURE-UPDATE-REQUIRED"))
       return
     }
 
-    dispatch(setDataMigrationStatus("in-progress"))
+    dispatch(setDataMigrationStatus("IN-PROGRESS"))
   } else {
-    dispatch(setDataMigrationStatus("pure-connection-failed"))
+    dispatch(setDataMigrationStatus("PURE-CONNECTION-FAILED"))
   }
 })

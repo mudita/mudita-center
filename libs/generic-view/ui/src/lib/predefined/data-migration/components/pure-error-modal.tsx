@@ -7,10 +7,7 @@ import React, { FunctionComponent } from "react"
 import { useSelector } from "react-redux"
 import { IconType } from "generic-view/utils"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
-import {
-  DataMigrationStatus,
-  selectDataMigrationStatus,
-} from "generic-view/store"
+import { selectDataMigrationStatus } from "generic-view/store"
 import { defineMessages } from "react-intl"
 import { ErrorModal } from "./error-modal"
 
@@ -41,19 +38,14 @@ const messages = defineMessages({
 export const PureErrorModal: FunctionComponent = () => {
   const dataMigrationStatus = useSelector(selectDataMigrationStatus)
 
-  const statuses: DataMigrationStatus[] = [
-    "pure-critical-battery",
-    "pure-onboarding-required",
-    "pure-update-required",
-  ]
   const title = intl.formatMessage(messages.title)
   const getDescription = () => {
     switch (dataMigrationStatus) {
-      case "pure-onboarding-required":
+      case "PURE-ONBOARDING-REQUIRED":
         return intl.formatMessage(messages.onboardingRequired)
-      case "pure-update-required":
+      case "PURE-UPDATE-REQUIRED":
         return intl.formatMessage(messages.updateRequired)
-      case "pure-critical-battery":
+      case "PURE-CRITICAL-BATTERY":
         return intl.formatMessage(messages.criticalBattery)
       default:
         return ""
@@ -62,9 +54,7 @@ export const PureErrorModal: FunctionComponent = () => {
 
   return (
     <ErrorModal
-      modalKey={"pure-error-modal"}
       modalIcon={IconType.Information}
-      statuses={statuses}
       title={title}
       description={getDescription()}
       buttonLabel={intl.formatMessage(messages.closeButtonLabel)}
