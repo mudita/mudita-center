@@ -16,6 +16,22 @@ let axiosMock: MockAdapter = createMockAdapter()
 
 const previousEnvironment = { ...process.env }
 
+const configuration: Configuration = {
+  centerVersion: "1.0.0",
+  productVersions: {
+    MuditaHarmony: "1.1.1",
+    MuditaPure: "2.2.2",
+    APIDevice: "3.3.3",
+  },
+}
+const defaultConfig = {
+  centerVersion: "1.0.0-default",
+  productVersions: {
+    MuditaHarmony: "1.1.1-default",
+    MuditaPure: "2.2.2-default",
+  },
+}
+
 beforeEach(() => {
   axiosMock = createMockAdapter()
 })
@@ -33,23 +49,7 @@ afterAll(() => {
   }
 })
 
-const configuration: Configuration = {
-  centerVersion: "1.0.0",
-  productVersions: {
-    MuditaHarmony: "1.1.1",
-    MuditaPure: "2.2.2",
-    APIDevice: "3.3.3",
-  },
-}
-const defaultConfig = {
-  centerVersion: "1.0.0-default",
-  productVersions: {
-    MuditaHarmony: "1.1.1-default",
-    MuditaPure: "2.2.2-default",
-  },
-}
-
-jest.mock(
+jest.doMock(
   "Core/settings/static/default-app-configuration.json",
   () => defaultConfig
 )

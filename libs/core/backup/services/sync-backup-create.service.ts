@@ -32,7 +32,8 @@ export class SyncBackupCreateService {
   ) {}
 
   public async createSyncBackup(
-    options: createSyncBackupOptions
+    options: createSyncBackupOptions,
+    deviceId = this.deviceManager.device.id
   ): Promise<ResultObject<string[] | undefined>> {
     if (this.keyStorage.getValue(MetadataKey.BackupInProgress)) {
       return Result.failed(
@@ -42,7 +43,7 @@ export class SyncBackupCreateService {
 
     this.keyStorage.setValue(MetadataKey.BackupInProgress, true)
 
-    const runDeviceSyncBackupResponse = await this.runDeviceSyncBackup()
+    const runDeviceSyncBackupResponse = await this.runDeviceSyncBackup(deviceId)
 
     if (!runDeviceSyncBackupResponse.ok || !runDeviceSyncBackupResponse.data) {
       this.keyStorage.setValue(MetadataKey.BackupInProgress, false)
@@ -58,7 +59,8 @@ export class SyncBackupCreateService {
 
     const backupFile = await this.deviceFileSystem.downloadDeviceFilesLocally(
       [filePath],
-      options
+      options,
+      deviceId
     )
 
     if (!backupFile.ok || !backupFile.data) {
@@ -77,13 +79,16 @@ export class SyncBackupCreateService {
     return Result.success(backupFile.data)
   }
 
-  private async runDeviceSyncBackup(): Promise<
-    ResultObject<string | undefined>
-  > {
-    const deviceResponse = await this.deviceManager.device.request<DeviceInfo>({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
+  private async runDeviceSyncBackup(
+    deviceId = this.deviceManager.device.id
+  ): Promise<ResultObject<string | undefined>> {
+    const deviceResponse = await this.deviceManager.request<DeviceInfo>(
+      deviceId,
+      {
+        endpoint: Endpoint.DeviceInfo,
+        method: Method.Get,
+      }
+    )
 
     if (!deviceResponse.ok || !deviceResponse.data) {
       return Result.failed(
@@ -95,9 +100,9 @@ export class SyncBackupCreateService {
     }
 
     // id field as backup response is a deprecated field after Pure_1.6.0 & Harmony_1.9.0 (UDM releases)
-    const backupResponse = await this.deviceManager.device.request<{
+    const backupResponse = await this.deviceManager.request<{
       id?: string
-    }>({
+    }>(deviceId, {
       endpoint: Endpoint.Backup,
       method: Method.Post,
       body: {
@@ -121,7 +126,11 @@ export class SyncBackupCreateService {
       ? deviceResponse.data.syncFilePath
       : backupId
 
-    const syncBackupFinished = await this.waitUntilBackupDeviceFinished(id)
+    const syncBackupFinished = await this.waitUntilBackupDeviceFinished(
+      id,
+      undefined,
+      deviceId
+    )
     if (!syncBackupFinished.ok) {
       return Result.failed(
         new AppError(
@@ -140,12 +149,16 @@ export class SyncBackupCreateService {
 
   private async waitUntilBackupDeviceFinished(
     id: string,
-    iteration = 0
+    iteration = 0,
+    deviceId = this.deviceManager.device.id
   ): Promise<ResultObject<GetBackupDeviceStatusResponseBody>> {
     try {
-      const result = await this.getBackupDeviceStatus({
-        id,
-      })
+      const result = await this.getBackupDeviceStatus(
+        {
+          id,
+        },
+        deviceId
+      )
 
       if (!result.ok || result.data?.state === BackupState.Error) {
         return Result.failed(new AppError("", ""))
@@ -154,7 +167,9 @@ export class SyncBackupCreateService {
       } else {
         return new Promise((resolve) => {
           setTimeout(() => {
-            resolve(this.waitUntilBackupDeviceFinished(id, iteration + 1))
+            resolve(
+              this.waitUntilBackupDeviceFinished(id, iteration + 1, deviceId)
+            )
           }, 1000)
         })
       }
@@ -164,9 +179,10 @@ export class SyncBackupCreateService {
   }
 
   public async getBackupDeviceStatus(
-    config: GetBackupDeviceStatusRequestConfigBody
+    config: GetBackupDeviceStatusRequestConfigBody,
+    deviceId = this.deviceManager.device.id
   ): Promise<ResultObject<GetBackupDeviceStatusResponseBody>> {
-    return await this.deviceManager.device.request({
+    return await this.deviceManager.request(deviceId, {
       endpoint: Endpoint.Backup,
       method: Method.Get,
       body: {

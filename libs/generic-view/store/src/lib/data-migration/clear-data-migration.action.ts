@@ -8,8 +8,8 @@ import { ActionName } from "../action-names"
 import { DeviceId } from "Core/device/constants/device-id"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import {
+  clearDataMigrationProgress,
   setDataMigrationFeatures,
-  setDataMigrationStatus,
   setSourceDevice,
 } from "./actions"
 
@@ -22,6 +22,6 @@ export const clearDataMigrationDevice = createAsyncThunk<
   if (sourceDevice && sourceDevice === deviceId) {
     dispatch(setSourceDevice(undefined))
     dispatch(setDataMigrationFeatures([]))
-    dispatch(setDataMigrationStatus("idle"))
+    dispatch(clearDataMigrationProgress())
   }
 })
