@@ -5,20 +5,16 @@
 
 import React, { FunctionComponent, useEffect } from "react"
 import { ButtonAction, IconType } from "generic-view/utils"
-import {
-  ModalButtons,
-  ModalScrollableContent,
-  ModalTitleIcon,
-} from "../../interactive/modal"
+import { Modal } from "../../interactive/modal"
 import { useSelector } from "react-redux"
 import { selectDeviceBackups } from "generic-view/store"
 import styled from "styled-components"
 import { ButtonSecondary } from "../../buttons/button-secondary"
 import { ButtonPrimary } from "../../buttons/button-primary"
-import { RadioInput } from "../../interactive/input/radio-input"
 import { useFormContext } from "react-hook-form"
 import { defineMessages } from "react-intl"
 import { intl } from "Core/__deprecated__/renderer/utils/intl"
+import { Form } from "../../interactive/form/form"
 
 const messages = defineMessages({
   title: {
@@ -59,8 +55,8 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
 
   return (
     <>
-      <ModalTitleIcon data={{ type: IconType.Backup }} />
-      <h1>{intl.formatMessage(messages.title)}</h1>
+      <Modal.TitleIcon config={{ type: IconType.Backup }} />
+      <Modal.Title>{intl.formatMessage(messages.title)}</Modal.Title>
       <Article>
         {backups.length === 1 ? (
           <>
@@ -72,9 +68,9 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
         ) : (
           <>
             <p>{intl.formatMessage(messages.multipleDescription)}</p>
-            <ModalScrollableContent>
+            <ScrollableContent>
               {backups.map((backup) => (
-                <RadioInput
+                <Form.RadioInput
                   key={backup.fileName}
                   config={{
                     label: formatDate(backup.date),
@@ -86,11 +82,11 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
                   }}
                 />
               ))}
-            </ModalScrollableContent>
+            </ScrollableContent>
           </>
         )}
       </Article>
-      <ModalButtons>
+      <Modal.Buttons>
         <ButtonSecondary
           config={{
             text: intl.formatMessage(messages.cancelButtonLabel),
@@ -104,7 +100,7 @@ export const BackupRestoreSelect: FunctionComponent<Props> = ({
             disabled: !formState.isValid,
           }}
         />
-      </ModalButtons>
+      </Modal.Buttons>
     </>
   )
 }
@@ -122,4 +118,8 @@ const Article = styled.article`
   p {
     padding-bottom: 1.4rem;
   }
+`
+
+const ScrollableContent = styled(Modal.ScrollableContent)`
+  padding: 0 1.4rem;
 `

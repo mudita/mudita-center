@@ -9,4 +9,3 @@ import { APIFC } from "generic-view/utils"
 export const BlockPlain: APIFC = ({ config, data, ...props }) => {
   return <div {...props} />
 }
-

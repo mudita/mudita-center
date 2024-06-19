@@ -41,8 +41,22 @@ const YOUR_PURE_BUTTONS = [
     button: views.filesManager,
     icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
-    visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+    visibleOn: [DeviceType.MuditaPure],
     viewKey: View.FilesManager,
+  },
+  {
+    button: views.manageSounds,
+    icon: IconType.MenuFilesManager,
+    testId: MenuGroupTestIds.ManageSounds,
+    visibleOn: [DeviceType.MuditaHarmony],
+    viewKey: View.ManageSounds,
+  },
+  {
+    button: views.dataMigration,
+    icon: IconType.DataMigration,
+    testId: MenuGroupTestIds.DataMigration,
+    visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.DataMigration,
   },
 ]
 

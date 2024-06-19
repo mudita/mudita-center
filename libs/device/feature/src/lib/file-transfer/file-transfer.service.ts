@@ -139,6 +139,43 @@ export class APIFileTransferService {
     )
   }
 
+  @IpcEvent(ApiFileTransferServiceEvents.PreSendWithData)
+  public async preTransferWithDataSend({
+    dataId,
+    targetPath,
+    deviceId,
+    data,
+  }: {
+    dataId: string
+    targetPath: string
+    deviceId?: DeviceId
+    data: string
+  }): Promise<
+    ResultObject<{
+      transferId: number
+      chunksCount: number
+    }>
+  > {
+    const device = deviceId
+      ? this.deviceManager.getAPIDeviceById(deviceId)
+      : this.deviceManager.apiDevice
+
+    if (!device) {
+      return Result.failed(new AppError(GeneralError.NoDevice, ""))
+    }
+
+    const file = Buffer.from(data, "utf8").toString("base64")
+    const crc32 = crc.crc32(file)
+
+    return await this.preTransferSendRequest(
+      device,
+      targetPath,
+      dataId,
+      file,
+      crc32
+    )
+  }
+
   @IpcEvent(ApiFileTransferServiceEvents.Send)
   public async transferSend({
     transferId,

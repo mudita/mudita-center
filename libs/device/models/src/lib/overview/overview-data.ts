@@ -5,6 +5,7 @@
 
 import { IconType, View } from "generic-view/utils"
 import { z } from "zod"
+import { blockBox } from "generic-view/models"
 
 export interface DetailListTextData {
   text: string
@@ -38,7 +39,7 @@ export type AboutData = Record<string, DetailListFieldData>
 const keyToCheckForBaseOverview = [
   "icon-text",
   "overview-os-version",
-  "block-box",
+  blockBox.key,
 ]
 const keyToCheckForAboutOverview = ["about-data-box", "text-formatted"]
 const keyToCheckForOverview = [
@@ -67,12 +68,8 @@ const getValidatorByComponentName = (component: string) => {
         text: z.string(),
         version: z.string(),
       })
-    case "block-box":
-      return z
-        .object({
-          badgeText: z.string(),
-        })
-        .optional()
+    case blockBox.key:
+      return blockBox.dataValidator
     default:
       return null
   }

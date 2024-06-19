@@ -4,7 +4,8 @@
  */
 
 import https from "https"
-import axios, { Axios, AxiosResponse } from "axios"
+import { Axios, AxiosResponse } from "axios"
+import { HttpClient } from "shared/http-client"
 import defaultConfiguration from "Core/settings/static/default-app-configuration.json"
 import { Configuration } from "Core/settings/dto"
 import { MuditaCenterServerRoutes } from "Core/__deprecated__/api/mudita-center-server/mudita-center-server-routes"
@@ -24,7 +25,7 @@ export class ConfigurationService {
     defaultConfiguration as unknown as Configuration
 
   constructor() {
-    this.instance = axios.create({
+    this.instance = HttpClient.create({
       baseURL: process.env.MUDITA_CENTER_SERVER_URL,
       httpsAgent: new https.Agent({
         rejectUnauthorized: false,
@@ -39,15 +40,11 @@ export class ConfigurationService {
       })
       if (status === 200) {
         return data
+      } else {
+        this.rewriteDefaultConfiguration()
       }
-    } catch (error) {
-      try {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        this.defaultConfiguration = require("../static/app-configuration.json")
-      } catch {
-        console.error("read app-configuration.json is failed")
-      }
+    } catch {
+      this.rewriteDefaultConfiguration()
     }
 
     return this.defaultConfiguration
@@ -62,5 +59,15 @@ export class ConfigurationService {
         params,
       }
     )
+  }
+
+  private rewriteDefaultConfiguration() {
+    try {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      this.defaultConfiguration = require("../static/app-configuration.json")
+    } catch {
+      console.error("read app-configuration.json is failed")
+    }
   }
 }

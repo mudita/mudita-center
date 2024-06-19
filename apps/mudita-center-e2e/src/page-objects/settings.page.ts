@@ -38,6 +38,10 @@ class SettingsPage extends Page {
     return $("p=You’re up to date.")
   }
 
+  get aboutCheckForUpdateFailedLabel() {
+    return $("p=Checking for updates failed")
+  }
+
   get aboutCheckForUpdatesButton() {
     return $('[data-testid="about-update-button"]')
   }
@@ -95,7 +99,15 @@ class SettingsPage extends Page {
   }
 
   public get noContactsText() {
-    return $('[data-testid="contact-list-no-result]')
+    return $('[data-testid="contact-list-no-result"]')
+  }
+
+  public get changeLocationButton() {
+    return $('[data-testid="settings-backup-change-location-button"]')
+  }
+
+  public get backupLocationValue() {
+    return $('[data-testid="backup-location"]')
   }
 }
 

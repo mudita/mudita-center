@@ -14,7 +14,6 @@ import {
   backgroundColor,
   borderColor,
   borderRadius,
-  textColor,
   transitionTime,
   transitionTimingFunction,
 } from "Core/core/styles/theming/theme-getters"
@@ -25,9 +24,10 @@ import { intl } from "Core/__deprecated__/renderer/utils/intl"
 import { getSerialNumberValue } from "Core/utils/get-serial-number-value"
 
 const Device = styled("div")<{ active: boolean }>`
-  padding: 1.8rem 2.1rem;
+  padding: 1.8rem 2.4rem 1.8rem 1rem;
   display: flex;
-  width: 100%;
+  min-width: 27.2rem;
+  max-width: 27.2rem;
 
   &:hover {
     background: ${backgroundColor("main")};
@@ -54,7 +54,7 @@ const DeviceImageContainer = styled("div")`
   justify-content: center;
   min-height: 9.6rem;
   min-width: 9.1rem;
-  padding: 0 2.8rem 0 0;
+  padding: 0 2.4rem 0 0rem;
 `
 
 export const DeviceImageStyled = styled(DeviceImage)`
@@ -94,15 +94,6 @@ const DeviceDetails = styled("div")`
   padding: 1.3rem 5rem 1.4rem 0;
 `
 
-const ActiveDot = styled("span")`
-  height: 1.2rem;
-  width: 1.2rem;
-  background-color: ${textColor("primary")};
-  border-radius: 50%;
-  display: inline-block;
-  margin: 0 0.5rem 0.8rem 0.5rem;
-`
-
 const DeviceName = styled(Text)`
   margin-bottom: 0.5rem;
 `
@@ -140,7 +131,10 @@ export const DrawerDevice: FunctionComponent<DrawerDeviceProps> = ({
         <DeviceDetails>
           <DeviceName displayStyle={TextDisplayStyle.Headline4}>
             {getDeviceTypeName(deviceType, caseColour)}
-            {deviceId === activeDeviceId && <ActiveDot />}
+            {deviceId === activeDeviceId &&
+              intl.formatMessage({
+                id: "module.availableDeviceList.active",
+              })}
           </DeviceName>
 
           {serialNumberValue && (

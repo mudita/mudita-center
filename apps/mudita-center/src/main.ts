@@ -43,19 +43,18 @@ import {
   killAuthServer,
 } from "Core/__deprecated__/main/auth-server"
 import logger from "Core/__deprecated__/main/utils/logger"
-import { Scope } from "Core/__deprecated__/renderer/models/external-providers/google/google.interface"
-import { OutlookAuthActions } from "Core/__deprecated__/common/enums/outlook-auth-actions.enum"
 import {
+  Scope,
   clientId,
   redirectUrl,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.constants"
-import { TokenRequester } from "Core/__deprecated__/renderer/models/external-providers/outlook/token-requester"
+  TokenRequester,
+} from "generic-view/store"
+import { OutlookAuthActions } from "Core/__deprecated__/common/enums/outlook-auth-actions.enum"
 import {
   GOOGLE_AUTH_WINDOW_SIZE,
   WINDOW_SIZE,
   DEFAULT_WINDOWS_SIZE,
 } from "Core/__deprecated__/main/config"
-import autoupdate, { mockAutoupdate } from "Core/__deprecated__/main/autoupdate"
 import {
   URL_MAIN,
   URL_OVERVIEW,
@@ -81,7 +80,8 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
-import { AppEvents, callRenderer } from "shared/utils"
+import { AppEvents, callRenderer, getMainAppWindow } from "shared/utils"
+import { mockServiceEnabled, startServer, stopServer } from "e2e-mock-server"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
@@ -92,7 +92,11 @@ require("dotenv").config()
 //  You can read more in https://github.com/electron/remote#migrating-from-remote
 require("@electron/remote/main").initialize()
 
-logger.info("Starting the app")
+if (mockServiceEnabled) {
+  startServer()
+}
+
+logger.info("Starting the app!")
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
@@ -230,14 +234,12 @@ const createWindow = async () => {
         slashes: true,
       })
     )
-    autoupdate(win)
   } else {
     await installElectronDevToolExtensions()
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     win.loadURL(`http://localhost:2003`)
-    mockAutoupdate(win)
   }
 
   win.webContents.setWindowOpenHandler(({ url }) => {
@@ -278,6 +280,10 @@ if (!gotTheLock) {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.on("ready", createWindow)
+
+  app.on("before-quit", () => {
+    stopServer()
+  })
 
   app.on("window-all-closed", () => {
     app.quit()
@@ -482,12 +488,31 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         getWindowOptions({
           width: GOOGLE_AUTH_WINDOW_SIZE.width,
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
+          movable: false,
+          minimizable: false,
+          maximizable: false,
+          resizable: false,
           title,
           webPreferences: {
             nodeIntegration: true,
           },
         })
       )
+      const mainWindowBounds = getMainAppWindow()?.getBounds()
+      if (mainWindowBounds) {
+        googleAuthWindow.setPosition(
+          Math.round(
+            mainWindowBounds.width / 2 +
+              mainWindowBounds.x -
+              GOOGLE_AUTH_WINDOW_SIZE.width / 2
+          ),
+          Math.round(
+            mainWindowBounds.height / 2 +
+              mainWindowBounds.y -
+              GOOGLE_AUTH_WINDOW_SIZE.height / 2
+          )
+        )
+      }
       googleAuthWindow.removeMenu()
 
       googleAuthWindow.on("close", () => {

@@ -6,23 +6,14 @@
 import React, { UIEventHandler, useState } from "react"
 import { BaseGenericComponent, ModalAction } from "generic-view/utils"
 import styled, { css } from "styled-components"
-import { useModalsQueue } from "./use-modals-queue"
-import { withData } from "../../utils/with-data"
-import { withConfig } from "../../utils/with-config"
-import { ModalBase } from "./modal-base"
-import { ModalCloseButton } from "./modal-helpers"
-
-interface Config {
-  closeButtonAction?: ModalAction
-  width?: string | number
-}
+import { Modal } from "./modal"
+import { TextModalConfig } from "generic-view/models"
 
 export const TextModal: BaseGenericComponent<
   undefined,
-  Config,
+  TextModalConfig,
   { componentKey: string }
 > = ({ children, componentKey, config }) => {
-  const { opened } = useModalsQueue(componentKey)
   const [contentScrolled, setContentScrolled] = useState(false)
 
   const handleScroll: UIEventHandler<HTMLDivElement> = (event) => {
@@ -35,21 +26,21 @@ export const TextModal: BaseGenericComponent<
     : { type: "close-modal", modalKey: componentKey }
 
   return (
-    <ModalBase
-      opened={opened}
+    <Modal
+      componentKey={componentKey}
       config={{
         width: config?.width || 680,
+        padding: 0,
+        gap: 0,
       }}
     >
       <Header $active={contentScrolled}>
-        <ModalCloseButton action={closeAction} test-id={"close-button"} />
+        <Modal.CloseButton config={{ action: closeAction }} />
       </Header>
       <ScrollContainer onScroll={handleScroll}>{children}</ScrollContainer>
-    </ModalBase>
+    </Modal>
   )
 }
-
-export default withConfig(withData(TextModal))
 
 const headerWhileScrollingStyles = css`
   box-shadow: 0 1rem 5rem 0 rgba(0, 0, 0, 0.08);
@@ -75,11 +66,13 @@ const Header = styled.header<{ $active: boolean }>`
   }
 `
 
-const ScrollContainer = styled.div`
-  overflow-y: auto;
+const ScrollContainer = styled(Modal.ScrollableContent)<{
+  onScroll?: UIEventHandler<HTMLDivElement>
+}>`
   padding: 0 3.7rem 0 4rem;
   margin-right: 0.3rem;
   margin-bottom: 4rem;
-  flex: 1;
-  width: var(--modal-width);
+  p {
+    text-align: left;
+  }
 `

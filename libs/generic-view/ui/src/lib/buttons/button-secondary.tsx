@@ -6,14 +6,14 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../utils/with-config"
-import { ButtonPrimary, Config } from "./button-primary"
+import { ButtonPrimary } from "./button-primary"
+import { ButtonSecondaryConfig } from "generic-view/models"
 
-export const ButtonSecondary: APIFC<undefined, Config> = (props) => {
+export const ButtonSecondary: APIFC<undefined, ButtonSecondaryConfig> = (
+  props
+) => {
   return <Button {...props} />
 }
-
-export default withConfig(ButtonSecondary)
 
 const Button = styled(ButtonPrimary)`
   background-color: ${({ theme }) => theme.color.white};

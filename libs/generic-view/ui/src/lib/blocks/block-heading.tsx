@@ -6,23 +6,19 @@
 import React from "react"
 import styled from "styled-components"
 import { APIFC } from "generic-view/utils"
-import { withConfig } from "../utils/with-config"
+import { BlockHeadingConfig } from "generic-view/models"
 
-interface Config {
-  heading: string
-  subheading?: string
-}
-
-const BlockHeading: APIFC<undefined, Config> = ({ config, data, ...props }) => {
+export const BlockHeading: APIFC<undefined, BlockHeadingConfig> = ({
+  config,
+  ...props
+}) => {
   return (
     <div {...props}>
-      <Header>{config?.heading}</Header>
-      {config?.subheading && <Subheader>{config?.subheading}</Subheader>}
+      <Header>{config.heading}</Header>
+      {config.subheading && <Subheader>{config.subheading}</Subheader>}
     </div>
   )
 }
-
-export default withConfig(BlockHeading)
 
 const Header = styled.h3`
   font-size: ${({ theme }) => theme.fontSize.headline3};

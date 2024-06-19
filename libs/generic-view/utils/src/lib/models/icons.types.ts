@@ -40,4 +40,8 @@ export enum IconType {
   ContactsBook = "contacts-book",
   Check = "check",
   Minus = "minus",
+  Search = "search",
+  Import = "import",
+  DataMigration = "data-migration",
+  Information = "information",
 }

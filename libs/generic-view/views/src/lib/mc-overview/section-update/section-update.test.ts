@@ -7,7 +7,7 @@ import {
   generateMcOverviewUpdateData,
   generateMcOverviewUpdateLayout,
 } from "./section-update"
-import { View } from "generic-view/utils"
+import { MainView } from "generic-view/utils"
 
 describe("generateMcOverviewUpdateLayout", () => {
   it("should generate box title properly", () => {
@@ -64,12 +64,9 @@ describe("generateMcOverviewUpdateData", () => {
       {
         main: {
           screenTitle: "Title",
-          config: {
-            title: "Title",
-          },
-          childrenKeys: ["key"],
           component: "block-plain",
-        },
+          childrenKeys: ["key"],
+        } as MainView["main"],
         key: {
           component: "block-box",
           childrenKeys: ["keyversion"],
@@ -77,7 +74,7 @@ describe("generateMcOverviewUpdateData", () => {
         keyversion: {
           component: "overview-os-version",
         },
-      } as View
+      }
     )
 
     expect(result).toMatchObject({

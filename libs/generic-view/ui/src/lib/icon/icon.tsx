@@ -7,10 +7,7 @@ import { APIFC, IconType } from "generic-view/utils"
 import React from "react"
 import styled from "styled-components"
 import { getIcon } from "./get-icon.helper"
-
-interface Data {
-  type: IconType
-}
+import { IconConfig, IconData } from "generic-view/models"
 
 const StyledIcon = styled.div`
   color: inherit;
@@ -22,18 +19,17 @@ const StyledIcon = styled.div`
   }
 `
 
-const Icon: APIFC<Data> = ({ data, ...rest }) => {
-  if (!data) {
-    return null
-  }
-
-  const SVGToDisplay = getIcon(data.type)
-
+export const Icon: APIFC<IconData, IconConfig> = ({
+  data,
+  config,
+  children,
+  ...rest
+}) => {
+  const iconType = (data?.type || config?.type) as IconType
+  const SVGToDisplay = getIcon(iconType)
   return (
-    <StyledIcon data-testid={`icon-${data.type}`} {...rest}>
+    <StyledIcon data-testid={`icon-${iconType}`} {...rest}>
       <SVGToDisplay />
     </StyledIcon>
   )
 }
-
-export default Icon

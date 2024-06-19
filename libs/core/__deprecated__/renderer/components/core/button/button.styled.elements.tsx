@@ -371,6 +371,10 @@ export const StyledNavLink = styled(NavLink)<{
   size: Size
 }>`
   ${buttonStyles}
+
+  &.${activeClassName} {
+    pointer-events: none;
+  }
 `
 
 export const StyledLink = styled(Link)<{

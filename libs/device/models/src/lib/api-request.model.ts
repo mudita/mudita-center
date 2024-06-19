@@ -3,47 +3,46 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-const APIEndpoints = {
-  APIConfig: "API_CONFIGURATION",
-  FeatureConfiguration: "FEATURE_CONFIGURATION",
-  FeatureData: "FEATURE_DATA",
-  DataSynchronization: "DATA_SYNC",
-  MenuConfiguration: "MENU_CONFIGURATION",
-  Outbox: "OUTBOX",
-  PreBackup: "PRE_BACKUP",
-  PostBackup: "POST_BACKUP",
-  PreFileTransfer: "PRE_FILE_TRANSFER",
-  FileTransfer: "FILE_TRANSFER",
-  PreRestore: "PRE_RESTORE",
-  Restore: "RESTORE",
-  System: "SYSTEM",
-} as const
+export const APIEndpoints = [
+  "API_CONFIGURATION",
+  "FEATURE_CONFIGURATION",
+  "FEATURE_DATA",
+  "DATA_SYNC",
+  "MENU_CONFIGURATION",
+  "OUTBOX",
+  "PRE_BACKUP",
+  "POST_BACKUP",
+  "PRE_FILE_TRANSFER",
+  "FILE_TRANSFER",
+  "PRE_RESTORE",
+  "RESTORE",
+  "SYSTEM",
+  "PRE_DATA_TRANSFER",
+  "DATA_TRANSFER",
+] as const
 
-export type APIEndpointType = (typeof APIEndpoints)[keyof typeof APIEndpoints]
+export type APIEndpointType = (typeof APIEndpoints)[number]
 
-const APIMethods = {
-  GET: "GET",
-  POST: "POST",
-  PUT: "PUT",
-  DELETE: "DELETE",
-} as const
+export const APIMethods = ["GET", "POST", "PUT", "DELETE"] as const
 
-export type APIMethodsType = (typeof APIMethods)[keyof typeof APIMethods]
+export type APIMethodsType = (typeof APIMethods)[number]
 
 const APIRequests = {
-  MENU_CONFIGURATION: [APIMethods.GET],
-  DATA_SYNC: [APIMethods.POST],
-  FEATURE_DATA: [APIMethods.GET],
-  FEATURE_CONFIGURATION: [APIMethods.GET],
-  API_CONFIGURATION: [APIMethods.GET],
-  OUTBOX: [APIMethods.GET],
-  PRE_BACKUP: [APIMethods.POST, APIMethods.GET],
-  POST_BACKUP: [APIMethods.POST],
-  PRE_FILE_TRANSFER: [APIMethods.POST, APIMethods.GET],
-  FILE_TRANSFER: [APIMethods.POST, APIMethods.GET],
-  PRE_RESTORE: [APIMethods.POST],
-  RESTORE: [APIMethods.POST, APIMethods.GET, APIMethods.DELETE],
-  SYSTEM: [APIMethods.POST],
+  MENU_CONFIGURATION: ["GET"],
+  DATA_SYNC: ["POST"],
+  FEATURE_DATA: ["GET"],
+  FEATURE_CONFIGURATION: ["GET"],
+  API_CONFIGURATION: ["GET"],
+  OUTBOX: ["GET"],
+  PRE_BACKUP: ["POST", "GET"],
+  POST_BACKUP: ["POST"],
+  PRE_FILE_TRANSFER: ["POST", "GET"],
+  FILE_TRANSFER: ["POST", "GET"],
+  PRE_RESTORE: ["POST"],
+  RESTORE: ["POST", "GET", "DELETE"],
+  SYSTEM: ["POST"],
+  PRE_DATA_TRANSFER: ["POST"],
+  DATA_TRANSFER: ["POST", "GET", "DELETE"],
 } as const
 
 interface APIRequestConfig<

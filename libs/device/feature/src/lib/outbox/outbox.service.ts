@@ -33,7 +33,6 @@ export class APIOutboxService {
     })
     if (response.ok) {
       const outbox = OutboxValidator.safeParse(response.data.body)
-
       return outbox.success
         ? Result.success(outbox.data)
         : Result.failed(new AppError(GeneralError.IncorrectResponse, ""))

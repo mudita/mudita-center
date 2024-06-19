@@ -17,10 +17,12 @@ const messages = defineMessages({
   messages: { id: "module.messages" },
   calendar: { id: "module.calendar" },
   filesManager: { id: "module.filesManager" },
+  manageSounds: { id: "module.manageSounds" },
   settings: { id: "module.settings" },
   help: { id: "module.help" },
   error: { id: "module.error" },
   pureSystem: { id: "module.overview.pureSystem" },
+  dataMigration: { id: "module.dataMigration.title" },
 })
 
 export enum View {
@@ -30,10 +32,12 @@ export enum View {
   Messages = "messages",
   Contacts = "contacts",
   FilesManager = "filesManager",
+  ManageSounds = "manageSounds",
   Settings = "settings",
   Help = "help",
   Error = "error",
   PureSystem = "pure-system",
+  DataMigration = "dataMigration",
 }
 
 export type Views = {
@@ -74,6 +78,10 @@ export const views: Views = {
     label: messages.filesManager,
     url: URL_MAIN.filesManager,
   },
+  [View.ManageSounds]: {
+    label: messages.manageSounds,
+    url: URL_MAIN.manageSounds,
+  },
   [View.Settings]: {
     label: messages.settings,
     url: URL_MAIN.settings,
@@ -89,5 +97,9 @@ export const views: Views = {
   [View.PureSystem]: {
     label: messages.pureSystem,
     url: URL_OVERVIEW.pureSystem,
+  },
+  [View.DataMigration]: {
+    label: messages.dataMigration,
+    url: URL_MAIN.dataMigration,
   },
 }

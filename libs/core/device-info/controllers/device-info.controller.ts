@@ -8,12 +8,13 @@ import { ResultObject } from "Core/core/builder"
 import { DeviceInfo } from "Core/device-info/dto"
 import { DeviceInfoService } from "Core/device-info/services"
 import { IpcDeviceInfoEvent } from "Core/device-info/constants"
+import { DeviceId } from "Core/device/constants/device-id"
 
 export class DeviceInfoController {
   constructor(private deviceInfoService: DeviceInfoService) {}
 
   @IpcEvent(IpcDeviceInfoEvent.GetDeviceInfo)
-  public async getDeviceInfo(): Promise<ResultObject<DeviceInfo>> {
-    return this.deviceInfoService.getDeviceInfo()
+  public async getDeviceInfo(deviceId?: DeviceId): Promise<ResultObject<DeviceInfo>> {
+    return this.deviceInfoService.getDeviceInfo(deviceId)
   }
 }

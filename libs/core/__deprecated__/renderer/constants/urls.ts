@@ -9,6 +9,7 @@ export const URL_MAIN = {
   messages: "/messages",
   contacts: "/contacts",
   filesManager: "/files-manager",
+  manageSounds: "/manage-sounds",
   settings: "/settings",
   help: "/help",
   error: "/error",
@@ -17,6 +18,8 @@ export const URL_MAIN = {
   privacyPolicy: "/privacy-policy",
   overviewDemo: "/overview-demo",
   apiConnectionDemo: "/api-connection-demo",
+  dataMigration: "/data-migration",
+  dataMigrationKompakt: "/generic/mc-data-migration",
 } as const
 
 export const URL_TABS = {

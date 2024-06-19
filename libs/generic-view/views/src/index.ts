@@ -5,4 +5,3 @@
 
 export * from "./lib/mc-overview/mc-overview"
 export * from "./lib/mc-about/mc-about"
-export * from "./lib/mc-features/mc-import-contacts-button"

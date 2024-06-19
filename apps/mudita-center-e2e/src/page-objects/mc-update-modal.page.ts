@@ -10,8 +10,24 @@ class ModalPage extends Page {
     return $('[data-testid="modal-title"]')
   }
 
-  get modalContentUpToDate() {
+  get updateNotAvailable() {
     return $('[data-testid="app-update-not-available"]')
+  }
+
+  get updateAvailable() {
+    return $('[data-testid="app-update-available"]')
+  }
+
+  get updateError() {
+    return $('[data-testid="app-update-error"]')
+  }
+
+  get checkingFailedUpdateSubtitle() {
+    return $("h4*=Checking failed")
+  }
+
+  get checkingFailedUpdateBody() {
+    return $("p*=Opps, something went wrong.")
   }
 }
 

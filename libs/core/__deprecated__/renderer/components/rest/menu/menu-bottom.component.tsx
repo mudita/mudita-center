@@ -76,6 +76,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
         label={intl.formatMessage({
           id: "component.deviceSelection.selectDevice",
         })}
+        data-testid={MenuGroupTestIds.DeviceSelectionButton}
         displayStyle={DisplayStyle.BorderlessButton}
         Icon={IconType.DotsInBox}
         iconBadgeCountIndicator={devices.length}
@@ -93,6 +94,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
         label={intl.formatMessage({
           id: "component.deviceSelection.changeDevice",
         })}
+        data-testid={MenuGroupTestIds.DeviceSelectionButton}
         disabled={isCustomerSupportSending}
         displayStyle={DisplayStyle.BorderlessButton}
         Icon={IconType.DotsInBox}
@@ -116,7 +118,7 @@ const MenuBottom: FunctionComponent<Props> = ({ dataSyncInProgress }) => {
           </Text>
         </SyncProgressWrapper>
       )}
-      {isSelectDevice && SelectDeviceButton}
+      {isSelectDevice && !isChangeDevice && SelectDeviceButton}
       {isChangeDevice && ChangeDeviceButton}
     </>
   )

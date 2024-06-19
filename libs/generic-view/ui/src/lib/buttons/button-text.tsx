@@ -5,38 +5,29 @@
 
 import React from "react"
 import styled, { css } from "styled-components"
-import { APIFC, ButtonAction, IconType } from "generic-view/utils"
+import { APIFC } from "generic-view/utils"
 import { ButtonBase } from "./button-base/button-base"
-import Icon from "../icon/icon"
-import { withConfig } from "../utils/with-config"
+import { Icon } from "../icon/icon"
+import { ButtonTextConfig } from "generic-view/models"
 
-type ButtonModifiers = "link" | "uppercase" | "hover-underline"
-
-interface Config {
-  text: string
-  icon?: IconType
-  action: ButtonAction
-  modifiers?: ButtonModifiers[]
-}
-
-export const ButtonText: APIFC<undefined, Config> = ({
+export const ButtonText: APIFC<undefined, ButtonTextConfig> = ({
   data,
   config,
   children,
   ...props
 }) => {
   return (
-    <Button {...props} action={config!.action} $modifiers={config?.modifiers}>
+    <Button {...props} action={config.action} $modifiers={config.modifiers}>
       {children}
-      {config?.icon && <Icon className={"icon"} data={{ type: config.icon }} />}
-      <span>{config?.text}</span>
+      {config.icon && <Icon className={"icon"} data={{ type: config.icon }} />}
+      <span>{config.text}</span>
     </Button>
   )
 }
 
-export default withConfig(ButtonText)
-
-const Button = styled(ButtonBase)<{ $modifiers?: ButtonModifiers[] }>`
+const Button = styled(ButtonBase)<{
+  $modifiers?: ButtonTextConfig["modifiers"]
+}>`
   color: ${({ theme }) => theme.color.grey1};
 
   &:hover {
