@@ -5,7 +5,6 @@
 
 import axios, { AxiosRequestConfig } from "axios"
 import { mockHttpStateService, mockServiceEnabled } from "e2e-mock-server"
-// import { HttpClientService } from "./http-client.service"s
 import { BaseHttpClientService } from "./base-http-client.service"
 import { MockHttpClientService } from "./mock-http-client.service"
 
