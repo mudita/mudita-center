@@ -82,13 +82,13 @@ jobs:
         if: matrix.os == 'Linux'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export "BUILD_VERSION=-mock
+          export BUILD_VERSION=-mock
           sed -i "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Mac
         if: matrix.os == 'macOS'
         run: |
           export APP_VERSION=`cat apps/mudita-center/package.json | jq -r .version`
-          export "BUILD_VERSION=-mock
+          export BUILD_VERSION=-mock
           sed -i '' "s/\"version\": \".*\",/\"version\": \"$APP_VERSION$BUILD_VERSION\",/" apps/mudita-center/package.json
       - name: Changing app version in packages.json for Windows
         if: matrix.os == 'Windows'
