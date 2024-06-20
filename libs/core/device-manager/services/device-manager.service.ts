@@ -24,7 +24,7 @@ import { DeviceCommunicationError, DeviceType } from "Core/device"
 import { MockCoreDevice } from "Core/device/modules/mock-core-device"
 import { callRenderer } from "shared/utils"
 import { getSerialPortList } from "./serial-port-list.helper"
-import { getUsbList } from "./usb-list.helper"
+import { getUsbListCommands } from "./usb-list-commands.helper"
 
 export class DeviceManager {
   public activeDevice: BaseDevice | undefined
@@ -131,9 +131,7 @@ export class DeviceManager {
 
   public async getAttachedDevices(): Promise<SerialPortInfo[]> {
     const portList = await this.getSerialPortList()
-    const usbList = await this.getUsbList()
-    console.log(portList, "portek")
-    console.log(usbList, "uszbek")
+    getUsbListCommands()
     return (
       portList
         // AUTO DISABLED - fix me if you like :)
@@ -209,10 +207,6 @@ export class DeviceManager {
   @log("==== device manager: list ====", { space: 0 })
   private getSerialPortList(): Promise<SerialPortInfo[]> {
     return getSerialPortList()
-  }
-
-  private getUsbList() {
-    return getUsbList()
   }
 
   private getDeviceByPath(path: string): BaseDevice | undefined {

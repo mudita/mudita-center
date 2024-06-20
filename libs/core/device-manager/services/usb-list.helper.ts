@@ -121,6 +121,10 @@ export async function getUsbList(): Promise<USBDeviceInfo[]> {
   const harmonyMSCDevice = deviceInfos.find((device: USBDeviceInfo) =>
     device.product!.includes("MSC mode")
   )
-  logger.info("Found Device with: ", harmonyMSCDevice.product)
+  if (harmonyMSCDevice) {
+    logger.info("Found Device with: ", harmonyMSCDevice.product)
+  } else {
+    logger.info("Didn't find any device in msc mode")
+  }
   return deviceInfos.filter((info): info is USBDeviceInfo => info !== null)
 }
