@@ -70,7 +70,7 @@ const useHandleDevicesDetached = () => {
       }
 
       const apiEvents = deviceDetachedEvents.filter(
-        ({ deviceType }) => deviceType !== DeviceType.APIDevice
+        ({ deviceType }) => deviceType === DeviceType.APIDevice
       )
 
       if (apiEvents.length === 0) {
