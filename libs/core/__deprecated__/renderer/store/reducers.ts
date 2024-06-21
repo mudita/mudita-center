@@ -31,6 +31,7 @@ import {
   genericModalsReducer,
   genericViewsReducer,
   importsReducer,
+  externalProvidersReducer
 } from "generic-view/store"
 import { appStateReducer } from "shared/app-state"
 import { activeDeviceRegistryReducer } from "active-device-registry/feature"
@@ -61,6 +62,7 @@ export const reducers = {
   genericBackups: genericBackupsReducer,
   genericFileTransfer: genericFileTransferReducer,
   genericImport: importsReducer,
+  externalProviders: externalProvidersReducer,
   appState: appStateReducer,
   dataMigration: dataMigrationReducer,
   genericDataTransfer: genericDataTransferReducer,

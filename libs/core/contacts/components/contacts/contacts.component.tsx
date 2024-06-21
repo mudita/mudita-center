@@ -26,7 +26,7 @@ import findContactByPhoneNumber from "Core/contacts/helpers/find-contact-by-phon
 import {
   ExternalProvider,
   Provider,
-} from "Core/__deprecated__/renderer/models/external-providers/external-providers.interface"
+} from "generic-view/store"
 import delayResponse from "@appnroll/delay-response"
 import {
   ErrorDataModal,

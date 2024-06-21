@@ -153,7 +153,6 @@ export class DeviceProtocol {
 
   private async addDeviceTask(port: PortInfo): Promise<void> {
     const device = await this.initializeDevice(port)
-
     if (!device) {
       return
     }
@@ -161,7 +160,6 @@ export class DeviceProtocol {
     this.devicesMap.set(device.id, device)
     const result = await device.connect()
     const data = device.toSerializableObject()
-
     if (result.ok) {
       callRenderer(DeviceProtocolMainEvent.DeviceConnected, data)
     } else {

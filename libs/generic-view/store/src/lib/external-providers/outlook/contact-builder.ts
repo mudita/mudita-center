@@ -7,7 +7,7 @@ import { Contact } from "Core/contacts/reducers/contacts.interface"
 import {
   OutlookContactAddress,
   OutlookEmailAddress,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
+} from "../outlook/outlook.interface"
 
 interface ContactBuilderInterface {
   build(): Contact
