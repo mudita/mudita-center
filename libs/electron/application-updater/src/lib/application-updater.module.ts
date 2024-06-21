@@ -22,7 +22,7 @@ export class ApplicationUpdaterModule {
   }
 
   private resolveApplicationUpdaterService(): BaseApplicationUpdaterService {
-    if (mockServiceEnabled) {
+    if (mockServiceEnabled || process.env.NODE_ENV !== "production") {
       return new MockApplicationUpdaterService(
         onlineStatusService,
         mockUpdaterStateService

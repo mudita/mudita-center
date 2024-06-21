@@ -12,6 +12,7 @@ import {
   APIEndpointType,
   APIMethodsType,
   APIRequestWithPayload,
+  ApiError,
 } from "device/models"
 import { PortInfo } from "serialport"
 import { mockDescriptor } from "../mock-descriptor/mock-descriptor"
@@ -37,11 +38,17 @@ export class MockDevice extends BaseDevice {
 
     let result: ResultObject<ApiResponse<unknown>> | undefined = undefined
 
-    if (response) {
+    const status = Number.parseInt(`${response?.status ?? 500}`)
+
+    if (response && status > 199 && status < 300) {
       result = Result.success({
         ...response,
         endpoint: config.endpoint,
       } as unknown as ApiResponse<unknown>)
+    } else if (response) {
+      result = Result.failed(
+        new AppError(response.status, ApiError[response.status])
+      )
     } else {
       result = Result.failed(
         new AppError(

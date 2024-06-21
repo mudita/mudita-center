@@ -4,17 +4,13 @@
  */
 
 import axios, { AxiosInstance } from "axios"
-import {
-  apiBaseUrl,
-  clientId,
-  redirectUrl,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.constants"
+import { apiBaseUrl, clientId, redirectUrl } from "./outlook.constants"
 import {
   OutlookAuthSuccessResponse,
   OutLookScope,
   TokenPayload,
-} from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
-import { getOutlookEndpoint } from "Core/__deprecated__/renderer/models/external-providers/outlook/outlook.helpers"
+} from "./outlook.interface"
+import { getOutlookEndpoint } from "./outlook.helpers"
 import logger from "Core/__deprecated__/main/utils/logger"
 
 interface TokenRequesterInterface {
