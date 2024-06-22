@@ -84,6 +84,7 @@ import {
   AppEvents,
   callRenderer,
   getMainAppWindow,
+  openDevToolsOnceDomReady,
   preventDefaultShortcuts,
   registerShortcuts,
 } from "shared/utils"
@@ -250,26 +251,9 @@ const createWindow = async () => {
     }
   })
 
-  if (productionEnvironment) {
-    win.webContents.once("dom-ready", () => {
-      appModules.lateInitialization()
-    })
-  } else {
-    // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
-    win.webContents.once("dom-ready", () => {
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      win!.webContents.openDevTools()
-      appModules.lateInitialization()
-    })
-
-    win.webContents.once("dom-ready", () => {
-      win!.webContents.once("devtools-opened", () => {
-        win!.focus()
-      })
-      win!.webContents.openDevTools()
-    })
-  }
+  win.webContents.once("dom-ready", () => {
+    appModules.lateInitialization()
+  })
 
   logger.updateMetadata()
 }
@@ -284,6 +268,7 @@ if (!gotTheLock) {
   app.on("browser-window-created", (_event, window) => {
     preventDefaultShortcuts(window)
     registerShortcuts(window)
+    openDevToolsOnceDomReady(window)
   })
 
   app.on("before-quit", () => {
