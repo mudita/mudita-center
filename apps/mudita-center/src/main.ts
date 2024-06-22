@@ -80,7 +80,13 @@ import installExtension, {
   REDUX_DEVTOOLS,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer"
-import { AppEvents, callRenderer, getMainAppWindow, preventDefaultShortcuts } from "shared/utils"
+import {
+  AppEvents,
+  callRenderer,
+  getMainAppWindow,
+  preventDefaultShortcuts,
+  registerShortcuts,
+} from "shared/utils"
 import { mockServiceEnabled, startServer, stopServer } from "e2e-mock-server"
 
 // AUTO DISABLED - fix me if you like :)
@@ -275,10 +281,10 @@ if (!gotTheLock) {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.on("ready", createWindow)
 
-  app.on('browser-window-created', (_event, window) => {
-    preventDefaultShortcuts(window);
-  });
-
+  app.on("browser-window-created", (_event, window) => {
+    preventDefaultShortcuts(window)
+    registerShortcuts(window)
+  })
 
   app.on("before-quit", () => {
     stopServer()
