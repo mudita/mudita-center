@@ -6,6 +6,10 @@
 import { BrowserWindow, globalShortcut } from "electron"
 
 export function registerShortcuts(win: BrowserWindow) {
+  if (process.env.DEV_TOOLS_SHORTCUT_ENABLED !== "1") {
+    return
+  }
+
   if (process.platform === "darwin") {
     globalShortcut.register("Command+Option+I", () => {
       win.webContents.toggleDevTools()

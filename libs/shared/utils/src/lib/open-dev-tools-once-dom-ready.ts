@@ -6,6 +6,10 @@
 import { BrowserWindow } from "electron"
 
 export function openDevToolsOnceDomReady(win: BrowserWindow) {
+  if (process.env.DEV_TOOLS_AUTO_OPEN_ENABLED !== "1") {
+    return
+  }
+
   // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
   win.webContents.once("dom-ready", () => {
     win.webContents.openDevTools()
