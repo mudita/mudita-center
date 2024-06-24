@@ -69,7 +69,7 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
   builder.addCase(addDevice, (state, action) => {
     state.devices[action.payload.id] = {
       ...action.payload,
-      state: DeviceState.Connected,
+      state: DeviceState.Identified,
     }
   })
   builder.addCase(getAPIConfig.fulfilled, (state, action) => {
