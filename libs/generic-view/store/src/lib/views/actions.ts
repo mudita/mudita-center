@@ -5,7 +5,7 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { View } from "generic-view/utils"
-import { DeviceState } from "generic-view/models"
+import { DeviceState } from "device-manager/models"
 import { DeviceBaseProperties } from "device-protocol/models"
 import { MenuElement } from "Core/__deprecated__/renderer/constants/menu-elements"
 import { ActionName } from "../action-names"

@@ -31,20 +31,12 @@ export interface DeviceConfiguration {
   features?: Features
 }
 
-export enum DeviceState {
-  Connected = "CONNECTED",
-  Configured = "CONFIGURED",
-  Initialized = "INITIALIZED",
-  Failed = "FAILED",
-}
-
 export interface Device
   extends DeviceProperties,
     Partial<DeviceConfiguration> {
   id: DeviceId
   serialNumber: string | undefined
   deviceType: DeviceType
-  state: DeviceState
 }
 
 export interface ConfiguredDevice

@@ -4,7 +4,8 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { Device, CoreDeviceState, DeviceState } from "core-device/models"
+import { DeviceState } from "device-manager/models"
+import { Device, CoreDeviceState } from "core-device/models"
 import {
   addDevice,
   removeDevice,

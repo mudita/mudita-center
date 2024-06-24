@@ -8,14 +8,13 @@ import { useSelector } from "react-redux"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
 import { getActiveDevice } from "device-manager/feature"
-import { DeviceProperties } from "device-manager/models"
-import { DeviceType } from "device-protocol/models"
+import { DeviceBaseProperties, DeviceType } from "device-protocol/models"
 import { MuditaPureInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-pure-initialization-modal-flow"
 import { MuditaHarmonyInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-harmony-initialization-modal-flow"
 import { APIDeviceInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/api-device-initialization-modal-flow"
 
 const DevicesInitializationModalFlow: FunctionComponent<{
-  activeDevice?: DeviceProperties
+  activeDevice?: DeviceBaseProperties
 }> = ({ activeDevice }) => {
   if (activeDevice?.deviceType === DeviceType.MuditaPure) {
     return <MuditaPureInitializationModalFlow />
