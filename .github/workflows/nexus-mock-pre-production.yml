@@ -129,7 +129,8 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
-          $APP_VERSION = Get-Content -Path "apps/mudita-center/version"
+          $BUILD_VERSION = "-mock"
+          $APP_VERSION = (Get-Content -Path "apps/mudita-center/version") + $BUILD_VERSION
           $ENVIRONMENT_CATALOG_NAME="mock-pre-production"
           echo "GITTAG=$($APP_VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           $GITTAG = "$($APP_VERSION)"
