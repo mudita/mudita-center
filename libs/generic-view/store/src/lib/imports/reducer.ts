@@ -4,14 +4,14 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { startGoogleAuthorization } from "./get-google-contacts.action"
+import { startImportAuthorization } from "./get-google-contacts.action"
 import { cleanImportProcess, setDataTransferProcessStatus } from "./actions"
 import { importContactsFromExternalSource } from "./import-contacts-from-external-source.action"
 import { UnifiedContact } from "device/models"
 import { startContactsImportToDevice } from "./start-contacts-import-to-device"
 import { importContactsFromFile } from "./import-contacts-from.file"
 
-type ImportProvider = "GOOGLE" | "FILE"
+export type ImportProvider = "GOOGLE" | "FILE" | "OUTLOOK"
 
 export type ImportStatus =
   | "INIT"
@@ -46,45 +46,57 @@ export const importsReducer = createReducer(initialState, (builder) => {
     delete state.currentImportProvider
     state.providers = {}
   })
-  builder.addCase(startGoogleAuthorization.pending, (state) => {
-    state.currentImportProvider = "GOOGLE"
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
+  builder.addCase(startImportAuthorization.pending, (state, action) => {
+    state.currentImportProvider = action.meta.arg
+    state.providers[action.meta.arg] = {
+      ...state.providers[action.meta.arg],
       status: "PENDING-AUTH",
     }
   })
-  builder.addCase(startGoogleAuthorization.rejected, (state) => {
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
+  builder.addCase(startImportAuthorization.rejected, (state, action) => {
+    state.providers[action.meta.arg] = {
+      ...state.providers[action.meta.arg],
       status: "INIT",
     }
   })
-  builder.addCase(startGoogleAuthorization.fulfilled, (state) => {
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
+  builder.addCase(startImportAuthorization.fulfilled, (state, action) => {
+    state.providers[action.meta.arg] = {
+      ...state.providers[action.meta.arg],
       status: "AUTH",
     }
   })
   builder.addCase(importContactsFromExternalSource.pending, (state) => {
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
-      status: "IMPORT-INTO-MC-IN-PROGRESS",
+    const provider = state.currentImportProvider
+
+    if (provider) {
+      state.providers[provider] = {
+        ...state.providers[provider],
+        status: "IMPORT-INTO-MC-IN-PROGRESS",
+      }
     }
   })
   builder.addCase(
     importContactsFromExternalSource.fulfilled,
     (state, action) => {
-      state.providers.GOOGLE = {
-        ...state.providers.GOOGLE,
-        status: "IMPORT-INTO-MC-DONE",
-        contacts: action.payload,
+      const provider = state.currentImportProvider
+
+      if (provider) {
+        state.providers[provider] = {
+          ...state.providers[provider],
+          status: "IMPORT-INTO-MC-DONE",
+          contacts: action.payload,
+        }
       }
     }
   )
   builder.addCase(importContactsFromExternalSource.rejected, (state) => {
-    state.providers.GOOGLE = {
-      ...state.providers.GOOGLE,
-      status: "FAILED",
+    const provider = state.currentImportProvider
+
+    if (provider) {
+      state.providers[provider] = {
+        ...state.providers[provider],
+        status: "FAILED",
+      }
     }
   })
   builder.addCase(importContactsFromFile.pending, (state) => {

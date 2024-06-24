@@ -42,7 +42,7 @@ export enum ActionName {
   SetDataTransfer = "generic-data-transfer/set-data-transfer",
   SetDataTransferStatus = "generic-data-transfer/set-data-transfer-status",
   ClearDataTransfer = "generic-data-transfer/clear-data-transfer",
-  StartGoogleAuthorization = "generic-imports/start-google-authorization",
+  StartImportAuthorization = "generic-imports/start-import-authorization",
   ImportContactsFromExternalSource = "generic-imports/import-contacts-from-external-source",
   StartContactsImportToDevice = "generic-imports/start-contacts-import-to-device",
   SetDataTransferProcessStatus = "generic-imports/set-data-transfer-process-status",

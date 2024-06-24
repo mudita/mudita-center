@@ -8,14 +8,24 @@ import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { ActionName } from "../action-names"
 import { Scope } from "../external-providers/google/google.interface"
 import { googleAuthorize } from "../external-providers/google/google-authorize.action"
+import { ImportProvider } from "./reducer"
+import { outlookAuthorize } from "../external-providers/outlook/outlook-authorize.action"
+import { OutLookScope } from "../external-providers/outlook/outlook.interface"
 
-export const startGoogleAuthorization = createAsyncThunk<
+export const startImportAuthorization = createAsyncThunk<
   unknown,
-  undefined,
+  Exclude<ImportProvider, "FILE">,
   { state: ReduxRootState }
 >(
-  ActionName.StartGoogleAuthorization,
-  async (_, { getState, dispatch, rejectWithValue, signal }) => {
-    return dispatch(googleAuthorize(Scope.Contacts))
+  ActionName.StartImportAuthorization,
+  async (provider, { dispatch, rejectWithValue }) => {
+    switch (provider) {
+      case "GOOGLE":
+        return await dispatch(googleAuthorize(Scope.Contacts)).unwrap()
+      case "OUTLOOK":
+        return await dispatch(outlookAuthorize(OutLookScope.Contacts)).unwrap()
+      default:
+        return rejectWithValue(undefined)
+    }
   }
 )
