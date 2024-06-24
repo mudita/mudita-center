@@ -22,7 +22,7 @@ export const importContactsFromExternalSource = createAsyncThunk<
 >(
   ActionName.ImportContactsFromExternalSource,
   async (_, { getState, dispatch, rejectWithValue, signal }) => {
-    const provider = await getState().genericImport.currentImportProvider
+    const provider = getState().genericImport.currentImportProvider
 
     if (provider === "GOOGLE") {
       // eslint-disable-next-line @typescript-eslint/await-thenable
