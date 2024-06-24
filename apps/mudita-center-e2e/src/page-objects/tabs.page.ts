@@ -23,6 +23,12 @@ class NavigationTabs extends Page {
     await this.overviewTab.click()
   }
 
+  public get overviewKompaktTab(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-MenuOverview"]')
+  }
+
   public get messagesTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {

@@ -5,6 +5,9 @@ import {
   overviewDataWithOneSimCard,
 } from "../../../../../libs/e2e-mock/responses/src"
 import screenshotHelper from "../../helpers/screenshot.helper"
+import OverviewPage from "../../page-objects/overview.page"
+import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
+import NavigationTabs from "../../page-objects/tabs.page"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -70,5 +73,57 @@ describe("E2E mock sample - overview view", () => {
     await browser.pause(10000)
   })
 
-  it("Verify Overview Page", async () => {})
+  it("Verify Overview Page", async () => {
+    const muditaOSVersion = await $('[data-testid="os-version"]')
+    await expect(muditaOSVersion).toBeDisplayed
+
+    const overviewSerialNumber = await $('[data-testid="device-serial-number"]')
+    await expect(overviewSerialNumber).toBeDisplayed
+
+    const aboutYourDevice = await $("p*=About your device")
+    await expect(aboutYourDevice).toBeDisplayed
+    //await expect(aboutYourDev).toHaveText("About your device")
+
+    const checkSARInformationButton = await $("p*=Check SAR information")
+    await expect(checkSARInformationButton).toBeDisplayed
+    //await expect(checkSARInformationButton).toHaveText("Check SAR information")
+
+    const createBackupButton = await $("p*=Create backup")
+    await expect(createBackupButton).toBeDisplayed
+
+    const kompaktImageElement = await $(
+      "#app > div.sc-hrCmsx.iRrrLX > div.sc-gtWJRm.fLIlvh > div.box-sizing-wrapper > div > div > div.sc-eGXPLf.bfaTWN > div > div.sc-eGXPLf.eAMdLd > img"
+    )
+    await expect(kompaktImageElement).toBeDisplayed
+
+    const batteryLevel = await $('[data-testid="battery-level"]')
+    await expect(batteryLevel).toBeDisplayed
+    //await expect(batteryLevel).toHaveTextContaining("100%")
+
+    const networkName = await $('[data-testid="network-name"]')
+    await expect(networkName).toBeDisplayed
+    //await expect(networkName).toHaveTextContaining("T-Mobile")
+
+    const backupInfo = await $(
+      "#app > div.sc-hrCmsx.iRrrLX > div.sc-gtWJRm.fLIlvh > div.box-sizing-wrapper > div > div > div.sc-eGXPLf.crpuMj > div > div > div > p"
+    )
+    await expect(backupInfo).toBeDisplayed
+    // //await expect(backupInfo).toHaveText(
+    //   "You haven’t backed up your device yet. Create a backup file to protect against data loss."
+    // )
+  })
+
+  it("Click between Tabs and check them", async () => {
+    const muditaNewsTab = $('[data-testid="icon-MenuNews"]')
+    await muditaNewsTab.waitForClickable()
+    await muditaNewsTab.click()
+
+    const overviewKompaktTab = $('[data-testid="icon-MenuOverview"]')
+    await overviewKompaktTab.waitForClickable()
+    await overviewKompaktTab.click()
+  })
+
+  xit("Disconnect the device and check if Welcome screen is present", async () => {
+    //aaa
+  })
 })
