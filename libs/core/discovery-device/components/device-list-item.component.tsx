@@ -6,7 +6,7 @@
 import React from "react"
 import { defineMessages } from "react-intl"
 import styled, { css } from "styled-components"
-import { AvailableDeviceProperties } from "device-manager/models"
+import { DeviceProperties } from "device-manager/models"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import {
   backgroundColor,
@@ -93,7 +93,7 @@ export const DeviceInfoDeviceTypeName = styled(Text)`
   margin-bottom: 0.5rem;
 `
 
-export interface DeviceListItemProps extends AvailableDeviceProperties {
+export interface DeviceListItemProps extends DeviceProperties {
   onDeviceClick: (id: string) => void
 }
 
