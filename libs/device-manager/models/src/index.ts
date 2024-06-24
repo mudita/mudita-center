@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./available-device-properties.interface"
+export * from "./device-properties.interface"
 export * from "./device-manager.interface"
 export * from "./event.constant"

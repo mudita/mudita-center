@@ -6,6 +6,6 @@
 import { DeviceBaseProperties } from "device-protocol/models"
 import { CaseColour } from "core-device/models"
 
-export interface AvailableDeviceProperties extends DeviceBaseProperties {
-  caseColour?: CaseColour | undefined
+export interface DeviceProperties extends DeviceBaseProperties {
+  caseColour?: CaseColour
 }
