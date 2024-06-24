@@ -6,11 +6,14 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "Core/core/builder"
 import { DeviceId } from "Core/device/constants/device-id"
-import { DeviceConfiguration } from "../controllers"
+import { DeviceIdentification } from "../controllers"
 import { IpcCoreDeviceEvent } from "../constants"
 
-export const getDeviceConfigurationRequest = async (
+export const getDeviceIdentificationRequest = async (
   id: DeviceId
-): Promise<ResultObject<DeviceConfiguration>> => {
-  return ipcRenderer.callMain(IpcCoreDeviceEvent.GetCoreDeviceConfiguration, id)
+): Promise<ResultObject<DeviceIdentification>> => {
+  return ipcRenderer.callMain(
+    IpcCoreDeviceEvent.GetCoreDeviceIdentification,
+    id
+  )
 }

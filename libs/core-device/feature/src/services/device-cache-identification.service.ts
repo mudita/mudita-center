@@ -7,33 +7,33 @@ import path from "path"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
 import getAppPath from "Core/__deprecated__/main/utils/get-app-path"
 import { DeviceId } from "Core/device/constants/device-id"
-import { DeviceConfiguration } from "../controllers"
+import { DeviceIdentification } from "../controllers"
 
-type CacheMap = Record<string, DeviceConfiguration>
+type CacheMap = Record<string, DeviceIdentification>
 
-export class DeviceCacheConfigurationService {
+export class DeviceCacheIdentificationService {
   private readonly filePath = path.join(
     getAppPath(),
-    "configuration-cache.json"
+    "identification-cache.json"
   )
 
   constructor(private fileSystem: FileSystemService) {
     void this.init()
   }
 
-  public async getDeviceConfiguration(
+  public async getDeviceIdentification(
     id: DeviceId
-  ): Promise<DeviceConfiguration | undefined> {
+  ): Promise<DeviceIdentification | undefined> {
     const cacheMap = await this.readCacheMap()
     return cacheMap[id]
   }
 
-  public async saveDeviceConfiguration(
+  public async saveDeviceIdentification(
     id: DeviceId,
-    deviceConfiguration: DeviceConfiguration
+    deviceIdentification: DeviceIdentification
   ): Promise<void> {
     const cacheMap = await this.readCacheMap()
-    cacheMap[id] = deviceConfiguration
+    cacheMap[id] = deviceIdentification
     await this.fileSystem.writeFile(this.filePath, JSON.stringify(cacheMap))
   }
 

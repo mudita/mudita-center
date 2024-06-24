@@ -4,6 +4,6 @@
  */
 
 export * from "./core-device-state.selector"
-export * from "./get-configured-core-devices.selector"
+export * from "./get-identified-core-devices.selector"
 export * from "./get-core-devices.selector"
 export * from "./get-failed-core-devices.selector"

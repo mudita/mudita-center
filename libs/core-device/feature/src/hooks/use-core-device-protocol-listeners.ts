@@ -7,10 +7,14 @@ import { useCallback, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { answerMain, useDebouncedEventsHandler } from "shared/utils"
 import { DeviceState } from "device-manager/models"
-import { DeviceProtocolMainEvent, DeviceType, DeviceBaseProperties } from "device-protocol/models"
+import {
+  DeviceProtocolMainEvent,
+  DeviceType,
+  DeviceBaseProperties,
+} from "device-protocol/models"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
-import { addDevice, configureDevice, removeDevice } from "../actions"
-import { getDeviceConfigurationRequest } from "../requests"
+import { addDevice, identifyDevice, removeDevice } from "../actions"
+import { getDeviceIdentificationRequest } from "../requests"
 
 export const useCoreDeviceProtocolListeners = () => {
   const dispatch = useDispatch<Dispatch>()
@@ -28,7 +32,7 @@ export const useCoreDeviceProtocolListeners = () => {
         }
 
         dispatch(addDevice(properties))
-        dispatch(configureDevice(properties.id))
+        dispatch(identifyDevice(properties.id))
       }
     )
   }, [dispatch])
@@ -42,7 +46,7 @@ export const useCoreDeviceProtocolListeners = () => {
           return
         }
 
-        const result = await getDeviceConfigurationRequest(properties.id)
+        const result = await getDeviceIdentificationRequest(properties.id)
         const caseColour = result.ok ? result.data.caseColour : undefined
 
         dispatch(

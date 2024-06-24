@@ -17,7 +17,7 @@ import {
   URL_DISCOVERY_DEVICE,
   URL_ONBOARDING,
 } from "Core/__deprecated__/renderer/constants/urls"
-import { configureDevice } from "core-device/feature"
+import { identifyDevice } from "core-device/feature"
 
 const DeviceConnecting: FunctionComponent = () => {
   const history = useHistory()
@@ -30,7 +30,7 @@ const DeviceConnecting: FunctionComponent = () => {
         const { payload: ok } = await dispatch(connectDevice(activeDeviceId))
 
         if (ok) {
-          await dispatch(configureDevice(activeDeviceId))
+          await dispatch(identifyDevice(activeDeviceId))
           history.push(URL_DEVICE_INITIALIZATION.root)
         } else {
           await delay(500)

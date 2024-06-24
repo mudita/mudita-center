@@ -4,5 +4,5 @@
  */
 
 export enum IpcCoreDeviceEvent {
-  GetCoreDeviceConfiguration = "core-device_get-core-device-configuration",
+  GetCoreDeviceIdentification = "core-device_get-core-device-identification",
 }

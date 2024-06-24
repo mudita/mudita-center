@@ -7,5 +7,5 @@ export enum CoreDeviceEvent {
   AddDevice = "core-device_add-device",
   RemoveDevice = "core-device_remove-device",
   SetDeviceState = "core-device_set-device-state",
-  ConfigureDevice = "core-device_configure-device",
+  IdentifyDevice = "core-device_identify-device",
 }

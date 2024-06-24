@@ -9,7 +9,7 @@ import { Device, CoreDeviceState } from "core-device/models"
 import {
   addDevice,
   removeDevice,
-  configureDevice,
+  identifyDevice,
   setDeviceState,
 } from "../actions"
 
@@ -44,7 +44,7 @@ export const coreDeviceReducer = createReducer<CoreDeviceState>(
           devices,
         }
       })
-      .addCase(configureDevice.fulfilled, (state, action) => {
+      .addCase(identifyDevice.fulfilled, (state, action) => {
         const devices = state.devices.reduce((prev, device) => {
           const payload = action.payload
           if (device.id === payload.id) {
@@ -54,7 +54,7 @@ export const coreDeviceReducer = createReducer<CoreDeviceState>(
                 ...device,
                 caseColour: payload.caseColour ?? device.caseColour,
                 serialNumber: payload.serialNumber ?? device.serialNumber,
-                state: DeviceState.Configured,
+                state: DeviceState.Identified,
               },
             ]
           } else {

@@ -12,7 +12,7 @@ import { DeviceInitializationStatus } from "Core/device-initialization/reducers/
 import { AppError } from "Core/core/errors"
 import { DeviceInitializationError } from "Core/device-initialization/constants/errors.enum"
 import { loadSettings } from "Core/settings/actions"
-import { configureDevice } from "core-device/feature"
+import { identifyDevice } from "core-device/feature"
 import { isActiveDeviceAttachedSelector } from "device-manager/feature"
 import { activeDeviceIdSelector } from "active-device-registry/feature"
 import { isActiveDeviceProcessingSelector } from "Core/device/selectors/is-active-device-processing.selector"
@@ -63,9 +63,7 @@ export const initializeMuditaPure = createAsyncThunk<
       )
       return DeviceInitializationStatus.Aborted
     }
-    await dispatch(
-      configureDevice(activeDeviceIdSelector(getState()) as string)
-    )
+    await dispatch(identifyDevice(activeDeviceIdSelector(getState()) as string))
 
     // Handle LOAD DEVICE DATA as an initializing step
     if (!isActiveDeviceAttachedSelector(getState())) {

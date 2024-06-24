@@ -12,7 +12,7 @@ import {
   setActiveDevice,
   activeDeviceIdSelector,
 } from "active-device-registry/feature"
-import { getDeviceConfigurationRequest } from "core-device/feature"
+import { getDeviceIdentificationRequest } from "core-device/feature"
 import {
   DeviceProtocolMainEvent,
   DeviceType,
@@ -160,7 +160,7 @@ const useContinueProcessViaWorkaround = () => {
         await navigateToInitialization(properties.id)
       }
 
-      const result = await getDeviceConfigurationRequest(properties.id)
+      const result = await getDeviceIdentificationRequest(properties.id)
 
       if (result.ok && result.data.serialNumber === serialNumber) {
         await navigateToInitialization(properties.id)

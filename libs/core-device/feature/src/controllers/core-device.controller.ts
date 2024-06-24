@@ -14,10 +14,10 @@ import {
   Endpoint,
   Method,
 } from "core-device/models"
-import { DeviceCacheConfigurationService } from "../services"
+import { DeviceCacheIdentificationService } from "../services"
 import { IpcCoreDeviceEvent } from "../constants"
 
-export interface DeviceConfiguration {
+export interface DeviceIdentification {
   caseColour: CaseColour | undefined
   serialNumber: string | undefined
 }
@@ -25,17 +25,17 @@ export interface DeviceConfiguration {
 export class CoreDeviceController {
   constructor(
     private deviceProtocol: DeviceProtocol,
-    private deviceCacheConfigurationService: DeviceCacheConfigurationService
+    private deviceCacheIdentificationService: DeviceCacheIdentificationService
   ) {}
 
-  @IpcEvent(IpcCoreDeviceEvent.GetCoreDeviceConfiguration)
+  @IpcEvent(IpcCoreDeviceEvent.GetCoreDeviceIdentification)
   public async request(
     id: DeviceId
-  ): Promise<ResultObject<DeviceConfiguration, DeviceCommunicationError>> {
-    const deviceConfigurationCached =
-      await this.deviceCacheConfigurationService.getDeviceConfiguration(id)
-    if (deviceConfigurationCached !== undefined) {
-      return Result.success(deviceConfigurationCached)
+  ): Promise<ResultObject<DeviceIdentification, DeviceCommunicationError>> {
+    const deviceIdentificationCached =
+      await this.deviceCacheIdentificationService.getDeviceIdentification(id)
+    if (deviceIdentificationCached !== undefined) {
+      return Result.success(deviceIdentificationCached)
     }
 
     const result = await this.deviceProtocol.request<DeviceInfo>(id, {
@@ -47,15 +47,15 @@ export class CoreDeviceController {
     })
 
     if (result.ok) {
-      const deviceConfiguration = {
+      const deviceIdentification = {
         caseColour: result.data.caseColour,
         serialNumber: result.data.serialNumber,
       }
-      await this.deviceCacheConfigurationService.saveDeviceConfiguration(
+      await this.deviceCacheIdentificationService.saveDeviceIdentification(
         id,
-        deviceConfiguration
+        deviceIdentification
       )
-      return Result.success(deviceConfiguration)
+      return Result.success(deviceIdentification)
     } else {
       return result
     }

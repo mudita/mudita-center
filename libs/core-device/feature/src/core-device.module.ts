@@ -5,7 +5,7 @@
 
 import { DeviceProtocol } from "device-protocol/feature"
 import { FileSystemService } from "Core/file-system/services/file-system.service.refactored"
-import { DeviceCacheConfigurationService } from "./services"
+import { DeviceCacheIdentificationService } from "./services"
 import { CoreDeviceController } from "./controllers"
 
 export class CoreDeviceModule {
@@ -17,7 +17,7 @@ export class CoreDeviceModule {
   ) {
     const deviceManagerController = new CoreDeviceController(
       this.deviceProtocol,
-      new DeviceCacheConfigurationService(this.fileSystem)
+      new DeviceCacheIdentificationService(this.fileSystem)
     )
 
     this.controllers = [deviceManagerController]

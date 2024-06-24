@@ -4,4 +4,4 @@
  */
 
 export * from "./base.action"
-export * from "./configure-device.action"
+export * from "./identify-device.action"

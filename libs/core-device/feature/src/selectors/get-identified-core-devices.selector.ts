@@ -8,9 +8,9 @@ import { Device } from "core-device/models"
 import { DeviceState } from "device-manager/models"
 import { getCoreDevicesSelector } from "./get-core-devices.selector"
 
-export const getConfiguredCoreDevicesSelector = createSelector(
+export const getIdentifiedCoreDevicesSelector = createSelector(
   getCoreDevicesSelector,
   (devices): Device[] => {
-    return devices.filter(({ state }) => state === DeviceState.Configured)
+    return devices.filter(({ state }) => state === DeviceState.Identified)
   }
 )
