@@ -70,27 +70,5 @@ describe("E2E mock sample - overview view", () => {
     await browser.pause(10000)
   })
 
-  // it("Add second device", async () => {
-  //   E2EMockClient.addDevice({
-  //     path: "path-2",
-  //     serialNumber: "second-serial-number",
-  //   })
-  //   await browser.pause(6000)
-
-  //   const drawerHeader = $(`//*[text()='Select a device']`)
-  //   await drawerHeader.waitForDisplayed()
-  //   await expect(drawerHeader).toBeDisplayed()
-  // })
-
-  // it("Remove first device", async () => {
-  //   E2EMockClient.removeDevice("path-1")
-  //   await browser.pause(6000)
-
-  //   const badge = $(`//p[contains(text(), 'Offline')]`)
-
-  //   await badge.waitForDisplayed()
-  //   // Notice that the Status badge is once again visible, which proves that response overwrite works only for a given device.
-  //   await expect(badge).toBeDisplayed()
-  //   await browser.pause(4000)
-  // })
+  it("Verify Overview Page", async () => {})
 })

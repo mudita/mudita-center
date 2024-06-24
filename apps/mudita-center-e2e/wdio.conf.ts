@@ -67,6 +67,7 @@ export const config: Options.Testrunner = {
     toRelativePath(TestFilesPaths.privacyPolicyTest),
     toRelativePath(TestFilesPaths.licenseTest),
     toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+    toRelativePath(TestFilesPaths.kompaktOverview),
   ],
   suites: {
     standalone: [
@@ -78,12 +79,13 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.backupLocationTest),
       toRelativePath(TestFilesPaths.mcCheckForUpdatesOfflineTest),
       toRelativePath(TestFilesPaths.homePageTestDeviceNotConnectedTest),
-      toRelativePath(TestFilesPaths.newsPageOnlineTest),
+      toRelativePath(TestFilesPaths.newsPageOfflineTest),
       toRelativePath(TestFilesPaths.termsOfServiceTest),
       toRelativePath(TestFilesPaths.e2eMockSample),
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.kompaktOverview),
     ],
     mock: [toRelativePath(TestFilesPaths.e2eMockSample)],
     multidevicePureHarmony: [],
@@ -108,6 +110,7 @@ export const config: Options.Testrunner = {
       toRelativePath(TestFilesPaths.privacyPolicyTest),
       toRelativePath(TestFilesPaths.licenseTest),
       toRelativePath(TestFilesPaths.helpWindowCheckOfflineTest),
+      toRelativePath(TestFilesPaths.kompaktOverview),
     ],
   },
   // Patterns to exclude.
