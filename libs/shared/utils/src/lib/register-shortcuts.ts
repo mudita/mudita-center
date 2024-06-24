@@ -10,13 +10,16 @@ export function registerShortcuts(win: BrowserWindow) {
     return
   }
 
-  if (process.platform === "darwin") {
-    globalShortcut.register("Command+Option+I", () => {
+  const devToolsShortcutKey =
+    process.platform === "darwin" ? "Command+Option+I" : "Ctrl+Shift+I"
+
+  win.on("focus", () => {
+    globalShortcut.register(devToolsShortcutKey, () => {
       win.webContents.toggleDevTools()
     })
-  } else {
-    globalShortcut.register("Ctrl+Shift+I", () => {
-      win.webContents.toggleDevTools()
-    })
-  }
+  })
+
+  win.on("blur", () => {
+    globalShortcut.unregister(devToolsShortcutKey)
+  })
 }
