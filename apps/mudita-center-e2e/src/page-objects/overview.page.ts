@@ -6,7 +6,7 @@
 import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
-class OverviewPage extends Page {
+export class OverviewPage extends Page {
   public get currentDeviceVersion(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {

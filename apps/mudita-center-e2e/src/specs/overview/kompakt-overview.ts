@@ -8,6 +8,8 @@ import screenshotHelper from "../../helpers/screenshot.helper"
 import OverviewPage from "../../page-objects/overview.page"
 import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import NavigationTabs from "../../page-objects/tabs.page"
+import HomePage from "../../page-objects/home.page"
+import tabsPage from "../../page-objects/tabs.page"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -74,21 +76,23 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Verify Overview Page", async () => {
-    const muditaOSVersion = await $('[data-testid="os-version"]')
+    const muditaOSVersion = await OverviewPage.muditaOSVersion
     await expect(muditaOSVersion).toBeDisplayed
 
-    const overviewSerialNumber = await $('[data-testid="device-serial-number"]')
+    const overviewSerialNumber = OverviewPage.overviewSerialNumber
     await expect(overviewSerialNumber).toBeDisplayed
+    const serialNumberLabel = OverviewKompaktPage.serialNumberLabel
+    const serialNumberValue = OverviewKompaktPage.serialNumberValue
+    await expect(serialNumberLabel).toHaveText("Serial number")
+    await expect(serialNumberValue).toHaveText("0123456789ABCDEF")
 
-    const aboutYourDevice = await $("p*=About your device")
+    const aboutYourDevice = OverviewKompaktPage.aboutYourDevice
     await expect(aboutYourDevice).toBeDisplayed
-    //await expect(aboutYourDev).toHaveText("About your device")
 
-    const checkSARInformationButton = await $("p*=Check SAR information")
+    const checkSARInformationButton = OverviewPage.checkSARInformationButton
     await expect(checkSARInformationButton).toBeDisplayed
-    //await expect(checkSARInformationButton).toHaveText("Check SAR information")
 
-    const createBackupButton = await $("p*=Create backup")
+    const createBackupButton = OverviewPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed
 
     const kompaktImageElement = await $(
@@ -96,34 +100,36 @@ describe("E2E mock sample - overview view", () => {
     )
     await expect(kompaktImageElement).toBeDisplayed
 
-    const batteryLevel = await $('[data-testid="battery-level"]')
+    const batteryLevel = OverviewPage.batteryLevel
     await expect(batteryLevel).toBeDisplayed
     //await expect(batteryLevel).toHaveTextContaining("100%")
 
-    const networkName = await $('[data-testid="network-name"]')
+    const networkName = OverviewPage.networkName
     await expect(networkName).toBeDisplayed
     //await expect(networkName).toHaveTextContaining("T-Mobile")
 
-    const backupInfo = await $(
-      "#app > div.sc-hrCmsx.iRrrLX > div.sc-gtWJRm.fLIlvh > div.box-sizing-wrapper > div > div > div.sc-eGXPLf.crpuMj > div > div > div > p"
-    )
+    //not full text to be checked due to spacing issue
+    const backupInfo = OverviewKompaktPage.backupInfo
     await expect(backupInfo).toBeDisplayed
-    // //await expect(backupInfo).toHaveText(
-    //   "You haven’t backed up your device yet. Create a backup file to protect against data loss."
-    // )
+    await expect(backupInfo).toHaveTextContaining(
+      "You haven’t backed up your device yet"
+    )
   })
 
   it("Click between Tabs and check them", async () => {
-    const muditaNewsTab = $('[data-testid="icon-MenuNews"]')
+    const muditaNewsTab = tabsPage.muditaNewsTab
     await muditaNewsTab.waitForClickable()
     await muditaNewsTab.click()
 
-    const overviewKompaktTab = $('[data-testid="icon-MenuOverview"]')
+    const overviewKompaktTab = tabsPage.overviewKompaktTab
     await overviewKompaktTab.waitForClickable()
     await overviewKompaktTab.click()
   })
 
-  xit("Disconnect the device and check if Welcome screen is present", async () => {
-    //aaa
+  it("Disconnect the device and check if Welcome screen is present", async () => {
+    E2EMockClient.removeDevice("path-1")
+    await HomePage.homeHeader.waitForDisplayed()
+
+    await expect
   })
 })

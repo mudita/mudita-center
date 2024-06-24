@@ -4,30 +4,28 @@
  */
 
 import { ChainablePromiseElement } from "webdriverio"
-import OverviewPage from "./overview.page"
+import { OverviewPage } from "./overview.page"
 
-class OverviewKompaktPage extends OverviewPage {}
+class OverviewKompaktPage extends OverviewPage {
+  public get aboutYourDevice() {
+    return $("p*=About your device")
+  }
 
-public get aboutYourDevice(): ChainablePromiseElement<
-Promise<WebdriverIO.Element>
-> {
-return $("p*=About your device")
+  public get kompaktImageElement() {
+    return $(
+      "#app > div.sc-hrCmsx.iRrrLX > div.sc-gtWJRm.fLIlvh > div.box-sizing-wrapper > div > div > div.sc-eGXPLf.bfaTWN > div > div.sc-eGXPLf.eAMdLd > img"
+    )
+  }
+
+  public get backupInfo() {
+    return $(`//div[@componentkey="backupbackup-info"]/p`)
+  }
+  public get serialNumberLabel() {
+    return $(`//div[@componentkey="summary-serial-number"]/p[1]`)
+  }
+
+  public get serialNumberValue() {
+    return $(`//div[@componentkey="summary-serial-number"]/p[2]`)
+  }
 }
-
-public get kompaktImageElement(): ChainablePromiseElement<
-Promise<WebdriverIO.Element>
-> {
-return $(
-  "#app > div.sc-hrCmsx.iRrrLX > div.sc-gtWJRm.fLIlvh > div.box-sizing-wrapper > div > div > div.sc-eGXPLf.bfaTWN > div > div.sc-eGXPLf.eAMdLd > img"
-)
-}
-
-public get backupInfo(): ChainablePromiseElement<
-Promise<WebdriverIO.Element>
-> {
-return $(
-  "#app > div.sc-hrCmsx.iRrrLX > div.sc-gtWJRm.fLIlvh > div.box-sizing-wrapper > div > div > div.sc-eGXPLf.crpuMj > div > div > div > p"
-)
-}
-
 export default new OverviewKompaktPage()
