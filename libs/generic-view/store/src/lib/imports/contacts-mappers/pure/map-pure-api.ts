@@ -5,9 +5,9 @@
 
 import { UnifiedContact } from "device/models"
 import { Contact } from "Core/contacts/reducers"
-import { getDisplayName } from "../../imports/contacts-mappers/helpers"
+import { getDisplayName } from "../helpers"
 
-export const transformContacts = (contacts: Contact[]): UnifiedContact[] => {
+export const mapPureApi = (contacts: Contact[]): UnifiedContact[] => {
   return contacts.map((contact) => {
     const unifiedContact: Omit<UnifiedContact, "displayName"> = {
       id: contact.id,

@@ -29,12 +29,6 @@ const messages = defineMessages({
   genericMessage: {
     id: "module.genericViews.dataMigration.progress.genericMessage",
   },
-  collectingData: {
-    id: "module.genericViews.dataMigration.progress.collectingData",
-  },
-  transferringData: {
-    id: "module.genericViews.dataMigration.progress.transferringData",
-  },
 })
 
 interface Props {

@@ -13,13 +13,14 @@ import { indexAllRequest } from "Core/data-sync/requests"
 import { getDeviceInfoRequest } from "Core/device-info/requests"
 import { isEmpty } from "lodash"
 import { AllIndexes } from "Core/data-sync/types"
-import { transformContacts } from "./transformers/transform-contacts"
+import { mapPureApi } from "../imports/contacts-mappers/pure/map-pure-api"
 import {
   DomainData,
   transferDataToDevice,
 } from "../data-transfer/transfer-data-to-device.action"
 import logger from "Core/__deprecated__/main/utils/logger"
 import { DataMigrationStatus } from "./reducer"
+import { delay } from "shared/utils"
 
 export enum DataMigrationPercentageProgress {
   CollectingData = 1,
@@ -115,7 +116,7 @@ export const performDataMigration = createAsyncThunk<
       switch (feature) {
         case DataMigrationFeature.Contacts: {
           const { contacts } = databaseResponse.payload as AllIndexes
-          const transformedData = transformContacts(Object.values(contacts))
+          const transformedData = mapPureApi(Object.values(contacts))
 
           domainsData.push({
             domain: "contacts-v1", // FIXME: The domain should be returned from Data Migration configuration
@@ -142,9 +143,9 @@ export const performDataMigration = createAsyncThunk<
     }
     dispatch(setTransferProgress(DataMigrationPercentageProgress.Finished))
 
-    setTimeout(() => {
-      dispatch(setDataMigrationStatus("COMPLETED"))
-    }, 500)
+    await delay(500)
+
+    dispatch(setDataMigrationStatus("COMPLETED"))
 
     return
   }
