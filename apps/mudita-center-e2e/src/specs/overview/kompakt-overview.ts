@@ -10,6 +10,7 @@ import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 import HomePage from "../../page-objects/home.page"
 import tabsPage from "../../page-objects/tabs.page"
+import overviewKompaktPage from "../../page-objects/overview-kompakt.page"
 
 describe("E2E mock sample - overview view", () => {
   before(async () => {
@@ -79,8 +80,6 @@ describe("E2E mock sample - overview view", () => {
     const muditaOSVersion = await OverviewPage.muditaOSVersion
     await expect(muditaOSVersion).toBeDisplayed
 
-    const overviewSerialNumber = OverviewPage.overviewSerialNumber
-    await expect(overviewSerialNumber).toBeDisplayed
     const serialNumberLabel = OverviewKompaktPage.serialNumberLabel
     const serialNumberValue = OverviewKompaktPage.serialNumberValue
     await expect(serialNumberLabel).toHaveText("Serial number")
@@ -95,25 +94,31 @@ describe("E2E mock sample - overview view", () => {
     const createBackupButton = OverviewPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed
 
-    const kompaktImageElement = await $(
-      "#app > div.sc-hrCmsx.iRrrLX > div.sc-gtWJRm.fLIlvh > div.box-sizing-wrapper > div > div > div.sc-eGXPLf.bfaTWN > div > div.sc-eGXPLf.eAMdLd > img"
-    )
-    await expect(kompaktImageElement).toBeDisplayed
-
-    const batteryLevel = OverviewPage.batteryLevel
-    await expect(batteryLevel).toBeDisplayed
-    //await expect(batteryLevel).toHaveTextContaining("100%")
-
-    const networkName = OverviewPage.networkName
-    await expect(networkName).toBeDisplayed
-    //await expect(networkName).toHaveTextContaining("T-Mobile")
-
-    //not full text to be checked due to spacing issue
     const backupInfo = OverviewKompaktPage.backupInfo
     await expect(backupInfo).toBeDisplayed
     await expect(backupInfo).toHaveTextContaining(
       "You haven’t backed up your device yet"
     )
+    //not full text to be checked due to spacing issue
+
+    const kompaktImageElement = overviewKompaktPage.kompaktImage
+    await expect(kompaktImageElement).toBeDisplayed
+
+    const kompaktBatteryLevel = OverviewKompaktPage.kompaktBatteryLevel
+    await expect(kompaktBatteryLevel).toBeDisplayed
+
+    const kompaktBatteryLevelValue =
+      OverviewKompaktPage.kompaktBatteryLevelValue
+    await expect(kompaktBatteryLevelValue).toBeDisplayed
+
+    const kompaktNetworkName = OverviewKompaktPage.kompaktNetworkName
+    await expect(kompaktNetworkName).toBeDisplayed
+
+    const kompaktSignalIcon = overviewKompaktPage.kompaktSignalIcon
+    await expect(kompaktSignalIcon).toBeDisplayed
+
+    const kompaktSimCard1 = OverviewKompaktPage.kompaktSimCard1
+    await expect(kompaktSimCard1).toBeDisplayed
   })
 
   it("Click between Tabs and check them", async () => {

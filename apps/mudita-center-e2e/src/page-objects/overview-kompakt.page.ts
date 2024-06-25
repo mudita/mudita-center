@@ -27,5 +27,29 @@ class OverviewKompaktPage extends OverviewPage {
   public get serialNumberValue() {
     return $(`//div[@componentkey="summary-serial-number"]/p[2]`)
   }
+
+  public get kompaktImage() {
+    return $('[data-testid="image"]')
+  }
+
+  public get kompaktSignalIcon() {
+    return $('[data-testid="icon-network-signal-2"]')
+  }
+
+  public get kompaktNetworkName() {
+    return $('[data-testid="icon-text"]')
+  }
+
+  public get kompaktBatteryLevel() {
+    return $('//div[@data-testid="icon-battery-charging-2"]')
+  }
+
+  public get kompaktBatteryLevelValue() {
+    return $('//h3[text()="Status"]/..//h4[@data-testid="icon-text"]')
+  }
+
+  public get kompaktSimCard1() {
+    return $('[data-testid="icon-subtext"]')
+  }
 }
 export default new OverviewKompaktPage()
