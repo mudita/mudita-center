@@ -7,15 +7,15 @@ import { OverviewPage } from "./overview.page"
 
 class OverviewKompaktPage extends OverviewPage {
   public get aboutYourDevice() {
-    return $("")
+    return $('[data-testid="button-text-summary-about"]')
   }
 
   public get sarInformationButtonKompakt() {
-    return $("")
+    return $('[data-testid="button-text_sarmodal-button"]')
   }
 
   public get sarInformationPopup() {
-    return $("")
+    return $("/html/body/div[10]/div/div")
   }
 
   public get kompaktImageElement() {

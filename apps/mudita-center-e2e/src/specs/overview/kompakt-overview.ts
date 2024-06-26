@@ -91,16 +91,16 @@ describe("E2E mock sample - overview view", () => {
       overviewDataWithOneSimCard.summary.about.serialNumber.text.toString()
     )
 
-    // const aboutYourDevice = OverviewKompaktPage.aboutYourDevice
-    // await expect(aboutYourDevice).toBeDisplayed
-    // await expect(aboutYourDevice).toBeClickable
-    // await aboutYourDevice.click()
+    const aboutYourDevice = OverviewKompaktPage.aboutYourDevice
+    await expect(aboutYourDevice).toBeDisplayed
+    await expect(aboutYourDevice).toBeClickable
+    //await aboutYourDevice.click() - system can not find the element while this is enabled
 
-    // const sarInformationButtonKompakt = OverviewPage.checkSARInformationButton
-    // const sarInformationPopup = overviewKompaktPage.sarInformationPopup
-    // await expect(sarInformationButtonKompakt).toBeDisplayed
-    // await sarInformationButtonKompakt.click()
-    // await overviewKompaktPage.sarInformationPopup.getText()
+    const sarInformationButtonKompakt = OverviewPage.checkSARInformationButton
+    const sarInformationPopup = overviewKompaktPage.sarInformationPopup
+    await expect(sarInformationButtonKompakt).toBeDisplayed
+    //await sarInformationButtonKompakt.click() - system can not find the element while this is enabled
+    await expect(sarInformationPopup).toBeDisplayed
 
     const createBackupButton = OverviewPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed
