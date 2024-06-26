@@ -5,7 +5,8 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { DeviceBaseProperties } from "device-protocol/models"
-import { DeviceState, CaseColour } from "core-device/models"
+import { DeviceState } from "device-manager/models"
+import { CaseColour } from "core-device/models"
 import { CoreDeviceEvent } from "../constants"
 
 export const addDevice = createAction<
