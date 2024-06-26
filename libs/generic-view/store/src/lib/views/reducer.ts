@@ -109,12 +109,14 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       state.apiErrors[apiError] = true
     }
 
-    const id = action.meta.arg.deviceId
-    const device = state.devices[id]
+    if(apiError !== ApiError.DeviceLocked){
+      const id = action.meta.arg.deviceId
+      const device = state.devices[id]
 
-    state.devices[id] = {
-      ...device,
-      state: DeviceState.Failed,
+      state.devices[id] = {
+        ...device,
+        state: DeviceState.Failed,
+      }
     }
   })
   builder.addCase(getAPIAny.fulfilled, (state, action) => {
