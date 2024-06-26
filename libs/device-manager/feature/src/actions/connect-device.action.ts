@@ -4,9 +4,8 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceManagerEvent } from "device-manager/models"
+import { DeviceManagerEvent, DeviceState } from "device-manager/models"
 import { setDeviceState } from "core-device/feature"
-import { DeviceState } from "core-device/models"
 import { ReduxRootState } from "Core/__deprecated__/renderer/store"
 import { DeviceId } from "Core/device/constants/device-id"
 import { connectDeviceRequest } from "../requests"

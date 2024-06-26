@@ -4,7 +4,8 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { Device, DeviceState } from "core-device/models"
+import { Device } from "core-device/models"
+import { DeviceState } from "device-manager/models"
 import { getCoreDevicesSelector } from "./get-core-devices.selector"
 
 export const getFailedCoreDevicesSelector = createSelector(

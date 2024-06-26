@@ -4,11 +4,10 @@
  */
 
 import { useCallback, useEffect } from "react"
-import { DeviceProtocolMainEvent, DeviceType } from "device-protocol/models"
 import { useDispatch } from "react-redux"
 import { answerMain, useDebouncedEventsHandler } from "shared/utils"
-import { DeviceBaseProperties } from "device-protocol/models"
-import { DeviceState } from "core-device/models"
+import { DeviceState } from "device-manager/models"
+import { DeviceProtocolMainEvent, DeviceType, DeviceBaseProperties } from "device-protocol/models"
 import { Dispatch } from "Core/__deprecated__/renderer/store"
 import { addDevice, configureDevice, removeDevice } from "../actions"
 import { getDeviceConfigurationRequest } from "../requests"

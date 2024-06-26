@@ -4,7 +4,8 @@
  */
 
 import { createSelector } from "@reduxjs/toolkit"
-import { Device, DeviceState } from "generic-view/models"
+import { Device } from "generic-view/models"
+import { DeviceState } from "device-manager/models"
 import { selectDevices } from "./select-devices"
 
 export const selectFailedDevices = createSelector(
