@@ -36,6 +36,9 @@ export class APIMenuService {
       body: {
         lang: "en-US",
       },
+      options: {
+        connectionTimeOut: 1000
+      }
     })
     if (response.ok) {
       const menuConfig = MenuConfigValidator.safeParse(response.data.body)
