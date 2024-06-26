@@ -3,11 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
 import { FunctionComponent } from "Core/core/types/function-component.interface"
 import ConnectingContent from "Core/connecting/components/connecting-content.component"
-import { getActiveDevice } from "device-manager/feature"
+import { URL_ONBOARDING } from "Core/__deprecated__/renderer/constants/urls"
+import {
+  getActiveDevice,
+  isActiveDeviceFailedSelector,
+} from "device-manager/feature"
 import { DeviceBaseProperties, DeviceType } from "device-protocol/models"
 import { MuditaPureInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-pure-initialization-modal-flow"
 import { MuditaHarmonyInitializationModalFlow } from "Core/device-initialization/components/devices-initialization-modal-flows/mudita-harmony-initialization-modal-flow"
@@ -28,7 +33,16 @@ const DevicesInitializationModalFlow: FunctionComponent<{
 }
 
 const DevicesInitialization: FunctionComponent = () => {
+  const history = useHistory()
   const activeDevice = useSelector(getActiveDevice)
+  const activeDeviceFailedSelector = useSelector(isActiveDeviceFailedSelector)
+
+  useEffect(() => {
+    if (activeDeviceFailedSelector) {
+      history.push(URL_ONBOARDING.troubleshooting)
+    }
+  }, [activeDeviceFailedSelector, history])
+
   return (
     <>
       <DevicesInitializationModalFlow activeDevice={activeDevice} />

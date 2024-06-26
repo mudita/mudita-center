@@ -19,7 +19,8 @@ import { getOutboxData } from "../outbox/get-outbox-data.action"
 import { getGenericConfig } from "../features/get-generic-config.actions"
 import {
   addDevice,
-  removeDevice, setLastRefresh,
+  removeDevice,
+  setLastRefresh,
   setMenu,
   setViewData,
   setViewLayout,
@@ -106,6 +107,14 @@ export const genericViewsReducer = createReducer(initialState, (builder) => {
       : undefined
     if (apiError && ApiError[apiError]) {
       state.apiErrors[apiError] = true
+    }
+
+    const id = action.meta.arg.deviceId
+    const device = state.devices[id]
+
+    state.devices[id] = {
+      ...device,
+      state: DeviceState.Failed,
     }
   })
   builder.addCase(getAPIAny.fulfilled, (state, action) => {
