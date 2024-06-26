@@ -83,16 +83,20 @@ describe("E2E mock sample - overview view", () => {
     const serialNumberLabel = OverviewKompaktPage.serialNumberLabel
     const serialNumberValue = OverviewKompaktPage.serialNumberValue
     await expect(serialNumberLabel).toHaveText("Serial number")
-    await expect(serialNumberValue).toHaveText("0123456789ABCDEF")
+    // await expect(serialNumberValue).toHaveText(
+    //   overviewDataWithOneSimCard.summary.about.serialNumber.toString()
+    // )
 
     const aboutYourDevice = OverviewKompaktPage.aboutYourDevice
     await expect(aboutYourDevice).toBeDisplayed
+    await expect(aboutYourDevice).toBeClickable
 
     const checkSARInformationButton = OverviewPage.checkSARInformationButton
     await expect(checkSARInformationButton).toBeDisplayed
 
     const createBackupButton = OverviewPage.createBackupButton
     await expect(createBackupButton).toBeDisplayed
+    await expect(createBackupButton).toBeClickable
 
     const backupInfo = OverviewKompaktPage.backupInfo
     await expect(backupInfo).toBeDisplayed

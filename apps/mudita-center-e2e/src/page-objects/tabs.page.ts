@@ -7,15 +7,11 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class NavigationTabs extends Page {
-  public get muditaNewsTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get muditaNewsTab() {
     return $('[data-testid="icon-MenuNews"]')
   }
 
-  public get overviewTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get overviewTab() {
     return $('[data-testid="overview-link"]')
   }
 
@@ -23,15 +19,11 @@ class NavigationTabs extends Page {
     await this.overviewTab.click()
   }
 
-  public get overviewKompaktTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get overviewKompaktTab() {
     return $('[data-testid="icon-MenuOverview"]')
   }
 
-  public get messagesTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get messagesTab() {
     return $('[data-testid="overview-menu-link"]')
   }
 
@@ -40,9 +32,7 @@ class NavigationTabs extends Page {
     await this.messagesTab.click()
   }
 
-  public get contactsTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get contactsTab() {
     return $('[data-testid="contacts-menu-link"]')
   }
 
@@ -51,9 +41,7 @@ class NavigationTabs extends Page {
     await this.contactsTab.click()
   }
 
-  public get settingsTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get settingsTab() {
     return $('[data-testid="icon-MenuSettings"]')
   }
 
@@ -61,7 +49,7 @@ class NavigationTabs extends Page {
     await this.settingsTab.click()
   }
 
-  public get helpTab(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
+  public get helpTab() {
     return $('[data-testid="help-menu-button"]')
   }
 

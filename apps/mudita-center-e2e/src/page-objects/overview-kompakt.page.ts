@@ -12,9 +12,7 @@ class OverviewKompaktPage extends OverviewPage {
   }
 
   public get kompaktImageElement() {
-    return $(
-      "#app > div.sc-hrCmsx.iRrrLX > div.sc-gtWJRm.fLIlvh > div.box-sizing-wrapper > div > div > div.sc-eGXPLf.bfaTWN > div > div.sc-eGXPLf.eAMdLd > img"
-    )
+    return $('//div[@data-testid="generic-view-image"]')
   }
 
   public get backupInfo() {
@@ -50,6 +48,10 @@ class OverviewKompaktPage extends OverviewPage {
 
   public get kompaktSimCard1() {
     return $('[data-testid="icon-subtext"]')
+  }
+
+  public get kompaktOsVersion() {
+    return $('[data-testid="versionWrapper"]')
   }
 }
 export default new OverviewKompaktPage()

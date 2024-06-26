@@ -7,206 +7,138 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 export class OverviewPage extends Page {
-  public get currentDeviceVersion(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get currentDeviceVersion() {
     return $("p*=MuditaOS")
   }
 
-  public get checkingForUpdateLoader(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get checkingForUpdateLoader() {
     return $("h4*=Checking for MuditaOS update...")
   }
 
-  public get downloadUpdateLoader(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get downloadUpdateLoader() {
     return $("*=Downloading update...")
   }
 
-  public get updateStatusLoader(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get updateStatusLoader() {
     return $("p*=Updating MuditaOS…")
   }
 
-  public get updateCompletedStatus(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get updateCompletedStatus() {
     return $("p*=Update completed!")
   }
 
-  public get checkForUpdateButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get checkForUpdateButton() {
     return $("button*=Check for updates")
   }
 
-  public get downloadUpdateNowButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get downloadUpdateNowButton() {
     return $('[data-testid="modal-action-button"]*=Download now')
   }
 
-  public get updateNowButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get updateNowButton() {
     return $('[data-testid="modal-action-button"]*=Update now')
   }
 
-  public get aboutYourPureButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutYourPureButton() {
     return $("p*=About your Pure")
   }
 
-  public get checkSARInformationButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get checkSARInformationButton() {
     return $("p*=Check SAR information")
   }
 
-  public get sarWrapper(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get sarWrapper() {
     return $('[data-testid="sar-wrapper"]')
   }
 
-  public get backToOverviewButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get backToOverviewButton() {
     return $("p*=Back to Overview")
   }
 
-  public get createBackupButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get createBackupButton() {
     return $("p*=Create backup")
   }
 
-  public get restoreBackupButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get restoreBackupButton() {
     return $("p*=Restore last backup")
   }
 
-  public get locationTextLabel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get locationTextLabel() {
     return $('[data-testid="location"]')
   }
 
-  public get batteryLevel(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get batteryLevel() {
     return $('[data-testid="battery-level"]')
   }
 
-  public get fullBatteryIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get fullBatteryIcon() {
     return $('[data-testid="icon-FullBattery"]')
   }
 
-  public get veryHighBatteryIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get veryHighBatteryIcon() {
     return $('[data-testid="icon-VeryHighBattery"]')
   }
 
-  public get highBatteryIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get highBatteryIcon() {
     return $('[data-testid="icon-HighBattery"]')
   }
 
-  public get mediumBatteryIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get mediumBatteryIcon() {
     return $('[data-testid="icon-MediumBattery"]')
   }
 
-  public get lowBatteryIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get lowBatteryIcon() {
     return $('[data-testid="icon-LowBattery"]')
   }
-  public get veryLowBatteryIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get veryLowBatteryIcon() {
     return $('[data-testid="icon-VeryLowBattery"]')
   }
 
-  public get noRangeIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get noRangeIcon() {
     return $('[data-testid="icon-NoRange"]')
   }
 
-  public get LowRangeIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get LowRangeIcon() {
     return $('[data-testid="icon-LowRange"]')
   }
 
-  public get MediumRangeIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get MediumRangeIcon() {
     return $('[data-testid="icon-MediumRange"]')
   }
 
-  public get HighRangeIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get HighRangeIcon() {
     return $('[data-testid="icon-HighRange"]')
   }
 
-  public get VeryHighRangeIcon(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get VeryHighRangeIcon() {
     return $('[data-testid="icon-VeryHighRange"]')
   }
 
-  public get disconnectButton(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get disconnectButton() {
     return $('[data-testid="disconnect-button"]')
   }
 
-  public get networkName(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get networkName() {
     return $('[data-testid="network-name"]')
   }
 
-  public get pureGrayImage(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get pureGrayImage() {
     return $('[data-testid="pure-gray"]')
   }
 
-  public get pureBlackImage(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get pureBlackImage() {
     return $('[data-testid="pure-black"]')
   }
 
-  public get aboutYourPureSerialNumber(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get aboutYourPureSerialNumber() {
     return $('[data-testid="serial-number-value"]')
   }
 
-  public get overviewSerialNumber(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get overviewSerialNumber() {
     return $('[data-testid="device-serial-number"]')
   }
 
-  public get muditaOSVersion(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get muditaOSVersion() {
     return $('[data-testid="os-version"]')
   }
 }
