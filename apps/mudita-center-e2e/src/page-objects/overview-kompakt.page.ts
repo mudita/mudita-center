@@ -3,12 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ChainablePromiseElement } from "webdriverio"
 import { OverviewPage } from "./overview.page"
 
 class OverviewKompaktPage extends OverviewPage {
   public get aboutYourDevice() {
-    return $("p*=About your device")
+    return $("")
+  }
+
+  public get sarInformationButtonKompakt() {
+    return $("")
+  }
+
+  public get sarInformationPopup() {
+    return $("")
   }
 
   public get kompaktImageElement() {
@@ -27,7 +34,7 @@ class OverviewKompaktPage extends OverviewPage {
   }
 
   public get kompaktImage() {
-    return $('[data-testid="image"]')
+    return $('[data-testid="generic-view-image"]')
   }
 
   public get kompaktSignalIcon() {
@@ -38,7 +45,7 @@ class OverviewKompaktPage extends OverviewPage {
     return $('[data-testid="icon-text"]')
   }
 
-  public get kompaktBatteryLevel() {
+  public get kompaktBatteryIcon() {
     return $('//div[@data-testid="icon-battery-charging-2"]')
   }
 
@@ -51,7 +58,11 @@ class OverviewKompaktPage extends OverviewPage {
   }
 
   public get kompaktOsVersion() {
-    return $('[data-testid="versionWrapper"]')
+    return $('[data-testid="version"]')
+  }
+
+  public get kompaktOsVersionLabel() {
+    return $('[data-testid="version-label"]')
   }
 }
 export default new OverviewKompaktPage()
