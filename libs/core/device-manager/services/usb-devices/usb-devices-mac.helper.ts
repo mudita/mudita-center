@@ -34,7 +34,7 @@ const parseOutput = (output: string): Array<Record<string, string>> => {
   return devices
 }
 
-const getUsbListMacOS = (): Promise<
+export const getUsbDevicesMacOS = (): Promise<
   ExecException | string | null | Array<Record<string, string>>
 > => {
   return new Promise<
@@ -52,12 +52,4 @@ const getUsbListMacOS = (): Promise<
       resolve(parseOutput(stdout))
     })
   })
-}
-
-export async function getUsbListCommands() {
-  if (process.platform === "darwin") {
-    return await getUsbListMacOS()
-  } else {
-    return []
-  }
 }
