@@ -10,7 +10,6 @@ import OverviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import NavigationTabs from "../../page-objects/tabs.page"
 import HomePage from "../../page-objects/home.page"
 import tabsPage from "../../page-objects/tabs.page"
-import overviewKompaktPage from "../../page-objects/overview-kompakt.page"
 import { kompaktImageRegex } from "../../consts/regex-const"
 
 describe("E2E mock sample - overview view", () => {
@@ -78,6 +77,11 @@ describe("E2E mock sample - overview view", () => {
   })
 
   it("Verify Overview Page", async () => {
+    const kompaktImage = await OverviewKompaktPage.kompaktImage
+    await expect(kompaktImage).toBeDisplayed
+    console.log(kompaktImage)
+    await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
+
     const kompaktOsVersion = await OverviewKompaktPage.kompaktOsVersion
     await expect(kompaktOsVersion).toBeDisplayed
 
@@ -100,13 +104,13 @@ describe("E2E mock sample - overview view", () => {
 
     const sarInformationButtonKompakt =
       await OverviewKompaktPage.sarInformationButtonKompakt
-    const sarInformationPopup = await overviewKompaktPage.sarInformationPopup
+    const sarInformationPopup = await OverviewKompaktPage.sarInformationPopup
     await expect(sarInformationButtonKompakt).toBeDisplayed
     await sarInformationButtonKompakt.click()
     await expect(sarInformationPopup).toBeDisplayed
 
     const sarInformationPopupCloseButton =
-      await overviewKompaktPage.sarInformationPopupCloseButton
+      await OverviewKompaktPage.sarInformationPopupCloseButton
     await sarInformationPopupCloseButton.click()
 
     const createBackupButton = await OverviewPage.createBackupButton
@@ -119,10 +123,6 @@ describe("E2E mock sample - overview view", () => {
       "\tYou haven’t backed up your device yet.\n Create a backup file to protect against data loss.\n"
     const backupInfoText: string = str.trim()
     console.log(backupInfoText)
-
-    const kompaktImage = await overviewKompaktPage.kompaktImage
-    await expect(kompaktImage).toBeDisplayed
-    await expect(kompaktImage).toHaveAttribute("src", kompaktImageRegex)
 
     const kompaktBatteryIcon = await OverviewKompaktPage.kompaktBatteryIcon
     await expect(kompaktBatteryIcon).toBeDisplayed
@@ -140,7 +140,7 @@ describe("E2E mock sample - overview view", () => {
     const networkName: string = strNetwork
     console.log(networkName)
 
-    const kompaktSignalIcon = await overviewKompaktPage.kompaktSignalIcon
+    const kompaktSignalIcon = await OverviewKompaktPage.kompaktSignalIcon
     await expect(kompaktSignalIcon).toBeDisplayed
     const strSignal: string = "network-signal-2"
     const signalValue: string = strSignal
