@@ -18,8 +18,8 @@ class OverviewKompaktPage extends OverviewPage {
     return $("/html/body/div[10]/div/div")
   }
 
-  public get kompaktImageElement() {
-    return $('//div[@data-testid="generic-view-image"]')
+  public get sarInformationPopupCloseButton() {
+    return $('[data-testid="icon-close"]')
   }
 
   public get backupInfo() {
