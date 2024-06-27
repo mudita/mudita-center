@@ -28,7 +28,7 @@ export type BaseGenericComponent<
 export type APIFC<Data = undefined, Config = undefined> = BaseGenericComponent<
   Data,
   Config,
-  { viewKey?: string }
+  { viewKey?: string; componentKey?: string }
 >
 
 export type RecursiveComponent = BaseGenericComponent<

@@ -16,7 +16,7 @@ export const BlockBox: APIFC<BlockBoxData, BlockBoxConfig> = ({
   ...props
 }) => {
   return (
-    <Block {...props}>
+    <Block {...props} data-testid={`block-box-${props.componentKey}`}>
       {config?.title && (
         <Headline>
           {config.title}
