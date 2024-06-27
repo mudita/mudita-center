@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ExecException, exec } from "child_process"
+import { exec } from "child_process"
 import { PortInfo } from "serialport"
 
 interface DeviceDetails {
